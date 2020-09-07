@@ -5,12 +5,12 @@ export default function(denotations, attributes) {
   const subjectValidation = new Validation(attributes, (attr) =>
     isContains(denotations, attr, 'subj')
   )
-  const errorCount = subjectValidation.rejectedNodes.length
+  const errorCount = subjectValidation.invalidNodes.length
 
   return {
-    accept: subjectValidation.acceptedNodes,
+    accept: subjectValidation.validNodes,
     reject: {
-      subj: subjectValidation.rejectedNodes
+      subj: subjectValidation.invalidNodes
     },
     hasError: errorCount !== 0
   }

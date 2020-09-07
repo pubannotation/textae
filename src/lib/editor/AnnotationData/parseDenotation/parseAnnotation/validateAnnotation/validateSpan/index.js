@@ -6,24 +6,24 @@ import Validation from '../Validation'
 export default function(text, spans) {
   const hasLengthValidation = new Validation(spans, hasLength)
   const inTextValidation = new Validation(
-    hasLengthValidation.acceptedNodes,
+    hasLengthValidation.validNodes,
     (node) => isBeginAndEndIn(text, node.span)
   )
   const isNotCrossingValidation = new Validation(
-    inTextValidation.acceptedNodes,
+    inTextValidation.validNodes,
     isNotSpanCrossing
   )
   const errorCount =
-    hasLengthValidation.rejectedNodes.length +
-    inTextValidation.rejectedNodes.length +
-    isNotCrossingValidation.rejectedNodes.length
+    hasLengthValidation.invalidNodes.length +
+    inTextValidation.invalidNodes.length +
+    isNotCrossingValidation.invalidNodes.length
 
   return {
-    accept: isNotCrossingValidation.acceptedNodes,
+    accept: isNotCrossingValidation.validNodes,
     reject: {
-      hasLength: hasLengthValidation.rejectedNodes,
-      inText: inTextValidation.rejectedNodes,
-      isNotCrossing: isNotCrossingValidation.rejectedNodes
+      hasLength: hasLengthValidation.invalidNodes,
+      inText: inTextValidation.invalidNodes,
+      isNotCrossing: isNotCrossingValidation.invalidNodes
     },
     hasError: errorCount !== 0
   }

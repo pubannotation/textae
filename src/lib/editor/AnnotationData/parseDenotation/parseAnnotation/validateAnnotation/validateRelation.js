@@ -5,19 +5,17 @@ export default function(denotations, relations) {
   const objectValidation = new Validation(relations, (rel) =>
     isContains(denotations, rel, 'obj')
   )
-  const subjectValidation = new Validation(
-    objectValidation.acceptedNodes,
-    (rel) => isContains(denotations, rel, 'subj')
+  const subjectValidation = new Validation(objectValidation.validNodes, (rel) =>
+    isContains(denotations, rel, 'subj')
   )
   const errorCount =
-    objectValidation.rejectedNodes.length +
-    subjectValidation.rejectedNodes.length
+    objectValidation.invalidNodes.length + subjectValidation.invalidNodes.length
 
   return {
-    accept: subjectValidation.acceptedNodes,
+    accept: subjectValidation.validNodes,
     reject: {
-      obj: objectValidation.rejectedNodes,
-      subj: subjectValidation.rejectedNodes
+      obj: objectValidation.invalidNodes,
+      subj: subjectValidation.invalidNodes
     },
     hasError: errorCount !== 0
   }

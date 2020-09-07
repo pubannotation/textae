@@ -4,7 +4,7 @@ export default class {
     this._predicate = predicate
   }
 
-  get acceptedNodes() {
+  get validNodes() {
     if (!this._nodes) {
       return []
     }
@@ -12,7 +12,7 @@ export default class {
     return this._nodes.filter((target, index) => this._validate(index, target))
   }
 
-  get rejectedNodes() {
+  get invalidNodes() {
     if (!this._nodes) {
       return []
     }
