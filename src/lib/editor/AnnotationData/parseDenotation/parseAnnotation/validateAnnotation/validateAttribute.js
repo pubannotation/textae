@@ -1,8 +1,8 @@
-import validate from './validate'
 import isContains from './isContains'
+import ValidationResults from './ValidationResults'
 
 export default function(denotations, attributes) {
-  const resultAttributeSubj = validate(attributes, (attr) =>
+  const resultAttributeSubj = new ValidationResults(attributes, (attr) =>
     isContains(denotations, attr, 'subj')
   )
   const errorCount = resultAttributeSubj.rejectedNodes.length
