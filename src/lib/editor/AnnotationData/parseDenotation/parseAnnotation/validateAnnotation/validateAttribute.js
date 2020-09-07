@@ -1,16 +1,16 @@
 import isContains from './isContains'
-import ValidationResults from './ValidationResults'
+import Validation from './Validation'
 
 export default function(denotations, attributes) {
-  const resultAttributeSubj = new ValidationResults(attributes, (attr) =>
+  const subjectValidation = new Validation(attributes, (attr) =>
     isContains(denotations, attr, 'subj')
   )
-  const errorCount = resultAttributeSubj.rejectedNodes.length
+  const errorCount = subjectValidation.rejectedNodes.length
 
   return {
-    accept: resultAttributeSubj.acceptedNodes,
+    accept: subjectValidation.acceptedNodes,
     reject: {
-      subj: resultAttributeSubj.rejectedNodes
+      subj: subjectValidation.rejectedNodes
     },
     hasError: errorCount !== 0
   }

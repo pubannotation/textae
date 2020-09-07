@@ -1,29 +1,29 @@
 import hasLength from './hasLength'
 import isBeginAndEndIn from './isBeginAndEndIn'
 import isNotSpanCrossing from './isNotSpanCrossing'
-import ValidationResults from '../ValidationResults'
+import Validation from '../Validation'
 
 export default function(text, spans) {
-  const resultHasLength = new ValidationResults(spans, hasLength)
-  const resultInText = new ValidationResults(
-    resultHasLength.acceptedNodes,
+  const hasLengthValidation = new Validation(spans, hasLength)
+  const inTextValidation = new Validation(
+    hasLengthValidation.acceptedNodes,
     (node) => isBeginAndEndIn(text, node.span)
   )
-  const resultIsNotCrossing = new ValidationResults(
-    resultInText.acceptedNodes,
+  const isNotCrossingValidation = new Validation(
+    inTextValidation.acceptedNodes,
     isNotSpanCrossing
   )
   const errorCount =
-    resultHasLength.rejectedNodes.length +
-    resultInText.rejectedNodes.length +
-    resultIsNotCrossing.rejectedNodes.length
+    hasLengthValidation.rejectedNodes.length +
+    inTextValidation.rejectedNodes.length +
+    isNotCrossingValidation.rejectedNodes.length
 
   return {
-    accept: resultIsNotCrossing.acceptedNodes,
+    accept: isNotCrossingValidation.acceptedNodes,
     reject: {
-      hasLength: resultHasLength.rejectedNodes,
-      inText: resultInText.rejectedNodes,
-      isNotCrossing: resultIsNotCrossing.rejectedNodes
+      hasLength: hasLengthValidation.rejectedNodes,
+      inText: inTextValidation.rejectedNodes,
+      isNotCrossing: isNotCrossingValidation.rejectedNodes
     },
     hasError: errorCount !== 0
   }

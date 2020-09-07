@@ -1,23 +1,23 @@
 import isContains from './isContains'
-import ValidationResults from './ValidationResults'
+import Validation from './Validation'
 
 export default function(denotations, relations) {
-  const resultRelationObj = new ValidationResults(relations, (rel) =>
+  const objectValidation = new Validation(relations, (rel) =>
     isContains(denotations, rel, 'obj')
   )
-  const resultRelationSubj = new ValidationResults(
-    resultRelationObj.acceptedNodes,
+  const subjectValidation = new Validation(
+    objectValidation.acceptedNodes,
     (rel) => isContains(denotations, rel, 'subj')
   )
   const errorCount =
-    resultRelationObj.rejectedNodes.length +
-    resultRelationSubj.rejectedNodes.length
+    objectValidation.rejectedNodes.length +
+    subjectValidation.rejectedNodes.length
 
   return {
-    accept: resultRelationSubj.acceptedNodes,
+    accept: subjectValidation.acceptedNodes,
     reject: {
-      obj: resultRelationObj.rejectedNodes,
-      subj: resultRelationSubj.rejectedNodes
+      obj: objectValidation.rejectedNodes,
+      subj: subjectValidation.rejectedNodes
     },
     hasError: errorCount !== 0
   }
