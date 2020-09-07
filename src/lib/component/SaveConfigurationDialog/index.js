@@ -1,3 +1,4 @@
+import { formatters } from 'jsondiffpatch'
 import Dialog from '../Dialog'
 import createContentHtml from './createContentHtml'
 import jsonDiff from './jsonDiff'
@@ -23,6 +24,9 @@ export default class extends Dialog {
         label: 'Cancel'
       }
     )
+
+    // Hide unchanged diff.
+    this._$dialog.on('dialogopen', () => formatters.html.hideUnchanged())
 
     bind(editor, super.el, editedData, () => super.close(), saveConfiguration)
   }
