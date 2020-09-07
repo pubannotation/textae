@@ -1,10 +1,7 @@
-import isContains from './isContains'
-import Validation from './Validation'
+import SubjectValidation from './SubjectValidation'
 
 export default function(denotations, attributes) {
-  const subjectValidation = new Validation(attributes, (attr) =>
-    isContains(denotations, attr, 'subj')
-  )
+  const subjectValidation = new SubjectValidation(denotations, attributes)
 
   return {
     accept: subjectValidation.validNodes,

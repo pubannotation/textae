@@ -1,12 +1,14 @@
 import isContains from './isContains'
 import Validation from './Validation'
+import SubjectValidation from './SubjectValidation'
 
 export default function(denotations, relations) {
   const objectValidation = new Validation(relations, (rel) =>
     isContains(denotations, rel, 'obj')
   )
-  const subjectValidation = new Validation(objectValidation.validNodes, (rel) =>
-    isContains(denotations, rel, 'subj')
+  const subjectValidation = new SubjectValidation(
+    denotations,
+    objectValidation.validNodes
   )
 
   return {
