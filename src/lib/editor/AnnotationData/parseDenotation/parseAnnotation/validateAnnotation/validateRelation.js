@@ -2,17 +2,11 @@ import validate from './validate'
 import isContains from './isContains'
 
 export default function(denotations, relations) {
-  const resultRelationObj = validate(relations, isContains, {
-    property: 'obj',
-    dictionary: denotations
-  })
-  const resultRelationSubj = validate(
-    resultRelationObj.acceptedNodes,
-    isContains,
-    {
-      property: 'subj',
-      dictionary: denotations
-    }
+  const resultRelationObj = validate(relations, (rel) =>
+    isContains(denotations, rel, 'obj')
+  )
+  const resultRelationSubj = validate(resultRelationObj.acceptedNodes, (rel) =>
+    isContains(denotations, rel, 'subj')
   )
   const errorCount =
     resultRelationObj.rejectedNodes.length +

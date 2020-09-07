@@ -5,10 +5,8 @@ import isNotSpanCrossing from './isNotSpanCrossing'
 
 export default function(text, spans) {
   const resultHasLength = validate(spans, hasLength)
-  const resultInText = validate(
-    resultHasLength.acceptedNodes,
-    isBeginAndEndIn,
-    text
+  const resultInText = validate(resultHasLength.acceptedNodes, (node) =>
+    isBeginAndEndIn(text, node.span)
   )
   const resultIsNotCrossing = validate(
     resultInText.acceptedNodes,

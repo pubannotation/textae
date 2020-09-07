@@ -1,6 +1,3 @@
-export default function(data, opt) {
-  return (
-    opt.dictionary.filter((entry) => entry.id === data[opt.property]).length ===
-    1
-  )
+export default function(dictionary, node, property) {
+  return dictionary.filter((entry) => entry.id === node[property]).length === 1
 }
