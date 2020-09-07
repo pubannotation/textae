@@ -13,10 +13,6 @@ export default function(text, spans) {
     inTextValidation.validNodes,
     isNotSpanCrossing
   )
-  const errorCount =
-    hasLengthValidation.invalidNodes.length +
-    inTextValidation.invalidNodes.length +
-    isNotCrossingValidation.invalidNodes.length
 
   return {
     accept: isNotCrossingValidation.validNodes,
@@ -25,6 +21,9 @@ export default function(text, spans) {
       inText: inTextValidation.invalidNodes,
       isNotCrossing: isNotCrossingValidation.invalidNodes
     },
-    hasError: errorCount !== 0
+    hasError:
+      hasLengthValidation.invalid ||
+      inTextValidation.invalid ||
+      isNotCrossingValidation.invalid
   }
 }

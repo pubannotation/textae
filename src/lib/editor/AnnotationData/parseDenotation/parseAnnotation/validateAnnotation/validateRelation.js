@@ -8,8 +8,6 @@ export default function(denotations, relations) {
   const subjectValidation = new Validation(objectValidation.validNodes, (rel) =>
     isContains(denotations, rel, 'subj')
   )
-  const errorCount =
-    objectValidation.invalidNodes.length + subjectValidation.invalidNodes.length
 
   return {
     accept: subjectValidation.validNodes,
@@ -17,6 +15,6 @@ export default function(denotations, relations) {
       obj: objectValidation.invalidNodes,
       subj: subjectValidation.invalidNodes
     },
-    hasError: errorCount !== 0
+    hasError: objectValidation.invalid || subjectValidation.invalid
   }
 }

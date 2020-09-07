@@ -12,6 +12,10 @@ export default class {
     return this._nodes.filter((val, index) => !this._validate(index, val))
   }
 
+  get invalid() {
+    return this._nodes.some((val, index) => !this._validate(index, val))
+  }
+
   _validate(index, currentNode) {
     // This variable only for isNotSpanCrossing.
     const prevNode = this._nodes.slice(0, index)
