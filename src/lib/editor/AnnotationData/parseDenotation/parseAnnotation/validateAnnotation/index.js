@@ -1,13 +1,10 @@
-import validateAnnotationWithSpan from './validateAnnotationWithSpan'
+import validateSpan from './validateSpan'
 import validateAttribute from './validateAttribute'
 import validateRelation from './validateRelation'
 import transformToReferenceObjectError from './transformToReferenceObjectError'
 
 export default function(text, annotation) {
-  const resultDenotation = validateAnnotationWithSpan(
-    text,
-    annotation.denotations
-  )
+  const resultDenotation = validateSpan(text, annotation.denotations)
   const resultAttribute = validateAttribute(
     resultDenotation.accept,
     annotation.attributes
@@ -16,10 +13,7 @@ export default function(text, annotation) {
     resultDenotation.accept,
     annotation.relations
   )
-  const resultTypeSet = validateAnnotationWithSpan(
-    text,
-    annotation.typesettings
-  )
+  const resultTypeSet = validateSpan(text, annotation.typesettings)
 
   return {
     accept: {
