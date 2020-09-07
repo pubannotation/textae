@@ -29,17 +29,6 @@
           "obj": "organism_Instance_46040"
         }
       ],
-      "modifications": [
-        {
-          "pred": "Negation",
-          "obj": "T1"
-        },
-        {
-          "id": "M2",
-          "pred": "Speculation",
-          "obj": "T2"
-        }
-      ],
       "relations": [
         {
           "pred": "locatedAt",

@@ -305,56 +305,5 @@
       "subj": "F25",
       "obj": "E26"
     }
-  ],
-  "modifications": [
-    {
-      "pred": "Negation",
-      "obj": "E1"
-    },
-    {
-      "id": "M2",
-      "pred": "Negation",
-      "obj": "F2"
-    },
-    {
-      "id": "M3",
-      "pred": "Speculation",
-      "obj": "E18"
-    },
-    {
-      "id": "M4",
-      "pred": "Negation",
-      "obj": "T2"
-    },
-    {
-      "id": "M5",
-      "pred": "Speculation",
-      "obj": "T2"
-    },
-    {
-      "id": "M6",
-      "pred": "Speculation",
-      "obj": "R1"
-    },
-    {
-      "id": "M7",
-      "pred": "Negation",
-      "obj": "R1"
-    },
-    {
-      "id": "M8",
-      "pred": "Speculation",
-      "obj": "R2"
-    },
-    {
-      "id": "M9",
-      "pred": "Negation",
-      "obj": "R2"
-    },
-    {
-      "id": "M10",
-      "pred": "Speculation",
-      "obj": "R3"
-    }
   ]
 }
