@@ -1,4 +1,4 @@
-import isBoundaryCrossingWithOtherSpans from '../../../../isBoundaryCrossingWithOtherSpans'
+import isBoundaryCrossingWithOtherSpans from '../../../../../isBoundaryCrossingWithOtherSpans'
 
 export default function(annotation, others) {
   return !isBoundaryCrossingWithOtherSpans(

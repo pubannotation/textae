@@ -5,21 +5,20 @@ export default class {
   }
 
   get validNodes() {
-    return this._nodes.filter((val, index) => this._validate(index, val))
+    return this._nodes.filter((val, index) => this._validate(val, index))
   }
 
   get invalidNodes() {
-    return this._nodes.filter((val, index) => !this._validate(index, val))
+    return this._nodes.filter((val, index) => !this._validate(val, index))
   }
 
   get invalid() {
-    return this._nodes.some((val, index) => !this._validate(index, val))
+    return this._nodes.some((val, index) => !this._validate(val, index))
   }
 
-  _validate(index, currentNode) {
-    // This variable only for isNotSpanCrossing.
-    const prevNode = this._nodes.slice(0, index)
-
-    return this._predicate(currentNode, prevNode)
+  // Expansion point.
+  // For example, IsNotCrossingValidation gets the previous node.
+  _validate(currentNode) {
+    return this._predicate(currentNode)
   }
 }
