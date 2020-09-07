@@ -1,0 +1,21 @@
+{
+  "text": "Ribonucleic acid (RNA) is a ubiquitous family of large biological molecules.",
+  "denotations": [
+    {
+      "id": "E1",
+      "span": {
+        "begin": "0",
+        "end": 16
+      },
+      "obj": "リボ核酸"
+    },
+    {
+      "id": "E2",
+      "span": {
+        "begin": 49.5,
+        "end": 75
+      },
+      "obj": "大きな生体分子"
+    }
+  ]
+}

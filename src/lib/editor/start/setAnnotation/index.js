@@ -1,4 +1,4 @@
-import validateAnnotationAndAlert from './validateAnnotationAndAlert'
+import warningIfBeginEndOfSpanAreNotInteger from './warningIfBeginEndOfSpanAreNotInteger'
 import setConfigAndAnnotation from '../setConfigAndAnnotation'
 import patchConfiguration from '../validateConfigurationAndAlert/patchConfiguration'
 import validateAttribueDefinitionAndAlert from '../validateAttribueDefinitionAndAlert'
@@ -13,30 +13,30 @@ export default function(
   dataAccessObject,
   buttonController
 ) {
-  if (validateAnnotationAndAlert(annotation)) {
-    if (annotation.config) {
-      setConfigAndAnnotation(
-        annotation,
-        annotation.config,
-        `configuration in anntotaion file is invalid.`,
-        spanConfig,
-        typeDefinition,
-        annotationData,
-        buttonController
-      )
+  warningIfBeginEndOfSpanAreNotInteger(annotation)
+
+  if (annotation.config) {
+    setConfigAndAnnotation(
+      annotation,
+      annotation.config,
+      `configuration in anntotaion file is invalid.`,
+      spanConfig,
+      typeDefinition,
+      annotationData,
+      buttonController
+    )
+  } else {
+    if (configUrl) {
+      dataAccessObject.loadConfigulation(configUrl, annotation)
     } else {
-      if (configUrl) {
-        dataAccessObject.loadConfigulation(configUrl, annotation)
-      } else {
-        const patchedConfig = patchConfiguration(annotation)
-        const validConfig = validateAttribueDefinitionAndAlert(
-          annotation,
-          patchedConfig
-        )
-        if (validConfig) {
-          setSpanAndTypeConfig(spanConfig, typeDefinition, validConfig)
-          annotationData.reset(annotation)
-        }
+      const patchedConfig = patchConfiguration(annotation)
+      const validConfig = validateAttribueDefinitionAndAlert(
+        annotation,
+        patchedConfig
+      )
+      if (validConfig) {
+        setSpanAndTypeConfig(spanConfig, typeDefinition, validConfig)
+        annotationData.reset(annotation)
       }
     }
   }
