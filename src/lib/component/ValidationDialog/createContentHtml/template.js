@@ -64,49 +64,28 @@ const source = `
         </tbody>
       </table>
     {{/if}}
-    {{#if denotationIsNotCrossing}}
+    {{#if isNotCrossing}}
       <table>
-        <caption>Spans with boundary-cross.</caption>
+        <caption>Type settins or Spans with boundary-cross.</caption>
         <thead>
           <tr>
             <th class="id">id</th>
+            <th class="sourceProperty">source property</th>
             <th class="range">begin</th>
             <th class="range">end</th>
-            <th>obj</th>
+            <th>style/obj</th>
           </tr>
         </thead>
         <tbody>
-          {{#denotationIsNotCrossing}}
+          {{#isNotCrossing}}
           <tr>
             <td>{{id}}</td>
+            <td>{{sourceProperty}}</td>
             <td class="alert">{{span.begin}}</td>
             <td class="alert">{{span.end}}</td>
-            <td>{{obj}}</td>
+            <td>{{style}}{{obj}}</td>
           </tr>
-          {{/denotationIsNotCrossing}}
-        </tbody>
-      </table>
-    {{/if}}
-    {{#if typeSetIsNotCrossing}}
-      <table>
-        <caption>Type settins with boundary-cross.</caption>
-        <thead>
-          <tr>
-            <th class="id">id</th>
-            <th class="range">begin</th>
-            <th class="range">end</th>
-            <th>style</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#typeSetIsNotCrossing}}
-          <tr>
-            <td>{{id}}</td>
-            <td class="alert">{{span.begin}}</td>
-            <td class="alert">{{span.end}}</td>
-            <td>{{style}}</td>
-          </tr>
-          {{/typeSetIsNotCrossing}}
+          {{/isNotCrossing}}
         </tbody>
       </table>
     {{/if}}

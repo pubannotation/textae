@@ -35,8 +35,8 @@
     {
       "id": "T2",
       "span": {
-        "begin": 0,
-        "end": 50
+        "begin": "0",
+        "end": 50.1
       },
       "obj": "http://msdn.microsoft.com/en-us/library/aa752574(VS.85).aspx"
     },
@@ -252,7 +252,7 @@
       "id": "E21",
       "span": {
         "begin": "50",
-        "end": 54.1
+        "end": 65.1
       },
       "obj": "Protein"
     },
@@ -315,6 +315,13 @@
     }
   ],
   "typesettings": [
+    {
+      "span": {
+        "begin": 55,
+        "end": 68
+      },
+      "style": "italic"
+    },
     {
       "span": {
         "begin": 367,
