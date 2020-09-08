@@ -313,5 +313,21 @@
       "pred": "precision",
       "obj": 50
     }
+  ],
+  "typesettings": [
+    {
+      "span": {
+        "begin": 367,
+        "end": 397
+      },
+      "style": "italic"
+    },
+    {
+      "span": {
+        "begin": 395,
+        "end": 404
+      },
+      "style": "bold"
+    }
   ]
 }

@@ -87,6 +87,29 @@ const source = `
         </tbody>
       </table>
     {{/if}}
+    {{#if typeSetIsNotCrossing}}
+      <table>
+        <caption>Type settins with boundary-cross.</caption>
+        <thead>
+          <tr>
+            <th class="id">id</th>
+            <th class="range">begin</th>
+            <th class="range">end</th>
+            <th>style</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#typeSetIsNotCrossing}}
+          <tr>
+            <td>{{id}}</td>
+            <td class="alert">{{span.begin}}</td>
+            <td class="alert">{{span.end}}</td>
+            <td>{{style}}</td>
+          </tr>
+          {{/typeSetIsNotCrossing}}
+        </tbody>
+      </table>
+    {{/if}}
     {{#if referencedItems}}
       <table>
         <caption>Referenced items do not exist.</caption>
