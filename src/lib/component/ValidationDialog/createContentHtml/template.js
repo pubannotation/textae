@@ -93,6 +93,7 @@ const source = `
         <thead>
           <tr>
             <th class="id">id</th>
+            <th class="sourceProperty">source property</th>
             <th class="referencedItem">subj</th>
             <th>pred</th>
             <th class="referencedItem">obj</th>
@@ -102,6 +103,7 @@ const source = `
           {{#referencedItems}}
           <tr>
             <td>{{id}}</td>
+            <td>{{sourceProperty}}</td>
             <td{{#if alertSubj}} class="alert"{{/if}}>{{subj}}</td>
             <td>{{pred}}</td>
             <td{{#if alertObj}} class="alert"{{/if}}>{{obj}}</td>

@@ -305,5 +305,13 @@
       "subj": "F25",
       "obj": "E26"
     }
+  ],
+  "attributes": [
+    {
+      "id": "A0",
+      "subj": "T1",
+      "pred": "precision",
+      "obj": 50
+    }
   ]
 }
