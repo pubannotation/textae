@@ -278,10 +278,9 @@
   text-decoration: line-through;
 }
 .textae-editor__save-dialog__diff-viewer {
-  overflow: scroll;
+  overflow-x: scroll;
   margin: 0 10px;
   padding: 10px 0;
-  max-height: 250px;
   border: solid 1px lightgray;
   border-radius: 4px;
 }
