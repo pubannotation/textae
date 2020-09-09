@@ -39,7 +39,7 @@ export default class extends ContainerWithSubContainer {
   _updateSpanTree() {
     // the spanTree has parent-child structure.
     // Register a typeset in the span tree to put it in the span rendering flow.
-    return createSpanTree(this, this._editor, this._allAndStyles)
+    return createSpanTree(this, this._editor, this._allObcjetsAndStyles)
   }
 
   // expected span is like { "begin": 19, "end": 49 }
@@ -136,14 +136,14 @@ export default class extends ContainerWithSubContainer {
   }
 
   isBoundaryCrossingWithOtherSpans(span) {
-    return isBoundaryCrossingWithOtherSpans(this._allAndStyles, span)
+    return isBoundaryCrossingWithOtherSpans(this._allObcjetsAndStyles, span)
   }
 
   isAlreadySpaned(span) {
     return isAlreadySpaned(this.all, span)
   }
 
-  get _allAndStyles() {
+  get _allObcjetsAndStyles() {
     const styleOnlySpans = [...this._typeSets.values()].filter(
       (s) => !this._container.has(s.id)
     )
