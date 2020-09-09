@@ -3,7 +3,6 @@ import isWord from './isWord'
 
 // Check replications are word or not if spanConfig is set.
 export default function(dataStore, originSpan, detectBoundaryFunc) {
-  const allSpans = dataStore.span.all
   const wordFilter = detectBoundaryFunc
     ? (span) => isWord(dataStore.sourceDoc, detectBoundaryFunc, span)
     : (span) => span
