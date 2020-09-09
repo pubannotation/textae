@@ -15,9 +15,11 @@ export default class {
     this._domPositionCache.reset()
 
     // Cache all span position because alternating between getting offset and setting offset.
-    this._domPositionCache.cacheAllSpan(this._annotationData.span.all)
+    this._domPositionCache.cacheAllSpan(
+      this._annotationData.span.allSpansWithGrid
+    )
 
-    for (const span of this._annotationData.span.all) {
+    for (const span of this._annotationData.span.allSpansWithGrid) {
       arrangeGridPosition(
         this._domPositionCache,
         this._annotationData,

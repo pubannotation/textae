@@ -149,4 +149,8 @@ export default class extends ContainerWithSubContainer {
     )
     return super.all.concat(styleOnlySpans)
   }
+
+  get allSpansWithGrid() {
+    return super.all
+  }
 }
