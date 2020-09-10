@@ -39,7 +39,7 @@ export default class extends ContainerWithSubContainer {
   _updateSpanTree() {
     // the spanTree has parent-child structure.
     // Register a typeset in the span tree to put it in the span rendering flow.
-    return createSpanTree(this, this.all)
+    return createSpanTree(this.all)
   }
 
   // expected span is like { "begin": 19, "end": 49 }
