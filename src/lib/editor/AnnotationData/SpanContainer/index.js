@@ -1,5 +1,5 @@
 import mappingFunction from './mappingFunction'
-import createSpanTree from './createSpanTree'
+import updateSpanTree from './updateSpanTree'
 import spanComparator from './spanComparator'
 import idFactory from '../../idFactory'
 import ObjectSpanModel from './ObjectSpanModel'
@@ -42,14 +42,14 @@ export default class extends ContainerWithSubContainer {
     return super.add(
       new ObjectSpanModel(this._editor, span, this.entityContainer, this),
       () => {
-        createSpanTree(this.all)
+        updateSpanTree(this.all)
       }
     )
   }
 
   addSource(spans) {
     super.addSource(spans)
-    createSpanTree(this.all)
+    updateSpanTree(this.all)
   }
 
   has(span) {
@@ -94,7 +94,7 @@ export default class extends ContainerWithSubContainer {
 
   remove(id) {
     const span = super.remove(id)
-    createSpanTree(this.all)
+    updateSpanTree(this.all)
     return span
   }
 
@@ -108,7 +108,7 @@ export default class extends ContainerWithSubContainer {
     const newOne = super.add(
       new ObjectSpanModel(this._editor, newSpan, this.entityContainer, this),
       (newOne) => {
-        createSpanTree(this.all)
+        updateSpanTree(this.all)
         // Span.entities depends on the property of the entity.
         // Span DOM element is rendered by 'span.add' event.
         // We need to update the span ID of the entity before 'span.add' event.
