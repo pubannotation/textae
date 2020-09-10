@@ -14,7 +14,6 @@ export default class extends ContainerWithSubContainer {
       mappingFunction(denotations, editor, this.entityContainer, this)
     )
     this._editor = editor
-    this._spanTopLevel = []
 
     // Keep tyep sets independent of span editing.
     this._typeSets = new Map()
@@ -43,14 +42,14 @@ export default class extends ContainerWithSubContainer {
     return super.add(
       new ObjectSpanModel(this._editor, span, this.entityContainer, this),
       () => {
-        this._spanTopLevel = createSpanTree(this.all)
+        createSpanTree(this.all)
       }
     )
   }
 
   addSource(spans) {
     super.addSource(spans)
-    this._spanTopLevel = createSpanTree(this.all)
+    createSpanTree(this.all)
   }
 
   has(span) {
@@ -90,18 +89,17 @@ export default class extends ContainerWithSubContainer {
   }
 
   get topLevel() {
-    return this._spanTopLevel
+    return this.all.filter((span) => span.parent === null).sort(spanComparator)
   }
 
   remove(id) {
     const span = super.remove(id)
-    this._spanTopLevel = createSpanTree(this.all)
+    createSpanTree(this.all)
     return span
   }
 
   clear() {
     super.clear()
-    this._spanTopLevel = []
     this._typeSets = new Map()
   }
 
@@ -110,7 +108,7 @@ export default class extends ContainerWithSubContainer {
     const newOne = super.add(
       new ObjectSpanModel(this._editor, newSpan, this.entityContainer, this),
       (newOne) => {
-        this._spanTopLevel = createSpanTree(this.all)
+        createSpanTree(this.all)
         // Span.entities depends on the property of the entity.
         // Span DOM element is rendered by 'span.add' event.
         // We need to update the span ID of the entity before 'span.add' event.

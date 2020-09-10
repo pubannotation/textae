@@ -4,10 +4,9 @@ import spanComparator from '../spanComparator'
 
 // the spanTree has parent-child structure.
 // Register a typeset in the span tree to put it in the span rendering flow.
-export default function(allSpan) {
+export default function(spans) {
   // Sort id of spans by the position.
-  const sortedSpans = allSpan.sort(spanComparator)
-  const spanTree = []
+  const sortedSpans = spans.sort(spanComparator)
 
   sortedSpans
     .map((span, index, array) =>
@@ -26,13 +25,7 @@ export default function(allSpan) {
         const parent = getParent(span, span.left)
         if (parent) {
           adopt(parent, span)
-        } else {
-          spanTree.push(span)
         }
-      } else {
-        spanTree.push(span)
       }
     })
-
-  return spanTree
 }
