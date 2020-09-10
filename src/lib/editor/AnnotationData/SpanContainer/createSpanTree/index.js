@@ -2,6 +2,8 @@ import getParent from './getParent'
 import adopt from './adopt'
 import spanComparator from '../spanComparator'
 
+// the spanTree has parent-child structure.
+// Register a typeset in the span tree to put it in the span rendering flow.
 export default function(allSpan) {
   // Sort id of spans by the position.
   const sortedSpans = allSpan.sort(spanComparator)

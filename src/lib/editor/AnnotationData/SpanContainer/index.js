@@ -36,12 +36,6 @@ export default class extends ContainerWithSubContainer {
     return instance
   }
 
-  _updateSpanTree() {
-    // the spanTree has parent-child structure.
-    // Register a typeset in the span tree to put it in the span rendering flow.
-    return createSpanTree(this.all)
-  }
-
   // expected span is like { "begin": 19, "end": 49 }
   add(span) {
     console.assert(span, 'span is necessary.')
@@ -49,14 +43,14 @@ export default class extends ContainerWithSubContainer {
     return super.add(
       new ObjectSpanModel(this._editor, span, this.entityContainer, this),
       () => {
-        this._spanTopLevel = this._updateSpanTree()
+        this._spanTopLevel = createSpanTree(this.all)
       }
     )
   }
 
   addSource(spans) {
     super.addSource(spans)
-    this._spanTopLevel = this._updateSpanTree()
+    this._spanTopLevel = createSpanTree(this.all)
   }
 
   has(span) {
@@ -101,7 +95,7 @@ export default class extends ContainerWithSubContainer {
 
   remove(id) {
     const span = super.remove(id)
-    this._spanTopLevel = this._updateSpanTree()
+    this._spanTopLevel = createSpanTree(this.all)
     return span
   }
 
@@ -116,7 +110,7 @@ export default class extends ContainerWithSubContainer {
     const newOne = super.add(
       new ObjectSpanModel(this._editor, newSpan, this.entityContainer, this),
       (newOne) => {
-        this._spanTopLevel = this._updateSpanTree()
+        this._spanTopLevel = createSpanTree(this.all)
         // Span.entities depends on the property of the entity.
         // Span DOM element is rendered by 'span.add' event.
         // We need to update the span ID of the entity before 'span.add' event.
