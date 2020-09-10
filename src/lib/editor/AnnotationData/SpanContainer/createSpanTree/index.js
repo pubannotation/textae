@@ -2,7 +2,7 @@ import getParent from './getParent'
 import adopt from './adopt'
 import spanComparator from '../spanComparator'
 
-export default function(spanContainer, editor, allSpan) {
+export default function(spanContainer, allSpan) {
   // Sort id of spans by the position.
   const sortedSpans = allSpan.sort(spanComparator)
   const spanTree = []
@@ -21,7 +21,7 @@ export default function(spanContainer, editor, allSpan) {
     )
     .forEach((span) => {
       if (span.left) {
-        const parent = getParent(editor, spanContainer, span, span.left)
+        const parent = getParent(spanContainer, span, span.left)
         if (parent) {
           adopt(parent, span)
         } else {
