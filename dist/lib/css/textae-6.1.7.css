@@ -411,6 +411,9 @@
   background-color: #ddd;
   color: #333;
 }
+.textae-editor__valiondate-dialog__content table th.sourceProperty {
+  width: 105px;
+}
 .textae-editor__valiondate-dialog__content table th.id {
   width: 32px;
 }
@@ -424,6 +427,7 @@
   border: 1px solid #b9b9b9;
   padding: 3px;
   background-color: #fff;
+  line-break: anywhere;
 }
 .textae-editor__valiondate-dialog__content table td.alert {
   color: red;
