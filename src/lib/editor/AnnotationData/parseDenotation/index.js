@@ -20,7 +20,7 @@ export default function(dataStore, annotation) {
     annotation
   )
   annotationReject.name = 'Root annotations.'
-  importNamespace(dataStore.namespace, annotation.namespaces)
+  importNamespace(dataStore.namespace, annotation.namespaces || [])
 
   const rejects = [annotationReject].concat(multitrackRejects)
   const hasError = rejects.some((r) => r.hasError)
