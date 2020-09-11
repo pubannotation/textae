@@ -1,5 +1,5 @@
 import parseAnnotation from './parseAnnotation'
-import importNamespace from './namespace'
+import importNamespace from './importNamespace'
 import parseTracks from './parseTracks'
 
 export default function(dataStore, annotation) {
