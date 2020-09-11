@@ -16,9 +16,9 @@ export default class {
   }
 
   addSource(source) {
-    const collection = this._mappingFunction(source)
+    if (!source) return
 
-    if (!collection) return
+    const collection = this._mappingFunction(source)
 
     // Move medols without id behind others, to prevet id duplication generated and exists.
     collection.sort((a, b) => {
