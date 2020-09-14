@@ -12,11 +12,7 @@ import toRelation from './toRelation'
 export default class {
   constructor(editor) {
     this.sourceDoc = ''
-    this.namespace = new ModelContainer(
-      editor.eventEmitter,
-      'namespace',
-      (v) => v
-    )
+    this.namespace = new ModelContainer(editor.eventEmitter, 'namespace')
     this.span = new SpanContainer(editor, editor.eventEmitter, this)
     this.attribute = new AttributeContainer(editor.eventEmitter, this)
     this.relation = new RelationContainer(editor.eventEmitter)

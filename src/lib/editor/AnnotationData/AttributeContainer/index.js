@@ -5,21 +5,23 @@ import toModels from './toModels'
 
 export default class extends ContainerWithSubContainer {
   constructor(emitter, parentContainer) {
-    super(emitter, parentContainer, 'attribute', (attribute) => {
-      const collection = toModels(attribute, parentContainer.entity)
+    super(emitter, parentContainer, 'attribute')
+  }
 
-      // Move medols without id behind others, to prevet id duplication generated and exists.
-      collection.sort((a, b) => {
-        if (!a.id) return 1
-        if (!b.id) return -1
-        if (a.id < b.id) return -1
-        if (a.id > b.id) return 1
+  _toModels(attribute) {
+    const collection = toModels(attribute, super.entityContainer)
 
-        return 0
-      })
+    // Move medols without id behind others, to prevet id duplication generated and exists.
+    collection.sort((a, b) => {
+      if (!a.id) return 1
+      if (!b.id) return -1
+      if (a.id < b.id) return -1
+      if (a.id > b.id) return 1
 
-      return collection
+      return 0
     })
+
+    return collection
   }
 
   add(attribute) {

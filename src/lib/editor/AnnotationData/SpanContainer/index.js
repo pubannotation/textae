@@ -10,13 +10,16 @@ import isAlreadySpaned from './isAlreadySpaned'
 
 export default class extends ContainerWithSubContainer {
   constructor(editor, emitter, parentContainer) {
-    super(emitter, parentContainer, 'span', (denotations) =>
-      toModels(denotations, editor, this.entityContainer, this)
-    )
+    super(emitter, parentContainer, 'span')
+
     this._editor = editor
 
     // Keep tyep sets independent of span editing.
     this._typeSets = new Map()
+  }
+
+  _toModels(denotations) {
+    return toModels(denotations, this._editor, super.entityContainer, this)
   }
 
   _addToContainer(instance) {

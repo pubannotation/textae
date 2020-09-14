@@ -1,8 +1,8 @@
 import ModelContainer from './ModelContainer'
 
 export default class extends ModelContainer {
-  constructor(emitter, parentContainer, name, toModels, idPrefix = null) {
-    super(emitter, name, toModels, idPrefix)
+  constructor(emitter, parentContainer, name, idPrefix = null) {
+    super(emitter, name, idPrefix)
     this._parentContainer = parentContainer
   }
 

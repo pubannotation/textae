@@ -5,35 +5,37 @@ import idFactory from '../idFactory'
 
 export default class extends ContainerWithSubContainer {
   constructor(editor, emitter, parentContainer) {
-    super(emitter, parentContainer, 'entity', (denotations) => {
-      // Expected an entity like {id: "E21", span: "editor2__S50_54", obj: "Protein"}.
-      const collection = denotations.map(
-        (entity) =>
-          new EntityModel(
-            editor,
-            super.attributeContainer,
-            super.relationContainer,
-            this.definedTypes,
-            idFactory.makeSpanDomId(editor, entity.span),
-            entity.obj,
-            entity.id
-          )
-      )
-
-      // Move medols without id behind others, to prevet id duplication generated and exists.
-      collection.sort((a, b) => {
-        if (!a.id) return 1
-        if (!b.id) return -1
-        if (a.id < b.id) return -1
-        if (a.id > b.id) return 1
-
-        return 0
-      })
-
-      return collection
-    })
+    super(emitter, parentContainer, 'entity')
 
     this._editor = editor
+  }
+
+  _toModels(denotations) {
+    // Expected an entity like {id: "E21", span: "editor2__S50_54", obj: "Protein"}.
+    const collection = denotations.map(
+      (entity) =>
+        new EntityModel(
+          this._editor,
+          super.attributeContainer,
+          super.relationContainer,
+          this.definedTypes,
+          idFactory.makeSpanDomId(this._editor, entity.span),
+          entity.obj,
+          entity.id
+        )
+    )
+
+    // Move medols without id behind others, to prevet id duplication generated and exists.
+    collection.sort((a, b) => {
+      if (!a.id) return 1
+      if (!b.id) return -1
+      if (a.id < b.id) return -1
+      if (a.id > b.id) return 1
+
+      return 0
+    })
+
+    return collection
   }
 
   add(entity) {

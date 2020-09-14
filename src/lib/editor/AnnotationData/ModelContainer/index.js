@@ -1,11 +1,14 @@
 import isFunction from './isFunction'
 
 export default class {
-  constructor(emitter, name, toModels) {
+  constructor(emitter, name) {
     this._emitter = emitter
     this._name = name
-    this._toModels = toModels
     this._container = new Map()
+  }
+
+  _toModels(rowData) {
+    return rowData
   }
 
   addSource(source) {
