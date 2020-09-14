@@ -1,12 +1,12 @@
 import AttributeModel from './AttributeModel'
 import ContainerWithSubContainer from '../ContainerWithSubContainer'
-import mappingFunction from './mappingFunction'
 import issueId from '../issueId'
+import toModels from './toModels'
 
 export default class extends ContainerWithSubContainer {
   constructor(emitter, parentContainer) {
     super(emitter, parentContainer, 'attribute', (attribute) => {
-      const collection = mappingFunction(attribute, parentContainer.entity)
+      const collection = toModels(attribute, parentContainer.entity)
 
       // Move medols without id behind others, to prevet id duplication generated and exists.
       collection.sort((a, b) => {

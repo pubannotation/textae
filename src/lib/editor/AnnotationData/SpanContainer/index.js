@@ -1,4 +1,4 @@
-import mappingFunction from './mappingFunction'
+import toModels from './toModels'
 import updateSpanTree from './updateSpanTree'
 import spanComparator from './spanComparator'
 import idFactory from '../../idFactory'
@@ -11,7 +11,7 @@ import isAlreadySpaned from './isAlreadySpaned'
 export default class extends ContainerWithSubContainer {
   constructor(editor, emitter, parentContainer) {
     super(emitter, parentContainer, 'span', (denotations) =>
-      mappingFunction(denotations, editor, this.entityContainer, this)
+      toModels(denotations, editor, this.entityContainer, this)
     )
     this._editor = editor
 

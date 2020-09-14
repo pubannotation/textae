@@ -1,15 +1,15 @@
 import isFunction from './isFunction'
 
 export default class {
-  constructor(emitter, name, mappingFunction) {
+  constructor(emitter, name, toModels) {
     this._emitter = emitter
     this._name = name
-    this._mappingFunction = mappingFunction
+    this._toModels = toModels
     this._container = new Map()
   }
 
   addSource(source) {
-    for (const instance of this._mappingFunction(source)) {
+    for (const instance of this._toModels(source)) {
       this._addToContainer(instance)
     }
   }
