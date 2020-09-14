@@ -1,12 +1,25 @@
 import AttributeModel from './AttributeModel'
 import ContainerWithSubContainer from '../ContainerWithSubContainer'
 import mappingFunction from './mappingFunction'
+import issueId from '../issueId'
 
 export default class extends ContainerWithSubContainer {
   constructor(emitter, parentContainer) {
-    super(emitter, parentContainer, 'attribute', (attribute) =>
-      mappingFunction(attribute, parentContainer.entity)
-    )
+    super(emitter, parentContainer, 'attribute', (attribute) => {
+      const collection = mappingFunction(attribute, parentContainer.entity)
+
+      // Move medols without id behind others, to prevet id duplication generated and exists.
+      collection.sort((a, b) => {
+        if (!a.id) return 1
+        if (!b.id) return -1
+        if (a.id < b.id) return -1
+        if (a.id > b.id) return 1
+
+        return 0
+      })
+
+      return collection
+    })
   }
 
   add(attribute) {
@@ -45,5 +58,9 @@ export default class extends ContainerWithSubContainer {
 
   getSameAttributes(pred, obj) {
     return this.all.filter((a) => a.pred === pred && a.obj === obj)
+  }
+
+  _addToContainer(instance) {
+    return super._addToContainer(issueId(instance, this._container, 'A'))
   }
 }

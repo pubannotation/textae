@@ -1,32 +1,17 @@
 import isFunction from './isFunction'
-import addToContainer from './addToContainer'
 
 export default class {
-  constructor(emitter, name, mappingFunction, idPrefix = null) {
+  constructor(emitter, name, mappingFunction) {
     this._emitter = emitter
     this._name = name
     this._mappingFunction = mappingFunction
-
-    // If idPrefix is specified, overwrite prefix.
-    this._idPrefix = idPrefix ? idPrefix : name.charAt(0).toUpperCase()
-
     this._container = new Map()
   }
 
   addSource(source) {
-    const collection = this._mappingFunction(source)
-
-    // Move medols without id behind others, to prevet id duplication generated and exists.
-    collection.sort((a, b) => {
-      if (!a.id) return 1
-      if (!b.id) return -1
-      if (a.id < b.id) return -1
-      if (a.id > b.id) return 1
-
-      return 0
-    })
-
-    collection.forEach((instance) => this._addToContainer(instance))
+    for (const instance of this._mappingFunction(source)) {
+      this._addToContainer(instance)
+    }
   }
 
   // The doAfter is avoked before a event emitted.
@@ -75,7 +60,8 @@ export default class {
   }
 
   _addToContainer(instance) {
-    return addToContainer(instance, this._container, this._idPrefix)
+    this._container.set(instance.id, instance)
+    return instance
   }
 
   _emit(event, data) {
