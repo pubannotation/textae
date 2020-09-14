@@ -1,17 +1,23 @@
-import ContainerWithSubContainer from '../ContainerWithSubContainer'
-import EntityModel from '../../EntityModel'
-import mappingFunction from './mappingFunction'
-import issueId from '../issueId'
+import ContainerWithSubContainer from './ContainerWithSubContainer'
+import EntityModel from '../EntityModel'
+import issueId from './issueId'
+import idFactory from '../idFactory'
 
 export default class extends ContainerWithSubContainer {
   constructor(editor, emitter, parentContainer) {
     super(emitter, parentContainer, 'entity', (denotations) => {
-      const collection = mappingFunction(
-        editor,
-        super.attributeContainer,
-        super.relationContainer,
-        this.definedTypes,
-        denotations
+      // Expected an entity like {id: "E21", span: "editor2__S50_54", obj: "Protein"}.
+      const collection = denotations.map(
+        (entity) =>
+          new EntityModel(
+            editor,
+            super.attributeContainer,
+            super.relationContainer,
+            this.definedTypes,
+            idFactory.makeSpanDomId(editor, entity.span),
+            entity.obj,
+            entity.id
+          )
       )
 
       // Move medols without id behind others, to prevet id duplication generated and exists.
