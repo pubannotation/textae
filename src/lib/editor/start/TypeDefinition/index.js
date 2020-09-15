@@ -9,6 +9,7 @@ export default class {
     this._entityContainer = new EntityContainer(
       editor,
       annotationData.entity,
+      annotationData.attribute,
       this._lockStateObservable
     )
     this._relationContainer = new Container(

@@ -3,7 +3,12 @@ import Container from './Container'
 import createAttributeDefinition from './createAttributeDefinition'
 
 export default class extends Container {
-  constructor(editor, annotationDataEntity, lockStateObservable) {
+  constructor(
+    editor,
+    annotationDataEntity,
+    annotationDataAttribute,
+    lockStateObservable
+  ) {
     super(
       editor,
       'entity',
@@ -12,6 +17,7 @@ export default class extends Container {
       '#77DDDD'
     )
     this._annotationDataEntity = annotationDataEntity
+    this._annotationDataAttribute = annotationDataAttribute
   }
 
   set definedTypes(value) {
@@ -115,13 +121,11 @@ export default class extends Container {
   }
 
   hasAttributeInstance(pred) {
-    return this._annotationDataEntity.attributeContainer.all.some(
-      (a) => a.pred === pred
-    )
+    return this._annotationDataAttribute.all.some((a) => a.pred === pred)
   }
 
   hasSelectionAtributeValueInstance(pred, id) {
-    return this._annotationDataEntity.attributeContainer.all.some(
+    return this._annotationDataAttribute.all.some(
       (a) => a.pred === pred && a.obj == id
     )
   }
