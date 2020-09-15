@@ -1,13 +1,22 @@
-import ContainerWithSubContainer from './ContainerWithSubContainer'
 import EntityModel from '../EntityModel'
 import issueId from './issueId'
 import idFactory from '../idFactory'
+import ModelContainer from './ModelContainer'
 
-export default class extends ContainerWithSubContainer {
+export default class extends ModelContainer {
   constructor(editor, emitter, parentContainer) {
-    super(emitter, parentContainer, 'entity')
+    super(emitter, 'entity')
 
     this._editor = editor
+    this._parentContainer = parentContainer
+  }
+
+  get _attributeContainer() {
+    return this._parentContainer.attribute
+  }
+
+  get _relationContainer() {
+    return this._parentContainer.relation
   }
 
   _toModels(denotations) {
@@ -16,8 +25,8 @@ export default class extends ContainerWithSubContainer {
       (entity) =>
         new EntityModel(
           this._editor,
-          super.attributeContainer,
-          super.relationContainer,
+          this._attributeContainer,
+          this._relationContainer,
           this.definedTypes,
           idFactory.makeSpanDomId(this._editor, entity.span),
           entity.obj,
@@ -50,8 +59,8 @@ export default class extends ContainerWithSubContainer {
     return super.add(
       new EntityModel(
         this._editor,
-        super.attributeContainer,
-        super.relationContainer,
+        this._attributeContainer,
+        this._relationContainer,
         this.definedTypes,
         entity.span,
         entity.typeName

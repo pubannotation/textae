@@ -1,15 +1,21 @@
 import AttributeModel from './AttributeModel'
-import ContainerWithSubContainer from '../ContainerWithSubContainer'
 import issueId from '../issueId'
 import toModels from './toModels'
+import ModelContainer from '../ModelContainer'
 
-export default class extends ContainerWithSubContainer {
+export default class extends ModelContainer {
   constructor(emitter, parentContainer) {
-    super(emitter, parentContainer, 'attribute')
+    super(emitter, 'attribute')
+
+    this._parentContainer = parentContainer
+  }
+
+  get _entityContainer() {
+    return this._parentContainer.entity
   }
 
   _toModels(attribute) {
-    const collection = toModels(attribute, super.entityContainer)
+    const collection = toModels(attribute, this._entityContainer)
 
     // Move medols without id behind others, to prevet id duplication generated and exists.
     collection.sort((a, b) => {
@@ -26,7 +32,7 @@ export default class extends ContainerWithSubContainer {
 
   add(attribute) {
     return super.add(
-      new AttributeModel(attribute, super.entityContainer),
+      new AttributeModel(attribute, this._entityContainer),
       (attribute) =>
         super._emit('textae.annotationData.attribute.add', attribute)
     )

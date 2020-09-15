@@ -4,22 +4,27 @@ import spanComparator from './spanComparator'
 import idFactory from '../../idFactory'
 import ObjectSpanModel from './ObjectSpanModel'
 import StyleSpanModel from './StyleSpanModel'
-import ContainerWithSubContainer from '../ContainerWithSubContainer'
 import isBoundaryCrossingWithOtherSpans from '../isBoundaryCrossingWithOtherSpans'
 import isAlreadySpaned from './isAlreadySpaned'
+import ModelContainer from '../ModelContainer'
 
-export default class extends ContainerWithSubContainer {
+export default class extends ModelContainer {
   constructor(editor, emitter, parentContainer) {
-    super(emitter, parentContainer, 'span')
+    super(emitter, 'span')
 
     this._editor = editor
+    this._parentContainer = parentContainer
 
     // Keep tyep sets independent of span editing.
     this._typeSets = new Map()
   }
 
+  get _entityContainer() {
+    return this._parentContainer.entity
+  }
+
   _toModels(denotations) {
-    return toModels(denotations, this._editor, super.entityContainer, this)
+    return toModels(denotations, this._editor, this._entityContainer, this)
   }
 
   _addToContainer(instance) {
@@ -43,7 +48,7 @@ export default class extends ContainerWithSubContainer {
     console.assert(span, 'span is necessary.')
 
     return super.add(
-      new ObjectSpanModel(this._editor, span, this.entityContainer, this),
+      new ObjectSpanModel(this._editor, span, this._entityContainer, this),
       () => {
         updateSpanTree(this.all)
       }
@@ -116,7 +121,7 @@ export default class extends ContainerWithSubContainer {
   move(id, newSpan) {
     const oldOne = super.remove(id)
     const newOne = super.add(
-      new ObjectSpanModel(this._editor, newSpan, this.entityContainer, this),
+      new ObjectSpanModel(this._editor, newSpan, this._entityContainer, this),
       (newOne) => {
         updateSpanTree(this.all)
         // Span.entities depends on the property of the entity.
