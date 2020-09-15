@@ -21,10 +21,9 @@ export default class {
     }
   }
 
-  // The doAfter is avoked before a event emitted.
-  add(instance, doAfter) {
+  add(instance, beforeEventEmit) {
     const newInstance = this._addToContainer(instance)
-    if (isFunction(doAfter)) doAfter(newInstance)
+    if (isFunction(beforeEventEmit)) beforeEventEmit(newInstance)
 
     this._emit(`textae.annotationData.${this._name}.add`, newInstance)
     return newInstance
