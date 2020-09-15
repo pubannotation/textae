@@ -33,11 +33,7 @@ export default class extends ModelContainer {
   }
 
   add(attribute) {
-    return super.add(
-      new AttributeModel(attribute, this._entityContainer),
-      (attribute) =>
-        super._emit('textae.annotationData.attribute.add', attribute)
-    )
+    return super.add(new AttributeModel(attribute, this._entityContainer))
   }
 
   change(id, newPred, newObj) {
