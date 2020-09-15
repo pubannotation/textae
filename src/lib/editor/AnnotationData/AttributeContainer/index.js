@@ -1,6 +1,5 @@
 import AttributeModel from './AttributeModel'
 import issueId from '../issueId'
-import toModels from './toModels'
 import ModelContainer from '../ModelContainer'
 
 export default class extends ModelContainer {
@@ -16,8 +15,12 @@ export default class extends ModelContainer {
     return this._parentContainer.entity
   }
 
-  _toModels(attribute) {
-    const collection = toModels(attribute, this._entityContainer)
+  _toModel(attribute) {
+    return new AttributeModel(attribute, this._entityContainer)
+  }
+
+  _toModels(attributes) {
+    const collection = super._toModels(attributes)
 
     // Move medols without id behind others, to prevet id duplication generated and exists.
     collection.sort((a, b) => {
@@ -33,7 +36,7 @@ export default class extends ModelContainer {
   }
 
   add(attribute) {
-    return super.add(new AttributeModel(attribute, this._entityContainer))
+    return super.add(this._toModel(attribute))
   }
 
   change(id, newPred, newObj) {

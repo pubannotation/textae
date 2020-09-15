@@ -7,8 +7,12 @@ export default class {
     this._container = new Map()
   }
 
+  _toModel(rowDatum) {
+    return rowDatum
+  }
+
   _toModels(rowData) {
-    return rowData
+    return rowData.map((r) => this._toModel(r))
   }
 
   addSource(source) {

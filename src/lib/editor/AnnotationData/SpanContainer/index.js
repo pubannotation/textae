@@ -1,4 +1,3 @@
-import toModels from './toModels'
 import updateSpanTree from './updateSpanTree'
 import spanComparator from './spanComparator'
 import idFactory from '../../idFactory'
@@ -19,8 +18,17 @@ export default class extends ModelContainer {
     this._typeSets = new Map()
   }
 
-  _toModels(denotations) {
-    return toModels(denotations, this._editor, this._entityContainer, this)
+  _toModel(entity) {
+    if (entity.style) {
+      return new StyleSpanModel(this._editor, entity.span, this, entity.style)
+    } else {
+      return new ObjectSpanModel(
+        this._editor,
+        entity.span,
+        this._entityContainer,
+        this
+      )
+    }
   }
 
   _addToContainer(instance) {

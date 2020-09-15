@@ -13,20 +13,21 @@ export default class extends ModelContainer {
     this._relationContainer = relationContaier
   }
 
-  _toModels(denotations) {
+  _toModel(entity) {
     // Expected an entity like {id: "E21", span: "editor2__S50_54", obj: "Protein"}.
-    const collection = denotations.map(
-      (entity) =>
-        new EntityModel(
-          this._editor,
-          this._attributeContainer,
-          this._relationContainer,
-          this.definedTypes,
-          idFactory.makeSpanDomId(this._editor, entity.span),
-          entity.obj,
-          entity.id
-        )
+    return new EntityModel(
+      this._editor,
+      this._attributeContainer,
+      this._relationContainer,
+      this.definedTypes,
+      idFactory.makeSpanDomId(this._editor, entity.span),
+      entity.obj,
+      entity.id
     )
+  }
+
+  _toModels(denotations) {
+    const collection = super._toModels(denotations)
 
     // Move medols without id behind others, to prevet id duplication generated and exists.
     collection.sort((a, b) => {

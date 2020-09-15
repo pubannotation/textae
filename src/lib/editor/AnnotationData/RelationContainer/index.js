@@ -7,8 +7,12 @@ export default class extends ModelContainer {
     super(emitter, 'relation')
   }
 
+  _toModel(relation) {
+    return new RelationModel(relation)
+  }
+
   _toModels(relations) {
-    const collection = relations.map((r) => new RelationModel(r))
+    const collection = super._toModels(relations)
 
     // Move medols without id behind others, to prevet id duplication generated and exists.
     collection.sort((a, b) => {
@@ -29,7 +33,7 @@ export default class extends ModelContainer {
       return super.add(relation)
     }
 
-    return super.add(new RelationModel(relation))
+    return super.add(this._toModel(relation))
   }
 
   _addToContainer(instance) {
