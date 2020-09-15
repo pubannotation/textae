@@ -9,18 +9,14 @@ import isAlreadySpaned from './isAlreadySpaned'
 import ModelContainer from '../ModelContainer'
 
 export default class extends ModelContainer {
-  constructor(editor, emitter, parentContainer) {
+  constructor(editor, emitter, entityContainer) {
     super(emitter, 'span')
 
     this._editor = editor
-    this._parentContainer = parentContainer
+    this._entityContainer = entityContainer
 
     // Keep tyep sets independent of span editing.
     this._typeSets = new Map()
-  }
-
-  get _entityContainer() {
-    return this._parentContainer.entity
   }
 
   _toModels(denotations) {

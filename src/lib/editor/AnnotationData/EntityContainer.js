@@ -4,19 +4,13 @@ import idFactory from '../idFactory'
 import ModelContainer from './ModelContainer'
 
 export default class extends ModelContainer {
-  constructor(editor, emitter, parentContainer) {
+  constructor(editor, emitter, attributeContainer, relationContaier) {
     super(emitter, 'entity')
 
     this._editor = editor
-    this._parentContainer = parentContainer
-  }
 
-  get _attributeContainer() {
-    return this._parentContainer.attribute
-  }
-
-  get _relationContainer() {
-    return this._parentContainer.relation
+    this._attributeContainer = attributeContainer
+    this._relationContainer = relationContaier
   }
 
   _toModels(denotations) {

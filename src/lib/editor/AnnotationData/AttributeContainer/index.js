@@ -7,6 +7,8 @@ export default class extends ModelContainer {
   constructor(emitter, parentContainer) {
     super(emitter, 'attribute')
 
+    // Since the attribute container and the entity container are cross-referenced,
+    // the entity container is retrieved dynamically.
     this._parentContainer = parentContainer
   }
 
