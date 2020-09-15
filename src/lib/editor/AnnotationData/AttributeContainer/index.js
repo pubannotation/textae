@@ -1,10 +1,9 @@
 import AttributeModel from './AttributeModel'
-import issueId from '../issueId'
-import ModelContainer from '../ModelContainer'
+import IdIssueContainer from '../IdIssueContainer'
 
-export default class extends ModelContainer {
+export default class extends IdIssueContainer {
   constructor(emitter, parentContainer) {
-    super(emitter, 'attribute')
+    super(emitter, 'attribute', 'A')
 
     // Since the attribute container and the entity container are cross-referenced,
     // the entity container is retrieved dynamically.
@@ -17,22 +16,6 @@ export default class extends ModelContainer {
 
   _toModel(attribute) {
     return new AttributeModel(attribute, this._entityContainer)
-  }
-
-  _toModels(attributes) {
-    const collection = super._toModels(attributes)
-
-    // Move medols without id behind others, to prevet id duplication generated and exists.
-    collection.sort((a, b) => {
-      if (!a.id) return 1
-      if (!b.id) return -1
-      if (a.id < b.id) return -1
-      if (a.id > b.id) return 1
-
-      return 0
-    })
-
-    return collection
   }
 
   add(attribute) {
@@ -67,9 +50,5 @@ export default class extends ModelContainer {
 
   getSameAttributes(pred, obj) {
     return this.all.filter((a) => a.pred === pred && a.obj === obj)
-  }
-
-  _addToContainer(instance) {
-    return super._addToContainer(issueId(instance, this._container, 'A'))
   }
 }

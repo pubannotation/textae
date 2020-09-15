@@ -1,11 +1,10 @@
 import EntityModel from '../EntityModel'
-import issueId from './issueId'
 import idFactory from '../idFactory'
-import ModelContainer from './ModelContainer'
+import IdIssueContainer from './IdIssueContainer'
 
-export default class extends ModelContainer {
+export default class extends IdIssueContainer {
   constructor(editor, emitter, attributeContainer, relationContaier) {
-    super(emitter, 'entity')
+    super(emitter, 'entity', 'T')
 
     this._editor = editor
 
@@ -24,22 +23,6 @@ export default class extends ModelContainer {
       entity.obj,
       entity.id
     )
-  }
-
-  _toModels(denotations) {
-    const collection = super._toModels(denotations)
-
-    // Move medols without id behind others, to prevet id duplication generated and exists.
-    collection.sort((a, b) => {
-      if (!a.id) return 1
-      if (!b.id) return -1
-      if (a.id < b.id) return -1
-      if (a.id > b.id) return 1
-
-      return 0
-    })
-
-    return collection
   }
 
   add(entity) {
@@ -72,9 +55,5 @@ export default class extends ModelContainer {
 
   getAllOfSpan(spanId) {
     return this.all.filter((entity) => spanId === entity.span)
-  }
-
-  _addToContainer(instance) {
-    return super._addToContainer(issueId(instance, this._container, 'T'))
   }
 }

@@ -1,30 +1,13 @@
-import ModelContainer from '../ModelContainer'
-import issueId from '../issueId'
 import RelationModel from './RelationModel'
+import IdIssueContainer from '../IdIssueContainer'
 
-export default class extends ModelContainer {
+export default class extends IdIssueContainer {
   constructor(emitter) {
-    super(emitter, 'relation')
+    super(emitter, 'relation', 'R')
   }
 
   _toModel(relation) {
     return new RelationModel(relation)
-  }
-
-  _toModels(relations) {
-    const collection = super._toModels(relations)
-
-    // Move medols without id behind others, to prevet id duplication generated and exists.
-    collection.sort((a, b) => {
-      if (!a.id) return 1
-      if (!b.id) return -1
-      if (a.id < b.id) return -1
-      if (a.id > b.id) return 1
-
-      return 0
-    })
-
-    return collection
   }
 
   add(relation) {
@@ -34,9 +17,5 @@ export default class extends ModelContainer {
     }
 
     return super.add(this._toModel(relation))
-  }
-
-  _addToContainer(instance) {
-    return super._addToContainer(issueId(instance, this._container, 'R'))
   }
 }
