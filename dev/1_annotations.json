@@ -225,7 +225,7 @@
     {
       "id": "T1.a.b",
       "span": {
-        "begin": 19,
+        "begin": 0,
         "end": 49
       },
       "obj": "http://dbpedia.org/ontology/parent"
