@@ -13,4 +13,13 @@ export default class extends SpanModel {
   passesAllEntitiesTo(newSpan) {
     this.entities.forEach((e) => (e.span = newSpan.id))
   }
+
+  get styles() {
+    // Merges a span and a typeset so that it can be rendered as a single DOM element.
+    if (this._spanContainer._typeSets.has(this.id)) {
+      return this._spanContainer._typeSets.get(this.id).styles
+    }
+
+    return new Set()
+  }
 }

@@ -5,7 +5,6 @@ export default class {
   constructor(editor, span, spanContainer) {
     this._editor = editor
     this._span = span
-    this.styles = new Set()
     this._spanContainer = spanContainer
   }
 

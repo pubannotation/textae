@@ -60,7 +60,7 @@ export default class extends ContainerWithSubContainer {
 
   get(spanId) {
     if (this._container.has(spanId)) {
-      return this._merageStyle(super.get(spanId))
+      return super.get(spanId)
     } else {
       // Returns a typeset only.
       return this._typeSets.get(spanId)
@@ -88,20 +88,13 @@ export default class extends ContainerWithSubContainer {
       (s) => !this._container.has(s.id)
     )
 
-    // Merge style to objcet spans before the rendreAllSpan.
     return super.all
-      .map((span) => this._merageStyle(span))
       .concat(styleOnlySpans)
       .filter((span) => span.parent === null)
       .sort(spanComparator)
   }
 
-  // Merges a span and a typeset so that it can be rendered as a single DOM element.
   _merageStyle(span) {
-    if (this._typeSets.has(span.id)) {
-      span.styles = this._typeSets.get(span.id).styles
-    }
-
     return span
   }
 
