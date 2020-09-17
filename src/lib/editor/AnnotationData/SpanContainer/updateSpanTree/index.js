@@ -8,14 +8,10 @@ export default function(spans) {
   const sortedSpans = spans.sort(spanComparator)
 
   sortedSpans
-    .map((span) =>
-      Object.assign(span, {
-        // Reset parent
-        parent: null,
-        // Reset children
-        children: []
-      })
-    )
+    .map((span) => {
+      span.severTies()
+      return span
+    })
     .forEach((span, index, array) => {
       const left = index !== 0 ? array[index - 1] : null
 

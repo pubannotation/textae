@@ -31,4 +31,11 @@ export default class {
   get bigBrother() {
     return getBigBrotherSpan(this, this._spanContainer.topLevel)
   }
+
+  severTies() {
+    // Reset parent
+    this.parent = null
+    // Reset children
+    this.children = []
+  }
 }
