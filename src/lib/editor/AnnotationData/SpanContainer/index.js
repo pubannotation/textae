@@ -4,7 +4,6 @@ import idFactory from '../../idFactory'
 import ObjectSpanModel from './ObjectSpanModel'
 import StyleSpanModel from './StyleSpanModel'
 import isBoundaryCrossingWithOtherSpans from '../isBoundaryCrossingWithOtherSpans'
-import isAlreadySpaned from './isAlreadySpaned'
 import ModelContainer from '../ModelContainer'
 
 export default class extends ModelContainer {
@@ -151,7 +150,7 @@ export default class extends ModelContainer {
   }
 
   isAlreadySpaned(span) {
-    return isAlreadySpaned(super.all, span)
+    return this.has(span)
   }
 
   get all() {
