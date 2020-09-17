@@ -149,10 +149,6 @@ export default class extends ModelContainer {
     return isBoundaryCrossingWithOtherSpans(this.all, span)
   }
 
-  isAlreadySpaned(span) {
-    return this.has(span)
-  }
-
   get all() {
     const styleOnlySpans = [...this._typeSets.values()].filter(
       (s) => !this._container.has(s.id)

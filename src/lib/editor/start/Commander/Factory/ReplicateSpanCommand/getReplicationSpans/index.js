@@ -15,6 +15,6 @@ export default function(dataStore, originSpan, detectBoundaryFunc) {
         span.begin !== originSpan.begin
     )
     .filter(wordFilter)
-    .filter((span) => !dataStore.span.isAlreadySpaned(span))
+    .filter((span) => !dataStore.span.has(span))
     .filter((span) => !dataStore.span.isBoundaryCrossingWithOtherSpans(span))
 }
