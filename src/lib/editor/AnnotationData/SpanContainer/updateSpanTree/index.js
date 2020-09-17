@@ -7,20 +7,17 @@ export default function(spans) {
   // Sort spans by the position.
   const sortedSpans = spans.sort(spanComparator)
 
-  sortedSpans
-    .map((span) => {
-      span.severTies()
-      return span
-    })
-    .forEach((span, index, array) => {
-      const left = index !== 0 ? array[index - 1] : null
+  sortedSpans.forEach((span, index, array) => {
+    span.severTies()
 
-      if (left) {
-        const parent = getParent(span, left)
-        if (parent) {
-          parent.children.push(span)
-          span.parent = parent
-        }
+    const left = index !== 0 ? array[index - 1] : null
+
+    if (left) {
+      const parent = getParent(span, left)
+      if (parent) {
+        parent.children.push(span)
+        span.parent = parent
       }
-    })
+    }
+  })
 }
