@@ -53,4 +53,16 @@ export default class {
     parent.children.push(this)
     this._parent = parent
   }
+
+  traverse(preOrderFunction, postOrderFunction) {
+    preOrderFunction(this)
+
+    for (const child of this._children) {
+      child.traverse(preOrderFunction, postOrderFunction)
+    }
+
+    if (postOrderFunction) {
+      postOrderFunction(this)
+    }
+  }
 }
