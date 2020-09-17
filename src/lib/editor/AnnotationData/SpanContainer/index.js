@@ -151,7 +151,7 @@ export default class extends ModelContainer {
   }
 
   isAlreadySpaned(span) {
-    return isAlreadySpaned(this.all, span)
+    return isAlreadySpaned(super.all, span)
   }
 
   get all() {
