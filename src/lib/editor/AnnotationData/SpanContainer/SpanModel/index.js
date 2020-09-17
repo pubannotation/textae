@@ -6,6 +6,8 @@ export default class {
     this._editor = editor
     this._span = span
     this._spanContainer = spanContainer
+
+    this.severTies()
   }
 
   get id() {
@@ -32,15 +34,23 @@ export default class {
     return getBigBrotherSpan(this, this._spanContainer.topLevel)
   }
 
+  get parent() {
+    return this._parent
+  }
+
+  get children() {
+    return this._children
+  }
+
   severTies() {
     // Reset parent
-    this.parent = null
+    this._parent = null
     // Reset children
-    this.children = []
+    this._children = []
   }
 
   beChildOf(parent) {
     parent.children.push(this)
-    this.parent = parent
+    this._parent = parent
   }
 }
