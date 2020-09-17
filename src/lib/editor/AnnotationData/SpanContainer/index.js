@@ -95,14 +95,7 @@ export default class extends ModelContainer {
   }
 
   get topLevel() {
-    const styleOnlySpans = [...this._typeSets.values()].filter(
-      (s) => !this._container.has(s.id)
-    )
-
-    return super.all
-      .concat(styleOnlySpans)
-      .filter((span) => span.parent === null)
-      .sort(spanComparator)
+    return this.all.filter((span) => span.parent === null).sort(spanComparator)
   }
 
   _merageStyle(span) {
