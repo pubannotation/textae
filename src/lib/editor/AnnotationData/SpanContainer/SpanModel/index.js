@@ -38,4 +38,9 @@ export default class {
     // Reset children
     this.children = []
   }
+
+  beChildOf(parent) {
+    parent.children.push(this)
+    this.parent = parent
+  }
 }

@@ -11,12 +11,10 @@ export default function(spans) {
     span.severTies()
 
     const left = index !== 0 ? array[index - 1] : null
-
     if (left) {
       const parent = getParent(span, left)
       if (parent) {
-        parent.children.push(span)
-        span.parent = parent
+        span.beChildOf(parent)
       }
     }
   })
