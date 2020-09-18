@@ -19,7 +19,11 @@ export default function(
 
       resetAllCurviness(editor, annotationData, relations)
       jsPlumbInstance.repaintEverything()
-      reselectAll(editor, annotationData, selectionModel.relation.all)
+      reselectAll(
+        editor,
+        annotationData,
+        selectionModel.relation.all.filter((r) => r.render === undefined)
+      )
 
       // For tuning
       // var endTime = new Date();

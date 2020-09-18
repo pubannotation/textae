@@ -84,6 +84,10 @@ export default class {
   }
 
   remove(relation) {
+    if (relation.render) {
+      return
+    }
+
     removeRelation(
       this._editor,
       this._annotationData,

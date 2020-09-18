@@ -1,4 +1,4 @@
-import getDomPositionCache from '../../../getDomPositionCache'
+import getDomPositionCache from '../../../../getDomPositionCache'
 
 // Cache a connect instance.
 export default function(connect, editor, annotationData) {

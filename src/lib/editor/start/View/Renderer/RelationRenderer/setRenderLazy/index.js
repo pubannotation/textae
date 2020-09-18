@@ -1,5 +1,4 @@
 import renderLazy from './renderLazy'
-import cache from './cache'
 
 export default function(
   jsPlumbInstance,
@@ -20,6 +19,4 @@ export default function(
       )
     }
   })
-
-  cache(relation, editor, annotationData)
 }

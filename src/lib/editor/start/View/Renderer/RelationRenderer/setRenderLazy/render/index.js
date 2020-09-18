@@ -1,7 +1,7 @@
 import Api from './Api'
 import hoverize from './hoverize'
 import createJsPlumbConnect from './createJsPlumbConnect'
-import cache from '../cache'
+import cache from './cache'
 
 export default function(
   jsPlumbInstance,
