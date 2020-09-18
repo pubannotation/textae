@@ -5,6 +5,11 @@ import MoveEntitiesToSpanCommand from './MoveEntitiesToSpanCommand'
 
 export default class extends CompositeCommand {
   constructor(editor, annotationData, selectionModel, entities) {
+    console.assert(
+      selectionModel.span.single,
+      'There must be one span to be pasted.'
+    )
+
     super()
 
     // Move cut entities to the selected span.

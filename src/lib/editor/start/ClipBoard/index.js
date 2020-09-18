@@ -58,7 +58,10 @@ export default class {
       this._commander.invoke(this._pasteCommand)
     }
 
-    if (this._itemsWillBeCutAndPaste.length) {
+    if (
+      this._itemsWillBeCutAndPaste.length &&
+      this._selectionModel.span.single
+    ) {
       this._commander.invoke(this._pasteCommand)
       this._updateItems(new Set())
     }
