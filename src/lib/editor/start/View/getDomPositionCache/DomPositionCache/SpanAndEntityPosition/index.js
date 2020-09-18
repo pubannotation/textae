@@ -1,4 +1,4 @@
-import CachedGetterFactory from '../CachedGetterFactory'
+import CachedGetterFactory from './CachedGetterFactory'
 import getSpan from './getSpan'
 import getEntity from './getEntity'
 

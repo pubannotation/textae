@@ -1,4 +1,4 @@
-import LesserMap from './LesserMap'
+import LesserMap from '../LesserMap'
 
 export default function() {
   const caches = []
