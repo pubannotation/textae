@@ -10,7 +10,7 @@ export default function(domPositionCache, annotationData, gridHeight, span) {
   }
 
   const newPosition = getGridPosition(
-    (spanId) => domPositionCache.getSpan(spanId),
+    domPositionCache.getSpan(span.id),
     gridHeight,
     span
   )

@@ -1,5 +1,4 @@
-export default function(getSpan, gridHeight, span) {
-  const spanPosition = getSpan(span.id)
+export default function(spanPosition, gridHeight, span) {
   const descendantsMaxHeight = gridHeight.getHeightIncludeDescendantGrids(span)
 
   return {
