@@ -1,4 +1,4 @@
-import createCommands from './createCommands'
+import createCommand from './createCommand'
 import getNewSpan from './getNewSpan'
 
 export default function(
@@ -27,7 +27,7 @@ export default function(
     return
   }
 
-  const commands = createCommands(
+  const command = createCommand(
     commander,
     newSpan,
     isReplicateAuto,
@@ -35,5 +35,5 @@ export default function(
     spanConfig
   )
 
-  commander.invoke(commands)
+  commander.invoke(command)
 }
