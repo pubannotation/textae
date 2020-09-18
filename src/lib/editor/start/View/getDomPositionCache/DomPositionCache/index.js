@@ -90,6 +90,6 @@ export default class {
 
   isGridPrepared(entityId) {
     const spanId = this._entityModel.get(entityId).span
-    return this._gridCache.get(spanId)
+    return this._gridCache.has(spanId)
   }
 }
