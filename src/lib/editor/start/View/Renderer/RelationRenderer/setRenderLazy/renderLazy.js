@@ -6,8 +6,7 @@ export default function(
   annotationData,
   relation,
   jsPlumbInstance,
-  typeDefinition,
-  cache
+  typeDefinition
 ) {
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -22,8 +21,7 @@ export default function(
             editor,
             annotationData,
             typeDefinition,
-            relation,
-            cache
+            relation
           )
         }
         resolve(relation)
