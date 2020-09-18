@@ -2,21 +2,19 @@ import LesserMap from '../LesserMap'
 
 export default function() {
   const caches = []
-  const factory = (getter) => create(caches, getter)
+  const factory = (getter) => {
+    const map = new LesserMap()
+
+    caches.push(map)
+
+    return (id) => getFromCache(map, getter, id)
+  }
 
   factory.clearAllCache = () => {
     caches.forEach((cache) => cache.clear())
   }
 
   return factory
-}
-
-function create(caches, getter) {
-  const map = new LesserMap()
-
-  caches.push(map)
-
-  return (id) => getFromCache(map, getter, id)
 }
 
 function getFromCache(cache, getter, id) {
