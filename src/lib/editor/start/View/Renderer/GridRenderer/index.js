@@ -26,7 +26,7 @@ export default class {
       gridElement.parentNode.removeChild(gridElement)
     }
 
-    this.domPositionCache.gridPositionCache.delete(spanId)
+    this.domPositionCache.removeGrid(spanId)
   }
 
   updateWidth(spanId) {

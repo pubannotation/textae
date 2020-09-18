@@ -73,6 +73,10 @@ export default class {
     this._gridPosition.set(id, val)
   }
 
+  removeGrid(id) {
+    this._gridPosition.delete(id)
+  }
+
   get connectCache() {
     return this._relation
   }
