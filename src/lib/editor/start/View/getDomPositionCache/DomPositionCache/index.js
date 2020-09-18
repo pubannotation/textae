@@ -1,6 +1,6 @@
 import LesserMap from './LesserMap'
 import getSpan from './getSpan'
-import getEntity from './getEntity'
+import getEntityDom from '../../../getEntityDom'
 
 export default class {
   constructor(editor, entityModel) {
@@ -45,10 +45,19 @@ export default class {
 
   getEntity(entityId) {
     if (!this._entityCache.has(entityId)) {
-      this._entityCache.set(
-        entityId,
-        getEntity(this._editor, this._entityModel, this._gridPosition, entityId)
-      )
+      const entity = getEntityDom(this._editor, entityId)
+
+      if (!entity) {
+        throw new Error(`entity is not rendered : ${entityId}`)
+      }
+
+      const spanId = this._entityModel.get(entityId).span
+      const gridPosition = this._gridPosition.get(spanId)
+
+      return {
+        top: gridPosition.top + entity.offsetTop,
+        center: gridPosition.left + entity.offsetLeft + entity.offsetWidth / 2
+      }
     }
 
     return this._entityCache.get(entityId)
