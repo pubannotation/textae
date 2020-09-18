@@ -45,7 +45,7 @@ export default class {
   }
 
   remove(entity) {
-    destroy(this._annotationData, this._gridRenderer, entity)
+    destroy(this._gridRenderer, entity)
   }
 
   updateEntityDom(typeName) {

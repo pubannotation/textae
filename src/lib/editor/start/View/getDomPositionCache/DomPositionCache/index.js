@@ -48,7 +48,7 @@ export default class {
   }
 
   isGridPrepared(entityId) {
-    const spanId = this._entityModel.get(entityId).span
+    const spanId = this._entityModel.get(entityId).span.id
     return this._gridCache.has(spanId)
   }
 
@@ -68,7 +68,7 @@ export default class {
         throw new Error(`entity is not rendered : ${entityId}`)
       }
 
-      const spanId = this._entityModel.get(entityId).span
+      const spanId = this._entityModel.get(entityId).span.id
       const gridPosition = this._gridCache.get(spanId)
 
       return {

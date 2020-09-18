@@ -69,6 +69,6 @@ export default class extends IdIssueContainer {
   }
 
   getAllOfSpan(span) {
-    return this.all.filter((entity) => span.id === entity.span)
+    return this.all.filter((entity) => span.id === entity.span.id)
   }
 }

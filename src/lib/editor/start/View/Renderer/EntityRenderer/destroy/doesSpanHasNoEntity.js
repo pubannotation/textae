@@ -1,3 +1,3 @@
-export default function(annotationData, spanId) {
-  return annotationData.span.get(spanId).entities.length === 0
+export default function(span) {
+  return span.entities.length === 0
 }

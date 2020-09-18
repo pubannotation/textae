@@ -47,7 +47,7 @@ export default class {
   }
 
   get span() {
-    return this._span.id
+    return this._span
   }
 
   set span(val) {

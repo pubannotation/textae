@@ -29,8 +29,7 @@ export default class extends CompositeCommand {
         return acc
       }, new Set())
       .values()) {
-      const fromSpan = annotationData.span.get(span)
-      if (areAllEntiesOfSpan(fromSpan, entities)) {
+      if (areAllEntiesOfSpan(span, entities)) {
         commands.push(
           new RemoveCommand(
             editor,

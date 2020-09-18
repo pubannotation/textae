@@ -39,7 +39,7 @@ export default function(
     })
     .on('textae.annotationData.entity.change', (entity) => {
       entityRenderer.change(entity)
-      gridRenderer.updateWidth(entity.span)
+      gridRenderer.updateWidth(entity.span.id)
     })
     .on('textae.annotationData.entity.remove', (entity) => {
       entityRenderer.remove(entity)

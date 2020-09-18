@@ -14,12 +14,10 @@ export default class extends AnnotationCommand {
   execute() {
     // Save move map to revert this command.
     this._moveMap = this._entities.reduce((map, entity) => {
-      const span = this._annotationData.span.get(entity.span)
-
-      if (map.has(span)) {
-        map.get(span).push(entity)
+      if (map.has(entity.span)) {
+        map.get(entity.span).push(entity)
       } else {
-        map.set(span, [entity])
+        map.set(entity.span, [entity])
       }
       return map
     }, new Map())

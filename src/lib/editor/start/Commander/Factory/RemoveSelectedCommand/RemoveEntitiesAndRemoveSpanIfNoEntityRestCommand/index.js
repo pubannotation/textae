@@ -9,7 +9,7 @@ export default class extends CompositeCommand {
   constructor(editor, annotationData, selectionModel) {
     super()
     const selectedEntities = selectionModel.entity.all
-    const spans = getSpans(selectedEntities, annotationData)
+    const spans = getSpans(selectedEntities)
 
     let commands = []
     for (const span of spans.values()) {
