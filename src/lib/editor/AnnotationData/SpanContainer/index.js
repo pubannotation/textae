@@ -17,13 +17,18 @@ export default class extends ModelContainer {
     this._typeSets = new Map()
   }
 
-  _toModel(entity) {
-    if (entity.style) {
-      return new StyleSpanModel(this._editor, entity.span, this, entity.style)
+  _toModel(denotation) {
+    if (denotation.style) {
+      return new StyleSpanModel(
+        this._editor,
+        denotation.span,
+        this,
+        denotation.style
+      )
     } else {
       return new ObjectSpanModel(
         this._editor,
-        entity.span,
+        denotation.span,
         this._entityContainer,
         this
       )
