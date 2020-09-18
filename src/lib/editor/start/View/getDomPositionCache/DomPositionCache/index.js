@@ -1,6 +1,7 @@
 import SpanAndEntityPosition from './SpanAndEntityPosition'
 import LesserMap from './LesserMap'
 import getSpan from './SpanAndEntityPosition/getSpan'
+import getEntity from './SpanAndEntityPosition/getEntity'
 
 export default class {
   constructor(editor, entityModel) {
@@ -17,6 +18,8 @@ export default class {
     // This cache is big effective for the initiation, and little effective for resize.
     this._spanCache = new LesserMap()
 
+    this._entityCache = new LesserMap()
+
     this._spanAndEntityPosition = new SpanAndEntityPosition(
       editor,
       entityModel,
@@ -31,7 +34,7 @@ export default class {
 
   reset() {
     this._spanCache.clear()
-    this._spanAndEntityPosition.reset()
+    this._entityCache.clear()
   }
 
   getSpan(spanId) {
@@ -47,7 +50,14 @@ export default class {
   }
 
   getEntity(entityId) {
-    return this._spanAndEntityPosition.getEntity(entityId)
+    if (!this._entityCache.has(entityId)) {
+      this._entityCache.set(
+        entityId,
+        getEntity(this._editor, this._entityModel, this._gridPosition, entityId)
+      )
+    }
+
+    return this._entityCache.get(entityId)
   }
 
   cacheAllSpan(spans) {
