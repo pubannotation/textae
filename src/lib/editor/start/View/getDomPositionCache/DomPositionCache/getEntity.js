@@ -1,4 +1,4 @@
-import getEntityDom from '../../../../getEntityDom'
+import getEntityDom from '../../../getEntityDom'
 
 export default function(editor, entityModel, gridPositionCache, entityId) {
   const entity = getEntityDom(editor, entityId)

@@ -1,7 +1,6 @@
-import SpanAndEntityPosition from './SpanAndEntityPosition'
 import LesserMap from './LesserMap'
-import getSpan from './SpanAndEntityPosition/getSpan'
-import getEntity from './SpanAndEntityPosition/getEntity'
+import getSpan from './getSpan'
+import getEntity from './getEntity'
 
 export default class {
   constructor(editor, entityModel) {
@@ -20,11 +19,6 @@ export default class {
 
     this._entityCache = new LesserMap()
 
-    this._spanAndEntityPosition = new SpanAndEntityPosition(
-      editor,
-      entityModel,
-      this._gridPosition
-    )
     this._relation = new LesserMap()
   }
 
@@ -62,7 +56,7 @@ export default class {
 
   cacheAllSpan(spans) {
     for (const span of spans) {
-      this._spanAndEntityPosition.getSpan(span.id)
+      this.getSpan(span.id)
     }
   }
 
