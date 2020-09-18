@@ -9,7 +9,7 @@ export default function(
   relationRenderer
 ) {
   getAnnotationBox(editor).empty()
-  domPositionCache.gridPositionCache.clear()
+  domPositionCache.removeAllGrid()
   renderAllSpan(annotationData, spanRenderer)
   renderAllRelation(annotationData, relationRenderer)
 }

@@ -77,6 +77,10 @@ export default class {
     this._gridPosition.delete(id)
   }
 
+  removeAllGrid() {
+    this._gridPosition.clear()
+  }
+
   get connectCache() {
     return this._relation
   }
