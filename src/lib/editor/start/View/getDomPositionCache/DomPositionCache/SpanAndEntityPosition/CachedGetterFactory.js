@@ -4,7 +4,13 @@ export default function() {
   const factory = (getter) => {
     const map = new LesserMap()
 
-    const func = (id) => getFromCache(map, getter, id)
+    const func = (id) => {
+      if (!map.has(id)) {
+        map.set(id, getter(id))
+      }
+
+      return map.get(id)
+    }
 
     func.clear = () => {
       map.clear()
@@ -14,12 +20,4 @@ export default function() {
   }
 
   return factory
-}
-
-function getFromCache(cache, getter, id) {
-  if (!cache.has(id)) {
-    cache.set(id, getter(id))
-  }
-
-  return cache.get(id)
 }
