@@ -10,7 +10,7 @@ export default class {
     // The chache for position of grids.
     // This is updated at arrange position of grids.
     // This is referenced at create or move relations.
-    this._gridPosition = new LesserMap()
+    this._gridCache = new LesserMap()
 
     // The cache for span positions.
     // Getting the postion of spans is too slow about 5-10 ms per a element in Chrome browser. For example offsetTop property.
@@ -35,7 +35,7 @@ export default class {
   }
 
   getGrid(id) {
-    return this._gridPosition.get(id)
+    return this._gridCache.get(id)
   }
 
   getEntity(entityId) {
@@ -47,7 +47,7 @@ export default class {
       }
 
       const spanId = this._entityModel.get(entityId).span
-      const gridPosition = this._gridPosition.get(spanId)
+      const gridPosition = this._gridCache.get(spanId)
 
       return {
         top: gridPosition.top + entity.offsetTop,
@@ -69,15 +69,15 @@ export default class {
   }
 
   setGrid(id, val) {
-    this._gridPosition.set(id, val)
+    this._gridCache.set(id, val)
   }
 
   removeGrid(id) {
-    this._gridPosition.delete(id)
+    this._gridCache.delete(id)
   }
 
   removeAllGrid() {
-    this._gridPosition.clear()
+    this._gridCache.clear()
   }
 
   get connectCache() {
@@ -90,6 +90,6 @@ export default class {
 
   isGridPrepared(entityId) {
     const spanId = this._entityModel.get(entityId).span
-    return this._gridPosition.get(spanId)
+    return this._gridCache.get(spanId)
   }
 }
