@@ -58,7 +58,7 @@ export default class extends ModelContainer {
     return super.add(
       new ObjectSpanModel(this._editor, newValue, this._entityContainer, this),
       () => {
-        updateSpanTree(this.all)
+        updateSpanTree(this.all, this)
       }
     )
   }
@@ -66,7 +66,7 @@ export default class extends ModelContainer {
   addSource(spans) {
     super.addSource(spans)
 
-    updateSpanTree(this.all)
+    updateSpanTree(this.all, this)
   }
 
   has(span) {
@@ -100,7 +100,11 @@ export default class extends ModelContainer {
   }
 
   get topLevel() {
-    return this.all.filter((span) => span.parent === null).sort(spanComparator)
+    return this.all.filter((span) => span.parent === this).sort(spanComparator)
+  }
+
+  get children() {
+    return this.topLevel
   }
 
   _merageStyle(span) {
@@ -110,7 +114,7 @@ export default class extends ModelContainer {
   remove(id) {
     const span = super.remove(id)
 
-    updateSpanTree(this.all)
+    updateSpanTree(this.all, this)
     return span
   }
 
@@ -124,7 +128,7 @@ export default class extends ModelContainer {
     const newOne = super.add(
       new ObjectSpanModel(this._editor, newSpan, this._entityContainer, this),
       (newOne) => {
-        updateSpanTree(this.all)
+        updateSpanTree(this.all, this)
         // Span.entities depends on the property of the entity.
         // Span DOM element is rendered by 'span.add' event.
         // We need to update the span ID of the entity before 'span.add' event.

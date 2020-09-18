@@ -1,7 +1,7 @@
 import getOffset from './getOffset'
 
 export default function(editor, span) {
-  if (span.parent) {
+  if (span.parent.id) {
     const { start, end } = getOffset(span, span.parent.begin)
 
     return {
