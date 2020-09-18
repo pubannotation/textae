@@ -9,8 +9,4 @@ export default class {
   get connectCache() {
     return this._newCache
   }
-
-  toConnect(relationId) {
-    return this._newCache.get(relationId)
-  }
 }

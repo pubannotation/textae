@@ -50,6 +50,6 @@ export default class {
   }
 
   toConnect(relationId) {
-    return this._relation.toConnect(relationId)
+    return this._relation.connectCache.get(relationId)
   }
 }
