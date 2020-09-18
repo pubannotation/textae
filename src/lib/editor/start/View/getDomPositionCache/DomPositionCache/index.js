@@ -80,8 +80,16 @@ export default class {
     this._gridCache.clear()
   }
 
-  get connectCache() {
-    return this._relation
+  setRelation(id, val) {
+    this._relation.set(id, val)
+  }
+
+  removeRelation(id) {
+    this._relation.delete(id)
+  }
+
+  removeAllRelation() {
+    this._relation.clear()
   }
 
   toConnect(relationId) {

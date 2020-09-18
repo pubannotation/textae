@@ -4,6 +4,6 @@ import getDomPositionCache from '../../../../getDomPositionCache'
 export default function(connect, editor, annotationData) {
   const relationId = connect.relationId
   const domPositionCache = getDomPositionCache(editor, annotationData.entity)
-  domPositionCache.connectCache.set(relationId, connect)
+  domPositionCache.setRelation(relationId, connect)
   return connect
 }
