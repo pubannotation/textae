@@ -2,40 +2,22 @@ import getSpan from './getSpan'
 import getEntity from './getEntity'
 import LesserMap from '../LesserMap'
 
-function factory(getter) {
-  const map = new LesserMap()
-
-  const func = (id) => {
-    if (!map.has(id)) {
-      map.set(id, getter(id))
-    }
-
-    return map.get(id)
-  }
-
-  func.clear = () => {
-    map.clear()
-  }
-
-  return func
-}
-
 export default class {
   constructor(editor, entityModel, gridPositionCache) {
     this._editor = editor
+    this._entityModel = entityModel
+    this._gridPositionCache = gridPositionCache
 
     // The cache for span positions.
     // Getting the postion of spans is too slow about 5-10 ms per a element in Chrome browser. For example offsetTop property.
     // This cache is big effective for the initiation, and little effective for resize.
     this._spanCache = new LesserMap()
-    this._cachedGetEntity = factory((entityId) =>
-      getEntity(editor, entityModel, gridPositionCache, entityId)
-    )
+    this._entityCache = new LesserMap()
   }
 
   reset() {
     this._spanCache.clear()
-    this._cachedGetEntity.clear()
+    this._entityCache.clear()
   }
 
   getSpan(spanId) {
@@ -47,6 +29,18 @@ export default class {
   }
 
   getEntity(entityId) {
-    return this._cachedGetEntity(entityId)
+    if (!this._entityCache.has(entityId)) {
+      this._entityCache.set(
+        entityId,
+        getEntity(
+          this._editor,
+          this._entityModel,
+          this._gridPositionCache,
+          entityId
+        )
+      )
+    }
+
+    return this._entityCache.get(entityId)
   }
 }
