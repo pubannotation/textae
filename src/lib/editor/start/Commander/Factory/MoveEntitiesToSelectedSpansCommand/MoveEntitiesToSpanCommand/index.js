@@ -3,21 +3,23 @@ import commandLog from '../../commandLog'
 import RevertMoveEntitiesCommand from './RevertMoveEntitiesCommand'
 
 export default class extends AnnotationCommand {
-  constructor(annotationData, spanId, entities) {
+  constructor(annotationData, span, entities) {
     super()
 
     this._annotationData = annotationData
-    this._spanId = spanId
+    this._span = span
     this._entities = entities
   }
 
   execute() {
     // Save move map to revert this command.
     this._moveMap = this._entities.reduce((map, entity) => {
-      if (map.has(entity.span)) {
-        map.get(entity.span).push(entity)
+      const span = this._annotationData.span.get(entity.span)
+
+      if (map.has(span)) {
+        map.get(span).push(entity)
       } else {
-        map.set(entity.span, [entity])
+        map.set(span, [entity])
       }
       return map
     }, new Map())
@@ -26,11 +28,11 @@ export default class extends AnnotationCommand {
       .map(([_, entities]) => {
         return `${entities.map((e) => e.id).join(', ')} from ${
           entities[0].span
-        } to ${this._spanId}`
+        } to ${this._span.id}`
       })
       .join(', ')}`
 
-    this._annotationData.entity.moveEntities(this._spanId, this._entities)
+    this._annotationData.entity.moveEntities(this._span.id, this._entities)
 
     commandLog(message)
   }

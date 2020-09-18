@@ -16,7 +16,7 @@ export default class extends CompositeCommand {
     const commands = [
       new MoveEntitiesToSpanCommand(
         annotationData,
-        selectionModel.span.singleId,
+        selectionModel.span.single,
         entities
       )
     ]
