@@ -13,14 +13,9 @@ export default class {
   constructor(editor) {
     this.sourceDoc = ''
     this.namespace = new ModelContainer(editor.eventEmitter, 'namespace')
-    this.attribute = new AttributeContainer(editor.eventEmitter, this)
     this.relation = new RelationContainer(editor.eventEmitter)
-    this.entity = new EntityContainer(
-      editor,
-      editor.eventEmitter,
-      this.attribute,
-      this.relation
-    )
+    this.entity = new EntityContainer(editor, editor.eventEmitter, this)
+    this.attribute = new AttributeContainer(editor.eventEmitter, this.entity)
     this.span = new SpanContainer(editor, editor.eventEmitter, this.entity)
     this._editor = editor
   }

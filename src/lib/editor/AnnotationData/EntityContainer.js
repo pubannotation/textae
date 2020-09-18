@@ -3,13 +3,22 @@ import idFactory from '../idFactory'
 import IdIssueContainer from './IdIssueContainer'
 
 export default class extends IdIssueContainer {
-  constructor(editor, emitter, attributeContainer, relationContaier) {
+  constructor(editor, emitter, parentContainer) {
     super(emitter, 'entity', 'T')
 
     this._editor = editor
 
-    this._attributeContainer = attributeContainer
-    this._relationContainer = relationContaier
+    // Since the attribute container and the entity container are cross-referenced,
+    // the entity container is retrieved dynamically.
+    this._parentContainer = parentContainer
+  }
+
+  get _attributeContainer() {
+    return this._parentContainer.attribute
+  }
+
+  get _relationContainer() {
+    return this._parentContainer.relation
   }
 
   _toModel(entity) {

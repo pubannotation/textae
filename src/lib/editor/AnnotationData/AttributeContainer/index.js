@@ -2,16 +2,10 @@ import AttributeModel from './AttributeModel'
 import IdIssueContainer from '../IdIssueContainer'
 
 export default class extends IdIssueContainer {
-  constructor(emitter, parentContainer) {
+  constructor(emitter, entityContainer) {
     super(emitter, 'attribute', 'A')
 
-    // Since the attribute container and the entity container are cross-referenced,
-    // the entity container is retrieved dynamically.
-    this._parentContainer = parentContainer
-  }
-
-  get _entityContainer() {
-    return this._parentContainer.entity
+    this._entityContainer = entityContainer
   }
 
   _toModel(attribute) {
