@@ -34,13 +34,13 @@ export default class extends IdIssueContainer {
     )
   }
 
-  add(entity) {
-    if (!entity.span)
-      throw new Error(`entity has no span! ${JSON.stringify(entity)}`)
+  add(newValue) {
+    if (!newValue.span)
+      throw new Error(`entity has no span! ${JSON.stringify(newValue)}`)
 
     // When redoing, the entity is instance of the EntityModel already.
-    if (entity instanceof EntityModel) {
-      return super.add(entity)
+    if (newValue instanceof EntityModel) {
+      return super.add(newValue)
     }
 
     return super.add(
@@ -49,8 +49,8 @@ export default class extends IdIssueContainer {
         this._attributeContainer,
         this._relationContainer,
         this.definedTypes,
-        entity.span,
-        entity.typeName
+        newValue.span,
+        newValue.typeName
       )
     )
   }

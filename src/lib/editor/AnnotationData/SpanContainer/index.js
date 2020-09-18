@@ -52,11 +52,11 @@ export default class extends ModelContainer {
   }
 
   // expected span is like { "begin": 19, "end": 49 }
-  add(span) {
-    console.assert(span, 'span is necessary.')
+  add(newValue) {
+    console.assert(newValue, 'span is necessary.')
 
     return super.add(
-      new ObjectSpanModel(this._editor, span, this._entityContainer, this),
+      new ObjectSpanModel(this._editor, newValue, this._entityContainer, this),
       () => {
         updateSpanTree(this.all)
       }

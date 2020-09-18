@@ -10,12 +10,12 @@ export default class extends IdIssueContainer {
     return new RelationModel(relation)
   }
 
-  add(relation) {
+  add(newValue) {
     // When redoing, the relation is instance of the RelationModel already.
-    if (relation instanceof RelationModel) {
-      return super.add(relation)
+    if (newValue instanceof RelationModel) {
+      return super.add(newValue)
     }
 
-    return super.add(this._toModel(relation))
+    return super.add(this._toModel(newValue))
   }
 }

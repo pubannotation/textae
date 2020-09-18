@@ -12,8 +12,8 @@ export default class extends IdIssueContainer {
     return new AttributeModel(attribute, this._entityContainer)
   }
 
-  add(attribute) {
-    return super.add(this._toModel(attribute))
+  add(newValue) {
+    return super.add(this._toModel(newValue))
   }
 
   change(id, newPred, newObj) {
