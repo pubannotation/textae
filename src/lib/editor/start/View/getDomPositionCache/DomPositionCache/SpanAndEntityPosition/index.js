@@ -16,7 +16,8 @@ export default class {
   }
 
   reset() {
-    factory.clearAllCache()
+    this._cachedGetSpan.clear()
+    this._cachedGetEntity.clear()
   }
 
   getSpan(spanId) {
