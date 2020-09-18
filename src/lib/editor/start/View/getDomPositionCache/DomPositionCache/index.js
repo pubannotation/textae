@@ -1,4 +1,3 @@
-import LesserMap from './LesserMap'
 import getSpan from './getSpan'
 import getEntityDom from '../../../getEntityDom'
 
@@ -10,16 +9,16 @@ export default class {
     // The cache for span positions.
     // Getting the postion of spans is too slow about 5-10 ms per a element in Chrome browser. For example offsetTop property.
     // This cache is big effective for the initiation, and little effective for resize.
-    this._spanCache = new LesserMap()
+    this._spanCache = new Map()
 
     // The chache for position of grids.
     // This is updated at arrange position of grids.
     // This is referenced at create or move relations.
-    this._gridCache = new LesserMap()
+    this._gridCache = new Map()
 
-    this._entityCache = new LesserMap()
+    this._entityCache = new Map()
 
-    this._connectCache = new LesserMap()
+    this._connectCache = new Map()
   }
 
   cacheAllSpan(spans) {
