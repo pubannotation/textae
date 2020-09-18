@@ -1,7 +1,7 @@
 import GridPosition from './GridPosition'
 import SpanAndEntityPosition from './SpanAndEntityPosition'
-import RelationApi from './RelationApi'
 import GridApi from './GridApi'
+import LesserMap from './LesserMap'
 
 export default class {
   constructor(editor, entityModel) {
@@ -12,7 +12,7 @@ export default class {
       this._gridPosition
     )
     this._grid = new GridApi(this._gridPosition)
-    this._relation = new RelationApi()
+    this._relation = new LesserMap()
   }
 
   get gridPositionCache() {
@@ -46,10 +46,10 @@ export default class {
   }
 
   get connectCache() {
-    return this._relation.connectCache
+    return this._relation
   }
 
   toConnect(relationId) {
-    return this._relation.connectCache.get(relationId)
+    return this._relation.get(relationId)
   }
 }
