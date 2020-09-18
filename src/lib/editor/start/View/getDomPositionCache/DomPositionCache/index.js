@@ -4,7 +4,9 @@ import LesserMap from './LesserMap'
 
 export default class {
   constructor(editor, entityModel) {
-    this._gridPosition = new GridPosition(entityModel)
+    this._entityModel = entityModel
+
+    this._gridPosition = new GridPosition()
     this._spanAndEntityPosition = new SpanAndEntityPosition(
       editor,
       entityModel,
@@ -49,5 +51,10 @@ export default class {
 
   toConnect(relationId) {
     return this._relation.get(relationId)
+  }
+
+  isGridPrepared(entityId) {
+    const spanId = this._entityModel.get(entityId).span
+    return this._gridPosition.get(spanId)
   }
 }
