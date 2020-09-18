@@ -21,16 +21,16 @@ export default class extends IdIssueContainer {
     return this._parentContainer.relation
   }
 
-  _toModel(entity) {
+  _toModel(denotation) {
     // Expected an entity like {id: "E21", span: "editor2__S50_54", obj: "Protein"}.
     return new EntityModel(
       this._editor,
       this._attributeContainer,
       this._relationContainer,
       this.definedTypes,
-      idFactory.makeSpanDomId(this._editor, entity.span),
-      entity.obj,
-      entity.id
+      idFactory.makeSpanDomId(this._editor, denotation.span),
+      denotation.obj,
+      denotation.id
     )
   }
 
