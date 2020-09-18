@@ -4,7 +4,10 @@ export default function() {
   const caches = []
   const factory = (getter) => create(caches, getter)
 
-  factory.clearAllCache = () => clearAll(caches)
+  factory.clearAllCache = () => {
+    caches.forEach((cache) => cache.clear())
+  }
+
   return factory
 }
 
@@ -22,8 +25,4 @@ function getFromCache(cache, getter, id) {
   }
 
   return cache.get(id)
-}
-
-function clearAll(caches) {
-  caches.forEach((cache) => cache.clear())
 }
