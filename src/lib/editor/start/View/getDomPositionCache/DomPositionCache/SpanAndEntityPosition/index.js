@@ -22,22 +22,28 @@ function factory(getter) {
 
 export default class {
   constructor(editor, entityModel, gridPositionCache) {
+    this._editor = editor
+
     // The cache for span positions.
     // Getting the postion of spans is too slow about 5-10 ms per a element in Chrome browser. For example offsetTop property.
     // This cache is big effective for the initiation, and little effective for resize.
-    this._cachedGetSpan = factory((spanId) => getSpan(editor, spanId))
+    this._spanCache = new LesserMap()
     this._cachedGetEntity = factory((entityId) =>
       getEntity(editor, entityModel, gridPositionCache, entityId)
     )
   }
 
   reset() {
-    this._cachedGetSpan.clear()
+    this._spanCache.clear()
     this._cachedGetEntity.clear()
   }
 
   getSpan(spanId) {
-    return this._cachedGetSpan(spanId)
+    if (!this._spanCache.has(spanId)) {
+      this._spanCache.set(spanId, getSpan(this._editor, spanId))
+    }
+
+    return this._spanCache.get(spanId)
   }
 
   getEntity(entityId) {
