@@ -1,4 +1,3 @@
-import GridPosition from './GridPosition'
 import SpanAndEntityPosition from './SpanAndEntityPosition'
 import LesserMap from './LesserMap'
 
@@ -6,7 +5,10 @@ export default class {
   constructor(editor, entityModel) {
     this._entityModel = entityModel
 
-    this._gridPosition = new GridPosition()
+    // The chache for position of grids.
+    // This is updated at arrange position of grids.
+    // This is referenced at create or move relations.
+    this._gridPosition = new LesserMap()
     this._spanAndEntityPosition = new SpanAndEntityPosition(
       editor,
       entityModel,
