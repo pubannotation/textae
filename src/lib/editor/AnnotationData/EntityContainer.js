@@ -13,6 +13,10 @@ export default class extends IdIssueContainer {
     this._parentContainer = parentContainer
   }
 
+  get _spanContainer() {
+    return this._parentContainer.span
+  }
+
   get _attributeContainer() {
     return this._parentContainer.attribute
   }
@@ -28,7 +32,9 @@ export default class extends IdIssueContainer {
       this._attributeContainer,
       this._relationContainer,
       this.definedTypes,
-      idFactory.makeSpanDomId(this._editor, denotation.span),
+      this._spanContainer.get(
+        idFactory.makeSpanDomId(this._editor, denotation.span)
+      ),
       denotation.obj,
       denotation.id
     )
@@ -49,15 +55,15 @@ export default class extends IdIssueContainer {
         this._attributeContainer,
         this._relationContainer,
         this.definedTypes,
-        newValue.span,
+        this._spanContainer.get(newValue.span),
         newValue.typeName
       )
     )
   }
 
-  moveEntities(spanId, entities) {
+  moveEntities(span, entities) {
     for (const entity of entities) {
-      entity.span = spanId
+      entity.span = span
     }
     this._emit(`textae.annotationData.entity.move`, entities)
   }

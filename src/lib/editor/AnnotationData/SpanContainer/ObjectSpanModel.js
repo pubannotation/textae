@@ -12,7 +12,7 @@ export default class extends SpanModel {
 
   passesAllEntitiesTo(newSpan) {
     for (const entity of this.entities) {
-      entity.span = newSpan.id
+      entity.span = newSpan
     }
   }
 

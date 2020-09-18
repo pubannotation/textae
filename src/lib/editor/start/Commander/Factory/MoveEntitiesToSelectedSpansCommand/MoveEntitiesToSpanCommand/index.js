@@ -32,7 +32,7 @@ export default class extends AnnotationCommand {
       })
       .join(', ')}`
 
-    this._annotationData.entity.moveEntities(this._span.id, this._entities)
+    this._annotationData.entity.moveEntities(this._span, this._entities)
 
     commandLog(message)
   }
