@@ -7,7 +7,7 @@ export default class extends SpanModel {
   }
 
   get entities() {
-    return this._entityContainer.getAllOfSpan(this.id)
+    return this._entityContainer.getAllOfSpan(this)
   }
 
   passesAllEntitiesTo(newSpan) {

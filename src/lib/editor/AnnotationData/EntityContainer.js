@@ -62,7 +62,7 @@ export default class extends IdIssueContainer {
     this._emit(`textae.annotationData.entity.move`, entities)
   }
 
-  getAllOfSpan(spanId) {
-    return this.all.filter((entity) => spanId === entity.span)
+  getAllOfSpan(span) {
+    return this.all.filter((entity) => span.id === entity.span)
   }
 }
