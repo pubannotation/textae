@@ -7,19 +7,25 @@ export default class {
     this._editor = editor
     this._entityModel = entityModel
 
-    // The chache for position of grids.
-    // This is updated at arrange position of grids.
-    // This is referenced at create or move relations.
-    this._gridCache = new LesserMap()
-
     // The cache for span positions.
     // Getting the postion of spans is too slow about 5-10 ms per a element in Chrome browser. For example offsetTop property.
     // This cache is big effective for the initiation, and little effective for resize.
     this._spanCache = new LesserMap()
 
+    // The chache for position of grids.
+    // This is updated at arrange position of grids.
+    // This is referenced at create or move relations.
+    this._gridCache = new LesserMap()
+
     this._entityCache = new LesserMap()
 
     this._connectCache = new LesserMap()
+  }
+
+  cacheAllSpan(spans) {
+    for (const span of spans) {
+      this.getSpan(span.id)
+    }
   }
 
   getSpan(spanId) {
@@ -34,8 +40,25 @@ export default class {
     this._spanCache.clear()
   }
 
+  setGrid(id, val) {
+    this._gridCache.set(id, val)
+  }
+
   getGrid(id) {
     return this._gridCache.get(id)
+  }
+
+  isGridPrepared(entityId) {
+    const spanId = this._entityModel.get(entityId).span
+    return this._gridCache.has(spanId)
+  }
+
+  removeGrid(id) {
+    this._gridCache.delete(id)
+  }
+
+  removeAllGrid() {
+    this._gridCache.clear()
   }
 
   getEntity(entityId) {
@@ -62,26 +85,12 @@ export default class {
     this._entityCache.clear()
   }
 
-  cacheAllSpan(spans) {
-    for (const span of spans) {
-      this.getSpan(span.id)
-    }
-  }
-
-  setGrid(id, val) {
-    this._gridCache.set(id, val)
-  }
-
-  removeGrid(id) {
-    this._gridCache.delete(id)
-  }
-
-  removeAllGrid() {
-    this._gridCache.clear()
-  }
-
   setConnect(id, val) {
     this._connectCache.set(id, val)
+  }
+
+  getConnect(relationId) {
+    return this._connectCache.get(relationId)
   }
 
   removeConnect(id) {
@@ -90,14 +99,5 @@ export default class {
 
   removeAllConnect() {
     this._connectCache.clear()
-  }
-
-  getConnect(relationId) {
-    return this._connectCache.get(relationId)
-  }
-
-  isGridPrepared(entityId) {
-    const spanId = this._entityModel.get(entityId).span
-    return this._gridCache.has(spanId)
   }
 }
