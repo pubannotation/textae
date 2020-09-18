@@ -1,14 +1,22 @@
 import SpanAndEntityPosition from './SpanAndEntityPosition'
 import LesserMap from './LesserMap'
+import getSpan from './SpanAndEntityPosition/getSpan'
 
 export default class {
   constructor(editor, entityModel) {
+    this._editor = editor
     this._entityModel = entityModel
 
     // The chache for position of grids.
     // This is updated at arrange position of grids.
     // This is referenced at create or move relations.
     this._gridPosition = new LesserMap()
+
+    // The cache for span positions.
+    // Getting the postion of spans is too slow about 5-10 ms per a element in Chrome browser. For example offsetTop property.
+    // This cache is big effective for the initiation, and little effective for resize.
+    this._spanCache = new LesserMap()
+
     this._spanAndEntityPosition = new SpanAndEntityPosition(
       editor,
       entityModel,
@@ -22,11 +30,16 @@ export default class {
   }
 
   reset() {
+    this._spanCache.clear()
     this._spanAndEntityPosition.reset()
   }
 
   getSpan(spanId) {
-    return this._spanAndEntityPosition.getSpan(spanId)
+    if (!this._spanCache.has(spanId)) {
+      this._spanCache.set(spanId, getSpan(this._editor, spanId))
+    }
+
+    return this._spanCache.get(spanId)
   }
 
   getGrid(id) {
