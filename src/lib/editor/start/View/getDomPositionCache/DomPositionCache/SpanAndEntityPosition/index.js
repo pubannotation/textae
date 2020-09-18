@@ -1,8 +1,24 @@
-import CachedGetterFactory from './CachedGetterFactory'
 import getSpan from './getSpan'
 import getEntity from './getEntity'
+import LesserMap from '../LesserMap'
 
-const factory = new CachedGetterFactory()
+function factory(getter) {
+  const map = new LesserMap()
+
+  const func = (id) => {
+    if (!map.has(id)) {
+      map.set(id, getter(id))
+    }
+
+    return map.get(id)
+  }
+
+  func.clear = () => {
+    map.clear()
+  }
+
+  return func
+}
 
 export default class {
   constructor(editor, entityModel, gridPositionCache) {
