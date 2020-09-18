@@ -22,21 +22,16 @@ export default class {
     this._relation = new LesserMap()
   }
 
-  get gridPositionCache() {
-    return this._gridPosition
-  }
-
-  reset() {
-    this._spanCache.clear()
-    this._entityCache.clear()
-  }
-
   getSpan(spanId) {
     if (!this._spanCache.has(spanId)) {
       this._spanCache.set(spanId, getSpan(this._editor, spanId))
     }
 
     return this._spanCache.get(spanId)
+  }
+
+  removeAllSpan() {
+    this._spanCache.clear()
   }
 
   getGrid(id) {
@@ -61,6 +56,10 @@ export default class {
     }
 
     return this._entityCache.get(entityId)
+  }
+
+  removeAllEntity() {
+    this._entityCache.clear()
   }
 
   cacheAllSpan(spans) {

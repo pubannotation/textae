@@ -12,7 +12,8 @@ export default class {
   }
 
   arrangePosition() {
-    this._domPositionCache.reset()
+    this._domPositionCache.removeAllSpan()
+    this._domPositionCache.removeAllEntity()
 
     // Cache all span position because alternating between getting offset and setting offset.
     this._domPositionCache.cacheAllSpan(
@@ -30,7 +31,8 @@ export default class {
   }
 
   arrangePositionAsync() {
-    this._domPositionCache.reset()
+    this._domPositionCache.removeAllSpan()
+    this._domPositionCache.removeAllEntity()
 
     return Promise.all(
       genArrangeAllGridPositionPromises(
