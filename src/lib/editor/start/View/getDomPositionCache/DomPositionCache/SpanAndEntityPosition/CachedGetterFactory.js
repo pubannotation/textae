@@ -11,12 +11,9 @@ export default function() {
 function create(caches, getter) {
   const map = new LesserMap()
 
-  add(caches, map)
-  return (id) => getFromCache(map, getter, id)
-}
+  caches.push(map)
 
-function add(caches, cache) {
-  caches.push(cache)
+  return (id) => getFromCache(map, getter, id)
 }
 
 function getFromCache(cache, getter, id) {
