@@ -1,6 +1,5 @@
 import GridPosition from './GridPosition'
 import SpanAndEntityPosition from './SpanAndEntityPosition'
-import GridApi from './GridApi'
 import LesserMap from './LesserMap'
 
 export default class {
@@ -11,7 +10,6 @@ export default class {
       entityModel,
       this._gridPosition
     )
-    this._grid = new GridApi(this._gridPosition)
     this._relation = new LesserMap()
   }
 
@@ -28,7 +26,7 @@ export default class {
   }
 
   getGrid(id) {
-    return this._grid.getGrid(id)
+    return this._gridPosition.get(id)
   }
 
   getEntity(entityId) {
@@ -42,7 +40,7 @@ export default class {
   }
 
   setGrid(id, val) {
-    this._grid.setGrid(id, val)
+    this._gridPosition.set(id, val)
   }
 
   get connectCache() {
