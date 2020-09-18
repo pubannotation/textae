@@ -19,7 +19,7 @@ export default class {
 
     this._entityCache = new LesserMap()
 
-    this._relation = new LesserMap()
+    this._connectCache = new LesserMap()
   }
 
   getSpan(spanId) {
@@ -80,20 +80,20 @@ export default class {
     this._gridCache.clear()
   }
 
-  setRelation(id, val) {
-    this._relation.set(id, val)
+  setConnect(id, val) {
+    this._connectCache.set(id, val)
   }
 
-  removeRelation(id) {
-    this._relation.delete(id)
+  removeConnect(id) {
+    this._connectCache.delete(id)
   }
 
-  removeAllRelation() {
-    this._relation.clear()
+  removeAllConnect() {
+    this._connectCache.clear()
   }
 
-  toConnect(relationId) {
-    return this._relation.get(relationId)
+  getConnect(relationId) {
+    return this._connectCache.get(relationId)
   }
 
   isGridPrepared(entityId) {

@@ -22,7 +22,7 @@ export default class {
     return this._entityContainer
       .get(entityId)
       .relations.map((relationId) =>
-        getDomPositionCache(this._editor, this._entityContainer).toConnect(
+        getDomPositionCache(this._editor, this._entityContainer).getConnect(
           relationId
         )
       )

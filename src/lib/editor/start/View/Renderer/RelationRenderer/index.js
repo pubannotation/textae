@@ -29,7 +29,7 @@ export default class {
 
   reset() {
     this._jsPlumbInstance.reset()
-    this._domPositionCache.removeAllRelation()
+    this._domPositionCache.removeAllConnect()
   }
 
   render(relation) {

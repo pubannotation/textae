@@ -9,7 +9,7 @@ export default function(
 ) {
   const connect = new Connect(editor, annotationData, relation.id)
   jsPlumbInstance.detach(connect)
-  domPositionCache.removeRelation(relation.id)
+  domPositionCache.removeConnect(relation.id)
   // Set the flag dead already to delay selection.
   connect.dead = true
   // Set a flag to extract relations from target to move relations asynchronously.
