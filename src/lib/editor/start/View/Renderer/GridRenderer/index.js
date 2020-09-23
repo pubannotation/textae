@@ -1,6 +1,5 @@
 import getAnnotationBox from '../getAnnotationBox'
 import createGrid from './createGrid'
-import adaptWidthToSpan from './adaptWidthToSpan'
 
 export default class {
   constructor(editor, domPositionCache) {
@@ -26,9 +25,5 @@ export default class {
     }
 
     this._domPositionCache.removeGrid(span.id)
-  }
-
-  updateWidth(span) {
-    adaptWidthToSpan(span.gridElement, this._domPositionCache, span.id)
   }
 }
