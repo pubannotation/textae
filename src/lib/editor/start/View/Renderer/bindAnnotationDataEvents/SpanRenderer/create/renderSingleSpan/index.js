@@ -1,8 +1,8 @@
 import createSpanElement from './createSpanElement'
-import cerateRangeToSpan from './cerateRangeToSpan'
+import createRangeToSpan from './createRangeToSpan'
 
 export default function(editor, span) {
-  const targetRange = cerateRangeToSpan(editor, span)
+  const targetRange = createRangeToSpan(editor, span)
   const spanElement = createSpanElement(span)
 
   targetRange.surroundContents(spanElement)
