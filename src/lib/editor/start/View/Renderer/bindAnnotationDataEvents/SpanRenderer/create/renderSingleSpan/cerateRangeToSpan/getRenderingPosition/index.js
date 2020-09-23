@@ -12,6 +12,6 @@ export default function(editor, span) {
     // There is no big brother if the span is first in the text.
     // The target text arrounded by span is the first child of parent
     // unless bigBrotherSpan exists.
-    return getRenderingPositionFromParent(editor, span)
+    return getRenderingPositionFromParent(span)
   }
 }
