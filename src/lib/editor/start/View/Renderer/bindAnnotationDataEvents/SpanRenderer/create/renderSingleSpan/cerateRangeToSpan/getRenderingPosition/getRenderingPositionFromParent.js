@@ -5,7 +5,7 @@ export default function(editor, span) {
     const { start, end } = getOffset(span, span.parent.begin)
 
     return {
-      textNode: document.querySelector(`#${span.parent.id}`).firstChild,
+      textNode: span.parent.element.firstChild,
       start,
       end
     }

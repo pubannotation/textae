@@ -1,6 +1,5 @@
 export default function(selectionModel, selectionWrapper) {
-  const selectedSpan = document.querySelector(
-    `#${selectionModel.span.singleId}`
-  )
+  const selectedSpan =
+    selectionModel.span.single && selectionModel.span.single.element
   return selectionWrapper.isAnchorNodeIn(selectedSpan)
 }

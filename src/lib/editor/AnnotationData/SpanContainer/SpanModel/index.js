@@ -66,6 +66,10 @@ export default class {
     }
   }
 
+  get element() {
+    return document.querySelector(`#${this.id}`)
+  }
+
   get gridElement() {
     return document.querySelector(`#G${this.id}`)
   }

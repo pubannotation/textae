@@ -5,7 +5,7 @@ import destroy from '../destroy'
 // Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
 export default function create(editor, span, renderEntityFunc) {
   span.traverse((span) => {
-    if (document.querySelector(`#${span.id}`) !== null) {
+    if (span.element !== null) {
       destroy(span)
     }
   })

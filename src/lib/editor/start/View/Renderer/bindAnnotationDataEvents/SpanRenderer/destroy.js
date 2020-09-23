@@ -1,5 +1,5 @@
 export default function(span) {
-  const spanElement = document.querySelector(`#${span.id}`)
+  const spanElement = span.element
 
   const parent = spanElement.parentNode
 

@@ -2,7 +2,7 @@ import getOffset from './getOffset'
 
 export default function(span, bigBrotherSpan) {
   let { start, end } = getOffset(span, bigBrotherSpan.end)
-  let textNode = document.querySelector(`#${bigBrotherSpan.id}`).nextSibling
+  let textNode = bigBrotherSpan.element.nextSibling
 
   // Google chrome and Safari have a 65536 character limit on the text node.
   //  A string may consist of two or more text nodes.
