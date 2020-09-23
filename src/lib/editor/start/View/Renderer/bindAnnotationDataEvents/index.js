@@ -32,14 +32,14 @@ export default function(
     })
     .on('textae.annotationData.span.remove', (span) => {
       spanRenderer.remove(span)
-      gridRenderer.remove(span.id)
+      gridRenderer.remove(span)
     })
     .on('textae.annotationData.entity.add', (entity) => {
       entityRenderer.render(entity)
     })
     .on('textae.annotationData.entity.change', (entity) => {
       entityRenderer.change(entity)
-      gridRenderer.updateWidth(entity.span.id)
+      gridRenderer.updateWidth(entity.span)
     })
     .on('textae.annotationData.entity.remove', (entity) => {
       entityRenderer.remove(entity)

@@ -10,27 +10,27 @@ export default class {
     this.container = getAnnotationBox(editor)
   }
 
-  render(spanId) {
+  render(span) {
     return createGrid(
       this.editor[0],
       this.domPositionCache,
       this.container[0],
-      spanId
+      span.id
     )
   }
 
-  remove(spanId) {
-    const gridElement = getGridElement(spanId)
+  remove(span) {
+    const gridElement = getGridElement(span.id)
 
     if (gridElement) {
       gridElement.parentNode.removeChild(gridElement)
     }
 
-    this.domPositionCache.removeGrid(spanId)
+    this.domPositionCache.removeGrid(span.id)
   }
 
-  updateWidth(spanId) {
-    const gridElement = getGridElement(spanId)
-    adaptWidthToSpan(gridElement, this.domPositionCache, spanId)
+  updateWidth(span) {
+    const gridElement = getGridElement(span.id)
+    adaptWidthToSpan(gridElement, this.domPositionCache, span.id)
   }
 }
