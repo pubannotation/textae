@@ -1,5 +1,4 @@
 import doesSpanHasNoEntity from './doesSpanHasNoEntity'
-import getEntityDom from '../../getEntityDom'
 
 export default function(gridRenderer, entity) {
   if (doesSpanHasNoEntity(entity.span)) {
@@ -7,6 +6,6 @@ export default function(gridRenderer, entity) {
     gridRenderer.remove(entity.span)
   } else {
     // Destroy whole of type DOM.
-    getEntityDom(entity).remove()
+    entity.element.remove()
   }
 }

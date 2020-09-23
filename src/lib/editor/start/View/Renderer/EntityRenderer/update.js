@@ -1,5 +1,4 @@
 import dohtml from 'dohtml'
-import getEntityDom from '../getEntityDom'
 import createEntityHtml from './createEntityHtml'
 import EntityDomSelector from '../../EntityDomSelector'
 
@@ -10,12 +9,12 @@ export default function(
   typeContainer,
   entity
 ) {
-  const entityDom = getEntityDom(entity)
+  const entityElement = entity.element
 
   const html = createEntityHtml(entity, namespace, typeContainer)
   const element = dohtml.create(html)
 
-  entityDom.innerHTML = element.innerHTML
+  entityElement.innerHTML = element.innerHTML
 
   // Re-select a new entity instance.
   if (selectionModel.entity.has(entity.id)) {

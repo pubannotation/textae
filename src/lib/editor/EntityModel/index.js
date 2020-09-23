@@ -122,4 +122,8 @@ export default class {
   _hasSpecificPredicateAttribute(pred) {
     return this.attributes.some((a) => a.pred === pred)
   }
+
+  get element() {
+    return document.querySelector(`#${this.entityDomId}`)
+  }
 }
