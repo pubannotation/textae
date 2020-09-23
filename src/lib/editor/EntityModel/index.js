@@ -63,7 +63,7 @@ export default class {
     this._typeName = String(val)
   }
 
-  get entityDomId() {
+  get _entityDomId() {
     return idFactory.makeEntityDomId(this._editor, this.id)
   }
 
@@ -93,7 +93,7 @@ export default class {
   toDomInfo(namespace, typeContainer) {
     return Object.assign(
       {
-        id: this.entityDomId,
+        id: this._entityDomId,
         entityId: idFactory.makeEntityDomId(this._editor, this.id),
         entityTitle: this.id
       },
@@ -124,6 +124,6 @@ export default class {
   }
 
   get element() {
-    return document.querySelector(`#${this.entityDomId}`)
+    return document.querySelector(`#${this._entityDomId}`)
   }
 }
