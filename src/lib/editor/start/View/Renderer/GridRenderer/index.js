@@ -5,16 +5,16 @@ import getGridElement from './getGridElement'
 
 export default class {
   constructor(editor, domPositionCache) {
-    this.editor = editor
-    this.domPositionCache = domPositionCache
-    this.container = getAnnotationBox(editor)
+    this._editor = editor
+    this._domPositionCache = domPositionCache
+    this._container = getAnnotationBox(editor)
   }
 
   render(span) {
     return createGrid(
-      this.editor[0],
-      this.domPositionCache,
-      this.container[0],
+      this._editor[0],
+      this._domPositionCache,
+      this._container[0],
       span.id
     )
   }
@@ -26,11 +26,11 @@ export default class {
       gridElement.parentNode.removeChild(gridElement)
     }
 
-    this.domPositionCache.removeGrid(span.id)
+    this._domPositionCache.removeGrid(span.id)
   }
 
   updateWidth(span) {
     const gridElement = getGridElement(span.id)
-    adaptWidthToSpan(gridElement, this.domPositionCache, span.id)
+    adaptWidthToSpan(gridElement, this._domPositionCache, span.id)
   }
 }
