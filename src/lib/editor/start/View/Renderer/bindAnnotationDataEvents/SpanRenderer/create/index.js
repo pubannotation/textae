@@ -6,7 +6,7 @@ import destroy from '../destroy'
 export default function create(editor, span, renderEntityFunc) {
   span.traverse((span) => {
     if (document.querySelector(`#${span.id}`) !== null) {
-      destroy(span.id)
+      destroy(span)
     }
   })
 

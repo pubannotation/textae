@@ -17,7 +17,7 @@ export default class {
       spanElement.removeAttribute('tabindex')
       spanElement.classList.remove('textae-editor__span')
     } else {
-      destroy(span.id)
+      destroy(span)
     }
   }
 }

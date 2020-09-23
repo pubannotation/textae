@@ -1,5 +1,6 @@
-export default function(spanId) {
-  const spanElement = document.querySelector(`#${spanId}`)
+export default function(span) {
+  const spanElement = document.querySelector(`#${span.id}`)
+
   const parent = spanElement.parentNode
 
   // Move the textNode wrapped this span in front of this span.
