@@ -19,8 +19,18 @@ export default function(
       withCredentials: true
     }
   }
+
+  const retryHandler = () => {
+    $.ajax(opt)
+      .done(successHandler)
+      .fail((ajaxResponse) => serverAuthHandler(ajaxResponse, failHandler))
+      .always(finishHandler)
+  }
+
   $.ajax(opt)
     .done(successHandler)
-    .fail((ajaxResponse) => serverAuthHandler(ajaxResponse, failHandler))
+    .fail((ajaxResponse) =>
+      serverAuthHandler(ajaxResponse, failHandler, retryHandler)
+    )
     .always(finishHandler)
 }
