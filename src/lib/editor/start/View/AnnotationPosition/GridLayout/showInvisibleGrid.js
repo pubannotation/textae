@@ -1,7 +1,5 @@
-import getGridOfSpan from './getGridOfSpan'
-
 export default function showInvisibleGrid(span) {
-  const grid = getGridOfSpan(span)
+  const grid = span.gridElement
 
   if (filterVisibleGrid(grid)) {
     showGrid(grid)

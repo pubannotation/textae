@@ -1,7 +1,5 @@
-import getGridOfSpan from '../getGridOfSpan'
-
 export default function(span, newPosition) {
-  const grid = getGridOfSpan(span)
+  const grid = span.gridElement
 
   if (grid) {
     grid.style.top = `${newPosition.top}px`

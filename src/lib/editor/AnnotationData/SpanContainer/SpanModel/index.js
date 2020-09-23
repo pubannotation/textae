@@ -65,4 +65,8 @@ export default class {
       postOrderFunction(this)
     }
   }
+
+  get gridElement() {
+    return document.querySelector(`#G${this.id}`)
+  }
 }
