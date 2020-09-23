@@ -1,5 +1,5 @@
 // Create a grid unless it exists.
-export default function(gridRenderer, spanId) {
-  const grid = document.querySelector(`#G${spanId}`)
-  return grid || gridRenderer.render(spanId)
+export default function(gridRenderer, span) {
+  const grid = document.querySelector(`#G${span.id}`)
+  return grid || gridRenderer.render(span.id)
 }
