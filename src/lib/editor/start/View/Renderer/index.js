@@ -50,7 +50,7 @@ export default class {
   }
 
   arrangeRelationPositionAllAsync() {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       this._relationRenderer.arrangePositionAll()
       resolve()
     })
