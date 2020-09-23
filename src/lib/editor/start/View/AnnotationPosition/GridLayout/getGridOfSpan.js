@@ -1,3 +1,3 @@
-export default function(spanId) {
-  return document.querySelector(`#G${spanId}`)
+export default function(span) {
+  return document.querySelector(`#G${span.id}`)
 }
