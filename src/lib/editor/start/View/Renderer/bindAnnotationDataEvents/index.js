@@ -11,7 +11,7 @@ export default function(
   entityRenderer,
   textBox
 ) {
-  const spanRenderer = new SpanRenderer(editor, (entity) =>
+  const spanRenderer = new SpanRenderer((entity) =>
     entityRenderer.render(entity)
   )
 
