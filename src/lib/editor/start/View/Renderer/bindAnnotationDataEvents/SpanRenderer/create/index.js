@@ -3,7 +3,7 @@ import renderEntitiesOfSpan from './renderEntitiesOfSpan'
 import destroy from '../destroy'
 
 // Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
-export default function create(editor, span, renderEntityFunc) {
+export default function(editor, span, renderEntityFunc) {
   span.traverse((span) => {
     if (span.element !== null) {
       destroy(span)
