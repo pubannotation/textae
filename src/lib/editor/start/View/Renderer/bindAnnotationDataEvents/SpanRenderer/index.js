@@ -2,12 +2,12 @@ import create from './create'
 import destroy from './destroy'
 
 export default class {
-  constructor(renderEntityFunc) {
-    this._renderEntityFunc = renderEntityFunc
+  constructor(entityRenderer) {
+    this._entityRenderer = entityRenderer
   }
 
   render(span) {
-    create(span, this._renderEntityFunc)
+    create(span, this._entityRenderer)
   }
 
   remove(span) {

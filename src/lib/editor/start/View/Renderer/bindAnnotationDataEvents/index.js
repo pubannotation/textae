@@ -11,9 +11,7 @@ export default function(
   entityRenderer,
   textBox
 ) {
-  const spanRenderer = new SpanRenderer((entity) =>
-    entityRenderer.render(entity)
-  )
+  const spanRenderer = new SpanRenderer(entityRenderer)
 
   editor.eventEmitter
     .on('textae.annotationData.all.change', () => {
