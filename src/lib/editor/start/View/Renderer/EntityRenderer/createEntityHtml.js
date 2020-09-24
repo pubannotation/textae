@@ -6,10 +6,10 @@ import Handlebars from 'handlebars'
 // and the id will be lost when redrawing the Entity's DOM.
 // To prevent this from happening, set the id of the endpoint DOM.
 const source = `
-<div class="textae-editor__entity" id="{{entityId}}" title="{{entityTitle}}">
+<div class="textae-editor__entity" id="{{id}}" title="{{title}}">
   <div class="textae-editor__entity__endpoint-zone">
     <div
-      id="jsPlumb_{{entityId}}"
+      id="jsPlumb_{{id}}"
       class="textae-editor__entity__endpoint" 
       style="border-color: {{color}};"></div>
   </div>
