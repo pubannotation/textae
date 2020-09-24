@@ -7,6 +7,7 @@ export default function(ajaxResponse, errorHandler, retryHandler) {
   if (location) {
     const win = new LoginInfoDialog(location).open()
 
+    // 参考：https://stackoverflow.com/questions/9388380/capture-the-close-event-of-popup-window-in-javascript/48240128#48240128
     const timer = setInterval(function() {
       if (win.closed) {
         clearInterval(timer)

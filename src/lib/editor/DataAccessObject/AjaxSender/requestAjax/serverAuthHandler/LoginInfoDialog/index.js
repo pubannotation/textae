@@ -13,11 +13,6 @@ export default class extends Dialog {
   }
 
   open() {
-    return this.openLoginPageInPopUpWindow()
-  }
-
-  // open the login page in a popup window.
-  openLoginPageInPopUpWindow() {
     return openPopUp(this._loginUrl)
   }
 
