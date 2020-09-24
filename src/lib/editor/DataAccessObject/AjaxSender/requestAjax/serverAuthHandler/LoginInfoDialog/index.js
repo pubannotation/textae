@@ -13,20 +13,7 @@ export default class extends Dialog {
   }
 
   open() {
-    const isHideMessageBox = CookieHandler().get('hide-message-box')
-
-    if (isHideMessageBox === 'true') {
-      // Skip to show login infromation.
-      this.openLoginPageInPopUpWindow()
-    } else {
-      // Show login infromation.
-      super.open()
-    }
-  }
-
-  // open the login page in a popup window.
-  openLoginPageInPopUpWindow() {
-    openPopUp(this._loginUrl)
+    return openPopUp(this._loginUrl)
   }
 
   set hideMessageBox(val) {
