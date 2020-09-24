@@ -11,12 +11,7 @@ export default function(editor, state) {
     })
     .on('textae.selection.span.change', () => state.updateBySpan())
     .on('textae.selection.relation.change', () => state.updateByRelation())
-    .on('textae.viewMode.entity.selectChange', () => {
-      // The buttons to edit entities are only enabled when in Entity edit mode.
-      // We want to monitor entity selection events only when in Entity edit mode.
-      // Entity selection events are monitored via the ViewModel instead of directly monitoring the SelectionModel.
-      state.updateByEntity()
-    })
+    .on('textae.selection.entity.change', () => state.updateByEntity())
     .on('textae.editMode.transition', (mode, editable) => {
       state.enabled('simple', !isRelation(mode))
       state.enabled('replicate-auto', isSpanEdit(mode, editable))
