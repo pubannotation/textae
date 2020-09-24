@@ -9,7 +9,7 @@ export default function(ajaxResponse, errorHandler, retryHandler) {
 
     // 参考：https://stackoverflow.com/questions/9388380/capture-the-close-event-of-popup-window-in-javascript/48240128#48240128
     const timer = setInterval(function() {
-      if (win && win.closed) {
+      if (win.closed) {
         clearInterval(timer)
         retryHandler()
       }

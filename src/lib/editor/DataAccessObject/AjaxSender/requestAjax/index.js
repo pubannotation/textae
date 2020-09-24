@@ -23,7 +23,7 @@ export default function(
   const retryHandler = () => {
     $.ajax(opt)
       .done(successHandler)
-      .fail((ajaxResponse) => serverAuthHandler(ajaxResponse, failHandler))
+      .fail(failHandler)
       .always(finishHandler)
   }
 
