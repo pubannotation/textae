@@ -89,7 +89,6 @@ export default class {
   toDomInfo(namespace, typeContainer) {
     return Object.assign(
       {
-        id: idFactory.makeEntityDomId(this._editor, this.id),
         entityId: idFactory.makeEntityDomId(this._editor, this.id),
         entityTitle: this.id
       },
