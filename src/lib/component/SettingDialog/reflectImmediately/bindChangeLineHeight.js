@@ -2,7 +2,7 @@ import delgate from 'delegate'
 import debounce300 from './debounce300'
 import redrawAllEditor from './redrawAllEditor'
 
-export default function(content, view, editorDom) {
+export default function(content, view) {
   delgate(
     content,
     '.line-height',
