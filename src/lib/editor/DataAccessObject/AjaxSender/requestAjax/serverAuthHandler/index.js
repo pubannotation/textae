@@ -1,14 +1,15 @@
-import LoginInfoDialog from './LoginInfoDialog'
 import isSeverAuthRequired from './isSeverAuthRequired'
+import openPopUp from './openPopUp'
 
 export default function(ajaxResponse, errorHandler, retryHandler) {
   const location = isSeverAuthRequired(ajaxResponse)
 
   if (location) {
-    const win = new LoginInfoDialog(location).open()
+    const win = openPopUp(location)
 
-    // 参考：https://stackoverflow.com/questions/9388380/capture-the-close-event-of-popup-window-in-javascript/48240128#48240128
-    const timer = setInterval(function() {
+    // Watching for cross-domain pop-up windows to close.
+    // https://stackoverflow.com/questions/9388380/capture-the-close-event-of-popup-window-in-javascript/48240128#48240128
+    const timer = setInterval(() => {
       if (win.closed) {
         clearInterval(timer)
         retryHandler()
