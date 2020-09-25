@@ -32,15 +32,15 @@ export default class {
       ['textae.annotationData.all.change', () => this.clear()],
       [
         'textae.annotationData.span.remove',
-        (span) => this.span.remove(span.id)
+        (span) => this.span.removeInstance(span)
       ],
       [
         'textae.annotationData.entity.remove',
-        (entity) => this.entity.remove(entity.id)
+        (entity) => this.entity.removeInstance(entity)
       ],
       [
         'textae.annotationData.relation.remove',
-        (relation) => this.relation.remove(relation.id)
+        (relation) => this.relation.removeInstance(relation)
       ]
     ])
 

@@ -1,11 +1,11 @@
 import triggerChange from './triggerChange'
 
-export default function(selected, emitter, kindName, id) {
-  if (selected.has(id)) {
+export default function(selected, emitter, kindName, modelInstance) {
+  if (selected.has(modelInstance.id)) {
     return
   }
 
-  selected.add(id)
-  emitter.emit(`textae.selection.${kindName}.select`, id)
+  selected.add(modelInstance.id)
+  emitter.emit(`textae.selection.${kindName}.select`, modelInstance)
   triggerChange(emitter, kindName)
 }

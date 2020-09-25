@@ -13,7 +13,7 @@ export default class {
   }
 
   add(id) {
-    add(this._selected, this._emitter, this._kindName, id)
+    add(this._selected, this._emitter, this._kindName, this._toModel(id))
   }
 
   has(id) {
@@ -47,15 +47,21 @@ export default class {
   }
 
   toggle(id) {
-    toggle(this._selected, this._emitter, this._kindName, id)
+    toggle(this._selected, this._emitter, this._kindName, this._toModel(id))
   }
 
   remove(id) {
-    remove(this._selected, this._emitter, this._kindName, id)
+    remove(this._selected, this._emitter, this._kindName, this._toModel(id))
+  }
+
+  removeInstance(modelInstance) {
+    remove(this._selected, this._emitter, this._kindName, modelInstance)
   }
 
   clear() {
-    clear(this._selected, this._emitter, this._kindName)
+    clear(this._selected, this._emitter, this._kindName, (id) =>
+      this._toModel(id)
+    )
   }
 
   _toModel(id) {
