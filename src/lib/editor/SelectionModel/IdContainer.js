@@ -21,9 +21,7 @@ export default class {
   }
 
   get all() {
-    return Array.from(this._selected.values()).map((id) =>
-      this._annotationData[this._kindName].get(id)
-    )
+    return Array.from(this._selected.values()).map((id) => this._toModel(id))
   }
 
   get size() {
@@ -42,7 +40,7 @@ export default class {
     const id = single(this._selected)
 
     if (id) {
-      return this._annotationData[this._kindName].get(id)
+      return this._toModel(id)
     }
 
     return null
@@ -58,5 +56,9 @@ export default class {
 
   clear() {
     clear(this._selected, this._emitter, this._kindName)
+  }
+
+  _toModel(id) {
+    return this._annotationData[this._kindName].get(id)
   }
 }
