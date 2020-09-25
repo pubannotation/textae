@@ -1,5 +1,4 @@
 import IdContainer from './IdContainer'
-import modelToId from './modelToId'
 
 const kinds = ['span', 'entity', 'relation']
 
@@ -33,15 +32,15 @@ export default class {
       ['textae.annotationData.all.change', () => this.clear()],
       [
         'textae.annotationData.span.remove',
-        (span) => this.span.remove(modelToId(span))
+        (span) => this.span.remove(span.id)
       ],
       [
         'textae.annotationData.entity.remove',
-        (entity) => this.entity.remove(modelToId(entity))
+        (entity) => this.entity.remove(entity.id)
       ],
       [
         'textae.annotationData.relation.remove',
-        (relation) => this.relation.remove(modelToId(relation))
+        (relation) => this.relation.remove(relation.id)
       ]
     ])
 
