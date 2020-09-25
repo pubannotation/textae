@@ -20,7 +20,6 @@ export default function(
       resetAllCurviness(editor, annotationData, relations)
       jsPlumbInstance.repaintEverything()
       reselectAll(
-        editor,
         selectionModel.relation.all.filter((r) => r.render === undefined)
       )
 

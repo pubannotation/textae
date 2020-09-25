@@ -1,5 +1,3 @@
-import getDomPositionCache from './getDomPositionCache'
-
 export default class {
   constructor(editor, entityContainer) {
     this._editor = editor
@@ -8,21 +6,19 @@ export default class {
 
   on(entityId) {
     for (const connect of this._getConnectsOf(entityId)) {
-      connect.pointup && connect.pointup()
+      connect.pointup()
     }
   }
 
   off(entityId) {
     for (const connect of this._getConnectsOf(entityId)) {
-      connect.pointdown && connect.pointdown()
+      connect.pointdown()
     }
   }
 
   _getConnectsOf(entityId) {
     return this._entityContainer
       .get(entityId)
-      .relations.map((relation) =>
-        getDomPositionCache(this._editor).getConnect(relation.id)
-      )
+      .relations.map((relation) => relation.connect)
   }
 }

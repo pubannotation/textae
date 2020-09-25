@@ -13,8 +13,6 @@ export default class {
     // This is updated at arrange position of grids.
     // This is referenced at create or move relations.
     this._gridCache = new Map()
-
-    this._connectCache = new Map()
   }
 
   cacheAllSpan(spans) {
@@ -49,21 +47,5 @@ export default class {
 
   removeAllGrid() {
     this._gridCache.clear()
-  }
-
-  setConnect(id, val) {
-    this._connectCache.set(id, val)
-  }
-
-  getConnect(relationId) {
-    return this._connectCache.get(relationId)
-  }
-
-  removeConnect(id) {
-    this._connectCache.delete(id)
-  }
-
-  removeAllConnect() {
-    this._connectCache.clear()
   }
 }

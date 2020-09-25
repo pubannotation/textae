@@ -1,5 +1,4 @@
 import getAnnotationBox from '../getAnnotationBox'
-import getDomPositionCache from '../../getDomPositionCache'
 import arrangePositionAll from './arrangePositionAll'
 import makeJsPlumbInstance from './makeJsPlumbInstance'
 import removeRelation from './removeRelation'
@@ -13,7 +12,6 @@ export default class {
     this._annotationData = annotationData
     this._selectionModel = selectionModel
     this._typeDefinition = typeDefinition
-    this._domPositionCache = getDomPositionCache(editor)
     this._jsPlumbInstance = makeJsPlumbInstance(getAnnotationBox(editor))
   }
 
@@ -29,7 +27,6 @@ export default class {
 
   reset() {
     this._jsPlumbInstance.reset()
-    this._domPositionCache.removeAllConnect()
   }
 
   render(relation) {
@@ -46,12 +43,7 @@ export default class {
   }
 
   change(relation) {
-    changeType(
-      this._editor,
-      this._annotationData,
-      this._typeDefinition,
-      relation
-    )
+    changeType(this._annotationData, this._typeDefinition, relation)
   }
 
   changeType(typeName) {
@@ -62,24 +54,14 @@ export default class {
         (typeName.lastIndexOf('*') === typeName.length - 1 &&
           relation.typeName.indexOf(typeName.slice(0, -1) === 0))
       ) {
-        changeType(
-          this._editor,
-          this._annotationData,
-          this._typeDefinition,
-          relation
-        )
+        changeType(this._annotationData, this._typeDefinition, relation)
       }
     }
   }
 
   changeAll() {
     this._annotationData.relation.all.map((relation) => {
-      changeType(
-        this._editor,
-        this._annotationData,
-        this._typeDefinition,
-        relation
-      )
+      changeType(this._annotationData, this._typeDefinition, relation)
     })
   }
 
@@ -88,11 +70,6 @@ export default class {
       return
     }
 
-    removeRelation(
-      this._editor,
-      this._jsPlumbInstance,
-      this._domPositionCache,
-      relation
-    )
+    removeRelation(this._jsPlumbInstance, relation)
   }
 }

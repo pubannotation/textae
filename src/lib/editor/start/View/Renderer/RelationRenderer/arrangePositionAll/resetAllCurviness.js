@@ -1,4 +1,3 @@
-import Connect from '../Connect'
 import determineCurviness from '../determineCurviness'
 import JsPlumbArrow from '../JsPlumbArrow'
 
@@ -6,16 +5,12 @@ export default function(editor, annotationData, relations) {
   relations
     .map((relation) => {
       return {
-        connect: new Connect(editor, relation),
+        connect: relation.connect,
         curviness: determineCurviness(editor, annotationData, relation)
       }
     })
     // Set changed values only.
-    .filter(
-      (data) =>
-        data.connect.setConnector &&
-        data.connect.connector.getCurviness() !== data.curviness
-    )
+    .filter((data) => data.connect.connector.getCurviness() !== data.curviness)
     .forEach((data) => {
       data.connect.setConnector([
         'Bezier',
