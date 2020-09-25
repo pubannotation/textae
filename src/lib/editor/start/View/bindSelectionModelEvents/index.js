@@ -8,11 +8,9 @@ export default function(editor) {
   const relationDomSelector = new RelationDomSelector(editor)
 
   editor.eventEmitter
-    .on('textae.selection.span.select', (span) =>
-      spanDomSelector.select(span.id)
-    )
+    .on('textae.selection.span.select', (span) => spanDomSelector.select(span))
     .on('textae.selection.span.deselect', (span) =>
-      spanDomSelector.deselect(span.id)
+      spanDomSelector.deselect(span)
     )
     .on('textae.selection.entity.select', (entity) =>
       entityDomSelector.select(entity.id)

@@ -1,16 +1,16 @@
 import SELECTED from '../SELECTED'
 
 export default class {
-  select(id) {
-    const el = document.querySelector(`#${id}`)
+  select(span) {
+    const el = span.element
     el.classList.add(SELECTED)
 
     // Set focus to the span element in order to scroll the browser to the position of the element.
     el.focus()
   }
 
-  deselect(id) {
-    const el = document.querySelector(`#${id}`)
+  deselect(span) {
+    const el = span.element
 
     // A dom does not exist when it is deleted.
     if (el) {
