@@ -1,5 +1,5 @@
 import IdContainer from './IdContainer'
-import modelToId from '../modelToId'
+import modelToId from './modelToId'
 
 const kinds = ['span', 'entity', 'relation']
 
