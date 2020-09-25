@@ -2,7 +2,7 @@ import Connect from '../Connect'
 import determineCurviness from '../determineCurviness'
 import JsPlumbArrow from '../JsPlumbArrow'
 
-export default function resetAllCurviness(editor, annotationData, relations) {
+export default function(editor, annotationData, relations) {
   relations
     .map((relation) => {
       return {
