@@ -26,5 +26,5 @@ export default function(
 
   // Notify to controller that a new jsPlumbConnection is added.
   editor.trigger('textae.editor.jsPlumbConnection.add', connect)
-  cache(connect, editor, annotationData)
+  cache(connect, editor)
 }

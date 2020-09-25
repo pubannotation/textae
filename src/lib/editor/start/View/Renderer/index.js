@@ -14,7 +14,7 @@ export default class {
     typeGap,
     textBox
   ) {
-    const domPositionCache = getDomPositionCache(editor, annotationData.entity)
+    const domPositionCache = getDomPositionCache(editor)
     const gridRenderer = new GridRenderer(editor, domPositionCache)
     const entityRenderer = new EntityRenderer(
       editor,

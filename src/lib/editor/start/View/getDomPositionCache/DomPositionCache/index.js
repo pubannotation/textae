@@ -1,10 +1,8 @@
 import getSpan from './getSpan'
-import getEntityEndopointDom from '../../getEntityEndopointDom'
 
 export default class {
-  constructor(editor, entityModel) {
+  constructor(editor) {
     this._editor = editor
-    this._entityModel = entityModel
 
     // The cache for span positions.
     // Getting the postion of spans is too slow about 5-10 ms per a element in Chrome browser. For example offsetTop property.
@@ -51,22 +49,6 @@ export default class {
 
   removeAllGrid() {
     this._gridCache.clear()
-  }
-
-  getEntity(entityId) {
-    const entity = getEntityEndopointDom(this._editor, entityId)
-
-    if (!entity) {
-      throw new Error(`entity is not rendered : ${entityId}`)
-    }
-
-    const spanId = this._entityModel.get(entityId).span.id
-    const gridPosition = this._gridCache.get(spanId)
-
-    return {
-      top: gridPosition.top + entity.offsetTop,
-      center: gridPosition.left + entity.offsetLeft + entity.offsetWidth / 2
-    }
   }
 
   setConnect(id, val) {

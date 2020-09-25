@@ -1,4 +1,5 @@
 import getDomPositionCache from '../../getDomPositionCache'
+import getEntityEndopointDom from '../../getEntityEndopointDom'
 
 const CURVINESS_PARAMETERS = {
   // curviness parameters
@@ -10,10 +11,19 @@ const CURVINESS_PARAMETERS = {
 }
 
 export default function(editor, annotationData, relation) {
-  const domPositionCache = getDomPositionCache(editor, annotationData.entity)
-
-  const sourcePosition = domPositionCache.getEntity(relation.subj)
-  const targetPosition = domPositionCache.getEntity(relation.obj)
+  const domPositionCache = getDomPositionCache(editor)
+  const sourcePosition = getEntity(
+    editor,
+    annotationData,
+    relation.subj,
+    domPositionCache
+  )
+  const targetPosition = getEntity(
+    editor,
+    annotationData,
+    relation.obj,
+    domPositionCache
+  )
 
   const sourceX = sourcePosition.center
   const targetX = targetPosition.center
@@ -30,4 +40,20 @@ export default function(editor, annotationData, relation) {
       CURVINESS_PARAMETERS.offset) /
     2.4
   )
+}
+
+function getEntity(editor, annotationData, entityId, domPositionCache) {
+  const entity = getEntityEndopointDom(editor, entityId)
+
+  if (!entity) {
+    throw new Error(`entity is not rendered : ${entityId}`)
+  }
+
+  const spanId = annotationData.entity.get(entityId).span.id
+  const gridPosition = domPositionCache.getGrid(spanId)
+
+  return {
+    top: gridPosition.top + entity.offsetTop,
+    center: gridPosition.left + entity.offsetLeft + entity.offsetWidth / 2
+  }
 }

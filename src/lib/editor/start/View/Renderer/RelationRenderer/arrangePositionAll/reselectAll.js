@@ -1,6 +1,7 @@
 import Connect from '../Connect'
-export default function reselectAll(editor, annotationData, relations) {
+
+export default function reselectAll(editor, relations) {
   relations
-    .map((relation) => new Connect(editor, annotationData, relation.id))
+    .map((relation) => new Connect(editor, relation.id))
     .forEach((connect) => connect.select())
 }

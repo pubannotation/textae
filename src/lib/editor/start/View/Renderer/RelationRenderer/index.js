@@ -13,7 +13,7 @@ export default class {
     this._annotationData = annotationData
     this._selectionModel = selectionModel
     this._typeDefinition = typeDefinition
-    this._domPositionCache = getDomPositionCache(editor, annotationData.entity)
+    this._domPositionCache = getDomPositionCache(editor)
     this._jsPlumbInstance = makeJsPlumbInstance(getAnnotationBox(editor))
   }
 
@@ -90,7 +90,6 @@ export default class {
 
     removeRelation(
       this._editor,
-      this._annotationData,
       this._jsPlumbInstance,
       this._domPositionCache,
       relation

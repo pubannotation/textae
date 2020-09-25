@@ -3,8 +3,8 @@ import selectRelation from './selectRelation'
 import deselectRelation from './deselectRelation'
 
 export default class {
-  constructor(editor, annotationData) {
-    this._domPositionCache = getDomPositionCache(editor, annotationData.entity)
+  constructor(editor) {
+    this._domPositionCache = getDomPositionCache(editor)
   }
 
   select(id) {

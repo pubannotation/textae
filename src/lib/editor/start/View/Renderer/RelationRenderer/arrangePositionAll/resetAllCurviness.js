@@ -6,7 +6,7 @@ export default function(editor, annotationData, relations) {
   relations
     .map((relation) => {
       return {
-        connect: new Connect(editor, annotationData, relation.id),
+        connect: new Connect(editor, relation.id),
         curviness: determineCurviness(editor, annotationData, relation)
       }
     })

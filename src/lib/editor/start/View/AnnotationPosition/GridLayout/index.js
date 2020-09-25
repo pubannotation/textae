@@ -8,7 +8,7 @@ export default class {
     this._editor = editor
     this._annotationData = annotationData
     this._gridHeight = gridHeight
-    this._domPositionCache = getDomPositionCache(editor, annotationData.entity)
+    this._domPositionCache = getDomPositionCache(editor)
   }
 
   arrangePosition() {

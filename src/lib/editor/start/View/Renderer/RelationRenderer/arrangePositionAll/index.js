@@ -21,7 +21,6 @@ export default function(
       jsPlumbInstance.repaintEverything()
       reselectAll(
         editor,
-        annotationData,
         selectionModel.relation.all.filter((r) => r.render === undefined)
       )
 

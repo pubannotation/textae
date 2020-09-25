@@ -1,13 +1,7 @@
 import Connect from './Connect'
 
-export default function(
-  editor,
-  annotationData,
-  jsPlumbInstance,
-  domPositionCache,
-  relation
-) {
-  const connect = new Connect(editor, annotationData, relation.id)
+export default function(editor, jsPlumbInstance, domPositionCache, relation) {
+  const connect = new Connect(editor, relation.id)
   jsPlumbInstance.detach(connect)
   domPositionCache.removeConnect(relation.id)
   // Set the flag dead already to delay selection.

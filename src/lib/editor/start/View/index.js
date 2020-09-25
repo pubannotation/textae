@@ -24,7 +24,7 @@ export default class {
     `.replace(/[\n\r]+/g, '')
 
     bindClipBoardEvents(editor)
-    bindSelectionModelEvents(editor, annotationData)
+    bindSelectionModelEvents(editor)
 
     const gridHeight = new GridHeight(annotationData, typeGap)
     const textBox = new TextBox(editor, annotationData, gridHeight)

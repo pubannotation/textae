@@ -2,10 +2,10 @@ import SpanDomSelector from './SpanDomSelector'
 import EntityDomSelector from '../EntityDomSelector'
 import RelationDomSelector from './RelationDomSelector'
 
-export default function(editor, annotationData) {
+export default function(editor) {
   const spanDomSelector = new SpanDomSelector()
   const entityDomSelector = new EntityDomSelector(editor)
-  const relationDomSelector = new RelationDomSelector(editor, annotationData)
+  const relationDomSelector = new RelationDomSelector(editor)
 
   editor.eventEmitter
     .on('textae.selection.span.select', (id) => spanDomSelector.select(id))
