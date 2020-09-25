@@ -12,7 +12,7 @@ export default function(
     setTimeout(() => {
       try {
         // The grid may be destroyed when the spans was moved repetitively by undo or redo.
-        if (!isGridPrepared(editor, annotationData, relation.relationId)) {
+        if (!isGridPrepared(annotationData, relation.relationId)) {
           return
         }
         if (relation.render) {

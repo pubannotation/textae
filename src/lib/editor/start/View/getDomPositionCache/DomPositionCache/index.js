@@ -45,11 +45,6 @@ export default class {
     return this._gridCache.get(id)
   }
 
-  isGridPrepared(entityId) {
-    const spanId = this._entityModel.get(entityId).span.id
-    return this._gridCache.has(spanId)
-  }
-
   removeGrid(id) {
     this._gridCache.delete(id)
   }
