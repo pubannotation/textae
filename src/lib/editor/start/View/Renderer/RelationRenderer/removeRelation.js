@@ -1,7 +1,7 @@
 import Connect from './Connect'
 
 export default function(editor, jsPlumbInstance, domPositionCache, relation) {
-  const connect = new Connect(editor, relation.id)
+  const connect = new Connect(editor, relation)
   jsPlumbInstance.detach(connect)
   domPositionCache.removeConnect(relation.id)
   // Set the flag dead already to delay selection.

@@ -4,7 +4,7 @@ import connectorStrokeStyle from './connectorStrokeStyle'
 import toLabelString from './toLabelString'
 
 export default function(editor, annotationData, typeDefinition, relation) {
-  const connect = new Connect(editor, relation.id)
+  const connect = new Connect(editor, relation)
   const strokeStyle = connectorStrokeStyle(
     annotationData,
     typeDefinition,
