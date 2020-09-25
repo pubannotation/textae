@@ -1,19 +1,7 @@
-export default function showInvisibleGrid(span) {
+export default function(span) {
   const grid = span.gridElement
 
-  if (filterVisibleGrid(grid)) {
-    showGrid(grid)
+  if (grid.classList.contains('hidden')) {
+    grid.classList.remove('hidden')
   }
-}
-
-function filterVisibleGrid(grid) {
-  if (grid && grid.classList.contains('hidden')) {
-    return grid
-  }
-
-  return null
-}
-
-function showGrid(grid) {
-  grid.classList.remove('hidden')
 }
