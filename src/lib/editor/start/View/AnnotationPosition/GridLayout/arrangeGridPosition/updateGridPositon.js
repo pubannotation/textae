@@ -1,8 +1,4 @@
-export default function(span, newPosition) {
-  const grid = span.gridElement
-
-  if (grid) {
-    grid.style.top = `${newPosition.top}px`
-    grid.style.left = `${newPosition.left}px`
-  }
+export default function(gridElement, newPosition) {
+  gridElement.style.top = `${newPosition.top}px`
+  gridElement.style.left = `${newPosition.left}px`
 }

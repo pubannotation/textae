@@ -1,7 +1,5 @@
-export default function(span) {
-  const grid = span.gridElement
-
-  if (grid.classList.contains('hidden')) {
-    grid.classList.remove('hidden')
+export default function(gridElement) {
+  if (gridElement.classList.contains('hidden')) {
+    gridElement.classList.remove('hidden')
   }
 }
