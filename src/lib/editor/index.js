@@ -7,7 +7,6 @@ import History from './History'
 import AnnotationWatcher from './AnnotationWatcher'
 import start from './start'
 import { EventEmitter } from 'events'
-import CONFIRM_DISCARD_CHANGE_MESSAGE from './CONFIRM_DISCARD_CHANGE_MESSAGE'
 import observeDataSave from './observeDataSave'
 import observeModelChange from './observeModelChange'
 
@@ -21,10 +20,7 @@ export default function() {
   const selectionModel = new Selection(this.eventEmitter, annotationData)
 
   const history = new History(this.eventEmitter)
-  const dataAccessObject = new DataAccessObject(
-    this,
-    CONFIRM_DISCARD_CHANGE_MESSAGE
-  )
+  const dataAccessObject = new DataAccessObject(this)
 
   const annotationWatcher = new AnnotationWatcher(this)
   annotationWatcher.bind((val) =>
