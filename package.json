@@ -3,18 +3,6 @@
   "description": "text annotation editor",
   "version": "6.1.18",
   "author": "jdkim",
-  "browserify": {
-    "transform": [
-      [
-        "babelify",
-        {
-          "plugins": [
-            "transform-es2015-modules-commonjs"
-          ]
-        }
-      ]
-    ]
-  },
   "bugs": {
     "url": "https://github.com/pubannotation/textae/issues"
   },
