@@ -23,11 +23,11 @@ export default function(editor, annotationData, relation) {
 
   const xdiff = Math.abs(sourceX - targetX)
   const ydiff = Math.abs(sourceY - targetY)
-  let curviness =
-    xdiff * CURVINESS_PARAMETERS.xrate +
-    ydiff * CURVINESS_PARAMETERS.yrate +
-    CURVINESS_PARAMETERS.offset
-  curviness /= 2.4
 
-  return curviness
+  return (
+    (xdiff * CURVINESS_PARAMETERS.xrate +
+      ydiff * CURVINESS_PARAMETERS.yrate +
+      CURVINESS_PARAMETERS.offset) /
+    2.4
+  )
 }
