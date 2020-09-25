@@ -12,9 +12,8 @@ const CURVINESS_PARAMETERS = {
 export default function(editor, annotationData, relation) {
   const domPositionCache = getDomPositionCache(editor, annotationData.entity)
 
-  const anchors = toAnchors(relation)
-  const sourcePosition = domPositionCache.getEntity(anchors.sourceId)
-  const targetPosition = domPositionCache.getEntity(anchors.targetId)
+  const sourcePosition = domPositionCache.getEntity(relation.subj)
+  const targetPosition = domPositionCache.getEntity(relation.obj)
 
   const sourceX = sourcePosition.center
   const targetX = targetPosition.center
@@ -31,11 +30,4 @@ export default function(editor, annotationData, relation) {
   curviness /= 2.4
 
   return curviness
-}
-
-function toAnchors(relation) {
-  return {
-    sourceId: relation.subj,
-    targetId: relation.obj
-  }
 }
