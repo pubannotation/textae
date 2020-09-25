@@ -16,13 +16,13 @@ export default class extends CompositeCommand {
     const removeRelation = annotationData.entity
       .get(id)
       .relations.map(
-        (id) =>
+        (relation) =>
           new RemoveCommand(
             editor,
             annotationData,
             selectionModel,
             'relation',
-            id
+            relation.id
           )
       )
     const removeAttribute = annotationData.entity

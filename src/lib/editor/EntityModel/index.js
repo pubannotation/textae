@@ -81,9 +81,9 @@ export default class {
   }
 
   get relations() {
-    return this._relationContaier.all
-      .filter((r) => r.obj === this.id || r.subj === this.id)
-      .map((r) => r.id)
+    return this._relationContaier.all.filter(
+      (r) => r.obj === this.id || r.subj === this.id
+    )
   }
 
   toDomInfo(namespace, typeContainer) {

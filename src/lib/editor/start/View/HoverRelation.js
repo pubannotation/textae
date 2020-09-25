@@ -21,8 +21,8 @@ export default class {
   _getConnectsOf(entityId) {
     return this._entityContainer
       .get(entityId)
-      .relations.map((relationId) =>
-        getDomPositionCache(this._editor).getConnect(relationId)
+      .relations.map((relation) =>
+        getDomPositionCache(this._editor).getConnect(relation.id)
       )
   }
 }
