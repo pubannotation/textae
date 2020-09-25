@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import determineCurviness from '../../determineCurviness'
-import getEntityDom from '../../../../getEntityDom'
+import getEntityEndopointDom from '../../../../getEntityEndopointDom'
 import LABEL from '../../../../../LABEL'
 import connectorStrokeStyle from '../../connectorStrokeStyle'
 import NORMAL_ARROW from '../../NORMAL_ARROW'
@@ -15,8 +15,8 @@ export default function(
   typeDefinition
 ) {
   return jsPlumbInstance.connect({
-    source: $(getEntityDom(editor, relation.subj)),
-    target: $(getEntityDom(editor, relation.obj)),
+    source: $(getEntityEndopointDom(editor, relation.subj)),
+    target: $(getEntityEndopointDom(editor, relation.obj)),
     anchors: ['TopCenter', 'TopCenter'],
     connector: [
       'Bezier',

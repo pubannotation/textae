@@ -1,5 +1,5 @@
 import getSpan from './getSpan'
-import getEntityDom from '../../getEntityDom'
+import getEntityEndopointDom from '../../getEntityEndopointDom'
 
 export default class {
   constructor(editor, entityModel) {
@@ -54,7 +54,7 @@ export default class {
   }
 
   getEntity(entityId) {
-    const entity = getEntityDom(this._editor, entityId)
+    const entity = getEntityEndopointDom(this._editor, entityId)
 
     if (!entity) {
       throw new Error(`entity is not rendered : ${entityId}`)
