@@ -1,7 +1,7 @@
 import DataAccessObject from './DataAccessObject'
 // model manages data objects.
 import AnnotationData from './AnnotationData'
-import Selection from './Selection'
+import SelectionModel from './SelectionModel'
 // The history of command that providing undo and redo.
 import History from './History'
 import AnnotationWatcher from './AnnotationWatcher'
@@ -17,7 +17,7 @@ export default function() {
   const annotationData = new AnnotationData(this)
 
   // A contaier of selection state.
-  const selectionModel = new Selection(this.eventEmitter, annotationData)
+  const selectionModel = new SelectionModel(this.eventEmitter, annotationData)
 
   const history = new History(this.eventEmitter)
   const dataAccessObject = new DataAccessObject(this)
