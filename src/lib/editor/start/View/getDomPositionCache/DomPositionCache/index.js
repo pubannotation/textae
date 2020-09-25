@@ -16,8 +16,6 @@ export default class {
     // This is referenced at create or move relations.
     this._gridCache = new Map()
 
-    this._entityCache = new Map()
-
     this._connectCache = new Map()
   }
 
@@ -61,27 +59,19 @@ export default class {
   }
 
   getEntity(entityId) {
-    if (!this._entityCache.has(entityId)) {
-      const entity = getEntityDom(this._editor, entityId)
+    const entity = getEntityDom(this._editor, entityId)
 
-      if (!entity) {
-        throw new Error(`entity is not rendered : ${entityId}`)
-      }
-
-      const spanId = this._entityModel.get(entityId).span.id
-      const gridPosition = this._gridCache.get(spanId)
-
-      return {
-        top: gridPosition.top + entity.offsetTop,
-        center: gridPosition.left + entity.offsetLeft + entity.offsetWidth / 2
-      }
+    if (!entity) {
+      throw new Error(`entity is not rendered : ${entityId}`)
     }
 
-    return this._entityCache.get(entityId)
-  }
+    const spanId = this._entityModel.get(entityId).span.id
+    const gridPosition = this._gridCache.get(spanId)
 
-  removeAllEntity() {
-    this._entityCache.clear()
+    return {
+      top: gridPosition.top + entity.offsetTop,
+      center: gridPosition.left + entity.offsetLeft + entity.offsetWidth / 2
+    }
   }
 
   setConnect(id, val) {
