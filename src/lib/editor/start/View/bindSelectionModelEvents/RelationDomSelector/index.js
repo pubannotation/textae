@@ -7,11 +7,11 @@ export default class {
     this._domPositionCache = getDomPositionCache(editor)
   }
 
-  select(id) {
-    selectRelation(this._domPositionCache, id)
+  select(relation) {
+    selectRelation(this._domPositionCache, relation)
   }
 
-  deselect(id) {
-    deselectRelation(this._domPositionCache, id)
+  deselect(relation) {
+    deselectRelation(this._domPositionCache, relation)
   }
 }

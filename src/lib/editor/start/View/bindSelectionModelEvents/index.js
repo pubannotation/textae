@@ -19,9 +19,9 @@ export default function(editor) {
       entityDomSelector.deselect(entity.id)
     )
     .on('textae.selection.relation.select', (relation) =>
-      setTimeout(() => relationDomSelector.select(relation.id), 150)
+      setTimeout(() => relationDomSelector.select(relation), 150)
     )
     .on('textae.selection.relation.deselect', (relation) =>
-      setTimeout(() => relationDomSelector.deselect(relation.id), 150)
+      setTimeout(() => relationDomSelector.deselect(relation), 150)
     )
 }

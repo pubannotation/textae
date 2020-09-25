@@ -1,5 +1,5 @@
-export default function(domPositionCache, relationId) {
-  const connect = domPositionCache.getConnect(relationId)
+export default function(domPositionCache, relation) {
+  const connect = domPositionCache.getConnect(relation.id)
 
   removeUiSelectClass(connect)
 }
