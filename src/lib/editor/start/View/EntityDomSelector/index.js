@@ -1,4 +1,4 @@
-import getEntityDom from '../../getEntityDom'
+import getEntityDom from '../getEntityDom'
 import getEntityDomFromChild from '../../getEntityDomFromChild'
 import getTypeValuesDom from '../getTypeValuesDom'
 import SELECTED from '../SELECTED'

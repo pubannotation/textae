@@ -1,6 +1,6 @@
 import $ from 'jquery'
 import determineCurviness from '../../determineCurviness'
-import getEntityDom from '../../../../../getEntityDom'
+import getEntityDom from '../../../../getEntityDom'
 import LABEL from '../../../../../LABEL'
 import connectorStrokeStyle from '../../connectorStrokeStyle'
 import NORMAL_ARROW from '../../NORMAL_ARROW'

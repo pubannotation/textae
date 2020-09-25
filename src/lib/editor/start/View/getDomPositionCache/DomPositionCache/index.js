@@ -1,5 +1,5 @@
 import getSpan from './getSpan'
-import getEntityDom from '../../../getEntityDom'
+import getEntityDom from '../../getEntityDom'
 
 export default class {
   constructor(editor, entityModel) {

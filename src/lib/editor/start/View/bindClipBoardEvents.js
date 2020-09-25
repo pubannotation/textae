@@ -1,4 +1,4 @@
-import getEntityDom from '../getEntityDom'
+import getEntityDom from './getEntityDom'
 import getTypeValuesDom from './getTypeValuesDom'
 
 const cssClass = 'ui-to-be-cut'

@@ -1,4 +1,4 @@
-import idFactory from '../idFactory'
+import idFactory from '../../idFactory'
 
 export default function(editor, entityId) {
   const id = idFactory.makeEntityDomId(editor, entityId)
