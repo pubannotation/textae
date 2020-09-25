@@ -1,4 +1,3 @@
-import CONFIRM_DISCARD_CHANGE_MESSAGE from '../../CONFIRM_DISCARD_CHANGE_MESSAGE'
 import observeMouse from './observeMouse'
 import observeHistoryChange from './observeHistoryChange'
 import observeKey from './observeKey'
@@ -18,7 +17,7 @@ export default function(
   buttonController
 ) {
   observeTypeDefilinition(editor, history)
-  observeHistoryChange(editor, CONFIRM_DISCARD_CHANGE_MESSAGE)
+  observeHistoryChange(editor)
   observeDataAccessObject(
     editor,
     spanConfig,
