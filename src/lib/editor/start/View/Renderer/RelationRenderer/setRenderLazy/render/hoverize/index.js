@@ -9,21 +9,12 @@ export default function(
   connect,
   relationId
 ) {
-  // The relation id needs to be embedded in the jsPlumb connector instance.
-  //
-  // When hovering the relation, the connector of the relationship is broadened.
-  // At that time, the color of the connector is required.
-  // Colors are obtained by type from the type container.
-  // Type is obtained from the model by the relation ID.
-  Object.assign(connect, {
-    relationId
-  })
-
   const pointupable = new Pointupable(
     editor,
     annotationData,
     typeDefinition,
-    connect
+    connect,
+    relationId
   )
 
   Object.assign(connect, {
