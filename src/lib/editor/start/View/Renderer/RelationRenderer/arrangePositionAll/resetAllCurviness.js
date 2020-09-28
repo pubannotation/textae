@@ -3,19 +3,19 @@ import JsPlumbArrow from '../JsPlumbArrow'
 
 export default function(editor, annotationData, relations) {
   for (const relation of relations) {
-    const connect = relation.connect
+    const jsPlumbConnection = relation.jsPlumbConnection
     const curviness = determineCurviness(editor, annotationData, relation)
 
     // Set changed values only.
-    if (connect.connector.getCurviness() !== curviness) {
-      connect.setConnector([
+    if (jsPlumbConnection.connector.getCurviness() !== curviness) {
+      jsPlumbConnection.setConnector([
         'Bezier',
         {
           curviness
         }
       ])
       // Re-set arrow because it is disappered when setConnector is called.
-      new JsPlumbArrow(connect).resetArrows()
+      new JsPlumbArrow(jsPlumbConnection).resetArrows()
     }
   }
 }

@@ -31,7 +31,7 @@ export default class RelationModel {
     return this._obj
   }
 
-  get connect() {
+  get jsPlumbConnection() {
     if (!this._connect) {
       throw new Error(`no connect for id: ${this._id}`)
     }
@@ -39,7 +39,7 @@ export default class RelationModel {
     return this._connect
   }
 
-  set connect(val) {
+  set jsPlumbConnection(val) {
     console.assert(
       val instanceof jsPlumb.Connection,
       'A connect must be an instance of jsPlumb.Connection!'

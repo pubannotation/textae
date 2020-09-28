@@ -3,15 +3,15 @@ import toLabelString from './toLabelString'
 import getLabelOverlay from '../../../getLabelOverlay'
 
 export default function(annotationData, typeDefinition, relation) {
-  const connect = relation.connect
+  const jsPlumbConnection = relation.jsPlumbConnection
   const strokeStyle = connectorStrokeStyle(
     annotationData,
     typeDefinition,
     relation.id
   )
 
-  connect.setPaintStyle(strokeStyle)
-  getLabelOverlay(connect).setLabel(
+  jsPlumbConnection.setPaintStyle(strokeStyle)
+  getLabelOverlay(jsPlumbConnection).setLabel(
     toLabelString(relation, annotationData, typeDefinition)
   )
 }

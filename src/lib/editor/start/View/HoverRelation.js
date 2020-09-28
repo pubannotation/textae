@@ -19,6 +19,6 @@ export default class {
   _getConnectsOf(entityId) {
     return this._entityContainer
       .get(entityId)
-      .relations.map((relation) => relation.connect)
+      .relations.map((relation) => relation.jsPlumbConnection)
   }
 }

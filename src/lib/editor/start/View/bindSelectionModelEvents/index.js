@@ -18,12 +18,12 @@ export default function(editor) {
     )
     .on('textae.selection.relation.select', (relation) =>
       setTimeout(() => {
-        if (relation.connect) relation.connect.select()
+        if (relation.jsPlumbConnection) relation.jsPlumbConnection.select()
       }, 150)
     )
     .on('textae.selection.relation.deselect', (relation) =>
       setTimeout(() => {
-        if (relation.connect) relation.connect.deselect()
+        if (relation.jsPlumbConnection) relation.jsPlumbConnection.deselect()
       }, 150)
     )
 }
