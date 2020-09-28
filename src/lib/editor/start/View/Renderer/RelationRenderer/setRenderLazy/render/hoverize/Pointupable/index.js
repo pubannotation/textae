@@ -4,14 +4,7 @@ import select from './select'
 import deselect from './deselect'
 
 export default class {
-  constructor(
-    editor,
-    annotationData,
-    typeDefinition,
-    jsPlumbConnection,
-    relationId
-  ) {
-    this._editor = editor
+  constructor(annotationData, typeDefinition, jsPlumbConnection, relationId) {
     this._annotationData = annotationData
     this._typeDefinition = typeDefinition
     this._jsPlumbConnection = jsPlumbConnection
@@ -39,7 +32,6 @@ export default class {
   select() {
     select(
       this._jsPlumbConnection,
-      this._editor,
       this._annotationData,
       this._typeDefinition,
       this._relationId

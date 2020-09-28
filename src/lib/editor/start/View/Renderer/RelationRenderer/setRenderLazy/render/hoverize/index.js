@@ -3,14 +3,12 @@ import Pointupable from './Pointupable'
 
 // Set hover action.
 export default function(
-  editor,
   annotationData,
   typeDefinition,
   jsPlumbConnection,
   relationId
 ) {
   const pointupable = new Pointupable(
-    editor,
     annotationData,
     typeDefinition,
     jsPlumbConnection,

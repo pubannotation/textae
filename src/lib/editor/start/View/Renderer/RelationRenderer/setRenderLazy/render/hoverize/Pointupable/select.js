@@ -7,7 +7,6 @@ import JsPlumbArrow from '../../../../JsPlumbArrow'
 
 export default function(
   jsPlumbConnection,
-  editor,
   annotationData,
   typeDefinition,
   relationId
@@ -16,7 +15,7 @@ export default function(
     jsPlumbConnection.setPaintStyle(
       connectorStrokeStyle(annotationData, typeDefinition, relationId)
     )
-    selectLine(editor, jsPlumbConnection)
+    selectLine(jsPlumbConnection)
     selectLabel(jsPlumbConnection)
     hoverdownLine(jsPlumbConnection)
     hoverdownLabel(jsPlumbConnection)

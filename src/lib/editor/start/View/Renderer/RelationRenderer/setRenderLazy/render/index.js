@@ -20,13 +20,7 @@ export default function(
     typeDefinition
   )
 
-  hoverize(
-    editor,
-    annotationData,
-    typeDefinition,
-    jsPlumbConnection,
-    relation.id
-  )
+  hoverize(annotationData, typeDefinition, jsPlumbConnection, relation.id)
   Object.assign(jsPlumbConnection, new Api())
 
   // Notify to controller that a new jsPlumbConnection is added.
