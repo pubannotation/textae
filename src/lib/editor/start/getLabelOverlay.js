@@ -1,8 +1,8 @@
-import LABEL from '../../../LABEL'
+import LABEL from './LABEL'
 
-export default function(connect) {
+export default function(jsPlumbConnection) {
   // Find the label overlay by self, because the function 'getLabelOverlays' returns no label overlay.
-  const labelOverlay = connect.getOverlay(LABEL.id)
+  const labelOverlay = jsPlumbConnection.getOverlay(LABEL.id)
   if (!labelOverlay) {
     throw new Error('no label overlay')
   }

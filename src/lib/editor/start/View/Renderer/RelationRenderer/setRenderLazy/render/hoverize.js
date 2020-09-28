@@ -1,4 +1,4 @@
-import LabelOverlay from '../../LabelOverlay'
+import getLabelOverlay from '../../../../../getLabelOverlay'
 import extendPointup from './extendPointup'
 
 // Set hover action.
@@ -38,7 +38,7 @@ function bindConnect(connect) {
 
 function bindLabel(connect) {
   bindHoverAction(
-    new LabelOverlay(connect),
+    getLabelOverlay(connect),
     (label) => label.component.pointup(),
     (label) => label.component.pointdown()
   )

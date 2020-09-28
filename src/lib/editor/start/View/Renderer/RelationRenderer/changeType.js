@@ -1,6 +1,6 @@
-import LabelOverlay from './LabelOverlay'
 import connectorStrokeStyle from './connectorStrokeStyle'
 import toLabelString from './toLabelString'
+import getLabelOverlay from '../../../getLabelOverlay'
 
 export default function(annotationData, typeDefinition, relation) {
   const connect = relation.connect
@@ -11,7 +11,7 @@ export default function(annotationData, typeDefinition, relation) {
   )
 
   connect.setPaintStyle(strokeStyle)
-  new LabelOverlay(connect).setLabel(
+  getLabelOverlay(connect).setLabel(
     toLabelString(relation, annotationData, typeDefinition)
   )
 }

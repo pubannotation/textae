@@ -1,5 +1,5 @@
-import LabelOverlay from '../../../../LabelOverlay'
+import getLabelOverlay from '../../../../../../../getLabelOverlay'
 
 export default function(connect) {
-  new LabelOverlay(connect).removeClass('ui-selected')
+  getLabelOverlay(connect).removeClass('ui-selected')
 }
