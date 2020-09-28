@@ -1,7 +1,6 @@
 import $ from 'jquery'
 import determineCurviness from '../../determineCurviness'
 import getEntityEndopointDom from '../../../../getEntityEndopointDom'
-import LABEL from '../../../../../LABEL'
 import connectorStrokeStyle from '../../connectorStrokeStyle'
 import NORMAL_ARROW from '../../NORMAL_ARROW'
 import toLabelString from '../../toLabelString'
@@ -38,7 +37,7 @@ export default function(
       [
         'Label',
         {
-          id: LABEL.id,
+          id: 'textae-relation-label',
           label: toLabelString(relation, annotationData, typeDefinition),
           cssClass: 'textae-editor__relation__label'
         }
