@@ -1,7 +1,7 @@
-import pointup from './pointup'
-import pointdown from './pointdown'
-import select from './select'
-import deselect from './deselect'
+import getLabelOverlay from '../../../../../../../getLabelOverlay'
+import connectorStrokeStyle from '../../../../connectorStrokeStyle'
+import JsPlumbArrow from '../../../../JsPlumbArrow'
+import hasClass from './hasClass'
 
 export default class {
   constructor(annotationData, typeDefinition, jsPlumbConnection, relationId) {
@@ -12,38 +12,55 @@ export default class {
   }
 
   pointup() {
-    pointup(
-      this._jsPlumbConnection,
-      this._annotationData,
-      this._typeDefinition,
-      this._relationId
-    )
+    if (!hasClass(this._jsPlumbConnection, 'ui-selected')) {
+      this._setConnectionColor()
+      this._addCssClass('hover')
+      new JsPlumbArrow(this._jsPlumbConnection).showBigArrow()
+    }
   }
 
   pointdown() {
-    pointdown(
-      this._jsPlumbConnection,
-      this._annotationData,
-      this._typeDefinition,
-      this._relationId
-    )
+    if (!hasClass(this._jsPlumbConnection, 'ui-selected')) {
+      this._setConnectionColor()
+      this._removeCssClass('hover')
+      new JsPlumbArrow(this._jsPlumbConnection).hideBigArrow()
+    }
   }
 
   select() {
-    select(
-      this._jsPlumbConnection,
-      this._annotationData,
-      this._typeDefinition,
-      this._relationId
-    )
+    if (!this._jsPlumbConnection.dead) {
+      this._setConnectionColor()
+      this._addCssClass('ui-selected')
+      this._removeCssClass('hover')
+      new JsPlumbArrow(this._jsPlumbConnection).showBigArrow()
+    }
   }
 
   deselect() {
-    deselect(
-      this._jsPlumbConnection,
-      this._annotationData,
-      this._typeDefinition,
-      this._relationId
+    if (!this._jsPlumbConnection.dead) {
+      this._setConnectionColor()
+      this._removeCssClass('ui-selected')
+      new JsPlumbArrow(this._jsPlumbConnection).hideBigArrow()
+    }
+  }
+
+  _setConnectionColor() {
+    this._jsPlumbConnection.setPaintStyle(
+      connectorStrokeStyle(
+        this._annotationData,
+        this._typeDefinition,
+        this._relationId
+      )
     )
+  }
+
+  _addCssClass(className) {
+    this._jsPlumbConnection.addClass(className)
+    getLabelOverlay(this._jsPlumbConnection).addClass(className)
+  }
+
+  _removeCssClass(className) {
+    this._jsPlumbConnection.removeClass(className)
+    getLabelOverlay(this._jsPlumbConnection).removeClass(className)
   }
 }
