@@ -37,10 +37,11 @@ export default function(
       ['Arrow', NORMAL_ARROW],
       [
         'Label',
-        Object.assign({}, LABEL, {
+        {
+          id: LABEL.id,
           label: toLabelString(relation, annotationData, typeDefinition),
           cssClass: `${LABEL.cssClass}`
-        })
+        }
       ]
     ]
   })
