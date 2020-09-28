@@ -5,46 +5,46 @@ import deselect from './deselect'
 
 export default class {
   constructor(editor, annotationData, typeDefinition, connect) {
-    this.editor = editor
-    this.annotationData = annotationData
-    this.typeDefinition = typeDefinition
-    this.connect = connect
+    this._editor = editor
+    this._annotationData = annotationData
+    this._typeDefinition = typeDefinition
+    this._connect = connect
   }
 
   pointup() {
     pointup(
-      this.connect,
-      this.annotationData,
-      this.typeDefinition,
-      this.connect.relationId
+      this._connect,
+      this._annotationData,
+      this._typeDefinition,
+      this._connect.relationId
     )
   }
 
   pointdown() {
     pointdown(
-      this.connect,
-      this.annotationData,
-      this.typeDefinition,
-      this.connect.relationId
+      this._connect,
+      this._annotationData,
+      this._typeDefinition,
+      this._connect.relationId
     )
   }
 
   select() {
     select(
-      this.connect,
-      this.editor,
-      this.annotationData,
-      this.typeDefinition,
-      this.connect.relationId
+      this._connect,
+      this._editor,
+      this._annotationData,
+      this._typeDefinition,
+      this._connect.relationId
     )
   }
 
   deselect() {
     deselect(
-      this.connect,
-      this.annotationData,
-      this.typeDefinition,
-      this.connect.relationId
+      this._connect,
+      this._annotationData,
+      this._typeDefinition,
+      this._connect.relationId
     )
   }
 }
