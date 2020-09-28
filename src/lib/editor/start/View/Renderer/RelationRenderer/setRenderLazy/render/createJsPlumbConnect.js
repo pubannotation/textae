@@ -40,7 +40,7 @@ export default function(
         {
           id: LABEL.id,
           label: toLabelString(relation, annotationData, typeDefinition),
-          cssClass: `${LABEL.cssClass}`
+          cssClass: 'textae-editor__relation__label'
         }
       ]
     ]
