@@ -4,13 +4,18 @@ import hoverupLine from './hoverupLine'
 import hasClass from './hasClass'
 import JsPlumbArrow from '../../../../JsPlumbArrow'
 
-export default function(connect, annotationData, typeDefinition, relationId) {
-  if (!hasClass(connect, 'ui-selected')) {
-    hoverupLine(connect)
-    hoverupLabel(connect)
-    connect.setPaintStyle(
+export default function(
+  jsPlumbConnection,
+  annotationData,
+  typeDefinition,
+  relationId
+) {
+  if (!hasClass(jsPlumbConnection, 'ui-selected')) {
+    hoverupLine(jsPlumbConnection)
+    hoverupLabel(jsPlumbConnection)
+    jsPlumbConnection.setPaintStyle(
       connectorStrokeStyle(annotationData, typeDefinition, relationId)
     )
-    new JsPlumbArrow(connect).showBigArrow()
+    new JsPlumbArrow(jsPlumbConnection).showBigArrow()
   }
 }

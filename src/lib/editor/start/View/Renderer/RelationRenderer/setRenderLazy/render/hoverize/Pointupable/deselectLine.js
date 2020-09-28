@@ -1,3 +1,3 @@
-export default function(connect) {
-  connect.removeClass('ui-selected')
+export default function(jsPlumbConnection) {
+  jsPlumbConnection.removeClass('ui-selected')
 }

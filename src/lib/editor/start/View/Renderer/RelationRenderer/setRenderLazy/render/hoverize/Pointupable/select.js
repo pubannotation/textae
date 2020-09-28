@@ -6,20 +6,20 @@ import hoverdownLine from './hoverdownLine'
 import JsPlumbArrow from '../../../../JsPlumbArrow'
 
 export default function(
-  connect,
+  jsPlumbConnection,
   editor,
   annotationData,
   typeDefinition,
   relationId
 ) {
-  if (!connect.dead) {
-    connect.setPaintStyle(
+  if (!jsPlumbConnection.dead) {
+    jsPlumbConnection.setPaintStyle(
       connectorStrokeStyle(annotationData, typeDefinition, relationId)
     )
-    selectLine(editor, connect)
-    selectLabel(connect)
-    hoverdownLine(connect)
-    hoverdownLabel(connect)
-    new JsPlumbArrow(connect).showBigArrow()
+    selectLine(editor, jsPlumbConnection)
+    selectLabel(jsPlumbConnection)
+    hoverdownLine(jsPlumbConnection)
+    hoverdownLabel(jsPlumbConnection)
+    new JsPlumbArrow(jsPlumbConnection).showBigArrow()
   }
 }

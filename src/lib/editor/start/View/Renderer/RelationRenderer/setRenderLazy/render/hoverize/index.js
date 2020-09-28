@@ -6,18 +6,18 @@ export default function(
   editor,
   annotationData,
   typeDefinition,
-  connect,
+  jsPlumbConnection,
   relationId
 ) {
   const pointupable = new Pointupable(
     editor,
     annotationData,
     typeDefinition,
-    connect,
+    jsPlumbConnection,
     relationId
   )
 
-  Object.assign(connect, {
+  Object.assign(jsPlumbConnection, {
     pointup() {
       pointupable.pointup()
     },
@@ -32,13 +32,13 @@ export default function(
     }
   })
 
-  connect
-    .bind('mouseenter', () => connect.pointup())
-    .bind('mouseexit', () => connect.pointdown())
+  jsPlumbConnection
+    .bind('mouseenter', () => jsPlumbConnection.pointup())
+    .bind('mouseexit', () => jsPlumbConnection.pointdown())
 
-  getLabelOverlay(connect)
-    .bind('mouseenter', () => connect.pointup())
-    .bind('mouseexit', () => connect.pointdown())
+  getLabelOverlay(jsPlumbConnection)
+    .bind('mouseenter', () => jsPlumbConnection.pointup())
+    .bind('mouseexit', () => jsPlumbConnection.pointdown())
 
-  return connect
+  return jsPlumbConnection
 }

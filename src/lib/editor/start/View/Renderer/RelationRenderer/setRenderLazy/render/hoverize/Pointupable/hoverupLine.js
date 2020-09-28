@@ -1,3 +1,3 @@
-export default function(connect) {
-  connect.addClass('hover')
+export default function(jsPlumbConnection) {
+  jsPlumbConnection.addClass('hover')
 }

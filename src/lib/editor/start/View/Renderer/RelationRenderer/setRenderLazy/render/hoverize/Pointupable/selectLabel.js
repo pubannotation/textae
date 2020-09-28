@@ -1,5 +1,5 @@
 import getLabelOverlay from '../../../../../../../getLabelOverlay'
 
-export default function(connect) {
-  getLabelOverlay(connect).addClass('ui-selected')
+export default function(jsPlumbConnection) {
+  getLabelOverlay(jsPlumbConnection).addClass('ui-selected')
 }

@@ -1,3 +1,3 @@
-export default function(connect, className) {
-  return connect.connector.canvas.classList.contains(className)
+export default function(jsPlumbConnection, className) {
+  return jsPlumbConnection.connector.canvas.classList.contains(className)
 }

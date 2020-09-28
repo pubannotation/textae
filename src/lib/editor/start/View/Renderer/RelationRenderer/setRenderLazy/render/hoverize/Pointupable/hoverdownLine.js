@@ -1,3 +1,3 @@
-export default function(connect) {
-  connect.removeClass('hover')
+export default function(jsPlumbConnection) {
+  jsPlumbConnection.removeClass('hover')
 }

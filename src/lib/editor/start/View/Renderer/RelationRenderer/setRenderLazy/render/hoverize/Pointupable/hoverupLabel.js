@@ -1,5 +1,5 @@
 import getLabelOverlay from '../../../../../../../getLabelOverlay'
 
-export default function(connect) {
-  getLabelOverlay(connect).addClass('hover')
+export default function(jsPlumbConnection) {
+  getLabelOverlay(jsPlumbConnection).addClass('hover')
 }

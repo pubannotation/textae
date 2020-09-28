@@ -4,17 +4,23 @@ import select from './select'
 import deselect from './deselect'
 
 export default class {
-  constructor(editor, annotationData, typeDefinition, connect, relationId) {
+  constructor(
+    editor,
+    annotationData,
+    typeDefinition,
+    jsPlumbConnection,
+    relationId
+  ) {
     this._editor = editor
     this._annotationData = annotationData
     this._typeDefinition = typeDefinition
-    this._connect = connect
+    this._jsPlumbConnection = jsPlumbConnection
     this._relationId = relationId
   }
 
   pointup() {
     pointup(
-      this._connect,
+      this._jsPlumbConnection,
       this._annotationData,
       this._typeDefinition,
       this._relationId
@@ -23,7 +29,7 @@ export default class {
 
   pointdown() {
     pointdown(
-      this._connect,
+      this._jsPlumbConnection,
       this._annotationData,
       this._typeDefinition,
       this._relationId
@@ -32,7 +38,7 @@ export default class {
 
   select() {
     select(
-      this._connect,
+      this._jsPlumbConnection,
       this._editor,
       this._annotationData,
       this._typeDefinition,
@@ -42,7 +48,7 @@ export default class {
 
   deselect() {
     deselect(
-      this._connect,
+      this._jsPlumbConnection,
       this._annotationData,
       this._typeDefinition,
       this._relationId

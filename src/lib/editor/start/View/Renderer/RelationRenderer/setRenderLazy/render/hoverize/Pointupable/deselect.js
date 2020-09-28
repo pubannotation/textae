@@ -3,13 +3,18 @@ import deselectLabel from './deselectLabel'
 import deselectLine from './deselectLine'
 import JsPlumbArrow from '../../../../JsPlumbArrow'
 
-export default function(connect, annotationData, typeDefinition, relationId) {
-  if (!connect.dead) {
-    deselectLine(connect)
-    deselectLabel(connect)
-    connect.setPaintStyle(
+export default function(
+  jsPlumbConnection,
+  annotationData,
+  typeDefinition,
+  relationId
+) {
+  if (!jsPlumbConnection.dead) {
+    deselectLine(jsPlumbConnection)
+    deselectLabel(jsPlumbConnection)
+    jsPlumbConnection.setPaintStyle(
       connectorStrokeStyle(annotationData, typeDefinition, relationId)
     )
-    new JsPlumbArrow(connect).hideBigArrow()
+    new JsPlumbArrow(jsPlumbConnection).hideBigArrow()
   }
 }

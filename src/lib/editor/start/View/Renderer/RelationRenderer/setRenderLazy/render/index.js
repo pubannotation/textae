@@ -12,7 +12,7 @@ export default function(
   // Delete reneder method for renderLazy
   delete relation.render
 
-  const connect = createJsPlumbConnecttion(
+  const jsPlumbConnection = createJsPlumbConnecttion(
     jsPlumbInstance,
     editor,
     relation,
@@ -20,11 +20,17 @@ export default function(
     typeDefinition
   )
 
-  hoverize(editor, annotationData, typeDefinition, connect, relation.id)
-  Object.assign(connect, new Api())
+  hoverize(
+    editor,
+    annotationData,
+    typeDefinition,
+    jsPlumbConnection,
+    relation.id
+  )
+  Object.assign(jsPlumbConnection, new Api())
 
   // Notify to controller that a new jsPlumbConnection is added.
-  editor.trigger('textae.editor.jsPlumbConnection.add', connect)
+  editor.trigger('textae.editor.jsPlumbConnection.add', jsPlumbConnection)
 
-  relation.connect = connect
+  relation.connect = jsPlumbConnection
 }
