@@ -1,6 +1,6 @@
 import Api from './Api'
 import hoverize from './hoverize'
-import createJsPlumbConnect from './createJsPlumbConnect'
+import createJsPlumbConnecttion from './createJsPlumbConnecttion'
 
 export default function(
   jsPlumbInstance,
@@ -12,7 +12,7 @@ export default function(
   // Delete reneder method for renderLazy
   delete relation.render
 
-  const connect = createJsPlumbConnect(
+  const connect = createJsPlumbConnecttion(
     jsPlumbInstance,
     editor,
     relation,
