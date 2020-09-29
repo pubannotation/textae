@@ -1,6 +1,6 @@
 import getLabelOverlay from '../../../../../../../getLabelOverlay'
 import connectorStrokeStyle from '../../../../connectorStrokeStyle'
-import JsPlumbArrow from '../../../../JsPlumbArrow'
+import JsPlumbArrow from './JsPlumbArrow'
 import hasClass from './hasClass'
 
 export default class {

@@ -1,4 +1,4 @@
-import NORMAL_ARROW from './NORMAL_ARROW'
+import NORMAL_ARROW from '../../NORMAL_ARROW'
 
 const HOVER_ARROW = {
   width: 14,
