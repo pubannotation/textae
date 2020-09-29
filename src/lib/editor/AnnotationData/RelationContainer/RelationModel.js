@@ -32,7 +32,7 @@ export default class RelationModel {
   }
 
   get isRendered() {
-    return this.render === undefined
+    return this._connect !== undefined
   }
 
   get jsPlumbConnection() {
@@ -54,12 +54,7 @@ export default class RelationModel {
 
   deleteJsPlumbConnection(jsPlumbInstance) {
     jsPlumbInstance.detach(this._connect)
-
-    // Set the flag dead already to delay selection.
-    this._connect.dead = true
-
-    // Set a flag to extract relations from target to move relations asynchronously.
-    this.removed = true
+    this._connect = undefined
   }
 
   selectJsPlumbConnection() {

@@ -29,20 +29,16 @@ export default class {
   }
 
   select() {
-    if (!this._jsPlumbConnection.dead) {
-      this._setConnectionColor()
-      this._addCssClass('ui-selected')
-      this._removeCssClass('hover')
-      showBigArrow(this._jsPlumbConnection)
-    }
+    this._setConnectionColor()
+    this._addCssClass('ui-selected')
+    this._removeCssClass('hover')
+    showBigArrow(this._jsPlumbConnection)
   }
 
   deselect() {
-    if (!this._jsPlumbConnection.dead) {
-      this._setConnectionColor()
-      this._removeCssClass('ui-selected')
-      hideBigArrow(this._jsPlumbConnection)
-    }
+    this._setConnectionColor()
+    this._removeCssClass('ui-selected')
+    hideBigArrow(this._jsPlumbConnection)
   }
 
   _setConnectionColor() {

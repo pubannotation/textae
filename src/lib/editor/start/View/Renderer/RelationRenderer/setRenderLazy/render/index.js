@@ -9,9 +9,6 @@ export default function(
   typeDefinition,
   relation
 ) {
-  // Delete reneder method for renderLazy
-  delete relation.render
-
   const jsPlumbConnection = createJsPlumbConnecttion(
     jsPlumbInstance,
     editor,

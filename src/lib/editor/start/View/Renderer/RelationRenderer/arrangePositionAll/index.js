@@ -12,9 +12,7 @@ export default function(
       // var startTime = new Date();
 
       // Extract relations are removed or rendered not yet, because relation DOMs are render asynchronously.
-      const relations = annotationData.relation.all
-        .filter((r) => !r.removed)
-        .filter((r) => r.isRendered)
+      const relations = annotationData.relation.all.filter((r) => r.isRendered)
 
       resetAllCurviness(editor, annotationData, relations)
       jsPlumbInstance.repaintEverything()
