@@ -51,4 +51,14 @@ export default class RelationModel {
 
     this._connect = val
   }
+
+  deleteJsPlumbConnection(jsPlumbInstance) {
+    jsPlumbInstance.detach(this._connect)
+
+    // Set the flag dead already to delay selection.
+    this._connect.dead = true
+
+    // Set a flag to extract relations from target to move relations asynchronously.
+    this.removed = true
+  }
 }

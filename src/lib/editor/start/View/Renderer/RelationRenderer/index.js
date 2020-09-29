@@ -1,7 +1,6 @@
 import getAnnotationBox from '../getAnnotationBox'
 import arrangePositionAll from './arrangePositionAll'
 import makeJsPlumbInstance from './makeJsPlumbInstance'
-import removeRelation from './removeRelation'
 import setRenderLazy from './setRenderLazy'
 import changeType from './changeType'
 import renderLazyRelationAll from './renderLazyRelationAll'
@@ -70,6 +69,6 @@ export default class {
       return
     }
 
-    removeRelation(this._jsPlumbInstance, relation)
+    relation.deleteJsPlumbConnection(this._jsPlumbInstance)
   }
 }
