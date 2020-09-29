@@ -31,6 +31,10 @@ export default class RelationModel {
     return this._obj
   }
 
+  get isRendered() {
+    return this.render === undefined
+  }
+
   get jsPlumbConnection() {
     if (!this._connect) {
       throw new Error(`no connect for id: ${this._id}`)

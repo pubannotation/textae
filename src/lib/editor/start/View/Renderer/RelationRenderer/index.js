@@ -66,7 +66,7 @@ export default class {
   }
 
   remove(relation) {
-    if (relation.render) {
+    if (!relation.isRendered) {
       return
     }
 
