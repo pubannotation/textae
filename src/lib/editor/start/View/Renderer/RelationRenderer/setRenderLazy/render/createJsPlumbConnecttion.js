@@ -2,8 +2,8 @@ import $ from 'jquery'
 import determineCurviness from '../../determineCurviness'
 import getEntityEndopointDom from '../../../../getEntityEndopointDom'
 import connectorStrokeStyle from '../../connectorStrokeStyle'
-import NORMAL_ARROW from './NORMAL_ARROW'
 import toLabelString from '../../toLabelString'
+import arrowConfig from './arrowConfig'
 
 // Make a connect by jsPlumb.
 export default function(
@@ -33,7 +33,7 @@ export default function(
     },
     cssClass: 'textae-editor__relation',
     overlays: [
-      ['Arrow', NORMAL_ARROW],
+      ['Arrow', arrowConfig.normal],
       [
         'Label',
         {

@@ -1,11 +1,10 @@
-import HOVER_ARROW from './HOVER_ARROW'
-import NORMAL_ARROW from '../../NORMAL_ARROW'
+import arrowConfig from '../../arrowConfig'
 
 export default function(jsPlumbConnection) {
-  if (jsPlumbConnection.getOverlay(NORMAL_ARROW.id)) {
+  if (jsPlumbConnection.getOverlay(arrowConfig.normal.id)) {
     return
   }
 
-  jsPlumbConnection.removeOverlay(HOVER_ARROW.id)
-  jsPlumbConnection.addOverlay(['Arrow', NORMAL_ARROW])
+  jsPlumbConnection.removeOverlay(arrowConfig.hover.id)
+  jsPlumbConnection.addOverlay(['Arrow', arrowConfig.normal])
 }

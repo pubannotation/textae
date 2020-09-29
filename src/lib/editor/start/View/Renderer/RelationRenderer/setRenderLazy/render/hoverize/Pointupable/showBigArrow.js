@@ -1,13 +1,12 @@
-import HOVER_ARROW from './HOVER_ARROW'
-import NORMAL_ARROW from '../../NORMAL_ARROW'
+import arrowConfig from '../../arrowConfig'
 
 export default function(jsPlumbConnection) {
-  if (jsPlumbConnection.getOverlay(HOVER_ARROW.id)) {
+  if (jsPlumbConnection.getOverlay(arrowConfig.hover.id)) {
     return
   }
 
   // Remove a normal arrow and add a new big arrow.
   // Because an arrow is out of position if hideOverlay and showOverlay is used.
-  jsPlumbConnection.removeOverlay(NORMAL_ARROW.id)
-  jsPlumbConnection.addOverlay(['Arrow', HOVER_ARROW])
+  jsPlumbConnection.removeOverlay(arrowConfig.normal.id)
+  jsPlumbConnection.addOverlay(['Arrow', arrowConfig.hover])
 }
