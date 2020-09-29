@@ -1,5 +1,5 @@
-import determineCurviness from '../determineCurviness'
-import JsPlumbArrow from '../JsPlumbArrow'
+import determineCurviness from '../../determineCurviness'
+import resetArrow from './resetArrow'
 
 export default function(editor, annotationData, relations) {
   for (const relation of relations) {
@@ -14,8 +14,9 @@ export default function(editor, annotationData, relations) {
           curviness
         }
       ])
+
       // Re-set arrow because it is disappered when setConnector is called.
-      new JsPlumbArrow(jsPlumbConnection).resetArrows()
+      resetArrow(jsPlumbConnection)
     }
   }
 }

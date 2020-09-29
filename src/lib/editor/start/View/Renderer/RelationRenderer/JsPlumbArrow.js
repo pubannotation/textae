@@ -32,21 +32,4 @@ export default class {
     this._jsPlumbConnection.removeOverlay(HOVER_ARROW.id)
     this._jsPlumbConnection.addOverlay(['Arrow', NORMAL_ARROW])
   }
-
-  resetArrows() {
-    for (const overlay of this._jsPlumbConnection.getOverlays()) {
-      if (overlay.type === 'Arrow') {
-        this._jsPlumbConnection.removeOverlays(overlay.id)
-        this._jsPlumbConnection.addOverlay([
-          'Arrow',
-          {
-            id: overlay.id,
-            width: overlay.width,
-            length: overlay.length,
-            location: overlay.loc
-          }
-        ])
-      }
-    }
-  }
 }
