@@ -16,15 +16,15 @@ export default function(
         if (!areEndpointsPrepared(annotationData, relation.relationId)) {
           return
         }
-        if (relation.render) {
-          render(
-            jsPlumbInstance,
-            editor,
-            annotationData,
-            typeDefinition,
-            relation
-          )
-        }
+
+        render(
+          jsPlumbInstance,
+          editor,
+          annotationData,
+          typeDefinition,
+          relation
+        )
+
         resolve(relation)
       } catch (error) {
         reject(error)
