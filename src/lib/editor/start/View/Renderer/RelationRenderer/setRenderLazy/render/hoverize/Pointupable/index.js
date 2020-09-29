@@ -1,7 +1,8 @@
 import getLabelOverlay from '../../../../../../../getLabelOverlay'
 import connectorStrokeStyle from '../../../../connectorStrokeStyle'
-import JsPlumbArrow from './JsPlumbArrow'
 import hasClass from './hasClass'
+import showBigArrow from './showBigArrow'
+import hideBigArrow from './hideBigArrow'
 
 export default class {
   constructor(annotationData, typeDefinition, jsPlumbConnection, relationId) {
@@ -15,7 +16,7 @@ export default class {
     if (!hasClass(this._jsPlumbConnection, 'ui-selected')) {
       this._setConnectionColor()
       this._addCssClass('hover')
-      new JsPlumbArrow(this._jsPlumbConnection).showBigArrow()
+      showBigArrow(this._jsPlumbConnection)
     }
   }
 
@@ -23,7 +24,7 @@ export default class {
     if (!hasClass(this._jsPlumbConnection, 'ui-selected')) {
       this._setConnectionColor()
       this._removeCssClass('hover')
-      new JsPlumbArrow(this._jsPlumbConnection).hideBigArrow()
+      hideBigArrow(this._jsPlumbConnection)
     }
   }
 
@@ -32,7 +33,7 @@ export default class {
       this._setConnectionColor()
       this._addCssClass('ui-selected')
       this._removeCssClass('hover')
-      new JsPlumbArrow(this._jsPlumbConnection).showBigArrow()
+      showBigArrow(this._jsPlumbConnection)
     }
   }
 
@@ -40,7 +41,7 @@ export default class {
     if (!this._jsPlumbConnection.dead) {
       this._setConnectionColor()
       this._removeCssClass('ui-selected')
-      new JsPlumbArrow(this._jsPlumbConnection).hideBigArrow()
+      hideBigArrow(this._jsPlumbConnection)
     }
   }
 
