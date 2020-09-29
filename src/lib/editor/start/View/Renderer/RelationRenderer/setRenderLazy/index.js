@@ -1,4 +1,4 @@
-import renderLazy from './renderLazy'
+import renderLazy from '../renderLazy'
 
 export default function(relation) {
   Object.assign(relation, {
