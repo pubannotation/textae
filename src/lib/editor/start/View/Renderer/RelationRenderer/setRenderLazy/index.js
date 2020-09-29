@@ -1,14 +1,8 @@
 import renderLazy from './renderLazy'
 
-export default function(
-  jsPlumbInstance,
-  editor,
-  annotationData,
-  typeDefinition,
-  relation
-) {
+export default function(relation) {
   Object.assign(relation, {
-    render() {
+    render(jsPlumbInstance, editor, annotationData, typeDefinition) {
       return renderLazy(
         editor,
         annotationData,

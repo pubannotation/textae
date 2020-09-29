@@ -16,7 +16,13 @@ export default class {
   }
 
   arrangePositionAll() {
-    renderLazyRelationAll(this._annotationData.relation.all)
+    renderLazyRelationAll(
+      this._annotationData.relation.all,
+      this._jsPlumbInstance,
+      this._editor,
+      this._annotationData,
+      this._typeDefinition
+    )
     arrangePositionAll(
       this._editor,
       this._annotationData,
@@ -33,13 +39,7 @@ export default class {
     // Create a dummy relation when before moving grids after creation grids.
     // Because a jsPlumb error occurs when a relation between same points.
     // And entities of same length spans was same point before moving grids.
-    setRenderLazy(
-      this._jsPlumbInstance,
-      this._editor,
-      this._annotationData,
-      this._typeDefinition,
-      relation
-    )
+    setRenderLazy(relation)
   }
 
   change(relation) {
