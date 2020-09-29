@@ -1,7 +1,6 @@
 import getAnnotationBox from '../getAnnotationBox'
 import arrangePositionAll from './arrangePositionAll'
 import makeJsPlumbInstance from './makeJsPlumbInstance'
-import setRenderLazy from './setRenderLazy'
 import changeType from './changeType'
 import renderLazyRelationAll from './renderLazyRelationAll'
 
@@ -35,10 +34,10 @@ export default class {
   }
 
   render(relation) {
-    // Create a dummy relation when before moving grids after creation grids.
-    // Because a jsPlumb error occurs when a relation between same points.
+    // This is a dummy method.
+    // The jsPlumb error occurs when a relation between same points.
     // And entities of same length spans was same point before moving grids.
-    setRenderLazy(relation)
+    // A relaiton will be rendered after moving grids.
   }
 
   change(relation) {

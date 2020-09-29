@@ -1,3 +1,5 @@
+import renderLazy from './renderLazy'
+
 export default function(
   relations,
   jsPlumbInstance,
@@ -10,7 +12,7 @@ export default function(
     relations
       .filter((r) => !r.isRendered)
       .map((r) =>
-        r.render(jsPlumbInstance, editor, annotationData, typeDefinition)
+        renderLazy(editor, annotationData, r, jsPlumbInstance, typeDefinition)
       )
   ).catch((reason) => {
     console.error('error in renderLazyRelationAll', reason)
