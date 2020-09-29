@@ -1,4 +1,3 @@
-import reselectAll from './reselectAll'
 import resetAllCurviness from './resetAllCurviness'
 
 export default function(
@@ -19,7 +18,12 @@ export default function(
 
       resetAllCurviness(editor, annotationData, relations)
       jsPlumbInstance.repaintEverything()
-      reselectAll(selectionModel.relation.all.filter((r) => r.isRendered))
+
+      for (const selectedRelation of selectionModel.relation.all) {
+        if (selectedRelation.isRendered) {
+          selectedRelation.jsPlumbConnection.select()
+        }
+      }
 
       // For tuning
       // var endTime = new Date();
