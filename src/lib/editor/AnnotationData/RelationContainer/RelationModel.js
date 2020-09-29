@@ -61,4 +61,12 @@ export default class RelationModel {
     // Set a flag to extract relations from target to move relations asynchronously.
     this.removed = true
   }
+
+  selectJsPlumbConnection() {
+    if (this._connect) this._connect.select()
+  }
+
+  deselectJsPlumbConnection() {
+    if (this._connect) this._connect.deselect()
+  }
 }

@@ -17,13 +17,9 @@ export default function(editor) {
       entityDomSelector.deselect(entity.id)
     )
     .on('textae.selection.relation.select', (relation) =>
-      setTimeout(() => {
-        if (relation.jsPlumbConnection) relation.jsPlumbConnection.select()
-      }, 150)
+      setTimeout(() => relation.selectJsPlumbConnection(), 150)
     )
     .on('textae.selection.relation.deselect', (relation) =>
-      setTimeout(() => {
-        if (relation.jsPlumbConnection) relation.jsPlumbConnection.deselect()
-      }, 150)
+      setTimeout(() => relation.deselectJsPlumbConnection(), 150)
     )
 }
