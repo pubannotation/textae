@@ -8,7 +8,6 @@ export default function(
   relation
 ) {
   Object.assign(relation, {
-    relationId: relation.id,
     render() {
       return renderLazy(
         editor,

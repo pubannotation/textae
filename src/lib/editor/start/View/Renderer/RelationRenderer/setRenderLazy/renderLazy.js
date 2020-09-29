@@ -13,7 +13,7 @@ export default function(
       try {
         // The grid and its endpoints may be destroyed
         // when the spans was moved repetitively by undo or redo.
-        if (!areEndpointsPrepared(annotationData, relation.relationId)) {
+        if (!areEndpointsPrepared(annotationData, relation.id)) {
           return
         }
 
