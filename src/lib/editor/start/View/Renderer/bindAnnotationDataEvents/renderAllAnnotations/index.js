@@ -1,4 +1,4 @@
-import getAnnotationBox from '../getAnnotationBox'
+import getAnnotationBox from '../../getAnnotationBox'
 import renderAllRelation from './renderAllRelation'
 import renderAllSpan from './renderAllSpan'
 export default function(
