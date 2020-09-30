@@ -20,9 +20,9 @@ export default function(
         editor,
         domPositionCache,
         annotationData,
-        spanRenderer,
-        relationRenderer
+        spanRenderer
       )
+      relationRenderer.reset()
       textBox.updateLineHeight()
     })
     .on('textae.annotationData.span.add', (span) => {
@@ -46,9 +46,6 @@ export default function(
         entityRenderer.remove(entity)
         entityRenderer.render(entity)
       }
-    })
-    .on('textae.annotationData.relation.add', (relation) => {
-      relationRenderer.render(relation)
     })
     .on('textae.annotationData.relation.change', (relation) => {
       relationRenderer.change(relation)

@@ -33,13 +33,6 @@ export default class {
     this._jsPlumbInstance.reset()
   }
 
-  render(relation) {
-    // This is a dummy method.
-    // The jsPlumb error occurs when a relation between same points.
-    // And entities of same length spans was same point before moving grids.
-    // A relaiton will be rendered after moving grids.
-  }
-
   change(relation) {
     changeType(this._annotationData, this._typeDefinition, relation)
   }
