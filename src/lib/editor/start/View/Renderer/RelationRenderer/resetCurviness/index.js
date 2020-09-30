@@ -1,4 +1,4 @@
-import determineCurviness from '../../../determineCurviness'
+import determineCurviness from '../determineCurviness'
 import resetArrow from './resetArrow'
 
 export default function(relation, editor, annotationData) {

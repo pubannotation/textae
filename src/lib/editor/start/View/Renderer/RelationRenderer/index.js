@@ -1,8 +1,8 @@
 import getAnnotationBox from '../getAnnotationBox'
-import arrangePositionAll from './arrangePositionAll'
 import makeJsPlumbInstance from './makeJsPlumbInstance'
 import changeType from './changeType'
-import renderLazyRelationAll from './renderLazyRelationAll'
+import resetCurviness from './resetCurviness'
+import renderLazy from './renderLazy'
 
 export default class {
   constructor(editor, annotationData, selectionModel, typeDefinition) {
@@ -14,19 +14,27 @@ export default class {
   }
 
   arrangePositionAll() {
-    renderLazyRelationAll(
-      this._annotationData.relation.all,
-      this._jsPlumbInstance,
-      this._editor,
-      this._annotationData,
-      this._typeDefinition
-    )
-    arrangePositionAll(
-      this._editor,
-      this._annotationData,
-      this._selectionModel,
-      this._jsPlumbInstance
-    )
+    for (const relation of this._annotationData.relation.all) {
+      if (relation.isRendered) {
+        resetCurviness(relation, this._editor, this._annotationData)
+      } else {
+        renderLazy(
+          this._editor,
+          this._annotationData,
+          relation,
+          this._jsPlumbInstance,
+          this._typeDefinition
+        )
+      }
+    }
+
+    this._jsPlumbInstance.repaintEverything()
+
+    for (const selectedRelation of this._selectionModel.relation.all) {
+      if (selectedRelation.isRendered) {
+        selectedRelation.jsPlumbConnection.select()
+      }
+    }
   }
 
   reset() {
