@@ -5,7 +5,7 @@ export default function(editor, annotationPosition, textBox) {
   const lineHeightAuto = new LineHeightAuto(editor, textBox)
   const debouncedUpdatePosition = debounce(() => {
     lineHeightAuto.updateLineHeight()
-    annotationPosition.updateAsync()
+    annotationPosition.update()
   }, 100)
 
   editor.eventEmitter

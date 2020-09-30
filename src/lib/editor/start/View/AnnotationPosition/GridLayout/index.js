@@ -1,5 +1,4 @@
 import getDomPositionCache from '../../getDomPositionCache'
-import genArrangeAllGridPositionPromises from './genArrangeAllGridPositionPromises'
 import arrangeGridPosition from './arrangeGridPosition'
 
 // Management position of annotation components.
@@ -27,17 +26,5 @@ export default class {
         span
       )
     }
-  }
-
-  arrangePositionAsync() {
-    this._domPositionCache.removeAllSpan()
-
-    return Promise.all(
-      genArrangeAllGridPositionPromises(
-        this._domPositionCache,
-        this._annotationData,
-        this._gridHeight
-      )
-    )
   }
 }

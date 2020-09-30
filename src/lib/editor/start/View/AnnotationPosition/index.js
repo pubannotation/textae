@@ -21,20 +21,4 @@ export default class {
         )
       )
   }
-
-  updateAsync() {
-    this._editor.eventEmitter.emit(
-      'textae.annotationPosition.position-update.start'
-    )
-
-    this._gridLayout
-      .arrangePositionAsync()
-      .then(() => this._renderer.arrangeRelationPositionAllAsync())
-      .then(
-        this._editor.eventEmitter.emit(
-          'textae.annotationPosition.position-update.end'
-        )
-      )
-      .catch((error) => console.error(error, error.stack))
-  }
 }
