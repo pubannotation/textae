@@ -8,13 +8,9 @@ export default function(
   typeDefinition
 ) {
   // Render relations unless rendered.
-  return Promise.all(
-    relations
-      .filter((r) => !r.isRendered)
-      .map((r) =>
-        renderLazy(editor, annotationData, r, jsPlumbInstance, typeDefinition)
-      )
-  ).catch((reason) => {
-    console.error('error in renderLazyRelationAll', reason)
-  })
+  relations
+    .filter((r) => !r.isRendered)
+    .forEach((r) =>
+      renderLazy(editor, annotationData, r, jsPlumbInstance, typeDefinition)
+    )
 }
