@@ -1,5 +1,5 @@
 import render from './render'
-import isGridPrepared from './isGridPrepared'
+import areEndpointsPrepared from './areEndpointsPrepared'
 
 export default function(
   editor,
@@ -11,8 +11,9 @@ export default function(
   return new Promise((resolve, reject) => {
     setTimeout(() => {
       try {
-        // The grid may be destroyed when the spans was moved repetitively by undo or redo.
-        if (!isGridPrepared(annotationData, relation.relationId)) {
+        // The grid and its endpoints may be destroyed
+        // when the spans was moved repetitively by undo or redo.
+        if (!areEndpointsPrepared(annotationData, relation.relationId)) {
           return
         }
         if (relation.render) {
