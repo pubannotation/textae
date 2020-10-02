@@ -13,14 +13,23 @@ export default function(
   annotationData,
   typeDefinition
 ) {
+  const sourceEndpoint = getEntityEndopointDom(editor, relation.subj)
+  const targetEndpoint = getEntityEndopointDom(editor, relation.obj)
+
   return jsPlumbInstance.connect({
-    source: $(getEntityEndopointDom(editor, relation.subj)),
-    target: $(getEntityEndopointDom(editor, relation.obj)),
+    source: $(sourceEndpoint),
+    target: $(targetEndpoint),
     anchors: ['TopCenter', 'TopCenter'],
     connector: [
       'Bezier',
       {
-        curviness: determineCurviness(editor, annotationData, relation)
+        curviness: determineCurviness(
+          editor,
+          annotationData,
+          relation,
+          sourceEndpoint,
+          targetEndpoint
+        )
       }
     ],
     paintStyle: connectorStrokeStyle(

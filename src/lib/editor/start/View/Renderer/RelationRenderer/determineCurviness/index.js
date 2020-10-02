@@ -1,5 +1,4 @@
 import getDomPositionCache from '../../../getDomPositionCache'
-import getEntityEndopointDom from '../../../getEntityEndopointDom'
 import getEndpointPosition from './getEndpointPosition'
 
 const CURVINESS_PARAMETERS = {
@@ -11,13 +10,14 @@ const CURVINESS_PARAMETERS = {
   offset: 20
 }
 
-export default function(editor, annotationData, relation) {
+export default function(
+  editor,
+  annotationData,
+  relation,
+  sourceEndpoint,
+  targetEndpoint
+) {
   const domPositionCache = getDomPositionCache(editor)
-
-  const sourceEndpoint = getEntityEndopointDom(editor, relation.subj)
-  if (!sourceEndpoint) {
-    throw new Error(`entity is not rendered : ${relation.subj}`)
-  }
 
   const sourcePosition = getEndpointPosition(
     sourceEndpoint,
@@ -25,11 +25,6 @@ export default function(editor, annotationData, relation) {
     relation.subj,
     domPositionCache
   )
-
-  const targetEndpoint = getEntityEndopointDom(editor, relation.obj)
-  if (!targetEndpoint) {
-    throw new Error(`entity is not rendered : ${relation.obj}`)
-  }
 
   const targetPosition = getEndpointPosition(
     targetEndpoint,
