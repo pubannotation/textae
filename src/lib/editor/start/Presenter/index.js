@@ -64,11 +64,9 @@ export default class {
     // The jsPlumbConnetion has an original event mecanism.
     // We can only bind the connection directory.
     editor.eventEmitter.on(
-      'textae.editor.jsPlumbConnection.add',
-      (jsPlumbConnection) =>
-        jsPlumbConnection.bindClickAction((jsPlumbConnection, event) =>
-          typeEditor.jsPlumbConnectionClicked(jsPlumbConnection, event)
-        )
+      'textae.editor.jsPlumbConnection.click',
+      (jsPlumbConnection, event) =>
+        typeEditor.jsPlumbConnectionClicked(jsPlumbConnection, event)
     )
   }
 }

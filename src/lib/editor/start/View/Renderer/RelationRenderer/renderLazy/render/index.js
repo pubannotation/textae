@@ -1,4 +1,3 @@
-import Api from './Api'
 import hoverize from './hoverize'
 import createJsPlumbConnecttion from './createJsPlumbConnecttion'
 
@@ -18,13 +17,15 @@ export default function(
   )
 
   hoverize(annotationData, typeDefinition, jsPlumbConnection, relation.id)
-  Object.assign(jsPlumbConnection, new Api())
 
-  // Notify to controller that a new jsPlumbConnection is added.
-  editor.eventEmitter.emit(
-    'textae.editor.jsPlumbConnection.add',
-    jsPlumbConnection
-  )
+  // Bind a jsPlumbConnection event.
+  jsPlumbConnection.bind('click', (_, event) => {
+    editor.eventEmitter.emit(
+      'textae.editor.jsPlumbConnection.click',
+      jsPlumbConnection,
+      event
+    )
+  })
 
   relation.jsPlumbConnection = jsPlumbConnection
 }
