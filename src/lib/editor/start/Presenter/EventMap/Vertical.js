@@ -14,16 +14,16 @@ export default class {
   }
 
   down() {
-    if (this._selectedType) {
-      this._selectionModel.selectSingleSpanById(this._spanIdOfSelectedType)
+    const selectedEntityDom = this._editor[0].querySelector(
+      '.textae-editor__entity.ui-selected'
+    )
+
+    if (selectedEntityDom) {
+      const spanId = selectedEntityDom
+        .closest('.textae-editor__grid')
+        .id.substring(1)
+
+      this._selectionModel.selectSingleSpanById(spanId)
     }
-  }
-
-  get _selectedType() {
-    return this._editor[0].querySelector('.textae-editor__entity.ui-selected')
-  }
-
-  get _spanIdOfSelectedType() {
-    return this._selectedType.closest('.textae-editor__grid').id.substring(1)
   }
 }
