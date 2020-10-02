@@ -128,11 +128,9 @@ export default class {
   jsPlumbConnectionClicked(jsPlumbConnection, event) {
     // A relation is drawn by a jsPlumbConnection.
     // The EventHandlar for clieck event of jsPlumbConnection.
-    if (this._elementEditor.getHandler().jsPlumbConnectionClicked) {
-      this._elementEditor
-        .getHandler()
-        .jsPlumbConnectionClicked(jsPlumbConnection, event)
-    }
+    this._elementEditor
+      .getHandler()
+      .jsPlumbConnectionClicked(jsPlumbConnection, event)
   }
 
   getSelectedIdEditable() {
