@@ -16,7 +16,7 @@ export default class {
   arrangePositionAll() {
     for (const relation of this._annotationData.relation.all) {
       if (relation.isRendered) {
-        resetCurviness(relation, this._editor, this._annotationData)
+        resetCurviness(relation)
       } else {
         renderLazy(
           this._editor,

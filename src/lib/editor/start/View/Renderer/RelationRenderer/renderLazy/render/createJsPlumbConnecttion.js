@@ -23,13 +23,7 @@ export default function(
     connector: [
       'Bezier',
       {
-        curviness: determineCurviness(
-          editor,
-          annotationData,
-          relation,
-          sourceEndpoint,
-          targetEndpoint
-        )
+        curviness: determineCurviness(sourceEndpoint, targetEndpoint)
       }
     ],
     paintStyle: connectorStrokeStyle(

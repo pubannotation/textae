@@ -1,9 +1,11 @@
-export default function(endpoint, annotationData, entityId, domPositionCache) {
-  const spanId = annotationData.entity.get(entityId).span.id
-  const gridPosition = domPositionCache.getGrid(spanId)
+export default function(endpoint) {
+  const gridStyle = endpoint.closest('.textae-editor__grid').style
 
   return {
-    top: gridPosition.top + endpoint.offsetTop,
-    center: gridPosition.left + endpoint.offsetLeft + endpoint.offsetWidth / 2
+    top: parseFloat(gridStyle.top) + endpoint.offsetTop,
+    center:
+      parseFloat(gridStyle.left) +
+      endpoint.offsetLeft +
+      endpoint.offsetWidth / 2
   }
 }

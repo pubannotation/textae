@@ -1,4 +1,3 @@
-import getDomPositionCache from '../../../getDomPositionCache'
 import getEndpointPosition from './getEndpointPosition'
 
 const CURVINESS_PARAMETERS = {
@@ -10,28 +9,9 @@ const CURVINESS_PARAMETERS = {
   offset: 20
 }
 
-export default function(
-  editor,
-  annotationData,
-  relation,
-  sourceEndpoint,
-  targetEndpoint
-) {
-  const domPositionCache = getDomPositionCache(editor)
-
-  const sourcePosition = getEndpointPosition(
-    sourceEndpoint,
-    annotationData,
-    relation.subj,
-    domPositionCache
-  )
-
-  const targetPosition = getEndpointPosition(
-    targetEndpoint,
-    annotationData,
-    relation.obj,
-    domPositionCache
-  )
+export default function(sourceEndpoint, targetEndpoint) {
+  const sourcePosition = getEndpointPosition(sourceEndpoint)
+  const targetPosition = getEndpointPosition(targetEndpoint)
 
   const sourceX = sourcePosition.center
   const targetX = targetPosition.center
