@@ -21,7 +21,10 @@ export default function(
   Object.assign(jsPlumbConnection, new Api())
 
   // Notify to controller that a new jsPlumbConnection is added.
-  editor.trigger('textae.editor.jsPlumbConnection.add', jsPlumbConnection)
+  editor.eventEmitter.emit(
+    'textae.editor.jsPlumbConnection.add',
+    jsPlumbConnection
+  )
 
   relation.jsPlumbConnection = jsPlumbConnection
 }
