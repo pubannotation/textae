@@ -1,5 +1,4 @@
 import ElementEditor from './ElementEditor'
-import jsPlumbConnectionClicked from './jsPlumbConnectionClicked'
 import initPallet from './initPallet'
 import EntityPallet from '../../../../component/EntityPallet'
 import RelationPallet from '../../../../component/RelationPallet'
@@ -127,7 +126,13 @@ export default class {
   }
 
   jsPlumbConnectionClicked(jsPlumbConnection, event) {
-    jsPlumbConnectionClicked(this._elementEditor, jsPlumbConnection, event)
+    // A relation is drawn by a jsPlumbConnection.
+    // The EventHandlar for clieck event of jsPlumbConnection.
+    if (this._elementEditor.getHandler().jsPlumbConnectionClicked) {
+      this._elementEditor
+        .getHandler()
+        .jsPlumbConnectionClicked(jsPlumbConnection, event)
+    }
   }
 
   getSelectedIdEditable() {
