@@ -11,10 +11,10 @@ export default function(
   attribute,
   relation,
   text,
-  annotation,
+  rowData,
   prefix
 ) {
-  const result = validateAnnotation(text, annotation)
+  const result = validateAnnotation(text, rowData)
 
   importSource(
     [span, entity],

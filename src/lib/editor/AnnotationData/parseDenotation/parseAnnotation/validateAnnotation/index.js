@@ -4,9 +4,9 @@ import validateAttribute from './validateAttribute'
 import validateRelation from './validateRelation'
 import transformToReferenceObjectError from './transformToReferenceObjectError'
 
-export default function(text, annotation) {
-  const resultTypeSet = validateSpan(text, annotation.typesettings)
-  const resultDenotation = validateSpan(text, annotation.denotations)
+export default function(text, rowData) {
+  const resultTypeSet = validateSpan(text, rowData.typesettings)
+  const resultDenotation = validateSpan(text, rowData.denotations)
 
   // Typesets and denotations are both drawn with a span tag,
   // so the boundaries cannot be crossed.
@@ -17,11 +17,11 @@ export default function(text, annotation) {
   )
   const resultAttribute = validateAttribute(
     resultCrossing.acceptedDenotations,
-    annotation.attributes
+    rowData.attributes
   )
   const resultRelation = validateRelation(
     resultCrossing.acceptedDenotations,
-    annotation.relations
+    rowData.relations
   )
 
   return {

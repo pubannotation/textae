@@ -20,15 +20,15 @@ export default class {
     this._editor = editor
   }
 
-  reset(annotation) {
-    console.assert(annotation.text, 'This is not a json file of anntations.')
+  reset(rawData) {
+    console.assert(rawData.text, 'This is not a json file of anntations.')
 
     clearAnnotationData(this)
 
-    this.sourceDoc = annotation.text
-    this.config = annotation.config
+    this.sourceDoc = rawData.text
+    this.config = rawData.config
 
-    const { multitrack, hasError, rejects } = parseDenotation(this, annotation)
+    const { multitrack, hasError, rejects } = parseDenotation(this, rawData)
 
     this._editor.eventEmitter.emit(
       'textae.annotationData.all.change',
