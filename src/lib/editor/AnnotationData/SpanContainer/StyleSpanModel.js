@@ -1,6 +1,6 @@
 import SpanModel from './SpanModel'
 
-export default class extends SpanModel {
+export default class StyleSpanModel extends SpanModel {
   constructor(editor, span, spanContainer, style) {
     super(editor, span, spanContainer)
     this.styles = new Set([style])
