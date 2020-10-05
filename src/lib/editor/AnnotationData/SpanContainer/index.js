@@ -3,6 +3,7 @@ import spanComparator from './spanComparator'
 import { makeDenotationSpanDomId } from '../../idFactory'
 import DenotationSpanModel from './DenotationSpanModel'
 import StyleSpanModel from './StyleSpanModel'
+import BlockSpanModel from './BlockSpanModel'
 import isBoundaryCrossingWithOtherSpans from '../isBoundaryCrossingWithOtherSpans'
 import ModelContainer from '../ModelContainer'
 
@@ -13,7 +14,9 @@ export default class SpanContainer extends ModelContainer {
     this._editor = editor
     this._entityContainer = entityContainer
 
-    // Keep tyep settings independent of span editing.
+    // Aliase to the super class property.
+    this._denotations = this._container
+    this._blocks = new Map()
     this._typeSettings = new Map()
   }
 
@@ -21,24 +24,38 @@ export default class SpanContainer extends ModelContainer {
   add(newValue) {
     console.assert(newValue, 'span is necessary.')
 
-    // When redoing, the newValue is instance of the DenotationSpanModel already.
-    if (newValue instanceof DenotationSpanModel) {
-      super.add(newValue, () => {
-        this._updateSpanTree()
-      })
-      return newValue
-    }
+    if (newValue.isBlock || newValue instanceof BlockSpanModel) {
+      // When redoing, the newValue is instance of the BlockSpanModel already.
+      const blockSpan =
+        newValue instanceof BlockSpanModel
+          ? newValue
+          : new BlockSpanModel(
+              this._editor,
+              newValue.begin,
+              newValue.end,
+              this._entityContainer,
+              this
+            )
 
-    const { begin, end } = newValue
-    const newInstance = new DenotationSpanModel(
-      this._editor,
-      begin,
-      end,
-      this._entityContainer,
-      this
-    )
-    super.add(newInstance, () => this._updateSpanTree())
-    return newInstance
+      this._blocks.set(blockSpan.id, blockSpan)
+      this._updateSpanTree()
+      this._emit(`textae.annotationData.span.add`, blockSpan)
+      return blockSpan
+    } else {
+      // When redoing, the newValue is instance of the DenotationSpanModel already.
+      const newInstance =
+        newValue instanceof DenotationSpanModel
+          ? newValue
+          : new DenotationSpanModel(
+              this._editor,
+              newValue.begin,
+              newValue.end,
+              this._entityContainer,
+              this
+            )
+      super.add(newInstance, () => this._updateSpanTree())
+      return newInstance
+    }
   }
 
   // It is assumed that the denotations or typesettings
@@ -53,12 +70,14 @@ export default class SpanContainer extends ModelContainer {
 
   hasDenotationSpan(begin, end) {
     const spanId = makeDenotationSpanDomId(this._editor, begin, end)
-    return this._container.has(spanId)
+    return this._denotations.has(spanId)
   }
 
   get(spanId) {
-    if (this._container.has(spanId)) {
-      return super.get(spanId)
+    if (this._denotations.has(spanId)) {
+      return this._denotations.get(spanId)
+    } else if (this._blocks.has(spanId)) {
+      return this._blocks.get(spanId)
     } else {
       // Returns a typesetting only.
       return this._typeSettings.get(spanId)
@@ -102,6 +121,17 @@ export default class SpanContainer extends ModelContainer {
     this._typeSettings = new Map()
   }
 
+  remove(id) {
+    const instance = this._blocks.get(id)
+    if (instance) {
+      this._blocks.delete(id)
+      this._emit(`textae.annotationData.span.remove`, instance)
+      return instance
+    }
+
+    return super.remove(id)
+  }
+
   moveDenotationSpan(id, begin, end) {
     console.assert(
       id !== makeDenotationSpanDomId(this._editor, begin, end),
@@ -141,13 +171,17 @@ export default class SpanContainer extends ModelContainer {
 
   get all() {
     const styleOnlySpans = [...this._typeSettings.values()].filter(
-      (s) => !this._container.has(s.id)
+      (s) => !this._denotations.has(s.id)
     )
-    return super.all.concat(styleOnlySpans)
+    return [...this._blocks.values()].concat(super.all).concat(styleOnlySpans)
   }
 
   get allDenotationSpans() {
     return super.all
+  }
+
+  get allBlockSpans() {
+    return [...this._blocks.values()]
   }
 
   // It has a common interface with the span model so that it can be the parent of the span model.
@@ -176,8 +210,19 @@ export default class SpanContainer extends ModelContainer {
           this
         )
 
-        this._container.set(objectSpan.id, objectSpan)
+        this._denotations.set(objectSpan.id, objectSpan)
+        break
+      }
+      case 'block': {
+        const blockSpan = new BlockSpanModel(
+          this._editor,
+          denotation.span.begin,
+          denotation.span.end,
+          this._entityContainer,
+          this
+        )
 
+        this._blocks.set(blockSpan.id, blockSpan)
         break
       }
       case 'typesetting': {
