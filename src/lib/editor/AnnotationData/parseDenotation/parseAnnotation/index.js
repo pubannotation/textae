@@ -19,7 +19,8 @@ export default function(
   importSource(
     [span, entity],
     (src) => translateDenotation(prefix, src),
-    result.accept.denotation
+    result.accept.denotation,
+    'object span'
   )
 
   importSource(
@@ -41,7 +42,8 @@ export default function(
         span: convertBeginAndEndToInteger(src.span)
       })
     },
-    result.accept.typeSet
+    result.accept.typeSet,
+    'style span'
   )
 
   return result.reject

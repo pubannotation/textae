@@ -17,40 +17,6 @@ export default class extends ModelContainer {
     this._typeSets = new Map()
   }
 
-  _toModel(denotation) {
-    if (denotation.style) {
-      return new StyleSpanModel(
-        this._editor,
-        denotation.span,
-        this,
-        denotation.style
-      )
-    } else {
-      return new ObjectSpanModel(
-        this._editor,
-        denotation.span,
-        this._entityContainer,
-        this
-      )
-    }
-  }
-
-  _addToContainer(instance) {
-    if (instance instanceof ObjectSpanModel) {
-      this._container.set(instance.id, instance)
-    }
-
-    if (instance instanceof StyleSpanModel) {
-      if (this._typeSets.has(instance.id)) {
-        this._typeSets.get(instance.id).appendStyles(instance.styles)
-      } else {
-        this._typeSets.set(instance.id, instance)
-      }
-    }
-
-    return instance
-  }
-
   // expected span is like { "begin": 19, "end": 49 }
   add(newValue) {
     console.assert(newValue, 'span is necessary.')
@@ -70,8 +36,12 @@ export default class extends ModelContainer {
     )
   }
 
-  addSource(spans) {
-    super.addSource(spans)
+  // It is assumed that the denotations or typesettings
+  // in the annotation file will be passed.
+  addSource(source, type) {
+    for (const element of source) {
+      this._addInstanceFromElement(type, element)
+    }
 
     updateSpanTree(this.all, this)
   }
@@ -177,5 +147,41 @@ export default class extends ModelContainer {
   // It has a common interface with the span model so that it can be the parent of the span model
   get element() {
     return this._editor[0].querySelector(`.textae-editor__body__text-box`)
+  }
+
+  _addInstanceFromElement(type, denotation) {
+    switch (type) {
+      case 'object span': {
+        const objectSpan = new ObjectSpanModel(
+          this._editor,
+          denotation.span,
+          this._entityContainer,
+          this
+        )
+
+        this._container.set(objectSpan.id, objectSpan)
+
+        break
+      }
+      case 'style span': {
+        const styleSpan = new StyleSpanModel(
+          this._editor,
+          denotation.span,
+          this,
+          denotation.style
+        )
+
+        // Merge multiple styles for the same range.
+        if (this._typeSets.has(styleSpan.id)) {
+          this._typeSets.get(styleSpan.id).appendStyles(styleSpan.styles)
+        } else {
+          this._typeSets.set(styleSpan.id, styleSpan)
+        }
+
+        break
+      }
+      default:
+        throw `${type} is unknown type span!`
+    }
   }
 }
