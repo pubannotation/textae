@@ -1,7 +1,7 @@
-export default function(dataStore) {
-  dataStore.span.clear()
-  dataStore.entity.clear()
-  dataStore.attribute.clear()
-  dataStore.relation.clear()
-  dataStore.namespace.clear()
+export default function(annotationData) {
+  annotationData.span.clear()
+  annotationData.entity.clear()
+  annotationData.attribute.clear()
+  annotationData.relation.clear()
+  annotationData.namespace.clear()
 }

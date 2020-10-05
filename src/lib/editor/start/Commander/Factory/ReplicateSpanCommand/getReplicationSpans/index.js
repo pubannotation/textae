@@ -2,12 +2,12 @@ import getSpansTheirStringIsSameWith from './getSpansTheirStringIsSameWith'
 import isWord from './isWord'
 
 // Check replications are word or not if spanConfig is set.
-export default function(dataStore, originSpan, detectBoundaryFunc) {
+export default function(annotationData, originSpan, detectBoundaryFunc) {
   const wordFilter = detectBoundaryFunc
-    ? (span) => isWord(dataStore.sourceDoc, detectBoundaryFunc, span)
+    ? (span) => isWord(annotationData.sourceDoc, detectBoundaryFunc, span)
     : (span) => span
 
-  return getSpansTheirStringIsSameWith(dataStore.sourceDoc, originSpan)
+  return getSpansTheirStringIsSameWith(annotationData.sourceDoc, originSpan)
     .filter(
       (span) =>
         // The candidateSpan is a same span when begin is same.
@@ -15,6 +15,8 @@ export default function(dataStore, originSpan, detectBoundaryFunc) {
         span.begin !== originSpan.begin
     )
     .filter(wordFilter)
-    .filter((span) => !dataStore.span.has(span))
-    .filter((span) => !dataStore.span.isBoundaryCrossingWithOtherSpans(span))
+    .filter((span) => !annotationData.span.has(span))
+    .filter(
+      (span) => !annotationData.span.isBoundaryCrossingWithOtherSpans(span)
+    )
 }

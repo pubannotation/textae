@@ -1,5 +1,5 @@
-export default function(dataStore) {
-  return dataStore.relation.all.map((r) => {
+export default function(annotationData) {
+  return annotationData.relation.all.map((r) => {
     return {
       id: r.id,
       pred: r.typeName,

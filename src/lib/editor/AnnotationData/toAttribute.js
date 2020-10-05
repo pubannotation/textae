@@ -1,5 +1,5 @@
-export default function(dataStore) {
-  return dataStore.attribute.all.map((attribute) => {
+export default function(annotationData) {
+  return annotationData.attribute.all.map((attribute) => {
     return {
       id: attribute.id,
       subj: attribute.subj,

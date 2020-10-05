@@ -2,25 +2,25 @@ import parseAnnotation from './parseAnnotation'
 import importNamespace from './importNamespace'
 import parseTracks from './parseTracks'
 
-export default function(dataStore, rowData) {
+export default function(annotationData, rowData) {
   const [multitrack, multitrackRejects] = parseTracks(
-    dataStore.span,
-    dataStore.entity,
-    dataStore.attribute,
-    dataStore.relation,
+    annotationData.span,
+    annotationData.entity,
+    annotationData.attribute,
+    annotationData.relation,
     rowData.text,
     rowData
   )
   const annotationReject = parseAnnotation(
-    dataStore.span,
-    dataStore.entity,
-    dataStore.attribute,
-    dataStore.relation,
+    annotationData.span,
+    annotationData.entity,
+    annotationData.attribute,
+    annotationData.relation,
     rowData.text,
     rowData
   )
   annotationReject.name = 'Root annotations.'
-  importNamespace(dataStore.namespace, rowData.namespaces || [])
+  importNamespace(annotationData.namespace, rowData.namespaces || [])
 
   const rejects = [annotationReject].concat(multitrackRejects)
   const hasError = rejects.some((r) => r.hasError)
