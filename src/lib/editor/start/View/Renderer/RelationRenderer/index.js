@@ -69,6 +69,6 @@ export default class {
       return
     }
 
-    relation.deleteJsPlumbConnection(this._jsPlumbInstance)
+    relation.deleteJsPlumbConnection()
   }
 }

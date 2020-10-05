@@ -1,5 +1,4 @@
-import hoverize from './hoverize'
-import createJsPlumbConnecttion from './createJsPlumbConnecttion'
+import JsPlumbConnectionWrapper from './JsPlumbConnectionWrapper'
 
 export default function(
   jsPlumbInstance,
@@ -8,7 +7,7 @@ export default function(
   typeDefinition,
   relation
 ) {
-  const jsPlumbConnection = createJsPlumbConnecttion(
+  const jsPlumbConnection = new JsPlumbConnectionWrapper(
     jsPlumbInstance,
     editor,
     relation,
@@ -16,16 +15,17 @@ export default function(
     typeDefinition
   )
 
-  hoverize(annotationData, typeDefinition, jsPlumbConnection, relation.id)
-
   // Bind a jsPlumbConnection event.
-  jsPlumbConnection.bind('click', (_, event) => {
-    editor.eventEmitter.emit(
-      'textae.editor.jsPlumbConnection.click',
-      jsPlumbConnection,
-      event
-    )
-  })
+  jsPlumbConnection
+    .bind('mouseenter', () => jsPlumbConnection.pointup())
+    .bind('mouseexit', () => jsPlumbConnection.pointdown())
+    .bind('click', (_, event) => {
+      editor.eventEmitter.emit(
+        'textae.editor.jsPlumbConnection.click',
+        jsPlumbConnection,
+        event
+      )
+    })
 
   relation.jsPlumbConnection = jsPlumbConnection
 }

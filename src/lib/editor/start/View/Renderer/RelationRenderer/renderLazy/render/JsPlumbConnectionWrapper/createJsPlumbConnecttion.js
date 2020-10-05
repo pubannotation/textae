@@ -1,9 +1,9 @@
 import $ from 'jquery'
-import determineCurviness from '../../determineCurviness'
-import getEntityEndopointDom from '../../../../getEntityEndopointDom'
-import connectorStrokeStyle from '../../connectorStrokeStyle'
-import toLabelString from '../../toLabelString'
-import arrowConfig from './arrowConfig'
+import determineCurviness from '../../../determineCurviness'
+import getEntityEndopointDom from '../../../../../getEntityEndopointDom'
+import connectorStrokeStyle from './connectorStrokeStyle'
+import toLabelString from '../../../toLabelString'
+import arrowConfig from '../../../../../../../arrowConfig'
 
 // Make a connect by jsPlumb.
 export default function(

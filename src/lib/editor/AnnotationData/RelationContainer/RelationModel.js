@@ -44,16 +44,11 @@ export default class RelationModel {
   }
 
   set jsPlumbConnection(val) {
-    console.assert(
-      val instanceof jsPlumb.Connection,
-      'A connect must be an instance of jsPlumb.Connection!'
-    )
-
     this._connect = val
   }
 
-  deleteJsPlumbConnection(jsPlumbInstance) {
-    jsPlumbInstance.detach(this._connect)
+  deleteJsPlumbConnection() {
+    this._connect.detach()
     this._connect = undefined
   }
 

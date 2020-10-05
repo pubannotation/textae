@@ -1,5 +1,3 @@
-import getLabelOverlay from '../../../getLabelOverlay'
-
 export default class {
   constructor(modelType, typeContainer, commander) {
     this._modelType = modelType
@@ -25,7 +23,7 @@ export default class {
 
   jsPlumbConnectionClicked(jsPlumbConnection) {
     // Open link when view mode because link in label of jsPlumb event is not fired.
-    const link = getLabelOverlay(jsPlumbConnection).canvas.querySelector('a')
+    const link = jsPlumbConnection.link
     if (link) {
       const href = link.getAttribute('href')
       window.open(href, '_blank')
