@@ -1,7 +1,7 @@
 export default function(jsPlumbConnection) {
   for (const overlay of jsPlumbConnection.getOverlays()) {
     if (overlay.type === 'Arrow') {
-      jsPlumbConnection.removeOverlays(overlay.id)
+      jsPlumbConnection.removeOverlay(overlay.id)
       jsPlumbConnection.addOverlay([
         'Arrow',
         {
