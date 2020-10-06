@@ -10,7 +10,7 @@ export default function(
   textBox,
   gridRectangle
 ) {
-  const spanRenderer = new SpanRenderer(entityRenderer)
+  const spanRenderer = new SpanRenderer(editor, entityRenderer)
 
   editor.eventEmitter
     .on('textae.annotationData.all.change', () => {

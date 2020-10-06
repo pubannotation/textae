@@ -1,9 +1,10 @@
 import renderDenotation from './renderDenotation'
 import destroy from '../destroy'
 import renderBlock from './renderBlock'
+import renderBackgroundOfBlockSpan from './renderBackgroundOfBlockSpan'
 
 // Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
-export default function(span, entityRenderer) {
+export default function(editor, span, entityRenderer) {
   span.traverse((span) => {
     if (span.element !== null) {
       destroy(span)
@@ -14,6 +15,7 @@ export default function(span, entityRenderer) {
     (span) => {
       if (span.isBlock) {
         renderBlock(span)
+        renderBackgroundOfBlockSpan(editor, span)
       } else {
         renderDenotation(span)
       }

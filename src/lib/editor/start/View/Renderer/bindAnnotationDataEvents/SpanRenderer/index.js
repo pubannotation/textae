@@ -2,12 +2,13 @@ import create from './create'
 import destroy from './destroy'
 
 export default class {
-  constructor(entityRenderer) {
+  constructor(editor, entityRenderer) {
+    this._editor = editor
     this._entityRenderer = entityRenderer
   }
 
   render(span) {
-    create(span, this._entityRenderer)
+    create(this._editor, span, this._entityRenderer)
   }
 
   remove(span) {

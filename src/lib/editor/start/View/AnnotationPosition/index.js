@@ -1,4 +1,5 @@
 import arrangeDenotionEntityPosition from './arrangeDenotionEntityPosition'
+import arrangeBackgroundOfBlockSpanPosition from './arrangeBackgroundOfBlockSpanPosition'
 
 export default class AnnotationPosition {
   constructor(editor, annotationData, textBox, gridRectangle, renderer) {
@@ -15,6 +16,7 @@ export default class AnnotationPosition {
     )
 
     arrangeDenotionEntityPosition(this._annotationData, this._gridRectangle)
+    arrangeBackgroundOfBlockSpanPosition(this._annotationData, this._textBox)
 
     this._renderer
       .arrangeRelationPositionAllAsync()

@@ -10,4 +10,9 @@ export default function(span) {
 
   parent.removeChild(spanElement)
   parent.normalize()
+
+  // Block span has a background element.
+  if (span.backgroundElement) {
+    span.backgroundElement.remove()
+  }
 }
