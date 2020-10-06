@@ -8,17 +8,16 @@ export default function(domPositionCache, annotationData, gridHeight, span) {
     return
   }
 
+  const gridElement = span.gridElement
   const { top, left } = domPositionCache.getSpan(span.id)
   const newPosition = {
     top: top - gridHeight.getHeightIncludeDescendantGrids(span),
     left
   }
 
-  if (isMoved(domPositionCache.getGrid(span.id), newPosition)) {
+  if (isMoved(gridElement, newPosition)) {
     // Move all relations because entities are increased or decreased unless the grid is moved.
-    const gridElement = span.gridElement
     updateGridPositon(gridElement, newPosition)
-    domPositionCache.setGrid(span.id, newPosition)
     showInvisibleGrid(gridElement)
   }
 }

@@ -1,12 +1,7 @@
 import getAnnotationBox from '../../getAnnotationBox'
 import renderAllSpan from './renderAllSpan'
-export default function(
-  editor,
-  domPositionCache,
-  annotationData,
-  spanRenderer
-) {
+
+export default function(editor, annotationData, spanRenderer) {
   getAnnotationBox(editor).empty()
-  domPositionCache.removeAllGrid()
   renderAllSpan(annotationData, spanRenderer)
 }

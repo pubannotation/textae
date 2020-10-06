@@ -34,7 +34,6 @@ export default class {
     bindAnnotationDataEvents(
       annotationData,
       editor,
-      domPositionCache,
       this._relationRenderer,
       gridRenderer,
       entityRenderer,

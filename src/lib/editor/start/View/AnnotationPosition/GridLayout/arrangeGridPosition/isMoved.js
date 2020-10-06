@@ -1,8 +1,8 @@
-export default function(oldPosition, newPosition) {
+export default function(gridElement, newPosition) {
   if (
-    !oldPosition ||
-    oldPosition.top !== newPosition.top ||
-    oldPosition.left !== newPosition.left
+    !gridElement.style ||
+    parseFloat(gridElement.style.top) !== newPosition.top ||
+    parseFloat(gridElement.style.left) !== newPosition.left
   ) {
     return true
   }

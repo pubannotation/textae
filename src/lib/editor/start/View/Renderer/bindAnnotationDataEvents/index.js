@@ -5,7 +5,6 @@ import SpanRenderer from './SpanRenderer'
 export default function(
   annotationData,
   editor,
-  domPositionCache,
   relationRenderer,
   gridRenderer,
   entityRenderer,
@@ -16,12 +15,7 @@ export default function(
   editor.eventEmitter
     .on('textae.annotationData.all.change', () => {
       renderText(editor, annotationData.sourceDoc)
-      renderAllAnnotations(
-        editor,
-        domPositionCache,
-        annotationData,
-        spanRenderer
-      )
+      renderAllAnnotations(editor, annotationData, spanRenderer)
       relationRenderer.reset()
       textBox.updateLineHeight()
     })

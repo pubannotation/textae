@@ -23,7 +23,5 @@ export default class {
     if (gridElement) {
       gridElement.parentNode.removeChild(gridElement)
     }
-
-    this._domPositionCache.removeGrid(span.id)
   }
 }
