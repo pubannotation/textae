@@ -13,15 +13,12 @@ export default function(editor) {
   // so that newly created spans will not be deselected.
   // Monitor the events of the editor's child elements, not the editor.
   // Stop the propagation of events using the stopPropagation function.
-  for (const m of editor[0].querySelectorAll(
-    '.textae-editor__body__text-box'
-  )) {
-    listeners.push(
-      delegate(m, '.textae-editor__body__text-box', 'click', (e) =>
-        editor.eventEmitter.emit('textae.editor.editEntity.textBox.click', e)
-      )
+  const m = editor[0].querySelector('.textae-editor__body__text-box')
+  listeners.push(
+    delegate(m, '.textae-editor__body__text-box', 'click', (e) =>
+      editor.eventEmitter.emit('textae.editor.editEntity.textBox.click', e)
     )
-  }
+  )
 
   // When extending span, the behavior depends on whether span is selected or not;
   // you must not deselect span by firing the 'textae.editor.body.click' event before editing it.
