@@ -13,8 +13,6 @@ export default function(editor, spanId) {
   return {
     top: spanBox.top - textBox.top,
     left: spanBox.left - textBox.left,
-    width: span.offsetWidth,
-    height: span.offsetHeight,
-    center: span.offsetLeft + span.offsetWidth / 2
+    width: span.offsetWidth
   }
 }
