@@ -3,7 +3,7 @@ import GridLayout from './GridLayout'
 export default class {
   constructor(editor, annotationData, renderer, gridHeight) {
     this._editor = editor
-    this._gridLayout = new GridLayout(editor, annotationData, gridHeight)
+    this._gridLayout = new GridLayout(annotationData, gridHeight)
     this._renderer = renderer
   }
 

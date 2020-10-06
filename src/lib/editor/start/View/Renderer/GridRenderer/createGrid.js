@@ -1,8 +1,9 @@
 import getRightGrid from './getRightGrid'
 import createGridHtml from './createGridHtml'
+import getPosition from '../../getPosition'
 
-export default function(editorDom, spanPositionCache, container, spanId) {
-  const { width } = spanPositionCache.get(spanId)
+export default function(editorDom, container, spanId) {
+  const { width } = getPosition(editorDom.querySelector(`#${spanId}`))
   const rightGrid = getRightGrid(editorDom, spanId)
 
   if (rightGrid) {
