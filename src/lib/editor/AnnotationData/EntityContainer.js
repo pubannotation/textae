@@ -44,7 +44,7 @@ export default class extends IdIssueContainer {
     if (!newValue.span)
       throw new Error(`entity has no span! ${JSON.stringify(newValue)}`)
 
-    // When redoing, the entity is instance of the EntityModel already.
+    // When redoing, the newValue is instance of the EntityModel already.
     if (newValue instanceof EntityModel) {
       return super.add(newValue)
     }

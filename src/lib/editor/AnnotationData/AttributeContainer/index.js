@@ -13,6 +13,11 @@ export default class extends IdIssueContainer {
   }
 
   add(newValue) {
+    // When redoing, the newValue is instance of the AttributeModel already.
+    if (newValue instanceof AttributeModel) {
+      return super.add(newValue)
+    }
+
     return super.add(this._toModel(newValue))
   }
 

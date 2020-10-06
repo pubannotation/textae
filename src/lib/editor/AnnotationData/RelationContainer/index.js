@@ -11,7 +11,7 @@ export default class extends IdIssueContainer {
   }
 
   add(newValue) {
-    // When redoing, the relation is instance of the RelationModel already.
+    // When redoing, the newValue is instance of the RelationModel already.
     if (newValue instanceof RelationModel) {
       return super.add(newValue)
     }

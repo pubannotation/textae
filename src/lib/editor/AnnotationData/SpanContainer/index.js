@@ -55,6 +55,13 @@ export default class extends ModelContainer {
   add(newValue) {
     console.assert(newValue, 'span is necessary.')
 
+    // When redoing, the newValue is instance of the ObjectSpanModel already.
+    if (newValue instanceof ObjectSpanModel) {
+      return super.add(newValue, () => {
+        updateSpanTree(this.all, this)
+      })
+    }
+
     return super.add(
       new ObjectSpanModel(this._editor, newValue, this._entityContainer, this),
       () => {
