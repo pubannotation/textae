@@ -1,3 +1,5 @@
+import round from '../../round'
+
 export default function(editor, spanId) {
   const span = editor[0].querySelector(`#${spanId}`)
 
@@ -10,9 +12,13 @@ export default function(editor, spanId) {
   const spanBox = span.getBoundingClientRect()
   const textBox = span.offsetParent.offsetParent.getBoundingClientRect()
 
+  // The value of getBoundingClientRect may contain 13 decimal places.
+  // It's too fine to use as a style attribute,
+  // so I'll round it to 2 decimal places,
+  // which is below the rounding accuracy of Google Chrome and Firefox.
   return {
-    top: spanBox.top - textBox.top,
-    left: spanBox.left - textBox.left,
-    width: span.offsetWidth
+    top: round(spanBox.top - textBox.top),
+    left: round(spanBox.left - textBox.left),
+    width: round(span.offsetWidth)
   }
 }

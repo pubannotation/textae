@@ -1,6 +1,7 @@
 import showInvisibleGrid from '../showInvisibleGrid'
 import isMoved from './isMoved'
 import updateGridPositon from './updateGridPositon'
+import round from '../../../round.js'
 
 export default function(spanPositionCache, annotationData, gridHeight, span) {
   // The span may be remeved because this functon is call asynchronously.
@@ -11,7 +12,7 @@ export default function(spanPositionCache, annotationData, gridHeight, span) {
   const gridElement = span.gridElement
   const { top, left } = spanPositionCache.get(span.id)
   const newPosition = {
-    top: top - gridHeight.getHeightIncludeDescendantGrids(span),
+    top: round(top - gridHeight.getHeightIncludeDescendantGrids(span)),
     left
   }
 
