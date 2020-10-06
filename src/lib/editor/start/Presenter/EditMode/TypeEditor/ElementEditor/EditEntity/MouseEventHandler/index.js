@@ -48,6 +48,21 @@ export default class {
     }
   }
 
+  blockSpanClicked(e) {
+    // When you click on the text, the browser will automatically select the word.
+    // Therefore, the editor shrinks spans instead of selecting spans.
+    // Deselect the text.
+    if (e.button === 2) {
+      clearTextSelection()
+    }
+
+    const selection = window.getSelection()
+
+    if (selection.type === 'Range') {
+      this._spanEditor.editFor(new SelectionWrapper())
+    }
+  }
+
   styleSpanClicked(e) {
     // When you click on the text, the browser will automatically select the word.
     // Therefore, the editor shrinks spans instead of selecting spans.

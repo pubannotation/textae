@@ -70,6 +70,14 @@ export default function(editor, mouseEventHandler) {
   )
 
   listeners.push(
+    delegate(editor[0], '.textae-editor__block', 'mouseup', (e) => {
+      if (e.target.classList.contains('textae-editor__block')) {
+        mouseEventHandler.blockSpanClicked(e)
+      }
+    })
+  )
+
+  listeners.push(
     delegate(editor[0], '.textae-editor__style', 'mouseup', (e) => {
       if (e.target.classList.contains('textae-editor__style')) {
         mouseEventHandler.styleSpanClicked(e)

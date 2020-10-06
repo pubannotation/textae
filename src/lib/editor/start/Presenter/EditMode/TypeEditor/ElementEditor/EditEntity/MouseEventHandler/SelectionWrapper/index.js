@@ -2,6 +2,7 @@ import isNodeDenotationSpan from '../../../isNodeDenotationSpan'
 import isNodeTextBox from '../../../isNodeTextBox'
 import isNodeStyleSpan from '../../../isNodeStyleSpan'
 import getSelectionSnapShot from './getSelectionSnapShot'
+import isNodeBlockSpan from '../../../isNodeBlockSpan'
 
 export default class {
   constructor() {
@@ -16,6 +17,10 @@ export default class {
     return isNodeDenotationSpan(this.parentOfAnchorNode)
   }
 
+  get isParentOfAnchorNodeBlockSpan() {
+    return isNodeBlockSpan(this.parentOfAnchorNode)
+  }
+
   get isParentOfAnchorNodeStyleSpan() {
     return isNodeStyleSpan(this.parentOfAnchorNode)
   }
@@ -26,6 +31,10 @@ export default class {
 
   get isParentOfFocusNodeDenotationSpan() {
     return isNodeDenotationSpan(this.parentOfFocusNode)
+  }
+
+  get isParentOfFocusNodeBlockSpan() {
+    return isNodeBlockSpan(this.parentOfFocusNode)
   }
 
   get isParentOfFocusNodeStyleSpan() {

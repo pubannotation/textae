@@ -32,6 +32,8 @@ export default class SpanEditor {
         this._anchorNodeInTextBoxFocusNodeInTextBox(selectionWrapper)
       } else if (selectionWrapper.isParentOfFocusNodeDenotationSpan) {
         this._anchorNodeInTextBoxFocusNodeInDenotationSpan(selectionWrapper)
+      } else if (selectionWrapper.isParentOfFocusNodeBlockSpan) {
+        this._anchorNodeInTextBoxFocusNodeInBlockSpan(selectionWrapper)
       } else if (selectionWrapper.isParentOfFocusNodeStyleSpan) {
         this._anchorNodeInTextBoxFocusNodeInStyleSpan(selectionWrapper)
       }
@@ -42,14 +44,28 @@ export default class SpanEditor {
         this._anchorNodeInDenotationSpanFocusNodeInDenotationSpan(
           selectionWrapper
         )
+      } else if (selectionWrapper.isParentOfFocusNodeBlockSpan) {
+        this._anchorNodeInDenotationSpanFocusNodeInBlockSpan(selectionWrapper)
       } else if (selectionWrapper.isParentOfFocusNodeStyleSpan) {
         this._anchorNodeInDenotationSpanFocusNodeInStyleSpan(selectionWrapper)
+      }
+    } else if (selectionWrapper.isParentOfAnchorNodeBlockSpan) {
+      if (selectionWrapper.isParentOfFocusNodeTextBox) {
+        this._anchorNodeInBlockSpanFocusNodeInTextBox(selectionWrapper)
+      } else if (selectionWrapper.isParentOfFocusNodeDenotationSpan) {
+        this._anchorNodeInBlockSpanFocusNodeInDenotationSpan(selectionWrapper)
+      } else if (selectionWrapper.isParentOfFocusNodeBlockSpan) {
+        this._anchorNodeInBlockSpanFocusNodeInBlockSpan(selectionWrapper)
+      } else if (selectionWrapper.isParentOfFocusNodeStyleSpan) {
+        this._anchorNodeInBlackSpanFocusNodeInStyleSpan(selectionWrapper)
       }
     } else if (selectionWrapper.isParentOfAnchorNodeStyleSpan) {
       if (selectionWrapper.isParentOfFocusNodeTextBox) {
         this._anchorNodeInStyleSpanFocusNodeInTextBox(selectionWrapper)
       } else if (selectionWrapper.isParentOfFocusNodeDenotationSpan) {
         this._anchorNodeInStyleSpanFocusNodeInDenotationSpan(selectionWrapper)
+      } else if (selectionWrapper.isParentOfFocusNodeBlockSpan) {
+        this._anchorNodeInStyleSpanFocusNodeInBlockSpan(selectionWrapper)
       } else if (selectionWrapper.isParentOfFocusNodeStyleSpan) {
         this._anchorNodeInStyleSpanFocusNodeInStyleSpan(selectionWrapper)
       }
@@ -63,6 +79,10 @@ export default class SpanEditor {
 
   _anchorNodeInTextBoxFocusNodeInDenotationSpan(selectionWrapper) {
     this._shrinkSelectSpanOrOneUpFocusParentDenotationSpan(selectionWrapper)
+  }
+
+  _anchorNodeInTextBoxFocusNodeInBlockSpan() {
+    clearTextSelection()
   }
 
   _anchorNodeInTextBoxFocusNodeInStyleSpan(selectionWrapper) {
@@ -141,6 +161,11 @@ export default class SpanEditor {
     clearTextSelection()
   }
 
+  _anchorNodeInDenotationSpanFocusNodeInBlockSpan(selectionWrapper) {
+    const spanId = getExpandTargetSpan(this._selectionModel, selectionWrapper)
+    this._expand(selectionWrapper, spanId)
+  }
+
   _anchorNodeInDenotationSpanFocusNodeInStyleSpan(selectionWrapper) {
     // Mousedown on the child Span of a parent and child Span,
     // and then mouseup on the StyleSpan in the parent Span.
@@ -159,6 +184,22 @@ export default class SpanEditor {
       this._shrink(selectionWrapper, spanId)
       return
     }
+  }
+
+  _anchorNodeInBlockSpanFocusNodeInTextBox() {
+    clearTextSelection()
+  }
+
+  _anchorNodeInBlockSpanFocusNodeInDenotationSpan(selectionWrapper) {
+    this._shrinkSelectSpanOrOneUpFocusParentDenotationSpan(selectionWrapper)
+  }
+
+  _anchorNodeInBlockSpanFocusNodeInBlockSpan(selectionWrapper) {
+    this._create(selectionWrapper)
+  }
+
+  _anchorNodeInBlockSpanFocusNodeInStyleSpan() {
+    clearTextSelection()
   }
 
   _anchorNodeInStyleSpanFocusNodeInTextBox(selectionWrapper) {
@@ -204,6 +245,10 @@ export default class SpanEditor {
       return
     }
 
+    clearTextSelection()
+  }
+
+  _anchorNodeInStyleSpanFocusNodeInBlockSpan() {
     clearTextSelection()
   }
 
