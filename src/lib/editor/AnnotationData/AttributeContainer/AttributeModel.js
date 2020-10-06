@@ -1,4 +1,4 @@
-export default class {
+export default class AttributeModel {
   // Expected an attribute like {id: "A1", subj: "T1", pred: "example_predicate_1", obj: "attr1"}.
   constructor({ id, subj, pred, obj }, entityContainer) {
     this.id = id
