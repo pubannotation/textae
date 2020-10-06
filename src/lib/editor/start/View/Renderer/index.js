@@ -1,4 +1,4 @@
-import getDomPositionCache from '../getDomPositionCache'
+import getSpanPositionCache from '../getSpanPositionCache'
 import GridRenderer from './GridRenderer'
 import EntityRenderer from './EntityRenderer'
 import bindTypeDefinitionEvents from './bindTypeDefinitionEvents'
@@ -14,8 +14,8 @@ export default class {
     typeGap,
     textBox
   ) {
-    const domPositionCache = getDomPositionCache(editor)
-    const gridRenderer = new GridRenderer(editor, domPositionCache)
+    const spanPositionCache = getSpanPositionCache(editor)
+    const gridRenderer = new GridRenderer(editor, spanPositionCache)
     const entityRenderer = new EntityRenderer(
       editor,
       annotationData,
