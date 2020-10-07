@@ -25,7 +25,7 @@ export default function(
     return false
   }
 
-  const doesExists = annotationData.span.has(newSpan)
+  const doesExists = annotationData.span.hasObjectSpan(newSpan)
 
   if (newSpan.begin < newSpan.end && !doesExists) {
     commander.invoke(commander.factory.moveSpanCommand(spanId, newSpan))

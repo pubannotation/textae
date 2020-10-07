@@ -46,7 +46,7 @@ export default class extends ModelContainer {
     updateSpanTree(this.all, this)
   }
 
-  has(span) {
+  hasObjectSpan(span) {
     const spanId = idFactory.makeSpanDomId(this._editor, span)
     return this._container.has(spanId)
   }
@@ -60,7 +60,7 @@ export default class extends ModelContainer {
     }
   }
 
-  range(firstId, secondId) {
+  rangeObjectSpan(firstId, secondId) {
     let first = super.get(firstId)
     let second = super.get(secondId)
 
@@ -96,7 +96,7 @@ export default class extends ModelContainer {
     this._typeSets = new Map()
   }
 
-  move(id, newSpan) {
+  moveObjectSpan(id, newSpan) {
     const oldOne = super.remove(id)
     const newOne = super.add(
       new ObjectSpanModel(this._editor, newSpan, this._entityContainer, this),
@@ -131,7 +131,7 @@ export default class extends ModelContainer {
     return super.all.concat(styleOnlySpans)
   }
 
-  get allSpansWithGrid() {
+  get allObjectSpans() {
     return super.all
   }
 

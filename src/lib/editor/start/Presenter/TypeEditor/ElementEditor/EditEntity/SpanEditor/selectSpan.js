@@ -9,7 +9,7 @@ export default function(
   if (event.shiftKey && selectedSpanId) {
     // select reange of spans.
     selectionModel.clear()
-    for (const id of annotationData.span.range(
+    for (const id of annotationData.span.rangeObjectSpan(
       selectedSpanId,
       selectingSpanId
     )) {

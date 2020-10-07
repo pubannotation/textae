@@ -8,7 +8,7 @@ export default class {
   }
 
   arrangePosition() {
-    for (const span of this._annotationData.span.allSpansWithGrid) {
+    for (const span of this._annotationData.span.allObjectSpans) {
       arrangeGridPosition(this._annotationData, this._gridHeight, span)
     }
   }

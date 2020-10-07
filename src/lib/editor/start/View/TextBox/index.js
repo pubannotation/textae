@@ -20,7 +20,7 @@ export default class {
   }
 
   updateLineHeight() {
-    if (this._annotationData.span.allSpansWithGrid.length) {
+    if (this._annotationData.span.allObjectSpans.length) {
       this.lineHeight = this._gridHeight.currentMaxHeight
     } else {
       this._resetLineHeight()

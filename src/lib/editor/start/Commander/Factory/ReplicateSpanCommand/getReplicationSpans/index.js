@@ -15,7 +15,7 @@ export default function(annotationData, originSpan, detectBoundaryFunc) {
         span.begin !== originSpan.begin
     )
     .filter(wordFilter)
-    .filter((span) => !annotationData.span.has(span))
+    .filter((span) => !annotationData.span.hasObjectSpan(span))
     .filter(
       (span) => !annotationData.span.isBoundaryCrossingWithOtherSpans(span)
     )
