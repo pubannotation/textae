@@ -1,5 +1,3 @@
-import round from './round'
-
 export default function(spanElement) {
   console.assert(spanElement, 'span is not renderd')
 
@@ -8,13 +6,9 @@ export default function(spanElement) {
   const spanBox = spanElement.getBoundingClientRect()
   const textBox = spanElement.offsetParent.offsetParent.getBoundingClientRect()
 
-  // The value of getBoundingClientRect may contain 13 decimal places.
-  // It's too fine to use as a style attribute,
-  // so I'll round it to 2 decimal places,
-  // which is below the rounding accuracy of Google Chrome and Firefox.
   return {
-    top: round(spanBox.top - textBox.top),
-    left: round(spanBox.left - textBox.left),
-    width: round(spanElement.offsetWidth)
+    top: spanBox.top - textBox.top,
+    left: spanBox.left - textBox.left,
+    width: spanElement.offsetWidth
   }
 }

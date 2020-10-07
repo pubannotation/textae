@@ -2,13 +2,19 @@ import getAnnotationBox from '../getAnnotationBox'
 import createGrid from './createGrid'
 
 export default class {
-  constructor(editor) {
+  constructor(editor, gridHeight) {
     this._editor = editor
     this._container = getAnnotationBox(editor)
+    this._gridHeight = gridHeight
   }
 
   render(span) {
-    return createGrid(this._editor[0], this._container[0], span.id)
+    return createGrid(
+      this._editor[0],
+      this._container[0],
+      this._gridHeight,
+      span
+    )
   }
 
   remove(span) {

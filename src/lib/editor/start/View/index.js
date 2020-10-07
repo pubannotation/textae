@@ -37,7 +37,8 @@ export default class {
       selectionModel,
       typeDefinition,
       typeGap,
-      textBox
+      textBox,
+      gridHeight
     )
     const annotationPosition = new AnnotationPosition(
       editor,

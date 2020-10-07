@@ -1,4 +1,4 @@
-export default function(gridElement, newPosition) {
-  gridElement.style.top = `${newPosition.top}px`
-  gridElement.style.left = `${newPosition.left}px`
+export default function(gridElement, top, left) {
+  gridElement.style.top = `${top}px`
+  gridElement.style.left = `${left}px`
 }

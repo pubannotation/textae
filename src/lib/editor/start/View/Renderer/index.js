@@ -11,9 +11,10 @@ export default class {
     selectionModel,
     typeDefinition,
     typeGap,
-    textBox
+    textBox,
+    gridHeight
   ) {
-    const gridRenderer = new GridRenderer(editor)
+    const gridRenderer = new GridRenderer(editor, gridHeight)
     const entityRenderer = new EntityRenderer(
       editor,
       annotationData,
