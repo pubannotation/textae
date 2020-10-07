@@ -84,10 +84,6 @@ export default class extends ModelContainer {
     return this.topLevel
   }
 
-  _merageStyle(span) {
-    return span
-  }
-
   remove(id) {
     const span = super.remove(id)
 
