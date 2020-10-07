@@ -1,4 +1,4 @@
-import showInvisibleGrid from '../showInvisibleGrid'
+import showInvisibleGrid from './showInvisibleGrid'
 import isMoved from './isMoved'
 import updateGridPositon from './updateGridPositon'
 import round from '../../../round.js'
