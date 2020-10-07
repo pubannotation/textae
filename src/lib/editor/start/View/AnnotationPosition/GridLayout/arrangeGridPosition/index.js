@@ -16,7 +16,6 @@ export default function(domPositionCache, annotationData, gridHeight, span) {
   }
 
   if (isMoved(gridElement, newPosition)) {
-    // Move all relations because entities are increased or decreased unless the grid is moved.
     updateGridPositon(gridElement, newPosition)
     showInvisibleGrid(gridElement)
   }
