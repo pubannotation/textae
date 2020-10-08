@@ -2,7 +2,7 @@ import TypeValues from '../TypeValues'
 import idFactory from '../idFactory'
 import mergeTypesOf from './mergeTypesOf'
 
-export default class {
+export default class EntityModel {
   constructor(
     editor,
     attributeContainer,
