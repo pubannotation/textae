@@ -45,7 +45,7 @@ export default class extends DefaultHandler {
       this._selectionModel.relation.toggle(relationId)
     } else if (this._selectionModel.relation.singleId !== relationId) {
       // Select only self
-      this._selectionModel.relation.clear()
+      this._selectionModel.clear()
       this._selectionModel.relation.add(relationId)
     }
   }
