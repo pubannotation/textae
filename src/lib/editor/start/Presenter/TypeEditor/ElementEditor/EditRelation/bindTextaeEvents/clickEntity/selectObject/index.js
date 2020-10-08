@@ -1,7 +1,13 @@
 import updateSelectionOfEntity from './updateSelectionOfEntity'
 import createRelation from './createRelation'
 
-export default function(selectionModel, commander, typeDefinition, e, entity) {
+export default function(
+  selectionModel,
+  commander,
+  typeDefinition,
+  event,
+  entity
+) {
   // Cannot make a self reference relation.
   const subjectEntityId = selectionModel.entity.all[0].id
   const objectEntityId = entity.title
@@ -13,7 +19,7 @@ export default function(selectionModel, commander, typeDefinition, e, entity) {
     // selectionModel.entity.add(objectEntityId)
     createRelation(commander, subjectEntityId, objectEntityId, typeDefinition)
     updateSelectionOfEntity(
-      e,
+      event,
       selectionModel.entity,
       subjectEntityId,
       objectEntityId
