@@ -69,21 +69,6 @@ export default class {
     }
   }
 
-  selectSingleSpanById(spanId) {
-    if (spanId) {
-      this.clear()
-      this.span.add(spanId)
-    }
-  }
-
-  selectSpanById(spanId) {
-    this.span.add(spanId)
-  }
-
-  toggleSpanById(spanId) {
-    this.span.toggle(spanId)
-  }
-
   /**
    * Select entity.
    * @param {string} dom - dom of entity to select or array of ids of entities.
@@ -99,5 +84,20 @@ export default class {
 
       this.entity.add(dom.title)
     }
+  }
+
+  selectSingleSpanById(spanId) {
+    if (spanId) {
+      this.clear()
+      this.span.add(spanId)
+    }
+  }
+
+  selectSpanById(spanId) {
+    this.span.add(spanId)
+  }
+
+  toggleSpanById(spanId) {
+    this.span.toggle(spanId)
   }
 }
