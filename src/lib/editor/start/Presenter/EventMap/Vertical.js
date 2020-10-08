@@ -9,7 +9,7 @@ export default class {
     if (this._selectionModel.span.single) {
       const grid = this._selectionModel.span.single.gridElement
       const entity = grid.querySelector('.textae-editor__entity')
-      this._selectionModel.selectEntity(entity)
+      this._selectionModel.selectEntity(entity.title)
     }
   }
 

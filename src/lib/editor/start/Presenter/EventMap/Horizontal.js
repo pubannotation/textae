@@ -7,26 +7,26 @@ export default class {
   left(shiftKey) {
     const nextSpan = this._searchLeft('textae-editor__span')
     if (nextSpan) {
-      this._selectionModel.selectSpan(nextSpan, shiftKey)
+      this._selectionModel.selectSpan(nextSpan.id, shiftKey)
       return
     }
 
     const nextEntity = this._searchLeft('textae-editor__entity')
     if (nextEntity) {
-      this._selectionModel.selectEntity(nextEntity, shiftKey)
+      this._selectionModel.selectEntity(nextEntity.title, shiftKey)
     }
   }
 
   right(shiftKey) {
     const nextSpan = this._searchRight('textae-editor__span')
     if (nextSpan) {
-      this._selectionModel.selectSpan(nextSpan, shiftKey)
+      this._selectionModel.selectSpan(nextSpan.id, shiftKey)
       return
     }
 
     const nextEntity = this._searchRight('textae-editor__entity')
     if (nextEntity) {
-      this._selectionModel.selectEntity(nextEntity, shiftKey)
+      this._selectionModel.selectEntity(nextEntity.title, shiftKey)
     }
   }
 

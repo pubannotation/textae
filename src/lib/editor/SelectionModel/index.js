@@ -59,26 +59,20 @@ export default class {
     this._map.forEach((c) => c.clear())
   }
 
-  selectSpan(dom, isMulti) {
+  selectSpan(id, isMulti) {
     if (isMulti) {
-      this.span.add(dom.id)
+      this.span.add(id)
     } else {
-      this.selectSingleSpanById(dom.id)
+      this.selectSingleSpanById(id)
     }
   }
 
-  /**
-   * Select entity.
-   * @param {string} dom - dom of entity to select or array of ids of entities.
-   * @param {bool} isMulti - select multi elements.
-   * @return {undefined}
-   */
-  selectEntity(dom, isMulti) {
+  selectEntity(id, isMulti) {
     if (!isMulti) {
       this.clear()
     }
 
-    this.entity.add(dom.title)
+    this.entity.add(id)
   }
 
   selectSingleSpanById(spanId) {
