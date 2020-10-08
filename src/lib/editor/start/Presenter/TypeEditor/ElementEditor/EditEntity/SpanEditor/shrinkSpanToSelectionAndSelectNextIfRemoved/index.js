@@ -23,6 +23,6 @@ export default function(
   )
 
   if (removed && nextSpan) {
-    selectionModel.selectSingleSpanById(nextSpan.id)
+    selectionModel.selectSpan(nextSpan.id)
   }
 }

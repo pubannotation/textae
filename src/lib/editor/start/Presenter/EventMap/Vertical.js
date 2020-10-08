@@ -23,7 +23,7 @@ export default class {
         .closest('.textae-editor__grid')
         .id.substring(1)
 
-      this._selectionModel.selectSingleSpanById(spanId)
+      this._selectionModel.selectSpan(spanId)
     }
   }
 }

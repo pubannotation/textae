@@ -60,11 +60,10 @@ export default class {
   }
 
   selectSpan(id, isMulti) {
-    if (isMulti) {
-      this.span.add(id)
-    } else {
-      this.selectSingleSpanById(id)
+    if (!isMulti) {
+      this.clear()
     }
+    this.span.add(id)
   }
 
   selectEntity(id, isMulti) {
@@ -73,13 +72,6 @@ export default class {
     }
 
     this.entity.add(id)
-  }
-
-  selectSingleSpanById(spanId) {
-    if (spanId) {
-      this.clear()
-      this.span.add(spanId)
-    }
   }
 
   selectSpanById(spanId) {
