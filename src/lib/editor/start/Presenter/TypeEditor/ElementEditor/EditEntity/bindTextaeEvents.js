@@ -1,5 +1,4 @@
-import selectEntity from './selectEntity'
-import getEntityDomFromChild from '../../../../../getEntityDomFromChild'
+import getEntityDomFromChild from '../../../../getEntityDomFromChild'
 
 export default function(editor, spanEditor, selectionModel) {
   editor.eventEmitter
@@ -13,15 +12,16 @@ export default function(editor, spanEditor, selectionModel) {
       spanEditor.styleSpanClicked(e)
     )
     .on('textae.editor.editEntity.endpoint.click', (e) =>
-      selectEntity(
-        e.ctrlKey || e.metaKey,
-        selectionModel,
-        getEntityDomFromChild(e.target)
+      selectionModel.selectEntity(
+        getEntityDomFromChild(e.target).title,
+        e.ctrlKey || e.metaKey
       )
     )
     .on('textae.editor.editEntity.entity.click', () => editor.focus())
-    .on('textae.editor.editEntity.typeValues.click', (e) => {
-      const entity = getEntityDomFromChild(e.target)
-      selectEntity(e.ctrlKey || e.metaKey, selectionModel, entity)
-    })
+    .on('textae.editor.editEntity.typeValues.click', (e) =>
+      selectionModel.selectEntity(
+        getEntityDomFromChild(e.target).title,
+        e.ctrlKey || e.metaKey
+      )
+    )
 }
