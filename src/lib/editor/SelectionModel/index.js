@@ -60,12 +60,10 @@ export default class {
   }
 
   selectSpan(dom, isMulti) {
-    if (dom) {
-      if (isMulti) {
-        this.span.add(dom.id)
-      } else {
-        this.selectSingleSpanById(dom.id)
-      }
+    if (isMulti) {
+      this.span.add(dom.id)
+    } else {
+      this.selectSingleSpanById(dom.id)
     }
   }
 
@@ -76,14 +74,11 @@ export default class {
    * @return {undefined}
    */
   selectEntity(dom, isMulti) {
-    // A entity may be null when the first or the last entity is selected at the Relation Edit Mode.
-    if (dom) {
-      if (!isMulti) {
-        this.clear()
-      }
-
-      this.entity.add(dom.title)
+    if (!isMulti) {
+      this.clear()
     }
+
+    this.entity.add(dom.title)
   }
 
   selectSingleSpanById(spanId) {
