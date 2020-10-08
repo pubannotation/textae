@@ -1,4 +1,4 @@
-import selectObject from './selectObject'
+import selectObjectEntity from './selectObjectEntity'
 
 export default function(
   selectionModel,
@@ -11,6 +11,12 @@ export default function(
     selectionModel.clear()
     selectionModel.entity.add(entityId)
   } else {
-    selectObject(selectionModel, commander, typeDefinition, event, entityId)
+    selectObjectEntity(
+      selectionModel,
+      commander,
+      typeDefinition,
+      event,
+      entityId
+    )
   }
 }
