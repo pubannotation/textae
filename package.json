@@ -6,6 +6,7 @@
   "bugs": {
     "url": "https://github.com/pubannotation/textae/issues"
   },
+  "dependencies": {},
   "devDependencies": {
     "ajv": "^6.11.0",
     "alertifyjs": "^1.13.1",
@@ -57,14 +58,14 @@
   "scripts": {
     "dev:open": "open-cli 'http://localhost:8000/dev/development.html'",
     "dev:server": "node dev/development-sever.js",
-    "dev:watch-less": "less-watch-compiler src/lib/css src/lib/css textae.less",
     "dev:watch": "webpack --config webpack.dev.js",
+    "dev:watch-less": "less-watch-compiler src/lib/css src/lib/css textae.less",
     "dist": "npm-run-all dist:clean dist:build",
-    "dist:bundle": "webpack --config webpack.prod.js",
     "dist:build": "npm-run-all -p dist:build:**",
     "dist:build:copy": "npm-run-all dist:copy dist:replace:version",
     "dist:build:css": "npm-run-all dist:less dist:concat:css dist:cleancss",
     "dist:build:js": "npm-run-all dist:lint dist:bundle dist:concat:js",
+    "dist:bundle": "webpack --config webpack.prod.js",
     "dist:clean": "rimraf dist/* src/lib/bundle.js",
     "dist:cleancss": "cleancss -o dist/lib/css/$npm_package_name-$npm_package_version.min.css dist/lib/css/$npm_package_name-$npm_package_version.css",
     "dist:concat:css": "mkdirp dist/lib/css & concat -o dist/lib/css/$npm_package_name-$npm_package_version.css src/lib/css/textae.css",
@@ -78,6 +79,5 @@
     "dist:lint": "eslint src/lib",
     "dist:replace:version": "replace-in-file /{{version}}/g $npm_package_version dist/editor.html,dist/demo/**/*.html --isRegex",
     "watch": "npm-run-all -p dev:watch dev:watch-less dev:server dev:open"
-  },
-  "dependencies": {}
+  }
 }
