@@ -7,12 +7,12 @@ export default function(editor, selectionModel, commander, typeDefinition) {
       selectionModel.clear()
     )
     .on('textae.editor.editRelation.endpoint.click', (event) => {
-      const entity = getEntityDomFromChild(event.target)
+      const entity = getEntityDomFromChild(event.target).title
       clickEntity(selectionModel, entity, commander, typeDefinition, event)
     })
     .on('textae.editor.editRelation.entity.click', () => editor.focus())
     .on('textae.editor.editRelation.typeValues.click', (event) => {
-      const entity = getEntityDomFromChild(event.target)
+      const entity = getEntityDomFromChild(event.target).title
       clickEntity(selectionModel, entity, commander, typeDefinition, event)
     })
 }

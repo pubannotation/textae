@@ -6,11 +6,11 @@ export default function(
   commander,
   typeDefinition,
   event,
-  entity
+  entityId
 ) {
   // Cannot make a self reference relation.
   const subjectEntityId = selectionModel.entity.all[0].id
-  const objectEntityId = entity.title
+  const objectEntityId = entityId
 
   if (subjectEntityId === objectEntityId) {
     // Deslect already selected entity.

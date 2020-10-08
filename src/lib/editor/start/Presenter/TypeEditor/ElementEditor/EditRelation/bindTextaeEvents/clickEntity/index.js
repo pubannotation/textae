@@ -2,15 +2,15 @@ import selectObject from './selectObject'
 
 export default function(
   selectionModel,
-  entity,
+  entityId,
   commander,
   typeDefinition,
   event
 ) {
   if (!selectionModel.entity.some) {
     selectionModel.clear()
-    selectionModel.entity.add(entity.title)
+    selectionModel.entity.add(entityId)
   } else {
-    selectObject(selectionModel, commander, typeDefinition, event, entity)
+    selectObject(selectionModel, commander, typeDefinition, event, entityId)
   }
 }
