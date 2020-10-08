@@ -16,7 +16,6 @@ export default function(
     // Deslect already selected entity.
     selectionModel.entity.remove(subjectEntityId)
   } else {
-    // selectionModel.entity.add(objectEntityId)
     createRelation(commander, subjectEntityId, objectEntityId, typeDefinition)
     updateSelectionOfEntity(
       event,
