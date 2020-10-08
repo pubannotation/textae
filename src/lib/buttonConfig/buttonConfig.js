@@ -102,9 +102,9 @@ export const buttonConfig = [
       type: 'delete',
       title: 'Delete [D]',
       enableWhenSelecting: {
-        span: (selectionModel) => selectionModel.some,
-        entity: (selectionModel) => selectionModel.some,
-        relation: (selectionModel) => selectionModel.some
+        span: (selectionModel) => selectionModel.span.some,
+        entity: (selectionModel) => selectionModel.entity.some,
+        relation: (selectionModel) => selectionModel.relation.some
       }
     },
     {
