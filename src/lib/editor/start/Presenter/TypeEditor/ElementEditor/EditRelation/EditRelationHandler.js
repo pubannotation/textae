@@ -41,13 +41,10 @@ export default class extends DefaultHandler {
     // This function is expected to be called when Relation-Edit-Mode.
     const relationId = jsPlumbConnection.relationId
 
-    if (event.ctrlKey || event.metaKey) {
-      this._selectionModel.relation.toggle(relationId)
-    } else if (this._selectionModel.relation.singleId !== relationId) {
-      // Select only self
-      this._selectionModel.clear()
-      this._selectionModel.relation.add(relationId)
-    }
+    this._selectionModel.selectRelation(
+      relationId,
+      event.ctrlKey || event.metaKey
+    )
   }
 
   _getSelectedType() {

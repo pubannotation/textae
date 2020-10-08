@@ -74,6 +74,14 @@ export default class {
     this.entity.add(id)
   }
 
+  selectRelation(id, isMulti) {
+    if (!isMulti) {
+      this.clear()
+    }
+
+    this.relation.add(id)
+  }
+
   selectSpanById(spanId) {
     this.span.add(spanId)
   }
