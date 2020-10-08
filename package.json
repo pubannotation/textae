@@ -78,6 +78,7 @@
     "dist:less": "lessc 'src/lib/css/textae.less' 'src/lib/css/textae.css'",
     "dist:lint": "eslint src/lib",
     "dist:replace:version": "replace-in-file /{{version}}/g $npm_package_version dist/editor.html,dist/demo/**/*.html --isRegex",
+    "version": "npm run dist && git add -A dist",
     "watch": "npm-run-all -p dev:watch dev:watch-less dev:server dev:open"
   }
 }
