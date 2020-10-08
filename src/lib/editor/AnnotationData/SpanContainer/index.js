@@ -84,13 +84,6 @@ export default class extends ModelContainer {
     return this.topLevel
   }
 
-  remove(id) {
-    const span = super.remove(id)
-
-    updateSpanTree(this.all, this)
-    return span
-  }
-
   clear() {
     super.clear()
     this._typeSets = new Map()
