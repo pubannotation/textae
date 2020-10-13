@@ -53,9 +53,6 @@ export default class {
 
     if (selection.type === 'Range') {
       this._selectEndOnSpan()
-      // Cancel selection of a text.
-      // And do non propagate the parent span.
-      event.stopPropagation()
     }
   }
 
@@ -78,9 +75,6 @@ export default class {
 
     if (selection.type === 'Range') {
       this._selectEndOnStyleSpan()
-      // Cancel selection of a text.
-      // And do non propagate the parent span.
-      e.stopPropagation()
     }
   }
 
