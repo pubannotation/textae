@@ -7,10 +7,7 @@ export default function(editor) {
     // The delegate also fires events for child elements of the selector.
     // Ignores events that occur in child elements.
     // Otherwise, you cannot select child elements.
-    if (
-      e.target.classList.contains('textae-editor') ||
-      e.target.classList.contains('textae-editor__body__text-box')
-    ) {
+    if (e.target.classList.contains('textae-editor')) {
       editor.eventEmitter.emit('textae.editor.body.click')
     }
   })

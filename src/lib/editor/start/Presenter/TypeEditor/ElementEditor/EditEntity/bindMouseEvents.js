@@ -7,17 +7,13 @@ import bindEditorBodyClickEventTrigger from '../bindEditorBodyClickEventTrigger'
 export default function(editor) {
   const listeners = []
 
-  // When mouseupping on blank area between lines.
-  // You may hover over the text and select the text.
-  // No 'textae.editor.body.click' event will be fired when text is selected,
-  // so that newly created spans will not be deselected.
-  // Monitor the events of the editor's child elements, not the editor.
-  // Stop the propagation of events using the stopPropagation function.
   const m = editor[0].querySelector('.textae-editor__body__text-box')
   listeners.push(
-    delegate(m, '.textae-editor__body__text-box', 'click', (e) =>
-      editor.eventEmitter.emit('textae.editor.editEntity.textBox.click', e)
-    )
+    delegate(m, '.textae-editor__body__text-box', 'click', (e) => {
+      if (e.target.classList.contains('textae-editor__body__text-box')) {
+        editor.eventEmitter.emit('textae.editor.editEntity.textBox.click', e)
+      }
+    })
   )
 
   // When extending span, the behavior depends on whether span is selected or not;

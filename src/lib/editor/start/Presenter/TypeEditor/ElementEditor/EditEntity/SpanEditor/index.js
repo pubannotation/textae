@@ -34,6 +34,8 @@ export default class {
     if (selection.type === 'Range') {
       this._selectEndOnText()
       event.stopPropagation()
+    } else {
+      this._selectionModel.clear()
     }
   }
 

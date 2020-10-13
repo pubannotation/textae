@@ -8,6 +8,15 @@ import bindEditorBodyClickEventTrigger from '../bindEditorBodyClickEventTrigger'
 export default function(editor) {
   const listeners = []
 
+  const m = editor[0].querySelector('.textae-editor__body__text-box')
+  listeners.push(
+    delegate(m, '.textae-editor__body__text-box', 'click', (e) => {
+      if (e.target.classList.contains('textae-editor__body__text-box')) {
+        editor.eventEmitter.emit('textae.editor.editEntity.textBox.click', e)
+      }
+    })
+  )
+
   listeners.push(bindEditorBodyClickEventTrigger(editor))
 
   listeners.push(
