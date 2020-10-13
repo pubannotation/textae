@@ -1,4 +1,4 @@
-export default function(el, pallet) {
+export default function(el) {
   for (const attributeTab of el.querySelectorAll(
     '.textae-editor__type-pallet__attribute'
   )) {
