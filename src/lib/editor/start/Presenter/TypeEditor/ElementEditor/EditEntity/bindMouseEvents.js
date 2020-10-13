@@ -7,9 +7,18 @@ import bindEditorBodyClickEventTrigger from '../bindEditorBodyClickEventTrigger'
 export default function(editor) {
   const listeners = []
 
+  // In Friefox, the text box click event fires when you shrink and erase a span.
+  // To do this, the span mouse-up event selects the span to the right of the erased span,
+  // and then the text box click event deselects it.
+  // To prevent this, we set a flag to indicate that it is immediately after the span's mouse-up event.
+  let afterSpanMouseUpEventFlag = false
+
   listeners.push(
     delegate(editor[0], '.textae-editor__body__text-box', 'click', (e) => {
-      if (e.target.classList.contains('textae-editor__body__text-box')) {
+      if (
+        e.target.classList.contains('textae-editor__body__text-box') &&
+        !afterSpanMouseUpEventFlag
+      ) {
         editor.eventEmitter.emit('textae.editor.editEntity.textBox.click', e)
       }
     })
@@ -42,6 +51,12 @@ export default function(editor) {
     delegate(editor[0], '.textae-editor__span', 'mouseup', (e) => {
       if (e.target.classList.contains('textae-editor__span')) {
         editor.eventEmitter.emit('textae.editor.editEntity.span.mouseup', e)
+        afterSpanMouseUpEventFlag = true
+
+        // In Chrome, the text box click event does not fire when you shrink the span and erase it.
+        // Instead of beating the flag on the text box click event,
+        // it uses a timer to beat the flag instantly, faster than any user action.
+        setTimeout(() => (afterSpanMouseUpEventFlag = false), 0)
       }
     })
   )
