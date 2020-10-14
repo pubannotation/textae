@@ -1,5 +1,5 @@
 import { CreateCommand } from './commandTemplate'
-import idFactory from '../../../idFactory'
+import { makeSpanDomId } from '../../../idFactory'
 import CompositeCommand from './CompositeCommand'
 import CreateEntityCommand from './CreateEntityCommand'
 
@@ -13,7 +13,7 @@ export default class extends CompositeCommand {
     typeValuesList
   ) {
     super()
-    const spanId = idFactory.makeSpanDomId(editor, begin, end)
+    const spanId = makeSpanDomId(editor, begin, end)
 
     this._subCommands = [
       new CreateCommand(editor, annotationData, selectionModel, 'span', true, {

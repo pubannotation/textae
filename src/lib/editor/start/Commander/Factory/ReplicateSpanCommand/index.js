@@ -1,7 +1,7 @@
 import CreateSpanAndTypesCommand from '../CreateSpanAndTypesCommand'
 import getReplicationSpans from './getReplicationSpans'
 import CompositeCommand from '../CompositeCommand'
-import idFactory from '../../../../idFactory'
+import { makeSpanDomId } from '../../../../idFactory'
 
 export default class extends CompositeCommand {
   constructor(
@@ -29,7 +29,7 @@ export default class extends CompositeCommand {
           typeValeusList
         )
     )
-    this._logMessage = `replicate a span ${idFactory.makeSpanDomId(
+    this._logMessage = `replicate a span ${makeSpanDomId(
       editor,
       span.begin,
       span.end

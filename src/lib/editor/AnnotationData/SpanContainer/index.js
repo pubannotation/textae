@@ -1,6 +1,6 @@
 import updateSpanTree from './updateSpanTree'
 import spanComparator from './spanComparator'
-import idFactory from '../../idFactory'
+import { makeSpanDomId } from '../../idFactory'
 import ObjectSpanModel from './ObjectSpanModel'
 import StyleSpanModel from './StyleSpanModel'
 import isBoundaryCrossingWithOtherSpans from '../isBoundaryCrossingWithOtherSpans'
@@ -53,7 +53,7 @@ export default class extends ModelContainer {
   }
 
   hasObjectSpan(begin, end) {
-    const spanId = idFactory.makeSpanDomId(this._editor, begin, end)
+    const spanId = makeSpanDomId(this._editor, begin, end)
     return this._container.has(spanId)
   }
 
@@ -97,7 +97,7 @@ export default class extends ModelContainer {
 
   moveObjectSpan(id, begin, end) {
     console.assert(
-      id !== idFactory.makeSpanDomId(this._editor, begin, end),
+      id !== makeSpanDomId(this._editor, begin, end),
       `Do not need move span:  ${id} ${begin} ${end}`
     )
 

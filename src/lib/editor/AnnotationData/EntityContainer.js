@@ -1,5 +1,5 @@
 import EntityModel from '../EntityModel'
-import idFactory from '../idFactory'
+import { makeSpanDomId } from '../idFactory'
 import IdIssueContainer from './IdIssueContainer'
 
 export default class extends IdIssueContainer {
@@ -33,11 +33,7 @@ export default class extends IdIssueContainer {
       this._relationContainer,
       this.definedTypes,
       this._spanContainer.get(
-        idFactory.makeSpanDomId(
-          this._editor,
-          denotation.span.begin,
-          denotation.span.end
-        )
+        makeSpanDomId(this._editor, denotation.span.begin, denotation.span.end)
       ),
       denotation.obj,
       denotation.id

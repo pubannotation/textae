@@ -1,4 +1,4 @@
-import idFactory from '../../../idFactory'
+import { makeSpanDomId } from '../../../idFactory'
 import getBigBrotherSpan from './getBigBrotherSpan'
 
 export default class {
@@ -12,7 +12,7 @@ export default class {
   }
 
   get id() {
-    return idFactory.makeSpanDomId(this._editor, this._begin, this._end)
+    return makeSpanDomId(this._editor, this._begin, this._end)
   }
 
   get begin() {

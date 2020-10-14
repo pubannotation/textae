@@ -1,5 +1,5 @@
 import TypeValues from '../TypeValues'
-import idFactory from '../idFactory'
+import { makeEntityDomId } from '../idFactory'
 import mergeTypesOf from './mergeTypesOf'
 
 export default class EntityModel {
@@ -89,7 +89,7 @@ export default class EntityModel {
   toDomInfo(namespace, typeContainer) {
     return Object.assign(
       {
-        id: idFactory.makeEntityDomId(this._editor, this.id),
+        id: makeEntityDomId(this._editor, this.id),
         title: this.id
       },
       this.typeValues.toDomInfo(namespace, typeContainer)
@@ -119,8 +119,6 @@ export default class EntityModel {
   }
 
   get element() {
-    return document.querySelector(
-      `#${idFactory.makeEntityDomId(this._editor, this.id)}`
-    )
+    return document.querySelector(`#${makeEntityDomId(this._editor, this.id)}`)
   }
 }
