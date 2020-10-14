@@ -12,7 +12,7 @@ export default function(
 ) {
   selectionModel.clear()
 
-  const newSpan = getNewSpan(
+  const { begin, end } = getNewSpan(
     annotationData,
     spanAdjuster,
     spanId,
@@ -21,12 +21,7 @@ export default function(
   )
 
   // The span cross exists spans.
-  if (
-    annotationData.span.isBoundaryCrossingWithOtherSpans(
-      newSpan.begin,
-      newSpan.end
-    )
-  ) {
+  if (annotationData.span.isBoundaryCrossingWithOtherSpans(begin, end)) {
     clearTextSelectionAndAlert(
       'A span cannot be expanded to make a boundary crossing.'
     )
@@ -34,11 +29,9 @@ export default function(
   }
 
   // A span cannot be expanded a span to the same as an existing span.
-  if (annotationData.span.hasObjectSpan(newSpan.begin, newSpan.end)) {
+  if (annotationData.span.hasObjectSpan(begin, end)) {
     return
   }
 
-  commander.invoke(
-    commander.factory.moveSpanCommand(spanId, newSpan.begin, newSpan.end)
-  )
+  commander.invoke(commander.factory.moveSpanCommand(spanId, begin, end))
 }
