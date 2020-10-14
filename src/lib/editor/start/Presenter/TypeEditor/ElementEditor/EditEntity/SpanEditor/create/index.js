@@ -10,7 +10,7 @@ export default function(
   selectionWrapper,
   spanConfig
 ) {
-  const newSpan = getNewSpan(
+  const { begin, end } = getNewSpan(
     annotationData,
     spanAdjuster,
     selectionWrapper,
@@ -18,23 +18,18 @@ export default function(
   )
 
   // The span cross exists spans.
-  if (
-    annotationData.span.isBoundaryCrossingWithOtherSpans(
-      newSpan.begin,
-      newSpan.end
-    )
-  ) {
+  if (annotationData.span.isBoundaryCrossingWithOtherSpans(begin, end)) {
     return
   }
 
   // The span exists already.
-  if (annotationData.span.hasObjectSpan(newSpan.begin, newSpan.end)) {
+  if (annotationData.span.hasObjectSpan(begin, end)) {
     return
   }
 
   const command = createCommand(
     commander,
-    newSpan,
+    { begin, end },
     isReplicateAuto,
     isDetectDelimiterEnable,
     spanConfig
