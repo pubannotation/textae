@@ -29,7 +29,7 @@ export default function(
   }
 
   // A span cannot be expanded a span to the same as an existing span.
-  if (annotationData.span.hasObjectSpan(newSpan)) {
+  if (annotationData.span.hasObjectSpan(newSpan.begin, newSpan.end)) {
     return
   }
 

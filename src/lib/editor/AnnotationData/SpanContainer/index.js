@@ -52,8 +52,8 @@ export default class extends ModelContainer {
     updateSpanTree(this.all, this)
   }
 
-  hasObjectSpan(span) {
-    const spanId = idFactory.makeSpanDomId(this._editor, span.begin, span.end)
+  hasObjectSpan(begin, end) {
+    const spanId = idFactory.makeSpanDomId(this._editor, begin, end)
     return this._container.has(spanId)
   }
 

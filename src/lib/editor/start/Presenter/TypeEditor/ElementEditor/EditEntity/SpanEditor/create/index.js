@@ -23,7 +23,7 @@ export default function(
   }
 
   // The span exists already.
-  if (annotationData.span.hasObjectSpan(newSpan)) {
+  if (annotationData.span.hasObjectSpan(newSpan.begin, newSpan.end)) {
     return
   }
 
