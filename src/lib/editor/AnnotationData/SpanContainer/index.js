@@ -96,6 +96,11 @@ export default class extends ModelContainer {
   }
 
   moveObjectSpan(id, begin, end) {
+    console.assert(
+      id !== idFactory.makeSpanDomId(this._editor, begin, end),
+      `Do not need move span:  ${id} ${begin} ${end}`
+    )
+
     const oldOne = super.remove(id)
     const newOne = super.add(
       new ObjectSpanModel(
