@@ -10,33 +10,33 @@ export default class MoveSpanCommand extends AnnotationCommand {
     )
 
     super()
-    this.editor = editor
-    this.annotationData = annotationData
-    this.spanId = spanId
-    this.newSpan = newSpan
+    this._editor = editor
+    this._annotationData = annotationData
+    this._spanId = spanId
+    this._newSpan = newSpan
   }
 
   execute() {
     // Update model
-    const [oldSpan, newId] = this.annotationData.span.moveObjectSpan(
-      this.spanId,
-      this.newSpan
+    const [oldSpan, newId] = this._annotationData.span.moveObjectSpan(
+      this._spanId,
+      this._newSpan
     )
 
-    this.oldSpan = oldSpan
-    this.newId = newId
+    this._oldSpan = oldSpan
+    this._newId = newId
 
     commandLog(
-      `move span: ${this.spanId} to {begin: ${this.newSpan.begin}, end: ${this.newSpan.end}}`
+      `move span: ${this._spanId} to {begin: ${this._newSpan.begin}, end: ${this._newSpan.end}}`
     )
   }
 
   revert() {
     return new MoveSpanCommand(
-      this.editor,
-      this.annotationData,
-      this.newId,
-      this.oldSpan
+      this._editor,
+      this._annotationData,
+      this._newId,
+      this._oldSpan
     )
   }
 }
