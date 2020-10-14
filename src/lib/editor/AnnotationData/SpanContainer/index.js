@@ -95,13 +95,13 @@ export default class extends ModelContainer {
     this._typeSets = new Map()
   }
 
-  moveObjectSpan(id, newSpan) {
+  moveObjectSpan(id, begin, end) {
     const oldOne = super.remove(id)
     const newOne = super.add(
       new ObjectSpanModel(
         this._editor,
-        newSpan.begin,
-        newSpan.end,
+        begin,
+        end,
         this._entityContainer,
         this
       ),

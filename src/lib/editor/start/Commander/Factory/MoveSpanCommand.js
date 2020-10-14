@@ -20,7 +20,8 @@ export default class MoveSpanCommand extends AnnotationCommand {
     // Update model
     const [oldSpan, newId] = this._annotationData.span.moveObjectSpan(
       this._spanId,
-      this._newSpan
+      this._newSpan.begin,
+      this._newSpan.end
     )
 
     this._oldSpan = oldSpan
