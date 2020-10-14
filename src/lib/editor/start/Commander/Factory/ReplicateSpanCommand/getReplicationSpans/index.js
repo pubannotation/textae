@@ -4,7 +4,13 @@ import isWord from './isWord'
 // Check replications are word or not if spanConfig is set.
 export default function(annotationData, originSpan, detectBoundaryFunc) {
   const wordFilter = detectBoundaryFunc
-    ? (span) => isWord(annotationData.sourceDoc, detectBoundaryFunc, span)
+    ? (span) =>
+        isWord(
+          annotationData.sourceDoc,
+          detectBoundaryFunc,
+          span.begin,
+          span.end
+        )
     : (span) => span
 
   return getSpansTheirStringIsSameWith(annotationData.sourceDoc, originSpan)
