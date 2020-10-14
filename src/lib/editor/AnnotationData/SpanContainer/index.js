@@ -128,8 +128,8 @@ export default class extends ModelContainer {
     }
   }
 
-  isBoundaryCrossingWithOtherSpans(span) {
-    return isBoundaryCrossingWithOtherSpans(this.all, span.begin, span.end)
+  isBoundaryCrossingWithOtherSpans(begin, end) {
+    return isBoundaryCrossingWithOtherSpans(this.all, begin, end)
   }
 
   get all() {

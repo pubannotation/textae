@@ -18,7 +18,12 @@ export default function(
   )
 
   // The span cross exists spans.
-  if (annotationData.span.isBoundaryCrossingWithOtherSpans(newSpan)) {
+  if (
+    annotationData.span.isBoundaryCrossingWithOtherSpans(
+      newSpan.begin,
+      newSpan.end
+    )
+  ) {
     return
   }
 
