@@ -2,10 +2,10 @@ import idFactory from '../../../idFactory'
 import getBigBrotherSpan from './getBigBrotherSpan'
 
 export default class {
-  constructor(editor, span, spanContainer) {
+  constructor(editor, begin, end, spanContainer) {
     this._editor = editor
-    this._begin = span.begin
-    this._end = span.end
+    this._begin = begin
+    this._end = end
     this._spanContainer = spanContainer
 
     this.severTies()
