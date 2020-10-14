@@ -4,26 +4,23 @@ import getBigBrotherSpan from './getBigBrotherSpan'
 export default class {
   constructor(editor, span, spanContainer) {
     this._editor = editor
-    this._span = span
+    this._begin = span.begin
+    this._end = span.end
     this._spanContainer = spanContainer
 
     this.severTies()
   }
 
   get id() {
-    return idFactory.makeSpanDomId(
-      this._editor,
-      this._span.begin,
-      this._span.end
-    )
+    return idFactory.makeSpanDomId(this._editor, this._begin, this._end)
   }
 
   get begin() {
-    return this._span.begin
+    return this._begin
   }
 
   get end() {
-    return this._span.end
+    return this._end
   }
 
   get types() {
