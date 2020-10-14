@@ -4,7 +4,8 @@ import isBoundaryCrossing from './isBoundaryCrossing'
 // Because spans are renderd with span tag. Html tags can not be cross over.
 export default function(spans, candidateSpan) {
   return (
-    spans.filter((existSpan) => isBoundaryCrossing(candidateSpan, existSpan))
-      .length > 0
+    spans.filter((existSpan) =>
+      isBoundaryCrossing(candidateSpan.begin, candidateSpan.end, existSpan)
+    ).length > 0
   )
 }

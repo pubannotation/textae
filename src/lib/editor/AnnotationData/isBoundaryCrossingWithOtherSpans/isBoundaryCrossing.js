@@ -1,13 +1,9 @@
-export default function(candidateSpan, existSpan) {
+export default function(begin, end, existSpan) {
   const isStartOfCandidateSpanBetweenExistsSpan =
-    existSpan.begin < candidateSpan.begin &&
-    candidateSpan.begin < existSpan.end &&
-    existSpan.end < candidateSpan.end
+    existSpan.begin < begin && begin < existSpan.end && existSpan.end < end
 
   const isEndOfCandidateSpanBetweenExistSpan =
-    candidateSpan.begin < existSpan.begin &&
-    existSpan.begin < candidateSpan.end &&
-    candidateSpan.end < existSpan.end
+    begin < existSpan.begin && existSpan.begin < end && end < existSpan.end
 
   return (
     isStartOfCandidateSpanBetweenExistsSpan ||
