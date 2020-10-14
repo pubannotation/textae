@@ -116,13 +116,11 @@ export default class extends ModelContainer {
 
     super._emit('textae.annotationData.span.move')
 
-    return [
-      {
-        begin: oldOne.begin,
-        end: oldOne.end
-      },
-      newOne.id
-    ]
+    return {
+      begin: oldOne.begin,
+      end: oldOne.end,
+      id: newOne.id
+    }
   }
 
   isBoundaryCrossingWithOtherSpans(span) {
