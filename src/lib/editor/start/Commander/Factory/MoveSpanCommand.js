@@ -1,11 +1,9 @@
 import commandLog from './commandLog'
 import AnnotationCommand from './AnnotationCommand'
-import idFactory from '../../../idFactory'
 
 export default class MoveSpanCommand extends AnnotationCommand {
-  constructor(editor, annotationData, spanId, newSpan) {
+  constructor(annotationData, spanId, newSpan) {
     super()
-    this._editor = editor
     this._annotationData = annotationData
     this._spanId = spanId
     this._newSpan = newSpan
@@ -28,11 +26,6 @@ export default class MoveSpanCommand extends AnnotationCommand {
   }
 
   revert() {
-    return new MoveSpanCommand(
-      this._editor,
-      this._annotationData,
-      this._newId,
-      this._oldSpan
-    )
+    return new MoveSpanCommand(this._annotationData, this._newId, this._oldSpan)
   }
 }

@@ -227,12 +227,7 @@ export default class {
   }
 
   moveSpanCommand(spanId, newSpan) {
-    return new MoveSpanCommand(
-      this._editor,
-      this._annotationData,
-      spanId,
-      newSpan
-    )
+    return new MoveSpanCommand(this._annotationData, spanId, newSpan)
   }
 
   pasteTypesToSelectedSpansCommand(typeValuesList) {
