@@ -9,7 +9,7 @@ export default function(
   selectionWrapper,
   spanConfig
 ) {
-  const newSpan = getNewSpan(
+  const { begin, end } = getNewSpan(
     annotationData,
     spanAdjuster,
     spanId,
@@ -18,27 +18,17 @@ export default function(
   )
 
   // The span cross exists spans.
-  if (
-    annotationData.span.isBoundaryCrossingWithOtherSpans(
-      newSpan.begin,
-      newSpan.end
-    )
-  ) {
+  if (annotationData.span.isBoundaryCrossingWithOtherSpans(begin, end)) {
     clearTextSelectionAndAlert(
       'A span cannot be shrinked to make a boundary crossing.'
     )
     return false
   }
 
-  const doesExists = annotationData.span.hasObjectSpan(
-    newSpan.begin,
-    newSpan.end
-  )
+  const doesExists = annotationData.span.hasObjectSpan(begin, end)
 
-  if (newSpan.begin < newSpan.end && !doesExists) {
-    commander.invoke(
-      commander.factory.moveSpanCommand(spanId, newSpan.begin, newSpan.end)
-    )
+  if (begin < end && !doesExists) {
+    commander.invoke(commander.factory.moveSpanCommand(spanId, begin, end))
   } else {
     commander.invoke(commander.factory.removeSpanCommand(spanId))
     return true
