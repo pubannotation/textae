@@ -33,5 +33,7 @@ export default function(
     return
   }
 
-  commander.invoke(commander.factory.moveSpanCommand(spanId, newSpan))
+  commander.invoke(
+    commander.factory.moveSpanCommand(spanId, newSpan.begin, newSpan.end)
+  )
 }

@@ -31,7 +31,9 @@ export default function(
   )
 
   if (newSpan.begin < newSpan.end && !doesExists) {
-    commander.invoke(commander.factory.moveSpanCommand(spanId, newSpan))
+    commander.invoke(
+      commander.factory.moveSpanCommand(spanId, newSpan.begin, newSpan.end)
+    )
   } else {
     commander.invoke(commander.factory.removeSpanCommand(spanId))
     return true
