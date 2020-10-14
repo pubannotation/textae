@@ -6,7 +6,7 @@ import CreateEntityCommand from './CreateEntityCommand'
 export default class extends CompositeCommand {
   constructor(editor, annotationData, selectionModel, newSpan, typeValuesList) {
     super()
-    const spanId = idFactory.makeSpanDomId(editor, newSpan)
+    const spanId = idFactory.makeSpanDomId(editor, newSpan.begin, newSpan.end)
 
     this._subCommands = [
       new CreateCommand(

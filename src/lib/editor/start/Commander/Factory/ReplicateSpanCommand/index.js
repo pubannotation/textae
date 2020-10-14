@@ -30,7 +30,8 @@ export default class extends CompositeCommand {
     )
     this._logMessage = `replicate a span ${idFactory.makeSpanDomId(
       editor,
-      span
+      span.begin,
+      span.end
     )}`
   }
 }

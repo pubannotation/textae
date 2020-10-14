@@ -33,7 +33,11 @@ export default class extends IdIssueContainer {
       this._relationContainer,
       this.definedTypes,
       this._spanContainer.get(
-        idFactory.makeSpanDomId(this._editor, denotation.span)
+        idFactory.makeSpanDomId(
+          this._editor,
+          denotation.span.begin,
+          denotation.span.end
+        )
       ),
       denotation.obj,
       denotation.id

@@ -11,7 +11,11 @@ export default class {
   }
 
   get id() {
-    return idFactory.makeSpanDomId(this._editor, this._span)
+    return idFactory.makeSpanDomId(
+      this._editor,
+      this._span.begin,
+      this._span.end
+    )
   }
 
   get begin() {

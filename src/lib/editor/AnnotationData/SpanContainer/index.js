@@ -47,7 +47,7 @@ export default class extends ModelContainer {
   }
 
   hasObjectSpan(span) {
-    const spanId = idFactory.makeSpanDomId(this._editor, span)
+    const spanId = idFactory.makeSpanDomId(this._editor, span.begin, span.end)
     return this._container.has(spanId)
   }
 
