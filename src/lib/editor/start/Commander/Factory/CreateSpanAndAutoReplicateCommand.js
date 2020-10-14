@@ -24,10 +24,8 @@ export default class extends CompositeCommand {
         editor,
         annotationData,
         selectionModel,
-        {
-          begin: newSpan.begin,
-          end: newSpan.end
-        },
+        newSpan.begin,
+        newSpan.end,
         typeValuesList
       )
     ]

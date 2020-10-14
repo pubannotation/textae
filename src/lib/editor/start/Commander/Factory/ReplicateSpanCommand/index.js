@@ -24,7 +24,8 @@ export default class extends CompositeCommand {
           editor,
           annotationData,
           selectionModel,
-          newSpan,
+          newSpan.begin,
+          newSpan.end,
           typeValeusList
         )
     )
