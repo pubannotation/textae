@@ -29,7 +29,13 @@ export default class extends ModelContainer {
     }
 
     return super.add(
-      new ObjectSpanModel(this._editor, newValue, this._entityContainer, this),
+      new ObjectSpanModel(
+        this._editor,
+        newValue.begin,
+        newValue.end,
+        this._entityContainer,
+        this
+      ),
       () => {
         updateSpanTree(this.all, this)
       }
@@ -92,7 +98,13 @@ export default class extends ModelContainer {
   moveObjectSpan(id, newSpan) {
     const oldOne = super.remove(id)
     const newOne = super.add(
-      new ObjectSpanModel(this._editor, newSpan, this._entityContainer, this),
+      new ObjectSpanModel(
+        this._editor,
+        newSpan.begin,
+        newSpan.end,
+        this._entityContainer,
+        this
+      ),
       (newOne) => {
         updateSpanTree(this.all, this)
         // Span.entities depends on the property of the entity.
@@ -143,7 +155,8 @@ export default class extends ModelContainer {
       case 'object span': {
         const objectSpan = new ObjectSpanModel(
           this._editor,
-          denotation.span,
+          denotation.span.begin,
+          denotation.span.end,
           this._entityContainer,
           this
         )
@@ -155,7 +168,8 @@ export default class extends ModelContainer {
       case 'style span': {
         const styleSpan = new StyleSpanModel(
           this._editor,
-          denotation.span,
+          denotation.span.begin,
+          denotation.span.end,
           this,
           denotation.style
         )

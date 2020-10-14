@@ -1,8 +1,8 @@
 import SpanModel from './SpanModel'
 
 export default class ObjectSpanModel extends SpanModel {
-  constructor(editor, span, entityContainer, spanContainer) {
-    super(editor, span.begin, span.end, spanContainer)
+  constructor(editor, begin, end, entityContainer, spanContainer) {
+    super(editor, begin, end, spanContainer)
     this._entityContainer = entityContainer
   }
 
