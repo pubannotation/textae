@@ -11,12 +11,12 @@ export default class ModelContainer {
     return rowDatum
   }
 
-  _toModels(rowData) {
-    return rowData.map((r) => this._toModel(r))
+  _toModels(rowData, type) {
+    return rowData.map((r) => this._toModel(r, type))
   }
 
-  addSource(source) {
-    for (const instance of this._toModels(source)) {
+  addSource(source, type) {
+    for (const instance of this._toModels(source, type)) {
       this._addToContainer(instance)
     }
   }

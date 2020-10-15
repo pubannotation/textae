@@ -8,8 +8,8 @@ export default class IdIssueContainer extends ModelContainer {
     this._prefix = prefix
   }
 
-  _toModels(rowDatum) {
-    const collection = super._toModels(rowDatum)
+  _toModels(rowDatum, type) {
+    const collection = super._toModels(rowDatum, type)
 
     // Move medols without id behind others, to prevet id duplication generated and exists.
     collection.sort((a, b) => {

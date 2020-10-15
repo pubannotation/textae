@@ -1,5 +1,5 @@
 import EntityModel from '../EntityModel'
-import { makeDenotationSpanDomId } from '../idFactory'
+import { makeDenotationSpanDomId, makeBlockSpanDomId } from '../idFactory'
 import IdIssueContainer from './IdIssueContainer'
 
 export default class EntityContainer extends IdIssueContainer {
@@ -25,20 +25,14 @@ export default class EntityContainer extends IdIssueContainer {
     return this._parentContainer.relation
   }
 
-  _toModel(denotation) {
+  _toModel(denotation, type) {
     // Expected an entity like {id: "E21", span: "editor2__S50_54", obj: "Protein"}.
     return new EntityModel(
       this._editor,
       this._attributeContainer,
       this._relationContainer,
       this.definedTypes,
-      this._spanContainer.get(
-        makeDenotationSpanDomId(
-          this._editor,
-          denotation.span.begin,
-          denotation.span.end
-        )
-      ),
+      this._getSpan(type, denotation),
       denotation.obj,
       denotation.id
     )
@@ -74,5 +68,36 @@ export default class EntityContainer extends IdIssueContainer {
 
   getAllOfSpan(span) {
     return this.all.filter((entity) => span.id === entity.span.id)
+  }
+
+  get denotations() {
+    return this.all.filter((entity) => entity.isDenotation)
+  }
+
+  get blocks() {
+    return this.all.filter((entity) => entity.isBlock)
+  }
+
+  _getSpan(type, denotation) {
+    return this._spanContainer.get(this._getSpanId(type, denotation))
+  }
+
+  _getSpanId(type, denotation) {
+    switch (type) {
+      case 'denotation':
+        return makeDenotationSpanDomId(
+          this._editor,
+          denotation.span.begin,
+          denotation.span.end
+        )
+      case 'block':
+        return makeBlockSpanDomId(
+          this._editor,
+          denotation.span.begin,
+          denotation.span.end
+        )
+      default:
+        throw `${type} is unknown type span!`
+    }
   }
 }
