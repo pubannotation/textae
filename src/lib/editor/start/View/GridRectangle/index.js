@@ -33,4 +33,15 @@ export default class GridRectangle {
       left: round(left)
     }
   }
+
+  blockGridRectangle(textBox, span) {
+    console.assert(span.element, 'span is not renderd')
+    const rectOfTextBox = textBox.boundingClientRect
+
+    return {
+      width: 100,
+      top: round(parseInt(span.backgroundElement.style.top)),
+      left: round(rectOfTextBox.width)
+    }
+  }
 }

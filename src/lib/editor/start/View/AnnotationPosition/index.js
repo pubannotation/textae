@@ -1,5 +1,6 @@
 import arrangeDenotionEntityPosition from './arrangeDenotionEntityPosition'
 import arrangeBackgroundOfBlockSpanPosition from './arrangeBackgroundOfBlockSpanPosition'
+import arrangeBlockEntityPosition from './arrangeBlockEntityPosition'
 
 export default class AnnotationPosition {
   constructor(editor, annotationData, textBox, gridRectangle, renderer) {
@@ -16,7 +17,15 @@ export default class AnnotationPosition {
     )
 
     arrangeDenotionEntityPosition(this._annotationData, this._gridRectangle)
+
+    // When you undo the deletion of a block span,
+    // if you move the background first, the grid will move to a better position.
     arrangeBackgroundOfBlockSpanPosition(this._annotationData, this._textBox)
+    arrangeBlockEntityPosition(
+      this._annotationData,
+      this._textBox,
+      this._gridRectangle
+    )
 
     this._renderer
       .arrangeRelationPositionAllAsync()
