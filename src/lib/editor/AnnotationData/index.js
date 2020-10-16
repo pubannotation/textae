@@ -8,6 +8,7 @@ import clearAnnotationData from './clearAnnotationData'
 import toDenotation from './toDenotation'
 import toAttribute from './toAttribute'
 import toRelation from './toRelation'
+import getReplicationSpans from './getReplicationSpans'
 
 export default class {
   constructor(editor) {
@@ -45,5 +46,9 @@ export default class {
       attributes: toAttribute(this),
       relations: toRelation(this)
     }
+  }
+
+  getReplicationSpans(originSpan, detectBoundaryFunc) {
+    return getReplicationSpans(this, originSpan, detectBoundaryFunc)
   }
 }
