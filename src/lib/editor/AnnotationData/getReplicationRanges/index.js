@@ -1,4 +1,4 @@
-import getSpansTheirStringIsSameWith from './getSpansTheirStringIsSameWith'
+import getDuplicateSentenceFromText from './getDuplicateSentenceFromText'
 import isWord from './isWord'
 
 // Check replications are word or not if spanConfig is set.
@@ -8,7 +8,7 @@ export default function(annotationData, span, detectBoundaryFunc) {
         isWord(annotationData.sourceDoc, detectBoundaryFunc, begin, end)
     : () => true
 
-  return getSpansTheirStringIsSameWith(
+  return getDuplicateSentenceFromText(
     annotationData.sourceDoc,
     span.begin,
     span.end
