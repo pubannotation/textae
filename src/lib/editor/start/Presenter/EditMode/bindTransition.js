@@ -5,10 +5,6 @@ export default function(transition) {
   const stateMachine = new StateMachine()
 
   stateMachine
-    .on('transition', (e) => {
-      // For debug.
-      // console.log(editor.editorId, 'from:', e.from, ' to:', e.to);
-    })
     .on(toEnterEvent(state.TERM), () => transition.toTerm())
     .on(toEnterEvent(state.INSTANCE), () => transition.toInstance())
     .on(toEnterEvent(state.RELATION), () => transition.toRelation())
