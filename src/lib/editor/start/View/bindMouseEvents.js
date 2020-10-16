@@ -8,7 +8,13 @@ export default function(editor, hoverRelation) {
   delegate(dom, '.textae-editor__entity__endpoint', 'mouseover', (e) =>
     hoverRelation.on(getEntityDomFromChild(e.target).title)
   )
+  delegate(dom, '.textae-editor__entity__type-values', 'mouseover', (e) =>
+    hoverRelation.on(getEntityDomFromChild(e.target).title)
+  )
   delegate(dom, '.textae-editor__entity__endpoint', 'mouseout', (e) =>
+    hoverRelation.off(getEntityDomFromChild(e.target).title)
+  )
+  delegate(dom, '.textae-editor__entity__type-values', 'mouseout', (e) =>
     hoverRelation.off(getEntityDomFromChild(e.target).title)
   )
 }
