@@ -19,13 +19,13 @@ export default class extends CompositeCommand {
       span,
       detectBoundaryFunc
     ).map(
-      (newSpan) =>
+      ({ begin, end }) =>
         new CreateSpanAndTypesCommand(
           editor,
           annotationData,
           selectionModel,
-          newSpan.begin,
-          newSpan.end,
+          begin,
+          end,
           typeValeusList
         )
     )
