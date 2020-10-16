@@ -5,62 +5,62 @@ export default function() {
   const m = new Machine({
     states: [
       state.INIT,
-      state.TERM,
-      state.INSTANCE,
-      state.RELATION,
-      state.VIEW_TERM,
-      state.VIEW_INSTANCE
+      state.EDIT_DENOTATION_WITHOUT_RELATION,
+      state.EDIT_DENOTATION_WITH_RELATION,
+      state.EDIT_RELATION,
+      state.VIEW_WITHOUT_RELATION,
+      state.VIEW_WITH_RELATION
     ]
   })
 
   m.config(state.INIT, {
     to: {
-      exclude: [state.RELATION]
+      exclude: [state.EDIT_RELATION]
     }
   })
 
-  m.config(state.TERM, {
+  m.config(state.EDIT_DENOTATION_WITHOUT_RELATION, {
     from: {
-      exclude: [state.VIEW_INSTANCE]
+      exclude: [state.VIEW_WITH_RELATION]
     },
     to: {
-      exclude: [state.INIT, state.VIEW_INSTANCE]
+      exclude: [state.INIT, state.VIEW_WITH_RELATION]
     }
   })
 
-  m.config(state.INSTANCE, {
+  m.config(state.EDIT_DENOTATION_WITH_RELATION, {
     from: {
-      exclude: [state.VIEW_TERM]
+      exclude: [state.VIEW_WITHOUT_RELATION]
     },
     to: {
-      exclude: [state.INIT, state.VIEW_TERM]
+      exclude: [state.INIT, state.VIEW_WITHOUT_RELATION]
     }
   })
 
-  m.config(state.RELATION, {
+  m.config(state.EDIT_RELATION, {
     from: {
       exclude: [state.INIT]
     },
     to: {
-      exclude: [state.INIT, state.VIEW_TERM]
+      exclude: [state.INIT, state.VIEW_WITHOUT_RELATION]
     }
   })
 
-  m.config(state.VIEW_TERM, {
+  m.config(state.VIEW_WITHOUT_RELATION, {
     from: {
-      exclude: [state.INSTANCE, state.RELATION]
+      exclude: [state.EDIT_DENOTATION_WITH_RELATION, state.EDIT_RELATION]
     },
     to: {
-      exclude: [state.INIT, state.INSTANCE]
+      exclude: [state.INIT, state.EDIT_DENOTATION_WITH_RELATION]
     }
   })
 
-  m.config(state.VIEW_INSTANCE, {
+  m.config(state.VIEW_WITH_RELATION, {
     from: {
-      exclude: [state.TERM]
+      exclude: [state.EDIT_DENOTATION_WITHOUT_RELATION]
     },
     to: {
-      exclude: [state.INIT, state.TERM]
+      exclude: [state.INIT, state.EDIT_DENOTATION_WITHOUT_RELATION]
     }
   })
 

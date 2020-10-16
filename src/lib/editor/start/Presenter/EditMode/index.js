@@ -15,28 +15,28 @@ export default class {
   }
 
   get isSimple() {
-    return this._stateMachine.currentState === state.TERM
+    return this._stateMachine.currentState === state.EDIT_DENOTATION_WITHOUT_RELATION
   }
 
   get isEditEntity() {
-    return this._stateMachine.currentState === state.INSTANCE
+    return this._stateMachine.currentState === state.EDIT_DENOTATION_WITH_RELATION
   }
 
   // For an intiation transition on an annotations data loaded.
   toTerm() {
-    this._stateMachine.setState(state.TERM)
+    this._stateMachine.setState(state.EDIT_DENOTATION_WITHOUT_RELATION)
   }
 
   toInstance() {
-    this._stateMachine.setState(state.INSTANCE)
+    this._stateMachine.setState(state.EDIT_DENOTATION_WITH_RELATION)
   }
 
   toViewTerm() {
-    this._stateMachine.setState(state.VIEW_TERM)
+    this._stateMachine.setState(state.VIEW_WITHOUT_RELATION)
   }
 
   toViewInstance() {
-    this._stateMachine.setState(state.VIEW_INSTANCE)
+    this._stateMachine.setState(state.VIEW_WITH_RELATION)
   }
 
   // For buttan actions.
@@ -49,7 +49,7 @@ export default class {
   }
 
   pushRelation() {
-    this._stateMachine.setState(state.RELATION)
+    this._stateMachine.setState(state.EDIT_RELATION)
   }
 
   pushSimple() {
@@ -62,17 +62,17 @@ export default class {
 
   toggleSimple() {
     switch (this._stateMachine.currentState) {
-      case state.TERM:
-        this._stateMachine.setState(state.INSTANCE)
+      case state.EDIT_DENOTATION_WITHOUT_RELATION:
+        this._stateMachine.setState(state.EDIT_DENOTATION_WITH_RELATION)
         break
-      case state.VIEW_TERM:
-        this._stateMachine.setState(state.VIEW_INSTANCE)
+      case state.VIEW_WITHOUT_RELATION:
+        this._stateMachine.setState(state.VIEW_WITH_RELATION)
         break
-      case state.INSTANCE:
-        this._stateMachine.setState(state.TERM)
+      case state.EDIT_DENOTATION_WITH_RELATION:
+        this._stateMachine.setState(state.EDIT_DENOTATION_WITHOUT_RELATION)
         break
-      case state.VIEW_INSTANCE:
-        this._stateMachine.setState(state.VIEW_TERM)
+      case state.VIEW_WITH_RELATION:
+        this._stateMachine.setState(state.VIEW_WITHOUT_RELATION)
         break
       default:
         throw new Error(`Invalid state: ${this._stateMachine.currentState}`)

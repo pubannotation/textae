@@ -1,8 +1,8 @@
 export const state = {
   INIT: 'Init',
-  VIEW_TERM: 'View Term',
-  VIEW_INSTANCE: 'View Instance',
-  TERM: 'Term Centric',
-  INSTANCE: 'Instance / Relation',
-  RELATION: 'Relation Edit'
+  VIEW_WITHOUT_RELATION: 'View Term',
+  VIEW_WITH_RELATION: 'View Instance',
+  EDIT_DENOTATION_WITHOUT_RELATION: 'Term Centric',
+  EDIT_DENOTATION_WITH_RELATION: 'Instance / Relation',
+  EDIT_RELATION: 'Relation Edit'
 }
