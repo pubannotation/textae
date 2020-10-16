@@ -14,7 +14,7 @@ export default class extends CompositeCommand {
     super()
 
     this._subCommands = annotationData
-      .getReplicationSpans(span, detectBoundaryFunc)
+      .getReplicationRanges(span, detectBoundaryFunc)
       .map(
         ({ begin, end }) =>
           new CreateSpanAndTypesCommand(
