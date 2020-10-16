@@ -48,13 +48,13 @@ export default class {
     }
   }
 
-  getReplicationRanges(span, detectBoundaryFunc) {
+  getReplicationRanges(span, isDelimiterFunc) {
     return getReplicationRanges(
       this.sourceDoc,
       span.begin,
       span.end,
       this.span,
-      detectBoundaryFunc
+      isDelimiterFunc
     )
   }
 }

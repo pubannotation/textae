@@ -178,11 +178,7 @@ export default class {
     )
   }
 
-  createSpanAndAutoReplicateCommand(
-    newSpan,
-    isReplicateAuto,
-    detectBountdaryFunc
-  ) {
+  createSpanAndAutoReplicateCommand(newSpan, isReplicateAuto, isDelimiterFunc) {
     return new CreateSpanAndAutoReplicateCommand(
       this._editor,
       this._annotationData,
@@ -190,7 +186,7 @@ export default class {
       newSpan,
       this._typeDefinition.entity.defaultType,
       isReplicateAuto,
-      detectBountdaryFunc
+      isDelimiterFunc
     )
   }
 
@@ -239,14 +235,14 @@ export default class {
     )
   }
 
-  replicateSpanCommand(span, typeValuesList, detectBoundaryFunc) {
+  replicateSpanCommand(span, typeValuesList, isDelimiterFunc) {
     return new ReplicateSpanCommand(
       this._editor,
       this._annotationData,
       this._selectionModel,
       span,
       typeValuesList,
-      detectBoundaryFunc
+      isDelimiterFunc
     )
   }
 

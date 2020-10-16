@@ -9,12 +9,12 @@ export default class extends CompositeCommand {
     selectionModel,
     span,
     typeValeusList,
-    detectBoundaryFunc
+    isDelimiterFunc
   ) {
     super()
 
     this._subCommands = annotationData
-      .getReplicationRanges(span, detectBoundaryFunc)
+      .getReplicationRanges(span, isDelimiterFunc)
       .map(
         ({ begin, end }) =>
           new CreateSpanAndTypesCommand(

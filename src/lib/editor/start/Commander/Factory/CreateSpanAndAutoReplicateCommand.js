@@ -13,7 +13,7 @@ export default class extends CompositeCommand {
     newSpan,
     defaultType,
     isReplicateAuto,
-    detectBoundaryFunc
+    isDelimiterFunc
   ) {
     super()
 
@@ -42,7 +42,7 @@ export default class extends CompositeCommand {
             end: newSpan.end
           },
           typeValuesList,
-          detectBoundaryFunc
+          isDelimiterFunc
         )
       )
       this._logMessage = `${this._logMessage} and replicate auto`

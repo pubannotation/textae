@@ -2,9 +2,9 @@ import getDuplicateSentenceFromText from './getDuplicateSentenceFromText'
 import isWord from './isWord'
 
 // Check replications are word or not if spanConfig is set.
-export default function(sourceDoc, begin1, end, span, detectBoundaryFunc) {
-  const wordFilter = detectBoundaryFunc
-    ? ({ begin, end }) => isWord(sourceDoc, detectBoundaryFunc, begin, end)
+export default function(sourceDoc, begin1, end, span, isDelimiterFunc) {
+  const wordFilter = isDelimiterFunc
+    ? ({ begin, end }) => isWord(sourceDoc, isDelimiterFunc, begin, end)
     : () => true
 
   return getDuplicateSentenceFromText(sourceDoc, begin1, end)

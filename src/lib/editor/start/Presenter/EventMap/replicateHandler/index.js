@@ -1,14 +1,14 @@
-import getDetectBoundaryFunc from './getDetectBoundaryFunc'
+import getIsDelimiterFunc from './getIsDelimiterFunc'
 
 export default function(commander, buttonController, spanConfig, span) {
-  const detectBoundaryFunc = getDetectBoundaryFunc(buttonController, spanConfig)
+  const isDelimiterFunc = getIsDelimiterFunc(buttonController, spanConfig)
 
   if (span) {
     commander.invoke(
       commander.factory.replicateSpanCommand(
         span,
         span.entities.map((e) => e.typeValues),
-        detectBoundaryFunc
+        isDelimiterFunc
       )
     )
   } else {
