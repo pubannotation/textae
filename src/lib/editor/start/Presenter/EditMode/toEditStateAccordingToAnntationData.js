@@ -1,5 +1,5 @@
 import isSimple from '../isSimple'
-import { state } from './state'
+import { state } from '../../../..//state'
 
 export default function(stateMachine, annotationData) {
   if (isSimple(annotationData)) {

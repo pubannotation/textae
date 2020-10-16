@@ -1,5 +1,5 @@
 import StateMachine from './StateMachine'
-import { state } from './state'
+import { state } from '../../../../state'
 
 export default function(transition) {
   const stateMachine = new StateMachine()

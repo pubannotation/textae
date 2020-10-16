@@ -1,6 +1,4 @@
-import isRelation from '../isRelation'
-import isSpanEdit from '../isSpanEdit'
-import isView from '../isView'
+import { state as editModeState } from '../../state'
 
 export default function(editor, state) {
   editor.eventEmitter
@@ -12,13 +10,51 @@ export default function(editor, state) {
     .on('textae.selection.span.change', () => state.updateBySpan())
     .on('textae.selection.relation.change', () => state.updateByRelation())
     .on('textae.selection.entity.change', () => state.updateByEntity())
-    .on('textae.editMode.transition', (mode, editable) => {
-      state.enabled('simple', !isRelation(mode))
-      state.enabled('replicate-auto', isSpanEdit(mode, editable))
-      state.enabled('boundary-detection', isSpanEdit(mode, editable))
-      state.enabled('line-height', editable)
-      state.enabled('line-height-auto', editable)
-      state.enabled('pallet', !isView(editable))
+    .on('textae.editMode.transition', (mode) => {
+      switch (mode) {
+        case editModeState.VIEW_WITHOUT_RELATION:
+          state.enabled('simple', true)
+          state.enabled('replicate-auto', false)
+          state.enabled('boundary-detection', false)
+          state.enabled('line-height', false)
+          state.enabled('line-height-auto', false)
+          state.enabled('pallet', false)
+          break
+        case editModeState.VIEW_WITH_RELATION:
+          state.enabled('simple', true)
+          state.enabled('replicate-auto', false)
+          state.enabled('boundary-detection', false)
+          state.enabled('line-height', false)
+          state.enabled('line-height-auto', false)
+          state.enabled('pallet', false)
+          break
+        case editModeState.EDIT_DENOTATION_WITHOUT_RELATION:
+          state.enabled('simple', true)
+          state.enabled('replicate-auto', true)
+          state.enabled('boundary-detection', true)
+          state.enabled('line-height', true)
+          state.enabled('line-height-auto', true)
+          state.enabled('pallet', true)
+          break
+        case editModeState.EDIT_DENOTATION_WITH_RELATION:
+          state.enabled('simple', true)
+          state.enabled('replicate-auto', true)
+          state.enabled('boundary-detection', true)
+          state.enabled('line-height', true)
+          state.enabled('line-height-auto', true)
+          state.enabled('pallet', true)
+          break
+        case editModeState.EDIT_RELATION:
+          state.enabled('simple', false)
+          state.enabled('replicate-auto', false)
+          state.enabled('boundary-detection', false)
+          state.enabled('line-height', true)
+          state.enabled('line-height-auto', true)
+          state.enabled('pallet', true)
+          break
+        default:
+          throw `unknown edit mode!${mode}`
+      }
     })
     .on('textae.clipBoard.change', () =>
       state.enabled('paste', state._enablePaste)

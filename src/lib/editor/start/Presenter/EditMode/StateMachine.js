@@ -1,5 +1,5 @@
 import Machine from 'emitter-fsm'
-import { state } from './state'
+import { state } from '../../../../state'
 
 export default function() {
   const m = new Machine({

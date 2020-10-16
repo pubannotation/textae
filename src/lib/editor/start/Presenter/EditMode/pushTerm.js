@@ -1,4 +1,4 @@
-import { state } from './state'
+import { state } from '../../../../state'
 import toEditStateAccordingToAnntationData from './toEditStateAccordingToAnntationData'
 
 export default function(stateMachine, annotationData) {

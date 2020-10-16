@@ -10,8 +10,8 @@ export default class {
     }, new Map())
 
     // Bind an event.
-    editor.eventEmitter.on('textae.editMode.transition', (mode, editable) =>
-      setMode(this, mode, editable)
+    editor.eventEmitter.on('textae.editMode.transition', (mode) =>
+      setMode(this, mode)
     )
 
     // default pushed;

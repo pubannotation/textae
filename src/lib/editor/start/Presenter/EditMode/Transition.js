@@ -1,10 +1,6 @@
 import setEditableStyle from './setEditableStyle'
 import ViewMode from './ViewMode'
-
-// The name of buttons affected by the state transition.
-const TERM = 'term'
-const INSTANCE = 'instance'
-const RELATION = 'relation'
+import { state } from '../../../../state'
 
 export default class {
   constructor(editor, typeEditor, displayInstance) {
@@ -16,7 +12,10 @@ export default class {
 
   toViewWithoutRelation() {
     this._displayInstance.hide()
-    this._editor.eventEmitter.emit('textae.editMode.transition', TERM, false)
+    this._editor.eventEmitter.emit(
+      'textae.editMode.transition',
+      state.VIEW_WITHOUT_RELATION
+    )
 
     this._typeEditor.noEdit()
     this._viewMode.setTerm()
@@ -27,8 +26,7 @@ export default class {
     this._displayInstance.show()
     this._editor.eventEmitter.emit(
       'textae.editMode.transition',
-      INSTANCE,
-      false
+      state.VIEW_WITH_RELATION
     )
 
     this._typeEditor.noEdit()
@@ -38,7 +36,10 @@ export default class {
 
   toEditDenotationWithoutRelation() {
     this._displayInstance.hide()
-    this._editor.eventEmitter.emit('textae.editMode.transition', TERM, true)
+    this._editor.eventEmitter.emit(
+      'textae.editMode.transition',
+      state.EDIT_DENOTATION_WITHOUT_RELATION
+    )
 
     this._typeEditor.editEntity()
     this._viewMode.setTerm()
@@ -47,7 +48,10 @@ export default class {
 
   toEditDenotationWithRelation() {
     this._displayInstance.show()
-    this._editor.eventEmitter.emit('textae.editMode.transition', INSTANCE, true)
+    this._editor.eventEmitter.emit(
+      'textae.editMode.transition',
+      state.EDIT_DENOTATION_WITH_RELATION
+    )
 
     this._typeEditor.editEntity()
     this._viewMode.setInstance()
@@ -56,7 +60,10 @@ export default class {
 
   toEditRelation() {
     this._displayInstance.show()
-    this._editor.eventEmitter.emit('textae.editMode.transition', RELATION, true)
+    this._editor.eventEmitter.emit(
+      'textae.editMode.transition',
+      state.EDIT_RELATION
+    )
 
     this._typeEditor.editRelation()
     this._viewMode.setRelation()
