@@ -1,10 +1,10 @@
 // Get spans their stirng is same with the originSpan from sourceDoc.
-export default function(sourceDoc, originSpan) {
+export default function(sourceDoc, begin, end) {
   const getNextStringIndex = String.prototype.indexOf.bind(
     sourceDoc,
-    sourceDoc.substring(originSpan.begin, originSpan.end)
+    sourceDoc.substring(begin, end)
   )
-  const length = originSpan.end - originSpan.begin
+  const length = end - begin
   const findStrings = []
 
   let offset = 0

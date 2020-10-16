@@ -8,7 +8,11 @@ export default function(annotationData, span, detectBoundaryFunc) {
         isWord(annotationData.sourceDoc, detectBoundaryFunc, begin, end)
     : () => true
 
-  return getSpansTheirStringIsSameWith(annotationData.sourceDoc, span)
+  return getSpansTheirStringIsSameWith(
+    annotationData.sourceDoc,
+    span.begin,
+    span.end
+  )
     .filter(
       ({ begin }) =>
         // The candidateSpan is a same span when begin is same.
