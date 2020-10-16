@@ -10,7 +10,7 @@ export default function(sourceDoc, begin1, end, span, isDelimiterFunc) {
         // Because string of each others are same. End of them are same too.
         begin !== begin1
     )
-    .filter(({ begin, end }) => isWord(sourceDoc, isDelimiterFunc, begin, end))
+    .filter(({ begin, end }) => isWord(sourceDoc, begin, end, isDelimiterFunc))
     .filter(({ begin, end }) => !span.hasObjectSpan(begin, end))
     .filter(
       ({ begin, end }) => !span.isBoundaryCrossingWithOtherSpans(begin, end)
