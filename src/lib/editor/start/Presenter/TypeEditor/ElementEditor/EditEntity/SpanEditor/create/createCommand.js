@@ -1,16 +1,10 @@
-export default function(
-  commander,
-  newSpan,
-  isReplicateAuto,
-  isDetectDelimiterEnable,
-  spanConfig
-) {
+export default function(commander, newSpan, isReplicateAuto, isDelimiterFunc) {
   return commander.factory.createSpanAndAutoReplicateCommand(
     {
       begin: newSpan.begin,
       end: newSpan.end
     },
     isReplicateAuto,
-    isDetectDelimiterEnable ? (char) => spanConfig.isDelimiter(char) : null
+    isDelimiterFunc
   )
 }

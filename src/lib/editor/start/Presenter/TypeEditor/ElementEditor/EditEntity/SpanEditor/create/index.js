@@ -5,10 +5,10 @@ export default function(
   annotationData,
   commander,
   spanAdjuster,
-  isDetectDelimiterEnable,
   isReplicateAuto,
   selectionWrapper,
-  spanConfig
+  spanConfig,
+  isDelimiterFunc
 ) {
   const { begin, end } = getNewSpan(
     annotationData,
@@ -31,8 +31,7 @@ export default function(
     commander,
     { begin, end },
     isReplicateAuto,
-    isDetectDelimiterEnable,
-    spanConfig
+    isDelimiterFunc
   )
 
   commander.invoke(command)

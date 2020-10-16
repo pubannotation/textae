@@ -11,6 +11,7 @@ import getExpandTargetSpan from './getExpandTargetSpan'
 import expand from './expand'
 import hasCharacters from './hasCharacters'
 import getTargetSpanWhenFocusNodeDifferentFromAnchorNode from './getTargetSpanWhenFocusNodeDifferentFromAnchorNode'
+import getIsDelimiterFunc from '../../../../getIsDelimiterFunc'
 
 export default class {
   constructor(
@@ -258,10 +259,10 @@ export default class {
       this._annotationData,
       this._commander,
       this._spanAdjuster,
-      this._isDetectDelimiterEnable,
       this._isReplicateAuto,
       selectionWrapper,
-      this._spanConfig
+      this._spanConfig,
+      getIsDelimiterFunc(this._buttonController, this._spanConfig)
     )
   }
 
@@ -353,16 +354,12 @@ export default class {
     clearTextSelection()
   }
 
-  get _isDetectDelimiterEnable() {
-    return this._buttonController.valueOf('boundary-detection')
-  }
-
   get _isReplicateAuto() {
     return this._buttonController.valueOf('replicate-auto')
   }
 
   get _spanAdjuster() {
-    return this._isDetectDelimiterEnable
+    return this._buttonController.valueOf('boundary-detection')
       ? new DelimiterDetectAdjuster()
       : new BlankSkipAdjuster()
   }
