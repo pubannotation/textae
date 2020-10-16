@@ -1,6 +1,6 @@
 import Transition from './Transition'
 import bindTransition from './bindTransition'
-import state from './state'
+import { state } from './state'
 import pushView from './pushView'
 import pushTerm from './pushTerm'
 import pushSimple from './pushSimple'
