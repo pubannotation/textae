@@ -2,8 +2,8 @@ import isSimple from '../isSimple'
 
 export default function(editMode, annotationData) {
   if (isSimple(annotationData)) {
-    editMode.toTerm()
+    editMode.toEditDenotationWithoutRelation()
   } else {
-    editMode.toInstance()
+    editMode.toEditDenotationWithRelation()
   }
 }

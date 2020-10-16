@@ -6,17 +6,17 @@ export default function(transition) {
 
   stateMachine
     .on(toEnterEvent(state.EDIT_DENOTATION_WITHOUT_RELATION), () =>
-      transition.toTerm()
+      transition.toEditDenotationWithoutRelation()
     )
     .on(toEnterEvent(state.EDIT_DENOTATION_WITH_RELATION), () =>
-      transition.toInstance()
+      transition.toEditDenotationWithRelation()
     )
-    .on(toEnterEvent(state.EDIT_RELATION), () => transition.toRelation())
+    .on(toEnterEvent(state.EDIT_RELATION), () => transition.toEditRelation())
     .on(toEnterEvent(state.VIEW_WITHOUT_RELATION), () =>
-      transition.toViewTerm()
+      transition.toViewWithoutRelation()
     )
     .on(toEnterEvent(state.VIEW_WITH_RELATION), () =>
-      transition.toViewInstance()
+      transition.toViewWithRelation()
     )
 
   return stateMachine

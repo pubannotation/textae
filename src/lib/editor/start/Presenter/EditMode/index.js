@@ -15,27 +15,31 @@ export default class {
   }
 
   get isSimple() {
-    return this._stateMachine.currentState === state.EDIT_DENOTATION_WITHOUT_RELATION
+    return (
+      this._stateMachine.currentState === state.EDIT_DENOTATION_WITHOUT_RELATION
+    )
   }
 
   get isEditEntity() {
-    return this._stateMachine.currentState === state.EDIT_DENOTATION_WITH_RELATION
+    return (
+      this._stateMachine.currentState === state.EDIT_DENOTATION_WITH_RELATION
+    )
   }
 
   // For an intiation transition on an annotations data loaded.
-  toTerm() {
+  toEditDenotationWithoutRelation() {
     this._stateMachine.setState(state.EDIT_DENOTATION_WITHOUT_RELATION)
   }
 
-  toInstance() {
+  toEditDenotationWithRelation() {
     this._stateMachine.setState(state.EDIT_DENOTATION_WITH_RELATION)
   }
 
-  toViewTerm() {
+  toViewWithoutRelation() {
     this._stateMachine.setState(state.VIEW_WITHOUT_RELATION)
   }
 
-  toViewInstance() {
+  toViewWithRelation() {
     this._stateMachine.setState(state.VIEW_WITH_RELATION)
   }
 
