@@ -1,6 +1,6 @@
 import Transition from './Transition'
 import bindTransition from './bindTransition'
-import { state } from '../../../../state'
+import { MODE } from '../../../../MODE'
 import pushView from './pushView'
 import pushTerm from './pushTerm'
 import pushSimple from './pushSimple'
@@ -16,31 +16,31 @@ export default class {
 
   get isSimple() {
     return (
-      this._stateMachine.currentState === state.EDIT_DENOTATION_WITHOUT_RELATION
+      this._stateMachine.currentState === MODE.EDIT_DENOTATION_WITHOUT_RELATION
     )
   }
 
   get isEditEntity() {
     return (
-      this._stateMachine.currentState === state.EDIT_DENOTATION_WITH_RELATION
+      this._stateMachine.currentState === MODE.EDIT_DENOTATION_WITH_RELATION
     )
   }
 
   // For an intiation transition on an annotations data loaded.
   toEditDenotationWithoutRelation() {
-    this._stateMachine.setState(state.EDIT_DENOTATION_WITHOUT_RELATION)
+    this._stateMachine.setState(MODE.EDIT_DENOTATION_WITHOUT_RELATION)
   }
 
   toEditDenotationWithRelation() {
-    this._stateMachine.setState(state.EDIT_DENOTATION_WITH_RELATION)
+    this._stateMachine.setState(MODE.EDIT_DENOTATION_WITH_RELATION)
   }
 
   toViewWithoutRelation() {
-    this._stateMachine.setState(state.VIEW_WITHOUT_RELATION)
+    this._stateMachine.setState(MODE.VIEW_WITHOUT_RELATION)
   }
 
   toViewWithRelation() {
-    this._stateMachine.setState(state.VIEW_WITH_RELATION)
+    this._stateMachine.setState(MODE.VIEW_WITH_RELATION)
   }
 
   // For buttan actions.
@@ -53,7 +53,7 @@ export default class {
   }
 
   pushRelation() {
-    this._stateMachine.setState(state.EDIT_RELATION)
+    this._stateMachine.setState(MODE.EDIT_RELATION)
   }
 
   pushSimple() {
@@ -66,17 +66,17 @@ export default class {
 
   toggleSimple() {
     switch (this._stateMachine.currentState) {
-      case state.EDIT_DENOTATION_WITHOUT_RELATION:
-        this._stateMachine.setState(state.EDIT_DENOTATION_WITH_RELATION)
+      case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
+        this._stateMachine.setState(MODE.EDIT_DENOTATION_WITH_RELATION)
         break
-      case state.VIEW_WITHOUT_RELATION:
-        this._stateMachine.setState(state.VIEW_WITH_RELATION)
+      case MODE.VIEW_WITHOUT_RELATION:
+        this._stateMachine.setState(MODE.VIEW_WITH_RELATION)
         break
-      case state.EDIT_DENOTATION_WITH_RELATION:
-        this._stateMachine.setState(state.EDIT_DENOTATION_WITHOUT_RELATION)
+      case MODE.EDIT_DENOTATION_WITH_RELATION:
+        this._stateMachine.setState(MODE.EDIT_DENOTATION_WITHOUT_RELATION)
         break
-      case state.VIEW_WITH_RELATION:
-        this._stateMachine.setState(state.VIEW_WITHOUT_RELATION)
+      case MODE.VIEW_WITH_RELATION:
+        this._stateMachine.setState(MODE.VIEW_WITHOUT_RELATION)
         break
       default:
         throw new Error(`Invalid state: ${this._stateMachine.currentState}`)

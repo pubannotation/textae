@@ -1,6 +1,6 @@
 import setEditableStyle from './setEditableStyle'
 import ViewMode from './ViewMode'
-import { state } from '../../../../state'
+import { MODE } from '../../../../MODE'
 
 export default class {
   constructor(editor, typeEditor, displayInstance) {
@@ -14,7 +14,7 @@ export default class {
     this._displayInstance.hide()
     this._editor.eventEmitter.emit(
       'textae.editMode.transition',
-      state.VIEW_WITHOUT_RELATION
+      MODE.VIEW_WITHOUT_RELATION
     )
 
     this._typeEditor.noEdit()
@@ -26,7 +26,7 @@ export default class {
     this._displayInstance.show()
     this._editor.eventEmitter.emit(
       'textae.editMode.transition',
-      state.VIEW_WITH_RELATION
+      MODE.VIEW_WITH_RELATION
     )
 
     this._typeEditor.noEdit()
@@ -38,7 +38,7 @@ export default class {
     this._displayInstance.hide()
     this._editor.eventEmitter.emit(
       'textae.editMode.transition',
-      state.EDIT_DENOTATION_WITHOUT_RELATION
+      MODE.EDIT_DENOTATION_WITHOUT_RELATION
     )
 
     this._typeEditor.editEntity()
@@ -50,7 +50,7 @@ export default class {
     this._displayInstance.show()
     this._editor.eventEmitter.emit(
       'textae.editMode.transition',
-      state.EDIT_DENOTATION_WITH_RELATION
+      MODE.EDIT_DENOTATION_WITH_RELATION
     )
 
     this._typeEditor.editEntity()
@@ -62,7 +62,7 @@ export default class {
     this._displayInstance.show()
     this._editor.eventEmitter.emit(
       'textae.editMode.transition',
-      state.EDIT_RELATION
+      MODE.EDIT_RELATION
     )
 
     this._typeEditor.editRelation()

@@ -1,4 +1,4 @@
-import { state as editModeState } from '../../state'
+import { MODE } from '../../MODE'
 
 export default function(editor, state) {
   editor.eventEmitter
@@ -12,7 +12,7 @@ export default function(editor, state) {
     .on('textae.selection.entity.change', () => state.updateByEntity())
     .on('textae.editMode.transition', (mode) => {
       switch (mode) {
-        case editModeState.VIEW_WITHOUT_RELATION:
+        case MODE.VIEW_WITHOUT_RELATION:
           state.enabled('simple', true)
           state.enabled('replicate-auto', false)
           state.enabled('boundary-detection', false)
@@ -20,7 +20,7 @@ export default function(editor, state) {
           state.enabled('line-height-auto', false)
           state.enabled('pallet', false)
           break
-        case editModeState.VIEW_WITH_RELATION:
+        case MODE.VIEW_WITH_RELATION:
           state.enabled('simple', true)
           state.enabled('replicate-auto', false)
           state.enabled('boundary-detection', false)
@@ -28,7 +28,7 @@ export default function(editor, state) {
           state.enabled('line-height-auto', false)
           state.enabled('pallet', false)
           break
-        case editModeState.EDIT_DENOTATION_WITHOUT_RELATION:
+        case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
           state.enabled('simple', true)
           state.enabled('replicate-auto', true)
           state.enabled('boundary-detection', true)
@@ -36,7 +36,7 @@ export default function(editor, state) {
           state.enabled('line-height-auto', true)
           state.enabled('pallet', true)
           break
-        case editModeState.EDIT_DENOTATION_WITH_RELATION:
+        case MODE.EDIT_DENOTATION_WITH_RELATION:
           state.enabled('simple', true)
           state.enabled('replicate-auto', true)
           state.enabled('boundary-detection', true)
@@ -44,7 +44,7 @@ export default function(editor, state) {
           state.enabled('line-height-auto', true)
           state.enabled('pallet', true)
           break
-        case editModeState.EDIT_RELATION:
+        case MODE.EDIT_RELATION:
           state.enabled('simple', false)
           state.enabled('replicate-auto', false)
           state.enabled('boundary-detection', false)

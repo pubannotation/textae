@@ -1,10 +1,10 @@
 import isSimple from '../isSimple'
-import { state } from '../../../..//state'
+import { MODE } from '../../../../MODE'
 
 export default function(stateMachine, annotationData) {
   if (isSimple(annotationData)) {
-    stateMachine.setState(state.EDIT_DENOTATION_WITHOUT_RELATION)
+    stateMachine.setState(MODE.EDIT_DENOTATION_WITHOUT_RELATION)
   } else {
-    stateMachine.setState(state.EDIT_DENOTATION_WITH_RELATION)
+    stateMachine.setState(MODE.EDIT_DENOTATION_WITH_RELATION)
   }
 }

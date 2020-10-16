@@ -1,4 +1,4 @@
-export const state = {
+export const MODE = {
   INIT: 'Init',
   VIEW_WITHOUT_RELATION: 'View Term',
   VIEW_WITH_RELATION: 'View Instance',

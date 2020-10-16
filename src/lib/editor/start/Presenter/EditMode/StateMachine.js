@@ -1,66 +1,66 @@
 import Machine from 'emitter-fsm'
-import { state } from '../../../../state'
+import { MODE } from '../../../../MODE'
 
 export default function() {
   const m = new Machine({
     states: [
-      state.INIT,
-      state.EDIT_DENOTATION_WITHOUT_RELATION,
-      state.EDIT_DENOTATION_WITH_RELATION,
-      state.EDIT_RELATION,
-      state.VIEW_WITHOUT_RELATION,
-      state.VIEW_WITH_RELATION
+      MODE.INIT,
+      MODE.EDIT_DENOTATION_WITHOUT_RELATION,
+      MODE.EDIT_DENOTATION_WITH_RELATION,
+      MODE.EDIT_RELATION,
+      MODE.VIEW_WITHOUT_RELATION,
+      MODE.VIEW_WITH_RELATION
     ]
   })
 
-  m.config(state.INIT, {
+  m.config(MODE.INIT, {
     to: {
-      exclude: [state.EDIT_RELATION]
+      exclude: [MODE.EDIT_RELATION]
     }
   })
 
-  m.config(state.EDIT_DENOTATION_WITHOUT_RELATION, {
+  m.config(MODE.EDIT_DENOTATION_WITHOUT_RELATION, {
     from: {
-      exclude: [state.VIEW_WITH_RELATION]
+      exclude: [MODE.VIEW_WITH_RELATION]
     },
     to: {
-      exclude: [state.INIT, state.VIEW_WITH_RELATION]
+      exclude: [MODE.INIT, MODE.VIEW_WITH_RELATION]
     }
   })
 
-  m.config(state.EDIT_DENOTATION_WITH_RELATION, {
+  m.config(MODE.EDIT_DENOTATION_WITH_RELATION, {
     from: {
-      exclude: [state.VIEW_WITHOUT_RELATION]
+      exclude: [MODE.VIEW_WITHOUT_RELATION]
     },
     to: {
-      exclude: [state.INIT, state.VIEW_WITHOUT_RELATION]
+      exclude: [MODE.INIT, MODE.VIEW_WITHOUT_RELATION]
     }
   })
 
-  m.config(state.EDIT_RELATION, {
+  m.config(MODE.EDIT_RELATION, {
     from: {
-      exclude: [state.INIT]
+      exclude: [MODE.INIT]
     },
     to: {
-      exclude: [state.INIT, state.VIEW_WITHOUT_RELATION]
+      exclude: [MODE.INIT, MODE.VIEW_WITHOUT_RELATION]
     }
   })
 
-  m.config(state.VIEW_WITHOUT_RELATION, {
+  m.config(MODE.VIEW_WITHOUT_RELATION, {
     from: {
-      exclude: [state.EDIT_DENOTATION_WITH_RELATION, state.EDIT_RELATION]
+      exclude: [MODE.EDIT_DENOTATION_WITH_RELATION, MODE.EDIT_RELATION]
     },
     to: {
-      exclude: [state.INIT, state.EDIT_DENOTATION_WITH_RELATION]
+      exclude: [MODE.INIT, MODE.EDIT_DENOTATION_WITH_RELATION]
     }
   })
 
-  m.config(state.VIEW_WITH_RELATION, {
+  m.config(MODE.VIEW_WITH_RELATION, {
     from: {
-      exclude: [state.EDIT_DENOTATION_WITHOUT_RELATION]
+      exclude: [MODE.EDIT_DENOTATION_WITHOUT_RELATION]
     },
     to: {
-      exclude: [state.INIT, state.EDIT_DENOTATION_WITHOUT_RELATION]
+      exclude: [MODE.INIT, MODE.EDIT_DENOTATION_WITHOUT_RELATION]
     }
   })
 
