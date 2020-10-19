@@ -101,7 +101,6 @@ export default class {
         // If the anchor node is a style span but has a parent span, extend the parent span.
         const span = selectionWrapper.ancestorSpanOfAnchorNode
         this._expandOnStyleSpan(selectionWrapper, span)
-        clearTextSelection()
         return
       }
 
@@ -116,7 +115,6 @@ export default class {
 
       if (selectionWrapper.isAnchorNodeInSpan) {
         this._expand(selectionWrapper)
-        clearTextSelection()
         return
       }
     }
@@ -139,7 +137,6 @@ export default class {
         const span = this._getAnchorNodeParentSpan(selectionWrapper)
         if (positions.anchor === span.begin || positions.anchor === span.end) {
           this._shrinkPullByTheEar(selectionWrapper)
-          clearTextSelection()
         } else {
           this._create(selectionWrapper)
         }
@@ -148,7 +145,6 @@ export default class {
 
       if (selectionWrapper.isFocusNodeParentIsDescendantOfAnchorNodeParent) {
         this._shrinkCrossTheEar(selectionWrapper)
-        clearTextSelection()
         return
       }
 
@@ -165,7 +161,6 @@ export default class {
           this._expand(selectionWrapper)
         }
 
-        clearTextSelection()
         return
       }
 
@@ -179,7 +174,6 @@ export default class {
         // If the Span of the focusNode belongs to the parent of the Span of the anchorNode, the first Span is extensible.
         // The same applies when extending to the left.
         this._expand(selectionWrapper)
-        clearTextSelection()
       }
     }
 
@@ -206,7 +200,6 @@ export default class {
 
       if (selectionWrapper.isAnchorNodeParentIsDescendantOfFocusNodeParent) {
         this._expand(selectionWrapper)
-        clearTextSelection()
         return
       }
     }
@@ -256,8 +249,9 @@ export default class {
         selectionWrapper,
         this._spanConfig
       )
-      clearTextSelection()
     }
+
+    clearTextSelection()
   }
 
   _expandOnStyleSpan(selectionWrapper, span) {
@@ -274,6 +268,8 @@ export default class {
         this._spanConfig
       )
     }
+
+    clearTextSelection()
   }
 
   _shrinkCrossTheEar(selectionWrapper) {
@@ -286,6 +282,8 @@ export default class {
       selectionWrapper,
       this._spanConfig
     )
+
+    clearTextSelection()
   }
 
   _shrinkPullByTheEar(selectionWrapper) {
@@ -298,6 +296,8 @@ export default class {
       selectionWrapper,
       this._spanConfig
     )
+
+    clearTextSelection()
   }
 
   get _isDetectDelimiterEnable() {
