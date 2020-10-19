@@ -1,6 +1,6 @@
-import isNodeTextBox from '../../../../isNodeTextBox'
-import isNodeSpan from '../../../../isNodeSpan'
-import isNodeStyleSpan from '../../../../isNodeStyleSpan'
+import isNodeTextBox from '../../../../../isNodeTextBox'
+import isNodeSpan from '../../../../../isNodeSpan'
+import isNodeStyleSpan from '../../../../../isNodeStyleSpan'
 
 export default function(span, node) {
   const parent = node.parentElement
