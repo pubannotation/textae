@@ -1,6 +1,4 @@
-import getEntityDomFromChild from '../../../../getEntityDomFromChild'
-
-export default function(editor, mouseEventHandler, selectionModel) {
+export default function(editor, mouseEventHandler) {
   editor.eventEmitter
     .on('textae.editor.editEntity.textBox.click', (e) =>
       mouseEventHandler.textBoxClicked(e)
@@ -12,16 +10,12 @@ export default function(editor, mouseEventHandler, selectionModel) {
       mouseEventHandler.styleSpanClicked(e)
     )
     .on('textae.editor.editEntity.endpoint.click', (e) =>
-      selectionModel.selectEntity(
-        getEntityDomFromChild(e.target).title,
-        e.ctrlKey || e.metaKey
-      )
+      mouseEventHandler.endpointClicked(e)
     )
-    .on('textae.editor.editEntity.entity.click', () => editor.focus())
+    .on('textae.editor.editEntity.entity.click', () =>
+      mouseEventHandler.entityClicked()
+    )
     .on('textae.editor.editEntity.typeValues.click', (e) =>
-      selectionModel.selectEntity(
-        getEntityDomFromChild(e.target).title,
-        e.ctrlKey || e.metaKey
-      )
+      mouseEventHandler.typeValuesClicked(e)
     )
 }

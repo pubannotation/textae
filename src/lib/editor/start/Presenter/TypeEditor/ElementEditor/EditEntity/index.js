@@ -35,7 +35,7 @@ export default class {
       spanConfig
     )
 
-    bindTextaeEvents(editor, mouseEventHandler, selectionModel)
+    bindTextaeEvents(editor, mouseEventHandler)
   }
 
   init() {

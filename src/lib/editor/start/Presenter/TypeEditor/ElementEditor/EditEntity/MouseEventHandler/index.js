@@ -2,6 +2,7 @@ import clearTextSelection from '../../../clearTextSelection'
 import selectSpan from './selectSpan'
 import SelectionWrapper from './SelectionWrapper'
 import SpanEditor from './SpanEditor'
+import getEntityDomFromChild from '../../../../../getEntityDomFromChild'
 
 export default class {
   constructor(
@@ -22,6 +23,7 @@ export default class {
       buttonController,
       spanConfig
     )
+    this._editor = editor
   }
 
   textBoxClicked(event) {
@@ -74,6 +76,24 @@ export default class {
     if (selection.type === 'Range') {
       this._spanEditor.editFor(new SelectionWrapper())
     }
+  }
+
+  endpointClicked(e) {
+    this._selectionModel.selectEntity(
+      getEntityDomFromChild(e.target).title,
+      e.ctrlKey || e.metaKey
+    )
+  }
+
+  entityClicked() {
+    this._editor.focus()
+  }
+
+  typeValuesClicked(e) {
+    this._selectionModel.selectEntity(
+      getEntityDomFromChild(e.target).title,
+      e.ctrlKey || e.metaKey
+    )
   }
 
   _selectSpan(event, spanId) {
