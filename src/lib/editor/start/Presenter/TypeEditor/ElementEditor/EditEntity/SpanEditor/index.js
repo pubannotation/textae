@@ -34,7 +34,15 @@ export default class {
     const selection = window.getSelection()
 
     if (selection.type === 'Range') {
-      this._selectEndOnText()
+      const selectionWrapper = new SelectionWrapper()
+      if (selectionWrapper.isAnchorNodeInTextBox) {
+        this._anchorNodeInTextBoxFocusNodeInTextBox(selectionWrapper)
+      } else if (selectionWrapper.isAnchorNodeInSpan) {
+        this._anchorNodeInSpanFocusNodeInTextBox(selectionWrapper)
+      } else if (selectionWrapper.isAnchorNodeInStyleSpan) {
+        this._anchorNodeInStyleSpanFocusNodeInTextBox(selectionWrapper)
+      }
+
       event.stopPropagation()
     } else {
       this._selectionModel.clear()
@@ -86,17 +94,23 @@ export default class {
     selectSpan(this._annotationData, this._selectionModel, event, spanId)
   }
 
-  _selectEndOnText() {
-    const selectionWrapper = new SelectionWrapper()
+  _anchorNodeInTextBoxFocusNodeInTextBox(selectionWrapper) {
+    if (this._hasCharacters(selectionWrapper)) {
+      // The parent of the focusNode is the text.
+      this._create(selectionWrapper)
+    }
 
-    const isValid =
-      selectionWrapper.isFocusNodeInTextBox &&
-      (selectionWrapper.isAnchorNodeInTextBox ||
-        selectionWrapper.isAnchorNodeInSpan ||
-        selectionWrapper.isAnchorNodeInStyleSpan) &&
-      this._hasCharacters(selectionWrapper)
+    clearTextSelection()
+  }
 
-    if (isValid) {
+  _anchorNodeInSpanFocusNodeInTextBox(selectionWrapper) {
+    if (this._hasCharacters(selectionWrapper)) {
+      this._expand(selectionWrapper)
+    }
+  }
+
+  _anchorNodeInStyleSpanFocusNodeInTextBox(selectionWrapper) {
+    if (this._hasCharacters(selectionWrapper)) {
       if (
         selectionWrapper.isAnchorNodeInStyleSpanAndTheStyleSpanIsDescendantOfSpan
       ) {
@@ -106,22 +120,8 @@ export default class {
         return
       }
 
-      // The parent of the focusNode is the text.
-      if (
-        selectionWrapper.isAnchorNodeInTextBox ||
-        selectionWrapper.isAnchorNodeInStyleSpan
-      ) {
-        this._create(selectionWrapper)
-        return
-      }
-
-      if (selectionWrapper.isAnchorNodeInSpan) {
-        this._expand(selectionWrapper)
-        return
-      }
+      this._create(selectionWrapper)
     }
-
-    clearTextSelection()
   }
 
   _selectEndOnSpan() {
