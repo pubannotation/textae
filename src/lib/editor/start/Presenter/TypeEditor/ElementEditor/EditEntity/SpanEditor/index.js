@@ -244,10 +244,6 @@ export default class {
     )
   }
 
-  _getPosition(selectionWrapper) {
-    return new Positions(this._annotationData, selectionWrapper)
-  }
-
   _getAnchorNodeParentSpan(selectionWrapper) {
     return this._annotationData.span.get(selectionWrapper.parentOfAnchorNode.id)
   }
