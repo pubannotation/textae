@@ -5,13 +5,13 @@ import bindEditorBodyClickEventTrigger from '../bindEditorBodyClickEventTrigger'
 // For support context menu.
 // Mouse up event occurs when either left or right button is clicked.
 // Change mouse events to monitor from mouseup to click since v5.0.0.
-export default function(editor) {
+export default function(editor, mouseEventHandler) {
   const listeners = []
 
   listeners.push(
     delegate(editor[0], '.textae-editor__body__text-box', 'click', (e) => {
       if (e.target.classList.contains('textae-editor__body__text-box')) {
-        editor.eventEmitter.emit('textae.editor.editRelation.textBox.click', e)
+        mouseEventHandler.textBoxClicked()
       }
     })
   )
@@ -20,19 +20,19 @@ export default function(editor) {
 
   listeners.push(
     delegate(editor[0], '.textae-editor__entity', 'click', (e) =>
-      editor.eventEmitter.emit('textae.editor.editRelation.entity.click', e)
+      mouseEventHandler.entityClicked()
     )
   )
 
   listeners.push(
     delegate(editor[0], '.textae-editor__entity__type-values', 'click', (e) =>
-      editor.eventEmitter.emit('textae.editor.editRelation.typeValues.click', e)
+      mouseEventHandler.typeValuesClicked(e)
     )
   )
 
   listeners.push(
     delegate(editor[0], '.textae-editor__entity__endpoint', 'click', (e) =>
-      editor.eventEmitter.emit('textae.editor.editRelation.endpoint.click', e)
+      mouseEventHandler.endpointClicked(e)
     )
   )
 

@@ -1,6 +1,6 @@
 import EditRelationHandler from './EditRelationHandler'
 import bindMouseEvents from './bindMouseEvents'
-import bindTextaeEvents from './bindTextaeEvents'
+import MouseEventHandler from './MouseEventHandler'
 
 export default class {
   constructor(
@@ -17,12 +17,16 @@ export default class {
       annotationData,
       selectionModel
     )
-
-    bindTextaeEvents(editor, selectionModel, commander, typeDefinition)
+    this._mouseEventHandler = new MouseEventHandler(
+      editor,
+      selectionModel,
+      commander,
+      typeDefinition
+    )
   }
 
   init() {
-    return bindMouseEvents(this._editor)
+    return bindMouseEvents(this._editor, this._mouseEventHandler)
   }
 
   get relationHandler() {

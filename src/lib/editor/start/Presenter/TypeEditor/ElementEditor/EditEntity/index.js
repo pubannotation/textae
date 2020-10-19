@@ -1,7 +1,6 @@
 import EditEntityHandler from './EditEntityHandler'
 import bindMouseEvents from './bindMouseEvents'
 import MouseEventHandler from './MouseEventHandler'
-import bindTextaeEvents from './bindTextaeEvents'
 
 export default class {
   constructor(
@@ -25,8 +24,7 @@ export default class {
       editAttribute,
       deleteAttribute
     )
-
-    const mouseEventHandler = new MouseEventHandler(
+    this._mouseEventHandler = new MouseEventHandler(
       editor,
       annotationData,
       selectionModel,
@@ -34,12 +32,10 @@ export default class {
       buttonController,
       spanConfig
     )
-
-    bindTextaeEvents(editor, mouseEventHandler)
   }
 
   init() {
-    return bindMouseEvents(this._editor)
+    return bindMouseEvents(this._editor, this._mouseEventHandler)
   }
 
   get entityHandler() {

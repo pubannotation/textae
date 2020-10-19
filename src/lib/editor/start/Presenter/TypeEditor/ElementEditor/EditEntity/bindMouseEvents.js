@@ -4,7 +4,7 @@ import bindEditorBodyClickEventTrigger from '../bindEditorBodyClickEventTrigger'
 // For support context menu.
 // Mouse up event occurs when either left or right button is clicked.
 // Change mouse events to monitor from mouseup to click since v5.0.0.
-export default function(editor) {
+export default function(editor, mouseEventHandler) {
   const listeners = []
 
   // In Friefox, the text box click event fires when you shrink and erase a span.
@@ -19,7 +19,7 @@ export default function(editor) {
         e.target.classList.contains('textae-editor__body__text-box') &&
         !afterSpanMouseUpEventFlag
       ) {
-        editor.eventEmitter.emit('textae.editor.editEntity.textBox.click', e)
+        mouseEventHandler.textBoxClicked(e)
       }
     })
   )
@@ -29,20 +29,20 @@ export default function(editor) {
   listeners.push(bindEditorBodyClickEventTrigger(editor))
 
   listeners.push(
-    delegate(editor[0], '.textae-editor__entity', 'click', (e) =>
-      editor.eventEmitter.emit('textae.editor.editEntity.entity.click', e)
+    delegate(editor[0], '.textae-editor__entity', 'click', () =>
+      mouseEventHandler.entityClicked()
     )
   )
 
   listeners.push(
     delegate(editor[0], '.textae-editor__entity__type-values', 'click', (e) =>
-      editor.eventEmitter.emit('textae.editor.editEntity.typeValues.click', e)
+      mouseEventHandler.typeValuesClicked(e)
     )
   )
 
   listeners.push(
     delegate(editor[0], '.textae-editor__entity__endpoint', 'click', (e) =>
-      editor.eventEmitter.emit('textae.editor.editEntity.endpoint.click', e)
+      mouseEventHandler.endpointClicked(e)
     )
   )
 
@@ -50,7 +50,7 @@ export default function(editor) {
   listeners.push(
     delegate(editor[0], '.textae-editor__span', 'mouseup', (e) => {
       if (e.target.classList.contains('textae-editor__span')) {
-        editor.eventEmitter.emit('textae.editor.editEntity.span.mouseup', e)
+        mouseEventHandler.spanClicked(e)
         afterSpanMouseUpEventFlag = true
 
         // In Chrome, the text box click event does not fire when you shrink the span and erase it.
@@ -64,7 +64,7 @@ export default function(editor) {
   listeners.push(
     delegate(editor[0], '.textae-editor__style', 'mouseup', (e) => {
       if (e.target.classList.contains('textae-editor__style')) {
-        editor.eventEmitter.emit('textae.editor.editEntity.style.mouseup', e)
+        mouseEventHandler.styleSpanClicked(e)
       }
     })
   )
