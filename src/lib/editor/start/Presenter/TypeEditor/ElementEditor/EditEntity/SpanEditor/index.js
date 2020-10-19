@@ -93,7 +93,14 @@ export default class {
     }
 
     if (selection.type === 'Range') {
-      this._selectEndOnStyleSpan()
+      const selectionWrapper = new SelectionWrapper()
+      if (selectionWrapper.isAnchorNodeInTextBox) {
+        this._anchorNodeInTextBoxFocusNodeInStyleSpan(selectionWrapper)
+      } else if (selectionWrapper.isAnchorNodeInSpan) {
+        this._anchorNodeInSpanFocusNodeInStyleSpan(selectionWrapper)
+      } else if (selectionWrapper.isAnchorNodeInStyleSpan) {
+        this._anchorNodeInStyleSpanFocusNodeInStyleSpan(selectionWrapper)
+      }
     }
   }
 
@@ -113,6 +120,20 @@ export default class {
   _anchorNodeInTextBoxFocusNodeInSpan(selectionWrapper) {
     if (this._hasCharacters(selectionWrapper)) {
       this._shrinkCrossTheEar(selectionWrapper)
+    }
+  }
+
+  _anchorNodeInTextBoxFocusNodeInStyleSpan(selectionWrapper) {
+    if (this._hasCharacters(selectionWrapper)) {
+      // There is a Span between the StyleSpan and the text.
+      // Shrink Span when mousedown on the text or a span and mouseup on the styleSpan.
+      if (selectionWrapper.ancestorSpanOfFocusNode) {
+        this._shrinkCrossTheEarOnStyleSpan(selectionWrapper)
+        return
+      }
+
+      this._create(selectionWrapper)
+      return
     }
   }
 
@@ -155,6 +176,29 @@ export default class {
     }
   }
 
+  _anchorNodeInSpanFocusNodeInStyleSpan(selectionWrapper) {
+    if (this._hasCharacters(selectionWrapper)) {
+      if (selectionWrapper.isAnchorNodeInSpan) {
+        // Mousedown on the child Span of a parent and child Span,
+        // and then mouseup on the StyleSpan in the parent Span.
+        if (selectionWrapper.isParentsParentOfAnchorNodeAndFocusedNodeSame) {
+          this._expandOnStyleSpan(
+            selectionWrapper,
+            selectionWrapper.parentOfAnchorNode
+          )
+          return
+        }
+
+        // There is a Span between the StyleSpan and the text.
+        // Shrink Span when mousedown on the text or a span and mouseup on the styleSpan.
+        if (selectionWrapper.ancestorSpanOfFocusNode) {
+          this._shrinkCrossTheEarOnStyleSpan(selectionWrapper)
+          return
+        }
+      }
+    }
+  }
+
   _anchorNodeInStyleSpanFocusNodeInTextBox(selectionWrapper) {
     if (this._hasCharacters(selectionWrapper)) {
       if (
@@ -174,54 +218,10 @@ export default class {
     clearTextSelection()
   }
 
-  _selectEndOnStyleSpan() {
-    const selectionWrapper = new SelectionWrapper()
-    const isValid =
-      selectionWrapper.isFocusNodeInStyleSpan &&
-      (selectionWrapper.isAnchorNodeInTextBox ||
-        selectionWrapper.isAnchorNodeInSpan ||
-        selectionWrapper.isAnchorNodeInStyleSpan) &&
-      hasCharacters(this._annotationData, this._spanConfig, selectionWrapper)
-
-    if (isValid) {
+  _anchorNodeInStyleSpanFocusNodeInStyleSpan(selectionWrapper) {
+    if (this._hasCharacters(selectionWrapper)) {
       if (selectionWrapper.isParentOfAnchorNodeAndFocusedNodeSame) {
         this._create(selectionWrapper)
-        return
-      }
-
-      if (selectionWrapper.isAnchorNodeInSpan) {
-        // Mousedown on the child Span of a parent and child Span,
-        // and then mouseup on the StyleSpan in the parent Span.
-        if (selectionWrapper.isParentsParentOfAnchorNodeAndFocusedNodeSame) {
-          this._expandOnStyleSpan(
-            selectionWrapper,
-            selectionWrapper.parentOfAnchorNode
-          )
-          return
-        }
-
-        // There is a Span between the StyleSpan and the text.
-        // Shrink Span when mousedown on the text or a span and mouseup on the styleSpan.
-        if (selectionWrapper.ancestorSpanOfFocusNode) {
-          this._shrinkCrossTheEarOnStyleSpan(selectionWrapper)
-          return
-        }
-      }
-
-      if (selectionWrapper.isAnchorNodeInTextBox) {
-        // There is a Span between the StyleSpan and the text.
-        // Shrink Span when mousedown on the text or a span and mouseup on the styleSpan.
-        if (selectionWrapper.ancestorSpanOfFocusNode) {
-          this._shrinkCrossTheEarOnStyleSpan(selectionWrapper)
-          return
-        }
-
-        this._create(selectionWrapper)
-        return
-      }
-
-      if (selectionWrapper.isAnchorNodeParentIsDescendantOfFocusNodeParent) {
-        this._expand(selectionWrapper)
         return
       }
     }
