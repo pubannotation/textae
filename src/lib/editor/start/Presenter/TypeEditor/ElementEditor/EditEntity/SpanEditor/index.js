@@ -64,7 +64,14 @@ export default class {
     }
 
     if (selection.type === 'Range') {
-      this._selectEndOnSpan()
+      const selectionWrapper = new SelectionWrapper()
+      if (selectionWrapper.isAnchorNodeInTextBox) {
+        this._anchorNodeInTextBoxFocusNodeInSpan(selectionWrapper)
+      } else if (selectionWrapper.isAnchorNodeInSpan) {
+        this._anchorNodeInSpanFocusNodeInSpan(selectionWrapper)
+      } else if (selectionWrapper.isAnchorNodeInStyleSpan) {
+        this._anchorNodeInStyleSpanFocusNodeInSpan()
+      }
     }
   }
 
@@ -103,9 +110,48 @@ export default class {
     clearTextSelection()
   }
 
+  _anchorNodeInTextBoxFocusNodeInSpan(selectionWrapper) {
+    if (this._hasCharacters(selectionWrapper)) {
+      this._shrinkCrossTheEar(selectionWrapper)
+    }
+  }
+
   _anchorNodeInSpanFocusNodeInTextBox(selectionWrapper) {
     if (this._hasCharacters(selectionWrapper)) {
       this._expand(selectionWrapper)
+    }
+  }
+
+  _anchorNodeInSpanFocusNodeInSpan(selectionWrapper) {
+    if (this._hasCharacters(selectionWrapper)) {
+      if (selectionWrapper.isParentOfAnchorNodeAndFocusedNodeSame) {
+        const positions = new Positions(this._annotationData, selectionWrapper)
+        const span = this._getAnchorNodeParentSpan(selectionWrapper)
+        if (positions.anchor === span.begin || positions.anchor === span.end) {
+          this._shrinkPullByTheEar(selectionWrapper)
+        } else {
+          this._create(selectionWrapper)
+        }
+        return
+      }
+
+      if (selectionWrapper.isFocusNodeParentIsDescendantOfAnchorNodeParent) {
+        this._shrinkCrossTheEar(selectionWrapper)
+        return
+      }
+
+      if (selectionWrapper.isAnchorNodeParentIsDescendantOfFocusNodeParent) {
+        // If you select the parent span on the left edge of the screen and shrink it from the left,
+        // the anchorNode is the child span and the focusNode is the parent span.
+        // If the focusNode (parent span) is selected, shrink the parent span.
+        if (selectionWrapper.isFocusNodeParentSelected) {
+          this._shrinkCrossTheEar(selectionWrapper)
+        } else {
+          this._expand(selectionWrapper)
+        }
+
+        return
+      }
     }
   }
 
@@ -124,61 +170,7 @@ export default class {
     }
   }
 
-  _selectEndOnSpan() {
-    const selectionWrapper = new SelectionWrapper()
-    const isValid =
-      selectionWrapper.isFocusNodeInSpan &&
-      (selectionWrapper.isAnchorNodeInTextBox ||
-        selectionWrapper.isAnchorNodeInSpan ||
-        selectionWrapper.isAnchorNodeInStyleSpan) &&
-      hasCharacters(this._annotationData, this._spanConfig, selectionWrapper)
-
-    if (isValid) {
-      if (selectionWrapper.isParentOfAnchorNodeAndFocusedNodeSame) {
-        const positions = new Positions(this._annotationData, selectionWrapper)
-        const span = this._getAnchorNodeParentSpan(selectionWrapper)
-        if (positions.anchor === span.begin || positions.anchor === span.end) {
-          this._shrinkPullByTheEar(selectionWrapper)
-        } else {
-          this._create(selectionWrapper)
-        }
-        return
-      }
-
-      if (selectionWrapper.isFocusNodeParentIsDescendantOfAnchorNodeParent) {
-        this._shrinkCrossTheEar(selectionWrapper)
-        return
-      }
-
-      if (
-        selectionWrapper.isAnchorNodeInSpan &&
-        selectionWrapper.isAnchorNodeParentIsDescendantOfFocusNodeParent
-      ) {
-        // If you select the parent span on the left edge of the screen and shrink it from the left,
-        // the anchorNode is the child span and the focusNode is the parent span.
-        // If the focusNode (parent span) is selected, shrink the parent span.
-        if (selectionWrapper.isFocusNodeParentSelected) {
-          this._shrinkCrossTheEar(selectionWrapper)
-        } else {
-          this._expand(selectionWrapper)
-        }
-
-        return
-      }
-
-      if (
-        selectionWrapper.isAnchorNodeInSpan &&
-        selectionWrapper.isFocusNodeParentIsDescendantOfAnchorNodeParentOfParent
-      ) {
-        // When extending the span to the right,
-        // if the right edge after stretching is the same as the right edge of the second span,
-        // the anchorNode will be the textNode of the first span and the focusNode will be the textNode of the second span.
-        // If the Span of the focusNode belongs to the parent of the Span of the anchorNode, the first Span is extensible.
-        // The same applies when extending to the left.
-        this._expand(selectionWrapper)
-      }
-    }
-
+  _anchorNodeInStyleSpanFocusNodeInSpan() {
     clearTextSelection()
   }
 
