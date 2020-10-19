@@ -191,11 +191,19 @@ export default class {
       hasCharacters(this._annotationData, this._spanConfig, selectionWrapper)
 
     if (isValid) {
-      if (
-        selectionWrapper.isParentOfAnchorNodeAndFocusedNodeSame ||
-        selectionWrapper.isAnchorNodeInTextBox
-      ) {
+      if (selectionWrapper.isParentOfAnchorNodeAndFocusedNodeSame) {
         this._create(selectionWrapper)
+        return
+      }
+
+      if (selectionWrapper.isAnchorNodeInTextBox) {
+        if (selectionWrapper.ancestorSpanOfFocusNode) {
+          // There is a Span between StyleSpan and text.
+          // Shrink Span when mousedown on text and mouseup on StyleSpan.
+          this._shrinkCrossTheEarOnStyleSpan(selectionWrapper)
+        } else {
+          this._create(selectionWrapper)
+        }
         return
       }
 
@@ -279,6 +287,23 @@ export default class {
       this._selectionModel,
       selectionWrapper
     )
+
+    crossTheEar(
+      this._editor,
+      this._annotationData,
+      this._selectionModel,
+      this._commander,
+      this._spanAdjuster,
+      spanId,
+      selectionWrapper,
+      this._spanConfig
+    )
+
+    clearTextSelection()
+  }
+
+  _shrinkCrossTheEarOnStyleSpan(selectionWrapper) {
+    const spanId = selectionWrapper.ancestorSpanOfFocusNode.id
 
     crossTheEar(
       this._editor,

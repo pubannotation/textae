@@ -51,6 +51,12 @@ export default class {
     )
   }
 
+  get ancestorSpanOfFocusNode() {
+    return this.selection.focusNode.parentElement.closest(
+      '.textae-editor__span'
+    )
+  }
+
   get isAnchorNodeInTextBox() {
     return isNodeTextBox(this.selection.anchorNode.parentNode)
   }
