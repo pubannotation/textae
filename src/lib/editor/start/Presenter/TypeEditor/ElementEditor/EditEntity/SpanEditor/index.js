@@ -34,15 +34,7 @@ export default class {
     const selection = window.getSelection()
 
     if (selection.type === 'Range') {
-      const selectionWrapper = new SelectionWrapper()
-      if (selectionWrapper.isAnchorNodeInTextBox) {
-        this._anchorNodeInTextBoxFocusNodeInTextBox(selectionWrapper)
-      } else if (selectionWrapper.isAnchorNodeInSpan) {
-        this._anchorNodeInSpanFocusNodeInTextBox(selectionWrapper)
-      } else if (selectionWrapper.isAnchorNodeInStyleSpan) {
-        this._anchorNodeInStyleSpanFocusNodeInTextBox(selectionWrapper)
-      }
-
+      this._dispatch()
       event.stopPropagation()
     } else {
       this._selectionModel.clear()
@@ -64,14 +56,7 @@ export default class {
     }
 
     if (selection.type === 'Range') {
-      const selectionWrapper = new SelectionWrapper()
-      if (selectionWrapper.isAnchorNodeInTextBox) {
-        this._anchorNodeInTextBoxFocusNodeInSpan(selectionWrapper)
-      } else if (selectionWrapper.isAnchorNodeInSpan) {
-        this._anchorNodeInSpanFocusNodeInSpan(selectionWrapper)
-      } else if (selectionWrapper.isAnchorNodeInStyleSpan) {
-        this._anchorNodeInStyleSpanFocusNodeInSpan()
-      }
+      this._dispatch()
     }
   }
 
@@ -93,12 +78,34 @@ export default class {
     }
 
     if (selection.type === 'Range') {
-      const selectionWrapper = new SelectionWrapper()
-      if (selectionWrapper.isAnchorNodeInTextBox) {
+      this._dispatch()
+    }
+  }
+
+  _dispatch() {
+    const selectionWrapper = new SelectionWrapper()
+    if (selectionWrapper.isAnchorNodeInTextBox) {
+      if (selectionWrapper.isFocusNodeInTextBox) {
+        this._anchorNodeInTextBoxFocusNodeInTextBox(selectionWrapper)
+      } else if (selectionWrapper.isFocusNodeInSpan) {
+        this._anchorNodeInTextBoxFocusNodeInSpan(selectionWrapper)
+      } else if (selectionWrapper.isFocusNodeInStyleSpan) {
         this._anchorNodeInTextBoxFocusNodeInStyleSpan(selectionWrapper)
-      } else if (selectionWrapper.isAnchorNodeInSpan) {
+      }
+    } else if (selectionWrapper.isAnchorNodeInSpan) {
+      if (selectionWrapper.isFocusNodeInTextBox) {
+        this._anchorNodeInSpanFocusNodeInTextBox(selectionWrapper)
+      } else if (selectionWrapper.isFocusNodeInSpan) {
+        this._anchorNodeInSpanFocusNodeInSpan(selectionWrapper)
+      } else if (selectionWrapper.isFocusNodeInStyleSpan) {
         this._anchorNodeInSpanFocusNodeInStyleSpan(selectionWrapper)
-      } else if (selectionWrapper.isAnchorNodeInStyleSpan) {
+      }
+    } else if (selectionWrapper.isAnchorNodeInStyleSpan) {
+      if (selectionWrapper.isFocusNodeInTextBox) {
+        this._anchorNodeInStyleSpanFocusNodeInTextBox(selectionWrapper)
+      } else if (selectionWrapper.isFocusNodeInSpan) {
+        this._anchorNodeInStyleSpanFocusNodeInSpan(selectionWrapper)
+      } else if (selectionWrapper.isFocusNodeInStyleSpan) {
         this._anchorNodeInStyleSpanFocusNodeInStyleSpan(selectionWrapper)
       }
     }
