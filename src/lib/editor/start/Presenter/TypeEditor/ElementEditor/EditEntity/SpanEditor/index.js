@@ -10,6 +10,7 @@ import SelectionWrapper from './SelectionWrapper'
 import getExpandTargetSpan from './getExpandTargetSpan'
 import expand from './expand'
 import hasCharacters from './hasCharacters'
+import getTargetSpanWhenFocusNodeDifferentFromAnchorNode from './getTargetSpanWhenFocusNodeDifferentFromAnchorNode'
 
 export default class {
   constructor(
@@ -273,12 +274,19 @@ export default class {
   }
 
   _shrinkCrossTheEar(selectionWrapper) {
+    const spanId = getTargetSpanWhenFocusNodeDifferentFromAnchorNode(
+      this._annotationData,
+      this._selectionModel,
+      selectionWrapper
+    )
+
     crossTheEar(
       this._editor,
       this._annotationData,
       this._selectionModel,
       this._commander,
       this._spanAdjuster,
+      spanId,
       selectionWrapper,
       this._spanConfig
     )

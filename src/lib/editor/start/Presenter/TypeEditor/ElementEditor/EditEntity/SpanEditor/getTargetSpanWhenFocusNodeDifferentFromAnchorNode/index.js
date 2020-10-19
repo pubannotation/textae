@@ -1,4 +1,4 @@
-import isFocusInSelectedSpan from '../../isFocusInSelectedSpan'
+import isFocusInSelectedSpan from '../isFocusInSelectedSpan'
 import isForcusOneDownUnderAnchor from './isForcusOneDownUnderAnchor'
 
 export default function(annotationData, selectionModel, selectionWrapper) {

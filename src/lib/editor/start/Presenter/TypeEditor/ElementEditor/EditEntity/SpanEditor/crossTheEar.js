@@ -1,5 +1,4 @@
-import getTargetSpanWhenFocusNodeDifferentFromAnchorNode from './getTargetSpanWhenFocusNodeDifferentFromAnchorNode'
-import shrinkSpanToSelectionAndSelectNextIfRemoved from '../shrinkSpanToSelectionAndSelectNextIfRemoved'
+import shrinkSpanToSelectionAndSelectNextIfRemoved from './shrinkSpanToSelectionAndSelectNextIfRemoved'
 
 export default function(
   editor,
@@ -7,15 +6,10 @@ export default function(
   selectionModel,
   commander,
   spanAdjuster,
+  spanId,
   selectionWrapper,
   spanConfig
 ) {
-  const spanId = getTargetSpanWhenFocusNodeDifferentFromAnchorNode(
-    annotationData,
-    selectionModel,
-    selectionWrapper
-  )
-
   if (spanId) {
     selectionModel.clear()
     shrinkSpanToSelectionAndSelectNextIfRemoved(
