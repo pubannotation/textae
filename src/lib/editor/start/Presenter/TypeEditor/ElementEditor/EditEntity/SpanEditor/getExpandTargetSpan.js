@@ -1,9 +1,7 @@
-import isAnchorInSelectedSpan from './isAnchorInSelectedSpan'
-
 export default function(selectionModel, selectionWrapper) {
   // If a span is selected, it is able to begin drag a span in the span and expand the span.
   // The focus node should be at one level above the selected node.
-  if (isAnchorInSelectedSpan(selectionModel, selectionWrapper)) {
+  if (selectionWrapper.isAnchorNodeParentIsDescendantOfSelectedSpan) {
     // cf.
     // 1. one side of a inner span is same with one side of the outside span.
     // 2. Select an outside span.
