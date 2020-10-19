@@ -1,15 +1,15 @@
 import getEntityDomFromChild from '../../../../getEntityDomFromChild'
 
-export default function(editor, spanEditor, selectionModel) {
+export default function(editor, mouseEventHandler, selectionModel) {
   editor.eventEmitter
     .on('textae.editor.editEntity.textBox.click', (e) =>
-      spanEditor.textBoxClicked(e)
+      mouseEventHandler.textBoxClicked(e)
     )
     .on('textae.editor.editEntity.span.mouseup', (e) =>
-      spanEditor.spanClicked(e)
+      mouseEventHandler.spanClicked(e)
     )
     .on('textae.editor.editEntity.style.mouseup', (e) =>
-      spanEditor.styleSpanClicked(e)
+      mouseEventHandler.styleSpanClicked(e)
     )
     .on('textae.editor.editEntity.endpoint.click', (e) =>
       selectionModel.selectEntity(

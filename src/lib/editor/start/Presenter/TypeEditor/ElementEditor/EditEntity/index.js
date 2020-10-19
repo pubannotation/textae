@@ -1,6 +1,6 @@
 import EditEntityHandler from './EditEntityHandler'
 import bindMouseEvents from './bindMouseEvents'
-import SpanEditor from './SpanEditor'
+import MouseEventHandler from './MouseEventHandler'
 import bindTextaeEvents from './bindTextaeEvents'
 
 export default class {
@@ -26,7 +26,7 @@ export default class {
       deleteAttribute
     )
 
-    const spanEditor = new SpanEditor(
+    const mouseEventHandler = new MouseEventHandler(
       editor,
       annotationData,
       selectionModel,
@@ -35,7 +35,7 @@ export default class {
       spanConfig
     )
 
-    bindTextaeEvents(editor, spanEditor, selectionModel)
+    bindTextaeEvents(editor, mouseEventHandler, selectionModel)
   }
 
   init() {
