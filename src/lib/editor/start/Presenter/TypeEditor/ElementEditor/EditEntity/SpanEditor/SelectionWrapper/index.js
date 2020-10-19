@@ -15,6 +15,13 @@ export default class {
     )
   }
 
+  get isParentsParentOfAnchorNodeAndFocusedNodeSame() {
+    return (
+      this.selection.anchorNode.parentElement.parentElement ===
+      this.selection.focusNode.parentElement.parentElement
+    )
+  }
+
   get isAnchorNodeParentIsDescendantOfSelectedSpan() {
     return this.parentOfAnchorNode.closest('.ui-selected')
   }
