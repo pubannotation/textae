@@ -196,14 +196,20 @@ export default class {
         return
       }
 
-      if (selectionWrapper.isAnchorNodeInTextBox) {
-        if (selectionWrapper.ancestorSpanOfFocusNode) {
-          // There is a Span between StyleSpan and text.
-          // Shrink Span when mousedown on text and mouseup on StyleSpan.
+      // There is a Span between the StyleSpan and the text.
+      if (selectionWrapper.ancestorSpanOfFocusNode) {
+        // Shrink Span when mousedown on the text or a span and mouseup on the styleSpan.
+        if (
+          selectionWrapper.isAnchorNodeInTextBox ||
+          selectionWrapper.isAnchorNodeInSpan
+        ) {
           this._shrinkCrossTheEarOnStyleSpan(selectionWrapper)
-        } else {
-          this._create(selectionWrapper)
+          return
         }
+      }
+
+      if (selectionWrapper.isAnchorNodeInTextBox) {
+        this._create(selectionWrapper)
         return
       }
 
