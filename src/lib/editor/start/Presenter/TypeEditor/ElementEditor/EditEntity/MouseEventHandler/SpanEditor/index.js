@@ -8,7 +8,6 @@ import getExpandTargetSpan from './getExpandTargetSpan'
 import expand from './expand'
 import hasCharacters from './hasCharacters'
 import getIsDelimiterFunc from '../../../../../getIsDelimiterFunc'
-import isInSelectedSpan from './isInSelectedSpan'
 
 export default class SpanEditor {
   constructor(
@@ -249,10 +248,14 @@ export default class SpanEditor {
   }
 
   _isFocusInSelectedSpan(selectionWrapper) {
-    return isInSelectedSpan(
-      this._selectionModel,
-      new Positions(this._annotationData, selectionWrapper).focus
-    )
+    const span = this._selectionModel.span.single
+
+    if (!span) {
+      return false
+    }
+
+    const position = new Positions(this._annotationData, selectionWrapper).focus
+    return span.begin < position && position < span.end
   }
 
   _create(selectionWrapper) {
