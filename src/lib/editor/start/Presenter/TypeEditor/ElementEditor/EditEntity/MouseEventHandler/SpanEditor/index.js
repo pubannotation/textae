@@ -95,7 +95,9 @@ export default class SpanEditor {
 
   _anchorNodeInSpanFocusNodeInTextBox(selectionWrapper) {
     if (this._hasCharacters(selectionWrapper)) {
-      this._expand(selectionWrapper)
+      const spanId = getExpandTargetSpan(this._selectionModel, selectionWrapper)
+
+      this._expand(selectionWrapper, spanId)
     }
   }
 
@@ -136,7 +138,12 @@ export default class SpanEditor {
 
           this._shrinkCrossTheEar(selectionWrapper, spanId)
         } else {
-          this._expand(selectionWrapper)
+          const spanId = getExpandTargetSpan(
+            this._selectionModel,
+            selectionWrapper
+          )
+
+          this._expand(selectionWrapper, spanId)
         }
 
         return
@@ -150,10 +157,9 @@ export default class SpanEditor {
         // Mousedown on the child Span of a parent and child Span,
         // and then mouseup on the StyleSpan in the parent Span.
         if (selectionWrapper.isParentsParentOfAnchorNodeAndFocusedNodeSame) {
-          this._expandOnStyleSpan(
-            selectionWrapper,
-            selectionWrapper.parentOfAnchorNode
-          )
+          const spanId = selectionWrapper.parentOfAnchorNode.id
+
+          this._expand(selectionWrapper, spanId)
           return
         }
 
@@ -175,8 +181,8 @@ export default class SpanEditor {
         selectionWrapper.isAnchorNodeInStyleSpanAndTheStyleSpanIsDescendantOfSpan
       ) {
         // If the anchor node is a style span but has a parent span, extend the parent span.
-        const span = selectionWrapper.ancestorSpanOfAnchorNode
-        this._expandOnStyleSpan(selectionWrapper, span)
+        const spanId = selectionWrapper.ancestorSpanOfAnchorNode.id
+        this._expand(selectionWrapper, spanId)
         return
       }
 
@@ -224,27 +230,7 @@ export default class SpanEditor {
     )
   }
 
-  _expand(selectionWrapper) {
-    const spanId = getExpandTargetSpan(this._selectionModel, selectionWrapper)
-
-    if (spanId) {
-      expand(
-        this._selectionModel,
-        this._annotationData,
-        this._commander,
-        this._spanAdjuster,
-        spanId,
-        selectionWrapper,
-        this._spanConfig
-      )
-    }
-
-    clearTextSelection()
-  }
-
-  _expandOnStyleSpan(selectionWrapper, span) {
-    const spanId = span.id
-
+  _expand(selectionWrapper, spanId) {
     if (spanId) {
       expand(
         this._selectionModel,
