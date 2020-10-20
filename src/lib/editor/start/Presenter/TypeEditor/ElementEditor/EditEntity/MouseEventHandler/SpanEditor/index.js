@@ -79,7 +79,7 @@ export default class SpanEditor {
         // 1. Select an inner span.
         // 2. Begin Drug from out of an outside span to the selected span.
         // Shrink the selected span.
-        this._shrink(selectionWrapper, this._selectionModel.span.singleId)
+        this._shrinkSelectedSpan(selectionWrapper)
       } else if (selectionWrapper.isForcusOneDownUnderAnchor) {
         // To shrink the span , belows are needed:
         // 1. The anchorNode out of the span and in the parent of the span.
@@ -134,7 +134,7 @@ export default class SpanEditor {
               selectionWrapper
             )
           ) {
-            this._shrink(selectionWrapper, this._selectionModel.span.singleId)
+            this._shrinkSelectedSpan(selectionWrapper)
           } else {
             this._shrink(selectionWrapper, parentSpan.id)
           }
@@ -158,7 +158,7 @@ export default class SpanEditor {
           // 1. Select an inner span.
           // 2. Begin Drug from out of an outside span to the selected span.
           // Shrink the selected span.
-          this._shrink(selectionWrapper, this._selectionModel.span.singleId)
+          this._shrinkSelectedSpan(selectionWrapper)
         } else if (selectionWrapper.isForcusOneDownUnderAnchor) {
           // To shrink the span , belows are needed:
           // 1. The anchorNode out of the span and in the parent of the span.
@@ -186,7 +186,7 @@ export default class SpanEditor {
             // 1. Select an inner span.
             // 2. Begin Drug from out of an outside span to the selected span.
             // Shrink the selected span.
-            this._shrink(selectionWrapper, this._selectionModel.span.singleId)
+            this._shrinkSelectedSpan(selectionWrapper)
           } else if (selectionWrapper.isForcusOneDownUnderAnchor) {
             // To shrink the span , belows are needed:
             // 1. The anchorNode out of the span and in the parent of the span.
@@ -299,6 +299,10 @@ export default class SpanEditor {
     }
 
     clearTextSelection()
+  }
+
+  _shrinkSelectedSpan(selectionWrapper) {
+    this._shrink(selectionWrapper, this._selectionModel.span.singleId)
   }
 
   _shrink(selectionWrapper, spanId) {
