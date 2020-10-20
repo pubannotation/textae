@@ -116,11 +116,17 @@ export default class SpanEditor {
   _anchorNodeInSpanFocusNodeInSpan(selectionWrapper) {
     if (this._hasCharacters(selectionWrapper)) {
       if (selectionWrapper.isParentOfAnchorNodeAndFocusedNodeSame) {
-        const positions = new Positions(this._annotationData, selectionWrapper)
-        const span = this._annotationData.span.get(
+        // The parents of the anchor and focus nodes are the same span.
+        const parentSpan = this._annotationData.span.get(
           selectionWrapper.parentOfAnchorNode.id
         )
-        if (positions.anchor === span.begin || positions.anchor === span.end) {
+        const positions = new Positions(this._annotationData, selectionWrapper)
+        if (
+          positions.anchor === parentSpan.begin ||
+          positions.anchor === parentSpan.end
+        ) {
+          // The start or end of the selected region is at the same position
+          // as the start or end of the parent span.
           if (
             isFocusInSelectedSpan(
               this._annotationData,
@@ -130,10 +136,7 @@ export default class SpanEditor {
           ) {
             this._shrink(selectionWrapper, this._selectionModel.span.singleId)
           } else {
-            this._shrink(
-              selectionWrapper,
-              selectionWrapper.parentOfFocusNode.id
-            )
+            this._shrink(selectionWrapper, parentSpan.id)
           }
         } else {
           this._create(selectionWrapper)
