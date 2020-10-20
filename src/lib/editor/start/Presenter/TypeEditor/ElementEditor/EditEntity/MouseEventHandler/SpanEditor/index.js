@@ -84,7 +84,7 @@ export default class SpanEditor {
       if (selectionWrapper.ancestorSpanOfFocusNode) {
         const spanId = selectionWrapper.ancestorSpanOfFocusNode.id
 
-        this._shrinkCrossTheEarOnStyleSpan(selectionWrapper, spanId)
+        this._shrinkCrossTheEar(selectionWrapper, spanId)
         return
       }
 
@@ -162,7 +162,7 @@ export default class SpanEditor {
         if (selectionWrapper.ancestorSpanOfFocusNode) {
           const spanId = selectionWrapper.ancestorSpanOfFocusNode.id
 
-          this._shrinkCrossTheEarOnStyleSpan(selectionWrapper, spanId)
+          this._shrinkCrossTheEar(selectionWrapper, spanId)
           return
         }
       }
@@ -261,21 +261,6 @@ export default class SpanEditor {
   }
 
   _shrinkCrossTheEar(selectionWrapper, spanId) {
-    crossTheEar(
-      this._editor,
-      this._annotationData,
-      this._selectionModel,
-      this._commander,
-      this._spanAdjuster,
-      spanId,
-      selectionWrapper,
-      this._spanConfig
-    )
-
-    clearTextSelection()
-  }
-
-  _shrinkCrossTheEarOnStyleSpan(selectionWrapper, spanId) {
     crossTheEar(
       this._editor,
       this._annotationData,
