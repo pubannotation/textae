@@ -7,9 +7,9 @@ import shrink from './shrink'
 import getExpandTargetSpan from './getExpandTargetSpan'
 import expand from './expand'
 import hasCharacters from './hasCharacters'
-import getTargetSpanWhenFocusNodeDifferentFromAnchorNode from './getTargetSpanWhenFocusNodeDifferentFromAnchorNode'
 import getIsDelimiterFunc from '../../../../../getIsDelimiterFunc'
 import isFocusInSelectedSpan from './isFocusInSelectedSpan'
+import isForcusOneDownUnderAnchor from './isForcusOneDownUnderAnchor'
 
 export default class SpanEditor {
   constructor(
@@ -67,13 +67,26 @@ export default class SpanEditor {
 
   _anchorNodeInTextBoxFocusNodeInSpan(selectionWrapper) {
     if (this._hasCharacters(selectionWrapper)) {
-      const spanId = getTargetSpanWhenFocusNodeDifferentFromAnchorNode(
-        this._annotationData,
-        this._selectionModel,
-        selectionWrapper
-      )
-
-      this._shrink(selectionWrapper, spanId)
+      if (
+        isFocusInSelectedSpan(
+          this._annotationData,
+          this._selectionModel,
+          selectionWrapper
+        )
+      ) {
+        // If a span is selected, it is able to begin drag out of an outer span of the span and shrink the span.
+        // The focus node should be at the selected node.
+        // cf.
+        // 1. Select an inner span.
+        // 2. Begin Drug from out of an outside span to the selected span.
+        // Shrink the selected span.
+        this._shrink(selectionWrapper, this._selectionModel.span.singleId)
+      } else if (isForcusOneDownUnderAnchor(selectionWrapper.selection)) {
+        // To shrink the span , belows are needed:
+        // 1. The anchorNode out of the span and in the parent of the span.
+        // 2. The foucusNode is in the span.
+        this._shrink(selectionWrapper, selectionWrapper.parentOfFocusNode.id)
+      }
     }
   }
 
@@ -128,13 +141,26 @@ export default class SpanEditor {
       }
 
       if (selectionWrapper.isFocusNodeParentIsDescendantOfAnchorNodeParent) {
-        const spanId = getTargetSpanWhenFocusNodeDifferentFromAnchorNode(
-          this._annotationData,
-          this._selectionModel,
-          selectionWrapper
-        )
-
-        this._shrink(selectionWrapper, spanId)
+        if (
+          isFocusInSelectedSpan(
+            this._annotationData,
+            this._selectionModel,
+            selectionWrapper
+          )
+        ) {
+          // If a span is selected, it is able to begin drag out of an outer span of the span and shrink the span.
+          // The focus node should be at the selected node.
+          // cf.
+          // 1. Select an inner span.
+          // 2. Begin Drug from out of an outside span to the selected span.
+          // Shrink the selected span.
+          this._shrink(selectionWrapper, this._selectionModel.span.singleId)
+        } else if (isForcusOneDownUnderAnchor(selectionWrapper.selection)) {
+          // To shrink the span , belows are needed:
+          // 1. The anchorNode out of the span and in the parent of the span.
+          // 2. The foucusNode is in the span.
+          this._shrink(selectionWrapper, selectionWrapper.parentOfFocusNode.id)
+        }
         return
       }
 
@@ -143,13 +169,29 @@ export default class SpanEditor {
         // the anchorNode is the child span and the focusNode is the parent span.
         // If the focusNode (parent span) is selected, shrink the parent span.
         if (selectionWrapper.isFocusNodeParentSelected) {
-          const spanId = getTargetSpanWhenFocusNodeDifferentFromAnchorNode(
-            this._annotationData,
-            this._selectionModel,
-            selectionWrapper
-          )
-
-          this._shrink(selectionWrapper, spanId)
+          if (
+            isFocusInSelectedSpan(
+              this._annotationData,
+              this._selectionModel,
+              selectionWrapper
+            )
+          ) {
+            // If a span is selected, it is able to begin drag out of an outer span of the span and shrink the span.
+            // The focus node should be at the selected node.
+            // cf.
+            // 1. Select an inner span.
+            // 2. Begin Drug from out of an outside span to the selected span.
+            // Shrink the selected span.
+            this._shrink(selectionWrapper, this._selectionModel.span.singleId)
+          } else if (isForcusOneDownUnderAnchor(selectionWrapper.selection)) {
+            // To shrink the span , belows are needed:
+            // 1. The anchorNode out of the span and in the parent of the span.
+            // 2. The foucusNode is in the span.
+            this._shrink(
+              selectionWrapper,
+              selectionWrapper.parentOfFocusNode.id
+            )
+          }
         } else {
           const spanId = getExpandTargetSpan(
             this._selectionModel,
