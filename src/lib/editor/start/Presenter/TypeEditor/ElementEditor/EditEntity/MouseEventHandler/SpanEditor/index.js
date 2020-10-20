@@ -65,20 +65,7 @@ export default class SpanEditor {
 
   _anchorNodeInTextBoxFocusNodeInSpan(selectionWrapper) {
     if (this._hasCharacters(selectionWrapper)) {
-      if (this._isFocusInSelectedSpan(selectionWrapper)) {
-        // If a span is selected, it is able to begin drag out of an outer span of the span and shrink the span.
-        // The focus node should be at the selected node.
-        // cf.
-        // 1. Select an inner span.
-        // 2. Begin Drug from out of an outside span to the selected span.
-        // Shrink the selected span.
-        this._shrinkSelectedSpan(selectionWrapper)
-      } else if (selectionWrapper.isForcusOneDownUnderAnchor) {
-        // To shrink the span , belows are needed:
-        // 1. The anchorNode out of the span and in the parent of the span.
-        // 2. The foucusNode is in the span.
-        this._shrinkParentOfFocusNode(selectionWrapper)
-      }
+      this._shrinkSelectSpanOrOnoUpFocusParentSpan(selectionWrapper)
     }
   }
 
@@ -132,20 +119,7 @@ export default class SpanEditor {
       }
 
       if (selectionWrapper.isFocusNodeParentIsDescendantOfAnchorNodeParent) {
-        if (this._isFocusInSelectedSpan(selectionWrapper)) {
-          // If a span is selected, it is able to begin drag out of an outer span of the span and shrink the span.
-          // The focus node should be at the selected node.
-          // cf.
-          // 1. Select an inner span.
-          // 2. Begin Drug from out of an outside span to the selected span.
-          // Shrink the selected span.
-          this._shrinkSelectedSpan(selectionWrapper)
-        } else if (selectionWrapper.isForcusOneDownUnderAnchor) {
-          // To shrink the span , belows are needed:
-          // 1. The anchorNode out of the span and in the parent of the span.
-          // 2. The foucusNode is in the span.
-          this._shrinkParentOfFocusNode(selectionWrapper)
-        }
+        this._shrinkSelectSpanOrOnoUpFocusParentSpan(selectionWrapper)
         return
       }
 
@@ -154,23 +128,7 @@ export default class SpanEditor {
         // the anchorNode is the child span and the focusNode is the parent span.
         // If the focusNode (parent span) is selected, shrink the parent span.
         if (selectionWrapper.isFocusNodeParentSelected) {
-          if (this._isFocusInSelectedSpan(selectionWrapper)) {
-            // If a span is selected, it is able to begin drag out of an outer span of the span and shrink the span.
-            // The focus node should be at the selected node.
-            // cf.
-            // 1. Select an inner span.
-            // 2. Begin Drug from out of an outside span to the selected span.
-            // Shrink the selected span.
-            this._shrinkSelectedSpan(selectionWrapper)
-          } else if (selectionWrapper.isForcusOneDownUnderAnchor) {
-            // To shrink the span , belows are needed:
-            // 1. The anchorNode out of the span and in the parent of the span.
-            // 2. The foucusNode is in the span.
-            this._shrink(
-              selectionWrapper,
-              selectionWrapper.parentOfFocusNode.id
-            )
-          }
+          this._shrinkSelectSpanOrOnoUpFocusParentSpan(selectionWrapper)
         } else {
           const spanId = getExpandTargetSpan(
             this._selectionModel,
@@ -285,6 +243,23 @@ export default class SpanEditor {
     }
 
     clearTextSelection()
+  }
+
+  _shrinkSelectSpanOrOnoUpFocusParentSpan(selectionWrapper) {
+    if (this._isFocusInSelectedSpan(selectionWrapper)) {
+      // If a span is selected, it is able to begin drag out of an outer span of the span and shrink the span.
+      // The focus node should be at the selected node.
+      // cf.
+      // 1. Select an inner span.
+      // 2. Begin Drug from out of an outside span to the selected span.
+      // Shrink the selected span.
+      this._shrinkSelectedSpan(selectionWrapper)
+    } else if (selectionWrapper.isForcusOneDownUnderAnchor) {
+      // To shrink the span , belows are needed:
+      // 1. The anchorNode out of the span and in the parent of the span.
+      // 2. The foucusNode is in the span.
+      this._shrinkParentOfFocusNode(selectionWrapper)
+    }
   }
 
   _shrinkSelectedSpan(selectionWrapper) {
