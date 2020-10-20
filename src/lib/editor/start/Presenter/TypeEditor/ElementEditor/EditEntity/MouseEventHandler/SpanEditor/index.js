@@ -67,7 +67,13 @@ export default class SpanEditor {
 
   _anchorNodeInTextBoxFocusNodeInSpan(selectionWrapper) {
     if (this._hasCharacters(selectionWrapper)) {
-      this._shrinkCrossTheEar(selectionWrapper)
+      const spanId = getTargetSpanWhenFocusNodeDifferentFromAnchorNode(
+        this._annotationData,
+        this._selectionModel,
+        selectionWrapper
+      )
+
+      this._shrinkCrossTheEar(selectionWrapper, spanId)
     }
   }
 
@@ -105,7 +111,13 @@ export default class SpanEditor {
       }
 
       if (selectionWrapper.isFocusNodeParentIsDescendantOfAnchorNodeParent) {
-        this._shrinkCrossTheEar(selectionWrapper)
+        const spanId = getTargetSpanWhenFocusNodeDifferentFromAnchorNode(
+          this._annotationData,
+          this._selectionModel,
+          selectionWrapper
+        )
+
+        this._shrinkCrossTheEar(selectionWrapper, spanId)
         return
       }
 
@@ -114,7 +126,13 @@ export default class SpanEditor {
         // the anchorNode is the child span and the focusNode is the parent span.
         // If the focusNode (parent span) is selected, shrink the parent span.
         if (selectionWrapper.isFocusNodeParentSelected) {
-          this._shrinkCrossTheEar(selectionWrapper)
+          const spanId = getTargetSpanWhenFocusNodeDifferentFromAnchorNode(
+            this._annotationData,
+            this._selectionModel,
+            selectionWrapper
+          )
+
+          this._shrinkCrossTheEar(selectionWrapper, spanId)
         } else {
           this._expand(selectionWrapper)
         }
@@ -238,13 +256,7 @@ export default class SpanEditor {
     clearTextSelection()
   }
 
-  _shrinkCrossTheEar(selectionWrapper) {
-    const spanId = getTargetSpanWhenFocusNodeDifferentFromAnchorNode(
-      this._annotationData,
-      this._selectionModel,
-      selectionWrapper
-    )
-
+  _shrinkCrossTheEar(selectionWrapper, spanId) {
     crossTheEar(
       this._editor,
       this._annotationData,
