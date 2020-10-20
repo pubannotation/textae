@@ -82,7 +82,9 @@ export default class SpanEditor {
       // There is a Span between the StyleSpan and the text.
       // Shrink Span when mousedown on the text or a span and mouseup on the styleSpan.
       if (selectionWrapper.ancestorSpanOfFocusNode) {
-        this._shrinkCrossTheEarOnStyleSpan(selectionWrapper)
+        const spanId = selectionWrapper.ancestorSpanOfFocusNode.id
+
+        this._shrinkCrossTheEarOnStyleSpan(selectionWrapper, spanId)
         return
       }
 
@@ -158,7 +160,9 @@ export default class SpanEditor {
         // There is a Span between the StyleSpan and the text.
         // Shrink Span when mousedown on the text or a span and mouseup on the styleSpan.
         if (selectionWrapper.ancestorSpanOfFocusNode) {
-          this._shrinkCrossTheEarOnStyleSpan(selectionWrapper)
+          const spanId = selectionWrapper.ancestorSpanOfFocusNode.id
+
+          this._shrinkCrossTheEarOnStyleSpan(selectionWrapper, spanId)
           return
         }
       }
@@ -271,9 +275,7 @@ export default class SpanEditor {
     clearTextSelection()
   }
 
-  _shrinkCrossTheEarOnStyleSpan(selectionWrapper) {
-    const spanId = selectionWrapper.ancestorSpanOfFocusNode.id
-
+  _shrinkCrossTheEarOnStyleSpan(selectionWrapper, spanId) {
     crossTheEar(
       this._editor,
       this._annotationData,
