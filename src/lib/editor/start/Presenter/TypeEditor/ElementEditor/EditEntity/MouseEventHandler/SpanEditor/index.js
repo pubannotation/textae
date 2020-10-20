@@ -8,7 +8,7 @@ import getExpandTargetSpan from './getExpandTargetSpan'
 import expand from './expand'
 import hasCharacters from './hasCharacters'
 import getIsDelimiterFunc from '../../../../../getIsDelimiterFunc'
-import isFocusInSelectedSpan from './isFocusInSelectedSpan'
+import isInSelectedSpan from './isInSelectedSpan'
 
 export default class SpanEditor {
   constructor(
@@ -66,13 +66,7 @@ export default class SpanEditor {
 
   _anchorNodeInTextBoxFocusNodeInSpan(selectionWrapper) {
     if (this._hasCharacters(selectionWrapper)) {
-      if (
-        isFocusInSelectedSpan(
-          this._annotationData,
-          this._selectionModel,
-          selectionWrapper
-        )
-      ) {
+      if (this._isFocusInSelectedSpan(selectionWrapper)) {
         // If a span is selected, it is able to begin drag out of an outer span of the span and shrink the span.
         // The focus node should be at the selected node.
         // cf.
@@ -127,13 +121,7 @@ export default class SpanEditor {
         ) {
           // The start or end of the selected region is at the same position
           // as the start or end of the parent span.
-          if (
-            isFocusInSelectedSpan(
-              this._annotationData,
-              this._selectionModel,
-              selectionWrapper
-            )
-          ) {
+          if (this._isFocusInSelectedSpan(selectionWrapper)) {
             this._shrinkSelectedSpan(selectionWrapper)
           } else {
             this._shrinkParentOfFocusNode(selectionWrapper)
@@ -145,13 +133,7 @@ export default class SpanEditor {
       }
 
       if (selectionWrapper.isFocusNodeParentIsDescendantOfAnchorNodeParent) {
-        if (
-          isFocusInSelectedSpan(
-            this._annotationData,
-            this._selectionModel,
-            selectionWrapper
-          )
-        ) {
+        if (this._isFocusInSelectedSpan(selectionWrapper)) {
           // If a span is selected, it is able to begin drag out of an outer span of the span and shrink the span.
           // The focus node should be at the selected node.
           // cf.
@@ -173,13 +155,7 @@ export default class SpanEditor {
         // the anchorNode is the child span and the focusNode is the parent span.
         // If the focusNode (parent span) is selected, shrink the parent span.
         if (selectionWrapper.isFocusNodeParentSelected) {
-          if (
-            isFocusInSelectedSpan(
-              this._annotationData,
-              this._selectionModel,
-              selectionWrapper
-            )
-          ) {
+          if (this._isFocusInSelectedSpan(selectionWrapper)) {
             // If a span is selected, it is able to begin drag out of an outer span of the span and shrink the span.
             // The focus node should be at the selected node.
             // cf.
@@ -269,6 +245,13 @@ export default class SpanEditor {
       this._annotationData,
       this._spanConfig,
       selectionWrapper
+    )
+  }
+
+  _isFocusInSelectedSpan(selectionWrapper) {
+    return isInSelectedSpan(
+      this._selectionModel,
+      new Positions(this._annotationData, selectionWrapper).focus
     )
   }
 
