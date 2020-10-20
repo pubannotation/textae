@@ -9,7 +9,7 @@ import expand from './expand'
 import hasCharacters from './hasCharacters'
 import getTargetSpanWhenFocusNodeDifferentFromAnchorNode from './getTargetSpanWhenFocusNodeDifferentFromAnchorNode'
 import getIsDelimiterFunc from '../../../../../getIsDelimiterFunc'
-import getTargetSpanWhenFocusNodeSameWithAnchorNode from './getTargetSpanWhenFocusNodeSameWithAnchorNode'
+import isFocusInSelectedSpan from './isFocusInSelectedSpan'
 
 export default class SpanEditor {
   constructor(
@@ -107,13 +107,20 @@ export default class SpanEditor {
         const positions = new Positions(this._annotationData, selectionWrapper)
         const span = this._getAnchorNodeParentSpan(selectionWrapper)
         if (positions.anchor === span.begin || positions.anchor === span.end) {
-          const spanId = getTargetSpanWhenFocusNodeSameWithAnchorNode(
-            this._annotationData,
-            this._selectionModel,
-            selectionWrapper
-          )
-
-          this._shrink(selectionWrapper, spanId)
+          if (
+            isFocusInSelectedSpan(
+              this._annotationData,
+              this._selectionModel,
+              selectionWrapper
+            )
+          ) {
+            this._shrink(selectionWrapper, this._selectionModel.span.singleId)
+          } else {
+            this._shrink(
+              selectionWrapper,
+              selectionWrapper.parentOfFocusNode.id
+            )
+          }
         } else {
           this._create(selectionWrapper)
         }
