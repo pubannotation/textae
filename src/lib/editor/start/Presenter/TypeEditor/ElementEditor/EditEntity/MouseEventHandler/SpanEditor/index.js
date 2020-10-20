@@ -3,13 +3,13 @@ import Positions from './Positions'
 import DelimiterDetectAdjuster from './DelimiterDetectAdjuster'
 import BlankSkipAdjuster from './BlankSkipAdjuster'
 import create from './create'
-import crossTheEar from './crossTheEar'
-import pullByTheEar from './pullByTheEar'
+import shrink from './shrink'
 import getExpandTargetSpan from './getExpandTargetSpan'
 import expand from './expand'
 import hasCharacters from './hasCharacters'
 import getTargetSpanWhenFocusNodeDifferentFromAnchorNode from './getTargetSpanWhenFocusNodeDifferentFromAnchorNode'
 import getIsDelimiterFunc from '../../../../../getIsDelimiterFunc'
+import getTargetSpanWhenFocusNodeSameWithAnchorNode from './getTargetSpanWhenFocusNodeSameWithAnchorNode'
 
 export default class SpanEditor {
   constructor(
@@ -73,7 +73,7 @@ export default class SpanEditor {
         selectionWrapper
       )
 
-      this._shrinkCrossTheEar(selectionWrapper, spanId)
+      this._shrink(selectionWrapper, spanId)
     }
   }
 
@@ -84,7 +84,7 @@ export default class SpanEditor {
       if (selectionWrapper.ancestorSpanOfFocusNode) {
         const spanId = selectionWrapper.ancestorSpanOfFocusNode.id
 
-        this._shrinkCrossTheEar(selectionWrapper, spanId)
+        this._shrink(selectionWrapper, spanId)
         return
       }
 
@@ -107,7 +107,13 @@ export default class SpanEditor {
         const positions = new Positions(this._annotationData, selectionWrapper)
         const span = this._getAnchorNodeParentSpan(selectionWrapper)
         if (positions.anchor === span.begin || positions.anchor === span.end) {
-          this._shrinkPullByTheEar(selectionWrapper)
+          const spanId = getTargetSpanWhenFocusNodeSameWithAnchorNode(
+            this._annotationData,
+            this._selectionModel,
+            selectionWrapper
+          )
+
+          this._shrink(selectionWrapper, spanId)
         } else {
           this._create(selectionWrapper)
         }
@@ -121,7 +127,7 @@ export default class SpanEditor {
           selectionWrapper
         )
 
-        this._shrinkCrossTheEar(selectionWrapper, spanId)
+        this._shrink(selectionWrapper, spanId)
         return
       }
 
@@ -136,7 +142,7 @@ export default class SpanEditor {
             selectionWrapper
           )
 
-          this._shrinkCrossTheEar(selectionWrapper, spanId)
+          this._shrink(selectionWrapper, spanId)
         } else {
           const spanId = getExpandTargetSpan(
             this._selectionModel,
@@ -168,7 +174,7 @@ export default class SpanEditor {
         if (selectionWrapper.ancestorSpanOfFocusNode) {
           const spanId = selectionWrapper.ancestorSpanOfFocusNode.id
 
-          this._shrinkCrossTheEar(selectionWrapper, spanId)
+          this._shrink(selectionWrapper, spanId)
           return
         }
       }
@@ -246,28 +252,14 @@ export default class SpanEditor {
     clearTextSelection()
   }
 
-  _shrinkCrossTheEar(selectionWrapper, spanId) {
-    crossTheEar(
+  _shrink(selectionWrapper, spanId) {
+    shrink(
       this._editor,
       this._annotationData,
       this._selectionModel,
       this._commander,
       this._spanAdjuster,
       spanId,
-      selectionWrapper,
-      this._spanConfig
-    )
-
-    clearTextSelection()
-  }
-
-  _shrinkPullByTheEar(selectionWrapper) {
-    pullByTheEar(
-      this._editor,
-      this._annotationData,
-      this._selectionModel,
-      this._commander,
-      this._spanAdjuster,
       selectionWrapper,
       this._spanConfig
     )

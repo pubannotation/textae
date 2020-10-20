@@ -1,4 +1,4 @@
-import isFocusInSelectedSpan from '../isFocusInSelectedSpan'
+import isFocusInSelectedSpan from './isFocusInSelectedSpan'
 
 export default function(annotationData, selectionModel, selectionWrapper) {
   if (isFocusInSelectedSpan(annotationData, selectionModel, selectionWrapper)) {
