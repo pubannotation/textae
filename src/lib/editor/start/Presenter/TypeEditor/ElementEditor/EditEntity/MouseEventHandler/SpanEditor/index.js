@@ -117,7 +117,9 @@ export default class SpanEditor {
     if (this._hasCharacters(selectionWrapper)) {
       if (selectionWrapper.isParentOfAnchorNodeAndFocusedNodeSame) {
         const positions = new Positions(this._annotationData, selectionWrapper)
-        const span = this._getAnchorNodeParentSpan(selectionWrapper)
+        const span = this._annotationData.span.get(
+          selectionWrapper.parentOfAnchorNode.id
+        )
         if (positions.anchor === span.begin || positions.anchor === span.end) {
           if (
             isFocusInSelectedSpan(
@@ -265,10 +267,6 @@ export default class SpanEditor {
       this._spanConfig,
       selectionWrapper
     )
-  }
-
-  _getAnchorNodeParentSpan(selectionWrapper) {
-    return this._annotationData.span.get(selectionWrapper.parentOfAnchorNode.id)
   }
 
   _create(selectionWrapper) {
