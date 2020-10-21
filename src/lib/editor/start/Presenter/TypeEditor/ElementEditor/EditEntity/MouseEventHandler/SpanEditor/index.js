@@ -124,7 +124,7 @@ export default class SpanEditor {
       }
 
       if (selectionWrapper.isAnchorNodeParentIsDescendantOfFocusNodeParent) {
-        if (selectionWrapper.isFocusNodeParentSelected) {
+        if (this._isFocusInSelectedSpan(selectionWrapper)) {
           this._shrinkSelectSpanOrOnoUpFocusParentSpan(selectionWrapper)
         } else {
           const spanId = getExpandTargetSpan(

@@ -44,10 +44,6 @@ export default class {
     )
   }
 
-  get isFocusNodeParentSelected() {
-    return this.parentOfFocusNode.classList.contains('ui-selected')
-  }
-
   get parentOfAnchorNode() {
     return this.selection.anchorNode.parentElement
   }
