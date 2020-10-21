@@ -124,9 +124,6 @@ export default class SpanEditor {
       }
 
       if (selectionWrapper.isAnchorNodeParentIsDescendantOfFocusNodeParent) {
-        // If you select the parent span on the left edge of the screen and shrink it from the left,
-        // the anchorNode is the child span and the focusNode is the parent span.
-        // If the focusNode (parent span) is selected, shrink the parent span.
         if (selectionWrapper.isFocusNodeParentSelected) {
           this._shrinkSelectSpanOrOnoUpFocusParentSpan(selectionWrapper)
         } else {
