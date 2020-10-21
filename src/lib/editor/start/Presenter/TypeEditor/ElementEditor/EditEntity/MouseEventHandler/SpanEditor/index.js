@@ -167,7 +167,26 @@ export default class SpanEditor {
     this._create(selectionWrapper)
   }
 
-  _anchorNodeInStyleSpanFocusNodeInSpan() {
+  _anchorNodeInStyleSpanFocusNodeInSpan(selectionWrapper) {
+    if (this._isFocusInSelectedSpan(selectionWrapper)) {
+      this._shrinkSelectedSpan(selectionWrapper)
+      return
+    }
+
+    // When you mouse down on a parent style span and mouse up on the child span,
+    // you shrink the child span.
+    if (selectionWrapper.isFocusOneDownUnderAnchor) {
+      this._shrink(selectionWrapper, selectionWrapper.parentOfFocusNode.id)
+      return
+    }
+
+    // When you mouse down on a child style span and mouse up on the parent span,
+    // you shrink the parent span.
+    if (selectionWrapper.isAnchorOneDownUnderFocus) {
+      this._shrink(selectionWrapper, selectionWrapper.parentOfFocusNode.id)
+      return
+    }
+
     clearTextSelection()
   }
 
