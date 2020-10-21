@@ -111,7 +111,10 @@ export default class SpanEditor {
           if (this._isFocusInSelectedSpan(selectionWrapper)) {
             this._shrinkSelectedSpan(selectionWrapper)
           } else {
-            this._shrinkParentOfFocusNode(selectionWrapper)
+            this._shrink(
+              selectionWrapper,
+              selectionWrapper.parentOfFocusNode.id
+            )
           }
         } else {
           this._create(selectionWrapper)
@@ -266,16 +269,12 @@ export default class SpanEditor {
       // To shrink the span , belows are needed:
       // 1. The anchorNode out of the span and in the parent of the span.
       // 2. The foucusNode is in the span.
-      this._shrinkParentOfFocusNode(selectionWrapper)
+      this._shrink(selectionWrapper, selectionWrapper.parentOfFocusNode.id)
     }
   }
 
   _shrinkSelectedSpan(selectionWrapper) {
     this._shrink(selectionWrapper, this._selectionModel.span.singleId)
-  }
-
-  _shrinkParentOfFocusNode(selectionWrapper) {
-    this._shrink(selectionWrapper, selectionWrapper.parentOfFocusNode.id)
   }
 
   _shrink(selectionWrapper, spanId) {
