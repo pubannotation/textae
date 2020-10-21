@@ -203,9 +203,11 @@ export default class SpanEditor {
   }
 
   _anchorNodeInStyleSpanFocusNodeInStyleSpan(selectionWrapper) {
-    if (selectionWrapper.isParentOfAnchorNodeAndFocusedNodeSame) {
+    if (
+      selectionWrapper.isParentOfAnchorNodeAndFocusedNodeSame ||
+      selectionWrapper.isParentsParentOfAnchorNodeAndFocusedNodeSame
+    ) {
       this._create(selectionWrapper)
-      return
     }
   }
 
