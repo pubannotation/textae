@@ -55,7 +55,7 @@ export default class {
 
   removeBlankChractors(str) {
     for (const char of this._blankCharacters) {
-      str = str.replace(char, '')
+      str = str.replaceAll(char, '')
     }
 
     return str
