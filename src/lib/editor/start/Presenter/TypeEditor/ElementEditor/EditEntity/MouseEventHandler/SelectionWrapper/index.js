@@ -30,14 +30,6 @@ export default class {
     return this.parentOfAnchorNode === this.parentOfFocusNode.parentElement
   }
 
-  get parentOfAnchorNode() {
-    return this.selection.anchorNode.parentElement
-  }
-
-  get parentOfFocusNode() {
-    return this.selection.focusNode.parentElement
-  }
-
   get ancestorSpanOfAnchorNode() {
     return this.selection.anchorNode.parentElement.closest(
       '.textae-editor__span'
@@ -86,5 +78,13 @@ export default class {
 
   get isFocusNodeInStyleSpan() {
     return isNodeStyleSpan(this.selection.focusNode.parentNode)
+  }
+
+  get parentOfAnchorNode() {
+    return this.selection.anchorNode.parentElement
+  }
+
+  get parentOfFocusNode() {
+    return this.selection.focusNode.parentElement
   }
 }
