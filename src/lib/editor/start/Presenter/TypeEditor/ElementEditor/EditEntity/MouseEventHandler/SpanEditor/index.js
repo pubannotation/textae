@@ -173,6 +173,18 @@ export default class SpanEditor {
       return
     }
 
+    // When an anchor node has an ancestral span and the focus node is its sibling,
+    // expand the ancestral span.
+    if (
+      selectionWrapper.ancestorSpanOfAnchorNode &&
+      selectionWrapper.ancestorSpanOfAnchorNode.parentElement ===
+        selectionWrapper.parentOfFocusNode
+    ) {
+      const spanId = selectionWrapper.ancestorSpanOfAnchorNode.id
+      this._expand(selectionWrapper, spanId)
+      return
+    }
+
     // When you mouse down on a parent style span and mouse up on the child span,
     // you shrink the child span.
     if (selectionWrapper.isFocusOneDownUnderAnchor) {
