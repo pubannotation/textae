@@ -118,12 +118,20 @@ export default class SpanEditor {
         return
       }
 
-      if (selectionWrapper.isFocusNodeParentIsDescendantOfAnchorNodeParent) {
+      if (
+        selectionWrapper.parentOfFocusNode.closest(
+          `#${selectionWrapper.parentOfAnchorNode.id}`
+        )
+      ) {
         this._shrinkSelectSpanOrOnoUpFocusParentSpan(selectionWrapper)
         return
       }
 
-      if (selectionWrapper.isAnchorNodeParentIsDescendantOfFocusNodeParent) {
+      if (
+        selectionWrapper.parentOfAnchorNode.closest(
+          `#${selectionWrapper.parentOfFocusNode.id}`
+        )
+      ) {
         if (this._isFocusInSelectedSpan(selectionWrapper)) {
           this._shrinkSelectedSpan(selectionWrapper)
         } else {

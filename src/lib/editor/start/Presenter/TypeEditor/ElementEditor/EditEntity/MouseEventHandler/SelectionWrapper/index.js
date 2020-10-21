@@ -26,16 +26,8 @@ export default class {
     return this.parentOfAnchorNode.closest('.ui-selected')
   }
 
-  get isAnchorNodeParentIsDescendantOfFocusNodeParent() {
-    return this.parentOfAnchorNode.closest(`#${this.parentOfFocusNode.id}`)
-  }
-
   get isForcusOneDownUnderAnchor() {
     return this.parentOfAnchorNode === this.parentOfFocusNode.parentElement
-  }
-
-  get isFocusNodeParentIsDescendantOfAnchorNodeParent() {
-    return this.parentOfFocusNode.closest(`#${this.parentOfAnchorNode.id}`)
   }
 
   get parentOfAnchorNode() {
