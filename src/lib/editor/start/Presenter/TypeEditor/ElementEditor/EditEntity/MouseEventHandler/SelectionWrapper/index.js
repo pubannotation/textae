@@ -47,13 +47,6 @@ export default class {
     return isNodeStyleSpan(this.parentOfAnchorNode)
   }
 
-  get isAnchorNodeInStyleSpanAndTheStyleSpanIsDescendantOfSpan() {
-    return (
-      isNodeStyleSpan(this.parentOfAnchorNode) &&
-      this.parentOfAnchorNode.closest('.textae-editor__span')
-    )
-  }
-
   get isAnchorOneDownUnderFocus() {
     return this.parentOfAnchorNode.parentElement === this.parentOfFocusNode
   }
