@@ -38,12 +38,6 @@ export default class {
     return this.parentOfFocusNode.closest(`#${this.parentOfAnchorNode.id}`)
   }
 
-  get isFocusNodeParentIsDescendantOfAnchorNodeParentOfParent() {
-    return this.parentOfFocusNode.closest(
-      `#${this.parentOfAnchorNode.parentElement.id}`
-    )
-  }
-
   get parentOfAnchorNode() {
     return this.selection.anchorNode.parentElement
   }
