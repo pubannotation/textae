@@ -27,28 +27,28 @@ export default class SpanEditor {
   }
 
   editFor(selectionWrapper) {
-    if (selectionWrapper.isAnchorNodeInTextBox) {
-      if (selectionWrapper.isFocusNodeInTextBox) {
+    if (selectionWrapper.isParentOfAnchorNodeTextBox) {
+      if (selectionWrapper.isParentOfFocusNodeTextBox) {
         this._anchorNodeInTextBoxFocusNodeInTextBox(selectionWrapper)
-      } else if (selectionWrapper.isFocusNodeInSpan) {
+      } else if (selectionWrapper.isParentOfFocusNodeSpan) {
         this._anchorNodeInTextBoxFocusNodeInSpan(selectionWrapper)
-      } else if (selectionWrapper.isFocusNodeInStyleSpan) {
+      } else if (selectionWrapper.isParentOfFocusNodeStyleSpan) {
         this._anchorNodeInTextBoxFocusNodeInStyleSpan(selectionWrapper)
       }
-    } else if (selectionWrapper.isAnchorNodeInSpan) {
-      if (selectionWrapper.isFocusNodeInTextBox) {
+    } else if (selectionWrapper.isParentOfAnchorNodeSpan) {
+      if (selectionWrapper.isParentOfFocusNodeTextBox) {
         this._anchorNodeInSpanFocusNodeInTextBox(selectionWrapper)
-      } else if (selectionWrapper.isFocusNodeInSpan) {
+      } else if (selectionWrapper.isParentOfFocusNodeSpan) {
         this._anchorNodeInSpanFocusNodeInSpan(selectionWrapper)
-      } else if (selectionWrapper.isFocusNodeInStyleSpan) {
+      } else if (selectionWrapper.isParentOfFocusNodeStyleSpan) {
         this._anchorNodeInSpanFocusNodeInStyleSpan(selectionWrapper)
       }
-    } else if (selectionWrapper.isAnchorNodeInStyleSpan) {
-      if (selectionWrapper.isFocusNodeInTextBox) {
+    } else if (selectionWrapper.isParentOfAnchorNodeStyleSpan) {
+      if (selectionWrapper.isParentOfFocusNodeTextBox) {
         this._anchorNodeInStyleSpanFocusNodeInTextBox(selectionWrapper)
-      } else if (selectionWrapper.isFocusNodeInSpan) {
+      } else if (selectionWrapper.isParentOfFocusNodeSpan) {
         this._anchorNodeInStyleSpanFocusNodeInSpan(selectionWrapper)
-      } else if (selectionWrapper.isFocusNodeInStyleSpan) {
+      } else if (selectionWrapper.isParentOfFocusNodeStyleSpan) {
         this._anchorNodeInStyleSpanFocusNodeInStyleSpan(selectionWrapper)
       }
     }

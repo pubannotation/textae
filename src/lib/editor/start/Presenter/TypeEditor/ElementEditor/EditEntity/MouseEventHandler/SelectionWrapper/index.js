@@ -35,15 +35,15 @@ export default class {
     return this.parentOfFocusNode.closest('.textae-editor__span')
   }
 
-  get isAnchorNodeInTextBox() {
+  get isParentOfAnchorNodeTextBox() {
     return isNodeTextBox(this.parentOfAnchorNode)
   }
 
-  get isAnchorNodeInSpan() {
+  get isParentOfAnchorNodeSpan() {
     return isNodeSpan(this.parentOfAnchorNode)
   }
 
-  get isAnchorNodeInStyleSpan() {
+  get isParentOfAnchorNodeStyleSpan() {
     return isNodeStyleSpan(this.parentOfAnchorNode)
   }
 
@@ -51,15 +51,15 @@ export default class {
     return this.parentOfAnchorNode.parentElement === this.parentOfFocusNode
   }
 
-  get isFocusNodeInTextBox() {
+  get isParentOfFocusNodeTextBox() {
     return isNodeTextBox(this.parentOfFocusNode)
   }
 
-  get isFocusNodeInSpan() {
+  get isParentOfFocusNodeSpan() {
     return isNodeSpan(this.parentOfFocusNode)
   }
 
-  get isFocusNodeInStyleSpan() {
+  get isParentOfFocusNodeStyleSpan() {
     return isNodeStyleSpan(this.parentOfFocusNode)
   }
 
