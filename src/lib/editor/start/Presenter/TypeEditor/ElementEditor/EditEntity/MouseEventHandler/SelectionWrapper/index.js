@@ -9,12 +9,12 @@ export default class {
   }
 
   get isParentOfAnchorNodeAndFocusedNodeSame() {
-    return this.selection.anchorNode.parentElement === this.parentOfFocusNode
+    return this.parentOfAnchorNode === this.parentOfFocusNode
   }
 
   get isParentsParentOfAnchorNodeAndFocusedNodeSame() {
     return (
-      this.selection.anchorNode.parentElement.parentElement ===
+      this.parentOfAnchorNode.parentElement ===
       this.parentOfFocusNode.parentElement
     )
   }
@@ -28,9 +28,7 @@ export default class {
   }
 
   get ancestorSpanOfAnchorNode() {
-    return this.selection.anchorNode.parentElement.closest(
-      '.textae-editor__span'
-    )
+    return this.parentOfAnchorNode.closest('.textae-editor__span')
   }
 
   get ancestorSpanOfFocusNode() {
@@ -38,29 +36,26 @@ export default class {
   }
 
   get isAnchorNodeInTextBox() {
-    return isNodeTextBox(this.selection.anchorNode.parentElement)
+    return isNodeTextBox(this.parentOfAnchorNode)
   }
 
   get isAnchorNodeInSpan() {
-    return isNodeSpan(this.selection.anchorNode.parentElement)
+    return isNodeSpan(this.parentOfAnchorNode)
   }
 
   get isAnchorNodeInStyleSpan() {
-    return isNodeStyleSpan(this.selection.anchorNode.parentElement)
+    return isNodeStyleSpan(this.parentOfAnchorNode)
   }
 
   get isAnchorNodeInStyleSpanAndTheStyleSpanIsDescendantOfSpan() {
     return (
-      isNodeStyleSpan(this.selection.anchorNode.parentElement) &&
-      this.selection.anchorNode.parentElement.closest('.textae-editor__span')
+      isNodeStyleSpan(this.parentOfAnchorNode) &&
+      this.parentOfAnchorNode.closest('.textae-editor__span')
     )
   }
 
   get isAnchorOneDownUnderFocus() {
-    return (
-      this.selection.anchorNode.parentElement.parentElement ===
-      this.parentOfFocusNode
-    )
+    return this.parentOfAnchorNode.parentElement === this.parentOfFocusNode
   }
 
   get isFocusNodeInTextBox() {
