@@ -111,10 +111,7 @@ export default class SpanEditor {
           if (this._isFocusInSelectedSpan(selectionWrapper)) {
             this._shrinkSelectedSpan(selectionWrapper)
           } else {
-            this._shrink(
-              selectionWrapper,
-              selectionWrapper.parentOfFocusNode.id
-            )
+            this._shrink(selectionWrapper, parentSpan.id)
           }
         } else {
           this._create(selectionWrapper)
