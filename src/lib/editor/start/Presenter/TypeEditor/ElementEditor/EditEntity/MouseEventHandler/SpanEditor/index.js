@@ -95,8 +95,8 @@ export default class SpanEditor {
 
   _anchorNodeInSpanFocusNodeInSpan(selectionWrapper) {
     if (this._hasCharacters(selectionWrapper)) {
+      // The anchor node and the focus node are in the same span.
       if (selectionWrapper.isParentOfAnchorNodeAndFocusedNodeSame) {
-        // The parents of the anchor and focus nodes are the same span.
         const parentSpan = this._annotationData.span.get(
           selectionWrapper.parentOfAnchorNode.id
         )
@@ -107,6 +107,7 @@ export default class SpanEditor {
         ) {
           // The start or end of the selected region is at the same position
           // as the start or end of the parent span.
+          // Shrink the span at the front or back end of the text.
           if (this._isFocusInSelectedSpan(selectionWrapper)) {
             this._shrinkSelectedSpan(selectionWrapper)
           } else {
@@ -118,6 +119,7 @@ export default class SpanEditor {
         return
       }
 
+      // The anchor node is in the parent span and the focus node is in the child span.
       if (
         selectionWrapper.parentOfFocusNode.closest(
           `#${selectionWrapper.parentOfAnchorNode.id}`
@@ -127,6 +129,7 @@ export default class SpanEditor {
         return
       }
 
+      // The anchor node is in the child span and the focus node is in the parent span.
       if (
         selectionWrapper.parentOfAnchorNode.closest(
           `#${selectionWrapper.parentOfFocusNode.id}`
