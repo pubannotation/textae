@@ -137,24 +137,22 @@ export default class SpanEditor {
   }
 
   _anchorNodeInSpanFocusNodeInStyleSpan(selectionWrapper) {
-    if (selectionWrapper.isAnchorNodeInSpan) {
-      // Mousedown on the child Span of a parent and child Span,
-      // and then mouseup on the StyleSpan in the parent Span.
-      if (selectionWrapper.isParentsParentOfAnchorNodeAndFocusedNodeSame) {
-        const spanId = selectionWrapper.parentOfAnchorNode.id
+    // Mousedown on the child Span of a parent and child Span,
+    // and then mouseup on the StyleSpan in the parent Span.
+    if (selectionWrapper.isParentsParentOfAnchorNodeAndFocusedNodeSame) {
+      const spanId = selectionWrapper.parentOfAnchorNode.id
 
-        this._expand(selectionWrapper, spanId)
-        return
-      }
+      this._expand(selectionWrapper, spanId)
+      return
+    }
 
-      // There is a Span between the StyleSpan and the text.
-      // Shrink Span when mousedown on the text or a span and mouseup on the styleSpan.
-      if (selectionWrapper.ancestorSpanOfFocusNode) {
-        const spanId = selectionWrapper.ancestorSpanOfFocusNode.id
+    // There is a Span between the StyleSpan and the text.
+    // Shrink Span when mousedown on the text or a span and mouseup on the styleSpan.
+    if (selectionWrapper.ancestorSpanOfFocusNode) {
+      const spanId = selectionWrapper.ancestorSpanOfFocusNode.id
 
-        this._shrink(selectionWrapper, spanId)
-        return
-      }
+      this._shrink(selectionWrapper, spanId)
+      return
     }
   }
 
