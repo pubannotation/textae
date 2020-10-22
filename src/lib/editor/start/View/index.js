@@ -30,29 +30,28 @@ export default class {
     bindSelectionModelEvents(editor)
 
     const gridHeight = new GridHeight(annotationData, typeGap)
-    const textBox = new TextBox(editor, annotationData, gridHeight)
+    this._textBox = new TextBox(editor, annotationData, gridHeight)
+
     const renderer = new Renderer(
       editor,
       annotationData,
       selectionModel,
       typeDefinition,
       typeGap,
-      textBox,
+      this._textBox,
       gridHeight
     )
-    const annotationPosition = new AnnotationPosition(
+    this._annotationPosition = new AnnotationPosition(
       editor,
       annotationData,
       renderer,
       gridHeight
     )
-    bindTypeGapEvents(typeGap, editor, textBox, annotationPosition)
-    bindAnnotationDataEvents(editor, annotationPosition, textBox)
+
+    bindTypeGapEvents(typeGap, editor, this._textBox, this._annotationPosition)
+    bindAnnotationDataEvents(editor, this._annotationPosition, this._textBox)
     bindAnnotaitonPositionEvents(editor, new CursorChanger(editor))
     bindMouseEvents(editor, new HoverRelation(editor, annotationData.entity))
-
-    this._annotationPosition = annotationPosition
-    this._textBox = textBox
   }
 
   updateDisplay() {
