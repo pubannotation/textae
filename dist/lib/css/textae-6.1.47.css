@@ -4344,9 +4344,6 @@ a.ui-button:active,
 .textae-editor:focus {
   outline-style: none;
 }
-.textae-editor .hidden {
-  visibility: hidden;
-}
 .textae-editor--term-mode.textae-editor--active {
   background-color: #ffe;
 }
