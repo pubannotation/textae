@@ -53,7 +53,6 @@ export default class {
       spanConfig,
       clipBoard,
       view,
-      typeEditor,
       editMode
     )
 

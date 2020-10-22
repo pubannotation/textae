@@ -16,7 +16,6 @@ export default class {
     spanConfig,
     clipBoard,
     view,
-    typeEditor,
     editMode
   ) {
     this._editor = editor
@@ -29,7 +28,6 @@ export default class {
     this._spanConfig = spanConfig
     this._clipBoard = clipBoard
     this._view = view
-    this._typeEditor = typeEditor
     this._editMode = editMode
     this._horizontal = new Horizontal(editor, selectionModel)
     this._vertical = new Vertical(editor, selectionModel)
@@ -57,7 +55,7 @@ export default class {
   }
 
   showPallet() {
-    this._typeEditor.showPallet()
+    this._editMode.showPallet()
   }
 
   replicate() {
@@ -74,15 +72,15 @@ export default class {
   }
 
   changeLabel() {
-    this._typeEditor.changeLabel()
+    this._editMode.changeLabel()
   }
 
   manipulateAttribute(number, shiftKey) {
-    this._typeEditor.manipulateAttribute(number, shiftKey)
+    this._editMode.manipulateAttribute(number, shiftKey)
   }
 
   cancelSelect() {
-    this._typeEditor.cancelSelect()
+    this._editMode.cancelSelect()
     // Foucs the editor for ESC key
     this._editor.focus()
   }
@@ -106,16 +104,16 @@ export default class {
   }
 
   selectLeft(shiftKey) {
-    if (this._typeEditor.isEntityPalletShown) {
-      this._typeEditor.selectLeftAttributeTab()
+    if (this._editMode.isEntityPalletShown) {
+      this._editMode.selectLeftAttributeTab()
     } else {
       this._horizontal.left(shiftKey)
     }
   }
 
   selectRight(shiftKey) {
-    if (this._typeEditor.isEntityPalletShown) {
-      this._typeEditor.selectRightAttributeTab()
+    if (this._editMode.isEntityPalletShown) {
+      this._editMode.selectRightAttributeTab()
     } else {
       this._horizontal.right(shiftKey)
     }

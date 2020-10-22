@@ -9,7 +9,8 @@ import changeByShortcut from './changeByShortcut'
 
 export default class {
   constructor(editor, annotationData, typeEditor, displayInstance) {
-    const transition = new Transition(editor, typeEditor, displayInstance)
+    this._typeEditor = typeEditor
+    const transition = new Transition(editor, this._typeEditor, displayInstance)
     this._stateMachine = bindTransition(transition)
     this._annotationData = annotationData
   }
@@ -86,5 +87,33 @@ export default class {
   // For key input of F or M.
   changeByShortcut() {
     changeByShortcut(this._stateMachine)
+  }
+
+  showPallet() {
+    this._typeEditor.showPallet()
+  }
+
+  changeLabel() {
+    this._typeEditor.changeLabel()
+  }
+
+  manipulateAttribute(number, shiftKey) {
+    this._typeEditor.manipulateAttribute(number, shiftKey)
+  }
+
+  cancelSelect() {
+    this._typeEditor.cancelSelect()
+  }
+
+  get isEntityPalletShown() {
+    return this._typeEditor.isEntityPalletShown
+  }
+
+  selectLeftAttributeTab() {
+    this._typeEditor.selectLeftAttributeTab()
+  }
+
+  selectRightAttributeTab() {
+    this._typeEditor.selectRightAttributeTab()
   }
 }
