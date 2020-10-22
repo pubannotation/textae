@@ -118,11 +118,8 @@ export default class {
   cancelSelect() {
     const pallet = this._getPallet()
     if (pallet) {
-      if (pallet.visibly) {
-        pallet.hide()
-      } else {
-        this._selectionModel.clear()
-      }
+      pallet.hide()
+      this._selectionModel.clear()
     }
   }
 
