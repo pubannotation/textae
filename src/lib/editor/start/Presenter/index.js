@@ -1,5 +1,5 @@
 import EditMode from './EditMode'
-import DisplayInstance from './DisplayInstance'
+import DisplayInstance from './EditMode/DisplayInstance'
 import bindModelChange from './bindModelChange'
 import EventMap from './EventMap'
 
@@ -19,18 +19,17 @@ export default class {
     autocompletionWs,
     mode
   ) {
-    const displayInstance = new DisplayInstance(typeGap)
     const editMode = new EditMode(
       editor,
       annotationData,
-      displayInstance,
       selectionModel,
       spanConfig,
       commander,
       buttonController,
       originalData,
       typeDefinition,
-      autocompletionWs
+      autocompletionWs,
+      typeGap
     )
 
     bindModelChange(editor, editMode, mode)

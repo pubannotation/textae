@@ -7,19 +7,20 @@ import pushSimple from './pushSimple'
 import upSimple from './upSimple'
 import changeByShortcut from './changeByShortcut'
 import TypeEditor from './TypeEditor'
+import DisplayInstance from './DisplayInstance'
 
 export default class {
   constructor(
     editor,
     annotationData,
-    displayInstance,
     selectionModel,
     spanConfig,
     commander,
     buttonController,
     originalData,
     typeDefinition,
-    autocompletionWs
+    autocompletionWs,
+    typeGap
   ) {
     this._typeEditor = new TypeEditor(
       editor,
@@ -32,7 +33,7 @@ export default class {
       typeDefinition,
       autocompletionWs
     )
-    this._displayInstance = displayInstance
+    this._displayInstance = new DisplayInstance(typeGap)
 
     const transition = new Transition(
       editor,
