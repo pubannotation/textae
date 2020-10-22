@@ -1,5 +1,4 @@
 import delegate from 'delegate'
-import bindEditorBodyClickEventTrigger from '../bindEditorBodyClickEventTrigger'
 
 // Manupulate only entities and relations on the Edit Relation mode.
 // For support context menu.
@@ -17,9 +16,14 @@ export default function(editor, mouseEventHandler) {
   )
 
   listeners.push(
-    bindEditorBodyClickEventTrigger(editor, () =>
-      mouseEventHandler.bodyClicked()
-    )
+    delegate(editor[0], '.textae-editor', 'click', (e) => {
+      // The delegate also fires events for child elements of the selector.
+      // Ignores events that occur in child elements.
+      // Otherwise, you cannot select child elements.
+      if (e.target.classList.contains('textae-editor')) {
+        mouseEventHandler.bodyClicked()
+      }
+    })
   )
 
   listeners.push(

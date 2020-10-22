@@ -1,5 +1,4 @@
 import delegate from 'delegate'
-import bindEditorBodyClickEventTrigger from '../bindEditorBodyClickEventTrigger'
 
 // For support context menu.
 // Mouse up event occurs when either left or right button is clicked.
@@ -27,9 +26,14 @@ export default function(editor, mouseEventHandler) {
   // When extending span, the behavior depends on whether span is selected or not;
   // you must not deselect span before editing it.
   listeners.push(
-    bindEditorBodyClickEventTrigger(editor, () =>
-      mouseEventHandler.bodyClicked()
-    )
+    delegate(editor[0], '.textae-editor', 'click', (e) => {
+      // The delegate also fires events for child elements of the selector.
+      // Ignores events that occur in child elements.
+      // Otherwise, you cannot select child elements.
+      if (e.target.classList.contains('textae-editor')) {
+        mouseEventHandler.bodyClicked()
+      }
+    })
   )
 
   listeners.push(
