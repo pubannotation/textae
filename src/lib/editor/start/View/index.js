@@ -51,9 +51,6 @@ export default class {
     bindAnnotaitonPositionEvents(editor, new CursorChanger(editor))
     bindMouseEvents(editor, new HoverRelation(editor, annotationData.entity))
 
-    this._editor = editor
-    this._annotationData = annotationData
-    this._typeGap = typeGap
     this._annotationPosition = annotationPosition
     this._textBox = textBox
   }
