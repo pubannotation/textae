@@ -19,7 +19,7 @@ export default function(editor, mouseEventHandler) {
   listeners.push(bindEditorBodyClickEventTrigger(editor))
 
   listeners.push(
-    delegate(editor[0], '.textae-editor__entity', 'click', (e) =>
+    delegate(editor[0], '.textae-editor__entity', 'click', () =>
       mouseEventHandler.entityClicked()
     )
   )
