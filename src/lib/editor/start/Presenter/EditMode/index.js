@@ -6,10 +6,33 @@ import pushTerm from './pushTerm'
 import pushSimple from './pushSimple'
 import upSimple from './upSimple'
 import changeByShortcut from './changeByShortcut'
+import TypeEditor from './TypeEditor'
 
 export default class {
-  constructor(editor, annotationData, typeEditor, displayInstance) {
-    this._typeEditor = typeEditor
+  constructor(
+    editor,
+    annotationData,
+    displayInstance,
+    selectionModel,
+    spanConfig,
+    commander,
+    buttonController,
+    originalData,
+    typeDefinition,
+    autocompletionWs
+  ) {
+    this._typeEditor = new TypeEditor(
+      editor,
+      annotationData,
+      selectionModel,
+      spanConfig,
+      commander,
+      buttonController,
+      originalData,
+      typeDefinition,
+      autocompletionWs
+    )
+
     const transition = new Transition(editor, this._typeEditor, displayInstance)
     this._stateMachine = bindTransition(transition)
     this._annotationData = annotationData
@@ -19,7 +42,7 @@ export default class {
     editor.eventEmitter.on(
       'textae.editor.jsPlumbConnection.click',
       (jsPlumbConnection, event) =>
-        typeEditor.jsPlumbConnectionClicked(jsPlumbConnection, event)
+        this._typeEditor.jsPlumbConnectionClicked(jsPlumbConnection, event)
     )
   }
 

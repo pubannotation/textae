@@ -1,5 +1,5 @@
-import CreateTypeDefinitionDialog from '../../../../component/CreateTypeDefinitionDialog'
-import EditTypeDefinitionDialog from '../../../../component/EditTypeDefinitionDialog'
+import CreateTypeDefinitionDialog from '../../../../../component/CreateTypeDefinitionDialog'
+import EditTypeDefinitionDialog from '../../../../../component/EditTypeDefinitionDialog'
 
 export default function(pallet, editor, typeEditor, commander, name, handler) {
   editor.eventEmitter

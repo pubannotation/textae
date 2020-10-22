@@ -1,4 +1,3 @@
-import TypeEditor from './TypeEditor'
 import EditMode from './EditMode'
 import DisplayInstance from './DisplayInstance'
 import bindModelChange from './bindModelChange'
@@ -20,9 +19,11 @@ export default class {
     autocompletionWs,
     mode
   ) {
-    const typeEditor = new TypeEditor(
+    const displayInstance = new DisplayInstance(typeGap)
+    const editMode = new EditMode(
       editor,
       annotationData,
+      displayInstance,
       selectionModel,
       spanConfig,
       commander,
@@ -30,14 +31,6 @@ export default class {
       originalData,
       typeDefinition,
       autocompletionWs
-    )
-
-    const displayInstance = new DisplayInstance(typeGap)
-    const editMode = new EditMode(
-      editor,
-      annotationData,
-      typeEditor,
-      displayInstance
     )
 
     bindModelChange(editor, editMode, mode)

@@ -1,7 +1,7 @@
 import ElementEditor from './ElementEditor'
 import initPallet from './initPallet'
-import EntityPallet from '../../../../component/EntityPallet'
-import RelationPallet from '../../../../component/RelationPallet'
+import EntityPallet from '../../../../../component/EntityPallet'
+import RelationPallet from '../../../../../component/RelationPallet'
 import bindAttributeTabEvents from './bindAttributeTabEvents'
 
 export default class {

@@ -1,5 +1,5 @@
 import DefaultHandler from '../DefaultHandler'
-import EditRelationTypeDialog from '../../../../../../component/EditRelationTypeDialog'
+import EditRelationTypeDialog from '../../../../../../../component/EditRelationTypeDialog'
 
 export default class extends DefaultHandler {
   constructor(typeDefinition, commander, annotationData, selectionModel) {

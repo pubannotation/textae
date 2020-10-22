@@ -1,5 +1,5 @@
-import EditEntityTypeDialog from '../../../../../../component/EditEntityTypeDialog'
-import EntityModel from '../../../../../EntityModel'
+import EditEntityTypeDialog from '../../../../../../../component/EditEntityTypeDialog'
+import EntityModel from '../../../../../../EntityModel'
 import DefaultHandler from '../DefaultHandler'
 
 export default class extends DefaultHandler {

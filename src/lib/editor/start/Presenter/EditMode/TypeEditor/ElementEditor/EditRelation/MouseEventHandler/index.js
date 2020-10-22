@@ -1,5 +1,5 @@
 import clickEntity from './clickEntity'
-import getEntityDomFromChild from '../../../../../getEntityDomFromChild'
+import getEntityDomFromChild from '../../../../../../getEntityDomFromChild'
 
 export default class MouseEventHandler {
   constructor(editor, selectionModel, commander, typeDefinition, pallet) {

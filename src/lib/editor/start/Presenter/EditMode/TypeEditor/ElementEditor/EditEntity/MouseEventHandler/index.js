@@ -2,7 +2,7 @@ import clearTextSelection from '../../../clearTextSelection'
 import selectSpan from './selectSpan'
 import SelectionWrapper from './SelectionWrapper'
 import SpanEditor from './SpanEditor'
-import getEntityDomFromChild from '../../../../../getEntityDomFromChild'
+import getEntityDomFromChild from '../../../../../../getEntityDomFromChild'
 
 export default class {
   constructor(
