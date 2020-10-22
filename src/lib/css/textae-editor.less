@@ -126,6 +126,7 @@
     line-height: normal;
     opacity: 0.6;
     white-space: nowrap;
+    z-index: 1;
 
     &:hover,
     &.hover {
@@ -179,7 +180,8 @@
       padding: 0;
     }
 
-    .textae-editor__relation {
+    .textae-editor__relation,
+    .textae-editor__relation__label {
       z-index: 1;
     }
 
@@ -211,6 +213,18 @@
       color: black;
       pointer-events: none;
       text-decoration: none;
+    }
+
+    // Allow selection of text after relation labels in entity edit mode.
+    &.textae-editor--instance-mode {
+      .textae-editor {
+        &__relation__label {
+          z-index: 0;
+        }
+        &__relation__label.hover {
+          z-index: 6;
+        }
+      }
     }
   }
 
