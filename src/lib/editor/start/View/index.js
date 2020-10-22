@@ -26,9 +26,6 @@ export default class {
     // Remove CRLF so that it is not included in the height calculation.
     editor[0].innerHTML = html.replace(/[\n\r]+/g, '')
 
-    bindClipBoardEvents(editor)
-    bindSelectionModelEvents(editor)
-
     const gridHeight = new GridHeight(annotationData, typeGap)
     this._textBox = new TextBox(editor, annotationData, gridHeight)
 
@@ -49,6 +46,8 @@ export default class {
     )
 
     bindTypeGapEvents(typeGap, editor, this._textBox, this._annotationPosition)
+    bindClipBoardEvents(editor)
+    bindSelectionModelEvents(editor)
     bindAnnotationDataEvents(editor, this._annotationPosition, this._textBox)
     bindAnnotaitonPositionEvents(editor, new CursorChanger(editor))
     bindMouseEvents(editor, new HoverRelation(editor, annotationData.entity))
