@@ -8,7 +8,8 @@ export default class {
     annotationData,
     selectionModel,
     commander,
-    typeDefinition
+    typeDefinition,
+    relationPallet
   ) {
     this._editor = editor
     this._relationHandler = new EditRelationHandler(
@@ -21,7 +22,8 @@ export default class {
       editor,
       selectionModel,
       commander,
-      typeDefinition
+      typeDefinition,
+      relationPallet
     )
   }
 

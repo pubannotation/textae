@@ -14,7 +14,8 @@ export default class {
     commander,
     buttonController,
     typeDefinition,
-    entityPallet
+    entityPallet,
+    relationPallet
   ) {
     this._handler = 'default'
 
@@ -36,7 +37,8 @@ export default class {
       typeDefinition,
       spanConfig,
       editAttribute,
-      deleteAttribute
+      deleteAttribute,
+      entityPallet
     )
 
     this._editRelation = new EditRelation(
@@ -44,7 +46,8 @@ export default class {
       annotationData,
       selectionModel,
       commander,
-      typeDefinition
+      typeDefinition,
+      relationPallet
     )
 
     this._editor = editor

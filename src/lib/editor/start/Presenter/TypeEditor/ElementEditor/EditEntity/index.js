@@ -12,7 +12,8 @@ export default class {
     typeDefinition,
     spanConfig,
     editAttribute,
-    deleteAttribute
+    deleteAttribute,
+    entityPallet
   ) {
     this._editor = editor
     this._entityHandler = new EditEntityHandler(
@@ -30,7 +31,8 @@ export default class {
       selectionModel,
       commander,
       buttonController,
-      spanConfig
+      spanConfig,
+      entityPallet
     )
   }
 

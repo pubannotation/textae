@@ -28,6 +28,11 @@ export default class {
       typeDefinition,
       selectionModel.entity
     )
+    this._relationPallet = new RelationPallet(
+      editor,
+      originalData,
+      typeDefinition
+    )
 
     this._elementEditor = new ElementEditor(
       editor,
@@ -37,7 +42,8 @@ export default class {
       commander,
       buttonController,
       typeDefinition,
-      this._entityPallet
+      this._entityPallet,
+      this._relationPallet
     )
 
     bindAttributeTabEvents(
@@ -56,11 +62,6 @@ export default class {
       this._elementEditor.entityHandler
     )
 
-    this._relationPallet = new RelationPallet(
-      editor,
-      originalData,
-      typeDefinition
-    )
     initPallet(
       this._relationPallet,
       editor,

@@ -11,7 +11,8 @@ export default class {
     selectionModel,
     commander,
     buttonController,
-    spanConfig
+    spanConfig,
+    pallet
   ) {
     this._annotationData = annotationData
     this._selectionModel = selectionModel
@@ -24,11 +25,13 @@ export default class {
       spanConfig
     )
     this._editor = editor
+    this._pallet = pallet
   }
 
   textBoxClicked(event) {
-    const selection = window.getSelection()
+    this._pallet.hide()
 
+    const selection = window.getSelection()
     if (selection.type === 'Range') {
       this._spanEditor.editFor(new SelectionWrapper())
       event.stopPropagation()

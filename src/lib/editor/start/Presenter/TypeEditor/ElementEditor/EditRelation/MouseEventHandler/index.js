@@ -2,14 +2,16 @@ import clickEntity from './clickEntity'
 import getEntityDomFromChild from '../../../../../getEntityDomFromChild'
 
 export default class MouseEventHandler {
-  constructor(editor, selectionModel, commander, typeDefinition) {
+  constructor(editor, selectionModel, commander, typeDefinition, pallet) {
     this._editor = editor
     this._selectionModel = selectionModel
     this._commander = commander
     this._typeDefinition = typeDefinition
+    this._pallet = pallet
   }
 
   textBoxClicked() {
+    this._pallet.hide()
     this._selectionModel.clear()
   }
 
