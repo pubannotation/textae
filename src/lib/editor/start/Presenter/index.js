@@ -40,9 +40,9 @@ export default class {
       displayInstance
     )
 
-    editor.eventEmitter
-      .on('textae.editMode.transition', () => typeEditor.cancelSelect())
-      .on('textae.editor.body.click', () => typeEditor.cancelSelect())
+    editor.eventEmitter.on('textae.editMode.transition', () =>
+      typeEditor.cancelSelect()
+    )
 
     bindModelChange(editor, editMode, mode)
 

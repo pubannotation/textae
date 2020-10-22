@@ -28,6 +28,11 @@ export default class {
     this._pallet = pallet
   }
 
+  bodyClicked() {
+    this._pallet.hide()
+    this._selectionModel.clear()
+  }
+
   textBoxClicked(event) {
     this._pallet.hide()
 

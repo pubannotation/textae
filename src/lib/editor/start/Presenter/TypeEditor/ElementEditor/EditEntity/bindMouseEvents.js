@@ -25,8 +25,12 @@ export default function(editor, mouseEventHandler) {
   )
 
   // When extending span, the behavior depends on whether span is selected or not;
-  // you must not deselect span by firing the 'textae.editor.body.click' event before editing it.
-  listeners.push(bindEditorBodyClickEventTrigger(editor))
+  // you must not deselect span before editing it.
+  listeners.push(
+    bindEditorBodyClickEventTrigger(editor, () =>
+      mouseEventHandler.bodyClicked()
+    )
+  )
 
   listeners.push(
     delegate(editor[0], '.textae-editor__entity', 'click', () =>

@@ -10,6 +10,11 @@ export default class MouseEventHandler {
     this._pallet = pallet
   }
 
+  bodyClicked() {
+    this._pallet.hide()
+    this._selectionModel.clear()
+  }
+
   textBoxClicked() {
     this._pallet.hide()
     this._selectionModel.clear()
