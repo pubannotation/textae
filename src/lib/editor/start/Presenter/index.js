@@ -40,10 +40,6 @@ export default class {
       displayInstance
     )
 
-    editor.eventEmitter.on('textae.editMode.transition', () =>
-      typeEditor.cancelSelect()
-    )
-
     bindModelChange(editor, editMode, mode)
 
     this.event = new EventMap(
