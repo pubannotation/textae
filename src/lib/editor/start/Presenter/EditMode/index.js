@@ -32,8 +32,13 @@ export default class {
       typeDefinition,
       autocompletionWs
     )
+    this._displayInstance = displayInstance
 
-    const transition = new Transition(editor, this._typeEditor, displayInstance)
+    const transition = new Transition(
+      editor,
+      this._typeEditor,
+      this._displayInstance
+    )
     this._stateMachine = bindTransition(transition)
     this._annotationData = annotationData
 
@@ -146,5 +151,9 @@ export default class {
 
   selectRightAttributeTab() {
     this._typeEditor.selectRightAttributeTab()
+  }
+
+  get displayInstance() {
+    return this._displayInstance
   }
 }

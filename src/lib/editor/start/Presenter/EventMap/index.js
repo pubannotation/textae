@@ -10,7 +10,6 @@ export default class {
     commander,
     selectionModel,
     typeDefinition,
-    displayInstance,
     annotationData,
     buttonController,
     spanConfig,
@@ -22,7 +21,6 @@ export default class {
     this._commander = commander
     this._selectionModel = selectionModel
     this._typeDefinition = typeDefinition
-    this._displayInstance = displayInstance
     this._annotationData = annotationData
     this._buttonController = buttonController
     this._spanConfig = spanConfig
@@ -89,7 +87,7 @@ export default class {
     new SettingDialog(
       this._editor,
       this._typeDefinition,
-      this._displayInstance,
+      this._editMode.displayInstance,
       this._view
     ).open()
   }

@@ -40,7 +40,6 @@ export default class {
       commander,
       selectionModel,
       typeDefinition,
-      displayInstance,
       annotationData,
       buttonController,
       spanConfig,
