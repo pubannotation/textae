@@ -28,8 +28,8 @@ export default class {
   }
 
   _resetLineHeight() {
-    const editor = this._editor[0]
-    resetLineHeight(editor)
+    resetLineHeight(this._editor[0])
+    updateTextBoxHeight(this._editor[0])
   }
 
   forceUpdate() {
