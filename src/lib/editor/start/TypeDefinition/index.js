@@ -2,7 +2,7 @@ import Observable from 'observ'
 import EntityContainer from './EntityContainer'
 import Container from './Container'
 
-export default class {
+export default class TypeDefinition {
   constructor(editor, annotationData) {
     this._editor = editor
     this._lockStateObservable = new Observable(false)

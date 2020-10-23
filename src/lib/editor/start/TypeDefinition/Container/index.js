@@ -3,7 +3,7 @@ import getDefaultTypeAutomatically from './getDefaultTypeAutomatically'
 import formatForPallet from './formatForPallet'
 import DefinedTypeContainer from './DefinedTypeContainer'
 
-export default class {
+export default class Container {
   constructor(
     editor,
     name,

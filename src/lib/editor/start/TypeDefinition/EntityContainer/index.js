@@ -2,7 +2,7 @@ import arrayMove from 'array-move'
 import Container from '../Container'
 import createAttributeDefinition from './createAttributeDefinition'
 
-export default class extends Container {
+export default class EntityContainer extends Container {
   constructor(
     editor,
     annotationDataEntity,
