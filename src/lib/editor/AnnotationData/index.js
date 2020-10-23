@@ -8,6 +8,7 @@ import clearAnnotationData from './clearAnnotationData'
 import toDenotations from './toDenotations'
 import toAttributes from './toAttributes'
 import toRelations from './toRelations'
+import toBlocks from './toBlocks'
 import getReplicationRanges from './getReplicationRanges'
 
 export default class AnnotationData {
@@ -44,7 +45,8 @@ export default class AnnotationData {
     return {
       denotations: toDenotations(this),
       attributes: toAttributes(this),
-      relations: toRelations(this)
+      relations: toRelations(this),
+      blocks: toBlocks(this)
     }
   }
 
