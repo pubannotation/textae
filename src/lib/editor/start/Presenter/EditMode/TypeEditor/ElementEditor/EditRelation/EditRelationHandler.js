@@ -1,5 +1,5 @@
 import DefaultHandler from '../DefaultHandler'
-import EditRelationTypeDialog from '../../../../../../../component/EditRelationTypeDialog'
+import EditRelationDialog from '../../../../../../../component/EditRelationDialog'
 
 export default class extends DefaultHandler {
   constructor(typeDefinition, commander, annotationData, selectionModel) {
@@ -16,7 +16,7 @@ export default class extends DefaultHandler {
   changeLabelHandler(autocompletionWs) {
     if (this._selectionModel.relation.some) {
       const type = this._getSelectedType()
-      const dialog = new EditRelationTypeDialog(
+      const dialog = new EditRelationDialog(
         type,
         this.typeContainer,
         autocompletionWs
