@@ -13,7 +13,7 @@ export default class TypeDefinition {
     )
     this._entityContainer = new EntityContainer(
       editor,
-      () => annotationData.entity.all,
+      () => annotationData.entity.denotations,
       this._attributeContainer,
       this._lockStateObservable
     )
@@ -21,6 +21,12 @@ export default class TypeDefinition {
       editor,
       'relation',
       () => annotationData.relation.all,
+      this._lockStateObservable
+    )
+    this._blockContainer = new Container(
+      editor,
+      'block',
+      () => annotationData.entity.blocks,
       this._lockStateObservable
     )
 
@@ -31,6 +37,10 @@ export default class TypeDefinition {
 
   get entity() {
     return this._entityContainer
+  }
+
+  get block() {
+    return this._blockContainer
   }
 
   get relation() {
@@ -56,6 +66,10 @@ export default class TypeDefinition {
       ret['attribute types'] = this._attributeContainer.config
     }
 
+    if (this._blockContainer.config.length) {
+      ret['block types'] = this._blockContainer.config
+    }
+
     return ret
   }
 
@@ -75,11 +89,13 @@ export default class TypeDefinition {
       this._entityContainer.definedTypes = config['entity types'] || []
       this._relationContainer.definedTypes = config['relation types'] || []
       this._attributeContainer.definedTypes = config['attribute types'] || []
+      this._blockContainer.definedTypes = config['block types'] || []
       this.autocompletionWs = config['autocompletion_ws']
     } else {
       this._entityContainer.definedTypes = []
       this._relationContainer.definedTypes = []
       this._attributeContainer.definedTypes = []
+      this._blockContainer.definedTypes = []
       this.autocompletionWs = ''
     }
 
