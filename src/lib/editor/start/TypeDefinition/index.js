@@ -18,6 +18,10 @@ export default class {
       () => annotationData.relation.all,
       this._lockStateObservable
     )
+
+    this._lockStateObservable(() =>
+      this._editor.eventEmitter.emit(`textae.typeDefinition.type.lock`)
+    )
   }
 
   isLock() {

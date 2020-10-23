@@ -17,12 +17,6 @@ export default class {
     this._getAllInstanceFunc = getAllInstanceFunc
     this._defaultColor = defaultColor
     this._lockStateObservable = lockStateObservable
-
-    lockStateObservable(() =>
-      this._editor.eventEmitter.emit(
-        `textae.typeDefinition.${this._name}.type.lock`
-      )
-    )
   }
 
   set definedTypes(value) {
