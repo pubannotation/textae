@@ -1,4 +1,4 @@
-import EditEntityTypeDialog from '../../../../../../../component/EditEntityTypeDialog'
+import EditEntityDialog from '../../../../../../../component/EditEntityDialog'
 import EntityModel from '../../../../../../EntityModel'
 import DefaultHandler from '../DefaultHandler'
 
@@ -46,7 +46,7 @@ export default class extends DefaultHandler {
         }
       }
 
-      const dialog = new EditEntityTypeDialog(
+      const dialog = new EditEntityDialog(
         this._editor,
         this.typeContainer,
         autocompletionWs,
