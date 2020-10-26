@@ -35,6 +35,11 @@ export default class {
     return getBigBrotherSpan(this, this._spanContainer.topLevel)
   }
 
+  // Return the SpanContainer.
+  get root() {
+    return this._spanContainer
+  }
+
   get parent() {
     return this._parent
   }

@@ -18,7 +18,7 @@ export default class TextBox {
   // so I'll round it to 2 decimal places,
   // which is below the rounding accuracy of Google Chrome and Firefox.
   getGridRectOf(span) {
-    const { width, top, left } = getGridRect(span.element)
+    const { width, top, left } = getGridRect(span)
 
     return {
       width: round(width),
