@@ -1,9 +1,7 @@
-import getTextBox from './getTextBox'
 import pixelToInt from './pixelToInt'
 
 // Reduce the space under the .textae-editor__body__text-box same as padding-top.
-export default function(editor) {
-  const textBox = getTextBox(editor)
+export default function(textBox) {
   const style = window.getComputedStyle(textBox)
 
   // The height calculated by auto is exclude the value of the padding top.

@@ -1,8 +1,6 @@
-import getTextBox from './getTextBox'
 import pixelToInt from './pixelToInt'
 
-export default function(editor) {
-  const textBox = getTextBox(editor)
+export default function(textBox) {
   const style = window.getComputedStyle(textBox)
   return pixelToInt(style.lineHeight)
 }

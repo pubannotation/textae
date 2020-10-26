@@ -2,26 +2,25 @@ import getLineHeight from './getLineHeight'
 import setLineHeight from './setLineHeight'
 import updateTextBoxHeight from './updateTextBoxHeight'
 import resetLineHeight from './resetLineHeight'
-import getTextBox from './getTextBox'
 
 export default class {
-  constructor(editor, annotationData, gridHeight) {
-    this._editor = editor
+  constructor(el, annotationData, gridHeight) {
+    this._el = el
     this._annotationData = annotationData
     this._gridHeight = gridHeight
   }
 
   get lineHeight() {
-    return getLineHeight(this._editor[0])
+    return getLineHeight(this._el)
   }
 
   set lineHeight(val) {
-    setLineHeight(this._editor[0], val)
-    updateTextBoxHeight(this._editor[0])
+    setLineHeight(this._el, val)
+    updateTextBoxHeight(this._el)
   }
 
   render(text) {
-    getTextBox(this._editor[0]).innerHTML = text
+    this._el.innerHTML = text
   }
 
   updateLineHeight() {
@@ -33,11 +32,11 @@ export default class {
   }
 
   _resetLineHeight() {
-    resetLineHeight(this._editor[0])
-    updateTextBoxHeight(this._editor[0])
+    resetLineHeight(this._el)
+    updateTextBoxHeight(this._el)
   }
 
   forceUpdate() {
-    updateTextBoxHeight(this._editor[0])
+    updateTextBoxHeight(this._el)
   }
 }

@@ -27,7 +27,11 @@ export default class {
     editor[0].innerHTML = html.replace(/[\n\r]+/g, '')
 
     const gridHeight = new GridHeight(annotationData, typeGap)
-    this._textBox = new TextBox(editor, annotationData, gridHeight)
+    this._textBox = new TextBox(
+      editor[0].querySelector('.textae-editor__body__text-box'),
+      annotationData,
+      gridHeight
+    )
 
     const renderer = new Renderer(
       editor,

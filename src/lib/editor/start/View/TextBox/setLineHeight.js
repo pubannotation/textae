@@ -1,7 +1,4 @@
-import getTextBox from './getTextBox'
-
-export default function(editor, heightValue) {
-  const textBox = getTextBox(editor)
+export default function(textBox, heightValue) {
   textBox.style.lineHeight = `${heightValue}px`
   textBox.style.paddingTop = `${heightValue / 2}px`
 }
