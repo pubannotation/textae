@@ -10,7 +10,7 @@ import toAttribute from './toAttribute'
 import toRelation from './toRelation'
 import getReplicationRanges from './getReplicationRanges'
 
-export default class {
+export default class AnnotationData {
   constructor(editor) {
     this.sourceDoc = ''
     this.namespace = new ModelContainer(editor.eventEmitter, 'namespace')

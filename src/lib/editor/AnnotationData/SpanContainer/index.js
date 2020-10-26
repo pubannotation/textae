@@ -6,7 +6,7 @@ import StyleSpanModel from './StyleSpanModel'
 import isBoundaryCrossingWithOtherSpans from '../isBoundaryCrossingWithOtherSpans'
 import ModelContainer from '../ModelContainer'
 
-export default class extends ModelContainer {
+export default class SpanContainer extends ModelContainer {
   constructor(editor, emitter, entityContainer) {
     super(emitter, 'span')
 

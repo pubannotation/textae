@@ -1,7 +1,7 @@
 import issueId from './issueId'
 import ModelContainer from '../ModelContainer'
 
-export default class extends ModelContainer {
+export default class IdIssueContainer extends ModelContainer {
   constructor(emitter, name, prefix) {
     super(emitter, name)
 

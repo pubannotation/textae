@@ -2,7 +2,7 @@ import EntityModel from '../EntityModel'
 import { makeSpanDomId } from '../idFactory'
 import IdIssueContainer from './IdIssueContainer'
 
-export default class extends IdIssueContainer {
+export default class EntityContainer extends IdIssueContainer {
   constructor(editor, emitter, parentContainer) {
     super(emitter, 'entity', 'T')
 
