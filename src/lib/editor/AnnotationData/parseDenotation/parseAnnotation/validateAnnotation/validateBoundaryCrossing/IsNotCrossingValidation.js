@@ -11,7 +11,8 @@ export default class extends Validation {
 
     return !isBoundaryCrossingWithOtherSpans(
       prevNodes.map((d) => d.span),
-      currentNode.span
+      currentNode.span.begin,
+      currentNode.span.end
     )
   }
 }
