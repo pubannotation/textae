@@ -25,9 +25,7 @@ export default function(
     return new CreateTypeDefinitionCommand(
       editor,
       typeDefinition,
-      Object.assign(Object.fromEntries(changedProperties), {
-        id
-      })
+      Object.fromEntries(changedProperties)
     )
   }
 }
