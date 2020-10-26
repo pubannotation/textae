@@ -11,7 +11,11 @@ export default function(span) {
     throw new Error(`The textNode on to create a span is not found. ${span.id}`)
   }
 
-  if (!validateRenderingPosition(textNode, start, end)) {
+  if (start < 0) {
+    throw new Error(`start must be positive, but ${start} for ${span.id}.`)
+  }
+
+  if (textNode.length < end) {
     throw new Error(
       `oh my god! I cannot render ${span.id}. "${textNode.textContent.slice(
         start,
