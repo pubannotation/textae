@@ -5,9 +5,9 @@ import RelationContainer from './RelationContainer'
 import EntityContainer from './EntityContainer'
 import parseDenotation from './parseDenotation'
 import clearAnnotationData from './clearAnnotationData'
-import toDenotation from './toDenotation'
-import toAttribute from './toAttribute'
-import toRelation from './toRelation'
+import toDenotations from './toDenotations'
+import toAttributes from './toAttributes'
+import toRelations from './toRelations'
 import getReplicationRanges from './getReplicationRanges'
 
 export default class AnnotationData {
@@ -42,9 +42,9 @@ export default class AnnotationData {
 
   toJson() {
     return {
-      denotations: toDenotation(this),
-      attributes: toAttribute(this),
-      relations: toRelation(this)
+      denotations: toDenotations(this),
+      attributes: toAttributes(this),
+      relations: toRelations(this)
     }
   }
 
