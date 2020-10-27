@@ -46,5 +46,12 @@ export default function(
     'typesetting'
   )
 
+  importSource(
+    [span, entity],
+    (src) => translateSpan(prefix, src),
+    result.accept.block,
+    'block'
+  )
+
   return result.reject
 }

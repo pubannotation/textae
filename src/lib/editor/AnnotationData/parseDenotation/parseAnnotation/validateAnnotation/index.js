@@ -29,7 +29,8 @@ export default function(text, rowData) {
       denotation: resultCrossing.acceptedDenotations,
       attribute: resultAttribute.accept,
       relation: resultRelation.accept,
-      typeSetting: resultCrossing.acceptedTypesettings
+      typeSetting: resultCrossing.acceptedTypesettings,
+      block: rowData.blocks || []
     },
     reject: {
       denotationHasLength: resultDenotation.reject.hasLength,
