@@ -74,7 +74,7 @@ export default class SpanContainer extends ModelContainer {
     }
   }
 
-  rangeObjectSpan(firstId, secondId) {
+  rangeDenotationSpan(firstId, secondId) {
     let first = super.get(firstId)
     let second = super.get(secondId)
 
