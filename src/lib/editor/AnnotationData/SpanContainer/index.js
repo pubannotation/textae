@@ -66,6 +66,14 @@ export default class SpanContainer extends ModelContainer {
     }
   }
 
+  getStyle(spanId) {
+    if (this._typeSets.has(spanId)) {
+      return this._typeSets.get(spanId).styles
+    } else {
+      return new Set()
+    }
+  }
+
   rangeObjectSpan(firstId, secondId) {
     let first = super.get(firstId)
     let second = super.get(secondId)
