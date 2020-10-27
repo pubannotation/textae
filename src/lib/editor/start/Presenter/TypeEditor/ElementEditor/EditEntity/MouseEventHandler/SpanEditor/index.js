@@ -134,6 +134,9 @@ export default class SpanEditor {
 
       return
     }
+
+    // When you mouse down in one span and mouse up in another span
+    clearTextSelection()
   }
 
   _anchorNodeInSpanFocusNodeInStyleSpan(selectionWrapper) {
