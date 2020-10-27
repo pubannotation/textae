@@ -1,6 +1,6 @@
 import changeCursor from './changeCursor'
 
-export default class {
+export default class CursorChanger {
   constructor(editor) {
     this._editor = editor
   }

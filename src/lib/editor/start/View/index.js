@@ -11,7 +11,7 @@ import bindMouseEvents from './bindMouseEvents'
 import TextBox from './TextBox'
 import GridHeight from './GridHeight'
 
-export default class {
+export default class View {
   constructor(editor, annotationData, selectionModel, typeGap, typeDefinition) {
     // Place the text box behind the annotation box to allow you
     // to select the text behind the relationship label in entity editing mode.

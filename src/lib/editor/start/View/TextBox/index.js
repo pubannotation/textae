@@ -3,7 +3,7 @@ import setLineHeight from './setLineHeight'
 import updateTextBoxHeight from './updateTextBoxHeight'
 import resetLineHeight from './resetLineHeight'
 
-export default class {
+export default class TextBox {
   constructor(el, annotationData) {
     this._el = el
     this._annotationData = annotationData

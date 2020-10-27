@@ -1,4 +1,4 @@
-export default class {
+export default class HoverRelation {
   constructor(editor, entityContainer) {
     this._editor = editor
     this._entityContainer = entityContainer

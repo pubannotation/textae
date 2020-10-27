@@ -1,6 +1,6 @@
 import GridLayout from './GridLayout'
 
-export default class {
+export default class AnnotationPosition {
   constructor(editor, annotationData, renderer, gridHeight) {
     this._editor = editor
     this._gridLayout = new GridLayout(annotationData, gridHeight)

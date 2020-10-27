@@ -4,7 +4,7 @@ import bindTypeDefinitionEvents from './bindTypeDefinitionEvents'
 import bindAnnotationDataEvents from './bindAnnotationDataEvents'
 import RelationRenderer from './RelationRenderer'
 
-export default class {
+export default class Renderer {
   constructor(
     editor,
     annotationData,
