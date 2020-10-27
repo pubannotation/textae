@@ -1,14 +1,14 @@
 import isMoved from './isMoved'
 import updateGridPositon from './updateGridPositon'
 
-export default function(annotationData, gridHeight, span) {
+export default function(annotationData, textBox, gridHeight, span) {
   // The span may be remeved because this functon is call asynchronously.
   if (!annotationData.span.get(span.id)) {
     return
   }
 
   const gridElement = span.gridElement
-  const { top, left } = gridHeight.getGridRectOf(span)
+  const { top, left } = gridHeight.getGridRectOf(textBox, span)
 
   if (isMoved(gridElement, top, left)) {
     updateGridPositon(gridElement, top, left)

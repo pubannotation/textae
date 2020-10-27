@@ -9,6 +9,10 @@ export default class TextBox {
     this._annotationData = annotationData
   }
 
+  get boundingClientRect() {
+    return this._el.getBoundingClientRect()
+  }
+
   get lineHeight() {
     return getLineHeight(this._el)
   }

@@ -44,6 +44,7 @@ export default class View {
     this._annotationPosition = new AnnotationPosition(
       editor,
       annotationData,
+      this._textBox,
       this._gridHeight,
       renderer
     )

@@ -14,7 +14,7 @@ export default class Renderer {
     textBox,
     gridHeight
   ) {
-    const gridRenderer = new GridRenderer(editor, gridHeight)
+    const gridRenderer = new GridRenderer(editor, textBox, gridHeight)
     const entityRenderer = new EntityRenderer(
       editor,
       annotationData,
