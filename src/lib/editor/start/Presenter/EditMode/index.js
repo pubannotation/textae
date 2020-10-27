@@ -52,12 +52,6 @@ export default class {
     )
   }
 
-  get isSimple() {
-    return (
-      this._stateMachine.currentState === MODE.EDIT_DENOTATION_WITHOUT_RELATION
-    )
-  }
-
   get isEditEntity() {
     return (
       this._stateMachine.currentState === MODE.EDIT_DENOTATION_WITH_RELATION
