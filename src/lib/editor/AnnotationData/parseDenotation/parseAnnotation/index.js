@@ -1,6 +1,6 @@
 import validateAnnotation from './validateAnnotation'
 import importSource from '../importSource'
-import translateDenotation from './translateDenotation'
+import translateSpan from './translateSpan'
 import translateAttribute from './translateAttribute'
 import translateRelation from './translateRelation'
 import convertBeginAndEndToInteger from './convertBeginAndEndToInteger'
@@ -18,7 +18,7 @@ export default function(
 
   importSource(
     [span, entity],
-    (src) => translateDenotation(prefix, src),
+    (src) => translateSpan(prefix, src),
     result.accept.denotation,
     'denotation'
   )
