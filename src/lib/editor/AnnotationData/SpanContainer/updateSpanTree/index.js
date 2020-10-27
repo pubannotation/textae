@@ -2,7 +2,6 @@ import getParent from './getParent'
 import spanComparator from '../spanComparator'
 
 // the spanTree has parent-child structure.
-// Register a typesetting in the span tree to put it in the span rendering flow.
 export default function(spanContainer, spans) {
   // Sort spans by the position.
   const sortedSpans = spans.sort(spanComparator)

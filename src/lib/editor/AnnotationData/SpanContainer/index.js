@@ -162,6 +162,7 @@ export default class SpanContainer extends ModelContainer {
   }
 
   _updateSpanTree() {
+    // Register a typesetting in the span tree to put it in the span rendering flow.
     updateSpanTree(this, this.all)
   }
 
