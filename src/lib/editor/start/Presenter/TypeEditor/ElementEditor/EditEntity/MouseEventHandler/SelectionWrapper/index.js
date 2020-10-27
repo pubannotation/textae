@@ -47,7 +47,7 @@ export default class {
     return this.parentOfAnchorNode.closest('.ui-selected')
   }
 
-  get isForcusOneDownUnderAnchor() {
+  get isFocusOneDownUnderAnchor() {
     return this.parentOfAnchorNode === this.parentOfFocusNode.parentElement
   }
 

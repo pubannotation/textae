@@ -232,7 +232,7 @@ export default class SpanEditor {
       // 2. Begin Drug from out of an outside span to the selected span.
       // Shrink the selected span.
       this._shrinkSelectedSpan(selectionWrapper)
-    } else if (selectionWrapper.isForcusOneDownUnderAnchor) {
+    } else if (selectionWrapper.isFocusOneDownUnderAnchor) {
       // To shrink the span , belows are needed:
       // 1. The anchorNode out of the span and in the parent of the span.
       // 2. The foucusNode is in the span.
