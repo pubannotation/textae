@@ -190,7 +190,6 @@ export default class SpanEditor {
   }
 
   _create(selectionWrapper) {
-    console.log('_create')
     if (
       hasCharacters(this._annotationData, this._spanConfig, selectionWrapper)
     ) {
