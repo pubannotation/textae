@@ -26,12 +26,11 @@ export default class {
     // Remove CRLF so that it is not included in the height calculation.
     editor[0].innerHTML = html.replace(/[\n\r]+/g, '')
 
-    const gridHeight = new GridHeight(annotationData, typeGap)
     this._textBox = new TextBox(
       editor[0].querySelector('.textae-editor__body__text-box'),
-      annotationData,
-      gridHeight
+      annotationData
     )
+    this._gridHeight = new GridHeight(annotationData, typeGap)
 
     const renderer = new Renderer(
       editor,
@@ -40,19 +39,30 @@ export default class {
       typeDefinition,
       typeGap,
       this._textBox,
-      gridHeight
+      this._gridHeight
     )
     this._annotationPosition = new AnnotationPosition(
       editor,
       annotationData,
       renderer,
-      gridHeight
+      this._gridHeight
     )
 
-    bindTypeGapEvents(typeGap, editor, this._textBox, this._annotationPosition)
+    bindTypeGapEvents(
+      typeGap,
+      editor,
+      this._textBox,
+      this._annotationPosition,
+      this._gridHeight
+    )
     bindClipBoardEvents(editor)
     bindSelectionModelEvents(editor)
-    bindAnnotationDataEvents(editor, this._annotationPosition, this._textBox)
+    bindAnnotationDataEvents(
+      editor,
+      this._annotationPosition,
+      this._textBox,
+      this._gridHeight
+    )
     bindAnnotaitonPositionEvents(editor, new CursorChanger(editor))
     bindMouseEvents(editor, new HoverRelation(editor, annotationData.entity))
   }
@@ -63,7 +73,7 @@ export default class {
   }
 
   updateLineHeight() {
-    this._textBox.updateLineHeight()
+    this._textBox.updateLineHeight(this._gridHeight)
     this._annotationPosition.update()
   }
 

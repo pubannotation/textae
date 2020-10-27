@@ -1,10 +1,10 @@
 import debounce from 'debounce'
 import LineHeightAuto from './LineHeightAuto'
 
-export default function(editor, annotationPosition, textBox) {
+export default function(editor, annotationPosition, textBox, gridHeight) {
   const lineHeightAuto = new LineHeightAuto(editor, textBox)
   const debouncedUpdatePosition = debounce(() => {
-    lineHeightAuto.updateLineHeight()
+    lineHeightAuto.updateLineHeight(gridHeight)
     annotationPosition.update()
   }, 100)
 

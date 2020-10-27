@@ -36,7 +36,8 @@ export default class {
       this._relationRenderer,
       gridRenderer,
       entityRenderer,
-      textBox
+      textBox,
+      gridHeight
     )
 
     bindTypeDefinitionEvents(editor, entityRenderer, this._relationRenderer)

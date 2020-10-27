@@ -4,10 +4,9 @@ import updateTextBoxHeight from './updateTextBoxHeight'
 import resetLineHeight from './resetLineHeight'
 
 export default class {
-  constructor(el, annotationData, gridHeight) {
+  constructor(el, annotationData) {
     this._el = el
     this._annotationData = annotationData
-    this._gridHeight = gridHeight
   }
 
   get lineHeight() {
@@ -23,9 +22,9 @@ export default class {
     this._el.innerHTML = text
   }
 
-  updateLineHeight() {
+  updateLineHeight(gridHeight) {
     if (this._annotationData.span.allObjectSpans.length) {
-      this.lineHeight = this._gridHeight.currentMaxHeight
+      this.lineHeight = gridHeight.currentMaxHeight
     } else {
       this._resetLineHeight()
     }
