@@ -42,7 +42,7 @@ export default function(
         span: convertBeginAndEndToInteger(src.span)
       })
     },
-    result.accept.typeSet,
+    result.accept.typeSetting,
     'style span'
   )
 
