@@ -155,7 +155,7 @@ export default class SpanContainer extends ModelContainer {
 
   _addInstanceFromElement(type, denotation) {
     switch (type) {
-      case 'object span': {
+      case 'denotation span': {
         const objectSpan = new ObjectSpanModel(
           this._editor,
           denotation.span.begin,

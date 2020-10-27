@@ -20,7 +20,7 @@ export default function(
     [span, entity],
     (src) => translateDenotation(prefix, src),
     result.accept.denotation,
-    'object span'
+    'denotation span'
   )
 
   importSource(
