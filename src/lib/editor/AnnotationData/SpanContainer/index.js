@@ -1,7 +1,7 @@
 import updateSpanTree from './updateSpanTree'
 import spanComparator from './spanComparator'
 import { makeDenotationSpanDomId } from '../../idFactory'
-import ObjectSpanModel from './ObjectSpanModel'
+import DenotationSpanModel from './DenotationSpanModel'
 import StyleSpanModel from './StyleSpanModel'
 import isBoundaryCrossingWithOtherSpans from '../isBoundaryCrossingWithOtherSpans'
 import ModelContainer from '../ModelContainer'
@@ -21,15 +21,15 @@ export default class SpanContainer extends ModelContainer {
   add(newValue) {
     console.assert(newValue, 'span is necessary.')
 
-    // When redoing, the newValue is instance of the ObjectSpanModel already.
-    if (newValue instanceof ObjectSpanModel) {
+    // When redoing, the newValue is instance of the DenotationSpanModel already.
+    if (newValue instanceof DenotationSpanModel) {
       return super.add(newValue, () => {
         this._updateSpanTree()
       })
     }
 
     return super.add(
-      new ObjectSpanModel(
+      new DenotationSpanModel(
         this._editor,
         newValue.begin,
         newValue.end,
@@ -111,7 +111,7 @@ export default class SpanContainer extends ModelContainer {
 
     const oldOne = super.remove(id)
     const newOne = super.add(
-      new ObjectSpanModel(
+      new DenotationSpanModel(
         this._editor,
         begin,
         end,
@@ -169,7 +169,7 @@ export default class SpanContainer extends ModelContainer {
   _addInstanceFromElement(type, denotation) {
     switch (type) {
       case 'denotation': {
-        const objectSpan = new ObjectSpanModel(
+        const objectSpan = new DenotationSpanModel(
           this._editor,
           denotation.span.begin,
           denotation.span.end,
