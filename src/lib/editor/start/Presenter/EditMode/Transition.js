@@ -17,7 +17,6 @@ export default class {
       MODE.VIEW_WITHOUT_RELATION
     )
 
-    this._typeEditor.cancelSelect()
     this._typeEditor.noEdit()
     this._viewMode.setTerm()
     setEditableStyle(this._editor, false)
@@ -30,7 +29,6 @@ export default class {
       MODE.VIEW_WITH_RELATION
     )
 
-    this._typeEditor.cancelSelect()
     this._typeEditor.noEdit()
     this._viewMode.setInstance()
     setEditableStyle(this._editor, false)
@@ -43,7 +41,6 @@ export default class {
       MODE.EDIT_DENOTATION_WITHOUT_RELATION
     )
 
-    this._typeEditor.cancelSelect()
     this._typeEditor.editEntity()
     this._viewMode.setTerm()
     setEditableStyle(this._editor, true)
@@ -56,7 +53,6 @@ export default class {
       MODE.EDIT_DENOTATION_WITH_RELATION
     )
 
-    this._typeEditor.cancelSelect()
     this._typeEditor.editEntity()
     this._viewMode.setInstance()
     setEditableStyle(this._editor, true)
@@ -69,7 +65,6 @@ export default class {
       MODE.EDIT_RELATION
     )
 
-    this._typeEditor.cancelSelect()
     this._typeEditor.editRelation()
     this._viewMode.setRelation()
     setEditableStyle(this._editor, true)
