@@ -60,7 +60,7 @@ export default class SpanEditor {
   }
 
   _anchorNodeInTextBoxFocusNodeInSpan(selectionWrapper) {
-    this._shrinkSelectSpanOrOnoUpFocusParentSpan(selectionWrapper)
+    this._shrinkSelectSpanOrOneUpFocusParentSpan(selectionWrapper)
   }
 
   _anchorNodeInTextBoxFocusNodeInStyleSpan(selectionWrapper) {
@@ -111,7 +111,7 @@ export default class SpanEditor {
         `#${selectionWrapper.parentOfAnchorNode.id}`
       )
     ) {
-      this._shrinkSelectSpanOrOnoUpFocusParentSpan(selectionWrapper)
+      this._shrinkSelectSpanOrOneUpFocusParentSpan(selectionWrapper)
       return
     }
 
@@ -254,7 +254,7 @@ export default class SpanEditor {
     clearTextSelection()
   }
 
-  _shrinkSelectSpanOrOnoUpFocusParentSpan(selectionWrapper) {
+  _shrinkSelectSpanOrOneUpFocusParentSpan(selectionWrapper) {
     if (this._isFocusInSelectedSpan(selectionWrapper)) {
       // If a span is selected, it is able to begin drag out of an outer span of the span and shrink the span.
       // The focus node should be at the selected node.
