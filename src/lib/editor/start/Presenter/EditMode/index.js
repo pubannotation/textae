@@ -3,8 +3,6 @@ import bindTransition from './bindTransition'
 import { MODE } from '../../../../MODE'
 import pushView from './pushView'
 import pushTerm from './pushTerm'
-import pushSimple from './pushSimple'
-import upSimple from './upSimple'
 import changeByShortcut from './changeByShortcut'
 import TypeEditor from './TypeEditor'
 import DisplayInstance from './DisplayInstance'
@@ -86,14 +84,6 @@ export default class {
 
   pushRelation() {
     this._stateMachine.setState(MODE.EDIT_RELATION)
-  }
-
-  pushSimple() {
-    pushSimple(this._stateMachine)
-  }
-
-  upSimple() {
-    upSimple(this._stateMachine)
   }
 
   toggleSimple() {
