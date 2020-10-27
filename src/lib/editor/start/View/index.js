@@ -44,8 +44,8 @@ export default class View {
     this._annotationPosition = new AnnotationPosition(
       editor,
       annotationData,
-      renderer,
-      this._gridHeight
+      this._gridHeight,
+      renderer
     )
 
     bindTypeGapEvents(

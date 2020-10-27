@@ -2,14 +2,13 @@ import arrangeGridPosition from './arrangeGridPosition'
 
 // Management position of annotation components.
 export default class {
-  constructor(annotationData, gridHeight) {
+  constructor(annotationData) {
     this._annotationData = annotationData
-    this._gridHeight = gridHeight
   }
 
-  arrangePosition() {
+  arrangePosition(gridHeight) {
     for (const span of this._annotationData.span.allObjectSpans) {
-      arrangeGridPosition(this._annotationData, this._gridHeight, span)
+      arrangeGridPosition(this._annotationData, gridHeight, span)
     }
   }
 }
