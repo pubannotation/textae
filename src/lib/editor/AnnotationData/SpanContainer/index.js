@@ -103,7 +103,7 @@ export default class SpanContainer extends ModelContainer {
     this._typeSettings = new Map()
   }
 
-  moveObjectSpan(id, begin, end) {
+  moveDenotationSpan(id, begin, end) {
     console.assert(
       id !== makeDenotationSpanDomId(this._editor, begin, end),
       `Do not need move span:  ${id} ${begin} ${end}`

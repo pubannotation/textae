@@ -12,7 +12,7 @@ export default class MoveSpanCommand extends AnnotationCommand {
 
   execute() {
     // Update model
-    const { id, begin, end } = this._annotationData.span.moveObjectSpan(
+    const { id, begin, end } = this._annotationData.span.moveDenotationSpan(
       this._spanId,
       this._begin,
       this._end
