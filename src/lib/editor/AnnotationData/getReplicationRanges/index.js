@@ -17,7 +17,7 @@ export default function(
         begin !== beginOfSample
     )
     .filter(({ begin, end }) => isWord(sourceDoc, begin, end, isDelimiterFunc))
-    .filter(({ begin, end }) => !span.hasObjectSpan(begin, end))
+    .filter(({ begin, end }) => !span.hasDenotationSpan(begin, end))
     .filter(
       ({ begin, end }) => !span.isBoundaryCrossingWithOtherSpans(begin, end)
     )

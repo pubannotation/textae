@@ -52,7 +52,7 @@ export default class SpanContainer extends ModelContainer {
     this._updateSpanTree()
   }
 
-  hasObjectSpan(begin, end) {
+  hasDenotationSpan(begin, end) {
     const spanId = makeDenotationSpanDomId(this._editor, begin, end)
     return this._container.has(spanId)
   }
