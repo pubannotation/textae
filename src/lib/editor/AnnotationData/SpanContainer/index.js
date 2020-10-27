@@ -162,7 +162,7 @@ export default class SpanContainer extends ModelContainer {
   }
 
   _updateSpanTree() {
-    updateSpanTree(this.all, this)
+    updateSpanTree(this, this.all)
   }
 
   _addInstanceFromElement(type, denotation) {
