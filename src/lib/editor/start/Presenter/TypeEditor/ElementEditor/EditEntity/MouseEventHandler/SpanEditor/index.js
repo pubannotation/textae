@@ -68,8 +68,8 @@ export default class SpanEditor {
     // Shrink Span when mousedown on the text or a span and mouseup on the styleSpan.
     if (selectionWrapper.ancestorSpanOfFocusNode) {
       const spanId = selectionWrapper.ancestorSpanOfFocusNode.id
-
       this._shrink(selectionWrapper, spanId)
+      return
     }
 
     this._create(selectionWrapper)
@@ -190,6 +190,7 @@ export default class SpanEditor {
   }
 
   _create(selectionWrapper) {
+    console.log('_create')
     if (
       hasCharacters(this._annotationData, this._spanConfig, selectionWrapper)
     ) {
