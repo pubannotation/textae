@@ -276,6 +276,9 @@ export default class SpanEditor {
       // 2. The foucusNode is in the span.
       this._shrink(selectionWrapper, selectionWrapper.parentOfFocusNode.id)
     }
+
+    // When the mouse-up span is the grandchild or below the mouse-down span or text
+    clearTextSelection()
   }
 
   _shrinkSelectedSpan(selectionWrapper) {
