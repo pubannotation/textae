@@ -121,4 +121,12 @@ export default class EntityModel {
   get element() {
     return document.querySelector(`#${makeEntityDomId(this._editor, this.id)}`)
   }
+
+  get isDenotation() {
+    return this._span.isDenotation
+  }
+
+  get isBlock() {
+    return this._span.isBlock
+  }
 }
