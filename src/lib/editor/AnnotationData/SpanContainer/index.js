@@ -24,7 +24,7 @@ export default class SpanContainer extends ModelContainer {
     // When redoing, the newValue is instance of the ObjectSpanModel already.
     if (newValue instanceof ObjectSpanModel) {
       return super.add(newValue, () => {
-        updateSpanTree(this.all, this)
+        this._updateSpanTree()
       })
     }
 
@@ -37,7 +37,7 @@ export default class SpanContainer extends ModelContainer {
         this
       ),
       () => {
-        updateSpanTree(this.all, this)
+        this._updateSpanTree()
       }
     )
   }
@@ -49,7 +49,7 @@ export default class SpanContainer extends ModelContainer {
       this._addInstanceFromElement(type, element)
     }
 
-    updateSpanTree(this.all, this)
+    this._updateSpanTree()
   }
 
   hasObjectSpan(begin, end) {
@@ -119,7 +119,7 @@ export default class SpanContainer extends ModelContainer {
         this
       ),
       (newOne) => {
-        updateSpanTree(this.all, this)
+        this._updateSpanTree()
         // Span.entities depends on the property of the entity.
         // Span DOM element is rendered by 'span.add' event.
         // We need to update the span ID of the entity before 'span.add' event.
@@ -159,6 +159,10 @@ export default class SpanContainer extends ModelContainer {
   // It has a common interface with the span model so that it can be the parent of the span model
   get element() {
     return this._editor[0].querySelector(`.textae-editor__body__text-box`)
+  }
+
+  _updateSpanTree() {
+    updateSpanTree(this.all, this)
   }
 
   _addInstanceFromElement(type, denotation) {
