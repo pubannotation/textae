@@ -118,13 +118,13 @@ export default class {
   }
 
   selectUp() {
-    if (this._editMode.isEditEntity) {
+    if (this._editMode.isEditDenotation) {
       this._vertical.up()
     }
   }
 
   selectDown() {
-    if (this._editMode.isEditEntity) {
+    if (this._editMode.isEditDenotation) {
       this._vertical.down()
     }
   }
