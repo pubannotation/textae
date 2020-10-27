@@ -39,4 +39,8 @@ export default class DenotationSpanModel extends SpanModel {
       width: rectOfSpan.width
     }
   }
+
+  get isDenotation() {
+    return true
+  }
 }
