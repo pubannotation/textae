@@ -16,7 +16,7 @@ export default class ObjectSpanModel extends SpanModel {
     }
   }
 
-  // Merges a span and a typeset so that it can be rendered as a single DOM element.
+  // Merges a span and a typesetting so that it can be rendered as a single DOM element.
   get styles() {
     return this._spanContainer.getStyle(this.id)
   }

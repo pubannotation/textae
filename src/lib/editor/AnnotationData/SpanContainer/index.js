@@ -13,8 +13,8 @@ export default class SpanContainer extends ModelContainer {
     this._editor = editor
     this._entityContainer = entityContainer
 
-    // Keep tyep sets independent of span editing.
-    this._typeSets = new Map()
+    // Keep tyep settings independent of span editing.
+    this._typeSettings = new Map()
   }
 
   // expected span is like { "begin": 19, "end": 49 }
@@ -61,14 +61,14 @@ export default class SpanContainer extends ModelContainer {
     if (this._container.has(spanId)) {
       return super.get(spanId)
     } else {
-      // Returns a typeset only.
-      return this._typeSets.get(spanId)
+      // Returns a typesetting only.
+      return this._typeSettings.get(spanId)
     }
   }
 
   getStyle(spanId) {
-    if (this._typeSets.has(spanId)) {
-      return this._typeSets.get(spanId).styles
+    if (this._typeSettings.has(spanId)) {
+      return this._typeSettings.get(spanId).styles
     } else {
       return new Set()
     }
@@ -100,7 +100,7 @@ export default class SpanContainer extends ModelContainer {
 
   clear() {
     super.clear()
-    this._typeSets = new Map()
+    this._typeSettings = new Map()
   }
 
   moveObjectSpan(id, begin, end) {
@@ -141,7 +141,7 @@ export default class SpanContainer extends ModelContainer {
   }
 
   get all() {
-    const styleOnlySpans = [...this._typeSets.values()].filter(
+    const styleOnlySpans = [...this._typeSettings.values()].filter(
       (s) => !this._container.has(s.id)
     )
     return super.all.concat(styleOnlySpans)
@@ -186,10 +186,10 @@ export default class SpanContainer extends ModelContainer {
         )
 
         // Merge multiple styles for the same range.
-        if (this._typeSets.has(styleSpan.id)) {
-          this._typeSets.get(styleSpan.id).appendStyles(styleSpan.styles)
+        if (this._typeSettings.has(styleSpan.id)) {
+          this._typeSettings.get(styleSpan.id).appendStyles(styleSpan.styles)
         } else {
-          this._typeSets.set(styleSpan.id, styleSpan)
+          this._typeSettings.set(styleSpan.id, styleSpan)
         }
 
         break
