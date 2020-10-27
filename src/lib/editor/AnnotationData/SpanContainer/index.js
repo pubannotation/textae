@@ -168,7 +168,7 @@ export default class SpanContainer extends ModelContainer {
 
   _addInstanceFromElement(type, denotation) {
     switch (type) {
-      case 'denotation span': {
+      case 'denotation': {
         const objectSpan = new ObjectSpanModel(
           this._editor,
           denotation.span.begin,
@@ -181,7 +181,7 @@ export default class SpanContainer extends ModelContainer {
 
         break
       }
-      case 'style span': {
+      case 'typesetting': {
         const styleSpan = new StyleSpanModel(
           this._editor,
           denotation.span.begin,

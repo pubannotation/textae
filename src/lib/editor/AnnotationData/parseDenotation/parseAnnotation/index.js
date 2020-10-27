@@ -20,7 +20,7 @@ export default function(
     [span, entity],
     (src) => translateDenotation(prefix, src),
     result.accept.denotation,
-    'denotation span'
+    'denotation'
   )
 
   importSource(
@@ -43,7 +43,7 @@ export default function(
       })
     },
     result.accept.typeSetting,
-    'style span'
+    'typesetting'
   )
 
   return result.reject
