@@ -5,7 +5,7 @@ const MARGIN_TOP = 30
 
 export default function(annotationData, typeGap) {
   const maxHeight = Math.max(
-    ...annotationData.span.allObjectSpans.map((span) =>
+    ...annotationData.span.allDenotationSpans.map((span) =>
       getHeightIncludeDescendantGrids(span, typeGap(), annotationData)
     )
   )

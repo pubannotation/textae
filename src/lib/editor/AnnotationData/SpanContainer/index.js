@@ -147,7 +147,7 @@ export default class SpanContainer extends ModelContainer {
     return super.all.concat(styleOnlySpans)
   }
 
-  get allObjectSpans() {
+  get allDenotationSpans() {
     return super.all
   }
 

@@ -7,7 +7,7 @@ export default class {
   }
 
   arrangePosition(textBox, gridHeight) {
-    for (const span of this._annotationData.span.allObjectSpans) {
+    for (const span of this._annotationData.span.allDenotationSpans) {
       arrangeGridPosition(this._annotationData, textBox, gridHeight, span)
     }
   }
