@@ -1,5 +1,5 @@
 // The ID of spans has editorId and begin and end, like 'editor1__S0_15'.
-export function makeSpanDomId(editor, begin, end) {
+export function makeDenotationSpanDomId(editor, begin, end) {
   return `${editor.editorId}__S${begin}_${end}`
 }
 

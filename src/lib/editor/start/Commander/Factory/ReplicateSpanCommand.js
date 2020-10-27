@@ -1,6 +1,6 @@
 import CreateSpanAndTypesCommand from './CreateSpanAndTypesCommand'
 import CompositeCommand from './CompositeCommand'
-import { makeSpanDomId } from '../../../idFactory'
+import { makeDenotationSpanDomId } from '../../../idFactory'
 
 export default class extends CompositeCommand {
   constructor(
@@ -26,7 +26,7 @@ export default class extends CompositeCommand {
             typeValeusList
           )
       )
-    this._logMessage = `replicate a span ${makeSpanDomId(
+    this._logMessage = `replicate a span ${makeDenotationSpanDomId(
       editor,
       span.begin,
       span.end
