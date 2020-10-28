@@ -1,4 +1,4 @@
-export default class {
+export default class AttributeDefinition {
   constructor(hash) {
     this.pred = hash.pred
     this.valueType = hash['value type']

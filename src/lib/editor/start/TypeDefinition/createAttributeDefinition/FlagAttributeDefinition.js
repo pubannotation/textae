@@ -1,6 +1,6 @@
 import AttributeDefinition from './AttributeDefinition'
 
-export default class extends AttributeDefinition {
+export default class FlagAttributeDefinition extends AttributeDefinition {
   constructor(hash) {
     super(hash)
     this.default = true

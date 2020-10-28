@@ -1,5 +1,5 @@
 import AttributeDefinition from './AttributeDefinition'
-export default class extends AttributeDefinition {
+export default class StringAttributeDefinition extends AttributeDefinition {
   constructor(hash) {
     super(hash)
     this.autocompletionWs = hash.autocompletion_ws

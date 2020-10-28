@@ -1,7 +1,7 @@
 import AttributeDefinition from '../AttributeDefinition'
 import IntervalNotation from '../../../../../IntervalNotation'
 
-export default class extends AttributeDefinition {
+export default class NumericAttributeDefinition extends AttributeDefinition {
   constructor(hash) {
     super(hash)
     this.default = hash.default
