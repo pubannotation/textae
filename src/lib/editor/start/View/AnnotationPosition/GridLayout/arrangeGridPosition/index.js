@@ -1,4 +1,4 @@
-import isMoved from './isMoved'
+import isStaying from './isStaying'
 import updateGridPositon from './updateGridPositon'
 
 export default function(annotationData, textBox, gridRectangle, span) {
@@ -10,7 +10,7 @@ export default function(annotationData, textBox, gridRectangle, span) {
   const gridElement = span.gridElement
   const { top, left } = gridRectangle.getRectangle(textBox, span)
 
-  if (isMoved(gridElement, top, left)) {
+  if (!isStaying(gridElement, top, left)) {
     updateGridPositon(gridElement, top, left)
   }
 }
