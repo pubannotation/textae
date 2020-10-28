@@ -37,6 +37,10 @@ export default class TypeDefinition {
     return this._relationContainer
   }
 
+  get attribute() {
+    return this._attributeContainer
+  }
+
   get config() {
     const ret = {}
 
