@@ -9,6 +9,10 @@ export default class {
     changeCssClass(this._editor, 'term')
   }
 
+  setBlock() {
+    changeCssClass(this._editor, 'block')
+  }
+
   setInstance() {
     changeCssClass(this._editor, 'instance')
   }

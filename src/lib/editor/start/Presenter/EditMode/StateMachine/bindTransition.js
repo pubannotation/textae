@@ -9,6 +9,12 @@ export default function(stateMachine, transition) {
     .on(toEnterEvent(MODE.EDIT_DENOTATION_WITH_RELATION), () =>
       transition.toEditDenotationWithRelation()
     )
+    .on(toEnterEvent(MODE.EDIT_BLOCK_WITHOUT_RELATION), () =>
+      transition.toEditBlockWithoutRelation()
+    )
+    .on(toEnterEvent(MODE.EDIT_BLOCK_WITH_RELATION), () =>
+      transition.toEditBlockWithRelation()
+    )
     .on(toEnterEvent(MODE.EDIT_RELATION), () => transition.toEditRelation())
     .on(toEnterEvent(MODE.VIEW_WITHOUT_RELATION), () =>
       transition.toViewWithoutRelation()

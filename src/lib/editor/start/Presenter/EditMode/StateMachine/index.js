@@ -6,6 +6,7 @@ import pushView from './pushView'
 import toggleSimple from './toggleSimple'
 import bindTransition from './bindTransition'
 import Transition from './Transition'
+import pushBlock from './pushBlock'
 
 export default class {
   constructor(editor, typeEditor, displayInstance) {
@@ -14,6 +15,8 @@ export default class {
         MODE.INIT,
         MODE.EDIT_DENOTATION_WITHOUT_RELATION,
         MODE.EDIT_DENOTATION_WITH_RELATION,
+        MODE.EDIT_BLOCK_WITHOUT_RELATION,
+        MODE.EDIT_BLOCK_WITH_RELATION,
         MODE.EDIT_RELATION,
         MODE.VIEW_WITHOUT_RELATION,
         MODE.VIEW_WITH_RELATION
@@ -36,6 +39,24 @@ export default class {
     })
 
     m.config(MODE.EDIT_DENOTATION_WITH_RELATION, {
+      from: {
+        exclude: [MODE.VIEW_WITHOUT_RELATION]
+      },
+      to: {
+        exclude: [MODE.INIT, MODE.VIEW_WITHOUT_RELATION]
+      }
+    })
+
+    m.config(MODE.EDIT_BLOCK_WITHOUT_RELATION, {
+      from: {
+        exclude: [MODE.VIEW_WITH_RELATION]
+      },
+      to: {
+        exclude: [MODE.INIT, MODE.VIEW_WITH_RELATION]
+      }
+    })
+
+    m.config(MODE.EDIT_BLOCK_WITH_RELATION, {
       from: {
         exclude: [MODE.VIEW_WITHOUT_RELATION]
       },
@@ -91,6 +112,10 @@ export default class {
 
   pushTerm(annotationData) {
     pushTerm(this, annotationData)
+  }
+
+  pushBlock(annotationData) {
+    pushBlock(this, annotationData)
   }
 
   toggleSimple() {

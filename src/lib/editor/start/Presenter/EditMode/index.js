@@ -77,6 +77,10 @@ export default class {
     this._stateMachine.pushTerm(this._annotationData)
   }
 
+  pushBlock() {
+    this._stateMachine.pushBlock(this._annotationData)
+  }
+
   pushRelation() {
     this._stateMachine.setState(MODE.EDIT_RELATION)
   }

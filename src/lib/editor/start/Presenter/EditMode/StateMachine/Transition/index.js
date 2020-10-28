@@ -58,6 +58,30 @@ export default class {
     setEditableStyle(this._editor, true)
   }
 
+  toEditBlockWithoutRelation() {
+    this._displayInstance.hide()
+    this._editor.eventEmitter.emit(
+      'textae.editMode.transition',
+      MODE.EDIT_BLOCK_WITHOUT_RELATION
+    )
+
+    this._typeEditor.editBlock()
+    this._viewMode.setBlock()
+    setEditableStyle(this._editor, true)
+  }
+
+  toEditBlockWithRelation() {
+    this._displayInstance.show()
+    this._editor.eventEmitter.emit(
+      'textae.editMode.transition',
+      MODE.EDIT_BLOCK_WITH_RELATION
+    )
+
+    this._typeEditor.editBlock()
+    this._viewMode.setBlock()
+    setEditableStyle(this._editor, true)
+  }
+
   toEditRelation() {
     this._displayInstance.show()
     this._editor.eventEmitter.emit(
