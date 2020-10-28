@@ -1,9 +1,9 @@
-import GridLayout from './GridLayout'
+import arrangeGridPosition from './arrangeGridPosition'
 
 export default class AnnotationPosition {
   constructor(editor, annotationData, textBox, gridRectangle, renderer) {
     this._editor = editor
-    this._gridLayout = new GridLayout(annotationData)
+    this._annotationData = annotationData
     this._textBox = textBox
     this._gridRectangle = gridRectangle
     this._renderer = renderer
@@ -14,7 +14,11 @@ export default class AnnotationPosition {
       'textae.annotationPosition.position-update.start'
     )
 
-    this._gridLayout.arrangePosition(this._textBox, this._gridRectangle)
+    arrangeGridPosition(
+      this._annotationData,
+      this._textBox,
+      this._gridRectangle
+    )
 
     this._renderer
       .arrangeRelationPositionAllAsync()
