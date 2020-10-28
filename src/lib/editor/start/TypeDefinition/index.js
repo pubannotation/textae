@@ -29,36 +29,8 @@ export default class TypeDefinition {
     )
   }
 
-  get isLock() {
-    return this._lockStateObservable()
-  }
-
-  lockEdit() {
-    this._lockStateObservable.set(true)
-  }
-  unlockEdit() {
-    this._lockStateObservable.set(false)
-  }
-
   get entity() {
     return this._entityContainer
-  }
-
-  setTypeConfig(config) {
-    if (config) {
-      this._entityContainer.definedTypes = [
-        config['entity types'] || [],
-        config['attribute types'] || []
-      ]
-      this._relationContainer.definedTypes = config['relation types'] || []
-      this.autocompletionWs = config['autocompletion_ws']
-    } else {
-      this._entityContainer.definedTypes = []
-      this._relationContainer.definedTypes = []
-      this.autocompletionWs = ''
-    }
-
-    this._editor.eventEmitter.emit(`textae.typeDefinition.reset`)
   }
 
   get relation() {
@@ -81,5 +53,33 @@ export default class TypeDefinition {
     }
 
     return ret
+  }
+
+  get isLock() {
+    return this._lockStateObservable()
+  }
+
+  lockEdit() {
+    this._lockStateObservable.set(true)
+  }
+  unlockEdit() {
+    this._lockStateObservable.set(false)
+  }
+
+  setTypeConfig(config) {
+    if (config) {
+      this._entityContainer.definedTypes = [
+        config['entity types'] || [],
+        config['attribute types'] || []
+      ]
+      this._relationContainer.definedTypes = config['relation types'] || []
+      this.autocompletionWs = config['autocompletion_ws']
+    } else {
+      this._entityContainer.definedTypes = []
+      this._relationContainer.definedTypes = []
+      this.autocompletionWs = ''
+    }
+
+    this._editor.eventEmitter.emit(`textae.typeDefinition.reset`)
   }
 }
