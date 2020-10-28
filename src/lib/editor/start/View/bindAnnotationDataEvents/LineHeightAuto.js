@@ -13,9 +13,9 @@ export default class {
     )
   }
 
-  updateLineHeight(gridHeight) {
+  updateLineHeight(gridRectangle) {
     if (this._enable) {
-      this._textBox.updateLineHeight(gridHeight)
+      this._textBox.updateLineHeight(gridRectangle)
     }
   }
 }

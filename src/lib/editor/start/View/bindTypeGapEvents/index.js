@@ -5,11 +5,11 @@ export default function(
   editor,
   textBox,
   annotationPosition,
-  gridHeight
+  gridRectangle
 ) {
   typeGap((newValue) => {
     updateAllTypeGaps(editor, newValue)
-    textBox.updateLineHeight(gridHeight)
+    textBox.updateLineHeight(gridRectangle)
     annotationPosition.update()
   })
 }

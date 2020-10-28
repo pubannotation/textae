@@ -3,7 +3,7 @@ import getCurrentMaxHeight from './getCurrentMaxHeight'
 import getGridRect from './getGridRect'
 import round from './round'
 
-export default class GridHeight {
+export default class GridRectangle {
   constructor(annotationData, typeGap) {
     this._annotationData = annotationData
     this._typeGap = typeGap

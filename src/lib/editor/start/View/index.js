@@ -9,7 +9,7 @@ import bindAnnotationDataEvents from './bindAnnotationDataEvents'
 import HoverRelation from './HoverRelation'
 import bindMouseEvents from './bindMouseEvents'
 import TextBox from './TextBox'
-import GridHeight from './GridHeight'
+import GridRectangle from './GridRectangle'
 
 export default class View {
   constructor(editor, annotationData, selectionModel, typeGap, typeDefinition) {
@@ -30,7 +30,7 @@ export default class View {
       editor[0].querySelector('.textae-editor__body__text-box'),
       annotationData
     )
-    this._gridHeight = new GridHeight(annotationData, typeGap)
+    this._gridRectangle = new GridRectangle(annotationData, typeGap)
 
     const renderer = new Renderer(
       editor,
@@ -39,13 +39,13 @@ export default class View {
       typeDefinition,
       typeGap,
       this._textBox,
-      this._gridHeight
+      this._gridRectangle
     )
     this._annotationPosition = new AnnotationPosition(
       editor,
       annotationData,
       this._textBox,
-      this._gridHeight,
+      this._gridRectangle,
       renderer
     )
 
@@ -54,7 +54,7 @@ export default class View {
       editor,
       this._textBox,
       this._annotationPosition,
-      this._gridHeight
+      this._gridRectangle
     )
     bindClipBoardEvents(editor)
     bindSelectionModelEvents(editor)
@@ -62,7 +62,7 @@ export default class View {
       editor,
       this._annotationPosition,
       this._textBox,
-      this._gridHeight
+      this._gridRectangle
     )
     bindAnnotaitonPositionEvents(editor, new CursorChanger(editor))
     bindMouseEvents(editor, new HoverRelation(editor, annotationData.entity))
@@ -74,7 +74,7 @@ export default class View {
   }
 
   updateLineHeight() {
-    this._textBox.updateLineHeight(this._gridHeight)
+    this._textBox.updateLineHeight(this._gridRectangle)
     this._annotationPosition.update()
   }
 

@@ -12,9 +12,9 @@ export default class Renderer {
     typeDefinition,
     typeGap,
     textBox,
-    gridHeight
+    gridRectangle
   ) {
-    const gridRenderer = new GridRenderer(editor, textBox, gridHeight)
+    const gridRenderer = new GridRenderer(editor, textBox, gridRectangle)
     const entityRenderer = new EntityRenderer(
       editor,
       annotationData,
@@ -37,7 +37,7 @@ export default class Renderer {
       gridRenderer,
       entityRenderer,
       textBox,
-      gridHeight
+      gridRectangle
     )
 
     bindTypeDefinitionEvents(editor, entityRenderer, this._relationRenderer)

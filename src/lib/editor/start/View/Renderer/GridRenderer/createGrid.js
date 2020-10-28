@@ -1,8 +1,8 @@
 import getRightGrid from './getRightGrid'
 import createGridHtml from './createGridHtml'
 
-export default function(editorDom, container, textBox, gridHeight, span) {
-  const { width, top, left } = gridHeight.getGridRectangle(textBox, span)
+export default function(editorDom, container, textBox, gridRectangle, span) {
+  const { width, top, left } = gridRectangle.getGridRectangle(textBox, span)
 
   const rightGrid = getRightGrid(editorDom, span.id)
   if (rightGrid) {
