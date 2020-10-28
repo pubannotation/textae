@@ -1,4 +1,4 @@
-import arrangeGridPosition from './arrangeGridPosition'
+import updateGridPosition from './updateGridPosition'
 
 // Management position of annotation components.
 export default class {
@@ -8,7 +8,13 @@ export default class {
 
   arrangePosition(textBox, gridRectangle) {
     for (const span of this._annotationData.span.allDenotationSpans) {
-      arrangeGridPosition(this._annotationData, textBox, gridRectangle, span)
+      // The span may be remeved because this functon is call asynchronously.
+      if (!this._annotationData.span.get(span.id)) {
+        continue
+      }
+
+      const { top, left } = gridRectangle.getRectangle(textBox, span)
+      updateGridPosition(span, top, left)
     }
   }
 }
