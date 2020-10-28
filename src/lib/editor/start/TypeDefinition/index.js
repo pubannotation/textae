@@ -1,15 +1,20 @@
 import Observable from 'observ'
 import EntityContainer from './EntityContainer'
 import Container from './Container'
+import AttributeContainer from './AttributeContainer'
 
 export default class TypeDefinition {
   constructor(editor, annotationData) {
     this._editor = editor
     this._lockStateObservable = new Observable(false)
+    this._attributeContainer = new AttributeContainer(
+      this._editor,
+      annotationData.attribute
+    )
     this._entityContainer = new EntityContainer(
       editor,
       () => annotationData.entity.all,
-      annotationData.attribute,
+      this._attributeContainer,
       this._lockStateObservable
     )
     this._relationContainer = new Container(
@@ -71,8 +76,8 @@ export default class TypeDefinition {
       ret['relation types'] = this._relationContainer.config
     }
 
-    if (this._entityContainer.attributeConfig.length) {
-      ret['attribute types'] = this._entityContainer.attributeConfig
+    if (this._attributeContainer.config.length) {
+      ret['attribute types'] = this._attributeContainer.config
     }
 
     return ret

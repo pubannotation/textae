@@ -1,35 +1,27 @@
 import arrayMove from 'array-move'
-import Container from '../Container'
 import createAttributeDefinition from './createAttributeDefinition'
 
-export default class EntityContainer extends Container {
-  constructor(
-    editor,
-    getAllInstanceFunc,
-    annotationDataAttribute,
-    lockStateObservable
-  ) {
-    super(editor, 'entity', getAllInstanceFunc, lockStateObservable, '#77DDDD')
+export default class AttributeContainer {
+  constructor(editor, annotationDataAttribute) {
+    this._editor = editor
     this._annotationDataAttribute = annotationDataAttribute
   }
 
-  set definedTypes(value) {
-    const [entities, attributes] = value
-    super.definedTypes = entities || []
-    this._definedAttributes = new Map(
+  set definedTypes(attributes) {
+    this._definedTypes = new Map(
       (attributes || []).map((a) => [a.pred, createAttributeDefinition(a)])
     )
   }
 
-  createAttribute(attrDef, index = null) {
+  create(attrDef, index = null) {
     // To restore the position of a deleted attribute,
     // insert the new attribute at the specified index, if specified.
     // Note: 0 is false in JavaScript
     // When index and the number of attribute definitions are the same,
     // the position of the deleted definition is the last. Add to the end of the attribute definition.
-    if (index !== null && this._definedAttributes.size !== index) {
-      this._definedAttributes = new Map(
-        Array.from(this._definedAttributes.entries()).reduce(
+    if (index !== null && this._definedTypes.size !== index) {
+      this._definedTypes = new Map(
+        Array.from(this._definedTypes.entries()).reduce(
           (acc, [key, val], i) => {
             if (i === index) {
               acc.push([attrDef.pred, createAttributeDefinition(attrDef)])
@@ -42,10 +34,7 @@ export default class EntityContainer extends Container {
         )
       )
     } else {
-      this._definedAttributes.set(
-        attrDef.pred,
-        createAttributeDefinition(attrDef)
-      )
+      this._definedTypes.set(attrDef.pred, createAttributeDefinition(attrDef))
     }
 
     this._editor.eventEmitter.emit(
@@ -54,16 +43,16 @@ export default class EntityContainer extends Container {
     )
   }
 
-  findAttribute(pred) {
-    return this._definedAttributes.get(pred)
+  get(pred) {
+    return this._definedTypes.get(pred)
   }
 
-  updateAttribute(oldPred, attrDef) {
+  update(oldPred, attrDef) {
     // Predicate as key of map may be changed.
     // Keep oreder of attributes.
     // So that re-create an map instance.
-    this._definedAttributes = new Map(
-      Array.from(this._definedAttributes.entries()).map(([key, val]) => {
+    this._definedTypes = new Map(
+      Array.from(this._definedTypes.entries()).map(([key, val]) => {
         if (key === oldPred) {
           return [attrDef.pred, createAttributeDefinition(attrDef)]
         } else {
@@ -77,11 +66,11 @@ export default class EntityContainer extends Container {
       attrDef.pred
     )
 
-    return this.findAttribute(attrDef.pred)
+    return this.get(attrDef.pred)
   }
 
-  moveAttribute(oldIndex, newIndex) {
-    this._definedAttributes = new Map(
+  move(oldIndex, newIndex) {
+    this._definedTypes = new Map(
       arrayMove(this.attributes, oldIndex, newIndex).map((a) => [a.pred, a])
     )
 
@@ -90,29 +79,25 @@ export default class EntityContainer extends Container {
     this._editor.eventEmitter.emit(`textae.typeDefinition.attribute.move`)
   }
 
-  deleteAttribute(pred) {
-    this._definedAttributes.delete(pred)
+  delete(pred) {
+    this._definedTypes.delete(pred)
     this._editor.eventEmitter.emit(`textae.typeDefinition.attribute.delete`)
   }
 
   get attributes() {
-    return Array.from(this._definedAttributes.values()) || []
+    return Array.from(this._definedTypes.values()) || []
   }
 
-  get definedTypes() {
-    return this._definedTypes
-  }
-
-  get attributeConfig() {
+  get config() {
     return this.attributes.map((a) => a.JSON)
   }
 
-  hasAttributeInstance(pred) {
+  hasInstance(pred) {
     return this._annotationDataAttribute.all.some((a) => a.pred === pred)
   }
 
-  isSelectionAttributeIndelible(pred, id) {
-    if (this.findAttribute(pred).hasOnlyOneValue) {
+  isSelectionAttributeValueIndelible(pred, id) {
+    if (this.get(pred).hasOnlyOneValue) {
       return true
     }
 
@@ -128,27 +113,27 @@ export default class EntityContainer extends Container {
     return false
   }
 
-  getAttributeLabel(attribute) {
-    if (this._definedAttributes.has(attribute.pred)) {
-      return this.findAttribute(attribute.pred).getLabel(attribute.obj)
+  getLabel(attribute) {
+    if (this._definedTypes.has(attribute.pred)) {
+      return this.get(attribute.pred).getLabel(attribute.obj)
     }
 
     return
   }
 
-  getAttributeColor(attribute) {
-    if (this._definedAttributes.has(attribute.pred)) {
-      return this.findAttribute(attribute.pred).getColor(attribute.obj)
+  getColor(attribute) {
+    if (this._definedTypes.has(attribute.pred)) {
+      return this.get(attribute.pred).getColor(attribute.obj)
     }
   }
 
-  getIndexOfAttribute(pred) {
-    return Array.from(this._definedAttributes.values()).findIndex(
+  getIndexOf(pred) {
+    return Array.from(this._definedTypes.values()).findIndex(
       (a) => a.pred === pred
     )
   }
 
   getAttributeAt(number) {
-    return Array.from(this._definedAttributes.values())[number - 1]
+    return Array.from(this._definedTypes.values())[number - 1]
   }
 }
