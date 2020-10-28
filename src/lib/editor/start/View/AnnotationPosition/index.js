@@ -14,11 +14,7 @@ export default class AnnotationPosition {
       'textae.annotationPosition.position-update.start'
     )
 
-    arrangeGridPosition(
-      this._annotationData,
-      this._textBox,
-      this._gridRectangle
-    )
+    arrangeGridPosition(this._annotationData, this._gridRectangle)
 
     this._renderer
       .arrangeRelationPositionAllAsync()

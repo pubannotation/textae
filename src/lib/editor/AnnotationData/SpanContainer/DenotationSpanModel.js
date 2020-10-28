@@ -1,3 +1,4 @@
+import getRetangreOf from './getRetangreOf'
 import SpanModel from './SpanModel'
 
 export default class DenotationSpanModel extends SpanModel {
@@ -19,5 +20,10 @@ export default class DenotationSpanModel extends SpanModel {
   // Merges a span and a typesetting so that it can be rendered as a single DOM element.
   get styles() {
     return this._spanContainer.getStyle(this.id)
+  }
+
+  get rectangle() {
+    const spanElement = this.element
+    return getRetangreOf(spanElement)
   }
 }
