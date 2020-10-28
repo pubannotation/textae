@@ -10,7 +10,7 @@ export default class extends Dialog {
       typeGapDisabled: !displayInstance.showInstance,
       typeGap: displayInstance.typeGap,
       lineHeight: view.getLineHeight(),
-      typeDefinitionLocked: typeDefinition.isLock(),
+      typeDefinitionLocked: typeDefinition.isLock,
       version: packageJson.version
     })
 

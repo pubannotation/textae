@@ -29,7 +29,7 @@ export default class TypeDefinition {
     )
   }
 
-  isLock() {
+  get isLock() {
     return this._lockStateObservable()
   }
 
