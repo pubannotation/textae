@@ -58,7 +58,7 @@ export default function(editor, mouseEventHandler) {
   listeners.push(
     delegate(editor[0], '.textae-editor__span', 'mouseup', (e) => {
       if (e.target.classList.contains('textae-editor__span')) {
-        mouseEventHandler.spanClicked(e)
+        mouseEventHandler.denotationSpanClicked(e)
         afterSpanMouseUpEventFlag = true
 
         // In Chrome, the text box click event does not fire when you shrink the span and erase it.

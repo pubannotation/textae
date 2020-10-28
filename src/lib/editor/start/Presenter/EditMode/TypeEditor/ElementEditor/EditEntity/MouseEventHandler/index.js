@@ -45,7 +45,7 @@ export default class {
     }
   }
 
-  spanClicked(event) {
+  denotationSpanClicked(event) {
     // When you click on the text, the browser will automatically select the word.
     // Therefore, the editor shrinks spans instead of selecting spans.
     // Deselect the text.
