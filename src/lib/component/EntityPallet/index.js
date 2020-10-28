@@ -22,19 +22,19 @@ export default class extends Pallet {
     bindAttributeEvent(this, this._el, editor.eventEmitter)
 
     editor.eventEmitter
-      .on('textae.typeDefinition.entity.attributeDefinition.create', (pred) => {
+      .on('textae.typeDefinition.attribute.create', (pred) => {
         // Reload pallet when reverting deleted attribute.
         this.showAttribute(pred)
       })
-      .on('textae.typeDefinition.entity.attributeDefinition.change', (pred) => {
+      .on('textae.typeDefinition.attribute.change', (pred) => {
         // Reload pallet when reverting change attribute.
         this.showAttribute(pred)
       })
-      .on('textae.typeDefinition.entity.attributeDefinition.delete', () => {
+      .on('textae.typeDefinition.attribute.delete', () => {
         // Reload pallet when undo deleted attribute.
         this.showAttribute(null)
       })
-      .on('textae.typeDefinition.entity.attributeDefinition.move', () => {
+      .on('textae.typeDefinition.attribute.move', () => {
         this.updateDisplay()
       })
 

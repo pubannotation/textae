@@ -3,7 +3,7 @@ export default function(editor, entityRenderer, relationRenderer) {
     .on('textae.typeDefinition.entity.type.change', (typeName) =>
       entityRenderer.updateEntityDom(typeName)
     )
-    .on('textae.typeDefinition.entity.attributeDefinition.change', (pred) =>
+    .on('textae.typeDefinition.attribute.change', (pred) =>
       entityRenderer.updateAttribute(pred)
     )
     .on('textae.typeDefinition.relation.type.change', (typeName) =>
