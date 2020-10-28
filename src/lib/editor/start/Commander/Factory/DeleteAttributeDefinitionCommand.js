@@ -5,26 +5,26 @@ import ConfigurationCommand from './ConfigurationCommand'
 export default class extends ConfigurationCommand {
   constructor(typeContainer, attrDef) {
     super()
-    this.typeContainer = typeContainer
-    this.removeAttrdef = attrDef
-    this.index = typeContainer.getIndexOfAttribute(attrDef.pred)
+    this._typeContainer = typeContainer
+    this._removeAttrdef = attrDef
+    this._index = typeContainer.getIndexOfAttribute(attrDef.pred)
   }
 
   execute() {
-    this.typeContainer.deleteAttribute(this.removeAttrdef.pred)
+    this._typeContainer.deleteAttribute(this._removeAttrdef.pred)
 
     commandLog(
       `remove an attrribute definition:${JSON.stringify(
-        this.removeAttrdef
-      )}, index:${this.index}`
+        this._removeAttrdef
+      )}, index:${this._index}`
     )
   }
 
   revert() {
     return new CreateAttributeDefinitionCommand(
-      this.typeContainer,
-      this.removeAttrdef.JSON,
-      this.index
+      this._typeContainer,
+      this._removeAttrdef.JSON,
+      this._index
     )
   }
 }
