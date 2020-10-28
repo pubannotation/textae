@@ -17,7 +17,7 @@ export default class GridHeight {
   // It's too fine to use as a style attribute,
   // so I'll round it to 2 decimal places,
   // which is below the rounding accuracy of Google Chrome and Firefox.
-  getGridRectOf(textBox, span) {
+  getGridRectangle(textBox, span) {
     const { width, top, left } = getGridRect(textBox, span)
 
     return {
