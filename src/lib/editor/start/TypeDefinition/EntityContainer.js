@@ -11,22 +11,12 @@ export default class EntityContainer extends Container {
     this._attributeContainer = attributeContainer
   }
 
-  set definedTypes(value) {
-    const [entities, attributes] = value
-    super.definedTypes = entities || []
-    this._attributeContainer.definedTypes = attributes
-  }
-
   findAttribute(pred) {
     return this._attributeContainer.get(pred)
   }
 
   get attributes() {
     return this._attributeContainer.attributes
-  }
-
-  get definedTypes() {
-    return this._definedTypes
   }
 
   hasAttributeInstance(pred) {

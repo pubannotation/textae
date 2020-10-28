@@ -72,15 +72,14 @@ export default class TypeDefinition {
 
   setTypeConfig(config) {
     if (config) {
-      this._entityContainer.definedTypes = [
-        config['entity types'] || [],
-        config['attribute types'] || []
-      ]
+      this._entityContainer.definedTypes = config['entity types'] || []
       this._relationContainer.definedTypes = config['relation types'] || []
+      this._attributeContainer.definedTypes = config['attribute types'] || []
       this.autocompletionWs = config['autocompletion_ws']
     } else {
       this._entityContainer.definedTypes = []
       this._relationContainer.definedTypes = []
+      this._attributeContainer.definedTypes = []
       this.autocompletionWs = ''
     }
 
