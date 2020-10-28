@@ -1,4 +1,4 @@
-import arrangeGridPosition from './arrangeGridPosition'
+import arrangeDenotionEntityPosition from './arrangeDenotionEntityPosition'
 
 export default class AnnotationPosition {
   constructor(editor, annotationData, textBox, gridRectangle, renderer) {
@@ -14,7 +14,7 @@ export default class AnnotationPosition {
       'textae.annotationPosition.position-update.start'
     )
 
-    arrangeGridPosition(this._annotationData, this._gridRectangle)
+    arrangeDenotionEntityPosition(this._annotationData, this._gridRectangle)
 
     this._renderer
       .arrangeRelationPositionAllAsync()
