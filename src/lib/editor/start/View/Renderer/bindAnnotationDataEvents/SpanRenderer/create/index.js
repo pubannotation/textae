@@ -1,4 +1,4 @@
-import renderDenotationSpan from './renderDenotationSpan'
+import renderDenotation from './renderDenotation'
 import destroy from '../destroy'
 
 // Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
@@ -10,7 +10,7 @@ export default function(span, entityRenderer) {
   })
 
   span.traverse(
-    (span) => renderDenotationSpan(span),
+    (span) => renderDenotation(span),
     (span) => {
       // When the child spans contain bold style spans, the width of the parent span changes.
       // Render the entity after the child span has been rendered.
