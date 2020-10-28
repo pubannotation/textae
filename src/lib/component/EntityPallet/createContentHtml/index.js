@@ -202,9 +202,9 @@ Handlebars.registerPartial(
     </button>
     <button 
       type="button"
-      class="textae-editor__type-pallet__table-button textae-editor__type-pallet__remove-value {{#if useNumber}}textae-editor__type-pallet__table-button--disabled{{/if}}"
-      title="{{#if useNumber}}To activate this button, remove all the annotations of this type.{{/if}}{{#unless useNumber}}Remove this value.{{/unless}}"
-      {{#if useNumber}}disabled="disabled"{{/if}}
+      class="textae-editor__type-pallet__table-button textae-editor__type-pallet__remove-value {{#if indelible}}textae-editor__type-pallet__table-button--disabled{{/if}}"
+      title="{{#if indelible}}To activate this button, remove all the annotations of this type.{{/if}}{{#unless indelible}}Remove this value.{{/unless}}"
+      {{#if indelible}}disabled="disabled"{{/if}}
       data-index="{{@index}}">
     </button>
   </td>
@@ -415,7 +415,7 @@ export default function(
       case 'selection':
         // Disable to press the remove button for the value used in the selection attribute.
         for (const value of values.attrDef.values) {
-          value.useNumber = typeContainer.hasSelectionAtributeValueInstance(
+          value.indelible = typeContainer.hasSelectionAtributeValueInstance(
             selectedPred,
             value.id
           )
