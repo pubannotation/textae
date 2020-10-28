@@ -1,6 +1,6 @@
 import CompositeCommand from '../CompositeCommand'
-import createChangeConfigCommand from './createChangeConfigCommand'
 import createChangeAnnotationCommands from './createChangeAnnotationCommands'
+import ChangeAttributeDefinitionCommand from './ChangeAttributeDefinitionCommand'
 
 export default class extends CompositeCommand {
   constructor(annotationData, typeContainer, attrDef, changedProperties) {
@@ -8,7 +8,11 @@ export default class extends CompositeCommand {
 
     // change config
     const changeConfigcommands = [
-      createChangeConfigCommand(attrDef, typeContainer, changedProperties)
+      new ChangeAttributeDefinitionCommand(
+        typeContainer,
+        attrDef,
+        changedProperties
+      )
     ]
 
     let changAnnotationCommands = []
