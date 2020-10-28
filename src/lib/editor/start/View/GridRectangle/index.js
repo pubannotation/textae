@@ -9,7 +9,7 @@ export default class GridRectangle {
     this._typeGap = typeGap
   }
 
-  get currentMaxHeight() {
+  get maxHeight() {
     return getCurrentMaxHeight(this._annotationData, this._typeGap)
   }
 
