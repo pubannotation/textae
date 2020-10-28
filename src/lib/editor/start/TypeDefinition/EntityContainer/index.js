@@ -5,17 +5,11 @@ import createAttributeDefinition from './createAttributeDefinition'
 export default class EntityContainer extends Container {
   constructor(
     editor,
-    annotationDataEntity,
+    getAllInstanceFunc,
     annotationDataAttribute,
     lockStateObservable
   ) {
-    super(
-      editor,
-      'entity',
-      () => annotationDataEntity.all,
-      lockStateObservable,
-      '#77DDDD'
-    )
+    super(editor, 'entity', getAllInstanceFunc, lockStateObservable, '#77DDDD')
     this._annotationDataAttribute = annotationDataAttribute
   }
 

@@ -8,7 +8,7 @@ export default class TypeDefinition {
     this._lockStateObservable = new Observable(false)
     this._entityContainer = new EntityContainer(
       editor,
-      annotationData.entity,
+      () => annotationData.entity.all,
       annotationData.attribute,
       this._lockStateObservable
     )
