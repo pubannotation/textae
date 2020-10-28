@@ -125,9 +125,20 @@ export default class extends Container {
   }
 
   isSelectionAttributeIndelible(pred, id) {
-    return this._annotationDataAttribute.all.some(
-      (a) => a.pred === pred && a.obj == id
-    )
+    if (this.findAttribute(pred).hasOnlyOneValue) {
+      return true
+    }
+
+    // If there is an instance that uses a selection attribute, do not delete it.
+    if (
+      this._annotationDataAttribute.all.some(
+        (a) => a.pred === pred && a.obj == id
+      )
+    ) {
+      return true
+    }
+
+    return false
   }
 
   getAttributeLabel(attribute) {

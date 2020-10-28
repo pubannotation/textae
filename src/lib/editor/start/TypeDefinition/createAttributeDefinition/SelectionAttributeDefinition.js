@@ -34,6 +34,10 @@ export default class SelectionAttributeDefinition extends AttributeDefinition {
     return this._values
   }
 
+  get hasOnlyOneValue() {
+    return this._values.length === 1
+  }
+
   _getDef(obj) {
     return this.values.find((a) => a.id == obj)
   }
