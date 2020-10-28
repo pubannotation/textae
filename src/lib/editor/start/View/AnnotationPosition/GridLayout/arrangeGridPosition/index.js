@@ -8,7 +8,7 @@ export default function(annotationData, textBox, gridRectangle, span) {
   }
 
   const gridElement = span.gridElement
-  const { top, left } = gridRectangle.getGridRectangle(textBox, span)
+  const { top, left } = gridRectangle.getRectangle(textBox, span)
 
   if (isMoved(gridElement, top, left)) {
     updateGridPositon(gridElement, top, left)

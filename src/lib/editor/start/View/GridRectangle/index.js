@@ -17,7 +17,7 @@ export default class GridRectangle {
   // It's too fine to use as a style attribute,
   // so I'll round it to 2 decimal places,
   // which is below the rounding accuracy of Google Chrome and Firefox.
-  getGridRectangle(textBox, span) {
+  getRectangle(textBox, span) {
     const { width, top, left } = getGridRect(textBox, span)
 
     return {
