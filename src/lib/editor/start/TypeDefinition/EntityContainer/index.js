@@ -16,15 +16,12 @@ export default class EntityContainer extends Container {
       lockStateObservable,
       '#77DDDD'
     )
-    this._annotationDataEntity = annotationDataEntity
     this._annotationDataAttribute = annotationDataAttribute
   }
 
   set definedTypes(value) {
     const [entities, attributes] = value
     super.definedTypes = entities || []
-    this._annotationDataEntity.definedTypes = this.definedTypes
-
     this._definedAttributes = new Map(
       (attributes || []).map((a) => [a.pred, createAttributeDefinition(a)])
     )
