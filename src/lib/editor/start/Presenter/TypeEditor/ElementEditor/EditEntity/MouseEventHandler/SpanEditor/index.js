@@ -209,6 +209,8 @@ export default class SpanEditor {
     ) {
       this._create(selectionWrapper)
     }
+
+    clearTextSelection()
   }
 
   _isFocusInSelectedSpan(selectionWrapper) {
