@@ -8,7 +8,7 @@ export default function(annotationData, gridRectangle) {
       continue
     }
 
-    const { top, left } = gridRectangle.getRectangle(span)
+    const { top, left } = gridRectangle.denotationGridRectangle(span)
     updateGridPosition(span, top, left)
   }
 }
