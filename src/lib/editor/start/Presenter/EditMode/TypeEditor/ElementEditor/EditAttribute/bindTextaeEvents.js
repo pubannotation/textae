@@ -5,7 +5,6 @@ export default function(editor, selectionModel, commander) {
       (attrDef, newObj) => {
         if (selectionModel.entity.isSamePredAttrributeSelected(attrDef.pred)) {
           const command = commander.factory.changeAttributesOfSelectedEntitiesWithSamePred(
-            'entity',
             attrDef,
             newObj
           )

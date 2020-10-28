@@ -34,29 +34,24 @@ export default class {
     this._typeDefinition = typeDefinition
   }
 
-  addValueToAttributeDefinitionCommand(modelType, attributeDefinition, value) {
+  addValueToAttributeDefinitionCommand(attributeDefinition, value) {
     return new AddValueToAttributeDefinitionCommand(
-      this._typeDefinition[modelType],
+      this._typeDefinition.entity,
       attributeDefinition.JSON,
       value
     )
   }
 
-  changeAttributeDefinitionCommand(
-    modelType,
-    attributeDefinition,
-    changedProperties
-  ) {
+  changeAttributeDefinitionCommand(attributeDefinition, changedProperties) {
     return new ChangeAttributeDefinitionAndRefectInstancesCommand(
       this._annotationData,
-      this._typeDefinition[modelType],
+      this._typeDefinition.entity,
       attributeDefinition,
       changedProperties
     )
   }
 
   changeAttributesOfSelectedEntitiesWithSamePred(
-    modelType,
     attributeDefinition,
     newObj,
     newLabel
@@ -64,7 +59,7 @@ export default class {
     return new ChangeAttributesOfSelectedEntitiesWithSamePred(
       this._annotationData,
       this._selectionModel,
-      this._typeDefinition[modelType],
+      this._typeDefinition.entity,
       attributeDefinition,
       newObj,
       newLabel
@@ -125,23 +120,22 @@ export default class {
   }
 
   changeValueOfAttributeDefinitionAndObjectOfSelectionAttributeCommand(
-    modelType,
     attributeDefinition,
     index,
     value
   ) {
     return new ChangeValueOfAttributeDefinitionAndObjectOfSelectionAttributeCommand(
       this._annotationData,
-      this._typeDefinition[modelType],
+      this._typeDefinition.entity,
       attributeDefinition,
       index,
       value
     )
   }
 
-  createAttributeDefinitionCommand(modelType, attributeDefinition) {
+  createAttributeDefinitionCommand(attributeDefinition) {
     return new CreateAttributeDefinitionCommand(
-      this._typeDefinition[modelType],
+      this._typeDefinition.entity,
       attributeDefinition
     )
   }
@@ -198,9 +192,9 @@ export default class {
     )
   }
 
-  deleteAttributeDefinitionCommand(modelType, attributeDefinition) {
+  deleteAttributeDefinitionCommand(attributeDefinition) {
     return new DeleteAttributeDefinitionCommand(
-      this._typeDefinition[modelType],
+      this._typeDefinition.entity,
       attributeDefinition
     )
   }
@@ -280,13 +274,9 @@ export default class {
     )
   }
 
-  removeValueFromAttributeDefinitionCommand(
-    modelType,
-    attributeDefinition,
-    index
-  ) {
+  removeValueFromAttributeDefinitionCommand(attributeDefinition, index) {
     return new RemoveValueFromAttributeDefinitionCommand(
-      this._typeDefinition[modelType],
+      this._typeDefinition.entity,
       attributeDefinition.JSON,
       index
     )

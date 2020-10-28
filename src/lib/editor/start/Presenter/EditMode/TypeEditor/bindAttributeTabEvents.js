@@ -18,10 +18,7 @@ export default function(
         // Predicate is necessary and Ignore without predicate.
         if (attrDef.pred) {
           commander.invoke(
-            commander.factory.createAttributeDefinitionCommand(
-              'entity',
-              attrDef
-            )
+            commander.factory.createAttributeDefinitionCommand(attrDef)
           )
         }
       })
@@ -36,7 +33,6 @@ export default function(
           if (changedProperties.size && changedProperties.get('pred') !== '') {
             commander.invoke(
               commander.factory.changeAttributeDefinitionCommand(
-                'entity',
                 attrDef,
                 changedProperties
               )
@@ -50,7 +46,7 @@ export default function(
       `textae.entityPallet.attribute.delete-predicate-button.click`,
       (attrDef) =>
         commander.invoke(
-          commander.factory.deleteAttributeDefinitionCommand('entity', attrDef)
+          commander.factory.deleteAttributeDefinitionCommand(attrDef)
         )
     )
     .on(`textae.entityPallet.attribute.add-value-button.click`, (attrDef) => {
@@ -59,7 +55,6 @@ export default function(
         if (value.range || value.id || value.pattern) {
           commander.invoke(
             commander.factory.addValueToAttributeDefinitionCommand(
-              'entity',
               attrDef,
               value
             )
@@ -91,7 +86,6 @@ export default function(
             }
             commander.invoke(
               commander.factory.changeValueOfAttributeDefinitionAndObjectOfSelectionAttributeCommand(
-                'entity',
                 attrDef.JSON,
                 index,
                 newValue
@@ -107,7 +101,6 @@ export default function(
       (attrDef, index) =>
         commander.invoke(
           commander.factory.removeValueFromAttributeDefinitionCommand(
-            'entity',
             attrDef,
             index
           )
