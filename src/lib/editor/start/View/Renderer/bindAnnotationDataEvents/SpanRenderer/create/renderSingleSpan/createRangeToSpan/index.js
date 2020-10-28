@@ -1,5 +1,4 @@
 import getRenderingPosition from './getRenderingPosition'
-import validateRenderingPosition from './validateRenderingPosition'
 import createRange from './createRange'
 
 // Get the Range to that new span tag insert.
