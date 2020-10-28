@@ -1,5 +1,5 @@
 import isNodeTextBox from '../../../../../isNodeTextBox'
-import isNodeSpan from '../../../../../isNodeSpan'
+import isNodeDenotationSpan from '../../../../../isNodeDenotationSpan'
 import isNodeStyleSpan from '../../../../../isNodeStyleSpan'
 
 export default function(span, node) {
@@ -7,7 +7,7 @@ export default function(span, node) {
   if (isNodeTextBox(parent)) {
     return 0
   }
-  if (isNodeSpan(parent) || isNodeStyleSpan(parent)) {
+  if (isNodeDenotationSpan(parent) || isNodeStyleSpan(parent)) {
     return span.get(parent.id).begin
   }
   throw new Error(`Can not get position of a node : ${node} ${node.data}`)

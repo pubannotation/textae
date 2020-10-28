@@ -30,24 +30,26 @@ export default class SpanEditor {
     if (selectionWrapper.isParentOfAnchorNodeTextBox) {
       if (selectionWrapper.isParentOfFocusNodeTextBox) {
         this._anchorNodeInTextBoxFocusNodeInTextBox(selectionWrapper)
-      } else if (selectionWrapper.isParentOfFocusNodeSpan) {
-        this._anchorNodeInTextBoxFocusNodeInSpan(selectionWrapper)
+      } else if (selectionWrapper.isParentOfFocusNodeDenotationSpan) {
+        this._anchorNodeInTextBoxFocusNodeInDenotationSpan(selectionWrapper)
       } else if (selectionWrapper.isParentOfFocusNodeStyleSpan) {
         this._anchorNodeInTextBoxFocusNodeInStyleSpan(selectionWrapper)
       }
-    } else if (selectionWrapper.isParentOfAnchorNodeSpan) {
+    } else if (selectionWrapper.isParentOfAnchorNodeDenotationSpan) {
       if (selectionWrapper.isParentOfFocusNodeTextBox) {
-        this._anchorNodeInSpanFocusNodeInTextBox(selectionWrapper)
-      } else if (selectionWrapper.isParentOfFocusNodeSpan) {
-        this._anchorNodeInSpanFocusNodeInSpan(selectionWrapper)
+        this._anchorNodeInDenotationSpanFocusNodeInTextBox(selectionWrapper)
+      } else if (selectionWrapper.isParentOfFocusNodeDenotationSpan) {
+        this._anchorNodeInDenotationSpanFocusNodeInDenotationSpan(
+          selectionWrapper
+        )
       } else if (selectionWrapper.isParentOfFocusNodeStyleSpan) {
-        this._anchorNodeInSpanFocusNodeInStyleSpan(selectionWrapper)
+        this._anchorNodeInDenotationSpanFocusNodeInStyleSpan(selectionWrapper)
       }
     } else if (selectionWrapper.isParentOfAnchorNodeStyleSpan) {
       if (selectionWrapper.isParentOfFocusNodeTextBox) {
         this._anchorNodeInStyleSpanFocusNodeInTextBox(selectionWrapper)
-      } else if (selectionWrapper.isParentOfFocusNodeSpan) {
-        this._anchorNodeInStyleSpanFocusNodeInSpan(selectionWrapper)
+      } else if (selectionWrapper.isParentOfFocusNodeDenotationSpan) {
+        this._anchorNodeInStyleSpanFocusNodeInDenotationSpan(selectionWrapper)
       } else if (selectionWrapper.isParentOfFocusNodeStyleSpan) {
         this._anchorNodeInStyleSpanFocusNodeInStyleSpan(selectionWrapper)
       }
@@ -59,15 +61,15 @@ export default class SpanEditor {
     this._create(selectionWrapper)
   }
 
-  _anchorNodeInTextBoxFocusNodeInSpan(selectionWrapper) {
-    this._shrinkSelectSpanOrOneUpFocusParentSpan(selectionWrapper)
+  _anchorNodeInTextBoxFocusNodeInDenotationSpan(selectionWrapper) {
+    this._shrinkSelectSpanOrOneUpFocusParentDenotationSpan(selectionWrapper)
   }
 
   _anchorNodeInTextBoxFocusNodeInStyleSpan(selectionWrapper) {
     // There is a Span between the StyleSpan and the text.
     // Shrink Span when mousedown on the text or a span and mouseup on the styleSpan.
-    if (selectionWrapper.ancestorSpanOfFocusNode) {
-      const spanId = selectionWrapper.ancestorSpanOfFocusNode.id
+    if (selectionWrapper.ancestorDenotationSpanOfFocusNode) {
+      const spanId = selectionWrapper.ancestorDenotationSpanOfFocusNode.id
       this._shrink(selectionWrapper, spanId)
       return
     }
@@ -75,12 +77,12 @@ export default class SpanEditor {
     this._create(selectionWrapper)
   }
 
-  _anchorNodeInSpanFocusNodeInTextBox(selectionWrapper) {
+  _anchorNodeInDenotationSpanFocusNodeInTextBox(selectionWrapper) {
     const spanId = getExpandTargetSpan(this._selectionModel, selectionWrapper)
     this._expand(selectionWrapper, spanId)
   }
 
-  _anchorNodeInSpanFocusNodeInSpan(selectionWrapper) {
+  _anchorNodeInDenotationSpanFocusNodeInDenotationSpan(selectionWrapper) {
     // The anchor node and the focus node are in the same span.
     if (selectionWrapper.isParentOfAnchorNodeAndFocusedNodeSame) {
       const parentSpan = this._annotationData.span.get(
@@ -111,7 +113,7 @@ export default class SpanEditor {
         `#${selectionWrapper.parentOfAnchorNode.id}`
       )
     ) {
-      this._shrinkSelectSpanOrOneUpFocusParentSpan(selectionWrapper)
+      this._shrinkSelectSpanOrOneUpFocusParentDenotationSpan(selectionWrapper)
       return
     }
 
@@ -139,7 +141,7 @@ export default class SpanEditor {
     clearTextSelection()
   }
 
-  _anchorNodeInSpanFocusNodeInStyleSpan(selectionWrapper) {
+  _anchorNodeInDenotationSpanFocusNodeInStyleSpan(selectionWrapper) {
     // Mousedown on the child Span of a parent and child Span,
     // and then mouseup on the StyleSpan in the parent Span.
     if (selectionWrapper.isParentsParentOfAnchorNodeAndFocusedNodeSame) {
@@ -151,8 +153,8 @@ export default class SpanEditor {
 
     // There is a Span between the StyleSpan and the text.
     // Shrink Span when mousedown on the text or a span and mouseup on the styleSpan.
-    if (selectionWrapper.ancestorSpanOfFocusNode) {
-      const spanId = selectionWrapper.ancestorSpanOfFocusNode.id
+    if (selectionWrapper.ancestorDenotationSpanOfFocusNode) {
+      const spanId = selectionWrapper.ancestorDenotationSpanOfFocusNode.id
 
       this._shrink(selectionWrapper, spanId)
       return
@@ -161,8 +163,8 @@ export default class SpanEditor {
 
   _anchorNodeInStyleSpanFocusNodeInTextBox(selectionWrapper) {
     // If the anchor node is a style span but has a parent span, extend the parent span.
-    if (selectionWrapper.ancestorSpanOfAnchorNode) {
-      const spanId = selectionWrapper.ancestorSpanOfAnchorNode.id
+    if (selectionWrapper.ancestorDenotationSpanOfAnchorNode) {
+      const spanId = selectionWrapper.ancestorDenotationSpanOfAnchorNode.id
       this._expand(selectionWrapper, spanId)
       return
     }
@@ -170,7 +172,7 @@ export default class SpanEditor {
     this._create(selectionWrapper)
   }
 
-  _anchorNodeInStyleSpanFocusNodeInSpan(selectionWrapper) {
+  _anchorNodeInStyleSpanFocusNodeInDenotationSpan(selectionWrapper) {
     if (this._isFocusInSelectedSpan(selectionWrapper)) {
       this._shrinkSelectedSpan(selectionWrapper)
       return
@@ -179,11 +181,11 @@ export default class SpanEditor {
     // When an anchor node has an ancestral span and the focus node is its sibling,
     // expand the ancestral span.
     if (
-      selectionWrapper.ancestorSpanOfAnchorNode &&
-      selectionWrapper.ancestorSpanOfAnchorNode.parentElement ===
+      selectionWrapper.ancestorDenotationSpanOfAnchorNode &&
+      selectionWrapper.ancestorDenotationSpanOfAnchorNode.parentElement ===
         selectionWrapper.parentOfFocusNode
     ) {
-      const spanId = selectionWrapper.ancestorSpanOfAnchorNode.id
+      const spanId = selectionWrapper.ancestorDenotationSpanOfAnchorNode.id
       this._expand(selectionWrapper, spanId)
       return
     }
@@ -261,7 +263,7 @@ export default class SpanEditor {
     clearTextSelection()
   }
 
-  _shrinkSelectSpanOrOneUpFocusParentSpan(selectionWrapper) {
+  _shrinkSelectSpanOrOneUpFocusParentDenotationSpan(selectionWrapper) {
     if (this._isFocusInSelectedSpan(selectionWrapper)) {
       // If a span is selected, it is able to begin drag out of an outer span of the span and shrink the span.
       // The focus node should be at the selected node.

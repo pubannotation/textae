@@ -1,4 +1,4 @@
-import isNodeSpan from '../../../isNodeSpan'
+import isNodeDenotationSpan from '../../../isNodeDenotationSpan'
 import isNodeTextBox from '../../../isNodeTextBox'
 import isNodeStyleSpan from '../../../isNodeStyleSpan'
 import getSelectionSnapShot from './getSelectionSnapShot'
@@ -12,8 +12,8 @@ export default class {
     return isNodeTextBox(this.parentOfAnchorNode)
   }
 
-  get isParentOfAnchorNodeSpan() {
-    return isNodeSpan(this.parentOfAnchorNode)
+  get isParentOfAnchorNodeDenotationSpan() {
+    return isNodeDenotationSpan(this.parentOfAnchorNode)
   }
 
   get isParentOfAnchorNodeStyleSpan() {
@@ -24,8 +24,8 @@ export default class {
     return isNodeTextBox(this.parentOfFocusNode)
   }
 
-  get isParentOfFocusNodeSpan() {
-    return isNodeSpan(this.parentOfFocusNode)
+  get isParentOfFocusNodeDenotationSpan() {
+    return isNodeDenotationSpan(this.parentOfFocusNode)
   }
 
   get isParentOfFocusNodeStyleSpan() {
@@ -51,11 +51,11 @@ export default class {
     return this.parentOfAnchorNode === this.parentOfFocusNode.parentElement
   }
 
-  get ancestorSpanOfAnchorNode() {
+  get ancestorDenotationSpanOfAnchorNode() {
     return this.parentOfAnchorNode.closest('.textae-editor__span')
   }
 
-  get ancestorSpanOfFocusNode() {
+  get ancestorDenotationSpanOfFocusNode() {
     return this.parentOfFocusNode.closest('.textae-editor__span')
   }
 
