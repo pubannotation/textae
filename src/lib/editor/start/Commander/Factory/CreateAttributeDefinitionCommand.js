@@ -33,7 +33,7 @@ export default class extends ConfigurationCommand {
       ]
     }
 
-    this._typeContainer.createAttribute(this._newAttrDef, this._index)
+    this._typeContainer.create(this._newAttrDef, this._index)
 
     commandLog(
       `create a new attrribute definition:${JSON.stringify(

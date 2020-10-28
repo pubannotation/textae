@@ -36,7 +36,7 @@ export default class {
 
   addValueToAttributeDefinitionCommand(attributeDefinition, value) {
     return new AddValueToAttributeDefinitionCommand(
-      this._typeDefinition.entity,
+      this._typeDefinition.attribute,
       attributeDefinition.JSON,
       value
     )
@@ -45,7 +45,7 @@ export default class {
   changeAttributeDefinitionCommand(attributeDefinition, changedProperties) {
     return new ChangeAttributeDefinitionAndRefectInstancesCommand(
       this._annotationData,
-      this._typeDefinition.entity,
+      this._typeDefinition.attribute,
       attributeDefinition,
       changedProperties
     )
@@ -135,7 +135,7 @@ export default class {
 
   createAttributeDefinitionCommand(attributeDefinition) {
     return new CreateAttributeDefinitionCommand(
-      this._typeDefinition.entity,
+      this._typeDefinition.attribute,
       attributeDefinition
     )
   }
@@ -194,14 +194,14 @@ export default class {
 
   deleteAttributeDefinitionCommand(attributeDefinition) {
     return new DeleteAttributeDefinitionCommand(
-      this._typeDefinition.entity,
+      this._typeDefinition.attribute,
       attributeDefinition
     )
   }
 
   moveAttributeDefintionComannd(oldIndex, newIndex) {
     return new MoveAttributeDefinitionCommand(
-      this._typeDefinition.entity,
+      this._typeDefinition.attribute,
       oldIndex,
       newIndex
     )
@@ -276,7 +276,7 @@ export default class {
 
   removeValueFromAttributeDefinitionCommand(attributeDefinition, index) {
     return new RemoveValueFromAttributeDefinitionCommand(
-      this._typeDefinition.entity,
+      this._typeDefinition.attribute,
       attributeDefinition.JSON,
       index
     )

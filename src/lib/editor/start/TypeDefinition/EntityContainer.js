@@ -17,24 +17,8 @@ export default class EntityContainer extends Container {
     this._attributeContainer.definedTypes = attributes
   }
 
-  createAttribute(attrDef, index) {
-    this._attributeContainer.create(attrDef, index)
-  }
-
   findAttribute(pred) {
     return this._attributeContainer.get(pred)
-  }
-
-  updateAttribute(oldPred, attrDef) {
-    return this._attributeContainer.update(oldPred, attrDef)
-  }
-
-  moveAttribute(oldIndex, newIndex) {
-    this._attributeContainer.move(oldIndex, newIndex)
-  }
-
-  deleteAttribute(pred) {
-    this._attributeContainer.delete(pred)
   }
 
   get attributes() {
@@ -59,13 +43,5 @@ export default class EntityContainer extends Container {
 
   getAttributeColor(attribute) {
     return this._attributeContainer.getColor(attribute)
-  }
-
-  getIndexOfAttribute(pred) {
-    return this._attributeContainer.getIndexOf(pred)
-  }
-
-  getAttributeAt(number) {
-    return this._attributeContainer.getAttributeAt(number)
   }
 }

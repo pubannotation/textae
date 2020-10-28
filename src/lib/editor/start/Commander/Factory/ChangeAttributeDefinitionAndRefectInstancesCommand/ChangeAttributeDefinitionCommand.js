@@ -17,10 +17,7 @@ export default class ChangeAttributeDefinitionCommand extends ConfigurationComma
       this._changedProperties
     )
 
-    this._revertAttrDef = this._typeContainer.updateAttribute(
-      oldPred,
-      newAttrDef
-    )
+    this._revertAttrDef = this._typeContainer.update(oldPred, newAttrDef)
     this._revertChangedProperties = revertChangedProperties
 
     commandLog(

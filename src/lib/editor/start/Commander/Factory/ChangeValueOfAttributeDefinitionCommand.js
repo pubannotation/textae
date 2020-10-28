@@ -57,7 +57,7 @@ export default class ChangeValueOfAttributeDefinitionCommand extends Configurati
       this._value
     )[0]
 
-    this._typeContainer.updateAttribute(this._attrDef.pred, this._attrDef)
+    this._typeContainer.update(this._attrDef.pred, this._attrDef)
 
     commandLog(
       `change value of attrribute:${

@@ -31,7 +31,7 @@ export default class extends ConfigurationCommand {
   }
 
   execute() {
-    this._updatedAttrDef = this._typeContainer.updateAttribute(
+    this._updatedAttrDef = this._typeContainer.update(
       this._attrDef.pred,
       this._attrDef
     ).JSON

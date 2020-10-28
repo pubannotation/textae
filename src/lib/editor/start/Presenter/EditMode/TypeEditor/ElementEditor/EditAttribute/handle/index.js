@@ -13,7 +13,7 @@ export default function(
 ) {
   pallet.hide()
 
-  const attrDef = typeDefinition.entity.getAttributeAt(number)
+  const attrDef = typeDefinition.attribute.getAttributeAt(number)
 
   if (!attrDef) {
     alertifyjs.warning(`Attribute No.${number} is not defined`)

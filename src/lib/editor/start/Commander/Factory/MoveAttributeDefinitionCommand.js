@@ -10,7 +10,7 @@ export default class MoveAttributeDefinitionCommand extends ConfigurationCommand
   }
 
   execute() {
-    this._typeContainer.moveAttribute(this._oldIndex, this._newIndex)
+    this._typeContainer.move(this._oldIndex, this._newIndex)
 
     commandLog(
       `move the attrribute definition: from ${this._oldIndex} to ${this._newIndex}`

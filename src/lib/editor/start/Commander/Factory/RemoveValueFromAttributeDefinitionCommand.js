@@ -38,7 +38,7 @@ export default class extends ConfigurationCommand {
       this._attrDef.values[this._indexThatAddDefaultTo].default = true
     }
 
-    this._typeContainer.updateAttribute(this._attrDef.pred, this._attrDef)
+    this._typeContainer.update(this._attrDef.pred, this._attrDef)
 
     commandLog(
       `remove a value from an attrribute:${this._attrDef.pred}, index:${

@@ -7,11 +7,11 @@ export default class extends ConfigurationCommand {
     super()
     this._typeContainer = typeContainer
     this._removeAttrdef = attrDef
-    this._index = typeContainer.getIndexOfAttribute(attrDef.pred)
+    this._index = typeContainer.getIndexOf(attrDef.pred)
   }
 
   execute() {
-    this._typeContainer.deleteAttribute(this._removeAttrdef.pred)
+    this._typeContainer.delete(this._removeAttrdef.pred)
 
     commandLog(
       `remove an attrribute definition:${JSON.stringify(
