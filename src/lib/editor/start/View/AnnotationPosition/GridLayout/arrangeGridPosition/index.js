@@ -1,5 +1,4 @@
 import isStaying from './isStaying'
-import updateGridPositon from './updateGridPositon'
 
 export default function(annotationData, textBox, gridRectangle, span) {
   // The span may be remeved because this functon is call asynchronously.
@@ -11,6 +10,7 @@ export default function(annotationData, textBox, gridRectangle, span) {
   const { top, left } = gridRectangle.getRectangle(textBox, span)
 
   if (!isStaying(gridElement, top, left)) {
-    updateGridPositon(gridElement, top, left)
+    gridElement.style.top = `${top}px`
+    gridElement.style.left = `${left}px`
   }
 }
