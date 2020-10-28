@@ -415,7 +415,7 @@ export default function(
       case 'selection':
         // Disable to press the remove button for the value used in the selection attribute.
         for (const value of values.attrDef.values) {
-          value.indelible = typeContainer.hasSelectionAtributeValueInstance(
+          value.indelible = typeContainer.isSelectionAttributeIndelible(
             selectedPred,
             value.id
           )

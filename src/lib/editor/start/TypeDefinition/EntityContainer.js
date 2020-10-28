@@ -124,7 +124,7 @@ export default class extends Container {
     return this._annotationDataAttribute.all.some((a) => a.pred === pred)
   }
 
-  hasSelectionAtributeValueInstance(pred, id) {
+  isSelectionAttributeIndelible(pred, id) {
     return this._annotationDataAttribute.all.some(
       (a) => a.pred === pred && a.obj == id
     )
