@@ -16,6 +16,10 @@ export default class DenotationSpanModel extends SpanModel {
     }
   }
 
+  get hasStyle() {
+    return this.styles.size > 0
+  }
+
   // Merges a span and a typesetting so that it can be rendered as a single DOM element.
   get styles() {
     return this._spanContainer.getStyle(this.id)

@@ -11,7 +11,7 @@ export default class {
   }
 
   remove(span) {
-    if (span.styles.size > 0) {
+    if (span.hasStyle) {
       const spanElement = span.element
       spanElement.removeAttribute('tabindex')
       spanElement.classList.remove('textae-editor__span')
