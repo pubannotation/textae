@@ -54,6 +54,10 @@ export default class {
     }
   }
 
+  updateByClipboard() {
+    this.enable('paste', this._enablePaste)
+  }
+
   get _enablePaste() {
     return buttonConfig.spanButtons
       .find(({ name }) => name === 'copy')
