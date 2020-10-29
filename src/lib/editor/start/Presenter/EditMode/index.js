@@ -16,6 +16,7 @@ export default class {
     autocompletionWs,
     typeGap
   ) {
+    this._annotationData = annotationData
     this._typeEditor = new TypeEditor(
       editor,
       annotationData,
@@ -34,8 +35,6 @@ export default class {
       this._typeEditor,
       this._displayInstance
     )
-
-    this._annotationData = annotationData
 
     // The jsPlumbConnetion has an original event mecanism.
     // We can only bind the connection directory.
