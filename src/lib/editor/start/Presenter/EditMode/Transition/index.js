@@ -1,6 +1,6 @@
 import setEditableStyle from './setEditableStyle'
 import ViewMode from './ViewMode'
-import { MODE } from '../../../../MODE'
+import { MODE } from '../../../../../MODE'
 
 export default class {
   constructor(editor, typeEditor, displayInstance) {
