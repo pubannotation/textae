@@ -1,18 +1,18 @@
-export default function(editor, state) {
+export default function(editor, button) {
   editor.eventEmitter
     .on('textae.history.change', (history) => {
       // change button state
-      state.enabled('undo', history.hasAnythingToUndo)
-      state.enabled('redo', history.hasAnythingToRedo)
+      button.enabled('undo', history.hasAnythingToUndo)
+      button.enabled('redo', history.hasAnythingToRedo)
     })
-    .on('textae.selection.span.change', () => state.updateBySpan())
-    .on('textae.selection.relation.change', () => state.updateByRelation())
-    .on('textae.selection.entity.change', () => state.updateByEntity())
-    .on('textae.editMode.transition', (mode) => state.setForMode(mode))
+    .on('textae.selection.span.change', () => button.updateBySpan())
+    .on('textae.selection.relation.change', () => button.updateByRelation())
+    .on('textae.selection.entity.change', () => button.updateByEntity())
+    .on('textae.editMode.transition', (mode) => button.setForMode(mode))
     .on('textae.clipBoard.change', () =>
-      state.enabled('paste', state._enablePaste)
+      button.enabled('paste', button._enablePaste)
     )
     .on('textae.annotationAutoSaver.enable', (enable) =>
-      state.enabled('write-auto', enable)
+      button.enabled('write-auto', enable)
     )
 }
