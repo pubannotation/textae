@@ -35,37 +35,29 @@ export default class {
   _setMode(mode) {
     switch (mode) {
       case MODE.VIEW_WITHOUT_RELATION:
-        this.getButton('view').value(true)
-        this.getButton('term').value(false)
-        this.getButton('relation').value(false)
-        this.getButton('simple').value(true)
+        this._updateModeButtons(true, false, false, true)
         break
       case MODE.VIEW_WITH_RELATION:
-        this.getButton('view').value(true)
-        this.getButton('term').value(false)
-        this.getButton('relation').value(false)
-        this.getButton('simple').value(false)
+        this._updateModeButtons(true, false, false, false)
         break
       case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
-        this.getButton('view').value(false)
-        this.getButton('term').value(true)
-        this.getButton('relation').value(false)
-        this.getButton('simple').value(true)
+        this._updateModeButtons(false, true, false, true)
         break
       case MODE.EDIT_DENOTATION_WITH_RELATION:
-        this.getButton('view').value(false)
-        this.getButton('term').value(true)
-        this.getButton('relation').value(false)
-        this.getButton('simple').value(false)
+        this._updateModeButtons(false, true, false, false)
         break
       case MODE.EDIT_RELATION:
-        this.getButton('view').value(false)
-        this.getButton('term').value(false)
-        this.getButton('relation').value(true)
-        this.getButton('simple').value(false)
+        this._updateModeButtons(false, false, true, false)
         break
       default:
         throw `unknown edit mode!${mode}`
     }
+  }
+
+  _updateModeButtons(view, term, relation, simple) {
+    this._buttonMap.get('view').value(view)
+    this._buttonMap.get('term').value(term)
+    this._buttonMap.get('relation').value(relation)
+    this._buttonMap.get('simple').value(simple)
   }
 }
