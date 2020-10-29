@@ -149,6 +149,10 @@ export default class {
     this._editMode.pushTerm()
   }
 
+  toBlockMode() {
+    this._editMode.pushBlock()
+  }
+
   toRelationMode() {
     this._editMode.pushRelation()
   }

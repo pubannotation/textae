@@ -8,6 +8,7 @@ export default function(
   const map = new Map([
     ['view', () => presenter.event.toViewMode()],
     ['term', () => presenter.event.toTermMode()],
+    ['block', () => presenter.event.toBlockMode()],
     ['relation', () => presenter.event.toRelationMode()],
     ['simple', () => presenter.event.toggleSimpleMode()],
     ['read', () => persistenceInterface.importAnnotation()],
