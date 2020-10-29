@@ -5,9 +5,10 @@ import pushTerm from './pushTerm'
 import pushView from './pushView'
 import toggleSimple from './toggleSimple'
 import bindTransition from './bindTransition'
+import Transition from './Transition'
 
 export default class {
-  constructor(transition) {
+  constructor(editor, typeEditor, displayInstance) {
     const m = new Machine({
       states: [
         MODE.INIT,
@@ -70,6 +71,7 @@ export default class {
       }
     })
 
+    const transition = new Transition(editor, typeEditor, displayInstance)
     bindTransition(m, transition)
 
     this._m = m

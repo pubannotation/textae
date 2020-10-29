@@ -1,4 +1,3 @@
-import Transition from './Transition'
 import { MODE } from '../../../../MODE'
 import TypeEditor from './TypeEditor'
 import DisplayInstance from './DisplayInstance'
@@ -31,7 +30,9 @@ export default class {
     this._displayInstance = new DisplayInstance(typeGap)
 
     this._stateMachine = new StateMachine(
-      new Transition(editor, this._typeEditor, this._displayInstance)
+      editor,
+      this._typeEditor,
+      this._displayInstance
     )
 
     this._annotationData = annotationData
