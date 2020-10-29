@@ -63,48 +63,35 @@ export default class {
   setForMode(mode) {
     switch (mode) {
       case MODE.VIEW_WITHOUT_RELATION:
-        this._states['simple'] = true
-        this._states['replicate-auto'] = false
-        this._states['boundary-detection'] = false
-        this._states['line-height'] = false
-        this._states['line-height-auto'] = false
-        this._states['pallet'] = false
-        break
       case MODE.VIEW_WITH_RELATION:
-        this._states['simple'] = true
-        this._states['replicate-auto'] = false
-        this._states['boundary-detection'] = false
-        this._states['line-height'] = false
-        this._states['line-height-auto'] = false
-        this._states['pallet'] = false
+        this._updateButtonsForMode(true, false, false, false, false, false)
         break
       case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
-        this._states['simple'] = true
-        this._states['replicate-auto'] = true
-        this._states['boundary-detection'] = true
-        this._states['line-height'] = true
-        this._states['line-height-auto'] = true
-        this._states['pallet'] = true
-        break
       case MODE.EDIT_DENOTATION_WITH_RELATION:
-        this._states['simple'] = true
-        this._states['replicate-auto'] = true
-        this._states['boundary-detection'] = true
-        this._states['line-height'] = true
-        this._states['line-height-auto'] = true
-        this._states['pallet'] = true
+        this._updateButtonsForMode(true, true, true, true, true, true)
         break
       case MODE.EDIT_RELATION:
-        this._states['simple'] = false
-        this._states['replicate-auto'] = false
-        this._states['boundary-detection'] = false
-        this._states['line-height'] = true
-        this._states['line-height-auto'] = true
-        this._states['pallet'] = true
+        this._updateButtonsForMode(false, false, false, true, true, true)
         break
       default:
         throw `unknown edit mode!${mode}`
     }
     this.propagate()
+  }
+
+  _updateButtonsForMode(
+    simple,
+    replicateAuto,
+    boundaryDetection,
+    lineHeight,
+    lineHeightAuto,
+    pallet
+  ) {
+    this._states['simple'] = simple
+    this._states['replicate-auto'] = replicateAuto
+    this._states['boundary-detection'] = boundaryDetection
+    this._states['line-height'] = lineHeight
+    this._states['line-height-auto'] = lineHeightAuto
+    this._states['pallet'] = pallet
   }
 }
