@@ -1,5 +1,4 @@
 import Transition from './Transition'
-import bindTransition from './bindTransition'
 import { MODE } from '../../../../MODE'
 import pushView from './pushView'
 import pushTerm from './pushTerm'
@@ -34,9 +33,7 @@ export default class {
     )
     this._displayInstance = new DisplayInstance(typeGap)
 
-    this._stateMachine = new StateMachine()
-    bindTransition(
-      this._stateMachine,
+    this._stateMachine = new StateMachine(
       new Transition(editor, this._typeEditor, this._displayInstance)
     )
 

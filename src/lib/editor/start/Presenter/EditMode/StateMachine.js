@@ -1,8 +1,9 @@
 import Machine from 'emitter-fsm'
 import { MODE } from '../../../../MODE'
+import bindTransition from './bindTransition'
 
 export default class {
-  constructor() {
+  constructor(transition) {
     const m = new Machine({
       states: [
         MODE.INIT,
@@ -65,6 +66,8 @@ export default class {
       }
     })
 
+    bindTransition(m, transition)
+
     this._m = m
   }
 
@@ -74,10 +77,5 @@ export default class {
 
   setState(state) {
     this._m.setState(state)
-  }
-
-  on(event, callback) {
-    this._m.on(event, callback)
-    return this
   }
 }
