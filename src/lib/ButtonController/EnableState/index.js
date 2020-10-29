@@ -11,11 +11,11 @@ export default class {
     this._clipBoard = clipBoard
 
     // Enable always enabled buttons.
-    this.enabled('view', true)
-    this.enabled('term', true)
-    this.enabled('relation', true)
-    this.enabled('simple', true)
-    this.enabled('setting', true)
+    this.enable('view', true)
+    this.enable('term', true)
+    this.enable('relation', true)
+    this.enable('simple', true)
+    this.enable('setting', true)
 
     bindEvents(editor, this)
   }
@@ -27,7 +27,7 @@ export default class {
     )
   }
 
-  enabled(button, enable) {
+  enable(button, enable) {
     this._states[button] = enable
     this.propagate()
   }
@@ -50,7 +50,7 @@ export default class {
   _updateButtons(buttons) {
     for (const { name, predicate } of buttons) {
       const enabled = predicate(this._selectionModel, this._clipBoard)
-      this.enabled(name, enabled)
+      this.enable(name, enabled)
     }
   }
 
