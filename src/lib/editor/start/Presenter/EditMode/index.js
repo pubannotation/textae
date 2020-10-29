@@ -6,6 +6,7 @@ import changeByShortcut from './changeByShortcut'
 import TypeEditor from './TypeEditor'
 import DisplayInstance from './DisplayInstance'
 import StateMachine from './StateMachine'
+import toggleSimple from './toggleSimple'
 
 export default class {
   constructor(
@@ -85,22 +86,7 @@ export default class {
   }
 
   toggleSimple() {
-    switch (this._stateMachine.currentState) {
-      case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
-        this._stateMachine.setState(MODE.EDIT_DENOTATION_WITH_RELATION)
-        break
-      case MODE.VIEW_WITHOUT_RELATION:
-        this._stateMachine.setState(MODE.VIEW_WITH_RELATION)
-        break
-      case MODE.EDIT_DENOTATION_WITH_RELATION:
-        this._stateMachine.setState(MODE.EDIT_DENOTATION_WITHOUT_RELATION)
-        break
-      case MODE.VIEW_WITH_RELATION:
-        this._stateMachine.setState(MODE.VIEW_WITHOUT_RELATION)
-        break
-      default:
-        throw new Error(`Invalid state: ${this._stateMachine.currentState}`)
-    }
+    toggleSimple(this._stateMachine)
   }
 
   // For key input of F or M.
