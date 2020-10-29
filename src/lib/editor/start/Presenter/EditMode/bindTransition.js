@@ -1,9 +1,6 @@
-import StateMachine from './StateMachine'
 import { MODE } from '../../../../MODE'
 
-export default function(transition) {
-  const stateMachine = new StateMachine()
-
+export default function(stateMachine, transition) {
   stateMachine
     .on(toEnterEvent(MODE.EDIT_DENOTATION_WITHOUT_RELATION), () =>
       transition.toEditDenotationWithoutRelation()
@@ -18,8 +15,6 @@ export default function(transition) {
     .on(toEnterEvent(MODE.VIEW_WITH_RELATION), () =>
       transition.toViewWithRelation()
     )
-
-  return stateMachine
 }
 
 function toEnterEvent(state) {

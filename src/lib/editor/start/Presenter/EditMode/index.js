@@ -6,6 +6,7 @@ import pushTerm from './pushTerm'
 import changeByShortcut from './changeByShortcut'
 import TypeEditor from './TypeEditor'
 import DisplayInstance from './DisplayInstance'
+import StateMachine from './StateMachine'
 
 export default class {
   constructor(
@@ -33,12 +34,12 @@ export default class {
     )
     this._displayInstance = new DisplayInstance(typeGap)
 
-    const transition = new Transition(
-      editor,
-      this._typeEditor,
-      this._displayInstance
+    this._stateMachine = new StateMachine()
+    bindTransition(
+      this._stateMachine,
+      new Transition(editor, this._typeEditor, this._displayInstance)
     )
-    this._stateMachine = bindTransition(transition)
+
     this._annotationData = annotationData
 
     // The jsPlumbConnetion has an original event mecanism.
