@@ -26,6 +26,11 @@ export const buttonConfig = [
       push: true
     },
     {
+      type: 'block',
+      title: 'Block Edit Mode',
+      push: true
+    },
+    {
       type: 'relation',
       title: 'Relation Edit Mode',
       push: true

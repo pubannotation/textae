@@ -13,6 +13,7 @@ export default class {
     // Enable always enabled buttons.
     this.enable('view', true)
     this.enable('term', true)
+    this.enable('block', true)
     this.enable('relation', true)
     this.enable('simple', true)
     this.enable('setting', true)
@@ -73,6 +74,10 @@ export default class {
       case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
       case MODE.EDIT_DENOTATION_WITH_RELATION:
         this._updateButtonsForMode(true, true, true, true, true, true)
+        break
+      case MODE.EDIT_BLOCK_WITHOUT_RELATION:
+      case MODE.EDIT_BLOCK_WITH_RELATION:
+        this._updateButtonsForMode(true, false, true, true, true, false)
         break
       case MODE.EDIT_RELATION:
         this._updateButtonsForMode(false, false, false, true, true, true)
