@@ -23,23 +23,22 @@ export default class SpanContainer extends ModelContainer {
 
     // When redoing, the newValue is instance of the DenotationSpanModel already.
     if (newValue instanceof DenotationSpanModel) {
-      return super.add(newValue, () => {
+      super.add(newValue, () => {
         this._updateSpanTree()
       })
+      return newValue
     }
 
-    return super.add(
-      new DenotationSpanModel(
-        this._editor,
-        newValue.begin,
-        newValue.end,
-        this._entityContainer,
-        this
-      ),
-      () => {
-        this._updateSpanTree()
-      }
+    const { begin, end } = newValue
+    const newInstance = new DenotationSpanModel(
+      this._editor,
+      begin,
+      end,
+      this._entityContainer,
+      this
     )
+    super.add(newInstance, () => this._updateSpanTree())
+    return newInstance
   }
 
   // It is assumed that the denotations or typesettings
