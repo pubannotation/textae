@@ -1,4 +1,5 @@
 import buttonConfig from '../../buttonConfig'
+import { MODE } from '../../MODE'
 import bindEvents from './bindEvents'
 
 export default class {
@@ -57,5 +58,53 @@ export default class {
     return buttonConfig.spanButtons
       .find(({ name }) => name === 'copy')
       .predicate(this._selectionModel, this._clipBoard)
+  }
+
+  setForMode(mode) {
+    switch (mode) {
+      case MODE.VIEW_WITHOUT_RELATION:
+        this._states['simple'] = true
+        this._states['replicate-auto'] = false
+        this._states['boundary-detection'] = false
+        this._states['line-height'] = false
+        this._states['line-height-auto'] = false
+        this._states['pallet'] = false
+        break
+      case MODE.VIEW_WITH_RELATION:
+        this._states['simple'] = true
+        this._states['replicate-auto'] = false
+        this._states['boundary-detection'] = false
+        this._states['line-height'] = false
+        this._states['line-height-auto'] = false
+        this._states['pallet'] = false
+        break
+      case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
+        this._states['simple'] = true
+        this._states['replicate-auto'] = true
+        this._states['boundary-detection'] = true
+        this._states['line-height'] = true
+        this._states['line-height-auto'] = true
+        this._states['pallet'] = true
+        break
+      case MODE.EDIT_DENOTATION_WITH_RELATION:
+        this._states['simple'] = true
+        this._states['replicate-auto'] = true
+        this._states['boundary-detection'] = true
+        this._states['line-height'] = true
+        this._states['line-height-auto'] = true
+        this._states['pallet'] = true
+        break
+      case MODE.EDIT_RELATION:
+        this._states['simple'] = false
+        this._states['replicate-auto'] = false
+        this._states['boundary-detection'] = false
+        this._states['line-height'] = true
+        this._states['line-height-auto'] = true
+        this._states['pallet'] = true
+        break
+      default:
+        throw `unknown edit mode!${mode}`
+    }
+    this.propagate()
   }
 }
