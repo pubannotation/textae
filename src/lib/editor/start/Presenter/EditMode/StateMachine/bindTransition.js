@@ -1,4 +1,5 @@
-import { MODE } from '../../../../MODE'
+import { MODE } from '../../../../../MODE'
+import toEnterEvent from './toEnterEvent'
 
 export default function(stateMachine, transition) {
   stateMachine
@@ -15,8 +16,4 @@ export default function(stateMachine, transition) {
     .on(toEnterEvent(MODE.VIEW_WITH_RELATION), () =>
       transition.toViewWithRelation()
     )
-}
-
-function toEnterEvent(state) {
-  return `enter:${state}`
 }

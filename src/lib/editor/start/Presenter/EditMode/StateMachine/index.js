@@ -1,5 +1,5 @@
 import Machine from 'emitter-fsm'
-import { MODE } from '../../../../MODE'
+import { MODE } from '../../../../../MODE'
 import bindTransition from './bindTransition'
 
 export default class {
