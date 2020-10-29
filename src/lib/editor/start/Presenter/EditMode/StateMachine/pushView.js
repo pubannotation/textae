@@ -1,4 +1,4 @@
-import { MODE } from '../../../../MODE'
+import { MODE } from '../../../../../MODE'
 
 export default function(stateMachine) {
   switch (stateMachine.currentState) {

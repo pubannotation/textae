@@ -1,5 +1,5 @@
-import isSimple from '../isSimple'
-import { MODE } from '../../../../MODE'
+import isSimple from '../../isSimple'
+import { MODE } from '../../../../../MODE'
 
 export default function(stateMachine, annotationData) {
   if (isSimple(annotationData)) {

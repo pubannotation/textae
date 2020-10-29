@@ -1,12 +1,8 @@
 import Transition from './Transition'
 import { MODE } from '../../../../MODE'
-import pushView from './pushView'
-import pushTerm from './pushTerm'
-import changeByShortcut from './changeByShortcut'
 import TypeEditor from './TypeEditor'
 import DisplayInstance from './DisplayInstance'
 import StateMachine from './StateMachine'
-import toggleSimple from './toggleSimple'
 
 export default class {
   constructor(
@@ -74,11 +70,11 @@ export default class {
 
   // For buttan actions.
   pushView() {
-    pushView(this._stateMachine)
+    this._stateMachine.pushView()
   }
 
   pushTerm() {
-    pushTerm(this._stateMachine, this._annotationData)
+    this._stateMachine.pushTerm(this._annotationData)
   }
 
   pushRelation() {
@@ -86,12 +82,12 @@ export default class {
   }
 
   toggleSimple() {
-    toggleSimple(this._stateMachine)
+    this._stateMachine.toggleSimple()
   }
 
   // For key input of F or M.
   changeByShortcut() {
-    changeByShortcut(this._stateMachine)
+    this._stateMachine.changeByShortcut()
   }
 
   showPallet() {

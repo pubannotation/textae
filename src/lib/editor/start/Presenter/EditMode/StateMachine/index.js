@@ -1,5 +1,9 @@
 import Machine from 'emitter-fsm'
 import { MODE } from '../../../../../MODE'
+import changeByShortcut from './changeByShortcut'
+import pushTerm from './pushTerm'
+import pushView from './pushView'
+import toggleSimple from './toggleSimple'
 import bindTransition from './bindTransition'
 
 export default class {
@@ -77,5 +81,21 @@ export default class {
 
   setState(state) {
     this._m.setState(state)
+  }
+
+  pushView() {
+    pushView(this)
+  }
+
+  pushTerm(annotationData) {
+    pushTerm(this, annotationData)
+  }
+
+  toggleSimple() {
+    toggleSimple(this)
+  }
+
+  changeByShortcut() {
+    changeByShortcut(this)
   }
 }

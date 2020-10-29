@@ -1,4 +1,4 @@
-import { MODE } from '../../../../MODE'
+import { MODE } from '../../../../../MODE'
 import toEditStateAccordingToAnntationData from './toEditStateAccordingToAnntationData'
 
 export default function(stateMachine, annotationData) {
