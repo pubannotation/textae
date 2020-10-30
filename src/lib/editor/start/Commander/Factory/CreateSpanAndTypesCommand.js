@@ -1,5 +1,4 @@
 import { CreateCommand } from './commandTemplate'
-import { makeDenotationSpanDomId } from '../../../idFactory'
 import CompositeCommand from './CompositeCommand'
 import CreateEntityCommand from './CreateEntityCommand'
 
