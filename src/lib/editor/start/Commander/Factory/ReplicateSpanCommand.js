@@ -15,17 +15,19 @@ export default class extends CompositeCommand {
 
     this._subCommands = annotationData
       .getReplicationRanges(span, isDelimiterFunc)
-      .map(
-        ({ begin, end }) =>
-          new CreateSpanAndTypesCommand(
-            editor,
-            annotationData,
-            selectionModel,
-            begin,
-            end,
-            typeValeusList
-          )
-      )
+      .map(({ begin, end }) => {
+        const spanId = makeDenotationSpanDomId(editor, begin, end)
+
+        return new CreateSpanAndTypesCommand(
+          editor,
+          annotationData,
+          selectionModel,
+          spanId,
+          begin,
+          end,
+          typeValeusList
+        )
+      })
     this._logMessage = `replicate a span ${makeDenotationSpanDomId(
       editor,
       span.begin,

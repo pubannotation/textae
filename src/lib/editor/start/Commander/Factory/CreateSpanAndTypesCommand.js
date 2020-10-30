@@ -8,12 +8,12 @@ export default class extends CompositeCommand {
     editor,
     annotationData,
     selectionModel,
+    spanId,
     begin,
     end,
     typeValuesList
   ) {
     super()
-    const spanId = makeDenotationSpanDomId(editor, begin, end)
 
     this._subCommands = [
       new CreateCommand(editor, annotationData, selectionModel, 'span', true, {
