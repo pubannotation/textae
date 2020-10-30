@@ -1,29 +1,13 @@
 import clearTextSelection from '../../../clearTextSelection'
 import selectSpan from './selectSpan'
 import SelectionWrapper from './SelectionWrapper'
-import SpanEditor from './SpanEditor'
 import getEntityDomFromChild from '../../../../../../getEntityDomFromChild'
 
 export default class {
-  constructor(
-    editor,
-    annotationData,
-    selectionModel,
-    commander,
-    buttonController,
-    spanConfig,
-    pallet
-  ) {
+  constructor(editor, annotationData, selectionModel, pallet, spanEditor) {
     this._annotationData = annotationData
     this._selectionModel = selectionModel
-    this._spanEditor = new SpanEditor(
-      editor,
-      annotationData,
-      selectionModel,
-      commander,
-      buttonController,
-      spanConfig
-    )
+    this._spanEditor = spanEditor
     this._editor = editor
     this._pallet = pallet
   }

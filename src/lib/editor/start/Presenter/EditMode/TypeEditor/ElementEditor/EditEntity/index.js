@@ -1,6 +1,7 @@
 import EditEntityHandler from './EditEntityHandler'
 import bindMouseEvents from './bindMouseEvents'
 import MouseEventHandler from './MouseEventHandler'
+import SpanEditor from './SpanEditor'
 
 export default class {
   constructor(
@@ -25,14 +26,20 @@ export default class {
       editAttribute,
       deleteAttribute
     )
-    this._mouseEventHandler = new MouseEventHandler(
+    const spanEditor = new SpanEditor(
       editor,
       annotationData,
       selectionModel,
       commander,
       buttonController,
-      spanConfig,
-      entityPallet
+      spanConfig
+    )
+    this._mouseEventHandler = new MouseEventHandler(
+      editor,
+      annotationData,
+      selectionModel,
+      entityPallet,
+      spanEditor
     )
   }
 

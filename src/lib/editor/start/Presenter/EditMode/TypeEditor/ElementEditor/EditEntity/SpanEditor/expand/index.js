@@ -1,5 +1,5 @@
 import getNewSpan from './getNewSpan'
-import clearTextSelectionAndAlert from '../../../../../clearTextSelectionAndAlert'
+import clearTextSelectionAndAlert from '../../../../clearTextSelectionAndAlert'
 
 export default function(
   selectionModel,

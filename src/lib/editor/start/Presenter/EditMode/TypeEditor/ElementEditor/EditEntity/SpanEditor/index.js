@@ -1,4 +1,4 @@
-import clearTextSelection from '../../../../clearTextSelection'
+import clearTextSelection from '../../../clearTextSelection'
 import Positions from './Positions'
 import DelimiterDetectAdjuster from './DelimiterDetectAdjuster'
 import BlankSkipAdjuster from './BlankSkipAdjuster'
@@ -7,7 +7,7 @@ import shrink from './shrink'
 import getExpandTargetSpan from './getExpandTargetSpan'
 import expand from './expand'
 import hasCharacters from './hasCharacters'
-import getIsDelimiterFunc from '../../../../../../getIsDelimiterFunc'
+import getIsDelimiterFunc from '../../../../../getIsDelimiterFunc'
 
 export default class SpanEditor {
   constructor(
