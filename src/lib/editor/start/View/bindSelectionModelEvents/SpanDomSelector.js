@@ -5,6 +5,10 @@ export default class {
     const el = span.element
     el.classList.add(SELECTED)
 
+    if (span.backgroundElement) {
+      span.backgroundElement.classList.add(SELECTED)
+    }
+
     // Set focus to the span element in order to scroll the browser to the position of the element.
     el.focus()
   }
@@ -15,6 +19,10 @@ export default class {
     // A dom does not exist when it is deleted.
     if (el) {
       el.classList.remove(SELECTED)
+    }
+
+    if (span.backgroundElement) {
+      span.backgroundElement.classList.remove(SELECTED)
     }
   }
 }
