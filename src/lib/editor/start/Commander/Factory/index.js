@@ -10,6 +10,7 @@ import ChangeTypeOfSelectedEntitiesCommand from './ChangeTypeOfSelectedEntitiesC
 import ChangeValueOfAttributeDefinitionAndObjectOfSelectionAttributeCommand from './ChangeValueOfAttributeDefinitionAndObjectOfSelectionAttributeCommand'
 import CreateAttributeDefinitionCommand from './CreateAttributeDefinitionCommand'
 import CreateAttributeToSelectedEntitiesCommand from './CreateAttributeToSelectedEntitiesCommand'
+import CreateBlockSpanCommand from './CreateBlockSpanCommand'
 import CreateDefaultTypeEntityToSelectedSpans from './CreateDefaultTypeEntityToSelectedSpans'
 import CreateSpanAndAutoReplicateCommand from './CreateSpanAndAutoReplicateCommand'
 import CreateTypeDefinitionCommand from './CreateTypeDefinitionCommand'
@@ -25,6 +26,7 @@ import RemoveTypeDefinitionCommand from './RemoveTypeDefinitionCommand'
 import RemoveValueFromAttributeDefinitionCommand from './RemoveValueFromAttributeDefinitionCommand'
 import ToggleFlagAttributeToSelectedEntitiesCommand from './ToggleFlagAttributeToSelectedEntitiesCommand'
 import MoveEntitiesToSelectedSpansCommand from './MoveEntitiesToSelectedSpansCommand'
+import TypeValues from '../../../TypeValues'
 
 export default class {
   constructor(editor, annotationData, selectionModel, typeDefinition) {
@@ -147,6 +149,17 @@ export default class {
       this._selectionModel,
       attributeDefinition,
       obj
+    )
+  }
+
+  createBlockSpanCommand(newSpan) {
+    return new CreateBlockSpanCommand(
+      this._editor,
+      this._annotationData,
+      this._selectionModel,
+      newSpan.begin,
+      newSpan.end,
+      this._typeDefinition.block.defaultType
     )
   }
 
