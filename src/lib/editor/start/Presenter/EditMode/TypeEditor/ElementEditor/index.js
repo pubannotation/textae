@@ -3,6 +3,7 @@ import EditEntity from './EditEntity'
 import getHandler from './getHandler'
 import EditAttribute from './EditAttribute'
 import DeleteAttribute from './DeleteAttribute'
+import EditBlock from './EditBlock'
 
 // Provide handlers to edit elements according to an edit mode.
 export default class {
@@ -39,6 +40,15 @@ export default class {
       editAttribute,
       deleteAttribute,
       entityPallet
+    )
+
+    this._editBlock = new EditBlock(
+      editor,
+      annotationData,
+      selectionModel,
+      spanConfig,
+      commander,
+      buttonController
     )
 
     this._editRelation = new EditRelation(
@@ -83,6 +93,12 @@ export default class {
     this._unbindAllMouseEventhandler()
     this._listeners = this._editEntity.init()
     this._setHandlerType('entity')
+  }
+
+  editBlock() {
+    this._unbindAllMouseEventhandler()
+    this._listeners = this._editBlock.init()
+    this._setHandlerType('block')
   }
 
   editRelation() {

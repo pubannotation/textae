@@ -77,6 +77,11 @@ export default class {
     this._elementEditor.editRelation()
   }
 
+  editBlock() {
+    this.cancelSelect()
+    this._elementEditor.editBlock()
+  }
+
   editEntity() {
     this.cancelSelect()
     this._elementEditor.editEntity()
