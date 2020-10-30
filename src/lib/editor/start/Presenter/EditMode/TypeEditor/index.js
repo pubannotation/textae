@@ -122,8 +122,9 @@ export default class {
     const pallet = this._getPallet()
     if (pallet) {
       pallet.hide()
-      this._selectionModel.clear()
     }
+
+    this._selectionModel.clear()
   }
 
   jsPlumbConnectionClicked(jsPlumbConnection, event) {
