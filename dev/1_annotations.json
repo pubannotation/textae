@@ -599,6 +599,24 @@
       "obj": "Protein"
     }
   ],
+  "blocks": [
+    { 
+      "id": "B1",
+      "span": {
+        "begin": 454, 
+        "end": 622
+      }, 
+      "obj": "block1"
+    },
+    { 
+      "id": "B2",
+      "span": {
+        "begin": 623, 
+        "end": 1002
+      }, 
+      "obj": "block2"
+    }
+  ],
   "attributes": [
     {
       "id": "A1",
