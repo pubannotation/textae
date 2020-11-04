@@ -10,7 +10,7 @@
   "devDependencies": {
     "ajv": "^6.12.6",
     "alertifyjs": "^1.13.1",
-    "array-move": "^2.2.2",
+    "array-move": "^3.0.1",
     "clean-css-cli": "^4.3.0",
     "concat": "^1.0.3",
     "connect": "^3.7.0",
