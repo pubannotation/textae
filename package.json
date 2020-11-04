@@ -14,7 +14,7 @@
     "clean-css-cli": "^4.3.0",
     "concat": "^1.0.3",
     "connect": "^3.7.0",
-    "cpx": "^1.5.0",
+    "cpx2": "^3.0.0",
     "debounce": "^1.2.0",
     "delegate": "^3.2.0",
     "dohtml": "^0.1.0",
