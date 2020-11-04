@@ -8,7 +8,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "ajv": "^6.11.0",
+    "ajv": "^6.12.6",
     "alertifyjs": "^1.13.1",
     "array-move": "^2.2.2",
     "clean-css-cli": "^4.3.0",
