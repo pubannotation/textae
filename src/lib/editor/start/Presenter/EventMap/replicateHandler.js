@@ -1,6 +1,6 @@
 import getIsDelimiterFunc from '../getIsDelimiterFunc'
 
-export default function(commander, buttonController, spanConfig, span) {
+export default function (commander, buttonController, spanConfig, span) {
   const isDelimiterFunc = getIsDelimiterFunc(buttonController, spanConfig)
 
   if (span) {

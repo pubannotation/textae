@@ -1,7 +1,7 @@
 import $ from 'jquery'
 import isEmptyString from './isEmptyString'
 
-export default function(url, dataHandler, failedHandler) {
+export default function (url, dataHandler, failedHandler) {
   if (isEmptyString(url)) {
     return
   }
@@ -16,7 +16,5 @@ export default function(url, dataHandler, failedHandler) {
     timeout: 30000
   }
 
-  $.ajax(opt)
-    .done(dataHandler)
-    .fail(failedHandler)
+  $.ajax(opt).done(dataHandler).fail(failedHandler)
 }

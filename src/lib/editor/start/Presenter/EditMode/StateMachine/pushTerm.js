@@ -1,7 +1,7 @@
 import { MODE } from '../../../../../MODE'
 import toEditStateAccordingToAnntationData from './toEditStateAccordingToAnntationData'
 
-export default function(stateMachine, annotationData) {
+export default function (stateMachine, annotationData) {
   switch (stateMachine.currentState) {
     case MODE.EDIT_RELATION:
       toEditStateAccordingToAnntationData(stateMachine, annotationData)

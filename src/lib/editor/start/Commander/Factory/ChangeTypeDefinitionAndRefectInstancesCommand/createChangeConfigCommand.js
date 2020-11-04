@@ -1,7 +1,7 @@
 import ChangeTypeDefinitionCommand from '../ChangeTypeDefinitionCommand'
 import CreateTypeDefinitionCommand from '../CreateTypeDefinitionCommand'
 
-export default function(
+export default function (
   typeDefinition,
   id,
   editor,

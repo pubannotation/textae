@@ -1,4 +1,4 @@
-export default function(endpoint) {
+export default function (endpoint) {
   const gridStyle = endpoint.closest('.textae-editor__grid').style
 
   return {

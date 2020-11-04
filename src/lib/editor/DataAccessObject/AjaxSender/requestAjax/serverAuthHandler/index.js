@@ -1,7 +1,7 @@
 import isSeverAuthRequired from './isSeverAuthRequired'
 import openPopUp from './openPopUp'
 
-export default function(ajaxResponse, errorHandler, retryHandler) {
+export default function (ajaxResponse, errorHandler, retryHandler) {
   const location = isSeverAuthRequired(ajaxResponse)
 
   if (location) {

@@ -1,6 +1,6 @@
 import selectObjectEntity from './selectObjectEntity'
 
-export default function(
+export default function (
   selectionModel,
   entityId,
   commander,

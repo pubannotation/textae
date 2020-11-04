@@ -1,4 +1,4 @@
-export default function(editorDom, element, className) {
+export default function (editorDom, element, className) {
   console.assert(element, 'element MUST exists.')
 
   const all = editorDom.querySelectorAll(`.${className}`)

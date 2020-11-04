@@ -1,4 +1,4 @@
-export default function(annotationData) {
+export default function (annotationData) {
   return annotationData.relation.all.map((r) => {
     return {
       id: r.id,

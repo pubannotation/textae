@@ -1,4 +1,4 @@
-export default function(targets, translater, source, type) {
+export default function (targets, translater, source, type) {
   if (source) {
     source = source.map(translater)
   }

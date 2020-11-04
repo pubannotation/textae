@@ -2,7 +2,7 @@ import isEmptyString from '../../../util/isEmptyString'
 import post from './post'
 import requestAjax from './requestAjax'
 
-export default function(
+export default function (
   url,
   data,
   beforeSend,

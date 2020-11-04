@@ -1,4 +1,4 @@
-export default function(editor, entityRenderer, relationRenderer) {
+export default function (editor, entityRenderer, relationRenderer) {
   editor.eventEmitter
     .on('textae.typeDefinition.entity.type.change', (typeName) =>
       entityRenderer.updateEntityDom(typeName)

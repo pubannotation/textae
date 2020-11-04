@@ -1,7 +1,7 @@
 import CreateTypeDefinitionDialog from '../../../../../component/CreateTypeDefinitionDialog'
 import EditTypeDefinitionDialog from '../../../../../component/EditTypeDefinitionDialog'
 
-export default function(pallet, editor, typeEditor, commander, name, handler) {
+export default function (pallet, editor, typeEditor, commander, name, handler) {
   editor.eventEmitter
     .on(`textae.${name}Pallet.add-button.click`, () => {
       const dialog = new CreateTypeDefinitionDialog(

@@ -1,6 +1,6 @@
 import stickInParent from './stickInParent'
 
-export default function(editor, controlBar) {
+export default function (editor, controlBar) {
   // add control bar
   editor[0].insertBefore(controlBar.el, editor[0].childNodes[0])
 

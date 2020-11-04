@@ -5,7 +5,7 @@ import select from './select'
 
 customizeqQueryUiAutocomplete()
 
-export default function(el, autocompletionWs, getLocalData) {
+export default function (el, autocompletionWs, getLocalData) {
   const inputs = el.querySelectorAll('input')
 
   // Update the source

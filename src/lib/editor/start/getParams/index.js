@@ -3,7 +3,7 @@ import getAnnotation from './getAnnotation'
 import decodeUrl from './decodeUrl'
 import getAttribute from './getAttribute'
 
-export default function(element) {
+export default function (element) {
   const params = new Map()
 
   getAttribute(params, element, 'mode')

@@ -1,4 +1,4 @@
-export default function(annotationData) {
+export default function (annotationData) {
   return annotationData.attribute.all.map((attribute) => {
     return {
       id: attribute.id,

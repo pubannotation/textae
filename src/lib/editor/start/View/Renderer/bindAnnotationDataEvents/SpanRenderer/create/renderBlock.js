@@ -1,6 +1,6 @@
 import createRangeToSpan from './createRangeToSpan'
 
-export default function(span) {
+export default function (span) {
   const targetRange = createRangeToSpan(span)
   const spanElement = document.createElement('div')
 

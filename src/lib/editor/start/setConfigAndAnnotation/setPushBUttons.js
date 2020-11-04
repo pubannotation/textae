@@ -1,4 +1,4 @@
-export default function(configuration, buttonController) {
+export default function (configuration, buttonController) {
   if (configuration.autosave === true) {
     buttonController.push('write-auto')
   } else {

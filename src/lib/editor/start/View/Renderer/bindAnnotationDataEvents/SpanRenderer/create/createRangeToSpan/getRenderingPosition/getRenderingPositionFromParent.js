@@ -1,6 +1,6 @@
 import getOffset from './getOffset'
 
-export default function(span) {
+export default function (span) {
   const { start, end } = getOffset(span, span.parent.begin)
 
   return {

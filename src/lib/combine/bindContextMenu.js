@@ -1,4 +1,4 @@
-export default function(editor, contextMenu) {
+export default function (editor, contextMenu) {
   // add context menu
   editor[0].appendChild(contextMenu.el)
   editor.eventEmitter

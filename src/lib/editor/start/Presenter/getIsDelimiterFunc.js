@@ -1,4 +1,4 @@
-export default function(buttonController, spanConfig) {
+export default function (buttonController, spanConfig) {
   if (buttonController.valueOf('boundary-detection')) {
     return (char) => spanConfig.isDelimiter(char)
   } else {

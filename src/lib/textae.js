@@ -7,7 +7,7 @@ import combine from './combine'
 
 const tool = new Tool()
 
-export default function() {
+export default function () {
   for (const self of document.querySelectorAll('.textae-editor')) {
     // Create an editor
     const e = $(self)

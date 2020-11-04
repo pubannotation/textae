@@ -1,4 +1,4 @@
-export default function(persistenceInterface) {
+export default function (persistenceInterface) {
   return new Map([
     [
       'textae.pallet.button.read.click',

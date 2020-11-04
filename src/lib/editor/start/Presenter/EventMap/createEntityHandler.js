@@ -1,4 +1,4 @@
-export default function(commander, typeDefinition) {
+export default function (commander, typeDefinition) {
   const command = commander.factory.createDefaultTypeEntityToSelectedSpansCommand(
     typeDefinition.entity.defaultType
   )

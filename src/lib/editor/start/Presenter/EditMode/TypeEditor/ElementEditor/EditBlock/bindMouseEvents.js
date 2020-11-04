@@ -1,6 +1,6 @@
 import delegate from 'delegate'
 
-export default function(editor, mouseEventHandler) {
+export default function (editor, mouseEventHandler) {
   const listeners = []
 
   listeners.push(

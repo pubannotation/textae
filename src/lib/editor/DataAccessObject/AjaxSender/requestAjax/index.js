@@ -1,7 +1,7 @@
 import $ from 'jquery'
 import serverAuthHandler from './serverAuthHandler'
 
-export default function(
+export default function (
   type,
   url,
   data,
@@ -21,10 +21,7 @@ export default function(
   }
 
   const retryHandler = () => {
-    $.ajax(opt)
-      .done(successHandler)
-      .fail(failHandler)
-      .always(finishHandler)
+    $.ajax(opt).done(successHandler).fail(failHandler).always(finishHandler)
   }
 
   $.ajax(opt)

@@ -1,4 +1,4 @@
-export default function(dataObject) {
+export default function (dataObject) {
   const blob = new Blob([JSON.stringify(dataObject)], {
     type: 'application/json'
   })

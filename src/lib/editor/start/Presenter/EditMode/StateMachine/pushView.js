@@ -1,6 +1,6 @@
 import { MODE } from '../../../../../MODE'
 
-export default function(stateMachine) {
+export default function (stateMachine) {
   switch (stateMachine.currentState) {
     case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
     case MODE.EDIT_BLOCK_WITHOUT_RELATION:

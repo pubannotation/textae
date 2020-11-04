@@ -1,4 +1,4 @@
-export default function(annotation) {
+export default function (annotation) {
   if (annotation.denotations) {
     for (const denotation of annotation.denotations) {
       if (denotation.span.begin !== parseInt(denotation.span.begin)) {

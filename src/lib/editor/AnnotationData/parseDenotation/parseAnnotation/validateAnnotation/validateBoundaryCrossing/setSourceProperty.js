@@ -1,4 +1,4 @@
-export default function(n, name) {
+export default function (n, name) {
   n.sourceProperty = name
   return n
 }

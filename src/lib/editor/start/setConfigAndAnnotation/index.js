@@ -2,7 +2,7 @@ import validateConfigurationAndAlert from '../validateConfigurationAndAlert'
 import setSpanAndTypeConfig from '../setSpanAndTypeConfig'
 import setPushBUttons from './setPushBUttons'
 
-export default function(
+export default function (
   annotation,
   config,
   errorMessageForConfigValidation,

@@ -1,4 +1,4 @@
-export default function(source) {
+export default function (source) {
   if (source) {
     return decodeURIComponent(source)
   }

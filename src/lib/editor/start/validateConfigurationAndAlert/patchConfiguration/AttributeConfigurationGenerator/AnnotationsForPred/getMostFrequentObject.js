@@ -1,5 +1,5 @@
 // The default value is the value of the first object of the most frequent object.
-export default function(objects) {
+export default function (objects) {
   const objectFrequencyMap = objects.reduce((map, obj) => {
     if (map.has(obj)) {
       return map.set(obj, map.get(obj) + 1)

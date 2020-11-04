@@ -2,7 +2,7 @@ import getParent from './getParent'
 import spanComparator from '../spanComparator'
 
 // the spanTree has parent-child structure.
-export default function(root, spans) {
+export default function (root, spans) {
   // Sort spans by the position.
   const sortedSpans = spans.sort(spanComparator)
 

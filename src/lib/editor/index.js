@@ -10,7 +10,7 @@ import { EventEmitter } from 'events'
 import observeDataSave from './observeDataSave'
 import observeModelChange from './observeModelChange'
 
-export default function() {
+export default function () {
   // Set the eventEmitter to communicate with the tool and a control.
   this.eventEmitter = new EventEmitter()
 

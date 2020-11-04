@@ -1,5 +1,5 @@
 import { wholeTemplate } from './tepmlate'
 
-export default function(content) {
+export default function (content) {
   return wholeTemplate(content)
 }

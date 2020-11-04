@@ -19,6 +19,6 @@ const source = `<div>
 `
 const template = Handlebars.compile(source)
 
-export default function(content) {
+export default function (content) {
   return template(content)
 }

@@ -1,4 +1,4 @@
-export default function(gridElement, top, left) {
+export default function (gridElement, top, left) {
   if (
     gridElement.style &&
     parseFloat(gridElement.style.top) === top &&

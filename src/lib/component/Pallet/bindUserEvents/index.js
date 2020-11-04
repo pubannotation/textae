@@ -1,7 +1,7 @@
 import delegate from 'delegate'
 import checkButtonEnable from './checkButtonEnable'
 
-export default function(pallet, emitter, name) {
+export default function (pallet, emitter, name) {
   delegate(pallet, `.textae-editor__type-pallet__add-button`, 'click', () =>
     emitter.emit(`textae.${name}Pallet.add-button.click`)
   )

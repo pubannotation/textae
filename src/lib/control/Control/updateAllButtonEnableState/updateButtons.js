@@ -1,5 +1,5 @@
 // A parameter can be spesified by object like { 'buttonType1': true, 'buttonType2': false }.
-export default function(el, buttonEnables) {
+export default function (el, buttonEnables) {
   for (const button of el.querySelectorAll('.textae-control__icon')) {
     const buttonType = button.dataset.buttonType
 

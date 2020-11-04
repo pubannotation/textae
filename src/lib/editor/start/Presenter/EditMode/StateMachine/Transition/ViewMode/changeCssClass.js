@@ -1,4 +1,4 @@
-export default function(editor, mode) {
+export default function (editor, mode) {
   editor
     .removeClass('textae-editor--term-mode')
     .removeClass('textae-editor--instance-mode')

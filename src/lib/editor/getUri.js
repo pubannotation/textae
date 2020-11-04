@@ -1,7 +1,7 @@
 import isUri from '../isUri'
 import getMatchPrefix from './getMatchPrefix'
 
-export default function(namespace, value, uri) {
+export default function (namespace, value, uri) {
   if (isUri(value)) {
     return value
   }

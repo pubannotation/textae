@@ -1,4 +1,4 @@
-export default function(span) {
+export default function (span) {
   const element = document.createElement('span')
 
   element.setAttribute('id', span.id)

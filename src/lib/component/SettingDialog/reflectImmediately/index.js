@@ -3,7 +3,7 @@ import bindChangeLockConfig from './bindChangeLockConfig'
 import bindChangeLineHeight from './bindChangeLineHeight'
 import bindChangeTypeGap from './bindChangeTypeGap'
 
-export default function(
+export default function (
   content,
   editor,
   displayInstance,

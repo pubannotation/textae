@@ -6,7 +6,7 @@ import toLabelString from '../../../toLabelString'
 import arrowConfig from '../../../../../../../arrowConfig'
 
 // Make a connect by jsPlumb.
-export default function(
+export default function (
   jsPlumbInstance,
   editor,
   relation,

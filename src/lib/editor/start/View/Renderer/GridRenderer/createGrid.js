@@ -1,7 +1,7 @@
 import getRightGrid from './getRightGrid'
 import createGridHtml from './createGridHtml'
 
-export default function(editorDom, container, textBox, gridRectangle, span) {
+export default function (editorDom, container, textBox, gridRectangle, span) {
   const { width, top, left } = span.isBlock
     ? gridRectangle.blockGridRectangle(textBox, span)
     : gridRectangle.denotationGridRectangle(span)

@@ -2,7 +2,7 @@ import parseAnnotation from './parseAnnotation'
 import importNamespace from './importNamespace'
 import parseTracks from './parseTracks'
 
-export default function(annotationData, rowData) {
+export default function (annotationData, rowData) {
   const [multitrack, multitrackRejects] = parseTracks(
     annotationData.span,
     annotationData.entity,

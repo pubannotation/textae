@@ -1,7 +1,7 @@
 import renderAllAnnotations from './renderAllAnnotations'
 import SpanRenderer from './SpanRenderer'
 
-export default function(
+export default function (
   annotationData,
   editor,
   relationRenderer,

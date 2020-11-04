@@ -4,7 +4,7 @@ import EditValueToAttributeDefinitionDialog from '../../../../../component/EditV
 import openEditNumericAttributeDialog from '../../openEditNumericAttributeDialog'
 import openEditStringAttributeDialog from '../../openEditStringAttributeDialog'
 
-export default function(
+export default function (
   eventEmitter,
   commander,
   selectionModelEntity,

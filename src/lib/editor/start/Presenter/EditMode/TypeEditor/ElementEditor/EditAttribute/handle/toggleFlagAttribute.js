@@ -1,4 +1,4 @@
-export default function(attrDef, commander) {
+export default function (attrDef, commander) {
   const command = commander.factory.toggleFlagAttributeToSelectedEntitiesCommand(
     attrDef
   )

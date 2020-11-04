@@ -5,7 +5,7 @@ import translateAttribute from './translateAttribute'
 import translateRelation from './translateRelation'
 import convertBeginAndEndToInteger from './convertBeginAndEndToInteger'
 
-export default function(
+export default function (
   span,
   entity,
   attribute,

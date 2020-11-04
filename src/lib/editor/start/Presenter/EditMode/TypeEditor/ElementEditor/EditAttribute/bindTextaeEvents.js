@@ -1,4 +1,4 @@
-export default function(editor, selectionModel, commander) {
+export default function (editor, selectionModel, commander) {
   editor.eventEmitter
     .on(
       'textae.entityPallet.attribute.selection-attribute-label.click',

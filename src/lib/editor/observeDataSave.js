@@ -1,6 +1,6 @@
 import alertifyjs from 'alertifyjs'
 
-export default function(editor, history) {
+export default function (editor, history) {
   editor.eventEmitter
     .on('textae.annotation.save', () => {
       history.annotatioSaved()

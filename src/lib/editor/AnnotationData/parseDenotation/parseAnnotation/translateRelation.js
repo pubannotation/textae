@@ -1,7 +1,7 @@
 import setIdPrefixIfExist from './setIdPrefixIfExist'
 
 // Expected relations is an Array of object like { "id": "R1", "pred": "locatedAt", "subj": "E1", "obj": "T1" }.
-export default function(prefix, src) {
+export default function (prefix, src) {
   prefix = prefix || ''
 
   return Object.assign({}, src, {

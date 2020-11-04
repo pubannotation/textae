@@ -1,4 +1,4 @@
-export default function(instances) {
+export default function (instances) {
   return instances.reduce((countMap, instance) => {
     const type = instance.typeName
 

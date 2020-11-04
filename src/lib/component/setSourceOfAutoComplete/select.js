@@ -1,4 +1,4 @@
-export default function(inputElement, labelSpan, ui) {
+export default function (inputElement, labelSpan, ui) {
   inputElement.value = ui.item.raw.id
 
   if (labelSpan) {

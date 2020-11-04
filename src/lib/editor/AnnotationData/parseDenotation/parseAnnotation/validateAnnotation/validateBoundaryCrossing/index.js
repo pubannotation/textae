@@ -1,7 +1,7 @@
 import IsNotCrossingValidation from './IsNotCrossingValidation'
 import setSourceProperty from './setSourceProperty'
 
-export default function(typesettings, denotations) {
+export default function (typesettings, denotations) {
   // Merge type settings and denotations
   const spans = typesettings
     .map((n) => setSourceProperty(n, 'typesettings'))

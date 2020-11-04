@@ -3,7 +3,7 @@ import patchConfiguration from './patchConfiguration'
 import validateConfiguration from './validateConfiguration'
 import validateAttribueDefinitionAndAlert from '../validateAttribueDefinitionAndAlert'
 
-export default function(annotation, config, defaultErrorMessage) {
+export default function (annotation, config, defaultErrorMessage) {
   console.assert(config, 'config is necessary')
 
   // When config is specified, it must be JSON.

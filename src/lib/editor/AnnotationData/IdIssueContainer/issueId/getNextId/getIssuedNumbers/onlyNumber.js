@@ -1,3 +1,3 @@
-export default function(id) {
+export default function (id) {
   return id.slice(1)
 }

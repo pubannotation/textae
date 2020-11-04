@@ -4,7 +4,7 @@ import validateAttribute from './validateAttribute'
 import validateRelation from './validateRelation'
 import transformToReferenceObjectError from './transformToReferenceObjectError'
 
-export default function(text, rowData) {
+export default function (text, rowData) {
   const resultTypeSetting = validateSpan(text, rowData.typesettings)
   const resultDenotation = validateSpan(text, rowData.denotations)
 

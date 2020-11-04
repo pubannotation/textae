@@ -4,7 +4,7 @@ import patchConfiguration from '../validateConfigurationAndAlert/patchConfigurat
 import validateAttribueDefinitionAndAlert from '../validateAttribueDefinitionAndAlert'
 import setSpanAndTypeConfig from '../setSpanAndTypeConfig'
 
-export default function(
+export default function (
   spanConfig,
   typeDefinition,
   annotationData,

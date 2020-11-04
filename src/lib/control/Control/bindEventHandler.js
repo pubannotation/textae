@@ -2,7 +2,7 @@ import HelpDialog from '../../component/HelpDialog'
 
 const helpDialog = new HelpDialog()
 
-export default function(el, editor) {
+export default function (el, editor) {
   // Bind eventhandler
   const eventHandler = (e) => {
     // Ignore disabled button's events.

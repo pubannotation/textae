@@ -1,6 +1,6 @@
 import delegate from 'delegate'
 
-export default function(element) {
+export default function (element) {
   // Observe remove an attributu button
   delegate(
     element,

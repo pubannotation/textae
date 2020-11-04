@@ -6,7 +6,7 @@ const source = `
   `
 const template = Handlebars.compile(source)
 
-export default function(spanId, top, left, width) {
+export default function (spanId, top, left, width) {
   return template({
     id: `G${spanId}`,
     style: `top: ${top}px; left: ${left}px; width: ${width}px;`

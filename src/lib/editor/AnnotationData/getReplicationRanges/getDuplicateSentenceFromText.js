@@ -1,4 +1,4 @@
-export default function(text, beginOfSentence, endOfSentence) {
+export default function (text, beginOfSentence, endOfSentence) {
   const searchSentence = text.substring(beginOfSentence, endOfSentence)
   const sentenceLength = endOfSentence - beginOfSentence
   const findRanges = []

@@ -1,4 +1,4 @@
-export default function(newObj, commander, attrDef, newLabel) {
+export default function (newObj, commander, attrDef, newLabel) {
   if (newObj) {
     return commander.factory.changeAttributesOfSelectedEntitiesWithSamePred(
       attrDef,

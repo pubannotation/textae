@@ -4,7 +4,7 @@ import observeKey from './observeKey'
 import observeTypeDefilinition from './observeTypeDefilinition'
 import observeDataAccessObject from './observeDataAccessObject'
 
-export default function(
+export default function (
   editor,
   history,
   annotationData,

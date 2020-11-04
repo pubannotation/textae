@@ -1,6 +1,6 @@
 import delegate from 'delegate'
 
-export default function(el, eventEmitter) {
+export default function (el, eventEmitter) {
   delegate(el, '.textae-editor__type-pallet__drop-target', 'dragover', (e) => {
     // Display the image after the drop.
     const width = e.target

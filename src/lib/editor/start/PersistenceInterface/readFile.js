@@ -1,4 +1,4 @@
-export default function(file) {
+export default function (file) {
   return new Promise((resolve) => {
     const reader = new FileReader()
 

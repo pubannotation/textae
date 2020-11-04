@@ -1,7 +1,7 @@
 import ajaxAccessor from '../../util/ajaxAccessor'
 import alertifyjs from 'alertifyjs'
 
-export default function(url, done, cursorChanger) {
+export default function (url, done, cursorChanger) {
   cursorChanger.startWait()
 
   ajaxAccessor(

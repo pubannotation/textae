@@ -1,7 +1,7 @@
 import updateSelectionOfEntity from './updateSelectionOfEntity'
 import createRelation from './createRelation'
 
-export default function(
+export default function (
   selectionModel,
   commander,
   typeDefinition,

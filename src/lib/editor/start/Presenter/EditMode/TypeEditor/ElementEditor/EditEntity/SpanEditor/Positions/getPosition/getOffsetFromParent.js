@@ -1,4 +1,4 @@
-export default function(node) {
+export default function (node) {
   let offset = 0
 
   for (const prevNode of node.parentElement.childNodes) {

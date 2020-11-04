@@ -18,7 +18,7 @@ import ClipBoard from './ClipBoard'
 import AnnotationAutoSaver from './AnnotationAutoSaver'
 import observe from './observe'
 
-export default function(
+export default function (
   editor,
   dataAccessObject,
   history,

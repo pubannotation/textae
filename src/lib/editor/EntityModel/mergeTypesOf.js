@@ -2,7 +2,7 @@ import TypeValues from '../TypeValues'
 
 // When you select multiple entities and display the edit dialog,
 // this is used to display the merged type name and attributes.
-export default function(entities) {
+export default function (entities) {
   const typeName = entities[entities.length - 1].typeName
 
   const attributes = []

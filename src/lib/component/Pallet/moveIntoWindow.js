@@ -1,4 +1,4 @@
-export default function(pallet, point) {
+export default function (pallet, point) {
   // Pull left the pallet when the pallet protrudes from right of the window.
   if (pallet.offsetWidth + point.left > window.innerWidth) {
     point.left = window.innerWidth - pallet.offsetWidth - 2

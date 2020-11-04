@@ -1,6 +1,6 @@
 import delegate from 'delegate'
 
-export default function(editor) {
+export default function (editor) {
   const dom = editor[0]
 
   // Prevent a selection text with shift keies.

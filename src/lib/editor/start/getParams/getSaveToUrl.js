@@ -1,4 +1,4 @@
-export default function(element) {
+export default function (element) {
   // 'save_to'
   const value = element.getAttribute('save_to')
 

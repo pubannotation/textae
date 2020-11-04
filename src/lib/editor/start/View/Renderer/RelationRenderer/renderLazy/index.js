@@ -4,7 +4,7 @@ import areEndpointsPrepared from './areEndpointsPrepared'
 // The jsPlumb error occurs when a relation between same points.
 // And entities of same length spans was same point before moving grids.
 // A relaiton will be rendered after moving grids.
-export default function(
+export default function (
   editor,
   annotationData,
   relation,

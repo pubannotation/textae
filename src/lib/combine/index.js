@@ -1,7 +1,7 @@
 import bindControlBar from './bindControlBar'
 import bindContextMenu from './bindContextMenu'
 
-export default function(editor, controlBar, contextMenu) {
+export default function (editor, controlBar, contextMenu) {
   bindControlBar(editor, controlBar)
   bindContextMenu(editor, contextMenu)
 

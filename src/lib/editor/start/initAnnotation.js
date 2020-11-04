@@ -1,6 +1,6 @@
 import setAnnotation from './setAnnotation'
 
-export default function(
+export default function (
   spanConfig,
   typeDefinition,
   annotationData,

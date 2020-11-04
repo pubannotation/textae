@@ -2,7 +2,7 @@ import delegate from 'delegate'
 import showDropTargets from './showDropTargets'
 import hideDropTargets from './hideDropTargets'
 
-export default function(el) {
+export default function (el) {
   delegate(el, '.textae-editor__type-pallet__attribute', 'dragstart', (e) => {
     e.dataTransfer.setData(
       'application/x-textae-attribute-tab-old-index',

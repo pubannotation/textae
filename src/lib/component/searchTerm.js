@@ -1,4 +1,4 @@
-export default function(autocompletionWs, localData, term, done) {
+export default function (autocompletionWs, localData, term, done) {
   if (!autocompletionWs) {
     done(localData)
     return
@@ -11,7 +11,7 @@ export default function(autocompletionWs, localData, term, done) {
   url.searchParams.append('term', term)
 
   request.open('GET', url.href, true)
-  request.onload = function() {
+  request.onload = function () {
     if (this.status >= 200 && this.status < 400) {
       // Success!
       const data = JSON.parse(this.response)

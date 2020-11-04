@@ -1,4 +1,4 @@
-export default function(annotationData, relationId) {
+export default function (annotationData, relationId) {
   if (!annotationData.relation.get(relationId)) {
     return false
   }

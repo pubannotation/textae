@@ -6,6 +6,6 @@ document.querySelector('html').addEventListener('mousemove', (e) => {
   lastMousePoint.left = e.clientX
 })
 
-export default function() {
+export default function () {
   return lastMousePoint
 }

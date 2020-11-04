@@ -1,6 +1,6 @@
 import getQueryParams from './getQueryParams'
 
-export default function(url) {
+export default function (url) {
   if (url) {
     const queryParamMap = getQueryParams(url)
 

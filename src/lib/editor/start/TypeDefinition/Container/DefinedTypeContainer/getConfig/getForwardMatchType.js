@@ -1,7 +1,7 @@
 import getForwardMatchTypes from './getForwardMatchTypes'
 import getLongestIdMatchType from './getLongestIdMatchType'
 
-export default function(definedTypes, id) {
+export default function (definedTypes, id) {
   // '*' at the last char of id means wildcard.
   const forwardMatchTypes = getForwardMatchTypes(definedTypes.ids(), id)
 

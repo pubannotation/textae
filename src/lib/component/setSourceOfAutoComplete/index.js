@@ -5,7 +5,7 @@ import customizeqQueryUiAutocomplete from '../customize-jquery-ui-autocomplete'
 
 customizeqQueryUiAutocomplete()
 
-export default function(
+export default function (
   inputElement,
   labelSpan,
   autocompletionWs,

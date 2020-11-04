@@ -1,4 +1,4 @@
-export default function(el, buttonType, isPushed) {
+export default function (el, buttonType, isPushed) {
   const button = el.querySelector(`.textae-control__${buttonType}-button`)
 
   if (isPushed) {

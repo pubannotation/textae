@@ -4,7 +4,7 @@ import delegate from 'delegate'
 // For support context menu.
 // Mouse up event occurs when either left or right button is clicked.
 // Change mouse events to monitor from mouseup to click since v5.0.0.
-export default function(editor, mouseEventHandler) {
+export default function (editor, mouseEventHandler) {
   const listeners = []
 
   listeners.push(

@@ -1,6 +1,6 @@
 import getAnnotationBox from '../../../getAnnotationBox'
 
-export default function(editor, span) {
+export default function (editor, span) {
   const div = document.createElement('div')
   div.setAttribute('id', span.backgroundId)
   div.classList.add('textae-editor__block-bg')

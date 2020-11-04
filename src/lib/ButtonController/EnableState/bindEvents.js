@@ -1,4 +1,4 @@
-export default function(editor, button) {
+export default function (editor, button) {
   editor.eventEmitter
     .on('textae.history.change', (history) => {
       // change button state

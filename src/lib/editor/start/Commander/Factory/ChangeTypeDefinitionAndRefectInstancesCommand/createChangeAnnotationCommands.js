@@ -1,6 +1,6 @@
 import ChangeTypeCommand from '../ChangeTypeCommand'
 
-export default function(
+export default function (
   annotationData,
   modelType,
   typeName,

@@ -1,7 +1,7 @@
 import delegate from 'delegate'
 import getEntityDomFromChild from '../getEntityDomFromChild'
 
-export default function(editor, hoverRelation) {
+export default function (editor, hoverRelation) {
   const dom = editor[0]
 
   // Highlight retaitons when related entity is heverd.

@@ -1,7 +1,7 @@
 import shrinkSpanToSelection from './shrinkSpanToSelection'
 import getRightSpanElement from '../../../../../../../getRightSpanElement'
 
-export default function(
+export default function (
   editor,
   annotationData,
   commander,

@@ -1,7 +1,7 @@
 import getRemoveAtributesByPredAndObjCommands from './getRemoveAtributesByPredAndObjCommands'
 import getExistingSamePredicateAttributes from './getExistingSamePredicateAttributes'
 
-export default function(
+export default function (
   editor,
   annotationData,
   selectionModel,

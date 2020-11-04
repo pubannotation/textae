@@ -1,7 +1,7 @@
 import { MODE } from '../../../../../MODE'
 import isSimple from '../../isSimple'
 
-export default function(stateMachine, annotationData) {
+export default function (stateMachine, annotationData) {
   switch (stateMachine.currentState) {
     case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
       stateMachine.setState(MODE.EDIT_BLOCK_WITHOUT_RELATION)

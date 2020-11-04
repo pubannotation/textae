@@ -1,4 +1,4 @@
-export default function(defindTypeNames, countMap) {
+export default function (defindTypeNames, countMap) {
   const typesWithoutInstance = []
   for (const type of defindTypeNames) {
     if (!countMap.has(type)) {

@@ -1,4 +1,4 @@
-export default function(selectionModel, attrDef, commander, pallet) {
+export default function (selectionModel, attrDef, commander, pallet) {
   const selectedEntityWithSamePred = selectionModel.entity.findSelectedWithSamePredicateAttribute(
     attrDef
   )

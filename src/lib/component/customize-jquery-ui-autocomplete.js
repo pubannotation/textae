@@ -3,9 +3,9 @@ import 'jquery-ui/ui/widgets/autocomplete'
 
 /* eslint no-underscore-dangle: 0 */
 // Custumize jQuery-ui autocomplete
-export default function() {
+export default function () {
   // Repalce @ to font awesome icon
-  $.ui.autocomplete.prototype._renderItem = function(ul, item) {
+  $.ui.autocomplete.prototype._renderItem = function (ul, item) {
     const [label, url] = item.label.split('@')
 
     return $('<li>')
@@ -13,7 +13,7 @@ export default function() {
       .appendTo(ul)
   }
 
-  $.ui.autocomplete.prototype._resizeMenu = function() {
+  $.ui.autocomplete.prototype._resizeMenu = function () {
     // Prepend resize menu
   }
 }

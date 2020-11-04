@@ -2,7 +2,7 @@ import delegate from 'delegate'
 import createDownloadPath from '../createDownloadPath'
 import makeDomEnabled from '../makeDomEnabled'
 
-export default function(
+export default function (
   editor,
   element,
   editedData,

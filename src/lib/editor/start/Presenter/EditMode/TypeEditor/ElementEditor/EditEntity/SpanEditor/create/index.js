@@ -1,7 +1,7 @@
 import createCommand from './createCommand'
 import getNewSpan from './getNewSpan'
 
-export default function(
+export default function (
   annotationData,
   commander,
   spanAdjuster,

@@ -1,4 +1,4 @@
-export default function(el, isTransit) {
+export default function (el, isTransit) {
   const button = el.querySelector('.textae-control__write-button')
 
   if (isTransit === true) {

@@ -1,4 +1,4 @@
-export default function(span, maybeParent) {
+export default function (span, maybeParent) {
   if (!maybeParent) {
     return false
   }

@@ -3,7 +3,7 @@ import getTypeValuesDom from './getTypeValuesDom'
 
 const cssClass = 'ui-to-be-cut'
 
-export default function(editor) {
+export default function (editor) {
   editor.eventEmitter.on('textae.clipBoard.change', (added, removed) => {
     for (const e of added) {
       const el = getEntityEndopointDom(editor, e.id)

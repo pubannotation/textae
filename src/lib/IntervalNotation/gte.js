@@ -1,3 +1,3 @@
-export default function(left, right) {
+export default function (left, right) {
   return left <= right
 }

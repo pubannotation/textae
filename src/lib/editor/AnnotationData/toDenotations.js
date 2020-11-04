@@ -1,4 +1,4 @@
-export default function(annotationData) {
+export default function (annotationData) {
   return annotationData.entity.denotations.map((entity) => ({
     id: entity.id,
     span: {

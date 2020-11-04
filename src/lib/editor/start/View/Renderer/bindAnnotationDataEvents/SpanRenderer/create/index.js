@@ -4,7 +4,7 @@ import renderBlock from './renderBlock'
 import renderBackgroundOfBlockSpan from './renderBackgroundOfBlockSpan'
 
 // Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
-export default function(editor, span, entityRenderer) {
+export default function (editor, span, entityRenderer) {
   span.traverse((span) => {
     if (span.element !== null) {
       destroy(span)

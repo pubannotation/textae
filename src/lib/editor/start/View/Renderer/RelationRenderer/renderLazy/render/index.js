@@ -1,6 +1,6 @@
 import JsPlumbConnectionWrapper from './JsPlumbConnectionWrapper'
 
-export default function(
+export default function (
   jsPlumbInstance,
   editor,
   annotationData,

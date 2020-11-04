@@ -1,4 +1,4 @@
-export default function(textNode, start, end) {
+export default function (textNode, start, end) {
   const range = document.createRange()
 
   range.setStart(textNode, start)

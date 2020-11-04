@@ -11,7 +11,7 @@
 // ==============================================================
 // Access-Control-Expose-Headers: WWW-Authenticate,Location
 // ==============================================================
-export default function(httpResponse) {
+export default function (httpResponse) {
   const statusCode = httpResponse.status
   const wwwAuthenticateHeader = httpResponse.getResponseHeader(
     'WWW-Authenticate'

@@ -1,7 +1,7 @@
 import getSaveToUrl from './getSaveToUrl'
 import getUrl from './getUrl'
 
-export default function(element, source) {
+export default function (element, source) {
   const annotation = new Map()
 
   // Read Html text and clear it.

@@ -1,4 +1,4 @@
-export default function(commander, presenter, persistenceInterface) {
+export default function (commander, presenter, persistenceInterface) {
   return new Map([
     ['1', (shiftKey) => presenter.event.manipulateAttribute(1, shiftKey)],
     ['2', (shiftKey) => presenter.event.manipulateAttribute(2, shiftKey)],

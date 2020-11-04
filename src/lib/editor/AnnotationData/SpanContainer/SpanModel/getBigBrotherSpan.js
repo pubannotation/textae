@@ -1,5 +1,5 @@
 // Big Brother is the Span before the span
-export default function(span) {
+export default function (span) {
   // The parent of a big Brother and the span is the same.
   const bros = span.parent.children
   const index = bros.indexOf(span)

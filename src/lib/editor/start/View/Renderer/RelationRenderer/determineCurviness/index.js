@@ -9,7 +9,7 @@ const CURVINESS_PARAMETERS = {
   offset: 20
 }
 
-export default function(sourceEndpoint, targetEndpoint) {
+export default function (sourceEndpoint, targetEndpoint) {
   const sourcePosition = getEndpointPosition(sourceEndpoint)
   const targetPosition = getEndpointPosition(targetEndpoint)
 

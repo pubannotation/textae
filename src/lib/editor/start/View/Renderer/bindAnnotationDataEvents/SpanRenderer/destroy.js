@@ -1,4 +1,4 @@
-export default function(span) {
+export default function (span) {
   const spanElement = span.element
 
   const parent = spanElement.parentNode

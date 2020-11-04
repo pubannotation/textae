@@ -2,7 +2,7 @@ import dohtml from 'dohtml'
 import createEntityHtml from './createEntityHtml'
 import EntityDomSelector from '../../EntityDomSelector'
 
-export default function(
+export default function (
   editor,
   selectionModel,
   namespace,

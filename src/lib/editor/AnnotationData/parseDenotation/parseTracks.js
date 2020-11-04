@@ -1,6 +1,6 @@
 import parseAnnotation from './parseAnnotation'
 
-export default function(span, entity, attribute, relation, text, rowData) {
+export default function (span, entity, attribute, relation, text, rowData) {
   if (!rowData.tracks) return [false, []]
   const tracks = rowData.tracks
   delete rowData.tracks

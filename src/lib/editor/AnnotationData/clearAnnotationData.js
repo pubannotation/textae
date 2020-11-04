@@ -1,4 +1,4 @@
-export default function(annotationData) {
+export default function (annotationData) {
   annotationData.span.clear()
   annotationData.entity.clear()
   annotationData.attribute.clear()

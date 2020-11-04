@@ -4,7 +4,7 @@
 // Next elements are seleced autmatically by user deleting.
 // Next elements are not seleced autmatically by undo creation.
 // So, focus the editer when spans or entity types are removed and lost focus.
-export default function(editor) {
+export default function (editor) {
   // Observe a removing the focused document object.
   new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {

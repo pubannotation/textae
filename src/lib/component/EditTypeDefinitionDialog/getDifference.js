@@ -1,4 +1,4 @@
-export default function(before, after) {
+export default function (before, after) {
   const changedProperties = new Map()
 
   if (before.id !== after.id) {

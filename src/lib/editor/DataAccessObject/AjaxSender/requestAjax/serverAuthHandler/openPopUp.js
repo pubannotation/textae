@@ -1,4 +1,4 @@
-export default function(url) {
+export default function (url) {
   const width = 600
   const height = 500
 

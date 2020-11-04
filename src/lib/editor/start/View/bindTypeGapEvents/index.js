@@ -1,6 +1,6 @@
 import updateAllTypeGaps from './updateAllTypeGaps'
 
-export default function(
+export default function (
   typeGap,
   editor,
   textBox,

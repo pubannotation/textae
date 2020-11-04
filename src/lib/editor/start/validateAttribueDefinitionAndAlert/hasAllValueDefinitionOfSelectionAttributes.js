@@ -1,5 +1,5 @@
 // Check for definitions of values for selection attributes.
-export default function(annotation, config) {
+export default function (annotation, config) {
   console.assert(
     config,
     `If you don't have a configuration, generate a configuration from the annotation.`

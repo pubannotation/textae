@@ -1,4 +1,4 @@
-export default function(isBlankCharacter, isDelimiter, chars) {
+export default function (isBlankCharacter, isDelimiter, chars) {
   // The word is (no charactor || blank || delimiter)(!delimiter).
   return (
     (chars[0] !== '' &&

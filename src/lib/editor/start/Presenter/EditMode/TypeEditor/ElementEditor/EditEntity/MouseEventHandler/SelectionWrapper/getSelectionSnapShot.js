@@ -1,5 +1,5 @@
 // Return the snap shot of the selection.
-export default function() {
+export default function () {
   const selection = window.getSelection()
 
   return {

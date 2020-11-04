@@ -4,7 +4,7 @@ import createNumericAttributeOrShowEditNumericAttributeDialog from './createNume
 import createSelectionAttributeOrShowSelectionAttributePallet from './createSelectionAttributeOrShowSelectionAttributePallet'
 import createStringAttributeOrShowEditStringAttributeDialog from './createStringAttributeOrShowEditStringAttributeDialog'
 
-export default function(
+export default function (
   pallet,
   commander,
   selectionModel,

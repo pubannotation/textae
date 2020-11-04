@@ -1,6 +1,6 @@
 import shrinkSpanToSelectionAndSelectNextIfRemoved from './shrinkSpanToSelectionAndSelectNextIfRemoved'
 
-export default function(
+export default function (
   editor,
   annotationData,
   selectionModel,

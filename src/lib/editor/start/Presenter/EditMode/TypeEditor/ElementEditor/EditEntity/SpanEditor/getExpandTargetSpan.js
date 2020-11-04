@@ -1,4 +1,4 @@
-export default function(selectionModel, selectionWrapper) {
+export default function (selectionModel, selectionWrapper) {
   // If a span is selected, it is able to begin drag a span in the span and expand the span.
   // The focus node should be at one level above the selected node.
   if (selectionWrapper.isAnchorNodeParentIsDescendantOfSelectedSpan) {

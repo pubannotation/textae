@@ -1,6 +1,6 @@
 import determineCurviness from './determineCurviness'
 
-export default function(relation) {
+export default function (relation) {
   const jsPlumbConnection = relation.jsPlumbConnection
   const curviness = determineCurviness(
     jsPlumbConnection.sourceEndpoint,

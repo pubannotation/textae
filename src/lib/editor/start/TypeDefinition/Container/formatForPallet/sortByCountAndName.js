@@ -1,4 +1,4 @@
-export default function(countTypeUse) {
+export default function (countTypeUse) {
   // Sort by number of types, and by name if numbers are same.
   const typeNames = Array.from(countTypeUse.keys())
 

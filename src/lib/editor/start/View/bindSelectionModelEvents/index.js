@@ -1,7 +1,7 @@
 import SpanDomSelector from './SpanDomSelector'
 import EntityDomSelector from '../EntityDomSelector'
 
-export default function(editor) {
+export default function (editor) {
   const spanDomSelector = new SpanDomSelector()
   const entityDomSelector = new EntityDomSelector(editor)
 

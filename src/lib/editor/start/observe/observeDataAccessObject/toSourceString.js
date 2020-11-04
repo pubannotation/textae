@@ -1,6 +1,6 @@
 import url from 'url'
 
-export default function(sourceType, source) {
+export default function (sourceType, source) {
   switch (sourceType) {
     case 'url': {
       return url.resolve(location.href, source)

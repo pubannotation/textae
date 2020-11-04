@@ -1,6 +1,6 @@
 const waitingEditors = new Map()
 
-export default function(element) {
+export default function (element) {
   if (element.classList.contains('textae-editor--wait')) {
     waitingEditors.set(element)
   } else {

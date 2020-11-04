@@ -1,7 +1,7 @@
 import getRenderingPositionFromParent from './getRenderingPositionFromParent'
 import getRenderingPositionFromBigBrother from './getRenderingPositionFromBigBrother'
 
-export default function(span) {
+export default function (span) {
   const bigBrotherSpan = span.bigBrother
 
   if (bigBrotherSpan) {

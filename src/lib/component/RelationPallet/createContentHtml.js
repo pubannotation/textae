@@ -79,7 +79,7 @@ const html = `
 
 const template = Handlebars.compile(html)
 
-export default function(typeContainer, hasDiff) {
+export default function (typeContainer, hasDiff) {
   return template({
     isLock: typeContainer.isLock,
     hasDiff,

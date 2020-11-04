@@ -1,5 +1,5 @@
 // The value of step is matched to the smallest digit of all objcts.
-export default function(objects) {
+export default function (objects) {
   const numberOfDigits = Math.max(
     ...objects.map((o) => {
       const [_, smallNumber] = String(o).split('.')

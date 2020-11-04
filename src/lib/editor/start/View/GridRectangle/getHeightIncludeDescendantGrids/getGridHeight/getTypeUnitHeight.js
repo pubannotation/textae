@@ -3,7 +3,7 @@ import getHeightOfEntityPane from './getHeightOfEntityPane'
 
 const labelUnitHegiht = 18
 
-export default function(typeGap) {
+export default function (typeGap) {
   return (
     typeGap.value * typeGapUnitHeight +
     labelUnitHegiht +

@@ -1,4 +1,4 @@
-export default function(arg) {
+export default function (arg) {
   if (typeof arg !== 'string') {
     return false
   }

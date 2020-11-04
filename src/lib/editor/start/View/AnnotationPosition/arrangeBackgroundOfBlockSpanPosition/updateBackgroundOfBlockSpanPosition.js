@@ -1,4 +1,4 @@
-export default function(span, textBox) {
+export default function (span, textBox) {
   const bg = span.backgroundElement
   const rect = span.rectangle
 

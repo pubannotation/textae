@@ -1,6 +1,6 @@
 import getNextId from './getNextId'
 
-export default function(instance, container, prefix) {
+export default function (instance, container, prefix) {
   if (!instance.id) {
     // Overwrite to revert
     const ids = Array.from(container.keys())

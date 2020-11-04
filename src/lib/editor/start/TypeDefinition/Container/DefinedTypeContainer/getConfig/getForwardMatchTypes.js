@@ -1,4 +1,4 @@
-export default function(typeIds, id) {
+export default function (typeIds, id) {
   const forwardMatchTypes = []
 
   for (const definedType of typeIds) {

@@ -4,7 +4,7 @@ import SelectionAttributeDefinition from './SelectionAttributeDefinition'
 import StringAttributeDefinition from './StringAttributeDefinition'
 import AttributeDefinition from './AttributeDefinition'
 
-export default function(hash) {
+export default function (hash) {
   if (hash instanceof AttributeDefinition) {
     throw new Error(
       `Give me hash object instead of an AttributeDefinition instance`

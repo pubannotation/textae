@@ -1,6 +1,6 @@
 import createCountMap from './createCountMap'
 
-export default function(instances) {
+export default function (instances) {
   const countMap = createCountMap(instances)
 
   if (countMap.size === 0) {

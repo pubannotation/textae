@@ -32,7 +32,7 @@ import getSelectionAttributes from './getSelectionAttributes'
 //   "pred": "denote",
 //   "obj": "Cell"
 // }
-export default function(config, annotations) {
+export default function (config, annotations) {
   config = clone(config)
 
   const annotationMap = getAnntationMap(annotations)

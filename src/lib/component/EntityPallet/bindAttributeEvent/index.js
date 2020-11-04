@@ -2,7 +2,7 @@ import delegate from 'delegate'
 import enableAttributeTabDrag from './enableAttributeTabDrag'
 import enableAttributeTabDrop from './enableAttributeTabDrop'
 
-export default function(pallet, el, eventEmitter) {
+export default function (pallet, el, eventEmitter) {
   enableAttributeTabDrag(el)
   enableAttributeTabDrop(el, eventEmitter)
 

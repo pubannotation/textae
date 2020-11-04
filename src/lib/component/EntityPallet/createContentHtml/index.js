@@ -371,7 +371,7 @@ const numericAttributeTemplate = Handlebars.compile(numericAttributeHtml)
 const selectionAttributeTemplate = Handlebars.compile(selectionAttributeHtml)
 const stringAttributeTemplate = Handlebars.compile(stringAttributeHtml)
 
-export default function(
+export default function (
   typeContainer,
   hasDiff,
   selectedPred,

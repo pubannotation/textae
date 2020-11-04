@@ -1,4 +1,4 @@
-export default function(obj) {
+export default function (obj) {
   if (obj === true) {
     return 'flag'
   } else if (typeof obj === 'number') {

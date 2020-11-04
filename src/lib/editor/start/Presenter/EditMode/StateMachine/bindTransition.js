@@ -1,7 +1,7 @@
 import { MODE } from '../../../../../MODE'
 import toEnterEvent from './toEnterEvent'
 
-export default function(stateMachine, transition) {
+export default function (stateMachine, transition) {
   stateMachine
     .on(toEnterEvent(MODE.EDIT_DENOTATION_WITHOUT_RELATION), () =>
       transition.toEditDenotationWithoutRelation()

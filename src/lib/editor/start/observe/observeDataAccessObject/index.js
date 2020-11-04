@@ -3,7 +3,7 @@ import setAnnotation from '../../setAnnotation'
 import setConfigAndAnnotation from '../../setConfigAndAnnotation'
 import toSourceString from './toSourceString'
 
-export default function(
+export default function (
   editor,
   spanConfig,
   typeDefinition,

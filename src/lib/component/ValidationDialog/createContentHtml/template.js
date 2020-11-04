@@ -1,7 +1,7 @@
 import Handlebars from 'handlebars'
 
 // See: https://stackoverflow.com/questions/24334639/handlebars-if-statement-with-index-some-value
-Handlebars.registerHelper('ifSecond', function(index, options) {
+Handlebars.registerHelper('ifSecond', function (index, options) {
   if (index == 1) {
     return options.fn(this)
   } else {
@@ -143,6 +143,6 @@ const source = `
 
 const template = Handlebars.compile(source)
 
-export default function(content) {
+export default function (content) {
   return template(content)
 }

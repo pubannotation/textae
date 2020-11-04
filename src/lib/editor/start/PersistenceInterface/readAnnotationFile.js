@@ -2,7 +2,7 @@ import readFile from './readFile'
 import isJSON from './isJSON'
 import isTxtFile from './isTxtFile'
 
-export default function(files, editor) {
+export default function (files, editor) {
   const file = files[0]
 
   readFile(file).then((event) => {

@@ -1,6 +1,6 @@
 import Positions from '../Positions'
 
-export default function(
+export default function (
   annotationData,
   spanAdjuster,
   selectionWrapper,

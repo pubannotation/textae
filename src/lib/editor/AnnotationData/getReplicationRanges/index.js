@@ -2,7 +2,7 @@ import getDuplicateSentenceFromText from './getDuplicateSentenceFromText'
 import isWord from './isWord'
 
 // Check replications are word or not if spanConfig is set.
-export default function(
+export default function (
   sourceDoc,
   beginOfSample,
   endOfSample,

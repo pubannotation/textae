@@ -1,4 +1,4 @@
-export default function(oldAttrDef, changedProperties) {
+export default function (oldAttrDef, changedProperties) {
   const newAttrDef = Object.assign({}, oldAttrDef.JSON)
   const revertChangedProperties = new Map()
   // change config

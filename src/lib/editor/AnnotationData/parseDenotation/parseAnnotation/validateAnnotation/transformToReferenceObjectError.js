@@ -1,4 +1,4 @@
-export default function(attributeSubj, relationObj, relationSubj) {
+export default function (attributeSubj, relationObj, relationSubj) {
   // Combine rejects for referenced object errer.
   // Mark the column you want to highlight.
   return attributeSubj

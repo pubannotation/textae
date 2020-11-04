@@ -1,7 +1,7 @@
 import delgate from 'delegate'
 import debounce300 from './debounce300'
 
-export default function(content, displayInstance, view) {
+export default function (content, displayInstance, view) {
   delgate(
     content,
     '.type-gap',

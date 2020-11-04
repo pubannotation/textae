@@ -1,4 +1,4 @@
-export default function(namespace, type) {
+export default function (namespace, type) {
   const namespaces = namespace.all
   const matchs = namespaces
     .filter((namespace) => namespace.prefix !== '_base')

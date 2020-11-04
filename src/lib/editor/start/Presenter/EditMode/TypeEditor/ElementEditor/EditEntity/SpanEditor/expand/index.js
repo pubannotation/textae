@@ -1,7 +1,7 @@
 import getNewSpan from './getNewSpan'
 import clearTextSelectionAndAlert from '../../../../clearTextSelectionAndAlert'
 
-export default function(
+export default function (
   selectionModel,
   annotationData,
   commander,

@@ -1,4 +1,4 @@
-export default function(type) {
+export default function (type) {
   // The regular-expression to parse URL.
   // See detail:
   // http://someweblog.com/url-regular-expression-javascript-link-shortener/

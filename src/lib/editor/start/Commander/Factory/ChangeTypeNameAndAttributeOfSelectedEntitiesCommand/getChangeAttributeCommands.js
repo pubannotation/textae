@@ -1,7 +1,7 @@
 import { RemoveCommand, CreateCommand } from '../commandTemplate'
 import ChangeAttributeCommand from '../ChangeAttributeCommand'
 
-export default function(
+export default function (
   entities,
   newAttributes,
   annotationData,

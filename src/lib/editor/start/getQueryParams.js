@@ -1,4 +1,4 @@
-export default function(url) {
+export default function (url) {
   const queryParamMap = new Map()
   const queryStr = url.split('?')[1]
 

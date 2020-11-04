@@ -2,7 +2,7 @@ import delegate from 'delegate'
 import createDownloadPath from '../createDownloadPath'
 import makeDomEnabled from '../makeDomEnabled'
 
-export default function(editor, element, data, closeDialog, saveAnnotation) {
+export default function (editor, element, data, closeDialog, saveAnnotation) {
   // Disabled the button to save to the URL when no URL.
   delegate(element, '[type="text"].url', 'input', (e) => {
     makeDomEnabled(e.target.nextElementSibling, e.target.value)

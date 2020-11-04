@@ -1,7 +1,7 @@
 import isBoundaryCrossing from '../../../../../../../../isBoundaryCrossing'
 import getOffset from './getOffset'
 
-export default function(span, bigBrotherSpan) {
+export default function (span, bigBrotherSpan) {
   if (isBoundaryCrossing(span.begin, span.end, bigBrotherSpan)) {
     throw new Error(`span ${span.id} is corrisng with ${bigBrotherSpan.id}`)
   }
