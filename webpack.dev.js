@@ -6,5 +6,14 @@ module.exports = {
     path: path.resolve(__dirname, 'dev'),
     filename: 'bundle.js'
   },
-  watch: true
+  watch: true,
+  resolve: {
+    fallback: {
+      path: require.resolve('path-browserify'),
+      url: require.resolve('url/')
+    },
+    alias: {
+      handlebars: 'handlebars/dist/handlebars.js'
+    }
+  }
 }
