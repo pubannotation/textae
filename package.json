@@ -90,7 +90,7 @@
     "dist:copy:fonts": "cpx 'src/lib/fonts/**' dist/lib/fonts",
     "dist:copy:images": "cpx 'src/lib/css/images/**.png' dist/lib/css/images",
     "dist:less": "lessc 'src/lib/css/textae.less' 'src/lib/css/textae.css'",
-    "dist:lint": "eslint src/lib",
+    "dist:lint": "npx prettier --check 'src/lib/**/*.js'&& eslint src/lib",
     "dist:replace:version": "replace-in-file /{{version}}/g $npm_package_version dist/editor.html,dist/demo/**/*.html --isRegex",
     "version": "npm run dist && git add -A dist",
     "watch": "npm-run-all -p dev:watch dev:watch-less dev:server dev:open"
