@@ -1,19 +1,12 @@
+const { merge } = require('webpack-merge')
+const common = require('./webpack.common.js')
 const path = require('path')
 
-module.exports = {
+module.exports = merge(common, {
   mode: 'development',
   output: {
     path: path.resolve(__dirname, 'dev'),
     filename: 'bundle.js'
   },
-  watch: true,
-  resolve: {
-    fallback: {
-      path: require.resolve('path-browserify'),
-      url: require.resolve('url/')
-    },
-    alias: {
-      handlebars: 'handlebars/dist/handlebars.js'
-    }
-  }
-}
+  watch: true
+})
