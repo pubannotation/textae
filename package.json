@@ -40,8 +40,7 @@
     "sticky-kit": "github:leafo/sticky-kit",
     "throttleit": "^1.0.0",
     "webpack": "^4.44.2",
-    "webpack-cli": "^3.3.12",
-    "yui": "^3.18.1"
+    "webpack-cli": "^3.3.12"
   },
   "homepage": "https://github.com/pubannotation/textae",
   "keywords": [

@@ -6,7 +6,7 @@ const path = require('path')
 const http = require('http')
 const favicon = require('serve-favicon')
 const fs = require('fs')
-const querystring = require('qs')
+const querystring = require('querystring')
 
 const app = connect()
 
