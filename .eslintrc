@@ -14,8 +14,7 @@
     "node": true
   },
   "extends": [
-    "eslint:recommended",
-    "plugin:prettier/recommended"
+    "eslint:recommended"
   ],
   "globals": {
     "jsPlumb": true
