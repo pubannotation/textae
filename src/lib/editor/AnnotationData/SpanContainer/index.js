@@ -118,7 +118,7 @@ export default class SpanContainer extends ModelContainer {
 
   clear() {
     super.clear()
-    this._typeSettings = new Map()
+    this._typeSettings.clear()
   }
 
   remove(id) {
