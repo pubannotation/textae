@@ -48,7 +48,7 @@ export default class Renderer {
     this._typeGap = typeGap
   }
 
-  arrangeRelationPositionAllAsync() {
+  async arrangeRelationPositionAllAsync() {
     return new Promise((resolve) => {
       this._relationRenderer.arrangePositionAll()
       resolve()
