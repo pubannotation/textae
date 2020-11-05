@@ -118,6 +118,7 @@ export default class SpanContainer extends ModelContainer {
 
   clear() {
     super.clear()
+    this._blocks.clear()
     this._typeSettings.clear()
   }
 
