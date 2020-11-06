@@ -4,7 +4,7 @@ export default function(destination, source) {
   // Clone source to prevet changing orignal data.
   importSource(
     [destination],
-    (namespace) => Object.assign({}, namespace),
+    (namespace) => Object.assign({ id: namespace.prefix }, namespace),
     source
   )
 }
