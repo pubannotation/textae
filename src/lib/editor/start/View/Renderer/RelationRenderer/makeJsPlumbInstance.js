@@ -1,7 +1,9 @@
+import $ from 'jquery'
+
 export default function (container) {
   return jsPlumb.getInstance({
     ConnectionsDetachable: false,
-    Container: container,
+    Container: $(container),
     Endpoint: [
       'Dot',
       {
