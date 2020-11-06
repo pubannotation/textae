@@ -1,6 +1,6 @@
 import delegate from 'delegate'
 import createDownloadPath from '../createDownloadPath'
-import makeDomEnabled from '../makeDomEnabled'
+import enableHTMLelement from '../enableHTMLelement'
 
 export default function (
   editor,
@@ -11,7 +11,7 @@ export default function (
 ) {
   // Disabled the button to save to the URL when no URL.
   delegate(element, '[type="text"].url', 'input', (e) => {
-    makeDomEnabled(e.target.nextElementSibling, e.target.value)
+    enableHTMLelement(e.target.nextElementSibling, e.target.value)
   })
 
   // Save to the URL.

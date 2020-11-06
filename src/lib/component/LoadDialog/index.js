@@ -1,7 +1,7 @@
 import delegate from 'delegate'
 import Dialog from '../Dialog'
 import createContentHtml from './createContentHtml'
-import makeDomEnabled from '../makeDomEnabled'
+import enableHTMLelment from '../enableHTMLelement'
 
 const CONFIRM_DISCARD_CHANGE_MESSAGE =
   'There is a change that has not been saved. If you procceed now, you will lose it.'
@@ -14,12 +14,12 @@ export default class extends Dialog {
 
     // Disabled the button to load from the URL when no URL.
     delegate(super.el, '[type="text"].url', 'input', (e) => {
-      makeDomEnabled(e.target.nextElementSibling, e.target.value)
+      enableHTMLelment(e.target.nextElementSibling, e.target.value)
     })
 
     // Disabled the button to load from a file when no file.
     delegate(super.el, '.textae-editor__load-dialog__file', 'change', (e) => {
-      makeDomEnabled(e.target.nextElementSibling, e.target.files.length > 0)
+      enableHTMLelment(e.target.nextElementSibling, e.target.files.length > 0)
     })
 
     const isUserConfirm = () =>
