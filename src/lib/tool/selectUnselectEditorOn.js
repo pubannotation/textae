@@ -12,7 +12,9 @@ export default function (editors) {
   document.body.addEventListener(
     'focus',
     (e) => {
-      const editor = editors.findByDom(e.target.closest('.textae-editor'))
+      const editor = editors.findByHTMLelement(
+        e.target.closest('.textae-editor')
+      )
       selectEditor(editors, editor)
     },
     true
@@ -42,7 +44,7 @@ export default function (editors) {
     }
 
     // Ignore clicks on children of the this Editor
-    if (editors.findByDom(e.target.closest('.textae-editor'))) {
+    if (editors.findByHTMLelement(e.target.closest('.textae-editor'))) {
       return
     }
 

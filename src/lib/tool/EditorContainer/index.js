@@ -40,7 +40,7 @@ export default class {
     this.editorList.forEach((e) => e.api.redraw())
   }
 
-  findByDom(dom) {
+  findByHTMLelement(dom) {
     return this.editorList.filter((e) => e[0] === dom)[0]
   }
 
