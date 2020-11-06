@@ -1,5 +1,5 @@
 import hasWaitingEditor from './hasWaitingEditor'
-import veil from './veil'
+import switchVeil from './switchVeil'
 
 const config = {
   attributes: true,
@@ -12,12 +12,4 @@ export default function (editorDom) {
 
 function updateVeil(mutationRecords) {
   mutationRecords.forEach((m) => switchVeil(hasWaitingEditor(m.target)))
-}
-
-function switchVeil(hasWaitingEditor) {
-  if (hasWaitingEditor) {
-    veil.show()
-  } else {
-    veil.hide()
-  }
 }
