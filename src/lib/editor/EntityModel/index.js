@@ -7,7 +7,6 @@ export default class EntityModel {
     editor,
     attributeContainer,
     relationContaier,
-    definedTypes,
     span,
     typeName,
     id = null
@@ -18,7 +17,6 @@ export default class EntityModel {
     this._id = id
     this._attributeContainer = attributeContainer
     this._relationContaier = relationContaier
-    this._definedTypes = definedTypes
   }
 
   static mergedTypesOf(entities) {
