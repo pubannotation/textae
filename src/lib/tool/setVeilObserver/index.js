@@ -5,6 +5,6 @@ const config = {
   attributeFilter: ['class']
 }
 
-export default function (editorDom) {
-  new MutationObserver(updateVeil).observe(editorDom, config)
+export default function (editor) {
+  new MutationObserver(updateVeil).observe(editor[0], config)
 }

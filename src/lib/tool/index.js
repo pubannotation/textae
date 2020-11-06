@@ -18,6 +18,6 @@ export default class {
 
   registerEditor(editor) {
     this._editors.push(editor)
-    setVeilObserver(editor[0])
+    setVeilObserver(editor)
   }
 }
