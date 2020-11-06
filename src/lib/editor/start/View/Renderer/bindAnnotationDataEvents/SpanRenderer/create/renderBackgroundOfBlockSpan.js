@@ -8,5 +8,5 @@ export default function (editor, span) {
 
   // Place the background in the annotation box
   // to shift the background up by half a line from the block span area.
-  getAnnotationBox(editor)[0].appendChild(div)
+  getAnnotationBox(editor).appendChild(div)
 }

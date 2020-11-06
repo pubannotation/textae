@@ -10,7 +10,7 @@ export default class {
     this._annotationData = annotationData
     this._selectionModel = selectionModel
     this._typeDefinition = typeDefinition
-    this._jsPlumbInstance = makeJsPlumbInstance(getAnnotationBox(editor)[0])
+    this._jsPlumbInstance = makeJsPlumbInstance(getAnnotationBox(editor))
   }
 
   arrangePositionAll() {
