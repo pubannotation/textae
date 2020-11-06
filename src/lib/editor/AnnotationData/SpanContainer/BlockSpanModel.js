@@ -1,4 +1,4 @@
-import { makeBlockSpanDomId } from '../../idFactory'
+import { makeBlockSpanHtmlelementId } from '../../idFactory'
 import SpanModel from './SpanModel'
 
 export default class BlockSpanModel extends SpanModel {
@@ -17,7 +17,7 @@ export default class BlockSpanModel extends SpanModel {
   }
 
   get id() {
-    return makeBlockSpanDomId(this._editor, this._begin, this._end)
+    return makeBlockSpanHtmlelementId(this._editor, this._begin, this._end)
   }
 
   get rectangle() {

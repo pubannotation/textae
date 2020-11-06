@@ -1,7 +1,7 @@
 export default function (editor, entityRenderer, relationRenderer) {
   editor.eventEmitter
     .on('textae.typeDefinition.entity.type.change', (typeName) =>
-      entityRenderer.updateEntityDom(typeName)
+      entityRenderer.updateEntityHtmlelement(typeName)
     )
     .on('textae.typeDefinition.attribute.change', (pred) =>
       entityRenderer.updateAttribute(pred)
@@ -10,7 +10,7 @@ export default function (editor, entityRenderer, relationRenderer) {
       relationRenderer.changeType(typeName)
     )
     .on('textae.typeDefinition.reset', () => {
-      entityRenderer.updateEntityDomAll()
+      entityRenderer.updateEntityHtmlelementAll()
       relationRenderer.changeAll()
     })
 }

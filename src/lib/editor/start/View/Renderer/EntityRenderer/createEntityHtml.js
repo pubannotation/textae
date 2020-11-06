@@ -38,6 +38,6 @@ const source = `
 export const template = Handlebars.compile(source)
 
 export default function (entity, namespace, typeContainer) {
-  const domInfo = entity.toDomInfo(namespace, typeContainer)
+  const domInfo = entity.toHtmlelementInfo(namespace, typeContainer)
   return template(domInfo)
 }

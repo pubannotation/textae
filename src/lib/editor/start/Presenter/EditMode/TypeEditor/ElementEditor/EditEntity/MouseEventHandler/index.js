@@ -1,7 +1,7 @@
 import clearTextSelection from '../../../clearTextSelection'
 import selectSpan from './selectSpan'
 import SelectionWrapper from './SelectionWrapper'
-import getEntityDomFromChild from '../../../../../../getEntityDomFromChild'
+import getEntityHtmlelementFromChild from '../../../../../../getEntityHtmlelementFromChild'
 
 export default class {
   constructor(editor, annotationData, selectionModel, pallet, spanEditor) {
@@ -87,7 +87,7 @@ export default class {
 
   endpointClicked(e) {
     this._selectionModel.selectEntity(
-      getEntityDomFromChild(e.target).title,
+      getEntityHtmlelementFromChild(e.target).title,
       e.ctrlKey || e.metaKey
     )
   }
@@ -98,7 +98,7 @@ export default class {
 
   typeValuesClicked(e) {
     this._selectionModel.selectEntity(
-      getEntityDomFromChild(e.target).title,
+      getEntityHtmlelementFromChild(e.target).title,
       e.ctrlKey || e.metaKey
     )
   }

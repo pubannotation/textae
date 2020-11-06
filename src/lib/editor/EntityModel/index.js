@@ -1,5 +1,5 @@
 import TypeValues from '../TypeValues'
-import { makeEntityDomId } from '../idFactory'
+import { makeEntityHtmlelementId } from '../idFactory'
 import mergeTypesOf from './mergeTypesOf'
 
 export default class EntityModel {
@@ -86,13 +86,13 @@ export default class EntityModel {
     )
   }
 
-  toDomInfo(namespace, typeContainer) {
+  toHtmlelementInfo(namespace, typeContainer) {
     return Object.assign(
       {
-        id: makeEntityDomId(this._editor, this.id),
+        id: makeEntityHtmlelementId(this._editor, this.id),
         title: this.id
       },
-      this.typeValues.toDomInfo(namespace, typeContainer)
+      this.typeValues.toHtmlelementInfo(namespace, typeContainer)
     )
   }
 
@@ -119,7 +119,9 @@ export default class EntityModel {
   }
 
   get element() {
-    return document.querySelector(`#${makeEntityDomId(this._editor, this.id)}`)
+    return document.querySelector(
+      `#${makeEntityHtmlelementId(this._editor, this.id)}`
+    )
   }
 
   get isDenotation() {

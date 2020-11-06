@@ -1,7 +1,7 @@
-import getEntityDomFromChild from '../getEntityDomFromChild'
+import getEntityHtmlelementFromChild from '../getEntityHtmlelementFromChild'
 
 export default function (el) {
-  return getEntityDomFromChild(el).querySelector(
+  return getEntityHtmlelementFromChild(el).querySelector(
     '.textae-editor__entity__type-values'
   )
 }

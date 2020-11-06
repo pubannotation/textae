@@ -1,8 +1,8 @@
 import getEntityEndopoint from '../getEntityEndopoint'
-import getEntityDomFromChild from '../../getEntityDomFromChild'
+import getEntityHtmlelementFromChild from '../../getEntityHtmlelementFromChild'
 import getTypeValues from '../getTypeValues'
 import SELECTED from '../SELECTED'
-import getLabelDomOfType from './getLabelDomOfType'
+import getLabelHtmlelementOfType from './getLabelHtmlelementOfType'
 
 export default class {
   constructor(editor) {
@@ -11,7 +11,7 @@ export default class {
 
   select(id) {
     const el = getEntityEndopoint(this._editor, id)
-    const type = getEntityDomFromChild(el)
+    const type = getEntityHtmlelementFromChild(el)
     const typeValues = getTypeValues(el)
 
     el.classList.add(SELECTED)
@@ -19,12 +19,12 @@ export default class {
     typeValues.classList.add(SELECTED)
 
     // Set focus to the label element in order to scroll the browser to the position of the element.
-    getLabelDomOfType(el).focus()
+    getLabelHtmlelementOfType(el).focus()
   }
 
   deselect(id) {
     const el = getEntityEndopoint(this._editor, id)
-    const type = getEntityDomFromChild(el)
+    const type = getEntityHtmlelementFromChild(el)
     const typeValues = getTypeValues(el)
 
     el.classList.remove(SELECTED)

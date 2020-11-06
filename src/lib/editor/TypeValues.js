@@ -15,12 +15,12 @@ export default class {
     return this._attributes
   }
 
-  toDomInfo(namespace, typeContainer) {
+  toHtmlelementInfo(namespace, typeContainer) {
     return {
       label: this._label(namespace, typeContainer),
       href: this._href(namespace, typeContainer),
       color: typeContainer.getColor(this.typeName),
-      attributes: this._attributesForDomInfo(namespace, typeContainer)
+      attributes: this._attributesForHtmlelementInfo(namespace, typeContainer)
     }
   }
 
@@ -36,7 +36,7 @@ export default class {
     return getUri(namespace, this.typeName, typeContainer.getUri(this.typeName))
   }
 
-  _attributesForDomInfo(namespace, typeContainer) {
+  _attributesForHtmlelementInfo(namespace, typeContainer) {
     return this.attributes.map((attr) => ({
       pred: attr.pred,
       obj: attr.obj,

@@ -1,5 +1,5 @@
 import clickEntity from './clickEntity'
-import getEntityDomFromChild from '../../../../../../getEntityDomFromChild'
+import getEntityHtmlelementFromChild from '../../../../../../getEntityHtmlelementFromChild'
 
 export default class MouseEventHandler {
   constructor(editor, selectionModel, commander, typeDefinition, pallet) {
@@ -21,7 +21,7 @@ export default class MouseEventHandler {
   }
 
   endpointClicked(e) {
-    const entity = getEntityDomFromChild(e.target).title
+    const entity = getEntityHtmlelementFromChild(e.target).title
     clickEntity(
       this._selectionModel,
       entity,
@@ -36,7 +36,7 @@ export default class MouseEventHandler {
   }
 
   typeValuesClicked(e) {
-    const entity = getEntityDomFromChild(e.target).title
+    const entity = getEntityHtmlelementFromChild(e.target).title
     clickEntity(
       this._selectionModel,
       entity,

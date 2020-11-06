@@ -14,12 +14,12 @@ export default class {
   }
 
   down() {
-    const selectedEntityDom = this._editor[0].querySelector(
+    const selectedEntityHtmlelement = this._editor[0].querySelector(
       '.textae-editor__entity.ui-selected'
     )
 
-    if (selectedEntityDom) {
-      const spanId = selectedEntityDom
+    if (selectedEntityHtmlelement) {
+      const spanId = selectedEntityHtmlelement
         .closest('.textae-editor__grid')
         .id.substring(1)
 

@@ -1,4 +1,4 @@
-import { makeBlockSpanDomId } from '../../../idFactory'
+import { makeBlockSpanHtmlelementId } from '../../../idFactory'
 import { CreateCommand } from './commandTemplate'
 import CompositeCommand from './CompositeCommand'
 import CreateEntityCommand from './CreateEntityCommand'
@@ -7,7 +7,7 @@ export default class CreateBlockCommand extends CompositeCommand {
   constructor(editor, annotationData, selectionModel, begin, end, defaultType) {
     super()
 
-    const spanId = makeBlockSpanDomId(editor, begin, end)
+    const spanId = makeBlockSpanHtmlelementId(editor, begin, end)
     const createSpanCommand = new CreateCommand(
       editor,
       annotationData,

@@ -1,6 +1,6 @@
-import { makeEntityDomId } from '../../idFactory'
+import { makeEntityHtmlelementId } from '../../idFactory'
 
 export default function (editor, entityId) {
-  const id = makeEntityDomId(editor, entityId)
+  const id = makeEntityHtmlelementId(editor, entityId)
   return editor[0].querySelector(`#${id} .textae-editor__entity__endpoint`)
 }
