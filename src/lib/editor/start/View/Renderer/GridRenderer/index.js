@@ -4,7 +4,7 @@ import createGrid from './createGrid'
 export default class {
   constructor(editor, textBox, gridRectangle) {
     this._editor = editor
-    this._container = getAnnotationBox(editor)
+    this._container = getAnnotationBox(editor)[0]
     this._gridRectangle = gridRectangle
     this._textBox = textBox
   }
@@ -12,7 +12,7 @@ export default class {
   render(span) {
     return createGrid(
       this._editor[0],
-      this._container[0],
+      this._container,
       this._textBox,
       this._gridRectangle,
       span
