@@ -1,7 +1,7 @@
 import getRightSpanElement from '../../../getRightSpanElement'
 
-export default function (editorDom, spanId) {
-  const rightSpan = getRightSpanElement(editorDom, spanId)
+export default function (editor, spanId) {
+  const rightSpan = getRightSpanElement(editor, spanId)
 
   if (rightSpan) {
     return document.querySelector(`#G${rightSpan.id}`)

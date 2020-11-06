@@ -1,8 +1,8 @@
 import getRightElement from './getRightElement'
 
-export default function (editorDom, spanId) {
+export default function (editor, spanId) {
   return getRightElement(
-    editorDom,
+    editor,
     document.querySelector(`#${spanId}`),
     'textae-editor__span'
   )

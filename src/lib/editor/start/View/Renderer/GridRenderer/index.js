@@ -11,7 +11,7 @@ export default class {
 
   render(span) {
     return createGrid(
-      this._editor[0],
+      this._editor,
       this._container,
       this._textBox,
       this._gridRectangle,
