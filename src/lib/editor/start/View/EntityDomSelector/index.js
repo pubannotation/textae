@@ -1,6 +1,6 @@
 import getEntityEndopoint from '../getEntityEndopoint'
 import getEntityDomFromChild from '../../getEntityDomFromChild'
-import getTypeValuesDom from '../getTypeValuesDom'
+import getTypeValues from '../getTypeValues'
 import SELECTED from '../SELECTED'
 import getLabelDomOfType from './getLabelDomOfType'
 
@@ -12,7 +12,7 @@ export default class {
   select(id) {
     const el = getEntityEndopoint(this._editor, id)
     const type = getEntityDomFromChild(el)
-    const typeValues = getTypeValuesDom(el)
+    const typeValues = getTypeValues(el)
 
     el.classList.add(SELECTED)
     type.classList.add(SELECTED)
@@ -25,7 +25,7 @@ export default class {
   deselect(id) {
     const el = getEntityEndopoint(this._editor, id)
     const type = getEntityDomFromChild(el)
-    const typeValues = getTypeValuesDom(el)
+    const typeValues = getTypeValues(el)
 
     el.classList.remove(SELECTED)
     type.classList.remove(SELECTED)

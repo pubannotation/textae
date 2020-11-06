@@ -1,5 +1,5 @@
 import getEntityEndopoint from './getEntityEndopoint'
-import getTypeValuesDom from './getTypeValuesDom'
+import getTypeValues from './getTypeValues'
 
 const cssClass = 'ui-to-be-cut'
 
@@ -9,7 +9,7 @@ export default function (editor) {
       const el = getEntityEndopoint(editor, e.id)
       if (el) {
         el.classList.add(cssClass)
-        getTypeValuesDom(el).classList.add(cssClass)
+        getTypeValues(el).classList.add(cssClass)
       }
     }
 
@@ -17,7 +17,7 @@ export default function (editor) {
       const el = getEntityEndopoint(editor, e.id)
       if (el) {
         el.classList.remove(cssClass)
-        getTypeValuesDom(el).classList.remove(cssClass)
+        getTypeValues(el).classList.remove(cssClass)
       }
     }
   })
