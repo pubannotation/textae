@@ -3,6 +3,6 @@ import Validation from './Validation'
 
 export default class extends Validation {
   constructor(denotations, nodes) {
-    super(nodes, (node) => isContains(denotations, node, 'subj'))
+    super(nodes, (node) => isContains(denotations, node.subj))
   }
 }

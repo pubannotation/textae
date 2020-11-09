@@ -4,7 +4,7 @@ import SubjectValidation from './SubjectValidation'
 
 export default function (denotations, relations) {
   const objectValidation = new Validation(relations, (rel) =>
-    isContains(denotations, rel, 'obj')
+    isContains(denotations, rel.obj)
   )
   const subjectValidation = new SubjectValidation(
     denotations,

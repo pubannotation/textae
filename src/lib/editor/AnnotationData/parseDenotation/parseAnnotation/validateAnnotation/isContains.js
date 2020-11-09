@@ -1,3 +1,3 @@
-export default function (dictionary, node, property) {
-  return dictionary.filter((entry) => entry.id === node[property]).length === 1
+export default function (dictionary, referedEntityId) {
+  return dictionary.filter((entry) => entry.id === referedEntityId).length === 1
 }
