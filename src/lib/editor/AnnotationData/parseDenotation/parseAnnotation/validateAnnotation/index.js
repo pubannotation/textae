@@ -5,14 +5,14 @@ import validateRelation from './validateRelation'
 import transformToReferenceObjectError from './transformToReferenceObjectError'
 
 export default function (text, rowData) {
-  const resultTypeSetting = validateSpan(text, rowData.typesettings)
+  const resultTypesetting = validateSpan(text, rowData.typesettings)
   const resultDenotation = validateSpan(text, rowData.denotations)
 
   // Typesets and denotations are both drawn with a span tag,
   // so the boundaries cannot be crossed.
   // The boundary of a typesetting and denotation is crossed or not.
   const resultCrossing = validateBoundaryCrossing(
-    resultTypeSetting.accept,
+    resultTypesetting.accept,
     resultDenotation.accept
   )
   const resultAttribute = validateAttribute(
@@ -41,14 +41,14 @@ export default function (text, rowData) {
         resultRelation.reject.subj
       ),
       duplicatedAttributes: resultAttribute.reject.duplicatedAttributes,
-      typeSettingHasLength: resultTypeSetting.reject.hasLength,
-      typeSettingInText: resultTypeSetting.reject.inText,
+      typesettingHasLength: resultTypesetting.reject.hasLength,
+      typesettingInText: resultTypesetting.reject.inText,
       isNotCrossing: resultCrossing.reject.isNotCrossing,
       hasError:
         resultDenotation.hasError ||
         resultAttribute.hasError ||
         resultRelation.hasError ||
-        resultTypeSetting.hasError ||
+        resultTypesetting.hasError ||
         resultCrossing.hasError
     }
   }
