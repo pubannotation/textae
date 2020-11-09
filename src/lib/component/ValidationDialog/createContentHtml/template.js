@@ -91,6 +91,102 @@ const source = `
       </table>
     {{/if}}
 
+    {{#if wrongRangeBlocks}}
+      <table>
+        <caption>Wrong range blocks.</caption>
+        <thead>
+          <tr>
+            <th class="id">id</th>
+            <th class="range">begin</th>
+            <th class="range">end</th>
+            <th>obj</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#wrongRangeBlocks}}
+          <tr>
+            <td>{{id}}</td>
+            <td class="alert">{{span.begin}}</td>
+            <td class="alert">{{span.end}}</td>
+            <td>{{obj}}</td>
+          </tr>
+          {{/wrongRangeBlocks}}
+        </tbody>
+      </table>
+    {{/if}}
+
+    {{#if outOfTextBlocks}}
+      <table>
+        <caption>Out of text blokcs.</caption>
+        <thead>
+          <tr>
+            <th class="id">id</th>
+            <th class="range">begin</th>
+            <th class="range">end</th>
+            <th>obj</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#outOfTextBlocks}}
+          <tr>
+            <td>{{id}}</td>
+            <td class="alert">{{span.begin}}</td>
+            <td class="alert">{{span.end}}</td>
+            <td>{{obj}}</td>
+          </tr>
+          {{/outOfTextBlocks}}
+        </tbody>
+      </table>
+    {{/if}}
+
+    {{#if duplicatedIDBlocks}}
+      <table>
+        <caption>Dupulicated ID blocks.</caption>
+        <thead>
+          <tr>
+            <th class="id">id</th>
+            <th class="range">begin</th>
+            <th class="range">end</th>
+            <th>obj</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#duplicatedIDBlocks}}
+          <tr>
+            <td>{{id}}</td>
+            <td class="alert">{{span.begin}}</td>
+            <td class="alert">{{span.end}}</td>
+            <td>{{obj}}</td>
+          </tr>
+          {{/duplicatedIDBlocks}}
+        </tbody>
+      </table>
+    {{/if}}
+
+    {{#if duplicatedRangeBlocks}}
+      <table>
+        <caption>Dupulicated range blocks.</caption>
+        <thead>
+          <tr>
+            <th class="id">id</th>
+            <th class="range">begin</th>
+            <th class="range">end</th>
+            <th>obj</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#duplicatedRangeBlocks}}
+          <tr>
+            <td>{{id}}</td>
+            <td class="alert">{{span.begin}}</td>
+            <td class="alert">{{span.end}}</td>
+            <td>{{obj}}</td>
+          </tr>
+          {{/duplicatedRangeBlocks}}
+        </tbody>
+      </table>
+    {{/if}}
+
     {{#if wrongRangeTypesettings}}
       <table>
         <caption>Wrong range typesettings.</caption>

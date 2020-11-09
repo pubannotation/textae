@@ -4,10 +4,12 @@ import validateAttribute from './validateAttribute'
 import validateRelation from './validateRelation'
 import transformToReferencedEntitiesError from './transformToReferencedEntitiesError'
 import validateDenotation from './validateDenotation'
+import validateBlock from './validateBlock'
 
 export default function (text, rowData) {
   const resultTypesetting = validateSpan(text, rowData.typesettings)
   const resultDenotation = validateDenotation(text, rowData.denotations)
+  const resultBlock = validateBlock(text, rowData.blocks)
 
   // Typesets and denotations are both drawn with a span tag,
   // so the boundaries cannot be crossed.
@@ -31,12 +33,16 @@ export default function (text, rowData) {
       attribute: resultAttribute.accept,
       relation: resultRelation.accept,
       typeSetting: resultCrossing.acceptedTypesettings,
-      block: rowData.blocks || []
+      block: resultBlock.accept
     },
     reject: {
       wrongRangeDenotations: resultDenotation.reject.wrongRange,
       outOfTextDenotations: resultDenotation.reject.outOfText,
       duplicatedIDDenotations: resultDenotation.reject.duplicatedID,
+      wrongRangeBlocks: resultBlock.reject.wrongRange,
+      outOfTextBlocks: resultBlock.reject.outOfText,
+      duplicatedIDBlocks: resultBlock.reject.duplicatedID,
+      duplicatedRangeBlocks: resultBlock.reject.duplicatedRange,
       wrongRangeTypesettings: resultTypesetting.reject.wrongRange,
       outOfTextTypesettings: resultTypesetting.reject.outOfText,
       boundaryCrossingSpans: resultCrossing.reject.boundaryCrossingSpans,

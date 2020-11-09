@@ -289,6 +289,56 @@
       "obj": "Protein"
     }
   ],
+  "blocks": [
+    {
+      "id": "E1",
+      "span": {
+        "begin": 10,
+        "end": 1
+      },
+      "obj": "Protein"
+    },
+    {
+      "id": "E2",
+      "span": {
+        "begin": 204,
+        "end": 1786
+      },
+      "obj": "Protein"
+    },
+    {
+      "id": "E3",
+      "span": {
+        "begin": 0,
+        "end": 49
+      },
+      "obj": "Protein"
+    },
+    {
+      "id": "E3",
+      "span": {
+        "begin": 50,
+        "end": 100
+      },
+      "obj": "Protein"
+    },
+    {
+      "id": "E4",
+      "span": {
+        "begin": 120,
+        "end": 121
+      },
+      "obj": "Protein"
+    },
+    {
+      "id": "E5",
+      "span": {
+        "begin": 120,
+        "end": 121
+      },
+      "obj": "Protein"
+    }
+  ],
   "relations": [
     {
       "pred": "locatedAt",
