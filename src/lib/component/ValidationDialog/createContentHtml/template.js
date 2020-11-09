@@ -45,7 +45,7 @@ const source = `
 
     {{#if outOfTextDenotations}}
       <table>
-        <caption>Out of text.</caption>
+        <caption>Out of text denotations.</caption>
         <thead>
           <tr>
             <th class="id">id</th>
@@ -87,6 +87,30 @@ const source = `
             <td>{{style}}</td>
           </tr>
           {{/wrongRangeTypesettings}}
+        </tbody>
+      </table>
+    {{/if}}
+
+    {{#if outOfTextTypesettings}}
+      <table>
+        <caption>Out of text typesettings.</caption>
+        <thead>
+          <tr>
+            <th class="id">id</th>
+            <th class="range">begin</th>
+            <th class="range">end</th>
+            <th>style</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#outOfTextTypesettings}}
+          <tr>
+            <td>{{id}}</td>
+            <td class="alert">{{span.begin}}</td>
+            <td class="alert">{{span.end}}</td>
+            <td>{{style}}</td>
+          </tr>
+          {{/outOfTextTypesettings}}
         </tbody>
       </table>
     {{/if}}
