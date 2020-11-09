@@ -21,7 +21,7 @@ const source = `
 
     {{#if wrongRangeDenotations}}
       <table>
-        <caption>Wrong range.</caption>
+        <caption>Wrong range denotations.</caption>
         <thead>
           <tr>
             <th class="id">id</th>
@@ -63,6 +63,30 @@ const source = `
             <td>{{obj}}</td>
           </tr>
           {{/outOfTextDenotations}}
+        </tbody>
+      </table>
+    {{/if}}
+
+    {{#if wrongRangeTypesettings}}
+      <table>
+        <caption>Wrong range typesettings.</caption>
+        <thead>
+          <tr>
+            <th class="id">id</th>
+            <th class="range">begin</th>
+            <th class="range">end</th>
+            <th>style</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#wrongRangeTypesettings}}
+          <tr>
+            <td>{{id}}</td>
+            <td class="alert">{{span.begin}}</td>
+            <td class="alert">{{span.end}}</td>
+            <td>{{style}}</td>
+          </tr>
+          {{/wrongRangeTypesettings}}
         </tbody>
       </table>
     {{/if}}

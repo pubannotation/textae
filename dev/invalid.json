@@ -347,6 +347,13 @@
   "typesettings": [
     {
       "span": {
+        "begin": 10,
+        "end": 5
+      },
+      "style": "italic"
+    },
+    {
+      "span": {
         "begin": 55,
         "end": 68
       },
