@@ -67,6 +67,30 @@ const source = `
       </table>
     {{/if}}
 
+    {{#if duplicatedIDDenotations}}
+      <table>
+        <caption>Dupulicated ID denotations.</caption>
+        <thead>
+          <tr>
+            <th class="id">id</th>
+            <th class="range">begin</th>
+            <th class="range">end</th>
+            <th>obj</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#duplicatedIDDenotations}}
+          <tr>
+            <td>{{id}}</td>
+            <td class="alert">{{span.begin}}</td>
+            <td class="alert">{{span.end}}</td>
+            <td>{{obj}}</td>
+          </tr>
+          {{/duplicatedIDDenotations}}
+        </tbody>
+      </table>
+    {{/if}}
+
     {{#if wrongRangeTypesettings}}
       <table>
         <caption>Wrong range typesettings.</caption>

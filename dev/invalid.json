@@ -41,6 +41,14 @@
       "obj": "http://msdn.microsoft.com/en-us/library/aa752574(VS.85).aspx"
     },
     {
+      "id": "T2",
+      "span": {
+        "begin": 69,
+        "end": 77
+      },
+      "obj": "Protein"
+    },
+    {
       "id": "T3",
       "span": {
         "begin": 162,
