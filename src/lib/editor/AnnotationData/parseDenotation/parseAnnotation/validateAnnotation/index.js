@@ -33,7 +33,7 @@ export default function (text, rowData) {
       block: rowData.blocks || []
     },
     reject: {
-      denotationHasLength: resultDenotation.reject.hasLength,
+      wrongRangeDenotations: resultDenotation.reject.wrongRange,
       denotationInText: resultDenotation.reject.inText,
       referencedItems: transformToReferenceObjectError(
         resultAttribute.reject.subj,
@@ -41,7 +41,7 @@ export default function (text, rowData) {
         resultRelation.reject.subj
       ),
       duplicatedAttributes: resultAttribute.reject.duplicatedAttributes,
-      typesettingHasLength: resultTypesetting.reject.hasLength,
+      wrongRangeTypesettings: resultTypesetting.reject.wrongRange,
       typesettingInText: resultTypesetting.reject.inText,
       isNotCrossing: resultCrossing.reject.isNotCrossing,
       hasError:

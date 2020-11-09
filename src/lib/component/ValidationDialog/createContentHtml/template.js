@@ -19,7 +19,7 @@ const source = `
   <div class="textae-editor__valiondate-dialog__content">
     <h2>{{name}}</h2>
 
-    {{#if denotationHasLength}}
+    {{#if wrongRangeDenotations}}
       <table>
         <caption>Wrong range.</caption>
         <thead>
@@ -31,14 +31,14 @@ const source = `
           </tr>
         </thead>
         <tbody>
-          {{#denotationHasLength}}
+          {{#wrongRangeDenotations}}
           <tr>
             <td>{{id}}</td>
             <td class="alert">{{span.begin}}</td>
             <td class="alert">{{span.end}}</td>
             <td>{{obj}}</td>
           </tr>
-          {{/denotationHasLength}}
+          {{/wrongRangeDenotations}}
         </tbody>
       </table>
     {{/if}}
