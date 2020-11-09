@@ -18,6 +18,7 @@ const source = `
   {{/ifSecond}}
   <div class="textae-editor__valiondate-dialog__content">
     <h2>{{name}}</h2>
+
     {{#if denotationHasLength}}
       <table>
         <caption>Wrong range.</caption>
@@ -41,6 +42,7 @@ const source = `
         </tbody>
       </table>
     {{/if}}
+
     {{#if denotationInText}}
       <table>
         <caption>Out of text.</caption>
@@ -64,6 +66,7 @@ const source = `
         </tbody>
       </table>
     {{/if}}
+
     {{#if isNotCrossing}}
       <table>
         <caption>Type settins or Spans with boundary-cross.</caption>
@@ -89,6 +92,7 @@ const source = `
         </tbody>
       </table>
     {{/if}}
+
     {{#if referencedItems}}
       <table>
         <caption>Referenced items do not exist.</caption>
@@ -114,6 +118,7 @@ const source = `
         </tbody>
       </table>
     {{/if}}
+
     {{#if duplicatedAttributes}}
       <table>
         <caption>Dupulicated attributes.</caption>
