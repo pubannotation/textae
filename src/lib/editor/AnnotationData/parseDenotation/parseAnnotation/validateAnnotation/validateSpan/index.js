@@ -13,7 +13,7 @@ export default function (text, spans) {
     accept: inTextValidation.validNodes,
     reject: {
       wrongRange: hasLengthValidation.invalidNodes,
-      inText: inTextValidation.invalidNodes
+      outOfText: inTextValidation.invalidNodes
     },
     hasError: hasLengthValidation.invalid || inTextValidation.invalid
   }

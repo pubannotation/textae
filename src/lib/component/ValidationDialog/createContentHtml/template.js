@@ -43,7 +43,7 @@ const source = `
       </table>
     {{/if}}
 
-    {{#if denotationInText}}
+    {{#if outOfTextDenotations}}
       <table>
         <caption>Out of text.</caption>
         <thead>
@@ -55,14 +55,14 @@ const source = `
           </tr>
         </thead>
         <tbody>
-          {{#denotationInText}}
+          {{#outOfTextDenotations}}
           <tr>
             <td>{{id}}</td>
             <td class="alert">{{span.begin}}</td>
             <td class="alert">{{span.end}}</td>
             <td>{{obj}}</td>
           </tr>
-          {{/denotationInText}}
+          {{/outOfTextDenotations}}
         </tbody>
       </table>
     {{/if}}
