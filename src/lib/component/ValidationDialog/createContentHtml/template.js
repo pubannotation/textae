@@ -69,7 +69,7 @@ const source = `
 
     {{#if isNotCrossing}}
       <table>
-        <caption>Typesettins or Spans with boundary-cross.</caption>
+        <caption>Denotations or Typesettings with boundary-cross.</caption>
         <thead>
           <tr>
             <th class="id">id</th>
