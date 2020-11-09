@@ -93,9 +93,9 @@ const source = `
       </table>
     {{/if}}
 
-    {{#if referencedItems}}
+    {{#if referencedEntitiesDoNotExist}}
       <table>
-        <caption>Referenced items do not exist.</caption>
+        <caption>Referenced entities do not exist.</caption>
         <thead>
           <tr>
             <th class="id">id</th>
@@ -106,7 +106,7 @@ const source = `
           </tr>
         </thead>
         <tbody>
-          {{#referencedItems}}
+          {{#referencedEntitiesDoNotExist}}
           <tr>
             <td>{{id}}</td>
             <td>{{sourceProperty}}</td>
@@ -114,7 +114,7 @@ const source = `
             <td>{{pred}}</td>
             <td{{#if alertObj}} class="alert"{{/if}}>{{obj}}</td>
           </tr>
-          {{/referencedItems}}
+          {{/referencedEntitiesDoNotExist}}
         </tbody>
       </table>
     {{/if}}

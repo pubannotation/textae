@@ -2,7 +2,7 @@ import validateSpan from './validateSpan'
 import validateBoundaryCrossing from './validateBoundaryCrossing'
 import validateAttribute from './validateAttribute'
 import validateRelation from './validateRelation'
-import transformToReferenceObjectError from './transformToReferenceObjectError'
+import transformToReferencedEntitiesError from './transformToReferencedEntitiesError'
 
 export default function (text, rowData) {
   const resultTypesetting = validateSpan(text, rowData.typesettings)
@@ -35,7 +35,7 @@ export default function (text, rowData) {
     reject: {
       wrongRangeDenotations: resultDenotation.reject.wrongRange,
       outOfTextDenotations: resultDenotation.reject.outOfText,
-      referencedItems: transformToReferenceObjectError(
+      referencedEntitiesDoNotExist: transformToReferencedEntitiesError(
         resultAttribute.reject.subj,
         resultRelation.reject.obj,
         resultRelation.reject.subj
