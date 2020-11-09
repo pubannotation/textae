@@ -67,7 +67,7 @@ const source = `
       </table>
     {{/if}}
 
-    {{#if isNotCrossing}}
+    {{#if boundaryCrossingSpans}}
       <table>
         <caption>Denotations or Typesettings with boundary-cross.</caption>
         <thead>
@@ -80,7 +80,7 @@ const source = `
           </tr>
         </thead>
         <tbody>
-          {{#isNotCrossing}}
+          {{#boundaryCrossingSpans}}
           <tr>
             <td>{{id}}</td>
             <td>{{sourceProperty}}</td>
@@ -88,7 +88,7 @@ const source = `
             <td class="alert">{{span.end}}</td>
             <td>{{style}}{{obj}}</td>
           </tr>
-          {{/isNotCrossing}}
+          {{/boundaryCrossingSpans}}
         </tbody>
       </table>
     {{/if}}

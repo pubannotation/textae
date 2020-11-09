@@ -14,13 +14,13 @@ export default function (typesettings, denotations) {
   const acceptedDenotations = validation.validNodes.filter(
     (n) => n.sourceProperty === 'denotations'
   )
-  const isNotCrossing = validation.invalidNodes
+  const boundaryCrossingSpans = validation.invalidNodes
 
   return {
     acceptedTypesettings,
     acceptedDenotations,
     reject: {
-      isNotCrossing
+      boundaryCrossingSpans
     },
     hasError: validation.invalid
   }

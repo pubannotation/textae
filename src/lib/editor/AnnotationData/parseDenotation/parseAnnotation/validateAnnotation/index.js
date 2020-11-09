@@ -43,7 +43,7 @@ export default function (text, rowData) {
       duplicatedAttributes: resultAttribute.reject.duplicatedAttributes,
       wrongRangeTypesettings: resultTypesetting.reject.wrongRange,
       outOfTextTypesettings: resultTypesetting.reject.outOfText,
-      isNotCrossing: resultCrossing.reject.isNotCrossing,
+      boundaryCrossingSpans: resultCrossing.reject.boundaryCrossingSpans,
       hasError:
         resultDenotation.hasError ||
         resultAttribute.hasError ||
