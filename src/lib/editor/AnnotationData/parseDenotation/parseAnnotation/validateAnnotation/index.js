@@ -35,15 +35,15 @@ export default function (text, rowData) {
     reject: {
       wrongRangeDenotations: resultDenotation.reject.wrongRange,
       outOfTextDenotations: resultDenotation.reject.outOfText,
+      wrongRangeTypesettings: resultTypesetting.reject.wrongRange,
+      outOfTextTypesettings: resultTypesetting.reject.outOfText,
+      boundaryCrossingSpans: resultCrossing.reject.boundaryCrossingSpans,
       referencedEntitiesDoNotExist: transformToReferencedEntitiesError(
         resultAttribute.reject.subj,
         resultRelation.reject.obj,
         resultRelation.reject.subj
       ),
       duplicatedAttributes: resultAttribute.reject.duplicatedAttributes,
-      wrongRangeTypesettings: resultTypesetting.reject.wrongRange,
-      outOfTextTypesettings: resultTypesetting.reject.outOfText,
-      boundaryCrossingSpans: resultCrossing.reject.boundaryCrossingSpans,
       hasError:
         resultDenotation.hasError ||
         resultAttribute.hasError ||
