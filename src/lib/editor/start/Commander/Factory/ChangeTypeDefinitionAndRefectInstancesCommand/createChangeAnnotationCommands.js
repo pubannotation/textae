@@ -3,19 +3,19 @@ import ChangeTypeCommand from '../ChangeTypeCommand'
 export default function (
   annotationData,
   modelType,
-  typeName,
+  oldTypeName,
   editor,
-  changedProperties
+  newTypeName
 ) {
   return annotationData[modelType].all
-    .filter((model) => model.typeName === typeName)
+    .filter((model) => model.typeName === oldTypeName)
     .map((model) => {
       return new ChangeTypeCommand(
         editor,
         annotationData,
         modelType,
         model.id,
-        changedProperties.get('id') || typeName
+        newTypeName
       )
     })
 }

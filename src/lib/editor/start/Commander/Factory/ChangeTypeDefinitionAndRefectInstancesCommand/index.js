@@ -27,17 +27,13 @@ export default class extends CompositeCommand {
 
     let changAnnotationCommands = []
     // change annotation
-    if (
-      changedProperties.has('id') ||
-      changedProperties.has('label') ||
-      changedProperties.has('color')
-    ) {
+    if (changedProperties.has('id')) {
       changAnnotationCommands = createChangeAnnotationCommands(
         annotationData,
         modelType,
         id,
         editor,
-        changedProperties
+        changedProperties.get('id')
       )
     }
 
