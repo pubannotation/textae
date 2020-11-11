@@ -1,9 +1,9 @@
-import SpanHtmlelementSelector from './SpanHtmlelementSelector'
-import EntityHtmlelementSelector from '../EntityHtmlelementSelector'
+import SpanHtmlelementSelector from './SpanHTMLelementSelector'
+import EntityHTMLelementSelector from '../EntityHTMLelementSelector'
 
 export default function (editor) {
   const spanHtmlelementSelector = new SpanHtmlelementSelector()
-  const entityHtmlelementSelector = new EntityHtmlelementSelector(editor)
+  const entityHtmlelementSelector = new EntityHTMLelementSelector(editor)
 
   editor.eventEmitter
     .on('textae.selection.span.select', (span) =>

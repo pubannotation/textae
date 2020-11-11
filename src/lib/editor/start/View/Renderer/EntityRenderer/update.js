@@ -1,6 +1,6 @@
 import dohtml from 'dohtml'
 import createEntityHtml from './createEntityHtml'
-import EntityHtmlelementSelector from '../../EntityHtmlelementSelector'
+import EntityHTMLelementSelector from '../../EntityHTMLelementSelector'
 
 export default function (
   editor,
@@ -18,7 +18,7 @@ export default function (
 
   // Re-select a new entity instance.
   if (selectionModel.entity.has(entity.id)) {
-    const selector = new EntityHtmlelementSelector(editor)
+    const selector = new EntityHTMLelementSelector(editor)
     selector.select(entity.id)
   }
 }
