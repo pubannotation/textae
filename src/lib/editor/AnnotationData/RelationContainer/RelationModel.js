@@ -52,11 +52,15 @@ export default class RelationModel {
     this._connect = undefined
   }
 
-  selectJsPlumbConnection() {
-    if (this._connect) this._connect.select()
+  select() {
+    setTimeout(() => {
+      if (this._connect) this._connect.select()
+    }, 150)
   }
 
-  deselectJsPlumbConnection() {
-    if (this._connect) this._connect.deselect()
+  deselect() {
+    setTimeout(() => {
+      if (this._connect) this._connect.deselect()
+    }, 150)
   }
 }
