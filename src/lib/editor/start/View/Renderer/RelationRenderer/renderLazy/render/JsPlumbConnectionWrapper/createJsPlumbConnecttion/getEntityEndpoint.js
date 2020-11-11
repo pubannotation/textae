@@ -1,4 +1,4 @@
-import { makeEntityHTMLElementId } from '../../idFactory'
+import { makeEntityHTMLElementId } from '../../../../../../../../idFactory'
 
 export default function (editor, entityId) {
   const id = makeEntityHTMLElementId(editor, entityId)
