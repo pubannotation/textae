@@ -1,5 +1,5 @@
 import TypeValues from '../TypeValues'
-import { makeEntityHtmlelementId } from '../idFactory'
+import { makeEntityHTMLElementId } from '../idFactory'
 import mergeTypesOf from './mergeTypesOf'
 import SELECTED from '../SELECTED'
 
@@ -88,7 +88,7 @@ export default class EntityModel {
   toHtmlelementInfo(namespace, typeContainer) {
     return Object.assign(
       {
-        id: makeEntityHtmlelementId(this._editor, this.id),
+        id: makeEntityHTMLElementId(this._editor, this.id),
         title: this.id
       },
       this.typeValues.toHtmlelementInfo(namespace, typeContainer)
@@ -119,7 +119,7 @@ export default class EntityModel {
 
   get element() {
     return document.querySelector(
-      `#${makeEntityHtmlelementId(this._editor, this.id)}`
+      `#${makeEntityHTMLElementId(this._editor, this.id)}`
     )
   }
 

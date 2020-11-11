@@ -1,4 +1,4 @@
-import { makeDenotationSpanHtmlelementId } from '../../../idFactory'
+import { makeDenotationSpanHTMLElementId } from '../../../idFactory'
 import getBigBrotherSpan from './getBigBrotherSpan'
 
 export default class {
@@ -12,7 +12,7 @@ export default class {
   }
 
   get id() {
-    return makeDenotationSpanHtmlelementId(this._editor, this._begin, this._end)
+    return makeDenotationSpanHTMLElementId(this._editor, this._begin, this._end)
   }
 
   get begin() {
