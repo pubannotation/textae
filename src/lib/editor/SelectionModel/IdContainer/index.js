@@ -1,5 +1,4 @@
 import remove from './remove'
-import clear from './clear'
 import triggerChange from './triggerChange'
 
 export default class {
@@ -70,9 +69,11 @@ export default class {
   }
 
   clear() {
-    clear(this._selected, this._emitter, this._kindName, (id) =>
-      this._toModel(id)
-    )
+    if (this._selected.size === 0) return
+
+    this._selected.forEach((id) => this.remove(id))
+
+    triggerChange(this._emitter, this._kindName)
   }
 
   _toModel(id) {
