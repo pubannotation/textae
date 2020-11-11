@@ -102,6 +102,13 @@
         z-index: 2;
       }
     }
+
+    &.ui-to-be-cut {
+      .textae-editor__entity__endpoint,
+      .textae-editor__entity__type-values {
+        opacity: 0.5;
+      }
+    }
   }
 
   &__entity__attribute {
@@ -125,20 +132,10 @@
   &--editable {
     .textae-editor {
 
-      &__entity__endpoint {
-        &.ui-to-be-cut {
-          opacity: 0.5;
-        }
-      }
-
       &__entity__type-values {
         box-shadow: none;
         opacity: 0.9;
         overflow: hidden;
-
-        &.ui-to-be-cut {
-          opacity: 0.5;
-        }
       }
 
       &__entity__attribute {
