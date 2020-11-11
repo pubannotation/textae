@@ -1,3 +1,4 @@
+import getEntityHTMLelementFromChild from '../getEntityHTMLelementFromChild'
 import getEntityEndopoint from './getEntityEndopoint'
 import getTypeValues from './getTypeValues'
 
@@ -10,6 +11,9 @@ export default function (editor) {
       if (el) {
         el.classList.add(cssClass)
         getTypeValues(el).classList.add(cssClass)
+
+        const entityHTMLElement = getEntityHTMLelementFromChild(el)
+        entityHTMLElement.classList.add(cssClass)
       }
     }
 
@@ -18,6 +22,9 @@ export default function (editor) {
       if (el) {
         el.classList.remove(cssClass)
         getTypeValues(el).classList.remove(cssClass)
+
+        const entityHTMLElement = getEntityHTMLelementFromChild(el)
+        entityHTMLElement.classList.remove(cssClass)
       }
     }
   })
