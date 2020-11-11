@@ -1,7 +1,6 @@
 import CursorChanger from '../../../util/CursorChanger'
 import AnnotationPosition from './AnnotationPosition'
 import bindClipBoardEvents from './bindClipBoardEvents'
-import bindSelectionModelEvents from './bindSelectionModelEvents'
 import bindTypeGapEvents from './bindTypeGapEvents'
 import bindAnnotaitonPositionEvents from './bindAnnotaitonPositionEvents'
 import Renderer from './Renderer'
@@ -57,7 +56,6 @@ export default class View {
       this._gridRectangle
     )
     bindClipBoardEvents(editor)
-    bindSelectionModelEvents(editor)
     bindAnnotationDataEvents(
       editor,
       this._annotationPosition,

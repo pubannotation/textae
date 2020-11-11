@@ -6,6 +6,6 @@ export default function (selected, emitter, kindName, modelInstance) {
   }
 
   selected.add(modelInstance.id)
-  emitter.emit(`textae.selection.${kindName}.select`, modelInstance)
+  modelInstance.select()
   triggerChange(emitter, kindName)
 }
