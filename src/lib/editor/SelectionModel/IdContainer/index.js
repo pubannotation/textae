@@ -1,6 +1,5 @@
 import add from './add'
 import single from './single'
-import toggle from './toggle'
 import remove from './remove'
 import clear from './clear'
 
@@ -47,7 +46,11 @@ export default class {
   }
 
   toggle(id) {
-    toggle(this._selected, this._emitter, this._kindName, this._toModel(id))
+    if (this._selected.has(id)) {
+      this.remove(id)
+    } else {
+      this.add(id)
+    }
   }
 
   remove(id) {
