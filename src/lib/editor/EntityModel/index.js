@@ -1,6 +1,7 @@
 import TypeValues from '../TypeValues'
 import { makeEntityHtmlelementId } from '../idFactory'
 import mergeTypesOf from './mergeTypesOf'
+import SELECTED from '../SELECTED'
 
 export default class EntityModel {
   constructor(
@@ -128,5 +129,17 @@ export default class EntityModel {
 
   get isBlock() {
     return this._span.isBlock
+  }
+
+  select() {
+    const el = this.element
+    el.classList.add(SELECTED)
+
+    // Set focus to the label element in order to scroll the browser to the position of the element.
+    el.querySelector('.textae-editor__entity__type-label').focus()
+  }
+
+  deselect() {
+    this.element.classList.remove(SELECTED)
   }
 }

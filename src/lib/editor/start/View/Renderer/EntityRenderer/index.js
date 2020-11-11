@@ -6,14 +6,12 @@ import EntityModel from '../../../../EntityModel'
 
 export default class {
   constructor(
-    editor,
     annotationData,
     selectionModel,
     typeCantainer,
     gridRenderer,
     typeGap
   ) {
-    this._editor = editor
     this._annotationData = annotationData
     this._typeContainer = typeCantainer
     this._gridRenderer = gridRenderer
@@ -34,7 +32,6 @@ export default class {
 
   change(entity) {
     update(
-      this._editor,
       this._selectionModel,
       this._annotationData.namespace,
       this._typeContainer,

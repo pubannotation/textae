@@ -16,7 +16,6 @@ export default class Renderer {
   ) {
     const gridRenderer = new GridRenderer(editor, textBox, gridRectangle)
     const entityRenderer = new EntityRenderer(
-      editor,
       annotationData,
       selectionModel,
       typeDefinition.entity,
