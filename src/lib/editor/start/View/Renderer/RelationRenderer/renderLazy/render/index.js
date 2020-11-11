@@ -9,7 +9,6 @@ export default function (
 ) {
   const jsPlumbConnection = new JsPlumbConnectionWrapper(
     jsPlumbInstance,
-    editor,
     relation,
     annotationData,
     typeDefinition

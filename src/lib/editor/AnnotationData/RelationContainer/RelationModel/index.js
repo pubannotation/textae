@@ -1,4 +1,4 @@
-import getEntityEndpoint from './RelationModel/getEntityEndpoint'
+import getEntityEndpoint from './getEntityEndpoint'
 
 export default class RelationModel {
   constructor(editor, { id, pred, subj, obj }) {

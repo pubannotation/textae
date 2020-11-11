@@ -2,12 +2,13 @@ import RelationModel from './RelationModel'
 import IdIssueContainer from '../IdIssueContainer'
 
 export default class RelationContainer extends IdIssueContainer {
-  constructor(emitter) {
+  constructor(editor, emitter) {
     super(emitter, 'relation', 'R')
+    this._editor = editor
   }
 
   _toModel(relation) {
-    return new RelationModel(relation)
+    return new RelationModel(this._editor, relation)
   }
 
   add(newValue) {

@@ -1,20 +1,18 @@
 import $ from 'jquery'
-import determineCurviness from '../../../../determineCurviness'
-import getEntityEndpoint from './getEntityEndpoint'
-import connectorStrokeStyle from '../connectorStrokeStyle'
-import toLabelString from '../../../../toLabelString'
-import arrowConfig from '../../../../../../../../arrowConfig'
+import determineCurviness from '../../../determineCurviness'
+import connectorStrokeStyle from './connectorStrokeStyle'
+import toLabelString from '../../../toLabelString'
+import arrowConfig from '../../../../../../../arrowConfig'
 
 // Make a connect by jsPlumb.
 export default function (
   jsPlumbInstance,
-  editor,
   relation,
   annotationData,
   typeDefinition
 ) {
-  const sourceEndpoint = getEntityEndpoint(editor, relation.subj)
-  const targetEndpoint = getEntityEndpoint(editor, relation.obj)
+  const sourceEndpoint = relation.sourceEndpoint
+  const targetEndpoint = relation.targetEndpoint
 
   return jsPlumbInstance.connect({
     source: $(sourceEndpoint),

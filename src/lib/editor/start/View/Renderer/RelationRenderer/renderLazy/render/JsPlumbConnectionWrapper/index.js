@@ -3,16 +3,9 @@ import connectorStrokeStyle from './connectorStrokeStyle'
 import createJsPlumbConnecttion from './createJsPlumbConnecttion'
 
 export default class JsPlumbConnectionWrapper {
-  constructor(
-    jsPlumbInstance,
-    editor,
-    relation,
-    annotationData,
-    typeDefinition
-  ) {
+  constructor(jsPlumbInstance, relation, annotationData, typeDefinition) {
     this._jsPlumbConnection = createJsPlumbConnecttion(
       jsPlumbInstance,
-      editor,
       relation,
       annotationData,
       typeDefinition
