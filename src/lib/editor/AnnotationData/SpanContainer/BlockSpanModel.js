@@ -1,4 +1,5 @@
 import { makeBlockSpanHtmlelementId } from '../../idFactory'
+import SELECTED from '../../SELECTED'
 import SpanModel from './SpanModel'
 
 export default class BlockSpanModel extends SpanModel {
@@ -42,5 +43,28 @@ export default class BlockSpanModel extends SpanModel {
 
   get backgroundElement() {
     return document.querySelector(`#${this.backgroundId}`)
+  }
+
+  select() {
+    const el = super.element
+    el.classList.add(SELECTED)
+
+    this.backgroundElement.classList.add(SELECTED)
+
+    // Set focus to the span element in order to scroll the browser to the position of the element.
+    el.focus()
+  }
+
+  deselect() {
+    const el = super.element
+
+    // A dom does not exist when it is deleted.
+    if (el) {
+      el.classList.remove(SELECTED)
+    }
+
+    if (this.backgroundElement) {
+      this.backgroundElement.classList.remove(SELECTED)
+    }
   }
 }

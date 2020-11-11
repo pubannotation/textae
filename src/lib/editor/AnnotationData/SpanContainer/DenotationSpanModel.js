@@ -1,3 +1,4 @@
+import SELECTED from '../../SELECTED'
 import SpanModel from './SpanModel'
 
 export default class DenotationSpanModel extends SpanModel {
@@ -42,5 +43,22 @@ export default class DenotationSpanModel extends SpanModel {
 
   get isDenotation() {
     return true
+  }
+
+  select() {
+    const el = super.element
+    el.classList.add(SELECTED)
+
+    // Set focus to the span element in order to scroll the browser to the position of the element.
+    el.focus()
+  }
+
+  deselect() {
+    const el = super.element
+
+    // A dom does not exist when it is deleted.
+    if (el) {
+      el.classList.remove(SELECTED)
+    }
   }
 }

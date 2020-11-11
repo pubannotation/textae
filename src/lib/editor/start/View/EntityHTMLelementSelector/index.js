@@ -1,7 +1,7 @@
 import getEntityEndopoint from '../getEntityEndopoint'
 import getEntityHTMLelementFromChild from '../../getEntityHTMLelementFromChild'
 import getTypeValues from '../getTypeValues'
-import SELECTED from '../SELECTED'
+import SELECTED from '../../../SELECTED'
 import getLabelHTMLelementOfType from './getLabelHTMLelementOfType'
 
 export default class {

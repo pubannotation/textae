@@ -1,17 +1,11 @@
-import SpanHtmlelementSelector from './SpanHTMLelementSelector'
-import EntityHTMLelementSelector from '../EntityHTMLelementSelector'
+import EntityHTMLelementSelector from './EntityHTMLelementSelector'
 
 export default function (editor) {
-  const spanHtmlelementSelector = new SpanHtmlelementSelector()
   const entityHtmlelementSelector = new EntityHTMLelementSelector(editor)
 
   editor.eventEmitter
-    .on('textae.selection.span.select', (span) =>
-      spanHtmlelementSelector.select(span)
-    )
-    .on('textae.selection.span.deselect', (span) =>
-      spanHtmlelementSelector.deselect(span)
-    )
+    .on('textae.selection.span.select', (span) => span.select())
+    .on('textae.selection.span.deselect', (span) => span.deselect())
     .on('textae.selection.entity.select', (entity) =>
       entityHtmlelementSelector.select(entity.id)
     )
