@@ -1,4 +1,3 @@
-import remove from './remove'
 import triggerChange from './triggerChange'
 
 export default class {
@@ -61,11 +60,16 @@ export default class {
   }
 
   remove(id) {
-    remove(this._selected, this._emitter, this._kindName, this._toModel(id))
+    const modelInstance = this._toModel(id)
+    this.removeInstance(modelInstance)
   }
 
   removeInstance(modelInstance) {
-    remove(this._selected, this._emitter, this._kindName, modelInstance)
+    if (this._selected.has(modelInstance.id)) {
+      this._selected.delete(modelInstance.id)
+      modelInstance.deselect()
+      triggerChange(this._emitter, this._kindName)
+    }
   }
 
   clear() {
