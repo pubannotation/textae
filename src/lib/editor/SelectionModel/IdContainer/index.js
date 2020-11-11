@@ -1,7 +1,7 @@
-import add from './add'
 import single from './single'
 import remove from './remove'
 import clear from './clear'
+import triggerChange from './triggerChange'
 
 export default class {
   constructor(emitter, kindName, annotationData) {
@@ -12,7 +12,14 @@ export default class {
   }
 
   add(id) {
-    add(this._selected, this._emitter, this._kindName, this._toModel(id))
+    if (this._selected.has(id)) {
+      return
+    }
+
+    this._selected.add(id)
+    this._toModel(id).select()
+
+    triggerChange(this._emitter, this._kindName)
   }
 
   has(id) {
