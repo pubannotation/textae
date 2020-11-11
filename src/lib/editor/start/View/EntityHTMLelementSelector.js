@@ -1,7 +1,6 @@
-import getEntityEndopoint from '../getEntityEndopoint'
-import getEntityHTMLelementFromChild from '../../getEntityHTMLelementFromChild'
-import SELECTED from '../../../SELECTED'
-import getLabelHTMLelementOfType from './getLabelHTMLelementOfType'
+import getEntityEndopoint from './getEntityEndopoint'
+import getEntityHTMLelementFromChild from '../getEntityHTMLelementFromChild'
+import SELECTED from '../../SELECTED'
 
 export default class {
   constructor(editor) {
@@ -14,7 +13,9 @@ export default class {
     entityHTMLElement.classList.add(SELECTED)
 
     // Set focus to the label element in order to scroll the browser to the position of the element.
-    getLabelHTMLelementOfType(el).focus()
+    entityHTMLElement
+      .querySelector('.textae-editor__entity__type-label')
+      .focus()
   }
 
   deselect(id) {
