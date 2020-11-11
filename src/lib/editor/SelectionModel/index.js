@@ -28,8 +28,10 @@ export default class {
       )
     }
 
+    // When the annotation is loaded and the mode is determined,
+    // the selection state is cleared via TypeEditor.cancelSelect.
+    // No need to monitor `textae.annotationData.all.change` events.
     const eventMap = new Map([
-      ['textae.annotationData.all.change', () => this.clear()],
       [
         'textae.annotationData.span.remove',
         (span) => this.span.removeInstance(span)
