@@ -1,4 +1,3 @@
-import single from './single'
 import remove from './remove'
 import clear from './clear'
 import triggerChange from './triggerChange'
@@ -39,11 +38,13 @@ export default class {
   }
 
   get singleId() {
-    return single(this._selected)
+    return this._selected.size === 1
+      ? this._selected.values().next().value
+      : null
   }
 
   get single() {
-    const id = single(this._selected)
+    const id = this.singleId
 
     if (id) {
       return this._toModel(id)
