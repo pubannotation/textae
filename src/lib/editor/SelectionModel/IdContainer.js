@@ -2,7 +2,7 @@ export default class {
   constructor(emitter, kindName, annotationData) {
     this._emitter = emitter
     this._kindName = kindName
-    this._selected = new Set()
+    this._selected = new Map()
     this._annotationData = annotationData
   }
 
@@ -11,8 +11,9 @@ export default class {
       return
     }
 
-    this._selected.add(id)
-    this._toModel(id).select()
+    const modelInstance = this._annotationData[this._kindName].get(id)
+    this._selected.set(id, modelInstance)
+    modelInstance.select()
     this._triggerChange()
   }
 
@@ -21,7 +22,7 @@ export default class {
   }
 
   get all() {
-    return Array.from(this._selected.values()).map((id) => this._toModel(id))
+    return Array.from(this._selected.values())
   }
 
   get size() {
@@ -33,16 +34,14 @@ export default class {
   }
 
   get singleId() {
-    return this._selected.size === 1
-      ? this._selected.values().next().value
-      : null
+    return this._selected.size === 1 ? this._selected.keys().next().value : null
   }
 
   get single() {
     const id = this.singleId
 
     if (id) {
-      return this._toModel(id)
+      return this._selected.get(id)
     }
 
     return null
@@ -57,35 +56,26 @@ export default class {
   }
 
   remove(id) {
-    const modelInstance = this._toModel(id)
-    this.removeInstance(modelInstance)
+    if (this._selected.has(id)) {
+      this._selected.get(id).deselect()
+      this._selected.delete(id)
+      this._triggerChange()
+    }
   }
 
   removeInstance(modelInstance) {
-    if (this._selected.has(modelInstance.id)) {
-      this._selected.delete(modelInstance.id)
-      modelInstance.deselect()
-      this._triggerChange()
-    }
+    this.remove(modelInstance.id)
   }
 
   clear() {
     if (this._selected.size === 0) return
 
-    for (const id of this._selected) {
+    for (const [id] of this._selected) {
+      this._selected.get(id).deselect()
       this._selected.delete(id)
-
-      // When the annotation is loaded, the model instance cannot be taken.
-      if (this._toModel(id)) {
-        this._toModel(id).deselect()
-      }
     }
 
     this._triggerChange()
-  }
-
-  _toModel(id) {
-    return this._annotationData[this._kindName].get(id)
   }
 
   _triggerChange() {
