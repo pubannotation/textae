@@ -72,7 +72,15 @@ export default class {
   clear() {
     if (this._selected.size === 0) return
 
-    this._selected.forEach((id) => this.remove(id))
+    for (const id of this._selected) {
+      this._selected.delete(id)
+
+      // When the annotation is loaded, the model instance cannot be taken.
+      if (this._toModel(id)) {
+        this._toModel(id).deselect()
+      }
+    }
+
     this._triggerChange()
   }
 
