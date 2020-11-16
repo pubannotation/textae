@@ -1,5 +1,3 @@
-import triggerChange from './triggerChange'
-
 export default class {
   constructor(emitter, kindName, annotationData) {
     this._emitter = emitter
@@ -15,8 +13,7 @@ export default class {
 
     this._selected.add(id)
     this._toModel(id).select()
-
-    triggerChange(this._emitter, this._kindName)
+    this._triggerChange()
   }
 
   has(id) {
@@ -68,7 +65,7 @@ export default class {
     if (this._selected.has(modelInstance.id)) {
       this._selected.delete(modelInstance.id)
       modelInstance.deselect()
-      triggerChange(this._emitter, this._kindName)
+      this._triggerChange()
     }
   }
 
@@ -76,11 +73,14 @@ export default class {
     if (this._selected.size === 0) return
 
     this._selected.forEach((id) => this.remove(id))
-
-    triggerChange(this._emitter, this._kindName)
+    this._triggerChange()
   }
 
   _toModel(id) {
     return this._annotationData[this._kindName].get(id)
+  }
+
+  _triggerChange() {
+    this._emitter.emit(`textae.selection.${this._kindName}.change`)
   }
 }
