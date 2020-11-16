@@ -4611,6 +4611,20 @@ a.ui-button:active,
   display: inline-block;
   padding: 0 4px;
 }
+.textae-editor__entity.ui-selected {
+  z-index: 2;
+}
+.textae-editor__entity.ui-selected .textae-editor__entity__endpoint {
+  background-color: rgba(255, 0, 0, 0.8);
+}
+.textae-editor__entity.ui-selected .textae-editor__entity__type-values {
+  box-shadow: 0 0 0 2pt red;
+  z-index: 2;
+}
+.textae-editor__entity.ui-to-be-cut .textae-editor__entity__endpoint,
+.textae-editor__entity.ui-to-be-cut .textae-editor__entity__type-values {
+  opacity: 0.5;
+}
 .textae-editor__entity__attribute {
   background-color: inherit;
   height: 18px;
@@ -4631,26 +4645,10 @@ a.ui-button:active,
 .textae-editor--relation-mode .textae-editor__type:hover .textae-editor__entity__type-values {
   opacity: 0.9;
 }
-.textae-editor--editable .textae-editor__entity__endpoint.ui-selected {
-  background-color: rgba(255, 0, 0, 0.8);
-}
-.textae-editor--editable .textae-editor__entity__endpoint.ui-to-be-cut {
-  opacity: 0.5;
-}
-.textae-editor--editable .textae-editor__entity.ui-selected {
-  z-index: 2;
-}
 .textae-editor--editable .textae-editor__entity__type-values {
   box-shadow: none;
   opacity: 0.9;
   overflow: hidden;
-}
-.textae-editor--editable .textae-editor__entity__type-values.ui-selected {
-  box-shadow: 0 0 0 2pt red;
-  z-index: 2;
-}
-.textae-editor--editable .textae-editor__entity__type-values.ui-to-be-cut {
-  opacity: 0.5;
 }
 .textae-editor--editable .textae-editor__entity__attribute {
   background-color: transparent;
