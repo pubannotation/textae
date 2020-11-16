@@ -6,7 +6,7 @@ const CURVINESS_PARAMETERS = {
   yrate: 0.05,
 
   // curviness offset
-  offset: 20
+  offset: 60
 }
 
 export default function (sourceEndpoint, targetEndpoint) {

@@ -1,3 +1,3 @@
-const typeGapUnitHeight = 18
+const typeGapUnitHeight = 24
 
 export default typeGapUnitHeight

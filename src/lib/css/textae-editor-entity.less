@@ -93,10 +93,6 @@
     &.ui-selected {
       z-index: 2;
 
-      .textae-editor__entity__endpoint {
-        background-color: fade(@selected, 80%);
-      }
-
       .textae-editor__entity__type-values {
         .type-values--selected;
         z-index: 2;
@@ -104,7 +100,6 @@
     }
 
     &.ui-to-be-cut {
-      .textae-editor__entity__endpoint,
       .textae-editor__entity__type-values {
         opacity: 0.5;
       }
@@ -123,8 +118,6 @@
     }
   }
 
-  &__entity__endpoint,
-  &--relation-mode &__type:hover &__entity__endpoint,
   &--relation-mode &__type:hover &__entity__type-values {
     opacity: 0.9;
   }
@@ -159,28 +152,6 @@
     }
   }
 
-  &__entity__endpoint-zone {
-    line-height: 11px;
-    position: relative;
-    z-index: 1;
-  }
-
-  /* entity */
-  &__entity__endpoint {
-    background-color: @border;
-    border-radius: 6px;
-    border-style: solid;
-    border-width: 1px;
-    display: inline-block;
-    height: 12px;
-    vertical-align: top;
-    width: 12px;
-
-    &:hover {
-      .entity-shadow();
-    }
-  }
-
   /* term centric mode */
   &--term-mode {
     .textae-editor {
@@ -195,12 +166,6 @@
 
       &__entity__type-label {
         border-width: 1px 0 0 0;
-      }
-
-      &__entity__endpoint-zone {
-        /*Set visibility style to hide entities, because size of entities are necesarry to render relation.*/
-        visibility: hidden;
-        height: 0;
       }
     }
   }

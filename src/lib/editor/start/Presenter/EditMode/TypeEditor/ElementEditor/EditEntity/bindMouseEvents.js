@@ -48,12 +48,6 @@ export default function (editor, mouseEventHandler) {
     )
   )
 
-  listeners.push(
-    delegate(editor[0], '.textae-editor__entity__endpoint', 'click', (e) =>
-      mouseEventHandler.endpointClicked(e)
-    )
-  )
-
   // To shrink a span listen the mouseup event.
   listeners.push(
     delegate(editor[0], '.textae-editor__span', 'mouseup', (e) => {

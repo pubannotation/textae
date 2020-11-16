@@ -38,11 +38,5 @@ export default function (editor, mouseEventHandler) {
     )
   )
 
-  listeners.push(
-    delegate(editor[0], '.textae-editor__entity__endpoint', 'click', (e) =>
-      mouseEventHandler.endpointClicked(e)
-    )
-  )
-
   return listeners
 }

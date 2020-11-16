@@ -7,13 +7,7 @@ import Handlebars from 'handlebars'
 // To prevent this from happening, set the id of the endpoint DOM.
 const source = `
 <div class="textae-editor__entity" id="{{id}}" title="{{title}}">
-  <div class="textae-editor__entity__endpoint-zone">
-    <div
-      id="jsPlumb_{{id}}"
-      class="textae-editor__entity__endpoint" 
-      style="border-color: {{color}};"></div>
-  </div>
-  <div class="textae-editor__entity__type-values" style="background-color: {{color}}">
+  <div class="textae-editor__entity__type-values" id="jsPlumb_{{id}}" style="background-color: {{color}}">
     <div class="textae-editor__entity__type-label" tabindex="0">
       {{#if href}}
         <a target="_blank"/ href="{{href}}">{{label}}</a>
