@@ -1,7 +1,9 @@
 import { makeBlockSpanHTMLElementId } from '../../../idFactory'
 import SELECTED from '../../../SELECTED'
 import renderBackgroundOfBlockSpan from './renderBackgroundOfBlockSpan'
+import renderHitAreaOfBlockSpan from './renderHitAreaOfBlockSpan'
 import renderBlock from './renderBlock'
+import setPosition from './setPosition'
 import SpanModel from '../SpanModel'
 
 // Leave a gap between the text and the block border.
@@ -33,6 +35,14 @@ export default class BlockSpanModel extends SpanModel {
     return document.querySelector(`#${this.backgroundId}`)
   }
 
+  get hitAreaId() {
+    return `hit_area_of_${this.id}`
+  }
+
+  get hitAreaElement() {
+    return document.querySelector(`#${this.hitAreaId}`)
+  }
+
   select() {
     const el = super.element
     el.classList.add(SELECTED)
@@ -56,16 +66,13 @@ export default class BlockSpanModel extends SpanModel {
     }
   }
 
-  updateBackgroundOfBlockSpanPosition(textBox) {
-    const bg = this.backgroundElement
-    const rect = this._rectangle
+  updateSidekicksOfBlockSpanPosition(textBox) {
+    const { top, left, width, height } = this._getReactOfSidekicksOfBlock(
+      textBox
+    )
 
-    bg.style.top = `${rect.top - textBox.lineHeight / 2 + 20}px`
-    bg.style.left = `${
-      rect.left - textBox.boundingClientRect.left - gapBetweenText
-    }px`
-    bg.style.width = `${rect.width + gapBetweenText}px`
-    bg.style.height = `${rect.height}px`
+    setPosition(this.backgroundElement, top, left, width, height)
+    setPosition(this.hitAreaElement, top, left, width, height)
   }
 
   renderElement(annotationBox) {
@@ -73,11 +80,29 @@ export default class BlockSpanModel extends SpanModel {
     // Place the background in the annotation box
     // to shift the background up by half a line from the block span area.
     renderBackgroundOfBlockSpan(annotationBox, this)
+
+    // Add a hit area,
+    // so that you can click at the same position as the background of the block span,
+    // without hiding the grid in the background.
+    renderHitAreaOfBlockSpan(annotationBox, this)
   }
 
   destroyElement() {
     super.destroyElement()
     this.backgroundElement.remove()
+    this.hitAreaElement.remove()
+  }
+
+  _getReactOfSidekicksOfBlock(textBox) {
+    const rect = this._rectangle
+
+    return {
+      // Shifting up half a line from the original block position.
+      top: `${rect.top - textBox.lineHeight / 2 + 20}px`,
+      left: `${rect.left - textBox.boundingClientRect.left - gapBetweenText}px`,
+      width: `${rect.width + gapBetweenText}px`,
+      height: `${rect.height}px`
+    }
   }
 
   get _rectangle() {

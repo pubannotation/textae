@@ -36,7 +36,7 @@ export default class MouseEventHandler {
     }
   }
 
-  blockBackgroundClicked(e) {
+  blockHitAreaClicked(e) {
     // When you click on the text, the browser will automatically select the word.
     // Therefore, the editor shrinks spans instead of selecting spans.
     // Deselect the text.
