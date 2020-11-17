@@ -1,11 +1,10 @@
 import determineCurviness from './determineCurviness'
 
 export default function (relation) {
-  const jsPlumbConnection = relation.jsPlumbConnection
   const curviness = determineCurviness(
-    jsPlumbConnection.sourceEndpoint,
-    jsPlumbConnection.targetEndpoint
+    relation.sourceEndpoint,
+    relation.targetEndpoint
   )
 
-  jsPlumbConnection.resetCurviness(curviness)
+  relation.jsPlumbConnection.resetCurviness(curviness)
 }

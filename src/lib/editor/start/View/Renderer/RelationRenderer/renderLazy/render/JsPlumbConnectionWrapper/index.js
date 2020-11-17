@@ -42,14 +42,6 @@ export default class JsPlumbConnectionWrapper {
     return this._jsPlumbConnection.getParameter('id')
   }
 
-  get sourceEndpoint() {
-    return this._reload(this._jsPlumbConnection.endpoints[0].element)
-  }
-
-  get targetEndpoint() {
-    return this._reload(this._jsPlumbConnection.endpoints[1].element)
-  }
-
   pointdown() {
     if (!this._isSelected) {
       this.setColor()
@@ -165,15 +157,5 @@ export default class JsPlumbConnectionWrapper {
     // Because an arrow is out of position if hideOverlay and showOverlay is used.
     this._jsPlumbConnection.removeOverlay(arrowConfig.normal.id)
     this._jsPlumbConnection.addOverlay(['Arrow', arrowConfig.hover])
-  }
-
-  // The entity renderer rewrites the entire entity.
-  // An endpoint may be missing from the document's context.
-  // In that case, the entity renderer retrieves them again.
-  _reload(endpoint) {
-    if (!endpoint.parent) {
-      endpoint = document.getElementById(endpoint.id)
-    }
-    return endpoint
   }
 }
