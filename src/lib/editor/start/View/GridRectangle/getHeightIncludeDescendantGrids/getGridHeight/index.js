@@ -1,9 +1,10 @@
 import getAttributesHeight from './getAttributesHeight'
-import getTypeUnitHeght from './getTypeUnitHeight'
+import getEntityUnitHeght from './getEntityUnitHeight'
 
 export default function (span, typeGap) {
   const entities = span.entities
   return (
-    entities.length * getTypeUnitHeght(typeGap) + getAttributesHeight(entities)
+    entities.length * getEntityUnitHeght(typeGap) +
+    getAttributesHeight(entities)
   )
 }
