@@ -4418,6 +4418,8 @@ a.ui-button:active,
 .textae-editor__block-bg {
   position: absolute;
   background-color: rgba(100, 100, 215, 0.25);
+  border-style: solid;
+  border-width: 1px;
 }
 .textae-editor__block-bg.ui-selected {
   background-color: rgba(255, 200, 100, 0.9);
