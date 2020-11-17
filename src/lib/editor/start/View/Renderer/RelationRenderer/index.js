@@ -1,7 +1,6 @@
 import getAnnotationBox from '../getAnnotationBox'
 import makeJsPlumbInstance from './makeJsPlumbInstance'
 import changeType from './changeType'
-import resetCurviness from './resetCurviness'
 import renderLazy from './renderLazy'
 
 export default class {
@@ -16,7 +15,7 @@ export default class {
   arrangePositionAll() {
     for (const relation of this._annotationData.relation.all) {
       if (relation.isRendered) {
-        resetCurviness(relation)
+        relation.resetCurviness()
       } else {
         renderLazy(
           this._editor,

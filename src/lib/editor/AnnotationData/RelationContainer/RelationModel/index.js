@@ -1,3 +1,4 @@
+import determineCurviness from '../../../determineCurviness'
 import getEntityEndpoint from './getEntityEndpoint'
 
 export default class RelationModel {
@@ -73,5 +74,14 @@ export default class RelationModel {
     setTimeout(() => {
       if (this._connect) this._connect.deselect()
     }, 150)
+  }
+
+  resetCurviness() {
+    const curviness = determineCurviness(
+      this.sourceEndpoint,
+      this.targetEndpoint
+    )
+
+    this.jsPlumbConnection.resetCurviness(curviness)
   }
 }

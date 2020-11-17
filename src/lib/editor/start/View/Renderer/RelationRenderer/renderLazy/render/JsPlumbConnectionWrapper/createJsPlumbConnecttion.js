@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import determineCurviness from '../../../determineCurviness'
+import determineCurviness from '../../../../../../../determineCurviness'
 import connectorStrokeStyle from './connectorStrokeStyle'
 import toLabelString from '../../../toLabelString'
 import arrowConfig from '../../../../../../../arrowConfig'
