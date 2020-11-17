@@ -50,7 +50,7 @@ export default class View {
 
     bindTypeGapEvents(
       typeGap,
-      editor,
+      annotationData,
       this._textBox,
       this._annotationPosition,
       this._gridRectangle
