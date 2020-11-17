@@ -4537,7 +4537,6 @@ a.ui-button:active,
   visibility: hidden;
 }
 .textae-editor {
-  /* entity */
   /* term centric mode */
   /* relation edit mode */
 }
@@ -4616,14 +4615,10 @@ a.ui-button:active,
 .textae-editor__entity.ui-selected {
   z-index: 2;
 }
-.textae-editor__entity.ui-selected .textae-editor__entity__endpoint {
-  background-color: rgba(255, 0, 0, 0.8);
-}
 .textae-editor__entity.ui-selected .textae-editor__entity__type-values {
   box-shadow: 0 0 0 2pt red;
   z-index: 2;
 }
-.textae-editor__entity.ui-to-be-cut .textae-editor__entity__endpoint,
 .textae-editor__entity.ui-to-be-cut .textae-editor__entity__type-values {
   opacity: 0.5;
 }
@@ -4642,8 +4637,6 @@ a.ui-button:active,
   padding: 0 4px;
   background-color: inherit;
 }
-.textae-editor__entity__endpoint,
-.textae-editor--relation-mode .textae-editor__type:hover .textae-editor__entity__endpoint,
 .textae-editor--relation-mode .textae-editor__type:hover .textae-editor__entity__type-values {
   opacity: 0.9;
 }
@@ -4669,24 +4662,6 @@ a.ui-button:active,
   pointer-events: none;
   text-decoration: none;
 }
-.textae-editor__entity__endpoint-zone {
-  line-height: 11px;
-  position: relative;
-  z-index: 1;
-}
-.textae-editor__entity__endpoint {
-  background-color: rgba(100, 100, 215, 0.8);
-  border-radius: 6px;
-  border-style: solid;
-  border-width: 1px;
-  display: inline-block;
-  height: 12px;
-  vertical-align: top;
-  width: 12px;
-}
-.textae-editor__entity__endpoint:hover {
-  box-shadow: 1px 1px 10px #600;
-}
 .textae-editor--term-mode .textae-editor__grid {
   border-style: none;
 }
@@ -4696,11 +4671,6 @@ a.ui-button:active,
 }
 .textae-editor--term-mode .textae-editor__entity__type-label {
   border-width: 1px 0 0 0;
-}
-.textae-editor--term-mode .textae-editor__entity__endpoint-zone {
-  /*Set visibility style to hide entities, because size of entities are necesarry to render relation.*/
-  visibility: hidden;
-  height: 0;
 }
 .textae-editor--relation-mode .textae-editor__entity:hover .textae-editor__entity__type-label {
   box-shadow: none;
