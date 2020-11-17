@@ -21,10 +21,18 @@ export default function (
     })
     .on('textae.annotationData.span.add', (span) => {
       spanRenderer.render(span)
+
+      if (span.isBlock) {
+        textBox.forceUpdate()
+      }
     })
     .on('textae.annotationData.span.remove', (span) => {
       spanRenderer.remove(span)
       gridRenderer.remove(span)
+
+      if (span.isBlock) {
+        textBox.forceUpdate()
+      }
     })
     .on('textae.annotationData.entity.add', (entity) => {
       entityRenderer.render(entity)
