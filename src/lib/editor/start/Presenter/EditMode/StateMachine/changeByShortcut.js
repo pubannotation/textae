@@ -9,7 +9,13 @@ export default function (stateMachine) {
       stateMachine.setState(MODE.EDIT_DENOTATION_WITHOUT_RELATION)
       break
     case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
+      stateMachine.setState(MODE.EDIT_BLOCK_WITHOUT_RELATION)
+      break
     case MODE.EDIT_DENOTATION_WITH_RELATION:
+      stateMachine.setState(MODE.EDIT_BLOCK_WITH_RELATION)
+      break
+    case MODE.EDIT_BLOCK_WITHOUT_RELATION:
+    case MODE.EDIT_BLOCK_WITH_RELATION:
       stateMachine.setState(MODE.EDIT_RELATION)
       break
     case MODE.EDIT_RELATION:
