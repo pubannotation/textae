@@ -1,7 +1,6 @@
 import renderBlock from './renderBlock'
 import renderBackgroundOfBlockSpan from './renderBackgroundOfBlockSpan'
 import getAnnotationBox from '../../../getAnnotationBox'
-import createSpanElement from './createSpanElement'
 import createRangeToSpan from './createRangeToSpan'
 
 // Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
@@ -20,10 +19,22 @@ export default function (editor, span, entityRenderer) {
         // to shift the background up by half a line from the block span area.
         renderBackgroundOfBlockSpan(getAnnotationBox(editor), span)
       } else {
-        const targetRange = createRangeToSpan(span)
-        const spanElement = createSpanElement(span)
+        const element = document.createElement('span')
+        element.setAttribute('id', span.id)
+        element.setAttribute('title', span.id)
 
-        targetRange.surroundContents(spanElement)
+        if (!span.styleOnly) {
+          element.setAttribute('tabindex', 0)
+          element.classList.add('textae-editor__span')
+        }
+
+        for (const style of span.styles.values()) {
+          element.classList.add(`textae-editor__style`)
+          element.classList.add(`textae-editor__style--${style}`)
+        }
+
+        const targetRange = createRangeToSpan(span)
+        targetRange.surroundContents(element)
       }
     },
     (span) => {
