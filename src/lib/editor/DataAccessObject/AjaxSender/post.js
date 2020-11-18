@@ -13,6 +13,5 @@ export default function (
     return
   }
   beforeSend()
-  console.log('POST data', data)
   requestAjax('post', url, data, successHandler, failHandler, finishHandler)
 }
