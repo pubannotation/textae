@@ -2,6 +2,8 @@ import { makeBlockSpanHTMLElementId } from '../../idFactory'
 import SELECTED from '../../SELECTED'
 import SpanModel from './SpanModel'
 
+// Leave a gap between the text and the block border.
+const gapBetweenText = 8
 export default class BlockSpanModel extends SpanModel {
   constructor(editor, begin, end, entityContainer, spanContainer) {
     super(editor, begin, end, spanContainer)
@@ -66,5 +68,17 @@ export default class BlockSpanModel extends SpanModel {
     if (this.backgroundElement) {
       this.backgroundElement.classList.remove(SELECTED)
     }
+  }
+
+  updateBackgroundOfBlockSpanPosition(textBox) {
+    const bg = this.backgroundElement
+    const rect = this.rectangle
+
+    bg.style.top = `${rect.top - textBox.lineHeight / 2 + 20}px`
+    bg.style.left = `${
+      rect.left - textBox.boundingClientRect.left - gapBetweenText
+    }px`
+    bg.style.width = `${rect.width + gapBetweenText}px`
+    bg.style.height = `${rect.height}px`
   }
 }
