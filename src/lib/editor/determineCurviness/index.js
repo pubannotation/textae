@@ -2,7 +2,7 @@ import getEndpointPosition from './getEndpointPosition'
 
 const CURVINESS_PARAMETERS = {
   // curviness parameters
-  xrate: 0.6,
+  xrate: 0.3,
   yrate: 0.05,
 
   // curviness offset
