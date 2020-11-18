@@ -1,5 +1,4 @@
 import create from './create'
-import destroy from './destroy'
 
 export default class {
   constructor(editor, entityRenderer) {
@@ -17,7 +16,7 @@ export default class {
       spanElement.removeAttribute('tabindex')
       spanElement.classList.remove('textae-editor__span')
     } else {
-      destroy(span)
+      span.destroyElement()
     }
   }
 }

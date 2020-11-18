@@ -1,5 +1,4 @@
 import renderDenotation from './renderDenotation'
-import destroy from '../destroy'
 import renderBlock from './renderBlock'
 import renderBackgroundOfBlockSpan from './renderBackgroundOfBlockSpan'
 
@@ -7,7 +6,7 @@ import renderBackgroundOfBlockSpan from './renderBackgroundOfBlockSpan'
 export default function (editor, span, entityRenderer) {
   span.traverse((span) => {
     if (span.element !== null) {
-      destroy(span)
+      span.destroyElement()
     }
   })
 
