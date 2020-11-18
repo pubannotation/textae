@@ -6,6 +6,7 @@ import StyleSpanModel from './StyleSpanModel'
 import BlockSpanModel from './BlockSpanModel'
 import isBoundaryCrossingWithOtherSpans from '../isBoundaryCrossingWithOtherSpans'
 import ModelContainer from '../ModelContainer'
+import arrangeBackgroundOfBlockSpanPosition from './arrangeBackgroundOfBlockSpanPosition'
 
 export default class SpanContainer extends ModelContainer {
   constructor(editor, emitter, entityContainer) {
@@ -247,5 +248,9 @@ export default class SpanContainer extends ModelContainer {
       default:
         throw `${type} is unknown type span!`
     }
+  }
+
+  arrangeBackgroundOfBlockSpanPosition(textBox) {
+    arrangeBackgroundOfBlockSpanPosition(this, textBox)
   }
 }
