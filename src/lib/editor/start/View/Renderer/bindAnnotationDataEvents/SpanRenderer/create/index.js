@@ -23,11 +23,6 @@ export default function (editor, span, entityRenderer) {
         element.setAttribute('id', span.id)
         element.setAttribute('title', span.id)
 
-        if (!span.styleOnly) {
-          element.setAttribute('tabindex', 0)
-          element.classList.add('textae-editor__span')
-        }
-
         for (const style of span.styles.values()) {
           element.classList.add(`textae-editor__style`)
           element.classList.add(`textae-editor__style--${style}`)
@@ -35,6 +30,11 @@ export default function (editor, span, entityRenderer) {
 
         const targetRange = createRangeToSpan(span)
         targetRange.surroundContents(element)
+
+        if (!span.styleOnly) {
+          element.setAttribute('tabindex', 0)
+          element.classList.add('textae-editor__span')
+        }
       }
     },
     (span) => {
