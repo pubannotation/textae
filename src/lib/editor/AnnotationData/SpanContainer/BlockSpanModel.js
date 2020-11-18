@@ -81,4 +81,9 @@ export default class BlockSpanModel extends SpanModel {
     bg.style.width = `${rect.width + gapBetweenText}px`
     bg.style.height = `${rect.height}px`
   }
+
+  destroyElement() {
+    super.destroyElement()
+    this.backgroundElement.remove()
+  }
 }
