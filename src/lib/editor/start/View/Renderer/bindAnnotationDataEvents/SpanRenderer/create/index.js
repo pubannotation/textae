@@ -1,7 +1,8 @@
-import renderDenotation from './renderDenotation'
 import renderBlock from './renderBlock'
 import renderBackgroundOfBlockSpan from './renderBackgroundOfBlockSpan'
 import getAnnotationBox from '../../../getAnnotationBox'
+import createSpanElement from './createSpanElement'
+import createRangeToSpan from './createRangeToSpan'
 
 // Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
 export default function (editor, span, entityRenderer) {
@@ -19,7 +20,10 @@ export default function (editor, span, entityRenderer) {
         // to shift the background up by half a line from the block span area.
         renderBackgroundOfBlockSpan(getAnnotationBox(editor), span)
       } else {
-        renderDenotation(span)
+        const targetRange = createRangeToSpan(span)
+        const spanElement = createSpanElement(span)
+
+        targetRange.surroundContents(spanElement)
       }
     },
     (span) => {
