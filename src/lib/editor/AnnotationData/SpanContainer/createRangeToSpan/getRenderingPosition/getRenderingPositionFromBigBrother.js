@@ -1,4 +1,4 @@
-import isBoundaryCrossing from '../../../../../../../../isBoundaryCrossing'
+import isBoundaryCrossing from '../../../../isBoundaryCrossing'
 import getOffset from './getOffset'
 
 export default function (span, bigBrotherSpan) {

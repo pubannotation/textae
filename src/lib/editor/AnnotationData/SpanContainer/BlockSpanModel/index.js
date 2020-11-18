@@ -1,6 +1,8 @@
-import { makeBlockSpanHTMLElementId } from '../../idFactory'
-import SELECTED from '../../SELECTED'
-import SpanModel from './SpanModel'
+import { makeBlockSpanHTMLElementId } from '../../../idFactory'
+import SELECTED from '../../../SELECTED'
+import renderBackgroundOfBlockSpan from './renderBackgroundOfBlockSpan'
+import renderBlock from './renderBlock'
+import SpanModel from '../SpanModel'
 
 // Leave a gap between the text and the block border.
 const gapBetweenText = 8
@@ -80,6 +82,13 @@ export default class BlockSpanModel extends SpanModel {
     }px`
     bg.style.width = `${rect.width + gapBetweenText}px`
     bg.style.height = `${rect.height}px`
+  }
+
+  renderElement(annotationBox) {
+    renderBlock(this)
+    // Place the background in the annotation box
+    // to shift the background up by half a line from the block span area.
+    renderBackgroundOfBlockSpan(annotationBox, this)
   }
 
   destroyElement() {

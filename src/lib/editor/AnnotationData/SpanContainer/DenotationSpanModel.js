@@ -61,4 +61,13 @@ export default class DenotationSpanModel extends SpanModel {
       el.classList.remove(SELECTED)
     }
   }
+
+  renderElement() {
+    const element = super.renderElement()
+
+    if (!this.styleOnly) {
+      element.setAttribute('tabindex', 0)
+      element.classList.add('textae-editor__span')
+    }
+  }
 }

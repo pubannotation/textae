@@ -1,4 +1,5 @@
 import { makeDenotationSpanHTMLElementId } from '../../../idFactory'
+import createRangeToSpan from '../createRangeToSpan'
 import getBigBrotherSpan from './getBigBrotherSpan'
 
 export default class {
@@ -78,6 +79,22 @@ export default class {
 
   get gridElement() {
     return document.querySelector(`#G${this.id}`)
+  }
+
+  renderElement() {
+    const element = document.createElement('span')
+    element.setAttribute('id', this.id)
+    element.setAttribute('title', this.id)
+
+    for (const style of this.styles.values()) {
+      element.classList.add(`textae-editor__style`)
+      element.classList.add(`textae-editor__style--${style}`)
+    }
+
+    const targetRange = createRangeToSpan(this)
+    targetRange.surroundContents(element)
+
+    return element
   }
 
   destroyElement() {
