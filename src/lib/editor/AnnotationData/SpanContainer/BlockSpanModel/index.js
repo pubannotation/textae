@@ -25,22 +25,6 @@ export default class BlockSpanModel extends SpanModel {
     return makeBlockSpanHTMLElementId(this._editor, this._begin, this._end)
   }
 
-  get rectangle() {
-    const spanElement = this.element
-
-    // An element.offsetTop and element.offsetLeft does not work in the Firefox,
-    // when much spans are loaded like http://pubannotation.org/docs/sourcedb/PMC/sourceid/1315279/divs/10/annotations.json.
-    const rectOfSpan = spanElement.getBoundingClientRect()
-    const rectOfTextBox = spanElement.offsetParent.offsetParent.getBoundingClientRect()
-
-    return {
-      top: rectOfSpan.top - rectOfTextBox.top,
-      left: rectOfSpan.left,
-      width: rectOfSpan.width,
-      height: rectOfSpan.height
-    }
-  }
-
   get backgroundId() {
     return `bg_of_${this.id}`
   }
@@ -74,7 +58,7 @@ export default class BlockSpanModel extends SpanModel {
 
   updateBackgroundOfBlockSpanPosition(textBox) {
     const bg = this.backgroundElement
-    const rect = this.rectangle
+    const rect = this._rectangle
 
     bg.style.top = `${rect.top - textBox.lineHeight / 2 + 20}px`
     bg.style.left = `${
@@ -94,5 +78,21 @@ export default class BlockSpanModel extends SpanModel {
   destroyElement() {
     super.destroyElement()
     this.backgroundElement.remove()
+  }
+
+  get _rectangle() {
+    const spanElement = this.element
+
+    // An element.offsetTop and element.offsetLeft does not work in the Firefox,
+    // when much spans are loaded like http://pubannotation.org/docs/sourcedb/PMC/sourceid/1315279/divs/10/annotations.json.
+    const rectOfSpan = spanElement.getBoundingClientRect()
+    const rectOfTextBox = spanElement.offsetParent.offsetParent.getBoundingClientRect()
+
+    return {
+      top: rectOfSpan.top - rectOfTextBox.top,
+      left: rectOfSpan.left,
+      width: rectOfSpan.width,
+      height: rectOfSpan.height
+    }
   }
 }
