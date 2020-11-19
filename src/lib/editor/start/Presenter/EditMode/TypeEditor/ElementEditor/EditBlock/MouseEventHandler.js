@@ -21,19 +21,11 @@ export default class MouseEventHandler {
     }
   }
 
-  blockSpanClicked(e) {
-    // When you click on the text, the browser will automatically select the word.
-    // Therefore, the editor shrinks spans instead of selecting spans.
-    // Deselect the text.
-    if (e.button === 2) {
-      clearTextSelection()
-    }
-
-    const selection = window.getSelection()
-
-    if (selection.type === 'Caret') {
-      this._selectSpan(e, e.target.id)
-    }
+  // Mouse events to the block span are handled by the background instead,
+  // to show the block span shifted up half a line.
+  blockSpanClicked() {
+    clearTextSelection()
+    this._selectionModel.clear()
   }
 
   blockHitAreaClicked(e) {

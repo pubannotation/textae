@@ -58,6 +58,10 @@ export default class {
 
     const selection = window.getSelection()
 
+    if (selection.type === 'Caret') {
+      this._selectionModel.clear()
+    }
+
     if (selection.type === 'Range') {
       this._spanEditor.editFor(new SelectionWrapper())
     }
