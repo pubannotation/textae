@@ -85,13 +85,6 @@ export default class {
     }
   }
 
-  endpointClicked(e) {
-    this._selectionModel.selectEntity(
-      getEntityHTMLelementFromChild(e.target).title,
-      e.ctrlKey || e.metaKey
-    )
-  }
-
   entityClicked() {
     this._editor.focus()
   }

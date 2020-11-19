@@ -20,17 +20,6 @@ export default class MouseEventHandler {
     this._selectionModel.clear()
   }
 
-  endpointClicked(e) {
-    const entity = getEntityHTMLelementFromChild(e.target).title
-    clickEntity(
-      this._selectionModel,
-      entity,
-      this._commander,
-      this._typeDefinition,
-      e
-    )
-  }
-
   entityClicked() {
     this._editor.focus()
   }
