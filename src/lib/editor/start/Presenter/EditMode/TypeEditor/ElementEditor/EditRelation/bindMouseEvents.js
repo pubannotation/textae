@@ -7,12 +7,11 @@ import delegate from 'delegate'
 export default function (editor, mouseEventHandler) {
   const listeners = []
 
+  // In relation mode does not manipulate the child elements in the text box.
   listeners.push(
-    delegate(editor[0], '.textae-editor__body__text-box', 'click', (e) => {
-      if (e.target.classList.contains('textae-editor__body__text-box')) {
-        mouseEventHandler.textBoxClicked()
-      }
-    })
+    delegate(editor[0], '.textae-editor__body__text-box', 'click', () =>
+      mouseEventHandler.textBoxClicked()
+    )
   )
 
   listeners.push(
