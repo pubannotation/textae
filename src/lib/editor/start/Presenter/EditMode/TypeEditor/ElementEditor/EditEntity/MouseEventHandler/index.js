@@ -77,6 +77,8 @@ export default class {
       const span = e.target.closest('.textae-editor__span')
       if (span) {
         this._selectSpan(e, span.id)
+      } else {
+        this._selectionModel.clear()
       }
     }
 
