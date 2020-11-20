@@ -1,7 +1,6 @@
 import create from './create'
 import destroy from './destroy'
 import setTypeGapHeight from './setTypeGapHeight'
-import update from './update'
 import EntityModel from '../../../../EntityModel'
 
 export default class {
@@ -31,11 +30,10 @@ export default class {
   }
 
   change(entity) {
-    update(
-      this._selectionModel,
+    entity.updateElement(
       this._annotationData.namespace,
       this._typeContainer,
-      entity
+      this._selectionModel.entity.has(entity.id)
     )
 
     setTypeGapHeight(entity, this._typeGap)
