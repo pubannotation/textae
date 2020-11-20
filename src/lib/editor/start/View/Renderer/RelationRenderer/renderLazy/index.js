@@ -1,4 +1,3 @@
-import render from './render'
 import areEndpointsPrepared from './areEndpointsPrepared'
 
 // The jsPlumb error occurs when a relation between same points.
@@ -17,5 +16,10 @@ export default function (
     return
   }
 
-  render(jsPlumbInstance, editor, annotationData, typeDefinition, relation)
+  relation.renderElement(
+    jsPlumbInstance,
+    editor,
+    annotationData,
+    typeDefinition
+  )
 }

@@ -1,4 +1,5 @@
 import determineCurviness from '../../../determineCurviness'
+import render from '../../../start/View/Renderer/RelationRenderer/renderLazy/render'
 import getEntityEndpoint from './getEntityEndpoint'
 
 export default class RelationModel {
@@ -83,6 +84,10 @@ export default class RelationModel {
     )
 
     this.jsPlumbConnection.resetCurviness(curviness)
+  }
+
+  renderElement(jsPlumbInstance, editor, annotationData, typeDefinition) {
+    render(jsPlumbInstance, editor, annotationData, typeDefinition, this)
   }
 
   destroyElement() {
