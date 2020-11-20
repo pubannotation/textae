@@ -23,14 +23,14 @@ export default class SpanEditor {
   editFor(selectionWrapper) {
     if (selectionWrapper.isParentOfAnchorNodeTextBox) {
       if (selectionWrapper.isParentOfFocusNodeTextBox) {
-        this._create(this._editor, selectionWrapper)
+        this._create(selectionWrapper)
       }
     }
 
     clearTextSelection()
   }
 
-  _create(editor, selectionWrapper) {
+  _create(selectionWrapper) {
     if (
       hasCharacters(this._annotationData, this._spanConfig, selectionWrapper)
     ) {
