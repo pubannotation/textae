@@ -6,7 +6,7 @@ export default function (annotationData, relationId) {
   const relation = annotationData.relation.get(relationId)
 
   return (
-    annotationData.entity.get(relation.subj).span.gridElement &&
-    annotationData.entity.get(relation.obj).span.gridElement
+    annotationData.entity.get(relation.subj).span.isGridRendered &&
+    annotationData.entity.get(relation.obj).span.isGridRendered
   )
 }

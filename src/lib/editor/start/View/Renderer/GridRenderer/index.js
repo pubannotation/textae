@@ -20,10 +20,8 @@ export default class {
   }
 
   remove(span) {
-    const gridElement = span.gridElement
-
-    if (gridElement) {
-      gridElement.remove()
+    if (span.isGridRendered) {
+      span.gridElement.remove()
     }
   }
 }

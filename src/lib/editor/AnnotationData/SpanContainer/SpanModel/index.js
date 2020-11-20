@@ -81,6 +81,10 @@ export default class {
     return document.querySelector(`#G${this.id}`)
   }
 
+  get isGridRendered() {
+    return this.gridElement
+  }
+
   renderElement() {
     const element = document.createElement('span')
     element.setAttribute('id', this.id)
