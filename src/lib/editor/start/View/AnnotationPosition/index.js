@@ -1,5 +1,3 @@
-import arrangeBlockEntityPosition from './arrangeBlockEntityPosition'
-
 export default class AnnotationPosition {
   constructor(editor, annotationData, textBox, gridRectangle, renderer) {
     this._editor = editor
@@ -23,8 +21,7 @@ export default class AnnotationPosition {
     this._annotationData.span.arrangeBackgroundOfBlockSpanPosition(
       this._textBox
     )
-    arrangeBlockEntityPosition(
-      this._annotationData,
+    this._annotationData.span.arrangeBlockEntityPosition(
       this._textBox,
       this._gridRectangle
     )

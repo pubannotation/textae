@@ -8,6 +8,7 @@ import isBoundaryCrossingWithOtherSpans from '../isBoundaryCrossingWithOtherSpan
 import ModelContainer from '../ModelContainer'
 import arrangeBackgroundOfBlockSpanPosition from './arrangeBackgroundOfBlockSpanPosition'
 import arrangeDenotationEntityPosition from './arrangeDenotationEntityPosition'
+import arrangeBlockEntityPosition from './arrangeBlockEntityPosition'
 
 export default class SpanContainer extends ModelContainer {
   constructor(editor, emitter, entityContainer) {
@@ -253,6 +254,10 @@ export default class SpanContainer extends ModelContainer {
 
   arrangeDenotationEntityPosition(gridRectangle) {
     arrangeDenotationEntityPosition(this, gridRectangle)
+  }
+
+  arrangeBlockEntityPosition(textBox, gridRectangle) {
+    arrangeBlockEntityPosition(this, textBox, gridRectangle)
   }
 
   arrangeBackgroundOfBlockSpanPosition(textBox) {
