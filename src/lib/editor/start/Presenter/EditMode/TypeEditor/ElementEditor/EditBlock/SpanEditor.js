@@ -24,6 +24,7 @@ export default class SpanEditor {
     if (selectionWrapper.isParentOfAnchorNodeTextBox) {
       if (
         selectionWrapper.isParentOfFocusNodeTextBox ||
+        selectionWrapper.isParentOfFocusNodeDenotationSpan ||
         selectionWrapper.isParentOfFocusNodeStyleSpan
       ) {
         this._create(selectionWrapper)
