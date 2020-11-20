@@ -26,7 +26,7 @@ export default class AnnotationPosition {
       this._gridRectangle
     )
 
-    await this._renderer.arrangeRelationPositionAllAsync()
+    this._renderer.arrangeRelationPositionAll()
     this._editor.eventEmitter.emit(
       'textae.annotationPosition.position-update.end'
     )
