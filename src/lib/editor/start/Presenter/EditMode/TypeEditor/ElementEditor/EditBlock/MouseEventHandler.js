@@ -48,6 +48,11 @@ export default class MouseEventHandler {
     if (selection.type === 'Caret') {
       this._selectionModel.clear()
     }
+
+    if (selection.type === 'Range') {
+      this._spanEditor.editFor(new SelectionWrapper())
+      e.stopPropagation()
+    }
   }
 
   denotationSpanClicked(e) {

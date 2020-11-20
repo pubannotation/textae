@@ -22,7 +22,10 @@ export default class SpanEditor {
 
   editFor(selectionWrapper) {
     if (selectionWrapper.isParentOfAnchorNodeTextBox) {
-      if (selectionWrapper.isParentOfFocusNodeTextBox) {
+      if (
+        selectionWrapper.isParentOfFocusNodeTextBox ||
+        selectionWrapper.isParentOfFocusNodeStyleSpan
+      ) {
         this._create(selectionWrapper)
       }
     }
