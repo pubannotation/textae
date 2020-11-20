@@ -64,10 +64,6 @@ export default class {
   }
 
   remove(relation) {
-    if (!relation.isRendered) {
-      return
-    }
-
-    relation.deleteJsPlumbConnection()
+    relation.destroyElement()
   }
 }

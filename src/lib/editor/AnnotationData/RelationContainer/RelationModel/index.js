@@ -84,4 +84,12 @@ export default class RelationModel {
 
     this.jsPlumbConnection.resetCurviness(curviness)
   }
+
+  destroyElement() {
+    if (!this.isRendered) {
+      return
+    }
+
+    this.deleteJsPlumbConnection()
+  }
 }
