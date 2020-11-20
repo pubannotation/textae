@@ -1,6 +1,6 @@
 import determineCurviness from '../../../determineCurviness'
-import render from './render'
 import getEntityEndpoint from './getEntityEndpoint'
+import JsPlumbConnectionWrapper from './JsPlumbConnectionWrapper'
 
 export default class RelationModel {
   constructor(editor, { id, pred, subj, obj }) {
@@ -87,13 +87,26 @@ export default class RelationModel {
   }
 
   renderElement(jsPlumbInstance, editor, annotationData, typeDefinition) {
-    this._connect = render(
+    const jsPlumbConnection = new JsPlumbConnectionWrapper(
       jsPlumbInstance,
-      editor,
+      this,
       annotationData,
-      typeDefinition,
-      this
+      typeDefinition
     )
+
+    // Bind a jsPlumbConnection event.
+    jsPlumbConnection
+      .bind('mouseenter', () => jsPlumbConnection.pointup())
+      .bind('mouseexit', () => jsPlumbConnection.pointdown())
+      .bind('click', (_, event) => {
+        editor.eventEmitter.emit(
+          'textae.editor.jsPlumbConnection.click',
+          jsPlumbConnection,
+          event
+        )
+      })
+
+    this._connect = jsPlumbConnection
   }
 
   destroyElement() {
