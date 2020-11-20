@@ -150,9 +150,14 @@ export default class EntityModel {
     return dohtml.create(html)
   }
 
-  updateElement(namespace, typeContainer) {
+  updateElement(namespace, typeContainer, isSelected) {
     const element = this.renderElement(namespace, typeContainer)
     this.element.replaceWith(element)
+
+    // Re-select a new entity element.
+    if (isSelected) {
+      this.select()
+    }
   }
 
   destroyElement() {
