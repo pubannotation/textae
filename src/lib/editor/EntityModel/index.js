@@ -1,7 +1,9 @@
+import dohtml from 'dohtml'
 import TypeValues from '../TypeValues'
 import { makeEntityHTMLElementId } from '../idFactory'
 import mergeTypesOf from './mergeTypesOf'
 import SELECTED from '../SELECTED'
+import createEntityHtml from './createEntityHtml'
 
 export default class EntityModel {
   constructor(
@@ -141,6 +143,11 @@ export default class EntityModel {
 
   deselect() {
     this.element.classList.remove(SELECTED)
+  }
+
+  renderElement(namespace, typeContainer) {
+    const html = createEntityHtml(this, namespace, typeContainer)
+    return dohtml.create(html)
   }
 
   destroyElement() {
