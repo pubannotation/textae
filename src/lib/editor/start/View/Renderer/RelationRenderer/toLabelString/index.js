@@ -1,4 +1,4 @@
-import getLabelTag from '../getLabelTag'
+import getLabelTag from './getLabelTag'
 
 export default function (relation, annotationData, typeDefinition) {
   return `[${relation.id}] ${getLabelTag(
