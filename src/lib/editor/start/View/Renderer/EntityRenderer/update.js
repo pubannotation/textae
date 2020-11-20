@@ -7,7 +7,7 @@ export default function (selectionModel, namespace, typeContainer, entity) {
   const html = createEntityHtml(entity, namespace, typeContainer)
   const element = dohtml.create(html)
 
-  entityElement.innerHTML = element.innerHTML
+  entityElement.replaceWith(element)
 
   // Re-select a new entity instance.
   if (selectionModel.entity.has(entity.id)) {
