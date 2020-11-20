@@ -1,4 +1,6 @@
+import dohtml from 'dohtml'
 import { makeDenotationSpanHTMLElementId } from '../../../idFactory'
+import createGridHtml from './createGridHtml'
 import createRangeToSpan from '../createRangeToSpan'
 import getBigBrotherSpan from './getBigBrotherSpan'
 
@@ -112,6 +114,11 @@ export default class {
 
   get isGridRendered() {
     return this.gridElement
+  }
+
+  renderGridElement(top, left, width) {
+    const html = createGridHtml(this.id, top, left, width)
+    return dohtml.create(html)
   }
 
   destroyGridElement() {
