@@ -1,7 +1,5 @@
 export default function (selectionModel, namespace, typeContainer, entity) {
-  const entityElement = entity.element
-  const element = entity.renderElement(namespace, typeContainer)
-  entityElement.replaceWith(element)
+  entity.updateElement(namespace, typeContainer)
 
   // Re-select a new entity instance.
   if (selectionModel.entity.has(entity.id)) {

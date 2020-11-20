@@ -150,6 +150,11 @@ export default class EntityModel {
     return dohtml.create(html)
   }
 
+  updateElement(namespace, typeContainer) {
+    const element = this.renderElement(namespace, typeContainer)
+    this.element.replaceWith(element)
+  }
+
   destroyElement() {
     this.element.remove()
   }
