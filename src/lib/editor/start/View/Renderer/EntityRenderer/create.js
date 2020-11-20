@@ -1,3 +1,4 @@
+import dohtml from 'dohtml'
 import createEntityHtml from './createEntityHtml'
 
 // An entity is a circle on Type that is an endpoint of a relation.
@@ -13,7 +14,8 @@ export default function (typeContainer, gridRenderer, entity, namespace) {
   const grid = entity.span.gridElement || gridRenderer.render(entity.span)
 
   // Append a new entity to the type
-  const element = createEntityHtml(entity, namespace, typeContainer)
+  const html = createEntityHtml(entity, namespace, typeContainer)
+  const element = dohtml.create(html)
 
-  grid.insertAdjacentHTML('beforeend', element)
+  grid.insertAdjacentElement('beforeend', element)
 }
