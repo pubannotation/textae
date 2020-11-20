@@ -1,5 +1,3 @@
-import updateGridPosition from './updateGridPosition'
-
 // Management position of annotation components.
 export default function (annotationData, textBox, gridRectangle) {
   for (const span of annotationData.span.allBlockSpans) {
@@ -9,6 +7,6 @@ export default function (annotationData, textBox, gridRectangle) {
     }
 
     const { top, left } = gridRectangle.blockGridRectangle(textBox, span)
-    updateGridPosition(span, top, left)
+    span.updateGridPosition(top, left)
   }
 }

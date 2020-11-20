@@ -3,6 +3,7 @@ import { makeDenotationSpanHTMLElementId } from '../../../idFactory'
 import createGridHtml from './createGridHtml'
 import createRangeToSpan from '../createRangeToSpan'
 import getBigBrotherSpan from './getBigBrotherSpan'
+import updateGridPosition from './updateGridPosition'
 
 export default class {
   constructor(editor, begin, end, spanContainer) {
@@ -119,6 +120,10 @@ export default class {
   renderGridElement(top, left, width) {
     const html = createGridHtml(this.id, top, left, width)
     return dohtml.create(html)
+  }
+
+  updateGridPosition(top, left) {
+    updateGridPosition(this, top, left)
   }
 
   destroyGridElement() {
