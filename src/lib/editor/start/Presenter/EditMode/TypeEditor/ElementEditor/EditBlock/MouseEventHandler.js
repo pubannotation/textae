@@ -43,6 +43,13 @@ export default class MouseEventHandler {
     }
   }
 
+  styleSpanClicked(e) {
+    const selection = window.getSelection()
+    if (selection.type === 'Caret') {
+      this._selectionModel.clear()
+    }
+  }
+
   _selectSpan(event, spanId) {
     selectSpan(this._annotationData, this._selectionModel, event, spanId)
   }
