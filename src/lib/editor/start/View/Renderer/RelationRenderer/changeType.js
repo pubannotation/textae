@@ -1,4 +1,4 @@
-import toLabelString from './toLabelString'
+import toLabelString from '../../../../toLabelString'
 
 export default function (annotationData, typeDefinition, relation) {
   const jsPlumbConnection = relation.jsPlumbConnection

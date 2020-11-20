@@ -1,8 +1,8 @@
 import $ from 'jquery'
-import determineCurviness from '../../../../../../../determineCurviness'
+import determineCurviness from '../../../../../determineCurviness'
 import connectorStrokeStyle from './connectorStrokeStyle'
-import toLabelString from '../../../toLabelString'
-import arrowConfig from '../../../../../../../arrowConfig'
+import toLabelString from '../../../../../toLabelString'
+import arrowConfig from '../../../../../arrowConfig'
 
 // Make a connect by jsPlumb.
 export default function (

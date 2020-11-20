@@ -1,5 +1,5 @@
 import determineCurviness from '../../../determineCurviness'
-import render from '../../../start/View/Renderer/RelationRenderer/renderLazy/render'
+import render from './render'
 import getEntityEndpoint from './getEntityEndpoint'
 
 export default class RelationModel {
@@ -87,7 +87,13 @@ export default class RelationModel {
   }
 
   renderElement(jsPlumbInstance, editor, annotationData, typeDefinition) {
-    render(jsPlumbInstance, editor, annotationData, typeDefinition, this)
+    this._connect = render(
+      jsPlumbInstance,
+      editor,
+      annotationData,
+      typeDefinition,
+      this
+    )
   }
 
   destroyElement() {

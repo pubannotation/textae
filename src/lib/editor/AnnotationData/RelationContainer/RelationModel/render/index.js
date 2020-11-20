@@ -26,5 +26,5 @@ export default function (
       )
     })
 
-  relation.jsPlumbConnection = jsPlumbConnection
+  return jsPlumbConnection
 }

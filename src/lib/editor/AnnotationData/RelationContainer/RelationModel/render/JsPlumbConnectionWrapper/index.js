@@ -1,4 +1,4 @@
-import arrowConfig from '../../../../../../../arrowConfig'
+import arrowConfig from '../../../../../arrowConfig'
 import connectorStrokeStyle from './connectorStrokeStyle'
 import createJsPlumbConnecttion from './createJsPlumbConnecttion'
 
