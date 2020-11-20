@@ -6,6 +6,6 @@ export default function (gridRenderer, entity) {
     gridRenderer.remove(entity.span)
   } else {
     // Destroy whole of type DOM.
-    entity.element.remove()
+    entity.destroyElement()
   }
 }

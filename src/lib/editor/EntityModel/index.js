@@ -142,4 +142,8 @@ export default class EntityModel {
   deselect() {
     this.element.classList.remove(SELECTED)
   }
+
+  destroyElement() {
+    this.element.remove()
+  }
 }
