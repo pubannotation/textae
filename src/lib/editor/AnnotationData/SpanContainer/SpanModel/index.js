@@ -113,4 +113,10 @@ export default class {
   get isGridRendered() {
     return this.gridElement
   }
+
+  destroyGridElement() {
+    if (this.isGridRendered) {
+      this.gridElement.remove()
+    }
+  }
 }

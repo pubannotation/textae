@@ -20,8 +20,6 @@ export default class {
   }
 
   remove(span) {
-    if (span.isGridRendered) {
-      span.gridElement.remove()
-    }
+    span.destroyGridElement()
   }
 }
