@@ -35,5 +35,13 @@ export default function (editor, mouseEventHandler) {
     })
   )
 
+  listeners.push(
+    delegate(editor[0], '.textae-editor__span', 'mouseup', (e) => {
+      if (e.target.classList.contains('textae-editor__span')) {
+        mouseEventHandler.denotationSpanClicked(e)
+      }
+    })
+  )
+
   return listeners
 }

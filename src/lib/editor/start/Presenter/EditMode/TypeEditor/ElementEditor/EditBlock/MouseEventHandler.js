@@ -50,6 +50,13 @@ export default class MouseEventHandler {
     }
   }
 
+  denotationSpanClicked(e) {
+    const selection = window.getSelection()
+    if (selection.type === 'Caret') {
+      this._selectionModel.clear()
+    }
+  }
+
   _selectSpan(event, spanId) {
     selectSpan(this._annotationData, this._selectionModel, event, spanId)
   }
