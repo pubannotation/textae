@@ -1,4 +1,3 @@
-import arrangeDenotationEntityPosition from './arrangeDenotationEntityPosition'
 import arrangeBlockEntityPosition from './arrangeBlockEntityPosition'
 
 export default class AnnotationPosition {
@@ -15,7 +14,9 @@ export default class AnnotationPosition {
       'textae.annotationPosition.position-update.start'
     )
 
-    arrangeDenotationEntityPosition(this._annotationData, this._gridRectangle)
+    this._annotationData.span.arrangeDenotationEntityPosition(
+      this._gridRectangle
+    )
 
     // When you undo the deletion of a block span,
     // if you move the background first, the grid will move to a better position.
