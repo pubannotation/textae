@@ -30,6 +30,11 @@ export default class SpanEditor {
         this._create(selectionWrapper)
       }
     }
+    if (selectionWrapper.isParentOfAnchorNodeDenotationSpan) {
+      if (selectionWrapper.isParentOfFocusNodeTextBox) {
+        this._create(selectionWrapper)
+      }
+    }
 
     clearTextSelection()
   }
