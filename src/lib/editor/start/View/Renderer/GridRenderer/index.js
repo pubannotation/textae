@@ -23,7 +23,7 @@ export default class {
     const gridElement = span.gridElement
 
     if (gridElement) {
-      gridElement.parentNode.removeChild(gridElement)
+      gridElement.remove()
     }
   }
 }
