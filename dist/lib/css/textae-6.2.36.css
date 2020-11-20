@@ -4367,8 +4367,8 @@ a.ui-button:active,
   overflow: hidden;
   position: relative;
   padding-left: 16px;
+  padding-right: 100px;
   white-space: pre-wrap;
-  width: calc(100% - 100px);
 }
 .textae-editor__footer {
   background-color: #ddf;
