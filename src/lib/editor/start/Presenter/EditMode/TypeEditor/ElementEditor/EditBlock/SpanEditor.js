@@ -31,7 +31,10 @@ export default class SpanEditor {
       }
     }
     if (selectionWrapper.isParentOfAnchorNodeDenotationSpan) {
-      if (selectionWrapper.isParentOfFocusNodeTextBox) {
+      if (
+        selectionWrapper.isParentOfFocusNodeTextBox ||
+        selectionWrapper.isParentOfFocusNodeDenotationSpan
+      ) {
         this._create(selectionWrapper)
       }
     }
@@ -59,9 +62,9 @@ export default class SpanEditor {
       }
 
       // The span exists already.
-      if (this._annotationData.span.hasDenotationSpan(begin, end)) {
-        return
-      }
+      // if (this._annotationData.span.hasDenotationSpan(begin, end)) {
+      //   return
+      // }
 
       const command = this._commander.factory.createBlockSpanCommand({
         begin,
