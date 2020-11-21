@@ -93,6 +93,24 @@ export default class BlockSpanModel extends SpanModel {
     this.hitAreaElement.remove()
   }
 
+  updateGridPosition(top, left) {
+    super.updateGridPosition(top, left)
+
+    if (this._entityToFocusOn) {
+      // A block span has only one entity.
+      this._entityToFocusOn.select()
+      this._entityToFocusOn = null
+    }
+  }
+
+  get isGridPositioned() {
+    return this.gridElement.style.top
+  }
+
+  set entityToFocusOn(val) {
+    this._entityToFocusOn = val
+  }
+
   _getReactOfSidekicksOfBlock(textBox) {
     const rect = this._rectangle
 
