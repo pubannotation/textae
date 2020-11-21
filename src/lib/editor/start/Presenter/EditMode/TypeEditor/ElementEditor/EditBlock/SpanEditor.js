@@ -33,7 +33,8 @@ export default class SpanEditor {
     if (selectionWrapper.isParentOfAnchorNodeDenotationSpan) {
       if (
         selectionWrapper.isParentOfFocusNodeTextBox ||
-        selectionWrapper.isParentOfFocusNodeDenotationSpan
+        selectionWrapper.isParentOfFocusNodeDenotationSpan ||
+        selectionWrapper.isParentOfFocusNodeStyleSpan
       ) {
         this._create(selectionWrapper)
       }
