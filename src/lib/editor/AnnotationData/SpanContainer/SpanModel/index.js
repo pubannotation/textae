@@ -123,7 +123,7 @@ export default class {
   }
 
   updateGridPosition(top, left) {
-    updateGridPosition(this, top, left)
+    updateGridPosition(this.gridElement, top, left)
   }
 
   destroyGridElement() {
