@@ -41,7 +41,7 @@ export default class GridRectangle {
     return {
       width: 100,
       top: round(parseInt(span.backgroundElement.style.top)),
-      left: round(rectOfTextBox.width - 100)
+      left: round(rectOfTextBox.width - 108)
     }
   }
 }
