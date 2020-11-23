@@ -21,6 +21,16 @@ export default class {
     return this._selected.has(id)
   }
 
+  contains(predicate) {
+    for (const v of this._selected.values()) {
+      if (predicate(v)) {
+        return true
+      }
+    }
+
+    return false
+  }
+
   get all() {
     return Array.from(this._selected.values())
   }
