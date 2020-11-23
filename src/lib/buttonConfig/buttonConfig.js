@@ -116,7 +116,8 @@ export const buttonConfig = [
       type: 'copy',
       title: 'Copy [C]',
       enableWhenSelecting: {
-        span: (selectionModel) => selectionModel.span.some,
+        span: (selectionModel) =>
+          selectionModel.span.contains((s) => s.isDenotation),
         entity: (selectionModel) =>
           selectionModel.entity.contains((e) => e.isDenotation)
       }
@@ -125,7 +126,8 @@ export const buttonConfig = [
       type: 'cut',
       title: 'Cut [X]',
       enableWhenSelecting: {
-        span: (selectionModel) => selectionModel.span.some,
+        span: (selectionModel) =>
+          selectionModel.span.contains((s) => s.isDenotation),
         entity: (selectionModel) =>
           selectionModel.entity.contains((e) => e.isDenotation)
       }
