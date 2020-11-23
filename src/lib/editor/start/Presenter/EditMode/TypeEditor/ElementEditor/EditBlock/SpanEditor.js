@@ -1,4 +1,4 @@
-import clearTextSelection from '../../clearTextSelection'
+import clearTextSelection from '../clearTextSelection'
 import DelimiterDetectAdjuster from '../EditEntity/SpanEditor/DelimiterDetectAdjuster'
 import hasCharacters from '../EditEntity/SpanEditor/hasCharacters'
 import getNewSpan from '../EditEntity/SpanEditor/create/getNewSpan'
