@@ -18,7 +18,7 @@ export default class {
   ) {
     this._editor = editor
     this._typeDefinition = typeDefinition
-    this._autocompletionWs = autocompletionWs
+    this._autocompletionWsFromParams = autocompletionWs
     this._selectionModel = selectionModel
 
     // will init.
@@ -59,7 +59,7 @@ export default class {
       commander,
       'entity',
       this._elementEditor.entityHandler,
-      () => this.autocompletionWs
+      () => this._autocompletionWs
     )
 
     initPallet(
@@ -68,7 +68,7 @@ export default class {
       commander,
       'relation',
       this._elementEditor.relationHandler,
-      () => this.autocompletionWs
+      () => this._autocompletionWs
     )
   }
 
@@ -116,7 +116,7 @@ export default class {
   }
 
   changeLabel() {
-    this._elementEditor.getHandler().changeLabelHandler(this.autocompletionWs)
+    this._elementEditor.getHandler().changeLabelHandler(this._autocompletionWs)
   }
 
   manipulateAttribute(number, shiftKey) {
@@ -154,7 +154,9 @@ export default class {
     }
   }
 
-  get autocompletionWs() {
-    return this._autocompletionWs || this._typeDefinition.autocompletionWs
+  get _autocompletionWs() {
+    return (
+      this._autocompletionWsFromParams || this._typeDefinition.autocompletionWs
+    )
   }
 }
