@@ -64,7 +64,7 @@ export default class {
     this._listeners = []
   }
 
-  getHandlerType() {
+  get handlerType() {
     return this._handlerType
   }
 

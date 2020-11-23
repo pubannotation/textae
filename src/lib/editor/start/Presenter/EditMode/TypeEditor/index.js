@@ -145,11 +145,11 @@ export default class {
   }
 
   _getPallet() {
-    if (this._elementEditor.getHandlerType() == 'entity') {
+    if (this._elementEditor.handlerType == 'entity') {
       return this._entityPallet
     }
 
-    if (this._elementEditor.getHandlerType() == 'relation') {
+    if (this._elementEditor.handlerType == 'relation') {
       return this._relationPallet
     }
   }
