@@ -17,7 +17,7 @@ export default class {
     entityPallet
   ) {
     this._editor = editor
-    this._entityHandler = new EditEntityHandler(
+    this._handler = new EditEntityHandler(
       editor,
       typeDefinition,
       commander,
@@ -48,6 +48,6 @@ export default class {
   }
 
   get entityHandler() {
-    return this._entityHandler
+    return this._handler
   }
 }
