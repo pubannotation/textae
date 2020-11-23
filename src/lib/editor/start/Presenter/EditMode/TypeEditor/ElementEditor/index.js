@@ -64,10 +64,6 @@ export default class {
     this._listeners = []
   }
 
-  _setHandlerType(handler) {
-    this._handler = handler
-  }
-
   getHandlerType() {
     return this._handler
   }
@@ -93,25 +89,25 @@ export default class {
 
   noEdit() {
     this._unbindAllMouseEventhandler()
-    this._setHandlerType('default')
+    this._handler = 'default'
   }
 
   editEntity() {
     this._unbindAllMouseEventhandler()
     this._listeners = this._editEntity.init()
-    this._setHandlerType('entity')
+    this._handler = 'entity'
   }
 
   editBlock() {
     this._unbindAllMouseEventhandler()
     this._listeners = this._editBlock.init()
-    this._setHandlerType('block')
+    this._handler = 'block'
   }
 
   editRelation() {
     this._unbindAllMouseEventhandler()
     this._listeners = this._editRelation.init()
-    this._setHandlerType('relation')
+    this._handler = 'relation'
   }
 
   _unbindAllMouseEventhandler() {
