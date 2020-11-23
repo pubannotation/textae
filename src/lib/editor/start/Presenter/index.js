@@ -1,5 +1,4 @@
 import EditMode from './EditMode'
-import DisplayInstance from './EditMode/DisplayInstance'
 import bindModelChange from './bindModelChange'
 import EventMap from './EventMap'
 
