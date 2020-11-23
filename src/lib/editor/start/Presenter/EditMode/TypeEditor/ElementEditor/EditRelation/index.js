@@ -1,8 +1,9 @@
 import EditRelationHandler from './EditRelationHandler'
 import bindMouseEvents from './bindMouseEvents'
 import MouseEventHandler from './MouseEventHandler'
+import Edit from '../Edit'
 
-export default class {
+export default class extends Edit {
   constructor(
     editor,
     annotationData,
@@ -11,27 +12,22 @@ export default class {
     typeDefinition,
     relationPallet
   ) {
-    this._editor = editor
-    this._handler = new EditRelationHandler(
-      typeDefinition,
-      commander,
-      annotationData,
-      selectionModel
-    )
-    this._mouseEventHandler = new MouseEventHandler(
+    super(
       editor,
-      selectionModel,
-      commander,
-      typeDefinition,
-      relationPallet
+      bindMouseEvents,
+      new MouseEventHandler(
+        editor,
+        selectionModel,
+        commander,
+        typeDefinition,
+        relationPallet
+      ),
+      new EditRelationHandler(
+        typeDefinition,
+        commander,
+        annotationData,
+        selectionModel
+      )
     )
-  }
-
-  init() {
-    return bindMouseEvents(this._editor, this._mouseEventHandler)
-  }
-
-  get handler() {
-    return this._handler
   }
 }
