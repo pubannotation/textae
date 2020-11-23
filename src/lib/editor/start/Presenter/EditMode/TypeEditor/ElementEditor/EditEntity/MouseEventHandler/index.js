@@ -96,10 +96,11 @@ export default class {
   }
 
   typeValuesClicked(e) {
-    this._selectionModel.selectEntity(
-      getEntityHTMLelementFromChild(e.target).title,
-      e.ctrlKey || e.metaKey
-    )
+    const entityId = getEntityHTMLelementFromChild(e.target).title
+
+    if (this._annotationData.entity.get(entityId).isDenotation) {
+      this._selectionModel.selectEntity(entityId, e.ctrlKey || e.metaKey)
+    }
   }
 
   _selectSpan(event, spanId) {
