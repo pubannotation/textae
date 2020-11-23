@@ -30,46 +30,70 @@ export default class SpanEditor {
     if (selectionWrapper.isParentOfAnchorNodeTextBox) {
       if (selectionWrapper.isParentOfFocusNodeTextBox) {
         this._anchorNodeInTextBoxFocusNodeInTextBox(selectionWrapper)
-      } else if (selectionWrapper.isParentOfFocusNodeDenotationSpan) {
+        return
+      }
+      if (selectionWrapper.isParentOfFocusNodeDenotationSpan) {
         this._anchorNodeInTextBoxFocusNodeInDenotationSpan(selectionWrapper)
-      } else if (selectionWrapper.isParentOfFocusNodeBlockSpan) {
+        return
+      }
+      if (selectionWrapper.isParentOfFocusNodeBlockSpan) {
         this._anchorNodeInTextBoxFocusNodeInBlockSpan(selectionWrapper)
-      } else if (selectionWrapper.isParentOfFocusNodeStyleSpan) {
+        return
+      }
+      if (selectionWrapper.isParentOfFocusNodeStyleSpan) {
         this._anchorNodeInTextBoxFocusNodeInStyleSpan(selectionWrapper)
       }
     }
     if (selectionWrapper.isParentOfAnchorNodeDenotationSpan) {
       if (selectionWrapper.isParentOfFocusNodeTextBox) {
         this._anchorNodeInDenotationSpanFocusNodeInTextBox(selectionWrapper)
-      } else if (selectionWrapper.isParentOfFocusNodeDenotationSpan) {
+        return
+      }
+      if (selectionWrapper.isParentOfFocusNodeDenotationSpan) {
         this._anchorNodeInDenotationSpanFocusNodeInDenotationSpan(
           selectionWrapper
         )
-      } else if (selectionWrapper.isParentOfFocusNodeBlockSpan) {
+        return
+      }
+      if (selectionWrapper.isParentOfFocusNodeBlockSpan) {
         this._anchorNodeInDenotationSpanFocusNodeInBlockSpan(selectionWrapper)
-      } else if (selectionWrapper.isParentOfFocusNodeStyleSpan) {
+        return
+      }
+      if (selectionWrapper.isParentOfFocusNodeStyleSpan) {
         this._anchorNodeInDenotationSpanFocusNodeInStyleSpan(selectionWrapper)
       }
     }
     if (selectionWrapper.isParentOfAnchorNodeBlockSpan) {
       if (selectionWrapper.isParentOfFocusNodeTextBox) {
         this._anchorNodeInBlockSpanFocusNodeInTextBox(selectionWrapper)
-      } else if (selectionWrapper.isParentOfFocusNodeDenotationSpan) {
+        return
+      }
+      if (selectionWrapper.isParentOfFocusNodeDenotationSpan) {
         this._anchorNodeInBlockSpanFocusNodeInDenotationSpan(selectionWrapper)
-      } else if (selectionWrapper.isParentOfFocusNodeBlockSpan) {
+        return
+      }
+      if (selectionWrapper.isParentOfFocusNodeBlockSpan) {
         this._anchorNodeInBlockSpanFocusNodeInBlockSpan(selectionWrapper)
-      } else if (selectionWrapper.isParentOfFocusNodeStyleSpan) {
+        return
+      }
+      if (selectionWrapper.isParentOfFocusNodeStyleSpan) {
         this._anchorNodeInBlackSpanFocusNodeInStyleSpan(selectionWrapper)
       }
     }
     if (selectionWrapper.isParentOfAnchorNodeStyleSpan) {
       if (selectionWrapper.isParentOfFocusNodeTextBox) {
         this._anchorNodeInStyleSpanFocusNodeInTextBox(selectionWrapper)
-      } else if (selectionWrapper.isParentOfFocusNodeDenotationSpan) {
+        return
+      }
+      if (selectionWrapper.isParentOfFocusNodeDenotationSpan) {
         this._anchorNodeInStyleSpanFocusNodeInDenotationSpan(selectionWrapper)
-      } else if (selectionWrapper.isParentOfFocusNodeBlockSpan) {
+        return
+      }
+      if (selectionWrapper.isParentOfFocusNodeBlockSpan) {
         this._anchorNodeInStyleSpanFocusNodeInBlockSpan(selectionWrapper)
-      } else if (selectionWrapper.isParentOfFocusNodeStyleSpan) {
+        return
+      }
+      if (selectionWrapper.isParentOfFocusNodeStyleSpan) {
         this._anchorNodeInStyleSpanFocusNodeInStyleSpan(selectionWrapper)
       }
     }
