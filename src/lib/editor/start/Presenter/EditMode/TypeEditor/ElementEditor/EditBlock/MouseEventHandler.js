@@ -1,6 +1,7 @@
 import clearTextSelection from '../../clearTextSelection'
 import selectSpan from '../EditEntity/MouseEventHandler/selectSpan'
 import SelectionWrapper from '../EditEntity/MouseEventHandler/SelectionWrapper'
+import getEntityHTMLelementFromChild from '../../../../../getEntityHTMLelementFromChild'
 
 export default class MouseEventHandler {
   constructor(editor, annotationData, selectionModel, spanEditor) {
@@ -70,6 +71,14 @@ export default class MouseEventHandler {
 
   entityClicked() {
     this._editor.focus()
+  }
+
+  typeValuesClicked(e) {
+    const entityId = getEntityHTMLelementFromChild(e.target).title
+
+    if (this._annotationData.entity.get(entityId).isBlock) {
+      this._selectionModel.selectEntity(entityId, e.ctrlKey || e.metaKey)
+    }
   }
 
   _selectSpan(event, spanId) {
