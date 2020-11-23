@@ -16,7 +16,6 @@ export default class {
     typeDefinition,
     autocompletionWs
   ) {
-    this._editor = editor
     this._typeDefinition = typeDefinition
     this._autocompletionWsFromParams = autocompletionWs
     this._selectionModel = selectionModel
