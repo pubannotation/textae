@@ -56,19 +56,19 @@ export default class {
     initPallet(
       this._entityPallet,
       editor,
-      this,
       commander,
       'entity',
-      this._elementEditor.entityHandler
+      this._elementEditor.entityHandler,
+      () => this.autocompletionWs
     )
 
     initPallet(
       this._relationPallet,
       editor,
-      this,
       commander,
       'relation',
-      this._elementEditor.relationHandler
+      this._elementEditor.relationHandler,
+      () => this.autocompletionWs
     )
   }
 
