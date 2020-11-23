@@ -1,8 +1,8 @@
-import CreateAttributeDefinitionDialog from '../../../../../component/CreateAttributeDefinitionDialog'
-import EditAttributeDefinitionDialog from '../../../../../component/EditAttributeDefinitionDialog'
-import EditValueToAttributeDefinitionDialog from '../../../../../component/EditValueOfAttributeDefinitionDialog'
-import openEditNumericAttributeDialog from '../../openEditNumericAttributeDialog'
-import openEditStringAttributeDialog from '../../openEditStringAttributeDialog'
+import CreateAttributeDefinitionDialog from '../../../../component/CreateAttributeDefinitionDialog'
+import EditAttributeDefinitionDialog from '../../../../component/EditAttributeDefinitionDialog'
+import EditValueToAttributeDefinitionDialog from '../../../../component/EditValueOfAttributeDefinitionDialog'
+import openEditNumericAttributeDialog from '../openEditNumericAttributeDialog'
+import openEditStringAttributeDialog from '../openEditStringAttributeDialog'
 
 export default function (
   eventEmitter,

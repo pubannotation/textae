@@ -1,7 +1,11 @@
 import { MODE } from '../../../../MODE'
-import TypeEditor from './TypeEditor'
 import DisplayInstance from './DisplayInstance'
 import StateMachine from './StateMachine'
+import ElementEditor from './ElementEditor'
+import bindAttributeTabEvents from './bindAttributeTabEvents'
+import initPallet from './initPallet'
+import EntityPallet from '../../../../component/EntityPallet'
+import RelationPallet from '../../../../component/RelationPallet'
 
 export default class {
   constructor(
@@ -17,34 +21,94 @@ export default class {
     typeGap
   ) {
     this._annotationData = annotationData
-    this._typeEditor = new TypeEditor(
+
+    // will init.
+    this._entityPallet = new EntityPallet(
+      editor,
+      originalData,
+      typeDefinition,
+      selectionModel.entity
+    )
+    this._relationPallet = new RelationPallet(
+      editor,
+      originalData,
+      typeDefinition
+    )
+
+    this._elementEditor = new ElementEditor(
       editor,
       annotationData,
       selectionModel,
       spanConfig,
       commander,
       buttonController,
-      originalData,
       typeDefinition,
-      autocompletionWs
+      this._entityPallet,
+      this._relationPallet
     )
+
+    bindAttributeTabEvents(
+      editor.eventEmitter,
+      commander,
+      selectionModel.entity,
+      this._entityPallet
+    )
+
+    initPallet(
+      this._entityPallet,
+      editor,
+      commander,
+      'entity',
+      this._elementEditor.entityHandler,
+      () => this._autocompletionWs
+    )
+
+    initPallet(
+      this._relationPallet,
+      editor,
+      commander,
+      'relation',
+      this._elementEditor.relationHandler,
+      () => this._autocompletionWs
+    )
+
     this._displayInstance = new DisplayInstance(typeGap)
 
     this._stateMachine = new StateMachine(
       editor,
       this._displayInstance,
-      () => this._typeEditor.noEdit(),
-      () => this._typeEditor.editEntity(),
-      () => this._typeEditor.editBlock(),
-      () => this._typeEditor.editRelation()
+      () => {
+        this.cancelSelect()
+        this._elementEditor.noEdit()
+      },
+      () => {
+        this.cancelSelect()
+        this._elementEditor.editEntity()
+      },
+      () => {
+        this.cancelSelect()
+        this._elementEditor.editBlock()
+      },
+      () => {
+        this.cancelSelect()
+        this._elementEditor.editRelation()
+      }
     )
+
+    this._typeDefinition = typeDefinition
+    this._autocompletionWsFromParams = autocompletionWs
+    this._selectionModel = selectionModel
 
     // The jsPlumbConnetion has an original event mecanism.
     // We can only bind the connection directory.
     editor.eventEmitter.on(
       'textae.editor.jsPlumbConnection.click',
-      (jsPlumbConnection, event) =>
-        this._typeEditor.jsPlumbConnectionClicked(jsPlumbConnection, event)
+      (jsPlumbConnection, event) => {
+        // The EventHandlar for clieck event of jsPlumbConnection.
+        this._elementEditor
+          .getHandler()
+          .jsPlumbConnectionClicked(jsPlumbConnection, event)
+      }
     )
   }
 
@@ -98,34 +162,62 @@ export default class {
   }
 
   showPallet() {
-    this._typeEditor.showPallet()
+    const pallet = this._getPallet()
+    if (pallet) {
+      pallet.show()
+    }
   }
 
   changeLabel() {
-    this._typeEditor.changeLabel()
+    this._elementEditor.getHandler().changeLabelHandler(this._autocompletionWs)
   }
 
   manipulateAttribute(number, shiftKey) {
-    this._typeEditor.manipulateAttribute(number, shiftKey)
+    this._elementEditor.getHandler().manipulateAttribute(number, shiftKey)
   }
 
   cancelSelect() {
-    this._typeEditor.cancelSelect()
+    const pallet = this._getPallet()
+    if (pallet) {
+      pallet.hide()
+    }
+
+    this._selectionModel.clear()
   }
 
   get isEntityPalletShown() {
-    return this._typeEditor.isEntityPalletShown
+    return this._entityPallet.visibly
   }
 
   selectLeftAttributeTab() {
-    this._typeEditor.selectLeftAttributeTab()
+    if (this._entityPallet.visibly) {
+      this._entityPallet.selectLeftTab()
+    }
   }
 
   selectRightAttributeTab() {
-    this._typeEditor.selectRightAttributeTab()
+    if (this._entityPallet.visibly) {
+      this._entityPallet.selectRightTab()
+    }
   }
 
   get displayInstance() {
     return this._displayInstance
+  }
+
+  _getPallet() {
+    if (this._elementEditor.handlerType == 'entity') {
+      return this._entityPallet
+    }
+
+    if (this._elementEditor.handlerType == 'relation') {
+      return this._relationPallet
+    }
+  }
+
+  get _autocompletionWs() {
+    return (
+      this._autocompletionWsFromParams || this._typeDefinition.autocompletionWs
+    )
   }
 }
