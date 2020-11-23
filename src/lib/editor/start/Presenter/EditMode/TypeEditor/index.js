@@ -140,10 +140,6 @@ export default class {
       .jsPlumbConnectionClicked(jsPlumbConnection, event)
   }
 
-  getSelectedIdEditable() {
-    return this._elementEditor.getHandler().selectedIds
-  }
-
   _getPallet() {
     if (this._elementEditor.handlerType == 'entity') {
       return this._entityPallet
