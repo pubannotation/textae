@@ -32,8 +32,11 @@ export default class {
 
     this._stateMachine = new StateMachine(
       editor,
-      this._typeEditor,
-      this._displayInstance
+      this._displayInstance,
+      () => this._typeEditor.noEdit(),
+      () => this._typeEditor.editEntity(),
+      () => this._typeEditor.editBlock(),
+      () => this._typeEditor.editRelation()
     )
 
     // The jsPlumbConnetion has an original event mecanism.

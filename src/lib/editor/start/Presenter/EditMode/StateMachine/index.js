@@ -9,7 +9,14 @@ import Transition from './Transition'
 import pushBlock from './pushBlock'
 
 export default class {
-  constructor(editor, typeEditor, displayInstance) {
+  constructor(
+    editor,
+    displayInstance,
+    noEdit,
+    editEntity,
+    editBlock,
+    editRelation
+  ) {
     const m = new Machine({
       states: [
         MODE.INIT,
@@ -92,7 +99,14 @@ export default class {
       }
     })
 
-    const transition = new Transition(editor, typeEditor, displayInstance)
+    const transition = new Transition(
+      editor,
+      displayInstance,
+      noEdit,
+      editEntity,
+      editBlock,
+      editRelation
+    )
     bindTransition(m, transition)
 
     this._m = m
