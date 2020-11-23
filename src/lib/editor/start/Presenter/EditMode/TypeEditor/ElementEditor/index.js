@@ -1,9 +1,9 @@
 import EditRelation from './EditRelation'
 import EditEntity from './EditEntity'
-import getHandler from './getHandler'
 import EditAttribute from './EditAttribute'
 import DeleteAttribute from './DeleteAttribute'
 import EditBlock from './EditBlock'
+import DefaultHandler from './DefaultHandler'
 
 // Provide handlers to edit elements according to an edit mode.
 export default class {
@@ -73,7 +73,14 @@ export default class {
   }
 
   getHandler() {
-    return getHandler(this._handler, this._editEntity, this._editRelation)
+    switch (this._handler) {
+      case 'entity':
+        return this._editEntity.handler
+      case 'relation':
+        return this._editRelation.handler
+      default:
+        return new DefaultHandler()
+    }
   }
 
   get entityHandler() {
