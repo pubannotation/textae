@@ -1,4 +1,4 @@
-import clearTextSelection from './clearTextSelection'
+import clearTextSelection from '../../../clearTextSelection'
 
 export default function (message) {
   // Wait 10 milliseconds to show alert after deselecting text.
