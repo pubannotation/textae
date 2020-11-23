@@ -12,6 +12,12 @@ export default function (editor, mouseEventHandler) {
   )
 
   listeners.push(
+    delegate(editor[0], '.textae-editor__entity', 'click', () =>
+      mouseEventHandler.entityClicked()
+    )
+  )
+
+  listeners.push(
     delegate(editor[0], '.textae-editor__block', 'mouseup', (e) => {
       if (e.target.classList.contains('textae-editor__block')) {
         mouseEventHandler.blockSpanClicked()

@@ -3,7 +3,8 @@ import selectSpan from '../EditEntity/MouseEventHandler/selectSpan'
 import SelectionWrapper from '../EditEntity/MouseEventHandler/SelectionWrapper'
 
 export default class MouseEventHandler {
-  constructor(annotationData, selectionModel, spanEditor) {
+  constructor(editor, annotationData, selectionModel, spanEditor) {
+    this._editor = editor
     this._annotationData = annotationData
     this._selectionModel = selectionModel
     this._spanEditor = spanEditor
@@ -65,6 +66,10 @@ export default class MouseEventHandler {
       this._spanEditor.editFor(new SelectionWrapper())
       e.stopPropagation()
     }
+  }
+
+  entityClicked() {
+    this._editor.focus()
   }
 
   _selectSpan(event, spanId) {

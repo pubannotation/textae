@@ -21,6 +21,7 @@ export default class EditBlock {
       selectionModel
     )
     this._mouseEventHandler = new MouseEventHandler(
+      editor,
       annotationData,
       selectionModel,
       spanEditor
