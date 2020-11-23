@@ -1,4 +1,4 @@
-import IdContainer from './IdContainer'
+import IdContainer from './IDContainer'
 
 const kinds = ['span', 'entity', 'relation']
 
