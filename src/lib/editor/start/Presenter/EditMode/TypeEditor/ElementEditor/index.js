@@ -77,11 +77,11 @@ export default class {
   }
 
   get entityHandler() {
-    return this._editEntity.entityHandler
+    return this._editEntity.handler
   }
 
   get relationHandler() {
-    return this._editRelation.relationHandler
+    return this._editRelation.handler
   }
 
   noEdit() {

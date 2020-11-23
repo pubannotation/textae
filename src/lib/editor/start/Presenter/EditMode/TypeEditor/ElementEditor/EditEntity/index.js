@@ -47,7 +47,7 @@ export default class {
     return bindMouseEvents(this._editor, this._mouseEventHandler)
   }
 
-  get entityHandler() {
+  get handler() {
     return this._handler
   }
 }

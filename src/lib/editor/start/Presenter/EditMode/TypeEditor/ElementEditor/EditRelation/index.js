@@ -31,7 +31,7 @@ export default class {
     return bindMouseEvents(this._editor, this._mouseEventHandler)
   }
 
-  get relationHandler() {
+  get handler() {
     return this._handler
   }
 }
