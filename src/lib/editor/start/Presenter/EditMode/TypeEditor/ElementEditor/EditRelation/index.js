@@ -12,7 +12,7 @@ export default class {
     relationPallet
   ) {
     this._editor = editor
-    this._relationHandler = new EditRelationHandler(
+    this._handler = new EditRelationHandler(
       typeDefinition,
       commander,
       annotationData,
@@ -32,6 +32,6 @@ export default class {
   }
 
   get relationHandler() {
-    return this._relationHandler
+    return this._handler
   }
 }
