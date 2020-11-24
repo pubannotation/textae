@@ -3,7 +3,7 @@ import bindMouseEvents from './bindMouseEvents'
 import MouseEventHandler from './MouseEventHandler'
 import Edit from '../Edit'
 
-export default class extends Edit {
+export default class EditRelation extends Edit {
   constructor(
     editor,
     annotationData,
