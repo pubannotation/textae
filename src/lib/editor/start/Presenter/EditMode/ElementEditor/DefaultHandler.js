@@ -16,6 +16,7 @@ export default class {
   changeType(id, changedProperties) {
     return this.commander.factory.changeTypeDefinitionCommand(
       this._modelType,
+      this._modelType,
       id,
       changedProperties
     )

@@ -91,13 +91,18 @@ export default class {
     )
   }
 
-  changeTypeDefinitionCommand(modelType, id, changedProperties) {
+  changeTypeDefinitionCommand(
+    configType,
+    annotationType,
+    id,
+    changedProperties
+  ) {
     return new ChangeTypeDefinitionAndRefectInstancesCommand(
       this._editor,
       this._annotationData,
-      this._typeDefinition[modelType],
-      modelType,
-      modelType,
+      this._typeDefinition[configType],
+      configType,
+      annotationType,
       id,
       changedProperties
     )
