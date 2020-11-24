@@ -65,10 +65,6 @@ export default class extends DefaultHandler {
     }
   }
 
-  get selectedIds() {
-    return this._selectionModel.entity.all.map((entity) => entity.id)
-  }
-
   selectAll(typeName) {
     this._selectionModel.entity.clear()
     for (const { id } of this._annotationData.entity.findByType(typeName)) {
