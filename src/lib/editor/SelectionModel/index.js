@@ -91,4 +91,8 @@ export default class {
   toggleSpanById(spanId) {
     this.span.toggle(spanId)
   }
+
+  selectEntityById(entityId) {
+    this.entity.add(entityId)
+  }
 }
