@@ -1,7 +1,7 @@
 export default class {
-  constructor(modelType, typeContainer, commander) {
-    this._configType = modelType
-    this._annotationType = modelType
+  constructor(configType, annotationType, typeContainer, commander) {
+    this._configType = configType
+    this._annotationType = annotationType
     this.typeContainer = typeContainer
     this.commander = commander
   }

@@ -12,7 +12,7 @@ export default class extends DefaultHandler {
     editAttribute,
     deleteAttribute
   ) {
-    super('entity', typeDefinition.entity, commander)
+    super('entity', 'entity', typeDefinition.entity, commander)
 
     this._editor = editor
     this._annotationData = annotationData
