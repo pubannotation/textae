@@ -54,6 +54,7 @@ export default function (text, rowData) {
       duplicatedAttributes: resultAttribute.reject.duplicatedAttributes,
       hasError:
         resultDenotation.hasError ||
+        resultBlock.hasError ||
         resultAttribute.hasError ||
         resultRelation.hasError ||
         resultTypesetting.hasError ||
