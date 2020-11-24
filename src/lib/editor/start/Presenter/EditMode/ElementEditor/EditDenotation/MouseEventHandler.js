@@ -39,7 +39,10 @@ export default class {
 
     const selection = window.getSelection()
 
-    if (selection.type === 'Caret') {
+    // When you create a denotation span and
+    // click on another denotation span while holding down the Shift key,
+    // the Selection type will be 'None'.
+    if (selection.type === 'Caret' || selection.type === 'None') {
       this._selectSpan(event, event.target.id)
     }
 
@@ -57,6 +60,7 @@ export default class {
     }
 
     const selection = window.getSelection()
+    console.log(selection.type)
 
     if (selection.type === 'Caret') {
       this._selectionModel.clear()
