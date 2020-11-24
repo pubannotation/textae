@@ -29,7 +29,7 @@ export default class {
     )
     const deleteAttribute = new DeleteAttribute(commander, annotationData)
 
-    this._editEntity = new EditEntity(
+    this._editDenotation = new EditEntity(
       editor,
       annotationData,
       selectionModel,
@@ -71,7 +71,7 @@ export default class {
   getHandler() {
     switch (this._handlerType) {
       case 'entity':
-        return this._editEntity.handler
+        return this._editDenotation.handler
       case 'relation':
         return this._editRelation.handler
       default:
@@ -80,7 +80,7 @@ export default class {
   }
 
   get denotationHandler() {
-    return this._editEntity.handler
+    return this._editDenotation.handler
   }
 
   get relationHandler() {
@@ -94,7 +94,7 @@ export default class {
 
   editDenotation() {
     this._unbindAllMouseEventhandler()
-    this._listeners = this._editEntity.init()
+    this._listeners = this._editDenotation.init()
     this._handlerType = 'entity'
   }
 
