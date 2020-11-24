@@ -1,5 +1,5 @@
 import skipBlank from '../../skipBlank'
-import SpanAdjuster from './SpanAdjuster'
+import SpanAdjuster from '../../SpanAdjuster'
 
 export default class extends SpanAdjuster {
   backFromBegin(str, position, spanConfig) {
