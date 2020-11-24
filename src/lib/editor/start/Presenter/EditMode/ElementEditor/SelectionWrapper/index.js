@@ -1,8 +1,8 @@
-import isNodeDenotationSpan from '../../../isNodeDenotationSpan'
-import isNodeTextBox from '../../../isNodeTextBox'
-import isNodeStyleSpan from '../../../isNodeStyleSpan'
+import isNodeDenotationSpan from '../isNodeDenotationSpan'
+import isNodeTextBox from '../isNodeTextBox'
+import isNodeStyleSpan from '../isNodeStyleSpan'
 import getSelectionSnapShot from './getSelectionSnapShot'
-import isNodeBlockSpan from '../../../isNodeBlockSpan'
+import isNodeBlockSpan from '../isNodeBlockSpan'
 
 export default class {
   constructor() {

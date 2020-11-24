@@ -1,6 +1,6 @@
 import clearTextSelection from '../../clearTextSelection'
 import selectSpan from '../../selectSpan'
-import SelectionWrapper from './SelectionWrapper'
+import SelectionWrapper from '../../SelectionWrapper'
 import getEntityHTMLelementFromChild from '../../../../../getEntityHTMLelementFromChild'
 
 export default class {
