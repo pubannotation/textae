@@ -1,5 +1,5 @@
 import clearTextSelection from '../clearTextSelection'
-import selectSpan from '../EditEntity/MouseEventHandler/selectSpan'
+import selectSpan from '../selectSpan'
 import SelectionWrapper from '../EditEntity/MouseEventHandler/SelectionWrapper'
 import getEntityHTMLelementFromChild from '../../../../getEntityHTMLelementFromChild'
 
