@@ -59,7 +59,7 @@ export default class {
       editor,
       commander,
       'entity',
-      this._elementEditor.entityHandler,
+      this._elementEditor.denotationHandler,
       () => this._autocompletionWs
     )
 

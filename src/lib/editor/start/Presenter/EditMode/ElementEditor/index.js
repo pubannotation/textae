@@ -79,7 +79,7 @@ export default class {
     }
   }
 
-  get entityHandler() {
+  get denotationHandler() {
     return this._editEntity.handler
   }
 
