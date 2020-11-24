@@ -12,22 +12,22 @@ export default class ChangeTypeDefinitionCommand extends ConfigurationCommand {
     newDefaultTypeId
   ) {
     super()
-    this.editor = editor
-    this.annotationData = annotationData
-    this.typeContainer = typeContainer
-    this.modelType = modelType
-    this.id = id
-    this.changedProperties = changedProperties
-    this.newDefaultTypeId = newDefaultTypeId
+    this._editor = editor
+    this._annotationData = annotationData
+    this._typeContainer = typeContainer
+    this._modelType = modelType
+    this._id = id
+    this._changedProperties = changedProperties
+    this._newDefaultTypeId = newDefaultTypeId
   }
 
   execute() {
-    const oldType = this.typeContainer.get(this.id)
+    const oldType = this._typeContainer.get(this._id)
     const [newType, revertChangedProperties] = applyChangedProperties(
-      this.changedProperties,
+      this._changedProperties,
       oldType
     )
-    this.typeContainer.set(this.id, newType)
+    this._typeContainer.set(this._id, newType)
 
     // manage default type
     this._updateDefaultType(newType)
@@ -38,26 +38,26 @@ export default class ChangeTypeDefinitionCommand extends ConfigurationCommand {
     commandLog(
       `change old type:${JSON.stringify(oldType)} to new type:${JSON.stringify(
         newType
-      )}, default is ${this.typeContainer.defaultType}`
+      )}, default is ${this._typeContainer.defaultType}`
     )
   }
 
   _updateDefaultType(newType) {
     if (newType.default) {
       // remember the current default, because revert command will not understand what type was it.
-      this.revertDefaultTypeId = this.typeContainer.defaultType
-      this.typeContainer.defaultType = newType.id
-    } else if (this.newDefaultTypeId) {
-      this.typeContainer.defaultType = this.newDefaultTypeId
+      this.revertDefaultTypeId = this._typeContainer.defaultType
+      this._typeContainer.defaultType = newType.id
+    } else if (this._newDefaultTypeId) {
+      this._typeContainer.defaultType = this._newDefaultTypeId
     }
   }
 
   revert() {
     return new ChangeTypeDefinitionCommand(
-      this.editor,
-      this.annotationData,
-      this.typeContainer,
-      this.modelType,
+      this._editor,
+      this._annotationData,
+      this._typeContainer,
+      this._modelType,
       this.revertId,
       this.revertChangedProperties,
       this.revertDefaultTypeId
