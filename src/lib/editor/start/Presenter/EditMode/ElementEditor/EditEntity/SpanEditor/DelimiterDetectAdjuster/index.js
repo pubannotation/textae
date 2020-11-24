@@ -1,4 +1,4 @@
-import skipBlank from '../skipBlank'
+import skipBlank from '../../../skipBlank'
 import SpanAdjuster from '../SpanAdjuster'
 import backToDelimiter from './backToDelimiter'
 import skipToDelimiter from './skipToDelimiter'

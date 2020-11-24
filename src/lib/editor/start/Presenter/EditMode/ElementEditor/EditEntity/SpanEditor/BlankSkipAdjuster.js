@@ -1,4 +1,4 @@
-import skipBlank from './skipBlank'
+import skipBlank from '../../skipBlank'
 import SpanAdjuster from './SpanAdjuster'
 
 export default class extends SpanAdjuster {
