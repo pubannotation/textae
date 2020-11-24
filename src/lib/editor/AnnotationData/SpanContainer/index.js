@@ -100,6 +100,10 @@ export default class SpanContainer extends ModelContainer {
     return rangeFrom(this._denotations, firstId, secondId)
   }
 
+  rangeBlockSpan(firstId, secondId) {
+    return rangeFrom(this._blocks, firstId, secondId)
+  }
+
   get topLevel() {
     return this.all.filter((span) => span.parent === this).sort(spanComparator)
   }
