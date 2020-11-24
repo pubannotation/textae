@@ -104,6 +104,8 @@ export default class {
   }
 
   _selectSpan(event, spanId) {
-    selectSpan(this._annotationData, this._selectionModel, event, spanId)
+    selectSpan(this._selectionModel, event, spanId, (firstId, secondId) =>
+      this._annotationData.span.rangeDenotationSpan(firstId, secondId)
+    )
   }
 }

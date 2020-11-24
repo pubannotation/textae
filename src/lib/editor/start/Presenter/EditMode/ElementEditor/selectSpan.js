@@ -1,18 +1,10 @@
-export default function (
-  annotationData,
-  selectionModel,
-  event,
-  selectingSpanId
-) {
+export default function (selectionModel, event, selectingSpanId, getRangeFunc) {
   const selectedSpanId = selectionModel.span.singleId
 
   if (event.shiftKey && selectedSpanId) {
     // select reange of spans.
     selectionModel.clear()
-    for (const id of annotationData.span.rangeDenotationSpan(
-      selectedSpanId,
-      selectingSpanId
-    )) {
+    for (const id of getRangeFunc(selectedSpanId, selectingSpanId)) {
       selectionModel.selectSpanById(id)
     }
   } else if (event.ctrlKey || event.metaKey) {
