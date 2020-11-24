@@ -1,4 +1,4 @@
-import skipCharacters from './skipCharacters'
+import skipCharacters from '../../skipCharacters'
 
 const getNow = function (str, position) {
   return str.charAt(position)
