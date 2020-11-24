@@ -4,7 +4,7 @@ import SpanEditor from './SpanEditor'
 import Edit from '../Edit'
 import bindMouseEvents from './bindMouseEvents'
 
-export default class extends Edit {
+export default class EditDenotation extends Edit {
   constructor(
     editor,
     annotationData,

@@ -1,5 +1,5 @@
 import EditRelation from './EditRelation'
-import EditEntity from './EditEntity'
+import EditDenotation from './EditDenotation'
 import EditAttribute from './EditAttribute'
 import DeleteAttribute from './DeleteAttribute'
 import EditBlock from './EditBlock'
@@ -29,7 +29,7 @@ export default class {
     )
     const deleteAttribute = new DeleteAttribute(commander, annotationData)
 
-    this._editDenotation = new EditEntity(
+    this._editDenotation = new EditDenotation(
       editor,
       annotationData,
       selectionModel,
