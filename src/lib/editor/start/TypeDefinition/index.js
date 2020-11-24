@@ -11,7 +11,7 @@ export default class TypeDefinition {
       this._editor,
       annotationData.attribute
     )
-    this._entityContainer = new EntityContainer(
+    this._denotationContainer = new EntityContainer(
       editor,
       () => annotationData.entity.denotations,
       this._attributeContainer,
@@ -36,7 +36,7 @@ export default class TypeDefinition {
   }
 
   get entity() {
-    return this._entityContainer
+    return this._denotationContainer
   }
 
   get block() {
@@ -54,8 +54,8 @@ export default class TypeDefinition {
   get config() {
     const ret = {}
 
-    if (this._entityContainer.config.length) {
-      ret['entity types'] = this._entityContainer.config
+    if (this._denotationContainer.config.length) {
+      ret['entity types'] = this._denotationContainer.config
     }
 
     if (this._relationContainer.config.length) {
@@ -86,13 +86,13 @@ export default class TypeDefinition {
 
   setTypeConfig(config) {
     if (config) {
-      this._entityContainer.definedTypes = config['entity types'] || []
+      this._denotationContainer.definedTypes = config['entity types'] || []
       this._relationContainer.definedTypes = config['relation types'] || []
       this._attributeContainer.definedTypes = config['attribute types'] || []
       this._blockContainer.definedTypes = config['block types'] || []
       this.autocompletionWs = config['autocompletion_ws']
     } else {
-      this._entityContainer.definedTypes = []
+      this._denotationContainer.definedTypes = []
       this._relationContainer.definedTypes = []
       this._attributeContainer.definedTypes = []
       this._blockContainer.definedTypes = []
