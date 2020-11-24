@@ -1,5 +1,5 @@
 import createCommand from './createCommand'
-import getNewSpan from './getNewSpan'
+import getNewSpan from '../../../getNewSpan'
 
 export default function (
   annotationData,

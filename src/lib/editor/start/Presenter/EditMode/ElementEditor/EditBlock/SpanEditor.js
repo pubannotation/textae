@@ -1,7 +1,7 @@
 import clearTextSelection from '../clearTextSelection'
 import DelimiterDetectAdjuster from '../DelimiterDetectAdjuster'
 import hasCharacters from '../hasCharacters'
-import getNewSpan from '../EditEntity/SpanEditor/create/getNewSpan'
+import getNewSpan from '../getNewSpan'
 
 export default class SpanEditor {
   constructor(

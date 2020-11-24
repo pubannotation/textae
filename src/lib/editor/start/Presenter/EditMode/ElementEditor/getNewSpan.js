@@ -1,4 +1,4 @@
-import Positions from '../../../Positions'
+import Positions from './Positions'
 
 export default function (
   annotationData,
