@@ -44,7 +44,11 @@ export default class MouseEventHandler {
     // click on another block span while holding down the Shift key,
     // the Selection type will be 'None'.
     if (selection.type === 'Caret' || selection.type === 'None') {
-      this._selectSpan(e, e.target.dataset.id)
+      const spanId = e.target.dataset.id
+
+      selectSpan(this._selectionModel, e, spanId, (firstId, secondId) =>
+        this._annotationData.span.rangeBlockSpan(firstId, secondId)
+      )
     }
   }
 
@@ -82,11 +86,5 @@ export default class MouseEventHandler {
     if (this._annotationData.entity.get(entityId).isBlock) {
       this._selectionModel.selectEntity(entityId, e.ctrlKey || e.metaKey)
     }
-  }
-
-  _selectSpan(event, spanId) {
-    selectSpan(this._selectionModel, event, spanId, (firstId, secondId) =>
-      this._annotationData.span.rangeBlockSpan(firstId, secondId)
-    )
   }
 }
