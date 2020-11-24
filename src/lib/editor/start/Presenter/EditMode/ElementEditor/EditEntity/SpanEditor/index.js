@@ -1,6 +1,6 @@
 import clearTextSelection from '../../clearTextSelection'
 import Positions from './Positions'
-import DelimiterDetectAdjuster from './DelimiterDetectAdjuster'
+import DelimiterDetectAdjuster from '../../DelimiterDetectAdjuster'
 import BlankSkipAdjuster from './BlankSkipAdjuster'
 import create from './create'
 import shrink from './shrink'
