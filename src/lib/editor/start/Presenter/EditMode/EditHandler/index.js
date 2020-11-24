@@ -6,7 +6,7 @@ import EditBlock from './EditBlock'
 import DefaultHandler from './DefaultHandler'
 
 // Provide handlers to edit elements according to an edit mode.
-export default class {
+export default class EditHandler {
   constructor(
     editor,
     annotationData,

@@ -1,7 +1,7 @@
 import { MODE } from '../../../../MODE'
 import DisplayInstance from './DisplayInstance'
 import StateMachine from './StateMachine'
-import ElementEditor from './ElementEditor'
+import EditHandler from './EditHandler'
 import bindAttributeTabEvents from './bindAttributeTabEvents'
 import initPallet from './initPallet'
 import EntityPallet from '../../../../component/EntityPallet'
@@ -35,7 +35,7 @@ export default class {
       typeDefinition
     )
 
-    this._elementEditor = new ElementEditor(
+    this._editHandler = new EditHandler(
       editor,
       annotationData,
       selectionModel,
@@ -59,7 +59,7 @@ export default class {
       editor,
       commander,
       'entity',
-      this._elementEditor.denotationHandler,
+      this._editHandler.denotationHandler,
       () => this._autocompletionWs
     )
 
@@ -68,7 +68,7 @@ export default class {
       editor,
       commander,
       'relation',
-      this._elementEditor.relationHandler,
+      this._editHandler.relationHandler,
       () => this._autocompletionWs
     )
 
@@ -79,19 +79,19 @@ export default class {
       this._displayInstance,
       () => {
         this.cancelSelect()
-        this._elementEditor.noEdit()
+        this._editHandler.noEdit()
       },
       () => {
         this.cancelSelect()
-        this._elementEditor.editDenotation()
+        this._editHandler.editDenotation()
       },
       () => {
         this.cancelSelect()
-        this._elementEditor.editBlock()
+        this._editHandler.editBlock()
       },
       () => {
         this.cancelSelect()
-        this._elementEditor.editRelation()
+        this._editHandler.editRelation()
       }
     )
 
@@ -105,7 +105,7 @@ export default class {
       'textae.editor.jsPlumbConnection.click',
       (jsPlumbConnection, event) => {
         // The EventHandlar for clieck event of jsPlumbConnection.
-        this._elementEditor
+        this._editHandler
           .getHandler()
           .jsPlumbConnectionClicked(jsPlumbConnection, event)
       }
@@ -174,11 +174,11 @@ export default class {
   }
 
   changeLabel() {
-    this._elementEditor.getHandler().changeLabelHandler(this._autocompletionWs)
+    this._editHandler.getHandler().changeLabelHandler(this._autocompletionWs)
   }
 
   manipulateAttribute(number, shiftKey) {
-    this._elementEditor.getHandler().manipulateAttribute(number, shiftKey)
+    this._editHandler.getHandler().manipulateAttribute(number, shiftKey)
   }
 
   cancelSelect() {
