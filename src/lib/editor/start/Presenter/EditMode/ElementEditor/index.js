@@ -64,10 +64,6 @@ export default class {
     this._listeners = []
   }
 
-  get handlerType() {
-    return this._handlerType
-  }
-
   getHandler() {
     switch (this._handlerType) {
       case 'denotation':
