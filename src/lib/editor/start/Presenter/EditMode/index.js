@@ -162,12 +162,14 @@ export default class {
   }
 
   showPallet() {
-    if (this._elementEditor.handlerType == 'denotation') {
-      this._entityPallet.show()
-    }
-
-    if (this._elementEditor.handlerType == 'relation') {
-      this._relationPallet.show()
+    switch (this._stateMachine.currentState) {
+      case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
+      case MODE.EDIT_DENOTATION_WITH_RELATION:
+        this._entityPallet.show()
+        break;
+      case MODE.EDIT_RELATION:
+        this._relationPallet.show()
+        break;
     }
   }
 
