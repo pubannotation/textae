@@ -1,4 +1,4 @@
-import Positions from './Positions'
+import Positions from '../../Positions'
 
 // A span cannot be created include nonEdgeCharacters only.
 export default function (annotationData, spanConfig, selectionWrapper) {
