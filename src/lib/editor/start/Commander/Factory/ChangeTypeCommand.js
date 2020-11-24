@@ -4,33 +4,33 @@ import AnnotationCommand from './AnnotationCommand'
 export default class ChangeTypeCommand extends AnnotationCommand {
   constructor(editor, annotationData, modelType, id, newType) {
     super()
-    this.editor = editor
-    this.annotationData = annotationData
-    this.modelType = modelType
-    this.id = id
-    this.newType = newType
+    this._editor = editor
+    this._annotationData = annotationData
+    this._modelType = modelType
+    this._id = id
+    this._newType = newType
   }
 
   execute() {
-    this.oldType = this.annotationData[this.modelType].get(this.id).typeName
+    this.oldType = this._annotationData[this._modelType].get(this._id).typeName
 
     // Update model
-    const targetModel = this.annotationData[this.modelType].changeType(
-      this.id,
-      this.newType
+    const targetModel = this._annotationData[this._modelType].changeType(
+      this._id,
+      this._newType
     )
     commandLog(
-      `change type of a ${this.modelType}. oldtype:${this.oldType} ${this.modelType}:`,
+      `change type of a ${this._modelType}. oldtype:${this.oldType} ${this._modelType}:`,
       targetModel
     )
   }
 
   revert() {
     return new ChangeTypeCommand(
-      this.editor,
-      this.annotationData,
-      this.modelType,
-      this.id,
+      this._editor,
+      this._annotationData,
+      this._modelType,
+      this._id,
       this.oldType
     )
   }
