@@ -1,4 +1,4 @@
-export default class {
+export default class Validation {
   constructor(nodes, predicate) {
     this._nodes = nodes || []
     this._predicate = predicate
