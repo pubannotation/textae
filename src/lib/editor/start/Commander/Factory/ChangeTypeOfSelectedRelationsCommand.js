@@ -1,5 +1,5 @@
 import CompositeCommand from './CompositeCommand'
-import ChangeTypeCommand from './ChangeTypeCommand'
+import ChangeAnnotationCommand from './ChangeAnnotationCommand'
 
 export default class extends CompositeCommand {
   constructor(editor, annotationData, selectionModel, newType) {
@@ -11,7 +11,13 @@ export default class extends CompositeCommand {
 
     this._subCommands = selectedElements.map(
       (id) =>
-        new ChangeTypeCommand(editor, annotationData, 'relation', id, newType)
+        new ChangeAnnotationCommand(
+          editor,
+          annotationData,
+          'relation',
+          id,
+          newType
+        )
     )
     this._logMessage = `set type ${newType} to relations ${selectedElements}`
   }

@@ -1,4 +1,4 @@
-import ChangeTypeCommand from '../ChangeTypeCommand'
+import ChangeAnnotationCommand from '../ChangeAnnotationCommand'
 
 export default function (
   annotationData,
@@ -10,7 +10,7 @@ export default function (
   return annotationData[annotationType].all
     .filter((model) => model.typeName === oldTypeName)
     .map((model) => {
-      return new ChangeTypeCommand(
+      return new ChangeAnnotationCommand(
         editor,
         annotationData,
         annotationType,

@@ -1,5 +1,5 @@
 import CompositeCommand from './CompositeCommand'
-import ChangeTypeCommand from './ChangeTypeCommand'
+import ChangeAnnotationCommand from './ChangeAnnotationCommand'
 
 export default class extends CompositeCommand {
   constructor(editor, annotationData, selectionModel, newTypeName) {
@@ -13,7 +13,13 @@ export default class extends CompositeCommand {
     // Change type of entities.
     this._subCommands = entitiesWithChange.map(
       (id) =>
-        new ChangeTypeCommand(editor, annotationData, 'entity', id, newTypeName)
+        new ChangeAnnotationCommand(
+          editor,
+          annotationData,
+          'entity',
+          id,
+          newTypeName
+        )
     )
 
     this._logMessage = `set type ${newTypeName} to entities ${entitiesWithChange}`

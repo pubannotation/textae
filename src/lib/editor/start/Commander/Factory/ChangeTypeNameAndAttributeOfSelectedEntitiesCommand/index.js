@@ -1,6 +1,6 @@
 import EntityModel from '../../../../EntityModel'
 import CompositeCommand from '../CompositeCommand'
-import ChangeTypeCommand from '../ChangeTypeCommand'
+import ChangeAnnotationCommand from '../ChangeAnnotationCommand'
 import getChangeAttributeCommands from './getChangeAttributeCommands'
 
 export default class extends CompositeCommand {
@@ -23,7 +23,7 @@ export default class extends CompositeCommand {
     // Change type of entities.
     const changeTypeCommands = entitiesWithChange.map(
       (e) =>
-        new ChangeTypeCommand(
+        new ChangeAnnotationCommand(
           editor,
           annotationData,
           'entity',
