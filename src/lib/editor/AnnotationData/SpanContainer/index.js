@@ -96,8 +96,8 @@ export default class SpanContainer extends ModelContainer {
   }
 
   rangeDenotationSpan(firstId, secondId) {
-    let first = super.get(firstId)
-    let second = super.get(secondId)
+    let first = this._denotations.get(firstId)
+    let second = this._denotations.get(secondId)
 
     // switch if seconfId before firstId
     if (spanComparator(first, second) > 0) {
@@ -106,7 +106,7 @@ export default class SpanContainer extends ModelContainer {
       second = temp
     }
 
-    return super.all
+    return [...this._denotations.values()]
       .filter((span) => first.begin <= span.begin && span.end <= second.end)
       .map((span) => span.id)
   }
