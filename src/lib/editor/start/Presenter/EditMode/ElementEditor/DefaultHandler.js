@@ -1,6 +1,7 @@
 export default class {
   constructor(modelType, typeContainer, commander) {
-    this._modelType = modelType
+    this._configType = modelType
+    this._annotationType = modelType
     this.typeContainer = typeContainer
     this.commander = commander
   }
@@ -8,15 +9,15 @@ export default class {
   addType(newType) {
     console.assert(newType.id, 'id is necessary!')
     return this.commander.factory.createTypeDefinitionCommand(
-      this._modelType,
+      this._configType,
       newType
     )
   }
 
   changeType(id, changedProperties) {
     return this.commander.factory.changeTypeDefinitionCommand(
-      this._modelType,
-      this._modelType,
+      this._configType,
+      this._annotationType,
       id,
       changedProperties
     )
@@ -42,7 +43,7 @@ export default class {
     }
 
     return this.commander.factory.removeTypeDefinitionCommand(
-      this._modelType,
+      this._configType,
       removeType
     )
   }
