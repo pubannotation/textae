@@ -9,6 +9,7 @@ import ModelContainer from '../ModelContainer'
 import arrangeBackgroundOfBlockSpanPosition from './arrangeBackgroundOfBlockSpanPosition'
 import arrangeDenotationEntityPosition from './arrangeDenotationEntityPosition'
 import arrangeBlockEntityPosition from './arrangeBlockEntityPosition'
+import rangeFrom from './rangeFrom'
 
 export default class SpanContainer extends ModelContainer {
   constructor(editor, emitter, entityContainer) {
@@ -96,19 +97,7 @@ export default class SpanContainer extends ModelContainer {
   }
 
   rangeDenotationSpan(firstId, secondId) {
-    let first = this._denotations.get(firstId)
-    let second = this._denotations.get(secondId)
-
-    // switch if seconfId before firstId
-    if (spanComparator(first, second) > 0) {
-      const temp = first
-      first = second
-      second = temp
-    }
-
-    return [...this._denotations.values()]
-      .filter((span) => first.begin <= span.begin && span.end <= second.end)
-      .map((span) => span.id)
+    return rangeFrom(this._denotations, firstId, secondId)
   }
 
   get topLevel() {
