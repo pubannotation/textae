@@ -40,7 +40,10 @@ export default class MouseEventHandler {
 
     const selection = window.getSelection()
 
-    if (selection.type === 'Caret') {
+    // When you create a block span and
+    // click on another block span while holding down the Shift key,
+    // the Selection type will be 'None'.
+    if (selection.type === 'Caret' || selection.type === 'None') {
       this._selectSpan(e, e.target.dataset.id)
     }
   }
