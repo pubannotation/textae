@@ -27,6 +27,7 @@ export default class {
       editor,
       originalData,
       typeDefinition,
+      typeDefinition.denotation,
       selectionModel.entity
     )
     this._relationPallet = new RelationPallet(

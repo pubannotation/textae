@@ -7,13 +7,19 @@ import createContentHtml from './createContentHtml'
 import enableDrag from './enableDrag'
 
 export default class extends Pallet {
-  constructor(editor, originalData, typeDefinition, selectionModelEntity) {
+  constructor(
+    editor,
+    originalData,
+    typeDefinition,
+    typeContainer,
+    selectionModelEntity
+  ) {
     super(editor, createPalletElement('entity'))
 
     this._eventEmitter = editor.eventEmitter
     this._originalData = originalData
     this._typeDefinition = typeDefinition
-    this._typeContainer = typeDefinition.denotation
+    this._typeContainer = typeContainer
     this._selectionModelEntity = selectionModelEntity
 
     // Bind user events to the event emitter.
