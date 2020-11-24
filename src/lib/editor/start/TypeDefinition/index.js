@@ -23,10 +23,10 @@ export default class TypeDefinition {
       () => annotationData.relation.all,
       this._lockStateObservable
     )
-    this._blockContainer = new Container(
+    this._blockContainer = new EntityContainer(
       editor,
-      'block',
       () => annotationData.entity.blocks,
+      this._attributeContainer,
       this._lockStateObservable
     )
 
