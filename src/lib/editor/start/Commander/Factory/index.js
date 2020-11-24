@@ -97,6 +97,7 @@ export default class {
       this._annotationData,
       this._typeDefinition[modelType],
       modelType,
+      modelType,
       id,
       changedProperties
     )

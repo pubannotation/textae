@@ -7,7 +7,8 @@ export default class extends CompositeCommand {
     editor,
     annotationData,
     typeDefinition,
-    modelType,
+    configType,
+    annotationType,
     id,
     changedProperties
   ) {
@@ -20,7 +21,7 @@ export default class extends CompositeCommand {
         id,
         editor,
         annotationData,
-        modelType,
+        configType,
         changedProperties
       )
     ]
@@ -30,7 +31,7 @@ export default class extends CompositeCommand {
     if (changedProperties.has('id')) {
       changAnnotationCommands = createChangeAnnotationCommands(
         annotationData,
-        modelType,
+        annotationType,
         id,
         editor,
         changedProperties.get('id')
