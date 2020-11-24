@@ -6,7 +6,7 @@ export default class ChangeTypeDefinitionCommand extends ConfigurationCommand {
     editor,
     annotationData,
     typeContainer,
-    modelType,
+    configType,
     id,
     changedProperties,
     newDefaultTypeId
@@ -15,7 +15,7 @@ export default class ChangeTypeDefinitionCommand extends ConfigurationCommand {
     this._editor = editor
     this._annotationData = annotationData
     this._typeContainer = typeContainer
-    this._modelType = modelType
+    this._configType = configType
     this._id = id
     this._changedProperties = changedProperties
     this._newDefaultTypeId = newDefaultTypeId
@@ -57,7 +57,7 @@ export default class ChangeTypeDefinitionCommand extends ConfigurationCommand {
       this._editor,
       this._annotationData,
       this._typeContainer,
-      this._modelType,
+      this._configType,
       this.revertId,
       this.revertChangedProperties,
       this.revertDefaultTypeId
