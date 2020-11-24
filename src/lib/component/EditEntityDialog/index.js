@@ -41,7 +41,7 @@ export default class extends PromiseDialog {
         const pred = e.target.dataset.predicate
         const attrDef = typeContainer.findAttribute(pred)
         editor.eventEmitter.emit(
-          'textae.entityPallet.attribute.object.edit',
+          'textae.editTypeDialog.attribute.value.edit',
           attrDef
         )
       }

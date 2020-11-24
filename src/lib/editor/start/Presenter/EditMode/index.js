@@ -50,8 +50,7 @@ export default class {
     bindAttributeTabEvents(
       editor.eventEmitter,
       commander,
-      selectionModel.entity,
-      this._entityPallet
+      selectionModel.entity
     )
 
     initPallet(
@@ -108,6 +107,14 @@ export default class {
         this._editHandler
           .getHandler()
           .jsPlumbConnectionClicked(jsPlumbConnection, event)
+      }
+    )
+
+    editor.eventEmitter.on(
+      'textae.editTypeDialog.attribute.value.edit',
+      (attrDef) => {
+        this._entityPallet.show()
+        this._entityPallet.showAttribute(attrDef.pred)
       }
     )
   }

@@ -4,12 +4,7 @@ import EditValueToAttributeDefinitionDialog from '../../../../component/EditValu
 import openEditNumericAttributeDialog from '../openEditNumericAttributeDialog'
 import openEditStringAttributeDialog from '../openEditStringAttributeDialog'
 
-export default function (
-  eventEmitter,
-  commander,
-  selectionModelEntity,
-  entityPallet
-) {
+export default function (eventEmitter, commander, selectionModelEntity) {
   // Bind events about attributes.
   eventEmitter
     .on(`textae.entityPallet.attribute.create-predicate-button.click`, () => {
@@ -122,10 +117,6 @@ export default function (
       switch (attrDef.valueType) {
         case 'numeric':
           openEditNumericAttributeDialog(attrDef, attribute, commander)
-          break
-        case 'selection':
-          entityPallet.show()
-          entityPallet.showAttribute(attrDef.pred)
           break
         case 'string':
           openEditStringAttributeDialog(attribute, commander, attrDef)
