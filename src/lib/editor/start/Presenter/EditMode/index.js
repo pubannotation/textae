@@ -206,7 +206,7 @@ export default class {
   }
 
   _getPallet() {
-    if (this._elementEditor.handlerType == 'entity') {
+    if (this._elementEditor.handlerType == 'denotation') {
       return this._entityPallet
     }
 

@@ -70,7 +70,7 @@ export default class {
 
   getHandler() {
     switch (this._handlerType) {
-      case 'entity':
+      case 'denotation':
         return this._editDenotation.handler
       case 'relation':
         return this._editRelation.handler
@@ -95,7 +95,7 @@ export default class {
   editDenotation() {
     this._unbindAllMouseEventhandler()
     this._listeners = this._editDenotation.init()
-    this._handlerType = 'entity'
+    this._handlerType = 'denotation'
   }
 
   editBlock() {
