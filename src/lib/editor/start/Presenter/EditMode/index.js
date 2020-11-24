@@ -83,7 +83,7 @@ export default class {
       },
       () => {
         this.cancelSelect()
-        this._elementEditor.editEntity()
+        this._elementEditor.editDenotation()
       },
       () => {
         this.cancelSelect()

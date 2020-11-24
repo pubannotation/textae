@@ -92,7 +92,7 @@ export default class {
     this._handlerType = 'default'
   }
 
-  editEntity() {
+  editDenotation() {
     this._unbindAllMouseEventhandler()
     this._listeners = this._editEntity.init()
     this._handlerType = 'entity'
