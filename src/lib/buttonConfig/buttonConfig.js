@@ -86,7 +86,8 @@ export const buttonConfig = [
       type: 'entity',
       title: 'New entity [E]',
       enableWhenSelecting: {
-        span: (selectionModel) => selectionModel.span.some
+        span: (selectionModel) =>
+          selectionModel.span.contains((s) => s.isDenotation)
       }
     },
     {
