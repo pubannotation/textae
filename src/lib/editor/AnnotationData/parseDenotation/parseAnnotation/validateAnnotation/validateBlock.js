@@ -7,9 +7,10 @@ export default function (text, blocks) {
   const uniqIDValidation = new UniquIDValidation(result.accept)
   const uniqRangeValidation = new Validation(
     uniqIDValidation.validNodes,
-    (node) =>
+    ({ span }) =>
       uniqIDValidation.validNodes.filter(
-        (n) => n.begin === node.begin && n.end === node.end
+        ({ span: otherSpan }) =>
+          (span.begin === otherSpan.begin) & (span.end === otherSpan.end)
       ).length === 1
   )
 
