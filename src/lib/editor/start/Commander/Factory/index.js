@@ -61,7 +61,7 @@ export default class {
     return new ChangeAttributesOfSelectedEntitiesWithSamePred(
       this._annotationData,
       this._selectionModel,
-      this._typeDefinition.entity,
+      this._typeDefinition.denotation,
       attributeDefinition,
       newObj,
       newLabel
@@ -134,7 +134,7 @@ export default class {
   ) {
     return new ChangeValueOfAttributeDefinitionAndObjectOfSelectionAttributeCommand(
       this._annotationData,
-      this._typeDefinition.entity,
+      this._typeDefinition.denotation,
       attributeDefinition,
       index,
       value
@@ -197,7 +197,7 @@ export default class {
       this._annotationData,
       this._selectionModel,
       newSpan,
-      this._typeDefinition.entity.defaultType,
+      this._typeDefinition.denotation.defaultType,
       isReplicateAuto,
       isDelimiterFunc
     )

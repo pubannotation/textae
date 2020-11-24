@@ -35,7 +35,7 @@ export default class TypeDefinition {
     )
   }
 
-  get entity() {
+  get denotation() {
     return this._denotationContainer
   }
 

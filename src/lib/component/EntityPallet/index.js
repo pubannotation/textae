@@ -13,7 +13,7 @@ export default class extends Pallet {
     this._eventEmitter = editor.eventEmitter
     this._originalData = originalData
     this._typeDefinition = typeDefinition
-    this._typeContainer = typeDefinition.entity
+    this._typeContainer = typeDefinition.denotation
     this._selectionModelEntity = selectionModelEntity
 
     // Bind user events to the event emitter.

@@ -18,7 +18,7 @@ export default class Renderer {
     const entityRenderer = new EntityRenderer(
       annotationData,
       selectionModel,
-      typeDefinition.entity,
+      typeDefinition.denotation,
       gridRenderer,
       typeGap
     )
