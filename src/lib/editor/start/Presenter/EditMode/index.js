@@ -79,19 +79,19 @@ export default class {
       this._displayInstance,
       () => {
         this.cancelSelect()
-        this._editHandler.noEdit()
+        this._editHandler.changeToNoEdit()
       },
       () => {
         this.cancelSelect()
-        this._editHandler.editDenotation()
+        this._editHandler.changeToEditDenotation()
       },
       () => {
         this.cancelSelect()
-        this._editHandler.editBlock()
+        this._editHandler.changeToEditBlock()
       },
       () => {
         this.cancelSelect()
-        this._editHandler.editRelation()
+        this._editHandler.changeToEditRelation()
       }
     )
 

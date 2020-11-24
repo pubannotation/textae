@@ -83,24 +83,24 @@ export default class EditHandler {
     return this._editRelation.handler
   }
 
-  noEdit() {
+  changeToNoEdit() {
     this._unbindAllMouseEventhandler()
     this._handlerType = 'default'
   }
 
-  editDenotation() {
+  changeToEditDenotation() {
     this._unbindAllMouseEventhandler()
     this._listeners = this._editDenotation.init()
     this._handlerType = 'denotation'
   }
 
-  editBlock() {
+  changeToEditBlock() {
     this._unbindAllMouseEventhandler()
     this._listeners = this._editBlock.init()
     this._handlerType = 'block'
   }
 
-  editRelation() {
+  changeToEditRelation() {
     this._unbindAllMouseEventhandler()
     this._listeners = this._editRelation.init()
     this._handlerType = 'relation'
