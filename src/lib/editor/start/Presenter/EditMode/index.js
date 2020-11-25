@@ -177,10 +177,9 @@ export default class {
   }
 
   cancelSelect() {
-    const pallet = this._getPallet()
-    if (pallet) {
-      pallet.hide()
-    }
+    // Close all pallets.
+    this._entityPallet.hide()
+    this._relationPallet.hide()
 
     this._selectionModel.clear()
   }
