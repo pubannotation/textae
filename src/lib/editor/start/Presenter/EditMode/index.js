@@ -124,7 +124,9 @@ export default class EditMode {
       },
       () => {
         this.cancelSelect()
-        this._changeToEditRelation()
+        this._unbindAllMouseEventhandler()
+        this._listeners = this._editRelation.init()
+        this._editMode = 'relation'
       }
     )
 
@@ -265,12 +267,6 @@ export default class EditMode {
       default:
         return new DefaultHandler()
     }
-  }
-
-  _changeToEditRelation() {
-    this._unbindAllMouseEventhandler()
-    this._listeners = this._editRelation.init()
-    this._editMode = 'relation'
   }
 
   _unbindAllMouseEventhandler() {
