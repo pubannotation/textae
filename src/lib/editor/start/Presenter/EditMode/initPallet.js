@@ -16,7 +16,7 @@ export default function (
         getAutocompletionWs()
       )
       dialog.promise.then(({ newType }) =>
-        handler.commander.invoke(handler.addType(newType))
+        commander.invoke(handler.addType(newType))
       )
       dialog.open()
     })
@@ -44,7 +44,7 @@ export default function (
         )
         dialog.promise.then(({ id, changedProperties }) => {
           if (changedProperties.size) {
-            handler.commander.invoke(handler.changeType(id, changedProperties))
+            commander.invoke(handler.changeType(id, changedProperties))
           }
         })
         dialog.open()

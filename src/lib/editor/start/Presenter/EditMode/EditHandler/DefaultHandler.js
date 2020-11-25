@@ -10,10 +10,6 @@ export default class DefaultHandler {
     return this._typeContainer
   }
 
-  get commander() {
-    return this._commander
-  }
-
   addType(newType) {
     console.assert(newType.id, 'id is necessary!')
     return this._commander.factory.createTypeDefinitionCommand(
