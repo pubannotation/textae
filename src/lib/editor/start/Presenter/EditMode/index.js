@@ -28,7 +28,8 @@ export default class EditMode {
       originalData,
       typeDefinition,
       typeDefinition.denotation,
-      selectionModel.entity
+      selectionModel.entity,
+      'denotation'
     )
     this._relationPallet = new RelationPallet(
       editor,
@@ -58,7 +59,7 @@ export default class EditMode {
       this._denotationPallet,
       editor,
       commander,
-      'entity',
+      'denotation',
       this._editHandler.denotationHandler,
       () => this._autocompletionWs,
       typeDefinition.denotation

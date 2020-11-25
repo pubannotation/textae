@@ -12,7 +12,8 @@ export default class extends Pallet {
     originalData,
     typeDefinition,
     typeContainer,
-    selectionModelEntity
+    selectionModelEntity,
+    editModeName
   ) {
     super(editor, createPalletElement('entity'))
 
@@ -23,8 +24,7 @@ export default class extends Pallet {
     this._selectionModelEntity = selectionModelEntity
 
     // Bind user events to the event emitter.
-    const name = 'entity'
-    bindUserEvents(this._el, editor.eventEmitter, name)
+    bindUserEvents(this._el, editor.eventEmitter, editModeName)
     bindAttributeEvent(this, this._el, editor.eventEmitter)
 
     editor.eventEmitter
