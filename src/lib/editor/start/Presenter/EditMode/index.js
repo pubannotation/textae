@@ -23,7 +23,7 @@ export default class EditMode {
     this._annotationData = annotationData
 
     // will init.
-    this._entityPallet = new EntityPallet(
+    this._denotationPallet = new EntityPallet(
       editor,
       originalData,
       typeDefinition,
@@ -44,7 +44,7 @@ export default class EditMode {
       commander,
       buttonController,
       typeDefinition,
-      this._entityPallet,
+      this._denotationPallet,
       this._relationPallet
     )
 
@@ -55,7 +55,7 @@ export default class EditMode {
     )
 
     initPallet(
-      this._entityPallet,
+      this._denotationPallet,
       editor,
       commander,
       'entity',
@@ -114,8 +114,8 @@ export default class EditMode {
     editor.eventEmitter.on(
       'textae.editTypeDialog.attribute.value.edit',
       (attrDef) => {
-        this._entityPallet.show()
-        this._entityPallet.showAttribute(attrDef.pred)
+        this._denotationPallet.show()
+        this._denotationPallet.showAttribute(attrDef.pred)
       }
     )
   }
@@ -173,7 +173,7 @@ export default class EditMode {
     switch (this._stateMachine.currentState) {
       case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
       case MODE.EDIT_DENOTATION_WITH_RELATION:
-        this._entityPallet.show()
+        this._denotationPallet.show()
         break
       case MODE.EDIT_RELATION:
         this._relationPallet.show()
@@ -191,25 +191,25 @@ export default class EditMode {
 
   cancelSelect() {
     // Close all pallets.
-    this._entityPallet.hide()
+    this._denotationPallet.hide()
     this._relationPallet.hide()
 
     this._selectionModel.clear()
   }
 
   get isEntityPalletShown() {
-    return this._entityPallet.visibly
+    return this._denotationPallet.visibly
   }
 
   selectLeftAttributeTab() {
-    if (this._entityPallet.visibly) {
-      this._entityPallet.selectLeftTab()
+    if (this._denotationPallet.visibly) {
+      this._denotationPallet.selectLeftTab()
     }
   }
 
   selectRightAttributeTab() {
-    if (this._entityPallet.visibly) {
-      this._entityPallet.selectRightTab()
+    if (this._denotationPallet.visibly) {
+      this._denotationPallet.selectRightTab()
     }
   }
 
