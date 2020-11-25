@@ -220,12 +220,14 @@ export default class EditMode {
   }
 
   _getHandler() {
-    switch (this._editMode) {
-      case 'denotation':
+    switch (this._stateMachine.currentState) {
+      case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
+      case MODE.EDIT_DENOTATION_WITH_RELATION:
         return this._editDenotation.handler
-      case 'block':
+      case MODE.EDIT_BLOCK_WITHOUT_RELATION:
+      case MODE.EDIT_BLOCK_WITH_RELATION:
         return this._editBlock.handler
-      case 'relation':
+      case MODE.EDIT_RELATION:
         return this._editRelation.handler
       default:
         return new DefaultHandler()
