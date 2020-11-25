@@ -112,7 +112,9 @@ export default class EditMode {
       },
       () => {
         this.cancelSelect()
-        this._changeToEditDenotation()
+        this._unbindAllMouseEventhandler()
+        this._listeners = this._editDenotation.init()
+        this._editMode = 'denotation'
       },
       () => {
         this.cancelSelect()
@@ -261,12 +263,6 @@ export default class EditMode {
       default:
         return new DefaultHandler()
     }
-  }
-
-  _changeToEditDenotation() {
-    this._unbindAllMouseEventhandler()
-    this._listeners = this._editDenotation.init()
-    this._editMode = 'denotation'
   }
 
   _changeToEditBlock() {
