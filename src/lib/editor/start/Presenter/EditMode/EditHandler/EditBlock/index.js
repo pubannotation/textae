@@ -2,6 +2,7 @@ import SpanEditor from './SpanEditor'
 import bindMouseEvents from './bindMouseEvents'
 import MouseEventHandler from './MouseEventHandler'
 import Edit from '../Edit'
+import EditHandler from './EditHandler'
 
 export default class EditBlock extends Edit {
   constructor(
@@ -10,7 +11,8 @@ export default class EditBlock extends Edit {
     selectionModel,
     spanConfig,
     commander,
-    buttonController
+    buttonController,
+    typeDefinition
   ) {
     const spanEditor = new SpanEditor(
       editor,
@@ -23,7 +25,8 @@ export default class EditBlock extends Edit {
     super(
       editor,
       bindMouseEvents,
-      new MouseEventHandler(editor, annotationData, selectionModel, spanEditor)
+      new MouseEventHandler(editor, annotationData, selectionModel, spanEditor),
+      new EditHandler(editor, typeDefinition, commander, selectionModel)
     )
   }
 }

@@ -48,7 +48,8 @@ export default class EditHandler {
       selectionModel,
       spanConfig,
       commander,
-      buttonController
+      buttonController,
+      typeDefinition
     )
 
     this._editRelation = new EditRelation(
@@ -68,6 +69,8 @@ export default class EditHandler {
     switch (this._editMode) {
       case 'denotation':
         return this._editDenotation.handler
+      case 'block':
+        return this._editBlock.handler
       case 'relation':
         return this._editRelation.handler
       default:
