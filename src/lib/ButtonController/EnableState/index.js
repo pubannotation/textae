@@ -77,7 +77,7 @@ export default class EnableState {
         break
       case MODE.EDIT_BLOCK_WITHOUT_RELATION:
       case MODE.EDIT_BLOCK_WITH_RELATION:
-        this._updateButtonsForMode(true, false, true, true, true, false)
+        this._updateButtonsForMode(true, false, true, true, true, true)
         break
       case MODE.EDIT_RELATION:
         this._updateButtonsForMode(false, false, false, true, true, true)
