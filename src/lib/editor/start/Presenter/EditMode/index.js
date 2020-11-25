@@ -54,7 +54,6 @@ export default class EditMode {
       originalData,
       () => this._autocompletionWs
     )
-    this._relationPallet = this._editRelation.pallet
 
     this._listeners = []
 
@@ -173,7 +172,7 @@ export default class EditMode {
         this._editDenotation.pallet.show()
         break
       case MODE.EDIT_RELATION:
-        this._relationPallet.show()
+        this._editRelation.pallet.show()
         break
     }
   }
@@ -189,7 +188,7 @@ export default class EditMode {
   cancelSelect() {
     // Close all pallets.
     this._editDenotation.pallet.hide()
-    this._relationPallet.hide()
+    this._editRelation.pallet.hide()
 
     this._selectionModel.clear()
   }
