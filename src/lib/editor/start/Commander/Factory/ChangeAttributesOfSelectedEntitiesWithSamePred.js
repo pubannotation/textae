@@ -53,7 +53,7 @@ export default class extends CompositeCommand {
     )
     this._logMessage = `update obj ${newObj} to attributes: ${effectedAttributes
       .map(
-        ({ attribute }) =>
+        ({ _attribute: attribute }) =>
           `{id: ${attribute.id}, subj: ${attribute.subj}, pred: ${attribute.pred}, obj: ${attribute.obj}}`
       )
       .join(',')}`

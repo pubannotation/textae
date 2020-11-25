@@ -5,33 +5,33 @@ import ConfigurationCommand from './ConfigurationCommand'
 export default class extends ConfigurationCommand {
   constructor(editor, typeContainer, newType) {
     super()
-    this.editor = editor
-    this.typeContainer = typeContainer
-    this.newType = newType
+    this._editor = editor
+    this._typeContainer = typeContainer
+    this._newType = newType
   }
 
   execute() {
-    this.typeContainer.addDefinedType(this.newType)
+    this._typeContainer.addDefinedType(this._newType)
 
     // manage default type
-    if (this.newType.default) {
+    if (this._newType.default) {
       // remember the current default, because revert command will not understand what type was it.
-      this.revertDefaultTypeId = this.typeContainer.defaultType
-      this.typeContainer.defaultType = this.newType.id
+      this.revertDefaultTypeId = this._typeContainer.defaultType
+      this._typeContainer.defaultType = this._newType.id
     }
 
     commandLog(
-      `create a new type:${JSON.stringify(this.newType)}, default is ${
-        this.typeContainer.defaultType
+      `create a new type:${JSON.stringify(this._newType)}, default is ${
+        this._typeContainer.defaultType
       }`
     )
   }
 
   revert() {
     return new RemoveTypeDefinitionCommand(
-      this.editor,
-      this.typeContainer,
-      this.newType,
+      this._editor,
+      this._typeContainer,
+      this._newType,
       this.revertDefaultTypeId
     )
   }
