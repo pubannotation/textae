@@ -34,7 +34,6 @@ export default class EditMode {
       originalData,
       () => this._autocompletionWs
     )
-    this._denotationPallet = this._editDenotation.pallet
 
     this._editBlock = new EditBlock(
       editor,
@@ -112,8 +111,8 @@ export default class EditMode {
     editor.eventEmitter.on(
       'textae.editTypeDialog.attribute.value.edit',
       (attrDef) => {
-        this._denotationPallet.show()
-        this._denotationPallet.showAttribute(attrDef.pred)
+        this._editDenotation.pallet.show()
+        this._editDenotation.pallet.showAttribute(attrDef.pred)
       }
     )
   }
@@ -171,7 +170,7 @@ export default class EditMode {
     switch (this._stateMachine.currentState) {
       case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
       case MODE.EDIT_DENOTATION_WITH_RELATION:
-        this._denotationPallet.show()
+        this._editDenotation.pallet.show()
         break
       case MODE.EDIT_RELATION:
         this._relationPallet.show()
@@ -189,25 +188,25 @@ export default class EditMode {
 
   cancelSelect() {
     // Close all pallets.
-    this._denotationPallet.hide()
+    this._editDenotation.pallet.hide()
     this._relationPallet.hide()
 
     this._selectionModel.clear()
   }
 
   get isEntityPalletShown() {
-    return this._denotationPallet.visibly
+    return this._editDenotation.pallet.visibly
   }
 
   selectLeftAttributeTab() {
-    if (this._denotationPallet.visibly) {
-      this._denotationPallet.selectLeftTab()
+    if (this._editDenotation.pallet.visibly) {
+      this._editDenotation.pallet.selectLeftTab()
     }
   }
 
   selectRightAttributeTab() {
-    if (this._denotationPallet.visibly) {
-      this._denotationPallet.selectRightTab()
+    if (this._editDenotation.pallet.visibly) {
+      this._editDenotation.pallet.selectRightTab()
     }
   }
 
