@@ -107,7 +107,8 @@ export default class EditMode {
       this._displayInstance,
       () => {
         this.cancelSelect()
-        this._changeToNoEdit()
+        this._unbindAllMouseEventhandler()
+        this._editMode = 'no-edit'
       },
       () => {
         this.cancelSelect()
@@ -260,11 +261,6 @@ export default class EditMode {
       default:
         return new DefaultHandler()
     }
-  }
-
-  _changeToNoEdit() {
-    this._unbindAllMouseEventhandler()
-    this._editMode = 'no-edit'
   }
 
   _changeToEditDenotation() {
