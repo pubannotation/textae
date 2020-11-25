@@ -1,4 +1,4 @@
-import EditRelationHandler from './EditRelationHandler'
+import EditHandler from './EditHandler'
 import bindMouseEvents from './bindMouseEvents'
 import MouseEventHandler from './MouseEventHandler'
 import Edit from '../Edit'
@@ -22,12 +22,7 @@ export default class EditRelation extends Edit {
         typeDefinition,
         relationPallet
       ),
-      new EditRelationHandler(
-        typeDefinition,
-        commander,
-        annotationData,
-        selectionModel
-      )
+      new EditHandler(typeDefinition, commander, annotationData, selectionModel)
     )
   }
 }

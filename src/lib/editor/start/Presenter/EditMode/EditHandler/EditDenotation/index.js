@@ -1,4 +1,4 @@
-import EditEntityHandler from './EditEntityHandler'
+import EditHandler from './EditHandler'
 import MouseEventHandler from './MouseEventHandler'
 import SpanEditor from './SpanEditor'
 import Edit from '../Edit'
@@ -35,7 +35,7 @@ export default class EditDenotation extends Edit {
         entityPallet,
         spanEditor
       ),
-      new EditEntityHandler(
+      new EditHandler(
         editor,
         typeDefinition,
         commander,
