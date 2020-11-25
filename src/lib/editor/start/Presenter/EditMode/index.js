@@ -95,7 +95,7 @@ export default class EditMode {
       editor,
       commander,
       'relation',
-      this._relationHandler,
+      this._editRelation.handler,
       () => this._autocompletionWs,
       typeDefinition.relation
     )
@@ -260,10 +260,6 @@ export default class EditMode {
       default:
         return new DefaultHandler()
     }
-  }
-
-  get _relationHandler() {
-    return this._editRelation.handler
   }
 
   _changeToNoEdit() {
