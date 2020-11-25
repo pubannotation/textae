@@ -3,7 +3,6 @@ import DisplayInstance from './DisplayInstance'
 import StateMachine from './StateMachine'
 import bindAttributeTabEvents from './bindAttributeTabEvents'
 import initPallet from './initPallet'
-import EntityPallet from '../../../../component/EntityPallet'
 import RelationPallet from '../../../../component/RelationPallet'
 import EditDenotation from './EditDenotation'
 import EditBlock from './EditBlock'
@@ -26,15 +25,6 @@ export default class EditMode {
     this._annotationData = annotationData
     this._editMode = 'no-edit'
 
-    // will init.
-    this._denotationPallet = new EntityPallet(
-      editor,
-      originalData,
-      typeDefinition,
-      typeDefinition.denotation,
-      selectionModel.entity,
-      'denotation'
-    )
     this._editDenotation = new EditDenotation(
       editor,
       annotationData,
@@ -43,17 +33,10 @@ export default class EditMode {
       buttonController,
       typeDefinition,
       spanConfig,
-      this._denotationPallet
+      originalData,
+      () => this._autocompletionWs
     )
-    initPallet(
-      this._denotationPallet,
-      editor,
-      commander,
-      'denotation',
-      this._editDenotation.handler,
-      () => this._autocompletionWs,
-      typeDefinition.denotation
-    )
+    this._denotationPallet = this._editDenotation.pallet
 
     this._editBlock = new EditBlock(
       editor,
