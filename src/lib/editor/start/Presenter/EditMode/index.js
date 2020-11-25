@@ -21,7 +21,6 @@ export default class EditMode {
     typeGap
   ) {
     this._annotationData = annotationData
-    this._editMode = 'no-edit'
 
     this._editDenotation = new EditDenotation(
       editor,
@@ -71,25 +70,21 @@ export default class EditMode {
       () => {
         this.cancelSelect()
         this._unbindAllMouseEventhandler()
-        this._editMode = 'no-edit'
       },
       () => {
         this.cancelSelect()
         this._unbindAllMouseEventhandler()
         this._listeners = this._editDenotation.init()
-        this._editMode = 'denotation'
       },
       () => {
         this.cancelSelect()
         this._unbindAllMouseEventhandler()
         this._listeners = this._editBlock.init()
-        this._editMode = 'block'
       },
       () => {
         this.cancelSelect()
         this._unbindAllMouseEventhandler()
         this._listeners = this._editRelation.init()
-        this._editMode = 'relation'
       }
     )
 
