@@ -71,21 +71,9 @@ export default class EditMode {
         this.cancelSelect()
         this._unbindAllMouseEventhandler()
       },
-      () => {
-        this.cancelSelect()
-        this._unbindAllMouseEventhandler()
-        this._listeners = this._editDenotation.init()
-      },
-      () => {
-        this.cancelSelect()
-        this._unbindAllMouseEventhandler()
-        this._listeners = this._editBlock.init()
-      },
-      () => {
-        this.cancelSelect()
-        this._unbindAllMouseEventhandler()
-        this._listeners = this._editRelation.init()
-      }
+      () => (this._listeners = this._editDenotation.init()),
+      () => (this._listeners = this._editBlock.init()),
+      () => (this._listeners = this._editRelation.init())
     )
 
     this._typeDefinition = typeDefinition

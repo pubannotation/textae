@@ -51,6 +51,7 @@ export default class Transition {
       MODE.EDIT_DENOTATION_WITHOUT_RELATION
     )
 
+    this._noEdit()
     this._editEntity()
     this._viewMode.setTerm()
     setEditableStyle(this._editor, true)
@@ -63,6 +64,7 @@ export default class Transition {
       MODE.EDIT_DENOTATION_WITH_RELATION
     )
 
+    this._noEdit()
     this._editEntity()
     this._viewMode.setInstance()
     setEditableStyle(this._editor, true)
@@ -75,6 +77,7 @@ export default class Transition {
       MODE.EDIT_BLOCK_WITHOUT_RELATION
     )
 
+    this._noEdit()
     this._editBlock()
     this._viewMode.setBlock()
     setEditableStyle(this._editor, true)
@@ -87,6 +90,7 @@ export default class Transition {
       MODE.EDIT_BLOCK_WITH_RELATION
     )
 
+    this._noEdit()
     this._editBlock()
     this._viewMode.setBlock()
     setEditableStyle(this._editor, true)
@@ -99,6 +103,7 @@ export default class Transition {
       MODE.EDIT_RELATION
     )
 
+    this._noEdit()
     this._editRelation()
     this._viewMode.setRelation()
     setEditableStyle(this._editor, true)
