@@ -3,16 +3,28 @@ import EntityModel from '../../../../EntityModel'
 import DefaultHandler from '../DefaultHandler'
 
 export default class extends DefaultHandler {
-  constructor(editor, typeDefinition, commander, selectionModel) {
+  constructor(
+    editor,
+    typeDefinition,
+    commander,
+    annotationData,
+    selectionModel
+  ) {
     super('block', 'entity', typeDefinition.block, commander)
 
     this._editor = editor
     this._selectionModel = selectionModel
+    this._annotationData = annotationData
+    this._typeDefinition = typeDefinition
   }
 
   jsPlumbConnectionClicked(_, event) {
     // Do not open link when term mode or simple mode.
     event.originalEvent.preventDefault()
+  }
+
+  changeTypeOfSelectedElement(newType) {
+    return this._commander.factory.changeTypeOfSelectedEntitiesCommand(newType)
   }
 
   changeLabelHandler(autocompletionWs) {
@@ -38,6 +50,13 @@ export default class extends DefaultHandler {
       )
       dialog.promise.then(done)
       dialog.open()
+    }
+  }
+
+  selectAll(typeName) {
+    this._selectionModel.entity.clear()
+    for (const { id } of this._annotationData.entity.findByType(typeName)) {
+      this._selectionModel.entity.add(id)
     }
   }
 }

@@ -41,7 +41,9 @@ export default class EditMode {
       spanConfig,
       commander,
       buttonController,
-      typeDefinition
+      typeDefinition,
+      originalData,
+      () => this._autocompletionWs
     )
 
     this._editRelation = new EditRelation(
@@ -93,8 +95,18 @@ export default class EditMode {
     editor.eventEmitter.on(
       'textae.editTypeDialog.attribute.value.edit',
       (attrDef) => {
-        this._editDenotation.pallet.show()
-        this._editDenotation.pallet.showAttribute(attrDef.pred)
+        switch (this._stateMachine.currentState) {
+          case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
+          case MODE.EDIT_DENOTATION_WITH_RELATION:
+            this._editDenotation.pallet.show()
+            this._editDenotation.pallet.showAttribute(attrDef.pred)
+            break
+          case MODE.EDIT_BLOCK_WITHOUT_RELATION:
+          case MODE.EDIT_BLOCK_WITH_RELATION:
+            this._editBlock.pallet.show()
+            this._editBlock.pallet.showAttribute(attrDef.pred)
+            break
+        }
       }
     )
   }
@@ -154,6 +166,10 @@ export default class EditMode {
       case MODE.EDIT_DENOTATION_WITH_RELATION:
         this._editDenotation.pallet.show()
         break
+      case MODE.EDIT_BLOCK_WITHOUT_RELATION:
+      case MODE.EDIT_BLOCK_WITH_RELATION:
+        this._editBlock.pallet.show()
+        break
       case MODE.EDIT_RELATION:
         this._editRelation.pallet.show()
         break
@@ -171,6 +187,7 @@ export default class EditMode {
   cancelSelect() {
     // Close all pallets.
     this._editDenotation.pallet.hide()
+    this._editBlock.pallet.hide()
     this._editRelation.pallet.hide()
 
     this._selectionModel.clear()
