@@ -7,12 +7,13 @@ export default function (
   commander,
   name,
   handler,
-  getAutocompletionWs
+  getAutocompletionWs,
+  typeContainer
 ) {
   editor.eventEmitter
     .on(`textae.${name}Pallet.add-button.click`, () => {
       const dialog = new CreateTypeDefinitionDialog(
-        handler.typeContainer,
+        typeContainer,
         getAutocompletionWs()
       )
       dialog.promise.then(({ newType }) =>
@@ -36,7 +37,7 @@ export default function (
       `textae.${name}Pallet.item.edit-button.click`,
       (id, color, isDefault) => {
         const dialog = new EditTypeDefinitionDialog(
-          handler.typeContainer,
+          typeContainer,
           id,
           color,
           isDefault,

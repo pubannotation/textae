@@ -60,7 +60,8 @@ export default class EditMode {
       commander,
       'entity',
       this._editHandler.denotationHandler,
-      () => this._autocompletionWs
+      () => this._autocompletionWs,
+      typeDefinition.denotation
     )
 
     initPallet(
@@ -69,7 +70,8 @@ export default class EditMode {
       commander,
       'relation',
       this._editHandler.relationHandler,
-      () => this._autocompletionWs
+      () => this._autocompletionWs,
+      typeDefinition.relation
     )
 
     this._displayInstance = new DisplayInstance(typeGap)
