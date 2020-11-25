@@ -1,4 +1,4 @@
-import openEditNumericAttributeDialog from '../../../openEditNumericAttributeDialog'
+import openEditNumericAttributeDialog from '../../../../openEditNumericAttributeDialog'
 
 export default function (selectionModel, attrDef, commander) {
   const selectedEntityWithSamePred = selectionModel.entity.findSelectedWithSamePredicateAttribute(

@@ -5,8 +5,6 @@ import bindAttributeTabEvents from './bindAttributeTabEvents'
 import initPallet from './initPallet'
 import EntityPallet from '../../../../component/EntityPallet'
 import RelationPallet from '../../../../component/RelationPallet'
-import EditAttribute from './EditAttribute'
-import DeleteAttribute from './DeleteAttribute'
 import EditDenotation from './EditDenotation'
 import EditBlock from './EditBlock'
 import EditRelation from './EditRelation'
@@ -44,15 +42,6 @@ export default class EditMode {
 
     this._editMode = 'no-edit'
 
-    const editAttribute = new EditAttribute(
-      commander,
-      editor,
-      annotationData,
-      selectionModel,
-      this._denotationPallet
-    )
-    const deleteAttribute = new DeleteAttribute(commander, annotationData)
-
     this._editDenotation = new EditDenotation(
       editor,
       annotationData,
@@ -61,8 +50,6 @@ export default class EditMode {
       buttonController,
       typeDefinition,
       spanConfig,
-      editAttribute,
-      deleteAttribute,
       this._denotationPallet
     )
 
