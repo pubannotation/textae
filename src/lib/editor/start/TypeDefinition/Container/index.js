@@ -6,13 +6,13 @@ import DefinedTypeContainer from './DefinedTypeContainer'
 export default class Container {
   constructor(
     editor,
-    name,
+    annotationType,
     getAllInstanceFunc,
     lockStateObservable,
     defaultColor = '#555555'
   ) {
     this._editor = editor
-    this._name = name
+    this._annotationType = annotationType
     this._definedTypes = null
     this._getAllInstanceFunc = getAllInstanceFunc
     this._defaultColor = defaultColor
@@ -43,7 +43,7 @@ export default class Container {
   set(id, newType) {
     this._definedTypes.set(id, newType)
     this._editor.eventEmitter.emit(
-      `textae.typeDefinition.${this._name}.type.change`,
+      `textae.typeDefinition.${this._annotationType}.type.change`,
       newType.id
     )
   }
@@ -109,7 +109,7 @@ export default class Container {
     console.assert(id, 'id is necessary!')
     this._defaultType = id
     this._editor.eventEmitter.emit(
-      `textae.typeDefinition.${this._name}.type.default.change`
+      `textae.typeDefinition.${this._annotationType}.type.default.change`
     )
   }
 
@@ -150,7 +150,7 @@ export default class Container {
   delete(id) {
     this._definedTypes.delete(id)
     this._editor.eventEmitter.emit(
-      `textae.typeDefinition.${this._name}.type.change`,
+      `textae.typeDefinition.${this._annotationType}.type.change`,
       id
     )
   }
