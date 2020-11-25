@@ -22,11 +22,6 @@ export default class extends DefaultHandler {
     this._deleteAttribute = deleteAttribute
   }
 
-  jsPlumbConnectionClicked(_, event) {
-    // Do not open link when term mode or simple mode.
-    event.originalEvent.preventDefault()
-  }
-
   changeTypeOfSelectedElement(newType) {
     return this._commander.factory.changeTypeOfSelectedEntitiesCommand(newType)
   }
