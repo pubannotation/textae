@@ -15,7 +15,7 @@ export default class EditDenotation extends Edit {
     spanConfig,
     editAttribute,
     deleteAttribute,
-    entityPallet
+    denotationPallet
   ) {
     const spanEditor = new SpanEditor(
       editor,
@@ -32,7 +32,7 @@ export default class EditDenotation extends Edit {
         editor,
         annotationData,
         selectionModel,
-        entityPallet,
+        denotationPallet,
         spanEditor
       ),
       new EditHandler(
