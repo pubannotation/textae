@@ -2,6 +2,8 @@ import EditHandler from './EditHandler'
 import bindMouseEvents from './bindMouseEvents'
 import MouseEventHandler from './MouseEventHandler'
 import Edit from '../Edit'
+import RelationPallet from '../../../../../component/RelationPallet'
+import initPallet from '../initPallet'
 
 export default class EditRelation extends Edit {
   constructor(
@@ -10,8 +12,32 @@ export default class EditRelation extends Edit {
     selectionModel,
     commander,
     typeDefinition,
-    relationPallet
+    originalData,
+    getAutocompletionWs
   ) {
+    const relationPallet = new RelationPallet(
+      editor,
+      originalData,
+      typeDefinition
+    )
+
+    const handler = new EditHandler(
+      typeDefinition,
+      commander,
+      annotationData,
+      selectionModel
+    )
+
+    initPallet(
+      relationPallet,
+      editor,
+      commander,
+      'relation',
+      handler,
+      getAutocompletionWs,
+      typeDefinition.relation
+    )
+
     super(
       editor,
       bindMouseEvents,
@@ -22,7 +48,13 @@ export default class EditRelation extends Edit {
         typeDefinition,
         relationPallet
       ),
-      new EditHandler(typeDefinition, commander, annotationData, selectionModel)
+      handler
     )
+
+    this._pallet = relationPallet
+  }
+
+  get pallet() {
+    return this._pallet
   }
 }

@@ -2,8 +2,6 @@ import { MODE } from '../../../../MODE'
 import DisplayInstance from './DisplayInstance'
 import StateMachine from './StateMachine'
 import bindAttributeTabEvents from './bindAttributeTabEvents'
-import initPallet from './initPallet'
-import RelationPallet from '../../../../component/RelationPallet'
 import EditDenotation from './EditDenotation'
 import EditBlock from './EditBlock'
 import EditRelation from './EditRelation'
@@ -48,28 +46,16 @@ export default class EditMode {
       typeDefinition
     )
 
-    this._relationPallet = new RelationPallet(
-      editor,
-      originalData,
-      typeDefinition
-    )
     this._editRelation = new EditRelation(
       editor,
       annotationData,
       selectionModel,
       commander,
       typeDefinition,
-      this._relationPallet
+      originalData,
+      () => this._autocompletionWs
     )
-    initPallet(
-      this._relationPallet,
-      editor,
-      commander,
-      'relation',
-      this._editRelation.handler,
-      () => this._autocompletionWs,
-      typeDefinition.relation
-    )
+    this._relationPallet = this._editRelation.pallet
 
     this._listeners = []
 
