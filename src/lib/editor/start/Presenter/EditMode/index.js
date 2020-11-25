@@ -85,7 +85,7 @@ export default class EditMode {
       editor,
       commander,
       'denotation',
-      this._denotationHandler,
+      this._editDenotation.handler,
       () => this._autocompletionWs,
       typeDefinition.denotation
     )
@@ -260,10 +260,6 @@ export default class EditMode {
       default:
         return new DefaultHandler()
     }
-  }
-
-  get _denotationHandler() {
-    return this._editDenotation.handler
   }
 
   get _relationHandler() {
