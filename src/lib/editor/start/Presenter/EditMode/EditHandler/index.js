@@ -18,7 +18,7 @@ export default class EditHandler {
     entityPallet,
     relationPallet
   ) {
-    this._handlerType = 'default'
+    this._editMode = 'no-edit'
 
     const editAttribute = new EditAttribute(
       commander,
@@ -65,7 +65,7 @@ export default class EditHandler {
   }
 
   getHandler() {
-    switch (this._handlerType) {
+    switch (this._editMode) {
       case 'denotation':
         return this._editDenotation.handler
       case 'relation':
@@ -85,25 +85,25 @@ export default class EditHandler {
 
   changeToNoEdit() {
     this._unbindAllMouseEventhandler()
-    this._handlerType = 'default'
+    this._editMode = 'no-edit'
   }
 
   changeToEditDenotation() {
     this._unbindAllMouseEventhandler()
     this._listeners = this._editDenotation.init()
-    this._handlerType = 'denotation'
+    this._editMode = 'denotation'
   }
 
   changeToEditBlock() {
     this._unbindAllMouseEventhandler()
     this._listeners = this._editBlock.init()
-    this._handlerType = 'block'
+    this._editMode = 'block'
   }
 
   changeToEditRelation() {
     this._unbindAllMouseEventhandler()
     this._listeners = this._editRelation.init()
-    this._handlerType = 'relation'
+    this._editMode = 'relation'
   }
 
   _unbindAllMouseEventhandler() {
