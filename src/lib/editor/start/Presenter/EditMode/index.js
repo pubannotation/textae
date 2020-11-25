@@ -1,11 +1,16 @@
 import { MODE } from '../../../../MODE'
 import DisplayInstance from './DisplayInstance'
 import StateMachine from './StateMachine'
-import EditHandler from './EditHandler'
 import bindAttributeTabEvents from './bindAttributeTabEvents'
 import initPallet from './initPallet'
 import EntityPallet from '../../../../component/EntityPallet'
 import RelationPallet from '../../../../component/RelationPallet'
+import EditAttribute from './EditAttribute'
+import DeleteAttribute from './DeleteAttribute'
+import EditDenotation from './EditDenotation'
+import EditBlock from './EditBlock'
+import EditRelation from './EditRelation'
+import DefaultHandler from './DefaultHandler'
 
 export default class EditMode {
   constructor(
@@ -37,17 +42,51 @@ export default class EditMode {
       typeDefinition
     )
 
-    this._editHandler = new EditHandler(
+    this._editMode = 'no-edit'
+
+    const editAttribute = new EditAttribute(
+      commander,
+      editor,
+      annotationData,
+      selectionModel,
+      this._denotationPallet
+    )
+    const deleteAttribute = new DeleteAttribute(commander, annotationData)
+
+    this._editDenotation = new EditDenotation(
+      editor,
+      annotationData,
+      selectionModel,
+      commander,
+      buttonController,
+      typeDefinition,
+      spanConfig,
+      editAttribute,
+      deleteAttribute,
+      this._denotationPallet
+    )
+
+    this._editBlock = new EditBlock(
       editor,
       annotationData,
       selectionModel,
       spanConfig,
       commander,
       buttonController,
+      typeDefinition
+    )
+
+    this._editRelation = new EditRelation(
+      editor,
+      annotationData,
+      selectionModel,
+      commander,
       typeDefinition,
-      this._denotationPallet,
       this._relationPallet
     )
+
+    this._editor = editor
+    this._listeners = []
 
     bindAttributeTabEvents(
       editor.eventEmitter,
@@ -60,7 +99,7 @@ export default class EditMode {
       editor,
       commander,
       'denotation',
-      this._editHandler.denotationHandler,
+      this._denotationHandler,
       () => this._autocompletionWs,
       typeDefinition.denotation
     )
@@ -70,7 +109,7 @@ export default class EditMode {
       editor,
       commander,
       'relation',
-      this._editHandler.relationHandler,
+      this._relationHandler,
       () => this._autocompletionWs,
       typeDefinition.relation
     )
@@ -82,19 +121,19 @@ export default class EditMode {
       this._displayInstance,
       () => {
         this.cancelSelect()
-        this._editHandler.changeToNoEdit()
+        this._changeToNoEdit()
       },
       () => {
         this.cancelSelect()
-        this._editHandler.changeToEditDenotation()
+        this._changeToEditDenotation()
       },
       () => {
         this.cancelSelect()
-        this._editHandler.changeToEditBlock()
+        this._changeToEditBlock()
       },
       () => {
         this.cancelSelect()
-        this._editHandler.changeToEditRelation()
+        this._changeToEditRelation()
       }
     )
 
@@ -108,9 +147,7 @@ export default class EditMode {
       'textae.editor.jsPlumbConnection.click',
       (jsPlumbConnection, event) => {
         // The EventHandlar for clieck event of jsPlumbConnection.
-        this._editHandler
-          .getHandler()
-          .jsPlumbConnectionClicked(jsPlumbConnection, event)
+        this._getHandler().jsPlumbConnectionClicked(jsPlumbConnection, event)
       }
     )
 
@@ -185,11 +222,11 @@ export default class EditMode {
   }
 
   changeLabel() {
-    this._editHandler.getHandler().changeLabelHandler(this._autocompletionWs)
+    this._getHandler().changeLabelHandler(this._autocompletionWs)
   }
 
   manipulateAttribute(number, shiftKey) {
-    this._editHandler.getHandler().manipulateAttribute(number, shiftKey)
+    this._getHandler().manipulateAttribute(number, shiftKey)
   }
 
   cancelSelect() {
@@ -224,5 +261,56 @@ export default class EditMode {
     return (
       this._autocompletionWsFromParams || this._typeDefinition.autocompletionWs
     )
+  }
+
+  _getHandler() {
+    switch (this._editMode) {
+      case 'denotation':
+        return this._editDenotation.handler
+      case 'block':
+        return this._editBlock.handler
+      case 'relation':
+        return this._editRelation.handler
+      default:
+        return new DefaultHandler()
+    }
+  }
+
+  get _denotationHandler() {
+    return this._editDenotation.handler
+  }
+
+  get _relationHandler() {
+    return this._editRelation.handler
+  }
+
+  _changeToNoEdit() {
+    this._unbindAllMouseEventhandler()
+    this._editMode = 'no-edit'
+  }
+
+  _changeToEditDenotation() {
+    this._unbindAllMouseEventhandler()
+    this._listeners = this._editDenotation.init()
+    this._editMode = 'denotation'
+  }
+
+  _changeToEditBlock() {
+    this._unbindAllMouseEventhandler()
+    this._listeners = this._editBlock.init()
+    this._editMode = 'block'
+  }
+
+  _changeToEditRelation() {
+    this._unbindAllMouseEventhandler()
+    this._listeners = this._editRelation.init()
+    this._editMode = 'relation'
+  }
+
+  _unbindAllMouseEventhandler() {
+    for (const listner of this._listeners) {
+      listner.destroy()
+    }
+    this._listeners = []
   }
 }

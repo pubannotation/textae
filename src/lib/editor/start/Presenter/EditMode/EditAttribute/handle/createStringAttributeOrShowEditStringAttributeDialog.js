@@ -1,4 +1,4 @@
-import openEditStringAttributeDialog from '../../../../openEditStringAttributeDialog'
+import openEditStringAttributeDialog from '../../../openEditStringAttributeDialog'
 
 export default function (selectionModel, attrDef, commander) {
   const selectedEntityWithSamePred = selectionModel.entity.findSelectedWithSamePredicateAttribute(
