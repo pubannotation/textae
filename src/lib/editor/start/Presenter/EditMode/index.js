@@ -162,9 +162,12 @@ export default class {
   }
 
   showPallet() {
-    const pallet = this._getPallet()
-    if (pallet) {
-      pallet.show()
+    if (this._elementEditor.handlerType == 'denotation') {
+      this._entityPallet.show()
+    }
+
+    if (this._elementEditor.handlerType == 'relation') {
+      this._relationPallet.show()
     }
   }
 
@@ -202,16 +205,6 @@ export default class {
 
   get displayInstance() {
     return this._displayInstance
-  }
-
-  _getPallet() {
-    if (this._elementEditor.handlerType == 'denotation') {
-      return this._entityPallet
-    }
-
-    if (this._elementEditor.handlerType == 'relation') {
-      return this._relationPallet
-    }
   }
 
   get _autocompletionWs() {
