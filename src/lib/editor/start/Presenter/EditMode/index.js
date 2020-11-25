@@ -85,7 +85,6 @@ export default class EditMode {
       this._relationPallet
     )
 
-    this._editor = editor
     this._listeners = []
 
     bindAttributeTabEvents(
