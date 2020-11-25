@@ -24,6 +24,7 @@ export default class EditMode {
     typeGap
   ) {
     this._annotationData = annotationData
+    this._editMode = 'no-edit'
 
     // will init.
     this._denotationPallet = new EntityPallet(
@@ -34,14 +35,6 @@ export default class EditMode {
       selectionModel.entity,
       'denotation'
     )
-    this._relationPallet = new RelationPallet(
-      editor,
-      originalData,
-      typeDefinition
-    )
-
-    this._editMode = 'no-edit'
-
     this._editDenotation = new EditDenotation(
       editor,
       annotationData,
@@ -51,6 +44,15 @@ export default class EditMode {
       typeDefinition,
       spanConfig,
       this._denotationPallet
+    )
+    initPallet(
+      this._denotationPallet,
+      editor,
+      commander,
+      'denotation',
+      this._editDenotation.handler,
+      () => this._autocompletionWs,
+      typeDefinition.denotation
     )
 
     this._editBlock = new EditBlock(
@@ -63,6 +65,11 @@ export default class EditMode {
       typeDefinition
     )
 
+    this._relationPallet = new RelationPallet(
+      editor,
+      originalData,
+      typeDefinition
+    )
     this._editRelation = new EditRelation(
       editor,
       annotationData,
@@ -71,25 +78,6 @@ export default class EditMode {
       typeDefinition,
       this._relationPallet
     )
-
-    this._listeners = []
-
-    bindAttributeTabEvents(
-      editor.eventEmitter,
-      commander,
-      selectionModel.entity
-    )
-
-    initPallet(
-      this._denotationPallet,
-      editor,
-      commander,
-      'denotation',
-      this._editDenotation.handler,
-      () => this._autocompletionWs,
-      typeDefinition.denotation
-    )
-
     initPallet(
       this._relationPallet,
       editor,
@@ -98,6 +86,14 @@ export default class EditMode {
       this._editRelation.handler,
       () => this._autocompletionWs,
       typeDefinition.relation
+    )
+
+    this._listeners = []
+
+    bindAttributeTabEvents(
+      editor.eventEmitter,
+      commander,
+      selectionModel.entity
     )
 
     this._displayInstance = new DisplayInstance(typeGap)
