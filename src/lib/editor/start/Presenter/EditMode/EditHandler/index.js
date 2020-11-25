@@ -15,7 +15,7 @@ export default class EditHandler {
     commander,
     buttonController,
     typeDefinition,
-    entityPallet,
+    denotationPallet,
     relationPallet
   ) {
     this._editMode = 'no-edit'
@@ -25,7 +25,7 @@ export default class EditHandler {
       editor,
       annotationData,
       selectionModel,
-      entityPallet
+      denotationPallet
     )
     const deleteAttribute = new DeleteAttribute(commander, annotationData)
 
@@ -39,7 +39,7 @@ export default class EditHandler {
       spanConfig,
       editAttribute,
       deleteAttribute,
-      entityPallet
+      denotationPallet
     )
 
     this._editBlock = new EditBlock(
