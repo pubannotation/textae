@@ -10,6 +10,11 @@ export default class extends DefaultHandler {
     this._selectionModel = selectionModel
   }
 
+  jsPlumbConnectionClicked(_, event) {
+    // Do not open link when term mode or simple mode.
+    event.originalEvent.preventDefault()
+  }
+
   changeLabelHandler(autocompletionWs) {
     if (this._selectionModel.entity.some) {
       const done = ({ typeName, label, attributes }) => {
