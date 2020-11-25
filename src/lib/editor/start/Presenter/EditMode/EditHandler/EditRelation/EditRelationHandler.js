@@ -10,7 +10,7 @@ export default class extends DefaultHandler {
   }
 
   changeTypeOfSelectedElement(newType) {
-    return this.commander.factory.changeTypeOfSelectedRelationsCommand(newType)
+    return this._commander.factory.changeTypeOfSelectedRelationsCommand(newType)
   }
 
   changeLabelHandler(autocompletionWs) {
@@ -18,18 +18,18 @@ export default class extends DefaultHandler {
       const type = this._getSelectedType()
       const dialog = new EditRelationDialog(
         type,
-        this.typeContainer,
+        this._typeContainer,
         autocompletionWs
       )
       dialog.promise.then(({ value, label }) => {
-        const commands = this.commander.factory.changeRelationLabelCommand(
+        const commands = this._commander.factory.changeRelationLabelCommand(
           label,
           value,
-          this.typeContainer
+          this._typeContainer
         )
 
         if (value) {
-          this.commander.invoke(commands)
+          this._commander.invoke(commands)
         }
       })
       dialog.open()

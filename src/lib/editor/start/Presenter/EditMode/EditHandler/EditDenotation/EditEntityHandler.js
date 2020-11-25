@@ -28,27 +28,27 @@ export default class extends DefaultHandler {
   }
 
   changeTypeOfSelectedElement(newType) {
-    return this.commander.factory.changeTypeOfSelectedEntitiesCommand(newType)
+    return this._commander.factory.changeTypeOfSelectedEntitiesCommand(newType)
   }
 
   changeLabelHandler(autocompletionWs) {
     if (this._selectionModel.entity.some) {
       const done = ({ typeName, label, attributes }) => {
-        const commands = this.commander.factory.changeEntityTypeCommand(
+        const commands = this._commander.factory.changeEntityTypeCommand(
           label,
           typeName,
           attributes,
-          this.typeContainer
+          this._typeContainer
         )
 
         if (typeName) {
-          this.commander.invoke(commands)
+          this._commander.invoke(commands)
         }
       }
 
       const dialog = new EditEntityDialog(
         this._editor,
-        this.typeContainer,
+        this._typeContainer,
         autocompletionWs,
         EntityModel.mergedTypesOf(this._selectionModel.entity.all)
       )

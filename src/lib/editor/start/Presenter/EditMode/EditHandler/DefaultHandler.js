@@ -2,20 +2,28 @@ export default class {
   constructor(configType, annotationType, typeContainer, commander) {
     this._configType = configType
     this._annotationType = annotationType
-    this.typeContainer = typeContainer
-    this.commander = commander
+    this._typeContainer = typeContainer
+    this._commander = commander
+  }
+
+  get typeContainer() {
+    return this._typeContainer
+  }
+
+  get commander() {
+    return this._commander
   }
 
   addType(newType) {
     console.assert(newType.id, 'id is necessary!')
-    return this.commander.factory.createTypeDefinitionCommand(
+    return this._commander.factory.createTypeDefinitionCommand(
       this._configType,
       newType
     )
   }
 
   changeType(id, changedProperties) {
-    return this.commander.factory.changeTypeDefinitionCommand(
+    return this._commander.factory.changeTypeDefinitionCommand(
       this._configType,
       this._annotationType,
       id,
@@ -42,7 +50,7 @@ export default class {
       throw new Error('You must set the type id to remove.')
     }
 
-    return this.commander.factory.removeTypeDefinitionCommand(
+    return this._commander.factory.removeTypeDefinitionCommand(
       this._configType,
       removeType
     )
