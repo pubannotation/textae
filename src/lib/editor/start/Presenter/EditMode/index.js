@@ -118,7 +118,9 @@ export default class EditMode {
       },
       () => {
         this.cancelSelect()
-        this._changeToEditBlock()
+        this._unbindAllMouseEventhandler()
+        this._listeners = this._editBlock.init()
+        this._editMode = 'block'
       },
       () => {
         this.cancelSelect()
@@ -263,12 +265,6 @@ export default class EditMode {
       default:
         return new DefaultHandler()
     }
-  }
-
-  _changeToEditBlock() {
-    this._unbindAllMouseEventhandler()
-    this._listeners = this._editBlock.init()
-    this._editMode = 'block'
   }
 
   _changeToEditRelation() {
