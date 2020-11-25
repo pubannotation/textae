@@ -2,7 +2,7 @@ import TypeValues from '../../TypeValues'
 import EntityModel from '../../EntityModel'
 import getSelectedEntities from './getSelectedEntities'
 
-export default class {
+export default class ClipBoard {
   constructor(editor, commander, selectionModel) {
     this._editor = editor
     this._commander = commander

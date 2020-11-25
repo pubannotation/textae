@@ -1,6 +1,6 @@
 import create from './create'
 
-export default class {
+export default class SpanRenderer {
   constructor(editor, entityRenderer) {
     this._editor = editor
     this._entityRenderer = entityRenderer

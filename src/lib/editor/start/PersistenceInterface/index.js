@@ -5,7 +5,7 @@ import mergeAnnotation from './mergeAnnotation'
 import readAnnotationFile from './readAnnotationFile'
 import readConfigurationFile from './readConfigurationFile'
 
-export default class {
+export default class PersistenceInterface {
   constructor(
     editor,
     dataAccessObject,

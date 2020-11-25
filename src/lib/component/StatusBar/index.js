@@ -1,7 +1,7 @@
 import isUri from '../../isUri'
 import getAreaIn from './getAreaIn'
 
-export default class {
+export default class StatusBar {
   constructor(editor) {
     this._container = editor[0]
   }

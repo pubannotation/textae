@@ -2,7 +2,7 @@ import setEditableStyle from './setEditableStyle'
 import ViewMode from './ViewMode'
 import { MODE } from '../../../../../../MODE'
 
-export default class {
+export default class Transition {
   constructor(
     editor,
     displayInstance,

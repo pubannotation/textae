@@ -5,7 +5,7 @@ import createRangeToSpan from '../createRangeToSpan'
 import getBigBrotherSpan from './getBigBrotherSpan'
 import updateGridPosition from './updateGridPosition'
 
-export default class {
+export default class SpanModel {
   constructor(editor, begin, end, spanContainer) {
     this._editor = editor
     this._begin = begin

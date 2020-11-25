@@ -1,6 +1,6 @@
 import debounce from 'debounce'
 
-export default class {
+export default class AnnotationAutoSaver {
   constructor(
     editor,
     buttonController,

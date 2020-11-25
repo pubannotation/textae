@@ -4,7 +4,7 @@ import isNodeStyleSpan from '../isNodeStyleSpan'
 import getSelectionSnapShot from './getSelectionSnapShot'
 import isNodeBlockSpan from '../isNodeBlockSpan'
 
-export default class {
+export default class SelectionWrapper {
   constructor() {
     this.selection = getSelectionSnapShot()
   }

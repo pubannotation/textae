@@ -5,7 +5,7 @@ import keyInputHandler from './keyInputHandler'
 
 const helpDialog = new HelpDialog()
 
-export default class {
+export default class EditorContainer {
   constructor() {
     this.editorList = []
     this.selectedEditor = null

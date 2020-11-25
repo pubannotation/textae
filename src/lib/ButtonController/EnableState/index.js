@@ -2,7 +2,7 @@ import buttonConfig from '../../buttonConfig'
 import { MODE } from '../../MODE'
 import bindEvents from './bindEvents'
 
-export default class {
+export default class EnableState {
   constructor(editor, selectionModel, clipBoard) {
     // Save enable/disable state of contorol buttons.
     this._states = {}

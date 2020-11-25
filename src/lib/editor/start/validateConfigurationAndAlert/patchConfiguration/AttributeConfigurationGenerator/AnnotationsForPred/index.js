@@ -2,7 +2,7 @@ import getValueType from './getValueType'
 import getMostFrequentObject from './getMostFrequentObject'
 import getStep from './getStep'
 
-export default class {
+export default class AnnotationsForPred {
   constructor({ pred, obj }) {
     this._pred = pred
     this._objects = [obj]

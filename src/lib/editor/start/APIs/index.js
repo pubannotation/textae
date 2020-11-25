@@ -3,7 +3,7 @@ import KeyApiMap from './KeyApiMap'
 import IconApiMap from './IconApiMap'
 import PalletApiMap from './PalletApiMap'
 
-export default class {
+export default class APIs {
   constructor(
     commander,
     presenter,

@@ -2,7 +2,7 @@ import buttonConfig from '../../buttonConfig'
 import { MODE } from '../../MODE'
 import Button from './Button'
 
-export default class {
+export default class PushButtons {
   constructor(editor) {
     this._buttonMap = buttonConfig.pushButtons.reduce((map, buttonName) => {
       map.set(buttonName, new Button(editor, buttonName))

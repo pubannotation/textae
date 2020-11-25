@@ -3,7 +3,7 @@ import destroy from './destroy'
 import setTypeGapHeight from './setTypeGapHeight'
 import EntityModel from '../../../../EntityModel'
 
-export default class {
+export default class EntityRenderer {
   constructor(
     annotationData,
     selectionModel,

@@ -1,4 +1,4 @@
-export default class {
+export default class DefaultHandler {
   constructor(configType, annotationType, typeContainer, commander) {
     this._configType = configType
     this._annotationType = annotationType

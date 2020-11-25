@@ -5,7 +5,7 @@ import updateButtonPushState from './updateButtonPushState'
 import toContentHtml from './toContentHtml'
 
 // The control is a control bar in an editor.
-export default class {
+export default class Control {
   constructor(htmlTemplate, editor) {
     const el = dohtml.create(toContentHtml(htmlTemplate))
 

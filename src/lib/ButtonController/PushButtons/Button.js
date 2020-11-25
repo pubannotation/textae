@@ -1,5 +1,5 @@
 // Button state is true when the button is pushed.
-export default class {
+export default class Button {
   constructor(editor, buttonName) {
     this._editor = editor
     this.name = buttonName

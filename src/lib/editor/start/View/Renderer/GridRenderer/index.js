@@ -1,7 +1,7 @@
 import getAnnotationBox from '../getAnnotationBox'
 import createGrid from './createGrid'
 
-export default class {
+export default class GridRenderer {
   constructor(editor, textBox, gridRectangle) {
     this._editor = editor
     this._container = getAnnotationBox(editor)

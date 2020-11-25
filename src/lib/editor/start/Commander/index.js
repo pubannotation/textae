@@ -5,7 +5,7 @@ import Factory from './Factory'
 
 // A command is an operation by user that is saved as history, and can undo and redo.
 // Users can edit model only via commands.
-export default class {
+export default class Commander {
   constructor(editor, annotationData, selectionModel, history, typeDefinition) {
     this._editor = editor
     this._annotationData = annotationData

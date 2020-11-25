@@ -2,7 +2,7 @@ import Pointer from './Pointer'
 import Commands from './Commands'
 
 // histories of edit to undo and redo.
-export default class {
+export default class History {
   constructor(eventEmitter) {
     this._resetHistory()
     this._eventEmitter = eventEmitter

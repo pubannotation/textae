@@ -1,4 +1,4 @@
-export default class {
+export default class IDContainer {
   constructor(emitter, kindName, annotationData) {
     this._emitter = emitter
     this._kindName = kindName

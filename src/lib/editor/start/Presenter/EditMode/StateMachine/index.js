@@ -8,7 +8,7 @@ import bindTransition from './bindTransition'
 import Transition from './Transition'
 import pushBlock from './pushBlock'
 
-export default class {
+export default class StateMachine {
   constructor(
     editor,
     displayInstance,

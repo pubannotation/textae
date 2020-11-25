@@ -1,7 +1,7 @@
 import bindTextaeEvents from './bindTextaeEvents'
 import handle from './handle'
 
-export default class {
+export default class EditAttribute {
   constructor(commander, editor, annotationData, selectionModel, entityPallet) {
     this._commander = commander
     this._annotationData = annotationData

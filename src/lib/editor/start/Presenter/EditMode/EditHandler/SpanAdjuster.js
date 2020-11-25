@@ -1,4 +1,4 @@
-export default class {
+export default class SpanAdjuster {
   backFromBegin(str, position, spanConfig) {}
 
   forwardFromEnd(str, position, spanConfig) {}

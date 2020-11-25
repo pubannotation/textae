@@ -7,7 +7,7 @@ import initPallet from './initPallet'
 import EntityPallet from '../../../../component/EntityPallet'
 import RelationPallet from '../../../../component/RelationPallet'
 
-export default class {
+export default class EditMode {
   constructor(
     editor,
     annotationData,

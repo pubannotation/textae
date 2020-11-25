@@ -1,7 +1,7 @@
 import post from './post'
 import patch from './patch'
 
-export default class {
+export default class AjaxSender {
   constructor(beforeSend, failHandler, finishHandler) {
     this.beforeSend = beforeSend
     this.failHandler = failHandler

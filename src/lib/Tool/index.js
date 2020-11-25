@@ -4,7 +4,7 @@ import redrawOnResize from './redrawOnResize'
 import setVeilObserver from './setVeilObserver'
 
 // The tool manages interactions between components.
-export default class {
+export default class Tool {
   constructor() {
     this._editors = new EditorContainer()
     redrawOnResize(this._editors)

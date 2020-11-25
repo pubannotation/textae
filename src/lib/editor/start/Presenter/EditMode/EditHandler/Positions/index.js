@@ -1,6 +1,6 @@
 import getPosition from './getPosition'
 
-export default class {
+export default class Positions {
   constructor(annotationData, selectionWrapper) {
     this._annotationData = annotationData
     this._selection = selectionWrapper.selection

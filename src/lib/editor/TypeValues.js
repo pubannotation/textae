@@ -1,7 +1,7 @@
 import getLabel from './getLabel'
 import getUri from './getUri'
 
-export default class {
+export default class TypeValues {
   constructor(typeName, attributes = []) {
     this._typeName = typeName
     this._attributes = attributes

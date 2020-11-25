@@ -4,7 +4,7 @@ import moveIntoWindow from './moveIntoWindow'
 import updateDisplay from './updateDisplay'
 import getMousePoint from './getMousePoint'
 
-export default class {
+export default class Pallet {
   constructor(editor, el) {
     this._el = el
 

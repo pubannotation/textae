@@ -1,6 +1,6 @@
 import changeCssClass from './changeCssClass'
 
-export default class {
+export default class ViewMode {
   constructor(editor) {
     this._editor = editor
   }

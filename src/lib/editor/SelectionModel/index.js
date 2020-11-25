@@ -2,7 +2,7 @@ import IdContainer from './IDContainer'
 
 const kinds = ['span', 'entity', 'relation']
 
-export default class {
+export default class SelectionModel {
   constructor(eventEmitter, annotationData) {
     this._annotationData = annotationData
 

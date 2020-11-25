@@ -28,7 +28,7 @@ import ToggleFlagAttributeToSelectedEntitiesCommand from './ToggleFlagAttributeT
 import MoveEntitiesToSelectedSpansCommand from './MoveEntitiesToSelectedSpansCommand'
 import TypeValues from '../../../TypeValues'
 
-export default class {
+export default class Factory {
   constructor(editor, annotationData, selectionModel, typeDefinition) {
     this._editor = editor
     this._annotationData = annotationData

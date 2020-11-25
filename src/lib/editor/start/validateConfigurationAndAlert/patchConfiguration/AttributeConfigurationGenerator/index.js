@@ -1,7 +1,7 @@
 import fillInferDefinitionFormAnnotation from './fillInferDefinitionFormAnnotation'
 import fillDefaultValueOfSelectionAttributes from './fillDefaultValueOfSelectionAttributes'
 
-export default class {
+export default class AttributeConfigurationGenerator {
   constructor(config = [], annotations = []) {
     this._annotations = annotations
     this._config = config

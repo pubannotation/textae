@@ -3,7 +3,7 @@ import makeJsPlumbInstance from './makeJsPlumbInstance'
 import changeType from './changeType'
 import renderLazy from './renderLazy'
 
-export default class {
+export default class RelationRenderer {
   constructor(editor, annotationData, selectionModel, typeDefinition) {
     this._editor = editor
     this._annotationData = annotationData

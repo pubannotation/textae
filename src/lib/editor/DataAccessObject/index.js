@@ -6,7 +6,7 @@ import post from './post'
 import patch from './patch'
 
 // A sub component to save and load data.
-export default class {
+export default class DataAccessObject {
   constructor(editor) {
     this._editor = editor
 

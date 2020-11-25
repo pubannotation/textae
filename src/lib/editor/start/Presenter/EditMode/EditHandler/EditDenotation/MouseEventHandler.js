@@ -3,7 +3,7 @@ import selectSpan from '../selectSpan'
 import SelectionWrapper from '../SelectionWrapper'
 import getEntityHTMLelementFromChild from '../../../../getEntityHTMLelementFromChild'
 
-export default class {
+export default class MouseEventHandler {
   constructor(editor, annotationData, selectionModel, pallet, spanEditor) {
     this._annotationData = annotationData
     this._selectionModel = selectionModel

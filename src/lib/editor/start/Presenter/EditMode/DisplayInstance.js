@@ -1,4 +1,4 @@
-export default class {
+export default class DisplayInstance {
   constructor(typeGap) {
     // The typeGap is changed from the Setting dialog or
     // by changing mode showing or not showing instances.

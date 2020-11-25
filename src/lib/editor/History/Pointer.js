@@ -1,4 +1,4 @@
-export default class {
+export default class Pointer {
   constructor() {
     this.reset()
   }

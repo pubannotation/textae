@@ -2,7 +2,7 @@ import EditMode from './EditMode'
 import bindModelChange from './bindModelChange'
 import EventMap from './EventMap'
 
-export default class {
+export default class Presenter {
   constructor(
     editor,
     annotationData,

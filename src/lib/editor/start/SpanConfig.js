@@ -27,7 +27,7 @@ const defaults = {
   'non-edge characters': [' ', '\n']
 }
 
-export default class {
+export default class SpanConfig {
   constructor() {
     this._delimiterCharacters = []
     this._blankCharacters = []

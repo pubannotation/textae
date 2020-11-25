@@ -4,7 +4,7 @@ import replicateHandler from './replicateHandler'
 import Horizontal from './Horizontal'
 import Vertical from './Vertical'
 
-export default class {
+export default class EventMap {
   constructor(
     editor,
     commander,

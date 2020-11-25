@@ -1,4 +1,4 @@
-export default class {
+export default class Vertical {
   constructor(editor, selectionModel) {
     this._editor = editor
     this._selectionModel = selectionModel

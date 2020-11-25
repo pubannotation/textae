@@ -2,7 +2,7 @@ import $ from 'jquery'
 import 'jquery-ui/ui/widgets/dialog'
 import createElement from './createElement'
 
-export default class {
+export default class Dialog {
   constructor(title, contentHtml, button, option) {
     this._el = new createElement(title, contentHtml)
     this._$dialog = $(this._el)

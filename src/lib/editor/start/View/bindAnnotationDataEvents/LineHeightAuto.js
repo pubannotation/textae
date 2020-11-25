@@ -1,4 +1,4 @@
-export default class {
+export default class LineHeightAuto {
   constructor(editor, textBox) {
     this._textBox = textBox
     this._enable = false
