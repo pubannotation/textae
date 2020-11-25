@@ -166,10 +166,10 @@ export default class {
       case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
       case MODE.EDIT_DENOTATION_WITH_RELATION:
         this._entityPallet.show()
-        break;
+        break
       case MODE.EDIT_RELATION:
         this._relationPallet.show()
-        break;
+        break
     }
   }
 
