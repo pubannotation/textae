@@ -36,7 +36,7 @@ export default class EditBlock extends Edit {
     )
     const handler = new EditHandler(
       editor,
-      typeDefinition,
+      typeDefinition.block,
       commander,
       annotationData,
       selectionModel,

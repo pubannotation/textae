@@ -21,7 +21,7 @@ export default class EditRelation extends Edit {
     )
 
     const handler = new EditHandler(
-      typeDefinition,
+      typeDefinition.relation,
       commander,
       annotationData,
       selectionModel

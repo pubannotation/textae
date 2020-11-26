@@ -5,18 +5,17 @@ import DefaultHandler from '../DefaultHandler'
 export default class extends DefaultHandler {
   constructor(
     editor,
-    typeDefinition,
+    typeContainer,
     commander,
     annotationData,
     selectionModel,
     editAttribute
   ) {
-    super('denotation', 'entity', typeDefinition.denotation, commander)
+    super('denotation', 'entity', typeContainer, commander)
 
     this._editor = editor
     this._annotationData = annotationData
     this._selectionModel = selectionModel
-    this._typeDefinition = typeDefinition
     this._editAttribute = editAttribute
   }
 
