@@ -1,7 +1,7 @@
 import delegate from 'delegate'
 import CreateTypeDefinitionDialog from '../../../../../component/CreateTypeDefinitionDialog'
 import EditTypeDefinitionDialog from '../../../../../component/EditTypeDefinitionDialog'
-import checkButtonEnable from '../../../../../component/Pallet/bindUserEvents/checkButtonEnable'
+import checkButtonEnable from './checkButtonEnable'
 
 export default function (
   pallet,
