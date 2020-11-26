@@ -11,7 +11,7 @@ export default class EditAttribute {
     bindTextaeEvents(editor, selectionModel, commander)
   }
 
-  addOrEditAttribute(typeDefinition, number) {
+  addOrEditAt(typeDefinition, number) {
     handle(
       this._pallet,
       this._commander,
@@ -21,7 +21,7 @@ export default class EditAttribute {
     )
   }
 
-  deleteAttribute(typeDefinition, number) {
+  deleteAt(typeDefinition, number) {
     const attrDef = typeDefinition.attribute.getAttributeAt(number)
 
     const command = this._commander.factory.removeAttributesOfSelectedEntitiesByPredCommand(

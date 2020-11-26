@@ -57,9 +57,9 @@ export default class extends DefaultHandler {
 
   manipulateAttribute(number, shiftKey) {
     if (shiftKey) {
-      this._editAttribute.deleteAttribute(this._typeDefinition, number)
+      this._editAttribute.deleteAt(this._typeDefinition, number)
     } else {
-      this._editAttribute.addOrEditAttribute(this._typeDefinition, number)
+      this._editAttribute.addOrEditAt(this._typeDefinition, number)
     }
   }
 
