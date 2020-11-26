@@ -134,7 +134,7 @@ export default class Factory {
   ) {
     return new ChangeValueOfAttributeDefinitionAndObjectOfSelectionAttributeCommand(
       this._annotationData,
-      this._typeDefinition.denotation,
+      this._typeDefinition.attribute,
       attributeDefinition,
       index,
       value
