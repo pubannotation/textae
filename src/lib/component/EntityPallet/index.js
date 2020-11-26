@@ -97,7 +97,9 @@ export default class extends Pallet {
       )
     } else {
       // Select the first attribute when type selected.
-      this.showAttribute(this._typeContainer.attributes[0].pred)
+      if (this._typeContainer.attributes.length) {
+        this.showAttribute(this._typeContainer.attributes[0].pred)
+      }
     }
   }
 
