@@ -3,7 +3,7 @@ import bindMouseEvents from './bindMouseEvents'
 import MouseEventHandler from './MouseEventHandler'
 import Edit from '../Edit'
 import EditHandler from './EditHandler'
-import EntityPallet from '../../../../../component/EntityPallet'
+import EntityAndAttributePallet from '../../../../../component/EntityAndAttributePallet'
 
 export default class EditBlock extends Edit {
   constructor(
@@ -17,7 +17,7 @@ export default class EditBlock extends Edit {
     originalData,
     autocompletionWs
   ) {
-    const blockPallet = new EntityPallet(
+    const blockPallet = new EntityAndAttributePallet(
       editor,
       originalData,
       typeDefinition,

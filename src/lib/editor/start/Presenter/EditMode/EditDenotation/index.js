@@ -5,7 +5,7 @@ import Edit from '../Edit'
 import bindMouseEvents from './bindMouseEvents'
 import EditAttribute from './EditAttribute'
 import DeleteAttribute from './DeleteAttribute'
-import EntityPallet from '../../../../../component/EntityPallet'
+import EntityAndAttributePallet from '../../../../../component/EntityAndAttributePallet'
 
 export default class EditDenotation extends Edit {
   constructor(
@@ -27,7 +27,7 @@ export default class EditDenotation extends Edit {
       buttonController,
       spanConfig
     )
-    const denotationPallet = new EntityPallet(
+    const denotationPallet = new EntityAndAttributePallet(
       editor,
       originalData,
       typeDefinition,
