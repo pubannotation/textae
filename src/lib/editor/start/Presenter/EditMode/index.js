@@ -194,18 +194,32 @@ export default class EditMode {
   }
 
   get isEntityPalletShown() {
-    return this._editDenotation.pallet.visibly
+    return this._editDenotation.pallet.visibly || this._editBlock.pallet.visibly
   }
 
   selectLeftAttributeTab() {
-    if (this._editDenotation.pallet.visibly) {
-      this._editDenotation.pallet.selectLeftTab()
+    switch (this._stateMachine.currentState) {
+      case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
+      case MODE.EDIT_DENOTATION_WITH_RELATION:
+        this._editDenotation.pallet.selectLeftTab()
+        break
+      case MODE.EDIT_BLOCK_WITHOUT_RELATION:
+      case MODE.EDIT_BLOCK_WITH_RELATION:
+        this._editBlock.pallet.selectLeftTab()
+        break
     }
   }
 
   selectRightAttributeTab() {
-    if (this._editDenotation.pallet.visibly) {
-      this._editDenotation.pallet.selectRightTab()
+    switch (this._stateMachine.currentState) {
+      case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
+      case MODE.EDIT_DENOTATION_WITH_RELATION:
+        this._editDenotation.pallet.selectRightTab()
+        break
+      case MODE.EDIT_BLOCK_WITHOUT_RELATION:
+      case MODE.EDIT_BLOCK_WITH_RELATION:
+        this._editBlock.pallet.selectRightTab()
+        break
     }
   }
 
