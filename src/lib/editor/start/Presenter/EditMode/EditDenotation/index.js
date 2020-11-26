@@ -38,7 +38,8 @@ export default class EditDenotation extends Edit {
       editor,
       annotationData,
       selectionModel,
-      denotationPallet
+      denotationPallet,
+      typeDefinition
     )
 
     const handler = new EditHandler(
