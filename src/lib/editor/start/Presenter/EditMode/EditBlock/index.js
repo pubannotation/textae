@@ -34,15 +34,13 @@ export default class EditBlock extends Edit {
       selectionModel,
       blockPallet
     )
-    const deleteAttribute = new DeleteAttribute(commander, annotationData)
     const handler = new EditHandler(
       editor,
       typeDefinition,
       commander,
       annotationData,
       selectionModel,
-      editAttribute,
-      deleteAttribute
+      editAttribute
     )
 
     const spanEditor = new SpanEditor(

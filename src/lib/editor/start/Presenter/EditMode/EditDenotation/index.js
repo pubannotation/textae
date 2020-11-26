@@ -41,7 +41,6 @@ export default class EditDenotation extends Edit {
       selectionModel,
       denotationPallet
     )
-    const deleteAttribute = new DeleteAttribute(commander, annotationData)
 
     const handler = new EditHandler(
       editor,
@@ -49,8 +48,7 @@ export default class EditDenotation extends Edit {
       commander,
       annotationData,
       selectionModel,
-      editAttribute,
-      deleteAttribute
+      editAttribute
     )
 
     super(

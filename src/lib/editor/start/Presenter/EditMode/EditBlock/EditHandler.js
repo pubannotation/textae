@@ -9,8 +9,7 @@ export default class extends DefaultHandler {
     commander,
     annotationData,
     selectionModel,
-    editAttribute,
-    deleteAttribute
+    editAttribute
   ) {
     super('block', 'entity', typeDefinition.block, commander)
 
@@ -19,7 +18,6 @@ export default class extends DefaultHandler {
     this._annotationData = annotationData
     this._typeDefinition = typeDefinition
     this._editAttribute = editAttribute
-    this._deleteAttribute = deleteAttribute
   }
 
   jsPlumbConnectionClicked(_, event) {
@@ -59,7 +57,7 @@ export default class extends DefaultHandler {
 
   manipulateAttribute(number, shiftKey) {
     if (shiftKey) {
-      this._deleteAttribute.deleteAttribute(this._typeDefinition, number)
+      this._editAttribute.deleteAttribute(this._typeDefinition, number)
     } else {
       this._editAttribute.addOrEditAttribute(this._typeDefinition, number)
     }
