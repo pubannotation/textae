@@ -41,7 +41,7 @@ export default class EditBlock extends Edit {
       commander,
       'block',
       handler,
-      () => autocompletionWs || this._typeDefinition.autocompletionWs,
+      () => autocompletionWs || typeDefinition.autocompletionWs,
       typeDefinition.block
     )
 

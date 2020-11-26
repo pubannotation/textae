@@ -34,7 +34,7 @@ export default class EditRelation extends Edit {
       commander,
       'relation',
       handler,
-      () => autocompletionWs || this._typeDefinition.autocompletionWs,
+      () => autocompletionWs || typeDefinition.autocompletionWs,
       typeDefinition.relation
     )
 

@@ -61,7 +61,7 @@ export default class EditDenotation extends Edit {
       commander,
       'denotation',
       handler,
-      () => autocompletionWs || this._typeDefinition.autocompletionWs,
+      () => autocompletionWs || typeDefinition.autocompletionWs,
       typeDefinition.denotation
     )
 
