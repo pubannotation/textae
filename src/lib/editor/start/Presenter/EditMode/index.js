@@ -193,7 +193,7 @@ export default class EditMode {
     this._selectionModel.clear()
   }
 
-  get isEntityPalletShown() {
+  get isEntityAndAttributePalletShown() {
     return this._editDenotation.pallet.visibly || this._editBlock.pallet.visibly
   }
 
