@@ -1,9 +1,9 @@
 import alertifyjs from 'alertifyjs'
 import bindTextaeEvents from './bindTextaeEvents'
-import createNumericAttributeOrShowEditNumericAttributeDialog from './handle/createNumericAttributeOrShowEditNumericAttributeDialog'
-import createSelectionAttributeOrShowSelectionAttributePallet from './handle/createSelectionAttributeOrShowSelectionAttributePallet'
-import createStringAttributeOrShowEditStringAttributeDialog from './handle/createStringAttributeOrShowEditStringAttributeDialog'
-import toggleFlagAttribute from './handle/toggleFlagAttribute'
+import createNumericAttributeOrShowEditNumericAttributeDialog from './createNumericAttributeOrShowEditNumericAttributeDialog'
+import createSelectionAttributeOrShowSelectionAttributePallet from './createSelectionAttributeOrShowSelectionAttributePallet'
+import createStringAttributeOrShowEditStringAttributeDialog from './createStringAttributeOrShowEditStringAttributeDialog'
+import toggleFlagAttribute from './toggleFlagAttribute'
 
 export default class EditAttribute {
   constructor(
