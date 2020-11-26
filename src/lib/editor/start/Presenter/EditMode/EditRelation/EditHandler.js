@@ -15,13 +15,7 @@ export default class extends DefaultHandler {
 
   changeLabelHandler(autocompletionWs) {
     if (this._selectionModel.relation.some) {
-      const type = this._getSelectedType()
-      const dialog = new EditRelationDialog(
-        type,
-        this._typeContainer,
-        autocompletionWs
-      )
-      dialog.promise.then(({ value, label }) => {
+      const done = ({ value, label }) => {
         const commands = this._commander.factory.changeRelationLabelCommand(
           label,
           value,
@@ -31,7 +25,15 @@ export default class extends DefaultHandler {
         if (value) {
           this._commander.invoke(commands)
         }
-      })
+      }
+
+      const type = this._getSelectedType()
+      const dialog = new EditRelationDialog(
+        type,
+        this._typeContainer,
+        autocompletionWs
+      )
+      dialog.promise.then(done)
       dialog.open()
     }
   }
