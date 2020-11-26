@@ -7,20 +7,23 @@ import openEditStringAttributeDialog from '../openEditStringAttributeDialog'
 export default function (eventEmitter, commander, selectionModelEntity) {
   // Bind events about attributes.
   eventEmitter
-    .on(`textae.entityPallet.attribute.create-predicate-button.click`, () => {
-      const dialog = new CreateAttributeDefinitionDialog()
-      dialog.promise.then((attrDef) => {
-        // Predicate is necessary and Ignore without predicate.
-        if (attrDef.pred) {
-          commander.invoke(
-            commander.factory.createAttributeDefinitionCommand(attrDef)
-          )
-        }
-      })
-      dialog.open()
-    })
     .on(
-      `textae.entityPallet.attribute.edit-predicate-button.click`,
+      `textae.entityAndAttributePallet.attribute.create-predicate-button.click`,
+      () => {
+        const dialog = new CreateAttributeDefinitionDialog()
+        dialog.promise.then((attrDef) => {
+          // Predicate is necessary and Ignore without predicate.
+          if (attrDef.pred) {
+            commander.invoke(
+              commander.factory.createAttributeDefinitionCommand(attrDef)
+            )
+          }
+        })
+        dialog.open()
+      }
+    )
+    .on(
+      `textae.entityAndAttributePallet.attribute.edit-predicate-button.click`,
       (attrDef) => {
         const dialog = new EditAttributeDefinitionDialog(attrDef)
         dialog.promise.then((changedProperties) => {
@@ -38,28 +41,33 @@ export default function (eventEmitter, commander, selectionModelEntity) {
       }
     )
     .on(
-      `textae.entityPallet.attribute.delete-predicate-button.click`,
+      `textae.entityAndAttributePallet.attribute.delete-predicate-button.click`,
       (attrDef) =>
         commander.invoke(
           commander.factory.deleteAttributeDefinitionCommand(attrDef)
         )
     )
-    .on(`textae.entityPallet.attribute.add-value-button.click`, (attrDef) => {
-      const dialog = new EditValueToAttributeDefinitionDialog(attrDef.valueType)
-      dialog.promise.then((value) => {
-        if (value.range || value.id || value.pattern) {
-          commander.invoke(
-            commander.factory.addValueToAttributeDefinitionCommand(
-              attrDef,
-              value
-            )
-          )
-        }
-      })
-      dialog.open()
-    })
     .on(
-      `textae.entityPallet.attribute.edit-value-button.click`,
+      `textae.entityAndAttributePallet.attribute.add-value-button.click`,
+      (attrDef) => {
+        const dialog = new EditValueToAttributeDefinitionDialog(
+          attrDef.valueType
+        )
+        dialog.promise.then((value) => {
+          if (value.range || value.id || value.pattern) {
+            commander.invoke(
+              commander.factory.addValueToAttributeDefinitionCommand(
+                attrDef,
+                value
+              )
+            )
+          }
+        })
+        dialog.open()
+      }
+    )
+    .on(
+      `textae.entityAndAttributePallet.attribute.edit-value-button.click`,
       (attrDef, index) => {
         const oldValue = attrDef.JSON.values[index]
         const dialog = new EditValueToAttributeDefinitionDialog(
@@ -92,7 +100,7 @@ export default function (eventEmitter, commander, selectionModelEntity) {
       }
     )
     .on(
-      `textae.entityPallet.attribute.remove-value-button.click`,
+      `textae.entityAndAttributePallet.attribute.remove-value-button.click`,
       (attrDef, index) =>
         commander.invoke(
           commander.factory.removeValueFromAttributeDefinitionCommand(
@@ -101,12 +109,14 @@ export default function (eventEmitter, commander, selectionModelEntity) {
           )
         )
     )
-    .on('textae.entityPallet.attribute.add-button.click', (attrDef) =>
-      commander.invoke(
-        commander.factory.createAttributeToSelectedEntitiesCommand(attrDef)
-      )
+    .on(
+      'textae.entityAndAttributePallet.attribute.add-button.click',
+      (attrDef) =>
+        commander.invoke(
+          commander.factory.createAttributeToSelectedEntitiesCommand(attrDef)
+        )
     )
-    .on('textae.entityPallet.attribute.object.edit', (attrDef) => {
+    .on('textae.entityAndAttributePallet.attribute.object.edit', (attrDef) => {
       const selectedEntityWithSamePred = selectionModelEntity.findSelectedWithSamePredicateAttribute(
         attrDef
       )
@@ -125,16 +135,21 @@ export default function (eventEmitter, commander, selectionModelEntity) {
           throw new Error(`Invalid attribute valueType: ${attrDef.valueType}`)
       }
     })
-    .on('textae.entityPallet.attribute.remove-button.click', (attrDef) =>
-      commander.invoke(
-        commander.factory.removeAttributesOfSelectedEntitiesByPredCommand(
-          attrDef
+    .on(
+      'textae.entityAndAttributePallet.attribute.remove-button.click',
+      (attrDef) =>
+        commander.invoke(
+          commander.factory.removeAttributesOfSelectedEntitiesByPredCommand(
+            attrDef
+          )
         )
-      )
     )
-    .on('textae.entityPallet.attribute.tab.drop', (oldIndex, newIndex) => {
-      commander.invoke(
-        commander.factory.moveAttributeDefintionComannd(oldIndex, newIndex)
-      )
-    })
+    .on(
+      'textae.entityAndAttributePallet.attribute.tab.drop',
+      (oldIndex, newIndex) => {
+        commander.invoke(
+          commander.factory.moveAttributeDefintionComannd(oldIndex, newIndex)
+        )
+      }
+    )
 }

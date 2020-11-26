@@ -1,7 +1,7 @@
 export default function (editor, selectionModel, commander) {
   editor.eventEmitter
     .on(
-      'textae.entityPallet.attribute.selection-attribute-label.click',
+      'textae.entityAndAttributePallet.attribute.selection-attribute-label.click',
       (attrDef, newObj) => {
         if (selectionModel.entity.isSamePredAttrributeSelected(attrDef.pred)) {
           const command = commander.factory.changeAttributesOfSelectedEntitiesWithSamePred(

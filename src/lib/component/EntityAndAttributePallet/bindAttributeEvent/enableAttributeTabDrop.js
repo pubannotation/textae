@@ -24,7 +24,7 @@ export default function (el, eventEmitter) {
     const newIndex = parseInt(e.target.dataset.index)
 
     eventEmitter.emit(
-      `textae.entityPallet.attribute.tab.drop`,
+      `textae.entityAndAttributePallet.attribute.tab.drop`,
       oldIndex,
       oldIndex < newIndex ? newIndex - 1 : newIndex
     )
