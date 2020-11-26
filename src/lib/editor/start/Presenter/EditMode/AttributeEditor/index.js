@@ -1,5 +1,9 @@
+import alertifyjs from 'alertifyjs'
 import bindTextaeEvents from './bindTextaeEvents'
-import handle from './handle'
+import createNumericAttributeOrShowEditNumericAttributeDialog from './handle/createNumericAttributeOrShowEditNumericAttributeDialog'
+import createSelectionAttributeOrShowSelectionAttributePallet from './handle/createSelectionAttributeOrShowSelectionAttributePallet'
+import createStringAttributeOrShowEditStringAttributeDialog from './handle/createStringAttributeOrShowEditStringAttributeDialog'
+import toggleFlagAttribute from './handle/toggleFlagAttribute'
 
 export default class EditAttribute {
   constructor(
@@ -20,13 +24,44 @@ export default class EditAttribute {
   }
 
   addOrEditAt(number) {
-    handle(
-      this._pallet,
-      this._commander,
-      this._selectionModel,
-      this._typeDefinition,
-      number
-    )
+    this._pallet.hide()
+
+    const attrDef = this._typeDefinition.attribute.getAttributeAt(number)
+
+    if (!attrDef) {
+      alertifyjs.warning(`Attribute No.${number} is not defined`)
+      return
+    }
+
+    switch (attrDef.valueType) {
+      case 'flag':
+        toggleFlagAttribute(attrDef, this._commander)
+        break
+      case 'numeric':
+        createNumericAttributeOrShowEditNumericAttributeDialog(
+          this._selectionModel,
+          attrDef,
+          this._commander
+        )
+        break
+      case 'selection':
+        createSelectionAttributeOrShowSelectionAttributePallet(
+          this._selectionModel,
+          attrDef,
+          this._commander,
+          this._pallet
+        )
+        break
+      case 'string':
+        createStringAttributeOrShowEditStringAttributeDialog(
+          this._selectionModel,
+          attrDef,
+          this._commander
+        )
+        break
+      default:
+        throw `${attrDef.valueType} is unknown attribute`
+    }
   }
 
   deleteAt(number) {
