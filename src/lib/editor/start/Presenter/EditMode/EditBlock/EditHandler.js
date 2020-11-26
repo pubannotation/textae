@@ -8,7 +8,9 @@ export default class extends DefaultHandler {
     typeDefinition,
     commander,
     annotationData,
-    selectionModel
+    selectionModel,
+    editAttribute,
+    deleteAttribute
   ) {
     super('block', 'entity', typeDefinition.block, commander)
 
@@ -16,6 +18,8 @@ export default class extends DefaultHandler {
     this._selectionModel = selectionModel
     this._annotationData = annotationData
     this._typeDefinition = typeDefinition
+    this._editAttribute = editAttribute
+    this._deleteAttribute = deleteAttribute
   }
 
   jsPlumbConnectionClicked(_, event) {
@@ -50,6 +54,14 @@ export default class extends DefaultHandler {
       )
       dialog.promise.then(done)
       dialog.open()
+    }
+  }
+
+  manipulateAttribute(number, shiftKey) {
+    if (shiftKey) {
+      this._deleteAttribute.handle(this._typeDefinition, number)
+    } else {
+      this._editAttribute.handle(this._typeDefinition, number)
     }
   }
 
