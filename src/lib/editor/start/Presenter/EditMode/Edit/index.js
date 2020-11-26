@@ -22,11 +22,23 @@ export default class Edit {
       pallet,
       editor,
       commander,
-      editModeName,
       handler,
       getAutocompletionWs,
       typeContainer
     )
+
+    editor.eventEmitter
+      .on('textae.editor.unselect', () => pallet.hide()) // Close pallet when selecting other editor.
+      .on('textae.history.change', () => pallet.updateDisplay()) // Update save config button when changing history and savigng configuration.
+      .on('textae.configuration.save', () => pallet.updateDisplay())
+      .on(`textae.typeDefinition.type.lock`, () => pallet.updateDisplay())
+      .on(`textae.typeDefinition.${editModeName}.type.change`, () =>
+        pallet.updateDisplay()
+      )
+      .on(`textae.typeDefinition.${editModeName}.type.default.change`, () =>
+        pallet.updateDisplay()
+      )
+
     editor[0].appendChild(pallet.el)
   }
 
