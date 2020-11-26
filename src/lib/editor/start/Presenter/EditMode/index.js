@@ -31,7 +31,7 @@ export default class EditMode {
       typeDefinition,
       spanConfig,
       originalData,
-      () => this._autocompletionWs
+      autocompletionWs
     )
 
     this._editBlock = new EditBlock(
@@ -43,7 +43,7 @@ export default class EditMode {
       buttonController,
       typeDefinition,
       originalData,
-      () => this._autocompletionWs
+      autocompletionWs
     )
 
     this._editRelation = new EditRelation(
@@ -53,7 +53,7 @@ export default class EditMode {
       commander,
       typeDefinition,
       originalData,
-      () => this._autocompletionWs
+      autocompletionWs
     )
 
     this._listeners = []
@@ -211,12 +211,6 @@ export default class EditMode {
 
   get displayInstance() {
     return this._displayInstance
-  }
-
-  get _autocompletionWs() {
-    return (
-      this._autocompletionWsFromParams || this._typeDefinition.autocompletionWs
-    )
   }
 
   _getHandler() {

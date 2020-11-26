@@ -18,7 +18,7 @@ export default class EditDenotation extends Edit {
     typeDefinition,
     spanConfig,
     originalData,
-    getAutocompletionWs
+    autocompletionWs
   ) {
     const spanEditor = new SpanEditor(
       editor,
@@ -61,7 +61,7 @@ export default class EditDenotation extends Edit {
       commander,
       'denotation',
       handler,
-      getAutocompletionWs,
+      () => autocompletionWs || this._typeDefinition.autocompletionWs,
       typeDefinition.denotation
     )
 

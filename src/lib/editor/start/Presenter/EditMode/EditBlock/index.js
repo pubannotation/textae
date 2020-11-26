@@ -16,7 +16,7 @@ export default class EditBlock extends Edit {
     buttonController,
     typeDefinition,
     originalData,
-    getAutocompletionWs
+    autocompletionWs
   ) {
     const blockPallet = new EntityPallet(
       editor,
@@ -41,7 +41,7 @@ export default class EditBlock extends Edit {
       commander,
       'block',
       handler,
-      getAutocompletionWs,
+      () => autocompletionWs || this._typeDefinition.autocompletionWs,
       typeDefinition.block
     )
 

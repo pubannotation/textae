@@ -13,7 +13,7 @@ export default class EditRelation extends Edit {
     commander,
     typeDefinition,
     originalData,
-    getAutocompletionWs
+    autocompletionWs
   ) {
     const relationPallet = new RelationPallet(
       editor,
@@ -34,7 +34,7 @@ export default class EditRelation extends Edit {
       commander,
       'relation',
       handler,
-      getAutocompletionWs,
+      () => autocompletionWs || this._typeDefinition.autocompletionWs,
       typeDefinition.relation
     )
 
