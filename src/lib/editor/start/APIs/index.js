@@ -1,7 +1,6 @@
 import handle from './handle'
 import KeyApiMap from './KeyApiMap'
 import IconApiMap from './IconApiMap'
-import PalletApiMap from './PalletApiMap'
 
 export default class APIs {
   constructor(
@@ -19,7 +18,6 @@ export default class APIs {
       view,
       buttonController
     )
-    this._palletApiMap = new PalletApiMap(persistenceInterface)
     this._view = view
     this._buttonController = buttonController
     this._presenter = presenter
@@ -43,10 +41,6 @@ export default class APIs {
 
   handleButtonClick(key) {
     handle(this._iconApiMap, key, {})
-  }
-
-  handlePalletClick(key) {
-    handle(this._palletApiMap, key)
   }
 
   redraw() {
