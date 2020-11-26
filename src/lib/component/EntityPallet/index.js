@@ -11,8 +11,7 @@ export default class extends Pallet {
     originalData,
     typeDefinition,
     typeContainer,
-    selectionModelEntity,
-    editModeName
+    selectionModelEntity
   ) {
     super(editor, createPalletElement('entity'))
 

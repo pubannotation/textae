@@ -22,8 +22,7 @@ export default class EditBlock extends Edit {
       originalData,
       typeDefinition,
       typeDefinition.block,
-      selectionModel.entity,
-      'block'
+      selectionModel.entity
     )
 
     const handler = new EditHandler(
