@@ -6,7 +6,6 @@ import bindMouseEvents from './bindMouseEvents'
 import EditAttribute from './EditAttribute'
 import DeleteAttribute from './DeleteAttribute'
 import EntityPallet from '../../../../../component/EntityPallet'
-import initPallet from '../initPallet'
 
 export default class EditDenotation extends Edit {
   constructor(
@@ -55,16 +54,6 @@ export default class EditDenotation extends Edit {
       deleteAttribute
     )
 
-    initPallet(
-      denotationPallet,
-      editor,
-      commander,
-      'denotation',
-      handler,
-      () => autocompletionWs || typeDefinition.autocompletionWs,
-      typeDefinition.denotation
-    )
-
     super(
       editor,
       bindMouseEvents,
@@ -76,7 +65,11 @@ export default class EditDenotation extends Edit {
         spanEditor
       ),
       handler,
-      denotationPallet
+      denotationPallet,
+      commander,
+      'denotation',
+      () => autocompletionWs || typeDefinition.autocompletionWs,
+      typeDefinition.denotation
     )
   }
 }

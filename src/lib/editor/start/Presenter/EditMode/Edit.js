@@ -1,10 +1,32 @@
+import initPallet from './initPallet'
+
 export default class Edit {
-  constructor(editor, bindMouseEvents, mouseEventHandler, handler, pallet) {
+  constructor(
+    editor,
+    bindMouseEvents,
+    mouseEventHandler,
+    handler,
+    pallet,
+    commander,
+    editModeName,
+    getAutocompletionWs,
+    typeContainer
+  ) {
     this._editor = editor
     this._bindMouseEvents = bindMouseEvents
     this._mouseEventHandler = mouseEventHandler
     this._handler = handler
     this._pallet = pallet
+
+    initPallet(
+      pallet,
+      editor,
+      commander,
+      editModeName,
+      handler,
+      getAutocompletionWs,
+      typeContainer
+    )
   }
 
   init() {

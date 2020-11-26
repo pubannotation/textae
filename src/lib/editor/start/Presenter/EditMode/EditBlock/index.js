@@ -4,7 +4,6 @@ import MouseEventHandler from './MouseEventHandler'
 import Edit from '../Edit'
 import EditHandler from './EditHandler'
 import EntityPallet from '../../../../../component/EntityPallet'
-import initPallet from '../initPallet'
 
 export default class EditBlock extends Edit {
   constructor(
@@ -35,16 +34,6 @@ export default class EditBlock extends Edit {
       selectionModel
     )
 
-    initPallet(
-      blockPallet,
-      editor,
-      commander,
-      'block',
-      handler,
-      () => autocompletionWs || typeDefinition.autocompletionWs,
-      typeDefinition.block
-    )
-
     const spanEditor = new SpanEditor(
       editor,
       annotationData,
@@ -59,7 +48,11 @@ export default class EditBlock extends Edit {
       bindMouseEvents,
       new MouseEventHandler(editor, annotationData, selectionModel, spanEditor),
       handler,
-      blockPallet
+      blockPallet,
+      commander,
+      'block',
+      () => autocompletionWs || typeDefinition.autocompletionWs,
+      typeDefinition.block
     )
   }
 }

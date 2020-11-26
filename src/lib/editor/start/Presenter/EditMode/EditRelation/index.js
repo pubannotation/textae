@@ -3,7 +3,6 @@ import bindMouseEvents from './bindMouseEvents'
 import MouseEventHandler from './MouseEventHandler'
 import Edit from '../Edit'
 import RelationPallet from '../../../../../component/RelationPallet'
-import initPallet from '../initPallet'
 
 export default class EditRelation extends Edit {
   constructor(
@@ -28,16 +27,6 @@ export default class EditRelation extends Edit {
       selectionModel
     )
 
-    initPallet(
-      relationPallet,
-      editor,
-      commander,
-      'relation',
-      handler,
-      () => autocompletionWs || typeDefinition.autocompletionWs,
-      typeDefinition.relation
-    )
-
     super(
       editor,
       bindMouseEvents,
@@ -49,7 +38,11 @@ export default class EditRelation extends Edit {
         relationPallet
       ),
       handler,
-      relationPallet
+      relationPallet,
+      commander,
+      'relation',
+      () => autocompletionWs || typeDefinition.autocompletionWs,
+      typeDefinition.relation
     )
   }
 }
