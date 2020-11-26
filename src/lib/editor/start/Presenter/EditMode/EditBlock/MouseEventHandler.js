@@ -4,16 +4,24 @@ import SelectionWrapper from '../SelectionWrapper'
 import getEntityHTMLelementFromChild from '../../../getEntityHTMLelementFromChild'
 
 export default class MouseEventHandler {
-  constructor(editor, annotationData, selectionModel, spanEditor) {
+  constructor(editor, annotationData, selectionModel, spanEditor, pallet) {
     this._editor = editor
     this._annotationData = annotationData
     this._selectionModel = selectionModel
     this._spanEditor = spanEditor
+    this._pallet = pallet
+  }
+
+  bodyClicked() {
+    this._pallet.hide()
+    this._selectionModel.clear()
   }
 
   textBoxClicked(e) {
     const selection = window.getSelection()
+
     if (selection.type === 'Caret') {
+      this._pallet.hide()
       this._selectionModel.clear()
     }
 
