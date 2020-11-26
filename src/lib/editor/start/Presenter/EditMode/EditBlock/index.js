@@ -5,7 +5,6 @@ import Edit from '../Edit'
 import EditHandler from './EditHandler'
 import EntityAndAttributePallet from '../../../../../component/EntityAndAttributePallet'
 import EditAttribute from '../EditAttribute'
-import DeleteAttribute from '../DeleteAttribute'
 
 export default class EditBlock extends Edit {
   constructor(

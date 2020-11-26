@@ -4,7 +4,6 @@ import SpanEditor from './SpanEditor'
 import Edit from '../Edit'
 import bindMouseEvents from './bindMouseEvents'
 import EditAttribute from '../EditAttribute'
-import DeleteAttribute from '../DeleteAttribute'
 import EntityAndAttributePallet from '../../../../../component/EntityAndAttributePallet'
 
 export default class EditDenotation extends Edit {
