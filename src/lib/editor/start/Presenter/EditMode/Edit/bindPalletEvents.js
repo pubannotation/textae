@@ -1,5 +1,7 @@
+import delegate from 'delegate'
 import CreateTypeDefinitionDialog from '../../../../../component/CreateTypeDefinitionDialog'
 import EditTypeDefinitionDialog from '../../../../../component/EditTypeDefinitionDialog'
+import checkButtonEnable from '../../../../../component/Pallet/bindUserEvents/checkButtonEnable'
 
 export default function (
   pallet,
@@ -10,8 +12,11 @@ export default function (
   getAutocompletionWs,
   typeContainer
 ) {
-  editor.eventEmitter
-    .on(`textae.${name}Pallet.add-button.click`, () => {
+  delegate(
+    pallet.el,
+    `.textae-editor__type-pallet__add-button`,
+    'click',
+    () => {
       const dialog = new CreateTypeDefinitionDialog(
         typeContainer,
         getAutocompletionWs()
@@ -20,40 +25,74 @@ export default function (
         commander.invoke(handler.addType(newType))
       )
       dialog.open()
-    })
-    .on(`textae.${name}Pallet.read-button.click`, () =>
-      editor.api.handlePalletClick('textae.pallet.button.read.click')
+    }
+  )
+
+  delegate(pallet.el, `.textae-editor__type-pallet__read-button`, 'click', () =>
+    editor.api.handlePalletClick('textae.pallet.button.read.click')
+  )
+
+  delegate(
+    pallet.el,
+    '.textae-editor__type-pallet__write-button',
+    'click',
+    () => editor.api.handlePalletClick('textae.pallet.button.write.click')
+  )
+
+  delegate(pallet.el, '.textae-editor__type-pallet__label', 'click', (e) =>
+    commander.invoke(
+      handler.changeTypeOfSelectedElement(e.delegateTarget.dataset.id)
     )
-    .on(`textae.${name}Pallet.write-button.click`, () =>
-      editor.api.handlePalletClick('textae.pallet.button.write.click')
-    )
-    .on(`textae.${name}Pallet.item.label.click`, (typeName) =>
-      commander.invoke(handler.changeTypeOfSelectedElement(typeName))
-    )
-    .on(`textae.${name}Pallet.item.select-all-button.click`, (typeName) =>
-      handler.selectAll(typeName)
-    )
-    .on(
-      `textae.${name}Pallet.item.edit-button.click`,
-      (id, color, isDefault) => {
-        const dialog = new EditTypeDefinitionDialog(
-          typeContainer,
-          id,
-          color,
-          isDefault,
-          getAutocompletionWs()
-        )
-        dialog.promise.then(({ id, changedProperties }) => {
-          if (changedProperties.size) {
-            commander.invoke(handler.changeType(id, changedProperties))
-          }
-        })
-        dialog.open()
+  )
+
+  delegate(
+    pallet.el,
+    '.textae-editor__type-pallet__select-all',
+    'click',
+    (e) => {
+      if (!checkButtonEnable(e.target)) {
+        return
       }
+
+      handler.selectAll(e.delegateTarget.dataset.id)
+    }
+  )
+
+  delegate(
+    pallet.el,
+    '.textae-editor__type-pallet__edit-type',
+    'click',
+    (e) => {
+      const dialog = new EditTypeDefinitionDialog(
+        typeContainer,
+        e.target.dataset.id,
+        e.target.dataset.color.toLowerCase(),
+        e.target.dataset.isDefault === 'true',
+        getAutocompletionWs()
+      )
+      dialog.promise.then(({ id, changedProperties }) => {
+        if (changedProperties.size) {
+          commander.invoke(handler.changeType(id, changedProperties))
+        }
+      })
+      dialog.open()
+    }
+  )
+
+  delegate(pallet.el, '.textae-editor__type-pallet__remove', 'click', (e) => {
+    if (!checkButtonEnable(e.target)) {
+      return
+    }
+
+    commander.invoke(
+      handler.removeType(
+        e.delegateTarget.dataset.id,
+        e.delegateTarget.dataset.label
+      )
     )
-    .on(`textae.${name}Pallet.item.remove-button.click`, (id, label) =>
-      commander.invoke(handler.removeType(id, label))
-    )
+  })
+
+  editor.eventEmitter
     .on('textae.editor.unselect', () => pallet.hide()) // Close pallet when selecting other editor.
     .on('textae.history.change', () => pallet.updateDisplay()) // Update save config button when changing history and savigng configuration.
     .on('textae.configuration.save', () => pallet.updateDisplay())
