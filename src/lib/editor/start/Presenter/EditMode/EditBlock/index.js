@@ -4,8 +4,8 @@ import MouseEventHandler from './MouseEventHandler'
 import Edit from '../Edit'
 import EditHandler from './EditHandler'
 import EntityAndAttributePallet from '../../../../../component/EntityAndAttributePallet'
-import EditAttribute from '../EditDenotation/EditAttribute'
-import DeleteAttribute from '../EditDenotation/DeleteAttribute'
+import EditAttribute from '../EditAttribute'
+import DeleteAttribute from '../DeleteAttribute'
 
 export default class EditBlock extends Edit {
   constructor(
