@@ -80,6 +80,14 @@
         "label": "production company"
       }
     ],
+    "block types": [
+      {
+        "id": "block1",
+        "color": "#dd7897",
+        "label": "Label of block1",
+        "default": true
+      }
+    ],
     "relation types": [
       {
         "color": "#5CFF0A",

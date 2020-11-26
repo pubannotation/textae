@@ -19,6 +19,7 @@ export default class Renderer {
       annotationData,
       selectionModel,
       typeDefinition.denotation,
+      typeDefinition.block,
       gridRenderer,
       typeGap
     )

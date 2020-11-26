@@ -7,12 +7,14 @@ export default class EntityRenderer {
   constructor(
     annotationData,
     selectionModel,
-    typeCantainer,
+    typeCantainerForDenotation,
+    typeCantainerForBlock,
     gridRenderer,
     typeGap
   ) {
     this._annotationData = annotationData
-    this._typeContainer = typeCantainer
+    this._typeContainerForDenotation = typeCantainerForDenotation
+    this._typeContainerForBlock = typeCantainerForBlock
     this._gridRenderer = gridRenderer
     this._selectionModel = selectionModel
     this._typeGap = typeGap
@@ -20,7 +22,7 @@ export default class EntityRenderer {
 
   render(entity) {
     create(
-      this._typeContainer,
+      this._getTypeContainerFor(entity),
       this._gridRenderer,
       entity,
       this._annotationData.namespace
@@ -32,7 +34,7 @@ export default class EntityRenderer {
   change(entity) {
     entity.updateElement(
       this._annotationData.namespace,
-      this._typeContainer,
+      this._getTypeContainerFor(entity),
       this._selectionModel.entity.has(entity.id)
     )
 
@@ -68,6 +70,16 @@ export default class EntityRenderer {
   updateEntityHtmlelementAll() {
     for (const entity of this._annotationData.entity.all) {
       this.change(entity)
+    }
+  }
+
+  _getTypeContainerFor(entity) {
+    if (entity.isDenotation) {
+      return this._typeContainerForDenotation
+    } else if (entity.isBlock) {
+      return this._typeContainerForBlock
+    } else {
+      throw 'unknown entity type'
     }
   }
 }
