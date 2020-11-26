@@ -4,7 +4,7 @@ export default class DeleteAttribute {
     this._annotationData = annotationData
   }
 
-  handle(typeDefinition, number) {
+  deleteAttribute(typeDefinition, number) {
     const attrDef = typeDefinition.attribute.getAttributeAt(number)
 
     const command = this._commander.factory.removeAttributesOfSelectedEntitiesByPredCommand(
