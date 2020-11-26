@@ -1,4 +1,4 @@
-import initPallet from './initPallet'
+import bindPalletEvents from './bindPalletEvents'
 
 export default class Edit {
   constructor(
@@ -18,7 +18,7 @@ export default class Edit {
     this._handler = handler
     this._pallet = pallet
 
-    initPallet(
+    bindPalletEvents(
       pallet,
       editor,
       commander,
