@@ -11,7 +11,7 @@ export default class EditAttribute {
     bindTextaeEvents(editor, selectionModel, commander)
   }
 
-  handle(typeDefinition, number) {
+  addOrEditAttribute(typeDefinition, number) {
     handle(
       this._pallet,
       this._commander,
