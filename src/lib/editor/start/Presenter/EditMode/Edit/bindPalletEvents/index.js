@@ -27,17 +27,6 @@ export default function (
     }
   )
 
-  delegate(pallet.el, `.textae-editor__type-pallet__read-button`, 'click', () =>
-    editor.api.handlePalletClick('textae.pallet.button.read.click')
-  )
-
-  delegate(
-    pallet.el,
-    '.textae-editor__type-pallet__write-button',
-    'click',
-    () => editor.api.handlePalletClick('textae.pallet.button.write.click')
-  )
-
   delegate(pallet.el, '.textae-editor__type-pallet__label', 'click', (e) =>
     commander.invoke(
       handler.changeTypeOfSelectedElement(e.delegateTarget.dataset.id)

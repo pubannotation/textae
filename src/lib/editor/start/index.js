@@ -147,6 +147,14 @@ export default function (
     buttonController
   )
 
+  editor.eventEmitter
+    .on('textae.pallet.read-button.click', () =>
+      persistenceInterface.importConfiguration()
+    )
+    .on('textae.pallet.write-button.click', () =>
+      persistenceInterface.uploadConfiguration()
+    )
+
   // Add tabIndex to listen to keyboard events.
   editor[0].tabIndex = -1
 

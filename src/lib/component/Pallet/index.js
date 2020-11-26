@@ -24,6 +24,14 @@ export default class Pallet {
     // 4. Refocusing on a focused DOM element has no side effects
     delegate(el, '[type="button"]', 'click', () => editor.focus())
 
+    delegate(el, `.textae-editor__type-pallet__read-button`, 'click', () =>
+      editor.eventEmitter.emit('textae.pallet.read-button.click')
+    )
+
+    delegate(el, '.textae-editor__type-pallet__write-button', 'click', () =>
+      editor.eventEmitter.emit('textae.pallet.write-button.click')
+    )
+
     this.hide()
   }
 
