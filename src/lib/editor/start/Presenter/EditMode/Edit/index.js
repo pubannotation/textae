@@ -8,7 +8,6 @@ export default class Edit {
     handler,
     pallet,
     commander,
-    editModeName,
     getAutocompletionWs,
     typeContainer
   ) {
@@ -32,12 +31,6 @@ export default class Edit {
       .on('textae.history.change', () => pallet.updateDisplay()) // Update save config button when changing history and savigng configuration.
       .on('textae.configuration.save', () => pallet.updateDisplay())
       .on(`textae.typeDefinition.type.lock`, () => pallet.updateDisplay())
-      .on(`textae.typeDefinition.${editModeName}.type.change`, () =>
-        pallet.updateDisplay()
-      )
-      .on(`textae.typeDefinition.${editModeName}.type.default.change`, () =>
-        pallet.updateDisplay()
-      )
 
     editor[0].appendChild(pallet.el)
   }

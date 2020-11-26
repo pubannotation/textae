@@ -55,9 +55,16 @@ export default class EditBlock extends Edit {
       handler,
       blockPallet,
       commander,
-      'block',
       () => autocompletionWs || typeDefinition.autocompletionWs,
       typeDefinition.block
     )
+
+    editor.eventEmitter
+      .on(`textae.typeDefinition.block.type.change`, () =>
+        blockPallet.updateDisplay()
+      )
+      .on(`textae.typeDefinition.block.type.default.change`, () =>
+        blockPallet.updateDisplay()
+      )
   }
 }

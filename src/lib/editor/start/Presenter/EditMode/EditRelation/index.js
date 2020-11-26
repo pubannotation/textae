@@ -40,9 +40,16 @@ export default class EditRelation extends Edit {
       handler,
       relationPallet,
       commander,
-      'relation',
       () => autocompletionWs || typeDefinition.autocompletionWs,
       typeDefinition.relation
     )
+
+    editor.eventEmitter
+      .on(`textae.typeDefinition.relation.type.change`, () =>
+        relationPallet.updateDisplay()
+      )
+      .on(`textae.typeDefinition.relation.type.default.change`, () =>
+        relationPallet.updateDisplay()
+      )
   }
 }

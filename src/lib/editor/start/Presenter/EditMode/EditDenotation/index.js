@@ -66,9 +66,16 @@ export default class EditDenotation extends Edit {
       handler,
       denotationPallet,
       commander,
-      'denotation',
       () => autocompletionWs || typeDefinition.autocompletionWs,
       typeDefinition.denotation
     )
+
+    editor.eventEmitter
+      .on(`textae.typeDefinition.denotation.type.change`, () =>
+        denotationPallet.updateDisplay()
+      )
+      .on(`textae.typeDefinition.denotation.type.default.change`, () =>
+        denotationPallet.updateDisplay()
+      )
   }
 }
