@@ -48,13 +48,8 @@ export default class EditRelation extends Edit {
         typeDefinition,
         relationPallet
       ),
-      handler
+      handler,
+      relationPallet
     )
-
-    this._pallet = relationPallet
-  }
-
-  get pallet() {
-    return this._pallet
   }
 }

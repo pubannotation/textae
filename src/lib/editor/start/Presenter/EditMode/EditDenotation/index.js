@@ -75,13 +75,8 @@ export default class EditDenotation extends Edit {
         denotationPallet,
         spanEditor
       ),
-      handler
+      handler,
+      denotationPallet
     )
-
-    this._pallet = denotationPallet
-  }
-
-  get pallet() {
-    return this._pallet
   }
 }

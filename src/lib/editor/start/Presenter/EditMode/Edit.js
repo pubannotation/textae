@@ -1,9 +1,10 @@
 export default class Edit {
-  constructor(editor, bindMouseEvents, mouseEventHandler, handler) {
+  constructor(editor, bindMouseEvents, mouseEventHandler, handler, pallet) {
     this._editor = editor
     this._bindMouseEvents = bindMouseEvents
     this._mouseEventHandler = mouseEventHandler
     this._handler = handler
+    this._pallet = pallet
   }
 
   init() {
@@ -12,5 +13,9 @@ export default class Edit {
 
   get handler() {
     return this._handler
+  }
+
+  get pallet() {
+    return this._pallet
   }
 }

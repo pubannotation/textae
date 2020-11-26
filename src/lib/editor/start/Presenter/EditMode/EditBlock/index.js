@@ -58,13 +58,8 @@ export default class EditBlock extends Edit {
       editor,
       bindMouseEvents,
       new MouseEventHandler(editor, annotationData, selectionModel, spanEditor),
-      handler
+      handler,
+      blockPallet
     )
-
-    this._pallet = blockPallet
-  }
-
-  get pallet() {
-    return this._pallet
   }
 }
