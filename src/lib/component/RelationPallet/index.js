@@ -1,7 +1,6 @@
 import { diff } from 'jsondiffpatch'
 import Pallet from '../Pallet'
 import createPalletElement from '../Pallet/createPalletElement'
-import bindUserEvents from '../Pallet/bindUserEvents'
 import createContentHtml from './createContentHtml'
 
 export default class extends Pallet {
@@ -11,9 +10,6 @@ export default class extends Pallet {
     this._originalData = originalData
     this._typeDefinition = typeDefinition
     this._typeContainer = typeDefinition.relation
-
-    // Bind user events to the event emitter.
-    bindUserEvents(this._el, editor.eventEmitter, 'relation')
   }
 
   get _content() {

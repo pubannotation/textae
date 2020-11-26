@@ -1,7 +1,6 @@
 import { diff } from 'jsondiffpatch'
 import Pallet from '../Pallet'
 import createPalletElement from '../Pallet/createPalletElement'
-import bindUserEvents from '../Pallet/bindUserEvents'
 import bindAttributeEvent from './bindAttributeEvent'
 import createContentHtml from './createContentHtml'
 import enableDrag from './enableDrag'
@@ -23,8 +22,6 @@ export default class extends Pallet {
     this._typeContainer = typeContainer
     this._selectionModelEntity = selectionModelEntity
 
-    // Bind user events to the event emitter.
-    bindUserEvents(this._el, editor.eventEmitter, editModeName)
     bindAttributeEvent(this, this._el, editor.eventEmitter)
 
     editor.eventEmitter
