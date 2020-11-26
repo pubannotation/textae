@@ -1,6 +1,6 @@
 import delegate from 'delegate'
-import CreateTypeDefinitionDialog from '../../../../../component/CreateTypeDefinitionDialog'
-import EditTypeDefinitionDialog from '../../../../../component/EditTypeDefinitionDialog'
+import CreateTypeDefinitionDialog from '../../../../../../component/CreateTypeDefinitionDialog'
+import EditTypeDefinitionDialog from '../../../../../../component/EditTypeDefinitionDialog'
 import checkButtonEnable from './checkButtonEnable'
 
 export default function (
