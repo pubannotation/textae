@@ -60,7 +60,6 @@ export default class MouseEventHandler {
     }
 
     const selection = window.getSelection()
-    console.log(selection.type)
 
     if (selection.type === 'Caret') {
       this._selectionModel.clear()
