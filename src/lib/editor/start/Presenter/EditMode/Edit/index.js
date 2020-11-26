@@ -27,6 +27,7 @@ export default class Edit {
       getAutocompletionWs,
       typeContainer
     )
+    editor[0].appendChild(pallet.el)
   }
 
   init() {

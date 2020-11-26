@@ -64,6 +64,4 @@ export default function (
     .on(`textae.typeDefinition.${name}.type.default.change`, () =>
       pallet.updateDisplay()
     )
-
-  editor[0].appendChild(pallet.el)
 }
