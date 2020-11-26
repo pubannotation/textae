@@ -3,7 +3,7 @@ import MouseEventHandler from './MouseEventHandler'
 import SpanEditor from './SpanEditor'
 import Edit from '../Edit'
 import bindMouseEvents from './bindMouseEvents'
-import EditAttribute from '../EditAttribute'
+import AttributeEditor from '../AttributeEditor'
 import EntityAndAttributePallet from '../../../../../component/EntityAndAttributePallet'
 
 export default class EditDenotation extends Edit {
@@ -33,7 +33,7 @@ export default class EditDenotation extends Edit {
       typeDefinition.denotation,
       selectionModel.entity
     )
-    const editAttribute = new EditAttribute(
+    const attributeEditor = new AttributeEditor(
       commander,
       editor,
       annotationData,
@@ -48,7 +48,7 @@ export default class EditDenotation extends Edit {
       commander,
       annotationData,
       selectionModel,
-      editAttribute
+      attributeEditor
     )
 
     super(

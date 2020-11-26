@@ -9,14 +9,14 @@ export default class extends DefaultHandler {
     commander,
     annotationData,
     selectionModel,
-    editAttribute
+    attributeEditor
   ) {
     super('denotation', 'entity', typeContainer, commander)
 
     this._editor = editor
     this._annotationData = annotationData
     this._selectionModel = selectionModel
-    this._editAttribute = editAttribute
+    this._attributeEditor = attributeEditor
   }
 
   changeTypeOfSelectedElement(newType) {
@@ -51,9 +51,9 @@ export default class extends DefaultHandler {
 
   manipulateAttribute(number, shiftKey) {
     if (shiftKey) {
-      this._editAttribute.deleteAt(number)
+      this._attributeEditor.deleteAt(number)
     } else {
-      this._editAttribute.addOrEditAt(number)
+      this._attributeEditor.addOrEditAt(number)
     }
   }
 
