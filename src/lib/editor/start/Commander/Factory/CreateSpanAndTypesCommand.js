@@ -2,7 +2,7 @@ import { CreateCommand } from './commandTemplate'
 import CompositeCommand from './CompositeCommand'
 import CreateEntityCommand from './CreateEntityCommand'
 
-export default class extends CompositeCommand {
+export default class CreateSpanAndTypesCommand extends CompositeCommand {
   constructor(
     editor,
     annotationData,

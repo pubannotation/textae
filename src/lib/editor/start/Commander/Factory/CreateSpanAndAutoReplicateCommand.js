@@ -6,7 +6,7 @@ import { makeDenotationSpanHTMLElementId } from '../../../idFactory'
 
 const BLOCK_THRESHOLD = 100
 
-export default class extends CompositeCommand {
+export default class CreateSpanAndAutoReplicateCommand extends CompositeCommand {
   constructor(
     editor,
     annotationData,

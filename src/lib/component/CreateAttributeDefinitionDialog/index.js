@@ -3,7 +3,7 @@ import PromiseDialog from '../PromiseDialog'
 import createContentHtml from './createContentHtml'
 import getInputElementValue from '../getInputElementValue'
 
-export default class extends PromiseDialog {
+export default class CreateAttributeDefinitionDialog extends PromiseDialog {
   constructor() {
     super(
       'Please enter new attribute definition',

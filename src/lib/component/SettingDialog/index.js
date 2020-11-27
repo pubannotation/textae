@@ -4,7 +4,7 @@ import createContentHtml from './createContentHtml'
 import reflectImmediately from './reflectImmediately'
 import packageJson from '../../../../package.json'
 
-export default class extends Dialog {
+export default class SettingDialog extends Dialog {
   constructor(editor, typeDefinition, displayInstance, view) {
     const contentHtml = createContentHtml({
       typeGapDisabled: !displayInstance.showInstance,

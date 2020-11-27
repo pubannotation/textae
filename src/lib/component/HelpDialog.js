@@ -1,6 +1,6 @@
 import Dialog from './Dialog'
 
-export default class extends Dialog {
+export default class HelpDialog extends Dialog {
   constructor() {
     super(
       'Help (Keyboard short-cuts)',

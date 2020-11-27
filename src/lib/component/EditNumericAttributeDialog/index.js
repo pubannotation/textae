@@ -1,7 +1,7 @@
 import PromiseDialog from '../PromiseDialog'
 import createContentHtml from './createContentHtml'
 
-export default class extends PromiseDialog {
+export default class EditNumericAttributeDialog extends PromiseDialog {
   constructor(attrDef, attribute) {
     super(
       'Please edit number',

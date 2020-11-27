@@ -4,7 +4,7 @@ import createContentHtml from './createContentHtml'
 import jsonDiff from './jsonDiff'
 import bind from './bind'
 
-export default class extends Dialog {
+export default class SaveConfigurationDialog extends Dialog {
   constructor(
     editor,
     url,

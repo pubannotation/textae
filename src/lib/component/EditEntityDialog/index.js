@@ -5,7 +5,7 @@ import getValues from './getValues'
 import bind from './bind'
 import setSourceOfAutoComplete from '../setSourceOfAutoComplete'
 
-export default class extends PromiseDialog {
+export default class EditEntityDialog extends PromiseDialog {
   constructor(editor, typeContainer, autocompletionWs, typeValues) {
     const contentHtml = createContentHtml({
       value: typeValues.typeName,

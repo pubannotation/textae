@@ -5,7 +5,7 @@ import commandLog from './commandLog'
 import AnnotationCommand from './AnnotationCommand'
 import CreateAttributesForEntityCommand from './CreateAttributesForEntityCommand'
 
-export default class extends AnnotationCommand {
+export default class CreateEntityCommand extends AnnotationCommand {
   constructor(
     editor,
     annotationData,

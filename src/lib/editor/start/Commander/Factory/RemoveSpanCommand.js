@@ -2,7 +2,7 @@ import { RemoveCommand } from './commandTemplate'
 import RemoveEntityAndAssociatesCommand from './RemoveEntityAndAssociatesCommand'
 import CompositeCommand from './CompositeCommand'
 
-export default class extends CompositeCommand {
+export default class RemoveSpanCommand extends CompositeCommand {
   constructor(editor, annotationData, selectionModel, id) {
     super()
 

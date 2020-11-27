@@ -1,7 +1,7 @@
 import Validation from '../Validation'
 import isBoundaryCrossingWithOtherSpans from '../../../../isBoundaryCrossingWithOtherSpans'
 
-export default class extends Validation {
+export default class IsNotCrossingValidation  extends Validation {
   constructor(spans) {
     super(spans)
   }

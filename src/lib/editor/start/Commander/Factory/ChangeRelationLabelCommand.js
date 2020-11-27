@@ -3,7 +3,7 @@ import CreateTypeDefinitionCommand from './CreateTypeDefinitionCommand'
 import ChangeTypeDefinitionCommand from './ChangeTypeDefinitionCommand'
 import ChangeTypeOfSelectedRelationsCommand from './ChangeTypeOfSelectedRelationsCommand'
 
-export default class extends CompositeCommand {
+export default class ChangeRelationLabelCommand extends CompositeCommand {
   constructor(
     editor,
     annotationData,

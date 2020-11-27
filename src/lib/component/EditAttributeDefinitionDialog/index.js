@@ -3,7 +3,7 @@ import createContentHtml from './createContentHtml'
 import getInputElementValue from '../getInputElementValue'
 import isChanged from './isChanged'
 
-export default class extends PromiseDialog {
+export default class EditAttributeDefinitionDialog extends PromiseDialog {
   constructor(attrDef) {
     const json = attrDef.JSON
 

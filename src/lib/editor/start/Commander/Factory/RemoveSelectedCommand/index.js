@@ -3,7 +3,7 @@ import RemoveSpanCommand from '../RemoveSpanCommand'
 import { RemoveCommand } from '../commandTemplate'
 import RemoveEntitiesAndRemoveSpanIfNoEntityRestCommand from './RemoveEntitiesAndRemoveSpanIfNoEntityRestCommand'
 
-export default class extends CompositeCommand {
+export default class RemoveSelectedCommand extends CompositeCommand {
   constructor(editor, annotationData, selectionModel) {
     super()
 

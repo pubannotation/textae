@@ -1,7 +1,7 @@
 import CompositeCommand from './CompositeCommand'
 import CreateEntityCommand from './CreateEntityCommand'
 
-export default class extends CompositeCommand {
+export default class PasteTypesToSelectedSpansCommand extends CompositeCommand {
   constructor(editor, annotationData, selectionModel, typeValuesList) {
     super()
 

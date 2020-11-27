@@ -2,7 +2,7 @@ import commandLog from './commandLog'
 import AddValueToAttributeDefinitionCommand from './AddValueToAttributeDefinitionCommand'
 import ConfigurationCommand from './ConfigurationCommand'
 
-export default class extends ConfigurationCommand {
+export default class RemoveValueFromAttributeDefinitionCommand extends ConfigurationCommand {
   constructor(typeContainer, attrDef, index, indexThatAddDefaultTo = null) {
     super()
     this._typeContainer = typeContainer

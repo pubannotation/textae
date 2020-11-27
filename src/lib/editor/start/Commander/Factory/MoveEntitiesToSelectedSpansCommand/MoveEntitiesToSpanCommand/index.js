@@ -2,7 +2,7 @@ import AnnotationCommand from '../../AnnotationCommand'
 import commandLog from '../../commandLog'
 import RevertMoveEntitiesCommand from './RevertMoveEntitiesCommand'
 
-export default class extends AnnotationCommand {
+export default class MoveEntitiesToSpanCommand extends AnnotationCommand {
   constructor(annotationData, span, entities) {
     super()
 

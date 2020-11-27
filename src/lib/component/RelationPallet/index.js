@@ -3,7 +3,7 @@ import Pallet from '../Pallet'
 import createPalletElement from '../Pallet/createPalletElement'
 import createContentHtml from './createContentHtml'
 
-export default class extends Pallet {
+export default class RelationPallet extends Pallet {
   constructor(editor, originalData, typeDefinition) {
     super(editor, createPalletElement('relation'))
 

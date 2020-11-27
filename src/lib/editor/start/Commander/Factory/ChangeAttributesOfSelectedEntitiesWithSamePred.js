@@ -2,7 +2,7 @@ import CompositeCommand from './CompositeCommand'
 import ChangeAttributeCommand from './ChangeAttributeCommand'
 import AddValueToAttributeDefinitionCommand from './AddValueToAttributeDefinitionCommand'
 
-export default class extends CompositeCommand {
+export default class ChangeAttributesOfSelectedEntitiesWithSamePred extends CompositeCommand {
   constructor(
     annotationData,
     selectionModel,

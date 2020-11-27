@@ -1,7 +1,7 @@
 import Dialog from '../Dialog'
 import createContentHtml from './createContentHtml'
 
-export default class extends Dialog {
+export default class ValidationDialog extends Dialog {
   constructor(rejects) {
     const contentHtml = createContentHtml(rejects)
 

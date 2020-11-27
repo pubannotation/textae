@@ -2,7 +2,7 @@ import CreateSpanAndTypesCommand from './CreateSpanAndTypesCommand'
 import CompositeCommand from './CompositeCommand'
 import { makeDenotationSpanHTMLElementId } from '../../../idFactory'
 
-export default class extends CompositeCommand {
+export default class ReplicateSpanCommand extends CompositeCommand {
   constructor(
     editor,
     annotationData,

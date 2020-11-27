@@ -3,7 +3,7 @@ import invokeRevert from '../invokeRevert'
 import commandLog from './commandLog'
 import BaseCommand from './BaseCommand'
 
-export default class extends BaseCommand {
+export default class CompositeCommand extends BaseCommand {
   execute() {
     console.assert(this._subCommands, '_subCommands is necessary!')
 

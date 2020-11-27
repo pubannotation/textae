@@ -4,7 +4,7 @@ import getInputElementValue from '../getInputElementValue'
 import IntervalNotation from '../../IntervalNotation'
 import { getOkButton } from './getOkButton'
 
-export default class extends PromiseDialog {
+export default class EditValueOfAttributeDefinitionDialog extends PromiseDialog {
   constructor(valueType, value = {}) {
     const bindingObject = {
       label: value.label,

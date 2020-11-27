@@ -1,7 +1,7 @@
 import CompositeCommand from '../../CompositeCommand'
 import MoveEntitiesToSpanCommand from './index'
 
-export default class extends CompositeCommand {
+export default class RevertMoveEntitiesCommand extends CompositeCommand {
   constructor(annotationData, moveMap) {
     super()
 

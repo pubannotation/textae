@@ -1,6 +1,6 @@
 import TypeDefinitionDialog from './TypeDefinitionDialog'
 
-export default class extends TypeDefinitionDialog {
+export default class CreateTypeDefinitionDialog extends TypeDefinitionDialog {
   constructor(typeContainer, autocompletionWs) {
     const convertToReseltsFunc = (newId, newLabel, newColor, newDefault) => {
       if (newId === '') {

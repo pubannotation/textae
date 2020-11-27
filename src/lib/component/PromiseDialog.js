@@ -1,7 +1,7 @@
 import delegate from 'delegate'
 import Dialog from './Dialog'
 
-export default class extends Dialog {
+export default class PromiseDialog extends Dialog {
   constructor(
     title,
     contentHtml,

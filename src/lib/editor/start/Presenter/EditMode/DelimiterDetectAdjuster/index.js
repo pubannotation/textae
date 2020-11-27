@@ -6,7 +6,7 @@ import isNotWord from './isNotWord'
 import skipToWord from './skipToWord'
 import backToWord from './backToWord'
 
-export default class extends SpanAdjuster {
+export default class DelimiterDetectAdjuster extends SpanAdjuster {
   backFromBegin(str, beginPosition, spanConfig) {
     const nonEdgePos = skipBlank.forward(str, beginPosition, (char) =>
       spanConfig.isBlankCharacter(char)

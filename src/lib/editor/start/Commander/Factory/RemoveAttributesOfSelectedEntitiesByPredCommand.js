@@ -1,7 +1,7 @@
 import CompositeCommand from './CompositeCommand'
 import getRemoveAttributesByPredCommands from './getRemoveAttributesByPredCommands'
 
-export default class extends CompositeCommand {
+export default class RemoveAttributesOfSelectedEntitiesByPredCommand extends CompositeCommand {
   constructor(editor, annotationData, selectionModel, attributeDefinition) {
     super()
 

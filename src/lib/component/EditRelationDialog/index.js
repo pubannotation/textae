@@ -2,7 +2,7 @@ import PromiseDialog from '../PromiseDialog'
 import createContentHtml from './createContentHtml'
 import setSourceOfAutoComplete from '../setSourceOfAutoComplete'
 
-export default class extends PromiseDialog {
+export default class EditRelationDialog extends PromiseDialog {
   constructor(typeName, typeContainer, autocompletionWs) {
     super(
       'Please enter new values',

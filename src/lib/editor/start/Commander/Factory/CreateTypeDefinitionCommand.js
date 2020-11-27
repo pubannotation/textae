@@ -2,7 +2,7 @@ import commandLog from './commandLog'
 import RemoveTypeDefinitionCommand from './RemoveTypeDefinitionCommand'
 import ConfigurationCommand from './ConfigurationCommand'
 
-export default class extends ConfigurationCommand {
+export default class CreateTypeDefinitionCommand extends ConfigurationCommand {
   constructor(editor, typeContainer, newType) {
     super()
     this._editor = editor

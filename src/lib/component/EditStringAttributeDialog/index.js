@@ -2,7 +2,7 @@ import PromiseDialog from '../PromiseDialog'
 import createContentHtml from './createContentHtml'
 import setSourceOfAutoComplete from '../setSourceOfAutoComplete'
 
-export default class extends PromiseDialog {
+export default class EditStringAttributeDialog extends PromiseDialog {
   constructor(attribute, attrDef) {
     super(
       'Please edit string',

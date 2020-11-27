@@ -1,7 +1,7 @@
 import CompositeCommand from './CompositeCommand'
 import ChangeAnnotationCommand from './ChangeAnnotationCommand'
 
-export default class extends CompositeCommand {
+export default class ChangeTypeOfSelectedEntitiesCommand extends CompositeCommand {
   constructor(editor, annotationData, selectionModel, newTypeName) {
     super()
 

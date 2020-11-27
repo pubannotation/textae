@@ -1,7 +1,7 @@
 import skipBlank from '../../skipBlank'
 import SpanAdjuster from '../../SpanAdjuster'
 
-export default class extends SpanAdjuster {
+export default class BlankSkipAdjuster extends SpanAdjuster {
   backFromBegin(str, position, spanConfig) {
     return skipBlank.forward(str, position, (char) =>
       spanConfig.isBlankCharacter(char)

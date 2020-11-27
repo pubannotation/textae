@@ -1,7 +1,7 @@
 import TypeDefinitionDialog from '../TypeDefinitionDialog'
 import getDifference from './getDifference'
 
-export default class extends TypeDefinitionDialog {
+export default class EditTypeDefinitionDialog extends TypeDefinitionDialog {
   constructor(typeContainer, id, color, isDefault, autocompletionWs) {
     const label = typeContainer.getLabel(id) || ''
 

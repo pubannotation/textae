@@ -3,7 +3,7 @@ import CreateTypeDefinitionCommand from './CreateTypeDefinitionCommand'
 import ChangeTypeDefinitionCommand from './ChangeTypeDefinitionCommand'
 import ChangeTypeNameAndAttributeOfSelectedEntitiesCommand from './ChangeTypeNameAndAttributeOfSelectedEntitiesCommand'
 
-export default class extends CompositeCommand {
+export default class ChangeEntityTypeCommand extends CompositeCommand {
   constructor(
     editor,
     annotationData,

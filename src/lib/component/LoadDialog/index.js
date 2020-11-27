@@ -6,7 +6,7 @@ import enableHTMLelment from '../enableHTMLelement'
 const CONFIRM_DISCARD_CHANGE_MESSAGE =
   'There is a change that has not been saved. If you procceed now, you will lose it.'
 
-export default class extends Dialog {
+export default class LoadDialog extends Dialog {
   constructor(title, url, loadFromServer, readFromFile, hasChange) {
     super(title, createContentHtml({ url }), {
       label: 'Cancel'

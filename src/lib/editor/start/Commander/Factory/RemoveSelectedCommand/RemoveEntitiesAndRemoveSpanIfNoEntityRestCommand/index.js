@@ -5,7 +5,7 @@ import getSpans from './getSpans'
 import removedEntitiesFromSpan from './removedEntitiesFromSpan'
 import areAllEntiesOfSpan from '../../areAllEntiesOfSpan'
 
-export default class extends CompositeCommand {
+export default class RemoveEntitiesAndRemoveSpanIfNoEntityRestCommand extends CompositeCommand {
   constructor(editor, annotationData, selectionModel) {
     super()
     const selectedEntities = selectionModel.entity.all

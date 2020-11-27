@@ -2,7 +2,7 @@ import CompositeCommand from '../CompositeCommand'
 import createChangeAnnotationCommands from './createChangeAnnotationCommands'
 import ChangeAttributeDefinitionCommand from './ChangeAttributeDefinitionCommand'
 
-export default class extends CompositeCommand {
+export default class ChangeAttributeDefinitionAndRefectInstancesCommand extends CompositeCommand {
   constructor(annotationData, typeContainer, attrDef, changedProperties) {
     super()
 

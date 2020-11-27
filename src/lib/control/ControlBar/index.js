@@ -3,7 +3,7 @@ import { htmlTemplate } from './htmlTemplate'
 import transitWriteButtonImage from './transitWriteButtonImage'
 
 // The control is a control bar in an editor.
-export default class extends Control {
+export default class ControlBar extends Control {
   constructor(editor) {
     super(htmlTemplate, editor)
   }

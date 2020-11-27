@@ -1,7 +1,7 @@
 import CompositeCommand from './CompositeCommand'
 import getCreateAttributeToSelectedEntitiesCommands from './getCreateAttributeToSelectedEntitiesCommands'
 
-export default class extends CompositeCommand {
+export default class CreateAttributeToSelectedEntitiesCommand extends CompositeCommand {
   constructor(
     editor,
     annotationData,

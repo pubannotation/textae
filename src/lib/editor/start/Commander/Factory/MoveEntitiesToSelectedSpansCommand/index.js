@@ -3,7 +3,7 @@ import areAllEntiesOfSpan from '../areAllEntiesOfSpan'
 import { RemoveCommand } from '../commandTemplate'
 import MoveEntitiesToSpanCommand from './MoveEntitiesToSpanCommand'
 
-export default class extends CompositeCommand {
+export default class MoveEntitiesToSelectedSpansCommand extends CompositeCommand {
   constructor(editor, annotationData, selectionModel, entities) {
     console.assert(
       selectionModel.span.single,
