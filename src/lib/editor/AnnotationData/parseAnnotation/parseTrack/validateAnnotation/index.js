@@ -15,22 +15,24 @@ export default function (text, rowData) {
   const spans = (rowData.typesettings || []).concat(rowData.denotations)
 
   const resultTypesetting = validateSpan(text, rowData.typesettings)
-  const resultDenotation = validateDenotation(text, rowData.denotations)
-  const resultBlock = validateBlock(text, rowData.blocks)
-
   const typesettingsValidation = new IsNotCrossingValidation(
     resultTypesetting.accept,
     spans
   )
+
+  const resultDenotation = validateDenotation(text, rowData.denotations)
   const denotationsValidation = new IsNotCrossingValidation(
     resultDenotation.accept,
     spans
   )
 
+  const resultBlock = validateBlock(text, rowData.blocks)
+
   const resultAttribute = validateAttribute(
     denotationsValidation.validNodes,
     rowData.attributes
   )
+
   const resultRelation = validateRelation(
     denotationsValidation.validNodes,
     rowData.relations
