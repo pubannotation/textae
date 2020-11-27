@@ -11,13 +11,15 @@ export default function (text, rowData) {
   // so the boundaries cannot be crossed.
   // The boundary of a typesetting and denotation is crossed or not.
   // Merge type settings and denotations
-  const spans = (rowData.typesettings || []).concat(rowData.denotations || [])
+  const spans = (rowData.typesettings || [])
+    .concat(rowData.denotations || [])
+    .concat(rowData.blocks || [])
 
   const resultTypesetting = validateSpan(text, rowData.typesettings, spans)
 
   const resultDenotation = validateDenotation(text, rowData.denotations, spans)
 
-  const resultBlock = validateBlock(text, rowData.blocks, rowData.blocks)
+  const resultBlock = validateBlock(text, rowData.blocks, spans)
 
   const resultAttribute = validateAttribute(
     resultDenotation.accept,
@@ -52,6 +54,11 @@ export default function (text, rowData) {
         .concat(
           resultDenotation.reject.boundaryCrossingSpans.map((n) =>
             setSourceProperty(n, 'denotations')
+          )
+        )
+        .concat(
+          resultBlock.reject.boundaryCrossingSpans.map((n) =>
+            setSourceProperty(n, 'blocks')
           )
         ),
       referencedEntitiesDoNotExist: transformToReferencedEntitiesError(

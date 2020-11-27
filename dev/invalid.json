@@ -325,13 +325,29 @@
     {
       "id": "B4",
       "span": {
+        "begin": 67,
+        "end": 69
+      },
+      "obj": "Protein"
+    },
+    {
+      "id": "B5",
+      "span": {
+        "begin": 68,
+        "end": 70
+      },
+      "obj": "Protein"
+    },
+    {
+      "id": "B6",
+      "span": {
         "begin": 120,
         "end": 121
       },
       "obj": "Protein"
     },
     {
-      "id": "B5",
+      "id": "B7",
       "span": {
         "begin": 120,
         "end": 121

@@ -237,7 +237,7 @@ const source = `
 
     {{#if boundaryCrossingSpans}}
       <table>
-        <caption>Denotations or Typesettings with boundary-cross.</caption>
+        <caption>Denotations or Blocks or Typesettings with boundary-cross.</caption>
         <thead>
           <tr>
             <th class="id">id</th>
