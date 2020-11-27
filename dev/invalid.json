@@ -354,14 +354,14 @@
     {
       "id": "R3",
       "pred": "equivalentTo",
-      "subj": "E3",
-      "obj": "F3"
+      "subj": "T3",
+      "obj": "E22"
     },
     {
       "id": "R5",
       "pred": "equivalentTo",
-      "subj": "F25",
-      "obj": "E26"
+      "subj": "E27",
+      "obj": "E3"
     }
   ],
   "attributes": [
