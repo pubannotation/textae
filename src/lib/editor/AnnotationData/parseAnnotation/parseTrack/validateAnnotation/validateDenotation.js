@@ -1,9 +1,9 @@
-import UniquIDValidation from './UniquIDValidation'
+import UniqueIDValidation from './UniqueIDValidation'
 import validateSpan from './validateSpan'
 
 export default function (text, denotations) {
   const result = validateSpan(text, denotations)
-  const uniqIDValidation = new UniquIDValidation(result.accept)
+  const uniqIDValidation = new UniqueIDValidation(result.accept)
 
   return {
     accept: uniqIDValidation.validNodes,
