@@ -5,20 +5,14 @@ export default class Validation {
   }
 
   get validNodes() {
-    return this._nodes.filter((val, index) => this._validate(val, index))
+    return this._nodes.filter((n) => this._predicate(n))
   }
 
   get invalidNodes() {
-    return this._nodes.filter((val, index) => !this._validate(val, index))
+    return this._nodes.filter((n) => !this._predicate(n))
   }
 
   get invalid() {
-    return this._nodes.some((val, index) => !this._validate(val, index))
-  }
-
-  // Expansion point.
-  // For example, IsNotCrossingValidation gets the previous node.
-  _validate(currentNode) {
-    return this._predicate(currentNode)
+    return this._nodes.some((n) => !this._predicate(n))
   }
 }
