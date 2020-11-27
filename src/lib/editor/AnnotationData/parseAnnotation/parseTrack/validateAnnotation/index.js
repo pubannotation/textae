@@ -1,5 +1,4 @@
 import validateSpan from './validateSpan'
-import validateBoundaryCrossing from './validateBoundaryCrossing'
 import validateAttribute from './validateAttribute'
 import validateRelation from './validateRelation'
 import transformToReferencedEntitiesError from './transformToReferencedEntitiesError'
@@ -40,7 +39,7 @@ export default function (text, rowData) {
         denotationsValidation.invalidNodes
       )
     },
-    hasError: typesettingsValidation.invalid
+    hasError: typesettingsValidation.invalid || denotationsValidation.invalid
   }
 
   const resultAttribute = validateAttribute(
