@@ -4,7 +4,7 @@ import { makeEntityHTMLElementId } from '../idFactory'
 import mergeTypesOf from './mergeTypesOf'
 import SELECTED from '../SELECTED'
 import createEntityHtml from './createEntityHtml'
-import reflectTypeGapInTheHeight from './reflectTypeGapInTheHeight'
+import typeGapUnitHeight from '../start/View/typeGapUnitHeight'
 
 export default class EntityModel {
   constructor(
@@ -178,7 +178,10 @@ export default class EntityModel {
     if (this.isDenotation) {
       const entityElement = this.element
       if (entityElement) {
-        reflectTypeGapInTheHeight(entityElement, typeGap)
+        entityElement.setAttribute(
+          'style',
+          `padding-top: ${typeGapUnitHeight * typeGap.value}px;`
+        )
       }
     }
   }
