@@ -5,6 +5,8 @@ import validateRelation from './validateRelation'
 import transformToReferencedEntitiesError from './transformToReferencedEntitiesError'
 import validateDenotation from './validateDenotation'
 import validateBlock from './validateBlock'
+import setSourceProperty from './validateBoundaryCrossing/setSourceProperty'
+import IsNotCrossingValidation from './validateBoundaryCrossing/IsNotCrossingValidation'
 
 export default function (text, rowData) {
   const resultTypesetting = validateSpan(text, rowData.typesettings)
@@ -14,10 +16,33 @@ export default function (text, rowData) {
   // Typesets and denotations are both drawn with a span tag,
   // so the boundaries cannot be crossed.
   // The boundary of a typesetting and denotation is crossed or not.
-  const resultCrossing = validateBoundaryCrossing(
+  // Merge type settings and denotations
+  const spans = resultTypesetting.accept
+    .map((n) => setSourceProperty(n, 'typesettings'))
+    .concat(
+      resultDenotation.accept.map((n) => setSourceProperty(n, 'denotations'))
+    )
+
+  const typesettingsValidation = new IsNotCrossingValidation(
     resultTypesetting.accept,
-    resultDenotation.accept
+    spans
   )
+  const denotationsValidation = new IsNotCrossingValidation(
+    resultDenotation.accept,
+    spans
+  )
+
+  const resultCrossing = {
+    acceptedTypesettings: typesettingsValidation.validNodes,
+    acceptedDenotations: denotationsValidation.validNodes,
+    reject: {
+      boundaryCrossingSpans: typesettingsValidation.invalidNodes.concat(
+        denotationsValidation.invalidNodes
+      )
+    },
+    hasError: typesettingsValidation.invalid
+  }
+
   const resultAttribute = validateAttribute(
     resultCrossing.acceptedDenotations,
     rowData.attributes
