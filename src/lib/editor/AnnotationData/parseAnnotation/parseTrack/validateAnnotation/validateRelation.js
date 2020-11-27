@@ -1,22 +1,18 @@
 import isContains from './isContains'
-import Validation from './Validation'
-import SubjectValidation from './SubjectValidation'
+import ChainValidation from './ChainValidation'
 
 export default function (denotations, relations) {
-  const objectValidation = new Validation(relations, (rel) =>
-    isContains(denotations, rel.obj)
-  )
-  const subjectValidation = new SubjectValidation(
-    denotations,
-    objectValidation.validNodes
-  )
+  const [accepts, errorMap] = new ChainValidation(relations)
+    .and('object', (r) => isContains(denotations, r.obj))
+    .and('subject', (r) => isContains(denotations, r.subj))
+    .validate()
 
   return {
-    accept: subjectValidation.validNodes,
+    accept: accepts,
     reject: {
-      obj: objectValidation.invalidNodes,
-      subj: subjectValidation.invalidNodes
+      obj: errorMap.get('object') || [],
+      subj: errorMap.get('subject') || []
     },
-    hasError: objectValidation.invalid || subjectValidation.invalid
+    hasError: errorMap.size > 0
   }
 }
