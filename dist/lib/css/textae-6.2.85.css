@@ -4340,23 +4340,23 @@ a.ui-button:active,
   white-space: pre;
   /* active editer color */
   /* relation */
-  /* term centric mode */
-  /* instance edit mode */
+  /* denotation without relation mode */
+  /* denotation with relation mode */
   /* relation edit mode */
 }
 .textae-editor:focus {
   outline-style: none;
 }
-.textae-editor--term-mode.textae-editor--active {
+.textae-editor__mode--denotation-without-relation.textae-editor--active {
   background-color: #ffe;
 }
-.textae-editor--instance-mode.textae-editor--active {
+.textae-editor__mode--denotation-with-relation.textae-editor--active {
   background-color: #ffe;
 }
-.textae-editor--block-mode.textae-editor--active {
+.textae-editor__mode--block-with-relation.textae-editor--active {
   background-color: #eef;
 }
-.textae-editor--relation-mode.textae-editor--active {
+.textae-editor__mode--relation.textae-editor--active {
   background-color: #ffedee;
 }
 .textae-editor__body {
@@ -4452,54 +4452,54 @@ a.ui-button:active,
   opacity: 1;
   text-shadow: 1px 1px 1px #800;
 }
-.textae-editor--term-mode .textae-editor__relation,
-.textae-editor--term-mode .textae-editor__relation__label {
+.textae-editor__mode--denotation-without-relation .textae-editor__relation,
+.textae-editor__mode--denotation-without-relation .textae-editor__relation__label {
   display: none !important;
 }
-.textae-editor--term-mode path,
-.textae-editor--term-mode circle {
+.textae-editor__mode--denotation-without-relation path,
+.textae-editor__mode--denotation-without-relation circle {
   fill: none;
   height: 0;
   stroke-width: 0;
   width: 0;
 }
-.textae-editor--instance-mode .textae-editor__relation:hover,
-.textae-editor--instance-mode .textae-editor__relation.hover {
+.textae-editor__mode--denotation-without-relation .textae-editor__relation:hover,
+.textae-editor__mode--denotation-without-relation .textae-editor__relation.hover {
   stroke-width: 3;
   z-index: 5;
 }
-.textae-editor--instance-mode .textae-editor__relation__label:hover,
-.textae-editor--instance-mode .textae-editor__relation__label.hover {
+.textae-editor__mode--denotation-without-relation .textae-editor__relation__label:hover,
+.textae-editor__mode--denotation-without-relation .textae-editor__relation__label.hover {
   z-index: 6;
 }
-.textae-editor--block-mode .textae-editor__block-hit-area {
+.textae-editor__mode--block-with-relation .textae-editor__block-hit-area {
   display: block;
 }
-.textae-editor--relation-mode {
+.textae-editor__mode--relation {
   cursor: pointer;
 }
-.textae-editor--relation-mode .textae-editor__span:hover {
+.textae-editor__mode--relation .textae-editor__span:hover {
   text-shadow: none;
   padding: 0;
 }
-.textae-editor--relation-mode .textae-editor__relation,
-.textae-editor--relation-mode .textae-editor__relation__label {
+.textae-editor__mode--relation .textae-editor__relation,
+.textae-editor__mode--relation .textae-editor__relation__label {
   z-index: 1;
 }
-.textae-editor--relation-mode .textae-editor__relation:hover,
-.textae-editor--relation-mode .textae-editor__relation.hover {
+.textae-editor__mode--relation .textae-editor__relation:hover,
+.textae-editor__mode--relation .textae-editor__relation.hover {
   z-index: 1;
   stroke-width: 3;
 }
-.textae-editor--relation-mode .textae-editor__relation__label:hover,
-.textae-editor--relation-mode .textae-editor__relation__label.hover {
+.textae-editor__mode--relation .textae-editor__relation__label:hover,
+.textae-editor__mode--relation .textae-editor__relation__label.hover {
   z-index: 2;
 }
-.textae-editor--relation-mode .textae-editor__relation.ui-selected {
+.textae-editor__mode--relation .textae-editor__relation.ui-selected {
   z-index: 1;
   stroke-width: 3;
 }
-.textae-editor--relation-mode .textae-editor__relation__label.ui-selected {
+.textae-editor__mode--relation .textae-editor__relation__label.ui-selected {
   font-weight: 700;
   opacity: 1;
   z-index: 2;
@@ -4509,10 +4509,10 @@ a.ui-button:active,
   pointer-events: none;
   text-decoration: none;
 }
-.textae-editor--editable.textae-editor--instance-mode .textae-editor__relation__label {
+.textae-editor--editable.textae-editor__mode--denotation-with-relation .textae-editor__relation__label {
   z-index: 0;
 }
-.textae-editor--editable.textae-editor--instance-mode .textae-editor__relation__label.hover {
+.textae-editor--editable.textae-editor__mode--denotation-with-relation .textae-editor__relation__label.hover {
   z-index: 6;
 }
 .textae-editor-veil {
@@ -4544,7 +4544,7 @@ a.ui-button:active,
   visibility: hidden;
 }
 .textae-editor {
-  /* term centric mode */
+  /* denotation without relation mode */
   /* relation edit mode */
 }
 .textae-editor__grid {
@@ -4644,7 +4644,7 @@ a.ui-button:active,
   padding: 0 4px;
   background-color: inherit;
 }
-.textae-editor--relation-mode .textae-editor__type:hover .textae-editor__entity__type-values {
+.textae-editor__mode--relation .textae-editor__type:hover .textae-editor__entity__type-values {
   opacity: 0.9;
 }
 .textae-editor--editable .textae-editor__entity__type-values {
@@ -4669,17 +4669,17 @@ a.ui-button:active,
   pointer-events: none;
   text-decoration: none;
 }
-.textae-editor--term-mode .textae-editor__grid {
+.textae-editor__mode--denotation-without-relation .textae-editor__grid {
   border-style: none;
 }
-.textae-editor--term-mode .textae-editor__entity {
+.textae-editor__mode--denotation-without-relation .textae-editor__entity {
   margin-bottom: 0;
   padding-top: 0;
 }
-.textae-editor--term-mode .textae-editor__entity__type-label {
+.textae-editor__mode--denotation-without-relation .textae-editor__entity__type-label {
   border-width: 1px 0 0 0;
 }
-.textae-editor--relation-mode .textae-editor__entity:hover .textae-editor__entity__type-label {
+.textae-editor__mode--relation .textae-editor__entity:hover .textae-editor__entity__type-label {
   box-shadow: none;
 }
 /**
