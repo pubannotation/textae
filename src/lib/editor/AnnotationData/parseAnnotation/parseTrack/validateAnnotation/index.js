@@ -8,15 +8,15 @@ import setSourceProperty from './setSourceProperty'
 import IsNotCrossingValidation from './IsNotCrossingValidation'
 
 export default function (text, rowData) {
-  const resultTypesetting = validateSpan(text, rowData.typesettings)
-  const resultDenotation = validateDenotation(text, rowData.denotations)
-  const resultBlock = validateBlock(text, rowData.blocks)
-
   // Typesets and denotations are both drawn with a span tag,
   // so the boundaries cannot be crossed.
   // The boundary of a typesetting and denotation is crossed or not.
   // Merge type settings and denotations
-  const spans = resultTypesetting.accept.concat(resultDenotation.accept)
+  const spans = (rowData.typesettings || []).concat(rowData.denotations)
+
+  const resultTypesetting = validateSpan(text, rowData.typesettings)
+  const resultDenotation = validateDenotation(text, rowData.denotations)
+  const resultBlock = validateBlock(text, rowData.blocks)
 
   const typesettingsValidation = new IsNotCrossingValidation(
     resultTypesetting.accept,
