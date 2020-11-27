@@ -1,7 +1,7 @@
 import Validation from './Validation'
 
 // An entity cannot have two attributes of the same predicate.
-export default class UniqAttributeValidaiton extends Validation {
+export default class UniqueAttributeValidaiton extends Validation {
   constructor(attributes) {
     super(attributes)
   }

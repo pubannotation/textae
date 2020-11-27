@@ -1,9 +1,9 @@
 import SubjectValidation from './SubjectValidation'
-import UniqAttributeValidation from './UniqAttributeValidaiton'
+import UniqueAttributeValidation from './UniqueAttributeValidaiton'
 
 export default function (denotations, attributes) {
   const subjectValidation = new SubjectValidation(denotations, attributes)
-  const uniqValidation = new UniqAttributeValidation(
+  const uniqValidation = new UniqueAttributeValidation(
     subjectValidation.validNodes
   )
 
