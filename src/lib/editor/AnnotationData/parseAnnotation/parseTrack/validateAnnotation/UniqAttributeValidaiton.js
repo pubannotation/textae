@@ -2,8 +2,8 @@ import Validation from './Validation'
 
 // An entity cannot have two attributes of the same predicate.
 export default class UniqAttributeValidaiton extends Validation {
-  constructor(spans) {
-    super(spans)
+  constructor(attributes) {
+    super(attributes)
   }
 
   _validate(currentNode, index) {
