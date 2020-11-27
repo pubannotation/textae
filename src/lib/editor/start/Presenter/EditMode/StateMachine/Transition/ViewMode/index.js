@@ -1,4 +1,4 @@
-import setEditableStyle from '../setEditableStyle'
+import setEditableStyle from './setEditableStyle'
 import changeCssClass from './changeCssClass'
 
 export default class ViewMode {
