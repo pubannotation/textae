@@ -177,7 +177,9 @@ export default class EditMode {
   }
 
   changeLabel() {
-    this._getHandler().changeLabelHandler(this._autocompletionWs)
+    this._getHandler().changeLabelHandler(
+      this._autocompletionWsFromParams || this._typeDefinition.autocompletionWs
+    )
   }
 
   manipulateAttribute(number, shiftKey) {
