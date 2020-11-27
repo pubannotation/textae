@@ -1,4 +1,4 @@
-import typeGapUnitHeight from './typeGapUnitHeight'
+import typeGapUnitHeight from '../start/View/typeGapUnitHeight'
 
 export default function (el, typeGap) {
   el.setAttribute(
