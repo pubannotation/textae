@@ -31,32 +31,21 @@ export default function (text, rowData) {
     spans
   )
 
-  const resultCrossing = {
-    acceptedTypesettings: typesettingsValidation.validNodes,
-    acceptedDenotations: denotationsValidation.validNodes,
-    reject: {
-      boundaryCrossingSpans: typesettingsValidation.invalidNodes.concat(
-        denotationsValidation.invalidNodes
-      )
-    },
-    hasError: typesettingsValidation.invalid || denotationsValidation.invalid
-  }
-
   const resultAttribute = validateAttribute(
-    resultCrossing.acceptedDenotations,
+    denotationsValidation.validNodes,
     rowData.attributes
   )
   const resultRelation = validateRelation(
-    resultCrossing.acceptedDenotations,
+    denotationsValidation.validNodes,
     rowData.relations
   )
 
   return {
     accept: {
-      denotation: resultCrossing.acceptedDenotations,
+      denotation: denotationsValidation.validNodes,
       attribute: resultAttribute.accept,
       relation: resultRelation.accept,
-      typeSetting: resultCrossing.acceptedTypesettings,
+      typeSetting: typesettingsValidation.validNodes,
       block: resultBlock.accept
     },
     reject: {
@@ -69,7 +58,9 @@ export default function (text, rowData) {
       duplicatedRangeBlocks: resultBlock.reject.duplicatedRange,
       wrongRangeTypesettings: resultTypesetting.reject.wrongRange,
       outOfTextTypesettings: resultTypesetting.reject.outOfText,
-      boundaryCrossingSpans: resultCrossing.reject.boundaryCrossingSpans,
+      boundaryCrossingSpans: typesettingsValidation.invalidNodes.concat(
+        denotationsValidation.invalidNodes
+      ),
       referencedEntitiesDoNotExist: transformToReferencedEntitiesError(
         resultAttribute.reject.subj,
         resultRelation.reject.obj,
@@ -82,7 +73,8 @@ export default function (text, rowData) {
         resultAttribute.hasError ||
         resultRelation.hasError ||
         resultTypesetting.hasError ||
-        resultCrossing.hasError
+        typesettingsValidation.invalid ||
+        denotationsValidation.invalid
     }
   }
 }
