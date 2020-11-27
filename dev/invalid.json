@@ -348,8 +348,8 @@
     {
       "id": "R2",
       "pred": "themeOf",
-      "subj": "F2",
-      "obj": "T2"
+      "subj": "T2",
+      "obj": "T3"
     },
     {
       "id": "R3",
