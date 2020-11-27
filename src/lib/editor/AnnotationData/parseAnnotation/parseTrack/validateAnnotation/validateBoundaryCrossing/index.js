@@ -7,21 +7,20 @@ export default function (typesettings, denotations) {
     .map((n) => setSourceProperty(n, 'typesettings'))
     .concat(denotations.map((n) => setSourceProperty(n, 'denotations')))
 
-  const validation = new IsNotCrossingValidation(spans)
-  const acceptedTypesettings = validation.validNodes.filter(
-    (n) => n.sourceProperty === 'typesettings'
+  const typesettingsValidation = new IsNotCrossingValidation(
+    typesettings,
+    spans
   )
-  const acceptedDenotations = validation.validNodes.filter(
-    (n) => n.sourceProperty === 'denotations'
-  )
-  const boundaryCrossingSpans = validation.invalidNodes
+  const denotationsValidation = new IsNotCrossingValidation(denotations, spans)
 
   return {
-    acceptedTypesettings,
-    acceptedDenotations,
+    acceptedTypesettings: typesettingsValidation.validNodes,
+    acceptedDenotations: denotationsValidation.validNodes,
     reject: {
-      boundaryCrossingSpans
+      boundaryCrossingSpans: typesettingsValidation.invalidNodes.concat(
+        denotationsValidation.invalidNodes
+      )
     },
-    hasError: validation.invalid
+    hasError: typesettingsValidation.invalid || denotationsValidation.invalid
   }
 }

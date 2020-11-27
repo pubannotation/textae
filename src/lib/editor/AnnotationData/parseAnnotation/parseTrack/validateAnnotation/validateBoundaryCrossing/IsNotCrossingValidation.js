@@ -1,18 +1,16 @@
 import Validation from '../Validation'
 import isBoundaryCrossingWithOtherSpans from '../../../../isBoundaryCrossingWithOtherSpans'
 
-export default class IsNotCrossingValidation  extends Validation {
-  constructor(spans) {
-    super(spans)
-  }
-
-  _validate(currentNode, index) {
-    const prevNodes = this._nodes.slice(0, index)
-
-    return !isBoundaryCrossingWithOtherSpans(
-      prevNodes.map((d) => d.span),
-      currentNode.span.begin,
-      currentNode.span.end
+export default class IsNotCrossingValidation extends Validation {
+  constructor(nodes, allSpans) {
+    super(
+      nodes,
+      (n) =>
+        !isBoundaryCrossingWithOtherSpans(
+          allSpans.map((s) => s.span),
+          n.span.begin,
+          n.span.end
+        )
     )
   }
 }
