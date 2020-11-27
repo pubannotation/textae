@@ -2,8 +2,8 @@ import UniqueIDValidation from './UniqueIDValidation'
 import validateSpan from './validateSpan'
 import Validation from './Validation'
 
-export default function (text, blocks) {
-  const result = validateSpan(text, blocks)
+export default function (text, blocks, spans) {
+  const result = validateSpan(text, blocks, spans)
   const uniqIDValidation = new UniqueIDValidation(result.accept)
   const uniqRangeValidation = new Validation(
     uniqIDValidation.validNodes,

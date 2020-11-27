@@ -5,45 +5,36 @@ import transformToReferencedEntitiesError from './transformToReferencedEntitiesE
 import validateDenotation from './validateDenotation'
 import validateBlock from './validateBlock'
 import setSourceProperty from './setSourceProperty'
-import IsNotCrossingValidation from './IsNotCrossingValidation'
 
 export default function (text, rowData) {
   // Typesets and denotations are both drawn with a span tag,
   // so the boundaries cannot be crossed.
   // The boundary of a typesetting and denotation is crossed or not.
   // Merge type settings and denotations
-  const spans = (rowData.typesettings || []).concat(rowData.denotations)
+  const spans = (rowData.typesettings || []).concat(rowData.denotations || [])
 
-  const resultTypesetting = validateSpan(text, rowData.typesettings)
-  const typesettingsValidation = new IsNotCrossingValidation(
-    resultTypesetting.accept,
-    spans
-  )
+  const resultTypesetting = validateSpan(text, rowData.typesettings, spans)
 
-  const resultDenotation = validateDenotation(text, rowData.denotations)
-  const denotationsValidation = new IsNotCrossingValidation(
-    resultDenotation.accept,
-    spans
-  )
+  const resultDenotation = validateDenotation(text, rowData.denotations, spans)
 
-  const resultBlock = validateBlock(text, rowData.blocks)
+  const resultBlock = validateBlock(text, rowData.blocks, rowData.blocks)
 
   const resultAttribute = validateAttribute(
-    denotationsValidation.validNodes,
+    resultDenotation.accept,
     rowData.attributes
   )
 
   const resultRelation = validateRelation(
-    denotationsValidation.validNodes,
+    resultDenotation.accept,
     rowData.relations
   )
 
   return {
     accept: {
-      denotation: denotationsValidation.validNodes,
+      denotation: resultDenotation.accept,
       attribute: resultAttribute.accept,
       relation: resultRelation.accept,
-      typeSetting: typesettingsValidation.validNodes,
+      typeSetting: resultTypesetting.accept,
       block: resultBlock.accept
     },
     reject: {
@@ -56,10 +47,10 @@ export default function (text, rowData) {
       duplicatedRangeBlocks: resultBlock.reject.duplicatedRange,
       wrongRangeTypesettings: resultTypesetting.reject.wrongRange,
       outOfTextTypesettings: resultTypesetting.reject.outOfText,
-      boundaryCrossingSpans: typesettingsValidation.invalidNodes
+      boundaryCrossingSpans: resultTypesetting.reject.boundaryCrossingSpans
         .map((n) => setSourceProperty(n, 'typesettings'))
         .concat(
-          denotationsValidation.invalidNodes.map((n) =>
+          resultDenotation.reject.boundaryCrossingSpans.map((n) =>
             setSourceProperty(n, 'denotations')
           )
         ),
@@ -74,9 +65,7 @@ export default function (text, rowData) {
         resultBlock.hasError ||
         resultAttribute.hasError ||
         resultRelation.hasError ||
-        resultTypesetting.hasError ||
-        typesettingsValidation.invalid ||
-        denotationsValidation.invalid
+        resultTypesetting.hasError
     }
   }
 }
