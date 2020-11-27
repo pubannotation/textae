@@ -3,7 +3,7 @@ import SpanContainer from './SpanContainer'
 import AttributeContainer from './AttributeContainer'
 import RelationContainer from './RelationContainer'
 import EntityContainer from './EntityContainer'
-import parseDenotation from './parseDenotation'
+import parseAnnotation from './parseAnnotation'
 import clearAnnotationData from './clearAnnotationData'
 import toDenotations from './toDenotations'
 import toAttributes from './toAttributes'
@@ -30,7 +30,7 @@ export default class AnnotationData {
     this.sourceDoc = rawData.text
     this.config = rawData.config
 
-    const { multitrack, hasError, rejects } = parseDenotation(this, rawData)
+    const { multitrack, hasError, rejects } = parseAnnotation(this, rawData)
 
     this._editor.eventEmitter.emit(
       'textae.annotationData.all.change',
