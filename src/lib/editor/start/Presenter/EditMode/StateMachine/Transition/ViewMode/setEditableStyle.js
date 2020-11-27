@@ -1,7 +1,7 @@
 export default function (editor, isEditable) {
   if (isEditable) {
-    editor.addClass('textae-editor--editable')
+    editor[0].classList.add('textae-editor--editable')
   } else {
-    editor.removeClass('textae-editor--editable')
+    editor[0].classList.remove('textae-editor--editable')
   }
 }
