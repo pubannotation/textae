@@ -5,6 +5,14 @@ export default class ViewMode {
     this._editor = editor
   }
 
+  setViewWithRelation() {
+    changeCssClass(this._editor, 'instance')
+  }
+
+  setViewWithoutRelation() {
+    changeCssClass(this._editor, 'term')
+  }
+
   setDenotationWithRelation() {
     changeCssClass(this._editor, 'instance')
   }

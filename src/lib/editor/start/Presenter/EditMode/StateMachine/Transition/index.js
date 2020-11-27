@@ -28,7 +28,7 @@ export default class Transition {
     )
 
     this._noEdit()
-    this._viewMode.setDenotationWithoutRelation()
+    this._viewMode.setViewWithoutRelation()
     setEditableStyle(this._editor, false)
   }
 
@@ -40,7 +40,7 @@ export default class Transition {
     )
 
     this._noEdit()
-    this._viewMode.setDenotationWithRelation()
+    this._viewMode.setViewWithRelation()
     setEditableStyle(this._editor, false)
   }
 
