@@ -1,4 +1,4 @@
-import parseAnnotation from './parseAnnotation'
+import parseTrack from './parseTrack'
 
 export default function (span, entity, attribute, relation, text, rowData) {
   if (!rowData.tracks) return [false, []]
@@ -7,7 +7,7 @@ export default function (span, entity, attribute, relation, text, rowData) {
   const rejects = tracks.map((track, i) => {
     const number = i + 1
     const prefix = `track${number}_`
-    const reject = parseAnnotation(
+    const reject = parseTrack(
       span,
       entity,
       attribute,

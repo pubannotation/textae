@@ -1,4 +1,4 @@
-import parseAnnotation from './parseAnnotation'
+import parseTrack from './parseTrack'
 import importNamespace from './importNamespace'
 import parseTracks from './parseTracks'
 
@@ -11,7 +11,7 @@ export default function (annotationData, rowData) {
     rowData.text,
     rowData
   )
-  const annotationReject = parseAnnotation(
+  const annotationReject = parseTrack(
     annotationData.span,
     annotationData.entity,
     annotationData.attribute,
