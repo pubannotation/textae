@@ -5,16 +5,20 @@ export default class ViewMode {
     this._editor = editor
   }
 
-  setTerm() {
+  setDenotationWithRelation() {
+    changeCssClass(this._editor, 'instance')
+  }
+
+  setDenotationWithoutRelation() {
     changeCssClass(this._editor, 'term')
   }
 
-  setBlock() {
+  setBlockWithRelation() {
     changeCssClass(this._editor, 'block')
   }
 
-  setInstance() {
-    changeCssClass(this._editor, 'instance')
+  setBlockWithoutRelation() {
+    changeCssClass(this._editor, 'block')
   }
 
   setRelation() {
