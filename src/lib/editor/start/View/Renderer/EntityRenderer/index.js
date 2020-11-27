@@ -1,6 +1,5 @@
 import create from './create'
 import destroy from './destroy'
-import setTypeGapHeight from './setTypeGapHeight'
 import EntityModel from '../../../../EntityModel'
 
 export default class EntityRenderer {
@@ -28,7 +27,7 @@ export default class EntityRenderer {
       this._annotationData.namespace
     )
 
-    setTypeGapHeight(entity, this._typeGap)
+    entity.reflectTypeGapInTheHeight(this._typeGap())
   }
 
   change(entity) {
@@ -38,7 +37,7 @@ export default class EntityRenderer {
       this._selectionModel.entity.has(entity.id)
     )
 
-    setTypeGapHeight(entity, this._typeGap)
+    entity.reflectTypeGapInTheHeight(this._typeGap())
   }
 
   remove(entity) {
