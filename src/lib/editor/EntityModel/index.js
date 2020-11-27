@@ -4,6 +4,7 @@ import { makeEntityHTMLElementId } from '../idFactory'
 import mergeTypesOf from './mergeTypesOf'
 import SELECTED from '../SELECTED'
 import createEntityHtml from './createEntityHtml'
+import reflectTypeGapInTheHeight from '../start/View/reflectTypeGapInTheHeight'
 
 export default class EntityModel {
   constructor(
@@ -171,5 +172,14 @@ export default class EntityModel {
 
   destroyElement() {
     this.element.remove()
+  }
+
+  reflectTypeGapInTheHeight(typeGap) {
+    if (this.isDenotation) {
+      const entityElement = this.element
+      if (entityElement) {
+        reflectTypeGapInTheHeight(entityElement, typeGap)
+      }
+    }
   }
 }
