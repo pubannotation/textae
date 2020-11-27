@@ -367,25 +367,25 @@
   "attributes": [
     {
       "id": "A0",
-      "subj": "T1",
+      "subj": "E24",
       "pred": "precision",
       "obj": 50
     },
     {
       "id": "A1",
-      "subj": "T2",
+      "subj": "T3",
       "pred": "precision",
       "obj": 50
     },
     {
       "id": "A2",
-      "subj": "T2",
+      "subj": "T3",
       "pred": "precision",
       "obj": 78
     },
     {
       "id": "A3",
-      "subj": "E21",
+      "subj": "E22",
       "pred": "remark",
       "obj": "suspicious"
     },
