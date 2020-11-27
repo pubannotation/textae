@@ -3,7 +3,7 @@ import changeCssClass from './changeCssClass'
 
 export default class ViewMode {
   constructor(editor) {
-    this._editor = editor[0]
+    this._editor = editor
   }
 
   setViewWithRelation() {

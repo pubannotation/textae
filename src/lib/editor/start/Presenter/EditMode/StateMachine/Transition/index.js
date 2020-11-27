@@ -11,7 +11,7 @@ export default class Transition {
     editRelation
   ) {
     this._editor = editor
-    this._viewMode = new ViewMode(editor)
+    this._viewMode = new ViewMode(editor[0])
     this._displayInstance = displayInstance
     this._noEdit = noEdit
     this._editEntity = editEntity
