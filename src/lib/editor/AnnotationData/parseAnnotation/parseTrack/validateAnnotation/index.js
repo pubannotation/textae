@@ -16,11 +16,7 @@ export default function (text, rowData) {
   // so the boundaries cannot be crossed.
   // The boundary of a typesetting and denotation is crossed or not.
   // Merge type settings and denotations
-  const spans = resultTypesetting.accept
-    .map((n) => setSourceProperty(n, 'typesettings'))
-    .concat(
-      resultDenotation.accept.map((n) => setSourceProperty(n, 'denotations'))
-    )
+  const spans = resultTypesetting.accept.concat(resultDenotation.accept)
 
   const typesettingsValidation = new IsNotCrossingValidation(
     resultTypesetting.accept,
@@ -58,9 +54,13 @@ export default function (text, rowData) {
       duplicatedRangeBlocks: resultBlock.reject.duplicatedRange,
       wrongRangeTypesettings: resultTypesetting.reject.wrongRange,
       outOfTextTypesettings: resultTypesetting.reject.outOfText,
-      boundaryCrossingSpans: typesettingsValidation.invalidNodes.concat(
-        denotationsValidation.invalidNodes
-      ),
+      boundaryCrossingSpans: typesettingsValidation.invalidNodes
+        .map((n) => setSourceProperty(n, 'typesettings'))
+        .concat(
+          denotationsValidation.invalidNodes.map((n) =>
+            setSourceProperty(n, 'denotations')
+          )
+        ),
       referencedEntitiesDoNotExist: transformToReferencedEntitiesError(
         resultAttribute.reject.subj,
         resultRelation.reject.obj,
