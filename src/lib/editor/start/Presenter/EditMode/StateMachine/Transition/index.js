@@ -1,4 +1,3 @@
-import setEditableStyle from './setEditableStyle'
 import ViewMode from './ViewMode'
 import { MODE } from '../../../../../../MODE'
 
@@ -29,7 +28,6 @@ export default class Transition {
 
     this._noEdit()
     this._viewMode.setViewWithoutRelation()
-    setEditableStyle(this._editor, false)
   }
 
   toViewWithRelation() {
@@ -41,7 +39,6 @@ export default class Transition {
 
     this._noEdit()
     this._viewMode.setViewWithRelation()
-    setEditableStyle(this._editor, false)
   }
 
   toEditDenotationWithoutRelation() {
@@ -54,7 +51,6 @@ export default class Transition {
     this._noEdit()
     this._editEntity()
     this._viewMode.setDenotationWithoutRelation()
-    setEditableStyle(this._editor, true)
   }
 
   toEditDenotationWithRelation() {
@@ -67,7 +63,6 @@ export default class Transition {
     this._noEdit()
     this._editEntity()
     this._viewMode.setDenotationWithRelation()
-    setEditableStyle(this._editor, true)
   }
 
   toEditBlockWithoutRelation() {
@@ -80,7 +75,6 @@ export default class Transition {
     this._noEdit()
     this._editBlock()
     this._viewMode.setBlockWithoutRelation()
-    setEditableStyle(this._editor, true)
   }
 
   toEditBlockWithRelation() {
@@ -93,7 +87,6 @@ export default class Transition {
     this._noEdit()
     this._editBlock()
     this._viewMode.setBlockWithRelation()
-    setEditableStyle(this._editor, true)
   }
 
   toEditRelation() {
@@ -106,6 +99,5 @@ export default class Transition {
     this._noEdit()
     this._editRelation()
     this._viewMode.setRelation()
-    setEditableStyle(this._editor, true)
   }
 }
