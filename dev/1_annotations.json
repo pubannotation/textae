@@ -86,6 +86,9 @@
         "color": "#dd7897",
         "label": "Label of block1",
         "default": true
+      },
+      {
+        "id": "block3"
       }
     ],
     "relation types": [
