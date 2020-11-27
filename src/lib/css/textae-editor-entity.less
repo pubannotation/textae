@@ -118,7 +118,7 @@
     }
   }
 
-  &--relation-mode &__type:hover &__entity__type-values {
+  &__mode--relation &__type:hover &__entity__type-values {
     opacity: 0.9;
   }
 
@@ -152,8 +152,8 @@
     }
   }
 
-  /* term centric mode */
-  &--term-mode {
+  /* denotation without relation mode */
+  &__mode--denotation-without-relation {
     .textae-editor {
       &__grid {
         border-style: none;
@@ -171,7 +171,7 @@
   }
 
   /* relation edit mode */
-  &--relation-mode {
+  &__mode--relation {
     .textae-editor__entity:hover .textae-editor__entity__type-label {
       box-shadow: none;
     }

@@ -24,19 +24,19 @@
   white-space: pre;
 
   /* active editer color */
-  &--term-mode.textae-editor--active {
+  &__mode--denotation-without-relation.textae-editor--active {
     .active;
   }
 
-  &--instance-mode.textae-editor--active {
+  &__mode--denotation-with-relation.textae-editor--active {
     .active;
   }
 
-  &--block-mode.textae-editor--active {
+  &__mode--block-with-relation.textae-editor--active {
     background-color: #eef;
   }
 
-  &--relation-mode.textae-editor--active {
+  &__mode--relation.textae-editor--active {
     background-color: #ffedee;
   }
 
@@ -153,8 +153,8 @@
     }
   }
 
-  /* term centric mode */
-  &--term-mode {
+  /* denotation without relation mode */
+  &__mode--denotation-without-relation {
     .textae-editor {
 
       &__relation,
@@ -172,8 +172,8 @@
     }
   }
 
-  /* instance edit mode */
-  &--instance-mode {
+  /* denotation with relation mode */
+  &__mode--denotation-without-relation {
     .textae-editor {
 
       &__relation:hover,
@@ -189,14 +189,14 @@
     }
   }
 
-  &--block-mode {
+  &__mode--block-with-relation {
     .textae-editor__block-hit-area {
       display: block;
     }
   }
 
   /* relation edit mode */
-  &--relation-mode {
+  &__mode--relation {
     cursor: pointer;
 
     .textae-editor__span:hover {
@@ -240,7 +240,7 @@
     }
 
     // Allow selection of text after relation labels in entity edit mode.
-    &.textae-editor--instance-mode {
+    &.textae-editor__mode--denotation-with-relation {
       .textae-editor {
         &__relation__label {
           z-index: 0;

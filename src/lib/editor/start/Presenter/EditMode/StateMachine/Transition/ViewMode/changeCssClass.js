@@ -1,8 +1,8 @@
 export default function (editor, mode) {
   editor
-    .removeClass('textae-editor--term-mode')
-    .removeClass('textae-editor--instance-mode')
-    .removeClass('textae-editor--block-mode')
-    .removeClass('textae-editor--relation-mode')
-    .addClass(`textae-editor--${mode}-mode`)
+    .removeClass('textae-editor__mode--denotation-without-relation')
+    .removeClass('textae-editor__mode--denotation-with-relation')
+    .removeClass('textae-editor__mode--block-with-relation')
+    .removeClass('textae-editor__mode--relation')
+    .addClass(`textae-editor__mode--${mode}`)
 }
