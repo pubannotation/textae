@@ -1,5 +1,5 @@
-import Validation from '../Validation'
-import isBoundaryCrossingWithOtherSpans from '../../../../isBoundaryCrossingWithOtherSpans'
+import Validation from './Validation'
+import isBoundaryCrossingWithOtherSpans from '../../../isBoundaryCrossingWithOtherSpans'
 
 export default class IsNotCrossingValidation extends Validation {
   constructor(nodes, allSpans) {

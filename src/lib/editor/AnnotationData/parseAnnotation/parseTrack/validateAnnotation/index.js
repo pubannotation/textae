@@ -4,8 +4,8 @@ import validateRelation from './validateRelation'
 import transformToReferencedEntitiesError from './transformToReferencedEntitiesError'
 import validateDenotation from './validateDenotation'
 import validateBlock from './validateBlock'
-import setSourceProperty from './validateBoundaryCrossing/setSourceProperty'
-import IsNotCrossingValidation from './validateBoundaryCrossing/IsNotCrossingValidation'
+import setSourceProperty from './setSourceProperty'
+import IsNotCrossingValidation from './IsNotCrossingValidation'
 
 export default function (text, rowData) {
   const resultTypesetting = validateSpan(text, rowData.typesettings)
