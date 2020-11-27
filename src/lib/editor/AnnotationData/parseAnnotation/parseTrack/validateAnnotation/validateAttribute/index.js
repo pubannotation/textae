@@ -1,12 +1,6 @@
 import isContains from '../isContains'
 import ChainValidation from '../ChainValidation'
-
-function areSubjAndPredUniqueIn(attributes, node) {
-  return (
-    attributes.filter((a) => a.subj === node.subj && a.pred === node.pred)
-      .length === 1
-  )
-}
+import areSubjAndPredUniqueIn from './areSubjAndPredUniqueIn'
 
 export default function (denotations, attributes) {
   const [accepts, errorMap] = new ChainValidation(attributes)
