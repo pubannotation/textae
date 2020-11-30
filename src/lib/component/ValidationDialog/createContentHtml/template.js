@@ -69,7 +69,7 @@ const source = `
 
     {{#if duplicatedIDDenotations}}
       <table>
-        <caption>Dupulicated ID denotations.</caption>
+        <caption>Duplicated ID denotations.</caption>
         <thead>
           <tr>
             <th class="id">id</th>
@@ -141,7 +141,7 @@ const source = `
 
     {{#if duplicatedIDBlocks}}
       <table>
-        <caption>Dupulicated ID blocks.</caption>
+        <caption>Duplicated ID blocks.</caption>
         <thead>
           <tr>
             <th class="id">id</th>
@@ -165,7 +165,7 @@ const source = `
 
     {{#if duplicatedRangeBlocks}}
       <table>
-        <caption>Dupulicated range blocks.</caption>
+        <caption>Duplicated range blocks.</caption>
         <thead>
           <tr>
             <th class="id">id</th>
@@ -289,7 +289,7 @@ const source = `
 
     {{#if duplicatedAttributes}}
       <table>
-        <caption>Dupulicated attributes.</caption>
+        <caption>Duplicated attributes.</caption>
         <thead>
           <tr>
             <th class="id">id</th>
