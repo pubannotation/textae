@@ -21,7 +21,7 @@ export default function (text, rowData) {
 
   const resultBlock = validateBlock(text, rowData.blocks, spans)
 
-  const resultAttribute = validateAttribute(
+  const [attribute, errorAttributes] = validateAttribute(
     resultDenotation.accept,
     rowData.attributes
   )
@@ -34,7 +34,7 @@ export default function (text, rowData) {
   return {
     accept: {
       denotation: resultDenotation.accept,
-      attribute: resultAttribute.accept,
+      attribute,
       relation,
       typeSetting: resultTypesetting.accept,
       block: resultBlock.accept
@@ -62,15 +62,15 @@ export default function (text, rowData) {
           )
         ),
       referencedEntitiesDoNotExist: transformToReferencedEntitiesError(
-        resultAttribute.reject.subj,
+        errorAttributes.get('subject'),
         errorRelations.get('object'),
         errorRelations.get('subject')
       ),
-      duplicatedAttributes: resultAttribute.reject.duplicatedAttributes,
+      duplicatedAttributes: errorAttributes.get('unique'),
       hasError:
         resultDenotation.hasError ||
         resultBlock.hasError ||
-        resultAttribute.hasError ||
+        errorAttributes.size ||
         errorRelations.size ||
         resultTypesetting.hasError
     }
