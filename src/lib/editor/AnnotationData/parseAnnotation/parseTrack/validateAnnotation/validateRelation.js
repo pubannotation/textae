@@ -10,8 +10,8 @@ export default function (denotations, relations) {
   return {
     accept: accepts,
     reject: {
-      obj: errorMap.get('object') || [],
-      subj: errorMap.get('subject') || []
+      obj: errorMap.get('object'),
+      subj: errorMap.get('subject')
     },
     hasError: errorMap.size > 0
   }

@@ -1,9 +1,26 @@
+class ErrorMap {
+  constructor() {
+    this._map = new Map()
+  }
+
+  set(key, value) {
+    this._map.set(key, value)
+  }
+  get(key) {
+    return this._map.get(key) || []
+  }
+
+  get size() {
+    return this._map.size
+  }
+}
+
 export default class ChainValidation {
   constructor(
     candidates,
     name = '',
     predicate = () => true,
-    errorMap = new Map()
+    errorMap = new ErrorMap()
   ) {
     this._candidates = candidates || []
     this._name = name

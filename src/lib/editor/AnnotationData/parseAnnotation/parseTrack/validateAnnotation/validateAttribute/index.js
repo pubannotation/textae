@@ -11,8 +11,8 @@ export default function (denotations, attributes) {
   return {
     accept: accepts,
     reject: {
-      subj: errorMap.get('subject') || [],
-      duplicatedAttributes: errorMap.get('unique') || []
+      subj: errorMap.get('subject'),
+      duplicatedAttributes: errorMap.get('unique')
     },
     hasError: errorMap.size
   }
