@@ -1,4 +1,4 @@
-import validateSpan from './validateSpan'
+import validateTypeSettings from './validateTypeSettings'
 import validateAttribute from './validateAttribute'
 import validateRelation from './validateRelation'
 import transformToReferencedEntitiesError from './transformToReferencedEntitiesError'
@@ -15,7 +15,7 @@ export default function (text, rowData) {
     .concat(rowData.denotations || [])
     .concat(rowData.blocks || [])
 
-  const [typeSetting, errorTypeSettings] = validateSpan(
+  const [typeSetting, errorTypeSettings] = validateTypeSettings(
     text,
     rowData.typesettings,
     spans
