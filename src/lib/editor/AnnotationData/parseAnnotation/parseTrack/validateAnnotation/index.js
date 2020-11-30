@@ -21,32 +21,36 @@ export default function (text, rowData) {
     spans
   )
 
-  const resultDenotation = validateDenotation(text, rowData.denotations, spans)
+  const [denotation, errorDenotations] = validateDenotation(
+    text,
+    rowData.denotations,
+    spans
+  )
 
   const resultBlock = validateBlock(text, rowData.blocks, spans)
 
   const [attribute, errorAttributes] = validateAttribute(
-    resultDenotation.accept,
+    denotation,
     rowData.attributes
   )
 
   const [relation, errorRelations] = validateRelation(
-    resultDenotation.accept,
+    denotation,
     rowData.relations
   )
 
   return {
     accept: {
-      denotation: resultDenotation.accept,
+      denotation,
       attribute,
       relation,
       typeSetting,
       block: resultBlock.accept
     },
     reject: {
-      wrongRangeDenotations: resultDenotation.reject.wrongRange,
-      outOfTextDenotations: resultDenotation.reject.outOfText,
-      duplicatedIDDenotations: resultDenotation.reject.duplicatedID,
+      wrongRangeDenotations: errorDenotations.get('hasLength'),
+      outOfTextDenotations: errorDenotations.get('inText'),
+      duplicatedIDDenotations: errorDenotations.get('uniqueID'),
       wrongRangeBlocks: resultBlock.reject.wrongRange,
       outOfTextBlocks: resultBlock.reject.outOfText,
       duplicatedIDBlocks: resultBlock.reject.duplicatedID,
@@ -57,9 +61,9 @@ export default function (text, rowData) {
         .get('isNotCrossing')
         .map((n) => setSourceProperty(n, 'typesettings'))
         .concat(
-          resultDenotation.reject.boundaryCrossingSpans.map((n) =>
-            setSourceProperty(n, 'denotations')
-          )
+          errorDenotations
+            .get('isNotCrossing')
+            .map((n) => setSourceProperty(n, 'denotations'))
         )
         .concat(
           resultBlock.reject.boundaryCrossingSpans.map((n) =>
@@ -73,7 +77,7 @@ export default function (text, rowData) {
       ),
       duplicatedAttributes: errorAttributes.get('unique'),
       hasError:
-        resultDenotation.hasError ||
+        errorDenotations.size ||
         resultBlock.hasError ||
         errorAttributes.size ||
         errorRelations.size ||
