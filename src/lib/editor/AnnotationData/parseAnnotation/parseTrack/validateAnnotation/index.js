@@ -50,13 +50,17 @@ export default function (text, rowData) {
     reject: {
       wrongRangeDenotations: errorDenotations.get('hasLength'),
       outOfTextDenotations: errorDenotations.get('inText'),
-      duplicatedIDDenotations: errorDenotations.get('uniqueID'),
       wrongRangeBlocks: errorBlocks.get('hasLength'),
       outOfTextBlocks: errorBlocks.get('inText'),
-      duplicatedIDBlocks: errorBlocks.get('uniqueID'),
       duplicatedRangeBlocks: errorBlocks.get('uniqueRange'),
       wrongRangeTypesettings: errorTypeSettings.get('hasLength'),
       outOfTextTypesettings: errorTypeSettings.get('inText'),
+      duplicatedIDs: errorDenotations
+        .get('uniqueID')
+        .map((n) => setSourceProperty(n, 'denotations'))
+        .concat(
+          errorBlocks.get('uniqueID').map((n) => setSourceProperty(n, 'blocks'))
+        ),
       boundaryCrossingSpans: errorTypeSettings
         .get('isNotCrossing')
         .map((n) => setSourceProperty(n, 'typesettings'))
