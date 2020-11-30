@@ -295,6 +295,14 @@
         "end": 210
       },
       "obj": "Protein"
+    },
+    {
+      "id": "EB1",
+      "span": {
+        "begin": 0,
+        "end": 1
+      },
+      "obj": "Protein"
     }
   ],
   "blocks": [
@@ -367,6 +375,14 @@
       "span": {
         "begin": 0,
         "end": 622
+      },
+      "obj": "Protein"
+    },
+    {
+      "id": "EB1",
+      "span": {
+        "begin": 0,
+        "end": 1
       },
       "obj": "Protein"
     }
