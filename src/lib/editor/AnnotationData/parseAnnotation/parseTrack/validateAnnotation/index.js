@@ -27,7 +27,7 @@ export default function (text, rowData) {
     spans
   )
 
-  const resultBlock = validateBlock(text, rowData.blocks, spans)
+  const [block, errorBlocks] = validateBlock(text, rowData.blocks, spans)
 
   const [attribute, errorAttributes] = validateAttribute(
     denotation,
@@ -45,16 +45,16 @@ export default function (text, rowData) {
       attribute,
       relation,
       typeSetting,
-      block: resultBlock.accept
+      block
     },
     reject: {
       wrongRangeDenotations: errorDenotations.get('hasLength'),
       outOfTextDenotations: errorDenotations.get('inText'),
       duplicatedIDDenotations: errorDenotations.get('uniqueID'),
-      wrongRangeBlocks: resultBlock.reject.wrongRange,
-      outOfTextBlocks: resultBlock.reject.outOfText,
-      duplicatedIDBlocks: resultBlock.reject.duplicatedID,
-      duplicatedRangeBlocks: resultBlock.reject.duplicatedRange,
+      wrongRangeBlocks: errorBlocks.get('hasLength'),
+      outOfTextBlocks: errorBlocks.get('inText'),
+      duplicatedIDBlocks: errorBlocks.get('uniqueID'),
+      duplicatedRangeBlocks: errorBlocks.get('uniqueRange'),
       wrongRangeTypesettings: errorTypeSettings.get('hasLength'),
       outOfTextTypesettings: errorTypeSettings.get('inText'),
       boundaryCrossingSpans: errorTypeSettings
@@ -66,9 +66,9 @@ export default function (text, rowData) {
             .map((n) => setSourceProperty(n, 'denotations'))
         )
         .concat(
-          resultBlock.reject.boundaryCrossingSpans.map((n) =>
-            setSourceProperty(n, 'blocks')
-          )
+          errorBlocks
+            .get('isNotCrossing')
+            .map((n) => setSourceProperty(n, 'blocks'))
         ),
       referencedEntitiesDoNotExist: transformToReferencedEntitiesError(
         errorAttributes.get('subject'),
@@ -78,7 +78,7 @@ export default function (text, rowData) {
       duplicatedAttributes: errorAttributes.get('unique'),
       hasError:
         errorDenotations.size ||
-        resultBlock.hasError ||
+        errorBlocks.size ||
         errorAttributes.size ||
         errorRelations.size ||
         errorTypeSettings.size
