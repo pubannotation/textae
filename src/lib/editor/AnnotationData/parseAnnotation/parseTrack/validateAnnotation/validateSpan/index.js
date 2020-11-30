@@ -1,7 +1,4 @@
-import hasLength from './hasLength'
 import isBeginAndEndIn from './isBeginAndEndIn'
-import Validation from '../Validation'
-import IsNotCrossingValidation from './IsNotCrossingValidation'
 import ChainValidation from '../ChainValidation'
 import isBoundaryCrossingWithOtherSpans from '../../../../isBoundaryCrossingWithOtherSpans'
 
@@ -19,16 +16,6 @@ export default function (text, targetSpans, allSpans) {
         )
     )
     .validate()
-
-  const hasLengthValidation = new Validation(targetSpans, hasLength)
-  const inTextValidation = new Validation(
-    hasLengthValidation.validNodes,
-    (node) => isBeginAndEndIn(text, node.span)
-  )
-  const crossValidation = new IsNotCrossingValidation(
-    inTextValidation.validNodes,
-    allSpans
-  )
 
   return {
     accept,
