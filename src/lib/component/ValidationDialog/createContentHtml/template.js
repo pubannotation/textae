@@ -67,30 +67,6 @@ const source = `
       </table>
     {{/if}}
 
-    {{#if duplicatedIDDenotations}}
-      <table>
-        <caption>Duplicated ID denotations.</caption>
-        <thead>
-          <tr>
-            <th class="id">id</th>
-            <th class="range">begin</th>
-            <th class="range">end</th>
-            <th>obj</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#duplicatedIDDenotations}}
-          <tr>
-            <td>{{id}}</td>
-            <td class="alert">{{span.begin}}</td>
-            <td class="alert">{{span.end}}</td>
-            <td>{{obj}}</td>
-          </tr>
-          {{/duplicatedIDDenotations}}
-        </tbody>
-      </table>
-    {{/if}}
-
     {{#if wrongRangeBlocks}}
       <table>
         <caption>Wrong range blocks.</caption>
@@ -135,30 +111,6 @@ const source = `
             <td>{{obj}}</td>
           </tr>
           {{/outOfTextBlocks}}
-        </tbody>
-      </table>
-    {{/if}}
-
-    {{#if duplicatedIDBlocks}}
-      <table>
-        <caption>Duplicated ID blocks.</caption>
-        <thead>
-          <tr>
-            <th class="id">id</th>
-            <th class="range">begin</th>
-            <th class="range">end</th>
-            <th>obj</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#duplicatedIDBlocks}}
-          <tr>
-            <td>{{id}}</td>
-            <td class="alert">{{span.begin}}</td>
-            <td class="alert">{{span.end}}</td>
-            <td>{{obj}}</td>
-          </tr>
-          {{/duplicatedIDBlocks}}
         </tbody>
       </table>
     {{/if}}
@@ -231,6 +183,54 @@ const source = `
             <td>{{style}}</td>
           </tr>
           {{/outOfTextTypesettings}}
+        </tbody>
+      </table>
+    {{/if}}
+
+    {{#if duplicatedIDDenotations}}
+      <table>
+        <caption>Duplicated ID denotations.</caption>
+        <thead>
+          <tr>
+            <th class="id">id</th>
+            <th class="range">begin</th>
+            <th class="range">end</th>
+            <th>obj</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#duplicatedIDDenotations}}
+          <tr>
+            <td>{{id}}</td>
+            <td class="alert">{{span.begin}}</td>
+            <td class="alert">{{span.end}}</td>
+            <td>{{obj}}</td>
+          </tr>
+          {{/duplicatedIDDenotations}}
+        </tbody>
+      </table>
+    {{/if}}
+
+    {{#if duplicatedIDBlocks}}
+      <table>
+        <caption>Duplicated ID blocks.</caption>
+        <thead>
+          <tr>
+            <th class="id">id</th>
+            <th class="range">begin</th>
+            <th class="range">end</th>
+            <th>obj</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#duplicatedIDBlocks}}
+          <tr>
+            <td>{{id}}</td>
+            <td class="alert">{{span.begin}}</td>
+            <td class="alert">{{span.end}}</td>
+            <td>{{obj}}</td>
+          </tr>
+          {{/duplicatedIDBlocks}}
         </tbody>
       </table>
     {{/if}}
