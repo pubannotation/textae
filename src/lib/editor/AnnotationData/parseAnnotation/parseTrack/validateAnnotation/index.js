@@ -15,7 +15,11 @@ export default function (text, rowData) {
     .concat(rowData.denotations || [])
     .concat(rowData.blocks || [])
 
-  const resultTypesetting = validateSpan(text, rowData.typesettings, spans)
+  const [typeSetting, errorTypeSettings] = validateSpan(
+    text,
+    rowData.typesettings,
+    spans
+  )
 
   const resultDenotation = validateDenotation(text, rowData.denotations, spans)
 
@@ -36,7 +40,7 @@ export default function (text, rowData) {
       denotation: resultDenotation.accept,
       attribute,
       relation,
-      typeSetting: resultTypesetting.accept,
+      typeSetting,
       block: resultBlock.accept
     },
     reject: {
@@ -47,9 +51,10 @@ export default function (text, rowData) {
       outOfTextBlocks: resultBlock.reject.outOfText,
       duplicatedIDBlocks: resultBlock.reject.duplicatedID,
       duplicatedRangeBlocks: resultBlock.reject.duplicatedRange,
-      wrongRangeTypesettings: resultTypesetting.reject.wrongRange,
-      outOfTextTypesettings: resultTypesetting.reject.outOfText,
-      boundaryCrossingSpans: resultTypesetting.reject.boundaryCrossingSpans
+      wrongRangeTypesettings: errorTypeSettings.get('hasLength'),
+      outOfTextTypesettings: errorTypeSettings.get('inText'),
+      boundaryCrossingSpans: errorTypeSettings
+        .get('isNotCrossing')
         .map((n) => setSourceProperty(n, 'typesettings'))
         .concat(
           resultDenotation.reject.boundaryCrossingSpans.map((n) =>
@@ -72,7 +77,7 @@ export default function (text, rowData) {
         resultBlock.hasError ||
         errorAttributes.size ||
         errorRelations.size ||
-        resultTypesetting.hasError
+        errorTypeSettings.size
     }
   }
 }
