@@ -1,7 +1,7 @@
 import hasLength from './hasLength'
 import isBeginAndEndIn from './isBeginAndEndIn'
 import Validation from '../Validation'
-import IsNotCrossingValidation from '../IsNotCrossingValidation'
+import IsNotCrossingValidation from './IsNotCrossingValidation'
 
 export default function (text, targetSpans, allSpans) {
   const hasLengthValidation = new Validation(targetSpans, hasLength)
