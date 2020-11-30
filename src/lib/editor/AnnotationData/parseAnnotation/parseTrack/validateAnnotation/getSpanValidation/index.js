@@ -1,6 +1,6 @@
-import isBeginAndEndIn from './validateSpan/isBeginAndEndIn'
-import ChainValidation from './ChainValidation'
-import isBoundaryCrossingWithOtherSpans from '../../../isBoundaryCrossingWithOtherSpans'
+import isBeginAndEndIn from './isBeginAndEndIn'
+import ChainValidation from '../ChainValidation'
+import isBoundaryCrossingWithOtherSpans from '../../../../isBoundaryCrossingWithOtherSpans'
 
 export default function (targetSpans, text, allSpans) {
   return new ChainValidation(targetSpans)
