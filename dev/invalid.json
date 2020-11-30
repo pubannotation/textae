@@ -309,7 +309,7 @@
     {
       "id": "B2",
       "span": {
-        "begin": 204,
+        "begin": 1000,
         "end": 1786
       },
       "obj": "Protein"
@@ -359,6 +359,14 @@
       "span": {
         "begin": 120,
         "end": 121
+      },
+      "obj": "Protein"
+    },
+    {
+      "id": "B8",
+      "span": {
+        "begin": 0,
+        "end": 622
       },
       "obj": "Protein"
     }
