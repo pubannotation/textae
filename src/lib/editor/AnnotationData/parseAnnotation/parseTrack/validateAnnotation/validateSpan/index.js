@@ -2,8 +2,24 @@ import hasLength from './hasLength'
 import isBeginAndEndIn from './isBeginAndEndIn'
 import Validation from '../Validation'
 import IsNotCrossingValidation from './IsNotCrossingValidation'
+import ChainValidation from '../ChainValidation'
+import isBoundaryCrossingWithOtherSpans from '../../../../isBoundaryCrossingWithOtherSpans'
 
 export default function (text, targetSpans, allSpans) {
+  const [accept, errorMap] = new ChainValidation(targetSpans)
+    .and('hasLength', (n) => n.span.end - n.span.begin > 0)
+    .and('inText', (n) => isBeginAndEndIn(text, n.span))
+    .and(
+      'isNotCrossing',
+      (n) =>
+        !isBoundaryCrossingWithOtherSpans(
+          allSpans.map((s) => s.span),
+          n.span.begin,
+          n.span.end
+        )
+    )
+    .validate()
+
   const hasLengthValidation = new Validation(targetSpans, hasLength)
   const inTextValidation = new Validation(
     hasLengthValidation.validNodes,
@@ -15,15 +31,12 @@ export default function (text, targetSpans, allSpans) {
   )
 
   return {
-    accept: crossValidation.validNodes,
+    accept,
     reject: {
-      wrongRange: hasLengthValidation.invalidNodes,
-      outOfText: inTextValidation.invalidNodes,
-      boundaryCrossingSpans: crossValidation.invalidNodes
+      wrongRange: errorMap.get('hasLength'),
+      outOfText: errorMap.get('inText'),
+      boundaryCrossingSpans: errorMap.get('isNotCrossing')
     },
-    hasError:
-      hasLengthValidation.invalid ||
-      inTextValidation.invalid ||
-      crossValidation.invalid
+    hasError: errorMap.size
   }
 }
