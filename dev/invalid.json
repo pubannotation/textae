@@ -468,6 +468,18 @@
       "subj": "B8",
       "pred": "remark",
       "obj": "attribute1"
+    },
+    {
+      "id": "A6",
+      "subj": "B9",
+      "pred": "remark",
+      "obj": "attribute2"
+    },
+    {
+      "id": "A7",
+      "subj": "B9",
+      "pred": "remark",
+      "obj": "attribute3"
     }
   ],
   "typesettings": [
