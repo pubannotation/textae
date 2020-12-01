@@ -1,4 +1,4 @@
-import ViewMode from './ViewMode'
+import EditorCSSClassForMode from './EditorCSSClassForMode'
 import { MODE } from '../../../../../../MODE'
 
 export default class Transition {
@@ -11,7 +11,7 @@ export default class Transition {
     editRelation
   ) {
     this._editor = editor
-    this._viewMode = new ViewMode(editor[0])
+    this._editorCSSClassForMode = new EditorCSSClassForMode(editor[0])
     this._displayInstance = displayInstance
     this._noEdit = noEdit
     this._editEntity = editEntity
@@ -27,7 +27,7 @@ export default class Transition {
     )
 
     this._noEdit()
-    this._viewMode.setViewWithoutRelation()
+    this._editorCSSClassForMode.setViewWithoutRelation()
   }
 
   toViewWithRelation() {
@@ -38,7 +38,7 @@ export default class Transition {
     )
 
     this._noEdit()
-    this._viewMode.setViewWithRelation()
+    this._editorCSSClassForMode.setViewWithRelation()
   }
 
   toEditDenotationWithoutRelation() {
@@ -50,7 +50,7 @@ export default class Transition {
 
     this._noEdit()
     this._editEntity()
-    this._viewMode.setDenotationWithoutRelation()
+    this._editorCSSClassForMode.setDenotationWithoutRelation()
   }
 
   toEditDenotationWithRelation() {
@@ -62,7 +62,7 @@ export default class Transition {
 
     this._noEdit()
     this._editEntity()
-    this._viewMode.setDenotationWithRelation()
+    this._editorCSSClassForMode.setDenotationWithRelation()
   }
 
   toEditBlockWithoutRelation() {
@@ -74,7 +74,7 @@ export default class Transition {
 
     this._noEdit()
     this._editBlock()
-    this._viewMode.setBlockWithoutRelation()
+    this._editorCSSClassForMode.setBlockWithoutRelation()
   }
 
   toEditBlockWithRelation() {
@@ -86,7 +86,7 @@ export default class Transition {
 
     this._noEdit()
     this._editBlock()
-    this._viewMode.setBlockWithRelation()
+    this._editorCSSClassForMode.setBlockWithRelation()
   }
 
   toEditRelation() {
@@ -98,6 +98,6 @@ export default class Transition {
 
     this._noEdit()
     this._editRelation()
-    this._viewMode.setRelation()
+    this._editorCSSClassForMode.setRelation()
   }
 }
