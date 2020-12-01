@@ -6,10 +6,12 @@ export default function (targetSpans, text, allSpans) {
   return new ChainValidation(targetSpans)
     .and('hasLength', (n) => n.span.end - n.span.begin > 0)
     .and('inText', (n) => isBeginAndEndIn(text, n.span))
-    .and(
-      'isNotCrossing',
-      (n) =>
-        getBoundaryCrossingSpans(allSpans, n.span.begin, n.span.end).length ===
-        0
-    )
+    .and('isNotCrossing', (n) => {
+      const bondaryCrossingSpans = getBoundaryCrossingSpans(
+        allSpans,
+        n.span.begin,
+        n.span.end
+      )
+      return [bondaryCrossingSpans.length === 0, bondaryCrossingSpans]
+    })
 }

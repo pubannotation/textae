@@ -39,6 +39,36 @@ export default function (text, rowData) {
     rowData.relations
   )
 
+  for (const [key, values] of errorTypeSettings.getInhibitors(
+    'isNotCrossing'
+  )) {
+    console.warn(
+      `Crossing TypeSettings: [${key.span.begin}:${key.span.end}](${
+        key.id
+      }) crosses with ${values
+        .map(({ id, span }) => `[${span.begin}:${span.end}](${id})`)
+        .join(', ')}`
+    )
+  }
+  for (const [key, values] of errorDenotations.getInhibitors('isNotCrossing')) {
+    console.warn(
+      `Crossing Dennotations: [${key.span.begin}:${key.span.end}](${
+        key.id
+      }) crosses with ${values
+        .map(({ id, span }) => `[${span.begin}:${span.end}](${id})`)
+        .join(', ')}`
+    )
+  }
+  for (const [key, values] of errorBlocks.getInhibitors('isNotCrossing')) {
+    console.warn(
+      `Crossing Blocks: [${key.span.begin}:${key.span.end}](${
+        key.id
+      }) crosses with ${values
+        .map(({ id, span }) => `[${span.begin}:${span.end}](${id})`)
+        .join(', ')}`
+    )
+  }
+
   return {
     accept: {
       denotation,
