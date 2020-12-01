@@ -32,7 +32,7 @@ export default class ViewMode {
   }
 
   setBlockWithoutRelation() {
-    changeCssClass(this._editor, 'block-with-relation')
+    changeCssClass(this._editor, 'block-without-relation')
     setEditableStyle(this._editor, true)
   }
 
