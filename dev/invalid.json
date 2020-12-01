@@ -317,7 +317,7 @@
     {
       "id": "B2",
       "span": {
-        "begin": 1000,
+        "begin": 1500,
         "end": 1786
       },
       "obj": "Protein"
