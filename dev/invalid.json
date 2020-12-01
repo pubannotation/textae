@@ -462,6 +462,12 @@
       "subj": "E21",
       "pred": "remark",
       "obj": "confirmed"
+    },
+    {
+      "id": "A5",
+      "subj": "B8",
+      "pred": "remark",
+      "obj": "attribute1"
     }
   ],
   "typesettings": [

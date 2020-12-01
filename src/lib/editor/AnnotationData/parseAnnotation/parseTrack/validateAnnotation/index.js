@@ -31,7 +31,7 @@ export default function (text, rowData) {
   const [block, errorBlocks] = validateBlock(text, rowData.blocks, spans)
 
   const [attribute, errorAttributes] = validateAttribute(
-    denotation,
+    denotation.concat(block),
     rowData.attributes
   )
 
