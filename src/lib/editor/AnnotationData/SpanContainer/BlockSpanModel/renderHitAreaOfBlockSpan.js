@@ -1,6 +1,7 @@
 export default function (parentElement, span) {
   const div = document.createElement('div')
   div.setAttribute('id', span.hitAreaId)
+  div.setAttribute('title', span.id)
   div.classList.add('textae-editor__block-hit-area')
 
   // Keeps the ID of the span to determine which span was clicked when clicked.
