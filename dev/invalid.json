@@ -379,6 +379,14 @@
       "obj": "Protein"
     },
     {
+      "id": "B9",
+      "span": {
+        "begin": 623,
+        "end": 1002
+      },
+      "obj": "Protein"
+    },
+    {
       "id": "EB1",
       "span": {
         "begin": 0,
@@ -410,6 +418,12 @@
       "pred": "equivalentTo",
       "subj": "E27",
       "obj": "E3"
+    },
+    {
+      "id": "R6",
+      "pred": "association with",
+      "subj": "B8",
+      "obj": "B9"
     }
   ],
   "attributes": [

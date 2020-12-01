@@ -36,7 +36,7 @@ export default function (text, rowData) {
   )
 
   const [relation, errorRelations] = validateRelation(
-    denotation,
+    denotation.concat(block),
     rowData.relations
   )
 

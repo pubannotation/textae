@@ -779,6 +779,12 @@
       "pred": "equivalentTo",
       "subj": "T4",
       "obj": "E3"
+    },
+    {
+      "id": "R13",
+      "pred": "equivalentTo",
+      "subj": "B1",
+      "obj": "B2"
     }
   ],
   "typesettings": [
