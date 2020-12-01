@@ -26,12 +26,22 @@ export default class ChainValidation {
     return [this._accepts, this._updateErros()]
   }
 
+  _test(c) {
+    const result = this._predicate(c)
+
+    if (Array.isArray(result)) {
+      return result[0]
+    }
+
+    return result
+  }
+
   get _accepts() {
-    return this._candidates.filter((c) => this._predicate(c))
+    return this._candidates.filter((c) => this._test(c))
   }
 
   get _rejects() {
-    return this._candidates.filter((c) => !this._predicate(c))
+    return this._candidates.filter((c) => !this._test(c))
   }
 
   _updateErros() {
