@@ -24,20 +24,21 @@
   white-space: pre;
 
   /* active editer color */
-  &__mode--denotation-without-relation.textae-editor--active {
-    .active;
-  }
-
-  &__mode--denotation-with-relation.textae-editor--active {
-    .active;
-  }
-
-  &__mode--block-with-relation.textae-editor--active {
-    background-color: #eef;
-  }
-
-  &__mode--relation.textae-editor--active {
-    background-color: #ffedee;
+  &--active {
+    &.textae-editor__mode{ 
+      &--denotation-with-relation,
+      &--denotation-without-relation {
+        .active;
+      }
+    
+      &--block-with-relation {
+        background-color: #eef;
+      }
+    
+      &--relation {
+        background-color: #ffedee;
+      }
+    }
   }
 
   &__body {
