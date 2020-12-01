@@ -7,12 +7,12 @@ export default class ViewMode {
   }
 
   setViewWithRelation() {
-    changeCssClass(this._editor, 'denotation-with-relation')
+    changeCssClass(this._editor, 'view-with-relation')
     setEditableStyle(this._editor, false)
   }
 
   setViewWithoutRelation() {
-    changeCssClass(this._editor, 'denotation-without-relation')
+    changeCssClass(this._editor, 'view-without-relation')
     setEditableStyle(this._editor, false)
   }
 

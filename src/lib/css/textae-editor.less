@@ -26,6 +26,8 @@
   /* active editer color */
   &--active {
     &.textae-editor__mode{ 
+      &--view-with-relation,
+      &--view-without-relation,
       &--denotation-with-relation,
       &--denotation-without-relation {
         .active;
@@ -156,6 +158,7 @@
   }
 
   /* denotation without relation mode */
+  &__mode--view-without-relation,
   &__mode--denotation-without-relation {
     .textae-editor {
 
@@ -175,6 +178,7 @@
   }
 
   /* denotation with relation mode */
+  &__mode--view-with-relation,
   &__mode--denotation-with-relation {
     .textae-editor {
 
