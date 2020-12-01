@@ -12,5 +12,5 @@ export default function (text, blocks, spans) {
             (span.begin === otherSpan.begin) & (span.end === otherSpan.end)
         ).length === 1
     )
-    .validate()
+    .validateAll()
 }

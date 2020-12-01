@@ -5,5 +5,5 @@ export default function (denotations, relations) {
   return new ChainValidation(relations)
     .and('object', (r) => isContains(denotations, r.obj))
     .and('subject', (r) => isContains(denotations, r.subj))
-    .validate()
+    .validateAll()
 }

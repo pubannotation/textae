@@ -3,51 +3,59 @@ import ErrorMap from './ErrorMap'
 export default class ChainValidation {
   constructor(
     candidates,
-    name = '',
+    name = 'root',
     predicate = () => true,
-    errorMap = new ErrorMap()
+    prevValidation
   ) {
     this._candidates = candidates || []
     this._name = name
     this._predicate = predicate
-    this._errorMap = errorMap
+    this._prevValidation = prevValidation
   }
 
   and(name, predicate) {
-    return new ChainValidation(
-      this._accepts,
-      name,
-      predicate,
-      this._updateErros()
-    )
+    return new ChainValidation(this._candidates, name, predicate, this)
   }
 
-  validate() {
-    return [this._accepts, this._updateErros()]
-  }
+  validateAll() {
+    const errorMap = new ErrorMap()
 
-  _test(c) {
-    const result = this._predicate(c)
-
-    if (Array.isArray(result)) {
-      return result[0]
+    let validation
+    let qualifieds
+    for (
+      validation = this, qualifieds = this._candidates;
+      validation;
+      validation = validation._prevValidation
+    ) {
+      qualifieds = validation._validate(qualifieds, this._candidates, errorMap)
     }
 
-    return result
+    return [qualifieds, errorMap]
   }
 
-  get _accepts() {
-    return this._candidates.filter((c) => this._test(c))
+  _validate(qualifieds, candidates, errorMap) {
+    if (this._getRejects(candidates).length > 0) {
+      errorMap.set(this._name, [
+        this._getRejects(candidates),
+        this._getInhibitors(candidates)
+      ])
+    }
+
+    return this._getAccepts(qualifieds)
   }
 
-  get _rejects() {
-    return this._candidates.filter((c) => !this._test(c))
+  _getAccepts(candidates) {
+    return candidates.filter((c) => this._test(c))
   }
 
-  get _inhibitors() {
+  _getRejects(candidates) {
+    return candidates.filter((c) => !this._test(c))
+  }
+
+  _getInhibitors(candidates) {
     const inhibitors = new Map()
 
-    for (const c of this._candidates) {
+    for (const c of candidates) {
       const result = this._predicate(c)
 
       if (Array.isArray(result) && !result[0]) {
@@ -58,11 +66,15 @@ export default class ChainValidation {
     return inhibitors
   }
 
-  _updateErros() {
-    if (this._rejects.length > 0) {
-      this._errorMap.set(this._name, [this._rejects, this._inhibitors])
+  // A predicate function can return both consequences and inhibitors.
+  // This function returns consequences only.
+  _test(c) {
+    const result = this._predicate(c)
+
+    if (Array.isArray(result)) {
+      return result[0]
     }
 
-    return this._errorMap
+    return result
   }
 }
