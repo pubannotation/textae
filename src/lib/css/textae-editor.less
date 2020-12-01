@@ -236,15 +236,19 @@
     }
   }
 
-  &--editable {
-    .textae-editor__relation__label a {
-      color: black;
-      pointer-events: none;
-      text-decoration: none;
+  &__mode {
+    &--denotation-with-relation,
+    &--block-with-relation,
+    &--relation {
+      .textae-editor__relation__label a {
+        color: black;
+        pointer-events: none;
+        text-decoration: none;
+      }
     }
-
+  
     // Allow selection of text after relation labels in entity edit mode.
-    &.textae-editor__mode--denotation-with-relation {
+    &--denotation-with-relation {
       .textae-editor {
         &__relation__label {
           z-index: 0;

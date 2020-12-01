@@ -30,10 +30,18 @@ export default function (editor, contextMenu) {
     // If the editor you click on is selected and editable,
     // it will display its own context menu, rather than the browser's context menu.
     const clickedEditor = e.target.closest('.textae-editor')
-    if (
-      clickedEditor === editor[0] &&
-      clickedEditor.classList.contains('textae-editor--editable')
-    ) {
+    if (clickedEditor === editor[0]) {
+      if (
+        clickedEditor.classList.contains(
+          'textae-editor__mode--view-with-relation'
+        ) ||
+        clickedEditor.classList.contains(
+          'textae-editor__mode--view-without-relation'
+        )
+      ) {
+        return
+      }
+
       // Prevent show browser default context menu
       e.preventDefault()
 
