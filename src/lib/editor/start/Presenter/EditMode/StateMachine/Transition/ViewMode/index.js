@@ -1,35 +1,43 @@
-import changeCssClass from './changeCssClass'
-
 export default class ViewMode {
   constructor(editor) {
     this._editor = editor
   }
 
   setViewWithRelation() {
-    changeCssClass(this._editor, 'view-with-relation')
+    this._changeCssClass('view-with-relation')
   }
 
   setViewWithoutRelation() {
-    changeCssClass(this._editor, 'view-without-relation')
+    this._changeCssClass('view-without-relation')
   }
 
   setDenotationWithRelation() {
-    changeCssClass(this._editor, 'denotation-with-relation')
+    this._changeCssClass('denotation-with-relation')
   }
 
   setDenotationWithoutRelation() {
-    changeCssClass(this._editor, 'denotation-without-relation')
+    this._changeCssClass('denotation-without-relation')
   }
 
   setBlockWithRelation() {
-    changeCssClass(this._editor, 'block-with-relation')
+    this._changeCssClass('block-with-relation')
   }
 
   setBlockWithoutRelation() {
-    changeCssClass(this._editor, 'block-without-relation')
+    this._changeCssClass('block-without-relation')
   }
 
   setRelation() {
-    changeCssClass(this._editor, 'relation')
+    this._changeCssClass('relation')
+  }
+
+  _changeCssClass(mode) {
+    for (const cssClass of this._editor.classList) {
+      if (cssClass.startsWith('textae-editor__mode')) {
+        this._editor.classList.remove(cssClass)
+      }
+    }
+
+    this._editor.classList.add(`textae-editor__mode--${mode}`)
   }
 }
