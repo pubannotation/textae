@@ -44,9 +44,23 @@ export default class ChainValidation {
     return this._candidates.filter((c) => !this._test(c))
   }
 
+  get _inhibitors() {
+    const inhibitors = new Map()
+
+    for (const c of this._candidates) {
+      const result = this._predicate(c)
+
+      if (Array.isArray(result) && !result[0]) {
+        inhibitors.set(c, result[1])
+      }
+    }
+
+    return inhibitors
+  }
+
   _updateErros() {
     if (this._rejects.length > 0) {
-      this._errorMap.set(this._name, this._rejects)
+      this._errorMap.set(this._name, [this._rejects, this._inhibitors])
     }
 
     return this._errorMap

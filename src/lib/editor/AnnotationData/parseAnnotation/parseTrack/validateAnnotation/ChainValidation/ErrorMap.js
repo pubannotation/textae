@@ -6,8 +6,13 @@ export default class ErrorMap {
   set(key, value) {
     this._map.set(key, value)
   }
+
   get(key) {
-    return this._map.get(key) || []
+    return this._map.has(key) ? this._map.get(key)[0] : []
+  }
+
+  getInhibitors(key) {
+    return this._map.has(key) ? this._map.get(key)[1] : []
   }
 
   get size() {
