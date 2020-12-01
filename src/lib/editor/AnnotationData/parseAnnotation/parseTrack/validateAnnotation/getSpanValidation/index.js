@@ -1,6 +1,6 @@
 import isBeginAndEndIn from './isBeginAndEndIn'
 import ChainValidation from '../ChainValidation'
-import isBoundaryCrossingWithOtherSpans from '../../../../isBoundaryCrossingWithOtherSpans'
+import getBoundaryCrossingSpans from '../../../../getBoundaryCrossingSpans'
 
 export default function (targetSpans, text, allSpans) {
   return new ChainValidation(targetSpans)
@@ -9,10 +9,10 @@ export default function (targetSpans, text, allSpans) {
     .and(
       'isNotCrossing',
       (n) =>
-        !isBoundaryCrossingWithOtherSpans(
+        getBoundaryCrossingSpans(
           allSpans.map((s) => s.span),
           n.span.begin,
           n.span.end
-        )
+        ).length === 0
     )
 }

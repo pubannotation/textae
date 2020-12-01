@@ -1,12 +1,9 @@
-import isBoundaryCrossing from '../isBoundaryCrossing'
+import getBoundaryCrossingSpans from './getBoundaryCrossingSpans'
 
 // A span its range is coross over with other spans are not able to rendered.
 // Because spans are renderd with span tag. Html tags can not be cross over.
 export default function (spans, begin, end) {
   console.assert(end, 'end is necessary.')
 
-  return (
-    spans.filter((existSpan) => isBoundaryCrossing(begin, end, existSpan))
-      .length > 0
-  )
+  return getBoundaryCrossingSpans(spans, begin, end).length > 0
 }
