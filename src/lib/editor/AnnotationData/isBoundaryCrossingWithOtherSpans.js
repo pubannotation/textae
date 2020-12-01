@@ -5,5 +5,11 @@ import getBoundaryCrossingSpans from './getBoundaryCrossingSpans'
 export default function (spans, begin, end) {
   console.assert(end, 'end is necessary.')
 
-  return getBoundaryCrossingSpans(spans, begin, end).length > 0
+  return (
+    getBoundaryCrossingSpans(
+      spans.map((span) => ({ span })),
+      begin,
+      end
+    ).length > 0
+  )
 }

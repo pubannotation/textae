@@ -9,10 +9,7 @@ export default function (targetSpans, text, allSpans) {
     .and(
       'isNotCrossing',
       (n) =>
-        getBoundaryCrossingSpans(
-          allSpans.map((s) => s.span),
-          n.span.begin,
-          n.span.end
-        ).length === 0
+        getBoundaryCrossingSpans(allSpans, n.span.begin, n.span.end).length ===
+        0
     )
 }
