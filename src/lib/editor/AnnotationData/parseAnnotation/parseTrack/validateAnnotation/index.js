@@ -5,6 +5,7 @@ import transformToReferencedEntitiesError from './transformToReferencedEntitiesE
 import validateDenotation from './validateDenotation'
 import validateBlock from './validateBlock'
 import setSourceProperty from './setSourceProperty'
+import debugLogCrossing from './debugLogCrossing'
 
 export default function (text, rowData) {
   // Typesets and denotations are both drawn with a span tag,
@@ -39,35 +40,9 @@ export default function (text, rowData) {
     rowData.relations
   )
 
-  for (const [key, values] of errorTypeSettings.getInhibitors(
-    'isNotCrossing'
-  )) {
-    console.warn(
-      `Crossing TypeSettings: [${key.span.begin}:${key.span.end}](${
-        key.id
-      }) crosses with ${values
-        .map(({ id, span }) => `[${span.begin}:${span.end}](${id})`)
-        .join(', ')}`
-    )
-  }
-  for (const [key, values] of errorDenotations.getInhibitors('isNotCrossing')) {
-    console.warn(
-      `Crossing Dennotations: [${key.span.begin}:${key.span.end}](${
-        key.id
-      }) crosses with ${values
-        .map(({ id, span }) => `[${span.begin}:${span.end}](${id})`)
-        .join(', ')}`
-    )
-  }
-  for (const [key, values] of errorBlocks.getInhibitors('isNotCrossing')) {
-    console.warn(
-      `Crossing Blocks: [${key.span.begin}:${key.span.end}](${
-        key.id
-      }) crosses with ${values
-        .map(({ id, span }) => `[${span.begin}:${span.end}](${id})`)
-        .join(', ')}`
-    )
-  }
+  debugLogCrossing('TypeSettings', errorTypeSettings)
+  debugLogCrossing('Denotations', errorDenotations)
+  debugLogCrossing('Blocks', errorBlocks)
 
   return {
     accept: {
