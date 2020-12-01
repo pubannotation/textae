@@ -107,6 +107,12 @@
     &:focus {
       outline-style: none;
     }
+
+    &.ui-selected {
+      background-color: rgba(255, 200, 100, 0.9);
+      border-color: @selected;
+      color: #00d;
+    }
   }
 
   &__block {
@@ -128,12 +134,6 @@
       display: none;
       z-index: 1;
     }
-  }
-
-  .textae-editor__span.ui-selected {
-    background-color: rgba(255, 200, 100, 0.9);
-    border-color: @selected;
-    color: #00d;
   }
 
   /* relation */
