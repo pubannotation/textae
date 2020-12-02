@@ -17,7 +17,7 @@ import ButtonController from '../../ButtonController'
 import ClipBoard from './ClipBoard'
 import AnnotationAutoSaver from './AnnotationAutoSaver'
 import observe from './observe'
-import DisplayInstance from './Presenter/EditMode/DisplayInstance'
+import DisplayInstance from './DisplayInstance'
 
 export default function (
   editor,
