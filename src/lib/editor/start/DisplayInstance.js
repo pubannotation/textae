@@ -9,17 +9,19 @@ export default class DisplayInstance {
   }
 
   bind(callback) {
-    this._typeGap(callback)
+    this._callback = callback
   }
 
   show() {
     this._isModeShowingInstance = true
     this._typeGap.set(this._valueForModeShowingInstance)
+    this._callback(this._valueForModeShowingInstance)
   }
 
   hide() {
     this._isModeShowingInstance = false
     this._typeGap.set(0)
+    this._callback(0)
   }
 
   get showInstance() {
@@ -34,5 +36,6 @@ export default class DisplayInstance {
   set typeGap(val) {
     this._valueForModeShowingInstance = val
     this._typeGap.set(val)
+    this._callback(val)
   }
 }
