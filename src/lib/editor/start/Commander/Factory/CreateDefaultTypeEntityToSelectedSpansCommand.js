@@ -1,7 +1,7 @@
 import CompositeCommand from './CompositeCommand'
 import { CreateCommand } from './commandTemplate'
 
-export default class CreateDefaultTypeEntityToSelectedSpans extends CompositeCommand {
+export default class CreateDefaultTypeEntityToSelectedSpansCommand extends CompositeCommand {
   constructor(editor, annotationData, selectionModel, typeName) {
     super()
 

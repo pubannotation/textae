@@ -11,7 +11,7 @@ import ChangeValueOfAttributeDefinitionAndObjectOfSelectionAttributeCommand from
 import CreateAttributeDefinitionCommand from './CreateAttributeDefinitionCommand'
 import CreateAttributeToSelectedEntitiesCommand from './CreateAttributeToSelectedEntitiesCommand'
 import CreateBlockSpanCommand from './CreateBlockSpanCommand'
-import CreateDefaultTypeEntityToSelectedSpans from './CreateDefaultTypeEntityToSelectedSpans'
+import CreateDefaultTypeEntityToSelectedSpansCommand from './CreateDefaultTypeEntityToSelectedSpansCommand'
 import CreateSpanAndAutoReplicateCommand from './CreateSpanAndAutoReplicateCommand'
 import CreateTypeDefinitionCommand from './CreateTypeDefinitionCommand'
 import DeleteAttributeDefinitionCommand from './DeleteAttributeDefinitionCommand'
@@ -170,7 +170,7 @@ export default class Factory {
   }
 
   createDefaultTypeEntityToSelectedSpansCommand(typeName) {
-    return new CreateDefaultTypeEntityToSelectedSpans(
+    return new CreateDefaultTypeEntityToSelectedSpansCommand(
       this._editor,
       this._annotationData,
       this._selectionModel,
