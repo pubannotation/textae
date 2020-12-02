@@ -9,14 +9,7 @@ import Transition from './Transition'
 import pushBlock from './pushBlock'
 
 export default class StateMachine {
-  constructor(
-    editor,
-    displayInstance,
-    noEdit,
-    editEntity,
-    editBlock,
-    editRelation
-  ) {
+  constructor(editor, entityGap, noEdit, editEntity, editBlock, editRelation) {
     const m = new Machine({
       states: [
         MODE.INIT,
@@ -101,7 +94,7 @@ export default class StateMachine {
 
     const transition = new Transition(
       editor,
-      displayInstance,
+      entityGap,
       noEdit,
       editEntity,
       editBlock,

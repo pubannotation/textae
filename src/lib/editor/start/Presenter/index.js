@@ -11,7 +11,7 @@ export default class Presenter {
     spanConfig,
     clipBoard,
     buttonController,
-    displayInstance,
+    entityGap,
     view,
     originalData,
     typeDefinition,
@@ -28,7 +28,7 @@ export default class Presenter {
       originalData,
       typeDefinition,
       autocompletionWs,
-      displayInstance
+      entityGap
     )
 
     bindModelChange(editor, editMode, mode)
@@ -44,7 +44,7 @@ export default class Presenter {
       clipBoard,
       view,
       editMode,
-      displayInstance
+      entityGap
     )
   }
 }

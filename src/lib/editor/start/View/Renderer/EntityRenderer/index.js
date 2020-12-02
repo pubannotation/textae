@@ -9,14 +9,14 @@ export default class EntityRenderer {
     typeCantainerForDenotation,
     typeCantainerForBlock,
     gridRenderer,
-    displayInstance
+    entityGap
   ) {
     this._annotationData = annotationData
     this._typeContainerForDenotation = typeCantainerForDenotation
     this._typeContainerForBlock = typeCantainerForBlock
     this._gridRenderer = gridRenderer
     this._selectionModel = selectionModel
-    this._displayInstance = displayInstance
+    this._entityGap = entityGap
   }
 
   render(entity) {
@@ -27,7 +27,7 @@ export default class EntityRenderer {
       this._annotationData.namespace
     )
 
-    entity.reflectTypeGapInTheHeight(this._displayInstance.typeGap)
+    entity.reflectTypeGapInTheHeight(this._entityGap.value)
   }
 
   change(entity) {
@@ -37,7 +37,7 @@ export default class EntityRenderer {
       this._selectionModel.entity.has(entity.id)
     )
 
-    entity.reflectTypeGapInTheHeight(this._displayInstance.typeGap)
+    entity.reflectTypeGapInTheHeight(this._entityGap.value)
   }
 
   remove(entity) {

@@ -2,17 +2,10 @@ import EditorCSSClassForMode from './EditorCSSClassForMode'
 import { MODE } from '../../../../../../MODE'
 
 export default class Transition {
-  constructor(
-    editor,
-    displayInstance,
-    noEdit,
-    editEntity,
-    editBlock,
-    editRelation
-  ) {
+  constructor(editor, entityGap, noEdit, editEntity, editBlock, editRelation) {
     this._editor = editor
     this._editorCSSClassForMode = new EditorCSSClassForMode(editor[0])
-    this._displayInstance = displayInstance
+    this._entityGap = entityGap
     this._noEdit = noEdit
     this._editEntity = editEntity
     this._editBlock = editBlock
@@ -20,7 +13,7 @@ export default class Transition {
   }
 
   toViewWithoutRelation() {
-    this._displayInstance.hide()
+    this._entityGap.show = false
     this._editor.eventEmitter.emit(
       'textae.editMode.transition',
       MODE.VIEW_WITHOUT_RELATION
@@ -31,7 +24,7 @@ export default class Transition {
   }
 
   toViewWithRelation() {
-    this._displayInstance.show()
+    this._entityGap.show = true
     this._editor.eventEmitter.emit(
       'textae.editMode.transition',
       MODE.VIEW_WITH_RELATION
@@ -42,7 +35,7 @@ export default class Transition {
   }
 
   toEditDenotationWithoutRelation() {
-    this._displayInstance.hide()
+    this._entityGap.show = false
     this._editor.eventEmitter.emit(
       'textae.editMode.transition',
       MODE.EDIT_DENOTATION_WITHOUT_RELATION
@@ -54,7 +47,7 @@ export default class Transition {
   }
 
   toEditDenotationWithRelation() {
-    this._displayInstance.show()
+    this._entityGap.show = true
     this._editor.eventEmitter.emit(
       'textae.editMode.transition',
       MODE.EDIT_DENOTATION_WITH_RELATION
@@ -66,7 +59,7 @@ export default class Transition {
   }
 
   toEditBlockWithoutRelation() {
-    this._displayInstance.hide()
+    this._entityGap.show = false
     this._editor.eventEmitter.emit(
       'textae.editMode.transition',
       MODE.EDIT_BLOCK_WITHOUT_RELATION
@@ -78,7 +71,7 @@ export default class Transition {
   }
 
   toEditBlockWithRelation() {
-    this._displayInstance.show()
+    this._entityGap.show = true
     this._editor.eventEmitter.emit(
       'textae.editMode.transition',
       MODE.EDIT_BLOCK_WITH_RELATION
@@ -90,7 +83,7 @@ export default class Transition {
   }
 
   toEditRelation() {
-    this._displayInstance.show()
+    this._entityGap.show = true
     this._editor.eventEmitter.emit(
       'textae.editMode.transition',
       MODE.EDIT_RELATION

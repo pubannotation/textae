@@ -1,13 +1,13 @@
 import updateAllTypeGaps from './updateAllTypeGaps'
 
 export default function (
-  displayInstance,
+  entityGap,
   annotationData,
   textBox,
   annotationPosition,
   gridRectangle
 ) {
-  displayInstance.bind((newValue) => {
+  entityGap.bind((newValue) => {
     updateAllTypeGaps(annotationData, newValue)
     textBox.updateLineHeight(gridRectangle)
     annotationPosition.update()

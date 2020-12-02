@@ -1,7 +1,7 @@
 import CursorChanger from '../../../util/CursorChanger'
 import AnnotationPosition from './AnnotationPosition'
 import bindClipBoardEvents from './bindClipBoardEvents'
-import bindTypeGapEvents from './bindTypeGapEvents'
+import bindEntityGapEvents from './bindEntityGapEvents'
 import bindAnnotaitonPositionEvents from './bindAnnotaitonPositionEvents'
 import Renderer from './Renderer'
 import bindAnnotationDataEvents from './bindAnnotationDataEvents'
@@ -15,7 +15,7 @@ export default class View {
     editor,
     annotationData,
     selectionModel,
-    displayInstance,
+    entityGap,
     typeDefinition
   ) {
     // Place the text box behind the annotation box to allow you
@@ -35,14 +35,14 @@ export default class View {
       editor[0].querySelector('.textae-editor__body__text-box'),
       annotationData
     )
-    this._gridRectangle = new GridRectangle(annotationData, displayInstance)
+    this._gridRectangle = new GridRectangle(annotationData, entityGap)
 
     const renderer = new Renderer(
       editor,
       annotationData,
       selectionModel,
       typeDefinition,
-      displayInstance,
+      entityGap,
       this._textBox,
       this._gridRectangle
     )
@@ -54,8 +54,8 @@ export default class View {
       renderer
     )
 
-    bindTypeGapEvents(
-      displayInstance,
+    bindEntityGapEvents(
+      entityGap,
       annotationData,
       this._textBox,
       this._annotationPosition,

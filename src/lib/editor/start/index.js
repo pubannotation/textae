@@ -16,7 +16,7 @@ import ButtonController from '../../ButtonController'
 import ClipBoard from './ClipBoard'
 import AnnotationAutoSaver from './AnnotationAutoSaver'
 import observe from './observe'
-import DisplayInstance from './DisplayInstance'
+import EntityGap from './EntityGap'
 
 export default function (
   editor,
@@ -44,12 +44,12 @@ export default function (
     selectionModel,
     clipBoard
   )
-  const displayInstance = new DisplayInstance()
+  const entityGap = new EntityGap()
   const view = new View(
     editor,
     annotationData,
     selectionModel,
-    displayInstance,
+    entityGap,
     typeDefinition
   )
   const originalData = new OriginalData()
@@ -61,7 +61,7 @@ export default function (
     spanConfig,
     clipBoard,
     buttonController,
-    displayInstance,
+    entityGap,
     view,
     originalData,
     typeDefinition,
