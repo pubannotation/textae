@@ -2,8 +2,8 @@ export default class DisplayInstance {
   constructor() {
     // The typeGap is changed from the Setting dialog or
     // by changing mode showing or not showing instances.
-    this._isModeShowingInstance = true
-    this._valueForModeShowingInstance = 2
+    this._isInstanceShown = true
+    this._typeGap = 2
   }
 
   bind(callback) {
@@ -11,26 +11,26 @@ export default class DisplayInstance {
   }
 
   show() {
-    this._isModeShowingInstance = true
-    this._callback(this._valueForModeShowingInstance)
+    this._isInstanceShown = true
+    this._callback(this._typeGap)
   }
 
   hide() {
-    this._isModeShowingInstance = false
+    this._isInstanceShown = false
     this._callback(0)
   }
 
   get showInstance() {
-    return this._isModeShowingInstance
+    return this._isInstanceShown
   }
 
   get typeGap() {
-    return this._isModeShowingInstance ? this._valueForModeShowingInstance : 0
+    return this._isInstanceShown ? this._typeGap : 0
   }
 
   // The typeGap be able to be changed when mode showing instances.
   set typeGap(val) {
-    this._valueForModeShowingInstance = val
+    this._typeGap = val
     this._callback(val)
   }
 }
