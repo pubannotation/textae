@@ -224,10 +224,6 @@ export default class EditMode {
     }
   }
 
-  get displayInstance() {
-    return this._displayInstance
-  }
-
   _getHandler() {
     switch (this._stateMachine.currentState) {
       case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
