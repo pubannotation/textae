@@ -55,7 +55,7 @@ export default class View {
 
     entityGap.bind((newValue) => {
       for (const entity of annotationData.entity.denotations) {
-        entity.reflectTypeGapInTheHeight(newValue)
+        entity.reflectEntityGapInTheHeight(newValue)
       }
       this._textBox.updateLineHeight(this._gridRectangle)
       this._annotationPosition.update()

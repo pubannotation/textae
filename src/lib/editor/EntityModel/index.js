@@ -174,7 +174,7 @@ export default class EntityModel {
     this.element.remove()
   }
 
-  reflectTypeGapInTheHeight(typeGap) {
+  reflectEntityGapInTheHeight(typeGap) {
     if (this.isDenotation) {
       const entityElement = this.element
       if (entityElement) {
