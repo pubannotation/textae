@@ -8,7 +8,6 @@ import HoverRelation from './HoverRelation'
 import bindMouseEvents from './bindMouseEvents'
 import TextBox from './TextBox'
 import GridRectangle from './GridRectangle'
-import updateAllTypeGaps from './updateAllTypeGaps'
 
 export default class View {
   constructor(
@@ -55,7 +54,9 @@ export default class View {
     )
 
     entityGap.bind((newValue) => {
-      updateAllTypeGaps(annotationData, newValue)
+      for (const entity of annotationData.entity.denotations) {
+        entity.reflectTypeGapInTheHeight(newValue)
+      }
       this._textBox.updateLineHeight(this._gridRectangle)
       this._annotationPosition.update()
     })
