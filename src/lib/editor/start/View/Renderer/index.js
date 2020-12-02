@@ -10,7 +10,7 @@ export default class Renderer {
     annotationData,
     selectionModel,
     typeDefinition,
-    typeGap,
+    displayInstance,
     textBox,
     gridRectangle
   ) {
@@ -21,7 +21,7 @@ export default class Renderer {
       typeDefinition.denotation,
       typeDefinition.block,
       gridRenderer,
-      typeGap
+      displayInstance
     )
     this._relationRenderer = new RelationRenderer(
       editor,

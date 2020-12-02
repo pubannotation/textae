@@ -49,15 +49,15 @@ export default function (
     value: -1,
     showInstance: false
   })
+  const displayInstance = new DisplayInstance(typeGap)
   const view = new View(
     editor,
     annotationData,
     selectionModel,
-    typeGap,
+    displayInstance,
     typeDefinition
   )
   const originalData = new OriginalData()
-  const displayInstance = new DisplayInstance(typeGap)
   const presenter = new Presenter(
     editor,
     annotationData,

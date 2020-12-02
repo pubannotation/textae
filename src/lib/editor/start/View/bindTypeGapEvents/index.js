@@ -1,13 +1,13 @@
 import updateAllTypeGaps from './updateAllTypeGaps'
 
 export default function (
-  typeGap,
+  displayInstance,
   annotationData,
   textBox,
   annotationPosition,
   gridRectangle
 ) {
-  typeGap((newValue) => {
+  displayInstance.bind((newValue) => {
     updateAllTypeGaps(annotationData, newValue)
     textBox.updateLineHeight(gridRectangle)
     annotationPosition.update()

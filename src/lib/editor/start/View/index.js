@@ -11,7 +11,13 @@ import TextBox from './TextBox'
 import GridRectangle from './GridRectangle'
 
 export default class View {
-  constructor(editor, annotationData, selectionModel, typeGap, typeDefinition) {
+  constructor(
+    editor,
+    annotationData,
+    selectionModel,
+    displayInstance,
+    typeDefinition
+  ) {
     // Place the text box behind the annotation box to allow you
     // to select the text behind the relationship label in entity editing mode.
     const html = `
@@ -29,14 +35,14 @@ export default class View {
       editor[0].querySelector('.textae-editor__body__text-box'),
       annotationData
     )
-    this._gridRectangle = new GridRectangle(annotationData, typeGap)
+    this._gridRectangle = new GridRectangle(annotationData, displayInstance)
 
     const renderer = new Renderer(
       editor,
       annotationData,
       selectionModel,
       typeDefinition,
-      typeGap,
+      displayInstance,
       this._textBox,
       this._gridRectangle
     )
@@ -49,7 +55,7 @@ export default class View {
     )
 
     bindTypeGapEvents(
-      typeGap,
+      displayInstance,
       annotationData,
       this._textBox,
       this._annotationPosition,

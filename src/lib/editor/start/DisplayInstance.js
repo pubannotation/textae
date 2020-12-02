@@ -7,6 +7,10 @@ export default class DisplayInstance {
     this._valueForModeShowingInstance = 2
   }
 
+  bind(callback) {
+    this._typeGap(callback)
+  }
+
   show() {
     this._isModeShowingInstance = true
     this._typeGap.set({

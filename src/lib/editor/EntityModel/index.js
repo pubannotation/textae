@@ -180,7 +180,7 @@ export default class EntityModel {
       if (entityElement) {
         entityElement.setAttribute(
           'style',
-          `padding-top: ${typeGapUnitHeight * typeGap.value}px;`
+          `padding-top: ${typeGapUnitHeight * typeGap}px;`
         )
       }
     }
