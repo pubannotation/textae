@@ -1,7 +1,6 @@
 import CursorChanger from '../../../util/CursorChanger'
 import AnnotationPosition from './AnnotationPosition'
 import bindClipBoardEvents from './bindClipBoardEvents'
-import bindEntityGapEvents from './bindEntityGapEvents'
 import bindAnnotaitonPositionEvents from './bindAnnotaitonPositionEvents'
 import Renderer from './Renderer'
 import bindAnnotationDataEvents from './bindAnnotationDataEvents'
@@ -9,6 +8,7 @@ import HoverRelation from './HoverRelation'
 import bindMouseEvents from './bindMouseEvents'
 import TextBox from './TextBox'
 import GridRectangle from './GridRectangle'
+import updateAllTypeGaps from './bindEntityGapEvents/updateAllTypeGaps'
 
 export default class View {
   constructor(
@@ -54,13 +54,12 @@ export default class View {
       renderer
     )
 
-    bindEntityGapEvents(
-      entityGap,
-      annotationData,
-      this._textBox,
-      this._annotationPosition,
-      this._gridRectangle
-    )
+    entityGap.bind((newValue) => {
+      updateAllTypeGaps(annotationData, newValue)
+      this._textBox.updateLineHeight(this._gridRectangle)
+      this._annotationPosition.update()
+    })
+
     bindClipBoardEvents(editor)
     bindAnnotationDataEvents(
       editor,
