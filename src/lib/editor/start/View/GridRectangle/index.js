@@ -13,7 +13,7 @@ export default class GridRectangle {
   }
 
   get maxHeight() {
-    return getCurrentMaxHeight(this._annotationData, this._typeGap)
+    return getCurrentMaxHeight(this._annotationData, this._typeGap())
   }
 
   denotationGridRectangle(span) {
