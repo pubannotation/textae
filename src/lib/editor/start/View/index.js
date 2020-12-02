@@ -52,15 +52,9 @@ export default class View {
       this._gridRectangle,
       renderer
     )
+    this._annotationData = annotationData
 
-    entityGap.bind((newValue) => {
-      for (const entity of annotationData.entity.denotations) {
-        entity.reflectEntityGapInTheHeight(newValue)
-      }
-      this._textBox.updateLineHeight(this._gridRectangle)
-      this._annotationPosition.update()
-    })
-
+    entityGap.bind((value) => this._apllyEntityGap(value))
     bindClipBoardEvents(editor)
     bindAnnotationDataEvents(
       editor,
@@ -88,5 +82,13 @@ export default class View {
 
   setLineHeight(value) {
     this._textBox.lineHeight = value
+  }
+
+  _apllyEntityGap(value) {
+    for (const entity of this._annotationData.entity.denotations) {
+      entity.reflectEntityGapInTheHeight(value)
+    }
+    this._textBox.updateLineHeight(this._gridRectangle)
+    this._annotationPosition.update()
   }
 }
