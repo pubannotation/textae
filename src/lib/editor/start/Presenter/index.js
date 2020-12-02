@@ -43,7 +43,8 @@ export default class Presenter {
       spanConfig,
       clipBoard,
       view,
-      editMode
+      editMode,
+      displayInstance
     )
   }
 }

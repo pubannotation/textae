@@ -15,7 +15,8 @@ export default class EventMap {
     spanConfig,
     clipBoard,
     view,
-    editMode
+    editMode,
+    displayInstance
   ) {
     this._editor = editor
     this._commander = commander
@@ -29,6 +30,7 @@ export default class EventMap {
     this._editMode = editMode
     this._horizontal = new Horizontal(editor, selectionModel)
     this._vertical = new Vertical(editor, selectionModel)
+    this._displayInstance = displayInstance
   }
 
   copyEntities() {
@@ -87,7 +89,7 @@ export default class EventMap {
     new SettingDialog(
       this._editor,
       this._typeDefinition,
-      this._editMode.displayInstance,
+      this._displayInstance,
       this._view
     ).open()
   }
