@@ -17,6 +17,7 @@ import ButtonController from '../../ButtonController'
 import ClipBoard from './ClipBoard'
 import AnnotationAutoSaver from './AnnotationAutoSaver'
 import observe from './observe'
+import DisplayInstance from './Presenter/EditMode/DisplayInstance'
 
 export default function (
   editor,
@@ -56,6 +57,7 @@ export default function (
     typeDefinition
   )
   const originalData = new OriginalData()
+  const displayInstance = new DisplayInstance(typeGap)
   const presenter = new Presenter(
     editor,
     annotationData,
@@ -64,7 +66,7 @@ export default function (
     spanConfig,
     clipBoard,
     buttonController,
-    typeGap,
+    displayInstance,
     view,
     originalData,
     typeDefinition,

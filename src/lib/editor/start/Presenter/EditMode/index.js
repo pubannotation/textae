@@ -1,5 +1,4 @@
 import { MODE } from '../../../../MODE'
-import DisplayInstance from './DisplayInstance'
 import StateMachine from './StateMachine'
 import bindAttributeTabEvents from './bindAttributeTabEvents'
 import EditDenotation from './EditDenotation'
@@ -18,7 +17,7 @@ export default class EditMode {
     originalData,
     typeDefinition,
     autocompletionWs,
-    typeGap
+    displayInstance
   ) {
     this._annotationData = annotationData
 
@@ -64,7 +63,7 @@ export default class EditMode {
       selectionModel.entity
     )
 
-    this._displayInstance = new DisplayInstance(typeGap)
+    this._displayInstance = displayInstance
 
     this._stateMachine = new StateMachine(
       editor,
