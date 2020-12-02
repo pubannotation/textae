@@ -8,7 +8,7 @@ import HoverRelation from './HoverRelation'
 import bindMouseEvents from './bindMouseEvents'
 import TextBox from './TextBox'
 import GridRectangle from './GridRectangle'
-import updateAllTypeGaps from './bindEntityGapEvents/updateAllTypeGaps'
+import updateAllTypeGaps from './updateAllTypeGaps'
 
 export default class View {
   constructor(
