@@ -63,11 +63,9 @@ export default class EditMode {
       selectionModel.entity
     )
 
-    this._displayInstance = displayInstance
-
     this._stateMachine = new StateMachine(
       editor,
-      this._displayInstance,
+      displayInstance,
       () => {
         this.cancelSelect()
         this._unbindAllMouseEventhandler()
