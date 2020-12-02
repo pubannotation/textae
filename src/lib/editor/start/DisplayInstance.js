@@ -1,8 +1,13 @@
+import Observable from 'observ'
 export default class DisplayInstance {
-  constructor(typeGap) {
+  constructor() {
     // The typeGap is changed from the Setting dialog or
     // by changing mode showing or not showing instances.
-    this._typeGap = typeGap
+    this._typeGap = new Observable({
+      value: -1,
+      showInstance: false
+    })
+
     this._isModeShowingInstance = true
     this._valueForModeShowingInstance = 2
   }

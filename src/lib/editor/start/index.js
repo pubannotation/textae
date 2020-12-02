@@ -1,5 +1,4 @@
 import alertifyjs from 'alertifyjs'
-import Observable from 'observ'
 import getParams from './getParams'
 import SpanConfig from './SpanConfig'
 import Commander from './Commander'
@@ -45,11 +44,7 @@ export default function (
     selectionModel,
     clipBoard
   )
-  const typeGap = new Observable({
-    value: -1,
-    showInstance: false
-  })
-  const displayInstance = new DisplayInstance(typeGap)
+  const displayInstance = new DisplayInstance()
   const view = new View(
     editor,
     annotationData,
