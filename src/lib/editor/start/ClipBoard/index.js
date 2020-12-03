@@ -90,7 +90,7 @@ export default class ClipBoard {
   get _itemsWillBeCutAndPaste() {
     return this._cuttingItems.filter(
       (i) =>
-        i.span !==
+        i.span.id !==
         (this._selectionModel.span.single &&
           this._selectionModel.span.single.id)
     )
