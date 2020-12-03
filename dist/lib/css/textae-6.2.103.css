@@ -4340,13 +4340,15 @@ a.ui-button:active,
   white-space: pre;
   /* active editer color */
   /* relation */
-  /* denotation without relation mode */
+  /* without relation mode */
   /* denotation with relation mode */
   /* relation edit mode */
 }
 .textae-editor:focus {
   outline-style: none;
 }
+.textae-editor--active.textae-editor__mode--view-with-relation,
+.textae-editor--active.textae-editor__mode--view-without-relation,
 .textae-editor--active.textae-editor__mode--denotation-with-relation,
 .textae-editor--active.textae-editor__mode--denotation-without-relation {
   background-color: #ffe;
@@ -4414,6 +4416,11 @@ a.ui-button:active,
 .textae-editor__span:focus {
   outline-style: none;
 }
+.textae-editor__span.ui-selected {
+  background-color: rgba(255, 200, 100, 0.9);
+  border-color: red;
+  color: #00d;
+}
 .textae-editor__block-bg,
 .textae-editor__block-hit-area {
   position: absolute;
@@ -4432,11 +4439,6 @@ a.ui-button:active,
   display: none;
   z-index: 1;
 }
-.textae-editor--editable .textae-editor__span.ui-selected {
-  background-color: rgba(255, 200, 100, 0.9);
-  border-color: red;
-  color: #00d;
-}
 .textae-editor__relation__label {
   background-color: yellow;
   display: block;
@@ -4451,23 +4453,35 @@ a.ui-button:active,
   opacity: 1;
   text-shadow: 1px 1px 1px #800;
 }
+.textae-editor__mode--view-without-relation .textae-editor__relation,
 .textae-editor__mode--denotation-without-relation .textae-editor__relation,
-.textae-editor__mode--denotation-without-relation .textae-editor__relation__label {
+.textae-editor__mode--block-without-relation .textae-editor__relation,
+.textae-editor__mode--view-without-relation .textae-editor__relation__label,
+.textae-editor__mode--denotation-without-relation .textae-editor__relation__label,
+.textae-editor__mode--block-without-relation .textae-editor__relation__label {
   display: none !important;
 }
+.textae-editor__mode--view-without-relation path,
 .textae-editor__mode--denotation-without-relation path,
-.textae-editor__mode--denotation-without-relation circle {
+.textae-editor__mode--block-without-relation path,
+.textae-editor__mode--view-without-relation circle,
+.textae-editor__mode--denotation-without-relation circle,
+.textae-editor__mode--block-without-relation circle {
   fill: none;
   height: 0;
   stroke-width: 0;
   width: 0;
 }
+.textae-editor__mode--view-with-relation .textae-editor__relation:hover,
 .textae-editor__mode--denotation-with-relation .textae-editor__relation:hover,
+.textae-editor__mode--view-with-relation .textae-editor__relation.hover,
 .textae-editor__mode--denotation-with-relation .textae-editor__relation.hover {
   stroke-width: 3;
   z-index: 5;
 }
+.textae-editor__mode--view-with-relation .textae-editor__relation__label:hover,
 .textae-editor__mode--denotation-with-relation .textae-editor__relation__label:hover,
+.textae-editor__mode--view-with-relation .textae-editor__relation__label.hover,
 .textae-editor__mode--denotation-with-relation .textae-editor__relation__label.hover {
   z-index: 6;
 }
@@ -4504,15 +4518,17 @@ a.ui-button:active,
   opacity: 1;
   z-index: 2;
 }
-.textae-editor--editable .textae-editor__relation__label a {
+.textae-editor__mode--denotation-with-relation .textae-editor__relation__label a,
+.textae-editor__mode--block-with-relation .textae-editor__relation__label a,
+.textae-editor__mode--relation .textae-editor__relation__label a {
   color: black;
   pointer-events: none;
   text-decoration: none;
 }
-.textae-editor--editable.textae-editor__mode--denotation-with-relation .textae-editor__relation__label {
+.textae-editor__mode--denotation-with-relation .textae-editor__relation__label {
   z-index: 0;
 }
-.textae-editor--editable.textae-editor__mode--denotation-with-relation .textae-editor__relation__label.hover {
+.textae-editor__mode--denotation-with-relation .textae-editor__relation__label.hover {
   z-index: 6;
 }
 .textae-editor-veil {
@@ -4647,35 +4663,62 @@ a.ui-button:active,
 .textae-editor__mode--relation .textae-editor__type:hover .textae-editor__entity__type-values {
   opacity: 0.9;
 }
-.textae-editor--editable .textae-editor__entity__type-values {
+.textae-editor__mode--denotation-with-relation .textae-editor__entity__type-values,
+.textae-editor__mode--denotation-without-relation .textae-editor__entity__type-values,
+.textae-editor__mode--block-with-relation .textae-editor__entity__type-values,
+.textae-editor__mode--block-without-relation .textae-editor__entity__type-values,
+.textae-editor__mode--relation .textae-editor__entity__type-values {
   box-shadow: none;
   opacity: 0.9;
   overflow: hidden;
 }
-.textae-editor--editable .textae-editor__entity__attribute {
+.textae-editor__mode--denotation-with-relation .textae-editor__entity__attribute,
+.textae-editor__mode--denotation-without-relation .textae-editor__entity__attribute,
+.textae-editor__mode--block-with-relation .textae-editor__entity__attribute,
+.textae-editor__mode--block-without-relation .textae-editor__entity__attribute,
+.textae-editor__mode--relation .textae-editor__entity__attribute {
   background-color: transparent;
 }
-.textae-editor--editable .textae-editor__entity__type-label,
-.textae-editor--editable .textae-editor__entity__attribute-label {
+.textae-editor__mode--denotation-with-relation .textae-editor__entity__type-label,
+.textae-editor__mode--denotation-without-relation .textae-editor__entity__type-label,
+.textae-editor__mode--block-with-relation .textae-editor__entity__type-label,
+.textae-editor__mode--block-without-relation .textae-editor__entity__type-label,
+.textae-editor__mode--relation .textae-editor__entity__type-label,
+.textae-editor__mode--denotation-with-relation .textae-editor__entity__attribute-label,
+.textae-editor__mode--denotation-without-relation .textae-editor__entity__attribute-label,
+.textae-editor__mode--block-with-relation .textae-editor__entity__attribute-label,
+.textae-editor__mode--block-without-relation .textae-editor__entity__attribute-label,
+.textae-editor__mode--relation .textae-editor__entity__attribute-label {
   background-color: transparent;
   border-width: 0;
   border-radius: 0;
   border-bottom-style: none;
   padding: 0;
 }
-.textae-editor--editable .textae-editor__entity__type-label a,
-.textae-editor--editable .textae-editor__entity__attribute-label a {
+.textae-editor__mode--denotation-with-relation .textae-editor__entity__type-label a,
+.textae-editor__mode--denotation-without-relation .textae-editor__entity__type-label a,
+.textae-editor__mode--block-with-relation .textae-editor__entity__type-label a,
+.textae-editor__mode--block-without-relation .textae-editor__entity__type-label a,
+.textae-editor__mode--relation .textae-editor__entity__type-label a,
+.textae-editor__mode--denotation-with-relation .textae-editor__entity__attribute-label a,
+.textae-editor__mode--denotation-without-relation .textae-editor__entity__attribute-label a,
+.textae-editor__mode--block-with-relation .textae-editor__entity__attribute-label a,
+.textae-editor__mode--block-without-relation .textae-editor__entity__attribute-label a,
+.textae-editor__mode--relation .textae-editor__entity__attribute-label a {
   color: black;
   pointer-events: none;
   text-decoration: none;
 }
+.textae-editor__mode--view-without-relation .textae-editor__grid,
 .textae-editor__mode--denotation-without-relation .textae-editor__grid {
   border-style: none;
 }
+.textae-editor__mode--view-without-relation .textae-editor__entity,
 .textae-editor__mode--denotation-without-relation .textae-editor__entity {
   margin-bottom: 0;
   padding-top: 0;
 }
+.textae-editor__mode--view-without-relation .textae-editor__entity__type-label,
 .textae-editor__mode--denotation-without-relation .textae-editor__entity__type-label {
   border-width: 1px 0 0 0;
 }
