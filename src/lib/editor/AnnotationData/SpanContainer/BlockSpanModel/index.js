@@ -31,7 +31,7 @@ export default class BlockSpanModel extends SpanModel {
     return `bg_of_${this.id}`
   }
 
-  get backgroundElement() {
+  get _backgroundElement() {
     return document.querySelector(`#${this._backgroundId}`)
   }
 
@@ -47,7 +47,7 @@ export default class BlockSpanModel extends SpanModel {
     const el = super.element
     el.classList.add(SELECTED)
 
-    this.backgroundElement.classList.add(SELECTED)
+    this._backgroundElement.classList.add(SELECTED)
 
     // Set focus to the span element in order to scroll the browser to the position of the element.
     el.focus()
@@ -61,8 +61,8 @@ export default class BlockSpanModel extends SpanModel {
       el.classList.remove(SELECTED)
     }
 
-    if (this.backgroundElement) {
-      this.backgroundElement.classList.remove(SELECTED)
+    if (this._backgroundElement) {
+      this._backgroundElement.classList.remove(SELECTED)
     }
   }
 
@@ -71,7 +71,7 @@ export default class BlockSpanModel extends SpanModel {
       textBox
     )
 
-    setPosition(this.backgroundElement, top, left, width, height)
+    setPosition(this._backgroundElement, top, left, width, height)
     setPosition(this.hitAreaElement, top, left, width, height)
   }
 
@@ -89,7 +89,7 @@ export default class BlockSpanModel extends SpanModel {
 
   destroyElement() {
     super.destroyElement()
-    this.backgroundElement.remove()
+    this._backgroundElement.remove()
     this.hitAreaElement.remove()
   }
 
