@@ -116,10 +116,10 @@ export default class BlockSpanModel extends SpanModel {
 
     return {
       // Shifting up half a line from the original block position.
-      top: `${rect.top - textBox.lineHeight / 2 + 20}px`,
-      left: `${rect.left - textBox.boundingClientRect.left - gapBetweenText}px`,
-      width: `${rect.width + gapBetweenText}px`,
-      height: `${rect.height}px`
+      top: rect.top - textBox.lineHeight / 2 + 20,
+      left: rect.left - textBox.boundingClientRect.left - gapBetweenText,
+      width: rect.width + gapBetweenText,
+      height: rect.height
     }
   }
 
