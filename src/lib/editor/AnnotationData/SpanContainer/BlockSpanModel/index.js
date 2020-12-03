@@ -74,7 +74,9 @@ export default class BlockSpanModel extends SpanModel {
   destroyElement() {
     super.destroyElement()
     this._backgroundElement.remove()
-    this._hitAreaElement.remove()
+    for (const el of document.querySelectorAll(`.${this._hitAreaId}`)) {
+      el.remove()
+    }
   }
 
   updateGridPosition(top, left) {
