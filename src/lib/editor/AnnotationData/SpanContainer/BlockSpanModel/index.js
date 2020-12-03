@@ -39,7 +39,7 @@ export default class BlockSpanModel extends SpanModel {
     return `hit_area_of_${this.id}`
   }
 
-  get hitAreaElement() {
+  get _hitAreaElement() {
     return document.querySelector(`#${this._hitAreaId}`)
   }
 
@@ -72,7 +72,7 @@ export default class BlockSpanModel extends SpanModel {
     )
 
     setPosition(this._backgroundElement, top, left, width, height)
-    setPosition(this.hitAreaElement, top, left, width, height)
+    setPosition(this._hitAreaElement, top, left, width, height)
   }
 
   renderElement(annotationBox) {
@@ -90,7 +90,7 @@ export default class BlockSpanModel extends SpanModel {
   destroyElement() {
     super.destroyElement()
     this._backgroundElement.remove()
-    this.hitAreaElement.remove()
+    this._hitAreaElement.remove()
   }
 
   updateGridPosition(top, left) {
