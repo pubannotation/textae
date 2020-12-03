@@ -56,7 +56,7 @@ export default class BlockSpanModel extends SpanModel {
     )
 
     setPosition(this._backgroundElement, top, left, width, height)
-    setPosition(this._hitAreaElement, top, left, width, height)
+    setPosition(this._hitAreaElements[0], top, left, width, height)
   }
 
   renderElement(annotationBox) {
@@ -74,7 +74,7 @@ export default class BlockSpanModel extends SpanModel {
   destroyElement() {
     super.destroyElement()
     this._backgroundElement.remove()
-    for (const el of document.querySelectorAll(`.${this._hitAreaId}`)) {
+    for (const el of this._hitAreaElements) {
       el.remove()
     }
   }
@@ -121,8 +121,8 @@ export default class BlockSpanModel extends SpanModel {
     return `hit_area_of_${this.id}`
   }
 
-  get _hitAreaElement() {
-    return document.querySelector(`.${this._hitAreaId}`)
+  get _hitAreaElements() {
+    return document.querySelectorAll(`.${this._hitAreaId}`)
   }
 
   get _rectangle() {
