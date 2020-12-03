@@ -79,7 +79,7 @@ export default class BlockSpanModel extends SpanModel {
     renderBlock(this)
     // Place the background in the annotation box
     // to shift the background up by half a line from the block span area.
-    renderBackgroundOfBlockSpan(annotationBox, this)
+    renderBackgroundOfBlockSpan(annotationBox, this.backgroundId)
 
     // Add a hit area,
     // so that you can click at the same position as the background of the block span,
