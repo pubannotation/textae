@@ -1,7 +1,7 @@
 import { makeBlockSpanHTMLElementId } from '../../../idFactory'
 import SELECTED from '../../../SELECTED'
 import renderBackground from './renderBackground'
-import renderHitAreaOfBlockSpan from './renderHitAreaOfBlockSpan'
+import renderHitArea from './renderHitArea'
 import renderBlock from './renderBlock'
 import setPosition from './setPosition'
 import SpanModel from '../SpanModel'
@@ -84,7 +84,7 @@ export default class BlockSpanModel extends SpanModel {
     // Add a hit area,
     // so that you can click at the same position as the background of the block span,
     // without hiding the grid in the background.
-    renderHitAreaOfBlockSpan(annotationBox, this, this.hitAreaId)
+    renderHitArea(annotationBox, this, this.hitAreaId)
   }
 
   destroyElement() {
