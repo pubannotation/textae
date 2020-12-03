@@ -54,15 +54,7 @@ export default class MouseEventHandler {
     if (selection.type === 'Caret' || selection.type === 'None') {
       const spanId = e.target.dataset.id
 
-      selectSpan(this._selectionModel, e, spanId, (firstId, secondId) =>
-        this._annotationData.span.rangeBlockSpan(firstId, secondId)
-      )
-
-      // Select entities of the selected span.
-      for (const { entities } of this._selectionModel.span.all) {
-        // Block span has just one entity.
-        this._selectionModel.selectEntityById(entities[0].id)
-      }
+      this._selectSpanAndEntity(e, spanId)
     }
   }
 
@@ -105,6 +97,18 @@ export default class MouseEventHandler {
       for (const { span } of this._selectionModel.entity.all) {
         this._selectionModel.selectSpanById(span.id)
       }
+    }
+  }
+
+  _selectSpanAndEntity(event, spanId) {
+    selectSpan(this._selectionModel, event, spanId, (firstId, secondId) =>
+      this._annotationData.span.rangeBlockSpan(firstId, secondId)
+    )
+
+    // Select entities of the selected span.
+    for (const { entities } of this._selectionModel.span.all) {
+      // Block span has just one entity.
+      this._selectionModel.selectEntityById(entities[0].id)
     }
   }
 }
