@@ -67,7 +67,7 @@ export default class BlockSpanModel extends SpanModel {
   }
 
   updateSidekicksOfBlockSpanPosition(textBox) {
-    const { top, left, width, height } = this._getReactOfSidekicksOfBlock(
+    const { top, left, width, height } = this.getReactOfSidekicksOfBlock(
       textBox
     )
 
@@ -111,7 +111,7 @@ export default class BlockSpanModel extends SpanModel {
     this._entityToFocusOn = val
   }
 
-  _getReactOfSidekicksOfBlock(textBox) {
+  getReactOfSidekicksOfBlock(textBox) {
     const rect = this._rectangle
 
     return {
