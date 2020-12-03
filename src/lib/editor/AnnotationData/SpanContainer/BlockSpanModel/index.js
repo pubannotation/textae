@@ -27,22 +27,6 @@ export default class BlockSpanModel extends SpanModel {
     return makeBlockSpanHTMLElementId(this._editor, this._begin, this._end)
   }
 
-  get _backgroundId() {
-    return `bg_of_${this.id}`
-  }
-
-  get _backgroundElement() {
-    return document.querySelector(`#${this._backgroundId}`)
-  }
-
-  get _hitAreaId() {
-    return `hit_area_of_${this.id}`
-  }
-
-  get _hitAreaElement() {
-    return document.querySelector(`#${this._hitAreaId}`)
-  }
-
   select() {
     const el = super.element
     el.classList.add(SELECTED)
@@ -121,6 +105,22 @@ export default class BlockSpanModel extends SpanModel {
       width: rect.width + gapBetweenText,
       height: rect.height
     }
+  }
+
+  get _backgroundId() {
+    return `bg_of_${this.id}`
+  }
+
+  get _backgroundElement() {
+    return document.querySelector(`#${this._backgroundId}`)
+  }
+
+  get _hitAreaId() {
+    return `hit_area_of_${this.id}`
+  }
+
+  get _hitAreaElement() {
+    return document.querySelector(`#${this._hitAreaId}`)
   }
 
   get _rectangle() {
