@@ -6,8 +6,8 @@ import Renderer from './Renderer'
 import bindAnnotationDataEvents from './bindAnnotationDataEvents'
 import HoverRelation from './HoverRelation'
 import bindMouseEvents from './bindMouseEvents'
-import TextBox from './TextBox'
 import GridRectangle from './GridRectangle'
+import createTextBox from './createTextBox'
 
 export default class View {
   constructor(
@@ -17,23 +17,7 @@ export default class View {
     entityGap,
     typeDefinition
   ) {
-    // Place the text box behind the annotation box to allow you
-    // to select the text behind the relationship label in entity editing mode.
-    const html = `
-    <div class="textae-editor__body">
-      <div class="textae-editor__body__annotation-box"></div>
-      <div class="textae-editor__body__text-box" id="${editor.editorId}_text-box"></div>
-    </div>
-    `
-    // The editor itself has a "white-space: pre" style for processing text that contains a series of whitespace.
-    // In this case, HTML line breaks are included in the editor's height calculation.
-    // Remove CRLF so that it is not included in the height calculation.
-    editor[0].innerHTML = html.replace(/[\n\r]+/g, '')
-
-    this._textBox = new TextBox(
-      editor[0].querySelector('.textae-editor__body__text-box'),
-      annotationData
-    )
+    this._textBox = createTextBox(editor, annotationData)
     this._gridRectangle = new GridRectangle(annotationData, entityGap)
 
     const renderer = new Renderer(
