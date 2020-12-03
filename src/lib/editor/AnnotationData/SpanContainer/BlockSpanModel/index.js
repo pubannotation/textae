@@ -35,12 +35,12 @@ export default class BlockSpanModel extends SpanModel {
     return document.querySelector(`#${this._backgroundId}`)
   }
 
-  get hitAreaId() {
+  get _hitAreaId() {
     return `hit_area_of_${this.id}`
   }
 
   get hitAreaElement() {
-    return document.querySelector(`#${this.hitAreaId}`)
+    return document.querySelector(`#${this._hitAreaId}`)
   }
 
   select() {
@@ -84,7 +84,7 @@ export default class BlockSpanModel extends SpanModel {
     // Add a hit area,
     // so that you can click at the same position as the background of the block span,
     // without hiding the grid in the background.
-    renderHitArea(annotationBox, this, this.hitAreaId)
+    renderHitArea(annotationBox, this, this._hitAreaId)
   }
 
   destroyElement() {
