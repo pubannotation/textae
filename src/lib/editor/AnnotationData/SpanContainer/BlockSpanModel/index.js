@@ -84,7 +84,7 @@ export default class BlockSpanModel extends SpanModel {
     // Add a hit area,
     // so that you can click at the same position as the background of the block span,
     // without hiding the grid in the background.
-    renderHitAreaOfBlockSpan(annotationBox, this)
+    renderHitAreaOfBlockSpan(annotationBox, this, this.hitAreaId)
   }
 
   destroyElement() {
