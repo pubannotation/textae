@@ -31,13 +31,13 @@ export default class MouseEventHandler {
     }
   }
 
-  // Mouse events to the block span are handled by the background instead,
-  // to show the block span shifted up half a line.
   blockSpanClicked() {
     clearTextSelection()
     this._selectionModel.clear()
   }
 
+  // Mouse events to the block span are handled by the hit area instead,
+  // to show the block span shifted up half a line.
   blockHitAreaClicked(e) {
     // When you click on the text, the browser will automatically select the word.
     // Therefore, the editor shrinks spans instead of selecting spans.
