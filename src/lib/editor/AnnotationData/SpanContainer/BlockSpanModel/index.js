@@ -27,12 +27,12 @@ export default class BlockSpanModel extends SpanModel {
     return makeBlockSpanHTMLElementId(this._editor, this._begin, this._end)
   }
 
-  get backgroundId() {
+  get _backgroundId() {
     return `bg_of_${this.id}`
   }
 
   get backgroundElement() {
-    return document.querySelector(`#${this.backgroundId}`)
+    return document.querySelector(`#${this._backgroundId}`)
   }
 
   get hitAreaId() {
@@ -79,7 +79,7 @@ export default class BlockSpanModel extends SpanModel {
     renderBlock(this)
     // Place the background in the annotation box
     // to shift the background up by half a line from the block span area.
-    renderBackground(annotationBox, this.backgroundId)
+    renderBackground(annotationBox, this._backgroundId)
 
     // Add a hit area,
     // so that you can click at the same position as the background of the block span,
