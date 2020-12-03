@@ -36,7 +36,7 @@ export default class MoveEntitiesToSelectedSpansCommand extends CompositeCommand
             annotationData,
             selectionModel,
             'span',
-            span
+            span.id
           )
         )
       }
