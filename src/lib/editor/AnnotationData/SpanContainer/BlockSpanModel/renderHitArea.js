@@ -1,6 +1,6 @@
 export default function (parentElement, span, hitAreaId) {
   const div = document.createElement('div')
-  div.setAttribute('id', hitAreaId)
+  div.setAttribute('class', hitAreaId)
   div.setAttribute('title', span.id)
   div.classList.add('textae-editor__block-hit-area')
 

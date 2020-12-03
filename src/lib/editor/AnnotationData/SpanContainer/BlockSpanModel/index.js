@@ -120,7 +120,7 @@ export default class BlockSpanModel extends SpanModel {
   }
 
   get _hitAreaElement() {
-    return document.querySelector(`#${this._hitAreaId}`)
+    return document.querySelector(`.${this._hitAreaId}`)
   }
 
   get _rectangle() {
