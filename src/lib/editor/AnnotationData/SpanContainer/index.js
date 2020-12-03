@@ -6,7 +6,6 @@ import StyleSpanModel from './StyleSpanModel'
 import BlockSpanModel from './BlockSpanModel'
 import isBoundaryCrossingWithOtherSpans from '../isBoundaryCrossingWithOtherSpans'
 import ModelContainer from '../ModelContainer'
-import arrangeBackgroundOfBlockSpanPosition from './arrangeBackgroundOfBlockSpanPosition'
 import arrangeDenotationEntityPosition from './arrangeDenotationEntityPosition'
 import arrangeBlockEntityPosition from './arrangeBlockEntityPosition'
 import rangeFrom from './rangeFrom'
@@ -254,6 +253,8 @@ export default class SpanContainer extends ModelContainer {
   }
 
   arrangeBackgroundOfBlockSpanPosition(textBox) {
-    arrangeBackgroundOfBlockSpanPosition(this, textBox)
+    for (const span of this.allBlockSpans) {
+      span.updateSidekicksOfBlockSpanPosition(textBox)
+    }
   }
 }
