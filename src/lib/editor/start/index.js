@@ -17,6 +17,7 @@ import ClipBoard from './ClipBoard'
 import AnnotationAutoSaver from './AnnotationAutoSaver'
 import observe from './observe'
 import EntityGap from './EntityGap'
+import createTextBox from './View/createTextBox'
 
 export default function (
   editor,
@@ -45,12 +46,14 @@ export default function (
     clipBoard
   )
   const entityGap = new EntityGap()
+  const textBox = createTextBox(editor, annotationData)
   const view = new View(
     editor,
     annotationData,
     selectionModel,
     entityGap,
-    typeDefinition
+    typeDefinition,
+    textBox
   )
   const originalData = new OriginalData()
   const presenter = new Presenter(
