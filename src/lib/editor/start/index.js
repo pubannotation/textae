@@ -17,7 +17,7 @@ import ClipBoard from './ClipBoard'
 import AnnotationAutoSaver from './AnnotationAutoSaver'
 import observe from './observe'
 import EntityGap from './EntityGap'
-import createTextBox from './View/createTextBox'
+import createTextBox from './createTextBox'
 
 export default function (
   editor,
