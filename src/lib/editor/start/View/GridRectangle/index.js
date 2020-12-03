@@ -40,7 +40,7 @@ export default class GridRectangle {
 
     return {
       width: 100,
-      top: round(parseInt(span.backgroundElement.style.top)),
+      top: round(span.getReactOfSidekicksOfBlock(textBox).top),
       left: round(rectOfTextBox.width - 108)
     }
   }
