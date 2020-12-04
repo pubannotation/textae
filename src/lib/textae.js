@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import Tool from './tool'
+import Tool from './Tool'
 import ControlBar from './control/ControlBar'
 import ContextMenu from './control/ContextMenu'
 import editor from './editor'
