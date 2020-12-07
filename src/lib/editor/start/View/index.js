@@ -8,7 +8,7 @@ import HoverRelation from './HoverRelation'
 import bindMouseEvents from './bindMouseEvents'
 
 export default class View {
-  constructor(editor, annotationData, selectionModel, typeDefinition, textBox) {
+  constructor(editor, annotationData, selectionModel, typeDefinition) {
     const renderer = new Renderer(
       editor,
       annotationData,
