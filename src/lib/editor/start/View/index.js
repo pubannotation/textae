@@ -6,7 +6,6 @@ import Renderer from './Renderer'
 import bindAnnotationDataEvents from './bindAnnotationDataEvents'
 import HoverRelation from './HoverRelation'
 import bindMouseEvents from './bindMouseEvents'
-import GridRectangle from './GridRectangle'
 
 export default class View {
   constructor(
@@ -15,11 +14,11 @@ export default class View {
     selectionModel,
     entityGap,
     typeDefinition,
-    textBox
+    textBox,
+    gridRectangle
   ) {
     this._textBox = textBox
-    this._gridRectangle = new GridRectangle(annotationData, entityGap)
-
+    this._gridRectangle = gridRectangle
     const renderer = new Renderer(
       editor,
       annotationData,

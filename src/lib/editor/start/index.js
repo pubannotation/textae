@@ -18,6 +18,7 @@ import AnnotationAutoSaver from './AnnotationAutoSaver'
 import observe from './observe'
 import EntityGap from './EntityGap'
 import createTextBox from './createTextBox'
+import GridRectangle from './View/GridRectangle'
 
 export default function (
   editor,
@@ -47,13 +48,15 @@ export default function (
   )
   const entityGap = new EntityGap()
   const textBox = createTextBox(editor, annotationData)
+  const gridRectangle = new GridRectangle(annotationData, entityGap)
   const view = new View(
     editor,
     annotationData,
     selectionModel,
     entityGap,
     typeDefinition,
-    textBox
+    textBox,
+    gridRectangle
   )
   const originalData = new OriginalData()
   const presenter = new Presenter(
