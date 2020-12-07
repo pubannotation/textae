@@ -24,8 +24,7 @@ export default class View {
       selectionModel,
       typeDefinition,
       entityGap,
-      this._textBox,
-      this._gridRectangle
+      this._textBox
     )
     this._annotationPosition = new AnnotationPosition(
       editor,

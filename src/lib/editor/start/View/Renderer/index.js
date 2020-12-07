@@ -11,10 +11,13 @@ export default class Renderer {
     selectionModel,
     typeDefinition,
     entityGap,
-    textBox,
-    gridRectangle
+    textBox
   ) {
-    const gridRenderer = new GridRenderer(editor, textBox, gridRectangle)
+    const gridRenderer = new GridRenderer(
+      editor,
+      textBox,
+      annotationData.gridRectangle
+    )
     const entityRenderer = new EntityRenderer(
       annotationData,
       selectionModel,
@@ -37,7 +40,7 @@ export default class Renderer {
       gridRenderer,
       entityRenderer,
       textBox,
-      gridRectangle
+      annotationData.gridRectangle
     )
 
     bindTypeDefinitionEvents(editor, entityRenderer, this._relationRenderer)
