@@ -30,8 +30,7 @@ export default class Renderer {
       editor,
       this._relationRenderer,
       gridRenderer,
-      entityRenderer,
-      textBox
+      entityRenderer
     )
 
     bindTypeDefinitionEvents(editor, entityRenderer, this._relationRenderer)

@@ -6,8 +6,7 @@ export default function (
   editor,
   relationRenderer,
   gridRenderer,
-  entityRenderer,
-  textBox
+  entityRenderer
 ) {
   const spanRenderer = new SpanRenderer(editor, entityRenderer)
 
