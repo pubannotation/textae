@@ -18,10 +18,7 @@ export default class AnnotationPosition {
     this._annotationData.span.arrangeBackgroundOfBlockSpanPosition(
       this._textBox
     )
-    this._annotationData.span.arrangeBlockEntityPosition(
-      this._textBox,
-      this._annotationData.gridRectangle
-    )
+    this._annotationData.span.arrangeBlockEntityPosition(this._textBox)
 
     this._renderer.arrangeRelationPositionAll()
     this._editor.eventEmitter.emit(
