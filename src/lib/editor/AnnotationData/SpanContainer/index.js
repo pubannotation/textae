@@ -45,6 +45,7 @@ export default class SpanContainer extends ModelContainer {
       this._blocks.set(blockSpan.id, blockSpan)
       this._updateSpanTree()
       this._emit(`textae.annotationData.span.add`, blockSpan)
+      this._textBox.forceUpdate()
       return blockSpan
     } else {
       // When redoing, the newValue is instance of the DenotationSpanModel already.
@@ -124,6 +125,7 @@ export default class SpanContainer extends ModelContainer {
     if (instance) {
       this._blocks.delete(id)
       this._emit(`textae.annotationData.span.remove`, instance)
+      this._textBox.forceUpdate()
       return instance
     }
 

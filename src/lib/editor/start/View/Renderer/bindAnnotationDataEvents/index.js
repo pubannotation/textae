@@ -16,20 +16,10 @@ export default function (
       renderAllAnnotations(editor, annotationData, spanRenderer)
       relationRenderer.reset()
     })
-    .on('textae.annotationData.span.add', (span) => {
-      spanRenderer.render(span)
-
-      if (span.isBlock) {
-        textBox.forceUpdate()
-      }
-    })
+    .on('textae.annotationData.span.add', (span) => spanRenderer.render(span))
     .on('textae.annotationData.span.remove', (span) => {
       spanRenderer.remove(span)
       gridRenderer.remove(span)
-
-      if (span.isBlock) {
-        textBox.forceUpdate()
-      }
     })
     .on('textae.annotationData.entity.add', (entity) => {
       entityRenderer.render(entity)
