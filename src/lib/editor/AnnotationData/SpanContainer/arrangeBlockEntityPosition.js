@@ -1,5 +1,5 @@
 // Management position of annotation components.
-export default function (spanContainer, textBox, gridRectangle) {
+export default function (spanContainer) {
   for (const span of spanContainer.allBlockSpans) {
     // The span may be remeved because this functon is call asynchronously.
     if (!spanContainer.get(span.id)) {
