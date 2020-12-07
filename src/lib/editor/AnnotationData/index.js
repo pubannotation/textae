@@ -18,11 +18,16 @@ export default class AnnotationData {
     this.sourceDoc = ''
     this.namespace = new ModelContainer(editor.eventEmitter, 'namespace')
     this.relation = new RelationContainer(editor, editor.eventEmitter)
-    this.entity = new EntityContainer(editor, editor.eventEmitter, this)
+    this._entityGap = new EntityGap()
+    this.entity = new EntityContainer(
+      editor,
+      editor.eventEmitter,
+      this,
+      this._entityGap
+    )
     this.attribute = new AttributeContainer(editor.eventEmitter, this.entity)
     this.span = new SpanContainer(editor, editor.eventEmitter, this.entity)
     this._editor = editor
-    this._entityGap = new EntityGap()
     this._gridRectangle = new GridRectangle(this)
   }
 

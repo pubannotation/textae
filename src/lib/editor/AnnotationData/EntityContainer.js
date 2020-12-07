@@ -6,7 +6,7 @@ import {
 import IdIssueContainer from './IdIssueContainer'
 
 export default class EntityContainer extends IdIssueContainer {
-  constructor(editor, emitter, parentContainer) {
+  constructor(editor, emitter, parentContainer, entityGap) {
     super(emitter, 'entity', 'T')
 
     this._editor = editor
@@ -14,6 +14,8 @@ export default class EntityContainer extends IdIssueContainer {
     // Since the attribute container and the entity container are cross-referenced,
     // the entity container is retrieved dynamically.
     this._parentContainer = parentContainer
+
+    this._entityGap = entityGap
   }
 
   get _spanContainer() {
