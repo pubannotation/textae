@@ -39,8 +39,7 @@ export default class Renderer {
       this._relationRenderer,
       gridRenderer,
       entityRenderer,
-      textBox,
-      annotationData.gridRectangle
+      textBox
     )
 
     bindTypeDefinitionEvents(editor, entityRenderer, this._relationRenderer)

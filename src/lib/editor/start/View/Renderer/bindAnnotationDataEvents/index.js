@@ -7,8 +7,7 @@ export default function (
   relationRenderer,
   gridRenderer,
   entityRenderer,
-  textBox,
-  gridRectangle
+  textBox
 ) {
   const spanRenderer = new SpanRenderer(editor, entityRenderer)
 
@@ -17,7 +16,7 @@ export default function (
       textBox.render(annotationData.sourceDoc)
       renderAllAnnotations(editor, annotationData, spanRenderer)
       relationRenderer.reset()
-      textBox.updateLineHeight(gridRectangle)
+      textBox.updateLineHeight(annotationData.gridRectangle)
     })
     .on('textae.annotationData.span.add', (span) => {
       spanRenderer.render(span)
