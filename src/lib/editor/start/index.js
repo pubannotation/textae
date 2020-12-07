@@ -16,7 +16,6 @@ import ButtonController from '../../ButtonController'
 import ClipBoard from './ClipBoard'
 import AnnotationAutoSaver from './AnnotationAutoSaver'
 import observe from './observe'
-import EntityGap from './EntityGap'
 import createTextBox from './createTextBox'
 import GridRectangle from './GridRectangle'
 
@@ -46,8 +45,6 @@ export default function (
     selectionModel,
     clipBoard
   )
-  const entityGap = new EntityGap()
-  annotationData.entityGap = entityGap
   const textBox = createTextBox(editor, annotationData)
   annotationData.gridRectangle = new GridRectangle(annotationData)
   const view = new View(

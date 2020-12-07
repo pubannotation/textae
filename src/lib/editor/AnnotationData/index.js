@@ -10,6 +10,7 @@ import toAttributes from './toAttributes'
 import toRelations from './toRelations'
 import toBlocks from './toBlocks'
 import getReplicationRanges from './getReplicationRanges'
+import EntityGap from '../start/EntityGap'
 
 export default class AnnotationData {
   constructor(editor) {
@@ -20,6 +21,7 @@ export default class AnnotationData {
     this.attribute = new AttributeContainer(editor.eventEmitter, this.entity)
     this.span = new SpanContainer(editor, editor.eventEmitter, this.entity)
     this._editor = editor
+    this._entityGap = new EntityGap()
   }
 
   reset(rawData) {
@@ -62,10 +64,6 @@ export default class AnnotationData {
 
   get entityGap() {
     return this._entityGap
-  }
-
-  set entityGap(value) {
-    this._entityGap = value
   }
 
   get gridRectangle() {
