@@ -13,7 +13,6 @@ export default function (
 
   editor.eventEmitter
     .on('textae.annotationData.all.change', () => {
-      textBox.render(annotationData.sourceDoc)
       renderAllAnnotations(editor, annotationData, spanRenderer)
       relationRenderer.reset()
     })

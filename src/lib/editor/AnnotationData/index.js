@@ -42,6 +42,7 @@ export default class AnnotationData {
     console.assert(rawData.text, 'This is not a json file of anntations.')
 
     this.sourceDoc = rawData.text
+    this._textBox.render(rawData.text)
 
     clearAnnotationData(this)
     const { multitrack, hasError, rejects } = parseAnnotation(this, rawData)
