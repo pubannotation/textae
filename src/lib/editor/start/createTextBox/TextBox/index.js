@@ -26,7 +26,7 @@ export default class TextBox {
     this._el.innerHTML = text
   }
 
-  updateLineHeight(gridRectangle) {
+  updateLineHeight() {
     if (this._annotationData.span.allDenotationSpans.length) {
       this.lineHeight = this._annotationData.gridRectangle.maxHeight
     } else {

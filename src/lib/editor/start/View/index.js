@@ -52,7 +52,7 @@ export default class View {
   }
 
   updateLineHeight() {
-    this._textBox.updateLineHeight(this._gridRectangle)
+    this._textBox.updateLineHeight()
     this._annotationPosition.update()
   }
 
@@ -68,7 +68,7 @@ export default class View {
     for (const entity of this._annotationData.entity.denotations) {
       entity.reflectEntityGapInTheHeight(value)
     }
-    this._textBox.updateLineHeight(this._gridRectangle)
+    this._textBox.updateLineHeight()
     this._annotationPosition.update()
   }
 }

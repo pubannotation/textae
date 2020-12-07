@@ -13,9 +13,9 @@ export default class LineHeightAuto {
     )
   }
 
-  updateLineHeight(gridRectangle) {
+  updateLineHeight() {
     if (this._enable) {
-      this._textBox.updateLineHeight(gridRectangle)
+      this._textBox.updateLineHeight()
     }
   }
 }

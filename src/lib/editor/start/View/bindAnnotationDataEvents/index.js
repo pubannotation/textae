@@ -4,7 +4,7 @@ import LineHeightAuto from './LineHeightAuto'
 export default function (editor, annotationPosition, textBox, annotationData) {
   const lineHeightAuto = new LineHeightAuto(editor, textBox)
   const debouncedUpdatePosition = debounce(() => {
-    lineHeightAuto.updateLineHeight(annotationData.gridRectangle)
+    lineHeightAuto.updateLineHeight()
     annotationPosition.update()
   }, 100)
 
