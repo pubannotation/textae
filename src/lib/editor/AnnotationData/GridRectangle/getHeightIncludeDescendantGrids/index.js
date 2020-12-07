@@ -1,18 +1,18 @@
 import getGridHeight from './getGridHeight'
 
-export default function getHeightIncludeDescendantGrids(span, annotationData) {
+export default function getHeightIncludeDescendantGrids(span, typeGap) {
   const descendantsMaxHeight =
-    span.children.length === 0 ? 0 : getMaxHeight(span, annotationData)
-  const gridRectangle = getGridHeight(span, annotationData.entityGap.value)
+    span.children.length === 0 ? 0 : getMaxHeight(span, typeGap)
+  const gridRectangle = getGridHeight(span, typeGap)
 
   return gridRectangle + descendantsMaxHeight
 }
 
-function getMaxHeight(span, annotationData) {
+function getMaxHeight(span, typeGap) {
   return Math.max.apply(
     null,
     span.children.map((childSpan) =>
-      getHeightIncludeDescendantGrids(childSpan, annotationData)
+      getHeightIncludeDescendantGrids(childSpan, typeGap)
     )
   )
 }
