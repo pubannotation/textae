@@ -58,6 +58,10 @@ export default class BlockSpanModel extends SpanModel {
 
     setPosition(this._backgroundElement, top, left, width, height)
     setPosition(this._hitAreaElements[0], top, left, width, height)
+
+    // The div height cannot be obtained at grid rendering time,
+    // so set it at move.
+    this.gridElement.style.height = `${this._rectangle.height}px`
   }
 
   renderElement(annotationBox) {
