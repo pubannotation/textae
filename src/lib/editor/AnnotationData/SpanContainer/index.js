@@ -9,6 +9,7 @@ import ModelContainer from '../ModelContainer'
 import arrangeDenotationEntityPosition from './arrangeDenotationEntityPosition'
 import arrangeBlockEntityPosition from './arrangeBlockEntityPosition'
 import rangeFrom from './rangeFrom'
+import getCurrentMaxHeight from '../GridRectangle/getCurrentMaxHeight'
 
 export default class SpanContainer extends ModelContainer {
   constructor(
@@ -268,5 +269,9 @@ export default class SpanContainer extends ModelContainer {
     for (const span of this.allBlockSpans) {
       span.updateSidekicksOfBlockSpanPosition(this._textBox)
     }
+  }
+
+  get currentMaxHeight() {
+    return getCurrentMaxHeight(this)
   }
 }

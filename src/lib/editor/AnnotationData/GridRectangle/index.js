@@ -6,6 +6,6 @@ export default class GridRectangle {
   }
 
   get maxHeight() {
-    return getCurrentMaxHeight(this._annotationData.span)
+    return this._annotationData.span.currentMaxHeight
   }
 }
