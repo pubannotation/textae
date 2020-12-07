@@ -12,19 +12,11 @@ import rangeFrom from './rangeFrom'
 import getCurrentMaxHeight from '../GridRectangle/getCurrentMaxHeight'
 
 export default class SpanContainer extends ModelContainer {
-  constructor(
-    editor,
-    emitter,
-    entityContainer,
-    gridRectangle,
-    textBox,
-    entityGap
-  ) {
+  constructor(editor, emitter, entityContainer, textBox, entityGap) {
     super(emitter, 'span')
 
     this._editor = editor
     this._entityContainer = entityContainer
-    this._gridRectangle = gridRectangle
     this._textBox = textBox
     this._entityGap = entityGap
 
