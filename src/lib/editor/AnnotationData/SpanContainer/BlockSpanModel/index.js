@@ -5,6 +5,7 @@ import renderHitArea from './renderHitArea'
 import renderBlock from './renderBlock'
 import setPosition from './setPosition'
 import SpanModel from '../SpanModel'
+import round from '../../GridRectangle/round'
 
 // Leave a gap between the text and the block border.
 const gapBetweenText = 8
@@ -80,10 +81,16 @@ export default class BlockSpanModel extends SpanModel {
   }
 
   get gridRectangle() {
-    return this._spanContainer._gridRectangle.blockGridRectangle(
-      this._spanContainer._textBox,
-      this
-    )
+    console.assert(this.element, 'span is not renderd')
+    const rectOfTextBox = this._spanContainer._textBox.boundingClientRect
+
+    return {
+      width: 100,
+      top: round(
+        this.getReactOfSidekicksOfBlock(this._spanContainer._textBox).top
+      ),
+      left: round(rectOfTextBox.width - 108)
+    }
   }
 
   updateGridPosition(top, left) {
