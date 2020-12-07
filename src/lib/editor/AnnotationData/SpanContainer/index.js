@@ -249,22 +249,12 @@ export default class SpanContainer extends ModelContainer {
 
   arrangeDenotationEntityPosition() {
     for (const span of this.allDenotationSpans) {
-      // The span may be remeved because this functon is call asynchronously.
-      if (!this.get(span.id)) {
-        continue
-      }
-
       span.updateGridPosition()
     }
   }
 
   arrangeBlockEntityPosition() {
     for (const span of this.allBlockSpans) {
-      // The span may be remeved because this functon is call asynchronously.
-      if (!this.get(span.id)) {
-        return
-      }
-
       span.updateGridPosition()
     }
   }
