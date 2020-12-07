@@ -26,9 +26,14 @@ export default class AnnotationData {
       this._entityGap
     )
     this.attribute = new AttributeContainer(editor.eventEmitter, this.entity)
-    this.span = new SpanContainer(editor, editor.eventEmitter, this.entity)
-    this._editor = editor
     this._gridRectangle = new GridRectangle(this)
+    this.span = new SpanContainer(
+      editor,
+      editor.eventEmitter,
+      this.entity,
+      this._gridRectangle
+    )
+    this._editor = editor
   }
 
   reset(rawData) {
