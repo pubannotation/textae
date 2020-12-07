@@ -3,9 +3,9 @@ import getGridHeight from './getGridHeight'
 export default function getHeightIncludeDescendantGrids(span, typeGap) {
   const descendantsMaxHeight =
     span.children.length === 0 ? 0 : getMaxHeight(span, typeGap)
-  const gridRectangle = getGridHeight(span, typeGap)
+  const height = getGridHeight(span, typeGap)
 
-  return gridRectangle + descendantsMaxHeight
+  return height + descendantsMaxHeight
 }
 
 function getMaxHeight(span, typeGap) {
