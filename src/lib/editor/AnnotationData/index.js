@@ -34,7 +34,8 @@ export default class AnnotationData {
       editor.eventEmitter,
       this.entity,
       this._gridRectangle,
-      this._textBox
+      this._textBox,
+      this._entityGap
     )
     this._editor = editor
   }

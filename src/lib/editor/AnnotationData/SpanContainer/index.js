@@ -11,13 +11,21 @@ import arrangeBlockEntityPosition from './arrangeBlockEntityPosition'
 import rangeFrom from './rangeFrom'
 
 export default class SpanContainer extends ModelContainer {
-  constructor(editor, emitter, entityContainer, gridRectangle, textBox) {
+  constructor(
+    editor,
+    emitter,
+    entityContainer,
+    gridRectangle,
+    textBox,
+    entityGap
+  ) {
     super(emitter, 'span')
 
     this._editor = editor
     this._entityContainer = entityContainer
     this._gridRectangle = gridRectangle
     this._textBox = textBox
+    this._entityGap = entityGap
 
     // Aliase to the super class property.
     this._denotations = this._container
