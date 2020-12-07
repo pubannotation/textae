@@ -84,6 +84,13 @@ export default class BlockSpanModel extends SpanModel {
     }
   }
 
+  renderGridElement() {
+    const el = super.renderGridElement()
+    el.classList.add('textae-editor__block-hit-area')
+    el.dataset.id = this.id
+    return el
+  }
+
   get _gridRectangle() {
     console.assert(this.element, 'span is not renderd')
     const rectOfTextBox = this._spanContainer._textBox.boundingClientRect
