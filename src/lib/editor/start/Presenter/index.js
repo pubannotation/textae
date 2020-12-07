@@ -42,8 +42,7 @@ export default class Presenter {
       spanConfig,
       clipBoard,
       view,
-      editMode,
-      entityGap
+      editMode
     )
   }
 }
