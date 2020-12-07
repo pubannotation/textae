@@ -79,6 +79,13 @@ export default class BlockSpanModel extends SpanModel {
     }
   }
 
+  get gridRectangle() {
+    return this._spanContainer._gridRectangle.blockGridRectangle(
+      this._spanContainer._textBox,
+      this
+    )
+  }
+
   updateGridPosition(top, left) {
     super.updateGridPosition(top, left)
 
