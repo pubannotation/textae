@@ -45,6 +45,7 @@ export default function (
     clipBoard
   )
   const textBox = createTextBox(editor, annotationData)
+  annotationData.textBox = textBox
   const view = new View(
     editor,
     annotationData,
