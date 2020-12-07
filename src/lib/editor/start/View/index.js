@@ -40,7 +40,7 @@ export default class View {
       editor,
       this._annotationPosition,
       this._textBox,
-      this._gridRectangle
+      annotationData
     )
     bindAnnotaitonPositionEvents(editor, new CursorChanger(editor))
     bindMouseEvents(editor, new HoverRelation(editor, annotationData.entity))
