@@ -11,7 +11,7 @@ import toRelations from './toRelations'
 import toBlocks from './toBlocks'
 import getReplicationRanges from './getReplicationRanges'
 import EntityGap from './EntityGap'
-import GridRectangle from '../start/GridRectangle'
+import GridRectangle from './GridRectangle'
 
 export default class AnnotationData {
   constructor(editor) {
