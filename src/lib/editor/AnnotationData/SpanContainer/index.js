@@ -263,7 +263,7 @@ export default class SpanContainer extends ModelContainer {
     }
   }
 
-  get currentMaxHeight() {
+  get maxHeight() {
     return getCurrentMaxHeight(this)
   }
 }
