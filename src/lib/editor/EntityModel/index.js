@@ -4,7 +4,7 @@ import { makeEntityHTMLElementId } from '../idFactory'
 import mergeTypesOf from './mergeTypesOf'
 import SELECTED from '../SELECTED'
 import createEntityHtml from './createEntityHtml'
-import typeGapUnitHeight from '../start/View/typeGapUnitHeight'
+import typeGapUnitHeight from '../typeGapUnitHeight'
 
 export default class EntityModel {
   constructor(
