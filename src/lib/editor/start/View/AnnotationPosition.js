@@ -1,8 +1,7 @@
 export default class AnnotationPosition {
-  constructor(editor, annotationData, textBox, renderer) {
+  constructor(editor, annotationData, renderer) {
     this._editor = editor
     this._annotationData = annotationData
-    this._textBox = textBox
     this._renderer = renderer
   }
 

@@ -19,7 +19,6 @@ export default class View {
     this._annotationPosition = new AnnotationPosition(
       editor,
       annotationData,
-      annotationData.textBox,
       renderer
     )
     this._annotationData = annotationData
