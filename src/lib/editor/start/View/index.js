@@ -13,8 +13,7 @@ export default class View {
       editor,
       annotationData,
       selectionModel,
-      typeDefinition,
-      annotationData.textBox
+      typeDefinition
     )
     this._annotationPosition = new AnnotationPosition(
       editor,

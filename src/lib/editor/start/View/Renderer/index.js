@@ -5,7 +5,7 @@ import bindAnnotationDataEvents from './bindAnnotationDataEvents'
 import RelationRenderer from './RelationRenderer'
 
 export default class Renderer {
-  constructor(editor, annotationData, selectionModel, typeDefinition, textBox) {
+  constructor(editor, annotationData, selectionModel, typeDefinition) {
     const gridRenderer = new GridRenderer(editor)
     const entityRenderer = new EntityRenderer(
       annotationData,
