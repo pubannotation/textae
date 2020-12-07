@@ -123,7 +123,8 @@ export default class SpanModel {
     return dohtml.create(html)
   }
 
-  updateGridPosition(top, left) {
+  updateGridPosition() {
+    const { top, left } = this.gridRectangle
     updateGridPosition(this.gridElement, top, left)
   }
 

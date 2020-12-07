@@ -6,7 +6,6 @@ export default function (spanContainer) {
       continue
     }
 
-    const { top, left } = span.gridRectangle
-    span.updateGridPosition(top, left)
+    span.updateGridPosition()
   }
 }
