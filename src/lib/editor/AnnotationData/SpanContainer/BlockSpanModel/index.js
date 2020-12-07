@@ -93,8 +93,8 @@ export default class BlockSpanModel extends SpanModel {
     }
   }
 
-  updateGridPosition(top, left) {
-    super.updateGridPosition(top, left)
+  updateGridPosition() {
+    super.updateGridPosition()
 
     if (this._entityToFocusOn) {
       // A block span has only one entity.
