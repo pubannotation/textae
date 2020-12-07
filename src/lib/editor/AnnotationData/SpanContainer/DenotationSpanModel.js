@@ -1,4 +1,6 @@
 import SELECTED from '../../SELECTED'
+import getHeightIncludeDescendantGrids from '../GridRectangle/getHeightIncludeDescendantGrids'
+import round from '../GridRectangle/round'
 import SpanModel from './SpanModel'
 
 export default class DenotationSpanModel extends SpanModel {
@@ -72,6 +74,19 @@ export default class DenotationSpanModel extends SpanModel {
   }
 
   get gridRectangle() {
-    return this._spanContainer._gridRectangle.denotationGridRectangle(this)
+    console.assert(this.element, 'span is not renderd')
+    const { top, left, width } = this.rectangle
+
+    return {
+      width: round(width),
+      top: round(
+        top -
+          getHeightIncludeDescendantGrids(
+            this,
+            this._spanContainer._entityGap.value
+          )
+      ),
+      left: round(left)
+    }
   }
 }

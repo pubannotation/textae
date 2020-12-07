@@ -1,4 +1,3 @@
-import getHeightIncludeDescendantGrids from './getHeightIncludeDescendantGrids'
 import getCurrentMaxHeight from './getCurrentMaxHeight'
 import round from './round'
 
@@ -13,23 +12,6 @@ export default class GridRectangle {
 
   get maxHeight() {
     return getCurrentMaxHeight(this._annotationData)
-  }
-
-  denotationGridRectangle(span) {
-    console.assert(span.element, 'span is not renderd')
-    const { top, left, width } = span.rectangle
-
-    return {
-      width: round(width),
-      top: round(
-        top -
-          getHeightIncludeDescendantGrids(
-            span,
-            this._annotationData.entityGap.value
-          )
-      ),
-      left: round(left)
-    }
   }
 
   blockGridRectangle(textBox, span) {
