@@ -11,6 +11,7 @@ export default class EntityModel {
     editor,
     attributeContainer,
     relationContaier,
+    entityGap,
     span,
     typeName,
     id = null
@@ -21,6 +22,7 @@ export default class EntityModel {
     this._id = id
     this._attributeContainer = attributeContainer
     this._relationContaier = relationContaier
+    this._entityGap = entityGap
   }
 
   static mergedTypesOf(entities) {
@@ -180,7 +182,7 @@ export default class EntityModel {
       if (entityElement) {
         entityElement.setAttribute(
           'style',
-          `padding-top: ${typeGapUnitHeight * typeGap}px;`
+          `padding-top: ${typeGapUnitHeight * this._entityGap.value}px;`
         )
       }
     }
