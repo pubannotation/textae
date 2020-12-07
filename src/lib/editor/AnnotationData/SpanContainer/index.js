@@ -257,7 +257,7 @@ export default class SpanContainer extends ModelContainer {
   }
 
   arrangeDenotationEntityPosition() {
-    arrangeDenotationEntityPosition(this, this._gridRectangle)
+    arrangeDenotationEntityPosition(this)
   }
 
   arrangeBlockEntityPosition() {
