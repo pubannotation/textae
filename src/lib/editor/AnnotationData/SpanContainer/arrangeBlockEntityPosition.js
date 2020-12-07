@@ -6,7 +6,7 @@ export default function (spanContainer, textBox, gridRectangle) {
       return
     }
 
-    const { top, left } = gridRectangle.blockGridRectangle(textBox, span)
+    const { top, left } = span.gridRectangle
     span.updateGridPosition(top, left)
   }
 }
