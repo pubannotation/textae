@@ -52,7 +52,7 @@ export default class View {
 
   _apllyEntityGap(value) {
     for (const entity of this._annotationData.entity.denotations) {
-      entity.reflectEntityGapInTheHeight(value)
+      entity.reflectEntityGapInTheHeight()
     }
     this._textBox.updateLineHeight()
     this._annotationPosition.update()

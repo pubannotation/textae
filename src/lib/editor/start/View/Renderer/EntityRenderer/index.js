@@ -25,7 +25,7 @@ export default class EntityRenderer {
       this._annotationData.namespace
     )
 
-    entity.reflectEntityGapInTheHeight(this._annotationData.entityGap.value)
+    entity.reflectEntityGapInTheHeight()
   }
 
   change(entity) {
@@ -35,7 +35,7 @@ export default class EntityRenderer {
       this._selectionModel.entity.has(entity.id)
     )
 
-    entity.reflectEntityGapInTheHeight(this._annotationData.entityGap.value)
+    entity.reflectEntityGapInTheHeight()
   }
 
   remove(entity) {
