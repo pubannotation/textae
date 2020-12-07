@@ -9,7 +9,7 @@ import start from './start'
 import { EventEmitter } from 'events'
 import observeDataSave from './observeDataSave'
 import observeModelChange from './observeModelChange'
-import getParams from './start/getParams'
+import getParams from './getParams'
 
 export default function () {
   // Set the eventEmitter to communicate with the tool and a control.

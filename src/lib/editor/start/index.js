@@ -1,5 +1,5 @@
 import alertifyjs from 'alertifyjs'
-import getParams from './getParams'
+import getParams from '../getParams'
 import SpanConfig from './SpanConfig'
 import Commander from './Commander'
 import TypeDefinition from './TypeDefinition'
