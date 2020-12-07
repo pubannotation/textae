@@ -25,7 +25,7 @@ export default class View {
     )
     this._annotationData = annotationData
 
-    annotationData.entityGap.bind(() => this._apllyEntityGap())
+    annotationData.entityGap.bind(() => this._applyEntityGap())
     bindClipBoardEvents(editor)
     bindAnnotationDataEvents(editor, this._annotationPosition, this._textBox)
     bindAnnotaitonPositionEvents(editor, new CursorChanger(editor))
@@ -50,7 +50,7 @@ export default class View {
     this._textBox.lineHeight = value
   }
 
-  _apllyEntityGap() {
+  _applyEntityGap() {
     for (const entity of this._annotationData.entity.denotations) {
       entity.reflectEntityGapInTheHeight()
     }
