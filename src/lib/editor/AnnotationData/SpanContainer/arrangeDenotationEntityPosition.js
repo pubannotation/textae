@@ -6,7 +6,7 @@ export default function (spanContainer, gridRectangle) {
       continue
     }
 
-    const { top, left } = gridRectangle.denotationGridRectangle(span)
+    const { top, left } = span.gridRectangle
     span.updateGridPosition(top, left)
   }
 }
