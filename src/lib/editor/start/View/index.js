@@ -8,14 +8,7 @@ import HoverRelation from './HoverRelation'
 import bindMouseEvents from './bindMouseEvents'
 
 export default class View {
-  constructor(
-    editor,
-    annotationData,
-    selectionModel,
-    entityGap,
-    typeDefinition,
-    textBox
-  ) {
+  constructor(editor, annotationData, selectionModel, typeDefinition, textBox) {
     this._textBox = textBox
     const renderer = new Renderer(
       editor,
@@ -32,7 +25,7 @@ export default class View {
     )
     this._annotationData = annotationData
 
-    entityGap.bind((value) => this._apllyEntityGap(value))
+    annotationData.entityGap.bind((value) => this._apllyEntityGap(value))
     bindClipBoardEvents(editor)
     bindAnnotationDataEvents(editor, this._annotationPosition, this._textBox)
     bindAnnotaitonPositionEvents(editor, new CursorChanger(editor))

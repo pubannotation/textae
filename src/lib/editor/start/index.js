@@ -54,7 +54,6 @@ export default function (
     editor,
     annotationData,
     selectionModel,
-    entityGap,
     typeDefinition,
     textBox
   )
