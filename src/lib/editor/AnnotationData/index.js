@@ -60,6 +60,14 @@ export default class AnnotationData {
     )
   }
 
+  get entityGap() {
+    return this._entityGap
+  }
+
+  set entityGap(value) {
+    this._entityGap = value
+  }
+
   get gridRectangle() {
     return this._gridRectangle
   }
