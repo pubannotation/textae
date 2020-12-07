@@ -266,6 +266,6 @@ export default class SpanContainer extends ModelContainer {
   }
 
   get maxHeight() {
-    return getCurrentMaxHeight(this)
+    return getCurrentMaxHeight(this, this._entityGap.value)
   }
 }
