@@ -18,7 +18,7 @@ import AnnotationAutoSaver from './AnnotationAutoSaver'
 import observe from './observe'
 import EntityGap from './EntityGap'
 import createTextBox from './createTextBox'
-import GridRectangle from './View/GridRectangle'
+import GridRectangle from './GridRectangle'
 
 export default function (
   editor,
