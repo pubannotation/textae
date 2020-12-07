@@ -12,6 +12,7 @@ import toBlocks from './toBlocks'
 import getReplicationRanges from './getReplicationRanges'
 import EntityGap from './EntityGap'
 import GridRectangle from './GridRectangle'
+import createTextBox from '../start/createTextBox'
 
 export default class AnnotationData {
   constructor(editor) {
@@ -34,6 +35,7 @@ export default class AnnotationData {
       this._gridRectangle
     )
     this._editor = editor
+    this._textBox = createTextBox(editor, this)
   }
 
   reset(rawData) {
@@ -84,9 +86,5 @@ export default class AnnotationData {
 
   get textBox() {
     return this._textBox
-  }
-
-  set textBox(value) {
-    this._textBox = value
   }
 }

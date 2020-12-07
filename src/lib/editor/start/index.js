@@ -44,8 +44,6 @@ export default function (
     selectionModel,
     clipBoard
   )
-  const textBox = createTextBox(editor, annotationData)
-  annotationData.textBox = textBox
   const view = new View(editor, annotationData, selectionModel, typeDefinition)
   const originalData = new OriginalData()
   const presenter = new Presenter(
