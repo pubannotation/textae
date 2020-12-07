@@ -6,11 +6,7 @@ import RelationRenderer from './RelationRenderer'
 
 export default class Renderer {
   constructor(editor, annotationData, selectionModel, typeDefinition, textBox) {
-    const gridRenderer = new GridRenderer(
-      editor,
-      textBox,
-      annotationData.gridRectangle
-    )
+    const gridRenderer = new GridRenderer(editor)
     const entityRenderer = new EntityRenderer(
       annotationData,
       selectionModel,

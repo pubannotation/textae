@@ -1,6 +1,6 @@
 import getRightGrid from './getRightGrid'
 
-export default function (editor, container, textBox, gridRectangle, span) {
+export default function (editor, container, span) {
   const { width, top, left } = span.gridRectangle
 
   const rightGrid = getRightGrid(editor, span.id)
