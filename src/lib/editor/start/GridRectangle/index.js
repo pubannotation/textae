@@ -7,13 +7,15 @@ import round from './round'
 // so I'll round it to 2 decimal places,
 // which is below the rounding accuracy of Google Chrome and Firefox.
 export default class GridRectangle {
-  constructor(annotationData, entityGap) {
+  constructor(annotationData) {
     this._annotationData = annotationData
-    this._entityGap = entityGap
   }
 
   get maxHeight() {
-    return getCurrentMaxHeight(this._annotationData, this._entityGap.value)
+    return getCurrentMaxHeight(
+      this._annotationData,
+      this._annotationData.entityGap.value
+    )
   }
 
   denotationGridRectangle(span) {
@@ -26,7 +28,7 @@ export default class GridRectangle {
         top -
           getHeightIncludeDescendantGrids(
             span,
-            this._entityGap.value,
+            this._annotationData.entityGap.value,
             this._annotationData
           )
       ),

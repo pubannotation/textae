@@ -49,7 +49,7 @@ export default function (
   const entityGap = new EntityGap()
   annotationData.entityGap = entityGap
   const textBox = createTextBox(editor, annotationData)
-  annotationData.gridRectangle = new GridRectangle(annotationData, entityGap)
+  annotationData.gridRectangle = new GridRectangle(annotationData)
   const view = new View(
     editor,
     annotationData,
