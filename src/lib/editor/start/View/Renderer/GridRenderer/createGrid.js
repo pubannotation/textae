@@ -1,9 +1,7 @@
 import getRightGrid from './getRightGrid'
 
 export default function (editor, container, textBox, gridRectangle, span) {
-  const { width, top, left } = span.isBlock
-    ? span.gridRectangle
-    : gridRectangle.denotationGridRectangle(span)
+  const { width, top, left } = span.gridRectangle
 
   const rightGrid = getRightGrid(editor, span.id)
   if (rightGrid) {

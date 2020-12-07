@@ -70,4 +70,8 @@ export default class DenotationSpanModel extends SpanModel {
       element.classList.add('textae-editor__span')
     }
   }
+
+  get gridRectangle() {
+    return this._spanContainer._gridRectangle.denotationGridRectangle(this)
+  }
 }
