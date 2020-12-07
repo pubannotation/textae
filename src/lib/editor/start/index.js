@@ -67,7 +67,6 @@ export default function (
     spanConfig,
     clipBoard,
     buttonController,
-    entityGap,
     view,
     originalData,
     typeDefinition,

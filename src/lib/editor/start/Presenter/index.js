@@ -11,7 +11,6 @@ export default class Presenter {
     spanConfig,
     clipBoard,
     buttonController,
-    entityGap,
     view,
     originalData,
     typeDefinition,
