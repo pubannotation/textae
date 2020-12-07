@@ -59,4 +59,12 @@ export default class AnnotationData {
       isDelimiterFunc
     )
   }
+
+  get gridRectangle() {
+    return this._gridRectangle
+  }
+
+  set gridRectangle(value) {
+    this._gridRectangle = value
+  }
 }
