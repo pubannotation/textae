@@ -24,9 +24,9 @@ export default function (
   history,
   annotationData,
   selectionModel,
-  annotationWatcher
+  annotationWatcher,
+  params
 ) {
-  const params = getParams(editor[0])
   const spanConfig = new SpanConfig()
   const typeDefinition = new TypeDefinition(editor, annotationData)
 

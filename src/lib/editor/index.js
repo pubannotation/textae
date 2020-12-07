@@ -9,11 +9,13 @@ import start from './start'
 import { EventEmitter } from 'events'
 import observeDataSave from './observeDataSave'
 import observeModelChange from './observeModelChange'
+import getParams from './start/getParams'
 
 export default function () {
   // Set the eventEmitter to communicate with the tool and a control.
   this.eventEmitter = new EventEmitter()
 
+  const params = getParams(this[0])
   const annotationData = new AnnotationData(this)
 
   // A contaier of selection state.
@@ -38,7 +40,8 @@ export default function () {
         history,
         annotationData,
         selectionModel,
-        annotationWatcher
+        annotationWatcher,
+        params
       )
   }
 
