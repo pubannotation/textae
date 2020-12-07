@@ -120,6 +120,7 @@
     width: 100%;
 
     &-bg {
+      border-color: @border;
       border-style: dotted;
       border-width: 1px 0;
       position: absolute;
@@ -192,6 +193,9 @@
 
   &__mode--block-with-relation,
   &__mode--block-without-relation {
+    .textae-editor__block-bg {
+      border-width: 1px 1px 1px 0;
+    }
     .textae-editor__block-hit-area {
       background-color: fade(@baseColor, 25%);
       &.ui-selected {
