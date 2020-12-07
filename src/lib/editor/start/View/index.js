@@ -14,11 +14,10 @@ export default class View {
     selectionModel,
     entityGap,
     typeDefinition,
-    textBox,
-    gridRectangle
+    textBox
   ) {
     this._textBox = textBox
-    this._gridRectangle = gridRectangle
+    this._gridRectangle = annotationData.gridRectangle
     const renderer = new Renderer(
       editor,
       annotationData,
