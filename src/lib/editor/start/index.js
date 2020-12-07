@@ -17,7 +17,6 @@ import ClipBoard from './ClipBoard'
 import AnnotationAutoSaver from './AnnotationAutoSaver'
 import observe from './observe'
 import createTextBox from './createTextBox'
-import GridRectangle from './GridRectangle'
 
 export default function (
   editor,
@@ -46,7 +45,6 @@ export default function (
     clipBoard
   )
   const textBox = createTextBox(editor, annotationData)
-  annotationData.gridRectangle = new GridRectangle(annotationData)
   const view = new View(
     editor,
     annotationData,
