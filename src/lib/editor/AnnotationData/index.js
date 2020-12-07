@@ -10,7 +10,7 @@ import toAttributes from './toAttributes'
 import toRelations from './toRelations'
 import toBlocks from './toBlocks'
 import getReplicationRanges from './getReplicationRanges'
-import EntityGap from '../start/EntityGap'
+import EntityGap from './EntityGap'
 
 export default class AnnotationData {
   constructor(editor) {
