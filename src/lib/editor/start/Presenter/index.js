@@ -27,8 +27,7 @@ export default class Presenter {
       buttonController,
       originalData,
       typeDefinition,
-      autocompletionWs,
-      entityGap
+      autocompletionWs
     )
 
     bindModelChange(editor, editMode, mode)

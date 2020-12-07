@@ -16,8 +16,7 @@ export default class EditMode {
     buttonController,
     originalData,
     typeDefinition,
-    autocompletionWs,
-    entityGap
+    autocompletionWs
   ) {
     this._annotationData = annotationData
 
@@ -65,7 +64,7 @@ export default class EditMode {
 
     this._stateMachine = new StateMachine(
       editor,
-      entityGap,
+      annotationData.entityGap,
       () => {
         this.cancelSelect()
         this._unbindAllMouseEventhandler()
