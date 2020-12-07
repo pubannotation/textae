@@ -119,14 +119,11 @@
     display: inline-block;
     width: 100%;
 
-    &-bg,
-    &-hit-area {
-      position: absolute;
-    }
     &-bg {
       background-color: fade(@baseColor, 25%);
       border-style: solid;
       border-width: 1px;
+      position: absolute;
       &.ui-selected {
         background-color: rgba(255, 200, 100, 0.9);
         border-color: @selected;
@@ -191,13 +188,6 @@
       &__relation__label.hover {
         z-index: 6;
       }
-    }
-  }
-
-  &__mode--block-with-relation,
-  &__mode--block-without-relation {
-    .textae-editor__block-hit-area {
-      display: block;
     }
   }
 
