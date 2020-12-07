@@ -9,7 +9,7 @@ import ModelContainer from '../ModelContainer'
 import arrangeDenotationEntityPosition from './arrangeDenotationEntityPosition'
 import arrangeBlockEntityPosition from './arrangeBlockEntityPosition'
 import rangeFrom from './rangeFrom'
-import getCurrentMaxHeight from '../GridRectangle/getCurrentMaxHeight'
+import getCurrentMaxHeight from './getCurrentMaxHeight'
 
 export default class SpanContainer extends ModelContainer {
   constructor(editor, emitter, entityContainer, textBox, entityGap) {

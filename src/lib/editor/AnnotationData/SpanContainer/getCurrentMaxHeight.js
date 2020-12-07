@@ -1,4 +1,4 @@
-import getHeightIncludeDescendantGrids from './getHeightIncludeDescendantGrids'
+import getHeightIncludeDescendantGrids from '../GridRectangle/getHeightIncludeDescendantGrids'
 
 const TEXT_HEIGHT = 23
 const MARGIN_TOP = 30
