@@ -81,4 +81,12 @@ export default class AnnotationData {
   get gridRectangle() {
     return this._gridRectangle
   }
+
+  get textBox() {
+    return this._textBox
+  }
+
+  set textBox(value) {
+    this._textBox = value
+  }
 }
