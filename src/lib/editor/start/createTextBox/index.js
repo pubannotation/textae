@@ -6,7 +6,7 @@ export default function (editor, annotationData) {
   const html = `
     <div class="textae-editor__body">
       <div class="textae-editor__body__annotation-box"></div>
-      <div class="textae-editor__body__text-box" id="${editor.editorId}_text-box"></div>
+      <div class="textae-editor__body__text-box"></div>
     </div>
     `
   // The editor itself has a "white-space: pre" style for processing text that contains a series of whitespace.
