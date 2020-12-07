@@ -6,7 +6,6 @@ import StyleSpanModel from './StyleSpanModel'
 import BlockSpanModel from './BlockSpanModel'
 import isBoundaryCrossingWithOtherSpans from '../isBoundaryCrossingWithOtherSpans'
 import ModelContainer from '../ModelContainer'
-import arrangeBlockEntityPosition from './arrangeBlockEntityPosition'
 import rangeFrom from './rangeFrom'
 import getCurrentMaxHeight from './getCurrentMaxHeight'
 
@@ -260,7 +259,14 @@ export default class SpanContainer extends ModelContainer {
   }
 
   arrangeBlockEntityPosition() {
-    arrangeBlockEntityPosition(this)
+    for (const span of this.allBlockSpans) {
+      // The span may be remeved because this functon is call asynchronously.
+      if (!this.get(span.id)) {
+        return
+      }
+
+      span.updateGridPosition()
+    }
   }
 
   arrangeBackgroundOfBlockSpanPosition() {
