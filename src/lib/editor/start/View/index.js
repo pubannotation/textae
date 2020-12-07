@@ -30,7 +30,6 @@ export default class View {
       editor,
       annotationData,
       this._textBox,
-      this._gridRectangle,
       renderer
     )
     this._annotationData = annotationData

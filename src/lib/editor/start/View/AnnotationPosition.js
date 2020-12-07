@@ -1,9 +1,8 @@
 export default class AnnotationPosition {
-  constructor(editor, annotationData, textBox, gridRectangle, renderer) {
+  constructor(editor, annotationData, textBox, renderer) {
     this._editor = editor
     this._annotationData = annotationData
     this._textBox = textBox
-    this._gridRectangle = gridRectangle
     this._renderer = renderer
   }
 
@@ -13,7 +12,7 @@ export default class AnnotationPosition {
     )
 
     this._annotationData.span.arrangeDenotationEntityPosition(
-      this._gridRectangle
+      this._annotationData.gridRectangle
     )
 
     // When you undo the deletion of a block span,
@@ -23,7 +22,7 @@ export default class AnnotationPosition {
     )
     this._annotationData.span.arrangeBlockEntityPosition(
       this._textBox,
-      this._gridRectangle
+      this._annotationData.gridRectangle
     )
 
     this._renderer.arrangeRelationPositionAll()
