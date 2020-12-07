@@ -44,7 +44,6 @@ export default class AnnotationData {
     clearAnnotationData(this)
 
     this.sourceDoc = rawData.text
-    this.config = rawData.config
 
     const { multitrack, hasError, rejects } = parseAnnotation(this, rawData)
 
