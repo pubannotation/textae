@@ -9,52 +9,55 @@ import bindMouseEvents from './bindMouseEvents'
 
 export default class View {
   constructor(editor, annotationData, selectionModel, typeDefinition, textBox) {
-    this._textBox = textBox
     const renderer = new Renderer(
       editor,
       annotationData,
       selectionModel,
       typeDefinition,
-      this._textBox
+      annotationData.textBox
     )
     this._annotationPosition = new AnnotationPosition(
       editor,
       annotationData,
-      this._textBox,
+      annotationData.textBox,
       renderer
     )
     this._annotationData = annotationData
 
     annotationData.entityGap.bind(() => this._applyEntityGap())
     bindClipBoardEvents(editor)
-    bindAnnotationDataEvents(editor, this._annotationPosition, this._textBox)
+    bindAnnotationDataEvents(
+      editor,
+      this._annotationPosition,
+      this._annotationData.textBox
+    )
     bindAnnotaitonPositionEvents(editor, new CursorChanger(editor))
     bindMouseEvents(editor, new HoverRelation(editor, annotationData.entity))
   }
 
   updateDisplay() {
-    this._textBox.forceUpdate()
+    this._annotationData.textBox.forceUpdate()
     this._annotationPosition.update()
   }
 
   updateLineHeight() {
-    this._textBox.updateLineHeight()
+    this._annotationData.textBox.updateLineHeight()
     this._annotationPosition.update()
   }
 
   getLineHeight() {
-    return this._textBox.lineHeight
+    return this._annotationData.textBox.lineHeight
   }
 
   setLineHeight(value) {
-    this._textBox.lineHeight = value
+    this._annotationData.textBox.lineHeight = value
   }
 
   _applyEntityGap() {
     for (const entity of this._annotationData.entity.denotations) {
       entity.reflectEntityGapInTheHeight()
     }
-    this._textBox.updateLineHeight()
+    this._annotationData.textBox.updateLineHeight()
     this._annotationPosition.update()
   }
 }
