@@ -28,14 +28,15 @@ export default class AnnotationData {
     )
     this.attribute = new AttributeContainer(editor.eventEmitter, this.entity)
     this._gridRectangle = new GridRectangle(this)
+    this._textBox = createTextBox(editor, this)
     this.span = new SpanContainer(
       editor,
       editor.eventEmitter,
       this.entity,
-      this._gridRectangle
+      this._gridRectangle,
+      this._textBox
     )
     this._editor = editor
-    this._textBox = createTextBox(editor, this)
   }
 
   reset(rawData) {
