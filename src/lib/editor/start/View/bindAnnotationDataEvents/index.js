@@ -1,7 +1,7 @@
 import debounce from 'debounce'
 import LineHeightAuto from './LineHeightAuto'
 
-export default function (editor, annotationPosition, textBox, annotationData) {
+export default function (editor, annotationPosition, textBox) {
   const lineHeightAuto = new LineHeightAuto(editor, textBox)
   const debouncedUpdatePosition = debounce(() => {
     lineHeightAuto.updateLineHeight()

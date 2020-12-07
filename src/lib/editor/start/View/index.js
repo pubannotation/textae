@@ -36,12 +36,7 @@ export default class View {
 
     entityGap.bind((value) => this._apllyEntityGap(value))
     bindClipBoardEvents(editor)
-    bindAnnotationDataEvents(
-      editor,
-      this._annotationPosition,
-      this._textBox,
-      annotationData
-    )
+    bindAnnotationDataEvents(editor, this._annotationPosition, this._textBox)
     bindAnnotaitonPositionEvents(editor, new CursorChanger(editor))
     bindMouseEvents(editor, new HoverRelation(editor, annotationData.entity))
   }
