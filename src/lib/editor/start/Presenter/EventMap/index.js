@@ -88,7 +88,7 @@ export default class EventMap {
       this._editor,
       this._typeDefinition,
       this._annotationData.entityGap,
-      this._view
+      this._annotationData.textBox
     ).open()
   }
 

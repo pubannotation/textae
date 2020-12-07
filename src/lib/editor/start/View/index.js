@@ -44,14 +44,6 @@ export default class View {
     this._annotationPosition.update()
   }
 
-  getLineHeight() {
-    return this._annotationData.textBox.lineHeight
-  }
-
-  setLineHeight(value) {
-    this._annotationData.textBox.lineHeight = value
-  }
-
   _applyEntityGap() {
     for (const entity of this._annotationData.entity.denotations) {
       entity.reflectEntityGapInTheHeight()

@@ -5,11 +5,11 @@ import reflectImmediately from './reflectImmediately'
 import packageJson from '../../../../package.json'
 
 export default class SettingDialog extends Dialog {
-  constructor(editor, typeDefinition, entityGap, view) {
+  constructor(editor, typeDefinition, entityGap, textBox) {
     const contentHtml = createContentHtml({
       typeGapDisabled: !entityGap.show,
       typeGap: entityGap.value,
-      lineHeight: view.getLineHeight(),
+      lineHeight: textBox.lineHeight,
       typeDefinitionLocked: typeDefinition.isLock,
       version: packageJson.version
     })
@@ -19,7 +19,7 @@ export default class SettingDialog extends Dialog {
     })
 
     // Reflects configuration changes in real time.
-    reflectImmediately(super.el, editor, entityGap, typeDefinition, view)
+    reflectImmediately(super.el, editor, entityGap, typeDefinition, textBox)
 
     // Observe enter key press
     delegate(super.el, `.textae-editor--dialog`, 'keyup', (e) => {
