@@ -41,10 +41,9 @@ export default class AnnotationData {
   reset(rawData) {
     console.assert(rawData.text, 'This is not a json file of anntations.')
 
-    clearAnnotationData(this)
-
     this.sourceDoc = rawData.text
 
+    clearAnnotationData(this)
     const { multitrack, hasError, rejects } = parseAnnotation(this, rawData)
 
     this._editor.eventEmitter.emit(
