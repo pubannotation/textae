@@ -23,8 +23,7 @@ export default class Renderer {
       selectionModel,
       typeDefinition.denotation,
       typeDefinition.block,
-      gridRenderer,
-      entityGap
+      gridRenderer
     )
     this._relationRenderer = new RelationRenderer(
       editor,
