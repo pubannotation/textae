@@ -25,12 +25,7 @@ export default class GridRectangle {
     return {
       width: round(width),
       top: round(
-        top -
-          getHeightIncludeDescendantGrids(
-            span,
-            this._annotationData.entityGap.value,
-            this._annotationData
-          )
+        top - getHeightIncludeDescendantGrids(span, this._annotationData)
       ),
       left: round(left)
     }
