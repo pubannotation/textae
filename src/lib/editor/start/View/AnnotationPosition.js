@@ -15,9 +15,7 @@ export default class AnnotationPosition {
 
     // When you undo the deletion of a block span,
     // if you move the background first, the grid will move to a better position.
-    this._annotationData.span.arrangeBackgroundOfBlockSpanPosition(
-      this._textBox
-    )
+    this._annotationData.span.arrangeBackgroundOfBlockSpanPosition()
     this._annotationData.span.arrangeBlockEntityPosition(this._textBox)
 
     this._renderer.arrangeRelationPositionAll()
