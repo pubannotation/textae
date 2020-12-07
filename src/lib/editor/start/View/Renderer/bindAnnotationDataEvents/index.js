@@ -16,7 +16,6 @@ export default function (
       textBox.render(annotationData.sourceDoc)
       renderAllAnnotations(editor, annotationData, spanRenderer)
       relationRenderer.reset()
-      textBox.updateLineHeight()
     })
     .on('textae.annotationData.span.add', (span) => {
       spanRenderer.render(span)
