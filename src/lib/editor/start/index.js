@@ -47,6 +47,7 @@ export default function (
     clipBoard
   )
   const entityGap = new EntityGap()
+  annotationData.entityGap = entityGap
   const textBox = createTextBox(editor, annotationData)
   annotationData.gridRectangle = new GridRectangle(annotationData, entityGap)
   const view = new View(
