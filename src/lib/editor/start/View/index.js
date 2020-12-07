@@ -17,7 +17,6 @@ export default class View {
     textBox
   ) {
     this._textBox = textBox
-    this._gridRectangle = annotationData.gridRectangle
     const renderer = new Renderer(
       editor,
       annotationData,
