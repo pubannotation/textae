@@ -1,7 +1,6 @@
 import { makeBlockSpanHTMLElementId } from '../../../idFactory'
 import SELECTED from '../../../SELECTED'
 import renderBackground from './renderBackground'
-import renderHitArea from './renderHitArea'
 import renderBlock from './renderBlock'
 import setPosition from './setPosition'
 import SpanModel from '../SpanModel'
@@ -55,9 +54,7 @@ export default class BlockSpanModel extends SpanModel {
     const { top, left, width, height } = this.getReactOfSidekicksOfBlock(
       textBox
     )
-
     setPosition(this._backgroundElement, top, left, width, height)
-    setPosition(this._hitAreaElements[0], top, left, width, height)
 
     // The div height cannot be obtained at grid rendering time,
     // so set it at move.
@@ -69,19 +66,11 @@ export default class BlockSpanModel extends SpanModel {
     // Place the background in the annotation box
     // to shift the background up by half a line from the block span area.
     renderBackground(annotationBox, this._backgroundId)
-
-    // Add a hit area,
-    // so that you can click at the same position as the background of the block span,
-    // without hiding the grid in the background.
-    renderHitArea(annotationBox, this, this._hitAreaId)
   }
 
   destroyElement() {
     super.destroyElement()
     this._backgroundElement.remove()
-    for (const el of this._hitAreaElements) {
-      el.remove()
-    }
   }
 
   renderGridElement() {
@@ -140,14 +129,6 @@ export default class BlockSpanModel extends SpanModel {
 
   get _backgroundElement() {
     return document.querySelector(`#${this._backgroundId}`)
-  }
-
-  get _hitAreaId() {
-    return `hit_area_of_${this.id}`
-  }
-
-  get _hitAreaElements() {
-    return document.querySelectorAll(`.${this._hitAreaId}`)
   }
 
   get _rectangle() {
