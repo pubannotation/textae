@@ -5,7 +5,7 @@ import renderHitArea from './renderHitArea'
 import renderBlock from './renderBlock'
 import setPosition from './setPosition'
 import SpanModel from '../SpanModel'
-import round from '../../GridRectangle/round'
+import round from '../round'
 
 // Leave a gap between the text and the block border.
 const gapBetweenText = 8

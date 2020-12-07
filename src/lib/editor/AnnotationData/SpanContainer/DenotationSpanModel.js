@@ -1,6 +1,6 @@
 import SELECTED from '../../SELECTED'
 import getHeightIncludeDescendantGrids from '../GridRectangle/getHeightIncludeDescendantGrids'
-import round from '../GridRectangle/round'
+import round from './round'
 import SpanModel from './SpanModel'
 
 export default class DenotationSpanModel extends SpanModel {
