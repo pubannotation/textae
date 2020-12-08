@@ -58,7 +58,7 @@ export default class SpanContainer extends ModelContainer {
               this._entityContainer,
               this
             )
-      super._addToContainer(newInstance)
+      this._denotations.set(newInstance.id, newInstance)
       this._updateSpanTree()
       super._emit(`textae.annotationData.span.add`, newInstance)
       return newInstance
@@ -140,15 +140,14 @@ export default class SpanContainer extends ModelContainer {
     )
 
     const oldOne = super.remove(id)
-    const newOne = super._addToContainer(
-      new DenotationSpanModel(
-        this._editor,
-        begin,
-        end,
-        this._entityContainer,
-        this
-      )
+    const newOne = new DenotationSpanModel(
+      this._editor,
+      begin,
+      end,
+      this._entityContainer,
+      this
     )
+    this._denotations.set(newOne.id, newOne)
 
     this._updateSpanTree()
 
