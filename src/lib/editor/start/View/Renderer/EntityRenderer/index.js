@@ -39,7 +39,7 @@ export default class EntityRenderer {
   }
 
   remove(entity) {
-    destroy(this._gridRenderer, entity)
+    destroy(entity)
   }
 
   updateEntityHtmlelement(typeName) {
