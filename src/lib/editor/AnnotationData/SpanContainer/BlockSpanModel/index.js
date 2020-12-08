@@ -73,8 +73,8 @@ export default class BlockSpanModel extends SpanModel {
     this._backgroundElement.remove()
   }
 
-  renderGridElement() {
-    const el = super.renderGridElement()
+  _createGridElement() {
+    const el = super._createGridElement()
     el.classList.add('textae-editor__block-hit-area')
     el.dataset.id = this.id
     return el

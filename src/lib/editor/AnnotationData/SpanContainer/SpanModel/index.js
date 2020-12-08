@@ -123,17 +123,17 @@ export default class SpanModel {
     const rightGrid = getRightGrid(this._editor, this.id)
     if (rightGrid) {
       // insert before the right grid.
-      rightGrid.insertAdjacentElement('beforebegin', this.renderGridElement())
+      rightGrid.insertAdjacentElement('beforebegin', this._createGridElement())
       return rightGrid.previousElementSibling
     } else {
       // append to the annotation area.
       const container = getAnnotationBox(this._editor)
-      container.insertAdjacentElement('beforeend', this.renderGridElement())
+      container.insertAdjacentElement('beforeend', this._createGridElement())
       return container.lastElementChild
     }
   }
 
-  renderGridElement() {
+  _createGridElement() {
     const { width, top, left } = this._gridRectangle
     const html = createGridHtml(this.id, top, left, width)
     return dohtml.create(html)
