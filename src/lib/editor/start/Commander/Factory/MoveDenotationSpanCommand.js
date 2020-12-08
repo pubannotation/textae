@@ -1,7 +1,7 @@
 import commandLog from './commandLog'
 import AnnotationCommand from './AnnotationCommand'
 
-export default class MoveSpanCommand extends AnnotationCommand {
+export default class MoveDenotationSpanCommand extends AnnotationCommand {
   constructor(annotationData, spanId, begin, end) {
     super()
     this._annotationData = annotationData
@@ -28,7 +28,7 @@ export default class MoveSpanCommand extends AnnotationCommand {
   }
 
   revert() {
-    return new MoveSpanCommand(
+    return new MoveDenotationSpanCommand(
       this._annotationData,
       this._newId,
       this._oldBegin,

@@ -16,7 +16,7 @@ import CreateSpanAndAutoReplicateCommand from './CreateSpanAndAutoReplicateComma
 import CreateTypeDefinitionCommand from './CreateTypeDefinitionCommand'
 import DeleteAttributeDefinitionCommand from './DeleteAttributeDefinitionCommand'
 import MoveAttributeDefinitionCommand from './MoveAttributeDefinitionCommand'
-import MoveSpanCommand from './MoveSpanCommand'
+import MoveDenotationSpanCommand from './MoveDenotationSpanCommand'
 import PasteTypesToSelectedSpansCommand from './PasteTypesToSelectedSpansCommand'
 import ReplicateSpanCommand from './ReplicateSpanCommand'
 import RemoveAttributesOfSelectedEntitiesByPredCommand from './RemoveAttributesOfSelectedEntitiesByPredCommand'
@@ -236,7 +236,12 @@ export default class Factory {
   }
 
   moveDenotationSpanCommand(spanId, begin, end) {
-    return new MoveSpanCommand(this._annotationData, spanId, begin, end)
+    return new MoveDenotationSpanCommand(
+      this._annotationData,
+      spanId,
+      begin,
+      end
+    )
   }
 
   pasteTypesToSelectedSpansCommand(typeValuesList) {
