@@ -23,7 +23,7 @@
     "eslint-config-prettier": "^7.0.0",
     "eslint-plugin-import": "^2.22.1",
     "handlebars": "^4.7.6",
-    "husky": "^4.3.0",
+    "husky": "^4.3.5",
     "jquery": "^2.2.4",
     "jquery-ui": "^1.12.1",
     "jsondiffpatch": "^0.4.1",
