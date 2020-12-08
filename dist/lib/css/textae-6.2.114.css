@@ -4421,6 +4421,10 @@ a.ui-button:active,
   border-color: red;
   color: #00d;
 }
+.textae-editor__block {
+  display: inline-block;
+  width: 100%;
+}
 .textae-editor__block-bg,
 .textae-editor__block-hit-area {
   position: absolute;
