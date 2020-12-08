@@ -138,12 +138,7 @@ export default class SpanContainer {
       this._entityContainer,
       this
     )
-    this._addDenotation(newOne, () => {
-      // Span.entities depends on the property of the entity.
-      // Span DOM element is rendered by 'span.add' event.
-      // We need to update the span ID of the entity before 'span.add' event.
-      oldOne.passesAllEntitiesTo(newOne)
-    })
+    this._addDenotation(newOne, oldOne)
     this._emitter.emit('textae.annotationData.span.move')
 
     return {
@@ -153,12 +148,15 @@ export default class SpanContainer {
     }
   }
 
-  _addDenotation(denotationSpan, hook) {
+  _addDenotation(denotationSpan, oldOne = null) {
     this._denotations.set(denotationSpan.id, denotationSpan)
     this._updateSpanTree()
 
-    if (hook) {
-      hook()
+    if (oldOne) {
+      // Span.entities depends on the property of the entity.
+      // Span DOM element is rendered by 'span.add' event.
+      // We need to update the span ID of the entity before 'span.add' event.
+      oldOne.passesAllEntitiesTo(denotationSpan)
     }
 
     this._emitter.emit(`textae.annotationData.span.add`, denotationSpan)
