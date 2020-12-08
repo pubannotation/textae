@@ -10,8 +10,4 @@ export default class GridRenderer {
   render(span) {
     return createGrid(this._editor, this._container, span)
   }
-
-  remove(span) {
-    span.destroyGridElement()
-  }
 }
