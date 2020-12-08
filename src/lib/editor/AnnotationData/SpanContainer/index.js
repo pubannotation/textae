@@ -43,7 +43,7 @@ export default class SpanContainer extends ModelContainer {
 
       this._blocks.set(blockSpan.id, blockSpan)
       this._updateSpanTree()
-      this._emit(`textae.annotationData.span.add`, blockSpan)
+      this._emitter.emit(`textae.annotationData.span.add`, blockSpan)
       this._textBox.forceUpdate()
       return blockSpan
     } else {
@@ -60,7 +60,7 @@ export default class SpanContainer extends ModelContainer {
             )
       this._denotations.set(denotationSpan.id, denotationSpan)
       this._updateSpanTree()
-      super._emit(`textae.annotationData.span.add`, denotationSpan)
+      this._emitter.emit(`textae.annotationData.span.add`, denotationSpan)
       return denotationSpan
     }
   }
@@ -125,7 +125,7 @@ export default class SpanContainer extends ModelContainer {
     const blockSpan = this._blocks.get(id)
     if (blockSpan) {
       this._blocks.delete(id)
-      this._emit(`textae.annotationData.span.remove`, blockSpan)
+      this._emitter.emit(`textae.annotationData.span.remove`, blockSpan)
       this._textBox.forceUpdate()
       return blockSpan
     }
@@ -133,7 +133,7 @@ export default class SpanContainer extends ModelContainer {
     const denotationSpan = this._denotations.get(id)
     if (denotationSpan) {
       this._denotations.delete(id)
-      this._emit(`textae.annotationData.span.remove`, denotationSpan)
+      this._emitter.emit(`textae.annotationData.span.remove`, denotationSpan)
       return denotationSpan
     }
   }
@@ -146,7 +146,7 @@ export default class SpanContainer extends ModelContainer {
 
     const oldOne = this._denotations.get(id)
     this._denotations.delete(id)
-    this._emit(`textae.annotationData.span.remove`, oldOne)
+    this._emitter.emit(`textae.annotationData.span.remove`, oldOne)
 
     const newOne = new DenotationSpanModel(
       this._editor,
@@ -163,8 +163,8 @@ export default class SpanContainer extends ModelContainer {
     // We need to update the span ID of the entity before 'span.add' event.
     oldOne.passesAllEntitiesTo(newOne)
 
-    super._emit(`textae.annotationData.span.add`, newOne)
-    super._emit('textae.annotationData.span.move')
+    this._emitter.emit(`textae.annotationData.span.add`, newOne)
+    this._emitter.emit('textae.annotationData.span.move')
 
     return {
       begin: oldOne.begin,
