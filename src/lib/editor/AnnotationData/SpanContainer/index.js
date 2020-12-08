@@ -176,35 +176,29 @@ export default class SpanContainer {
     }
   }
 
-  _addDenotation(denotationSpan, oldOne = null) {
-    this._denotations.set(denotationSpan.id, denotationSpan)
-    this._updateSpanTree()
-
-    if (oldOne) {
-      // Span.entities depends on the property of the entity.
-      // Span DOM element is rendered by 'span.add' event.
-      // We need to update the span ID of the entity before 'span.add' event.
-      oldOne.passesAllEntitiesTo(denotationSpan)
-    }
-
-    this._emitter.emit(`textae.annotationData.span.add`, denotationSpan)
+  _addDenotation(denotationSpan, oldSpan = null) {
+    this._addSpan(this._denotations, denotationSpan, oldSpan)
     return denotationSpan
   }
 
-  _addBlock(blockSpan, oldOne = null) {
-    this._blocks.set(blockSpan.id, blockSpan)
+  _addBlock(blockSpan, oldSpan = null) {
+    this._addSpan(this._blocks, blockSpan, oldSpan)
+    this._textBox.forceUpdate()
+    return blockSpan
+  }
+
+  _addSpan(container, span, oldSpan = null) {
+    container.set(span.id, span)
     this._updateSpanTree()
 
-    if (oldOne) {
+    if (oldSpan) {
       // Span.entities depends on the property of the entity.
       // Span DOM element is rendered by 'span.add' event.
       // We need to update the span ID of the entity before 'span.add' event.
-      oldOne.passesAllEntitiesTo(blockSpan)
+      oldSpan.passesAllEntitiesTo(span)
     }
 
-    this._emitter.emit(`textae.annotationData.span.add`, blockSpan)
-    this._textBox.forceUpdate()
-    return blockSpan
+    this._emitter.emit(`textae.annotationData.span.add`, span)
   }
 
   _removeDenotation(denotationSpan) {
