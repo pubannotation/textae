@@ -144,7 +144,10 @@ export default class SpanContainer extends ModelContainer {
       `Do not need move span:  ${id} ${begin} ${end}`
     )
 
-    const oldOne = super.remove(id)
+    const oldOne = this._denotations.get(id)
+    this._denotations.delete(id)
+    this._emit(`textae.annotationData.span.remove`, oldOne)
+
     const newOne = new DenotationSpanModel(
       this._editor,
       begin,
@@ -153,7 +156,6 @@ export default class SpanContainer extends ModelContainer {
       this
     )
     this._denotations.set(newOne.id, newOne)
-
     this._updateSpanTree()
 
     // Span.entities depends on the property of the entity.
