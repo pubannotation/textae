@@ -2,6 +2,7 @@ import clearTextSelection from '../clearTextSelection'
 import DelimiterDetectAdjuster from '../DelimiterDetectAdjuster'
 import hasCharacters from '../hasCharacters'
 import getNewSpan from '../getNewSpan'
+import expandSpan from '../expandSpan'
 
 export default class SpanEditor {
   constructor(
@@ -21,8 +22,18 @@ export default class SpanEditor {
   }
 
   editFor(selectionWrapper) {
+    if (selectionWrapper.isParentOfAnchorNodeTextBox) {
+      if (
+        selectionWrapper.isParentOfFocusNodeTextBox ||
+        selectionWrapper.isParentOfFocusNodeDenotationSpan ||
+        selectionWrapper.isParentOfFocusNodeStyleSpan
+      ) {
+        this._create(selectionWrapper)
+      }
+      return
+    }
+
     if (
-      selectionWrapper.isParentOfAnchorNodeTextBox ||
       selectionWrapper.isParentOfAnchorNodeDenotationSpan ||
       selectionWrapper.isParentOfAnchorNodeStyleSpan
     ) {
@@ -31,9 +42,21 @@ export default class SpanEditor {
         selectionWrapper.isParentOfFocusNodeDenotationSpan ||
         selectionWrapper.isParentOfFocusNodeStyleSpan
       ) {
-        this._create(selectionWrapper)
+        if (selectionWrapper.ancestorBlockSpanOfAnchorNode) {
+          this._expand(selectionWrapper)
+        } else {
+          this._create(selectionWrapper)
+        }
         return
       }
+      return
+    }
+
+    if (selectionWrapper.isParentOfAnchorNodeBlockSpan) {
+      if (selectionWrapper.isParentOfFocusNodeTextBox) {
+        this._expand(selectionWrapper)
+      }
+      return
     }
 
     clearTextSelection()
@@ -69,6 +92,26 @@ export default class SpanEditor {
 
       this._commander.invoke(command)
     }
+    clearTextSelection()
+  }
+
+  _expand(selectionWrapper) {
+    const spanId = selectionWrapper.ancestorBlockSpanOfAnchorNode.id
+
+    expandSpan(
+      this._selectionModel,
+      this._annotationData,
+      new DelimiterDetectAdjuster(),
+      spanId,
+      selectionWrapper,
+      this._spanConfig,
+      (begin, end) => {
+        this._commander.invoke(
+          this._commander.factory.moveBlockSpanCommand(spanId, begin, end)
+        )
+      }
+    )
+
     clearTextSelection()
   }
 }
