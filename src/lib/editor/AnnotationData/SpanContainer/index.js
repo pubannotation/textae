@@ -1,6 +1,9 @@
 import updateSpanTree from './updateSpanTree'
 import spanComparator from './spanComparator'
-import { makeDenotationSpanHTMLElementId } from '../../idFactory'
+import {
+  makeBlockSpanHTMLElementId,
+  makeDenotationSpanHTMLElementId
+} from '../../idFactory'
 import DenotationSpanModel from './DenotationSpanModel'
 import StyleSpanModel from './StyleSpanModel'
 import BlockSpanModel from './BlockSpanModel'
@@ -147,6 +150,32 @@ export default class SpanContainer {
     }
   }
 
+  moveBlockSpan(id, begin, end) {
+    console.assert(
+      id !== makeBlockSpanHTMLElementId(this._editor, begin, end),
+      `Do not need move span:  ${id} ${begin} ${end}`
+    )
+
+    const oldOne = this._blocks.get(id)
+    this._removeBlock(oldOne)
+
+    const newOne = new BlockSpanModel(
+      this._editor,
+      begin,
+      end,
+      this._entityContainer,
+      this
+    )
+    this._addBlock(newOne, oldOne)
+    this._emitter.emit('textae.annotationData.span.move')
+
+    return {
+      begin: oldOne.begin,
+      end: oldOne.end,
+      id: newOne.id
+    }
+  }
+
   _addDenotation(denotationSpan, oldOne = null) {
     this._denotations.set(denotationSpan.id, denotationSpan)
     this._updateSpanTree()
@@ -162,9 +191,17 @@ export default class SpanContainer {
     return denotationSpan
   }
 
-  _addBlock(blockSpan) {
+  _addBlock(blockSpan, oldOne = null) {
     this._blocks.set(blockSpan.id, blockSpan)
     this._updateSpanTree()
+
+    if (oldOne) {
+      // Span.entities depends on the property of the entity.
+      // Span DOM element is rendered by 'span.add' event.
+      // We need to update the span ID of the entity before 'span.add' event.
+      oldOne.passesAllEntitiesTo(blockSpan)
+    }
+
     this._emitter.emit(`textae.annotationData.span.add`, blockSpan)
     this._textBox.forceUpdate()
     return blockSpan
