@@ -5,7 +5,7 @@ import createRangeToSpan from '../createRangeToSpan'
 import getBigBrotherSpan from './getBigBrotherSpan'
 import updateGridPosition from './updateGridPosition'
 import getAnnotationBox from '../../../start/View/Renderer/getAnnotationBox'
-import getRightGrid from './createGrid/getRightGrid'
+import getRightGrid from './getRightGrid'
 
 export default class SpanModel {
   constructor(editor, begin, end, spanContainer) {
