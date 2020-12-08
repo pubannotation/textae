@@ -8,7 +8,7 @@ export default function (typeContainer, gridRenderer, entity, namespace) {
     return
   }
 
-  const grid = entity.span.gridElement || gridRenderer.render(entity.span)
+  const grid = entity.span.gridElement || entity.span.renderGridElement()
 
   // Append a new entity to the type
   const element = entity.renderElement(namespace, typeContainer)
