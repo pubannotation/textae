@@ -5,21 +5,19 @@ import DenotationSpanModel from './DenotationSpanModel'
 import StyleSpanModel from './StyleSpanModel'
 import BlockSpanModel from './BlockSpanModel'
 import isBoundaryCrossingWithOtherSpans from '../isBoundaryCrossingWithOtherSpans'
-import ModelContainer from '../ModelContainer'
 import rangeFrom from './rangeFrom'
 import getCurrentMaxHeight from './getCurrentMaxHeight'
 
-export default class SpanContainer extends ModelContainer {
+export default class SpanContainer {
   constructor(editor, emitter, entityContainer, textBox, entityGap) {
-    super(emitter, 'span')
-
     this._editor = editor
+    this._emitter = emitter
     this._entityContainer = entityContainer
     this._textBox = textBox
     this._entityGap = entityGap
 
     // Aliase to the super class property.
-    this._denotations = this._container
+    this._denotations = new Map()
     this._blocks = new Map()
     this._typeSettings = new Map()
   }
