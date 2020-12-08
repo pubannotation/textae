@@ -4425,14 +4425,11 @@ a.ui-button:active,
   display: inline-block;
   width: 100%;
 }
-.textae-editor__block-bg,
-.textae-editor__block-hit-area {
-  position: absolute;
-}
 .textae-editor__block-bg {
-  background-color: rgba(100, 100, 215, 0.25);
-  border-style: solid;
-  border-width: 1px;
+  border-color: rgba(100, 100, 215, 0.8);
+  border-style: dotted;
+  border-width: 1px 0;
+  position: absolute;
 }
 .textae-editor__block-bg.ui-selected {
   background-color: rgba(255, 200, 100, 0.9);
@@ -4440,7 +4437,6 @@ a.ui-button:active,
   color: #00d;
 }
 .textae-editor__block-hit-area {
-  display: none;
   z-index: 1;
 }
 .textae-editor__relation__label {
@@ -4489,9 +4485,18 @@ a.ui-button:active,
 .textae-editor__mode--denotation-with-relation .textae-editor__relation__label.hover {
   z-index: 6;
 }
+.textae-editor__mode--block-with-relation .textae-editor__block-bg,
+.textae-editor__mode--block-without-relation .textae-editor__block-bg {
+  border-width: 1px 1px 1px 0;
+}
 .textae-editor__mode--block-with-relation .textae-editor__block-hit-area,
 .textae-editor__mode--block-without-relation .textae-editor__block-hit-area {
-  display: block;
+  background-color: rgba(100, 100, 215, 0.25);
+}
+.textae-editor__mode--block-with-relation .textae-editor__block-hit-area.ui-selected,
+.textae-editor__mode--block-without-relation .textae-editor__block-hit-area.ui-selected {
+  background-color: rgba(255, 200, 100, 0.9);
+  border-color: red;
 }
 .textae-editor__mode--relation {
   cursor: pointer;
@@ -4574,6 +4579,13 @@ a.ui-button:active,
   overflow: visible;
   padding: 0;
   position: absolute;
+}
+.textae-editor__grid.textae-editor__block-hit-area {
+  border-radius: 0 15px 15px 0;
+  border-width: 1px 0 1px 0;
+  display: flex;
+  flex-direction: column-reverse;
+  padding-bottom: 15px;
 }
 .textae-editor__entity {
   font-size: small;
