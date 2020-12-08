@@ -122,20 +122,20 @@ export default class SpanContainer extends ModelContainer {
   }
 
   remove(id) {
-    const instance = this._blocks.get(id)
-    if (instance) {
+    const blockSpan = this._blocks.get(id)
+    if (blockSpan) {
       this._blocks.delete(id)
-      this._emit(`textae.annotationData.span.remove`, instance)
+      this._emit(`textae.annotationData.span.remove`, blockSpan)
       this._textBox.forceUpdate()
-      return instance
+      return blockSpan
     }
 
-    const instance1 = this._denotations.get(id)
-    if (instance1) {
+    const denotationSpan = this._denotations.get(id)
+    if (denotationSpan) {
       this._denotations.delete(id)
-      this._emit(`textae.annotationData.span.remove`, instance1)
+      this._emit(`textae.annotationData.span.remove`, denotationSpan)
+      return denotationSpan
     }
-    return instance1
   }
 
   moveDenotationSpan(id, begin, end) {
