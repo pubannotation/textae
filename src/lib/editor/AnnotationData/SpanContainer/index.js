@@ -112,17 +112,12 @@ export default class SpanContainer {
   remove(id) {
     const blockSpan = this._blocks.get(id)
     if (blockSpan) {
-      this._blocks.delete(id)
-      this._emitter.emit(`textae.annotationData.span.remove`, blockSpan)
-      this._textBox.forceUpdate()
-      return blockSpan
+      return this._removeBlock(blockSpan)
     }
 
     const denotationSpan = this._denotations.get(id)
     if (denotationSpan) {
-      this._denotations.delete(id)
-      this._emitter.emit(`textae.annotationData.span.remove`, denotationSpan)
-      return denotationSpan
+      return this._removeDenotation(denotationSpan)
     }
   }
 
@@ -174,6 +169,19 @@ export default class SpanContainer {
     this._blocks.set(blockSpan.id, blockSpan)
     this._updateSpanTree()
     this._emitter.emit(`textae.annotationData.span.add`, blockSpan)
+    this._textBox.forceUpdate()
+    return blockSpan
+  }
+
+  _removeDenotation(denotationSpan) {
+    this._denotations.delete(denotationSpan.id)
+    this._emitter.emit(`textae.annotationData.span.remove`, denotationSpan)
+    return denotationSpan
+  }
+
+  _removeBlock(blockSpan) {
+    this._blocks.delete(blockSpan.id)
+    this._emitter.emit(`textae.annotationData.span.remove`, blockSpan)
     this._textBox.forceUpdate()
     return blockSpan
   }
