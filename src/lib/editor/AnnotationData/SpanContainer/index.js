@@ -138,23 +138,24 @@ export default class SpanContainer extends ModelContainer {
     )
 
     const oldOne = super.remove(id)
-    const newOne = super.add(
+    const newOne = super._addToContainer(
       new DenotationSpanModel(
         this._editor,
         begin,
         end,
         this._entityContainer,
         this
-      ),
-      (newOne) => {
-        this._updateSpanTree()
-        // Span.entities depends on the property of the entity.
-        // Span DOM element is rendered by 'span.add' event.
-        // We need to update the span ID of the entity before 'span.add' event.
-        oldOne.passesAllEntitiesTo(newOne)
-      }
+      )
     )
 
+    this._updateSpanTree()
+
+    // Span.entities depends on the property of the entity.
+    // Span DOM element is rendered by 'span.add' event.
+    // We need to update the span ID of the entity before 'span.add' event.
+    oldOne.passesAllEntitiesTo(newOne)
+
+    super._emit(`textae.annotationData.span.add`, newOne)
     super._emit('textae.annotationData.span.move')
 
     return {
