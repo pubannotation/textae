@@ -324,11 +324,19 @@ export default class SpanEditor {
       expand(
         this._selectionModel,
         this._annotationData,
-        this._commander,
         this._spanAdjuster,
         spanId,
         selectionWrapper,
-        this._spanConfig
+        this._spanConfig,
+        (begin, end) => {
+          this._commander.invoke(
+            this._commander.factory.moveDenotationSpanCommand(
+              spanId,
+              begin,
+              end
+            )
+          )
+        }
       )
     }
 

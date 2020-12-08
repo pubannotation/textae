@@ -4,11 +4,11 @@ import clearTextSelectionAndAlert from '../clearTextSelectionAndAlert'
 export default function (
   selectionModel,
   annotationData,
-  commander,
   spanAdjuster,
   spanId,
   selectionWrapper,
-  spanConfig
+  spanConfig,
+  okHandler
 ) {
   selectionModel.clear()
 
@@ -33,7 +33,5 @@ export default function (
     return
   }
 
-  commander.invoke(
-    commander.factory.moveDenotationSpanCommand(spanId, begin, end)
-  )
+  okHandler(begin, end)
 }
