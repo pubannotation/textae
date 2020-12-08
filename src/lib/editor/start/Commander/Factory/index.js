@@ -235,7 +235,7 @@ export default class Factory {
     )
   }
 
-  moveSpanCommand(spanId, begin, end) {
+  moveDenotationSpanCommand(spanId, begin, end) {
     return new MoveSpanCommand(this._annotationData, spanId, begin, end)
   }
 

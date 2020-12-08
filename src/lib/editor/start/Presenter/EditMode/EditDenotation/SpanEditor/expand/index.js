@@ -33,5 +33,7 @@ export default function (
     return
   }
 
-  commander.invoke(commander.factory.moveSpanCommand(spanId, begin, end))
+  commander.invoke(
+    commander.factory.moveDenotationSpanCommand(spanId, begin, end)
+  )
 }
