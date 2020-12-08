@@ -181,11 +181,13 @@ export default class SpanContainer extends ModelContainer {
     const styleOnlySpans = [...this._typeSettings.values()].filter(
       (s) => !this._denotations.has(s.id)
     )
-    return [...this._blocks.values()].concat(super.all).concat(styleOnlySpans)
+    return [...this._blocks.values()]
+      .concat([...this._denotations.values()])
+      .concat(styleOnlySpans)
   }
 
   get allDenotationSpans() {
-    return super.all
+    return [...this._denotations.values()]
   }
 
   get allBlockSpans() {
