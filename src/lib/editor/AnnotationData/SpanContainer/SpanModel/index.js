@@ -4,8 +4,8 @@ import createGridHtml from './createGridHtml'
 import createRangeToSpan from '../createRangeToSpan'
 import getBigBrotherSpan from './getBigBrotherSpan'
 import updateGridPosition from './updateGridPosition'
-import createGrid from './createGrid'
 import getAnnotationBox from '../../../start/View/Renderer/getAnnotationBox'
+import getRightGrid from './createGrid/getRightGrid'
 
 export default class SpanModel {
   constructor(editor, begin, end, spanContainer) {
@@ -120,7 +120,17 @@ export default class SpanModel {
   }
 
   createGrid() {
-    return createGrid(this._editor, getAnnotationBox(this._editor), this)
+    const rightGrid = getRightGrid(this._editor, this.id)
+    if (rightGrid) {
+      // insert before the right grid.
+      rightGrid.insertAdjacentElement('beforebegin', this.renderGridElement())
+      return rightGrid.previousElementSibling
+    } else {
+      // append to the annotation area.
+      const container = getAnnotationBox(this._editor)
+      container.insertAdjacentElement('beforeend', this.renderGridElement())
+      return container.lastElementChild
+    }
   }
 
   renderGridElement() {
