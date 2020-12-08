@@ -26,7 +26,6 @@ import RemoveTypeDefinitionCommand from './RemoveTypeDefinitionCommand'
 import RemoveValueFromAttributeDefinitionCommand from './RemoveValueFromAttributeDefinitionCommand'
 import ToggleFlagAttributeToSelectedEntitiesCommand from './ToggleFlagAttributeToSelectedEntitiesCommand'
 import MoveEntitiesToSelectedSpansCommand from './MoveEntitiesToSelectedSpansCommand'
-import TypeValues from '../../../TypeValues'
 
 export default class Factory {
   constructor(editor, annotationData, selectionModel, typeDefinition) {
