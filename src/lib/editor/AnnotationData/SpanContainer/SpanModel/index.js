@@ -4,7 +4,7 @@ import createGridHtml from './createGridHtml'
 import createRangeToSpan from '../createRangeToSpan'
 import getBigBrotherSpan from './getBigBrotherSpan'
 import updateGridPosition from './updateGridPosition'
-import createGrid from '../../../start/View/Renderer/GridRenderer/createGrid'
+import createGrid from './createGrid'
 import getAnnotationBox from '../../../start/View/Renderer/getAnnotationBox'
 
 export default class SpanModel {

@@ -1,4 +1,4 @@
-import getRightSpanElement from '../../../../getRightSpanElement'
+import getRightSpanElement from '../../../../start/getRightSpanElement'
 
 export default function (editor, spanId) {
   const rightSpan = getRightSpanElement(editor, spanId)
