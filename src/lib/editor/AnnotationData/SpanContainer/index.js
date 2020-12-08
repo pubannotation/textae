@@ -130,7 +130,12 @@ export default class SpanContainer extends ModelContainer {
       return instance
     }
 
-    return super.remove(id)
+    const instance1 = this._denotations.get(id)
+    if (instance1) {
+      this._denotations.delete(id)
+      this._emit(`textae.annotationData.span.remove`, instance1)
+    }
+    return instance1
   }
 
   moveDenotationSpan(id, begin, end) {
