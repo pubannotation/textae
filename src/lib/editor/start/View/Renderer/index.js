@@ -25,7 +25,6 @@ export default class Renderer {
       annotationData,
       editor,
       this._relationRenderer,
-      gridRenderer,
       entityRenderer
     )
 

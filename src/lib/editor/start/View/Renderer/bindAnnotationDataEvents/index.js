@@ -5,7 +5,6 @@ export default function (
   annotationData,
   editor,
   relationRenderer,
-  gridRenderer,
   entityRenderer
 ) {
   const spanRenderer = new SpanRenderer(editor, entityRenderer)
