@@ -23,6 +23,12 @@ export default class BlockSpanModel extends SpanModel {
     return this._entityContainer.getAllOfSpan(this)
   }
 
+  passesAllEntitiesTo(newSpan) {
+    for (const entity of this.entities) {
+      entity.span = newSpan
+    }
+  }
+
   get id() {
     return makeBlockSpanHTMLElementId(this._editor, this._begin, this._end)
   }
