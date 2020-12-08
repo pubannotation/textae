@@ -48,7 +48,7 @@ export default class SpanContainer extends ModelContainer {
       return blockSpan
     } else {
       // When redoing, the newValue is instance of the DenotationSpanModel already.
-      const newInstance =
+      const denotationSpan =
         newValue instanceof DenotationSpanModel
           ? newValue
           : new DenotationSpanModel(
@@ -58,10 +58,10 @@ export default class SpanContainer extends ModelContainer {
               this._entityContainer,
               this
             )
-      this._denotations.set(newInstance.id, newInstance)
+      this._denotations.set(denotationSpan.id, denotationSpan)
       this._updateSpanTree()
-      super._emit(`textae.annotationData.span.add`, newInstance)
-      return newInstance
+      super._emit(`textae.annotationData.span.add`, denotationSpan)
+      return denotationSpan
     }
   }
 
