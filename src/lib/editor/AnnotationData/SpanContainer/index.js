@@ -130,8 +130,8 @@ export default class SpanContainer {
       `Do not need move span:  ${id} ${begin} ${end}`
     )
 
-    const oldOne = this._denotations.get(id)
-    this._removeDenotation(oldOne)
+    const oldSpan = this._denotations.get(id)
+    this._removeDenotation(oldSpan)
 
     const newOne = new DenotationSpanModel(
       this._editor,
@@ -140,12 +140,12 @@ export default class SpanContainer {
       this._entityContainer,
       this
     )
-    this._addDenotation(newOne, oldOne)
+    this._addDenotation(newOne, oldSpan)
     this._emitter.emit('textae.annotationData.span.move')
 
     return {
-      begin: oldOne.begin,
-      end: oldOne.end,
+      begin: oldSpan.begin,
+      end: oldSpan.end,
       id: newOne.id
     }
   }
@@ -156,8 +156,8 @@ export default class SpanContainer {
       `Do not need move span:  ${id} ${begin} ${end}`
     )
 
-    const oldOne = this._blocks.get(id)
-    this._removeBlock(oldOne)
+    const oldSpan = this._blocks.get(id)
+    this._removeBlock(oldSpan)
 
     const newOne = new BlockSpanModel(
       this._editor,
@@ -166,12 +166,12 @@ export default class SpanContainer {
       this._entityContainer,
       this
     )
-    this._addBlock(newOne, oldOne)
+    this._addBlock(newOne, oldSpan)
     this._emitter.emit('textae.annotationData.span.move')
 
     return {
-      begin: oldOne.begin,
-      end: oldOne.end,
+      begin: oldSpan.begin,
+      end: oldSpan.end,
       id: newOne.id
     }
   }
