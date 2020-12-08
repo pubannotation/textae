@@ -16,7 +16,9 @@ import CreateSpanAndAutoReplicateCommand from './CreateSpanAndAutoReplicateComma
 import CreateTypeDefinitionCommand from './CreateTypeDefinitionCommand'
 import DeleteAttributeDefinitionCommand from './DeleteAttributeDefinitionCommand'
 import MoveAttributeDefinitionCommand from './MoveAttributeDefinitionCommand'
+import MoveBlockSpanCommand from './MoveBlockSpanCommand'
 import MoveDenotationSpanCommand from './MoveDenotationSpanCommand'
+import MoveEntitiesToSelectedSpansCommand from './MoveEntitiesToSelectedSpansCommand'
 import PasteTypesToSelectedSpansCommand from './PasteTypesToSelectedSpansCommand'
 import ReplicateSpanCommand from './ReplicateSpanCommand'
 import RemoveAttributesOfSelectedEntitiesByPredCommand from './RemoveAttributesOfSelectedEntitiesByPredCommand'
@@ -25,7 +27,6 @@ import RemoveSpanCommand from './RemoveSpanCommand'
 import RemoveTypeDefinitionCommand from './RemoveTypeDefinitionCommand'
 import RemoveValueFromAttributeDefinitionCommand from './RemoveValueFromAttributeDefinitionCommand'
 import ToggleFlagAttributeToSelectedEntitiesCommand from './ToggleFlagAttributeToSelectedEntitiesCommand'
-import MoveEntitiesToSelectedSpansCommand from './MoveEntitiesToSelectedSpansCommand'
 
 export default class Factory {
   constructor(editor, annotationData, selectionModel, typeDefinition) {
@@ -225,13 +226,8 @@ export default class Factory {
     )
   }
 
-  moveEntitiesToSelectedSpansCommand(entities) {
-    return new MoveEntitiesToSelectedSpansCommand(
-      this._editor,
-      this._annotationData,
-      this._selectionModel,
-      entities
-    )
+  moveBlockSpanCommand(spanId, begin, end) {
+    return new MoveBlockSpanCommand(this._annotationData, spanId, begin, end)
   }
 
   moveDenotationSpanCommand(spanId, begin, end) {
@@ -240,6 +236,15 @@ export default class Factory {
       spanId,
       begin,
       end
+    )
+  }
+
+  moveEntitiesToSelectedSpansCommand(entities) {
+    return new MoveEntitiesToSelectedSpansCommand(
+      this._editor,
+      this._annotationData,
+      this._selectionModel,
+      entities
     )
   }
 
