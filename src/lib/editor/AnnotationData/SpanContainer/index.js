@@ -128,8 +128,7 @@ export default class SpanContainer {
     )
 
     const oldOne = this._denotations.get(id)
-    this._denotations.delete(id)
-    this._emitter.emit(`textae.annotationData.span.remove`, oldOne)
+    this._removeDenotation(oldOne)
 
     const newOne = new DenotationSpanModel(
       this._editor,
