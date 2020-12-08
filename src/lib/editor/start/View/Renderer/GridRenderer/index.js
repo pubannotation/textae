@@ -1,5 +1,4 @@
 import getAnnotationBox from '../getAnnotationBox'
-import createGrid from './createGrid'
 
 export default class GridRenderer {
   constructor(editor) {
@@ -8,6 +7,6 @@ export default class GridRenderer {
   }
 
   render(span) {
-    return createGrid(this._editor, this._container, span)
+    return span.createGrid()
   }
 }

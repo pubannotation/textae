@@ -4,6 +4,8 @@ import createGridHtml from './createGridHtml'
 import createRangeToSpan from '../createRangeToSpan'
 import getBigBrotherSpan from './getBigBrotherSpan'
 import updateGridPosition from './updateGridPosition'
+import createGrid from '../../../start/View/Renderer/GridRenderer/createGrid'
+import getAnnotationBox from '../../../start/View/Renderer/getAnnotationBox'
 
 export default class SpanModel {
   constructor(editor, begin, end, spanContainer) {
@@ -115,6 +117,10 @@ export default class SpanModel {
 
   get isGridRendered() {
     return this.gridElement
+  }
+
+  createGrid() {
+    return createGrid(this._editor, getAnnotationBox(this._editor), this)
   }
 
   renderGridElement() {
