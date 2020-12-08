@@ -22,21 +22,6 @@ export default class SpanContainer {
     this._typeSettings = new Map()
   }
 
-  _addDenotation(denotationSpan) {
-    this._denotations.set(denotationSpan.id, denotationSpan)
-    this._updateSpanTree()
-    this._emitter.emit(`textae.annotationData.span.add`, denotationSpan)
-    return denotationSpan
-  }
-
-  _addBlock(blockSpan) {
-    this._blocks.set(blockSpan.id, blockSpan)
-    this._updateSpanTree()
-    this._emitter.emit(`textae.annotationData.span.add`, blockSpan)
-    this._textBox.forceUpdate()
-    return blockSpan
-  }
-
   // expected span is like { "begin": 19, "end": 49 }
   add(newValue) {
     console.assert(newValue, 'span is necessary.')
@@ -158,15 +143,12 @@ export default class SpanContainer {
       this._entityContainer,
       this
     )
-    this._denotations.set(newOne.id, newOne)
-    this._updateSpanTree()
-
-    // Span.entities depends on the property of the entity.
-    // Span DOM element is rendered by 'span.add' event.
-    // We need to update the span ID of the entity before 'span.add' event.
-    oldOne.passesAllEntitiesTo(newOne)
-
-    this._emitter.emit(`textae.annotationData.span.add`, newOne)
+    this._addDenotation(newOne, () => {
+      // Span.entities depends on the property of the entity.
+      // Span DOM element is rendered by 'span.add' event.
+      // We need to update the span ID of the entity before 'span.add' event.
+      oldOne.passesAllEntitiesTo(newOne)
+    })
     this._emitter.emit('textae.annotationData.span.move')
 
     return {
@@ -174,6 +156,26 @@ export default class SpanContainer {
       end: oldOne.end,
       id: newOne.id
     }
+  }
+
+  _addDenotation(denotationSpan, hook) {
+    this._denotations.set(denotationSpan.id, denotationSpan)
+    this._updateSpanTree()
+
+    if (hook) {
+      hook()
+    }
+
+    this._emitter.emit(`textae.annotationData.span.add`, denotationSpan)
+    return denotationSpan
+  }
+
+  _addBlock(blockSpan) {
+    this._blocks.set(blockSpan.id, blockSpan)
+    this._updateSpanTree()
+    this._emitter.emit(`textae.annotationData.span.add`, blockSpan)
+    this._textBox.forceUpdate()
+    return blockSpan
   }
 
   isBoundaryCrossingWithOtherSpans(begin, end) {
