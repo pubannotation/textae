@@ -22,6 +22,13 @@ export default class SpanContainer {
     this._typeSettings = new Map()
   }
 
+  _addDenotation(denotationSpan) {
+    this._denotations.set(denotationSpan.id, denotationSpan)
+    this._updateSpanTree()
+    this._emitter.emit(`textae.annotationData.span.add`, denotationSpan)
+    return denotationSpan
+  }
+
   _addBlock(blockSpan) {
     this._blocks.set(blockSpan.id, blockSpan)
     this._updateSpanTree()
@@ -39,10 +46,7 @@ export default class SpanContainer {
     if (newValue instanceof BlockSpanModel) {
       return this._addBlock(newValue)
     } else if (newValue instanceof DenotationSpanModel) {
-      this._denotations.set(newValue.id, newValue)
-      this._updateSpanTree()
-      this._emitter.emit(`textae.annotationData.span.add`, newValue)
-      return newValue
+      return this._addDenotation(newValue)
     } else if (newValue.isBlock) {
       const blockSpan = new BlockSpanModel(
         this._editor,
@@ -60,10 +64,7 @@ export default class SpanContainer {
         this._entityContainer,
         this
       )
-      this._denotations.set(denotationSpan.id, denotationSpan)
-      this._updateSpanTree()
-      this._emitter.emit(`textae.annotationData.span.add`, denotationSpan)
-      return denotationSpan
+      return this._addDenotation(denotationSpan)
     }
   }
 
