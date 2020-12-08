@@ -57,11 +57,6 @@ export default class SpanEditor {
         return
       }
 
-      // The span exists already.
-      // if (this._annotationData.span.hasDenotationSpan(begin, end)) {
-      //   return
-      // }
-
       const command = this._commander.factory.createBlockSpanCommand({
         begin,
         end
