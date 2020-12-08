@@ -21,10 +21,8 @@ export default class ModelContainer {
     }
   }
 
-  add(instance, beforeEventEmit) {
+  add(instance) {
     const newInstance = this._addToContainer(instance)
-    if (isFunction(beforeEventEmit)) beforeEventEmit(newInstance)
-
     this._emit(`textae.annotationData.${this._name}.add`, newInstance)
     return newInstance
   }
