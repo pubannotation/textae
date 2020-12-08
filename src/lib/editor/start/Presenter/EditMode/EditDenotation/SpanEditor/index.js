@@ -5,7 +5,7 @@ import BlankSkipAdjuster from './BlankSkipAdjuster'
 import create from './create'
 import shrink from './shrink'
 import getExpandTargetSpan from './getExpandTargetSpan'
-import expandSpan from './expandSpan'
+import expandSpan from '../../expandSpan'
 import hasCharacters from '../../hasCharacters'
 import getIsDelimiterFunc from '../../../getIsDelimiterFunc'
 
