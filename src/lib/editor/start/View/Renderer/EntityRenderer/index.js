@@ -7,20 +7,17 @@ export default class EntityRenderer {
     annotationData,
     selectionModel,
     typeCantainerForDenotation,
-    typeCantainerForBlock,
-    gridRenderer
+    typeCantainerForBlock
   ) {
     this._annotationData = annotationData
     this._typeContainerForDenotation = typeCantainerForDenotation
     this._typeContainerForBlock = typeCantainerForBlock
-    this._gridRenderer = gridRenderer
     this._selectionModel = selectionModel
   }
 
   render(entity) {
     create(
       this._getTypeContainerFor(entity),
-      this._gridRenderer,
       entity,
       this._annotationData.namespace
     )

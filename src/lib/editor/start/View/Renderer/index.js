@@ -1,4 +1,3 @@
-import GridRenderer from './GridRenderer'
 import EntityRenderer from './EntityRenderer'
 import bindTypeDefinitionEvents from './bindTypeDefinitionEvents'
 import bindAnnotationDataEvents from './bindAnnotationDataEvents'
@@ -6,13 +5,11 @@ import RelationRenderer from './RelationRenderer'
 
 export default class Renderer {
   constructor(editor, annotationData, selectionModel, typeDefinition) {
-    const gridRenderer = new GridRenderer(editor)
     const entityRenderer = new EntityRenderer(
       annotationData,
       selectionModel,
       typeDefinition.denotation,
-      typeDefinition.block,
-      gridRenderer
+      typeDefinition.block
     )
     this._relationRenderer = new RelationRenderer(
       editor,
