@@ -22,6 +22,14 @@ export default class SpanContainer {
     this._typeSettings = new Map()
   }
 
+  _addBlock(blockSpan) {
+    this._blocks.set(blockSpan.id, blockSpan)
+    this._updateSpanTree()
+    this._emitter.emit(`textae.annotationData.span.add`, blockSpan)
+    this._textBox.forceUpdate()
+    return blockSpan
+  }
+
   // expected span is like { "begin": 19, "end": 49 }
   add(newValue) {
     console.assert(newValue, 'span is necessary.')
@@ -29,11 +37,7 @@ export default class SpanContainer {
     // When redoing, the newValue is instance of the BlockSpanModel
     // or the DeontationSpan already.
     if (newValue instanceof BlockSpanModel) {
-      this._blocks.set(newValue.id, newValue)
-      this._updateSpanTree()
-      this._emitter.emit(`textae.annotationData.span.add`, newValue)
-      this._textBox.forceUpdate()
-      return newValue
+      return this._addBlock(newValue)
     } else if (newValue instanceof DenotationSpanModel) {
       this._denotations.set(newValue.id, newValue)
       this._updateSpanTree()
@@ -47,12 +51,7 @@ export default class SpanContainer {
         this._entityContainer,
         this
       )
-
-      this._blocks.set(blockSpan.id, blockSpan)
-      this._updateSpanTree()
-      this._emitter.emit(`textae.annotationData.span.add`, blockSpan)
-      this._textBox.forceUpdate()
-      return blockSpan
+      return this._addBlock(blockSpan)
     } else {
       const denotationSpan = new DenotationSpanModel(
         this._editor,
