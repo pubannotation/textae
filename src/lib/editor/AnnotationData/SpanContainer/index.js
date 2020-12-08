@@ -58,7 +58,9 @@ export default class SpanContainer extends ModelContainer {
               this._entityContainer,
               this
             )
-      super.add(newInstance, () => this._updateSpanTree())
+      super._addToContainer(newInstance)
+      this._updateSpanTree()
+      super._emit(`textae.annotationData.span.add`, newInstance)
       return newInstance
     }
   }
