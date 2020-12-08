@@ -5,7 +5,7 @@ import BlankSkipAdjuster from './BlankSkipAdjuster'
 import create from './create'
 import shrink from './shrink'
 import getExpandTargetSpan from './getExpandTargetSpan'
-import expand from './expand'
+import expandSpan from './expandSpan'
 import hasCharacters from '../../hasCharacters'
 import getIsDelimiterFunc from '../../../getIsDelimiterFunc'
 
@@ -321,7 +321,7 @@ export default class SpanEditor {
 
   _expand(selectionWrapper, spanId) {
     if (spanId) {
-      expand(
+      expandSpan(
         this._selectionModel,
         this._annotationData,
         this._spanAdjuster,
