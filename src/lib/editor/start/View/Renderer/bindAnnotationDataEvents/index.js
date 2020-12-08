@@ -18,7 +18,7 @@ export default function (
     .on('textae.annotationData.span.add', (span) => spanRenderer.render(span))
     .on('textae.annotationData.span.remove', (span) => {
       spanRenderer.remove(span)
-      gridRenderer.remove(span)
+      span.destroyGridElement()
     })
     .on('textae.annotationData.entity.add', (entity) => {
       entityRenderer.render(entity)
