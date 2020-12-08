@@ -26,18 +26,27 @@ export default class SpanContainer {
   add(newValue) {
     console.assert(newValue, 'span is necessary.')
 
-    if (newValue.isBlock || newValue instanceof BlockSpanModel) {
-      // When redoing, the newValue is instance of the BlockSpanModel already.
-      const blockSpan =
-        newValue instanceof BlockSpanModel
-          ? newValue
-          : new BlockSpanModel(
-              this._editor,
-              newValue.begin,
-              newValue.end,
-              this._entityContainer,
-              this
-            )
+    // When redoing, the newValue is instance of the BlockSpanModel
+    // or the DeontationSpan already.
+    if (newValue instanceof BlockSpanModel) {
+      this._blocks.set(newValue.id, newValue)
+      this._updateSpanTree()
+      this._emitter.emit(`textae.annotationData.span.add`, newValue)
+      this._textBox.forceUpdate()
+      return newValue
+    } else if (newValue instanceof DenotationSpanModel) {
+      this._denotations.set(newValue.id, newValue)
+      this._updateSpanTree()
+      this._emitter.emit(`textae.annotationData.span.add`, newValue)
+      return newValue
+    } else if (newValue.isBlock) {
+      const blockSpan = new BlockSpanModel(
+        this._editor,
+        newValue.begin,
+        newValue.end,
+        this._entityContainer,
+        this
+      )
 
       this._blocks.set(blockSpan.id, blockSpan)
       this._updateSpanTree()
@@ -45,17 +54,13 @@ export default class SpanContainer {
       this._textBox.forceUpdate()
       return blockSpan
     } else {
-      // When redoing, the newValue is instance of the DenotationSpanModel already.
-      const denotationSpan =
-        newValue instanceof DenotationSpanModel
-          ? newValue
-          : new DenotationSpanModel(
-              this._editor,
-              newValue.begin,
-              newValue.end,
-              this._entityContainer,
-              this
-            )
+      const denotationSpan = new DenotationSpanModel(
+        this._editor,
+        newValue.begin,
+        newValue.end,
+        this._entityContainer,
+        this
+      )
       this._denotations.set(denotationSpan.id, denotationSpan)
       this._updateSpanTree()
       this._emitter.emit(`textae.annotationData.span.add`, denotationSpan)
