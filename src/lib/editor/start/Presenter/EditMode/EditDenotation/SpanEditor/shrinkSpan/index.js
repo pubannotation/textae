@@ -1,4 +1,5 @@
-import shrinkSpanToSelectionAndSelectNextIfRemoved from './shrinkSpanToSelectionAndSelectNextIfRemoved'
+import getRightSpanElement from '../../../../../../getRightSpanElement'
+import shrinkSpanToSelection from './shrinkSpanToSelectionAndSelectNextIfRemoved/shrinkSpanToSelection'
 
 export default function (
   editor,
@@ -13,16 +14,21 @@ export default function (
 ) {
   if (spanId) {
     selectionModel.clear()
-    shrinkSpanToSelectionAndSelectNextIfRemoved(
-      editor,
+
+    // Get the next span before removing the old span.
+    const nextSpan = getRightSpanElement(editor, spanId)
+    const removed = shrinkSpanToSelection(
       annotationData,
       commander,
       spanAdjuster,
       spanId,
       selectionWrapper,
       spanConfig,
-      selectionModel,
       moveHandler
     )
+
+    if (removed && nextSpan) {
+      selectionModel.selectSpan(nextSpan.id)
+    }
   }
 }
