@@ -3,7 +3,7 @@ import Positions from '../../Positions'
 import DelimiterDetectAdjuster from '../../DelimiterDetectAdjuster'
 import BlankSkipAdjuster from './BlankSkipAdjuster'
 import create from './create'
-import shrink from './shrink'
+import shrinkSpan from './shrinkSpan'
 import getExpandTargetSpan from '../../getExpandTargetSpan'
 import expandSpan from '../../expandSpan'
 import hasCharacters from '../../hasCharacters'
@@ -368,7 +368,7 @@ export default class SpanEditor {
   }
 
   _shrink(selectionWrapper, spanId) {
-    shrink(
+    shrinkSpan(
       this._editor,
       this._annotationData,
       this._selectionModel,
