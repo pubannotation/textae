@@ -9,7 +9,8 @@ export default function (
   spanId,
   selectionWrapper,
   spanConfig,
-  selectionModel
+  selectionModel,
+  moveHandler
 ) {
   // Get the next span before removing the old span.
   const nextSpan = getRightSpanElement(editor, spanId)
@@ -19,7 +20,8 @@ export default function (
     spanAdjuster,
     spanId,
     selectionWrapper,
-    spanConfig
+    spanConfig,
+    moveHandler
   )
 
   if (removed && nextSpan) {

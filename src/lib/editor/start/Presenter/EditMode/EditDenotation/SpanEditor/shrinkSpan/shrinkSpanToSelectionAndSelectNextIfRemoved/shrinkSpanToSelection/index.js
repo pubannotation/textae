@@ -7,7 +7,8 @@ export default function (
   spanAdjuster,
   spanId,
   selectionWrapper,
-  spanConfig
+  spanConfig,
+  moveHandler
 ) {
   const { begin, end } = getNewSpan(
     annotationData,
@@ -28,9 +29,7 @@ export default function (
   const doesExists = annotationData.span.hasDenotationSpan(begin, end)
 
   if (begin < end && !doesExists) {
-    commander.invoke(
-      commander.factory.moveDenotationSpanCommand(spanId, begin, end)
-    )
+    moveHandler(begin, end)
   } else {
     commander.invoke(commander.factory.removeSpanCommand(spanId))
     return true

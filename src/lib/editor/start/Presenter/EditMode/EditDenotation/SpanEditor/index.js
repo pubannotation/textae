@@ -376,7 +376,12 @@ export default class SpanEditor {
       this._spanAdjuster,
       spanId,
       selectionWrapper,
-      this._spanConfig
+      this._spanConfig,
+      (begin, end) => {
+        this._commander.invoke(
+          this._commander.factory.moveDenotationSpanCommand(spanId, begin, end)
+        )
+      }
     )
 
     clearTextSelection()

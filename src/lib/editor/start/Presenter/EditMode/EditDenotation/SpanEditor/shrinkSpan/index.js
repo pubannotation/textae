@@ -8,7 +8,8 @@ export default function (
   spanAdjuster,
   spanId,
   selectionWrapper,
-  spanConfig
+  spanConfig,
+  moveHandler
 ) {
   if (spanId) {
     selectionModel.clear()
@@ -20,7 +21,8 @@ export default function (
       spanId,
       selectionWrapper,
       spanConfig,
-      selectionModel
+      selectionModel,
+      moveHandler
     )
   }
 }
