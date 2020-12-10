@@ -1,5 +1,4 @@
 import getPosition from './getPosition'
-import OrderedPositions from '../OrderedPositions'
 
 export default class Positions {
   constructor(annotationData, selectionWrapper) {
@@ -21,13 +20,5 @@ export default class Positions {
       this._selection.focusNode
     )
     return position + this._selection.focusOffset
-  }
-
-  get selectedString() {
-    const orderedPositions = new OrderedPositions(this)
-    return this._annotationData.sourceDoc.substring(
-      orderedPositions.begin,
-      orderedPositions.end
-    )
   }
 }
