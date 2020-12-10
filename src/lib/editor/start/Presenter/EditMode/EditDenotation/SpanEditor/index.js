@@ -135,7 +135,10 @@ export default class SpanEditor {
       const parentSpan = this._annotationData.span.get(
         selectionWrapper.parentOfAnchorNode.id
       )
-      const positions = new Positions(this._annotationData, selectionWrapper)
+      const positions = new Positions(
+        this._annotationData.span,
+        selectionWrapper
+      )
       if (
         positions.anchor === parentSpan.begin ||
         positions.anchor === parentSpan.end
@@ -297,7 +300,8 @@ export default class SpanEditor {
       return false
     }
 
-    const position = new Positions(this._annotationData, selectionWrapper).focus
+    const position = new Positions(this._annotationData.span, selectionWrapper)
+      .focus
     return span.begin < position && position < span.end
   }
 
