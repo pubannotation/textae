@@ -76,6 +76,12 @@ export default class SelectionWrapper {
     return this.parentOfFocusNode.closest('.textae-editor__block')
   }
 
+  get doesFitInOneBlockSpan() {
+    return (
+      this.ancestorBlockSpanOfAnchorNode === this.ancestorBlockSpanOfFocusNode
+    )
+  }
+
   get isAnchorOneDownUnderFocus() {
     return this.parentOfAnchorNode.parentElement === this.parentOfFocusNode
   }

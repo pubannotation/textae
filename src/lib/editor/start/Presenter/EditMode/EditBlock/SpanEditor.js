@@ -59,10 +59,7 @@ export default class SpanEditor {
         selectionWrapper.isParentOfFocusNodeStyleSpan
       ) {
         if (selectionWrapper.ancestorBlockSpanOfAnchorNode) {
-          if (
-            selectionWrapper.ancestorBlockSpanOfAnchorNode ===
-            selectionWrapper.ancestorBlockSpanOfFocusNode
-          ) {
+          if (selectionWrapper.doesFitInOneBlockSpan) {
             // Shrink if the selection fits into a single block span.
             this._shrink(selectionWrapper)
           } else {
