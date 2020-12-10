@@ -32,6 +32,7 @@ export default class SpanEditor {
         selectionWrapper.isParentOfFocusNodeStyleSpan
       ) {
         this._create(selectionWrapper)
+        return
       }
     }
 
