@@ -22,7 +22,7 @@ export default class SpanContainer {
     // Aliase to the super class property.
     this._denotations = new Map()
     this._blocks = new Map()
-    this._typeSettings = new Map()
+    this._styles = new Map()
   }
 
   // expected span is like { "begin": 19, "end": 49 }
@@ -83,13 +83,13 @@ export default class SpanContainer {
       return this._blocks.get(spanId)
     } else {
       // Returns a typesetting only.
-      return this._typeSettings.get(spanId)
+      return this._styles.get(spanId)
     }
   }
 
   getStyle(spanId) {
-    if (this._typeSettings.has(spanId)) {
-      return this._typeSettings.get(spanId).styles
+    if (this._styles.has(spanId)) {
+      return this._styles.get(spanId).styles
     } else {
       return new Set()
     }
@@ -114,7 +114,7 @@ export default class SpanContainer {
   clear() {
     this._denotations.clear()
     this._blocks.clear()
-    this._typeSettings.clear()
+    this._styles.clear()
   }
 
   remove(id) {
@@ -229,12 +229,12 @@ export default class SpanContainer {
     return (
       [...this._denotations.values()].some(isParent) ||
       [...this._blocks.values()].some(isParent) ||
-      [...this._typeSettings.values()].some(isParent)
+      [...this._styles.values()].some(isParent)
     )
   }
 
   get all() {
-    const styleOnlySpans = [...this._typeSettings.values()].filter(
+    const styleOnlySpans = [...this._styles.values()].filter(
       (s) => !this._denotations.has(s.id)
     )
     return [...this._blocks.values()]
@@ -301,10 +301,10 @@ export default class SpanContainer {
         )
 
         // Merge multiple styles for the same range.
-        if (this._typeSettings.has(styleSpan.id)) {
-          this._typeSettings.get(styleSpan.id).appendStyles(styleSpan.styles)
+        if (this._styles.has(styleSpan.id)) {
+          this._styles.get(styleSpan.id).appendStyles(styleSpan.styles)
         } else {
-          this._typeSettings.set(styleSpan.id, styleSpan)
+          this._styles.set(styleSpan.id, styleSpan)
         }
 
         break
