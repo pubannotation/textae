@@ -57,6 +57,10 @@ export default class SpanEditor {
         return
       }
 
+      if (this._annotationData.span.doesParentSpanExits(begin, end)) {
+        return
+      }
+
       const command = this._commander.factory.createBlockSpanCommand({
         begin,
         end
