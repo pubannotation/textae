@@ -1,3 +1,4 @@
+import OrderedPositions from './OrderedPositions'
 import Positions from './Positions'
 
 export default function (
@@ -7,17 +8,18 @@ export default function (
   spanConfig
 ) {
   const positions = new Positions(annotationData, selectionWrapper)
+  const orderedPositions = new OrderedPositions(positions)
 
   return {
     begin: spanAdjuster.backFromBegin(
       annotationData.sourceDoc,
-      positions.begin,
+      orderedPositions.begin,
       spanConfig
     ),
     end:
       spanAdjuster.forwardFromEnd(
         annotationData.sourceDoc,
-        positions.end - 1,
+        orderedPositions.end - 1,
         spanConfig
       ) + 1
   }
