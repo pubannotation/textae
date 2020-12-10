@@ -225,6 +225,16 @@ export default class SpanContainer {
     return isBoundaryCrossingWithOtherSpans(this.all, begin, end)
   }
 
+  doesParentSpanExits(begin, end) {
+    const isParent = (span) => span.begin < begin && end < span.end
+
+    return (
+      [...this._denotations.values()].some(isParent) ||
+      [...this._blocks.values()].some(isParent) ||
+      [...this._typeSettings.values()].some(isParent)
+    )
+  }
+
   get all() {
     const styleOnlySpans = [...this._typeSettings.values()].filter(
       (s) => !this._denotations.has(s.id)
