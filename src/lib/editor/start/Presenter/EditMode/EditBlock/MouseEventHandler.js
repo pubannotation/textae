@@ -32,8 +32,16 @@ export default class MouseEventHandler {
   }
 
   blockSpanClicked() {
-    clearTextSelection()
-    this._selectionModel.clear()
+    const selection = window.getSelection()
+
+    if (selection.type === 'Caret') {
+      clearTextSelection()
+      this._selectionModel.clear()
+    }
+
+    if (selection.type === 'Range') {
+      this._spanEditor.editFor(new SelectionWrapper())
+    }
   }
 
   // Mouse events to the block span are handled by the hit area instead,
