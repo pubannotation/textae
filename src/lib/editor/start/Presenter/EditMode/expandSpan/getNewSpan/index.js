@@ -1,5 +1,5 @@
 import getNewExpandSpan from './getNewExpandSpan'
-import Positions from '../../Positions'
+import PositionsOnAnnotation from '../../PositionsOnAnnotation'
 
 export default function getNewSpan(
   annotationData,
@@ -8,14 +8,17 @@ export default function getNewSpan(
   selectionWrapper,
   spanConfig
 ) {
-  const positions = new Positions(annotationData.span, selectionWrapper)
+  const positionsOnAnnotation = new PositionsOnAnnotation(
+    annotationData.span,
+    selectionWrapper
+  )
 
   return getNewExpandSpan(
     annotationData,
     spanAdjuster,
     spanId,
-    positions.anchor,
-    positions.focus,
+    positionsOnAnnotation.anchor,
+    positionsOnAnnotation.focus,
     spanConfig
   )
 }

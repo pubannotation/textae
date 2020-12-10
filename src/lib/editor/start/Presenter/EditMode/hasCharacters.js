@@ -1,10 +1,13 @@
 import OrderedPositions from './OrderedPositions'
-import Positions from './Positions'
+import PositionsOnAnnotation from './PositionsOnAnnotation'
 
 // A span cannot be created include nonEdgeCharacters only.
 export default function (annotationData, spanConfig, selectionWrapper) {
-  const positions = new Positions(annotationData.span, selectionWrapper)
-  const orderedPositions = new OrderedPositions(positions)
+  const positionsOnAnnotation = new PositionsOnAnnotation(
+    annotationData.span,
+    selectionWrapper
+  )
+  const orderedPositions = new OrderedPositions(positionsOnAnnotation)
   const selectedString = annotationData.sourceDoc.substring(
     orderedPositions.begin,
     orderedPositions.end

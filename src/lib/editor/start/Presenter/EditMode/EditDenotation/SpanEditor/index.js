@@ -1,5 +1,5 @@
 import clearTextSelection from '../../clearTextSelection'
-import Positions from '../../Positions'
+import PositionsOnAnnotation from '../../PositionsOnAnnotation'
 import DelimiterDetectAdjuster from '../../DelimiterDetectAdjuster'
 import BlankSkipAdjuster from './BlankSkipAdjuster'
 import create from './create'
@@ -135,13 +135,13 @@ export default class SpanEditor {
       const parentSpan = this._annotationData.span.get(
         selectionWrapper.parentOfAnchorNode.id
       )
-      const positions = new Positions(
+      const positionsOnAnnotation = new PositionsOnAnnotation(
         this._annotationData.span,
         selectionWrapper
       )
       if (
-        positions.anchor === parentSpan.begin ||
-        positions.anchor === parentSpan.end
+        positionsOnAnnotation.anchor === parentSpan.begin ||
+        positionsOnAnnotation.anchor === parentSpan.end
       ) {
         // The start or end of the selected region is at the same position
         // as the start or end of the parent span.
@@ -300,9 +300,13 @@ export default class SpanEditor {
       return false
     }
 
-    const position = new Positions(this._annotationData.span, selectionWrapper)
-      .focus
-    return span.begin < position && position < span.end
+    const positionsOnAnnotation = new PositionsOnAnnotation(
+      this._annotationData.span,
+      selectionWrapper
+    ).focus
+    return (
+      span.begin < positionsOnAnnotation && positionsOnAnnotation < span.end
+    )
   }
 
   _create(selectionWrapper) {

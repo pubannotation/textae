@@ -1,6 +1,6 @@
 import getPosition from './getPosition'
 
-export default class Positions {
+export default class PositionsOnAnnotation {
   constructor(spanContainer, selectionWrapper) {
     this._spanContainer = spanContainer
     this._selection = selectionWrapper.selection
