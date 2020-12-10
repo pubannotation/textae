@@ -41,7 +41,7 @@ export default class SelectionWrapper {
     return isNodeStyleSpan(this.parentOfFocusNode)
   }
 
-  get isParentOfAnchorNodeAndFocusedNodeSame() {
+  get isParentOfBothNodesSame() {
     return this.parentOfAnchorNode === this.parentOfFocusNode
   }
 

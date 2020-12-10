@@ -131,7 +131,7 @@ export default class SpanEditor {
 
   _anchorNodeInDenotationSpanFocusNodeInDenotationSpan(selectionWrapper) {
     // The anchor node and the focus node are in the same span.
-    if (selectionWrapper.isParentOfAnchorNodeAndFocusedNodeSame) {
+    if (selectionWrapper.isParentOfBothNodesSame) {
       const parentSpan = this._annotationData.span.get(
         selectionWrapper.parentOfAnchorNode.id
       )
@@ -281,7 +281,7 @@ export default class SpanEditor {
 
   _anchorNodeInStyleSpanFocusNodeInStyleSpan(selectionWrapper) {
     if (
-      selectionWrapper.isParentOfAnchorNodeAndFocusedNodeSame ||
+      selectionWrapper.isParentOfBothNodesSame ||
       selectionWrapper.isParentsParentOfAnchorNodeAndFocusedNodeSame
     ) {
       this._create(selectionWrapper)
