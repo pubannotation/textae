@@ -139,6 +139,9 @@ export default class SpanEditor {
         this._annotationData.span,
         selectionWrapper
       )
+
+      // Shrink the span
+      // if the anchor position is the same as the begin or end of the parent span.
       if (
         positionsOnAnnotation.anchor === parentSpan.begin ||
         positionsOnAnnotation.anchor === parentSpan.end
