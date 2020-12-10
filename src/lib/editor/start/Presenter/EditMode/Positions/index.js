@@ -1,4 +1,5 @@
 import getPosition from './getPosition'
+import OrderedPositions from '../OrderedPositions'
 
 export default class Positions {
   constructor(annotationData, selectionWrapper) {
@@ -41,6 +42,10 @@ export default class Positions {
   }
 
   get selectedString() {
-    return this._annotationData.sourceDoc.substring(this.begin, this.end)
+    const orderedPositions = new OrderedPositions(this)
+    return this._annotationData.sourceDoc.substring(
+      orderedPositions.begin,
+      orderedPositions.end
+    )
   }
 }
