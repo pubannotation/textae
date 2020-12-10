@@ -3,6 +3,7 @@ import DelimiterDetectAdjuster from '../DelimiterDetectAdjuster'
 import hasCharacters from '../hasCharacters'
 import getNewSpan from '../getNewSpan'
 import expandSpan from '../expandSpan'
+import shrinkSpan from '../EditDenotation/SpanEditor/shrinkSpan'
 
 export default class SpanEditor {
   constructor(
@@ -23,13 +24,28 @@ export default class SpanEditor {
 
   editFor(selectionWrapper) {
     if (selectionWrapper.isParentOfAnchorNodeTextBox) {
+      if (selectionWrapper.isParentOfFocusNodeTextBox) {
+        this._create(selectionWrapper)
+        return
+      }
+
       if (
-        selectionWrapper.isParentOfFocusNodeTextBox ||
         selectionWrapper.isParentOfFocusNodeDenotationSpan ||
         selectionWrapper.isParentOfFocusNodeStyleSpan
       ) {
-        this._create(selectionWrapper)
+        if (selectionWrapper.ancestorBlockSpanOfFocusNode) {
+          this._shrink(selectionWrapper)
+        } else {
+          this._create(selectionWrapper)
+        }
+        return
       }
+
+      if (selectionWrapper.isParentOfFocusNodeBlockSpan) {
+        this._shrink(selectionWrapper)
+        return
+      }
+
       return
     }
 
@@ -43,12 +59,29 @@ export default class SpanEditor {
         selectionWrapper.isParentOfFocusNodeStyleSpan
       ) {
         if (selectionWrapper.ancestorBlockSpanOfAnchorNode) {
-          this._expand(selectionWrapper)
+          if (
+            selectionWrapper.ancestorBlockSpanOfAnchorNode ===
+            selectionWrapper.ancestorBlockSpanOfFocusNode
+          ) {
+            // Shrink if the selection fits into a single block span.
+            this._shrink(selectionWrapper)
+          } else {
+            // Expand when the selection exceeds a single block span.
+            this._expand(selectionWrapper)
+          }
         } else {
           this._create(selectionWrapper)
         }
         return
       }
+
+      // When collapsing a block containing the beginning or end of the text,
+      // and also when the beginning or end of the text is a denotation or style span,
+      // the anchor node is within the denotation or style span.
+      if (selectionWrapper.isParentOfFocusNodeBlockSpan) {
+        this._shrink(selectionWrapper)
+      }
+
       return
     }
 
@@ -59,7 +92,15 @@ export default class SpanEditor {
         selectionWrapper.isParentOfFocusNodeStyleSpan
       ) {
         this._expand(selectionWrapper)
+        return
       }
+
+      // When you shrink a block containing the beginning or end of the text,
+      // the anchor node is in the block.
+      if (selectionWrapper.isParentOfFocusNodeBlockSpan) {
+        this._shrink(selectionWrapper)
+      }
+
       return
     }
 
@@ -105,6 +146,28 @@ export default class SpanEditor {
     expandSpan(
       this._selectionModel,
       this._annotationData,
+      new DelimiterDetectAdjuster(),
+      spanId,
+      selectionWrapper,
+      this._spanConfig,
+      (begin, end) => {
+        this._commander.invoke(
+          this._commander.factory.moveBlockSpanCommand(spanId, begin, end)
+        )
+      }
+    )
+
+    clearTextSelection()
+  }
+
+  _shrink(selectionWrapper) {
+    const spanId = selectionWrapper.ancestorBlockSpanOfFocusNode.id
+
+    shrinkSpan(
+      this._editor,
+      this._annotationData,
+      this._selectionModel,
+      this._commander,
       new DelimiterDetectAdjuster(),
       spanId,
       selectionWrapper,
