@@ -19,7 +19,6 @@ export default class SpanContainer {
     this._textBox = textBox
     this._entityGap = entityGap
 
-    // Aliase to the super class property.
     this._denotations = new Map()
     this._blocks = new Map()
     this._styles = new Map()
