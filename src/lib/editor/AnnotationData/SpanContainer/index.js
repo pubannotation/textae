@@ -36,6 +36,13 @@ export default class SpanContainer {
     } else if (newValue instanceof DenotationSpanModel) {
       return this._addDenotation(newValue)
     } else if (newValue.isBlock) {
+      console.assert(
+        [...this._denotations.values()].filter(
+          (d) => d.begin < newValue.begin && newValue.end < d.end
+        ).length === 0,
+        `There are some parent denotation spans of {begin: ${newValue.begin}, end: ${newValue.end}}.`
+      )
+
       const blockSpan = new BlockSpanModel(
         this._editor,
         newValue.begin,
