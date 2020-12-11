@@ -53,7 +53,11 @@ export default class SpanEditor {
     }
 
     if (selectionWrapper.isParentOfAnchorNodeBlockSpan) {
-      if (selectionWrapper.isParentOfFocusNodeTextBox) {
+      if (
+        selectionWrapper.isParentOfFocusNodeTextBox ||
+        selectionWrapper.isParentOfFocusNodeDenotationSpan ||
+        selectionWrapper.isParentOfFocusNodeStyleSpan
+      ) {
         this._expand(selectionWrapper)
       }
       return
