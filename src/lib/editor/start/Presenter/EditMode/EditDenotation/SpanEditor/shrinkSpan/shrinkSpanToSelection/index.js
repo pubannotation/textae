@@ -11,7 +11,7 @@ export default function (
   spanConfig,
   moveHandler
 ) {
-  const positionsOnAnnotation = new PositionsOnAnnotation(
+  const { anchor, focus } = new PositionsOnAnnotation(
     annotationData.span,
     selectionWrapper
   )
@@ -20,8 +20,8 @@ export default function (
     annotationData,
     spanAdjuster,
     spanId,
-    positionsOnAnnotation.anchor,
-    positionsOnAnnotation.focus,
+    anchor,
+    focus,
     spanConfig
   )
 
