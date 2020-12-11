@@ -1,16 +1,22 @@
+import PositionsOnAnnotation from '../../../../PositionsOnAnnotation'
+
 export default function (
   annotationData,
   spanAdjuster,
   spanId,
-  anchorPosition,
-  focusPosition,
-  spanConfig
+  spanConfig,
+  selectionWrapper
 ) {
+  const { anchor, focus } = new PositionsOnAnnotation(
+    annotationData.span,
+    selectionWrapper
+  )
+
   const span = annotationData.span.get(spanId)
 
-  if (anchorPosition < focusPosition) {
+  if (anchor < focus) {
     // shorten the left boundary
-    if (span.end === focusPosition)
+    if (span.end === focus)
       return {
         begin: span.end,
         end: span.end
@@ -18,14 +24,14 @@ export default function (
     return {
       begin: spanAdjuster.forwardFromBegin(
         annotationData.sourceDoc,
-        focusPosition,
+        focus,
         spanConfig
       ),
       end: span.end
     }
   } else {
     // shorten the right boundary
-    if (span.begin === focusPosition)
+    if (span.begin === focus)
       return {
         begin: span.begin,
         end: span.begin
@@ -35,7 +41,7 @@ export default function (
       end:
         spanAdjuster.backFromEnd(
           annotationData.sourceDoc,
-          focusPosition - 1,
+          focus - 1,
           spanConfig
         ) + 1
     }

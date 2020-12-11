@@ -1,5 +1,4 @@
 import clearTextSelectionAndAlert from '../../../../clearTextSelectionAndAlert'
-import PositionsOnAnnotation from '../../../../PositionsOnAnnotation'
 import getNewShortSpan from './getNewShortSpan'
 
 export default function (
@@ -11,18 +10,12 @@ export default function (
   spanConfig,
   moveHandler
 ) {
-  const { anchor, focus } = new PositionsOnAnnotation(
-    annotationData.span,
-    selectionWrapper
-  )
-
   const { begin, end } = getNewShortSpan(
     annotationData,
     spanAdjuster,
     spanId,
-    anchor,
-    focus,
-    spanConfig
+    spanConfig,
+    selectionWrapper
   )
 
   // The span cross exists spans.
