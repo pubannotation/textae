@@ -113,10 +113,9 @@ export default class SpanEditor {
           anchor === blockSpanOnFocus.end
         ) {
           this._shrink(selectionWrapper)
+          return
         }
       }
-
-      return
     }
 
     clearTextSelection()
