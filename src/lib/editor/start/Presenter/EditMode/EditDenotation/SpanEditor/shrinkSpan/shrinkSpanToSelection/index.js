@@ -1,5 +1,5 @@
 import clearTextSelectionAndAlert from '../../../../clearTextSelectionAndAlert'
-import getNewShortSpan from './getNewShortSpan'
+import getShortenSpan from './getShortenSpan'
 
 export default function (
   annotationData,
@@ -10,7 +10,7 @@ export default function (
   spanConfig,
   moveHandler
 ) {
-  const { begin, end } = getNewShortSpan(
+  const { begin, end } = getShortenSpan(
     annotationData,
     spanAdjuster,
     selectionWrapper,
