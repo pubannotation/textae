@@ -4,6 +4,7 @@ import hasCharacters from '../hasCharacters'
 import getNewSpan from '../getNewSpan'
 import expandSpan from '../expandSpan'
 import shrinkSpan from '../EditDenotation/SpanEditor/shrinkSpan'
+import PositionsOnAnnotation from '../PositionsOnAnnotation'
 
 export default class SpanEditor {
   constructor(
@@ -97,7 +98,22 @@ export default class SpanEditor {
       // When you shrink a block containing the beginning or end of the text,
       // the anchor node is in the block.
       if (selectionWrapper.isParentOfFocusNodeBlockSpan) {
-        this._shrink(selectionWrapper)
+        const { anchor } = new PositionsOnAnnotation(
+          this._annotationData.span,
+          selectionWrapper
+        )
+        const blockSpanOnFocus = this._annotationData.span.get(
+          selectionWrapper.parentOfFocusNode.id
+        )
+
+        // Shrink the block span
+        // only when the anchor position matches the begin or end position of the block span.
+        if (
+          anchor === blockSpanOnFocus.begin ||
+          anchor === blockSpanOnFocus.end
+        ) {
+          this._shrink(selectionWrapper)
+        }
       }
 
       return
