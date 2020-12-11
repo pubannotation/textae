@@ -66,6 +66,8 @@ export default class SpanEditor {
             // Expand when the selection exceeds a single block span.
             this._expand(selectionWrapper)
           }
+        } else if (selectionWrapper.ancestorBlockSpanOfFocusNode) {
+          this._shrink(selectionWrapper)
         } else {
           this._create(selectionWrapper)
         }
