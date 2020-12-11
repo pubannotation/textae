@@ -39,6 +39,7 @@ export default class SpanEditor {
         } else {
           this._create(selectionWrapper)
         }
+
         return
       }
 
@@ -46,8 +47,6 @@ export default class SpanEditor {
         this._shrink(selectionWrapper)
         return
       }
-
-      return
     }
 
     if (
@@ -72,6 +71,7 @@ export default class SpanEditor {
         } else {
           this._create(selectionWrapper)
         }
+
         return
       }
 
@@ -80,9 +80,8 @@ export default class SpanEditor {
       // the anchor node is within the denotation or style span.
       if (selectionWrapper.isParentOfFocusNodeBlockSpan) {
         this._shrink(selectionWrapper)
+        return
       }
-
-      return
     }
 
     if (selectionWrapper.isParentOfAnchorNodeBlockSpan) {
