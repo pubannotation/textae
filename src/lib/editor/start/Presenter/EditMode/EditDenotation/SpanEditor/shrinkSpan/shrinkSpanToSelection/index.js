@@ -13,9 +13,9 @@ export default function (
   const { begin, end } = getNewShortSpan(
     annotationData,
     spanAdjuster,
-    spanId,
+    selectionWrapper,
     spanConfig,
-    selectionWrapper
+    spanId
   )
 
   // The span cross exists spans.

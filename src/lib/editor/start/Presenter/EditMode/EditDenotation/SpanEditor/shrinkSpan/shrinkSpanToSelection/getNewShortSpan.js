@@ -3,9 +3,9 @@ import PositionsOnAnnotation from '../../../../PositionsOnAnnotation'
 export default function (
   annotationData,
   spanAdjuster,
-  spanId,
+  selectionWrapper,
   spanConfig,
-  selectionWrapper
+  spanId
 ) {
   const { anchor, focus } = new PositionsOnAnnotation(
     annotationData.span,
