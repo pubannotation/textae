@@ -42,6 +42,7 @@ export default class SpanEditor {
       }
       if (selectionWrapper.isParentOfFocusNodeStyleSpan) {
         this._anchorNodeInTextBoxFocusNodeInStyleSpan(selectionWrapper)
+        return
       }
     }
     if (selectionWrapper.isParentOfAnchorNodeDenotationSpan) {
