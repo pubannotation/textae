@@ -62,6 +62,7 @@ export default class SpanEditor {
       }
       if (selectionWrapper.isParentOfFocusNodeStyleSpan) {
         this._anchorNodeInDenotationSpanFocusNodeInStyleSpan(selectionWrapper)
+        return
       }
     }
     if (selectionWrapper.isParentOfAnchorNodeBlockSpan) {
