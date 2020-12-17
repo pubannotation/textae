@@ -80,6 +80,7 @@ export default class SpanEditor {
       }
       if (selectionWrapper.isParentOfFocusNodeStyleSpan) {
         this._anchorNodeInBlockSpanFocusNodeInStyleSpan(selectionWrapper)
+        return
       }
     }
     if (selectionWrapper.isParentOfAnchorNodeStyleSpan) {
@@ -97,6 +98,7 @@ export default class SpanEditor {
       }
       if (selectionWrapper.isParentOfFocusNodeStyleSpan) {
         this._anchorNodeInStyleSpanFocusNodeInStyleSpan(selectionWrapper)
+        return
       }
     }
   }
