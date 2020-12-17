@@ -1,12 +1,11 @@
 import isNodeDenotationSpan from '../isNodeDenotationSpan'
 import isNodeTextBox from '../isNodeTextBox'
 import isNodeStyleSpan from '../isNodeStyleSpan'
-import getSelectionSnapShot from './getSelectionSnapShot'
 import isNodeBlockSpan from '../isNodeBlockSpan'
 
 export default class SelectionWrapper {
   constructor() {
-    this.selection = getSelectionSnapShot()
+    this.selection = window.getSelection()
   }
 
   get isParentOfAnchorNodeTextBox() {
