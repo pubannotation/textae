@@ -15,7 +15,7 @@ import createTextBox from './createTextBox'
 
 export default class AnnotationData {
   constructor(editor) {
-    this.sourceDoc = ''
+    this._sourceDoc = ''
     this.namespace = new ModelContainer(editor.eventEmitter, 'namespace')
     this.relation = new RelationContainer(editor, editor.eventEmitter)
     this._entityGap = new EntityGap()
@@ -40,7 +40,7 @@ export default class AnnotationData {
   reset(rawData) {
     console.assert(rawData.text, 'This is not a json file of anntations.')
 
-    this.sourceDoc = rawData.text
+    this._sourceDoc = rawData.text
     this._textBox.render(rawData.text)
 
     clearAnnotationData(this)
@@ -80,5 +80,9 @@ export default class AnnotationData {
 
   get textBox() {
     return this._textBox
+  }
+
+  get sourceDoc() {
+    return this._sourceDoc
   }
 }
