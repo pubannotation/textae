@@ -77,7 +77,7 @@ export default class SpanEditor {
         return
       }
       if (selectionWrapper.isParentOfFocusNodeStyleSpan) {
-        this._anchorNodeInBlackSpanFocusNodeInStyleSpan(selectionWrapper)
+        this._anchorNodeInBlockSpanFocusNodeInStyleSpan(selectionWrapper)
       }
     }
     if (selectionWrapper.isParentOfAnchorNodeStyleSpan) {
