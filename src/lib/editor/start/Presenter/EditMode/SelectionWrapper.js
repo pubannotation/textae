@@ -1,7 +1,7 @@
-import isNodeDenotationSpan from '../isNodeDenotationSpan'
-import isNodeTextBox from '../isNodeTextBox'
-import isNodeStyleSpan from '../isNodeStyleSpan'
-import isNodeBlockSpan from '../isNodeBlockSpan'
+import isNodeDenotationSpan from './isNodeDenotationSpan'
+import isNodeTextBox from './isNodeTextBox'
+import isNodeStyleSpan from './isNodeStyleSpan'
+import isNodeBlockSpan from './isNodeBlockSpan'
 
 export default class SelectionWrapper {
   constructor() {
