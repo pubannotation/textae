@@ -83,6 +83,11 @@ export default class AnnotationData {
   }
 
   get sourceDoc() {
-    return this._sourceDoc
+    // Since 6.0.0, the text-box is set to `white-space: pre-wrap;`
+    // in order to render line breaks contained in text as they are in the browser.
+    // `\r\n` is rendered as a single character.
+    // The span position also counts `\r\n` as a single character.
+    // Replace `\r\n` with the single character `\n`.
+    return this._sourceDoc.replaceAll(/\r\n/g, '\n')
   }
 }
