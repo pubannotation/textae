@@ -45,7 +45,7 @@
     "sticky-kit": "github:leafo/sticky-kit",
     "throttleit": "^1.0.0",
     "url": "^0.11.0",
-    "webpack": "^5.10.1",
+    "webpack": "^5.10.3",
     "webpack-cli": "^4.2.0",
     "webpack-merge": "^5.7.0"
   },
