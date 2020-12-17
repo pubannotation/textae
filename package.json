@@ -47,7 +47,7 @@
     "url": "^0.11.0",
     "webpack": "^5.10.3",
     "webpack-cli": "^4.2.0",
-    "webpack-merge": "^5.7.0"
+    "webpack-merge": "^5.7.2"
   },
   "homepage": "https://github.com/pubannotation/textae",
   "husky": {
