@@ -61,14 +61,4 @@ export default class EntityRenderer {
       this.change(entity)
     }
   }
-
-  _getTypeContainerFor(entity) {
-    if (entity.isDenotation) {
-      return this._annotationData.typeDefinition.denotation
-    } else if (entity.isBlock) {
-      return this._annotationData.typeDefinition.block
-    } else {
-      throw 'unknown entity type'
-    }
-  }
 }
