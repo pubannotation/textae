@@ -32,8 +32,7 @@ export default function (
     editor,
     annotationData,
     selectionModel,
-    history,
-    typeDefinition
+    history
   )
   const clipBoard = new ClipBoard(editor, commander, selectionModel)
   const buttonController = new ButtonController(
