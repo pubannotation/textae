@@ -36,6 +36,12 @@ export default class AnnotationData {
       this._entityGap
     )
     this._editor = editor
+    this._typeDefinition = new TypeDefinition(
+      this._editor,
+      this.entity,
+      this.relation,
+      this.attribute
+    )
   }
 
   reset(rawData) {
@@ -93,11 +99,6 @@ export default class AnnotationData {
   }
 
   get typeDefinition() {
-    return new TypeDefinition(
-      this._editor,
-      this.entity,
-      this.relation,
-      this.attribute
-    )
+    return this._typeDefinition
   }
 }
