@@ -12,7 +12,7 @@ import toBlocks from './toBlocks'
 import getReplicationRanges from './getReplicationRanges'
 import EntityGap from './EntityGap'
 import createTextBox from './createTextBox'
-import TypeDefinition from '../start/TypeDefinition'
+import TypeDefinition from './TypeDefinition'
 
 export default class AnnotationData {
   constructor(editor) {
