@@ -4,11 +4,11 @@ import changeType from './changeType'
 import renderLazy from './renderLazy'
 
 export default class RelationRenderer {
-  constructor(editor, annotationData, selectionModel, typeDefinition) {
+  constructor(editor, annotationData, selectionModel) {
     this._editor = editor
     this._annotationData = annotationData
     this._selectionModel = selectionModel
-    this._typeDefinition = typeDefinition
+    this._typeDefinition = annotationData.typeDefinition
     this._jsPlumbInstance = makeJsPlumbInstance(getAnnotationBox(editor))
   }
 

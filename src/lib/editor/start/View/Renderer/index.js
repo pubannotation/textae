@@ -10,8 +10,7 @@ export default class Renderer {
     this._relationRenderer = new RelationRenderer(
       editor,
       annotationData,
-      selectionModel,
-      typeDefinition
+      selectionModel
     )
 
     bindAnnotationDataEvents(
