@@ -113,9 +113,9 @@ export default class AttributeContainer {
     return false
   }
 
-  getLabel(attribute) {
-    if (this._definedTypes.has(attribute.pred)) {
-      return this.get(attribute.pred).getLabel(attribute.obj)
+  getLabel(pred, obj) {
+    if (this._definedTypes.has(pred)) {
+      return this.get(pred).getLabel(obj)
     }
 
     return

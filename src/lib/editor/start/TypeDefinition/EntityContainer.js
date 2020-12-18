@@ -28,7 +28,7 @@ export default class EntityContainer extends Container {
   }
 
   getAttributeLabel(attribute) {
-    return this._attributeContainer.getLabel(attribute)
+    return this._attributeContainer.getLabel(attribute.pred, attribute.obj)
   }
 
   getAttributeColor(attribute) {
