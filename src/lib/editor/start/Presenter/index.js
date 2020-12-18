@@ -26,7 +26,6 @@ export default class Presenter {
       commander,
       buttonController,
       originalData,
-      typeDefinition,
       autocompletionWs
     )
 

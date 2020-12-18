@@ -15,9 +15,10 @@ export default class EditMode {
     commander,
     buttonController,
     originalData,
-    typeDefinition,
     autocompletionWs
   ) {
+    const typeDefinition = annotationData.typeDefinition
+
     this._annotationData = annotationData
 
     this._editDenotation = new EditDenotation(
