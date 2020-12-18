@@ -76,9 +76,9 @@ export default function (
   }
 
   if (params.has('config_lock') && params.get('config_lock') === 'true') {
-    typeDefinition.lockEdit()
+    annotationData.typeDefinition.lockEdit()
   } else {
-    typeDefinition.unlockEdit()
+    annotationData.typeDefinition.unlockEdit()
   }
 
   originalData.annotation = initAnnotation(
