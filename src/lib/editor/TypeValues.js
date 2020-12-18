@@ -20,7 +20,7 @@ export default class TypeValues {
       label: this._label(namespace, typeContainer),
       href: this._href(namespace, typeContainer),
       color: typeContainer.getColor(this.typeName),
-      attributes: this._attributesForHtmlelementInfo(namespace, typeContainer)
+      attributes: this._attributesInHTMLElementContext(namespace, typeContainer)
     }
   }
 
@@ -36,7 +36,7 @@ export default class TypeValues {
     return getUri(namespace, this.typeName, typeContainer.getUri(this.typeName))
   }
 
-  _attributesForHtmlelementInfo(namespace, typeContainer) {
+  _attributesInHTMLElementContext(namespace, typeContainer) {
     return this.attributes.map((attr) => ({
       pred: attr.pred,
       obj: attr.obj,
