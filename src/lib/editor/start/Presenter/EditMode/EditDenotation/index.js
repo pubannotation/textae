@@ -17,8 +17,6 @@ export default class EditDenotation extends Edit {
     originalData,
     autocompletionWs
   ) {
-    const typeDefinition = annotationData.typeDefinition
-
     const spanEditor = new SpanEditor(
       editor,
       annotationData,
@@ -30,8 +28,8 @@ export default class EditDenotation extends Edit {
     const denotationPallet = new EntityAndAttributePallet(
       editor,
       originalData,
-      typeDefinition,
-      typeDefinition.denotation,
+      annotationData.typeDefinition,
+      annotationData.typeDefinition.denotation,
       selectionModel.entity
     )
     const attributeEditor = new AttributeEditor(
@@ -40,12 +38,12 @@ export default class EditDenotation extends Edit {
       annotationData,
       selectionModel,
       denotationPallet,
-      typeDefinition
+      annotationData.typeDefinition
     )
 
     const handler = new EditHandler(
       editor,
-      typeDefinition.denotation,
+      annotationData.typeDefinition.denotation,
       commander,
       annotationData,
       selectionModel,
@@ -65,8 +63,8 @@ export default class EditDenotation extends Edit {
       handler,
       denotationPallet,
       commander,
-      () => autocompletionWs || typeDefinition.autocompletionWs,
-      typeDefinition.denotation
+      () => autocompletionWs || annotationData.typeDefinition.autocompletionWs,
+      annotationData.typeDefinition.denotation
     )
 
     editor.eventEmitter
