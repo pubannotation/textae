@@ -13,8 +13,6 @@ export default function (
   dataAccessObject,
   buttonController
 ) {
-  const typeDefinition = annotationData.typeDefinition
-
   editor.eventEmitter
     .on('textae.annotation.load', (sourceType, source, annotation) => {
       setAnnotation(
@@ -86,7 +84,7 @@ export default function (
     .on('textae.configuration.save', () => {
       originalData.configuration = Object.assign(
         originalData.configuration,
-        typeDefinition.config
+        annotationData.typeDefinition.config
       )
     })
 }
