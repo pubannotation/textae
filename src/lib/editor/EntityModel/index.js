@@ -2,7 +2,7 @@ import TypeValues from '../TypeValues'
 import { makeEntityHTMLElementId } from '../idFactory'
 import mergeTypesOf from './mergeTypesOf'
 import SELECTED from '../SELECTED'
-import createEntityHtml from './createEntityHtml'
+import createEntityHTMLElement from './createEntityHTMLElement'
 import typeGapUnitHeight from '../typeGapUnitHeight'
 
 export default class EntityModel {
@@ -158,7 +158,7 @@ export default class EntityModel {
 
   renderElement(namespace, typeContainer) {
     const domInfo = this._toHtmlelementInfo(namespace, typeContainer)
-    return createEntityHtml(domInfo)
+    return createEntityHTMLElement(domInfo)
   }
 
   updateElement(namespace, typeContainer, isSelected) {
