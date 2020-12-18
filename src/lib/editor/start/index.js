@@ -15,7 +15,6 @@ import ButtonController from '../../ButtonController'
 import ClipBoard from './ClipBoard'
 import AnnotationAutoSaver from './AnnotationAutoSaver'
 import observe from './observe'
-import createTextBox from '../AnnotationData/createTextBox'
 
 export default function (
   editor,
