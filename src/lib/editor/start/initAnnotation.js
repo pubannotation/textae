@@ -18,7 +18,6 @@ export default function (
       const originalAnnotation = JSON.parse(annotation.get('inlineAnnotation'))
       setAnnotation(
         spanConfig,
-        typeDefinition,
         annotationData,
         originalAnnotation,
         config,

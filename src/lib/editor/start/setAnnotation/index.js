@@ -6,13 +6,14 @@ import setSpanAndTypeConfig from '../setSpanAndTypeConfig'
 
 export default function (
   spanConfig,
-  typeDefinition,
   annotationData,
   annotation,
   configUrl,
   dataAccessObject,
   buttonController
 ) {
+  const typeDefinition = annotationData.typeDefinition
+
   warningIfBeginEndOfSpanAreNotInteger(annotation)
 
   if (annotation.config) {

@@ -18,7 +18,6 @@ export default function (
     .on('textae.annotation.load', (sourceType, source, annotation) => {
       setAnnotation(
         spanConfig,
-        typeDefinition,
         annotationData,
         annotation,
         params.get('config'),
