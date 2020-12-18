@@ -19,7 +19,6 @@ export default class EventMap {
     this._editor = editor
     this._commander = commander
     this._selectionModel = selectionModel
-    this._typeDefinition = annotationData.typeDefinition
     this._annotationData = annotationData
     this._buttonController = buttonController
     this._spanConfig = spanConfig
@@ -48,7 +47,7 @@ export default class EventMap {
   }
 
   createEntity() {
-    createEntityHandler(this._commander, this._typeDefinition)
+    createEntityHandler(this._commander, this._annotationData.typeDefinition)
   }
 
   showPallet() {
@@ -85,7 +84,7 @@ export default class EventMap {
   showSettingDialog() {
     new SettingDialog(
       this._editor,
-      this._typeDefinition,
+      this._annotationData.typeDefinition,
       this._annotationData.entityGap,
       this._annotationData.textBox
     ).open()
