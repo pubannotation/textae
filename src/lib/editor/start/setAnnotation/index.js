@@ -22,7 +22,6 @@ export default function (
       annotation.config,
       `configuration in anntotaion file is invalid.`,
       spanConfig,
-      typeDefinition,
       annotationData,
       buttonController
     )

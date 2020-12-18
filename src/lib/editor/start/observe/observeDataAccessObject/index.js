@@ -64,7 +64,6 @@ export default function (
               source
             )} is not a configuration file or its format is invalid.`,
             spanConfig,
-            typeDefinition,
             annotationData,
             buttonController
           )

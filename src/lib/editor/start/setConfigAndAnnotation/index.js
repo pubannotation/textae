@@ -7,11 +7,12 @@ export default function (
   config,
   errorMessageForConfigValidation,
   spanConfig,
-  typeDefinition,
   annotationData,
   buttonController
 ) {
   console.assert(config, 'config is necessary')
+
+  const typeDefinition = annotationData.typeDefinition
 
   const validConfig = validateConfigurationAndAlert(
     annotation,
