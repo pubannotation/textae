@@ -95,7 +95,6 @@ export default function (
     dataAccessObject,
     history,
     annotationData,
-    typeDefinition,
     () => originalData.annotation,
     () => originalData.configuration,
     params.get('annotation').get('save_to')

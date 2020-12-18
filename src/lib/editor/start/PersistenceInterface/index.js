@@ -11,7 +11,6 @@ export default class PersistenceInterface {
     dataAccessObject,
     history,
     annotationData,
-    typeDefinition,
     getOriginalAnnotation,
     getOriginalConfig,
     saveToParameter
@@ -20,7 +19,7 @@ export default class PersistenceInterface {
     this._dataAccessObject = dataAccessObject
     this._history = history
     this._annotationData = annotationData
-    this._typeDefinition = typeDefinition
+    this._typeDefinition = annotationData.typeDefinition
     this._getOriginalAnnotation = getOriginalAnnotation
     this._getOriginalConfig = getOriginalConfig
     this._saveToParameter = saveToParameter
