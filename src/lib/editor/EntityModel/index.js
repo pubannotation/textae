@@ -160,17 +160,21 @@ export default class EntityModel {
     this.element.classList.remove(SELECTED)
   }
 
-  renderElement(namespace, typeContainer) {
+  renderElement(namespace, typeContainer, attributeContainer) {
     const contex = this._toHTMLElementContext(
       namespace,
       typeContainer,
-      typeContainer.attributeContainer
+      attributeContainer
     )
     return createEntityHTMLElement(contex)
   }
 
   updateElement(namespace, typeContainer, isSelected) {
-    const element = this.renderElement(namespace, typeContainer)
+    const element = this.renderElement(
+      namespace,
+      typeContainer,
+      typeContainer.attributeContainer
+    )
     this.element.replaceWith(element)
 
     // Re-select a new entity element.
