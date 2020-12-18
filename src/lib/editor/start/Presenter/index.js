@@ -16,8 +16,6 @@ export default class Presenter {
     autocompletionWs,
     mode
   ) {
-    const typeDefinition = annotationData.typeDefinition
-
     const editMode = new EditMode(
       editor,
       annotationData,
