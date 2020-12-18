@@ -157,8 +157,8 @@ export default class EntityModel {
   }
 
   renderElement(namespace, typeContainer) {
-    const domInfo = this._toHtmlelementInfo(namespace, typeContainer)
-    return createEntityHTMLElement(domInfo)
+    const contex = this._toHtmlelementInfo(namespace, typeContainer)
+    return createEntityHTMLElement(contex)
   }
 
   updateElement(namespace, typeContainer, isSelected) {
