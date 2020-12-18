@@ -14,10 +14,11 @@ export default class EditBlock extends Edit {
     spanConfig,
     commander,
     buttonController,
-    typeDefinition,
     originalData,
     autocompletionWs
   ) {
+    const typeDefinition = annotationData.typeDefinition
+
     const blockPallet = new EntityAndAttributePallet(
       editor,
       originalData,

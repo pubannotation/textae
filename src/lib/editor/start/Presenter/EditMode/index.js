@@ -39,7 +39,6 @@ export default class EditMode {
       spanConfig,
       commander,
       buttonController,
-      typeDefinition,
       originalData,
       autocompletionWs
     )
