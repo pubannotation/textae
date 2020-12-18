@@ -30,7 +30,6 @@ export default class Renderer {
 
     this._editor = editor
     this._annotationData = annotationData
-    this._typeDefinition = typeDefinition
   }
 
   arrangeRelationPositionAll() {
