@@ -31,6 +31,6 @@ const source = `
 `
 export const template = Handlebars.compile(source)
 
-export default function (domInfo) {
-  return template(domInfo)
+export default function (context) {
+  return template(context)
 }
