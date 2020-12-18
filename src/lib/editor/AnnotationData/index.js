@@ -12,6 +12,7 @@ import toBlocks from './toBlocks'
 import getReplicationRanges from './getReplicationRanges'
 import EntityGap from './EntityGap'
 import createTextBox from './createTextBox'
+import TypeDefinition from '../start/TypeDefinition'
 
 export default class AnnotationData {
   constructor(editor) {
@@ -89,5 +90,9 @@ export default class AnnotationData {
     // The span position also counts `\r\n` as a single character.
     // Replace `\r\n` with the single character `\n`.
     return this._sourceDoc.replaceAll(/\r\n/g, '\n')
+  }
+
+  get typeDefinition() {
+    return new TypeDefinition(this._editor, this)
   }
 }

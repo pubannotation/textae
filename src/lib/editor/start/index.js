@@ -1,7 +1,6 @@
 import alertifyjs from 'alertifyjs'
 import SpanConfig from './SpanConfig'
 import Commander from './Commander'
-import TypeDefinition from './TypeDefinition'
 import View from './View'
 import Presenter from './Presenter'
 import PersistenceInterface from './PersistenceInterface'
@@ -26,7 +25,7 @@ export default function (
   params
 ) {
   const spanConfig = new SpanConfig()
-  const typeDefinition = new TypeDefinition(editor, annotationData)
+  const typeDefinition = annotationData.typeDefinition
 
   // Users can edit model only via commands.
   const commander = new Commander(
