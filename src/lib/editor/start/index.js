@@ -52,7 +52,6 @@ export default function (
     buttonController,
     view,
     originalData,
-    typeDefinition,
     params.get('autocompletion_ws'),
     params.get('mode')
   )

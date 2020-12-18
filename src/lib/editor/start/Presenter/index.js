@@ -13,10 +13,11 @@ export default class Presenter {
     buttonController,
     view,
     originalData,
-    typeDefinition,
     autocompletionWs,
     mode
   ) {
+    const typeDefinition = annotationData.typeDefinition
+
     const editMode = new EditMode(
       editor,
       annotationData,
