@@ -4,28 +4,25 @@ import Container from './Container'
 import AttributeContainer from './AttributeContainer'
 
 export default class TypeDefinition {
-  constructor(editor, annotationData) {
+  constructor(editor, entity, relation, attribute) {
     this._editor = editor
     this._lockStateObservable = new Observable(false)
-    this._attributeContainer = new AttributeContainer(
-      this._editor,
-      annotationData.attribute
-    )
+    this._attributeContainer = new AttributeContainer(this._editor, attribute)
     this._denotationContainer = new EntityContainer(
       editor,
-      () => annotationData.entity.denotations,
+      () => entity.denotations,
       this._attributeContainer,
       this._lockStateObservable
     )
     this._relationContainer = new Container(
       editor,
       'relation',
-      () => annotationData.relation.all,
+      () => relation.all,
       this._lockStateObservable
     )
     this._blockContainer = new EntityContainer(
       editor,
-      () => annotationData.entity.blocks,
+      () => entity.blocks,
       this._attributeContainer,
       this._lockStateObservable
     )

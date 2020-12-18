@@ -93,6 +93,11 @@ export default class AnnotationData {
   }
 
   get typeDefinition() {
-    return new TypeDefinition(this._editor, this)
+    return new TypeDefinition(
+      this._editor,
+      this.entity,
+      this.relation,
+      this.attribute
+    )
   }
 }
