@@ -121,9 +121,9 @@ export default class AttributeContainer {
     return
   }
 
-  getColor(attribute) {
-    if (this._definedTypes.has(attribute.pred)) {
-      return this.get(attribute.pred).getColor(attribute.obj)
+  getColor(pred, obj) {
+    if (this._definedTypes.has(pred)) {
+      return this.get(pred).getColor(obj)
     }
   }
 
