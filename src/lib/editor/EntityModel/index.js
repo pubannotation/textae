@@ -165,7 +165,7 @@ export default class EntityModel {
   renderElement(namespace, attributeContainer) {
     const contex = this._toHTMLElementContext(
       namespace,
-      this.typeContainerFor,
+      this._typeContainerFor,
       attributeContainer
     )
     return createEntityHTMLElement(contex)
@@ -197,7 +197,7 @@ export default class EntityModel {
     }
   }
 
-  get typeContainerFor() {
+  get _typeContainerFor() {
     if (this.isDenotation) {
       return this._typeDefinition.denotation
     } else if (this.isBlock) {
