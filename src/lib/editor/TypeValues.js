@@ -15,14 +15,14 @@ export default class TypeValues {
     return this._attributes
   }
 
-  toHTMLElementContext(namespace, typeContainer) {
+  toHTMLElementContext(namespace, typeContainer, attributeContainer) {
     return {
       label: this._label(namespace, typeContainer),
       href: this._href(namespace, typeContainer),
       color: typeContainer.getColor(this.typeName),
       attributes: this._attributesInHTMLElementContext(
         namespace,
-        typeContainer.attributeContainer
+        attributeContainer
       )
     }
   }
