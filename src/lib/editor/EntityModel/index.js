@@ -158,7 +158,8 @@ export default class EntityModel {
   }
 
   renderElement(namespace, typeContainer) {
-    const html = createEntityHtml(this, namespace, typeContainer)
+    const domInfo = this.toHtmlelementInfo(namespace, typeContainer)
+    const html = createEntityHtml(domInfo)
     return dohtml.create(html)
   }
 
