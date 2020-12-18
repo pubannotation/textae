@@ -8,7 +8,6 @@ export default function (
   dataAccessObject,
   buttonController
 ) {
-  const typeDefinition = annotationData.typeDefinition
   const annotation = params.get('annotation')
   const config = params.get('config')
 
