@@ -5,16 +5,13 @@ import EntityModel from '../../../../EntityModel'
 export default class EntityRenderer {
   constructor(annotationData, selectionModel) {
     this._annotationData = annotationData
-    this._typeContainerForDenotation = annotationData.typeDefinition.denotation
-    this._typeContainerForBlock = annotationData.typeDefinition.block
-    this._typeContainerForAttirbute = annotationData.typeDefinition.attribute
     this._selectionModel = selectionModel
   }
 
   render(entity) {
     create(
       this._getTypeContainerFor(entity),
-      this._typeContainerForAttirbute,
+      this._annotationData.typeDefinition.attribute,
       entity,
       this._annotationData.namespace
     )
@@ -26,7 +23,7 @@ export default class EntityRenderer {
     entity.updateElement(
       this._annotationData.namespace,
       this._getTypeContainerFor(entity),
-      this._typeContainerForAttirbute,
+      this._annotationData.typeDefinition.attribute,
       this._selectionModel.entity.has(entity.id)
     )
 
@@ -67,9 +64,9 @@ export default class EntityRenderer {
 
   _getTypeContainerFor(entity) {
     if (entity.isDenotation) {
-      return this._typeContainerForDenotation
+      return this._annotationData.typeDefinition.denotation
     } else if (entity.isBlock) {
-      return this._typeContainerForBlock
+      return this._annotationData.typeDefinition.block
     } else {
       throw 'unknown entity type'
     }
