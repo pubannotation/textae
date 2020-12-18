@@ -121,7 +121,6 @@ export default function (
     history,
     annotationData,
     spanConfig,
-    typeDefinition,
     params,
     statusBar,
     originalData,

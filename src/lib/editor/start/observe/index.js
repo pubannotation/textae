@@ -9,7 +9,6 @@ export default function (
   history,
   annotationData,
   spanConfig,
-  typeDefinition,
   params,
   statusBar,
   originalData,
@@ -21,7 +20,7 @@ export default function (
   observeDataAccessObject(
     editor,
     spanConfig,
-    typeDefinition,
+    annotationData.typeDefinition,
     annotationData,
     params,
     statusBar,
