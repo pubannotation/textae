@@ -20,7 +20,6 @@ export default function (
   observeDataAccessObject(
     editor,
     spanConfig,
-    annotationData.typeDefinition,
     annotationData,
     params,
     statusBar,
