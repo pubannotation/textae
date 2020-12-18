@@ -95,7 +95,7 @@ export default class EntityModel {
         id: makeEntityHTMLElementId(this._editor, this.id),
         title: this.id
       },
-      this.typeValues.toHtmlelementInfo(namespace, typeContainer)
+      this.typeValues.toHTMLElementContext(namespace, typeContainer)
     )
   }
 

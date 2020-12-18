@@ -15,7 +15,7 @@ export default class TypeValues {
     return this._attributes
   }
 
-  toHtmlelementInfo(namespace, typeContainer) {
+  toHTMLElementContext(namespace, typeContainer) {
     return {
       label: this._label(namespace, typeContainer),
       href: this._href(namespace, typeContainer),
