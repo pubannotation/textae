@@ -48,7 +48,6 @@ export default class EditMode {
       annotationData,
       selectionModel,
       commander,
-      typeDefinition,
       originalData,
       autocompletionWs
     )

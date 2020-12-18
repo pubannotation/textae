@@ -10,10 +10,11 @@ export default class EditRelation extends Edit {
     annotationData,
     selectionModel,
     commander,
-    typeDefinition,
     originalData,
     autocompletionWs
   ) {
+    const typeDefinition = annotationData.typeDefinition
+
     const relationPallet = new RelationPallet(
       editor,
       originalData,
