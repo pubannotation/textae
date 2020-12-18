@@ -40,7 +40,7 @@ export default function (
     selectionModel,
     clipBoard
   )
-  const view = new View(editor, annotationData, selectionModel, typeDefinition)
+  const view = new View(editor, annotationData, selectionModel)
   const originalData = new OriginalData()
   const presenter = new Presenter(
     editor,
