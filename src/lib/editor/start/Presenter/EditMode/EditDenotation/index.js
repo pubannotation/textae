@@ -13,11 +13,12 @@ export default class EditDenotation extends Edit {
     selectionModel,
     commander,
     buttonController,
-    typeDefinition,
     spanConfig,
     originalData,
     autocompletionWs
   ) {
+    const typeDefinition = annotationData.typeDefinition
+
     const spanEditor = new SpanEditor(
       editor,
       annotationData,
