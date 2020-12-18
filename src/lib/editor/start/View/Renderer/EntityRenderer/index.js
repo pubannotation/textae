@@ -22,7 +22,6 @@ export default class EntityRenderer {
   change(entity) {
     entity.updateElement(
       this._annotationData.namespace,
-      entity.typeContainerFor,
       this._annotationData.typeDefinition.attribute,
       this._selectionModel.entity.has(entity.id)
     )
