@@ -1,4 +1,3 @@
-import dohtml from 'dohtml'
 import TypeValues from '../TypeValues'
 import { makeEntityHTMLElementId } from '../idFactory'
 import mergeTypesOf from './mergeTypesOf'
@@ -159,8 +158,7 @@ export default class EntityModel {
 
   renderElement(namespace, typeContainer) {
     const domInfo = this._toHtmlelementInfo(namespace, typeContainer)
-    const html = createEntityHtml(domInfo)
-    return dohtml.create(html)
+    return createEntityHtml(domInfo)
   }
 
   updateElement(namespace, typeContainer, isSelected) {

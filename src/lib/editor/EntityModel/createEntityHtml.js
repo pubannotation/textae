@@ -1,4 +1,5 @@
 import Handlebars from 'handlebars'
+import dohtml from 'dohtml'
 
 // A Type element has an entity_pane elment that has a label and will have entities.
 // jsPlumb requires the id of the DOM which is the endpoint for drawing relationships.
@@ -32,5 +33,5 @@ const source = `
 export const template = Handlebars.compile(source)
 
 export default function (context) {
-  return template(context)
+  return dohtml.create(template(context))
 }
