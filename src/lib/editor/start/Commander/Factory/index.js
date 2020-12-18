@@ -29,11 +29,11 @@ import RemoveValueFromAttributeDefinitionCommand from './RemoveValueFromAttribut
 import ToggleFlagAttributeToSelectedEntitiesCommand from './ToggleFlagAttributeToSelectedEntitiesCommand'
 
 export default class Factory {
-  constructor(editor, annotationData, selectionModel, typeDefinition) {
+  constructor(editor, annotationData, selectionModel) {
     this._editor = editor
     this._annotationData = annotationData
     this._selectionModel = selectionModel
-    this._typeDefinition = typeDefinition
+    this._typeDefinition = annotationData.typeDefinition
   }
 
   addValueToAttributeDefinitionCommand(attributeDefinition, value) {
