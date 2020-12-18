@@ -20,7 +20,7 @@ export default class EntityRenderer {
   render(entity) {
     create(
       this._getTypeContainerFor(entity),
-      this._getTypeContainerFor(entity).attributeContainer,
+      this._attributeContainer,
       entity,
       this._annotationData.namespace
     )
