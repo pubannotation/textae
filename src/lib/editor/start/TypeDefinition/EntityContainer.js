@@ -27,14 +27,6 @@ export default class EntityContainer extends Container {
     return this._attributeContainer.isSelectionAttributeValueIndelible(pred, id)
   }
 
-  getAttributeLabel(pred, obj) {
-    return this._attributeContainer.getLabel(pred, obj)
-  }
-
-  getAttributeColor(pred, obj) {
-    return this._attributeContainer.getColor(pred, obj)
-  }
-
   get attributeContainer() {
     return this._attributeContainer
   }
