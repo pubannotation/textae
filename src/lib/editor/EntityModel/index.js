@@ -89,7 +89,7 @@ export default class EntityModel {
     )
   }
 
-  _toHtmlelementInfo(namespace, typeContainer) {
+  _toHTMLElementContext(namespace, typeContainer) {
     return Object.assign(
       {
         id: makeEntityHTMLElementId(this._editor, this.id),
@@ -157,7 +157,7 @@ export default class EntityModel {
   }
 
   renderElement(namespace, typeContainer) {
-    const contex = this._toHtmlelementInfo(namespace, typeContainer)
+    const contex = this._toHTMLElementContext(namespace, typeContainer)
     return createEntityHTMLElement(contex)
   }
 
