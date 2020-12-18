@@ -11,7 +11,6 @@ export default class Commander {
     this._annotationData = annotationData
     this._selectionModel = selectionModel
     this._history = history
-    this._typeDefinition = annotationData.typeDefinition
   }
 
   invoke(command) {
@@ -58,7 +57,7 @@ export default class Commander {
       this._editor,
       this._annotationData,
       this._selectionModel,
-      this._typeDefinition
+      this._annotationData.typeDefinition
     )
   }
 }
