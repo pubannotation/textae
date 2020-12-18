@@ -8,7 +8,6 @@ export default class RelationRenderer {
     this._editor = editor
     this._annotationData = annotationData
     this._selectionModel = selectionModel
-    this._typeDefinition = annotationData.typeDefinition
     this._jsPlumbInstance = makeJsPlumbInstance(getAnnotationBox(editor))
   }
 
@@ -22,7 +21,7 @@ export default class RelationRenderer {
           this._annotationData,
           relation,
           this._jsPlumbInstance,
-          this._typeDefinition
+          this._annotationData.typeDefinition
         )
       }
     }
@@ -41,7 +40,11 @@ export default class RelationRenderer {
   }
 
   change(relation) {
-    changeType(this._annotationData, this._typeDefinition, relation)
+    changeType(
+      this._annotationData,
+      this._annotationData.typeDefinition,
+      relation
+    )
   }
 
   changeType(typeName) {
@@ -52,14 +55,22 @@ export default class RelationRenderer {
         (typeName.lastIndexOf('*') === typeName.length - 1 &&
           relation.typeName.indexOf(typeName.slice(0, -1) === 0))
       ) {
-        changeType(this._annotationData, this._typeDefinition, relation)
+        changeType(
+          this._annotationData,
+          this._annotationData.typeDefinition,
+          relation
+        )
       }
     }
   }
 
   changeAll() {
     this._annotationData.relation.all.map((relation) => {
-      changeType(this._annotationData, this._typeDefinition, relation)
+      changeType(
+        this._annotationData,
+        this._annotationData.typeDefinition,
+        relation
+      )
     })
   }
 
