@@ -2,13 +2,13 @@ import setAnnotation from './setAnnotation'
 
 export default function (
   spanConfig,
-  typeDefinition,
   annotationData,
   statusBar,
   params,
   dataAccessObject,
   buttonController
 ) {
+  const typeDefinition = annotationData.typeDefinition
   const annotation = params.get('annotation')
   const config = params.get('config')
 

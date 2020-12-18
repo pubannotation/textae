@@ -83,7 +83,6 @@ export default function (
 
   originalData.annotation = initAnnotation(
     spanConfig,
-    typeDefinition,
     annotationData,
     statusBar,
     params,
