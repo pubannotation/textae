@@ -9,7 +9,6 @@ export default class EventMap {
     editor,
     commander,
     selectionModel,
-    typeDefinition,
     annotationData,
     buttonController,
     spanConfig,
@@ -20,7 +19,7 @@ export default class EventMap {
     this._editor = editor
     this._commander = commander
     this._selectionModel = selectionModel
-    this._typeDefinition = typeDefinition
+    this._typeDefinition = annotationData.typeDefinition
     this._annotationData = annotationData
     this._buttonController = buttonController
     this._spanConfig = spanConfig

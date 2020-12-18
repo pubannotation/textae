@@ -35,7 +35,6 @@ export default class Presenter {
       editor,
       commander,
       selectionModel,
-      typeDefinition,
       annotationData,
       buttonController,
       spanConfig,
