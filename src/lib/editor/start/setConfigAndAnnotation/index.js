@@ -12,8 +12,6 @@ export default function (
 ) {
   console.assert(config, 'config is necessary')
 
-  const typeDefinition = annotationData.typeDefinition
-
   const validConfig = validateConfigurationAndAlert(
     annotation,
     config,
@@ -25,7 +23,7 @@ export default function (
   }
 
   setPushBUttons(validConfig, buttonController)
-  setSpanAndTypeConfig(spanConfig, typeDefinition, validConfig)
+  setSpanAndTypeConfig(spanConfig, annotationData.typeDefinition, validConfig)
   annotationData.reset(annotation)
   return true
 }
