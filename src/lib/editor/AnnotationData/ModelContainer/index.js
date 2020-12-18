@@ -1,5 +1,3 @@
-import isFunction from './isFunction'
-
 export default class ModelContainer {
   constructor(emitter, name) {
     this._emitter = emitter
