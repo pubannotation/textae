@@ -19,7 +19,6 @@ export default class PersistenceInterface {
     this._dataAccessObject = dataAccessObject
     this._history = history
     this._annotationData = annotationData
-    this._typeDefinition = annotationData.typeDefinition
     this._getOriginalAnnotation = getOriginalAnnotation
     this._getOriginalConfig = getOriginalConfig
     this._saveToParameter = saveToParameter
@@ -80,7 +79,7 @@ export default class PersistenceInterface {
     const editidConfig = Object.assign(
       {},
       this._getOriginalConfig(),
-      this._typeDefinition.config
+      this._annotationData.typeDefinition.config
     )
 
     new SaveConfigurationDialog(
@@ -97,7 +96,7 @@ export default class PersistenceInterface {
     return mergeAnnotation(
       this._getOriginalAnnotation(),
       this._annotationData,
-      this._typeDefinition.config
+      this._annotationData.typeDefinition.config
     )
   }
 }
