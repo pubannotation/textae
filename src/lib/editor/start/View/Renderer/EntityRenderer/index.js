@@ -10,7 +10,6 @@ export default class EntityRenderer {
 
   render(entity) {
     create(
-      entity.typeContainerFor,
       this._annotationData.typeDefinition.attribute,
       entity,
       this._annotationData.namespace
