@@ -25,7 +25,6 @@ export default function (
   params
 ) {
   const spanConfig = new SpanConfig()
-  const typeDefinition = annotationData.typeDefinition
 
   // Users can edit model only via commands.
   const commander = new Commander(
