@@ -33,12 +33,11 @@ export default class Factory {
     this._editor = editor
     this._annotationData = annotationData
     this._selectionModel = selectionModel
-    this._typeDefinition = annotationData.typeDefinition
   }
 
   addValueToAttributeDefinitionCommand(attributeDefinition, value) {
     return new AddValueToAttributeDefinitionCommand(
-      this._typeDefinition.attribute,
+      this._annotationData.typeDefinition.attribute,
       attributeDefinition.JSON,
       value
     )
@@ -47,7 +46,7 @@ export default class Factory {
   changeAttributeDefinitionCommand(attributeDefinition, changedProperties) {
     return new ChangeAttributeDefinitionAndRefectInstancesCommand(
       this._annotationData,
-      this._typeDefinition.attribute,
+      this._annotationData.typeDefinition.attribute,
       attributeDefinition,
       changedProperties
     )
@@ -61,7 +60,7 @@ export default class Factory {
     return new ChangeAttributesOfSelectedEntitiesWithSamePred(
       this._annotationData,
       this._selectionModel,
-      this._typeDefinition.denotation,
+      this._annotationData.typeDefinition.denotation,
       attributeDefinition,
       newObj,
       newLabel
@@ -100,7 +99,7 @@ export default class Factory {
     return new ChangeTypeDefinitionAndRefectInstancesCommand(
       this._editor,
       this._annotationData,
-      this._typeDefinition[configType],
+      this._annotationData.typeDefinition[configType],
       configType,
       annotationType,
       id,
@@ -134,7 +133,7 @@ export default class Factory {
   ) {
     return new ChangeValueOfAttributeDefinitionAndObjectOfSelectionAttributeCommand(
       this._annotationData,
-      this._typeDefinition.attribute,
+      this._annotationData.typeDefinition.attribute,
       attributeDefinition,
       index,
       value
@@ -143,7 +142,7 @@ export default class Factory {
 
   createAttributeDefinitionCommand(attributeDefinition) {
     return new CreateAttributeDefinitionCommand(
-      this._typeDefinition.attribute,
+      this._annotationData.typeDefinition.attribute,
       attributeDefinition
     )
   }
@@ -165,7 +164,7 @@ export default class Factory {
       this._selectionModel,
       newSpan.begin,
       newSpan.end,
-      this._typeDefinition.block.defaultType
+      this._annotationData.typeDefinition.block.defaultType
     )
   }
 
@@ -197,7 +196,7 @@ export default class Factory {
       this._annotationData,
       this._selectionModel,
       newSpan,
-      this._typeDefinition.denotation.defaultType,
+      this._annotationData.typeDefinition.denotation.defaultType,
       isReplicateAuto,
       isDelimiterFunc
     )
@@ -206,21 +205,21 @@ export default class Factory {
   createTypeDefinitionCommand(modelType, newType) {
     return new CreateTypeDefinitionCommand(
       this._editor,
-      this._typeDefinition[modelType],
+      this._annotationData.typeDefinition[modelType],
       newType
     )
   }
 
   deleteAttributeDefinitionCommand(attributeDefinition) {
     return new DeleteAttributeDefinitionCommand(
-      this._typeDefinition.attribute,
+      this._annotationData.typeDefinition.attribute,
       attributeDefinition
     )
   }
 
   moveAttributeDefintionComannd(oldIndex, newIndex) {
     return new MoveAttributeDefinitionCommand(
-      this._typeDefinition.attribute,
+      this._annotationData.typeDefinition.attribute,
       oldIndex,
       newIndex
     )
@@ -297,14 +296,14 @@ export default class Factory {
   removeTypeDefinitionCommand(modelType, removeType) {
     return new RemoveTypeDefinitionCommand(
       this._editor,
-      this._typeDefinition[modelType],
+      this._annotationData.typeDefinition[modelType],
       removeType
     )
   }
 
   removeValueFromAttributeDefinitionCommand(attributeDefinition, index) {
     return new RemoveValueFromAttributeDefinitionCommand(
-      this._typeDefinition.attribute,
+      this._annotationData.typeDefinition.attribute,
       attributeDefinition.JSON,
       index
     )
