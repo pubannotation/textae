@@ -9,7 +9,8 @@ export default class Renderer {
       annotationData,
       selectionModel,
       typeDefinition.denotation,
-      typeDefinition.block
+      typeDefinition.block,
+      typeDefinition.attribute
     )
     this._relationRenderer = new RelationRenderer(
       editor,

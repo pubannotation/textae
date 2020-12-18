@@ -7,11 +7,13 @@ export default class EntityRenderer {
     annotationData,
     selectionModel,
     typeCantainerForDenotation,
-    typeCantainerForBlock
+    typeCantainerForBlock,
+    attributeContainer
   ) {
     this._annotationData = annotationData
     this._typeContainerForDenotation = typeCantainerForDenotation
     this._typeContainerForBlock = typeCantainerForBlock
+    this._attributeContainer = attributeContainer
     this._selectionModel = selectionModel
   }
 
