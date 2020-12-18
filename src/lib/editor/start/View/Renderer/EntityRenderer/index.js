@@ -3,17 +3,11 @@ import destroy from './destroy'
 import EntityModel from '../../../../EntityModel'
 
 export default class EntityRenderer {
-  constructor(
-    annotationData,
-    selectionModel,
-    typeCantainerForDenotation,
-    typeCantainerForBlock,
-    typeContainerForAttribete
-  ) {
+  constructor(annotationData, selectionModel) {
     this._annotationData = annotationData
-    this._typeContainerForDenotation = typeCantainerForDenotation
-    this._typeContainerForBlock = typeCantainerForBlock
-    this._typeContainerForAttirbute = typeContainerForAttribete
+    this._typeContainerForDenotation = annotationData.typeDefinition.denotation
+    this._typeContainerForBlock = annotationData.typeDefinition.block
+    this._typeContainerForAttirbute = annotationData.typeDefinition.attribute
     this._selectionModel = selectionModel
   }
 
