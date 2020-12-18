@@ -13,16 +13,14 @@ export default class EditRelation extends Edit {
     originalData,
     autocompletionWs
   ) {
-    const typeDefinition = annotationData.typeDefinition
-
     const relationPallet = new RelationPallet(
       editor,
       originalData,
-      typeDefinition
+      annotationData.typeDefinition
     )
 
     const handler = new EditHandler(
-      typeDefinition.relation,
+      annotationData.typeDefinition.relation,
       commander,
       annotationData,
       selectionModel
@@ -35,14 +33,14 @@ export default class EditRelation extends Edit {
         editor,
         selectionModel,
         commander,
-        typeDefinition,
+        annotationData.typeDefinition,
         relationPallet
       ),
       handler,
       relationPallet,
       commander,
-      () => autocompletionWs || typeDefinition.autocompletionWs,
-      typeDefinition.relation
+      () => autocompletionWs || annotationData.typeDefinition.autocompletionWs,
+      annotationData.typeDefinition.relation
     )
 
     editor.eventEmitter
