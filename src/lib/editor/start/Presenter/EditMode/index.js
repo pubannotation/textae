@@ -17,8 +17,6 @@ export default class EditMode {
     originalData,
     autocompletionWs
   ) {
-    const typeDefinition = annotationData.typeDefinition
-
     this._annotationData = annotationData
 
     this._editDenotation = new EditDenotation(
@@ -72,7 +70,6 @@ export default class EditMode {
       () => (this._listeners = this._editRelation.init())
     )
 
-    this._typeDefinition = typeDefinition
     this._autocompletionWsFromParams = autocompletionWs
     this._selectionModel = selectionModel
 
@@ -172,7 +169,8 @@ export default class EditMode {
 
   changeLabel() {
     this._getHandler().changeLabelHandler(
-      this._autocompletionWsFromParams || this._typeDefinition.autocompletionWs
+      this._autocompletionWsFromParams ||
+        this._annotationData.typeDefinition.autocompletionWs
     )
   }
 
