@@ -17,13 +17,11 @@ export default class EditBlock extends Edit {
     originalData,
     autocompletionWs
   ) {
-    const typeDefinition = annotationData.typeDefinition
-
     const blockPallet = new EntityAndAttributePallet(
       editor,
       originalData,
-      typeDefinition,
-      typeDefinition.block,
+      annotationData.typeDefinition,
+      annotationData.typeDefinition.block,
       selectionModel.entity
     )
 
@@ -33,11 +31,11 @@ export default class EditBlock extends Edit {
       annotationData,
       selectionModel,
       blockPallet,
-      typeDefinition
+      annotationData.typeDefinition
     )
     const handler = new EditHandler(
       editor,
-      typeDefinition.block,
+      annotationData.typeDefinition.block,
       commander,
       annotationData,
       selectionModel,
@@ -66,8 +64,8 @@ export default class EditBlock extends Edit {
       handler,
       blockPallet,
       commander,
-      () => autocompletionWs || typeDefinition.autocompletionWs,
-      typeDefinition.block
+      () => autocompletionWs || annotationData.typeDefinition.autocompletionWs,
+      annotationData.typeDefinition.block
     )
 
     editor.eventEmitter
