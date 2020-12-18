@@ -20,7 +20,10 @@ export default class TypeValues {
       label: this._label(namespace, typeContainer),
       href: this._href(namespace, typeContainer),
       color: typeContainer.getColor(this.typeName),
-      attributes: this._attributesInHTMLElementContext(namespace, typeContainer)
+      attributes: this._attributesInHTMLElementContext(
+        namespace,
+        typeContainer.attributeContainer
+      )
     }
   }
 
@@ -36,7 +39,7 @@ export default class TypeValues {
     return getUri(namespace, this.typeName, typeContainer.getUri(this.typeName))
   }
 
-  _attributesInHTMLElementContext(namespace, typeContainer) {
+  _attributesInHTMLElementContext(namespace, attributeContainer) {
     return this.attributes.map(({ pred, obj }) => ({
       pred,
       obj,
@@ -44,10 +47,10 @@ export default class TypeValues {
       label: getLabel(
         namespace,
         typeof obj === 'string' ? obj : '',
-        typeContainer.attributeContainer.getLabel(pred, obj)
+        attributeContainer.getLabel(pred, obj)
       ),
       href: getUri(namespace, typeof obj === 'string' ? obj : ''),
-      color: typeContainer.attributeContainer.getColor(pred, obj)
+      color: attributeContainer.getColor(pred, obj)
     }))
   }
 }
