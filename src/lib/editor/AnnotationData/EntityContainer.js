@@ -37,6 +37,7 @@ export default class EntityContainer extends IdIssueContainer {
       this._attributeContainer,
       this._relationContainer,
       this._entityGap,
+      this._parentContainer.typeDefinition,
       this._getSpan(type, denotation),
       denotation.obj,
       denotation.id
@@ -58,6 +59,7 @@ export default class EntityContainer extends IdIssueContainer {
         this._attributeContainer,
         this._relationContainer,
         this._entityGap,
+        this._parentContainer.typeDefinition,
         this._spanContainer.get(newValue.span),
         newValue.typeName
       )

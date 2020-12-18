@@ -10,7 +10,7 @@ export default class EntityRenderer {
 
   render(entity) {
     create(
-      this._getTypeContainerFor(entity),
+      entity.typeContainerFor,
       this._annotationData.typeDefinition.attribute,
       entity,
       this._annotationData.namespace
@@ -22,7 +22,7 @@ export default class EntityRenderer {
   change(entity) {
     entity.updateElement(
       this._annotationData.namespace,
-      this._getTypeContainerFor(entity),
+      entity.typeContainerFor,
       this._annotationData.typeDefinition.attribute,
       this._selectionModel.entity.has(entity.id)
     )

@@ -11,6 +11,7 @@ export default class EntityModel {
     attributeContainer,
     relationContaier,
     entityGap,
+    typeDefinition,
     span,
     typeName,
     id = null
@@ -22,6 +23,7 @@ export default class EntityModel {
     this._attributeContainer = attributeContainer
     this._relationContaier = relationContaier
     this._entityGap = entityGap
+    this._typeDefinition = typeDefinition
   }
 
   static mergedTypesOf(entities) {
@@ -196,6 +198,16 @@ export default class EntityModel {
           `padding-top: ${typeGapUnitHeight * this._entityGap.value}px;`
         )
       }
+    }
+  }
+
+  get typeContainerFor() {
+    if (this.isDenotation) {
+      return this._typeDefinition.denotation
+    } else if (this.isBlock) {
+      return this._typeDefinition.block
+    } else {
+      throw 'unknown entity type'
     }
   }
 }
