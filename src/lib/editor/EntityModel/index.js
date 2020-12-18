@@ -169,11 +169,11 @@ export default class EntityModel {
     return createEntityHTMLElement(contex)
   }
 
-  updateElement(namespace, typeContainer, isSelected) {
+  updateElement(namespace, typeContainer, attributeContainer, isSelected) {
     const element = this.renderElement(
       namespace,
       typeContainer,
-      typeContainer.attributeContainer
+      attributeContainer
     )
     this.element.replaceWith(element)
 
