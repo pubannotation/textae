@@ -1,4 +1,4 @@
-import Handlebars from 'handlebars'
+import compileHandlebarsTemplate from './compileHandlebarsTemplate'
 
 const source = `
 <div class="textae-editor__edit-value-and-pred-dialog__container">
@@ -11,7 +11,7 @@ const source = `
     <input class="textae-editor__edit-value-and-pred-dialog--value" type="number" min="{{min}}" max="{{max}}" step="{{step}}" value="{{value}}">
   </div>
 </div>`
-const template = Handlebars.compile(source)
+const template = compileHandlebarsTemplate(source)
 
 export default function createContentHtml(context) {
   return template(context)
