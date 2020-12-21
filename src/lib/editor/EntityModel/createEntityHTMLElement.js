@@ -1,12 +1,12 @@
-import Handlebars from 'handlebars'
 import dohtml from 'dohtml'
+import compileHandlebarsTemplate from '../../compileHandlebarsTemplate'
 
 // A Type element has an entity_pane elment that has a label and will have entities.
 // jsPlumb requires the id of the DOM which is the endpoint for drawing relationships.
 // If the endpoint doesn't have an id, jsPlumb will set it,
 // and the id will be lost when redrawing the Entity's DOM.
 // To prevent this from happening, set the id of the endpoint DOM.
-const source = `
+const template = compileHandlebarsTemplate(`
 <div class="textae-editor__entity" id="{{id}}" title="{{title}}">
   <div class="textae-editor__entity__type-values" id="jsPlumb_{{id}}" style="background-color: {{color}}">
     <div class="textae-editor__entity__type-label" tabindex="0">
@@ -29,8 +29,7 @@ const source = `
     {{/each}}
   </div>
 </div>
-`
-export const template = Handlebars.compile(source)
+`)
 
 export default function (context) {
   return dohtml.create(template(context))
