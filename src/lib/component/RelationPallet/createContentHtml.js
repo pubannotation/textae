@@ -79,10 +79,6 @@ const html = `
 
 const template = Handlebars.compile(html)
 
-export default function (typeContainer, hasDiff) {
-  return template({
-    isLock: typeContainer.isLock,
-    hasDiff,
-    types: typeContainer.pallet
-  })
+export default function (context) {
+  return template(context)
 }

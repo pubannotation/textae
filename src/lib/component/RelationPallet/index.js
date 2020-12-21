@@ -13,16 +13,19 @@ export default class RelationPallet extends Pallet {
   }
 
   get _content() {
-    return createContentHtml(
-      this._typeContainer,
-      diff(
+    const hasDiff = diff(
+      this._originalData.configuration,
+      Object.assign(
+        {},
         this._originalData.configuration,
-        Object.assign(
-          {},
-          this._originalData.configuration,
-          this._typeDefinition.config
-        )
+        this._typeDefinition.config
       )
     )
+
+    return createContentHtml({
+      isLock: this._typeContainer.isLock,
+      hasDiff,
+      types: this._typeContainer.pallet
+    })
   }
 }
