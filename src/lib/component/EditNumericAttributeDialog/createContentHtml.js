@@ -13,6 +13,6 @@ const source = `
 </div>`
 const template = Handlebars.compile(source)
 
-export default function createContentHtml(conttent) {
-  return template(conttent)
+export default function createContentHtml(context) {
+  return template(context)
 }
