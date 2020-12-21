@@ -20,9 +20,7 @@ export default class SaveConfigurationDialog extends Dialog {
         url,
         diff: jsonDiff(originalData, editedData) || 'nothing.'
       }),
-      {
-        label: 'Cancel'
-      },
+      'Cancel',
       {
         width: 550
       }

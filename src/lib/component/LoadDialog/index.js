@@ -8,9 +8,7 @@ const CONFIRM_DISCARD_CHANGE_MESSAGE =
 
 export default class LoadDialog extends Dialog {
   constructor(title, url, loadFromServer, readFromFile, hasChange) {
-    super(title, createContentHtml({ url }), {
-      label: 'Cancel'
-    })
+    super(title, createContentHtml({ url }), 'Cancel')
 
     // Disabled the button to load from the URL when no URL.
     delegate(super.el, '[type="text"].url', 'input', (e) => {

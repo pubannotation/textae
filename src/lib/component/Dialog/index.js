@@ -16,7 +16,7 @@ export default class Dialog {
       Object.assign(option, {
         buttons: [
           {
-            text: button.label,
+            text: button,
             click: () => this.close()
           }
         ]

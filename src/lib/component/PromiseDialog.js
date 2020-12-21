@@ -3,7 +3,7 @@ import Dialog from './Dialog'
 
 export default class PromiseDialog extends Dialog {
   constructor(title, contentHtml, option, observableClass, getResultsFunc) {
-    super(title, contentHtml, { label: 'OK' }, option)
+    super(title, contentHtml, 'OK', option)
 
     this.promise = new Promise((resolve) => {
       const onClick = () => {
