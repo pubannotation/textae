@@ -34,6 +34,12 @@ export default class Dialog {
     return this._el
   }
 
+  get button() {
+    return this._$dialog
+      .dialog('widget')[0]
+      .querySelector('.ui-dialog-buttonpane button')
+  }
+
   open() {
     this._$dialog.dialog(
       Object.assign(
