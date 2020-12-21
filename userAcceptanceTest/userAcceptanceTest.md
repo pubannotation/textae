@@ -8,35 +8,6 @@
 4.  ブラウザの開発ツールを起動します。
 5.  以下のテストを実行して、エラーが出ないこと
 
-## StyleSpan 上で mouseup して、StypleSpan 上で mousedow する
-
-### 背景
-
-1.  6.1.58 で StyleSpan 上で mouseup して、StypleSpan 上で mousedow したときに Span を作れるようにしました。
-2.  6.1.59 で Span を作れない場合に、テキストの選択を解除するようにしました。
-
-### テキスト上の StyleSpan と StyleSpan
-
-1.  Editor1 を選択
-2.  既存の Span を消してテキスト上に 2 つの StyleSpan を並べる
-3.  StyleSpan 上で mouseup して、StypleSpan 上で mousedow する
-4.  Span が作成されること
-
-### Span 上の StyleSpan と StyleSpan
-
-1.  Editor1 を選択
-2.  既存の Span をいい感じに編集して、一つの Span の上に 2 つの StyleSpan を並べる
-3.  StyleSpan 上で mouseup して、StypleSpan 上で mousedow する
-4.  Span が作成されること
-
-### 片方だけ Span 上の StyleSpan と StyleSpan
-
-1.  Editor1 を選択
-2.  既存の Span をいい感じに編集して、一つを Span の上 StyleSpan、一つをテキスト上の StyleSpan にする
-3.  StyleSpan 上で mouseup して、StypleSpan 上で mousedow する
-4.  Span が作成されないこと
-5.  テキストの選択が解除されること
-
 ## StyleSpan 上で mousedown して、Span 上で mouseup する
 
 ### 背景
