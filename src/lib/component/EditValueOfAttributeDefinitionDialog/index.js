@@ -2,7 +2,6 @@ import PromiseDialog from '../PromiseDialog'
 import createContentHtml from './createContentHtml'
 import getInputElementValue from '../getInputElementValue'
 import IntervalNotation from '../../IntervalNotation'
-import { getOkButton } from './getOkButton'
 
 export default class EditValueOfAttributeDefinitionDialog extends PromiseDialog {
   constructor(valueType, value = {}) {
@@ -92,9 +91,9 @@ export default class EditValueOfAttributeDefinitionDialog extends PromiseDialog 
           const value = e.target.value
           try {
             new IntervalNotation(value)
-            getOkButton(super.el).removeAttribute('disabled')
+            super.button.removeAttribute('disabled')
           } catch (error) {
-            getOkButton(super.el).setAttribute('disabled', 'disabled')
+            super.button.setAttribute('disabled', 'disabled')
           }
         })
     }
@@ -109,9 +108,9 @@ export default class EditValueOfAttributeDefinitionDialog extends PromiseDialog 
           const value = e.target.value
           try {
             new RegExp(value)
-            getOkButton(super.el).removeAttribute('disabled')
+            super.button.removeAttribute('disabled')
           } catch (error) {
-            getOkButton(super.el).setAttribute('disabled', 'disabled')
+            super.button.setAttribute('disabled', 'disabled')
           }
         })
     }
@@ -122,9 +121,9 @@ export default class EditValueOfAttributeDefinitionDialog extends PromiseDialog 
       .addEventListener('input', (e) => {
         const value = e.target.value
         if (!value || /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(value)) {
-          getOkButton(super.el).removeAttribute('disabled')
+          super.button.removeAttribute('disabled')
         } else {
-          getOkButton(super.el).setAttribute('disabled', 'disabled')
+          super.button.setAttribute('disabled', 'disabled')
         }
       })
   }
