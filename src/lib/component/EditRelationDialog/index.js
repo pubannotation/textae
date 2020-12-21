@@ -1,12 +1,24 @@
 import PromiseDialog from '../PromiseDialog'
-import createContentHtml from './createContentHtml'
 import setSourceOfAutoComplete from '../setSourceOfAutoComplete'
+import compileHandlebarsTemplate from '../compileHandlebarsTemplate'
+
+const template = compileHandlebarsTemplate(`
+<div class="textae-editor__edit-value-and-pred-dialog__container">
+  <div class="textae-editor__edit-value-and-pred-dialog__input-box">
+    <label>Predicate:</label><br>
+    <input class="textae-editor__edit-value-and-pred-dialog--predicate" value="type" disabled="disabled">
+  </div>
+  <div class="textae-editor__edit-value-and-pred-dialog__input-box ui-front">
+    <label class="textae-editor__edit-value-and-pred-dialog--label">Value:<span>{{label}}</span></label><br>
+    <input class="textae-editor__edit-value-and-pred-dialog--value" value="{{value}}">
+  </div>
+</div>`)
 
 export default class EditRelationDialog extends PromiseDialog {
   constructor(typeName, typeContainer, autocompletionWs) {
     super(
       'Please enter new values',
-      createContentHtml({
+      template({
         value: typeName,
         label: typeContainer.getLabel(typeName)
       }),
