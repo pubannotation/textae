@@ -8,50 +8,6 @@
 4.  ブラウザの開発ツールを起動します。
 5.  以下のテストを実行して、エラーが出ないこと
 
-## StyleSpan 上で mouseup して、Span を縮める
-
-### 背景
-
-1.  6.1.36 からテキスト上で mousedown に対応
-2.  6.1.37 から Span 上で mousedown に対応
-3.  6.1.38 で親子 Span の子 Span で mousedown して、親 Span 内の StyleSpan 上で mouseup すると、親 span がちぢむ現象に対応
-4.  6.1.55 で、縮めたときに、意図せずに新しい Span ができる現象に対応
-
-### テキスト上で mousedown して、StyleSpan 上で mouseup して、Span を縮める
-
-#### `Boundary Detection` 有効
-
-1.  `Boundary Detection`ボタンを押下状態にする
-2.  StyleSpan を含む Span を作成する
-3.  Span の外側のテキスト上で mousedown し、Span 内の StyleSpan 上で mouseup して、Span を縮める
-4.  Span が縮まること
-5.  新しい Span ができないこと
-
-#### `Boundary Detection` 無効
-
-1.  `Boundary Detection`ボタンを押上状態にする
-2.  StyleSpan を含む Span を作成する
-3.  Span の外側のテキスト上で mousedown し、Span 内の StyleSpan 上で mouseup して、Span を縮める
-4.  アラートが表示され、Span が縮まらないこと
-
-### Span 上で mousedown して、StyleSpan 上で mouseup して、Span を縮める
-
-#### `Boundary Detection` 有効
-
-1.  `Boundary Detection`ボタンを押下状態にする
-2.  StyleSpan を含む Span を作成する
-3.  上の Span に親 Span を作る
-4.  親 Span 上で mousedown し、Span 内の StyleSpan 上で mouseup して、Span を縮める
-5.  Span が縮まること
-
-#### `Boundary Detection` 無効
-
-1.  `Boundary Detection`ボタンを押上状態にする
-2.  StyleSpan を含む Span を作成する
-3.  上の Span に親 Span を作る
-4.  親 Span 上で mousedown し、Span 内の StyleSpan 上で mouseup して、Span を縮める
-5.  アラートが表示され、Span が縮まらないこと
-
 ## Span の編集制限
 
 ### 背景
