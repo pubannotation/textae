@@ -8,46 +8,6 @@
 4.  ブラウザの開発ツールを起動します。
 5.  以下のテストを実行して、エラーが出ないこと
 
-## 改行コード`\r\n`を含むテキストに対してレンダリングの位置がズレないこと
-
-### 背景
-
-1.  6.0.0 でテキスト中の改行のレンダリングをパラグラフから、css の`white-space: pre-wrap;`に変更しました
-2.  この結果、改行のレンダリングをブラウザに任せました
-3.  `\r\n`はテキスト上では 2 文字ですが、ブラウザ上では 1 つの改行としてレンダリングされます
-4.  Span をレンダリングするときに、`\r\n`を 2 文字としてカウントしていたため、レンダリング位置が 1 文字分ずつ後ろにズレました
-5.  6.3.21 で、TextAE 内部で扱うテキストでは`\r\n`を`\n`に置き換えることで、1 文字として扱うことにしました
-
-### -- 手段 --
-
-1. http://pubannotation.org/projects/twitter-test/docs/sourcedb/@BLAH6-Tweets/sourceid/19546372/annotations.json を開く
-2. 2 行目以降に DenotationSpan を作成する
-3. DenotationSpan が選択した文字列に作成されること
-
-## StyleSpan 上で mouseup して、Span を伸ばす
-
-### 背景
-
-1.  6.1.38 で親子 Span の子 Span で mousedown して、親 Span 内の StyleSpan 上で mouseup すると、親 span がちぢむ現象に対応
-
-### Span 上で mousedown して、StyleSpan 上で mouseup して、Span を伸ばす
-
-#### `Boundary Detection` 有効
-
-1.  `Boundary Detection`ボタンを押下状態にする
-2.  StyleSpan の隣に Span を作成する
-3.  上の StyleSpan 上でと Span 両方を含む親 Span を作る
-4.  Span 上で mousedown し、StyleSpan 上で mouseup して、Span を伸ばす
-5.  Span が伸びること
-
-#### `Boundary Detection` 無効
-
-1.  `Boundary Detection`ボタンを押下状態にする
-2.  StyleSpan の隣に Span を作成する
-3.  上の StyleSpan 上でと Span 両方を含む親 Span を作る
-4.  Span 上で mousedown し、StyleSpan 上で mouseup して、Span を伸ばす
-5.  アラートが表示され、Span が伸びないこと
-
 ## StyleSpan 上で mouseup して、Span を縮める
 
 ### 背景
