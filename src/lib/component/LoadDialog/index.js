@@ -1,14 +1,27 @@
 import delegate from 'delegate'
 import Dialog from '../Dialog'
-import createContentHtml from './createContentHtml'
 import enableHTMLelment from '../enableHTMLelement'
+import compileHandlebarsTemplate from '../compileHandlebarsTemplate'
+
+const template = compileHandlebarsTemplate(`<div>
+<div class="textae-editor__load-dialog__row">
+  <label class="textae-editor__load-dialog__label">URL</label>
+  <input type="text" value="{{url}}" class="textae-editor__load-dialog__file-name url">
+  <input type="button" class="url" {{#unless url}}disabled="disabled"{{/unless}} value="Open">
+</div>
+<div class="textae-editor__load-dialog__row">
+  <label class="textae-editor__load-dialog__label">Local</label>
+  <input class="textae-editor__load-dialog__file" type="file">
+  <input type="button" class="local" disabled="disabled" value="Open">
+</div>
+</div>`)
 
 const CONFIRM_DISCARD_CHANGE_MESSAGE =
   'There is a change that has not been saved. If you procceed now, you will lose it.'
 
 export default class LoadDialog extends Dialog {
   constructor(title, url, loadFromServer, readFromFile, hasChange) {
-    super(title, createContentHtml({ url }), 'Cancel')
+    super(title, template({ url }), 'Cancel')
 
     // Disabled the button to load from the URL when no URL.
     delegate(super.el, '[type="text"].url', 'input', (e) => {
