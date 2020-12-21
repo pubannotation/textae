@@ -17,7 +17,7 @@ export default class Dialog {
         buttons: [
           {
             text: button.label,
-            click: () => this._$dialog.dialog('close')
+            click: () => this.close()
           }
         ]
       })
