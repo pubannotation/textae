@@ -1,5 +1,5 @@
 import PromiseDialog from './PromiseDialog'
-import compileHandlebarsTemplate from './compileHandlebarsTemplate'
+import compileHandlebarsTemplate from '../compileHandlebarsTemplate'
 
 const template = compileHandlebarsTemplate(`
 <div class="textae-editor__edit-value-and-pred-dialog__container">

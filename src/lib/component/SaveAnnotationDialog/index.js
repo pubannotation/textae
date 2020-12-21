@@ -1,6 +1,6 @@
 import Dialog from '../Dialog'
 import bind from './bind'
-import compileHandlebarsTemplate from '../compileHandlebarsTemplate'
+import compileHandlebarsTemplate from '../../compileHandlebarsTemplate'
 
 const template = compileHandlebarsTemplate(`<div>
 <div class="textae-editor__save-dialog__row">

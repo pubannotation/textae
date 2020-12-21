@@ -2,7 +2,7 @@ import { formatters } from 'jsondiffpatch'
 import Dialog from '../Dialog'
 import jsonDiff from './jsonDiff'
 import bind from './bind'
-import compileHandlebarsTemplate from '../compileHandlebarsTemplate'
+import compileHandlebarsTemplate from '../../compileHandlebarsTemplate'
 
 const template = compileHandlebarsTemplate(`<div>
 <div class="textae-editor__save-dialog__row">

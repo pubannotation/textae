@@ -1,6 +1,6 @@
 import PromiseDialog from '../PromiseDialog'
 import setSourceOfAutoComplete from './setSourceOfAutoComplete'
-import compileHandlebarsTemplate from '../compileHandlebarsTemplate'
+import compileHandlebarsTemplate from '../../compileHandlebarsTemplate'
 
 const template = compileHandlebarsTemplate(`
 <div class="textae-editor__edit-type-definition-dialog__container">

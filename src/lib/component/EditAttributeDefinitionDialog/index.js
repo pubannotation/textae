@@ -1,7 +1,7 @@
 import PromiseDialog from '../PromiseDialog'
 import getInputElementValue from '../getInputElementValue'
 import isChanged from './isChanged'
-import compileHandlebarsTemplate from '../compileHandlebarsTemplate'
+import compileHandlebarsTemplate from '../../compileHandlebarsTemplate'
 
 const template = compileHandlebarsTemplate(`
 <div class="textae-editor__edit-attribute-definition-dialog__container">

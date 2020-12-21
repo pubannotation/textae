@@ -1,7 +1,7 @@
 import delegate from 'delegate'
 import Dialog from './Dialog'
 import enableHTMLelment from './enableHTMLelement'
-import compileHandlebarsTemplate from './compileHandlebarsTemplate'
+import compileHandlebarsTemplate from '../compileHandlebarsTemplate'
 
 const template = compileHandlebarsTemplate(`<div>
 <div class="textae-editor__load-dialog__row">

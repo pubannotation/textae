@@ -1,7 +1,7 @@
 import PromiseDialog from './PromiseDialog'
 import getInputElementValue from './getInputElementValue'
 import IntervalNotation from '../IntervalNotation'
-import compileHandlebarsTemplate from './compileHandlebarsTemplate'
+import compileHandlebarsTemplate from '../compileHandlebarsTemplate'
 
 const template = compileHandlebarsTemplate(`
 <div class="textae-editor__add-value-to-attribute-dialog__container">

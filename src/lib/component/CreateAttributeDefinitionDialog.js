@@ -1,7 +1,7 @@
 import delegate from 'delegate'
 import PromiseDialog from './PromiseDialog'
 import getInputElementValue from './getInputElementValue'
-import compileHandlebarsTemplate from './compileHandlebarsTemplate'
+import compileHandlebarsTemplate from '../compileHandlebarsTemplate'
 
 const template = compileHandlebarsTemplate(`
 <div class="textae-editor__create-attribute-definition-dialog__container">

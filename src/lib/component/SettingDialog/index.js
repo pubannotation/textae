@@ -2,7 +2,7 @@ import delegate from 'delegate'
 import Dialog from '../Dialog'
 import reflectImmediately from './reflectImmediately'
 import packageJson from '../../../../package.json'
-import compileHandlebarsTemplate from '../compileHandlebarsTemplate'
+import compileHandlebarsTemplate from '../../compileHandlebarsTemplate'
 
 const template = compileHandlebarsTemplate(`
 <div class="textae-editor__setting-dialog">
