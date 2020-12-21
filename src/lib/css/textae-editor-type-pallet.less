@@ -37,15 +37,15 @@
   z-index: 90;
 
   &--entity {
-    background-color: rgba(200, 255, 255, .9);
+    background-color: rgba(200, 255, 255, 0.9);
   }
 
   &--relation {
-    background-color: rgba(255, 187, 187, .9);
+    background-color: rgba(255, 187, 187, 0.9);
   }
 
   &--selection-attribute {
-    background-color: rgba(200, 255, 255, .9);
+    background-color: rgba(200, 255, 255, 0.9);
   }
 
   &__title {
@@ -61,11 +61,11 @@
 
   &__lock-icon {
     margin-left: 10px;
-    font-size: .8em;
+    font-size: 0.8em;
     color: orangered;
 
     &:before {
-      .fontAwesomeIcon("\f023");
+      .fontAwesomeIcon('\f023');
       top: 2px;
       left: 0;
       width: 16px;
@@ -77,7 +77,7 @@
   &__predicate {
     border: 1px solid;
     display: flex;
-    justify-content: space-between
+    justify-content: space-between;
   }
 
   &__attribute {
@@ -100,14 +100,14 @@
       background-color: rgb(124, 224, 246);
       color: blue;
 
-      &[draggable="true"] {
+      &[draggable='true'] {
         cursor: move;
       }
     }
   }
 
   &__create-predicate__button:before {
-    .fontAwesomeIcon("\f067");
+    .fontAwesomeIcon('\f067');
   }
 
   &__buttons {
@@ -127,7 +127,7 @@
   &__add-button,
   &__add-attribute-value-button {
     &:before {
-      .fontAwesomeIcon("\f067");
+      .fontAwesomeIcon('\f067');
       top: 1px;
       left: 0;
       font-size: 1.5em;
@@ -190,7 +190,12 @@
     height: 10px;
     border: 2px solid darkgray;
     border-radius: 50%;
-    background: radial-gradient(ellipse at center, black 0%, #dcdcdc 70%, #dcdcdc 100%);
+    background: radial-gradient(
+      ellipse at center,
+      black 0%,
+      #dcdcdc 70%,
+      #dcdcdc 100%
+    );
   }
 
   &__table-button {
@@ -205,7 +210,7 @@
     border-color: rgb(216, 216, 216) rgb(209, 209, 209) rgb(186, 186, 186);
 
     // For Safari, Make the button look like Google chrome.
-    background-color: #EEE;
+    background-color: #eee;
 
     &:before {
       font-size: 1.2em;
@@ -229,7 +234,7 @@
 
   &__select-all {
     &:before {
-      .fontAwesomeIcon("\f046");
+      .fontAwesomeIcon('\f046');
       left: -2px;
       top: 1px;
     }
@@ -238,7 +243,7 @@
   &__edit-type,
   &__edit-value {
     &:before {
-      .fontAwesomeIcon("\f040");
+      .fontAwesomeIcon('\f040');
       left: -1px;
       top: -1px;
     }
@@ -246,7 +251,7 @@
 
   &__edit-predicate {
     &:before {
-      .fontAwesomeIcon("\f040");
+      .fontAwesomeIcon('\f040');
       left: -1px;
       top: -1px;
     }
@@ -255,7 +260,7 @@
   &__remove,
   &__remove-value {
     &:before {
-      .fontAwesomeIcon("\f1f8");
+      .fontAwesomeIcon('\f1f8');
       left: -1px;
       top: 0px;
     }
@@ -280,7 +285,7 @@
   }
 
   &__link {
-    background: url("./images/link.png");
+    background: url('./images/link.png');
     display: inline-block;
     vertical-align: middle;
     height: 16px;
@@ -311,7 +316,7 @@
     .table;
 
     input,
-    button[type="button"] {
+    button[type='button'] {
       cursor: pointer;
     }
   }
@@ -319,7 +324,7 @@
   &__content--dragging {
     .textae-editor__type-pallet__drop-target {
       &:before {
-        content: "\f063";
+        content: '\f063';
         color: grey;
         font-family: FontAwesome;
         font-size: 2em;

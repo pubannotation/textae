@@ -44,108 +44,108 @@
   }
 
   &__view-button {
-    background: url("./images/btn_view_16.png");
+    background: url('./images/btn_view_16.png');
     background-size: cover;
   }
 
   &__term-button {
-    background: url("./images/btn_term_16.png");
+    background: url('./images/btn_term_16.png');
   }
 
   &__block-button {
-    background: url("./images/btn_block_16.png");
+    background: url('./images/btn_block_16.png');
   }
 
   &__relation-button {
-    background: url("./images/btn_relation_16.png");
+    background: url('./images/btn_relation_16.png');
   }
 
   &__simple-button {
-    background: url("./images/btn_simple_16.png");
+    background: url('./images/btn_simple_16.png');
   }
 
   &__read-button {
-    background: url("./images/btn_read_16.png");
+    background: url('./images/btn_read_16.png');
   }
 
   &__write-button {
-    background: url("./images/btn_write_16.png");
+    background: url('./images/btn_write_16.png');
 
     &--transit {
-      background: url("./images/btn_write_modified_16.png");
+      background: url('./images/btn_write_modified_16.png');
     }
   }
 
   &__write-auto-button {
-    background: url("./images/btn_write_auto_16.png");
+    background: url('./images/btn_write_auto_16.png');
   }
 
   &__undo-button {
-    background: url("./images/btn_undo_16.png");
+    background: url('./images/btn_undo_16.png');
   }
 
   &__redo-button {
-    background: url("./images/btn_redo_16.png");
+    background: url('./images/btn_redo_16.png');
   }
 
   &__replicate-button {
-    background: url("./images/btn_replicate_16.png");
+    background: url('./images/btn_replicate_16.png');
   }
 
   &__replicate-auto-button {
-    background: url("./images/btn_replicate_auto_16.png");
+    background: url('./images/btn_replicate_auto_16.png');
   }
 
   &__boundary-detection-button {
-    background: url("./images/btn_boundary_detection_16.png");
+    background: url('./images/btn_boundary_detection_16.png');
   }
 
   &__entity-button {
-    background: url("./images/btn_denote_16.png");
+    background: url('./images/btn_denote_16.png');
   }
 
   &__pallet-button {
-    background: url("./images/btn_pallet_16.png");
+    background: url('./images/btn_pallet_16.png');
   }
 
   &__change-label-button {
-    background: url("./images/btn_change_label_16.png");
+    background: url('./images/btn_change_label_16.png');
   }
 
   &__delete-button {
-    background: url("./images/btn_delete_16.png");
+    background: url('./images/btn_delete_16.png');
   }
 
   &__copy-button {
-    background: url("./images/btn_copy_16.png");
+    background: url('./images/btn_copy_16.png');
   }
 
   &__cut-button {
-    background: url("./images/btn_cut_16.png");
+    background: url('./images/btn_cut_16.png');
   }
 
   &__paste-button {
-    background: url("./images/btn_paste_16.png");
+    background: url('./images/btn_paste_16.png');
   }
 
   &__help-button {
-    background: url("./images/btn_help_16.png");
+    background: url('./images/btn_help_16.png');
   }
 
   &__setting-button {
-    background: url("./images/btn_setting_16.png");
+    background: url('./images/btn_setting_16.png');
   }
 
   &__line-height-button {
-    background: url("./images/btn_line_height_16.png");
+    background: url('./images/btn_line_height_16.png');
   }
 
   &__line-height-auto-button {
-    background: url("./images/btn_line_height_auto_16.png");
+    background: url('./images/btn_line_height_auto_16.png');
   }
 }
 
-[mode="edit"].textae-editor--active {
+[mode='edit'].textae-editor--active {
   .textae-control {
     visibility: visible;
   }
@@ -169,9 +169,15 @@
   /* fallback (Opera) */
   background: #bbe;
   /* Mozilla: */
-  background: -moz-linear-gradient(left, #BBBBEE, #FFFFFF);
+  background: -moz-linear-gradient(left, #bbbbee, #ffffff);
   /* Chrome, Safari:*/
-  background: -webkit-gradient(linear, left top, right top, from(#BBBBEE), to(#FFFFFF));
+  background: -webkit-gradient(
+    linear,
+    left top,
+    right top,
+    from(#bbbbee),
+    to(#ffffff)
+  );
   /* MSIE */
   filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#BBBBEE', EndColorStr='#FFFFFF', GradientType=1);
   border-left: 5px solid #558;
@@ -209,7 +215,7 @@
   position: absolute;
   padding: 10px;
   border: solid 1px gray;
-  box-shadow: 2px 2px 1px 1px rgba(0, 0, 0, .4);
+  box-shadow: 2px 2px 1px 1px rgba(0, 0, 0, 0.4);
   width: 292px;
   background-color: white;
   z-index: 7;
@@ -222,11 +228,10 @@
     display: none;
   }
 
-  >p {
+  > p {
     line-height: 1.5em;
 
     &:not(.textae-control__title):not(.textae-control__icon--disabled) {
-
       &:focus,
       &:active,
       &:hover {

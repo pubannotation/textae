@@ -6,7 +6,7 @@
     text-align: right;
 
     &::after {
-      content: ":";
+      content: ':';
     }
   }
 }
@@ -35,7 +35,7 @@
 
 .config-title() {
   margin: 20px 0 12px 6px;
-  padding: .2em .4em;
+  padding: 0.2em 0.4em;
   border-bottom: 1px solid #e78f08;
   font-weight: bold;
 }
@@ -71,23 +71,23 @@
 
     &__server-file-name,
     &__server-file-name--config {
-      .file
+      .file;
     }
 
     &__local-file-name,
     &__local-file-name--config {
-      .file
+      .file;
     }
 
     &__diff-title {
       margin: 10px 0 0 9px;
-      font-size: .8em;
+      font-size: 0.8em;
 
       .diff-info {
         display: inline-block;
         margin-left: 5px;
         padding: 0 5px;
-        font-size: .8em;
+        font-size: 0.8em;
 
         &--add {
           background-color: #bbffbb;
@@ -172,7 +172,7 @@
         padding-top: 11px;
       }
 
-      &__edit__value[disabled="disabled"] {
+      &__edit__value[disabled='disabled'] {
         opacity: 0.1;
       }
     }
@@ -214,15 +214,25 @@
         height: 18px;
         border: 2px solid darkgray;
         border-radius: 50%;
-        background: radial-gradient(ellipse at center, rgb(220, 220, 220) 0%, rgb(230, 230, 230) 50%, rgb(220, 220, 220) 100%);
+        background: radial-gradient(
+          ellipse at center,
+          rgb(220, 220, 220) 0%,
+          rgb(230, 230, 230) 50%,
+          rgb(220, 220, 220) 100%
+        );
         cursor: pointer;
 
         &:checked {
-          background: radial-gradient(ellipse at center, black 0%, #dcdcdc 50%, #dcdcdc 100%);
+          background: radial-gradient(
+            ellipse at center,
+            black 0%,
+            #dcdcdc 50%,
+            #dcdcdc 100%
+          );
         }
 
         &:disabled {
-          opacity: .5;
+          opacity: 0.5;
           cursor: auto;
         }
       }
@@ -232,7 +242,7 @@
   &__setting-dialog {
     .common;
 
-    &>div {
+    & > div {
       margin-bottom: 4px;
     }
 
@@ -240,7 +250,7 @@
       width: 240px;
     }
 
-    &__type-gap[disabled="disabled"] {
+    &__type-gap[disabled='disabled'] {
       background-color: #999;
     }
 
@@ -302,7 +312,6 @@
   }
 
   &__login-info-dialog {
-
     &__open-link,
     &__ok {
       margin-top: 10px;
@@ -311,7 +320,7 @@
     }
 
     &__message-box-setting {
-      font-size: .8em;
+      font-size: 0.8em;
 
       label {
         cursor: pointer;
@@ -334,7 +343,7 @@
 
     &__pred {
       input {
-        width:199px;
+        width: 199px;
       }
     }
 
@@ -367,7 +376,7 @@
   }
 
   &__add-value-to-attribute-dialog {
-    &__ok-button[disabled="disabled"] {
+    &__ok-button[disabled='disabled'] {
       opacity: 0.1;
     }
   }

@@ -1,6 +1,6 @@
-@import "textae-const.less";
+@import 'textae-const.less';
 
-@acitveColor : #ffe;
+@acitveColor: #ffe;
 
 .active() {
   background-color: @acitveColor;
@@ -25,19 +25,19 @@
 
   /* active editer color */
   &--active {
-    &.textae-editor__mode{ 
+    &.textae-editor__mode {
       &--view-with-relation,
       &--view-without-relation,
       &--denotation-with-relation,
       &--denotation-without-relation {
         .active;
       }
-    
+
       &--block-with-relation,
       &--block-without-relation {
         background-color: #eef;
       }
-    
+
       &--relation {
         background-color: #ffedee;
       }
@@ -62,9 +62,15 @@
     /* fallback (Opera) */
     background: #ddf;
     /* Mozilla: */
-    background: -moz-linear-gradient(left, #DDDDFF, #FFFFFF);
+    background: -moz-linear-gradient(left, #ddddff, #ffffff);
     /* Chrome, Safari:*/
-    background: -webkit-gradient(linear, left top, right top, from(#DDDDFF), to(#FFFFFF));
+    background: -webkit-gradient(
+      linear,
+      left top,
+      right top,
+      from(#ddddff),
+      to(#ffffff)
+    );
     /* MSIE */
     // filter: progid: DXImageTransform.Microsoft.Gradient(StartColorStr='#DDDDFF', EndColorStr='#FFFFFF', GradientType=1);
     bottom: -2px;
@@ -157,7 +163,6 @@
   &__mode--denotation-without-relation,
   &__mode--block-without-relation {
     .textae-editor {
-
       &__relation,
       &__relation__label {
         display: none !important;
@@ -177,7 +182,6 @@
   &__mode--view-with-relation,
   &__mode--denotation-with-relation {
     .textae-editor {
-
       &__relation:hover,
       &__relation.hover {
         stroke-width: 3;
@@ -252,7 +256,7 @@
         text-decoration: none;
       }
     }
-  
+
     // Allow selection of text after relation labels in entity edit mode.
     &--denotation-with-relation {
       .textae-editor {
