@@ -2,10 +2,6 @@
 
 @acitveColor: #ffe;
 
-.active() {
-  background-color: @acitveColor;
-}
-
 .textae-editor {
   // Specify the initial value of the line height.
   // Set the initial value of line-height to the style of textae-editor so that it can be easily overridden with inline style as follows.
@@ -30,7 +26,7 @@
       &--view-without-relation,
       &--denotation-with-relation,
       &--denotation-without-relation {
-        .active;
+        background-color: @acitveColor;
       }
 
       &--block-with-relation,
