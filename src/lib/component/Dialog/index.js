@@ -3,7 +3,7 @@ import 'jquery-ui/ui/widgets/dialog'
 import createElement from './createElement'
 
 export default class Dialog {
-  constructor(title, contentHtml, button, option) {
+  constructor(title, contentHtml, buttonLabel, option) {
     this._el = new createElement(title, contentHtml)
     this._$dialog = $(this._el)
     this._$dialog.on('dialogclose', () => {
@@ -11,12 +11,12 @@ export default class Dialog {
       requestAnimationFrame(() => this._$dialog.dialog('destroy'))
     })
 
-    if (button) {
+    if (buttonLabel) {
       option = option || {}
       Object.assign(option, {
         buttons: [
           {
-            text: button,
+            text: buttonLabel,
             click: () => this.close()
           }
         ]
