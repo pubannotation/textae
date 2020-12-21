@@ -1,8 +1,23 @@
 import { formatters } from 'jsondiffpatch'
 import Dialog from '../Dialog'
-import createContentHtml from './createContentHtml'
 import jsonDiff from './jsonDiff'
 import bind from './bind'
+import compileHandlebarsTemplate from '../compileHandlebarsTemplate'
+
+const template = compileHandlebarsTemplate(`<div>
+<div class="textae-editor__save-dialog__row">
+  <label class="textae-editor__save-dialog__label">URL</label>
+  <input type="text" value="{{url}}" class="textae-editor__save-dialog__server-file-name url">
+  <input type="button" class="url" {{#unless url}}disabled="disabled"{{/unless}} value="Save">
+</div>
+<div class="textae-editor__save-dialog__row">
+  <label class="textae-editor__save-dialog__label">Local</label>
+  <input type="text" value="{{filename}}" class="textae-editor__save-dialog__local-file-name local">
+  <a class="download" href="#">Download</a>
+</div>
+<div class="textae-editor__save-dialog__row"><p class="textae-editor__save-dialog__diff-title">Configuration differences<span class="diff-info diff-info--add">added</span><span class="diff-info diff-info--remove">removed</span></p></div>
+<div class="textae-editor__save-dialog__diff-viewer">{{{diff}}}</div>
+</div>`)
 
 export default class SaveConfigurationDialog extends Dialog {
   constructor(
@@ -15,7 +30,7 @@ export default class SaveConfigurationDialog extends Dialog {
   ) {
     super(
       'Save Configurations',
-      createContentHtml({
+      template({
         filename,
         url,
         diff: jsonDiff(originalData, editedData) || 'nothing.'
