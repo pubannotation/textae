@@ -1,7 +1,7 @@
 import { diff } from 'jsondiffpatch'
-import Pallet from '../Pallet'
-import createPalletElement from '../Pallet/createPalletElement'
-import compileHandlebarsTemplate from '../compileHandlebarsTemplate'
+import Pallet from './Pallet'
+import createPalletElement from './Pallet/createPalletElement'
+import compileHandlebarsTemplate from './compileHandlebarsTemplate'
 
 const template = compileHandlebarsTemplate(`
 <p class="textae-editor__type-pallet__title">
