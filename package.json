@@ -8,7 +8,7 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "ajv": "^7.0.1",
+    "ajv": "^7.0.2",
     "ajv-formats": "^1.5.1",
     "alertifyjs": "^1.13.1",
     "array-move": "^3.0.1",
