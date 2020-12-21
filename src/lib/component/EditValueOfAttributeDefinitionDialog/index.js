@@ -77,8 +77,7 @@ export default class EditValueOfAttributeDefinitionDialog extends PromiseDialog 
         }
 
         return ret
-      },
-      'textae-editor__add-value-to-attribute-dialog__ok-button'
+      }
     )
 
     // validation range
