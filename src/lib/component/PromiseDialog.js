@@ -2,15 +2,8 @@ import delegate from 'delegate'
 import Dialog from './Dialog'
 
 export default class PromiseDialog extends Dialog {
-  constructor(
-    title,
-    contentHtml,
-    option,
-    observableClass,
-    getResultsFunc,
-    buttonClass
-  ) {
-    super(title, contentHtml, { label: 'OK', class: buttonClass }, option)
+  constructor(title, contentHtml, option, observableClass, getResultsFunc) {
+    super(title, contentHtml, { label: 'OK' }, option)
 
     this.promise = new Promise((resolve) => {
       const onClick = () => {
