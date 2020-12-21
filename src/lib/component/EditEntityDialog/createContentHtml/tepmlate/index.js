@@ -6,6 +6,3 @@ import attributePatial from './attributePartialHtml'
 Handlebars.registerPartial('attributePartialTemplate', attributePatial)
 
 export const wholeTemplate = Handlebars.compile(wholeHtml)
-export const attributeTemplate = Handlebars.compile(`
-{{> attributePartialTemplate}}
-`)
