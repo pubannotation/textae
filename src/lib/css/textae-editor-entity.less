@@ -61,7 +61,7 @@
     }
 
     &__type-label {
-      .label--full-length;
+      .label--full-length();
       background-color: inherit;
     }
 
@@ -82,7 +82,7 @@
         .entity-shadow();
 
         &.ui-selected {
-          .type-values--selected;
+          .type-values--selected();
         }
       }
 
@@ -94,7 +94,7 @@
 
       .textae-editor__entity__type-label,
       .textae-editor__entity__attribute-label {
-        .label--full-length;
+        .label--full-length();
       }
     }
 
@@ -102,7 +102,7 @@
       z-index: 2;
 
       .textae-editor__entity__type-values {
-        .type-values--selected;
+        .type-values--selected();
         z-index: 2;
       }
     }
@@ -121,7 +121,7 @@
     width: calc(100% - 4px);
 
     &-label {
-      .label--full-length;
+      .label--full-length();
       background-color: inherit;
     }
   }
