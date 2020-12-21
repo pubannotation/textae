@@ -1,11 +1,23 @@
 import PromiseDialog from '../PromiseDialog'
-import createContentHtml from './createContentHtml'
+import compileHandlebarsTemplate from './compileHandlebarsTemplate'
+
+const template = compileHandlebarsTemplate(`
+<div class="textae-editor__edit-value-and-pred-dialog__container">
+  <div class="textae-editor__edit-value-and-pred-dialog__input-box">
+    <label>Predicate:</label><br>
+    <input class="textae-editor__edit-value-and-pred-dialog--predicate" value="{{pred}}" disabled="disabled">
+  </div>
+  <div class="textae-editor__edit-value-and-pred-dialog__input-box ui-front">
+    <label class="textae-editor__edit-value-and-pred-dialog--label">Object:</label><br>
+    <input class="textae-editor__edit-value-and-pred-dialog--value" type="number" min="{{min}}" max="{{max}}" step="{{step}}" value="{{value}}">
+  </div>
+</div>`)
 
 export default class EditNumericAttributeDialog extends PromiseDialog {
   constructor(attrDef, attribute) {
     super(
       'Please edit number',
-      createContentHtml({
+      template({
         pred: attribute.pred,
         value: attribute.obj,
         min: attrDef.min,
