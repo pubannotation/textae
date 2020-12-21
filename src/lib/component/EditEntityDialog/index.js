@@ -25,8 +25,7 @@ export default class EditEntityDialog extends PromiseDialog {
         width: 800
       },
       '.textae-editor__edit-type-dialog__type__value__value',
-      () => getValues(super.el),
-      'textae-editor__edit-type-dialog__ok-button'
+      () => getValues(super.el)
     )
 
     bind(editor, typeContainer, super.el)
