@@ -65,6 +65,9 @@
   "lint-staged": {
     "*.js": [
       "prettier --write"
+    ],
+    "*.less": [
+      "prettier --write"
     ]
   },
   "main": "src/development.html",
