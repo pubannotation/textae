@@ -48,8 +48,6 @@ const headerSource = `
 </div>
 `
 
-Handlebars.registerPartial('header', headerSource)
-
 const headerTemplate = Handlebars.compile(headerSource)
 function typeTemplate(context) {
   const { types, isLock } = context
