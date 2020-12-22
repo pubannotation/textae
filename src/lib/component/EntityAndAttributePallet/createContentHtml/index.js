@@ -50,22 +50,6 @@ const headerSource = `
 
 Handlebars.registerPartial('header', headerSource)
 
-Handlebars.registerPartial(
-  'predicate',
-  `
-  <div class="textae-editor__type-pallet__predicate">
-    {{> @partial-block }}
-    <div>
-    {{#if hasInstance}}
-      Attribute definitions with instances cannot be deleted.
-    {{else}}
-      <button type="button" class="textae-editor__type-pallet__delete-predicate">delete attribute</button>
-    {{/if}}
-    </div>
-  </div>
-  `
-)
-
 const typeHtml = `
 {{>header}}
 <table>
