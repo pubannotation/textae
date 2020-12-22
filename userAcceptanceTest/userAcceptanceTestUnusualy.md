@@ -1,5 +1,42 @@
 # たまにやるテスト
 
+## StyleSpan が親で DenotationSpan が子のとき、さらにその親 DenotationSpan があるとき、StyleSpan 上で mousedown して、DenotationSpan 上で mouseup する
+
+### 背景
+
+1.  6.1.56 で対応
+
+### 子 DenotationSpan で mouseup すると
+
+1.  Editor1 を選択
+2.  StyleSpan を親に持つ DenotationSpan を作る
+3.  さらに親 DenotationSpan を作る
+4.  選択を解除する
+5.  StyleSpan 上で mousedown して、子 DenotationSpan 上で mouseup する
+6.  子 DenotationSpan が縮む
+
+### 親 DenotationSpan で mouseup すると
+
+1.  Editor1 を選択
+2.  StyleSpan を親に持つ DenotationSpan を作る
+3.  さらに親 DenotationSpan を作る
+4.  選択を解除する
+5.  StyleSpan 上で mousedown して、親 DenotationSpan 上で mouseup する
+6.  親 DenotationSpan が縮む
+
+## Google Chrome でアノテーション読込ダイアログの`ファイルを選択`ボタンが見きれないこと
+
+### 背景
+
+1.  行の高さが足りず、`ファイルを選択`ボタンの下ボーダーが表示されていませんでした
+2.  6.3.26 で対応
+
+### -- 手段 --
+
+1.  Google Chrome で Editor を開く
+2.  アノテーション読込ダイアログを表示
+3.  `ファイルを選択`ボタンの下ボーダーまで表示されていること
+
 ## StyleSpan 上で mousedown して、StypleSpan 上で mouseup して DenotationSpan をつくる
 
 ### 背景
