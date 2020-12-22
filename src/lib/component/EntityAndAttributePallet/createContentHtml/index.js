@@ -2,54 +2,53 @@ import Handlebars from 'handlebars'
 import getSelectedEntityLabel from './getSelectedEntityLabel'
 import getAttributes from './getAttributes'
 
-Handlebars.registerPartial(
-  'header',
-  `
-  <div style="display: flex;">
-    <p class="textae-editor__type-pallet__title">
-      <span>Entity configuration</span>
-      <span class="textae-editor__type-pallet__lock-icon" style="display: {{#if isLock}}inline-block{{else}}none{{/if}};">locked</span>
-      <br>
-      <span class="textae-editor__type-pallet__selected-entity-label">{{selectedEntityLabel}}</span>
+const headerSource = `
+<div style="display: flex;">
+  <p class="textae-editor__type-pallet__title">
+    <span>Entity configuration</span>
+    <span class="textae-editor__type-pallet__lock-icon" style="display: {{#if isLock}}inline-block{{else}}none{{/if}};">locked</span>
+    <br>
+    <span class="textae-editor__type-pallet__selected-entity-label">{{selectedEntityLabel}}</span>
+  </p>
+  <p class="textae-editor__type-pallet__attribute {{#unless selectedPred}}textae-editor__type-pallet__attribute--selected{{/unless}}" data-attribute="">
+    Type
+  </p>
+  {{#each attributes}}
+    {{#if droppable}}
+    <span class="textae-editor__type-pallet__drop-target" data-index="{{@index}}"></span>
+    {{/if}}
+    <p 
+      class="textae-editor__type-pallet__attribute{{#if selectedPred}} textae-editor__type-pallet__attribute--selected{{/if}}"
+      data-attribute="{{pred}}"
+      data-index="{{@index}}"
+      {{#if selectedPred}}draggable="true"{{/if}}>
+      {{#if shortcutKey}}{{shortcutKey}}:{{/if}}{{pred}}
     </p>
-    <p class="textae-editor__type-pallet__attribute {{#unless selectedPred}}textae-editor__type-pallet__attribute--selected{{/unless}}" data-attribute="">
-      Type
+  {{/each}}
+  {{#unless isLock}}
+  {{#if addAttribute}}
+    {{#unless lastAttributeSelected}}<span class="textae-editor__type-pallet__drop-target" data-index="-1"></span>{{/unless}}
+    <p class="textae-editor__type-pallet__attribute textae-editor__type-pallet__create-predicate">
+      <span class="textae-editor__type-pallet__create-predicate__button" title="Add new attribute"></span>
     </p>
-    {{#each attributes}}
-      {{#if droppable}}
-      <span class="textae-editor__type-pallet__drop-target" data-index="{{@index}}"></span>
-      {{/if}}
-      <p 
-        class="textae-editor__type-pallet__attribute{{#if selectedPred}} textae-editor__type-pallet__attribute--selected{{/if}}"
-        data-attribute="{{pred}}"
-        data-index="{{@index}}"
-        {{#if selectedPred}}draggable="true"{{/if}}>
-        {{#if shortcutKey}}{{shortcutKey}}:{{/if}}{{pred}}
-      </p>
-    {{/each}}
+  {{/if}}
+  {{/unless}}
+  <div class="textae-editor__type-pallet__buttons">
     {{#unless isLock}}
-    {{#if addAttribute}}
-      {{#unless lastAttributeSelected}}<span class="textae-editor__type-pallet__drop-target" data-index="-1"></span>{{/unless}}
-      <p class="textae-editor__type-pallet__attribute textae-editor__type-pallet__create-predicate">
-        <span class="textae-editor__type-pallet__create-predicate__button" title="Add new attribute"></span>
-      </p>
+    {{#if addTypeButton}}
+      <span class="textae-editor__type-pallet__button textae-editor__type-pallet__add-button" title="Add new type"></span>
+    {{/if}}
+    {{#if addAttributeValueButton}}
+      <span class="textae-editor__type-pallet__button textae-editor__type-pallet__add-attribute-value-button" title="Add new value"></span>
     {{/if}}
     {{/unless}}
-    <div class="textae-editor__type-pallet__buttons">
-      {{#unless isLock}}
-      {{#if addTypeButton}}
-        <span class="textae-editor__type-pallet__button textae-editor__type-pallet__add-button" title="Add new type"></span>
-      {{/if}}
-      {{#if addAttributeValueButton}}
-        <span class="textae-editor__type-pallet__button textae-editor__type-pallet__add-attribute-value-button" title="Add new value"></span>
-      {{/if}}
-      {{/unless}}
-      <span class="textae-editor__type-pallet__button textae-editor__type-pallet__read-button" title="Import"></span>
-      <span class="textae-editor__type-pallet__button textae-editor__type-pallet__write-button {{#if hasDiff}}textae-editor__type-pallet__write-button--transit{{/if}}" title="Upload"></span>
-    </div>
+    <span class="textae-editor__type-pallet__button textae-editor__type-pallet__read-button" title="Import"></span>
+    <span class="textae-editor__type-pallet__button textae-editor__type-pallet__write-button {{#if hasDiff}}textae-editor__type-pallet__write-button--transit{{/if}}" title="Upload"></span>
   </div>
+</div>
 `
-)
+
+Handlebars.registerPartial('header', headerSource)
 
 Handlebars.registerPartial(
   'predicate',
