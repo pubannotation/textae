@@ -1,4 +1,4 @@
-export function valueButtonsTemplate(isLock, index, indelible) {
+export default function (isLock, index, indelible) {
   return isLock
     ? ''
     : `

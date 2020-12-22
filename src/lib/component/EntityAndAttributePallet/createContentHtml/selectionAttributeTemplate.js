@@ -1,7 +1,7 @@
 import headerTemplate from './headerTemplate'
 import addOrRemoveAttributeButtonTemplate from './addOrRemoveAttributeButtonTemplate'
 import deleteAttributeDefinitionBlockTemplate from './deleteAttributeDefinitionBlockTemplate'
-import { valueButtonsTemplate } from './valueButtonsTemplate'
+import valueButtonsTemplate from './valueButtonsTemplate'
 
 export default function (context) {
   const { pred, hasInstance, values } = context.attrDef
