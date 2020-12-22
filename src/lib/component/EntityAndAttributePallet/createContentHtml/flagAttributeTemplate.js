@@ -1,5 +1,5 @@
 import headerTemplate from './headerTemplate'
-import { addOrRemoveAttributeButtonTemplate } from './addOrRemoveAttributeButtonTemplate'
+import addOrRemoveAttributeButtonTemplate from './addOrRemoveAttributeButtonTemplate'
 import { deleteAttributeDefinitionBlockTemplate } from './deleteAttributeDefinitionBlockTemplate'
 
 export default function (context) {

@@ -1,9 +1,7 @@
 import { getAddAttributeButton } from './getAddAttributeButton'
 import { getRemoveAttributeButton } from './getRemoveAttributeButton'
 
-export function addOrRemoveAttributeButtonTemplate(
-  isEntityWithSamePredSelected
-) {
+export default function (isEntityWithSamePredSelected) {
   return isEntityWithSamePredSelected
     ? getAddAttributeButton()
     : getRemoveAttributeButton()
