@@ -10,14 +10,23 @@ export default function (context) {
   // If the endpoint doesn't have an id, jsPlumb will set it,
   // and the id will be lost when redrawing the Entity's DOM.
   // To prevent this from happening, set the id of the endpoint DOM.
-  return dohtml.create(`
-  <div class="textae-editor__entity" id="${id}" title="${title}">
-    <div class="textae-editor__entity__type-values" id="jsPlumb_${id}" style="background-color: ${color}">
-      <div class="textae-editor__entity__type-label" tabindex="0">
-        ${toLabel(href, label)}
-      </div>
-      ${attributes.map(toAttribute).join('\n')}
+  const html = `
+<div class="textae-editor__entity" id="${id}" title="${title}">
+  <div
+    class="textae-editor__entity__type-values"
+    id="jsPlumb_${id}" 
+    style="background-color: ${color};"
+    >
+    <div
+      class="textae-editor__entity__type-label"
+      tabindex="0"
+      >
+      ${toLabel(href, label)}
     </div>
+    ${attributes.map(toAttribute).join('\n')}
   </div>
-  `)
+</div>
+`
+
+  return dohtml.create(html)
 }
