@@ -10,7 +10,7 @@ const template = compileHandlebarsTemplate(`
   </div>
   <div class="textae-editor__edit-value-and-pred-dialog__input-box ui-front">
     <label class="textae-editor__edit-value-and-pred-dialog--label">Value:<span>{{label}}</span></label><br>
-    <input class="textae-editor__edit-value-and-pred-dialog--value" value="{{value}}">
+    <input class="textae-editor__edit-value-and-pred-dialog--value textae-editor__promise-daialog__observable-element" value="{{value}}">
   </div>
 </div>`)
 
@@ -25,7 +25,7 @@ export default class EditRelationDialog extends PromiseDialog {
       {
         height: 250
       },
-      '.textae-editor__edit-value-and-pred-dialog--value',
+      '.textae-editor__promise-daialog__observable-element',
       () => {
         const input = super.el.querySelector(
           '.textae-editor__edit-value-and-pred-dialog--value'
