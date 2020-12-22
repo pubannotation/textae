@@ -362,6 +362,17 @@ function addOrRemoveAttributeButtonTemplate(isEntityWithSamePredSelected) {
     >Add to selected entity</button>
   `
 }
+function deleteAttributeDefinitionBlockTemplate(hasInstance) {
+  return `
+  <div>
+  ${
+    hasInstance
+      ? 'Attribute definitions with instances cannot be deleted.'
+      : '<button type="button" class="textae-editor__type-pallet__delete-predicate">delete attribute</button>'
+  }
+  </div>
+`
+}
 function flagAttributeTemplate(context) {
   const { pred, hasInstance } = context.attrDef
   const { isEntityWithSamePredSelected } = context
@@ -379,13 +390,7 @@ function flagAttributeTemplate(context) {
         </button>
         ${addOrRemoveAttributeButtonTemplate(isEntityWithSamePredSelected)}
       </div>
-      <div>
-      ${
-        hasInstance
-          ? 'Attribute definitions with instances cannot be deleted.'
-          : '<button type="button" class="textae-editor__type-pallet__delete-predicate">delete attribute</button>'
-      }
-      </div>
+      ${deleteAttributeDefinitionBlockTemplate(hasInstance)}
     </div>
   </div>
   `
