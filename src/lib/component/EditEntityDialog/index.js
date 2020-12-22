@@ -1,21 +1,21 @@
 import delegate from 'delegate'
 import PromiseDialog from '../PromiseDialog'
-import createContentHtml from './createContentHtml'
 import getValues from './getValues'
 import bind from './bind'
 import setSourceOfAutoComplete from '../setSourceOfAutoComplete'
+import toEntityHTML from './toEntityHTML'
 
 export default class EditEntityDialog extends PromiseDialog {
   constructor(editor, typeContainer, autocompletionWs, typeValues) {
-    const contentHtml = createContentHtml({
-      value: typeValues.typeName,
-      label: typeContainer.getLabel(typeValues.typeName),
-      attributes: typeValues.attributes.map((a) => ({
+    const contentHtml = toEntityHTML(
+      typeValues.typeName,
+      typeContainer.getLabel(typeValues.typeName),
+      typeValues.attributes.map((a) => ({
         pred: a.pred,
         obj: a.obj,
         editDisabled: a.obj === true
       }))
-    })
+    )
 
     super(
       'Please edit type and attributes',
