@@ -1,14 +1,3 @@
-import Handlebars from 'handlebars'
-
-// See: https://stackoverflow.com/questions/24334639/handlebars-if-statement-with-index-some-value
-Handlebars.registerHelper('ifSecond', function (index, options) {
-  if (index == 1) {
-    return options.fn(this)
-  } else {
-    return options.inverse(this)
-  }
-})
-
 function template(context) {
   return context
     .map(
