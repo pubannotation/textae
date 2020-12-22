@@ -1,4 +1,4 @@
-export function getAddAttributeButton() {
+export default function () {
   return `
 <button
   type="button"
