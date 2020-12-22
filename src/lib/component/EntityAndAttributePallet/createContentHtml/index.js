@@ -158,43 +158,6 @@ Handlebars.registerPartial(
   removeAttributeButtonSource
 )
 
-const flagAttributeHtml = `
-{{>header}}
-<div>
-  {{# attrDef}}
-    <div class="textae-editor__type-pallet__predicate">
-      <div>
-        flag attribute: {{pred}}
-        <button
-          type="button"
-          class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-predicate"
-          title="Edit this predicate.">
-        </button>
-        {{#unless @root.isEntityWithSamePredSelected}}
-        <button
-          type="button"
-          class="textae-editor__type-pallet__add-attribute"
-        >Add to selected entity</button>
-        {{/unless}}
-        {{#if @root.isEntityWithSamePredSelected}}
-        <button
-          type="button"
-          class="textae-editor__type-pallet__remove-attribute"
-        >Remove from selected entity</button>
-        {{/if}}
-      </div>
-    <div>
-    {{#if hasInstance}}
-      Attribute definitions with instances cannot be deleted.
-    {{else}}
-      <button type="button" class="textae-editor__type-pallet__delete-predicate">delete attribute</button>
-    {{/if}}
-    </div>
-  </div>
-  {{/ attrDef}}
-</div>
-`
-
 Handlebars.registerPartial(
   'edit-object-button',
   `
@@ -382,8 +345,50 @@ const stringAttributeHtml = `
 </div>
 `
 
+const headerTemplate = Handlebars.compile(headerSource)
 const typeTemplate = Handlebars.compile(typeHtml)
-const flagAttributeTemplate = Handlebars.compile(flagAttributeHtml)
+const flagAttributeTemplate = (context) => {
+  const { pred, hasInstance } = context.attrDef
+  const { isEntityWithSamePredSelected } = context
+
+  return `
+  ${headerTemplate(context)}
+  <div>
+    <div class="textae-editor__type-pallet__predicate">
+      <div>
+        flag attribute: ${pred}
+        <button
+          type="button"
+          class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-predicate"
+          title="Edit this predicate.">
+        </button>
+        ${
+          isEntityWithSamePredSelected
+            ? `
+        <button
+          type="button"
+          class="textae-editor__type-pallet__remove-attribute"
+          >Remove from selected entity</button>
+        `
+            : `
+        <button
+          type="button"
+          class="textae-editor__type-pallet__add-attribute"
+          >Add to selected entity</button>
+        `
+        }
+      </div>
+      <div>
+      ${
+        hasInstance
+          ? 'Attribute definitions with instances cannot be deleted.'
+          : '<button type="button" class="textae-editor__type-pallet__delete-predicate">delete attribute</button>'
+      }
+      </div>
+    </div>
+  </div>
+  `
+}
 const numericAttributeTemplate = Handlebars.compile(numericAttributeHtml)
 const selectionAttributeTemplate = Handlebars.compile(selectionAttributeHtml)
 const stringAttributeTemplate = Handlebars.compile(stringAttributeHtml)
