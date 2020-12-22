@@ -191,12 +191,14 @@ function typeTemplate(context) {
   </table>
   `
 }
-const removeAttributeButton = `
+function getRemoveAttributeButton() {
+  return `
 <button
   type="button"
   class="textae-editor__type-pallet__remove-attribute"
   >Remove from selected entity</button>
 `
+}
 const addAttributeButton = `
 <button
   type="button"
@@ -205,7 +207,7 @@ const addAttributeButton = `
 `
 function addOrRemoveAttributeButtonTemplate(isEntityWithSamePredSelected) {
   return isEntityWithSamePredSelected
-    ? removeAttributeButton
+    ? getRemoveAttributeButton()
     : addAttributeButton
 }
 function addOrEditAndRemoveAttributeButtonTemplate(
@@ -217,7 +219,7 @@ function addOrEditAndRemoveAttributeButtonTemplate(
     type="button"
     class="textae-editor__type-pallet__edit-object"
     >Edit object of selected entity</button>
-  ${removeAttributeButton}
+  ${getRemoveAttributeButton()}
   `
     : addAttributeButton
 }
