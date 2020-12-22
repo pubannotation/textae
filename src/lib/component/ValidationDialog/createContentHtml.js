@@ -9,89 +9,135 @@ Handlebars.registerHelper('ifSecond', function (index, options) {
   }
 })
 
-const source = `
-{{#each this}}
-  {{#ifSecond @index}}
-  <div class="textae-editor__valiondate-dialog__content">
-      <h1>Track annatations will be merged to the root anntations.</h1>
-    </div>
-  {{/ifSecond}}
-  <div class="textae-editor__valiondate-dialog__content">
-    <h2>{{name}}</h2>
-
-    {{#if wrongRangeDenotations}}
-      <table>
-        <caption>Wrong range denotations.</caption>
-        <thead>
-          <tr>
-            <th class="id">id</th>
-            <th class="range">begin</th>
-            <th class="range">end</th>
-            <th>obj</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#wrongRangeDenotations}}
-          <tr>
-            <td>{{id}}</td>
-            <td class="alert">{{span.begin}}</td>
-            <td class="alert">{{span.end}}</td>
-            <td>{{obj}}</td>
-          </tr>
-          {{/wrongRangeDenotations}}
-        </tbody>
-      </table>
-    {{/if}}
-
-    {{#if outOfTextDenotations}}
-      <table>
-        <caption>Out of text denotations.</caption>
-        <thead>
-          <tr>
-            <th class="id">id</th>
-            <th class="range">begin</th>
-            <th class="range">end</th>
-            <th>obj</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#outOfTextDenotations}}
-          <tr>
-            <td>{{id}}</td>
-            <td class="alert">{{span.begin}}</td>
-            <td class="alert">{{span.end}}</td>
-            <td>{{obj}}</td>
-          </tr>
-          {{/outOfTextDenotations}}
-        </tbody>
-      </table>
-    {{/if}}
-
-    {{#if wrongRangeBlocks}}
-      <table>
-        <caption>Wrong range blocks.</caption>
-        <thead>
-          <tr>
-            <th class="id">id</th>
-            <th class="range">begin</th>
-            <th class="range">end</th>
-            <th>obj</th>
-          </tr>
-        </thead>
-        <tbody>
-          {{#wrongRangeBlocks}}
-          <tr>
-            <td>{{id}}</td>
-            <td class="alert">{{span.begin}}</td>
-            <td class="alert">{{span.end}}</td>
-            <td>{{obj}}</td>
-          </tr>
-          {{/wrongRangeBlocks}}
-        </tbody>
-      </table>
-    {{/if}}
-
-    {{#if outOfTextBlocks}}
+function template(context) {
+  return context
+    .map(
+      (
+        {
+          name,
+          wrongRangeDenotations,
+          outOfTextDenotations,
+          wrongRangeBlocks,
+          outOfTextBlocks,
+          duplicatedRangeBlocks,
+          wrongRangeTypesettings,
+          outOfTextTypesettings,
+          duplicatedIDs,
+          boundaryCrossingSpans,
+          referencedEntitiesDoNotExist,
+          duplicatedAttributes
+        },
+        index
+      ) => {
+        return `
+    ${
+      index === 1
+        ? `
+      <div class="textae-editor__valiondate-dialog__content">
+        <h1>Track annatations will be merged to the root anntations.</h1>
+      </div>`
+        : ''
+    }
+    <div class="textae-editor__valiondate-dialog__content">
+      <h2>${name}</h2>
+  
+      ${
+        wrongRangeDenotations.length
+          ? `
+        <table>
+          <caption>Wrong range denotations.</caption>
+          <thead>
+            <tr>
+              <th class="id">id</th>
+              <th class="range">begin</th>
+              <th class="range">end</th>
+              <th>obj</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${wrongRangeDenotations
+              .map(
+                ({ id, span, obj }) => `
+            <tr>
+              <td>${id || ''}</td>
+              <td class="alert">${span.begin}</td>
+              <td class="alert">${span.end}</td>
+              <td>${obj}</td>
+            </tr>
+          `
+              )
+              .join('\n')}
+          </tbody>
+        </table>`
+          : ''
+      }
+  
+      ${
+        outOfTextDenotations.length
+          ? `
+        <table>
+          <caption>Out of text denotations.</caption>
+          <thead>
+            <tr>
+              <th class="id">id</th>
+              <th class="range">begin</th>
+              <th class="range">end</th>
+              <th>obj</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${outOfTextDenotations
+              .map(
+                ({ id, span, obj }) => `
+            <tr>
+              <td>${id || ''}</td>
+              <td class="alert">${span.begin}</td>
+              <td class="alert">${span.end}</td>
+              <td>${obj}</td>
+            </tr>
+            `
+              )
+              .join('\n')}
+          </tbody>
+        </table>`
+          : ''
+      }
+  
+      ${
+        wrongRangeBlocks.length
+          ? `
+        <table>
+          <caption>Wrong range blocks.</caption>
+          <thead>
+            <tr>
+              <th class="id">id</th>
+              <th class="range">begin</th>
+              <th class="range">end</th>
+              <th>obj</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${wrongRangeBlocks
+              .map(
+                ({ id, span, obj }) => `
+            <tr>
+              <td>${id || ''}</td>
+              <td class="alert">${span.begin}</td>
+              <td class="alert">${span.end}</td>
+              <td>${obj}</td>
+            </tr>
+            `
+              )
+              .join('\n')}
+          </tbody>
+        </table>
+  `
+          : ''
+      }
+  
+      ${
+        outOfTextBlocks.length
+          ? `
       <table>
         <caption>Out of text blokcs.</caption>
         <thead>
@@ -103,19 +149,27 @@ const source = `
           </tr>
         </thead>
         <tbody>
-          {{#outOfTextBlocks}}
+          ${outOfTextBlocks
+            .map(
+              ({ id, span, obj }) => `
           <tr>
-            <td>{{id}}</td>
-            <td class="alert">{{span.begin}}</td>
-            <td class="alert">{{span.end}}</td>
-            <td>{{obj}}</td>
+            <td>${id || ''}</td>
+            <td class="alert">${span.begin}</td>
+            <td class="alert">${span.end}</td>
+            <td>${obj}</td>
           </tr>
-          {{/outOfTextBlocks}}
+          `
+            )
+            .join('\n')}
         </tbody>
       </table>
-    {{/if}}
-
-    {{#if duplicatedRangeBlocks}}
+      `
+          : ''
+      }
+  
+      ${
+        duplicatedRangeBlocks.length
+          ? `
       <table>
         <caption>Duplicated range blocks.</caption>
         <thead>
@@ -127,19 +181,27 @@ const source = `
           </tr>
         </thead>
         <tbody>
-          {{#duplicatedRangeBlocks}}
+          ${duplicatedRangeBlocks
+            .map(
+              ({ id, span, obj }) => `
           <tr>
-            <td>{{id}}</td>
-            <td class="alert">{{span.begin}}</td>
-            <td class="alert">{{span.end}}</td>
-            <td>{{obj}}</td>
+            <td>${id || ''}</td>
+            <td class="alert">${span.begin}</td>
+            <td class="alert">${span.end}</td>
+            <td>${obj}</td>
           </tr>
-          {{/duplicatedRangeBlocks}}
+          `
+            )
+            .join('\n')}
         </tbody>
       </table>
-    {{/if}}
-
-    {{#if wrongRangeTypesettings}}
+      `
+          : ''
+      }
+  
+      ${
+        wrongRangeTypesettings.length
+          ? `
       <table>
         <caption>Wrong range typesettings.</caption>
         <thead>
@@ -151,19 +213,27 @@ const source = `
           </tr>
         </thead>
         <tbody>
-          {{#wrongRangeTypesettings}}
+          ${wrongRangeTypesettings
+            .map(
+              ({ id, span, style }) => `
           <tr>
-            <td>{{id}}</td>
-            <td class="alert">{{span.begin}}</td>
-            <td class="alert">{{span.end}}</td>
-            <td>{{style}}</td>
+            <td>${id || ''}</td>
+            <td class="alert">${span.begin}</td>
+            <td class="alert">${span.end}</td>
+            <td>${style}</td>
           </tr>
-          {{/wrongRangeTypesettings}}
+          `
+            )
+            .join('\n')}
         </tbody>
       </table>
-    {{/if}}
-
-    {{#if outOfTextTypesettings}}
+      `
+          : ''
+      }
+  
+      ${
+        outOfTextTypesettings.length
+          ? `
       <table>
         <caption>Out of text typesettings.</caption>
         <thead>
@@ -175,19 +245,27 @@ const source = `
           </tr>
         </thead>
         <tbody>
-          {{#outOfTextTypesettings}}
+          ${outOfTextTypesettings
+            .map(
+              ({ id, span, style }) => `
           <tr>
-            <td>{{id}}</td>
-            <td class="alert">{{span.begin}}</td>
-            <td class="alert">{{span.end}}</td>
-            <td>{{style}}</td>
+            <td>${id || ''}</td>
+            <td class="alert">${span.begin}</td>
+            <td class="alert">${span.end}</td>
+            <td>${style}</td>
           </tr>
-          {{/outOfTextTypesettings}}
+          `
+            )
+            .join('\n')}
         </tbody>
       </table>
-    {{/if}}
-
-    {{#if duplicatedIDs}}
+      `
+          : ''
+      }
+  
+      ${
+        duplicatedIDs.length
+          ? `
       <table>
         <caption>Duplicated IDs in Denotations and Blocks.</caption>
         <thead>
@@ -200,20 +278,28 @@ const source = `
           </tr>
         </thead>
         <tbody>
-          {{#duplicatedIDs}}
+          ${duplicatedIDs
+            .map(
+              ({ id, sourceProperty, span, obj }) => `
           <tr>
-            <td>{{id}}</td>
-            <td>{{sourceProperty}}</td>
-            <td class="alert">{{span.begin}}</td>
-            <td class="alert">{{span.end}}</td>
-            <td>{{obj}}</td>
+            <td>${id || ''}</td>
+            <td>${sourceProperty}</td>
+            <td class="alert">${span.begin}</td>
+            <td class="alert">${span.end}</td>
+            <td>${obj}</td>
           </tr>
-          {{/duplicatedIDs}}
+          `
+            )
+            .join('\n')}
         </tbody>
       </table>
-    {{/if}}
-
-    {{#if boundaryCrossingSpans}}
+      `
+          : ''
+      }
+  
+      ${
+        boundaryCrossingSpans.length
+          ? `
       <table>
         <caption>Denotations or Blocks or Typesettings with boundary-cross.</caption>
         <thead>
@@ -226,20 +312,28 @@ const source = `
           </tr>
         </thead>
         <tbody>
-          {{#boundaryCrossingSpans}}
+          ${boundaryCrossingSpans
+            .map(
+              ({ id, sourceProperty, span, style, obj }) => `
           <tr>
-            <td>{{id}}</td>
-            <td>{{sourceProperty}}</td>
-            <td class="alert">{{span.begin}}</td>
-            <td class="alert">{{span.end}}</td>
-            <td>{{style}}{{obj}}</td>
+            <td>${id || ''}</td>
+            <td>${sourceProperty}</td>
+            <td class="alert">${span.begin}</td>
+            <td class="alert">${span.end}</td>
+            <td>${style || obj}</td>
           </tr>
-          {{/boundaryCrossingSpans}}
+          `
+            )
+            .join('\n')}
         </tbody>
       </table>
-    {{/if}}
-
-    {{#if referencedEntitiesDoNotExist}}
+      `
+          : ''
+      }
+  
+      ${
+        referencedEntitiesDoNotExist.length
+          ? `
       <table>
         <caption>Referenced entities do not exist.</caption>
         <thead>
@@ -252,20 +346,36 @@ const source = `
           </tr>
         </thead>
         <tbody>
-          {{#referencedEntitiesDoNotExist}}
+          ${referencedEntitiesDoNotExist
+            .map(
+              ({
+                id,
+                sourceProperty,
+                alertSubj,
+                subj,
+                pred,
+                alertObj,
+                obj
+              }) => `
           <tr>
-            <td>{{id}}</td>
-            <td>{{sourceProperty}}</td>
-            <td{{#if alertSubj}} class="alert"{{/if}}>{{subj}}</td>
-            <td>{{pred}}</td>
-            <td{{#if alertObj}} class="alert"{{/if}}>{{obj}}</td>
+            <td>${id || ''}</td>
+            <td>${sourceProperty}</td>
+            <td${alertSubj ? ' class="alert"' : ''}>${subj}</td>
+            <td>${pred}</td>
+            <td${alertObj ? ' class="alert"' : ''}>${obj}</td>
           </tr>
-          {{/referencedEntitiesDoNotExist}}
+          `
+            )
+            .join('\n')}
         </tbody>
       </table>
-    {{/if}}
-
-    {{#if duplicatedAttributes}}
+      `
+          : ''
+      }
+  
+      ${
+        duplicatedAttributes.length
+          ? `
       <table>
         <caption>Duplicated attributes.</caption>
         <thead>
@@ -277,22 +387,29 @@ const source = `
           </tr>
         </thead>
         <tbody>
-          {{#duplicatedAttributes}}
+          ${duplicatedAttributes
+            .map(
+              ({ id, subj, pred, obj }) => `
           <tr>
-            <td>{{id}}</td>
-            <td class="alert">{{subj}}</td>
-            <td>{{pred}}</td>
-            <td class="alert">{{obj}}</td>
+            <td>${id || ''}</td>
+            <td class="alert">${subj}</td>
+            <td>${pred}</td>
+            <td class="alert">${obj}</td>
           </tr>
-          {{/duplicatedAttributes}}
+          `
+            )
+            .join('\n')}
         </tbody>
       </table>
-    {{/if}}
-  </div>
-{{/each}}
-`
-
-const template = Handlebars.compile(source)
+      `
+          : ''
+      }
+    </div>
+    `
+      }
+    )
+    .join('\n')
+}
 
 export default function (rejects) {
   return template(rejects)
