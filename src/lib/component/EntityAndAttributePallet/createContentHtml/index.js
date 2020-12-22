@@ -50,75 +50,110 @@ const headerSource = `
 
 Handlebars.registerPartial('header', headerSource)
 
-const typeHtml = `
-{{>header}}
-<table>
-  <tbody>
-    <tr>
-      <th>id</th>
-      <th>label</th>
-      <th title="Number of annotations.">#</th>
-      <th></th>
-    </tr>
-    {{#if types}}
-    {{#each types}}
-    <tr class="textae-editor__type-pallet__row" style="background-color: {{color}};">
-      <td class="textae-editor__type-pallet__label" data-id="{{id}}">
-        <span title={{id}}>
-          {{id}}
-        </span>
-        {{#if uri}}
-          <a href="{{uri}}" target="_blank"><span class="textae-editor__type-pallet__link"></span></a>
-        {{/if}}
-        {{#if defaultType}}
-          <span class="textae-editor__type-pallet__default-icon" title="This type is set as a default type."></span>
-        {{/if}}
-      </td>
-      <td class="textae-editor__type-pallet__short-label">
-        {{label}}
-      </td>
-      <td class="textae-editor__type-pallet__use-number">
-        {{#if useNumber}}{{useNumber}}{{/if}}
-        {{#unless useNumber}}0{{/unless}}
-      </td>
-      <td class="textae-editor__type-pallet__table-buttons">
-        <button
-          type="button"
-          class="textae-editor__type-pallet__table-button textae-editor__type-pallet__select-all {{#unless useNumber}}textae-editor__type-pallet__table-button--disabled{{/unless}}"
-          title="Select all the cases of this type."
-          data-id="{{id}}"
-          data-use-number="{{useNumber}}">
-        </button>
-        {{#unless ../isLock}}
-        <button
-          type="button"
-          class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-type"
-          title="Edit this type." data-id="{{id}}"
-          data-color="{{color}}"
-          data-is-default="{{defaultType}}">
-        </button>
-        <button 
-          type="button"
-          class="textae-editor__type-pallet__table-button textae-editor__type-pallet__remove {{#if useNumber}}textae-editor__type-pallet__table-button--disabled{{/if}}"
-          title="{{#if useNumber}}To activate this button, remove all the annotations of this type.{{/if}}{{#unless useNumber}}Remove this type.{{/unless}}"
-          data-id="{{id}}"
-          data-label="{{label}}">
-        </button>
-        {{/unless}}
-      </td>
-    </tr>
-    {{/each}}
-    {{else}}
-    <tr class="textae-editor__type-pallet__row">
-      <td class="textae-editor__type-pallet__no-config" colspan="4">There is no Entity definition.</td>
-    </tr>
-    {{/if}}
-  </tbody>
-</table>
-`
-
 const headerTemplate = Handlebars.compile(headerSource)
-const typeTemplate = Handlebars.compile(typeHtml)
+function typeTemplate(context) {
+  const { types, isLock } = context
+
+  return `
+  ${headerTemplate(context)}
+  <table>
+    <tbody>
+      <tr>
+        <th>id</th>
+        <th>label</th>
+        <th title="Number of annotations.">#</th>
+        <th></th>
+      </tr>
+      ${
+        types
+          ? types
+              .map(
+                ({
+                  color = '',
+                  id,
+                  uri,
+                  defaultType,
+                  label = '',
+                  useNumber
+                }) => {
+                  return `
+      <tr class="textae-editor__type-pallet__row" style="background-color: ${color};">
+        <td class="textae-editor__type-pallet__label" data-id="${id}">
+          <span title=${id}>
+            ${id}
+          </span>
+          ${
+            uri
+              ? ''
+              : `<a href="${uri}" target="_blank"><span class="textae-editor__type-pallet__link"></span></a>`
+          }
+          ${
+            defaultType
+              ? '<span class="textae-editor__type-pallet__default-icon" title="This type is set as a default type."></span>'
+              : ''
+          }
+        </td>
+        <td class="textae-editor__type-pallet__short-label">
+          ${label}
+        </td>
+        <td class="textae-editor__type-pallet__use-number">
+          ${useNumber ? useNumber : 0}
+        </td>
+        <td class="textae-editor__type-pallet__table-buttons">
+          <button
+            type="button"
+            class="textae-editor__type-pallet__table-button textae-editor__type-pallet__select-all${
+              useNumber
+                ? ''
+                : ' textae-editor__type-pallet__table-button--disabled'
+            }"
+            title="Select all the cases of this type."
+            data-id="${id}"
+            data-use-number="${useNumber}">
+          </button>
+          ${
+            isLock
+              ? ''
+              : `
+          <button
+            type="button"
+            class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-type"
+            title="Edit this type." data-id="${id}"
+            data-color="${color}"
+            data-is-default="${defaultType}">
+          </button>
+          <button 
+            type="button"
+            class="textae-editor__type-pallet__table-button textae-editor__type-pallet__remove${
+              useNumber
+                ? ' textae-editor__type-pallet__table-button--disabled'
+                : ''
+            }"
+            title="${
+              useNumber
+                ? 'To activate this button, remove all the annotations of this type.'
+                : 'Remove this type.'
+            }"
+            data-id="${id}"
+            data-label="${label}">
+          </button>
+          `
+          }
+        </td>
+      </tr>`
+                }
+              )
+              .join('\n')
+          : `
+      <tr class="textae-editor__type-pallet__row">
+        <td class="textae-editor__type-pallet__no-config" colspan="4">There is no Entity definition.</td>
+      </tr>
+      `
+      }
+    </tbody>
+  </table>
+  `
+}
 const removeAttributeButton = `
 <button
   type="button"
