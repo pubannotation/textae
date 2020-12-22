@@ -15,7 +15,7 @@ const template = compileHandlebarsTemplate(`
     </select>
   </div>
   <div class="textae-editor__create-attribute-definition-dialog__row">
-    <div class="textae-editor__create-attribute-definition-dialog__pred">
+    <div class="textae-editor__create-attribute-definition-dialog__pred textae-editor__promise-daialog__observable-element">
       <label>Predicate:</label><br>
       <input value="{{pred}}">
     </div>
@@ -50,7 +50,7 @@ export default class CreateAttributeDefinitionDialog extends PromiseDialog {
       'Please enter new attribute definition',
       template({}),
       {},
-      '.textae-editor__create-attribute-definition-dialog__pred',
+      '.textae-editor__promise-daialog__observable-element',
       () => {
         const valueType = super.el.querySelector(
           '.textae-editor__create-attribute-definition-dialog__value-type'
