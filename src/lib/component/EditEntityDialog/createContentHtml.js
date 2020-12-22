@@ -31,7 +31,7 @@ const wholeTemplate = Handlebars.compile(`
     </div>
     <div class="textae-editor__edit-type-dialog__type__value ui-front">
       <label>Value:</label><br>
-      <input class="textae-editor__edit-type-dialog__type__value__value" value="{{value}}">
+      <input class="textae-editor__edit-type-dialog__type__value__value textae-editor__promise-daialog__observable-element" value="{{value}}">
     </div>
     <div class="textae-editor__edit-type-dialog__type__label">
       <label>Label:</label><br>
