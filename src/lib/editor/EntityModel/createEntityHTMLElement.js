@@ -1,4 +1,6 @@
 import dohtml from 'dohtml'
+import toAttribute from './toAttribute'
+import toLabel from './toLabel'
 
 export default function (context) {
   const { id, title, color, href, label, attributes } = context
@@ -12,33 +14,9 @@ export default function (context) {
   <div class="textae-editor__entity" id="${id}" title="${title}">
     <div class="textae-editor__entity__type-values" id="jsPlumb_${id}" style="background-color: ${color}">
       <div class="textae-editor__entity__type-label" tabindex="0">
-        ${
-          href
-            ? `
-        <a target="_blank"/ href="${href}">${label}</a>
-        `
-            : label
-        }
+        ${toLabel(href, label)}
       </div>
-      ${attributes
-        .map(
-          ({ title, pred, obj, color, href, label }) => `
-      <div class="textae-editor__entity__attribute" title="${title}" data-pred="${pred}" data-obj="${obj}" ${
-            color ? ` style="background-color: ${color}"` : ''
-          }>
-        <span class="textae-editor__entity__attribute-label">
-          ${
-            href
-              ? `
-          <a target="_blank"/ href="${href}">${label}</a>
-          `
-              : label
-          }
-        </span>
-      </div>
-      `
-        )
-        .join('\n')}
+      ${attributes.map(toAttribute).join('\n')}
     </div>
   </div>
   `)
