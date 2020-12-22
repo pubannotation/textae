@@ -6,7 +6,7 @@ const template = compileHandlebarsTemplate(`
 <div class="textae-editor__edit-type-definition-dialog__container">
   <div class="textae-editor__edit-type-definition-dialog__input-box">
   <label>Id:</label><br>
-  <input class="textae-editor__edit-type-definition-dialog--id" value={{id}}>
+  <input class="textae-editor__edit-type-definition-dialog--id textae-editor__promise-daialog__observable-element" value={{id}}>
   </div>
   <div class="textae-editor__edit-type-definition-dialog__input-box">
   <label>Label:<span></span></label><br>
@@ -34,7 +34,7 @@ export default class TypeDefinitionDialog extends PromiseDialog {
       {
         height: 250
       },
-      '.textae-editor__edit-type-definition-dialog--id',
+      '.textae-editor__promise-daialog__observable-element',
       () => {
         const inputs = super.el.querySelectorAll('input')
         return convertToReseltsFunc(
