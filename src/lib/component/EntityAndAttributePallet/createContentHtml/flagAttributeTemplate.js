@@ -1,4 +1,4 @@
-import { headerTemplate } from './headerTemplate'
+import headerTemplate from './headerTemplate'
 import { addOrRemoveAttributeButtonTemplate } from './addOrRemoveAttributeButtonTemplate'
 import { deleteAttributeDefinitionBlockTemplate } from './deleteAttributeDefinitionBlockTemplate'
 

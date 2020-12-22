@@ -1,4 +1,4 @@
-import { headerTemplate } from './headerTemplate'
+import headerTemplate from './headerTemplate'
 
 export default function (context) {
   const { types, isLock } = context

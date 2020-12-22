@@ -1,4 +1,4 @@
-export function headerTemplate(context) {
+export default function (context) {
   const {
     isLock,
     selectedEntityLabel,
