@@ -3,7 +3,7 @@ import { duplicatedAttributesTemplate } from './duplicatedAttributesTemplate'
 import { duplicatedIDsTemplate } from './duplicatedIDsTemplate'
 import { dupulicateRangeBlocksTemplate } from './dupulicateRangeBlocksTemplate'
 import { outOfTextBlocksTemplate } from './outOfTextBlocksTemplate'
-import { outOfTextDenotationsTemplaet } from './outOfTextDenotationsTemplaet'
+import { outOfTextDenotationsTemplate } from './outOfTextDenotationsTemplate'
 import { outOfTextTypesettingsTemplate } from './outOfTextTypesettingsTemplate'
 import { referencedEntitiesDoNotExistTemplate } from './referencedEntitiesDoNotExistTemplate'
 import { wrongRangeBlocksTemplate } from './wrongRangeBlocksTemplate'
@@ -42,7 +42,7 @@ function template(context) {
     <div class="textae-editor__valiondate-dialog__content">
       <h2>${name}</h2>
       ${wrongRangeDenotationsTemplate(wrongRangeDenotations)}
-      ${outOfTextDenotationsTemplaet(outOfTextDenotations)}
+      ${outOfTextDenotationsTemplate(outOfTextDenotations)}
       ${wrongRangeBlocksTemplate(wrongRangeBlocks)}
       ${outOfTextBlocksTemplate(outOfTextBlocks)}
       ${dupulicateRangeBlocksTemplate(duplicatedRangeBlocks)}
