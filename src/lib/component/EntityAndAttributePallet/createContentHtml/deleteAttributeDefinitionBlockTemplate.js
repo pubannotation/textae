@@ -1,4 +1,4 @@
-export function deleteAttributeDefinitionBlockTemplate(hasInstance) {
+export default function (hasInstance) {
   return `
   <div>
   ${
