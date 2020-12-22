@@ -133,17 +133,16 @@ const typeHtml = `
 </table>
 `
 
-Handlebars.registerPartial(
-  'add-attribute-button',
-  `
-  {{#unless @root.isEntityWithSamePredSelected}}
-  <button
-    type="button"
-    class="textae-editor__type-pallet__add-attribute"
-  >Add to selected entity</button>
-  {{/unless}}
+const addAttributeButtonSource = `
+{{#unless @root.isEntityWithSamePredSelected}}
+<button
+  type="button"
+  class="textae-editor__type-pallet__add-attribute"
+>Add to selected entity</button>
+{{/unless}}
 `
-)
+
+Handlebars.registerPartial('add-attribute-button', addAttributeButtonSource)
 
 Handlebars.registerPartial(
   'remove-attribute-button',
