@@ -13,6 +13,7 @@
 ### 背景
 
 1.  6.1.56 で対応
+1.  6.3.28 で、DenotationSpan を選択していない場合、StyleSpan と DenotationSpan が端を共有していて、かつ端を mousedown したときのみ DenotationSpan を縮めることにしました
 
 ### 1 つ上の親 DenotationSpan で mouseup すると
 
@@ -21,6 +22,15 @@
 3.  さらに親 DenotationSpan を作る
 4.  選択を解除する
 5.  StyleSpan 上で mousedown して、1 つ上の親 DenotationSpan 上で mouseup する
+6.  1 つ上の親 DenotationSpan が縮まない
+
+### 1 つ上の親 DenotationSpan と端を共有しているときに、 mouseup すると
+
+1.  Editor1 を選択
+2.  StyleSpan を子に持ち、その端を共有する DenotationSpan を作る
+3.  さらに親 DenotationSpan を作る
+4.  選択を解除する
+5.  StyleSpan と 1 つ上の親 DenotationSpan で共有した端で mousedown して、1 つ上の親 DenotationSpan 上で mouseup する
 6.  1 つ上の親 DenotationSpan が縮む
 
 ### 2 つ上の親 DenotationSpan で mouseup すると
