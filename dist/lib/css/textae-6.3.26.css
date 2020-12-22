@@ -32,82 +32,82 @@
   box-shadow: inset 1px 1px 3px #000;
 }
 .textae-control__view-button {
-  background: url("./images/btn_view_16.png");
+  background: url('./images/btn_view_16.png');
   background-size: cover;
 }
 .textae-control__term-button {
-  background: url("./images/btn_term_16.png");
+  background: url('./images/btn_term_16.png');
 }
 .textae-control__block-button {
-  background: url("./images/btn_block_16.png");
+  background: url('./images/btn_block_16.png');
 }
 .textae-control__relation-button {
-  background: url("./images/btn_relation_16.png");
+  background: url('./images/btn_relation_16.png');
 }
 .textae-control__simple-button {
-  background: url("./images/btn_simple_16.png");
+  background: url('./images/btn_simple_16.png');
 }
 .textae-control__read-button {
-  background: url("./images/btn_read_16.png");
+  background: url('./images/btn_read_16.png');
 }
 .textae-control__write-button {
-  background: url("./images/btn_write_16.png");
+  background: url('./images/btn_write_16.png');
 }
 .textae-control__write-button--transit {
-  background: url("./images/btn_write_modified_16.png");
+  background: url('./images/btn_write_modified_16.png');
 }
 .textae-control__write-auto-button {
-  background: url("./images/btn_write_auto_16.png");
+  background: url('./images/btn_write_auto_16.png');
 }
 .textae-control__undo-button {
-  background: url("./images/btn_undo_16.png");
+  background: url('./images/btn_undo_16.png');
 }
 .textae-control__redo-button {
-  background: url("./images/btn_redo_16.png");
+  background: url('./images/btn_redo_16.png');
 }
 .textae-control__replicate-button {
-  background: url("./images/btn_replicate_16.png");
+  background: url('./images/btn_replicate_16.png');
 }
 .textae-control__replicate-auto-button {
-  background: url("./images/btn_replicate_auto_16.png");
+  background: url('./images/btn_replicate_auto_16.png');
 }
 .textae-control__boundary-detection-button {
-  background: url("./images/btn_boundary_detection_16.png");
+  background: url('./images/btn_boundary_detection_16.png');
 }
 .textae-control__entity-button {
-  background: url("./images/btn_denote_16.png");
+  background: url('./images/btn_denote_16.png');
 }
 .textae-control__pallet-button {
-  background: url("./images/btn_pallet_16.png");
+  background: url('./images/btn_pallet_16.png');
 }
 .textae-control__change-label-button {
-  background: url("./images/btn_change_label_16.png");
+  background: url('./images/btn_change_label_16.png');
 }
 .textae-control__delete-button {
-  background: url("./images/btn_delete_16.png");
+  background: url('./images/btn_delete_16.png');
 }
 .textae-control__copy-button {
-  background: url("./images/btn_copy_16.png");
+  background: url('./images/btn_copy_16.png');
 }
 .textae-control__cut-button {
-  background: url("./images/btn_cut_16.png");
+  background: url('./images/btn_cut_16.png');
 }
 .textae-control__paste-button {
-  background: url("./images/btn_paste_16.png");
+  background: url('./images/btn_paste_16.png');
 }
 .textae-control__help-button {
-  background: url("./images/btn_help_16.png");
+  background: url('./images/btn_help_16.png');
 }
 .textae-control__setting-button {
-  background: url("./images/btn_setting_16.png");
+  background: url('./images/btn_setting_16.png');
 }
 .textae-control__line-height-button {
-  background: url("./images/btn_line_height_16.png");
+  background: url('./images/btn_line_height_16.png');
 }
 .textae-control__line-height-auto-button {
-  background: url("./images/btn_line_height_auto_16.png");
+  background: url('./images/btn_line_height_auto_16.png');
 }
-[mode="edit"].textae-editor--active .textae-control {
+[mode='edit'].textae-editor--active .textae-control {
   visibility: visible;
 }
 .textae-editor--control-visible .textae-control {
@@ -122,9 +122,9 @@
   /* fallback (Opera) */
   background: #bbe;
   /* Mozilla: */
-  background: -moz-linear-gradient(left, #BBBBEE, #FFFFFF);
+  background: -moz-linear-gradient(left, #bbbbee, #ffffff);
   /* Chrome, Safari:*/
-  background: -webkit-gradient(linear, left top, right top, from(#BBBBEE), to(#FFFFFF));
+  background: -webkit-gradient(linear, left top, right top, from(#bbbbee), to(#ffffff));
   /* MSIE */
   filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#BBBBEE', EndColorStr='#FFFFFF', GradientType=1);
   border-left: 5px solid #558;
@@ -203,7 +203,7 @@
   text-align: right;
 }
 .textae-editor__load-dialog__label::after {
-  content: ":";
+  content: ':';
 }
 .textae-editor__load-dialog__label {
   line-height: 1.1em;
@@ -221,13 +221,13 @@
 .textae-editor__load-dialog__file-name,
 .textae-editor__load-dialog__file-name--config {
   line-height: 16px;
-  height: 31px;
+  height: 32px;
   width: 340px;
 }
 .textae-editor__load-dialog__file,
 .textae-editor__load-dialog__file--config {
   line-height: 16px;
-  height: 31px;
+  height: 32px;
   width: 340px;
 }
 .textae-editor__save-dialog__label {
@@ -236,7 +236,7 @@
   text-align: right;
 }
 .textae-editor__save-dialog__label::after {
-  content: ":";
+  content: ':';
 }
 .textae-editor__save-dialog__label {
   line-height: 1.1em;
@@ -254,13 +254,13 @@
 .textae-editor__save-dialog__server-file-name,
 .textae-editor__save-dialog__server-file-name--config {
   line-height: 16px;
-  height: 31px;
+  height: 32px;
   width: 340px;
 }
 .textae-editor__save-dialog__local-file-name,
 .textae-editor__save-dialog__local-file-name--config {
   line-height: 16px;
-  height: 31px;
+  height: 32px;
   width: 340px;
 }
 .textae-editor__save-dialog__diff-title {
@@ -332,7 +332,7 @@
 .textae-editor__edit-type-dialog__attribute__remove {
   padding-top: 11px;
 }
-.textae-editor__edit-type-dialog__attribute__edit__value[disabled="disabled"] {
+.textae-editor__edit-type-dialog__attribute__edit__value[disabled='disabled'] {
   opacity: 0.1;
 }
 .textae-editor__edit-type-dialog__attribute__message {
@@ -379,7 +379,7 @@
   text-align: right;
 }
 .textae-editor__setting-dialog__label::after {
-  content: ":";
+  content: ':';
 }
 .textae-editor__setting-dialog > div {
   margin-bottom: 4px;
@@ -387,7 +387,7 @@
 .textae-editor__setting-dialog__label {
   width: 240px;
 }
-.textae-editor__setting-dialog__type-gap[disabled="disabled"] {
+.textae-editor__setting-dialog__type-gap[disabled='disabled'] {
   background-color: #999;
 }
 .textae-editor__setting-dialog__lock-config {
@@ -476,7 +476,7 @@
   margin-left: 18px;
   width: 50px;
 }
-.textae-editor__add-value-to-attribute-dialog__ok-button[disabled="disabled"] {
+.textae-editor__add-value-to-attribute-dialog__ok-button[disabled='disabled'] {
   opacity: 0.1;
 }
 .textae-editor--dialog {
@@ -558,7 +558,7 @@
   position: relative;
   display: inline-block;
   font-family: FontAwesome;
-  content: "\f023";
+  content: '\f023';
   top: 2px;
   left: 0;
   width: 16px;
@@ -590,14 +590,14 @@
   background-color: #7ce0f6;
   color: blue;
 }
-.textae-editor__type-pallet__attribute--selected[draggable="true"] {
+.textae-editor__type-pallet__attribute--selected[draggable='true'] {
   cursor: move;
 }
 .textae-editor__type-pallet__create-predicate__button:before {
   position: relative;
   display: inline-block;
   font-family: FontAwesome;
-  content: "\f067";
+  content: '\f067';
 }
 .textae-editor__type-pallet__buttons {
   float: right;
@@ -616,7 +616,7 @@
   position: relative;
   display: inline-block;
   font-family: FontAwesome;
-  content: "\f067";
+  content: '\f067';
   top: 1px;
   left: 0;
   font-size: 1.5em;
@@ -678,7 +678,7 @@
   border-width: 1px;
   border-style: solid;
   border-color: #d8d8d8 #d1d1d1 #bababa;
-  background-color: #EEE;
+  background-color: #eee;
 }
 .textae-editor__type-pallet__table-button:before {
   font-size: 1.2em;
@@ -699,7 +699,7 @@
   position: relative;
   display: inline-block;
   font-family: FontAwesome;
-  content: "\f046";
+  content: '\f046';
   left: -2px;
   top: 1px;
 }
@@ -708,7 +708,7 @@
   position: relative;
   display: inline-block;
   font-family: FontAwesome;
-  content: "\f040";
+  content: '\f040';
   left: -1px;
   top: -1px;
 }
@@ -716,7 +716,7 @@
   position: relative;
   display: inline-block;
   font-family: FontAwesome;
-  content: "\f040";
+  content: '\f040';
   left: -1px;
   top: -1px;
 }
@@ -725,7 +725,7 @@
   position: relative;
   display: inline-block;
   font-family: FontAwesome;
-  content: "\f1f8";
+  content: '\f1f8';
   left: -1px;
   top: 0px;
 }
@@ -744,7 +744,7 @@
   cursor: pointer;
 }
 .textae-editor__type-pallet__link {
-  background: url("./images/link.png");
+  background: url('./images/link.png');
   display: inline-block;
   vertical-align: middle;
   height: 16px;
@@ -780,11 +780,11 @@
   margin: 0;
 }
 .textae-editor__type-pallet td input,
-.textae-editor__type-pallet td button[type="button"] {
+.textae-editor__type-pallet td button[type='button'] {
   cursor: pointer;
 }
 .textae-editor__type-pallet__content--dragging .textae-editor__type-pallet__drop-target:before {
-  content: "\f063";
+  content: '\f063';
   color: grey;
   font-family: FontAwesome;
   font-size: 2em;
@@ -4377,9 +4377,9 @@ a.ui-button:active,
   /* fallback (Opera) */
   background: #ddf;
   /* Mozilla: */
-  background: -moz-linear-gradient(left, #DDDDFF, #FFFFFF);
+  background: -moz-linear-gradient(left, #ddddff, #ffffff);
   /* Chrome, Safari:*/
-  background: -webkit-gradient(linear, left top, right top, from(#DDDDFF), to(#FFFFFF));
+  background: -webkit-gradient(linear, left top, right top, from(#ddddff), to(#ffffff));
   /* MSIE */
   bottom: -2px;
   height: 20px;
@@ -5935,7 +5935,7 @@ ul.jsondiffpatch-textdiff {
   font-family: verdana, arial, helvetica, sans-serif;
 }
 .textae-tool__key-help {
-  background: url("./images/keyhelp.png");
+  background: url('./images/keyhelp.png');
   height: 240px;
   width: 480px;
   color: #ddd;
