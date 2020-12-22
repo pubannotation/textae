@@ -1,6 +1,4 @@
-export function referencedEntitiesDoNotExistTemplate(
-  referencedEntitiesDoNotExist
-) {
+export default function (referencedEntitiesDoNotExist) {
   return referencedEntitiesDoNotExist.length
     ? `
       <table>

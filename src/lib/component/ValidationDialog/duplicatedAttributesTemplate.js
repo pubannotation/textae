@@ -1,4 +1,4 @@
-export function duplicatedAttributesTemplate(duplicatedAttributes) {
+export default function (duplicatedAttributes) {
   return duplicatedAttributes.length
     ? `
       <table>

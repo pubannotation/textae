@@ -1,4 +1,4 @@
-export function wrongRangeTypesettingsTemplate(wrongRangeTypesettings) {
+export default function (wrongRangeTypesettings) {
   return wrongRangeTypesettings.length
     ? `
       <table>

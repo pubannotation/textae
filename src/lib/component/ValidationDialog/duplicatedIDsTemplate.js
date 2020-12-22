@@ -1,4 +1,4 @@
-export function duplicatedIDsTemplate(duplicatedIDs) {
+export default function (duplicatedIDs) {
   return duplicatedIDs.length
     ? `
       <table>

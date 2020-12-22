@@ -1,4 +1,4 @@
-export function wrongRangeBlocksTemplate(wrongRangeBlocks) {
+export default function (wrongRangeBlocks) {
   return wrongRangeBlocks.length
     ? `
         <table>

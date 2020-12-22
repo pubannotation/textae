@@ -1,4 +1,4 @@
-export function outOfTextTypesettingsTemplate(outOfTextTypesettings) {
+export default function (outOfTextTypesettings) {
   return outOfTextTypesettings.length
     ? `
       <table>

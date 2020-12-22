@@ -1,4 +1,4 @@
-export function outOfTextDenotationsTemplate(outOfTextDenotations) {
+export default function (outOfTextDenotations) {
   return outOfTextDenotations.length
     ? `
         <table>

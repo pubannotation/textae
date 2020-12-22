@@ -1,4 +1,4 @@
-export function dupulicateRangeBlocksTemplate(duplicatedRangeBlocks) {
+export default function (duplicatedRangeBlocks) {
   return duplicatedRangeBlocks.length
     ? `
       <table>

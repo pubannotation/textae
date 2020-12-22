@@ -1,4 +1,4 @@
-export function boundaryCrossingSpansTemplate(boundaryCrossingSpans) {
+export default function (boundaryCrossingSpans) {
   return boundaryCrossingSpans.length
     ? `
       <table>

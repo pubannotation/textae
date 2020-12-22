@@ -1,4 +1,4 @@
-export function wrongRangeDenotationsTemplate(wrongRangeDenotations) {
+export default function (wrongRangeDenotations) {
   return wrongRangeDenotations.length
     ? `
         <table>

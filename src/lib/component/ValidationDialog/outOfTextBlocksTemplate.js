@@ -1,4 +1,4 @@
-export function outOfTextBlocksTemplate(outOfTextBlocks) {
+export default function (outOfTextBlocks) {
   return outOfTextBlocks.length
     ? `
       <table>
