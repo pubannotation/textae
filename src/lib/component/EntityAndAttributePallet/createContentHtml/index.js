@@ -308,6 +308,27 @@ function addOrRemoveAttributeButtonTemplate(isEntityWithSamePredSelected) {
     >Add to selected entity</button>
   `
 }
+function addOrEditAndRemoveAttributeButtonTemplate(
+  isEntityWithSamePredSelected
+) {
+  return isEntityWithSamePredSelected
+    ? `
+  <button
+    type="button"
+    class="textae-editor__type-pallet__edit-object"
+    >Edit object of selected entity</button>
+  <button
+    type="button"
+    class="textae-editor__type-pallet__remove-attribute"
+    >Remove from selected entity</button>
+  `
+    : `
+  <button
+    type="button"
+    class="textae-editor__type-pallet__add-attribute"
+    >Add to selected entity</button>
+  `
+}
 function deleteAttributeDefinitionBlockTemplate(hasInstance) {
   return `
   <div>
@@ -391,25 +412,9 @@ function numericAttributeTemplate(context) {
             class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-predicate"
             title="Edit this predicate.">
           </button>
-          ${
+          ${addOrEditAndRemoveAttributeButtonTemplate(
             isEntityWithSamePredSelected
-              ? `
-          <button
-            type="button"
-            class="textae-editor__type-pallet__edit-object"
-            >Edit object of selected entity</button>
-          <button
-            type="button"
-            class="textae-editor__type-pallet__remove-attribute"
-            >Remove from selected entity</button>
-          `
-              : `
-          <button
-            type="button"
-            class="textae-editor__type-pallet__add-attribute"
-            >Add to selected entity</button>
-          `
-          }
+          )}
         </div>
         min: ${min}
         max: ${max}
