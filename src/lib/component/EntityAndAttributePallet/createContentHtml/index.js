@@ -170,27 +170,26 @@ Handlebars.registerPartial(
 `
 )
 
-Handlebars.registerPartial(
-  'valueButton',
-  `
-  {{#unless @root.isLock}}
-  <td class="textae-editor__type-pallet__table-attribute-buttons">
-    <button
-      type="button"
-      class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-value"
-      title="Edit this value." data-index="{{@index}}">
-    </button>
-    <button 
-      type="button"
-      class="textae-editor__type-pallet__table-button textae-editor__type-pallet__remove-value {{#if indelible}}textae-editor__type-pallet__table-button--disabled{{/if}}"
-      title="{{#if indelible}}To activate this button, remove all the annotations of this type.{{/if}}{{#unless indelible}}Remove this value.{{/unless}}"
-      {{#if indelible}}disabled="disabled"{{/if}}
-      data-index="{{@index}}">
-    </button>
-  </td>
-  {{/unless}}
+const valueButtonSource = `
+{{#unless @root.isLock}}
+<td class="textae-editor__type-pallet__table-attribute-buttons">
+  <button
+    type="button"
+    class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-value"
+    title="Edit this value." data-index="{{@index}}">
+  </button>
+  <button 
+    type="button"
+    class="textae-editor__type-pallet__table-button textae-editor__type-pallet__remove-value {{#if indelible}}textae-editor__type-pallet__table-button--disabled{{/if}}"
+    title="{{#if indelible}}To activate this button, remove all the annotations of this type.{{/if}}{{#unless indelible}}Remove this value.{{/unless}}"
+    {{#if indelible}}disabled="disabled"{{/if}}
+    data-index="{{@index}}">
+  </button>
+</td>
+{{/unless}}
 `
-)
+
+Handlebars.registerPartial('valueButton', valueButtonSource)
 
 const numericAttributeHtml = `
 {{>header}}
