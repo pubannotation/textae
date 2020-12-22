@@ -158,18 +158,6 @@ Handlebars.registerPartial(
   removeAttributeButtonSource
 )
 
-Handlebars.registerPartial(
-  'edit-object-button',
-  `
-  {{#if @root.isEntityWithSamePredSelected}}
-  <button
-    type="button"
-    class="textae-editor__type-pallet__edit-object"
-  >Edit object of selected entity</button>
-  {{/if}}
-`
-)
-
 const headerTemplate = Handlebars.compile(headerSource)
 const typeTemplate = Handlebars.compile(typeHtml)
 const removeAttributeButton = `
