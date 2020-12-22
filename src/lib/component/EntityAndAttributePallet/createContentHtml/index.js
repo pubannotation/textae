@@ -347,7 +347,7 @@ const stringAttributeHtml = `
 
 const headerTemplate = Handlebars.compile(headerSource)
 const typeTemplate = Handlebars.compile(typeHtml)
-const flagAttributeTemplate = (context) => {
+function flagAttributeTemplate(context) {
   const { pred, hasInstance } = context.attrDef
   const { isEntityWithSamePredSelected } = context
 
