@@ -144,16 +144,18 @@ const addAttributeButtonSource = `
 
 Handlebars.registerPartial('add-attribute-button', addAttributeButtonSource)
 
+const removeAttributeButtonSource = `
+{{#if @root.isEntityWithSamePredSelected}}
+<button
+  type="button"
+  class="textae-editor__type-pallet__remove-attribute"
+>Remove from selected entity</button>
+{{/if}}
+`
+
 Handlebars.registerPartial(
   'remove-attribute-button',
-  `
-  {{#if @root.isEntityWithSamePredSelected}}
-  <button
-    type="button"
-    class="textae-editor__type-pallet__remove-attribute"
-  >Remove from selected entity</button>
-  {{/if}}
-`
+  removeAttributeButtonSource
 )
 
 const flagAttributeHtml = `
