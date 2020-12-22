@@ -271,15 +271,30 @@ export default class SpanEditor {
     // When you mouse down on a parent style span and mouse up on the child span,
     // you shrink the child span.
     if (selectionWrapper.isFocusOneDownUnderAnchor) {
+      console.log(1)
       this._shrink(selectionWrapper, selectionWrapper.parentOfFocusNode.id)
       return
     }
 
-    // When you mouse down on a child style span and mouse up on the parent span,
-    // you shrink the parent span.
+    // If the child's style span and the end of the parent's denotation span coincide,
+    // the mouse-down event will be fired on the child's style span.
     if (selectionWrapper.isAnchorOneDownUnderFocus) {
-      this._shrink(selectionWrapper, selectionWrapper.parentOfFocusNode.id)
-      return
+      // If the anchor position coincides with the begin or end of the denotation span,
+      // the denotation span will be shrunk.
+      const { anchor } = new PositionsOnAnnotation(
+        this._annotationData.span,
+        selectionWrapper
+      )
+      const denotationSpanOnFocus = this._annotationData.span.get(
+        selectionWrapper.parentOfFocusNode.id
+      )
+      if (
+        anchor === denotationSpanOnFocus.begin ||
+        anchor === denotationSpanOnFocus.end
+      ) {
+        this._shrink(selectionWrapper, selectionWrapper.parentOfFocusNode.id)
+        return
+      }
     }
 
     clearTextSelection()
