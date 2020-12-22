@@ -162,7 +162,7 @@ const flagAttributeHtml = `
 {{>header}}
 <div>
   {{# attrDef}}
-    {{#>predicate}}
+    <div class="textae-editor__type-pallet__predicate">
       <div>
         flag attribute: {{pred}}
         <button
@@ -170,10 +170,27 @@ const flagAttributeHtml = `
           class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-predicate"
           title="Edit this predicate.">
         </button>
-        {{> add-attribute-button}}
-        {{> remove-attribute-button}}
+        {{#unless @root.isEntityWithSamePredSelected}}
+        <button
+          type="button"
+          class="textae-editor__type-pallet__add-attribute"
+        >Add to selected entity</button>
+        {{/unless}}
+        {{#if @root.isEntityWithSamePredSelected}}
+        <button
+          type="button"
+          class="textae-editor__type-pallet__remove-attribute"
+        >Remove from selected entity</button>
+        {{/if}}
       </div>
-    {{/predicate}}
+    <div>
+    {{#if hasInstance}}
+      Attribute definitions with instances cannot be deleted.
+    {{else}}
+      <button type="button" class="textae-editor__type-pallet__delete-predicate">delete attribute</button>
+    {{/if}}
+    </div>
+  </div>
   {{/ attrDef}}
 </div>
 `
