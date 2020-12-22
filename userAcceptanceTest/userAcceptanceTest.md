@@ -695,7 +695,7 @@
 1.  Setting ダイアログで行の高さを変更する
 2.  行の高さが変わること
 3.  Grid の位置が変わること
-4.  読込みダイアログを表示
+4.  アノテーション読込ダイアログを表示
 5.  URL から annotation を読み込む
 6.  行の高さが再計算されること
 
@@ -958,7 +958,7 @@
 ### -- 手段 --
 
 1.  editor6 を選択
-2.  アノテーション読込みダイアログを表示する
+2.  アノテーション読込ダイアログを表示する
 3.  URL 欄に`../../dev/3_annotations.json`が表示されること
 4.  アノテーション保存ダイアログを表示する
 5.  URL 欄に`http://pubannotation.org/projects/penguin-fly/docs/sourcedb/PubMed/sourceid/10089213/annotations.json`が表示されること
