@@ -24,7 +24,6 @@ export default class EditEntityDialog extends PromiseDialog {
         minHeight: 300,
         width: 800
       },
-      '.textae-editor__promise-daialog__observable-element',
       () => getValues(super.el)
     )
 

@@ -52,7 +52,6 @@ export default class EditAttributeDefinitionDialog extends PromiseDialog {
         showNumeric: attrDef.valueType === 'numeric'
       }),
       {},
-      '.textae-editor__promise-daialog__observable-element',
       () => {
         const pred = getInputElementValue(
           super.el,

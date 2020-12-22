@@ -2,7 +2,7 @@ import delegate from 'delegate'
 import Dialog from './Dialog'
 
 export default class PromiseDialog extends Dialog {
-  constructor(title, contentHtml, option, observableClass, getResultsFunc) {
+  constructor(title, contentHtml, option, getResultsFunc) {
     super(title, contentHtml, 'OK', option)
 
     this.promise = new Promise((resolve) => {

@@ -34,7 +34,6 @@ export default class TypeDefinitionDialog extends PromiseDialog {
       {
         height: 250
       },
-      '.textae-editor__promise-daialog__observable-element',
       () => {
         const inputs = super.el.querySelectorAll('input')
         return convertToReseltsFunc(

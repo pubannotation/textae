@@ -25,7 +25,6 @@ export default class EditRelationDialog extends PromiseDialog {
       {
         height: 250
       },
-      '.textae-editor__promise-daialog__observable-element',
       () => {
         const input = super.el.querySelector(
           '.textae-editor__edit-value-and-pred-dialog--value'

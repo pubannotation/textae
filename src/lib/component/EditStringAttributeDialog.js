@@ -23,7 +23,6 @@ export default class EditStringAttributeDialog extends PromiseDialog {
         value: attribute.obj
       }),
       { height: 250 },
-      '.textae-editor__edit-value-and-pred-dialog--value',
       () => {
         const input = super.el.querySelector(
           '.textae-editor__edit-value-and-pred-dialog--value'
