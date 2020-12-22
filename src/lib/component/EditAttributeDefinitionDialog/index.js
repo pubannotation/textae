@@ -6,7 +6,7 @@ import compileHandlebarsTemplate from '../../compileHandlebarsTemplate'
 const template = compileHandlebarsTemplate(`
 <div class="textae-editor__edit-attribute-definition-dialog__container">
   <div class="textae-editor__edit-attribute-definition-dialog__row">
-    <div class="textae-editor__edit-attribute-definition-dialog__pred">
+    <div class="textae-editor__edit-attribute-definition-dialog__pred textae-editor__promise-daialog__observable-element">
       <label>Predicate:</label><br>
       <input value="{{pred}}">
     </div>
@@ -52,7 +52,7 @@ export default class EditAttributeDefinitionDialog extends PromiseDialog {
         showNumeric: attrDef.valueType === 'numeric'
       }),
       {},
-      '.textae-editor__edit-attribute-definition-dialog__pred',
+      '.textae-editor__promise-daialog__observable-element',
       () => {
         const pred = getInputElementValue(
           super.el,
