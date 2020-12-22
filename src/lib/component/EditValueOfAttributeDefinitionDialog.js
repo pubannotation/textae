@@ -6,7 +6,7 @@ import compileHandlebarsTemplate from '../compileHandlebarsTemplate'
 const template = compileHandlebarsTemplate(`
 <div class="textae-editor__add-value-to-attribute-dialog__container">
   <div class="textae-editor__add-value-to-attribute-dialog__row">
-    <div class="textae-editor__add-value-to-attribute-dialog__range_or_id_or_pattern">
+    <div class="textae-editor__add-value-to-attribute-dialog__range_or_id_or_pattern textae-editor__promise-daialog__observable-element">
       <label>{{labelForRangeOrIdOrPattern}}:</label><br>
       <input value="{{rangeOrIdOrPattern}}">
     </div>
@@ -57,7 +57,7 @@ export default class EditValueOfAttributeDefinitionDialog extends PromiseDialog 
       'Please enter new values',
       template(bindingObject),
       {},
-      '.textae-editor__add-value-to-attribute-dialog__range_or_id_or_pattern',
+      '.textae-editor__promise-daialog__observable-element',
       () => {
         const rangeOrIdOrPattern = getInputElementValue(
           super.el,
