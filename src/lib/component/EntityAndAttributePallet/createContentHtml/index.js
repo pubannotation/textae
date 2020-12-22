@@ -293,14 +293,15 @@ const stringAttributeHtml = `
 
 const headerTemplate = Handlebars.compile(headerSource)
 const typeTemplate = Handlebars.compile(typeHtml)
+const removeAttributeButton = `
+<button
+  type="button"
+  class="textae-editor__type-pallet__remove-attribute"
+  >Remove from selected entity</button>
+`
 function addOrRemoveAttributeButtonTemplate(isEntityWithSamePredSelected) {
   return isEntityWithSamePredSelected
-    ? `
-  <button
-    type="button"
-    class="textae-editor__type-pallet__remove-attribute"
-    >Remove from selected entity</button>
-  `
+    ? removeAttributeButton
     : `
   <button
     type="button"
@@ -317,10 +318,7 @@ function addOrEditAndRemoveAttributeButtonTemplate(
     type="button"
     class="textae-editor__type-pallet__edit-object"
     >Edit object of selected entity</button>
-  <button
-    type="button"
-    class="textae-editor__type-pallet__remove-attribute"
-    >Remove from selected entity</button>
+  ${removeAttributeButton}
   `
     : `
   <button
