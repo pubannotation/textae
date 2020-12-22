@@ -1,4 +1,4 @@
-export function getRemoveAttributeButton() {
+export default function () {
   return `
 <button
   type="button"
