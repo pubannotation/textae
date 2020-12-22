@@ -191,56 +191,6 @@ const valueButtonSource = `
 
 Handlebars.registerPartial('valueButton', valueButtonSource)
 
-const selectionAttributeHtml = `
-{{>header}}
-<div>
-  {{# attrDef}}
-    {{#>predicate}}
-      <div>
-        selection attribute: {{pred}}
-        <button
-          type="button"
-          class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-predicate"
-          title="Edit this predicate.">
-        </button>
-        {{> add-attribute-button}}
-        {{> remove-attribute-button}}
-      </div>
-    {{/predicate}}
-    </div>
-    <table>
-      <tbody>
-        <tr>
-          <th>id</th>
-          <th>label</th>
-          <th>color</th>
-          {{#unless @root.isLock}}
-          <th></th>
-          {{/unless}}
-        </tr>
-        {{#each values}}
-        <tr class="textae-editor__type-pallet__row" style="background-color: {{color}};">
-          <td class="textae-editor__type-pallet__selection-attribute-label" data-id="{{id}}">
-            {{id}}
-            {{#if default}}
-              <span class="textae-editor__type-pallet__default-icon" title="This type is set as a default type."></span>
-            {{/if}}
-          </td>
-          <td class="textae-editor__type-pallet__short-label">
-            {{label}}
-          </td>
-          <td class="textae-editor__type-pallet__short-label">
-            {{color}}
-          </td>
-          {{>valueButton}}
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
-  {{/ attrDef}}
-</div>
-`
-
 const stringAttributeHtml = `
 {{>header}}
 <div>
@@ -449,7 +399,67 @@ function numericAttributeTemplate(context) {
   </div>
   `
 }
-const selectionAttributeTemplate = Handlebars.compile(selectionAttributeHtml)
+function selectionAttributeTemplate(context) {
+  const { pred, hasInstance, values } = context.attrDef
+  const { isEntityWithSamePredSelected, isLock } = context
+
+  return `
+  ${headerTemplate(context)}
+  <div>
+    <div class="textae-editor__type-pallet__predicate">
+      <div>
+        selection attribute: ${pred}
+        <button
+          type="button"
+          class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-predicate"
+          title="Edit this predicate.">
+        </button>
+        ${addOrRemoveAttributeButtonTemplate(isEntityWithSamePredSelected)}
+      </div>
+      ${deleteAttributeDefinitionBlockTemplate(hasInstance)}
+    </div>
+
+    <table>
+      <tbody>
+        <tr>
+          <th>id</th>
+          <th>label</th>
+          <th>color</th>
+          ${isLock ? '' : '<th></th>'}
+        </tr>
+        ${values
+          .map(
+            (
+              { color = '', id, default: _default, label = '', indelible },
+              index
+            ) => {
+              return `
+        <tr class="textae-editor__type-pallet__row" style="background-color: ${color};">
+          <td class="textae-editor__type-pallet__selection-attribute-label" data-id="${id}">
+            ${id}
+            ${
+              _default
+                ? '<span class="textae-editor__type-pallet__default-icon" title="This type is set as a default type."></span>'
+                : ''
+            }
+          </td>
+          <td class="textae-editor__type-pallet__short-label">
+            ${label}
+          </td>
+          <td class="textae-editor__type-pallet__short-label">
+            ${color}
+          </td>
+          ${valueButtonsTemplate(isLock, index, indelible)}
+        </tr>
+        `
+            }
+          )
+          .join('\n')}
+      </tbody>
+    </table>
+  </div>
+  `
+}
 const stringAttributeTemplate = Handlebars.compile(stringAttributeHtml)
 
 export default function (
