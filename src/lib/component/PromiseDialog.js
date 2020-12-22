@@ -17,11 +17,16 @@ export default class PromiseDialog extends Dialog {
       // Overwrite the button handler.
       this._option.buttons[0].click = onClick
 
-      delegate(super.el, observableClass, 'keyup', (e) => {
-        if (e.keyCode === 13) {
-          onClick()
+      delegate(
+        super.el,
+        '.textae-editor__promise-daialog__observable-element',
+        'keyup',
+        (e) => {
+          if (e.keyCode === 13) {
+            onClick()
+          }
         }
-      })
+      )
     })
   }
 }
