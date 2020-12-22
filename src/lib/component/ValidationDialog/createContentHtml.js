@@ -10,7 +10,7 @@ import wrongRangeBlocksTemplate from './wrongRangeBlocksTemplate'
 import wrongRangeDenotationsTemplate from './wrongRangeDenotationsTemplate'
 import wrongRangeTypesettingsTemplate from './wrongRangeTypesettingsTemplate'
 
-function template(context) {
+export default function (context) {
   return context
     .map(
       (
@@ -57,8 +57,4 @@ function template(context) {
       }
     )
     .join('\n')
-}
-
-export default function (rejects) {
-  return template(rejects)
 }
