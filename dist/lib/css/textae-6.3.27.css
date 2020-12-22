@@ -476,7 +476,7 @@
   margin-left: 18px;
   width: 50px;
 }
-.textae-editor__add-value-to-attribute-dialog__ok-button[disabled='disabled'] {
+.ui-dialog-buttonpane button[disabled='disabled'] {
   opacity: 0.1;
 }
 .textae-editor--dialog {
