@@ -347,6 +347,21 @@ const stringAttributeHtml = `
 
 const headerTemplate = Handlebars.compile(headerSource)
 const typeTemplate = Handlebars.compile(typeHtml)
+function addOrRemoveAttributeButtonTemplate(isEntityWithSamePredSelected) {
+  return isEntityWithSamePredSelected
+    ? `
+  <button
+    type="button"
+    class="textae-editor__type-pallet__remove-attribute"
+    >Remove from selected entity</button>
+  `
+    : `
+  <button
+    type="button"
+    class="textae-editor__type-pallet__add-attribute"
+    >Add to selected entity</button>
+  `
+}
 function flagAttributeTemplate(context) {
   const { pred, hasInstance } = context.attrDef
   const { isEntityWithSamePredSelected } = context
@@ -362,21 +377,7 @@ function flagAttributeTemplate(context) {
           class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-predicate"
           title="Edit this predicate.">
         </button>
-        ${
-          isEntityWithSamePredSelected
-            ? `
-        <button
-          type="button"
-          class="textae-editor__type-pallet__remove-attribute"
-          >Remove from selected entity</button>
-        `
-            : `
-        <button
-          type="button"
-          class="textae-editor__type-pallet__add-attribute"
-          >Add to selected entity</button>
-        `
-        }
+        ${addOrRemoveAttributeButtonTemplate(isEntityWithSamePredSelected)}
       </div>
       <div>
       ${
