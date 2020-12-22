@@ -9,7 +9,7 @@ const template = compileHandlebarsTemplate(`
   </div>
   <div class="textae-editor__edit-value-and-pred-dialog__input-box ui-front">
     <label class="textae-editor__edit-value-and-pred-dialog--label">Object:</label><br>
-    <input class="textae-editor__edit-value-and-pred-dialog--value" type="number" min="{{min}}" max="{{max}}" step="{{step}}" value="{{value}}">
+    <input class="textae-editor__edit-value-and-pred-dialog--value textae-editor__promise-daialog__observable-element" type="number" min="{{min}}" max="{{max}}" step="{{step}}" value="{{value}}">
   </div>
 </div>`)
 
@@ -25,7 +25,7 @@ export default class EditNumericAttributeDialog extends PromiseDialog {
         step: attrDef.step
       }),
       {},
-      '.textae-editor__edit-value-and-pred-dialog--value',
+      '.textae-editor__promise-daialog__observable-element',
       () => {
         const input = super.el.querySelector(
           '.textae-editor__edit-value-and-pred-dialog--value'
