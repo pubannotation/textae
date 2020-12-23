@@ -12,7 +12,7 @@ export default function (
   relation,
   text,
   rowData,
-  trackNumber
+  trackNumber = ''
 ) {
   const result = validateAnnotation(text, rowData)
 
