@@ -1,4 +1,5 @@
 import Control from '../Control'
+import toButtonGroup from './toButtonGroup'
 import transitWriteButtonImage from './transitWriteButtonImage'
 
 // Make a group of buttons that is headed by the separator.
@@ -23,21 +24,4 @@ export default class ControlBar extends Control {
   transitWriteButtonImage(transitButtons) {
     transitWriteButtonImage(super.el, transitButtons)
   }
-}
-
-function toButtonGroup() {
-  return ({ list }) => `
-  <span class="textae-control__separator"></span>
-  ${list.map(toButtonIcon).join('\n')}
-  `
-}
-
-function toButtonIcon({ type, title }) {
-  return `
-<span 
-class="textae-control__icon textae-control__${type}-button" 
-title="${title}" 
-data-button-type="${type}">
-</span>
-`
 }
