@@ -1,39 +1,57 @@
 import PromiseDialog from '../PromiseDialog'
 import getInputElementValue from '../getInputElementValue'
 import isChanged from './isChanged'
-import compileHandlebarsTemplate from '../../compileHandlebarsTemplate'
 
-const template = compileHandlebarsTemplate(`
+function template(context) {
+  const {
+    pred,
+    showDefault,
+    default: _default,
+    showNumeric,
+    min,
+    max,
+    step
+  } = context
+  return `
 <div class="textae-editor__edit-attribute-definition-dialog__container">
   <div class="textae-editor__edit-attribute-definition-dialog__row">
     <div class="textae-editor__edit-attribute-definition-dialog__pred textae-editor__promise-daialog__observable-element">
       <label>Predicate:</label><br>
-      <input value="{{pred}}">
+      <input value="${pred}">
     </div>
-    {{#if showDefault}}
-      <div class="textae-editor__edit-attribute-definition-dialog__default">
-        <label>Default:</label><br>
-        <input value="{{default}}">
-      </div>
-    {{/if}}
+    ${
+      showDefault
+        ? `
+    <div class="textae-editor__edit-attribute-definition-dialog__default">
+    <label>Default:</label><br>
+    <input value="${_default}">
   </div>
-  {{#if showNumeric}}
-    <div class="textae-editor__edit-attribute-definition-dialog__row">
-      <div class="textae-editor__edit-attribute-definition-dialog__min">
-        <label>Min:</label><br>
-        <input type="text" value="{{min}}">
-      </div>
-      <div class="textae-editor__edit-attribute-definition-dialog__max">
-        <label>Max:</label><br>
-        <input type="text" value="{{max}}">
-      </div>
-      <div class="textae-editor__edit-attribute-definition-dialog__step">
-        <label>Step:</label><br>
-        <input type="text" value="{{step}}">
-      </div>
-    </div>
-  {{/if}}
-</div>`)
+`
+        : ''
+    }
+  </div>
+  ${
+    showNumeric
+      ? `
+  <div class="textae-editor__edit-attribute-definition-dialog__row">
+  <div class="textae-editor__edit-attribute-definition-dialog__min">
+    <label>Min:</label><br>
+    <input type="text" value="${min}">
+  </div>
+  <div class="textae-editor__edit-attribute-definition-dialog__max">
+    <label>Max:</label><br>
+    <input type="text" value="${max}">
+  </div>
+  <div class="textae-editor__edit-attribute-definition-dialog__step">
+    <label>Step:</label><br>
+    <input type="text" value="${step}">
+  </div>
+</div>
+`
+      : ''
+  }
+</div>`
+}
 
 export default class EditAttributeDefinitionDialog extends PromiseDialog {
   constructor(attrDef) {
