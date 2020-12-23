@@ -1,9 +1,11 @@
+import compileHandlebarsTemplate from '../../compileHandlebarsTemplate'
 import Control from '../Control'
 import { htmlTemplate } from './htmlTemplate'
 
 export default class ContextMenu extends Control {
   constructor(editor) {
-    super(htmlTemplate, editor)
+    const template = compileHandlebarsTemplate(htmlTemplate)
+    super(template, editor)
   }
 
   show(positionTop, positionLeft) {
