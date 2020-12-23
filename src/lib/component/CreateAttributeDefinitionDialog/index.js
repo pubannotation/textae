@@ -1,50 +1,7 @@
 import delegate from 'delegate'
 import PromiseDialog from '../PromiseDialog'
 import getInputElementValue from '../getInputElementValue'
-
-function template(context) {
-  const {
-    flagSelected,
-    selectionSelected,
-    stringSelected,
-    numericSelected,
-    pred,
-    showDefault,
-    default: _default,
-    showNumeric,
-    min,
-    max,
-    step
-  } = context
-  return `
-<div class="textae-editor__create-attribute-definition-dialog__container">
-  <div class="textae-editor__create-attribute-definition-dialog__row">
-    <label>Attribute type:</label>
-    <select class="textae-editor__create-attribute-definition-dialog__value-type">
-      <option value="flag"${flagSelected ? ` selected` : ``}>
-        flag
-        </option>
-      <option value="selection"${selectionSelected ? ` selected` : ``}>
-        selection
-      </option>
-      <option value="string"${stringSelected ? ` selected` : ``}>
-        string
-      </option>
-      <option value="numeric"${numericSelected ? ` selected` : ``}>
-        numeric
-      </option>
-    </select>
-  </div>
-  <div class="textae-editor__create-attribute-definition-dialog__row">
-    <div class="textae-editor__create-attribute-definition-dialog__pred textae-editor__promise-daialog__observable-element">
-      <label>Predicate:</label><br>
-      <input value="${pred || ''}">
-    </div>
-    ${inputDefault(showDefault, _default)}
-  </div>
-  ${inputNumeric(showNumeric, min, max, step)}
-</div>`
-}
+import template from './template'
 
 export default class CreateAttributeDefinitionDialog extends PromiseDialog {
   constructor() {
@@ -139,35 +96,4 @@ export default class CreateAttributeDefinitionDialog extends PromiseDialog {
       }
     )
   }
-}
-function inputNumeric(showNumeric, min, max, step) {
-  return showNumeric
-    ? `
-  <div class="textae-editor__create-attribute-definition-dialog__row">
-    <div class="textae-editor__create-attribute-definition-dialog__min">
-      <label>Min:</label><br>
-      <input type="text" value="${min || ''}">
-    </div>
-    <div class="textae-editor__create-attribute-definition-dialog__max">
-      <label>Max:</label><br>
-      <input type="text" value="${max || ''}">
-    </div>
-    <div class="textae-editor__create-attribute-definition-dialog__step">
-      <label>Step:</label><br>
-      <input type="text" value="${step || ''}">
-    </div>
-  </div>
-`
-    : ``
-}
-
-function inputDefault(showDefault, _default) {
-  return showDefault
-    ? `
-    <div class="textae-editor__create-attribute-definition-dialog__default">
-      <label>Default:</label><br>
-      <input value="${_default || ''}">
-    </div>
-`
-    : ``
 }
