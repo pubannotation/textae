@@ -1,6 +1,6 @@
 import { diff } from 'jsondiffpatch'
-import Pallet from './Pallet'
-import createPalletElement from './Pallet/createPalletElement'
+import Pallet from '../Pallet'
+import createPalletElement from '../Pallet/createPalletElement'
 
 function template(context) {
   const { isLock, hasDiff, types } = context
