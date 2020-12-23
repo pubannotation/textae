@@ -1,5 +1,22 @@
 # たまにやるテスト
 
+## config で Entity の Type に label 属性を定義
+
+### 背景
+
+1.  4.3.0 から config に Entity の Type に label を定義できるようになりました
+
+### -- 手段 --
+
+1.  Edtor1 を選択
+2.  Termモードにする
+2.  Entity を選択する
+3.  `w`キーを押して、Type を`http://www.yahoo.co.jp`に変更します
+4.  Type の表示が`Regulation`になること
+5.  V アイコンを押して View モードに切り替える
+6.  Type のラベルがリンクになること
+7.  リンクをクリックすると`http://www.yahoo.co.jp`が開くこと
+
 ## config の autocompletion_ws 属性
 
 ### 背景

@@ -8,25 +8,7 @@
 4.  ブラウザの開発ツールを起動します。
 5.  以下のテストを実行して、エラーが出ないこと
 
-## config で Entity の Type に label 属性を定義
-
-### 背景
-
-1.  4.3.0 から config に Entity の Type に label を定義できるようになりました
-
-### -- 手段 --
-
-1.  Edtor1 を選択
-2.  Entity を選択する
-3.  `w`キーを押して、Type を`http://www.yahoo.co.jp`に変更します
-4.  Type の表示が`Regulation`になること
-5.  V アイコンを押して View モードに切り替える
-6.  Type のラベルがリンクになること
-7.  リンクをクリックすると`http://www.yahoo.co.jp`が開くこと
-
 ## 境界検出
-
-### 動作確認
 
 #### 背景
 
