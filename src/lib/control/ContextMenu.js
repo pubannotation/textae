@@ -1,4 +1,5 @@
 import Control from './Control'
+import toMenuGroup from './toMenuGroup'
 
 // Make a group of buttons that is headed by the separator.
 function template(context) {
@@ -37,19 +38,4 @@ export default class ContextMenu extends Control {
   get _isOpen() {
     return super.el.classList.contains('textae-context-menu--show')
   }
-}
-
-function toMenuGroup() {
-  return ({ list }) => `
-  <p class="textae-control__separator"></p>
-  ${list.map(toMenuItem()).join('\n')}
-  `
-}
-
-function toMenuItem() {
-  return ({ type, title }) => `
-  <p 
-    class="textae-control__icon textae-control__${type}-button" 
-    data-button-type="${type}">${title}
-  </p>`
 }
