@@ -16,7 +16,6 @@
     "delegate": "^3.2.0",
     "dohtml": "^0.1.0",
     "emitter-fsm": "0.0.2",
-    "handlebars": "^4.7.6",
     "jquery": "^2.2.4",
     "jquery-ui": "^1.12.1",
     "jsondiffpatch": "^0.4.1",
