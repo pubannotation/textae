@@ -1,31 +1,45 @@
 import PromiseDialog from './PromiseDialog'
 import getInputElementValue from './getInputElementValue'
 import IntervalNotation from '../IntervalNotation'
-import compileHandlebarsTemplate from '../compileHandlebarsTemplate'
 
-const template = compileHandlebarsTemplate(`
+function template(context) {
+  const {
+    labelForRangeOrIdOrPattern,
+    rangeOrIdOrPattern,
+    showDefault,
+    default: _default,
+    label,
+    color
+  } = context
+
+  return `
 <div class="textae-editor__add-value-to-attribute-dialog__container">
   <div class="textae-editor__add-value-to-attribute-dialog__row">
     <div class="textae-editor__add-value-to-attribute-dialog__range_or_id_or_pattern textae-editor__promise-daialog__observable-element">
-      <label>{{labelForRangeOrIdOrPattern}}:</label><br>
-      <input value="{{rangeOrIdOrPattern}}">
+      <label>${labelForRangeOrIdOrPattern}:</label><br>
+      <input value="${rangeOrIdOrPattern || ''}">
     </div>
-    {{#if showDefault}}
+    ${
+      showDefault
+        ? `
     <div class="textae-editor__add-value-to-attribute-dialog__default">
       <label>default:</label><br>
-      <input type="checkbox" {{#if default}}checked="checked"{{/if}}>
+      <input type="checkbox" ${_default ? `checked="checked"` : ``}>
     </div>
-    {{/if}}
+    `
+        : ``
+    }
     <div class="textae-editor__add-value-to-attribute-dialog__label">
       <label>label:</label><br>
-      <input value="{{label}}">
+      <input value="${label || ''}">
     </div>
     <div class="textae-editor__add-value-to-attribute-dialog__color">
       <label>color:</label><br>
-      <input value="{{color}}">
+      <input value="${color || ''}">
     </div>
   </div>
-</div>`)
+</div>`
+}
 
 export default class EditValueOfAttributeDefinitionDialog extends PromiseDialog {
   constructor(valueType, value = {}) {
