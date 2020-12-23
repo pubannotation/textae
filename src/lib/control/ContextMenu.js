@@ -1,24 +1,35 @@
-import compileHandlebarsTemplate from '../compileHandlebarsTemplate'
 import Control from './Control'
 
 // Make a group of buttons that is headed by the separator.
-const htmlTemplate = `
+function template(context) {
+  const { buttonGroup } = context
+  return `
 <div class="textae-control textae-context-menu">
   <p class="textae-control__title">
     <a href="http://textae.pubannotation.org/" target="_blank">TextAE</a>
   </p>
-  {{#buttonGroup}}
+  ${buttonGroup
+    .map(
+      ({ list }) => `
   <p class="textae-control__separator"></p>
-    {{#list}}
-  <p class="textae-control__icon textae-control__{{type}}-button" data-button-type="{{type}}">{{title}}</p>
-    {{/list}}
-  {{/buttonGroup}}
+  ${list
+    .map(
+      ({ type, title }) => `
+  <p 
+    class="textae-control__icon textae-control__${type}-button" 
+    data-button-type="${type}">${title}
+  </p>`
+    )
+    .join('\n')}
+  `
+    )
+    .join('\n')}
 </div>
 `
+}
 
 export default class ContextMenu extends Control {
   constructor(editor) {
-    const template = compileHandlebarsTemplate(htmlTemplate)
     super(template, editor)
   }
 
