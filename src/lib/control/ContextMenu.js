@@ -8,22 +8,7 @@ function template(context) {
   <p class="textae-control__title">
     <a href="http://textae.pubannotation.org/" target="_blank">TextAE</a>
   </p>
-  ${buttonGroup
-    .map(
-      ({ list }) => `
-  <p class="textae-control__separator"></p>
-  ${list
-    .map(
-      ({ type, title }) => `
-  <p 
-    class="textae-control__icon textae-control__${type}-button" 
-    data-button-type="${type}">${title}
-  </p>`
-    )
-    .join('\n')}
-  `
-    )
-    .join('\n')}
+  ${buttonGroup.map(toMenuGroup()).join('\n')}
 </div>
 `
 }
@@ -52,4 +37,19 @@ export default class ContextMenu extends Control {
   get _isOpen() {
     return super.el.classList.contains('textae-context-menu--show')
   }
+}
+
+function toMenuGroup() {
+  return ({ list }) => `
+  <p class="textae-control__separator"></p>
+  ${list.map(toMenuItem()).join('\n')}
+  `
+}
+
+function toMenuItem() {
+  return ({ type, title }) => `
+  <p 
+    class="textae-control__icon textae-control__${type}-button" 
+    data-button-type="${type}">${title}
+  </p>`
 }
