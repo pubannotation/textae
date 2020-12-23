@@ -6,22 +6,35 @@ import bind from './bind'
 function template(context) {
   const { url, filename, diff } = context
 
-  return `<div>
-<div class="textae-editor__save-dialog__row">
-  <label class="textae-editor__save-dialog__label">URL</label>
-  <input type="text" value="${url}" class="textae-editor__save-dialog__server-file-name url">
-  <input type="button" class="url" ${
-    url ? '' : `disabled="disabled"`
-  } value="Save">
+  return `
+<div>
+  <div class="textae-editor__save-dialog__row">
+    <label class="textae-editor__save-dialog__label">URL</label>
+    <input 
+      type="text" value="${url}" 
+      class="textae-editor__save-dialog__server-file-name url">
+    <input 
+      type="button" 
+      class="url" ${url ? '' : `disabled="disabled"`} 
+      value="Save">
+  </div>
+  <div class="textae-editor__save-dialog__row">
+    <label class="textae-editor__save-dialog__label">Local</label>
+    <input 
+      type="text" value="${filename}" 
+      class="textae-editor__save-dialog__local-file-name local">
+    <a class="download" href="#">Download</a>
+  </div>
+  <div class="textae-editor__save-dialog__row">
+    <p class="textae-editor__save-dialog__diff-title">
+      Configuration differences
+      <span class="diff-info diff-info--add">added</span>
+      <span class="diff-info diff-info--remove">removed</span>
+    </p>
+  </div>
+  <div class="textae-editor__save-dialog__diff-viewer">${diff}</div>
 </div>
-<div class="textae-editor__save-dialog__row">
-  <label class="textae-editor__save-dialog__label">Local</label>
-  <input type="text" value="${filename}" class="textae-editor__save-dialog__local-file-name local">
-  <a class="download" href="#">Download</a>
-</div>
-<div class="textae-editor__save-dialog__row"><p class="textae-editor__save-dialog__diff-title">Configuration differences<span class="diff-info diff-info--add">added</span><span class="diff-info diff-info--remove">removed</span></p></div>
-<div class="textae-editor__save-dialog__diff-viewer">${diff}</div>
-</div>`
+`
 }
 
 export default class SaveConfigurationDialog extends Dialog {
