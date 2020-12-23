@@ -1,48 +1,74 @@
 import delegate from 'delegate'
 import PromiseDialog from './PromiseDialog'
 import getInputElementValue from './getInputElementValue'
-import compileHandlebarsTemplate from '../compileHandlebarsTemplate'
 
-const template = compileHandlebarsTemplate(`
+function template(context) {
+  const {
+    flagSelected,
+    selectionSelected,
+    stringSelected,
+    numericSelected,
+    pred,
+    showDefault,
+    default: _default,
+    showNumeric,
+    min,
+    max,
+    step
+  } = context
+  return `
 <div class="textae-editor__create-attribute-definition-dialog__container">
   <div class="textae-editor__create-attribute-definition-dialog__row">
     <label>Attribute type:</label>
     <select class="textae-editor__create-attribute-definition-dialog__value-type">
-      <option value="flag"{{#if flagSelected}} selected{{/if}}>flag</option>
-      <option value="selection"{{#if selectionSelected}} selected{{/if}}>selection</option>
-      <option value="string"{{#if stringSelected}} selected{{/if}}>string</option>
-      <option value="numeric"{{#if numericSelected}} selected{{/if}}>numeric</option>
+      <option value="flag"${flagSelected ? ` selected` : ``}>flag</option>
+      <option value="selection"${
+        selectionSelected ? ` selected` : ``
+      }>selection</option>
+      <option value="string"${stringSelected ? ` selected` : ``}>string</option>
+      <option value="numeric"${
+        numericSelected ? ` selected` : ``
+      }>numeric</option>
     </select>
   </div>
   <div class="textae-editor__create-attribute-definition-dialog__row">
     <div class="textae-editor__create-attribute-definition-dialog__pred textae-editor__promise-daialog__observable-element">
       <label>Predicate:</label><br>
-      <input value="{{pred}}">
+      <input value="${pred || ''}">
     </div>
-    {{#if showDefault}}
-      <div class="textae-editor__create-attribute-definition-dialog__default">
-        <label>Default:</label><br>
-        <input value="{{default}}">
-      </div>
-    {{/if}}
+    ${
+      showDefault
+        ? `
+    <div class="textae-editor__create-attribute-definition-dialog__default">
+      <label>Default:</label><br>
+      <input value="${_default || ''}">
+    </div>
+`
+        : ``
+    }
   </div>
-  {{#if showNumeric}}
-    <div class="textae-editor__create-attribute-definition-dialog__row">
-      <div class="textae-editor__create-attribute-definition-dialog__min">
-        <label>Min:</label><br>
-        <input type="text" value="{{min}}">
-      </div>
-      <div class="textae-editor__create-attribute-definition-dialog__max">
-        <label>Max:</label><br>
-        <input type="text" value="{{max}}">
-      </div>
-      <div class="textae-editor__create-attribute-definition-dialog__step">
-        <label>Step:</label><br>
-        <input type="text" value="{{step}}">
-      </div>
+  ${
+    showNumeric
+      ? `
+  <div class="textae-editor__create-attribute-definition-dialog__row">
+    <div class="textae-editor__create-attribute-definition-dialog__min">
+      <label>Min:</label><br>
+      <input type="text" value="${min || ''}">
     </div>
-  {{/if}}
-</div>`)
+    <div class="textae-editor__create-attribute-definition-dialog__max">
+      <label>Max:</label><br>
+      <input type="text" value="${max || ''}">
+    </div>
+    <div class="textae-editor__create-attribute-definition-dialog__step">
+      <label>Step:</label><br>
+      <input type="text" value="${step || ''}">
+    </div>
+  </div>
+`
+      : ``
+  }
+</div>`
+}
 
 export default class CreateAttributeDefinitionDialog extends PromiseDialog {
   constructor() {
