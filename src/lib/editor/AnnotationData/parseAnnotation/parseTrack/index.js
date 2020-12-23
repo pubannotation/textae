@@ -31,7 +31,7 @@ export default function (
 
   importSource(
     [relation],
-    (src) => translateRelation(trackNumber, src),
+    (src) => translateRelation(src, trackNumber),
     result.accept.relation
   )
 
