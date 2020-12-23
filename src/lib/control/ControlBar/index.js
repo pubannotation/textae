@@ -9,24 +9,7 @@ function template(context) {
   <span class="textae-control__title">
     <a href="http://textae.pubannotation.org/" target="_blank">TextAE</a>
   </span>
-  ${buttonGroup
-    .map(
-      ({ list }) => `
-  <span class="textae-control__separator"></span>
-    ${list
-      .map(
-        ({ type, title }) => `
-  <span 
-    class="textae-control__icon textae-control__${type}-button" 
-    title="${title}" 
-    data-button-type="${type}">
-  </span>
-  `
-      )
-      .join('\n')}
-  `
-    )
-    .join('\n')}
+  ${buttonGroup.map(toButtonGroup()).join('\n')}
 </div>
 `
 }
@@ -40,4 +23,21 @@ export default class ControlBar extends Control {
   transitWriteButtonImage(transitButtons) {
     transitWriteButtonImage(super.el, transitButtons)
   }
+}
+
+function toButtonGroup() {
+  return ({ list }) => `
+  <span class="textae-control__separator"></span>
+  ${list.map(toButtonIcon).join('\n')}
+  `
+}
+
+function toButtonIcon({ type, title }) {
+  return `
+<span 
+class="textae-control__icon textae-control__${type}-button" 
+title="${title}" 
+data-button-type="${type}">
+</span>
+`
 }
