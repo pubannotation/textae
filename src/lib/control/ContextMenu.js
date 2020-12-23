@@ -1,5 +1,5 @@
-import compileHandlebarsTemplate from '../../compileHandlebarsTemplate'
-import Control from '../Control'
+import compileHandlebarsTemplate from '../compileHandlebarsTemplate'
+import Control from './Control'
 
 // Make a group of buttons that is headed by the separator.
 const htmlTemplate = `
