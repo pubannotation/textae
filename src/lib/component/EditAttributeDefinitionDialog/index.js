@@ -19,37 +19,9 @@ function template(context) {
       <label>Predicate:</label><br>
       <input value="${pred}">
     </div>
-    ${
-      showDefault
-        ? `
-    <div class="textae-editor__edit-attribute-definition-dialog__default">
-    <label>Default:</label><br>
-    <input value="${_default}">
+    ${inputDefault(showDefault, _default)}
   </div>
-`
-        : ''
-    }
-  </div>
-  ${
-    showNumeric
-      ? `
-  <div class="textae-editor__edit-attribute-definition-dialog__row">
-  <div class="textae-editor__edit-attribute-definition-dialog__min">
-    <label>Min:</label><br>
-    <input type="text" value="${min}">
-  </div>
-  <div class="textae-editor__edit-attribute-definition-dialog__max">
-    <label>Max:</label><br>
-    <input type="text" value="${max}">
-  </div>
-  <div class="textae-editor__edit-attribute-definition-dialog__step">
-    <label>Step:</label><br>
-    <input type="text" value="${step}">
-  </div>
-</div>
-`
-      : ''
-  }
+  ${inputNumeric(showNumeric, min, max, step)}
 </div>`
 }
 
@@ -126,4 +98,36 @@ export default class EditAttributeDefinitionDialog extends PromiseDialog {
       }
     )
   }
+}
+
+function inputNumeric(showNumeric, min, max, step) {
+  return showNumeric
+    ? `
+  <div class="textae-editor__edit-attribute-definition-dialog__row">
+  <div class="textae-editor__edit-attribute-definition-dialog__min">
+    <label>Min:</label><br>
+    <input type="text" value="${min}">
+  </div>
+  <div class="textae-editor__edit-attribute-definition-dialog__max">
+    <label>Max:</label><br>
+    <input type="text" value="${max}">
+  </div>
+  <div class="textae-editor__edit-attribute-definition-dialog__step">
+    <label>Step:</label><br>
+    <input type="text" value="${step}">
+  </div>
+</div>
+`
+    : ''
+}
+
+function inputDefault(showDefault, _default) {
+  return showDefault
+    ? `
+  <div class="textae-editor__edit-attribute-definition-dialog__default">
+    <label>Default:</label><br>
+    <input value="${_default}">
+  </div>
+`
+    : ''
 }
