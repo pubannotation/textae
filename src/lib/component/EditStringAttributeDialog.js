@@ -8,11 +8,15 @@ function template(context) {
 <div class="textae-editor__edit-value-and-pred-dialog__container">
   <div class="textae-editor__edit-value-and-pred-dialog__input-box">
     <label>Predicate:</label><br>
-    <input class="textae-editor__edit-value-and-pred-dialog--predicate" value="${pred}" disabled="disabled">
+    <input 
+      class="textae-editor__edit-value-and-pred-dialog--predicate" 
+      value="${pred}" disabled="disabled">
   </div>
   <div class="textae-editor__edit-value-and-pred-dialog__input-box ui-front">
-    <label class="textae-editor__edit-value-and-pred-dialog--label">Object:</label><span></span><br>
-    <input class="textae-editor__edit-value-and-pred-dialog--value textae-editor__edit-value-and-pred-dialog--value" value="${value}">
+    <label class="textae-editor__edit-value-and-pred-dialog--label">Object:</label><br>
+    <input 
+      class="textae-editor__edit-value-and-pred-dialog--value textae-editor__edit-value-and-pred-dialog--value" 
+      value="${value}">
   </div>
 </div>`
 }
