@@ -1,20 +1,25 @@
 import delegate from 'delegate'
 import Dialog from './Dialog'
 import enableHTMLelment from './enableHTMLelement'
-import compileHandlebarsTemplate from '../compileHandlebarsTemplate'
 
-const template = compileHandlebarsTemplate(`<div>
+function template(context) {
+  const { url } = context
+
+  return `<div>
 <div class="textae-editor__load-dialog__row">
   <label class="textae-editor__load-dialog__label">URL</label>
-  <input type="text" value="{{url}}" class="textae-editor__load-dialog__file-name url">
-  <input type="button" class="url" {{#unless url}}disabled="disabled"{{/unless}} value="Open">
+  <input type="text" value="${url}" class="textae-editor__load-dialog__file-name url">
+  <input type="button" class="url" ${
+    url ? `` : `disabled="disabled"`
+  } value="Open">
 </div>
 <div class="textae-editor__load-dialog__row">
   <label class="textae-editor__load-dialog__label">Local</label>
   <input class="textae-editor__load-dialog__file" type="file">
   <input type="button" class="local" disabled="disabled" value="Open">
 </div>
-</div>`)
+</div>`
+}
 
 const CONFIRM_DISCARD_CHANGE_MESSAGE =
   'There is a change that has not been saved. If you procceed now, you will lose it.'
