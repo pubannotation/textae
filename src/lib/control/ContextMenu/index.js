@@ -1,4 +1,4 @@
-import Control from './Control'
+import Control from '../Control'
 import toMenuGroup from './toMenuGroup'
 
 // Make a group of buttons that is headed by the separator.
