@@ -12,26 +12,26 @@ export default function (
   relation,
   text,
   rowData,
-  prefix
+  trackNumber
 ) {
   const result = validateAnnotation(text, rowData)
 
   importSource(
     [span, entity],
-    (src) => translateSpan(prefix, src),
+    (src) => translateSpan(trackNumber, src),
     result.accept.denotation,
     'denotation'
   )
 
   importSource(
     [attribute],
-    (src) => translateAttribute(prefix, src),
+    (src) => translateAttribute(trackNumber, src),
     result.accept.attribute
   )
 
   importSource(
     [relation],
-    (src) => translateRelation(prefix, src),
+    (src) => translateRelation(trackNumber, src),
     result.accept.relation
   )
 
@@ -48,7 +48,7 @@ export default function (
 
   importSource(
     [span, entity],
-    (src) => translateSpan(prefix, src),
+    (src) => translateSpan(trackNumber, src),
     result.accept.block,
     'block'
   )

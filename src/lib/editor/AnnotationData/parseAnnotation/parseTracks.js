@@ -6,7 +6,7 @@ export default function (span, entity, attribute, relation, text, rowData) {
   delete rowData.tracks
   const rejects = tracks.map((track, i) => {
     const number = i + 1
-    const prefix = `track${number}_`
+    const trackNumber = `track${number}_`
     const reject = parseTrack(
       span,
       entity,
@@ -14,7 +14,7 @@ export default function (span, entity, attribute, relation, text, rowData) {
       relation,
       text,
       track,
-      prefix
+      trackNumber
     )
     reject.name = `Track ${number} annotations.`
     return reject
