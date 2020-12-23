@@ -1,6 +1,6 @@
-import PromiseDialog from './PromiseDialog'
-import getInputElementValue from './getInputElementValue'
-import IntervalNotation from '../IntervalNotation'
+import PromiseDialog from '../PromiseDialog'
+import getInputElementValue from '../getInputElementValue'
+import IntervalNotation from '../../IntervalNotation'
 
 function template(context) {
   const {
