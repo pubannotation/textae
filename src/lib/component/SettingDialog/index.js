@@ -2,22 +2,34 @@ import delegate from 'delegate'
 import Dialog from '../Dialog'
 import reflectImmediately from './reflectImmediately'
 import packageJson from '../../../../package.json'
-import compileHandlebarsTemplate from '../../compileHandlebarsTemplate'
 
-const template = compileHandlebarsTemplate(`
+function template(context) {
+  const {
+    typeGap,
+    typeGapDisabled,
+    lineHeight,
+    typeDefinitionLocked,
+    version
+  } = context
+
+  return `
 <div class="textae-editor__setting-dialog">
   <div>
     <label class="textae-editor__setting-dialog__label">Type Gap</label>
-    <input type="number" class="textae-editor__setting-dialog__type-gap type-gap" step="1" min="0" max="5" value="{{typeGap}}" {{#if typeGapDisabled}}disabled="disabled"{{/if}}>
+    <input type="number" class="textae-editor__setting-dialog__type-gap type-gap" step="1" min="0" max="5" value="${typeGap}" ${
+    typeGapDisabled ? `disabled="disabled"` : ''
+  }>
   </div>
   <div>
     <label class="textae-editor__setting-dialog__label">Line Height</label>
-    <input type="number" class="textae-editor__setting-dialog__line-height line-height" step="1" min="50" max="500" value="{{lineHeight}}">
+    <input type="number" class="textae-editor__setting-dialog__line-height line-height" step="1" min="50" max="500" value="${lineHeight}">
     px
   </div>
   <div>
     <label class="textae-editor__setting-dialog__label">Lock Edit Config</label>
-    <input type="checkbox" class="textae-editor__setting-dialog__lock-config lock-config" {{#if typeDefinitionLocked}}checked="checked"{{/if}}>
+    <input type="checkbox" class="textae-editor__setting-dialog__lock-config lock-config" ${
+      typeDefinitionLocked ? `checked="checked"` : ''
+    }>
   </div>
   <div>
     <label class="textae-editor__setting-dialog__label">Reset Hidden Message Boxes</label>
@@ -25,10 +37,11 @@ const template = compileHandlebarsTemplate(`
   </div>
   <div>
     <label class="textae-editor__setting-dialog__label">Version</label>
-    {{version}}
+    ${version}
   </div>
 </div>
-`)
+`
+}
 
 export default class SettingDialog extends Dialog {
   constructor(editor, typeDefinition, entityGap, textBox) {
