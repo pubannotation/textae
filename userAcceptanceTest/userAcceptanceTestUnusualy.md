@@ -1,8 +1,32 @@
 # たまにやるテスト
 
+## config の PushButton 設定
+
+### 背景
+
+1.  6.1.5 から config で自動保存、境界検出、行の高さ自動調整の ON/OFF を設定できるようになりした
+
+### 自動保存
+
+1.  Editor0 の自動保存が無効であること
+2.  Editor1 の自動保存が有効であること
+3.  Editor2 の自動保存が無効であること
+
+### 境界検出
+
+1.  Editor0 の境界検出が有効であること
+2.  Editor1 の境界検出が有効であること
+3.  Editor2 の境界検出が無効であること
+
+### 行の高さ自動調整
+
+1.  Editor0 の行の高さ自動調整が無効であること
+2.  Editor1 の行の高さ自動調整が有効であること
+3.  Editor2 の行の高さ自動調整が無効であること
+
 ## 境界検出
 
-#### 背景
+### 背景
 
 1.  テキストをドラッグすると delimiter character まで自動的に調整してくれる機能があります
 2.  4.1.7 で、この機能を`Boundary Detection`ボタンで On/Off できるようになりました
@@ -58,13 +82,13 @@
 ### -- 手段 --
 
 1.  Edtor1 を選択
-2.  Termモードにする
-2.  Entity を選択する
-3.  `w`キーを押して、Type を`http://www.yahoo.co.jp`に変更します
-4.  Type の表示が`Regulation`になること
-5.  V アイコンを押して View モードに切り替える
-6.  Type のラベルがリンクになること
-7.  リンクをクリックすると`http://www.yahoo.co.jp`が開くこと
+2.  Term モードにする
+3.  Entity を選択する
+4.  `w`キーを押して、Type を`http://www.yahoo.co.jp`に変更します
+5.  Type の表示が`Regulation`になること
+6.  V アイコンを押して View モードに切り替える
+7.  Type のラベルがリンクになること
+8.  リンクをクリックすると`http://www.yahoo.co.jp`が開くこと
 
 ## config の autocompletion_ws 属性
 
