@@ -5,19 +5,34 @@ import enableHTMLelment from './enableHTMLelement'
 function template(context) {
   const { url } = context
 
-  return `<div>
-<div class="textae-editor__load-dialog__row">
-  <label class="textae-editor__load-dialog__label">URL</label>
-  <input type="text" value="${url}" class="textae-editor__load-dialog__file-name url">
-  <input type="button" class="url" ${
-    url ? `` : `disabled="disabled"`
-  } value="Open">
-</div>
-<div class="textae-editor__load-dialog__row">
-  <label class="textae-editor__load-dialog__label">Local</label>
-  <input class="textae-editor__load-dialog__file" type="file">
-  <input type="button" class="local" disabled="disabled" value="Open">
-</div>
+  return `
+<div>
+  <div class="textae-editor__load-dialog__row">
+    <label class="textae-editor__load-dialog__label">
+      URL
+    </label>
+    <input 
+      type="text" 
+      value="${url}" 
+      class="textae-editor__load-dialog__file-name url">
+    <input 
+      type="button" 
+      class="url" ${url ? `` : `disabled="disabled"`} 
+      value="Open">
+  </div>
+  <div class="textae-editor__load-dialog__row">
+    <label class="textae-editor__load-dialog__label">
+      Local
+    </label>
+    <input 
+      class="textae-editor__load-dialog__file" 
+      type="file">
+    <input 
+      type="button" 
+      class="local" 
+      disabled="disabled" 
+      value="Open">
+  </div>
 </div>`
 }
 
