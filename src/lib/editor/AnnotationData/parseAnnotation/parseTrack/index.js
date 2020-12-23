@@ -25,7 +25,7 @@ export default function (
 
   importSource(
     [attribute],
-    (src) => translateAttribute(trackNumber, src),
+    (src) => translateAttribute(src, trackNumber),
     result.accept.attribute
   )
 
