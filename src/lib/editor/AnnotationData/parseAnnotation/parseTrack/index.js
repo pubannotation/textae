@@ -18,7 +18,7 @@ export default function (
 
   importSource(
     [span, entity],
-    (src) => translateSpan(trackNumber, src),
+    (src) => translateSpan(src, trackNumber),
     result.accept.denotation,
     'denotation'
   )
@@ -48,7 +48,7 @@ export default function (
 
   importSource(
     [span, entity],
-    (src) => translateSpan(trackNumber, src),
+    (src) => translateSpan(src, trackNumber),
     result.accept.block,
     'block'
   )
