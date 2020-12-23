@@ -28,22 +28,15 @@ export default class TypeDefinitionDialog extends PromiseDialog {
     autocompletionWs,
     convertToReseltsFunc
   ) {
-    super(
-      title,
-      template(content),
-      {
-        height: 250
-      },
-      () => {
-        const inputs = super.el.querySelectorAll('input')
-        return convertToReseltsFunc(
-          inputs[0].value,
-          inputs[1].value,
-          inputs[2].value,
-          inputs[3].checked
-        )
-      }
-    )
+    super(title, template(content), {}, () => {
+      const inputs = super.el.querySelectorAll('input')
+      return convertToReseltsFunc(
+        inputs[0].value,
+        inputs[1].value,
+        inputs[2].value,
+        inputs[3].checked
+      )
+    })
 
     setSourceOfAutoComplete(super.el, autocompletionWs, (term) =>
       typeContainer.findByLabel(term)
