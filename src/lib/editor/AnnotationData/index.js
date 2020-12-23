@@ -48,7 +48,7 @@ export default class AnnotationData {
     console.assert(rawData.text, 'This is not a json file of anntations.')
 
     this._sourceDoc = rawData.text
-    this._textBox.render(rawData.text)
+    this._textBox.render(this.sourceDoc)
 
     clearAnnotationData(this)
     const { multitrack, hasError, rejects } = parseAnnotation(this, rawData)
@@ -90,12 +90,11 @@ export default class AnnotationData {
   }
 
   get sourceDoc() {
-    // Since 6.0.0, the text-box is set to `white-space: pre-wrap;`
+    // Since 6.0.0, the text-box is set to "white-space: pre-wrap;"
     // in order to render line breaks contained in text as they are in the browser.
-    // `\r\n` is rendered as a single character.
-    // The span position also counts `\r\n` as a single character.
-    // Replace `\r\n` with the single character `\n`.
-    return this._sourceDoc.replaceAll(/\r\n/g, '\n')
+    // "\r\n" is rendered as a single character.
+    // Replace "\r\n" with "\n" so that the browser can render "\r\n" as two characters.
+    return this._sourceDoc.replaceAll(/\r\n/g, ' \n')
   }
 
   get typeDefinition() {

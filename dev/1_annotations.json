@@ -216,7 +216,7 @@
       }
     ]
   },
-  "text": "Down-regulation of interferon regulatory factor 4\ngene expression in leukemic cells due to hypermethylation of CpG motifs in the promoter region\nAlthough the bcr-abl translocation has been shown to be the causative genetic aberration in chronic myeloid leukemia (CML), there is mounting evidence that the deregulation of other genes, such as the transcription factor interferon regulatory factor 4 (IRF-4), is also implicated in the pathogenesis of CML. Promoter methylation of CpG target sites or direct deletions/insertions of genes are mechanisms of a reversible or permanent silencing of gene expression, respectively. Therefore, we investigated whether IRF-4 promoter methylation or mutation may be involved in the regulation of IRF-4 expression in leukemia cells. Whereas promoter mutations or structural rearrangements could be excluded as a cause of altered IRF-4 expression in hematopoietic cells, the IRF-4 promoter methylation status was found to significantly influence IRF-4 transcription. First, treatment of IRF-4-negative lymphoid, myeloid and monocytic cell lines with the methylation-inhibitor 5-aza-2-deoxycytidine resulted in a time- and concentration-dependent increase of IRF-4 mRNA and protein levels. Second, using a restriction-PCR-assay and bisulfite-sequencing we identified specifically methylated CpG sites in IRF-4-negative but not in IRF-4-positive cells. Third, we clearly determined promoter methylation as a mechanism for IRF-4 down-regulation via reporter gene assays, but did not detect an association of methylational status and mRNA expression of DNA methyltransferases or methyl-CpG-binding proteins. Together, these data suggest CpG site-specific IRF-4 promoter methylation as a putative mechanism of down-regulated IRF-4 expression in leukemia.",
+  "text": "Down-regulation of interferon regulatory factor 4\r\ngene expression in leukemic cells due to hypermethylation of CpG motifs in the promoter region\r\nAlthough the bcr-abl translocation has been shown to be the causative genetic aberration in chronic myeloid leukemia (CML), there is mounting evidence that the deregulation of other genes, such as the transcription factor interferon regulatory factor 4 (IRF-4), is also implicated in the pathogenesis of CML. Promoter methylation of CpG target sites or direct deletions/insertions of genes are mechanisms of a reversible or permanent silencing of gene expression, respectively. Therefore, we investigated whether IRF-4 promoter methylation or mutation may be involved in the regulation of IRF-4 expression in leukemia cells. Whereas promoter mutations or structural rearrangements could be excluded as a cause of altered IRF-4 expression in hematopoietic cells, the IRF-4 promoter methylation status was found to significantly influence IRF-4 transcription. First, treatment of IRF-4-negative lymphoid, myeloid and monocytic cell lines with the methylation-inhibitor 5-aza-2-deoxycytidine resulted in a time- and concentration-dependent increase of IRF-4 mRNA and protein levels. Second, using a restriction-PCR-assay and bisulfite-sequencing we identified specifically methylated CpG sites in IRF-4-negative but not in IRF-4-positive cells. Third, we clearly determined promoter methylation as a mechanism for IRF-4 down-regulation via reporter gene assays, but did not detect an association of methylational status and mRNA expression of DNA methyltransferases or methyl-CpG-binding proteins. Together, these data suggest CpG site-specific IRF-4 promoter methylation as a putative mechanism of down-regulated IRF-4 expression in leukemia.",
   "denotations": [
     {
       "span": {
@@ -244,368 +244,368 @@
     {
       "id": "E2",
       "span": {
-        "begin": 55,
-        "end": 65
+        "begin": 56,
+        "end": 66
       },
       "obj": "http://www.w3.org/TR/CSS2/selector.html#pseudo-class-selectors"
     },
     {
       "id": "T2",
       "span": {
-        "begin": 158,
-        "end": 161
+        "begin": 160,
+        "end": 163
       },
       "obj": "http://msdn.microsoft.com/en-us/library/aa752574(VS.85).aspx"
     },
     {
       "id": "T3",
       "span": {
-        "begin": 162,
-        "end": 165
+        "begin": 164,
+        "end": 167
       },
       "obj": "http://foo.com/blah_blah_(wikipedia)_(again)"
     },
     {
       "id": "E3",
       "span": {
-        "begin": 305,
-        "end": 317
+        "begin": 307,
+        "end": 319
       },
       "obj": "http://only-domain.com"
     },
     {
       "id": "T4",
       "span": {
-        "begin": 367,
-        "end": 397
+        "begin": 369,
+        "end": 399
       },
       "obj": "http://www.stackoverflow.com/質問/日本語のURLはどうする"
     },
     {
       "id": "T5",
       "span": {
-        "begin": 399,
-        "end": 404
+        "begin": 401,
+        "end": 406
       },
       "obj": "https://www.google.com/search?hl=en&sugexp=les%3B&tok=4oIhSu9cPUzgSXZqciITjA&pq=w3c+selectors&cp=11&gs_id=2i&xhr=t&q=dancing+banana&bav=on.2,or.r_gc.r_pw.r_cp.r_qf.&biw=1920&bih=965&um=1&ie=UTF-8&tbm=isch&source=og&sa=N&tab=wi&ei=WW1tULLwIoiztAb724HwBw"
     },
     {
       "id": "T6",
       "span": {
-        "begin": 658,
-        "end": 663
+        "begin": 660,
+        "end": 665
       },
       "obj": "http://exapmle.com/first-directory/last-directory/"
     },
     {
       "id": "E4",
       "span": {
-        "begin": 713,
-        "end": 750
+        "begin": 715,
+        "end": 752
       },
       "obj": "Sentence"
     },
     {
       "id": "T7",
       "span": {
-        "begin": 734,
-        "end": 739
+        "begin": 736,
+        "end": 741
       },
       "obj": "http://localhost:3000/docs/sourcedb/PubMed/sourceid/10022882/spans/105-107"
     },
     {
       "id": "E5",
       "span": {
-        "begin": 740,
-        "end": 750
+        "begin": 742,
+        "end": 752
       },
       "obj": "Gene_expression"
     },
     {
       "id": "E6",
       "span": {
-        "begin": 858,
-        "end": 865
+        "begin": 860,
+        "end": 867
       },
       "obj": "http://www.yahoo.co.jp"
     },
     {
       "id": "T8",
       "span": {
-        "begin": 866,
-        "end": 871
+        "begin": 868,
+        "end": 873
       },
       "obj": "Protein"
     },
     {
       "id": "E7",
       "span": {
-        "begin": 872,
-        "end": 882
+        "begin": 874,
+        "end": 884
       },
       "obj": "Gene_expression"
     },
     {
       "id": "T9",
       "span": {
-        "begin": 911,
-        "end": 916
+        "begin": 913,
+        "end": 918
       },
       "obj": "Protein"
     },
     {
       "id": "E8",
       "span": {
-        "begin": 972,
-        "end": 981
+        "begin": 974,
+        "end": 983
       },
       "obj": "Regulation"
     },
     {
       "id": "T10",
       "span": {
-        "begin": 982,
-        "end": 987
+        "begin": 984,
+        "end": 989
       },
       "obj": "Protein"
     },
     {
       "id": "E9",
       "span": {
-        "begin": 988,
-        "end": 1001
+        "begin": 989,
+        "end": 1003
       },
       "obj": "Transcription"
     },
     {
       "id": "T11",
       "span": {
-        "begin": 1023,
-        "end": 1028
+        "begin": 1025,
+        "end": 1030
       },
       "obj": "Protein"
     },
     {
       "id": "E10",
       "span": {
-        "begin": 1029,
-        "end": 1037
+        "begin": 1031,
+        "end": 1039
       },
       "obj": "Gene_expression"
     },
     {
       "id": "E11",
       "span": {
-        "begin": 1134,
-        "end": 1142
+        "begin": 1136,
+        "end": 1144
       },
       "obj": "Positive_regulation"
     },
     {
       "id": "E12",
       "span": {
-        "begin": 1182,
-        "end": 1190
+        "begin": 1184,
+        "end": 1192
       },
       "obj": "Positive_regulation"
     },
     {
       "id": "T12",
       "span": {
-        "begin": 1194,
-        "end": 1199
+        "begin": 1196,
+        "end": 1201
       },
       "obj": "Protein"
     },
     {
       "id": "T13",
       "span": {
-        "begin": 1339,
-        "end": 1344
+        "begin": 1341,
+        "end": 1346
       },
       "obj": "Protein"
     },
     {
       "id": "E13",
       "span": {
-        "begin": 1345,
-        "end": 1353
+        "begin": 1347,
+        "end": 1355
       },
       "obj": "Gene_expression"
     },
     {
       "id": "T14",
       "span": {
-        "begin": 1365,
-        "end": 1370
+        "begin": 1367,
+        "end": 1372
       },
       "obj": "Protein"
     },
     {
       "id": "E14",
       "span": {
-        "begin": 1371,
-        "end": 1379
+        "begin": 1373,
+        "end": 1381
       },
       "obj": "Gene_expression"
     },
     {
       "id": "T15",
       "span": {
-        "begin": 1456,
-        "end": 1461
+        "begin": 1458,
+        "end": 1463
       },
       "obj": "Protein"
     },
     {
       "id": "E15",
       "span": {
-        "begin": 1462,
-        "end": 1477
+        "begin": 1464,
+        "end": 1479
       },
       "obj": "Negative_regulation"
     },
     {
       "id": "T16",
       "span": {
-        "begin": 1687,
-        "end": 1692
+        "begin": 1689,
+        "end": 1694
       },
       "obj": "Protein"
     },
     {
       "id": "E16",
       "span": {
-        "begin": 1741,
-        "end": 1755
+        "begin": 1743,
+        "end": 1757
       },
       "obj": "Negative_regulation"
     },
     {
       "id": "T17",
       "span": {
-        "begin": 1756,
-        "end": 1761
+        "begin": 1758,
+        "end": 1763
       },
       "obj": "Protein"
     },
     {
       "id": "E17",
       "span": {
-        "begin": 1762,
-        "end": 1772
+        "begin": 1764,
+        "end": 1774
       },
       "obj": "Gene_expression"
     },
     {
       "id": "E18",
       "span": {
-        "begin": 69,
-        "end": 77
+        "begin": 70,
+        "end": 78
       },
       "obj": "http://pubmed.org/"
     },
     {
       "id": "E19",
       "span": {
-        "begin": 91,
-        "end": 107
+        "begin": 92,
+        "end": 108
       },
       "obj": "Protein"
     },
     {
       "id": "E20",
       "span": {
-        "begin": 91,
-        "end": 107
+        "begin": 92,
+        "end": 108
       },
       "obj": "Gene_expression"
     },
     {
       "id": "E21",
       "span": {
-        "begin": 50,
-        "end": 54
+        "begin": 51,
+        "end": 55
       },
       "obj": "Protein"
     },
     {
       "id": "E22",
       "span": {
-        "begin": 189,
-        "end": 201
+        "begin": 191,
+        "end": 203
       },
       "obj": "Protein"
     },
     {
       "id": "E23",
       "span": {
-        "begin": 201,
-        "end": 210
+        "begin": 203,
+        "end": 212
       },
       "obj": "Protein"
     },
     {
       "id": "E24",
       "span": {
-        "begin": 201,
-        "end": 202
+        "begin": 203,
+        "end": 204
       },
       "obj": "Protein"
     },
     {
       "id": "E25",
       "span": {
-        "begin": 202,
-        "end": 210
+        "begin": 204,
+        "end": 212
       },
       "obj": "Protein"
     },
     {
       "id": "E26",
       "span": {
-        "begin": 203,
-        "end": 210
+        "begin": 205,
+        "end": 212
       },
       "obj": "Protein"
     },
     {
       "id": "E27",
       "span": {
-        "begin": 204,
-        "end": 210
+        "begin": 206,
+        "end": 212
       },
       "obj": "Protein"
     },
     {
       "id": "E28",
       "span": {
-        "begin": 215,
-        "end": 300
+        "begin": 217,
+        "end": 302
       },
       "obj": "Protein"
     },
     {
       "id": "E29",
       "span": {
-        "begin": 225,
-        "end": 290
+        "begin": 227,
+        "end": 292
       },
       "obj": "Protein"
     },
     {
       "id": "E30",
       "span": {
-        "begin": 69,
-        "end": 77
+        "begin": 70,
+        "end": 78
       },
       "obj": "Gene_expression"
     },
     {
       "id": "E31",
       "span": {
-        "begin": 91,
-        "end": 107
+        "begin": 92,
+        "end": 108
       },
       "obj": "Protein"
     }
@@ -614,16 +614,16 @@
     { 
       "id": "B1",
       "span": {
-        "begin": 454, 
-        "end": 622
+        "begin": 456, 
+        "end": 624
       }, 
       "obj": "block1"
     },
     { 
       "id": "B2",
       "span": {
-        "begin": 623, 
-        "end": 1002
+        "begin": 625, 
+        "end": 1004
       }, 
       "obj": "block2"
     }
@@ -810,29 +810,29 @@
     },
     {
       "span": {
-        "begin": 50,
-        "end": 55
+        "begin": 51,
+        "end": 56
       },
       "style": "subscript"
     },
     {
       "span": {
-        "begin": 70,
-        "end": 73
+        "begin": 71,
+        "end": 74
       },
       "style": "superscript"
     },
     {
       "span": {
-        "begin": 111,
-        "end": 114
+        "begin": 112,
+        "end": 115
       },
       "style": "italic"
     },
     {
       "span": {
-        "begin": 111,
-        "end": 114
+        "begin": 112,
+        "end": 115
       },
       "style": "bold"
     }
