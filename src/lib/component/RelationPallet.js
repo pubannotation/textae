@@ -1,19 +1,28 @@
 import { diff } from 'jsondiffpatch'
 import Pallet from './Pallet'
 import createPalletElement from './Pallet/createPalletElement'
-import compileHandlebarsTemplate from '../compileHandlebarsTemplate'
 
-const template = compileHandlebarsTemplate(`
+function template(context) {
+  const { isLock, hasDiff, types } = context
+  return `
 <p class="textae-editor__type-pallet__title">
   <span>Relation configuration</span>
-  <span class="textae-editor__type-pallet__lock-icon" style="display: {{#if isLock}}inline-block{{else}}none{{/if}};">locked</span>
+  <span class="textae-editor__type-pallet__lock-icon" style="display: ${
+    isLock ? `inline-block` : `none`
+  };">locked</span>
 </p>
 <div class="textae-editor__type-pallet__buttons">
-  {{#unless isLock}}
-    <span class="textae-editor__type-pallet__button textae-editor__type-pallet__add-button" title="Add new type"></span>
-  {{/unless}}
+  ${
+    isLock
+      ? ''
+      : `
+  <span class="textae-editor__type-pallet__button textae-editor__type-pallet__add-button" title="Add new type"></span>
+  `
+  }
   <span class="textae-editor__type-pallet__button textae-editor__type-pallet__read-button" title="Import"></span>
-  <span class="textae-editor__type-pallet__button textae-editor__type-pallet__write-button {{#if hasDiff}}textae-editor__type-pallet__write-button--transit{{/if}}" title="Upload"></span>
+  <span class="textae-editor__type-pallet__button textae-editor__type-pallet__write-button ${
+    hasDiff ? `textae-editor__type-pallet__write-button--transit` : ``
+  }" title="Upload"></span>
 </div>
 <table>
   <tbody>
@@ -23,62 +32,94 @@ const template = compileHandlebarsTemplate(`
       <th title="Number of annotations.">#</th>
       <th></th>
     </tr>
-    {{#if types}}
-    {{#each types}}
-    <tr class="textae-editor__type-pallet__row" style="background-color: {{color}};">
-      <td class="textae-editor__type-pallet__label" data-id="{{id}}">
-        <span title={{id}}>
-          {{id}}
+    ${
+      types
+        ? `
+    ${types
+      .map(
+        ({ color, id, uri, defaultType, label, useNumber }) => `
+    <tr class="textae-editor__type-pallet__row" style="background-color: ${color};">
+      <td class="textae-editor__type-pallet__label" data-id="${id}">
+        <span title=${id}>
+          ${id}
         </span>
-        {{#if uri}}
-          <a href="{{uri}}" target="_blank"><span class="textae-editor__type-pallet__link"></span></a>
-        {{/if}}
-        {{#if defaultType}}
-          <span class="textae-editor__type-pallet__default-icon" title="This type is set as a default type."></span>
-        {{/if}}
+        ${
+          uri
+            ? `
+        <a href="${uri}" target="_blank"><span class="textae-editor__type-pallet__link"></span></a>
+        `
+            : ``
+        }
+        ${
+          defaultType
+            ? `
+        <span class="textae-editor__type-pallet__default-icon" title="This type is set as a default type."></span>
+        `
+            : ``
+        }
       </td>
       <td class="textae-editor__type-pallet__short-label">
-        {{label}}
+        ${label || ''}
       </td>
       <td class="textae-editor__type-pallet__use-number">
-        {{#if useNumber}}{{useNumber}}{{/if}}
-        {{#unless useNumber}}0{{/unless}}
+        ${useNumber ? `${useNumber}` : `0`}
       </td>
       <td class="textae-editor__type-pallet__table-buttons">
         <button
           type="button"
-          class="textae-editor__type-pallet__table-button textae-editor__type-pallet__select-all {{#unless useNumber}}textae-editor__type-pallet__table-button--disabled{{/unless}}"
+          class="textae-editor__type-pallet__table-button textae-editor__type-pallet__select-all ${
+            useNumber
+              ? `textae-editor__type-pallet__table-button--disabled`
+              : ``
+          }"
           title="Select all the cases of this type."
-          data-id="{{id}}"
-          data-use-number="{{useNumber}}">
+          data-id="${id}"
+          data-use-number="${useNumber}">
         </button>
-        {{#unless ../isLock}}
+        ${
+          isLock
+            ? ``
+            : `
         <button
           type="button"
           class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-type"
-          title="Edit this type." data-id="{{id}}"
-          data-color="{{color}}"
-          data-is-default="{{defaultType}}">
+          title="Edit this type." data-id="${id}"
+          data-color="${color}"
+          data-is-default="${defaultType}">
         </button>
         <button 
           type="button"
-          class="textae-editor__type-pallet__table-button textae-editor__type-pallet__remove {{#if useNumber}}textae-editor__type-pallet__table-button--disabled{{/if}}"
-          title="{{#if useNumber}}To activate this button, remove all the annotations of this type.{{/if}}{{#unless useNumber}}Remove this type.{{/unless}}"
-          data-id="{{id}}"
-          data-label="{{label}}">
+          class="textae-editor__type-pallet__table-button textae-editor__type-pallet__remove ${
+            useNumber
+              ? `textae-editor__type-pallet__table-button--disabled`
+              : ``
+          }"
+          title="${
+            useNumber
+              ? `To activate this button, remove all the annotations of this type.`
+              : `Remove this type.`
+          }"
+          data-id="${id}"
+          data-label="${label}">
         </button>
-        {{/unless}}
+        `
+        }
       </td>
     </tr>
-    {{/each}}
-    {{else}}
+    `
+      )
+      .join('\n')}
+    `
+        : `
     <tr class="textae-editor__type-pallet__row">
       <td class="textae-editor__type-pallet__no-config" colspan="4">There is no Relation definition.</td>
     </tr>
-    {{/if}}
+    `
+    }
   </tbody>
 </table>
-`)
+`
+}
 
 export default class RelationPallet extends Pallet {
   constructor(editor, originalData, typeDefinition) {
