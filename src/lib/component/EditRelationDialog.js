@@ -7,11 +7,16 @@ function template(context) {
 <div class="textae-editor__edit-value-and-pred-dialog__container">
   <div class="textae-editor__edit-value-and-pred-dialog__input-box">
     <label>Predicate:</label><br>
-    <input class="textae-editor__edit-value-and-pred-dialog--predicate" value="type" disabled="disabled">
+    <input 
+      class="textae-editor__edit-value-and-pred-dialog--predicate" 
+      value="type" 
+      disabled="disabled">
   </div>
   <div class="textae-editor__edit-value-and-pred-dialog__input-box ui-front">
     <label class="textae-editor__edit-value-and-pred-dialog--label">Value:<span>${label}</span></label><br>
-    <input class="textae-editor__edit-value-and-pred-dialog--value textae-editor__promise-daialog__observable-element" value="${value}">
+    <input 
+      class="textae-editor__edit-value-and-pred-dialog--value textae-editor__promise-daialog__observable-element" 
+      value="${value}">
   </div>
 </div>`
 }
