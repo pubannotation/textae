@@ -271,7 +271,6 @@ export default class SpanEditor {
     // When you mouse down on a parent style span and mouse up on the child span,
     // you shrink the child span.
     if (selectionWrapper.isFocusOneDownUnderAnchor) {
-      console.log(1)
       this._shrink(selectionWrapper, selectionWrapper.parentOfFocusNode.id)
       return
     }
