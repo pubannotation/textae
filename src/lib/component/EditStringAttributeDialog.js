@@ -1,18 +1,21 @@
 import PromiseDialog from './PromiseDialog'
 import setSourceOfAutoComplete from './setSourceOfAutoComplete'
-import compileHandlebarsTemplate from '../compileHandlebarsTemplate'
 
-const template = compileHandlebarsTemplate(`
+function template(context) {
+  const { pred, value } = context
+
+  return `
 <div class="textae-editor__edit-value-and-pred-dialog__container">
   <div class="textae-editor__edit-value-and-pred-dialog__input-box">
     <label>Predicate:</label><br>
-    <input class="textae-editor__edit-value-and-pred-dialog--predicate" value="{{pred}}" disabled="disabled">
+    <input class="textae-editor__edit-value-and-pred-dialog--predicate" value="${pred}" disabled="disabled">
   </div>
   <div class="textae-editor__edit-value-and-pred-dialog__input-box ui-front">
     <label class="textae-editor__edit-value-and-pred-dialog--label">Object:</label><span></span><br>
-    <input class="textae-editor__edit-value-and-pred-dialog--value textae-editor__edit-value-and-pred-dialog--value" value="{{value}}">
+    <input class="textae-editor__edit-value-and-pred-dialog--value textae-editor__edit-value-and-pred-dialog--value" value="${value}">
   </div>
-</div>`)
+</div>`
+}
 
 export default class EditStringAttributeDialog extends PromiseDialog {
   constructor(attribute, attrDef) {
