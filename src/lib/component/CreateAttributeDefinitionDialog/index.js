@@ -1,6 +1,6 @@
 import delegate from 'delegate'
-import PromiseDialog from './PromiseDialog'
-import getInputElementValue from './getInputElementValue'
+import PromiseDialog from '../PromiseDialog'
+import getInputElementValue from '../getInputElementValue'
 
 function template(context) {
   const {
