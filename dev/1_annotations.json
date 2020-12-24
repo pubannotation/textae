@@ -712,6 +712,12 @@
       "subj": "B1",
       "pred": "free_text_predicate",
       "obj": "attribute 1"
+    },
+    {
+      "id": "A12",
+      "subj": "E1:a:b",
+      "pred": "denote",
+      "obj": "equivalentTo"
     }
   ],
   "relations": [
