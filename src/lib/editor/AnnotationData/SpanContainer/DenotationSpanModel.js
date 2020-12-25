@@ -66,11 +66,8 @@ export default class DenotationSpanModel extends SpanModel {
 
   renderElement() {
     const element = super.renderElement()
-
-    if (!this.styleOnly) {
-      element.setAttribute('tabindex', 0)
-      element.classList.add('textae-editor__span')
-    }
+    element.setAttribute('tabindex', 0)
+    element.classList.add('textae-editor__span')
   }
 
   get _gridRectangle() {
