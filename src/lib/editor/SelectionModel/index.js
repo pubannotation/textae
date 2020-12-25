@@ -45,9 +45,9 @@ export default class SelectionModel {
   }
 
   clear() {
-    this.span.clear()
-    this.entity.clear()
-    this.relation.clear()
+    this.span.removeAll()
+    this.entity.removeAll()
+    this.relation.removeAll()
   }
 
   selectSpan(id, isMulti) {

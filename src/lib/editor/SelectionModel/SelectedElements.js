@@ -77,7 +77,7 @@ export default class SelectedElements {
     this.remove(modelInstance.id)
   }
 
-  clear() {
+  removeAll() {
     if (this._selected.size === 0) return
 
     for (const [id] of this._selected) {
