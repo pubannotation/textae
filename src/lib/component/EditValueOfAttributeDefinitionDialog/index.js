@@ -2,6 +2,7 @@ import PromiseDialog from '../PromiseDialog'
 import getInputElementValue from '../getInputElementValue'
 import IntervalNotation from '../../IntervalNotation'
 import template from './template'
+import enableHTMLElement from '../enableHTMLElement'
 
 export default class EditValueOfAttributeDefinitionDialog extends PromiseDialog {
   constructor(valueType, value = {}) {
@@ -84,9 +85,9 @@ export default class EditValueOfAttributeDefinitionDialog extends PromiseDialog 
           const value = e.target.value
           try {
             new IntervalNotation(value)
-            super.button.removeAttribute('disabled')
+            enableHTMLElement(super.button, true)
           } catch (error) {
-            super.button.setAttribute('disabled', 'disabled')
+            enableHTMLElement(super.button, false)
           }
         })
     }
@@ -101,9 +102,9 @@ export default class EditValueOfAttributeDefinitionDialog extends PromiseDialog 
           const value = e.target.value
           try {
             new RegExp(value)
-            super.button.removeAttribute('disabled')
+            enableHTMLElement(super.button, true)
           } catch (error) {
-            super.button.setAttribute('disabled', 'disabled')
+            enableHTMLElement(super.button, false)
           }
         })
     }
@@ -113,11 +114,10 @@ export default class EditValueOfAttributeDefinitionDialog extends PromiseDialog 
       .querySelector('.textae-editor__add-value-to-attribute-dialog__color')
       .addEventListener('input', (e) => {
         const value = e.target.value
-        if (!value || /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(value)) {
-          super.button.removeAttribute('disabled')
-        } else {
-          super.button.setAttribute('disabled', 'disabled')
-        }
+        enableHTMLElement(
+          super.button,
+          !value || /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(value)
+        )
       })
   }
 }
