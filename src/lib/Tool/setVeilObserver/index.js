@@ -10,33 +10,31 @@ const config = {
 }
 
 export default function (editor) {
-  new MutationObserver(updateVeil).observe(editor[0], config)
-}
+  new MutationObserver((mutationRecords) => {
+    mutationRecords.forEach(({ target: element }) => {
+      if (element.classList.contains('textae-editor--wait')) {
+        waitingEditors.add(element)
+      } else {
+        waitingEditors.delete(element)
+      }
+    })
 
-function updateVeil(mutationRecords) {
-  mutationRecords.forEach(({ target: element }) => {
-    if (element.classList.contains('textae-editor--wait')) {
-      waitingEditors.add(element)
+    if (waitingEditors.size > 0) {
+      const veil = document.querySelector(`.${veilClass}`)
+
+      if (veil) {
+        veil.style.display = 'block'
+      } else {
+        document.body.appendChild(
+          dohtml.create(`<div class="${veilClass}"></div>`)
+        )
+      }
     } else {
-      waitingEditors.delete(element)
-    }
-  })
+      const veil = document.querySelector(`.${veilClass}`)
 
-  if (waitingEditors.size > 0) {
-    const veil = document.querySelector(`.${veilClass}`)
-
-    if (veil) {
-      veil.style.display = 'block'
-    } else {
-      document.body.appendChild(
-        dohtml.create(`<div class="${veilClass}"></div>`)
-      )
+      if (veil) {
+        veil.style.display = 'none'
+      }
     }
-  } else {
-    const veil = document.querySelector(`.${veilClass}`)
-
-    if (veil) {
-      veil.style.display = 'none'
-    }
-  }
+  }).observe(editor[0], config)
 }
