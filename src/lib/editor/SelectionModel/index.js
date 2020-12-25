@@ -58,7 +58,9 @@ export default class SelectionModel {
   }
 
   clear() {
-    this._map.forEach((c) => c.clear())
+    this.span.clear()
+    this.entity.clear()
+    this.relation.clear()
   }
 
   selectSpan(id, isMulti) {
