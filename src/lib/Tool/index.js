@@ -30,7 +30,7 @@ class Veil {
     // Instead, we create it here.
     if (!this._el) {
       this._el = dohtml.create(
-        `<div class="${veilClass}" style="display: none;"></div>`
+        `<div class="textae-editor-veil" style="display: none;"></div>`
       )
       document.body.appendChild(this._el)
     }
@@ -41,7 +41,6 @@ class Veil {
 
 // Since not all editors will be notified at once, keep the state in a module scope variable.
 const waitingEditors = new Set()
-const veilClass = 'textae-editor-veil'
 
 const config = {
   attributes: true,
