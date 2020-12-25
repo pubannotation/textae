@@ -1,11 +1,14 @@
+import dohtml from 'dohtml'
 import $ from 'jquery'
 import 'jquery-ui/ui/widgets/dialog'
 
 export default class Dialog {
   constructor(title, contentHtml, buttonLabel, option) {
-    const el = document.createElement('div')
-    el.title = title
-    el.innerHTML = contentHtml
+    const el = dohtml.create(`
+    <div title="${title}">
+      ${contentHtml}
+    </div>
+    `)
 
     this._el = el
     this._$dialog = $(this._el)
