@@ -8,15 +8,15 @@ function hasWaitingEditor(element) {
   } else {
     waitingEditors.delete(element)
   }
-
-  return waitingEditors.size > 0
 }
 
 const veilClass = 'textae-editor-veil'
 
 export default function (mutationRecords) {
   mutationRecords.forEach((m) => {
-    if (hasWaitingEditor(m.target)) {
+    hasWaitingEditor(m.target)
+
+    if (waitingEditors.size > 0) {
       const veil = document.querySelector(`.${veilClass}`)
 
       if (veil) {
