@@ -17,6 +17,13 @@ export default class Tool {
   }
 
   registerEditor(editor) {
+    const veil = document.querySelector(`.${veilClass}`)
+    if (!veil) {
+      document.body.appendChild(
+        dohtml.create(`<div class="${veilClass}" style="display: none;"></div>`)
+      )
+    }
+
     this._editors.push(editor)
     setVeilObserver(editor)
   }
@@ -46,10 +53,6 @@ function setVeilObserver(editor) {
 
       if (veil) {
         veil.style.display = 'block'
-      } else {
-        document.body.appendChild(
-          dohtml.create(`<div class="${veilClass}"></div>`)
-        )
       }
     } else {
       const veil = document.querySelector(`.${veilClass}`)
