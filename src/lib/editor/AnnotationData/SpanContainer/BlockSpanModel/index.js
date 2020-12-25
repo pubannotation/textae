@@ -4,8 +4,6 @@ import renderBackground from './renderBackground'
 import setPosition from './setPosition'
 import SpanModel from '../SpanModel'
 import round from '../round'
-import createRangeToSpan from '../createRangeToSpan'
-import dohtml from 'dohtml'
 
 // Leave a gap between the text and the block border.
 const gapBetweenText = 8
@@ -69,11 +67,7 @@ export default class BlockSpanModel extends SpanModel {
   }
 
   renderElement(annotationBox) {
-    const targetRange = createRangeToSpan(this)
-    const spanElement = dohtml.create(`
-      <div id="${this.id}" title="${this.id}" class="textae-editor__block"></div>
-    `)
-    targetRange.surroundContents(spanElement)
+    super.renderElement()
 
     // Place the background in the annotation box
     // to shift the background up by half a line from the block span area.
@@ -83,6 +77,12 @@ export default class BlockSpanModel extends SpanModel {
   destroyElement() {
     super.destroyElement()
     this._backgroundElement.remove()
+  }
+
+  get _contentHTML() {
+    return `
+      <div id="${this.id}" title="${this.id}" class="textae-editor__block"></div>
+    `
   }
 
   _createGridElement() {
