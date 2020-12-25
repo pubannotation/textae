@@ -28,6 +28,16 @@ export default class Veil {
   }
 
   _mutationCallback(mutationRecords) {
+    this._collectWaitingEditors(mutationRecords)
+
+    if (this._waitingEditors.size > 0) {
+      this._show()
+    } else {
+      this._hide()
+    }
+  }
+
+  _collectWaitingEditors(mutationRecords) {
     mutationRecords.forEach(({ target }) => {
       if (target.classList.contains('textae-editor--wait')) {
         this._waitingEditors.add(target)
@@ -35,12 +45,6 @@ export default class Veil {
         this._waitingEditors.delete(target)
       }
     })
-
-    if (this._waitingEditors.size > 0) {
-      this._show()
-    } else {
-      this._hide()
-    }
   }
 
   _show() {
