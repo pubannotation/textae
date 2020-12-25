@@ -83,14 +83,16 @@ export default class SpanModel {
   }
 
   renderElement() {
-    const element = document.createElement('span')
-    element.setAttribute('id', this.id)
-    element.setAttribute('title', this.id)
-
-    for (const style of this.styles.values()) {
-      element.classList.add(`textae-editor__style`)
-      element.classList.add(`textae-editor__style--${style}`)
-    }
+    const element = dohtml.create(`
+    <span
+      id="${this.id}"
+      title="${this.id}"
+      class="${[...this.styles.values()]
+        .map((style) => `textae-editor__style textae-editor__style--${style}`)
+        .join(' ')}"
+      >
+    </span>
+    `)
 
     const targetRange = createRangeToSpan(this)
     targetRange.surroundContents(element)
