@@ -28,11 +28,11 @@ export default class Veil {
   }
 
   _mutationCallback(mutationRecords) {
-    mutationRecords.forEach(({ target: element }) => {
-      if (element.classList.contains('textae-editor--wait')) {
-        this._waitingEditors.add(element)
+    mutationRecords.forEach(({ target }) => {
+      if (target.classList.contains('textae-editor--wait')) {
+        this._waitingEditors.add(target)
       } else {
-        this._waitingEditors.delete(element)
+        this._waitingEditors.delete(target)
       }
     })
 
