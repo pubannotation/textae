@@ -67,18 +67,21 @@ export default class DenotationSpanModel extends SpanModel {
   }
 
   renderElement() {
-    const element = dohtml.create(`
-    <span
-      id="${this.id}"
-      title="${this.id}"
-      tabindex="0"
-      class="${['textae-editor__span'].concat(this._styleClasses).join(' ')}"
-      >
-    </span>
-    `)
-
+    const element = dohtml.create(this._contentHTML)
     const targetRange = createRangeToSpan(this)
     targetRange.surroundContents(element)
+  }
+
+  get _contentHTML() {
+    return `
+      <span
+        id="${this.id}"
+        title="${this.id}"
+        tabindex="0"
+        class="${['textae-editor__span'].concat(this._styleClasses).join(' ')}"
+        >
+      </span>
+    `
   }
 
   get _gridRectangle() {

@@ -18,16 +18,19 @@ export default class StyleSpanModel extends SpanModel {
   }
 
   renderElement() {
-    const element = dohtml.create(`
-    <span
-      id="${this.id}"
-      title="${this.id}"
-      class="${this._styleClasses.join(' ')}"
-      >
-    </span>
-    `)
-
+    const element = dohtml.create(this._contentHTML)
     const targetRange = createRangeToSpan(this)
     targetRange.surroundContents(element)
+  }
+
+  get _contentHTML() {
+    return `
+      <span
+        id="${this.id}"
+        title="${this.id}"
+        class="${this._styleClasses.join(' ')}"
+        >
+      </span>
+    `
   }
 }
