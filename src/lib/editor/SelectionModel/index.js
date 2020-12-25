@@ -1,12 +1,16 @@
-import IDContainer from './IDContainer'
+import SelectedElements from './SelectedElements'
 
 export default class SelectionModel {
   constructor(eventEmitter, annotationData) {
     this._annotationData = annotationData
 
-    this.span = new IDContainer(eventEmitter, 'span', annotationData)
-    this.entity = new IDContainer(eventEmitter, 'entity', annotationData)
-    this.relation = new IDContainer(eventEmitter, 'relation', annotationData)
+    this.span = new SelectedElements(eventEmitter, 'span', annotationData)
+    this.entity = new SelectedElements(eventEmitter, 'entity', annotationData)
+    this.relation = new SelectedElements(
+      eventEmitter,
+      'relation',
+      annotationData
+    )
 
     // extend Entity container
     this.entity.isSamePredAttrributeSelected = (pred) =>
