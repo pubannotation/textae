@@ -1,4 +1,4 @@
-import IdContainer from './IDContainer'
+import IDContainer from './IDContainer'
 
 const kinds = ['span', 'entity', 'relation']
 
@@ -9,7 +9,7 @@ export default class SelectionModel {
     this._map = new Map(
       kinds.map((kindName) => [
         kindName,
-        new IdContainer(eventEmitter, kindName, annotationData)
+        new IDContainer(eventEmitter, kindName, annotationData)
       ])
     )
     this._map.forEach((container, name) => {
