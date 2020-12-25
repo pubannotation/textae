@@ -1,5 +1,16 @@
 import dohtml from 'dohtml'
-import hasWaitingEditor from './hasWaitingEditor'
+
+const waitingEditors = new Map()
+
+function hasWaitingEditor(element) {
+  if (element.classList.contains('textae-editor--wait')) {
+    waitingEditors.set(element)
+  } else {
+    waitingEditors.delete(element)
+  }
+
+  return waitingEditors.size > 0
+}
 
 export default function (mutationRecords) {
   mutationRecords.forEach((m) => {
