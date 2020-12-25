@@ -17,15 +17,15 @@ export default class Tool {
   }
 
   registerEditor(editor) {
-    const veil = document.querySelector(`.${veilClass}`)
-    if (!veil) {
+    if (!this._veil) {
       document.body.appendChild(
         dohtml.create(`<div class="${veilClass}" style="display: none;"></div>`)
       )
+      this._veil = document.querySelector(`.${veilClass}`)
     }
 
     this._editors.push(editor)
-    setVeilObserver(editor)
+    setVeilObserver(editor, this._veil)
   }
 }
 
@@ -38,7 +38,7 @@ const config = {
   attributeFilter: ['class']
 }
 
-function setVeilObserver(editor) {
+function setVeilObserver(editor, veil) {
   new MutationObserver((mutationRecords) => {
     mutationRecords.forEach(({ target: element }) => {
       if (element.classList.contains('textae-editor--wait')) {
@@ -49,17 +49,9 @@ function setVeilObserver(editor) {
     })
 
     if (waitingEditors.size > 0) {
-      const veil = document.querySelector(`.${veilClass}`)
-
-      if (veil) {
-        veil.style.display = 'block'
-      }
+      veil.style.display = 'block'
     } else {
-      const veil = document.querySelector(`.${veilClass}`)
-
-      if (veil) {
-        veil.style.display = 'none'
-      }
+      veil.style.display = 'none'
     }
   }).observe(editor[0], config)
 }
