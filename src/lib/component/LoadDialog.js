@@ -1,6 +1,6 @@
 import delegate from 'delegate'
 import Dialog from './Dialog'
-import enableHTMLelment from './enableHTMLelement'
+import enableHTMLelment from './enableHTMLElement'
 
 function template(context) {
   const { url } = context
