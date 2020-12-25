@@ -72,13 +72,7 @@ export default class DenotationSpanModel extends SpanModel {
       id="${this.id}"
       title="${this.id}"
       tabindex="0"
-      class="${['textae-editor__span']
-        .concat(
-          [...this.styles.values()].map(
-            (style) => `textae-editor__style textae-editor__style--${style}`
-          )
-        )
-        .join(' ')}"
+      class="${['textae-editor__span'].concat(this._styleClasses).join(' ')}"
       >
     </span>
     `)

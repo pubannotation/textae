@@ -132,4 +132,10 @@ export default class SpanModel {
       this.gridElement.remove()
     }
   }
+
+  get _styleClasses() {
+    return [...this.styles.values()].map(
+      (style) => `textae-editor__style textae-editor__style--${style}`
+    )
+  }
 }

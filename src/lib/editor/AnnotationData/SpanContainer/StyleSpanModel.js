@@ -22,9 +22,7 @@ export default class StyleSpanModel extends SpanModel {
     <span
       id="${this.id}"
       title="${this.id}"
-      class="${[...this.styles.values()]
-        .map((style) => `textae-editor__style textae-editor__style--${style}`)
-        .join(' ')}"
+      class="${this._styleClasses.join(' ')}"
       >
     </span>
     `)
