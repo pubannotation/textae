@@ -1,4 +1,8 @@
-import updateVeil from './updateVeil'
+import dohtml from 'dohtml'
+
+// Since not all editors will be notified at once, keep the state in a module scope variable.
+const waitingEditors = new Set()
+const veilClass = 'textae-editor-veil'
 
 const config = {
   attributes: true,
@@ -7,4 +11,32 @@ const config = {
 
 export default function (editor) {
   new MutationObserver(updateVeil).observe(editor[0], config)
+}
+
+function updateVeil(mutationRecords) {
+  mutationRecords.forEach(({ target: element }) => {
+    if (element.classList.contains('textae-editor--wait')) {
+      waitingEditors.add(element)
+    } else {
+      waitingEditors.delete(element)
+    }
+  })
+
+  if (waitingEditors.size > 0) {
+    const veil = document.querySelector(`.${veilClass}`)
+
+    if (veil) {
+      veil.style.display = 'block'
+    } else {
+      document.body.appendChild(
+        dohtml.create(`<div class="${veilClass}"></div>`)
+      )
+    }
+  } else {
+    const veil = document.querySelector(`.${veilClass}`)
+
+    if (veil) {
+      veil.style.display = 'none'
+    }
+  }
 }
