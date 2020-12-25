@@ -1,3 +1,5 @@
+import dohtml from 'dohtml'
+import createRangeToSpan from './createRangeToSpan'
 import SpanModel from './SpanModel'
 
 export default class StyleSpanModel extends SpanModel {
@@ -13,5 +15,21 @@ export default class StyleSpanModel extends SpanModel {
 
   appendStyles(styles) {
     this.styles = new Set([...this.styles, ...styles])
+  }
+
+  renderElement() {
+    const element = dohtml.create(`
+    <span
+      id="${this.id}"
+      title="${this.id}"
+      class="${[...this.styles.values()]
+        .map((style) => `textae-editor__style textae-editor__style--${style}`)
+        .join(' ')}"
+      >
+    </span>
+    `)
+
+    const targetRange = createRangeToSpan(this)
+    targetRange.surroundContents(element)
   }
 }
