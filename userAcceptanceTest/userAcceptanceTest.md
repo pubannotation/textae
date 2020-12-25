@@ -8,6 +8,54 @@
 4.  ブラウザの開発ツールを起動します。
 5.  以下のテストを実行して、エラーが出ないこと
 
+## 1 つの Entity は同一の Predicate の Attribute をひとつまでしか持てない
+
+### 背景
+
+1.  5.0.0 で、エディタ上での Attribute の追加・編集機能を追加しました。Annotation ファイルの読み込み時はチェックしていませんでした
+2.  5.3.2 から、Annotation ファイルの読み込み時に 1 つの Entity に Predicate が等しい Attribute が複数ついているかチェックします
+3.  5.3.5 から、アラートを pred 単位で分けました
+4.  6.1.8 から、重複した Attribute を無視し、Validation Dialog に表示します
+5.  6.2.93 で`Dupulicated`の typo を修正
+6.  6.2.97 で、参照先がない Attribute も、`Duplicated attributes.`テーブルに表示することにしました
+7.  6.2.100 で、BlockEntity の Attribute の重複チェックを追加しました
+8.  この制約を **1 つの Entity に Predicate と Object が等しい Attribute をひとつまでしか持てない** に緩めることにしました
+9.  6.4.1 で、Annotation ファイルの読込時 Validation での Attribute のチェックを緩め、 1 つの Entity に Predicate と Object が等しい Attribute が複数ついているかのチェックに変更しました
+
+### Annotation ファイルの読み込み時に 1 つの Entity に Predicate と Object が等しい Attribute が複数ついているかチェックする
+
+1.  Editor1 を選択
+2.  アノテーション読込ダイアログを開く
+3.  `invlaid.json`を読み込む
+4.  Validation Dialog の`Duplicated attributes.`に`A1`と`A2`が表示されること
+5.  Validation Dialog を閉じる
+6.  DenotationEntity `T3`に Attribute が２つ表示されること
+7.  BlockEntity `B9`に Attribute が２つ表示されること
+
+### ショートカットキー
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  Entity を選択する
+4.  1 キーを押す
+5.  Attribute が追加されること
+6.  1 キーを押す
+7.  パレットが開いて denote タブが選択されていること
+8.  Attribute が追加されないこと
+
+#### パレット
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  Entity を選択する
+4.  パレットを開く
+5.  denote タブを選ぶ
+6.  `Add to selected entity`ボタンを押す
+7.  Attribute が追加されること
+8.  `Add to selected entity`ボタンが`Remove from selected entity`ボタンに変わること
+9.  Entity の選択を解除する
+10. `Add to selected entity`ボタンが表示されること
+
 ## 改行コード`\r\n`を含むテキストに対してレンダリングの位置がズレないこと
 
 ### 背景
@@ -17,25 +65,24 @@
 3.  `\r\n`はテキスト上では 2 文字ですが、ブラウザ上では 1 つの改行としてレンダリングされます
 4.  Span をレンダリングするときに、`\r\n`を 2 文字としてカウントしていたため、レンダリング位置が 1 文字分ずつ後ろにズレました
 5.  6.3.21 で、TextAE 内部で扱うテキストの`\r\n`を`\n`に置き換えることで、1 文字として扱うことにしました
-6.  6.4.0 で、TextAE で表示するテキストの`\r\n`を` \n`に置き換えることで、空白文字と改行文字の2文字でブラウザ上にレンダリングされるようにしました
+6.  6.4.0 で、TextAE で表示するテキストの`\r\n`を` \n`に置き換えることで、空白文字と改行文字の 2 文字でブラウザ上にレンダリングされるようにしました
 
 ### -- 手段 --
 
-#### 改行コード`\r\n`を含むテキストに対して作成したSpanの位置がズレないこと
+#### 改行コード`\r\n`を含むテキストに対して作成した Span の位置がズレないこと
 
-1. Editor1を選択
-2. Termモードにする
-3. 3行目の先頭の単語`Although`をDenotationSpanにする
+1. Editor1 を選択
+2. Term モードにする
+3. 3 行目の先頭の単語`Although`を DenotationSpan にする
 4. 保存ダイアログを開く
 5. `Click to see the json source in a new window.`リンクをクリック
-6. 表示されたJSONの`T19`のbeginが`147`、endが`155`であること
+6. 表示された JSON の`T19`の begin が`147`、end が`155`であること
 
 #### 改行コード`\r\n`を含むテキストに対してレンダリングの位置がズレないこと
 
 1. http://pubannotation.org/projects/twitter-test/docs/sourcedb/@BLAH6-Tweets/sourceid/19546372/annotations.json を開く
 2. 2 行目以降に DenotationSpan を作成する
 3. DenotationSpan が選択した文字列に作成されること
-
 
 ## Term モード
 

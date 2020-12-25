@@ -1820,51 +1820,6 @@
 2.  `prefix.json`を開く
 3.  エラーが起きないこと
 
-## 1 つの Entity は同一の Predicate の Attribute をひとつまでしか持てない
-
-### 背景
-
-1.  5.0.0 で、エディタ上での Attribute の追加・編集機能を追加しました。Annotation ファイルの読み込み時はチェックしていませんでした。
-2.  5.3.2 から、Annotation ファイルの読み込み時に 1 つの Entity に Predicate が等しい Attribute が複数ついているかチェックします。
-3.  5.3.5 から、アラートを pred 単位で分けました。
-4.  6.1.8 から、重複した Attribute を無視し、Validation Dialog に表示します。
-5.  6.2.93 で`Dupulicated`の typo を修正
-6.  6.2.97 で、参照先がない Attribute も、`Duplicated attributes.`テーブルに表示することにしました
-7.  6.2.100 で、BlockEntity の Attribute の重複チェックを追加しました
-
-### Annotation ファイルの読み込み時に 1 つの Entity に Predicate が等しい Attribute が複数ついているかチェックする
-
-1.  Editor1 を選択
-2.  アノテーション読込ダイアログを開く
-3.  `invlaid.json`を読み込む
-4.  Validation Dialog の`Duplicated attributes.`に`A1`と`A2`が表示されること
-5.  Validation Dialog の`Duplicated attributes.`に`A4`と`A5`が表示されること
-6.  Validation Dialog の`Duplicated attributes.`に`B2`と`B3`が表示されること
-
-### ショートカットキー
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  Entity を選択する
-4.  1 キーを押す
-5.  Attribute が追加されること
-6.  1 キーを押す
-7.  パレットが開いて denote タブが選択されていること
-8.  Attribute が追加されないこと
-
-#### パレット
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  Entity を選択する
-4.  パレットを開く
-5.  denote タブを選ぶ
-6.  `Add to selected entity`ボタンを押す
-7.  Attribute が追加されること
-8.  `Add to selected entity`ボタンが`Remove from selected entity`ボタンに変わること
-9.  Entity の選択を解除する
-10. `Add to selected entity`ボタンが表示されること
-
 ## アノテーションファイル中の BlockEntity 間の Attribute を読み込める
 
 ### 背景
