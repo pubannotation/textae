@@ -1,4 +1,6 @@
+import dohtml from 'dohtml'
 import SELECTED from '../../SELECTED'
+import createRangeToSpan from './createRangeToSpan'
 import getHeightIncludeDescendantGrids from './getHeightIncludeDescendantGrids'
 import round from './round'
 import SpanModel from './SpanModel'
@@ -65,9 +67,28 @@ export default class DenotationSpanModel extends SpanModel {
   }
 
   renderElement() {
-    const element = super.renderElement()
+    const element = dohtml.create(`
+    <span
+      id="${this.id}"
+      title="${this.id}"
+      ${
+        this.hasStyle
+          ? `class="${[...this.styles.values()]
+              .map(
+                (style) => `textae-editor__style textae-editor__style--${style}`
+              )
+              .join(' ')}"`
+          : ''
+      }
+      
+      >
+    </span>
+    `)
+
     element.setAttribute('tabindex', 0)
     element.classList.add('textae-editor__span')
+    const targetRange = createRangeToSpan(this)
+    targetRange.surroundContents(element)
   }
 
   get _gridRectangle() {
