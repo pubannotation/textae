@@ -1,10 +1,13 @@
 import $ from 'jquery'
 import 'jquery-ui/ui/widgets/dialog'
-import createElement from './createElement'
 
 export default class Dialog {
   constructor(title, contentHtml, buttonLabel, option) {
-    this._el = new createElement(title, contentHtml)
+    const el = document.createElement('div')
+    el.title = title
+    el.innerHTML = contentHtml
+
+    this._el = el
     this._$dialog = $(this._el)
     this._$dialog.on('dialogclose', () => {
       // Delay destroy to check a click target is child of the dialog.
