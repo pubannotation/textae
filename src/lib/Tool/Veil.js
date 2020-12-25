@@ -32,10 +32,18 @@ export default class Veil {
       })
 
       if (this._waitingEditors.size > 0) {
-        this._el.style.display = 'block'
+        this._show()
       } else {
-        this._el.style.display = 'none'
+        this._hide()
       }
     }).observe(editor[0], config)
+  }
+
+  _show() {
+    this._el.style.display = 'block'
+  }
+
+  _hide() {
+    this._el.style.display = 'none'
   }
 }
