@@ -35,7 +35,21 @@ class Veil {
       document.body.appendChild(this._el)
     }
 
-    setVeilObserver(editor, this._el)
+    new MutationObserver((mutationRecords) => {
+      mutationRecords.forEach(({ target: element }) => {
+        if (element.classList.contains('textae-editor--wait')) {
+          waitingEditors.add(element)
+        } else {
+          waitingEditors.delete(element)
+        }
+      })
+
+      if (waitingEditors.size > 0) {
+        this._el.style.display = 'block'
+      } else {
+        this._el.style.display = 'none'
+      }
+    }).observe(editor[0], config)
   }
 }
 
@@ -45,22 +59,4 @@ const waitingEditors = new Set()
 const config = {
   attributes: true,
   attributeFilter: ['class']
-}
-
-function setVeilObserver(editor, veil) {
-  new MutationObserver((mutationRecords) => {
-    mutationRecords.forEach(({ target: element }) => {
-      if (element.classList.contains('textae-editor--wait')) {
-        waitingEditors.add(element)
-      } else {
-        waitingEditors.delete(element)
-      }
-    })
-
-    if (waitingEditors.size > 0) {
-      veil.style.display = 'block'
-    } else {
-      veil.style.display = 'none'
-    }
-  }).observe(editor[0], config)
 }
