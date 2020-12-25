@@ -1,3 +1,5 @@
+import dohtml from 'dohtml'
+
 const veilClass = 'textae-editor-veil'
 
 function show() {
@@ -6,9 +8,7 @@ function show() {
   if (veil) {
     veil.style.display = 'block'
   } else {
-    const veil = document.createElement('div')
-    veil.className = veilClass
-    document.body.appendChild(veil)
+    document.body.appendChild(dohtml.create(`<div class="${veilClass}"></div>`))
   }
 }
 
