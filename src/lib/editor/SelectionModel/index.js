@@ -6,15 +6,9 @@ export default class SelectionModel {
   constructor(eventEmitter, annotationData) {
     this._annotationData = annotationData
 
-    this._map = new Map(
-      kinds.map((kindName) => [
-        kindName,
-        new IDContainer(eventEmitter, kindName, annotationData)
-      ])
-    )
-    this.span = this._map.get('span')
-    this.entity = this._map.get('entity')
-    this.relation = this._map.get('relation')
+    this.span = new IDContainer(eventEmitter, 'span', annotationData)
+    this.entity = new IDContainer(eventEmitter, 'entity', annotationData)
+    this.relation = new IDContainer(eventEmitter, 'relation', annotationData)
 
     // extend Entity container
     this.entity.isSamePredAttrributeSelected = (pred) =>
