@@ -1,5 +1,6 @@
 import dohtml from 'dohtml'
 
+// Since not all editors will be notified at once, keep the state in a module scope variable.
 const waitingEditors = new Map()
 const veilClass = 'textae-editor-veil'
 
