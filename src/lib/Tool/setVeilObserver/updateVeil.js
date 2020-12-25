@@ -1,13 +1,13 @@
 import dohtml from 'dohtml'
 
 // Since not all editors will be notified at once, keep the state in a module scope variable.
-const waitingEditors = new Map()
+const waitingEditors = new Set()
 const veilClass = 'textae-editor-veil'
 
 export default function (mutationRecords) {
   mutationRecords.forEach(({ target: element }) => {
     if (element.classList.contains('textae-editor--wait')) {
-      waitingEditors.set(element)
+      waitingEditors.add(element)
     } else {
       waitingEditors.delete(element)
     }
