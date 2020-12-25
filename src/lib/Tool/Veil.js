@@ -22,21 +22,25 @@ export default class Veil {
       document.body.appendChild(this._el)
     }
 
-    new MutationObserver((mutationRecords) => {
-      mutationRecords.forEach(({ target: element }) => {
-        if (element.classList.contains('textae-editor--wait')) {
-          this._waitingEditors.add(element)
-        } else {
-          this._waitingEditors.delete(element)
-        }
-      })
+    new MutationObserver((mutationRecords) =>
+      this._mutationCallback(mutationRecords)
+    ).observe(editor[0], config)
+  }
 
-      if (this._waitingEditors.size > 0) {
-        this._show()
+  _mutationCallback(mutationRecords) {
+    mutationRecords.forEach(({ target: element }) => {
+      if (element.classList.contains('textae-editor--wait')) {
+        this._waitingEditors.add(element)
       } else {
-        this._hide()
+        this._waitingEditors.delete(element)
       }
-    }).observe(editor[0], config)
+    })
+
+    if (this._waitingEditors.size > 0) {
+      this._show()
+    } else {
+      this._hide()
+    }
   }
 
   _show() {
