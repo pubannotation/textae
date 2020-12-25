@@ -1,20 +1,15 @@
 import dohtml from 'dohtml'
 
 const waitingEditors = new Map()
-
-function hasWaitingEditor(element) {
-  if (element.classList.contains('textae-editor--wait')) {
-    waitingEditors.set(element)
-  } else {
-    waitingEditors.delete(element)
-  }
-}
-
 const veilClass = 'textae-editor-veil'
 
 export default function (mutationRecords) {
-  mutationRecords.forEach((m) => {
-    hasWaitingEditor(m.target)
+  mutationRecords.forEach(({ target: element }) => {
+    if (element.classList.contains('textae-editor--wait')) {
+      waitingEditors.set(element)
+    } else {
+      waitingEditors.delete(element)
+    }
   })
 
   if (waitingEditors.size > 0) {
