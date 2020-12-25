@@ -1,7 +1,6 @@
 import dohtml from 'dohtml'
 import { makeDenotationSpanHTMLElementId } from '../../../idFactory'
 import createGridHtml from './createGridHtml'
-import createRangeToSpan from '../createRangeToSpan'
 import getBigBrotherSpan from './getBigBrotherSpan'
 import updateGridPosition from './updateGridPosition'
 import getAnnotationBox from '../../../start/View/Renderer/getAnnotationBox'
@@ -80,24 +79,6 @@ export default class SpanModel {
 
   get element() {
     return document.querySelector(`#${this.id}`)
-  }
-
-  renderElement() {
-    const element = dohtml.create(`
-    <span
-      id="${this.id}"
-      title="${this.id}"
-      class="${[...this.styles.values()]
-        .map((style) => `textae-editor__style textae-editor__style--${style}`)
-        .join(' ')}"
-      >
-    </span>
-    `)
-
-    const targetRange = createRangeToSpan(this)
-    targetRange.surroundContents(element)
-
-    return element
   }
 
   destroyElement() {
