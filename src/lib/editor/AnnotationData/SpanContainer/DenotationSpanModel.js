@@ -1,6 +1,4 @@
-import dohtml from 'dohtml'
 import SELECTED from '../../SELECTED'
-import createRangeToSpan from './createRangeToSpan'
 import getHeightIncludeDescendantGrids from './getHeightIncludeDescendantGrids'
 import round from './round'
 import SpanModel from './SpanModel'
@@ -64,12 +62,6 @@ export default class DenotationSpanModel extends SpanModel {
     if (el) {
       el.classList.remove(SELECTED)
     }
-  }
-
-  renderElement() {
-    const element = dohtml.create(this._contentHTML)
-    const targetRange = createRangeToSpan(this)
-    targetRange.surroundContents(element)
   }
 
   get _contentHTML() {

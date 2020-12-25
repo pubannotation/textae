@@ -5,6 +5,7 @@ import getBigBrotherSpan from './getBigBrotherSpan'
 import updateGridPosition from './updateGridPosition'
 import getAnnotationBox from '../../../start/View/Renderer/getAnnotationBox'
 import getRightGrid from './getRightGrid'
+import createRangeToSpan from '../createRangeToSpan'
 
 export default class SpanModel {
   constructor(editor, begin, end, spanContainer) {
@@ -79,6 +80,12 @@ export default class SpanModel {
 
   get element() {
     return document.querySelector(`#${this.id}`)
+  }
+
+  renderElement() {
+    const element = dohtml.create(this._contentHTML)
+    const targetRange = createRangeToSpan(this)
+    targetRange.surroundContents(element)
   }
 
   destroyElement() {

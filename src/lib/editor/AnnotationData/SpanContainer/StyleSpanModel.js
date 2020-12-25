@@ -1,5 +1,3 @@
-import dohtml from 'dohtml'
-import createRangeToSpan from './createRangeToSpan'
 import SpanModel from './SpanModel'
 
 export default class StyleSpanModel extends SpanModel {
@@ -15,12 +13,6 @@ export default class StyleSpanModel extends SpanModel {
 
   appendStyles(styles) {
     this.styles = new Set([...this.styles, ...styles])
-  }
-
-  renderElement() {
-    const element = dohtml.create(this._contentHTML)
-    const targetRange = createRangeToSpan(this)
-    targetRange.surroundContents(element)
   }
 
   get _contentHTML() {
