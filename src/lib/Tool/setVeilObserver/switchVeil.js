@@ -1,29 +1,23 @@
 import dohtml from 'dohtml'
 
-export default function (hasWaitingEditor) {
-  if (hasWaitingEditor) {
-    show()
-  } else {
-    hide()
-  }
-}
-
 const veilClass = 'textae-editor-veil'
 
-function show() {
-  const veil = document.querySelector(`.${veilClass}`)
+export default function (hasWaitingEditor) {
+  if (hasWaitingEditor) {
+    const veil = document.querySelector(`.${veilClass}`)
 
-  if (veil) {
-    veil.style.display = 'block'
+    if (veil) {
+      veil.style.display = 'block'
+    } else {
+      document.body.appendChild(
+        dohtml.create(`<div class="${veilClass}"></div>`)
+      )
+    }
   } else {
-    document.body.appendChild(dohtml.create(`<div class="${veilClass}"></div>`))
-  }
-}
+    const veil = document.querySelector(`.${veilClass}`)
 
-function hide() {
-  const veil = document.querySelector(`.${veilClass}`)
-
-  if (veil) {
-    veil.style.display = 'none'
+    if (veil) {
+      veil.style.display = 'none'
+    }
   }
 }
