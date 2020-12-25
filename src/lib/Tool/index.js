@@ -7,6 +7,7 @@ import dohtml from 'dohtml'
 export default class Tool {
   constructor() {
     this._editors = new EditorContainer()
+    this._veil = new Veil()
     redrawOnResize(this._editors)
 
     // When the DOMContentLoaded event occurs, document.body may not have been initialized yet.
@@ -17,15 +18,24 @@ export default class Tool {
   }
 
   registerEditor(editor) {
-    if (!this._veil) {
-      document.body.appendChild(
-        dohtml.create(`<div class="${veilClass}" style="display: none;"></div>`)
+    this._editors.push(editor)
+    this._veil.setObserver(editor)
+  }
+}
+
+class Veil {
+  setObserver(editor) {
+    // Do not create HTML elements in the constructor
+    // so that this class can be initialized before document.body is created.
+    // Instead, we create it here.
+    if (!this._el) {
+      this._el = dohtml.create(
+        `<div class="${veilClass}" style="display: none;"></div>`
       )
-      this._veil = document.querySelector(`.${veilClass}`)
+      document.body.appendChild(this._el)
     }
 
-    this._editors.push(editor)
-    setVeilObserver(editor, this._veil)
+    setVeilObserver(editor, this._el)
   }
 }
 
