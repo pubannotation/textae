@@ -24,6 +24,11 @@ export default class Tool {
 }
 
 class Veil {
+  constructor() {
+    // Since not all editors will be notified at once, keep the state in a instance variable.
+    this._waitingEditors = new Set()
+  }
+
   setObserver(editor) {
     // Do not create HTML elements in the constructor
     // so that this class can be initialized before document.body is created.
@@ -38,13 +43,13 @@ class Veil {
     new MutationObserver((mutationRecords) => {
       mutationRecords.forEach(({ target: element }) => {
         if (element.classList.contains('textae-editor--wait')) {
-          waitingEditors.add(element)
+          this._waitingEditors.add(element)
         } else {
-          waitingEditors.delete(element)
+          this._waitingEditors.delete(element)
         }
       })
 
-      if (waitingEditors.size > 0) {
+      if (this._waitingEditors.size > 0) {
         this._el.style.display = 'block'
       } else {
         this._el.style.display = 'none'
@@ -52,9 +57,6 @@ class Veil {
     }).observe(editor[0], config)
   }
 }
-
-// Since not all editors will be notified at once, keep the state in a module scope variable.
-const waitingEditors = new Set()
 
 const config = {
   attributes: true,
