@@ -25,9 +25,6 @@ export default class SelectionModel {
     }
 
     // Bind the selection model to the model.
-    // When the annotation is loaded and the mode is determined,
-    // the selection state is cleared via TypeEditor.cancelSelect.
-    // No need to monitor `textae.annotationData.all.change` events.
     eventEmitter
       .on('textae.annotationData.span.remove', (span) =>
         this.span.removeInstance(span)
@@ -38,6 +35,11 @@ export default class SelectionModel {
       .on('textae.annotationData.relation.remove', (relation) =>
         this.relation.removeInstance(relation)
       )
+      .on('textae.annotationData.all.change', () => {
+        this.span.clear()
+        this.entity.clear()
+        this.relation.clear()
+      })
   }
 
   add(modelType, id) {
