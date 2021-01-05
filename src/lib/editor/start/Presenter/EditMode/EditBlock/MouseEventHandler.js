@@ -120,7 +120,7 @@ export default class MouseEventHandler {
       if (event.ctrlKey || event.metaKey) {
         this._selectionModel.toggleSpan(spanID)
       } else {
-        this._selectionModel.selectSpanEx(spanID)
+        this._selectionModel.selectSpan(spanID)
       }
     }
 

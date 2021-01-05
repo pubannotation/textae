@@ -28,7 +28,7 @@ export default function (
     )
 
     if (removed && nextSpan) {
-      selectionModel.selectSpanEx(nextSpan.id)
+      selectionModel.selectSpan(nextSpan.id)
     }
   }
 }

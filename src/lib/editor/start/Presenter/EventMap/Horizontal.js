@@ -10,7 +10,7 @@ export default class Horizontal {
       if (shiftKey) {
         this._selectionModel.addSpan(nextSpan.id)
       } else {
-        this._selectionModel.selectSpanEx(nextSpan.id)
+        this._selectionModel.selectSpan(nextSpan.id)
       }
       return
     }
@@ -27,7 +27,7 @@ export default class Horizontal {
       if (shiftKey) {
         this._selectionModel.addSpan(nextSpan.id)
       } else {
-        this._selectionModel.selectSpanEx(nextSpan.id)
+        this._selectionModel.selectSpan(nextSpan.id)
       }
       return
     }

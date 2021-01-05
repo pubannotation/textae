@@ -23,7 +23,7 @@ export default class Vertical {
         .closest('.textae-editor__grid')
         .id.substring(1)
 
-      this._selectionModel.selectSpanEx(spanId)
+      this._selectionModel.selectSpan(spanId)
     }
   }
 }

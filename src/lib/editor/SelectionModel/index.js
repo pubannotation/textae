@@ -82,7 +82,7 @@ export default class SelectionModel {
     this.entity.add(entityId)
   }
 
-  selectSpanEx(id) {
+  selectSpan(id) {
     this.clear()
     this.span.add(id)
   }
