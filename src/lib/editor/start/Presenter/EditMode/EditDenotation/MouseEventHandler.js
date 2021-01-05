@@ -102,7 +102,11 @@ export default class MouseEventHandler {
     const entityId = getEntityHTMLelementFromChild(e.target).title
 
     if (this._annotationData.entity.get(entityId).isDenotation) {
-      this._selectionModel.selectEntity(entityId, e.ctrlKey || e.metaKey)
+      if (e.ctrlKey || e.metaKey) {
+        this._selectionModel.entity.toggle(entityId)
+      } else {
+        this._selectionModel.selectEntity(entityId)
+      }
     }
   }
 
