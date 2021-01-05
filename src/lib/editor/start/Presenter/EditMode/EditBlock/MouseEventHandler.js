@@ -117,7 +117,11 @@ export default class MouseEventHandler {
     if (rangeOfSpans.length) {
       this._selectionModel.selectSpanRange(rangeOfSpans)
     } else {
-      this._selectionModel.selectSpanEx(spanID, event.ctrlKey || event.metaKey)
+      if (event.ctrlKey || event.metaKey) {
+        this._selectionModel.toggleSpan(spanID)
+      } else {
+        this._selectionModel.selectSpanEx(spanID)
+      }
     }
 
     // Select entities of the selected span.
