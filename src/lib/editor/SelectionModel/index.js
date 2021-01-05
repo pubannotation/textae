@@ -70,7 +70,7 @@ export default class SelectionModel {
     this.relation.add(id)
   }
 
-  selectSpanById(spanId) {
+  addSpan(spanId) {
     this.span.add(spanId)
   }
 

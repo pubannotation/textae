@@ -102,7 +102,7 @@ export default class MouseEventHandler {
 
       // Select span of the selected entity.
       for (const { span } of this._selectionModel.entity.all) {
-        this._selectionModel.selectSpanById(span.id)
+        this._selectionModel.addSpan(span.id)
       }
     }
   }
