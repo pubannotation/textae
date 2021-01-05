@@ -87,4 +87,19 @@ export default class SelectionModel {
   selectEntityById(entityId) {
     this.entity.add(entityId)
   }
+
+  selectSpanEx(selectingSpanID, rangeOfSpans, isToggle) {
+    if (rangeOfSpans.length) {
+      // select reange of spans.
+      this.clear()
+      for (const id of rangeOfSpans) {
+        this.selectSpanById(id)
+      }
+    } else if (isToggle) {
+      this.toggleSpanById(selectingSpanID)
+    } else {
+      this.clear()
+      this.selectSpanById(selectingSpanID)
+    }
+  }
 }
