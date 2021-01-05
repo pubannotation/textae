@@ -112,12 +112,6 @@ export default class MouseEventHandler {
       ? this._annotationData.span.rangeDenotationSpan(selectedSpanID, spanID)
       : []
 
-    selectSpan(
-      this._selectionModel,
-      event,
-      selectedSpanID,
-      spanID,
-      rangeOfSpans
-    )
+    selectSpan(this._selectionModel, event, spanID, rangeOfSpans)
   }
 }

@@ -1,10 +1,4 @@
-export default function (
-  selectionModel,
-  event,
-  selectedSpanID,
-  selectingSpanID,
-  rangeOfSpans
-) {
+export default function (selectionModel, event, selectingSpanID, rangeOfSpans) {
   if (event.shiftKey && rangeOfSpans.length) {
     // select reange of spans.
     selectionModel.clear()
