@@ -2208,23 +2208,6 @@
 3.  `Wrong range typesettings.`に `begin` が `10` で `end` が `5` の typesetting が表示されること
 4.  `Out of text typesettings.`に `begin` が `0` で `end` が `1786` の typesetting が表示されること
 
-## 読み込んだアノテーションに不正データが含まれていたら Validation Dialog を表示すること
-
-### 背景
-
-1.  annotation.json に不正なデータが入っていた場合にエラーがおきていました
-2.  4.1.8 で annotation.json のデータチェック機能を追加しました
-3.  元のデータを修正しているので、`Upload`ボタンを有効にします
-4.  4.1.12 でクロスする Span の検出機能を追加しました
-5.  4.1.15 で Validation Dialog タイトルのミススペルを修正しました
-6.  5.0.0 で`Upload`ボタンの制御を有効無効から、星マークの有無に変更しました
-
-### -- 手段 --
-
-1.  invalid.json を読み込む
-2.  不正なデータを検出して Validation Dialog を表示すること
-3.  Validation Dialog のタイトルが`The following erroneous annotations ignored`であること
-
 ## Entity の見た目
 
 ### 背景
