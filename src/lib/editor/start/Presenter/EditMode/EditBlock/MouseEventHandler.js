@@ -116,8 +116,8 @@ export default class MouseEventHandler {
 
     this._selectionModel.selectSpanEx(
       spanID,
-      rangeOfSpans,
-      event.ctrlKey || event.metaKey
+      event.ctrlKey || event.metaKey,
+      rangeOfSpans
     )
 
     // Select entities of the selected span.
