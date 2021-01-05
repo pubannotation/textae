@@ -21,6 +21,28 @@
 7.  6.2.100 で、BlockEntity の Attribute の重複チェックを追加しました
 8.  この制約を **1 つの Entity に Predicate と Object が等しい Attribute をひとつまでしか持てない** に緩めることにしました
 9.  6.4.1 で、Annotation ファイルの読込時 Validation での Attribute のチェックを緩め、 1 つの Entity に Predicate と Object が等しい Attribute が複数ついているかのチェックに変更しました
+10. 6.3.32 で、Entity が Boolean または Selection Attribute を持つときに、Entity パレットに Attribute 削除ボタンを表示する代わりに、Attribute 追加ボタンを表示していました
+11. 6.4.3 で対応
+
+#### パレット
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  Entity を選択する
+4.  パレットを開く
+5.  denote タブを選ぶ
+6.  `Add to selected entity`ボタンを押す
+7.  Attribute が追加されること
+8.  `Add to selected entity`ボタンが`Remove from selected entity`ボタンに変わること
+9.  `Remove from selected entity`ボタンを押す
+10. Attribute が削除されること
+11. `Remove from selected entity`ボタンが`Add to selected entity`ボタンに変わること
+12. error タブを選ぶ
+13. `Add to selected entity`ボタンを押す
+14. Attribute が追加されること
+15. `Add to selected entity`ボタンが`Remove from selected entity`ボタンに変わること
+16. Entity の選択を解除する
+17. `Add to selected entity`ボタンが表示されること
 
 ### Annotation ファイルの読み込み時に 1 つの Entity に Predicate と Object が等しい Attribute が複数ついているかチェックする
 
@@ -42,19 +64,6 @@
 6.  1 キーを押す
 7.  パレットが開いて denote タブが選択されていること
 8.  Attribute が追加されないこと
-
-#### パレット
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  Entity を選択する
-4.  パレットを開く
-5.  denote タブを選ぶ
-6.  `Add to selected entity`ボタンを押す
-7.  Attribute が追加されること
-8.  `Add to selected entity`ボタンが`Remove from selected entity`ボタンに変わること
-9.  Entity の選択を解除する
-10. `Add to selected entity`ボタンが表示されること
 
 ## 改行コード`\r\n`を含むテキストに対してレンダリングの位置がズレないこと
 

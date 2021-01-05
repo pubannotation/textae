@@ -3,6 +3,6 @@ import getRemoveAttributeButton from './getRemoveAttributeButton'
 
 export default function (isEntityWithSamePredSelected) {
   return isEntityWithSamePredSelected
-    ? getAddAttributeButton()
-    : getRemoveAttributeButton()
+    ? getRemoveAttributeButton()
+    : getAddAttributeButton()
 }
