@@ -112,10 +112,10 @@ export default class MouseEventHandler {
         ? this._annotationData.span.rangeDenotationSpan(selectedSpanID, spanID)
         : []
 
-    this._selectionModel.selectSpanEx(
-      spanID,
-      event.ctrlKey || event.metaKey,
-      rangeOfSpans
-    )
+    if (rangeOfSpans.length) {
+      this._selectionModel.selectSpanRange(rangeOfSpans)
+    } else {
+      this._selectionModel.selectSpanEx(spanID, event.ctrlKey || event.metaKey)
+    }
   }
 }

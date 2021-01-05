@@ -88,17 +88,19 @@ export default class SelectionModel {
     this.entity.add(entityId)
   }
 
-  selectSpanEx(id, isMulti, rangeOfSpans) {
-    if (rangeOfSpans.length) {
-      // select reange of spans.
-      this.clear()
-      for (const id of rangeOfSpans) {
-        this.selectSpanById(id)
-      }
-    } else if (isMulti) {
+  selectSpanEx(id, isMulti) {
+    if (isMulti) {
       this.toggleSpanById(id)
     } else {
       this.clear()
+      this.selectSpanById(id)
+    }
+  }
+
+  selectSpanRange(rangeOfSpans) {
+    // select reange of spans.
+    this.clear()
+    for (const id of rangeOfSpans) {
       this.selectSpanById(id)
     }
   }

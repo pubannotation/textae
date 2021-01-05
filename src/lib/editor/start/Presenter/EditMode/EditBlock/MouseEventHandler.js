@@ -114,11 +114,11 @@ export default class MouseEventHandler {
         ? this._annotationData.span.rangeBlockSpan(selectedSpanID, spanID)
         : []
 
-    this._selectionModel.selectSpanEx(
-      spanID,
-      event.ctrlKey || event.metaKey,
-      rangeOfSpans
-    )
+    if (rangeOfSpans.length) {
+      this._selectionModel.selectSpanRange(rangeOfSpans)
+    } else {
+      this._selectionModel.selectSpanEx(spanID, event.ctrlKey || event.metaKey)
+    }
 
     // Select entities of the selected span.
     for (const { entities } of this._selectionModel.span.all) {
