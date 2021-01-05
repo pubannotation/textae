@@ -5,7 +5,7 @@ export default function (
   selectingSpanID,
   rangeOfSpans
 ) {
-  if (event.shiftKey && selectedSpanID) {
+  if (event.shiftKey && rangeOfSpans.length) {
     // select reange of spans.
     selectionModel.clear()
     for (const id of rangeOfSpans) {
