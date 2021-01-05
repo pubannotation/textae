@@ -1,11 +1,17 @@
-export default function (selectionModel, event, selectingSpanID, rangeOfSpans) {
+export default function (
+  selectionModel,
+  event,
+  selectingSpanID,
+  rangeOfSpans,
+  isToggle
+) {
   if (rangeOfSpans.length) {
     // select reange of spans.
     selectionModel.clear()
     for (const id of rangeOfSpans) {
       selectionModel.selectSpanById(id)
     }
-  } else if (event.ctrlKey || event.metaKey) {
+  } else if (isToggle) {
     selectionModel.toggleSpanById(selectingSpanID)
   } else {
     selectionModel.clear()
