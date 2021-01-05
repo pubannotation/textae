@@ -3,12 +3,12 @@ export default function (
   event,
   selectedSpanID,
   selectingSpanID,
-  getRangeFunc
+  rangeOfSpans
 ) {
   if (event.shiftKey && selectedSpanID) {
     // select reange of spans.
     selectionModel.clear()
-    for (const id of getRangeFunc(selectedSpanID, selectingSpanID)) {
+    for (const id of rangeOfSpans) {
       selectionModel.selectSpanById(id)
     }
   } else if (event.ctrlKey || event.metaKey) {
