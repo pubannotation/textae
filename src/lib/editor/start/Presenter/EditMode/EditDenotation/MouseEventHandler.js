@@ -115,7 +115,6 @@ export default class MouseEventHandler {
 
     selectSpan(
       this._selectionModel,
-      event,
       spanID,
       rangeOfSpans,
       event.ctrlKey || event.metaKey

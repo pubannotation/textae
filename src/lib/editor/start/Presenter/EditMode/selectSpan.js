@@ -1,6 +1,5 @@
 export default function (
   selectionModel,
-  event,
   selectingSpanID,
   rangeOfSpans,
   isToggle
