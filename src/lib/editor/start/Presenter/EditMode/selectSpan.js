@@ -1,20 +1,20 @@
 export default function (
   selectionModel,
   event,
-  selectedSpanId,
-  selectingSpanId,
+  selectedSpanID,
+  selectingSpanID,
   getRangeFunc
 ) {
-  if (event.shiftKey && selectedSpanId) {
+  if (event.shiftKey && selectedSpanID) {
     // select reange of spans.
     selectionModel.clear()
-    for (const id of getRangeFunc(selectedSpanId, selectingSpanId)) {
+    for (const id of getRangeFunc(selectedSpanID, selectingSpanID)) {
       selectionModel.selectSpanById(id)
     }
   } else if (event.ctrlKey || event.metaKey) {
-    selectionModel.toggleSpanById(selectingSpanId)
+    selectionModel.toggleSpanById(selectingSpanID)
   } else {
     selectionModel.clear()
-    selectionModel.selectSpanById(selectingSpanId)
+    selectionModel.selectSpanById(selectingSpanID)
   }
 }
