@@ -70,16 +70,16 @@ export default class SelectionModel {
     this.relation.add(id)
   }
 
+  selectEntityById(entityId) {
+    this.entity.add(entityId)
+  }
+
   addSpan(spanId) {
     this.span.add(spanId)
   }
 
   toggleSpan(spanId) {
     this.span.toggle(spanId)
-  }
-
-  selectEntityById(entityId) {
-    this.entity.add(entityId)
   }
 
   selectSpan(id) {
