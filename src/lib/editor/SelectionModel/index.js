@@ -84,14 +84,14 @@ export default class SelectionModel {
 
   selectSpanEx(id) {
     this.clear()
-    this.selectSpanById(id)
+    this.span.add(id)
   }
 
   selectSpanRange(rangeOfSpans) {
     // select reange of spans.
     this.clear()
     for (const id of rangeOfSpans) {
-      this.selectSpanById(id)
+      this.span.add(id)
     }
   }
 }
