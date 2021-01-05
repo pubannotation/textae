@@ -70,10 +70,6 @@ export default class SelectionModel {
     this.relation.add(id)
   }
 
-  selectEntityById(entityId) {
-    this.entity.add(entityId)
-  }
-
   selectSpan(id) {
     this.clear()
     this.span.add(id)
