@@ -53,13 +53,6 @@ export default class SelectionModel {
     this.relation.removeAll()
   }
 
-  selectSpan(id, isMulti) {
-    if (!isMulti) {
-      this.clear()
-    }
-    this.span.add(id)
-  }
-
   selectEntity(id, isMulti) {
     if (isMulti) {
       this.entity.toggle(id)
