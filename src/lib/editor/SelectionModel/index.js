@@ -80,7 +80,6 @@ export default class SelectionModel {
   }
 
   selectSpanRange(rangeOfSpans) {
-    // select reange of spans.
     this.clear()
     for (const id of rangeOfSpans) {
       this.span.add(id)
