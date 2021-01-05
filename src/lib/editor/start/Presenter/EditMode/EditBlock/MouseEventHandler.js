@@ -108,16 +108,16 @@ export default class MouseEventHandler {
     }
   }
 
-  _selectSpanAndEntity(event, spanId) {
-    const selectedSpanId = this._selectionModel.span.singleId
+  _selectSpanAndEntity(event, spanID) {
+    const selectedSpanID = this._selectionModel.span.singleId
 
     selectSpan(
       this._selectionModel,
       event,
-      selectedSpanId,
-      spanId,
-      (firstId, secondId) =>
-        this._annotationData.span.rangeBlockSpan(firstId, secondId)
+      selectedSpanID,
+      spanID,
+      (firstID, secondID) =>
+        this._annotationData.span.rangeBlockSpan(firstID, secondID)
     )
 
     // Select entities of the selected span.
