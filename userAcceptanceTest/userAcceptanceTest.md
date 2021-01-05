@@ -8,25 +8,6 @@
 4.  ブラウザの開発ツールを起動します。
 5.  以下のテストを実行して、エラーが出ないこと
 
-## Term モード
-
-### 背景
-
-1.  4.1.18 で text を Relation より前に表示するようにしました。
-2.  6.0.0 で text が Relation のラベルの後ろに隠れていて、背後のテキストを選択して Span がつくることができませんでした
-3.  6.1.46 で対応しました
-
-### -- 手段 --
-
-1.  Term モードにする
-2.  text が Relation と Relation のラベルの手前に表示されること
-3.  Relation を持つ Entity をホバーする
-4.  Relation と Relation のラベルが text の手前に表示されること
-5.  Relation モードにする
-6.  Relation と Relation のラベルが text の手前に表示されること
-7.  View モードにする
-8.  Relation と Relation のラベルが text の手前に表示されること
-
 ## スタイルで行の高さを指定できること
 
 ### 背景
