@@ -74,10 +74,6 @@ export default class SelectionModel {
     this.entity.add(entityId)
   }
 
-  toggleSpan(spanId) {
-    this.span.toggle(spanId)
-  }
-
   selectSpan(id) {
     this.clear()
     this.span.add(id)
