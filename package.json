@@ -26,7 +26,7 @@
     "url": "^0.11.0"
   },
   "devDependencies": {
-    "@typescript-eslint/parser": "^4.11.0",
+    "@typescript-eslint/parser": "^4.12.0",
     "clean-css-cli": "^4.3.0",
     "concat": "^1.0.3",
     "connect": "^3.7.0",
