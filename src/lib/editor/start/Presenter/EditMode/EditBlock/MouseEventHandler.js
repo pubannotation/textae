@@ -120,7 +120,7 @@ export default class MouseEventHandler {
     // Select entities of the selected span.
     for (const { entities } of this._selectionModel.span.all) {
       // Block span has just one entity.
-      this._selectionModel.selectEntityById(entities[0].id)
+      this._selectionModel.entity.add(entities[0].id)
     }
   }
 }
