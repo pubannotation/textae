@@ -1,7 +1,7 @@
 import clearTextSelection from '../clearTextSelection'
 import SelectionWrapper from '../SelectionWrapper'
 import getEntityHTMLelementFromChild from '../../../getEntityHTMLelementFromChild'
-import selectSpan from './selectSpan'
+import selectSpan from '../selectSpan'
 
 export default class MouseEventHandler {
   constructor(editor, annotationData, selectionModel, pallet, spanEditor) {
