@@ -81,7 +81,7 @@ export default class SelectionModel {
     this.span.add(spanId)
   }
 
-  toggleSpanById(spanId) {
+  toggleSpan(spanId) {
     this.span.toggle(spanId)
   }
 
@@ -91,7 +91,7 @@ export default class SelectionModel {
 
   selectSpanEx(id, isMulti) {
     if (isMulti) {
-      this.toggleSpanById(id)
+      this.toggleSpan(id)
     } else {
       this.clear()
       this.selectSpanById(id)
