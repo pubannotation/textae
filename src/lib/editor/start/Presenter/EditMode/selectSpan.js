@@ -1,6 +1,10 @@
-export default function (selectionModel, event, selectingSpanId, getRangeFunc) {
-  const selectedSpanId = selectionModel.span.singleId
-
+export default function (
+  selectionModel,
+  event,
+  selectedSpanId,
+  selectingSpanId,
+  getRangeFunc
+) {
   if (event.shiftKey && selectedSpanId) {
     // select reange of spans.
     selectionModel.clear()

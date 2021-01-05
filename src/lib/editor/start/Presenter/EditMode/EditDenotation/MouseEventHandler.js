@@ -107,8 +107,15 @@ export default class MouseEventHandler {
   }
 
   _selectSpan(event, spanId) {
-    selectSpan(this._selectionModel, event, spanId, (firstId, secondId) =>
-      this._annotationData.span.rangeDenotationSpan(firstId, secondId)
+    const selectedSpanId = this._selectionModel.span.singleId
+
+    selectSpan(
+      this._selectionModel,
+      event,
+      selectedSpanId,
+      spanId,
+      (firstId, secondId) =>
+        this._annotationData.span.rangeDenotationSpan(firstId, secondId)
     )
   }
 }
