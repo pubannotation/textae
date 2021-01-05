@@ -8,42 +8,6 @@
 4.  ブラウザの開発ツールを起動します。
 5.  以下のテストを実行して、エラーが出ないこと
 
-## 読み込んだアノテーションに不正データが含まれていたら Validation Dialog を表示すること
-
-### 背景
-
-1.  annotation.json に不正なデータが入っていた場合にエラーがおきていました
-2.  4.1.8 で annotation.json のデータチェック機能を追加しました
-3.  元のデータを修正しているので、`Upload`ボタンを有効にします
-4.  4.1.12 でクロスする Span の検出機能を追加しました
-5.  4.1.15 で Validation Dialog タイトルのミススペルを修正しました
-6.  5.0.0 で`Upload`ボタンの制御を有効無効から、星マークの有無に変更しました
-7.  6.4.6 で Validation Dialog の高さ設定をなくしました。内容に応じて Validation Dialog 高さがのび、スクロールバーを表示しなくしました。
-
-### -- 手段 --
-
-1.  invalid.json を読み込む
-2.  不正なデータを検出して Validation Dialog を表示すること
-3.  Validation Dialog のタイトルが`The following erroneous annotations ignored`であること
-4.  Validation Dialog 内にスクロールバーが表示されないこと
-
-## スタイルで行の高さを指定できること
-
-### 背景
-
-1.  4.1.14 で行の高さをスタイルで上書きできるようになりました
-2.  6.0.0 で padding-top と height が設定されなくなりました
-3.  6.1.45 で対応
-
-### -- 手段 --
-
-1.  Editor2 を選択する
-2.  `.textae-editor__body__text-box`の line-height が`14px`であること
-3.  `.textae-editor__body__text-box`の padding-top が`7px`であること
-4.  `.textae-editor__body__text-box`の height が`48px`であること
-5.  Setting ダイアログを開く
-6.  Line Height の値が 14 であること
-
 ## 2 つ以上連続した空白を選択してもエラーにならないこと
 
 ### 背景
