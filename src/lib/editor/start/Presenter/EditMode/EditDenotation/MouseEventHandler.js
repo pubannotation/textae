@@ -1,6 +1,7 @@
 import clearTextSelection from '../clearTextSelection'
 import SelectionWrapper from '../SelectionWrapper'
 import getEntityHTMLelementFromChild from '../../../getEntityHTMLelementFromChild'
+import selectSpan from './selectSpan'
 
 export default class MouseEventHandler {
   constructor(editor, annotationData, selectionModel, pallet, spanEditor) {
@@ -112,14 +113,6 @@ export default class MouseEventHandler {
         ? this._annotationData.span.rangeDenotationSpan(selectedSpanID, spanID)
         : []
 
-    if (rangeOfSpans.length) {
-      this._selectionModel.selectSpanRange(rangeOfSpans)
-    } else {
-      if (event.ctrlKey || event.metaKey) {
-        this._selectionModel.span.toggle(spanID)
-      } else {
-        this._selectionModel.selectSpan(spanID)
-      }
-    }
+    selectSpan(this._selectionModel, rangeOfSpans, event, spanID)
   }
 }
