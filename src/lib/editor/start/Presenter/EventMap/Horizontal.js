@@ -8,7 +8,7 @@ export default class Horizontal {
     const nextSpan = this._searchLeft('textae-editor__span')
     if (nextSpan) {
       if (shiftKey) {
-        this._selectionModel.addSpan(nextSpan.id)
+        this._selectionModel.span.add(nextSpan.id)
       } else {
         this._selectionModel.selectSpan(nextSpan.id)
       }
@@ -25,7 +25,7 @@ export default class Horizontal {
     const nextSpan = this._searchRight('textae-editor__span')
     if (nextSpan) {
       if (shiftKey) {
-        this._selectionModel.addSpan(nextSpan.id)
+        this._selectionModel.span.add(nextSpan.id)
       } else {
         this._selectionModel.selectSpan(nextSpan.id)
       }
