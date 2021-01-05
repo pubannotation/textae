@@ -1,5 +1,89 @@
 # たまにやるテスト
 
+## 改行コード`\r\n`を含むテキストに対してレンダリングの位置がズレないこと
+
+### 背景
+
+1.  6.0.0 でテキスト中の改行のレンダリングをパラグラフから、css の`white-space: pre-wrap;`に変更しました
+2.  この結果、改行のレンダリングをブラウザに任せました
+3.  `\r\n`はテキスト上では 2 文字ですが、ブラウザ上では 1 つの改行としてレンダリングされます
+4.  Span をレンダリングするときに、`\r\n`を 2 文字としてカウントしていたため、レンダリング位置が 1 文字分ずつ後ろにズレました
+5.  6.3.21 で、TextAE 内部で扱うテキストの`\r\n`を`\n`に置き換えることで、1 文字として扱うことにしました
+6.  6.4.0 で、TextAE で表示するテキストの`\r\n`を` \n`に置き換えることで、空白文字と改行文字の 2 文字でブラウザ上にレンダリングされるようにしました
+
+### -- 手段 --
+
+#### 改行コード`\r\n`を含むテキストに対して作成した Span の位置がズレないこと
+
+1. Editor1 を選択
+2. Term モードにする
+3. 3 行目の先頭の単語`Although`を DenotationSpan にする
+4. 保存ダイアログを開く
+5. `Click to see the json source in a new window.`リンクをクリック
+6. 表示された JSON の`T19`の begin が`147`、end が`155`であること
+
+#### 改行コード`\r\n`を含むテキストに対してレンダリングの位置がズレないこと
+
+1. http://pubannotation.org/projects/twitter-test/docs/sourcedb/@BLAH6-Tweets/sourceid/19546372/annotations.json を開く
+2. 2 行目以降に DenotationSpan を作成する
+3. DenotationSpan が選択した文字列に作成されること
+
+## 1 つの Entity は同一の Predicate の Attribute をひとつまでしか持てない
+
+### 背景
+
+1.  5.0.0 で、エディタ上での Attribute の追加・編集機能を追加しました。Annotation ファイルの読み込み時はチェックしていませんでした
+2.  5.3.2 から、Annotation ファイルの読み込み時に 1 つの Entity に Predicate が等しい Attribute が複数ついているかチェックします
+3.  5.3.5 から、アラートを pred 単位で分けました
+4.  6.1.8 から、重複した Attribute を無視し、Validation Dialog に表示します
+5.  6.2.93 で`Dupulicated`の typo を修正
+6.  6.2.97 で、参照先がない Attribute も、`Duplicated attributes.`テーブルに表示することにしました
+7.  6.2.100 で、BlockEntity の Attribute の重複チェックを追加しました
+8.  この制約を **1 つの Entity に Predicate と Object が等しい Attribute をひとつまでしか持てない** に緩めることにしました
+9.  6.4.1 で、Annotation ファイルの読込時 Validation での Attribute のチェックを緩め、 1 つの Entity に Predicate と Object が等しい Attribute が複数ついているかのチェックに変更しました
+10. 6.3.32 で、Entity が Boolean または Selection Attribute を持つときに、Entity パレットに Attribute 削除ボタンを表示する代わりに、Attribute 追加ボタンを表示していました
+11. 6.4.3 で対応
+
+### Annotation ファイルの読み込み時に 1 つの Entity に Predicate と Object が等しい Attribute が複数ついているかチェックする
+
+1.  アノテーション読込ダイアログを開く
+2.  `invlaid.json`を読み込む
+3.  Validation Dialog の`Duplicated attributes.`に`A1`と`A2`が表示されること
+4.  Validation Dialog を閉じる
+5.  DenotationEntity `T3`に Attribute が２つ表示されること
+6.  BlockEntity `B9`に Attribute が２つ表示されること
+
+#### パレット
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  Entity を選択する
+4.  パレットを開く
+5.  denote タブを選ぶ
+6.  `Add to selected entity`ボタンを押す
+7.  Attribute が追加されること
+8.  `Add to selected entity`ボタンが`Remove from selected entity`ボタンに変わること
+9.  `Remove from selected entity`ボタンを押す
+10. Attribute が削除されること
+11. `Remove from selected entity`ボタンが`Add to selected entity`ボタンに変わること
+12. error タブを選ぶ
+13. `Add to selected entity`ボタンを押す
+14. Attribute が追加されること
+15. `Add to selected entity`ボタンが`Remove from selected entity`ボタンに変わること
+16. Entity の選択を解除する
+17. `Add to selected entity`ボタンが表示されること
+
+### ショートカットキー
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  Entity を選択する
+4.  1 キーを押す
+5.  Attribute が追加されること
+6.  1 キーを押す
+7.  パレットが開いて denote タブが選択されていること
+8.  Attribute が追加されないこと
+
 ## アノテーションが無いときに行の高さが 41px になること
 
 ### 背景
