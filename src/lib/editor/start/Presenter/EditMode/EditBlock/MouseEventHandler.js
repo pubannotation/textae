@@ -99,7 +99,11 @@ export default class MouseEventHandler {
     const entity = this._annotationData.entity.get(entityId)
 
     if (entity.isBlock) {
-      this._selectionModel.selectEntity(entityId, e.ctrlKey || e.metaKey)
+      if (e.ctrlKey || e.metaKey) {
+        this._selectionModel.entity.toggle(entityId)
+      } else {
+        this._selectionModel.selectEntity(entityId)
+      }
 
       // Select span of the selected entity.
       for (const { span } of this._selectionModel.entity.all) {
