@@ -104,7 +104,8 @@ export default class EditMode {
 
   get isEditDenotation() {
     return (
-      this._stateMachine.currentState === MODE.EDIT_DENOTATION_WITH_RELATION
+      this._stateMachine.currentState === MODE.EDIT_DENOTATION_WITH_RELATION ||
+      this._stateMachine.currentState === MODE.EDIT_DENOTATION_WITHOUT_RELATION
     )
   }
 
