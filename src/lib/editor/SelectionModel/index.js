@@ -36,6 +36,8 @@ export default class SelectionModel {
         this.relation.removeInstance(relation)
       )
       .on('textae.annotationData.all.change', () => {
+        // When the annotations are reset, the view will remove all HTML elements.
+        // The selection model will release the selection instance without any manipulation.
         this.span.clear()
         this.entity.clear()
         this.relation.clear()
