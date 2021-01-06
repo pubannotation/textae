@@ -53,11 +53,6 @@ export default class SelectionModel {
     this.relation.removeAll()
   }
 
-  selectEntity(id) {
-    this.clear()
-    this.entity.add(id)
-  }
-
   selectRelation(id, isMulti) {
     if (!isMulti) {
       this.clear()
@@ -76,5 +71,10 @@ export default class SelectionModel {
     for (const id of rangeOfSpans) {
       this.span.add(id)
     }
+  }
+
+  selectEntity(id) {
+    this.clear()
+    this.entity.add(id)
   }
 }
