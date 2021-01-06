@@ -115,8 +115,8 @@ export default class BlockSpanModel extends SpanModel {
     }
   }
 
-  get isGridPositioned() {
-    return this.gridElement.style.top
+  get isGridBeforePositioned() {
+    return !this.gridElement.style.top
   }
 
   set entityToFocusOn(val) {

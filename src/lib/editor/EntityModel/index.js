@@ -150,7 +150,7 @@ export default class EntityModel {
     // block span grids do not move at render time.
     // Focusing before moving causes the browser to scroll to the top of the document.
     // So focus after the move, not at render time.
-    if (!this.span.isGridPositioned) {
+    if (this.span.isGridBeforePositioned) {
       this.span.entityToFocusOn = this
     } else {
       // Set focus to the label element in order to scroll the browser to the position of the element.
