@@ -53,13 +53,9 @@ export default class SelectionModel {
     this.relation.removeAll()
   }
 
-  selectEntity(id, isMulti) {
-    if (isMulti) {
-      this.entity.toggle(id)
-    } else {
-      this.clear()
-      this.entity.add(id)
-    }
+  selectEntity(id) {
+    this.clear()
+    this.entity.add(id)
   }
 
   selectRelation(id, isMulti) {
