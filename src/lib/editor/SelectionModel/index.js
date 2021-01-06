@@ -53,11 +53,6 @@ export default class SelectionModel {
     this.relation.removeAll()
   }
 
-  selectRelation(id) {
-    this.clear()
-    this.relation.add(id)
-  }
-
   selectSpan(id) {
     this.clear()
     this.span.add(id)
@@ -73,5 +68,10 @@ export default class SelectionModel {
   selectEntity(id) {
     this.clear()
     this.entity.add(id)
+  }
+
+  selectRelation(id) {
+    this.clear()
+    this.relation.add(id)
   }
 }
