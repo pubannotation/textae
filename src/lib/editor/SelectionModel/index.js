@@ -47,31 +47,31 @@ export default class SelectionModel {
     this[modelType].add(id)
   }
 
-  clear() {
+  removeAll() {
     this.span.removeAll()
     this.entity.removeAll()
     this.relation.removeAll()
   }
 
   selectSpan(id) {
-    this.clear()
+    this.removeAll()
     this.span.add(id)
   }
 
   selectSpanRange(rangeOfSpans) {
-    this.clear()
+    this.removeAll()
     for (const id of rangeOfSpans) {
       this.span.add(id)
     }
   }
 
   selectEntity(id) {
-    this.clear()
+    this.removeAll()
     this.entity.add(id)
   }
 
   selectRelation(id) {
-    this.clear()
+    this.removeAll()
     this.relation.add(id)
   }
 }

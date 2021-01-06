@@ -14,7 +14,7 @@ export default class MouseEventHandler {
 
   bodyClicked() {
     this._pallet.hide()
-    this._selectionModel.clear()
+    this._selectionModel.removeAll()
   }
 
   textBoxClicked(e) {
@@ -22,7 +22,7 @@ export default class MouseEventHandler {
 
     if (selection.type === 'Caret') {
       this._pallet.hide()
-      this._selectionModel.clear()
+      this._selectionModel.removeAll()
     }
 
     if (selection.type === 'Range') {
@@ -36,7 +36,7 @@ export default class MouseEventHandler {
 
     if (selection.type === 'Caret') {
       clearTextSelection()
-      this._selectionModel.clear()
+      this._selectionModel.removeAll()
     }
 
     if (selection.type === 'Range') {
@@ -69,7 +69,7 @@ export default class MouseEventHandler {
   styleSpanClicked(e) {
     const selection = window.getSelection()
     if (selection.type === 'Caret') {
-      this._selectionModel.clear()
+      this._selectionModel.removeAll()
     }
 
     if (selection.type === 'Range') {
@@ -81,7 +81,7 @@ export default class MouseEventHandler {
   denotationSpanClicked(e) {
     const selection = window.getSelection()
     if (selection.type === 'Caret') {
-      this._selectionModel.clear()
+      this._selectionModel.removeAll()
     }
 
     if (selection.type === 'Range') {

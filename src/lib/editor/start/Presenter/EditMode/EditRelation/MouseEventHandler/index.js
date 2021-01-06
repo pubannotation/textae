@@ -12,12 +12,12 @@ export default class MouseEventHandler {
 
   bodyClicked() {
     this._pallet.hide()
-    this._selectionModel.clear()
+    this._selectionModel.removeAll()
   }
 
   textBoxClicked() {
     this._pallet.hide()
-    this._selectionModel.clear()
+    this._selectionModel.removeAll()
   }
 
   entityClicked() {

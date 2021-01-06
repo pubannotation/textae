@@ -14,7 +14,7 @@ export default class MouseEventHandler {
 
   bodyClicked() {
     this._pallet.hide()
-    this._selectionModel.clear()
+    this._selectionModel.removeAll()
   }
 
   textBoxClicked(event) {
@@ -25,7 +25,7 @@ export default class MouseEventHandler {
       this._spanEditor.editFor(new SelectionWrapper())
       event.stopPropagation()
     } else {
-      this._selectionModel.clear()
+      this._selectionModel.removeAll()
     }
   }
 
@@ -62,7 +62,7 @@ export default class MouseEventHandler {
     const selection = window.getSelection()
 
     if (selection.type === 'Caret') {
-      this._selectionModel.clear()
+      this._selectionModel.removeAll()
     }
 
     if (selection.type === 'Range') {
@@ -85,7 +85,7 @@ export default class MouseEventHandler {
       if (span) {
         this._selectSpan(e, span.id)
       } else {
-        this._selectionModel.clear()
+        this._selectionModel.removeAll()
       }
     }
 

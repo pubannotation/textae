@@ -8,7 +8,7 @@ export default function (
   event
 ) {
   if (!selectionModel.entity.some) {
-    selectionModel.clear()
+    selectionModel.removeAll()
     selectionModel.entity.add(entityId)
   } else {
     selectObjectEntity(

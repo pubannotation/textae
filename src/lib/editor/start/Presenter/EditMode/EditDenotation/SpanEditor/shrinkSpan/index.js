@@ -13,7 +13,7 @@ export default function (
   moveHandler
 ) {
   if (spanId) {
-    selectionModel.clear()
+    selectionModel.removeAll()
 
     // Get the next span before removing the old span.
     const nextSpan = getRightSpanElement(editor, spanId)

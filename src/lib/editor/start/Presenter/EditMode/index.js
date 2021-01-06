@@ -185,7 +185,7 @@ export default class EditMode {
     this._editBlock.pallet.hide()
     this._editRelation.pallet.hide()
 
-    this._selectionModel.clear()
+    this._selectionModel.removeAll()
   }
 
   get isEntityAndAttributePalletShown() {

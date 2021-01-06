@@ -26,7 +26,7 @@ export default class Commander {
     if (this._history.hasAnythingToUndo) {
       // Focus the editor.
       // Focus is lost when undo a creation.
-      this._selectionModel.clear()
+      this._selectionModel.removeAll()
       this._editor.focus()
 
       const commands = this._history.prev()
@@ -41,7 +41,7 @@ export default class Commander {
   redo() {
     if (this._history.hasAnythingToRedo) {
       // Select only new element when redo a creation.
-      this._selectionModel.clear()
+      this._selectionModel.removeAll()
 
       const commands = this._history.next()
       if (commands.kinds.has('configuration_command')) {

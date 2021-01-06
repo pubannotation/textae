@@ -10,7 +10,7 @@ export default function (
   spanConfig,
   okHandler
 ) {
-  selectionModel.clear()
+  selectionModel.removeAll()
 
   const { begin, end } = getNewSpan(
     annotationData,

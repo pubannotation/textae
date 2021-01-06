@@ -124,7 +124,7 @@ export default class SpanEditor {
     if (
       hasCharacters(this._annotationData, this._spanConfig, selectionWrapper)
     ) {
-      this._selectionModel.clear()
+      this._selectionModel.removeAll()
       const { begin, end } = getNewSpan(
         this._annotationData,
         new DelimiterDetectAdjuster(),
