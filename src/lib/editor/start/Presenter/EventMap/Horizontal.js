@@ -17,7 +17,11 @@ export default class Horizontal {
 
     const nextEntity = this._searchLeft('textae-editor__entity')
     if (nextEntity) {
-      this._selectionModel.selectEntity(nextEntity.title, shiftKey)
+      if (shiftKey) {
+        this._selectionModel.entity.add(nextEntity.title)
+      } else {
+        this._selectionModel.selectEntity(nextEntity.title)
+      }
     }
   }
 
@@ -34,7 +38,11 @@ export default class Horizontal {
 
     const nextEntity = this._searchRight('textae-editor__entity')
     if (nextEntity) {
-      this._selectionModel.selectEntity(nextEntity.title, shiftKey)
+      if (shiftKey) {
+        this._selectionModel.entity.add(nextEntity.title)
+      } else {
+        this._selectionModel.selectEntity(nextEntity.title)
+      }
     }
   }
 
