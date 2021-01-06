@@ -53,11 +53,8 @@ export default class SelectionModel {
     this.relation.removeAll()
   }
 
-  selectRelation(id, isMulti) {
-    if (!isMulti) {
-      this.clear()
-    }
-
+  selectRelation(id) {
+    this.clear()
     this.relation.add(id)
   }
 
