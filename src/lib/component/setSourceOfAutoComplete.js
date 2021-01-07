@@ -25,10 +25,10 @@ export default function (
     },
     minLength: 3,
     select: (_, ui) => {
-      inputElement.value = ui.item.raw.id
+      inputElement.value = ui.item.id
 
       if (labelSpan) {
-        labelSpan.innerText = ui.item.raw.label
+        labelSpan.innerText = ui.item.label
       }
 
       return false

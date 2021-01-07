@@ -17,14 +17,9 @@ export default function (autocompletionWs, localData, term, done) {
       const data = JSON.parse(request.response)
 
       // Prior lacal data if duplicated
-      const formattedData = data
-        .filter((t) => !localData.some((l) => t.id === l.raw.id))
-        .map((raw) => {
-          return {
-            label: `${raw.label}@${raw.id}`,
-            raw
-          }
-        })
+      const formattedData = data.filter(
+        (t) => !localData.some((l) => t.id === l.id)
+      )
 
       done(localData.concat(formattedData))
     }

@@ -6,12 +6,10 @@ import 'jquery-ui/ui/widgets/autocomplete'
 export default function () {
   // Repalce @ to font awesome icon
   $.ui.autocomplete.prototype._renderItem = ($ul, item) => {
-    const [label, url] = item.label.split('@')
-
     const $li = $(`
       <li>
         <div>
-          ${label} <i class="fa fa-globe"></i>${url}
+          ${item.label} <i class="fa fa-globe"></i>${item.id}
         </div>
       </li>`)
 

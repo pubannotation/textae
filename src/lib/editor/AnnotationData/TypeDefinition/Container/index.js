@@ -132,10 +132,7 @@ export default class Container {
   }
 
   findByLabel(term) {
-    return this.definedTypes.labelIncludes(term).map((raw) => ({
-      label: `${raw.label}@${raw.id}`,
-      raw
-    }))
+    return this.definedTypes.labelIncludes(term)
   }
 
   get pallet() {
