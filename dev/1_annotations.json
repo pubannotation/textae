@@ -78,6 +78,10 @@
       {
         "id": "http://dbpedia.org/ontology/productionCompany",
         "label": "production company"
+      },
+      { 
+        "id": "HTML tag label",
+        "label": "<span style='color: red;'>Red color HTML label</span>"
       }
     ],
     "block types": [
