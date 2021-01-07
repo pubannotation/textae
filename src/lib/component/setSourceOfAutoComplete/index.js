@@ -1,6 +1,5 @@
 import $ from 'jquery'
 import searchTerm from '../searchTerm'
-import select from './select'
 import customizeqQueryUiAutocomplete from '../customize-jquery-ui-autocomplete'
 
 customizeqQueryUiAutocomplete()
@@ -25,6 +24,14 @@ export default function (
       )
     },
     minLength: 3,
-    select: (_, ui) => select(inputElement, labelSpan, ui)
+    select: (_, ui) => {
+      inputElement.value = ui.item.raw.id
+
+      if (labelSpan) {
+        labelSpan.innerText = ui.item.raw.label
+      }
+
+      return false
+    }
   })
 }
