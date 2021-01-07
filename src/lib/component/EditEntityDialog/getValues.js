@@ -5,7 +5,7 @@ export default function (content) {
 
   const label = content.querySelector(
     '.textae-editor__edit-type-dialog__type__label__value'
-  ).innerHTML
+  ).innerText
 
   const attributes = []
   for (const attr of content.querySelectorAll(
