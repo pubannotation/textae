@@ -14,7 +14,9 @@ export default function (value, label, attributes) {
       </div>
       <div class="textae-editor__edit-type-dialog__type__label">
         <label>Label:</label><br>
-        <span class="textae-editor__edit-type-dialog__type__label__value">${label}</span>
+        <span class="textae-editor__edit-type-dialog__type__label__value">${
+          label || ''
+        }</span>
       </div>
     </div>
     <div class="textae-editor__edit-type-dialog__attributes">
