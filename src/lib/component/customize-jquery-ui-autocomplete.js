@@ -8,9 +8,13 @@ export default function () {
   $.ui.autocomplete.prototype._renderItem = (ul, item) => {
     const [label, url] = item.label.split('@')
 
-    return $('<li>')
-      .append($(`<div>${label} <i class="fa fa-globe"></i>${url}</div>`))
-      .appendTo(ul)
+    const li = $('<li>').append(
+      $(`<div>${label} <i class="fa fa-globe"></i>${url}</div>`)
+    )
+
+    ul.append(li)
+
+    return li
   }
 
   $.ui.autocomplete.prototype._resizeMenu = () => {
