@@ -505,7 +505,7 @@
 ### 背景
 
 1.  5.0.0 から`save_to`パラメーターを導入
-2.  現状では、保存ダイアログの URL 欄に、`source`パラメーターで指定した annotation.json の URL を初期表示します。
+2.  現状では、Save Configurations ダイアログの URL 欄に、`source`パラメーターで指定した annotation.json の URL を初期表示します。
 3.  `save_to`パラメーターが指定されている場合は、`save_to`パラメーターの URL を表示します。
 
 ### -- 手段 --
@@ -516,11 +516,11 @@
 4.  アノテーション保存ダイアログを表示する
 5.  URL 欄に`http://pubannotation.org/projects/penguin-fly/docs/sourcedb/PubMed/sourceid/10089213/annotations.json`が表示されること
 
-### コンフィグレーション保存ダイアログには影響を与えない
+### Save Configurations ダイアログには影響を与えない
 
 1.  editor6 を選択
 2.  `Select Label [Q]`ボタンをクリックする
-3.  コンフィグレーション保存ダイアログを開く
+3.  Save Configurations ダイアログを開く
 4.  URL 欄が空であること
 
 ## multi tracks
