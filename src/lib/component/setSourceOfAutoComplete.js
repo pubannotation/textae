@@ -24,11 +24,11 @@ export default function (
       )
     },
     minLength: 3,
-    select: (_, ui) => {
-      inputElement.value = ui.item.id
+    select: (_, { item }) => {
+      inputElement.value = item.id
 
       if (labelSpan) {
-        labelSpan.innerText = ui.item.label
+        labelSpan.innerText = item.label
       }
 
       return false
