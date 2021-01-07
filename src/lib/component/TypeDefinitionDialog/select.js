@@ -1,5 +1,5 @@
-export default function (inputId, inputLabel, ui) {
-  inputId.value = ui.item.id
-  inputLabel.value = ui.item.label
+export default function (inputId, inputLabel, { item }) {
+  inputId.value = item.id
+  inputLabel.value = item.label
   return false
 }
