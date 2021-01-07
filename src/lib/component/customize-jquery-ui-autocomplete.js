@@ -5,11 +5,11 @@ import 'jquery-ui/ui/widgets/autocomplete'
 // Custumize jQuery-ui autocomplete
 export default function () {
   // Repalce @ to font awesome icon
-  $.ui.autocomplete.prototype._renderItem = ($ul, item) => {
+  $.ui.autocomplete.prototype._renderItem = ($ul, { id, label }) => {
     const $li = $(`
       <li>
         <div>
-          ${item.label} <i class="fa fa-globe"></i>${item.id}
+          ${label} <i class="fa fa-globe"></i>${id}
         </div>
       </li>`)
 
