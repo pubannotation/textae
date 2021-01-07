@@ -8,9 +8,12 @@ export default function () {
   $.ui.autocomplete.prototype._renderItem = (ul, item) => {
     const [label, url] = item.label.split('@')
 
-    const li = $('<li>').append(
-      $(`<div>${label} <i class="fa fa-globe"></i>${url}</div>`)
-    )
+    const li = $(`
+      <li>
+        <div>
+          ${label} <i class="fa fa-globe"></i>${url}
+        </div>
+      </li>`)
 
     ul.append(li)
 
