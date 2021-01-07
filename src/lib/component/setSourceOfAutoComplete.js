@@ -1,6 +1,6 @@
 import $ from 'jquery'
-import searchTerm from '../searchTerm'
-import customizeqQueryUiAutocomplete from '../customize-jquery-ui-autocomplete'
+import searchTerm from './searchTerm'
+import customizeqQueryUiAutocomplete from './customize-jquery-ui-autocomplete'
 
 customizeqQueryUiAutocomplete()
 
