@@ -12,9 +12,9 @@ export default function (autocompletionWs, localData, term, done) {
 
   request.open('GET', url.href, true)
   request.onload = function () {
-    if (this.status >= 200 && this.status < 400) {
+    if (request.status >= 200 && request.status < 400) {
       // Success!
-      const data = JSON.parse(this.response)
+      const data = JSON.parse(request.response)
 
       // Prior lacal data if duplicated
       const formattedData = data
