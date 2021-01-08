@@ -93,6 +93,10 @@
       },
       {
         "id": "block3"
+      },
+      { 
+        "id": "HTML tag label",
+        "label": "<span style='color: red;'>Red color HTML label</span>"
       }
     ],
     "relation types": [
@@ -611,10 +615,18 @@
         "begin": 92,
         "end": 108
       },
-      "obj": "Protein"
+      "obj": "HTML tag label"
     }
   ],
   "blocks": [
+    {
+      "id": "B0",
+      "span": {
+        "begin": 409, 
+        "end": 455
+      }, 
+      "obj": "HTML tag label"
+    },
     { 
       "id": "B1",
       "span": {

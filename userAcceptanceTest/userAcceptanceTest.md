@@ -8,12 +8,26 @@
 4.  ブラウザの開発ツールを起動します。
 5.  以下のテストを実行して、エラーが出ないこと
 
+## ラベルの定義に HTML タグが含まれているとき、HTML エスケープした文字列を Entity のラベルとして表示すること
+
+### 背景
+
+1. Entity のラベルには Type 定義の`label`を表示しています。
+2. HTML エスケープしていないため、`label`に HTML タグを含む Type を定義すると、Entity のラベルに任意の HTML タグを挿入することが可能です。
+3. 6.4.25 で対応しました。
+
+### -- 手段 --
+
+1. Editor1 を選択
+2. DenotationEntity `E31` のラベルが赤字の`Red color HTML label`ではなく、`<span style='color: red;'>Red color HTML label</span>`であること
+3. BlockEntity `B1` のラベルが赤字の`Red color HTML label`ではなく、`<span style='color: red;'>Red color HTML label</span>`であること
+
 ## ラベルの定義に HTML タグが含まれているとき、HTML エスケープした文字列をオートコンプリートの候補として表示すること
 
 ### 背景
 
 1. オートコンプリートの候補には Type 定義の`id`と`label`を表示しています。
-2. HTML エスケープしていないため、`label`が HTML タグを使った文言の Type を定義すると、オートコンプリートの候補に任意の HTML タグを挿入することが可能です。
+2. HTML エスケープしていないため、`label`に HTML タグを含む Type を定義すると、オートコンプリートの候補に任意の HTML タグを挿入することが可能です。
 3. 6.4.24 で対応しました。
 
 ### -- 手段 --
