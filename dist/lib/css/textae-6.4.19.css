@@ -499,7 +499,7 @@
 .textae-editor--dialog .ui-menu-item:hover div {
   overflow: visible;
 }
-.ui-widget.ui-autocomplete {
+.textae-editor--dialog .ui-widget.ui-autocomplete {
   direction: rtl;
   z-index: 102;
 }
