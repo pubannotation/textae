@@ -9,7 +9,9 @@ export default function () {
     const $li = $(`
       <li>
         <div>
-          ${label} <i class="fa fa-globe"></i>${id}
+          ${label} 
+          <i class="fa fa-globe"></i>
+          ${id}
         </div>
       </li>`)
 
