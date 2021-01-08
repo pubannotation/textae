@@ -509,8 +509,11 @@
 .textae-editor__edit-value-and-pred-dialog__input-box .ui-widget.ui-autocomplete {
   width: 260px;
 }
-.textae-editor__edit-type-definition-dialog--id + .ui-widget.ui-autocomplete {
+.textae-editor__edit-type-definition-dialog__input-box:nth-child(1) .ui-widget.ui-autocomplete {
   width: 520px;
+}
+.textae-editor__edit-type-definition-dialog__input-box:nth-child(2) .ui-widget.ui-autocomplete {
+  width: 260px;
 }
 /* pallet */
 .textae-editor__type-pallet {
