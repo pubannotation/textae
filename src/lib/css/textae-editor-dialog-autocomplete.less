@@ -21,16 +21,13 @@
     margin: -1px 0;
   }
 
-  .ui-menu-item-wrapper {
-    text-align: right;
-  }
-
   // Show full text of candidates when hover
   .ui-menu-item:hover div {
     overflow: visible;
   }
 
   .ui-widget.ui-autocomplete {
+    direction: rtl; // cut off overflow on the left side
     z-index: 102;
   }
 }
