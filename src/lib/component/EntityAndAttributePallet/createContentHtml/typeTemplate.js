@@ -1,3 +1,4 @@
+import escape from 'lodash.escape'
 import headerTemplate from './headerTemplate'
 
 export default function (context) {
@@ -43,7 +44,7 @@ export default function (context) {
           }
         </td>
         <td class="textae-editor__type-pallet__short-label">
-          ${label}
+          ${escape(label)}
         </td>
         <td class="textae-editor__type-pallet__use-number">
           ${useNumber ? useNumber : 0}
