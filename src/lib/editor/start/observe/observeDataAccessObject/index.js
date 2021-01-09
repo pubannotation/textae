@@ -15,14 +15,18 @@ export default function (
 ) {
   editor.eventEmitter
     .on('textae.annotation.load', (sourceType, source, annotation) => {
-      setAnnotation(
-        spanConfig,
-        annotationData,
-        annotation,
-        params.get('config'),
-        dataAccessObject,
-        buttonController
-      )
+      if (
+        !setAnnotation(
+          spanConfig,
+          annotationData,
+          annotation,
+          params.get('config'),
+          dataAccessObject,
+          buttonController
+        )
+      ) {
+        return
+      }
 
       statusBar.status(toSourceString(sourceType, source))
 
