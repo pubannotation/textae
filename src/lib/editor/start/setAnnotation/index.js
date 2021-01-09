@@ -4,6 +4,7 @@ import patchConfiguration from '../validateConfigurationAndAlert/patchConfigurat
 import validateAttribueDefinitionAndAlert from '../validateAttribueDefinitionAndAlert'
 import setSpanAndTypeConfig from '../setSpanAndTypeConfig'
 
+// Return true if the annotation is set.
 export default function (
   spanConfig,
   annotationData,
