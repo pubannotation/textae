@@ -15,7 +15,7 @@ export default function (
   warningIfBeginEndOfSpanAreNotInteger(annotation)
 
   if (annotation.config) {
-    setConfigAndAnnotation(
+    return setConfigAndAnnotation(
       annotation,
       annotation.config,
       `configuration in anntotaion file is invalid.`,
@@ -32,6 +32,7 @@ export default function (
         annotation,
         patchedConfig
       )
+
       if (validConfig) {
         setSpanAndTypeConfig(
           spanConfig,
@@ -39,7 +40,10 @@ export default function (
           validConfig
         )
         annotationData.reset(annotation)
+        return true
       }
+
+      return false
     }
   }
 }
