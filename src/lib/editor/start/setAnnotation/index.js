@@ -12,8 +12,6 @@ export default function (
   dataAccessObject,
   buttonController
 ) {
-  const typeDefinition = annotationData.typeDefinition
-
   warningIfBeginEndOfSpanAreNotInteger(annotation)
 
   if (annotation.config) {
@@ -35,7 +33,11 @@ export default function (
         patchedConfig
       )
       if (validConfig) {
-        setSpanAndTypeConfig(spanConfig, typeDefinition, validConfig)
+        setSpanAndTypeConfig(
+          spanConfig,
+          annotationData.typeDefinition,
+          validConfig
+        )
         annotationData.reset(annotation)
       }
     }
