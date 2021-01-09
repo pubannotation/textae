@@ -34,17 +34,18 @@ export default function (
         patchedConfig
       )
 
-      if (validConfig) {
-        setSpanAndTypeConfig(
-          spanConfig,
-          annotationData.typeDefinition,
-          validConfig
-        )
-        annotationData.reset(annotation)
-        return true
+      if (!validConfig) {
+        return
       }
 
-      return false
+      setSpanAndTypeConfig(
+        spanConfig,
+        annotationData.typeDefinition,
+        validConfig
+      )
+      annotationData.reset(annotation)
+
+      return true
     }
   }
 }
