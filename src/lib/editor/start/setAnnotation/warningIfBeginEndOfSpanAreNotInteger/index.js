@@ -11,6 +11,4 @@ export default function (annotation) {
       15
     )
   }
-
-  return true
 }
