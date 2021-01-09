@@ -1,7 +1,7 @@
 import alertifyjs from 'alertifyjs'
 import areNotBeginAndEndInteger from './areNotBeginAndEndInteger'
 
-export default function validateAnnotationAndAlert(annotation) {
+export default function (annotation) {
   const isThereNonIntegerValue = areNotBeginAndEndInteger(annotation)
   if (isThereNonIntegerValue) {
     alertifyjs.warning(
