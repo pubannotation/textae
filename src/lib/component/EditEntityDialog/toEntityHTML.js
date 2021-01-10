@@ -1,3 +1,4 @@
+import escape from 'lodash.escape'
 import toAttributeHTML from './toAttributeHTML'
 
 export default function (value, label, attributes) {
@@ -15,7 +16,7 @@ export default function (value, label, attributes) {
       <div class="textae-editor__edit-type-dialog__type__label">
         <label>Label:</label><br>
         <span class="textae-editor__edit-type-dialog__type__label__value">${
-          label || ''
+          escape(label) || ''
         }</span>
       </div>
     </div>
