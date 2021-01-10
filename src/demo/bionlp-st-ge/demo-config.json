@@ -22,10 +22,7 @@
     "\n",
     "–"
   ],
-  "non-edge characters": [
-    " ",
-    "\n"
-  ],
+  "non-edge characters": [" ", "\n"],
   "entity types": [
     {
       "color": "#0000FF",

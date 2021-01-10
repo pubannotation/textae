@@ -19,9 +19,7 @@
     },
     "denote": {
       "type": "object",
-      "required": [
-        "id"
-      ],
+      "required": ["id"],
       "properties": {
         "id": {
           "type": "string"
@@ -84,12 +82,7 @@
             "type": "string"
           },
           "value type": {
-            "enum": [
-              "flag",
-              "selection",
-              "string",
-              "numeric"
-            ]
+            "enum": ["flag", "selection", "string", "numeric"]
           }
         },
         "allOf": [
@@ -121,7 +114,7 @@
               }
             },
             "then": {
-              "required": ["values"], 
+              "required": ["values"],
               "properties": {
                 "values": {
                   "type": "array",
@@ -141,7 +134,7 @@
               }
             },
             "then": {
-              "required": ["default"], 
+              "required": ["default"],
               "properties": {
                 "autocompletion_ws": {
                   "$ref": "#/definitions/autocompletion_ws"
@@ -153,9 +146,7 @@
                   "type": "array",
                   "items": {
                     "type": "object",
-                    "required": [
-                      "pattern"
-                    ],
+                    "required": ["pattern"],
                     "properties": {
                       "pattern": {
                         "type": "string",
@@ -182,7 +173,7 @@
               }
             },
             "then": {
-              "required": ["default", "min", "max", "step"], 
+              "required": ["default", "min", "max", "step"],
               "properties": {
                 "default": {
                   "type": "number"
@@ -200,9 +191,7 @@
                   "type": "array",
                   "items": {
                     "type": "object",
-                    "required": [
-                      "range"
-                    ],
+                    "required": ["range"],
                     "properties": {
                       "range": {
                         "type": "string"

@@ -79,7 +79,7 @@
         "id": "http://dbpedia.org/ontology/productionCompany",
         "label": "production company"
       },
-      { 
+      {
         "id": "HTML tag label",
         "label": "<span style='color: red;'>Red color HTML label</span>"
       }
@@ -94,7 +94,7 @@
       {
         "id": "block3"
       },
-      { 
+      {
         "id": "HTML tag label",
         "label": "<span style='color: red;'>Red color HTML label</span>"
       }
@@ -622,25 +622,25 @@
     {
       "id": "B0",
       "span": {
-        "begin": 409, 
+        "begin": 409,
         "end": 455
-      }, 
+      },
       "obj": "HTML tag label"
     },
-    { 
+    {
       "id": "B1",
       "span": {
-        "begin": 456, 
+        "begin": 456,
         "end": 624
-      }, 
+      },
       "obj": "block1"
     },
-    { 
+    {
       "id": "B2",
       "span": {
-        "begin": 625, 
+        "begin": 625,
         "end": 1004
-      }, 
+      },
       "obj": "block2"
     }
   ],
