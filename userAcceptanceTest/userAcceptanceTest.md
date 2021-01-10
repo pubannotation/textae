@@ -71,12 +71,12 @@
 1.  `invalid_color_annotation.json` を読み込む
 1.  ステータスバーに表示される URL が`http://pubannotation.org/projects/DisGeNET/docs/sourcedb/PubMed/sourceid/10021369/annotations.json `から変わらないこと
 
-## Entity に HTML タグを含むラベルを設定したときにラベルの定義が HTML エスケープされないこと
+## Entity に HTML タグを含むラベルを設定したときにラベルの定義に HTML エスケープされた文字列が設定されないこと
 
 ### 背景
 
 1. ラベルは編集ダイアログの HTML 要素に innerText を使って設定され、その値を取得するときに innerHTML を使っていたため、HTML タグを含むラベルを設定した際に、HTML エスケープされていました。
-1. 6.4.18 で対応しまた。
+2. 6.4.18 で対応しまた。
 
 ### -- 手段 --
 
@@ -171,25 +171,6 @@
 4. `w`キーを押して Entity 編集ダイアログを開く
 5. `Value:`欄に`HTML`を入力する
 6. 候補に赤字の`Red color HTML label`ではなく、`<span style='color: red;'>Red color HTML label</span>...`が表示されること
-
-## Entity に HTML タグを含むラベルを設定したときにラベルの定義に HTML エスケープされた文字列が設定されないこと
-
-### 背景
-
-1. ラベルは編集ダイアログの HTML 要素に innerText を使って設定され、その値を取得するときに innerHTML を使っていたため、HTML タグを含むラベルを設定した際に、HTML エスケープされていました。
-2. 6.4.18 で対応しまた。
-
-### -- 手段 --
-
-1. Editor1 を選択
-2. Term モードにする
-3. Entity を選択する
-4. `w`キーを押して Entity 編集ダイアログを開く
-5. `Value:`欄に`HTML`を入力する
-6. 候補から`HTML tag label`を選択し、確定する
-7. `q`キーを押してパレットを開く
-8. `Save Configurations`ダイアログを開く
-9. `entity types`に`HTML tag label`の変更がないこと
 
 ## Type 定義編集ダイアログに横スクロールバーが表示されないこと
 
