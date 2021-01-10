@@ -4379,14 +4379,7 @@ a.ui-button:active,
   white-space: pre-wrap;
 }
 .textae-editor__footer {
-  background-color: #ddf;
-  /* fallback (Opera) */
-  background: #ddf;
-  /* Mozilla: */
-  background: -moz-linear-gradient(left, #ddddff, #ffffff);
-  /* Chrome, Safari:*/
-  background: -webkit-gradient(linear, left top, right top, from(#ddddff), to(#ffffff));
-  /* MSIE */
+  background: linear-gradient(to left, #ffffff, #ddddff);
   bottom: -2px;
   height: 20px;
   left: -2px;
@@ -4407,7 +4400,7 @@ a.ui-button:active,
   text-overflow: ellipsis;
   vertical-align: bottom;
   white-space: nowrap;
-  width: 90%;
+  width: calc(100% - 5em);
 }
 .textae-editor__span {
   background-color: rgba(100, 100, 215, 0.5);
