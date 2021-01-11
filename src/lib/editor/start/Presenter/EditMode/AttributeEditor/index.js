@@ -1,5 +1,4 @@
 import alertifyjs from 'alertifyjs'
-import bindTextaeEvents from './bindTextaeEvents'
 import createNumericAttributeOrShowEditNumericAttributeDialog from './createNumericAttributeOrShowEditNumericAttributeDialog'
 import createSelectionAttributeOrShowSelectionAttributePallet from './createSelectionAttributeOrShowSelectionAttributePallet'
 import createStringAttributeOrShowEditStringAttributeDialog from './createStringAttributeOrShowEditStringAttributeDialog'
@@ -19,10 +18,6 @@ export default class AttributeEditor {
     this._selectionModel = selectionModel
     this._pallet = entityPallet
     this._typeDefinition = typeDefinition
-
-    bindTextaeEvents(editor, (attrDef, newObj) =>
-      this.selectionAttributeLabelClick(attrDef, newObj)
-    )
   }
 
   selectionAttributeLabelClick(attrDef, newObj) {
