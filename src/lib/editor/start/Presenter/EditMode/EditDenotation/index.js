@@ -35,7 +35,6 @@ export default class EditDenotation extends Edit {
 
     const attributeEditor = new AttributeEditor(
       commander,
-      editor,
       annotationData,
       selectionModel,
       denotationPallet,

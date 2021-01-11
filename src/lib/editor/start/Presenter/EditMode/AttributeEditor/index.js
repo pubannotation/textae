@@ -7,7 +7,6 @@ import toggleFlagAttribute from './toggleFlagAttribute'
 export default class AttributeEditor {
   constructor(
     commander,
-    editor,
     annotationData,
     selectionModel,
     entityPallet,

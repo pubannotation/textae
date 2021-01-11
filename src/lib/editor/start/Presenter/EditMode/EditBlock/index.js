@@ -27,7 +27,6 @@ export default class EditBlock extends Edit {
 
     const attributeEditor = new AttributeEditor(
       commander,
-      editor,
       annotationData,
       selectionModel,
       blockPallet,
