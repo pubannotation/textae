@@ -2,6 +2,7 @@ import headerTemplate from './headerTemplate'
 import addOrEditAndRemoveAttributeButtonTemplate from './addOrEditAndRemoveAttributeButtonTemplate'
 import deleteAttributeDefinitionBlockTemplate from './deleteAttributeDefinitionBlockTemplate'
 import valueButtonsTemplate from './valueButtonsTemplate'
+import showAddAttributeValueButton from './showAddAttributeValueButton'
 
 export default function (context) {
   const {
@@ -45,14 +46,7 @@ export default function (context) {
           <th>range</th>
           <th>label</th>
           <th>color</th>
-          ${
-            isLock
-              ? ''
-              : `
-              <th>
-                <span class="textae-editor__type-pallet__add-attribute-value-button" title="Add new value"></span>
-              </th>`
-          }
+          ${showAddAttributeValueButton(isLock)}
         </tr>
         ${values
           .map(({ color = '', range, label = '', indelible }, index) => {
