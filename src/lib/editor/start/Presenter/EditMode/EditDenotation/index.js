@@ -32,6 +32,8 @@ export default class EditDenotation extends Edit {
       annotationData.typeDefinition.denotation,
       selectionModel.entity
     )
+    denotationPallet.bindSelectionAttributeLabel(editor)
+
     const attributeEditor = new AttributeEditor(
       commander,
       editor,

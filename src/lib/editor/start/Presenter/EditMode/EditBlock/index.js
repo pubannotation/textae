@@ -24,6 +24,7 @@ export default class EditBlock extends Edit {
       annotationData.typeDefinition.block,
       selectionModel.entity
     )
+    blockPallet.bindSelectionAttributeLabel(editor)
 
     const attributeEditor = new AttributeEditor(
       commander,

@@ -23,13 +23,6 @@ export default class EntityAndAttributePallet extends Pallet {
     this._selectionModelEntity = selectionModelEntity
 
     bindAttributeEvent(this, this._el, editor.eventEmitter)
-    bindSelectionAttributeLabel(this._el, this, (attrDef, value) =>
-      editor.eventEmitter.emit(
-        `textae.entityAndAttributePallet.attribute.selection-attribute-label.click`,
-        attrDef,
-        value
-      )
-    )
 
     editor.eventEmitter
       .on('textae.typeDefinition.attribute.create', (pred) => {
