@@ -734,6 +734,12 @@
       "subj": "E1:a:b",
       "pred": "denote",
       "obj": "equivalentTo"
+    },
+    {
+      "id": "A13",
+      "subj": "E1:a:b",
+      "pred": "denote",
+      "obj": "http://www.yahoo.co.jp/eeeeeeeeeeeeeeeeeoaoeuaoeuaoue"
     }
   ],
   "relations": [

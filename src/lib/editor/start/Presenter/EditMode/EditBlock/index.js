@@ -24,13 +24,6 @@ export default class EditBlock extends Edit {
       annotationData.typeDefinition.block,
       selectionModel.entity
     )
-    blockPallet.bindSelectionAttributeLabel((attrDef, value) =>
-      editor.eventEmitter.emit(
-        `textae.entityAndAttributePallet.attribute.selection-attribute-label.click`,
-        attrDef,
-        value
-      )
-    )
 
     const attributeEditor = new AttributeEditor(
       commander,
@@ -40,6 +33,10 @@ export default class EditBlock extends Edit {
       blockPallet,
       annotationData.typeDefinition
     )
+    blockPallet.bindSelectionAttributeLabel((attrDef, value) =>
+      attributeEditor.selectionAttributeLabelClick(attrDef, value)
+    )
+
     const handler = new EditHandler(
       editor,
       annotationData.typeDefinition.block,

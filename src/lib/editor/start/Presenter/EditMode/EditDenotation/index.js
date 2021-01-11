@@ -32,13 +32,6 @@ export default class EditDenotation extends Edit {
       annotationData.typeDefinition.denotation,
       selectionModel.entity
     )
-    denotationPallet.bindSelectionAttributeLabel((attrDef, value) =>
-      editor.eventEmitter.emit(
-        `textae.entityAndAttributePallet.attribute.selection-attribute-label.click`,
-        attrDef,
-        value
-      )
-    )
 
     const attributeEditor = new AttributeEditor(
       commander,
@@ -47,6 +40,9 @@ export default class EditDenotation extends Edit {
       selectionModel,
       denotationPallet,
       annotationData.typeDefinition
+    )
+    denotationPallet.bindSelectionAttributeLabel((attrDef, value) =>
+      attributeEditor.selectionAttributeLabelClick(attrDef, value)
     )
 
     const handler = new EditHandler(
