@@ -126,7 +126,7 @@ export default class EntityAndAttributePallet extends Pallet {
     return this._typeContainer.findAttribute(this._selectedPred)
   }
 
-  bindSelectionAttributeLabel(onClick) {
+  onSelectionAttributeLabelClick(onClick) {
     bindSelectionAttributeLabel(this._el, this, onClick)
   }
 }

@@ -41,7 +41,7 @@ export default class EditDenotation extends Edit {
       denotationPallet,
       annotationData.typeDefinition
     )
-    denotationPallet.bindSelectionAttributeLabel((attrDef, value) =>
+    denotationPallet.onSelectionAttributeLabelClick((attrDef, value) =>
       attributeEditor.selectionAttributeLabelClick(attrDef, value)
     )
 

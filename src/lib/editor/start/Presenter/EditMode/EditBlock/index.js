@@ -33,7 +33,7 @@ export default class EditBlock extends Edit {
       blockPallet,
       annotationData.typeDefinition
     )
-    blockPallet.bindSelectionAttributeLabel((attrDef, value) =>
+    blockPallet.onSelectionAttributeLabelClick((attrDef, value) =>
       attributeEditor.selectionAttributeLabelClick(attrDef, value)
     )
 
