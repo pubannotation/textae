@@ -22,7 +22,6 @@ export default function (
       hasDiff,
       types: typeContainer.pallet,
       addAttribute,
-      addTypeButton: true,
       selectedEntityLabel: getSelectedEntityLabel(selectionModelEntity.size)
     })
   }
