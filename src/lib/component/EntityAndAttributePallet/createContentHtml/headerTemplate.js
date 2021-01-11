@@ -62,16 +62,6 @@ export default function (context) {
         }`
   }
   <div class="textae-editor__type-pallet__buttons">
-  ${
-    isLock
-      ? ''
-      : `${
-          addTypeButton
-            ? '<span class="textae-editor__type-pallet__button textae-editor__type-pallet__add-button" title="Add new type"></span>'
-            : ''
-        }
-      `
-  }
     <span class="textae-editor__type-pallet__button textae-editor__type-pallet__read-button" title="Import"></span>
     <span class="textae-editor__type-pallet__button textae-editor__type-pallet__write-button ${
       hasDiff ? 'textae-editor__type-pallet__write-button--transit' : ''
