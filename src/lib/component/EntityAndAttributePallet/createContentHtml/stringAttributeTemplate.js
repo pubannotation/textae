@@ -35,7 +35,7 @@ export default function (context) {
             <th>label</th>
             <th>color</th>
             ${isLock ? '' : '<th></th>'}
-            </tr>
+          </tr>
           ${values
             .map(({ color, pattern = '', label = '', indelible }, index) => {
               return `
