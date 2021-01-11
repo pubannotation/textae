@@ -2,6 +2,7 @@ import { diff } from 'jsondiffpatch'
 import Pallet from '../Pallet'
 import createPalletElement from '../Pallet/createPalletElement'
 import bindAttributeEvent from './bindAttributeEvent'
+import bindSelectionAttributeLabel from './bindAttributeEvent/bindSelectionAttributeLabel'
 import createContentHtml from './createContentHtml'
 import enableDrag from './enableDrag'
 
@@ -22,6 +23,7 @@ export default class EntityAndAttributePallet extends Pallet {
     this._selectionModelEntity = selectionModelEntity
 
     bindAttributeEvent(this, this._el, editor.eventEmitter)
+    bindSelectionAttributeLabel(this._el, editor.eventEmitter, this)
 
     editor.eventEmitter
       .on('textae.typeDefinition.attribute.create', (pred) => {

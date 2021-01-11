@@ -1,5 +1,4 @@
 import delegate from 'delegate'
-import bindSelectionAttributeLabel from './bindSelectionAttributeLabel'
 import enableAttributeTabDrag from './enableAttributeTabDrag'
 import enableAttributeTabDrop from './enableAttributeTabDrop'
 
@@ -57,8 +56,6 @@ export default function (pallet, el, eventEmitter) {
       e.target.dataset.index
     )
   )
-
-  bindSelectionAttributeLabel(el, eventEmitter, pallet)
 
   delegate(el, '.textae-editor__type-pallet__add-attribute', 'click', () =>
     eventEmitter.emit(
