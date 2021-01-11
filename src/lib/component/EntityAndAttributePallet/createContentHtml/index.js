@@ -63,11 +63,7 @@ export default function (
 
       return selectionAttributeTemplate(values)
     case 'string':
-      return stringAttributeTemplate(
-        Object.assign(values, {
-          addAttributeValueButton: true
-        })
-      )
+      return stringAttributeTemplate(values)
     default:
       throw `attrDef.valueType is unknown attribute`
   }
