@@ -5,7 +5,7 @@ import createSelectionAttributeOrShowSelectionAttributePallet from './createSele
 import createStringAttributeOrShowEditStringAttributeDialog from './createStringAttributeOrShowEditStringAttributeDialog'
 import toggleFlagAttribute from './toggleFlagAttribute'
 
-export default class EditAttribute {
+export default class AttributeEditor {
   constructor(
     commander,
     editor,
