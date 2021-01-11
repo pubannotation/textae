@@ -20,21 +20,27 @@ export default class AttributeEditor {
     this._pallet = entityPallet
     this._typeDefinition = typeDefinition
 
-    bindTextaeEvents(editor, (attrDef, newObj) => {
-      if (selectionModel.entity.isSamePredAttrributeSelected(attrDef.pred)) {
-        const command = commander.factory.changeAttributesOfSelectedEntitiesWithSamePred(
-          attrDef,
-          newObj
-        )
-        commander.invoke(command)
-      } else {
-        const command = commander.factory.createAttributeToSelectedEntitiesCommand(
-          attrDef,
-          newObj
-        )
-        commander.invoke(command)
-      }
-    })
+    bindTextaeEvents(editor, (attrDef, newObj) =>
+      this.selectionAttributeLabelClick(attrDef, newObj)
+    )
+  }
+
+  selectionAttributeLabelClick(attrDef, newObj) {
+    if (
+      this._selectionModel.entity.isSamePredAttrributeSelected(attrDef.pred)
+    ) {
+      const command = this._commander.factory.changeAttributesOfSelectedEntitiesWithSamePred(
+        attrDef,
+        newObj
+      )
+      this._commander.invoke(command)
+    } else {
+      const command = this._commander.factory.createAttributeToSelectedEntitiesCommand(
+        attrDef,
+        newObj
+      )
+      this._commander.invoke(command)
+    }
   }
 
   addOrEditAt(number) {
