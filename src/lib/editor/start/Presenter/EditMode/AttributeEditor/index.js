@@ -20,7 +20,21 @@ export default class AttributeEditor {
     this._pallet = entityPallet
     this._typeDefinition = typeDefinition
 
-    bindTextaeEvents(editor, selectionModel, commander)
+    bindTextaeEvents(editor, (attrDef, newObj) => {
+      if (selectionModel.entity.isSamePredAttrributeSelected(attrDef.pred)) {
+        const command = commander.factory.changeAttributesOfSelectedEntitiesWithSamePred(
+          attrDef,
+          newObj
+        )
+        commander.invoke(command)
+      } else {
+        const command = commander.factory.createAttributeToSelectedEntitiesCommand(
+          attrDef,
+          newObj
+        )
+        commander.invoke(command)
+      }
+    })
   }
 
   addOrEditAt(number) {
