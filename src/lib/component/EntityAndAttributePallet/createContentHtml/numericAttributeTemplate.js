@@ -45,7 +45,14 @@ export default function (context) {
           <th>range</th>
           <th>label</th>
           <th>color</th>
-          ${isLock ? '' : '<th></th>'}
+          ${
+            isLock
+              ? ''
+              : `
+              <th>
+                <span class="textae-editor__type-pallet__add-attribute-value-button" title="Add new value"></span>
+              </th>`
+          }
         </tr>
         ${values
           .map(({ color = '', range, label = '', indelible }, index) => {

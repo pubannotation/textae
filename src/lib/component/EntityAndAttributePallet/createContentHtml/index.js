@@ -51,11 +51,7 @@ export default function (
     case 'flag':
       return flagAttributeTemplate(values)
     case 'numeric':
-      return numericAttributeTemplate(
-        Object.assign(values, {
-          addAttributeValueButton: true
-        })
-      )
+      return numericAttributeTemplate(values)
     case 'selection':
       // Disable to press the remove button for the value used in the selection attribute.
       for (const value of values.attrDef.values) {
