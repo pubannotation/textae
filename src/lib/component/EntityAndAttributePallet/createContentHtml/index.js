@@ -61,11 +61,7 @@ export default function (
         )
       }
 
-      return selectionAttributeTemplate(
-        Object.assign(values, {
-          addAttributeValueButton: true
-        })
-      )
+      return selectionAttributeTemplate(values)
     case 'string':
       return stringAttributeTemplate(
         Object.assign(values, {

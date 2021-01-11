@@ -2,6 +2,7 @@ import headerTemplate from './headerTemplate'
 import addOrRemoveAttributeButtonTemplate from './addOrRemoveAttributeButtonTemplate'
 import deleteAttributeDefinitionBlockTemplate from './deleteAttributeDefinitionBlockTemplate'
 import valueButtonsTemplate from './valueButtonsTemplate'
+import showAddAttributeValueButton from './showAddAttributeValueButton'
 
 export default function (context) {
   const { pred, hasInstance, values } = context.attrDef
@@ -29,7 +30,7 @@ export default function (context) {
           <th>id</th>
           <th>label</th>
           <th>color</th>
-          ${isLock ? '' : '<th></th>'}
+          ${showAddAttributeValueButton(isLock)}
         </tr>
         ${values
           .map(
