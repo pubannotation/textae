@@ -12,15 +12,6 @@ export default function (context) {
   </span>
 </p>
 <div class="textae-editor__type-pallet__buttons">
-  ${
-    isLock
-      ? ''
-      : `
-  <span 
-    class="textae-editor__type-pallet__button textae-editor__type-pallet__add-button" 
-    title="Add new type"></span>
-  `
-  }
   <span 
     class="textae-editor__type-pallet__button textae-editor__type-pallet__read-button" 
     title="Import"></span>
@@ -36,7 +27,17 @@ export default function (context) {
       <th>id</th>
       <th>label</th>
       <th title="Number of annotations.">#</th>
-      <th></th>
+      <th>
+        ${
+          isLock
+            ? ''
+            : `
+        <span 
+          class="textae-editor__type-pallet__add-button" 
+          title="Add new type"></span>
+        `
+        }
+      </th>
     </tr>
     ${
       types
