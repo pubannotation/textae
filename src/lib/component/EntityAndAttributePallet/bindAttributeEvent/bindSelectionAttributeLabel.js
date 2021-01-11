@@ -1,15 +1,10 @@
 import delegate from 'delegate'
 
-export default function (el, eventEmitter, pallet) {
+export default function (el, pallet, callback) {
   delegate(
     el,
     '.textae-editor__type-pallet__selection-attribute-label',
     'click',
-    (e) =>
-      eventEmitter.emit(
-        `textae.entityAndAttributePallet.attribute.selection-attribute-label.click`,
-        pallet.attrDef,
-        e.target.dataset.id
-      )
+    (e) => callback(pallet.attrDef, e.target.dataset.id)
   )
 }
