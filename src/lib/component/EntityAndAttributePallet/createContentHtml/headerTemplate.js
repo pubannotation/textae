@@ -7,7 +7,6 @@ export default function (context) {
     addAttribute,
     lastAttributeSelected,
     addTypeButton,
-    addAttributeValueButton,
     hasDiff
   } = context
 
@@ -71,11 +70,7 @@ export default function (context) {
             ? '<span class="textae-editor__type-pallet__button textae-editor__type-pallet__add-button" title="Add new type"></span>'
             : ''
         }
-      ${
-        addAttributeValueButton
-          ? '<span class="textae-editor__type-pallet__button textae-editor__type-pallet__add-attribute-value-button" title="Add new value"></span>'
-          : ''
-      }`
+      `
   }
     <span class="textae-editor__type-pallet__button textae-editor__type-pallet__read-button" title="Import"></span>
     <span class="textae-editor__type-pallet__button textae-editor__type-pallet__write-button ${
