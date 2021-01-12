@@ -13,12 +13,12 @@ export default function (context) {
       <div class="textae-editor__type-pallet__predicate-controller">
         <div>
           ${deleteAttributeDefinitionBlockTemplate(hasInstance)}
-          flag attribute: ${pred}
           <button
             type="button"
             class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-predicate"
             title="Edit this predicate.">
           </button>
+          flag attribute: ${pred}
           ${addOrRemoveAttributeButtonTemplate(isEntityWithSamePredSelected)}
         </div>
       </div>

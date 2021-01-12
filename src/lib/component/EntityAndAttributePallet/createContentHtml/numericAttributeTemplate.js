@@ -24,12 +24,12 @@ export default function (context) {
         <div>
           <div>
             ${deleteAttributeDefinitionBlockTemplate(hasInstance)}
-            numeric attribute: ${pred}
             <button
               type="button"
               class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-predicate"
               title="Edit this predicate.">
             </button>
+            numeric attribute: ${pred}
             ${addOrEditAndRemoveAttributeButtonTemplate(
               isEntityWithSamePredSelected
             )}
