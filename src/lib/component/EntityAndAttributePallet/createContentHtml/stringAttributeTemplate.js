@@ -12,21 +12,23 @@ export default function (context) {
   ${headerTemplate(context)}
   <div>
     <div class="textae-editor__type-pallet__predicate">
-      <div>
+      <div class="textae-editor__type-pallet__predicate-controller">
         <div>
-          string attribute: ${pred}
-          <button
-            type="button"
-            class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-predicate"
-            title="Edit this predicate.">
-          </button>
-          ${addOrEditAndRemoveAttributeButtonTemplate(
-            isEntityWithSamePredSelected
-          )}
-          </div>
-        default: ${_default}
+          <div>
+            string attribute: ${pred}
+            <button
+              type="button"
+              class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-predicate"
+              title="Edit this predicate.">
+            </button>
+            ${addOrEditAndRemoveAttributeButtonTemplate(
+              isEntityWithSamePredSelected
+            )}
+            </div>
+          default: ${_default}
+        </div>
+        ${deleteAttributeDefinitionBlockTemplate(hasInstance)}
       </div>
-      ${deleteAttributeDefinitionBlockTemplate(hasInstance)}
     </div>
 
     <table>
