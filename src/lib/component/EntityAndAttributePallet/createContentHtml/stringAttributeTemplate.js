@@ -29,33 +29,33 @@ export default function (context) {
       ${deleteAttributeDefinitionBlockTemplate(hasInstance)}
     </div>
 
-      <table>
-        <tbody>
-          <tr>
-            <th>pattern</th>
-            <th>label</th>
-            <th>color</th>
-            ${showAddAttributeValueButton(isLock)}
-          </tr>
-          ${values
-            .map(({ color, pattern = '', label = '', indelible }, index) => {
-              return `
-          <tr class="textae-editor__type-pallet__row" style="background-color: ${color};">
-            <td class="textae-editor__type-pallet__attribute-label">
-              ${pattern}
-            </td>
-            <td class="textae-editor__type-pallet__short-label">
-              ${label}
-            </td>
-            <td class="textae-editor__type-pallet__short-label">
-              ${color}
-            </td>
-            ${valueButtonsTemplate(isLock, index, indelible)}
-          </tr>`
-            })
-            .join('\n')}
-        </tbody>
-      </table>
+    <table>
+      <tbody>
+        <tr>
+          <th>pattern</th>
+          <th>label</th>
+          <th>color</th>
+          ${showAddAttributeValueButton(isLock)}
+        </tr>
+        ${values
+          .map(({ color, pattern = '', label = '', indelible }, index) => {
+            return `
+        <tr class="textae-editor__type-pallet__row" style="background-color: ${color};">
+          <td class="textae-editor__type-pallet__attribute-label">
+            ${pattern}
+          </td>
+          <td class="textae-editor__type-pallet__short-label">
+            ${label}
+          </td>
+          <td class="textae-editor__type-pallet__short-label">
+            ${color}
+          </td>
+          ${valueButtonsTemplate(isLock, index, indelible)}
+        </tr>`
+          })
+          .join('\n')}
+      </tbody>
+    </table>
   </div>
   `
 }
