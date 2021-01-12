@@ -12,14 +12,15 @@ export default function (
   selectedPred,
   selectionModelEntity,
   attributeContainer,
-  attributeInstances
+  attributeInstances,
+  isLock
 ) {
   const addAttribute = attributeContainer.attributes.length < 30
   const attributes = getAttributes(attributeContainer, selectedPred)
 
   if (!selectedPred) {
     return typeTemplate({
-      isLock: entityContainer.isLock,
+      isLock,
       attributes,
       hasDiff,
       types: entityContainer.pallet,
@@ -33,7 +34,7 @@ export default function (
   )
 
   const values = {
-    isLock: entityContainer.isLock,
+    isLock,
     attributes,
     hasDiff,
     attrDef: Object.assign(attrDef.JSON, {
