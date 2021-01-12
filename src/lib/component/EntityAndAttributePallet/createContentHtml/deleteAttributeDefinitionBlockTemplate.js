@@ -1,6 +1,5 @@
 export default function (hasInstance) {
   return `
-  <div>
   ${
     hasInstance
       ? `<button 
@@ -14,6 +13,5 @@ export default function (hasInstance) {
           class="textae-editor__type-pallet__table-button textae-editor__type-pallet__delete-predicate">
         </button>`
   }
-  </div>
 `
 }

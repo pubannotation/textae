@@ -14,6 +14,7 @@ export default function (context) {
     <div class="textae-editor__type-pallet__predicate">
       <div class="textae-editor__type-pallet__predicate-controller">
         <div>
+          ${deleteAttributeDefinitionBlockTemplate(hasInstance)}
           selection attribute: ${pred}
           <button
             type="button"
@@ -22,7 +23,6 @@ export default function (context) {
           </button>
           ${addOrRemoveAttributeButtonTemplate(isEntityWithSamePredSelected)}
         </div>
-        ${deleteAttributeDefinitionBlockTemplate(hasInstance)}
       </div>
     </div>
 

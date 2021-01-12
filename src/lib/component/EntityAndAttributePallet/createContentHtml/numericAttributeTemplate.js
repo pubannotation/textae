@@ -23,6 +23,7 @@ export default function (context) {
       <div class="textae-editor__type-pallet__predicate-controller">
         <div>
           <div>
+            ${deleteAttributeDefinitionBlockTemplate(hasInstance)}
             numeric attribute: ${pred}
             <button
               type="button"
@@ -34,7 +35,6 @@ export default function (context) {
             )}
           </div>
         </div>
-        ${deleteAttributeDefinitionBlockTemplate(hasInstance)}
       </div>
       min: ${min}
       max: ${max}

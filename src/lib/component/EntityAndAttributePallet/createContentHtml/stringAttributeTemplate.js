@@ -15,6 +15,7 @@ export default function (context) {
       <div class="textae-editor__type-pallet__predicate-controller">
         <div>
           <div>
+            ${deleteAttributeDefinitionBlockTemplate(hasInstance)}
             string attribute: ${pred}
             <button
               type="button"
@@ -26,7 +27,6 @@ export default function (context) {
             )}
             </div>
         </div>
-        ${deleteAttributeDefinitionBlockTemplate(hasInstance)}
       </div>
       default: ${_default}
     </div>
