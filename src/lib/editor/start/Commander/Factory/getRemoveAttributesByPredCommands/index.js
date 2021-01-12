@@ -11,11 +11,10 @@ export default function (
     selectionModel.entity.all,
     attributeDefinition
   )
-  const removeAttributeCommands = getRemoveAtributesByPredAndObjCommands(
+  return getRemoveAtributesByPredAndObjCommands(
     attrs,
     editor,
     annotationData,
     selectionModel
   )
-  return removeAttributeCommands
 }
