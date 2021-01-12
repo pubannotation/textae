@@ -4,7 +4,7 @@ export default function (hasInstance) {
   ${
     hasInstance
       ? 'Attribute definitions with instances cannot be deleted.'
-      : '<button type="button" class="textae-editor__type-pallet__delete-predicate">delete attribute</button>'
+      : '<button type="button" class="textae-editor__type-pallet__table-button textae-editor__type-pallet__delete-predicate"></button>'
   }
   </div>
 `
