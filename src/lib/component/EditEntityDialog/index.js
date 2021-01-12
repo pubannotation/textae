@@ -6,10 +6,10 @@ import setSourceOfAutoComplete from '../setSourceOfAutoComplete'
 import toEntityHTML from './toEntityHTML'
 
 export default class EditEntityDialog extends PromiseDialog {
-  constructor(editor, typeContainer, autocompletionWs, typeValues) {
+  constructor(editor, entityContainer, autocompletionWs, typeValues) {
     const contentHtml = toEntityHTML(
       typeValues.typeName,
-      typeContainer.getLabel(typeValues.typeName),
+      entityContainer.getLabel(typeValues.typeName),
       typeValues.attributes.map((a) => ({
         pred: a.pred,
         obj: a.obj,
@@ -27,7 +27,7 @@ export default class EditEntityDialog extends PromiseDialog {
       () => getValues(super.el)
     )
 
-    bind(editor, typeContainer, super.el)
+    bind(editor, entityContainer, super.el)
 
     // Observe edit an attributu button
     delegate(
@@ -37,7 +37,7 @@ export default class EditEntityDialog extends PromiseDialog {
       (e) => {
         super.close()
         const pred = e.target.dataset.predicate
-        const attrDef = typeContainer.findAttribute(pred)
+        const attrDef = entityContainer.findAttribute(pred)
         editor.eventEmitter.emit(
           'textae.editTypeDialog.attribute.value.edit',
           attrDef
@@ -53,7 +53,7 @@ export default class EditEntityDialog extends PromiseDialog {
       '.textae-editor__edit-type-dialog__type__label__value'
     )
     setSourceOfAutoComplete(value, labelSpan, autocompletionWs, (term) =>
-      typeContainer.findByLabel(term)
+      entityContainer.findByLabel(term)
     )
   }
 }
