@@ -1,28 +1,30 @@
 import SelectedElements from './SelectedElements'
 
+class EntityContainer extends SelectedElements {
+  isSamePredAttrributeSelected(pred) {
+    return this.all.some((entity) =>
+      entity.attributes.find((attribute) => attribute.pred === pred)
+    )
+  }
+
+  findSelectedWithSamePredicateAttribute(attrDef) {
+    return this.all.find((entity) =>
+      entity.attributes.find((attribute) => attribute.pred === attrDef.pred)
+    )
+  }
+}
+
 export default class SelectionModel {
   constructor(eventEmitter, annotationData) {
     this._annotationData = annotationData
 
     this.span = new SelectedElements(eventEmitter, 'span', annotationData)
-    this.entity = new SelectedElements(eventEmitter, 'entity', annotationData)
+    this.entity = new EntityContainer(eventEmitter, 'entity', annotationData)
     this.relation = new SelectedElements(
       eventEmitter,
       'relation',
       annotationData
     )
-
-    // extend Entity container
-    this.entity.isSamePredAttrributeSelected = (pred) =>
-      this.entity.all.some((entity) =>
-        entity.attributes.find((attribute) => attribute.pred === pred)
-      )
-
-    this.entity.findSelectedWithSamePredicateAttribute = (attrDef) => {
-      return this.entity.all.find((entity) =>
-        entity.attributes.find((attribute) => attribute.pred === attrDef.pred)
-      )
-    }
 
     // Bind the selection model to the model.
     eventEmitter
