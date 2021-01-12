@@ -15,10 +15,6 @@ export default class EntityContainer extends Container {
     return this._attributeContainer.attributes
   }
 
-  hasAttributeInstance(pred) {
-    return this._attributeContainer.hasInstance(pred)
-  }
-
   isSelectionAttributeIndelible(pred, id) {
     return this._attributeContainer.isSelectionAttributeValueIndelible(pred, id)
   }
