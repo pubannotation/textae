@@ -15,14 +15,7 @@ export default function (
   attributeContainer
 ) {
   const addAttribute = attributeContainer.attributes.length < 30
-
-  let attributes
-  if (selectedPred) {
-    attributes = getAttributeForSelecetdePred(attributeContainer, selectedPred)
-  } else {
-    attributes = attributeContainer.attributes
-  }
-  attributes = setShortcutKey(attributes)
+  const attributes = getAttributes(selectedPred, attributeContainer)
 
   if (!selectedPred) {
     return typeTemplate({
@@ -77,4 +70,15 @@ export default function (
     default:
       throw `attrDef.valueType is unknown attribute`
   }
+}
+
+function getAttributes(selectedPred, attributeContainer) {
+  let attributes
+  if (selectedPred) {
+    attributes = getAttributeForSelecetdePred(attributeContainer, selectedPred)
+  } else {
+    attributes = attributeContainer.attributes
+  }
+  attributes = setShortcutKey(attributes)
+  return attributes
 }
