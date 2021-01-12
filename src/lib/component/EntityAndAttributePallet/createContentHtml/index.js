@@ -20,7 +20,7 @@ export default function (
   if (selectedPred) {
     attributes = getAttributeForSelecetdePred(entityContainer, selectedPred)
   } else {
-    attributes = entityContainer.attributes
+    attributes = attributeContainer.attributes
   }
   attributes = setShortcutKey(attributes)
 
