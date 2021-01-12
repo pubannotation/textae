@@ -25,10 +25,10 @@ export default function (context) {
               isEntityWithSamePredSelected
             )}
             </div>
-          default: ${_default}
         </div>
         ${deleteAttributeDefinitionBlockTemplate(hasInstance)}
       </div>
+      default: ${_default}
     </div>
 
     <table>

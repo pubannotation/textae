@@ -33,13 +33,13 @@ export default function (context) {
               isEntityWithSamePredSelected
             )}
           </div>
-          min: ${min}
-          max: ${max}
-          step: ${step}
-          default: ${_default}
         </div>
         ${deleteAttributeDefinitionBlockTemplate(hasInstance)}
       </div>
+      min: ${min}
+      max: ${max}
+      step: ${step}
+      default: ${_default}
     </div>
 
     <table>
