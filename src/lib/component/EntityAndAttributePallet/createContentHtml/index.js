@@ -10,7 +10,8 @@ export default function (
   typeContainer,
   hasDiff,
   selectedPred,
-  selectionModelEntity
+  selectionModelEntity,
+  attributeContainer
 ) {
   const addAttribute = typeContainer.attributes.length < 30
   const attributes = getAttributes(typeContainer, selectedPred)
