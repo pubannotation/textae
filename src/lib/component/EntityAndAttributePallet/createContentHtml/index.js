@@ -36,7 +36,7 @@ export default function (
     attributes,
     hasDiff,
     attrDef: Object.assign(attrDef.JSON, {
-      hasInstance: entityContainer.hasAttributeInstance(selectedPred)
+      hasInstance: attributeContainer.hasInstance(selectedPred)
     }),
     selectedPred,
     lastAttributeSelected:
