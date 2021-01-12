@@ -10,8 +10,4 @@ export default class EntityContainer extends Container {
     super(editor, 'entity', getAllInstanceFunc, lockStateObservable, '#77DDDD')
     this._attributeContainer = attributeContainer
   }
-
-  get attributes() {
-    return this._attributeContainer.attributes
-  }
 }
