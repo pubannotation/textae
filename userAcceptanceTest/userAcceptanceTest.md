@@ -8,7 +8,89 @@
 4.  ブラウザの開発ツールを起動します。
 5.  以下のテストを実行して、エラーが出ないこと
 
-## パレットから Selection Attribute の Obcjet を変えたときに、ひとつだけの Attribute の Obcjet が変わらること
+## 編集ダイアログから Attribute を削除する
+
+### 背景
+
+1.  5.0.0 で Attribute を導入した際に、Attribute の削除ができませんでした。
+2.  編集後の Attribute と同じ Attribute を編集前の Attribute から探してきて、すべて見つかったときには変更なしとしてモデルの更新をスキップしていました。
+3.  Attribute を減らしたときに変更があることを検知できませんでした。
+4.  5.0.2 で修正
+5.  6.2.0 からブロック機能を追加
+
+### 編集ダイアログから BlockEntity の Attribute を削除する
+
+1.  Term モードにする
+2.  BlockEntity を選択する
+3.  1 キーを押す
+4.  Attribute が追加されること
+5.  W キーを押す
+6.  `Remove`ボタンを押す
+7.  `OK`ボタンを押す
+8.  選択中の BlockEntity の該当 predicate の Attribute が削除されること
+
+### 編集ダイアログから DenotationEntity の Attribute を削除する
+
+1.  Term モードにする
+2.  DenotationEntity を選択する
+3.  1 キーを押す
+4.  Attribute が追加されること
+5.  W キーを押す
+6.  `Remove`ボタンを押す
+7.  `OK`ボタンを押す
+8.  選択中の DenotationEntity の該当 predicate の Attribute が削除されること
+
+## パレットから Attribute を削除する
+
+### 背景
+
+1.  5.0.0 で、Attribute を追加するためにのショートカットキー T を追加しました
+2.  5.0.2 で、1~5 のキーで選択中の Entity へ、Attribute を追加、shift と同時押しで削除するようにしました
+3.  5.0.5 で、Attribute のショートカットキーを 1~9 までに増やしました
+4.  5.2.0 で、Attribute のショートカットキー T を廃止しました
+5.  5.2.3 で編集ダイアログの編集機能は廃止され、パレットを開くボタンに代わりました
+6.  6.2.71 で Block モードでパレットが開けるようになりました
+7.  6.2.79 で で Block モードで、ショートカットキー 1~9 で Attribute の追加ができるようになりました
+
+### パレットから BlockEntity の Attribute を削除する
+
+1.  Editor1 を選択
+2.  Block モードにする
+3.  BlockEntity を選択する
+4.  1 キーを押す、Attribute を追加させること
+5.  1 キーをもう一度押すと、Value 選択用のパレットが表示されること
+6.  パレットの`Remove from selected entity`ボタンを押すと、選択中の BlockEntity の該当 predicate の Attribute が削除されること
+
+### パレットから DenotationEntity の Attribute を削除する
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  DenotationEntity を選択する
+4.  1 キーを押す、Attribute を追加させること
+5.  1 キーをもう一度押すと、Value 選択用のパレットが表示されること
+6.  パレットの`Remove from selected entity`ボタンを押すと、選択中の DenotationEntity の該当 predicate の Attribute が削除されること
+
+## ショートカットで Attribute を追加・削除する
+
+### ショートカットで BlockEntity の Attribute を追加・削除する
+
+1.  Editor1 を選択
+2.  Block モードにする
+3.  BlockEntity を選択する
+4.  1 キーを押す、Attribute を追加させること
+5.  Shift を押しながら 1 キーを押すと、選択中の Entity の該当 predicate の Attribute が削除されること
+6.  T キーを押しても何も起きないこと
+
+### ショートカットで DenotationEntity の Attribute を追加・削除する
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  DenotationEntity を選択する
+4.  1 キーを押す、Attribute を追加させること
+5.  Shift を押しながら 1 キーを押すと、選択中の Entity の該当 predicate の Attribute が削除されること
+6.  T キーを押しても何も起きないこと
+
+## パレットから Selection Attribute の Obcjet を変えたときに、ひとつだけの Attribute の Obcjet が変わること
 
 ### 背景
 
