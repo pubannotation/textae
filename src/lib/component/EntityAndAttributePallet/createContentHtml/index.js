@@ -4,8 +4,7 @@ import flagAttributeTemplate from './flagAttributeTemplate'
 import numericAttributeTemplate from './numericAttributeTemplate'
 import selectionAttributeTemplate from './selectionAttributeTemplate'
 import stringAttributeTemplate from './stringAttributeTemplate'
-import getAttributeForSelecetdePred from './getAttributes/getAttributeForSelecetdePred'
-import setShortcutKey from './getAttributes/setShortcutKey'
+import getAttributes from './getAttributes'
 
 export default function (
   entityContainer,
@@ -15,7 +14,7 @@ export default function (
   attributeContainer
 ) {
   const addAttribute = attributeContainer.attributes.length < 30
-  const attributes = getAttributes(selectedPred, attributeContainer)
+  const attributes = getAttributes(attributeContainer, selectedPred)
 
   if (!selectedPred) {
     return typeTemplate({
@@ -70,15 +69,4 @@ export default function (
     default:
       throw `attrDef.valueType is unknown attribute`
   }
-}
-
-function getAttributes(selectedPred, attributeContainer) {
-  let attributes
-  if (selectedPred) {
-    attributes = getAttributeForSelecetdePred(attributeContainer, selectedPred)
-  } else {
-    attributes = attributeContainer.attributes
-  }
-  attributes = setShortcutKey(attributes)
-  return attributes
 }
