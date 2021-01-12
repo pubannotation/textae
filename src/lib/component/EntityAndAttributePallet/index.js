@@ -115,7 +115,8 @@ export default class EntityAndAttributePallet extends Pallet {
       ),
       this._selectedPred,
       this._selectionModelEntity,
-      this._annotationData.typeDefinition.attribute
+      this._annotationData.typeDefinition.attribute,
+      this._annotationData.attribute.all
     )
   }
 

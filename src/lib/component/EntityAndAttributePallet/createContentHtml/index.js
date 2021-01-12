@@ -11,7 +11,8 @@ export default function (
   hasDiff,
   selectedPred,
   selectionModelEntity,
-  attributeContainer
+  attributeContainer,
+  attributeInstances
 ) {
   const addAttribute = attributeContainer.attributes.length < 30
   const attributes = getAttributes(attributeContainer, selectedPred)
@@ -36,7 +37,7 @@ export default function (
     attributes,
     hasDiff,
     attrDef: Object.assign(attrDef.JSON, {
-      hasInstance: attributeContainer.hasInstance(selectedPred)
+      hasInstance: attributeInstances.some((a) => a.pred === selectedPred)
     }),
     selectedPred,
     lastAttributeSelected:
