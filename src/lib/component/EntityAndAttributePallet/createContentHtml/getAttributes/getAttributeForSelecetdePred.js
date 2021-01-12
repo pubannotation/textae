@@ -1,9 +1,9 @@
 // Set selectedPred and droppable property.
-export default function (typeContainer, selectedPred) {
+export default function (attributeContainer, selectedPred) {
   const attributes = []
   // Moving an attribute to before or after the current position does not change the position.
   let isPrevSelected
-  for (const a of typeContainer.attributes) {
+  for (const a of attributeContainer.attributes) {
     attributes.push({
       pred: a.pred,
       selectedPred: selectedPred === a.pred,
