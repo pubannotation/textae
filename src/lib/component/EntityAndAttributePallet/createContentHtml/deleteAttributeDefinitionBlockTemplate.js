@@ -13,5 +13,10 @@ export default function (hasInstance) {
           class="textae-editor__type-pallet__table-button textae-editor__type-pallet__delete-predicate">
         </button>`
   }
+  <button
+    type="button"
+    class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-predicate"
+    title="Edit this predicate.">
+  </button>
 `
 }
