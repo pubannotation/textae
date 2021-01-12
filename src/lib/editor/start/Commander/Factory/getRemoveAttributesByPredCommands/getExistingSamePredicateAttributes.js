@@ -1,7 +1,8 @@
 export default function (entities, attrDef) {
   return entities.reduce((attrs, entity) => {
-    const attr = entity.attributes.find((a) => a.pred === attrDef.pred)
-    if (attr) {
+    for (const attr of entity.attributes.filter(
+      (a) => a.pred === attrDef.pred
+    )) {
       attrs.push(attr)
     }
     return attrs
