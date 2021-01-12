@@ -7,7 +7,7 @@ import stringAttributeTemplate from './stringAttributeTemplate'
 import getAttributes from './getAttributes'
 
 export default function (
-  entityContainer,
+  types,
   hasDiff,
   selectedPred,
   selectionModelEntity,
@@ -23,7 +23,7 @@ export default function (
       isLock,
       attributes,
       hasDiff,
-      types: entityContainer.pallet,
+      types,
       addAttribute,
       selectedEntityLabel: getSelectedEntityLabel(selectionModelEntity.size)
     })
