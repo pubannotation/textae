@@ -128,6 +128,6 @@ export default class EntityAndAttributePallet extends Pallet {
   }
 
   get _attributes() {
-    return this._entityContainer.attributes
+    return this._annotationData.typeDefinition.attribute.attributes
   }
 }
