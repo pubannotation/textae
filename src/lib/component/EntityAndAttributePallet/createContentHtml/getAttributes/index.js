@@ -1,11 +1,11 @@
 import getAttributeForSelecetdePred from './getAttributeForSelecetdePred'
 import setShortcutKey from './setShortcutKey'
-export default function (typeContainer, selectedPred) {
+export default function (entityContainer, selectedPred) {
   let attributes
   if (selectedPred) {
-    attributes = getAttributeForSelecetdePred(typeContainer, selectedPred)
+    attributes = getAttributeForSelecetdePred(entityContainer, selectedPred)
   } else {
-    attributes = typeContainer.attributes
+    attributes = entityContainer.attributes
   }
   return setShortcutKey(attributes)
 }
