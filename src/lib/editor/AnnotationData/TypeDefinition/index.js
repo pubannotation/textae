@@ -11,7 +11,6 @@ export default class TypeDefinition {
     this._denotationContainer = new EntityContainer(
       editor,
       () => entity.denotations,
-      this._attributeContainer,
       this._lockStateObservable
     )
     this._relationContainer = new Container(
@@ -23,7 +22,6 @@ export default class TypeDefinition {
     this._blockContainer = new EntityContainer(
       editor,
       () => entity.blocks,
-      this._attributeContainer,
       this._lockStateObservable
     )
 
