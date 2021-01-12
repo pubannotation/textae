@@ -28,7 +28,7 @@ export default class EditDenotation extends Edit {
     const denotationPallet = new EntityAndAttributePallet(
       editor,
       originalData,
-      annotationData.typeDefinition,
+      annotationData,
       annotationData.typeDefinition.denotation,
       selectionModel.entity
     )

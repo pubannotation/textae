@@ -20,7 +20,7 @@ export default class EditBlock extends Edit {
     const blockPallet = new EntityAndAttributePallet(
       editor,
       originalData,
-      annotationData.typeDefinition,
+      annotationData,
       annotationData.typeDefinition.block,
       selectionModel.entity
     )

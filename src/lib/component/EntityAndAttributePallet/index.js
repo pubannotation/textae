@@ -10,7 +10,7 @@ export default class EntityAndAttributePallet extends Pallet {
   constructor(
     editor,
     originalData,
-    typeDefinition,
+    annotationData,
     typeContainer,
     selectionModelEntity
   ) {
@@ -18,7 +18,7 @@ export default class EntityAndAttributePallet extends Pallet {
 
     this._eventEmitter = editor.eventEmitter
     this._originalData = originalData
-    this._typeDefinition = typeDefinition
+    this._typeDefinition = annotationData.typeDefinition
     this._typeContainer = typeContainer
     this._selectionModelEntity = selectionModelEntity
 
