@@ -13,9 +13,9 @@ export default class RemoveAttributesOfSelectedEntitiesByPredCommand extends Com
     )
 
     this._subCommands = removeAttributeCommands
-    this._logMessage = `remove attirbute ${
+    this._logMessage = `remove ${
       attributeDefinition.pred
-    } to entity ${selectionModel.entity.all
+    } attribute from entity ${selectionModel.entity.all
       .map((entity) => entity.id)
       .join(', ')}`
   }
