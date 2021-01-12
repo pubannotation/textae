@@ -1,6 +1,6 @@
 import headerTemplate from './headerTemplate'
 import addOrEditAndRemoveAttributeButtonTemplate from './addOrEditAndRemoveAttributeButtonTemplate'
-import deleteAttributeDefinitionBlockTemplate from './deleteAttributeDefinitionBlockTemplate'
+import editAttributeDefinitionBlockTemplate from './editAttributeDefinitionBlockTemplate'
 import valueButtonsTemplate from './valueButtonsTemplate'
 import showAddAttributeValueButton from './showAddAttributeValueButton'
 
@@ -15,7 +15,7 @@ export default function (context) {
       <div class="textae-editor__type-pallet__predicate-controller">
         <div>
           <div>
-            ${deleteAttributeDefinitionBlockTemplate(hasInstance)}
+            ${editAttributeDefinitionBlockTemplate(hasInstance)}
             string attribute: ${pred}
             ${addOrEditAndRemoveAttributeButtonTemplate(
               isEntityWithSamePredSelected

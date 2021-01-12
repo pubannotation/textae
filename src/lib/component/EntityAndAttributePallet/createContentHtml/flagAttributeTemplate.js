@@ -1,6 +1,6 @@
 import headerTemplate from './headerTemplate'
 import addOrRemoveAttributeButtonTemplate from './addOrRemoveAttributeButtonTemplate'
-import deleteAttributeDefinitionBlockTemplate from './deleteAttributeDefinitionBlockTemplate'
+import editAttributeDefinitionBlockTemplate from './editAttributeDefinitionBlockTemplate'
 
 export default function (context) {
   const { pred, hasInstance } = context.attrDef
@@ -12,7 +12,7 @@ export default function (context) {
     <div class="textae-editor__type-pallet__predicate">
       <div class="textae-editor__type-pallet__predicate-controller">
         <div>
-          ${deleteAttributeDefinitionBlockTemplate(hasInstance)}
+          ${editAttributeDefinitionBlockTemplate(hasInstance)}
           flag attribute: ${pred}
           ${addOrRemoveAttributeButtonTemplate(isEntityWithSamePredSelected)}
         </div>
