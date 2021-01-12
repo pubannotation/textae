@@ -13,7 +13,7 @@ export default function (
   selectionModelEntity,
   attributeContainer
 ) {
-  const addAttribute = typeContainer.attributes.length < 30
+  const addAttribute = attributeContainer.attributes.length < 30
   const attributes = getAttributes(typeContainer, selectedPred)
 
   if (!selectedPred) {
@@ -27,7 +27,9 @@ export default function (
     })
   }
 
-  const attrDef = typeContainer.attributes.find((a) => a.pred === selectedPred)
+  const attrDef = attributeContainer.attributes.find(
+    (a) => a.pred === selectedPred
+  )
 
   const values = {
     isLock: typeContainer.isLock,
@@ -38,8 +40,8 @@ export default function (
     }),
     selectedPred,
     lastAttributeSelected:
-      typeContainer.attributes.indexOf(attrDef) ===
-      typeContainer.attributes.length - 1,
+      attributeContainer.attributes.indexOf(attrDef) ===
+      attributeContainer.attributes.length - 1,
     addAttribute,
     selectedEntityLabel: getSelectedEntityLabel(selectionModelEntity.size),
     isEntityWithSamePredSelected: selectionModelEntity.isSamePredAttrributeSelected(
