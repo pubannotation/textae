@@ -6,7 +6,13 @@ import setSourceOfAutoComplete from '../setSourceOfAutoComplete'
 import toEntityHTML from './toEntityHTML'
 
 export default class EditEntityDialog extends PromiseDialog {
-  constructor(editor, entityContainer, autocompletionWs, typeValues) {
+  constructor(
+    editor,
+    entityContainer,
+    attributeContainer,
+    autocompletionWs,
+    typeValues
+  ) {
     const contentHtml = toEntityHTML(
       typeValues.typeName,
       entityContainer.getLabel(typeValues.typeName),

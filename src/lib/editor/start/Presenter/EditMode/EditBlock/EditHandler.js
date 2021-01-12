@@ -46,6 +46,7 @@ export default class EditHandler extends DefaultHandler {
       const dialog = new EditEntityDialog(
         this._editor,
         this._typeContainer,
+        this._annotationData.typeDefinition.attribute,
         autocompletionWs,
         EntityModel.mergedTypesOf(this._selectionModel.entity.all)
       )
