@@ -120,7 +120,7 @@ export default class EntityAndAttributePallet extends Pallet {
   }
 
   get attrDef() {
-    return this._typeContainer.findAttribute(this._selectedPred)
+    return this._annotationData.typeDefinition.attribute.get(this._selectedPred)
   }
 
   onSelectionAttributeLabelClick(onClick) {
