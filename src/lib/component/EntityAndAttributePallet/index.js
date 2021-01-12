@@ -18,7 +18,7 @@ export default class EntityAndAttributePallet extends Pallet {
 
     this._eventEmitter = editor.eventEmitter
     this._originalData = originalData
-    this._typeDefinition = annotationData.typeDefinition
+    this._annotationData = annotationData
     this._typeContainer = typeContainer
     this._selectionModelEntity = selectionModelEntity
 
@@ -114,7 +114,7 @@ export default class EntityAndAttributePallet extends Pallet {
         Object.assign(
           {},
           this._originalData.configuration,
-          this._typeDefinition.config
+          this._annotationData.typeDefinition.config
         )
       ),
       this._selectedPred,
