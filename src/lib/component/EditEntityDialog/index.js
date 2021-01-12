@@ -3,7 +3,7 @@ import PromiseDialog from '../PromiseDialog'
 import getValues from './getValues'
 import setSourceOfAutoComplete from '../setSourceOfAutoComplete'
 import toEntityHTML from './toEntityHTML'
-import observeRemoveAttributeButton from './bind/observeRemoveAttributeButton'
+import observeRemoveAttributeButton from './observeRemoveAttributeButton'
 
 export default class EditEntityDialog extends PromiseDialog {
   constructor(
