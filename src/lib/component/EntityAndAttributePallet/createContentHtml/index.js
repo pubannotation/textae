@@ -1,10 +1,11 @@
 import getSelectedEntityLabel from './getSelectedEntityLabel'
-import getAttributes from './getAttributes'
 import typeTemplate from './typeTemplate'
 import flagAttributeTemplate from './flagAttributeTemplate'
 import numericAttributeTemplate from './numericAttributeTemplate'
 import selectionAttributeTemplate from './selectionAttributeTemplate'
 import stringAttributeTemplate from './stringAttributeTemplate'
+import getAttributeForSelecetdePred from './getAttributes/getAttributeForSelecetdePred'
+import setShortcutKey from './getAttributes/setShortcutKey'
 
 export default function (
   entityContainer,
@@ -14,7 +15,14 @@ export default function (
   attributeContainer
 ) {
   const addAttribute = attributeContainer.attributes.length < 30
-  const attributes = getAttributes(entityContainer, selectedPred)
+
+  let attributes
+  if (selectedPred) {
+    attributes = getAttributeForSelecetdePred(entityContainer, selectedPred)
+  } else {
+    attributes = entityContainer.attributes
+  }
+  attributes = setShortcutKey(attributes)
 
   if (!selectedPred) {
     return typeTemplate({
