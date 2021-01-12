@@ -11,10 +11,6 @@ export default class EntityContainer extends Container {
     this._attributeContainer = attributeContainer
   }
 
-  findAttribute(pred) {
-    return this._attributeContainer.get(pred)
-  }
-
   get attributes() {
     return this._attributeContainer.attributes
   }
