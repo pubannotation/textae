@@ -18,7 +18,7 @@ export default function (
 
   let attributes
   if (selectedPred) {
-    attributes = getAttributeForSelecetdePred(entityContainer, selectedPred)
+    attributes = getAttributeForSelecetdePred(attributeContainer, selectedPred)
   } else {
     attributes = attributeContainer.attributes
   }
