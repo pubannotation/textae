@@ -7,21 +7,21 @@ import selectionAttributeTemplate from './selectionAttributeTemplate'
 import stringAttributeTemplate from './stringAttributeTemplate'
 
 export default function (
-  typeContainer,
+  entityContainer,
   hasDiff,
   selectedPred,
   selectionModelEntity,
   attributeContainer
 ) {
   const addAttribute = attributeContainer.attributes.length < 30
-  const attributes = getAttributes(typeContainer, selectedPred)
+  const attributes = getAttributes(entityContainer, selectedPred)
 
   if (!selectedPred) {
     return typeTemplate({
-      isLock: typeContainer.isLock,
+      isLock: entityContainer.isLock,
       attributes,
       hasDiff,
-      types: typeContainer.pallet,
+      types: entityContainer.pallet,
       addAttribute,
       selectedEntityLabel: getSelectedEntityLabel(selectionModelEntity.size)
     })
@@ -32,11 +32,11 @@ export default function (
   )
 
   const values = {
-    isLock: typeContainer.isLock,
+    isLock: entityContainer.isLock,
     attributes,
     hasDiff,
     attrDef: Object.assign(attrDef.JSON, {
-      hasInstance: typeContainer.hasAttributeInstance(selectedPred)
+      hasInstance: entityContainer.hasAttributeInstance(selectedPred)
     }),
     selectedPred,
     lastAttributeSelected:
@@ -57,7 +57,7 @@ export default function (
     case 'selection':
       // Disable to press the remove button for the value used in the selection attribute.
       for (const value of values.attrDef.values) {
-        value.indelible = typeContainer.isSelectionAttributeIndelible(
+        value.indelible = entityContainer.isSelectionAttributeIndelible(
           selectedPred,
           value.id
         )
