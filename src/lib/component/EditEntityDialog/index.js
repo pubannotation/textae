@@ -1,9 +1,9 @@
 import delegate from 'delegate'
 import PromiseDialog from '../PromiseDialog'
 import getValues from './getValues'
-import bind from './bind'
 import setSourceOfAutoComplete from '../setSourceOfAutoComplete'
 import toEntityHTML from './toEntityHTML'
+import observeRemoveAttributeButton from './bind/observeRemoveAttributeButton'
 
 export default class EditEntityDialog extends PromiseDialog {
   constructor(
@@ -33,7 +33,7 @@ export default class EditEntityDialog extends PromiseDialog {
       () => getValues(super.el)
     )
 
-    bind(editor, entityContainer, super.el)
+    observeRemoveAttributeButton(super.el)
 
     // Observe edit an attributu button
     delegate(
