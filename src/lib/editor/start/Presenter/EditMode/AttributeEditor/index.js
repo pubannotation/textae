@@ -23,11 +23,21 @@ export default class AttributeEditor {
     if (
       this._selectionModel.entity.isSamePredAttrributeSelected(attrDef.pred)
     ) {
-      const command = this._commander.factory.changeAttributesOfSelectedEntitiesWithSamePred(
-        attrDef,
-        newObj
-      )
-      this._commander.invoke(command)
+      if (
+        this._selectionModel.entity.isDupulicatedPredAttrributeSelected(
+          attrDef.pred
+        )
+      ) {
+        alertifyjs.warning(
+          'An item among the selected has this attribute multiple times.'
+        )
+      } else {
+        const command = this._commander.factory.changeAttributesOfSelectedEntitiesWithSamePred(
+          attrDef,
+          newObj
+        )
+        this._commander.invoke(command)
+      }
     } else {
       const command = this._commander.factory.createAttributeToSelectedEntitiesCommand(
         attrDef,
