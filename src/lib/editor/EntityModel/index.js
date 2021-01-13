@@ -101,7 +101,7 @@ export default class EntityModel {
     )
   }
 
-  _isSameType(typeName, attributes) {
+  isSameType(typeName, attributes) {
     return this.typeName === typeName && this._hasSameAttributes(attributes)
   }
 

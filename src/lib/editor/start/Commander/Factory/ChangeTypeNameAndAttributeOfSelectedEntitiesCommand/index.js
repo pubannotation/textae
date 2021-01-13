@@ -14,7 +14,7 @@ export default class ChangeTypeNameAndAttributeOfSelectedEntitiesCommand extends
 
     // Get only entities with changes.
     const entitiesWithChange = selectionModel.entity.all.filter(
-      (e) => !e._isSameType(newTypeName, newAttributes)
+      (e) => !e.isSameType(newTypeName, newAttributes)
     )
 
     // Change type of entities.
