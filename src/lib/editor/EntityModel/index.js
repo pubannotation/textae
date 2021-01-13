@@ -30,10 +30,6 @@ export default class EntityModel {
     return mergeTypesOf(entities)
   }
 
-  static rejectSameType(entities, typeName, attributes) {
-    return entities.filter((e) => !e._isSameType(typeName, attributes))
-  }
-
   static filterWithSamePredicateAttribute(entities, pred) {
     return entities.filter((e) => e._hasSpecificPredicateAttribute(pred))
   }
