@@ -2,11 +2,11 @@ import CompositeCommand from './CompositeCommand'
 import ChangeAnnotationCommand from './ChangeAnnotationCommand'
 
 export default class ChangeTypeOfSelectedRelationsCommand extends CompositeCommand {
-  constructor(editor, annotationData, selectionModel, newType) {
+  constructor(editor, annotationData, selectionModel, typeName) {
     super()
 
     const selectedElements = selectionModel.relation.all.filter(
-      (e) => !e.isSameType(newType)
+      (e) => !e.isSameType(typeName)
     )
 
     this._subCommands = selectedElements.map(
@@ -16,9 +16,9 @@ export default class ChangeTypeOfSelectedRelationsCommand extends CompositeComma
           annotationData,
           'relation',
           e.id,
-          newType
+          typeName
         )
     )
-    this._logMessage = `set type ${newType} to relations ${selectedElements}`
+    this._logMessage = `set type ${typeName} to relations ${selectedElements}`
   }
 }
