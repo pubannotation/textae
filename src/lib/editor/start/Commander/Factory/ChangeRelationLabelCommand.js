@@ -37,14 +37,14 @@ export default class ChangeRelationLabelCommand extends CompositeCommand {
       }
     }
 
-    const changeRelationCommand = new ChangeTypeOfSelectedRelationsCommand(
+    const changeInstanceCommand = new ChangeTypeOfSelectedRelationsCommand(
       editor,
       annotationData,
       selectionModel,
       value
     )
-    if (!changeRelationCommand.isEmpty) {
-      commands.push(changeRelationCommand)
+    if (!changeInstanceCommand.isEmpty) {
+      commands.push(changeInstanceCommand)
     }
 
     this._subCommands = commands

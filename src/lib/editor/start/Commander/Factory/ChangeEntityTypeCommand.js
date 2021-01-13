@@ -38,15 +38,15 @@ export default class ChangeEntityTypeCommand extends CompositeCommand {
       }
     }
 
-    const changeEntityCommand = new ChangeTypeNameAndAttributeOfSelectedEntitiesCommand(
+    const changeInstanceCommand = new ChangeTypeNameAndAttributeOfSelectedEntitiesCommand(
       editor,
       annotationData,
       selectionModel,
       value,
       attributes
     )
-    if (!changeEntityCommand.isEmpty) {
-      commands.push(changeEntityCommand)
+    if (!changeInstanceCommand.isEmpty) {
+      commands.push(changeInstanceCommand)
     }
 
     this._subCommands = commands
