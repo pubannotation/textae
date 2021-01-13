@@ -8,7 +8,7 @@
 4.  ブラウザの開発ツールを起動します。
 5.  以下のテストを実行して、エラーが出ないこと
 
-## パレットから Attribute を削除する
+## パレットから Attribute インスタンスを削除する
 
 ### 背景
 
@@ -23,7 +23,7 @@
 9.  重複した Attribute を持つ Entity から Attribute を を削除すると、指定した Predicate の Attribute は一つずつ削除され、その順番は制御できません
 10. 6.4.36 から、選択中の Entity から、指定 Predicate の Attribute をすべて削除します
 
-### パレットから BlockEntity の Attribute を削除する
+### パレットから BlockEntity の Attribute インスタンスを削除する
 
 1.  Editor1 を選択
 2.  Block モードにする
@@ -32,7 +32,7 @@
 5.  denote タブを選ぶ
 6.  パレットの`Remove from selected entity`ボタンを押すと、`B1` の該当 predicate のすべての Attribute が削除されること
 
-### パレットから DenotationEntity の Attribute を削除する
+### パレットから DenotationEntity の Attribute インスタンスを削除する
 
 1.  Editor1 を選択
 2.  Term モードにする
@@ -41,7 +41,7 @@
 5.  denote タブを選ぶ
 6.  パレットの`Remove from selected entity`ボタンを押すと、`E1:a:b` の該当 predicate のすべての Attribute が削除されること
 
-## ショートカットで Attribute を削除する
+## ショートカットで Attribute インスタンスを削除する
 
 ### 背景
 
@@ -49,7 +49,7 @@
 2.  重複した Attribute を持つ Entity から Attribute を を削除すると、指定した Predicate の Attribute は一つずつ削除され、その順番は制御できません
 3.  6.4.36 から、選択中の Entity から、指定 Predicate の Attribute をすべて削除します
 
-### ショートカットで BlockEntity の Attribute を削除する
+### ショートカットで BlockEntity の Attribute インスタンスを削除する
 
 1.  Editor1 を選択
 2.  Block モードにする
@@ -57,7 +57,7 @@
 4.  Shift を押しながら 1 キーを押すと、選択中の Entity の該当 predicate のすべての Attribute が削除されること
 5.  T キーを押しても何も起きないこと
 
-### ショートカットで DenotationEntity の Attribute を削除する
+### ショートカットで DenotationEntity の Attribute インスタンスを削除する
 
 1.  Editor1 を選択
 2.  Term モードにする
@@ -65,7 +65,7 @@
 4.  Shift を押しながら 1 キーを押すと、選択中の Entity の該当 predicate のすべての Attribute が削除されること
 5.  T キーを押しても何も起きないこと
 
-## 編集ダイアログから Attribute を削除する
+## 編集ダイアログから Attribute インスタンスを削除する
 
 ### 背景
 
@@ -75,7 +75,7 @@
 4.  5.0.2 で修正
 5.  6.2.0 からブロック機能を追加
 
-### 編集ダイアログから BlockEntity の Attribute を削除する
+### 編集ダイアログから BlockEntity の Attribute インスタンスを削除する
 
 1.  Term モードにする
 2.  BlockEntity を選択する
@@ -86,7 +86,7 @@
 7.  `OK`ボタンを押す
 8.  選択中の BlockEntity の該当 predicate の Attribute が削除されること
 
-### 編集ダイアログから DenotationEntity の Attribute を削除する
+### 編集ダイアログから DenotationEntity の Attribute インスタンスを削除する
 
 1.  Term モードにする
 2.  DenotationEntity を選択する
