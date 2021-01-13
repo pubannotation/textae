@@ -201,12 +201,8 @@ export default class Factory {
     )
   }
 
-  createTypeDefinitionCommand(modelType, newType) {
-    return new CreateTypeDefinitionCommand(
-      this._editor,
-      this._annotationData.typeDefinition[modelType],
-      newType
-    )
+  createTypeDefinitionCommand(typeContainer, newType) {
+    return new CreateTypeDefinitionCommand(this._editor, typeContainer, newType)
   }
 
   deleteAttributeDefinitionCommand(attributeDefinition) {
