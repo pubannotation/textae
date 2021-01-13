@@ -28,6 +28,10 @@ export default class RelationModel {
     this._typeName = String(val)
   }
 
+  isSameType(typeName) {
+    return this.typeName === typeName
+  }
+
   get subj() {
     return this._subj
   }
