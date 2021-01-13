@@ -1,5 +1,5 @@
-import commandLog from './commandLog'
-import ConfigurationCommand from './ConfigurationCommand'
+import commandLog from '../commandLog'
+import ConfigurationCommand from '../ConfigurationCommand'
 
 export default class ChangeTypeDefinitionCommand extends ConfigurationCommand {
   constructor(
