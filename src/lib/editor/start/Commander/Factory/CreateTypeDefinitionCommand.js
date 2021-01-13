@@ -11,14 +11,13 @@ export default class CreateTypeDefinitionCommand extends ConfigurationCommand {
   }
 
   execute() {
-    this._typeContainer.addDefinedType(this._newType)
-
     // manage default type
     if (this._newType.default) {
       // remember the current default, because revert command will not understand what type was it.
       this._revertDefaultTypeId = this._typeContainer.defaultType
-      this._typeContainer.defaultType = this._newType.id
     }
+
+    this._typeContainer.addDefinedType(this._newType)
 
     commandLog(
       `create a new type:${JSON.stringify(this._newType)}, default is ${

@@ -72,6 +72,10 @@ export default class Container {
     }
 
     this.replace(newType.id, newType)
+
+    if (newType.default) {
+      this._defaultType = newType.id
+    }
   }
 
   get definedTypes() {
