@@ -6,7 +6,6 @@ export default function (
   id,
   editor,
   annotationData,
-  configType,
   changedProperties
 ) {
   // The palette also displays instance types other than type in the typeDefinition,

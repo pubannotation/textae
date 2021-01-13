@@ -21,7 +21,6 @@ export default class ChangeTypeDefinitionAndRefectInstancesCommand extends Compo
         id,
         editor,
         annotationData,
-        configType,
         changedProperties
       )
     ]
