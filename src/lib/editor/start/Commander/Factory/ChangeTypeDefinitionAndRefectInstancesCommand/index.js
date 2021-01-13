@@ -6,7 +6,7 @@ export default class ChangeTypeDefinitionAndRefectInstancesCommand extends Compo
   constructor(
     editor,
     annotationData,
-    typeDefinition,
+    typeContainer,
     annotationType,
     id,
     changedProperties
@@ -16,7 +16,7 @@ export default class ChangeTypeDefinitionAndRefectInstancesCommand extends Compo
     // change config
     const changeConfigcommands = [
       createChangeConfigCommand(
-        typeDefinition,
+        typeContainer,
         id,
         editor,
         annotationData,
