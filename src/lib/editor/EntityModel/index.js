@@ -64,6 +64,10 @@ export default class EntityModel {
     this._typeName = String(val)
   }
 
+  isSameType(typeName, attributes) {
+    return this.typeName === typeName && this._hasSameAttributes(attributes)
+  }
+
   get typeValues() {
     return new TypeValues(this._typeName, this.attributes)
   }
@@ -99,10 +103,6 @@ export default class EntityModel {
         attributeContainer
       )
     )
-  }
-
-  isSameType(typeName, attributes) {
-    return this.typeName === typeName && this._hasSameAttributes(attributes)
   }
 
   _hasSameAttributes(newAttributes) {
