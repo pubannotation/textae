@@ -40,7 +40,7 @@ export default class Container {
     return this._definedTypes.get(id)
   }
 
-  set(id, newType) {
+  replace(id, newType) {
     this._definedTypes.replace(id, newType)
     this._editor.eventEmitter.emit(
       `textae.typeDefinition.${this._annotationType}.type.change`,
@@ -63,7 +63,7 @@ export default class Container {
       }
     }
 
-    this.set(newType.id, newType)
+    this.replace(newType.id, newType)
   }
 
   get definedTypes() {

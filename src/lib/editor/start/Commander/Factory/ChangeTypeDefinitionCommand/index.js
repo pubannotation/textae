@@ -28,7 +28,7 @@ export default class ChangeTypeDefinitionCommand extends ConfigurationCommand {
       this._changedProperties,
       oldType
     )
-    this._typeContainer.set(this._id, newType)
+    this._typeContainer.replace(this._id, newType)
 
     // manage default type
     this._updateDefaultType(newType)
