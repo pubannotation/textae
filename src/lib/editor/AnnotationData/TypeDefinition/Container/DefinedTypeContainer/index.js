@@ -14,7 +14,7 @@ export default class DefinedTypeContainer {
     return Object.assign({}, this._map.get(id))
   }
 
-  set(id, newType) {
+  replace(id, newType) {
     // Delete old ID when changing ID.
     if (id !== newType.id) {
       this._map.delete(id)
