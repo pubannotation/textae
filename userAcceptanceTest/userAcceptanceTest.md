@@ -8,7 +8,7 @@
 4.  ブラウザの開発ツールを起動します。
 5.  以下のテストを実行して、エラーが出ないこと
 
-## パレットから Selection Attribute の Obcjet を変えたときに、ひとつだけの Attribute の Obcjet が変わること
+## パレットからは重複した Selection Attribute をもつ Entity の Obcjet を変更できない
 
 ### 背景
 
@@ -19,7 +19,7 @@
 5.  Obcjet 変更処理を上記イベントにバインドしていたため、一回の Selection Attribute のラベル選択で、二回 Obcjet 変更を実行していました
 6.  パレットから、重複した Selection Attribute を持つ Entity の Selection Attribute の Object を変更すると、ちょうど二つの Attribute の Obcjet が変更されていました
 7.  6.4.34 で Selection Attribute の Obcjet 変更処理を、パレットのイベントに直接バインドして、一回だけ実行するようにしました
-8.  6.4.35 で重複した Selection Attribute を持つ Entity の パレットからの Selection Attribute の Obcjet 変更を禁止しました。
+8.  6.4.35 で重複した Selection Attribute を持つ Entity の パレットからの Selection Attribute の Obcjet 変更を禁止しました
 
 ### -- 手段 --
 
@@ -28,9 +28,9 @@
 3.  DenotationEntity `E1:a:b` を選択する
 4.  `q` キーを押してパレットを開く
 5.  denote タブを選ぶ
-6.  パレットの Value を押す
-7.  `E1:a:b` の該当 predicate の ただひとつの Attribute の Value が変更されないこと
-8.  `An item among the selected has this attribute multiple times.`がトースト表示されること
+6.  パレットの Value ラベルをクリックする
+7.  `An item among the selected has this attribute multiple times.`がトースト表示されること
+8.  `E1:a:b` の`denote` Attribute の Object が変更されないこと
 
 ## Selection Attribute の編集
 
