@@ -3,18 +3,12 @@ import ChangeAnnotationCommand from '../ChangeAnnotationCommand'
 import getChangeAttributeCommands from './getChangeAttributeCommands'
 
 export default class ChangeTypeNameAndAttributeOfSelectedEntitiesCommand extends CompositeCommand {
-  constructor(
-    editor,
-    annotationData,
-    selectionModel,
-    newTypeName,
-    newAttributes
-  ) {
+  constructor(editor, annotationData, selectionModel, typeName, attributes) {
     super()
 
     // Get only entities with changes.
     const entitiesWithChange = selectionModel.entity.all.filter(
-      (e) => !e.isSameType(newTypeName, newAttributes)
+      (e) => !e.isSameType(typeName, attributes)
     )
 
     // Change type of entities.
@@ -25,22 +19,22 @@ export default class ChangeTypeNameAndAttributeOfSelectedEntitiesCommand extends
           annotationData,
           'entity',
           e.id,
-          newTypeName
+          typeName
         )
     )
 
     // Change attributes
     const changeAttributeCommnads = getChangeAttributeCommands(
       entitiesWithChange,
-      newAttributes,
+      attributes,
       annotationData,
       editor,
       selectionModel
     )
 
     this._subCommands = changeTypeCommands.concat(changeAttributeCommnads)
-    this._logMessage = `set type ${newTypeName} and ${JSON.stringify(
-      newAttributes
+    this._logMessage = `set type ${typeName} and ${JSON.stringify(
+      attributes
     )} to entities ${entitiesWithChange}`
   }
 }
