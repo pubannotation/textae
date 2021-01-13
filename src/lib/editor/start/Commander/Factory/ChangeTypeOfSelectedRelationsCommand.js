@@ -3,10 +3,14 @@ import ChangeAnnotationCommand from './ChangeAnnotationCommand'
 import getChangeAttributeCommands from './ChangeTypeNameAndAttributeOfSelectedEntitiesCommand/getChangeAttributeCommands'
 
 export default class ChangeTypeOfSelectedRelationsCommand extends CompositeCommand {
-  constructor(editor, annotationData, selectionModel, typeName) {
+  constructor(
+    editor,
+    annotationData,
+    selectionModel,
+    annotationType,
+    typeName
+  ) {
     super()
-
-    const annotationType = 'relation'
 
     const elementsWithChange = selectionModel[annotationType].all.filter(
       (e) => !e.isSameType(typeName)

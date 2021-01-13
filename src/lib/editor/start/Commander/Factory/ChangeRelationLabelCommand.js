@@ -41,6 +41,7 @@ export default class ChangeRelationLabelCommand extends CompositeCommand {
       editor,
       annotationData,
       selectionModel,
+      'relation',
       value
     )
     if (!changeInstanceCommand.isEmpty) {

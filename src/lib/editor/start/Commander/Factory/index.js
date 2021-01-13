@@ -111,6 +111,7 @@ export default class Factory {
       this._editor,
       this._annotationData,
       this._selectionModel,
+      'relation',
       newType
     )
   }
