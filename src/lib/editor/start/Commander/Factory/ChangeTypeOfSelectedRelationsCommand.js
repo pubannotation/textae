@@ -6,7 +6,7 @@ export default class ChangeTypeOfSelectedRelationsCommand extends CompositeComma
     super()
 
     const selectedElements = selectionModel.relation.all
-      .filter((relation) => relation.typeName !== newType)
+      .filter((relation) => !relation.isSameType(newType))
       .map((relation) => relation.id)
 
     this._subCommands = selectedElements.map(
