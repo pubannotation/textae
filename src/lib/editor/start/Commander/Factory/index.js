@@ -91,7 +91,7 @@ export default class Factory {
   }
 
   changeTypeDefinitionCommand(
-    configType,
+    typeContainer,
     annotationType,
     id,
     changedProperties
@@ -99,7 +99,7 @@ export default class Factory {
     return new ChangeTypeDefinitionAndRefectInstancesCommand(
       this._editor,
       this._annotationData,
-      this._annotationData.typeDefinition[configType],
+      typeContainer,
       annotationType,
       id,
       changedProperties

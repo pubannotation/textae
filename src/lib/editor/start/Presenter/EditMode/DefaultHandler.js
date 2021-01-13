@@ -16,7 +16,7 @@ export default class DefaultHandler {
 
   changeType(id, changedProperties) {
     return this._commander.factory.changeTypeDefinitionCommand(
-      this._configType,
+      this._typeContainer,
       this._annotationType,
       id,
       changedProperties
