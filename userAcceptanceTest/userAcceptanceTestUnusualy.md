@@ -1,5 +1,239 @@
 # たまにやるテスト
 
+## autocompletion_ws 属性
+
+### autocompletion_ws 属性で URL を指定すると、オートコンプリートの候補を指定 URL から取得する
+
+1.  <http://localhost:8000/dist/demo/bionlp-st-ge/demo-multi.html> を開く
+2.  一つ目の Editor を選択する
+3.  Entity を選択する
+4.  `Change Label[W]`ボタンを押す
+5.  既存の Value を消す
+6.  `Lig`を入力
+7.  候補に`Light stuff@http://www.yahoo.co.jp`が表示されること
+
+### autocompletion_ws 属性が指定されていなくても、config からオートコンプリートの候補を取得
+
+1.  <http://localhost:8000/dist/demo/bionlp-st-ge/demo-multi.html> を開く
+2.  二つ目の Editor を選択する
+3.  Entity を選択する
+4.  `Change Label[W]`ボタンを押す
+5.  既存の Value を消す
+6.  `pro`を入力
+7.  候補に`production company@http://dbpedia.org/ontology/productionCompany`が表示されること
+
+## オートコンプリートの候補を表示したときに Entity 編集ダイアログに横スクロールバーが表示されないこと
+
+### 背景
+
+1.  5.0.6 で Entity ダイアログのオートコンプリートの候補の幅を、なるべく値が省略されないように、広くしました。
+2.  Firefox では、Entity ダイアログに横スクロールバーが表示されていました。5.2.7 で候補の幅を 5px 短くして、対応しました。
+
+### --- 手段 ---
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  Attribute のない Entity を選択する
+4.  `Change Label[W]`ボタンを押す
+5.  既存の id を消す
+6.  `par`を入力
+7.  候補に`parent@http://dbpedia.org/ontology/parent`が表示されること
+8.  ダイアログに横スクロールバー表示されないこと
+
+## オートコンプリートの候補を表示したときに Relation 編集ダイアログに横スクロールバーが表示されないこと
+
+### 背景
+
+1.  6.4.20 で対応しました。
+
+### --- 手段 ---
+
+1.  Editor1 を選択
+2.  Relation モードにする
+3.  Relation を選択する
+4.  `Change Label[W]`ボタンを押す
+5.  既存の id を消す
+6.  `par`を入力
+7.  候補に`parent@http://dbpedia.org/ontology/parent`が表示されること
+8.  ダイアログに横スクロールバー表示されないこと
+
+## オートコンプリートの候補がダイアログの下に隠れないこと
+
+### 背景
+
+1.  4.3.0 でオートコンプリート導入。候補を config と source server(オートコンプリートの問い合わせ先サーバー。HTML 上の autocompletion_ws 属性で設定します)から検索します
+2.  4.5.5 で jQuery UI を textae.js に同梱した時、オートコンプリートの候補が選択できなくなりました。jQuery UI の core 部分と jQuery UI のオートコンプリート機能のバージョン不一致で、オートコンプリートの候補を選択したときにエラーが起きた。4.5.6 で対応
+3.  5.0.0 で type の編集機能を追加した際に、オートコンプリートで検索結果のラベルを`Value:`の右に、id を Value 欄に表示するように変更しました
+4.  5.0.0 で Relation のラベルも Entity と同様の短縮表示しました
+5.  5.0.5 でオートコンプリートの候補がダイアログの裏に隠れるバグを修正した際に、同時に、候補の末尾の文字が見切れない用に右寄せにしました
+6.  5.0.5 で Attribute のない Entity を編集するときに、オートコンプリートの候補の 2 つ目以降が見切れていました。5.2.6 でダイアログの高さに最小値を設定しました
+7.  6.2.0 からブロック機能を追加
+8.  6.4.21 で Type 定義編集ダイアログに適用しました
+
+### -- 手段 --
+
+#### Type 定義編集ダイアログ
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  `q`を押してパレットを表示する
+4.  `Edit this type`ボタンをクリックする
+5.  既存の id を消す
+6.  `pro`を入力
+7.  候補に`production@http://dbpedia.org/ontology/production`が右寄せで表示されること
+8.  既存の label を消す
+9.  `pro`を入力
+10. 候補に`productionCompany@http://dbpedia.org/ontology/productionCompany`が右寄せで表示されること
+
+#### DenotationEntity 編集ダイアログ
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  Attribute のない DenotationEntity を選択する
+4.  `Change Label[W]`ボタンを押す
+5.  既存の id を消す
+6.  `pro`を入力
+7.  候補に`production@http://dbpedia.org/ontology/production`が右寄せで表示されること
+8.  候補に`productionCompany@http://dbpedia.org/ontology/productionCompany`が右寄せで表示されること
+9.  2 つ目以降の候補が隠れないこと
+10. `production@http://dbpedia.org/ontology/production`を選択する
+11. Value の右に`production`が表示されること
+12. Value の値が`http://dbpedia.org/ontology/production`になること
+13. `OK`ボタンを押す
+14. DenotationEntity のラベルが`production`になること
+
+#### BlocknEntity 編集ダイアログ
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  BlocknEntity を選択する
+4.  `Change Label[W]`ボタンを押す
+5.  既存の id を消す
+6.  `par`を入力
+7.  候補に`parent@http://dbpedia.org/ontology/parent`が右寄せで表示されること
+8.  `parent@http://dbpedia.org/ontology/parent`を選択する
+9.  Value の右に`parent`が表示されること
+10. Value の値が`http://dbpedia.org/ontology/parent`になること
+11. `OK`ボタンを押す
+12. BlocknEntity のラベルが`parent`になること
+
+#### Relation
+
+1.  Editor1 を選択
+2.  Relation モードにする
+3.  Relation を選択する
+4.  `Change Label[W]`ボタンを押す
+5.  既存の id を消す
+6.  `par`を入力
+7.  候補に`parent@http://dbpedia.org/ontology/parent`が右寄せで表示されること
+8.  `parent@http://dbpedia.org/ontology/parent`を選択する
+9.  Value の右に`parent`が表示されること
+10. Value の値が`http://dbpedia.org/ontology/parent`になること
+11. `OK`ボタンを押す
+12. Relation のラベルが`parent`になること
+
+
+
+## パレットから Selection Attribute の Value を連続的に変更できる
+
+### 背景
+
+1. jQueryUI Draggable Widget を使ってパレットをドラッグアンドドロップで移動できるようにしています
+2. パレットでラベルをクリックして Entity と Relation のタイプを変えるとき、セレクションアトリビュートの Value を変えることができます
+3. このときに、マウスダウンからマウスアップまでの間に、マウスを少しでも動かすとドラッグアンドドロップになり、ラベルがクリックできません
+4. 特に、マウスカーソルを移動しながら、ラベルをクリックしようとするときに上記現象が起きやすく、マウスカーソルの移動をいったん止めないと、確実なラベルクリックができません
+5. 6.4.33 で、マウスダウンしながら 10 ピクセル以上移動しなければ、パレットを移動できなくしました
+
+### -- 手段 --
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  DenotationEntity を選択する
+4.  パレットを開く
+5.  denote タブを選択する
+6.  マウスカーソルを移動しながらテーブル上の selection attribute label を次々と変更する
+7.  選択した DenotationEntity の Attribute がクリックに応じて変更されること
+8.  selection attribute label をマウスダウンしたまま、カーソルを移動する
+9.  パレットを移動できること
+
+## Selection Attribute の編集
+
+### 背景
+
+1.  5.0.0 で、Attribute を追加するためにのショートカットキー T を追加しました
+2.  5.0.2 で、1~5 のキーで選択中の Entity へ、Attribute を追加、shift と同時押しで削除するようにしました
+3.  5.0.5 で、Attribute のショートカットキーを 1~9 までに増やしました
+4.  5.2.0 で、Attribute のショートカットキー T を廃止しました
+5.  5.2.3 で編集ダイアログの編集機能は廃止され、パレットを開くボタンに代わりました
+6.  6.2.71 で Block モードでパレットが開けるようになりました
+7.  6.2.79 で で Block モードで、ショートカットキー 1~9 で Attribute の追加ができるようになりました
+
+### BlockEntity の Attribute を編集ダイアログから変更
+
+1.  Editor1 を選択
+2.  Block モードにする
+3.  BlockEntity を選択する
+4.  1 キーを押す
+5.  Attribute が追加されること
+6.  W キーを押す
+7.  `Edit`ボタンを押す
+8.  パレットが開くこと
+9.  denote タブが選ばれていること
+
+### DenotationEntity の Attribute を編集ダイアログから変更
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  DenotationEntity を選択する
+4.  1 キーを押す
+5.  Attribute が追加されること
+6.  W キーを押す
+7.  `Edit`ボタンを押す
+8.  パレットが開くこと
+9.  denote タブが選ばれていること
+
+### BlockEntity の Attribute をショートカットキー操作で変更
+
+1.  Editor1 を選択
+2.  Block モードにする
+3.  BlockEntity を選択する
+4.  1 キーを押す、Attribute を追加されること
+5.  1 キーをもう一度押すと、Value 選択用のパレットが表示されること
+6.  パレットの Value を押すと、選択中の BlockEntity の該当 predicate の Attribute の Value が変更できること
+
+### DenotationEntity の Attribute をショートカットキー操作で変更
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  DenotationEntity を選択する
+4.  1 キーを押す、Attribute を追加されること
+5.  1 キーをもう一度押すと、Value 選択用のパレットが表示されること
+6.  パレットの Value を押すと、選択中の DenotationEntity の該当 predicate の Attribute の Value が変更できること
+
+## パレットからは重複した Selection Attribute をもつ Entity の Obcjet を変更できない
+
+### 背景
+
+1.  6.4.1 で、Annotation ファイルの読込時 Validation での Attribute のチェックを緩め、 1 つの Entity に Predicate と Object が等しい Attribute が複数ついているかのチェックに変更しました
+2.  重複した Selection Attribute を持つ Entity の Selection Attribute の Object をパレットから変更できるようになりました
+3.  Denotation 編集モードと Block 編集モードでパレットが分かれています
+4.  二つのパレットは Selection Attribute のラベル選択時に、同じイベントを発火します
+5.  Obcjet 変更処理を上記イベントにバインドしていたため、一回の Selection Attribute のラベル選択で、二回 Obcjet 変更を実行していました
+6.  パレットから、重複した Selection Attribute を持つ Entity の Selection Attribute の Object を変更すると、ちょうど二つの Attribute の Obcjet が変更されていました
+7.  6.4.34 で Selection Attribute の Obcjet 変更処理を、パレットのイベントに直接バインドして、一回だけ実行するようにしました
+8.  6.4.35 で重複した Selection Attribute を持つ Entity の パレットからの Selection Attribute の Obcjet 変更を禁止しました
+
+### -- 手段 --
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  DenotationEntity `E1:a:b` を選択する
+4.  `q` キーを押してパレットを開く
+5.  denote タブを選ぶ
+6.  パレットの Value ラベルをクリックする
+7.  `An item among the selected has this attribute multiple times.`がトースト表示されること
+8.  `E1:a:b` の`denote` Attribute の Object が変更されないこと
+
 ## 編集ダイアログから Attribute インスタンスを削除する
 
 ### 背景
