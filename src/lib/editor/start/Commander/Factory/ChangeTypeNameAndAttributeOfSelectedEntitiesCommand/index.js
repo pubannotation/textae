@@ -35,8 +35,10 @@ export default class ChangeTypeNameAndAttributeOfSelectedEntitiesCommand extends
     )
 
     this._subCommands = changeTypeCommands.concat(changeAttributeCommnads)
-    this._logMessage = `set type ${typeName} and ${JSON.stringify(
-      attributes
-    )} to ${annotationType} items ${elementsWithChange}`
+    this._logMessage = `set type ${typeName}${
+      attributes.length > 0
+        ? ` and attributes ${JSON.stringify(attributes)}`
+        : ``
+    } to ${annotationType} items ${elementsWithChange}`
   }
 }
