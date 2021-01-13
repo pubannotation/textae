@@ -30,7 +30,6 @@ export default class ChangeRelationLabelCommand extends CompositeCommand {
             editor,
             annotationData,
             typeContainer,
-            'relation',
             value,
             new Map([['label', label]])
           )

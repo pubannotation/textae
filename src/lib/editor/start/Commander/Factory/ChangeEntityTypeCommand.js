@@ -31,7 +31,6 @@ export default class ChangeEntityTypeCommand extends CompositeCommand {
             editor,
             annotationData,
             typeContainer,
-            'entity',
             value,
             new Map([['label', label]])
           )

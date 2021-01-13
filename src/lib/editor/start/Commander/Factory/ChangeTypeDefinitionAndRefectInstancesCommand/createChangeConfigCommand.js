@@ -16,7 +16,6 @@ export default function (
       editor,
       annotationData,
       typeDefinition,
-      configType,
       id,
       changedProperties,
       null
