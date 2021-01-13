@@ -37,7 +37,15 @@ export default class Container {
   }
 
   get(id) {
-    return this._definedTypes.get(id)
+    const type = Object.assign({}, this._definedTypes.get(id))
+
+    if (this._defaultType === id) {
+      type.default = true
+      return type
+    } else {
+      delete type.default
+      return type
+    }
   }
 
   replace(id, newType) {
