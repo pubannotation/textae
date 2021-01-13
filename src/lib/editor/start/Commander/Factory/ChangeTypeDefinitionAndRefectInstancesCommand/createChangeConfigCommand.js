@@ -2,7 +2,7 @@ import ChangeTypeDefinitionCommand from '../ChangeTypeDefinitionCommand'
 import CreateTypeDefinitionCommand from '../CreateTypeDefinitionCommand'
 
 export default function (
-  typeDefinition,
+  typeContainer,
   id,
   editor,
   annotationData,
@@ -10,11 +10,11 @@ export default function (
 ) {
   // The palette also displays instance types other than type in the typeDefinition,
   // so modified type may not be in the typeDefinition.
-  if (typeDefinition.has(id)) {
+  if (typeContainer.has(id)) {
     return new ChangeTypeDefinitionCommand(
       editor,
       annotationData,
-      typeDefinition,
+      typeContainer,
       id,
       changedProperties,
       null
@@ -25,7 +25,7 @@ export default function (
     // When you add a label, the old ID is used to add the type definition.
     return new CreateTypeDefinitionCommand(
       editor,
-      typeDefinition,
+      typeContainer,
       Object.assign(
         {
           id
