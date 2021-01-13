@@ -573,6 +573,8 @@
 }
 .textae-editor__type-pallet__predicate {
   border: 1px solid;
+}
+.textae-editor__type-pallet__predicate-controller {
   display: flex;
   justify-content: space-between;
 }
@@ -730,7 +732,8 @@
   top: -1px;
 }
 .textae-editor__type-pallet__remove:before,
-.textae-editor__type-pallet__remove-value:before {
+.textae-editor__type-pallet__remove-value:before,
+.textae-editor__type-pallet__delete-predicate:before {
   position: relative;
   display: inline-block;
   font-family: FontAwesome;
