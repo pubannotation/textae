@@ -3,10 +3,15 @@ import ChangeAnnotationCommand from '../ChangeAnnotationCommand'
 import getChangeAttributeCommands from './getChangeAttributeCommands'
 
 export default class ChangeTypeNameAndAttributeOfSelectedEntitiesCommand extends CompositeCommand {
-  constructor(editor, annotationData, selectionModel, typeName, attributes) {
+  constructor(
+    editor,
+    annotationData,
+    selectionModel,
+    annotationType,
+    typeName,
+    attributes
+  ) {
     super()
-
-    const annotationType = 'entity'
 
     // Get only entities with changes.
     const elementsWithChange = selectionModel[annotationType].all.filter(

@@ -42,6 +42,7 @@ export default class ChangeEntityTypeCommand extends CompositeCommand {
       editor,
       annotationData,
       selectionModel,
+      'entity',
       value,
       attributes
     )
