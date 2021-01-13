@@ -100,7 +100,6 @@ export default class Factory {
       this._editor,
       this._annotationData,
       this._annotationData.typeDefinition[configType],
-      configType,
       annotationType,
       id,
       changedProperties
