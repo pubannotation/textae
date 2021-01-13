@@ -11,29 +11,33 @@ export default function (
   const changeAttributeCommnads = []
 
   for (const element of elements) {
-    for (const oldAttribute of element.attributes) {
-      const newAttribute = attributes.find((a) => oldAttribute.pred === a.pred)
-      if (newAttribute) {
-        if (String(oldAttribute.obj) !== newAttribute.obj) {
+    if (element.attributes) {
+      for (const oldAttribute of element.attributes) {
+        const newAttribute = attributes.find(
+          (a) => oldAttribute.pred === a.pred
+        )
+        if (newAttribute) {
+          if (String(oldAttribute.obj) !== newAttribute.obj) {
+            changeAttributeCommnads.push(
+              new ChangeAttributeCommand(
+                annotationData,
+                oldAttribute,
+                newAttribute.pred,
+                newAttribute.obj
+              )
+            )
+          }
+        } else {
           changeAttributeCommnads.push(
-            new ChangeAttributeCommand(
+            new RemoveCommand(
+              editor,
               annotationData,
-              oldAttribute,
-              newAttribute.pred,
-              newAttribute.obj
+              selectionModel,
+              'attribute',
+              oldAttribute.id
             )
           )
         }
-      } else {
-        changeAttributeCommnads.push(
-          new RemoveCommand(
-            editor,
-            annotationData,
-            selectionModel,
-            'attribute',
-            oldAttribute.id
-          )
-        )
       }
     }
 
