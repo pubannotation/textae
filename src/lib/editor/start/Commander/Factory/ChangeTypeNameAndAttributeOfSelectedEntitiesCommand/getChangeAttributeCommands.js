@@ -10,8 +10,8 @@ export default function (
 ) {
   const changeAttributeCommnads = []
 
-  for (const entity of elements) {
-    for (const oldAttribute of entity.attributes) {
+  for (const element of elements) {
+    for (const oldAttribute of element.attributes) {
       const newAttribute = attributes.find((a) => oldAttribute.pred === a.pred)
       if (newAttribute) {
         if (String(oldAttribute.obj) !== newAttribute.obj) {
@@ -38,7 +38,7 @@ export default function (
     }
 
     for (const newAttribute of attributes) {
-      if (!entity.attributes.some((a) => newAttribute.pred === a.pred)) {
+      if (!element.attributes.some((a) => newAttribute.pred === a.pred)) {
         changeAttributeCommnads.push(
           new CreateCommand(
             editor,
@@ -47,7 +47,7 @@ export default function (
             'attribute',
             false,
             {
-              subj: entity.id,
+              subj: element.id,
               pred: newAttribute.pred,
               obj: newAttribute.obj
             }
