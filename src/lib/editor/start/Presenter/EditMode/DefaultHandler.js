@@ -43,7 +43,7 @@ export default class DefaultHandler {
     }
 
     return this._commander.factory.removeTypeDefinitionCommand(
-      this._configType,
+      this._typeContainer,
       removeType
     )
   }

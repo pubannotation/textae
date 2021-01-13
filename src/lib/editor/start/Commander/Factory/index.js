@@ -288,10 +288,10 @@ export default class Factory {
     )
   }
 
-  removeTypeDefinitionCommand(modelType, removeType) {
+  removeTypeDefinitionCommand(typeContainer, removeType) {
     return new RemoveTypeDefinitionCommand(
       this._editor,
-      this._annotationData.typeDefinition[modelType],
+      typeContainer,
       removeType
     )
   }
