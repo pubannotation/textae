@@ -3,7 +3,7 @@ import EditRelationDialog from '../../../../../component/EditRelationDialog'
 
 export default class EditHandler extends DefaultHandler {
   constructor(typeContainer, commander, annotationData, selectionModel) {
-    super('relation', 'relation', typeContainer, commander)
+    super('relation', typeContainer, commander)
 
     this._annotationData = annotationData
     this._selectionModel = selectionModel

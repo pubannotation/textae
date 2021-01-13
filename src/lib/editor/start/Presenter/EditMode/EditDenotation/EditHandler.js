@@ -11,7 +11,7 @@ export default class EditHandler extends DefaultHandler {
     selectionModel,
     attributeEditor
   ) {
-    super('denotation', 'entity', typeContainer, commander)
+    super('entity', typeContainer, commander)
 
     this._editor = editor
     this._annotationData = annotationData

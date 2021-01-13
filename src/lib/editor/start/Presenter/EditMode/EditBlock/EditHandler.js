@@ -11,7 +11,7 @@ export default class EditHandler extends DefaultHandler {
     selectionModel,
     attributeEditor
   ) {
-    super('block', 'entity', typeContainer, commander)
+    super('entity', typeContainer, commander)
 
     this._editor = editor
     this._selectionModel = selectionModel
