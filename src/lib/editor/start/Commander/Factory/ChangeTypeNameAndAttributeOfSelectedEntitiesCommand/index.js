@@ -1,4 +1,3 @@
-import EntityModel from '../../../../EntityModel'
 import CompositeCommand from '../CompositeCommand'
 import ChangeAnnotationCommand from '../ChangeAnnotationCommand'
 import getChangeAttributeCommands from './getChangeAttributeCommands'
@@ -14,10 +13,8 @@ export default class ChangeTypeNameAndAttributeOfSelectedEntitiesCommand extends
     super()
 
     // Get only entities with changes.
-    const entitiesWithChange = EntityModel.rejectSameType(
-      selectionModel.entity.all,
-      newTypeName,
-      newAttributes
+    const entitiesWithChange = selectionModel.entity.all.filter(
+      (e) => !e._isSameType(newTypeName, newAttributes)
     )
 
     // Change type of entities.
