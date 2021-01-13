@@ -106,12 +106,11 @@ export default class Factory {
     )
   }
 
-  changeTypeOfSelectedRelationsCommand(selectedElements, newType) {
+  changeTypeOfSelectedRelationsCommand(newType) {
     return new ChangeTypeOfSelectedRelationsCommand(
       this._editor,
       this._annotationData,
       this._selectionModel,
-      selectedElements,
       newType
     )
   }
