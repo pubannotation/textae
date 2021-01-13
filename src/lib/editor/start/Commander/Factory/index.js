@@ -74,8 +74,8 @@ export default class Factory {
       this._selectionModel,
       label,
       value,
-      attributes,
-      typeContainer
+      typeContainer,
+      attributes
     )
   }
 

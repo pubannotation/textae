@@ -10,8 +10,8 @@ export default class ChangeEntityTypeCommand extends CompositeCommand {
     selectionModel,
     label,
     value,
-    attributes,
-    typeContainer
+    typeContainer,
+    attributes
   ) {
     super()
 
