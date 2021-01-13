@@ -4,13 +4,12 @@ import createPalletElement from '../Pallet/createPalletElement'
 import template from './template'
 
 export default class RelationPallet extends Pallet {
-  constructor(editor, originalData, typeDefinition, getAllInstanceFunc) {
+  constructor(editor, originalData, typeDefinition) {
     super(editor, createPalletElement('relation'))
 
     this._originalData = originalData
     this._typeDefinition = typeDefinition
     this._typeContainer = typeDefinition.relation
-    this._getAllInstanceFunc = getAllInstanceFunc
   }
 
   get _content() {
@@ -26,7 +25,7 @@ export default class RelationPallet extends Pallet {
     return template({
       isLock: this._typeContainer.isLock,
       hasDiff,
-      types: this._typeContainer.pallet(this._getAllInstanceFunc)
+      types: this._typeContainer.pallet
     })
   }
 }

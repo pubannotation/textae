@@ -12,8 +12,7 @@ export default class EntityAndAttributePallet extends Pallet {
     originalData,
     annotationData,
     entityContainer,
-    selectionModelEntity,
-    getAllInstanceFunc
+    selectionModelEntity
   ) {
     super(editor, createPalletElement('entity'))
 
@@ -22,7 +21,6 @@ export default class EntityAndAttributePallet extends Pallet {
     this._annotationData = annotationData
     this._entityContainer = entityContainer
     this._selectionModelEntity = selectionModelEntity
-    this._getAllInstanceFunc = getAllInstanceFunc
 
     bindAttributeEvent(this, this._el, editor.eventEmitter)
 
@@ -106,7 +104,7 @@ export default class EntityAndAttributePallet extends Pallet {
 
   get _content() {
     return createContentHtml(
-      this._entityContainer.pallet(this._getAllInstanceFunc),
+      this._entityContainer.pallet,
       diff(
         this._originalData.configuration,
         Object.assign(

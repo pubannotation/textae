@@ -135,9 +135,9 @@ export default class Container {
     return this.definedTypes.labelIncludes(term)
   }
 
-  pallet(getAllInstanceFunc) {
+  get pallet() {
     return formatForPallet(
-      getAllInstanceFunc(),
+      this._getAllInstanceFunc(),
       this._definedTypes,
       this.defaultType,
       this._defaultColor

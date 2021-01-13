@@ -16,8 +16,7 @@ export default class EditRelation extends Edit {
     const relationPallet = new RelationPallet(
       editor,
       originalData,
-      annotationData.typeDefinition,
-      () => annotationData.relation.all
+      annotationData.typeDefinition
     )
 
     const handler = new EditHandler(
