@@ -7,7 +7,7 @@ export default class ChangeTypeOfSelectedRelationsCommand extends CompositeComma
 
     const annotationType = 'relation'
 
-    const selectedElements = selectionModel.relation.all.filter(
+    const selectedElements = selectionModel[annotationType].all.filter(
       (e) => !e.isSameType(typeName)
     )
 
@@ -21,6 +21,6 @@ export default class ChangeTypeOfSelectedRelationsCommand extends CompositeComma
           typeName
         )
     )
-    this._logMessage = `set type ${typeName} to relations ${selectedElements}`
+    this._logMessage = `set type ${typeName} to ${annotationType} items ${selectedElements}`
   }
 }

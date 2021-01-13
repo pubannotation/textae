@@ -9,7 +9,7 @@ export default class ChangeTypeNameAndAttributeOfSelectedEntitiesCommand extends
     const annotationType = 'entity'
 
     // Get only entities with changes.
-    const entitiesWithChange = selectionModel.entity.all.filter(
+    const entitiesWithChange = selectionModel[annotationType].all.filter(
       (e) => !e.isSameType(typeName, attributes)
     )
 
@@ -37,6 +37,6 @@ export default class ChangeTypeNameAndAttributeOfSelectedEntitiesCommand extends
     this._subCommands = changeTypeCommands.concat(changeAttributeCommnads)
     this._logMessage = `set type ${typeName} and ${JSON.stringify(
       attributes
-    )} to entities ${entitiesWithChange}`
+    )} to ${annotationType} items ${entitiesWithChange}`
   }
 }
