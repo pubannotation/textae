@@ -30,8 +30,13 @@ export default class ChangeTypeDefinitionCommand extends ConfigurationCommand {
     )
     this._typeContainer.replace(this._id, newType)
 
-    // manage default type
-    this._updateDefaultType(newType)
+    if (newType.default) {
+      // remember the current default, because revert command will not understand what type was it.
+      this.revertDefaultTypeId = this._typeContainer.defaultType
+      this._typeContainer.defaultType = newType.id
+    } else if (this._newDefaultTypeId) {
+      this._typeContainer.defaultType = this._newDefaultTypeId
+    }
 
     this.revertId = newType.id
     this.revertChangedProperties = revertChangedProperties
@@ -41,16 +46,6 @@ export default class ChangeTypeDefinitionCommand extends ConfigurationCommand {
         newType
       )}, default is ${this._typeContainer.defaultType}`
     )
-  }
-
-  _updateDefaultType(newType) {
-    if (newType.default) {
-      // remember the current default, because revert command will not understand what type was it.
-      this.revertDefaultTypeId = this._typeContainer.defaultType
-      this._typeContainer.defaultType = newType.id
-    } else if (this._newDefaultTypeId) {
-      this._typeContainer.defaultType = this._newDefaultTypeId
-    }
   }
 
   revert() {
