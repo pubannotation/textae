@@ -1,6 +1,5 @@
 export default class DefaultHandler {
   constructor(configType, annotationType, typeContainer, commander) {
-    this._configType = configType
     this._annotationType = annotationType
     this._typeContainer = typeContainer
     this._commander = commander
