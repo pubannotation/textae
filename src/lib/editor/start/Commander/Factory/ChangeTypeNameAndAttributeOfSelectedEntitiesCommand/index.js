@@ -6,6 +6,8 @@ export default class ChangeTypeNameAndAttributeOfSelectedEntitiesCommand extends
   constructor(editor, annotationData, selectionModel, typeName, attributes) {
     super()
 
+    const annotationType = 'entity'
+
     // Get only entities with changes.
     const entitiesWithChange = selectionModel.entity.all.filter(
       (e) => !e.isSameType(typeName, attributes)
@@ -17,7 +19,7 @@ export default class ChangeTypeNameAndAttributeOfSelectedEntitiesCommand extends
         new ChangeAnnotationCommand(
           editor,
           annotationData,
-          'entity',
+          annotationType,
           e.id,
           typeName
         )

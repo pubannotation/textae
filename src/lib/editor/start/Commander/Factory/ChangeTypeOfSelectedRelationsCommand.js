@@ -5,6 +5,8 @@ export default class ChangeTypeOfSelectedRelationsCommand extends CompositeComma
   constructor(editor, annotationData, selectionModel, typeName) {
     super()
 
+    const annotationType = 'relation'
+
     const selectedElements = selectionModel.relation.all.filter(
       (e) => !e.isSameType(typeName)
     )
@@ -14,7 +16,7 @@ export default class ChangeTypeOfSelectedRelationsCommand extends CompositeComma
         new ChangeAnnotationCommand(
           editor,
           annotationData,
-          'relation',
+          annotationType,
           e.id,
           typeName
         )
