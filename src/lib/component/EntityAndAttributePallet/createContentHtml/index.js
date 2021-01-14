@@ -48,6 +48,11 @@ export default function (
     selectedEntityLabel: getSelectedEntityLabel(selectionModelEntity.size),
     isEntityWithSamePredSelected: selectionModelEntity.isSamePredAttrributeSelected(
       selectedPred
+    ),
+    numberOfItemsUsingSelectedPred: new Set(
+      attributeInstances
+        .filter((a) => a.pred === selectedPred)
+        .map((a) => a.subj)
     )
   }
 
