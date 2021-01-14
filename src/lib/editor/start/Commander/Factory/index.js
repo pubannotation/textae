@@ -5,7 +5,7 @@ import ChangeAttributesOfSelectedEntitiesWithSamePred from './ChangeAttributesOf
 import ChangeEntityTypeCommand from './ChangeEntityTypeCommand'
 import ChangeRelationLabelCommand from './ChangeRelationLabelCommand'
 import ChangeTypeDefinitionAndRefectInstancesCommand from './ChangeTypeDefinitionAndRefectInstancesCommand'
-import ChangeTypeOfSelectedRelationsCommand from './ChangeTypeOfSelectedRelationsCommand'
+import ChangeTypeOfSelectedItemsCommand from './ChangeTypeOfSelectedItemsCommand'
 import ChangeValueOfAttributeDefinitionAndObjectOfSelectionAttributeCommand from './ChangeValueOfAttributeDefinitionAndObjectOfSelectionAttributeCommand'
 import CreateAttributeDefinitionCommand from './CreateAttributeDefinitionCommand'
 import CreateAttributeToSelectedEntitiesCommand from './CreateAttributeToSelectedEntitiesCommand'
@@ -106,7 +106,7 @@ export default class Factory {
   }
 
   changeTypeOfSelectedRelationsCommand(newType) {
-    return new ChangeTypeOfSelectedRelationsCommand(
+    return new ChangeTypeOfSelectedItemsCommand(
       this._editor,
       this._annotationData,
       this._selectionModel,
@@ -116,7 +116,7 @@ export default class Factory {
   }
 
   changeTypeOfSelectedEntitiesCommand(newType) {
-    return new ChangeTypeOfSelectedRelationsCommand(
+    return new ChangeTypeOfSelectedItemsCommand(
       this._editor,
       this._annotationData,
       this._selectionModel,
