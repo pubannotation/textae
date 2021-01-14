@@ -19,6 +19,10 @@ export default class Container {
     this._lockStateObservable = lockStateObservable
   }
 
+  get annotationType() {
+    return this._annotationType
+  }
+
   set definedTypes(value) {
     this._definedTypes = new DefinedTypeContainer(value)
 
