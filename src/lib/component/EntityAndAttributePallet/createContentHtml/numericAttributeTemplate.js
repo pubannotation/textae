@@ -14,13 +14,11 @@ export default function (context) {
     <div class="textae-editor__type-pallet__predicate">
       <div class="textae-editor__type-pallet__predicate-controller">
         <div>
-          <div>
-            ${editAttributeDefinitionBlockTemplate(context)}
-            numeric attribute: ${pred}
-            ${addOrEditAndRemoveAttributeButtonTemplate(
-              isEntityWithSamePredSelected
-            )}
-          </div>
+          ${editAttributeDefinitionBlockTemplate(context)}
+          numeric attribute: ${pred}
+          ${addOrEditAndRemoveAttributeButtonTemplate(
+            isEntityWithSamePredSelected
+          )}
         </div>
       </div>
       min: ${min}
