@@ -51,8 +51,10 @@ export default class ChangeEntityTypeCommand extends CompositeCommand {
     }
 
     this._subCommands = commands
-    this._logMessage = `change entity value: ${value} attribute: ${JSON.stringify(
-      attributes
-    )}  label: ${label} `
+    this._logMessage = `change entity value:"${value}"${
+      label ? `, label:"${label}"` : ``
+    }${
+      attributes.length > 0 ? `, attributes:${JSON.stringify(attributes)}` : ``
+    }`
   }
 }
