@@ -12,7 +12,7 @@ export default function (context) {
     <div class="textae-editor__type-pallet__predicate">
       <div class="textae-editor__type-pallet__predicate-controller">
         <div>
-          ${editAttributeDefinitionBlockTemplate(hasInstance)}
+          ${editAttributeDefinitionBlockTemplate(context)}
           flag attribute: ${pred}
           ${addOrRemoveAttributeButtonTemplate(isEntityWithSamePredSelected)}
         </div>

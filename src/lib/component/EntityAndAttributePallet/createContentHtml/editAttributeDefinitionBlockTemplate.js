@@ -1,4 +1,6 @@
-export default function (hasInstance) {
+export default function (context) {
+  const { hasInstance } = context.attrDef
+
   return `
   ${
     hasInstance
