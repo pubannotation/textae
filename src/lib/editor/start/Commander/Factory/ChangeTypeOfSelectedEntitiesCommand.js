@@ -7,7 +7,7 @@ export default class ChangeTypeOfSelectedEntitiesCommand extends CompositeComman
 
     // Get only entities with changes.
     const entitiesWithChange = selectionModel.entity.all
-      .filter((entity) => entity.typeName !== newTypeName)
+      .filter((entity) => !entity.isSameType(newTypeName))
       .map((entity) => entity.id)
 
     // Change type of entities.
