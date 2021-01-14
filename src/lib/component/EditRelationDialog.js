@@ -13,7 +13,9 @@ function template(context) {
       disabled="disabled">
   </div>
   <div class="textae-editor__edit-value-and-pred-dialog__input-box ui-front">
-    <label class="textae-editor__edit-value-and-pred-dialog--label">Value:<span>${label}</span></label><br>
+    <label class="textae-editor__edit-value-and-pred-dialog--label">Value:<span>${
+      label || ''
+    }</span></label><br>
     <input 
       class="textae-editor__edit-value-and-pred-dialog--value textae-editor__promise-daialog__observable-element" 
       value="${value}">
