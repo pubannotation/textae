@@ -37,9 +37,7 @@ export default function (
     isLock,
     attributes,
     hasDiff,
-    attrDef: Object.assign(attrDef.JSON, {
-      hasInstance: attributeInstances.some((a) => a.pred === selectedPred)
-    }),
+    attrDef: attrDef.JSON,
     selectedPred,
     lastAttributeSelected:
       attributeContainer.attributes.indexOf(attrDef) ===
