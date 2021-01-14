@@ -2,7 +2,7 @@ import { CreateCommand } from './commandTemplate'
 import AddValueToAttributeDefinitionCommand from './AddValueToAttributeDefinitionCommand'
 import ChangeAttributeDefinitionAndRefectInstancesCommand from './ChangeAttributeDefinitionAndRefectInstancesCommand'
 import ChangeAttributesOfSelectedEntitiesWithSamePred from './ChangeAttributesOfSelectedEntitiesWithSamePred'
-import ChangeEntityTypeCommand from './ChangeEntityTypeCommand'
+import ChangeItemTypeCommand from './ChangeItemTypeCommand'
 import ChangeTypeDefinitionAndRefectInstancesCommand from './ChangeTypeDefinitionAndRefectInstancesCommand'
 import ChangeTypeOfSelectedItemsCommand from './ChangeTypeOfSelectedItemsCommand'
 import ChangeValueOfAttributeDefinitionAndObjectOfSelectionAttributeCommand from './ChangeValueOfAttributeDefinitionAndObjectOfSelectionAttributeCommand'
@@ -66,7 +66,7 @@ export default class Factory {
   }
 
   changeEntityTypeCommand(label, value, attributes, typeContainer) {
-    return new ChangeEntityTypeCommand(
+    return new ChangeItemTypeCommand(
       this._editor,
       this._annotationData,
       this._selectionModel,
@@ -78,7 +78,7 @@ export default class Factory {
   }
 
   changeRelationLabelCommand(label, value, typeContainer) {
-    return new ChangeEntityTypeCommand(
+    return new ChangeItemTypeCommand(
       this._editor,
       this._annotationData,
       this._selectionModel,
