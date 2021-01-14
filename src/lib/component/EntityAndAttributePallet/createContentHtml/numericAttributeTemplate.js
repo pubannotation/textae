@@ -4,7 +4,7 @@ import showAddAttributeValueButton from './showAddAttributeValueButton'
 import predicateControllerTemplate from './predicateControllerTemplate'
 
 export default function (context) {
-  const { pred, min, max, step, default: _default, values } = context.attrDef
+  const { min, max, step, default: _default, values } = context.attrDef
   const { isLock } = context
 
   return `
