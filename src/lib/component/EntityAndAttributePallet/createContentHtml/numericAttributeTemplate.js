@@ -16,9 +16,7 @@ export default function (context) {
         <div>
           ${editAttributeDefinitionBlockTemplate(context)}
           numeric attribute: ${pred}
-          ${addOrEditAndRemoveAttributeButtonTemplate(
-            isEntityWithSamePredSelected
-          )}
+          ${addOrEditAndRemoveAttributeButtonTemplate(context)}
         </div>
       </div>
       min: ${min}

@@ -16,9 +16,7 @@ export default function (context) {
         <div>
           ${editAttributeDefinitionBlockTemplate(context)}
           string attribute: ${pred}
-          ${addOrEditAndRemoveAttributeButtonTemplate(
-            isEntityWithSamePredSelected
-          )}
+          ${addOrEditAndRemoveAttributeButtonTemplate(context)}
         </div>
       </div>
       default: ${_default}
