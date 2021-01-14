@@ -12,17 +12,24 @@
 
 1. 6.4.48 で、文言を変更しました。
 2. 6.4.49 で、文言に選択中のアイテムの数を追加し、ボタンの文言を短くしました。
+3. 6.4.50 で、アイテムを選択していないときは、ボタンを表示しなくしました。
 
 ### -- 手段 --
 
 1. Editor1 を選択
 2. Term モードにする
-3. Entity を選択しない
+3. Entity を一つ選択する
 4. `q` キーを押してパレットを開く
 5. `denote` タブを選ぶ
-6. `Attribute "denote" (selection type) [add to] the 0 item selected`が表示されること
+6. `Attribute "denote" (selection type) [add to] the 1 item selected`が表示されること
 7. `error` タブを選ぶ
-8. `Attribute "error" (flag type) [add to] the 0 item selected` が表示されること
+8. `Attribute "error" (flag type) [add to] the 1 item selected` が表示されること
+9. Entity の選択を解除する
+10. `q` キーを押してパレットを開く
+11. `denote` タブを選ぶ
+12. `Attribute "denote" (selection type)`が表示されること
+13. `error` タブを選ぶ
+14. `Attribute "error" (flag type)` が表示されること
 
 ## 兄弟 Span を親 Span にする
 

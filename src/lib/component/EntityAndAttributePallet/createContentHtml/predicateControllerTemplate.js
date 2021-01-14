@@ -13,11 +13,16 @@ export default function (context) {
       ${editAttributeDefinitionBlockTemplate(context)}
       Attribute "${pred}" (${valueType} type) 
       ${
-        valueType === 'string' || valueType === 'numeric'
-          ? addOrEditAndRemoveAttributeButtonTemplate(context)
-          : addOrRemoveAttributeButtonTemplate(context)
+        numberOfSelectedItems > 0
+          ? `${
+              valueType === 'string' || valueType === 'numeric'
+                ? addOrEditAndRemoveAttributeButtonTemplate(context)
+                : addOrRemoveAttributeButtonTemplate(context)
+            }
+            the ${numberOfSelectedItems} items selected
+            `
+          : ``
       }
-      the ${numberOfSelectedItems} items selected
     </div>
   </div>
   `
