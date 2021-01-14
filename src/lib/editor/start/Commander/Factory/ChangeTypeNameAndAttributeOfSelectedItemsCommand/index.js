@@ -2,7 +2,7 @@ import CompositeCommand from '../CompositeCommand'
 import ChangeAnnotationCommand from '../ChangeAnnotationCommand'
 import getChangeAttributeCommands from './getChangeAttributeCommands'
 
-export default class ChangeTypeNameAndAttributeOfSelectedEntitiesCommand extends CompositeCommand {
+export default class ChangeTypeNameAndAttributeOfSelectedItemsCommand extends CompositeCommand {
   constructor(
     editor,
     annotationData,

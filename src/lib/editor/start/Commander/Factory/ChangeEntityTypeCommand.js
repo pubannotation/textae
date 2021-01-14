@@ -1,7 +1,7 @@
 import CompositeCommand from './CompositeCommand'
 import CreateTypeDefinitionCommand from './CreateTypeDefinitionCommand'
 import ChangeTypeDefinitionCommand from './ChangeTypeDefinitionCommand'
-import ChangeTypeNameAndAttributeOfSelectedEntitiesCommand from './ChangeTypeNameAndAttributeOfSelectedEntitiesCommand'
+import ChangeTypeNameAndAttributeOfSelectedItemsCommand from './ChangeTypeNameAndAttributeOfSelectedItemsCommand'
 
 export default class ChangeEntityTypeCommand extends CompositeCommand {
   constructor(
@@ -38,7 +38,7 @@ export default class ChangeEntityTypeCommand extends CompositeCommand {
       }
     }
 
-    const changeInstanceCommand = new ChangeTypeNameAndAttributeOfSelectedEntitiesCommand(
+    const changeInstanceCommand = new ChangeTypeNameAndAttributeOfSelectedItemsCommand(
       editor,
       annotationData,
       selectionModel,
