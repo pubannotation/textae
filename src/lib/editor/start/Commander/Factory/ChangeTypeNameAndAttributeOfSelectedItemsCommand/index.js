@@ -44,6 +44,6 @@ export default class ChangeTypeNameAndAttributeOfSelectedItemsCommand extends Co
       attributes.length > 0
         ? ` and attributes ${JSON.stringify(attributes)}`
         : ``
-    } to ${annotationType} items ${itemsWithChange}`
+    } to ${annotationType} items ${itemsWithChange.map((i) => i.id)}`
   }
 }
