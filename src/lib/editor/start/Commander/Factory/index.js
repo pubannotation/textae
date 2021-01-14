@@ -3,7 +3,6 @@ import AddValueToAttributeDefinitionCommand from './AddValueToAttributeDefinitio
 import ChangeAttributeDefinitionAndRefectInstancesCommand from './ChangeAttributeDefinitionAndRefectInstancesCommand'
 import ChangeAttributesOfSelectedEntitiesWithSamePred from './ChangeAttributesOfSelectedEntitiesWithSamePred'
 import ChangeEntityTypeCommand from './ChangeEntityTypeCommand'
-import ChangeRelationLabelCommand from './ChangeRelationLabelCommand'
 import ChangeTypeDefinitionAndRefectInstancesCommand from './ChangeTypeDefinitionAndRefectInstancesCommand'
 import ChangeTypeOfSelectedItemsCommand from './ChangeTypeOfSelectedItemsCommand'
 import ChangeValueOfAttributeDefinitionAndObjectOfSelectionAttributeCommand from './ChangeValueOfAttributeDefinitionAndObjectOfSelectionAttributeCommand'
@@ -79,13 +78,14 @@ export default class Factory {
   }
 
   changeRelationLabelCommand(label, value, typeContainer) {
-    return new ChangeRelationLabelCommand(
+    return new ChangeEntityTypeCommand(
       this._editor,
       this._annotationData,
       this._selectionModel,
       label,
       value,
-      typeContainer
+      typeContainer,
+      []
     )
   }
 
