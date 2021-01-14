@@ -8,19 +8,21 @@
 4.  ブラウザの開発ツールを起動します。
 5.  以下のテストを実行して、エラーが出ないこと
 
-## パレットの Attribute タブのAttribute情報フォーマット
+## パレットの Attribute タブの Attribute 情報フォーマット
 
 1. 6.4.48 で、文言を変更しました。
+2. 6.4.49 で、文言に選択中のアイテムの数を追加し、ボタンの文言を短くしました。
 
 ### -- 手段 --
 
 1. Editor1 を選択
 2. Term モードにする
-3. `q` キーを押してパレットを開く
-4. `denote` タブを選ぶ
-5. `Attribute "denote" (selection type) が表示されること
-4. `error` タブを選ぶ
-5. `Attribute "error" (flag type) が表示されること
+3. Entity を選択しない
+4. `q` キーを押してパレットを開く
+5. `denote` タブを選ぶ
+6. `Attribute "denote" (selection type) [add to] the 0 item selected`が表示されること
+7. `error` タブを選ぶ
+8. `Attribute "error" (flag type) [add to] the 0 item selected` が表示されること
 
 ## 兄弟 Span を親 Span にする
 

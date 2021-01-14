@@ -3,6 +3,6 @@ export default function () {
 <button
   type="button"
   class="textae-editor__type-pallet__add-attribute"
-  >Add to selected entity</button>
+  >add to</button>
 `
 }

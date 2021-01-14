@@ -5,6 +5,7 @@ import editAttributeDefinitionBlockTemplate from './editAttributeDefinitionBlock
 export default function (context) {
   const { pred } = context.attrDef
   const valueType = context.attrDef['value type']
+  const { numberOfSelectedItems } = context
 
   return `
   <div class="textae-editor__type-pallet__predicate-controller">
@@ -16,6 +17,7 @@ export default function (context) {
           ? addOrEditAndRemoveAttributeButtonTemplate(context)
           : addOrRemoveAttributeButtonTemplate(context)
       }
+      the ${numberOfSelectedItems} items selected
     </div>
   </div>
   `

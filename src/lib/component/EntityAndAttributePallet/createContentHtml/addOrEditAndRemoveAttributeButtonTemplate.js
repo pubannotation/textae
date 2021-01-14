@@ -9,7 +9,7 @@ export default function (context) {
   <button
     type="button"
     class="textae-editor__type-pallet__edit-object"
-    >Edit object of selected entity</button>
+    >edit object of</button>
   ${getRemoveAttributeButton()}
   `
     : getAddAttributeButton()

@@ -3,6 +3,6 @@ export default function () {
 <button
   type="button"
   class="textae-editor__type-pallet__remove-attribute"
-  >Remove from selected entity</button>
+  >remove from</button>
 `
 }
