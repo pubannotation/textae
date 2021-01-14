@@ -10,7 +10,11 @@ export default function (context) {
     <div>
       ${editAttributeDefinitionBlockTemplate(context)}
       ${valueType} attribute: ${pred}
-      ${addOrEditAndRemoveAttributeButtonTemplate(context)}
+      ${
+        valueType === 'string' || valueType === 'numeric'
+          ? addOrEditAndRemoveAttributeButtonTemplate(context)
+          : ''
+      }
     </div>
   </div>
   `
