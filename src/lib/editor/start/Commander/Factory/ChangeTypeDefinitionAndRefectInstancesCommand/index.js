@@ -1,5 +1,5 @@
 import CompositeCommand from '../CompositeCommand'
-import createChangeConfigCommand from './createChangeConfigCommand'
+import createChangeConfigCommand from '../createChangeConfigCommand'
 import createChangeAnnotationCommands from './createChangeAnnotationCommands'
 
 export default class ChangeTypeDefinitionAndRefectInstancesCommand extends CompositeCommand {

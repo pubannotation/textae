@@ -1,6 +1,6 @@
 import CompositeCommand from './CompositeCommand'
 import ChangeTypeNameAndAttributeOfSelectedItemsCommand from './ChangeTypeNameAndAttributeOfSelectedItemsCommand'
-import createChangeConfigCommand from './ChangeTypeDefinitionAndRefectInstancesCommand/createChangeConfigCommand'
+import createChangeConfigCommand from './createChangeConfigCommand'
 
 export default class ChangeItemTypeCommand extends CompositeCommand {
   constructor(

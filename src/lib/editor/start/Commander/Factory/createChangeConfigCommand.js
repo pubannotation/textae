@@ -1,5 +1,5 @@
-import ChangeTypeDefinitionCommand from '../ChangeTypeDefinitionCommand'
-import CreateTypeDefinitionCommand from '../CreateTypeDefinitionCommand'
+import ChangeTypeDefinitionCommand from './ChangeTypeDefinitionCommand'
+import CreateTypeDefinitionCommand from './CreateTypeDefinitionCommand'
 
 export default function (
   typeContainer,
