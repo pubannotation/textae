@@ -92,10 +92,6 @@ export default class AttributeContainer {
     return this.attributes.map((a) => a.JSON)
   }
 
-  hasInstance(pred) {
-    return this._annotationDataAttribute.all.some((a) => a.pred === pred)
-  }
-
   isSelectionAttributeValueIndelible(pred, id) {
     if (this.get(pred).hasOnlyOneValue) {
       return true
