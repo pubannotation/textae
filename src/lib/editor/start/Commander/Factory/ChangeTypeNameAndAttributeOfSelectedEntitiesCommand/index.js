@@ -14,25 +14,25 @@ export default class ChangeTypeNameAndAttributeOfSelectedEntitiesCommand extends
     super()
 
     // Get only entities with changes.
-    const elementsWithChange = selectionModel[annotationType].all.filter(
-      (e) => !e.isSameType(typeName, attributes)
+    const itemsWithChange = selectionModel[annotationType].all.filter(
+      (item) => !item.isSameType(typeName, attributes)
     )
 
     // Change type of entities.
-    const changeTypeCommands = elementsWithChange.map(
-      (e) =>
+    const changeTypeCommands = itemsWithChange.map(
+      (item) =>
         new ChangeAnnotationCommand(
           editor,
           annotationData,
           annotationType,
-          e.id,
+          item.id,
           typeName
         )
     )
 
     // Change attributes
     const changeAttributeCommnads = getChangeAttributeCommands(
-      elementsWithChange,
+      itemsWithChange,
       attributes,
       annotationData,
       editor,
@@ -44,6 +44,6 @@ export default class ChangeTypeNameAndAttributeOfSelectedEntitiesCommand extends
       attributes.length > 0
         ? ` and attributes ${JSON.stringify(attributes)}`
         : ``
-    } to ${annotationType} items ${elementsWithChange}`
+    } to ${annotationType} items ${itemsWithChange}`
   }
 }
