@@ -42,7 +42,7 @@ export default class ChangeEntityTypeCommand extends CompositeCommand {
       editor,
       annotationData,
       selectionModel,
-      'entity',
+      typeContainer._annotationType,
       value,
       attributes
     )
@@ -51,9 +51,9 @@ export default class ChangeEntityTypeCommand extends CompositeCommand {
     }
 
     this._subCommands = commands
-    this._logMessage = `change entity value:"${value}"${
-      label ? `, label:"${label}"` : ``
-    }${
+    this._logMessage = `change ${
+      typeContainer._annotationType
+    } value:"${value}"${label ? `, label:"${label}"` : ``}${
       attributes.length > 0 ? `, attributes:${JSON.stringify(attributes)}` : ``
     }`
   }
