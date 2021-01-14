@@ -14,7 +14,7 @@ export default function (context) {
         <div>
           ${editAttributeDefinitionBlockTemplate(context)}
           flag attribute: ${pred}
-          ${addOrRemoveAttributeButtonTemplate(isEntityWithSamePredSelected)}
+          ${addOrRemoveAttributeButtonTemplate(context)}
         </div>
       </div>
     </div>

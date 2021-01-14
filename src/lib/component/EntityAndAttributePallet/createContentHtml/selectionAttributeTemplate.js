@@ -16,7 +16,7 @@ export default function (context) {
         <div>
           ${editAttributeDefinitionBlockTemplate(context)}
           selection attribute: ${pred}
-          ${addOrRemoveAttributeButtonTemplate(isEntityWithSamePredSelected)}
+          ${addOrRemoveAttributeButtonTemplate(context)}
         </div>
       </div>
     </div>
