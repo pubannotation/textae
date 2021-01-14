@@ -12,7 +12,8 @@ export default function (context) {
         </button>`
       : `<button
           type="button"
-          class="textae-editor__type-pallet__table-button textae-editor__type-pallet__delete-predicate">
+          class="textae-editor__type-pallet__table-button textae-editor__type-pallet__delete-predicate"
+          title="Delet this predicate.">
         </button>`
   }
   <button
