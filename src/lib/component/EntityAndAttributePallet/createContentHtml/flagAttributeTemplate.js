@@ -3,7 +3,7 @@ import addOrRemoveAttributeButtonTemplate from './addOrRemoveAttributeButtonTemp
 import editAttributeDefinitionBlockTemplate from './editAttributeDefinitionBlockTemplate'
 
 export default function (context) {
-  const { pred, hasInstance } = context.attrDef
+  const { pred } = context.attrDef
   const { isEntityWithSamePredSelected } = context
 
   return `

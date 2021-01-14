@@ -5,7 +5,7 @@ import valueButtonsTemplate from './valueButtonsTemplate'
 import showAddAttributeValueButton from './showAddAttributeValueButton'
 
 export default function (context) {
-  const { pred, default: _default, hasInstance, values } = context.attrDef
+  const { pred, default: _default, values } = context.attrDef
   const { isEntityWithSamePredSelected, isLock } = context
 
   return `
