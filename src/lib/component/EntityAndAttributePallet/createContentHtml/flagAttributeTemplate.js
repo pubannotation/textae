@@ -1,6 +1,5 @@
 import headerTemplate from './headerTemplate'
-import addOrRemoveAttributeButtonTemplate from './addOrRemoveAttributeButtonTemplate'
-import editAttributeDefinitionBlockTemplate from './editAttributeDefinitionBlockTemplate'
+import predicateControllerTemplate from './predicateControllerTemplate'
 
 export default function (context) {
   const { pred } = context.attrDef
@@ -9,13 +8,7 @@ export default function (context) {
   ${headerTemplate(context)}
   <div>
     <div class="textae-editor__type-pallet__predicate">
-      <div class="textae-editor__type-pallet__predicate-controller">
-        <div>
-          ${editAttributeDefinitionBlockTemplate(context)}
-          flag attribute: ${pred}
-          ${addOrRemoveAttributeButtonTemplate(context)}
-        </div>
-      </div>
+      ${predicateControllerTemplate(context)}
     </div>
   </div>
   `
