@@ -4,7 +4,6 @@ import editAttributeDefinitionBlockTemplate from './editAttributeDefinitionBlock
 
 export default function (context) {
   const { pred } = context.attrDef
-  const { isEntityWithSamePredSelected } = context
 
   return `
   ${headerTemplate(context)}
