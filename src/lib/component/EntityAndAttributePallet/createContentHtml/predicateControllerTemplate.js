@@ -1,4 +1,5 @@
 import addOrEditAndRemoveAttributeButtonTemplate from './addOrEditAndRemoveAttributeButtonTemplate'
+import addOrRemoveAttributeButtonTemplate from './addOrRemoveAttributeButtonTemplate'
 import editAttributeDefinitionBlockTemplate from './editAttributeDefinitionBlockTemplate'
 
 export default function (context) {
@@ -13,7 +14,7 @@ export default function (context) {
       ${
         valueType === 'string' || valueType === 'numeric'
           ? addOrEditAndRemoveAttributeButtonTemplate(context)
-          : ''
+          : addOrRemoveAttributeButtonTemplate(context)
       }
     </div>
   </div>
