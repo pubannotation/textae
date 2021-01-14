@@ -11,20 +11,20 @@ export default class ChangeTypeOfSelectedItemsCommand extends CompositeCommand {
   ) {
     super()
 
-    const elementsWithChange = selectionModel[annotationType].all.filter(
-      (e) => !e.isSameType(typeName)
+    const itemsWithChange = selectionModel[annotationType].all.filter(
+      (item) => !item.isSameType(typeName)
     )
 
-    this._subCommands = elementsWithChange.map(
-      (e) =>
+    this._subCommands = itemsWithChange.map(
+      (item) =>
         new ChangeAnnotationCommand(
           editor,
           annotationData,
           annotationType,
-          e.id,
+          item.id,
           typeName
         )
     )
-    this._logMessage = `set type ${typeName} to ${annotationType} items ${elementsWithChange}`
+    this._logMessage = `set type ${typeName} to ${annotationType} items ${itemsWithChange}`
   }
 }
