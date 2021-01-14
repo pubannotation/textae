@@ -10,7 +10,7 @@ export default function (context) {
   <div class="textae-editor__type-pallet__predicate-controller">
     <div>
       ${editAttributeDefinitionBlockTemplate(context)}
-      ${valueType} attribute: ${pred}
+      Attribute "${pred}" (${valueType} type) 
       ${
         valueType === 'string' || valueType === 'numeric'
           ? addOrEditAndRemoveAttributeButtonTemplate(context)
