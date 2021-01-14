@@ -1,7 +1,6 @@
 import CompositeCommand from './CompositeCommand'
-import CreateTypeDefinitionCommand from './CreateTypeDefinitionCommand'
-import ChangeTypeDefinitionCommand from './ChangeTypeDefinitionCommand'
 import ChangeTypeNameAndAttributeOfSelectedItemsCommand from './ChangeTypeNameAndAttributeOfSelectedItemsCommand'
+import createChangeConfigCommand from './ChangeTypeDefinitionAndRefectInstancesCommand/createChangeConfigCommand'
 
 export default class ChangeItemTypeCommand extends CompositeCommand {
   constructor(
@@ -17,25 +16,15 @@ export default class ChangeItemTypeCommand extends CompositeCommand {
 
     const commands = []
     if (label) {
-      const oldType = typeContainer.get(value)
-      if (!oldType.id) {
-        commands.push(
-          new CreateTypeDefinitionCommand(editor, typeContainer, {
-            id: value,
-            label
-          })
+      commands.push(
+        createChangeConfigCommand(
+          typeContainer,
+          value,
+          editor,
+          annotationData,
+          new Map([['label', label]])
         )
-      } else if (oldType.label !== label) {
-        commands.push(
-          new ChangeTypeDefinitionCommand(
-            editor,
-            annotationData,
-            typeContainer,
-            value,
-            new Map([['label', label]])
-          )
-        )
-      }
+      )
     }
 
     const changeInstanceCommand = new ChangeTypeNameAndAttributeOfSelectedItemsCommand(
