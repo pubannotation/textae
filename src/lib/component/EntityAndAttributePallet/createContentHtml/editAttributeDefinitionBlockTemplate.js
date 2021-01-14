@@ -8,7 +8,7 @@ export default function (context) {
           type="button"
           class="textae-editor__type-pallet__table-button textae-editor__type-pallet__table-button--disabled textae-editor__type-pallet__delete-predicate"
           disabled="disabled"
-          title="Attribute definitions with instances cannot be deleted.">
+          title="It cannot be deleted, as this attribute is used for ${numberOfItemsUsingSelectedPred.size} items.">
         </button>`
       : `<button
           type="button"
