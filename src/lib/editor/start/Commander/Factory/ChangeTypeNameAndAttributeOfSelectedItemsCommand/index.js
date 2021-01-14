@@ -13,12 +13,12 @@ export default class ChangeTypeNameAndAttributeOfSelectedItemsCommand extends Co
   ) {
     super()
 
-    // Get only entities with changes.
+    // Get only items with changes.
     const itemsWithChange = selectionModel[annotationType].all.filter(
       (item) => !item.isSameType(typeName, attributes)
     )
 
-    // Change type of entities.
+    // Change type of items.
     const changeTypeCommands = itemsWithChange.map(
       (item) =>
         new ChangeAnnotationCommand(
