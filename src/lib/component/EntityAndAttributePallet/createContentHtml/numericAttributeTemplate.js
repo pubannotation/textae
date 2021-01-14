@@ -1,23 +1,7 @@
 import headerTemplate from './headerTemplate'
-import addOrEditAndRemoveAttributeButtonTemplate from './addOrEditAndRemoveAttributeButtonTemplate'
-import editAttributeDefinitionBlockTemplate from './editAttributeDefinitionBlockTemplate'
 import valueButtonsTemplate from './valueButtonsTemplate'
 import showAddAttributeValueButton from './showAddAttributeValueButton'
-
-function predicateControllerTemplate(context) {
-  const { pred } = context.attrDef
-  const valueType = context.attrDef['value type']
-
-  return `
-  <div class="textae-editor__type-pallet__predicate-controller">
-    <div>
-      ${editAttributeDefinitionBlockTemplate(context)}
-      ${valueType} attribute: ${pred}
-      ${addOrEditAndRemoveAttributeButtonTemplate(context)}
-    </div>
-  </div>
-  `
-}
+import predicateControllerTemplate from './predicateControllerTemplate'
 
 export default function (context) {
   const { pred, min, max, step, default: _default, values } = context.attrDef
