@@ -1,7 +1,7 @@
 import CompositeCommand from './CompositeCommand'
 import CreateTypeDefinitionCommand from './CreateTypeDefinitionCommand'
 import ChangeTypeDefinitionCommand from './ChangeTypeDefinitionCommand'
-import ChangeTypeOfSelectedItemsCommand from './ChangeTypeOfSelectedItemsCommand'
+import ChangeTypeNameAndAttributeOfSelectedItemsCommand from './ChangeTypeNameAndAttributeOfSelectedItemsCommand'
 
 export default class ChangeRelationLabelCommand extends CompositeCommand {
   constructor(
@@ -37,12 +37,13 @@ export default class ChangeRelationLabelCommand extends CompositeCommand {
       }
     }
 
-    const changeInstanceCommand = new ChangeTypeOfSelectedItemsCommand(
+    const changeInstanceCommand = new ChangeTypeNameAndAttributeOfSelectedItemsCommand(
       editor,
       annotationData,
       selectionModel,
       'relation',
-      value
+      value,
+      []
     )
     if (!changeInstanceCommand.isEmpty) {
       commands.push(changeInstanceCommand)
