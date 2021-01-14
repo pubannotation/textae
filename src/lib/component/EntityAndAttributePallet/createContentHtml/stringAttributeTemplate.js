@@ -6,7 +6,7 @@ import showAddAttributeValueButton from './showAddAttributeValueButton'
 
 export default function (context) {
   const { pred, default: _default, values } = context.attrDef
-  const { isEntityWithSamePredSelected, isLock } = context
+  const { isLock } = context
 
   return `
   ${headerTemplate(context)}
