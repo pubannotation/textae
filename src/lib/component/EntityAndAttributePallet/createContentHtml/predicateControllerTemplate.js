@@ -3,9 +3,9 @@ import addOrRemoveAttributeButtonTemplate from './addOrRemoveAttributeButtonTemp
 import editAttributeDefinitionBlockTemplate from './editAttributeDefinitionBlockTemplate'
 
 export default function (context) {
-  const { pred } = context.attrDef
-  const valueType = context.attrDef['value type']
-  const { numberOfSelectedItems } = context
+  const { attrDef, numberOfSelectedItems } = context
+  const { pred } = attrDef
+  const valueType = attrDef['value type']
 
   return `
   <div class="textae-editor__type-pallet__predicate-controller">
