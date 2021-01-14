@@ -6,7 +6,6 @@ import ChangeEntityTypeCommand from './ChangeEntityTypeCommand'
 import ChangeRelationLabelCommand from './ChangeRelationLabelCommand'
 import ChangeTypeDefinitionAndRefectInstancesCommand from './ChangeTypeDefinitionAndRefectInstancesCommand'
 import ChangeTypeOfSelectedRelationsCommand from './ChangeTypeOfSelectedRelationsCommand'
-import ChangeTypeOfSelectedEntitiesCommand from './ChangeTypeOfSelectedEntitiesCommand'
 import ChangeValueOfAttributeDefinitionAndObjectOfSelectionAttributeCommand from './ChangeValueOfAttributeDefinitionAndObjectOfSelectionAttributeCommand'
 import CreateAttributeDefinitionCommand from './CreateAttributeDefinitionCommand'
 import CreateAttributeToSelectedEntitiesCommand from './CreateAttributeToSelectedEntitiesCommand'
@@ -117,10 +116,11 @@ export default class Factory {
   }
 
   changeTypeOfSelectedEntitiesCommand(newType) {
-    return new ChangeTypeOfSelectedEntitiesCommand(
+    return new ChangeTypeOfSelectedRelationsCommand(
       this._editor,
       this._annotationData,
       this._selectionModel,
+      'entity',
       newType
     )
   }
