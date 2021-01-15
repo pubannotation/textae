@@ -13,6 +13,7 @@ export default function (context) {
         type="button"
         class="textae-editor__type-pallet__remove-attribute"
         disabled="disabled"
+        title="None of the selected items has this attribute."
         >remove from</button>
       `
 }
