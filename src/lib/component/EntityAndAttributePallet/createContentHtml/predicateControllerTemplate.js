@@ -11,7 +11,13 @@ export default function (context) {
   <div class="textae-editor__type-pallet__predicate-controller">
     <div>
       ${editAttributeDefinitionBlockTemplate(context)}
-      Attribute "${pred}" (${valueType} type) 
+      Attribute "${pred}" (
+        <span
+          class="textae-editor__type-pallet__predicate__value-type textae-editor__type-pallet__predicate__value-type--${valueType}"
+          title="${valueType} type">
+          type
+        </span>
+      ) 
       ${
         numberOfSelectedItems > 0
           ? `${
