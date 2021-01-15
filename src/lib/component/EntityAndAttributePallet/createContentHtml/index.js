@@ -47,6 +47,9 @@ export default function (
     isEntityWithSamePredSelected: selectionModelItems.selectedWithAttributeOf(
       selectedPred
     ),
+    isEntityWithoutSamePredSelected: selectionModelItems.selectedWithoutAttributeOf(
+      selectedPred
+    ),
     numberOfItemsUsingSelectedPred: new Set(
       attributeInstances
         .filter((a) => a.pred === selectedPred)
