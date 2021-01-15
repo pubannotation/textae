@@ -28,8 +28,7 @@ export default function (context) {
           ? `
             ${getAddAttributeButton(context)}
             ${getEditAttributeButton(context)}
-            ${isEntityWithSamePredSelected ? getRemoveAttributeButton() : ``}
-            the ${numberOfSelectedItems} items selected
+            ${getRemoveAttributeButton(context)}
             `
           : ``
       }
