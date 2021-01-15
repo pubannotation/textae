@@ -1,9 +1,14 @@
 import addOrEditAndRemoveAttributeButtonTemplate from './addOrEditAndRemoveAttributeButtonTemplate'
-import addOrRemoveAttributeButtonTemplate from './addOrRemoveAttributeButtonTemplate'
 import editAttributeDefinitionBlockTemplate from './editAttributeDefinitionBlockTemplate'
+import getAddAttributeButton from './getAddAttributeButton'
+import getRemoveAttributeButton from './getRemoveAttributeButton'
 
 export default function (context) {
-  const { attrDef, numberOfSelectedItems } = context
+  const {
+    attrDef,
+    numberOfSelectedItems,
+    isEntityWithSamePredSelected
+  } = context
   const { pred } = attrDef
   const valueType = attrDef['value type']
 
@@ -23,7 +28,9 @@ export default function (context) {
           ? `${
               valueType === 'string' || valueType === 'numeric'
                 ? addOrEditAndRemoveAttributeButtonTemplate(context)
-                : addOrRemoveAttributeButtonTemplate(context)
+                : isEntityWithSamePredSelected
+                ? getRemoveAttributeButton()
+                : getAddAttributeButton()
             }
             the ${numberOfSelectedItems} items selected
             `
