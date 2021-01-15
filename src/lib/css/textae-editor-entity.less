@@ -183,6 +183,9 @@
   &__mode--block-without-relation {
     .textae-editor__block-hit-area {
       background-color: fade(@baseColor, 25%);
+      &:hover {
+        .entity-shadow();
+      }
       &.ui-selected {
         background-color: rgba(255, 200, 100, 0.9);
         border-color: @selected;
