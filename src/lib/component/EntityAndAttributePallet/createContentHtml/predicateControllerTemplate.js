@@ -24,7 +24,7 @@ export default function (context) {
       ) 
       ${
         numberOfSelectedItems > 0
-          ? `${
+          ? `${getAddAttributeButton(context)}${
               valueType === 'string' || valueType === 'numeric'
                 ? isEntityWithSamePredSelected
                   ? `
@@ -34,10 +34,10 @@ export default function (context) {
                   >edit object of</button>
                 ${getRemoveAttributeButton()}
                 `
-                  : getAddAttributeButton()
+                  : ``
                 : isEntityWithSamePredSelected
                 ? getRemoveAttributeButton()
-                : getAddAttributeButton()
+                : ``
             }
             the ${numberOfSelectedItems} items selected
             `
