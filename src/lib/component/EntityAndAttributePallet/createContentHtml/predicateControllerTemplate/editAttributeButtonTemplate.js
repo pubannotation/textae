@@ -1,9 +1,9 @@
 export default function (context) {
-  const { attrDef, isEntityWithSamePredSelected } = context
+  const { attrDef, isOnlyEntityWithJsutOneSamePredSelected } = context
   const valueType = attrDef['value type']
 
   return valueType === 'string' || valueType === 'numeric'
-    ? isEntityWithSamePredSelected
+    ? isOnlyEntityWithJsutOneSamePredSelected
       ? `
         <button
           type="button"

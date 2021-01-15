@@ -752,6 +752,18 @@
       "subj": "B1",
       "pred": "denote",
       "obj": "http://www.yahoo.co.jp/eeeeeeeeeeeeeeeeeoaoeuaoeuaoue"
+    },
+    {
+      "id": "A16",
+      "subj": "E18",
+      "pred": "free_text_predicate",
+      "obj": "dupulicated text 1"
+    },
+    {
+      "id": "A17",
+      "subj": "E18",
+      "pred": "free_text_predicate",
+      "obj": "dupulicated text 2"
     }
   ],
   "relations": [

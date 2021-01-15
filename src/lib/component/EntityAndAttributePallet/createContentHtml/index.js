@@ -50,6 +50,9 @@ export default function (
     isEntityWithoutSamePredSelected: selectionModelItems.selectedWithoutAttributeOf(
       selectedPred
     ),
+    isOnlyEntityWithJsutOneSamePredSelected: selectionModelItems.onlySelectedWithJustOneAttributeOf(
+      selectedPred
+    ),
     numberOfItemsUsingSelectedPred: new Set(
       attributeInstances
         .filter((a) => a.pred === selectedPred)
