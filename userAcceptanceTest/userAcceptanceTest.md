@@ -8,6 +8,36 @@
 4.  ブラウザの開発ツールを起動します。
 5.  以下のテストを実行して、エラーが出ないこと
 
+## パレットの Attribute タブの Attribute 情報フォーマット
+
+1. 6.4.48 で、文言を変更しました。
+2. 6.4.49 で、文言に選択中のアイテムの数を追加し、ボタンの文言を短くしました。
+3. 6.4.50 で、アイテムを選択していないときは、ボタンを表示しなくしました。
+4. 6.4.51 で、value type の説明をアイコンに変更しました。
+5. 6.4.55 で、Attribute 追加変更削除ボタンの表示・非表示切り替えを、有効・無効切り替えに変更しました
+
+### -- 手段 --
+
+1. Editor1 を選択
+2. Term モードにする
+3. Attribute のない Entity を一つ選択する
+4. `q` キーを押してパレットを開く
+5. `denote` タブを選ぶ
+6. `Attribute "denote" ([list icon]) type) [add to] [remove from] the 1 item selected`が表示されること
+7. `add to`ボタンが有効であること
+8. `remove from`ボタンが無効であること
+9. `error` タブを選ぶ
+10. `Attribute "score" ([checkbox icon] type) [add to] [edit object of] [remove from]the 1 item selected` が表示されること
+11. `add to`ボタンが有効であること
+12. `edit object of`ボタンが無効であること
+13. `remove from`ボタンが無効であること
+14. Entity の選択を解除する
+15. `q` キーを押してパレットを開く
+16. `denote` タブを選ぶ
+17. `Attribute "denote" ([list icon]) type)`が表示されること
+18. `error` タブを選ぶ
+19. `Attribute "error" ([checkbox icon] type)` が表示されること
+
 ## String Attribute インスタンスの Obcjet 変更
 
 ### 背景
@@ -31,8 +61,8 @@
 7. `edit_object`ボタンをクリック
 8. String Attribute ダイアログの`Object`を`par`に変更
 9. 表示された候補を選択
-9. `OK`ボタンをクリック
-10. エラーが起きないこと
+10. `OK`ボタンをクリック
+11. エラーが起きないこと
 
 ## Lock Edit Config 有効時のパレットの表示項目
 
@@ -162,30 +192,6 @@
 9. Attribute 定義が削除されないこと
 10. `score` タブを選ぶ
 11. `Delete this predicate.`ボタンが有効であること
-
-## パレットの Attribute タブの Attribute 情報フォーマット
-
-1. 6.4.48 で、文言を変更しました。
-2. 6.4.49 で、文言に選択中のアイテムの数を追加し、ボタンの文言を短くしました。
-3. 6.4.50 で、アイテムを選択していないときは、ボタンを表示しなくしました。
-4. 6.4.51 で、value type の説明をアイコンに変更しました。
-
-### -- 手段 --
-
-1. Editor1 を選択
-2. Term モードにする
-3. Entity を一つ選択する
-4. `q` キーを押してパレットを開く
-5. `denote` タブを選ぶ
-6. `Attribute "denote" ([list icon]) type) [add to] the 1 item selected`が表示されること
-7. `error` タブを選ぶ
-8. `Attribute "error" ([checkbox icon] type) [add to] the 1 item selected` が表示されること
-9. Entity の選択を解除する
-10. `q` キーを押してパレットを開く
-11. `denote` タブを選ぶ
-12. `Attribute "denote" ([list icon]) type)`が表示されること
-13. `error` タブを選ぶ
-14. `Attribute "error" ([checkbox icon] type)` が表示されること
 
 ## 兄弟 Span を親 Span にする
 
