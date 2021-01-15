@@ -1,7 +1,7 @@
 import SelectedElements from './SelectedElements'
 
 export default class EntityContainer extends SelectedElements {
-  isSamePredAttrributeSelected(pred) {
+  selectedWithAttributeOf(pred) {
     return this.all.some((entity) =>
       entity.attributes.find((attribute) => attribute.pred === pred)
     )

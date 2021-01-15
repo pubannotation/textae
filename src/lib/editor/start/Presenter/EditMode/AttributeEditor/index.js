@@ -20,9 +20,7 @@ export default class AttributeEditor {
   }
 
   selectionAttributeLabelClick(attrDef, newObj) {
-    if (
-      this._selectionModel.entity.isSamePredAttrributeSelected(attrDef.pred)
-    ) {
+    if (this._selectionModel.entity.selectedWithAttributeOf(attrDef.pred)) {
       if (
         this._selectionModel.entity.isDupulicatedPredAttrributeSelected(
           attrDef.pred

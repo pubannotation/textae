@@ -44,7 +44,7 @@ export default function (
       attributeContainer.attributes.length - 1,
     addAttribute,
     selectedEntityLabel: getSelectedEntityLabel(selectionModelItems.size),
-    isEntityWithSamePredSelected: selectionModelItems.isSamePredAttrributeSelected(
+    isEntityWithSamePredSelected: selectionModelItems.selectedWithAttributeOf(
       selectedPred
     ),
     numberOfItemsUsingSelectedPred: new Set(
