@@ -4,11 +4,7 @@ import editAttributeButtonTemplate from './editAttributeButtonTemplate'
 import editRemoveAttributeButton from './editRemoveAttributeButton'
 
 export default function (context) {
-  const {
-    attrDef,
-    numberOfSelectedItems,
-    isEntityWithSamePredSelected
-  } = context
+  const { attrDef, numberOfSelectedItems } = context
   const { pred } = attrDef
   const valueType = attrDef['value type']
 
