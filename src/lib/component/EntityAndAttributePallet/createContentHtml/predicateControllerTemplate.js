@@ -1,4 +1,3 @@
-import addOrEditAndRemoveAttributeButtonTemplate from './addOrEditAndRemoveAttributeButtonTemplate'
 import editAttributeDefinitionBlockTemplate from './editAttributeDefinitionBlockTemplate'
 import getAddAttributeButton from './getAddAttributeButton'
 import getRemoveAttributeButton from './getRemoveAttributeButton'
@@ -27,7 +26,15 @@ export default function (context) {
         numberOfSelectedItems > 0
           ? `${
               valueType === 'string' || valueType === 'numeric'
-                ? addOrEditAndRemoveAttributeButtonTemplate(context)
+                ? isEntityWithSamePredSelected
+                  ? `
+                <button
+                  type="button"
+                  class="textae-editor__type-pallet__edit-object"
+                  >edit object of</button>
+                ${getRemoveAttributeButton()}
+                `
+                  : getAddAttributeButton()
                 : isEntityWithSamePredSelected
                 ? getRemoveAttributeButton()
                 : getAddAttributeButton()
