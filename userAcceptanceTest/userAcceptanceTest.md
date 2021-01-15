@@ -13,6 +13,7 @@
 ### 背景
 
 1. 6.4.59 で、Attribute 編集ボタンを有効にする条件を、選択アイテムが「一つでも該当アトリビュートを持つ」から「すべてが該当アトリビュートをひとつだけ持つ」に変えました
+1. 6.4.60 で無効理由を title タグで記述します
 
 ### -- 手段 --
 
@@ -22,14 +23,15 @@
 4. `q` キーを押してパレットを開く
 5. `free_text` タブを選ぶ
 6. `edit_ofject_of`ボタンが無効であること
-7. `add to`ボタンを押す
-8. `edit_ofject_of`ボタンが有効になること
-9. `E18`を追加選択する
-10. `edit_ofject_of`ボタンが無効になること
-11. `E18`だけを選択解除する
-12. `edit_ofject_of`ボタンが有効になること
-13. Attribute のない Entity を一つ追加選択する
-14. `edit_ofject_of`ボタンが無効になること
+7. title が`Some selected items has zero or multi this attribute.`であること
+8. `add to`ボタンを押す
+9. `edit_ofject_of`ボタンが有効になること
+10. `E18`を追加選択する
+11. `edit_ofject_of`ボタンが無効になること
+12. `E18`だけを選択解除する
+13. `edit_ofject_of`ボタンが有効になること
+14. Attribute のない Entity を一つ追加選択する
+15. `edit_ofject_of`ボタンが無効になること
 
 ## 該当アトリビュートを持つアイテムを選択しているときに、パレットの Attribute 削除ボタンを有効にする
 

@@ -16,6 +16,7 @@ export default function (context) {
           type="button"
           class="textae-editor__type-pallet__edit-object"
           disabled="disabled"
+          title="Some selected items has zero or multi this attribute."
           >edit object of
         </button>
       `
