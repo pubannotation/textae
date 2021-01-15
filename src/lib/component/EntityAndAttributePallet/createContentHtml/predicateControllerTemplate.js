@@ -24,21 +24,10 @@ export default function (context) {
       ) 
       ${
         numberOfSelectedItems > 0
-          ? `${getAddAttributeButton(context)}${
-              valueType === 'string' || valueType === 'numeric'
-                ? isEntityWithSamePredSelected
-                  ? `
-                <button
-                  type="button"
-                  class="textae-editor__type-pallet__edit-object"
-                  >edit object of</button>
-                ${getRemoveAttributeButton()}
-                `
-                  : ``
-                : isEntityWithSamePredSelected
-                ? getRemoveAttributeButton()
-                : ``
-            }
+          ? `
+            ${getAddAttributeButton(context)}
+            ${getEditAttributeButton(context)}
+            ${isEntityWithSamePredSelected ? getRemoveAttributeButton() : ``}
             the ${numberOfSelectedItems} items selected
             `
           : ``
@@ -46,4 +35,19 @@ export default function (context) {
     </div>
   </div>
   `
+}
+
+function getEditAttributeButton(context) {
+  const { attrDef, isEntityWithSamePredSelected } = context
+  const valueType = attrDef['value type']
+
+  return (valueType === 'string' || valueType === 'numeric') &&
+    isEntityWithSamePredSelected
+    ? `
+      <button
+        type="button"
+        class="textae-editor__type-pallet__edit-object"
+        >edit object of</button>
+    `
+    : ``
 }
