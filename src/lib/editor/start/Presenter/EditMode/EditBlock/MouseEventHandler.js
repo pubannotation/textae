@@ -35,6 +35,7 @@ export default class MouseEventHandler {
     const selection = window.getSelection()
 
     if (selection.type === 'Caret') {
+      this._pallet.hide()
       clearTextSelection()
       this._selectionModel.removeAll()
     }
