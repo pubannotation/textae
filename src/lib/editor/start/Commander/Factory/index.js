@@ -58,7 +58,7 @@ export default class Factory {
     return new ChangeAttributesOfSelectedEntitiesWithSamePred(
       this._annotationData,
       this._selectionModel,
-      this._annotationData.typeDefinition.denotation,
+      this._annotationData.typeDefinition.attribute,
       attributeDefinition,
       newObj,
       newLabel
