@@ -7,6 +7,14 @@ export default class EntityContainer extends SelectedElements {
     )
   }
 
+  onlySelectedWithJustOneAttributeOf(pred) {
+    return this.all.every(
+      (entity) =>
+        entity.attributes.filter((attribute) => attribute.pred === pred)
+          .length === 1
+    )
+  }
+
   selectedWithoutAttributeOf(pred) {
     return this.all.some(
       (entity) =>
