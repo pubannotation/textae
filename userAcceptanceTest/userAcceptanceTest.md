@@ -21,8 +21,10 @@
 3. Attribute のない Entity を一つ選択する
 4. `q` キーを押してパレットを開く
 5. `denote` タブを選ぶ
-6. `remove form`ボタンが無効になること
+6. `remove form`ボタンが無効であること
 7. title が`None of the selected items has this attribute.`であること
+8. `add to`ボタンを押す
+9. `remove form`ボタンが有効になること
 
 ## 該当アトリビュートを持たないアイテムを選択しているときに、パレットの Attribute 追加ボタンを有効にする
 
