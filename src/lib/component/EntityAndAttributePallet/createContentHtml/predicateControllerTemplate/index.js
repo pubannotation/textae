@@ -1,6 +1,6 @@
 import editAttributeDefinitionBlockTemplate from '../editAttributeDefinitionBlockTemplate'
 import addAttributeButtonTempalte from './addAttributeButtonTemplate'
-import getEditAttributeButton from './getEditAttributeButton'
+import editAttributeButtonTemplate from './editAttributeButtonTemplate'
 import getRemoveAttributeButton from './getRemoveAttributeButton'
 
 export default function (context) {
@@ -27,7 +27,7 @@ export default function (context) {
         numberOfSelectedItems > 0
           ? `
             ${addAttributeButtonTempalte(context)}
-            ${getEditAttributeButton(context)}
+            ${editAttributeButtonTemplate(context)}
             ${getRemoveAttributeButton(context)}
             `
           : ``
