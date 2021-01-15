@@ -1,5 +1,6 @@
 import editAttributeDefinitionBlockTemplate from './editAttributeDefinitionBlockTemplate'
 import getAddAttributeButton from './getAddAttributeButton'
+import getEditAttributeButton from './getEditAttributeButton'
 import getRemoveAttributeButton from './getRemoveAttributeButton'
 
 export default function (context) {
@@ -35,19 +36,4 @@ export default function (context) {
     </div>
   </div>
   `
-}
-
-function getEditAttributeButton(context) {
-  const { attrDef, isEntityWithSamePredSelected } = context
-  const valueType = attrDef['value type']
-
-  return (valueType === 'string' || valueType === 'numeric') &&
-    isEntityWithSamePredSelected
-    ? `
-      <button
-        type="button"
-        class="textae-editor__type-pallet__edit-object"
-        >edit object of</button>
-    `
-    : ``
 }
