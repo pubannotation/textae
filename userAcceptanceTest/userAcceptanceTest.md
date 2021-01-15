@@ -16,30 +16,34 @@
 2.  DenotationEntity はどのモードでもホバーするとシャドウがついていました
 3.  BlockEntity のヒットエリアはホバー時にシャドウはついていませんでした
 4.  6.4.64 で、この動作を統一し、選択できるモードのとき Entity をホバーするとシャドウをつける対応をしました。
+5.  6.4.65 で、シャドウのほかに、カーソルを指にしました。
 
 ### -- 手段 --
 
 1. Editor1 を選択
 2. Term モードにする
 3. DenotationEntity をホバーする
-4. シャドウがつくこと
-5. BlockEntity をホバーする
-6. シャドウがつかないこと
-7. Block モードにする
-8. DenotationEntity をホバーする
-9. シャドウがつかないこと
-10. BlockEntity をホバーする
-11. シャドウがつくこと
-12. Relation モードにする
-13. DenotationEntity をホバーする
-14. シャドウがつくこと
-15. BlockEntity をホバーする
-16. シャドウがつかないこと
-17. View モードにする
-18. DenotationEntity をホバーする
+4. マウスカーソルが指になること
+5. シャドウがつくこと
+6. BlockEntity をホバーする
+7. シャドウがつかないこと
+8. Block モードにする
+9. DenotationEntity をホバーする
+10. シャドウがつかないこと
+11. BlockEntity をホバーする
+12. マウスカーソルが指になること
+13. シャドウがつくこと
+14. Relation モードにする
+15. DenotationEntity をホバーする
+16. マウスカーソルが指になること
+17. シャドウがつくこと
+18. BlockEntity をホバーする
 19. シャドウがつかないこと
-20. BlockEntity をホバーする
-21. シャドウがつかないこと
+20. View モードにする
+21. DenotationEntity をホバーする
+22. シャドウがつかないこと
+23. BlockEntity をホバーする
+24. シャドウがつかないこと
 
 ## BlockSpan のヒットエリア
 
