@@ -10,7 +10,7 @@ export default function (
   types,
   hasDiff,
   selectedPred,
-  selectionModelEntity,
+  selectionModelItems,
   attributeContainer,
   attributeInstances,
   isLock
@@ -25,7 +25,7 @@ export default function (
       hasDiff,
       types,
       addAttribute,
-      selectedEntityLabel: getSelectedEntityLabel(selectionModelEntity.size)
+      selectedEntityLabel: getSelectedEntityLabel(selectionModelItems.size)
     })
   }
 
@@ -43,8 +43,8 @@ export default function (
       attributeContainer.attributes.indexOf(attrDef) ===
       attributeContainer.attributes.length - 1,
     addAttribute,
-    selectedEntityLabel: getSelectedEntityLabel(selectionModelEntity.size),
-    isEntityWithSamePredSelected: selectionModelEntity.isSamePredAttrributeSelected(
+    selectedEntityLabel: getSelectedEntityLabel(selectionModelItems.size),
+    isEntityWithSamePredSelected: selectionModelItems.isSamePredAttrributeSelected(
       selectedPred
     ),
     numberOfItemsUsingSelectedPred: new Set(
@@ -52,7 +52,7 @@ export default function (
         .filter((a) => a.pred === selectedPred)
         .map((a) => a.subj)
     ),
-    numberOfSelectedItems: selectionModelEntity.size
+    numberOfSelectedItems: selectionModelItems.size
   }
 
   switch (attrDef.valueType) {
