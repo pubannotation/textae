@@ -1,7 +1,7 @@
 import editAttributeDefinitionBlockTemplate from '../editAttributeDefinitionBlockTemplate'
 import addAttributeButtonTempalte from './addAttributeButtonTemplate'
 import editAttributeButtonTemplate from './editAttributeButtonTemplate'
-import getRemoveAttributeButton from './getRemoveAttributeButton'
+import editRemoveAttributeButton from './editRemoveAttributeButton'
 
 export default function (context) {
   const {
@@ -28,7 +28,7 @@ export default function (context) {
           ? `
             ${addAttributeButtonTempalte(context)}
             ${editAttributeButtonTemplate(context)}
-            ${getRemoveAttributeButton(context)}
+            ${editRemoveAttributeButton(context)}
             `
           : ``
       }
