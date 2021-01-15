@@ -1,5 +1,20 @@
 export default function (context) {
-  const { numberOfItemsUsingSelectedPred } = context
+  const { isLock, numberOfItemsUsingSelectedPred } = context
+
+  if (isLock) {
+    return `
+      <button 
+        type="button"
+        class="textae-editor__type-pallet__table-button textae-editor__type-pallet__table-button--disabled textae-editor__type-pallet__delete-predicate"
+        disabled="disabled">
+      </button>
+      <button
+        type="button"
+        class="textae-editor__type-pallet__table-button textae-editor__type-pallet__table-button--disabled textae-editor__type-pallet__edit-predicate"
+        disabled="disabled">
+      </button>
+    `
+  }
 
   return `
     ${

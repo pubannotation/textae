@@ -10,6 +10,10 @@
 
 ## Lock Edit Config 有効時のパレットの表示項目
 
+### 背景
+
+1.  6.4.52 で `Lock Edit Config`有効時に、Attribute タブの、定義削除ボタン、定義編集ボタンを無効にしました。
+
 ### -- 手段 --
 
 1.  Editor1 を選択
@@ -20,6 +24,9 @@
 6.  編集ボタンが表示されないこと
 7.  削除ボタンが表示されないこと
 8.  Attirbute 追加タブが表示されないこと
+9.  `denote` タブを選ぶ
+10. `Delete this predicate.`ボタンが無効であること
+11. `Edit this predicate.`ボタンが無効であること
 
 ## パレットの表示項目
 
