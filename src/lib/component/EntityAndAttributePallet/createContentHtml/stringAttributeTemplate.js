@@ -24,8 +24,9 @@ export default function (context) {
           ${showAddAttributeValueButton(isLock)}
         </tr>
         ${values
-          .map(({ color, pattern = '', label = '', indelible }, index) => {
-            return `
+          .map(
+            ({ color = ' ', pattern = '', label = '', indelible }, index) => {
+              return `
         <tr class="textae-editor__type-pallet__row" style="background-color: ${color};">
           <td class="textae-editor__type-pallet__attribute-label">
             ${pattern}
@@ -38,7 +39,8 @@ export default function (context) {
           </td>
           ${valueButtonsTemplate(isLock, index, indelible)}
         </tr>`
-          })
+            }
+          )
           .join('\n')}
       </tbody>
     </table>
