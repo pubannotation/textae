@@ -1,7 +1,7 @@
 import editAttributeDefinitionBlockTemplate from '../editAttributeDefinitionBlockTemplate'
 import addAttributeButtonTempalte from './addAttributeButtonTemplate'
 import editAttributeButtonTemplate from './editAttributeButtonTemplate'
-import editRemoveAttributeButton from './editRemoveAttributeButton'
+import removeAttributeButtonTemplate from './removeAttributeButtonTemplate'
 
 export default function (context) {
   const { attrDef, numberOfSelectedItems } = context
@@ -24,7 +24,7 @@ export default function (context) {
           ? `
             ${addAttributeButtonTempalte(context)}
             ${editAttributeButtonTemplate(context)}
-            ${editRemoveAttributeButton(context)}
+            ${removeAttributeButtonTemplate(context)}
             `
           : ``
       }
