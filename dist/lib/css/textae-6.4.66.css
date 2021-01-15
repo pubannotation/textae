@@ -2330,15 +2330,13 @@ a.ui-button:active,
 .textae-editor__mode--block-without-relation .textae-editor__block-bg {
   border-width: 1px 1px 1px 0;
 }
-.textae-editor__mode--relation {
-  cursor: pointer;
-}
 .textae-editor__mode--relation .textae-editor__span:hover {
   text-shadow: none;
   padding: 0;
 }
 .textae-editor__mode--relation .textae-editor__relation,
 .textae-editor__mode--relation .textae-editor__relation__label {
+  cursor: pointer;
   z-index: 1;
 }
 .textae-editor__mode--relation .textae-editor__relation:hover,
