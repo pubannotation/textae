@@ -3,7 +3,7 @@ import SelectedElements from './SelectedElements'
 export default class EntityContainer extends SelectedElements {
   selectedWithAttributeOf(pred) {
     return this.all.some((entity) =>
-      entity.attributes.find((attribute) => attribute.pred === pred)
+      entity.attributes.some((attribute) => attribute.pred === pred)
     )
   }
 
