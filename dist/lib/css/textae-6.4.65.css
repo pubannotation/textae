@@ -2517,6 +2517,11 @@ a.ui-button:active,
 }
 .textae-editor__mode--denotation-with-relation .textae-editor__entity__type-values,
 .textae-editor__mode--denotation-without-relation .textae-editor__entity__type-values,
+.textae-editor__mode--relation .textae-editor__entity__type-values {
+  cursor: pointer;
+}
+.textae-editor__mode--denotation-with-relation .textae-editor__entity__type-values,
+.textae-editor__mode--denotation-without-relation .textae-editor__entity__type-values,
 .textae-editor__mode--block-with-relation .textae-editor__entity__type-values,
 .textae-editor__mode--block-without-relation .textae-editor__entity__type-values,
 .textae-editor__mode--relation .textae-editor__entity__type-values {
@@ -2577,6 +2582,7 @@ a.ui-button:active,
 .textae-editor__mode--block-with-relation .textae-editor__block-hit-area,
 .textae-editor__mode--block-without-relation .textae-editor__block-hit-area {
   background-color: rgba(100, 100, 215, 0.25);
+  cursor: pointer;
 }
 .textae-editor__mode--block-with-relation .textae-editor__block-hit-area:hover,
 .textae-editor__mode--block-without-relation .textae-editor__block-hit-area:hover {
