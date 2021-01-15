@@ -2442,7 +2442,6 @@ a.ui-button:active,
   user-select: none;
   -webkit-touch-callout: none;
   z-index: 1;
-  box-shadow: 1px 1px 10px #600;
 }
 .textae-editor__entity__type-label {
   border-width: 1px;
@@ -2460,12 +2459,8 @@ a.ui-button:active,
   z-index: 2;
 }
 .textae-editor__entity:hover .textae-editor__entity__type-values {
-  z-index: 2;
-}
-.textae-editor__entity:hover .textae-editor__entity__type-values {
   opacity: 1;
   overflow: visible;
-  box-shadow: 1px 1px 10px #600;
 }
 .textae-editor__entity:hover .textae-editor__entity__type-values.ui-selected {
   box-shadow: 0 0 0 2pt red;
@@ -2483,13 +2478,6 @@ a.ui-button:active,
   border-bottom-color: white;
   display: inline-block;
   padding: 0 4px;
-}
-.textae-editor__entity.ui-selected {
-  z-index: 2;
-}
-.textae-editor__entity.ui-selected .textae-editor__entity__type-values {
-  box-shadow: 0 0 0 2pt red;
-  z-index: 2;
 }
 .textae-editor__entity.ui-to-be-cut .textae-editor__entity__type-values {
   opacity: 0.5;
@@ -2511,6 +2499,21 @@ a.ui-button:active,
 }
 .textae-editor__mode--relation .textae-editor__type:hover .textae-editor__entity__type-values {
   opacity: 0.9;
+}
+.textae-editor__mode--denotation-with-relation .textae-editor__entity:hover .textae-editor__entity__type-values,
+.textae-editor__mode--denotation-without-relation .textae-editor__entity:hover .textae-editor__entity__type-values,
+.textae-editor__mode--relation .textae-editor__entity:hover .textae-editor__entity__type-values {
+  box-shadow: 1px 1px 10px #600;
+}
+.textae-editor__mode--denotation-with-relation .textae-editor__entity.ui-selected,
+.textae-editor__mode--denotation-without-relation .textae-editor__entity.ui-selected,
+.textae-editor__mode--relation .textae-editor__entity.ui-selected {
+  z-index: 2;
+}
+.textae-editor__mode--denotation-with-relation .textae-editor__entity.ui-selected .textae-editor__entity__type-values,
+.textae-editor__mode--denotation-without-relation .textae-editor__entity.ui-selected .textae-editor__entity__type-values,
+.textae-editor__mode--relation .textae-editor__entity.ui-selected .textae-editor__entity__type-values {
+  box-shadow: 0 0 0 2pt red;
 }
 .textae-editor__mode--denotation-with-relation .textae-editor__entity__type-values,
 .textae-editor__mode--denotation-without-relation .textae-editor__entity__type-values,
@@ -2574,6 +2577,10 @@ a.ui-button:active,
 .textae-editor__mode--block-with-relation .textae-editor__block-hit-area,
 .textae-editor__mode--block-without-relation .textae-editor__block-hit-area {
   background-color: rgba(100, 100, 215, 0.25);
+}
+.textae-editor__mode--block-with-relation .textae-editor__block-hit-area:hover,
+.textae-editor__mode--block-without-relation .textae-editor__block-hit-area:hover {
+  box-shadow: 1px 1px 10px #600;
 }
 .textae-editor__mode--block-with-relation .textae-editor__block-hit-area.ui-selected,
 .textae-editor__mode--block-without-relation .textae-editor__block-hit-area.ui-selected {
