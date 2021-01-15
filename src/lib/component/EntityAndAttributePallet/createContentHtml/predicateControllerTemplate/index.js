@@ -1,7 +1,7 @@
-import editAttributeDefinitionBlockTemplate from './editAttributeDefinitionBlockTemplate'
-import getAddAttributeButton from './getAddAttributeButton'
-import getEditAttributeButton from './getEditAttributeButton'
-import getRemoveAttributeButton from './getRemoveAttributeButton'
+import editAttributeDefinitionBlockTemplate from '../editAttributeDefinitionBlockTemplate'
+import getAddAttributeButton from '../getAddAttributeButton'
+import getEditAttributeButton from '../getEditAttributeButton'
+import getRemoveAttributeButton from '../getRemoveAttributeButton'
 
 export default function (context) {
   const {
