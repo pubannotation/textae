@@ -75,7 +75,6 @@
       .textae-editor__entity__type-values {
         opacity: 1;
         overflow: visible;
-        .entity-shadow();
 
         &.ui-selected {
           .type-values--selected();
@@ -91,15 +90,6 @@
       .textae-editor__entity__type-label,
       .textae-editor__entity__attribute-label {
         .label--full-length();
-      }
-    }
-
-    &.ui-selected {
-      z-index: 2;
-
-      .textae-editor__entity__type-values {
-        .type-values--selected();
-        z-index: 2;
       }
     }
 
@@ -124,6 +114,25 @@
 
   &__mode--relation &__type:hover &__entity__type-values {
     opacity: 0.9;
+  }
+
+  &__mode--denotation-with-relation,
+  &__mode--denotation-without-relation,
+  &__mode--relation {
+    .textae-editor__entity {
+      &:hover {
+        .textae-editor__entity__type-values {
+          .entity-shadow();
+        }
+      }
+      &.ui-selected {
+        z-index: 2;
+
+        .textae-editor__entity__type-values {
+          .type-values--selected();
+        }
+      }
+    }
   }
 
   &__mode--denotation-with-relation,
