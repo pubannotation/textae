@@ -7,6 +7,13 @@ export default class EntityContainer extends SelectedElements {
     )
   }
 
+  selectedWithoutAttributeOf(pred) {
+    return this.all.some(
+      (entity) =>
+        !entity.attributes.some((attribute) => attribute.pred === pred)
+    )
+  }
+
   isDupulicatedPredAttrributeSelected(pred) {
     return this.all.some(
       (entity) =>
