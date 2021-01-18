@@ -77,18 +77,6 @@ export default class Factory {
     )
   }
 
-  changeRelationLabelCommand(label, value, typeContainer) {
-    return new ChangeItemTypeCommand(
-      this._editor,
-      this._annotationData,
-      this._selectionModel,
-      label,
-      value,
-      typeContainer,
-      []
-    )
-  }
-
   changeTypeDefinitionCommand(
     typeContainer,
     annotationType,
