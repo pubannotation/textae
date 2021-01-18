@@ -36,7 +36,7 @@ export default function (isLock) {
     <button
       type="button"
       class="textae-editor__type-pallet__table-button textae-editor__type-pallet__select-all ${
-        useNumber ? `textae-editor__type-pallet__table-button--disabled` : ``
+        useNumber ? `` : `textae-editor__type-pallet__table-button--disabled`
       }"
       title="Select all the cases of this type."
       data-id="${id}"
