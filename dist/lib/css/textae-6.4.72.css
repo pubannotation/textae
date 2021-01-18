@@ -2460,9 +2460,6 @@ a.ui-button:active,
   opacity: 1;
   overflow: visible;
 }
-.textae-editor__entity:hover .textae-editor__entity__type-values.ui-selected {
-  box-shadow: 0 0 0 2pt red;
-}
 .textae-editor__entity:hover .textae-editor__entity__type-label,
 .textae-editor__entity:hover .textae-editor__entity__attribute,
 .textae-editor__entity:hover .textae-editor__entity__attribute-label {
@@ -2585,6 +2582,10 @@ a.ui-button:active,
 .textae-editor__mode--block-with-relation .textae-editor__block-hit-area:hover,
 .textae-editor__mode--block-without-relation .textae-editor__block-hit-area:hover {
   box-shadow: 1px 1px 10px #600;
+}
+.textae-editor__mode--block-with-relation .textae-editor__entity.ui-selected .textae-editor__entity__type-values,
+.textae-editor__mode--block-without-relation .textae-editor__entity.ui-selected .textae-editor__entity__type-values {
+  box-shadow: 0 0 0 2pt red;
 }
 .textae-editor__mode--relation .textae-editor__entity:hover .textae-editor__entity__type-label {
   box-shadow: none;
