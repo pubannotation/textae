@@ -19,7 +19,7 @@ export default class ClipBoard {
           this._updateItems(new Set(this._items.filter((e) => e != entity)))
         }
       })
-      .on('textae.editMode.transition', () => this._updateItems(new Set()))
+      .on('textae.editMode.transition', () => this._updateItems())
   }
 
   get hasCopyingItem() {
@@ -49,7 +49,7 @@ export default class ClipBoard {
       this._cuttingItems.every((item) => newItems.has(item)) &&
       [...newItems].every((item) => this._cuttingItems.includes(item))
     ) {
-      this._updateItems(new Set())
+      this._updateItems()
     } else {
       this._updateItems(newItems)
     }
@@ -73,7 +73,7 @@ export default class ClipBoard {
         this._itemsWillBeCutAndPaste
       )
       this._commander.invoke(command)
-      this._updateItems(new Set())
+      this._updateItems()
 
       return
     }
@@ -81,7 +81,7 @@ export default class ClipBoard {
 
   // Notify items that are cutting and items that are no longer cutting
   // in order to switch between highlighting entities that are cutting.
-  _updateItems(newItems) {
+  _updateItems(newItems = new Set()) {
     const oldItems = this._cuttingItems.filter((i) => !newItems.has(i))
     this._items = [...newItems]
 
