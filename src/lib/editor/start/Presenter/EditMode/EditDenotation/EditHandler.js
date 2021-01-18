@@ -29,8 +29,8 @@ export default class EditHandler extends DefaultHandler {
         const commands = this._commander.factory.changeEntityTypeCommand(
           label,
           typeName,
-          attributes,
-          this._typeContainer
+          this._typeContainer,
+          attributes
         )
 
         if (typeName) {
