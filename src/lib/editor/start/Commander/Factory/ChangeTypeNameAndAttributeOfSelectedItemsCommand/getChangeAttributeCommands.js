@@ -13,8 +13,8 @@ export default function (
   for (const element of elements) {
     if (element.attributes) {
       for (const oldAttribute of element.attributes) {
-        const newAttribute = attributes.find(
-          (a) => oldAttribute.pred === a.pred
+        const newAttribute = attributes.find((a) =>
+          oldAttribute.equalsTo(a.pred, a.obj)
         )
         if (newAttribute) {
           if (String(oldAttribute.obj) !== newAttribute.obj) {
@@ -42,7 +42,11 @@ export default function (
     }
 
     for (const newAttribute of attributes) {
-      if (!element.attributes.some((a) => newAttribute.pred === a.pred)) {
+      if (
+        !element.attributes.some((a) =>
+          a.equalsTo(newAttribute.pred, newAttribute.obj)
+        )
+      ) {
         changeAttributeCommnads.push(
           new CreateCommand(
             editor,
