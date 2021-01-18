@@ -1,4 +1,4 @@
-import CompositeCommand from './CompositeCommand'
+import CompositeCommand from '../CompositeCommand'
 import ChangeObjectOfAttributeCommand from './ChangeObjectOfAttributeCommand'
 import ChangeValueOfAttributeDefinitionCommand from './ChangeValueOfAttributeDefinitionCommand'
 

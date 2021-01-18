@@ -1,5 +1,5 @@
-import CompositeCommand from './CompositeCommand'
-import ChangeAttributeCommand from './ChangeAttributeCommand'
+import CompositeCommand from '../CompositeCommand'
+import ChangeAttributeCommand from '../ChangeAttributeCommand'
 
 export default class ChangeObjectOfAttributeCommand extends CompositeCommand {
   constructor(annotationData, pred, oldObj, newObj) {
