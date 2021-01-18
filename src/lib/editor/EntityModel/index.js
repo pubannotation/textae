@@ -102,9 +102,7 @@ export default class EntityModel {
 
     return (
       newAttributes.filter((a) =>
-        this.attributes.some(
-          (b) => a.pred === b.pred && a.obj === String(b.obj)
-        )
+        this.attributes.some((b) => b.equalsTo(a.pred, a.obj))
       ).length == this.attributes.length
     )
   }
