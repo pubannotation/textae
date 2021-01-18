@@ -15,7 +15,7 @@ export default class ClipBoard {
 
     editor.eventEmitter.on('textae.annotationData.entity.remove', (entity) => {
       if (this.hasCuttingItem) {
-        this._items = this._items.filter((e) => e != entity)
+        this._updateItems(new Set(this._items.filter((e) => e != entity)))
       }
     })
   }
