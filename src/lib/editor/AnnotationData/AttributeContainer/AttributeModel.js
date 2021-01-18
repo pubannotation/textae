@@ -11,4 +11,8 @@ export default class AttributeModel {
   get entity() {
     return this._entityContainer.get(this.subj)
   }
+
+  equalsTo(pred, obj) {
+    return this.pred === pred && this.obj === obj
+  }
 }
