@@ -13,6 +13,9 @@ export default class AttributeModel {
   }
 
   equalsTo(pred, obj) {
-    return this.pred === pred && this.obj === obj
+    // If the attribute is a numeric type,
+    // then the type of obj is numeric.
+    // Cast obj to a string to compare.
+    return this.pred === pred && String(this.obj) === obj
   }
 }
