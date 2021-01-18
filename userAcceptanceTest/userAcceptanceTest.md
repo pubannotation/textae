@@ -8,6 +8,37 @@
 4.  ブラウザの開発ツールを起動します。
 5.  以下のテストを実行して、エラーが出ないこと
 
+## Entity 編集ダイアログに重複 Attribute を表示
+
+### 背景
+
+1.  6.4.1 で、Annotation ファイルの読込時 Validation での Attribute のチェックを緩め、 1 つの Entity に Predicate と Object が等しい Attribute が複数ついているかのチェックに変更しました
+2.  6.4.70 で、重複 Attribute を Entity 編集ダイアログに表示できるようにしました
+
+### DenotationEntity
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  DenotationEntity `E1:a:b` を選択する
+4.  `Change Label[W]`ボタンを押す
+5.  編集ダイアログが開くこと
+6.  ダイアログのタイトルが`Please edit type and attributes`であること
+7.  `Predicate`欄に`type`が表示されること
+8.  `Value`欄に選択した DenotationEntity の Type の id が表示されること
+9.  `Predicate`が`denoto`の Attribute が複数表示されること
+
+### BlockEntity
+
+1.  Editor1 を選択
+2.  Block モードにする
+3.  BlockEntity `B1` を選択する
+4.  `Change Label[W]`ボタンを押す
+5.  編集ダイアログが開くこと
+6.  ダイアログのタイトルが`Please edit type and attributes`であること
+7.  `Predicate`欄に`type`が表示されること
+8.  `Value`欄に選択した BlockEntity の Type の id が表示されること
+9.  `Predicate`が`denoto`の Attribute が複数表示されること
+
 ## 編集モードを変更したらクリップボードを空にする
 
 ### 背景

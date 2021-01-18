@@ -8,7 +8,7 @@ export default function (entities) {
   const attributes = []
   for (const { typeValues } of entities) {
     for (const attribute of typeValues.attributes) {
-      if (!attributes.some((a) => a.pred === attribute.pred)) {
+      if (!attributes.some((a) => a.equalsTo(attribute.pred, attribute.obj))) {
         attributes.push(attribute)
       }
     }

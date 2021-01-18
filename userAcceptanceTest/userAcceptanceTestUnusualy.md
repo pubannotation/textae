@@ -44,9 +44,6 @@
 2.  BlockEntity を選択する
 3.  `Change Label[W]`ボタンを押す
 4.  編集ダイアログが開くこと
-5.  ダイアログのタイトルが`Please edit type and attributes`であること
-6.  `Predicate`欄に`type`が表示されること
-7.  `Value`欄に選択した BlockEntity の Type の id が表示されること
 
 #### W キー
 
@@ -141,10 +138,6 @@
 2.  DenotationEntity を選択する
 3.  `Change Label[W]`ボタンを押す
 4.  編集ダイアログが開くこと
-5.  ダイアログのタイトルが`Please edit type and attributes`であること
-6.  `Predicate`欄に`type`が表示されること
-7.  `Value`欄に選択した DenotationEntity の Type の id が表示されること
-8.  選択した DenotationEntity の Attribute の Predicate と Value が表示されること
 
 #### W キー
 
