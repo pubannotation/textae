@@ -98,11 +98,7 @@ export default class AttributeContainer {
     }
 
     // If there is an instance that uses a selection attribute, do not delete it.
-    if (
-      this._annotationDataAttribute.all.some(
-        (a) => a.pred === pred && a.obj == id
-      )
-    ) {
+    if (this._annotationDataAttribute.all.some((a) => a.equalsTo(pred, id))) {
       return true
     }
 
