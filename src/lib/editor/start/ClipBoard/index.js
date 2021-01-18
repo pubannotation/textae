@@ -68,8 +68,6 @@ export default class ClipBoard {
         )
         this._commander.invoke(command)
       }
-
-      throw 'There is no item to be copied or to be cut'
     }
 
     if (
@@ -91,8 +89,6 @@ export default class ClipBoard {
         this._commander.invoke(command)
         this._updateItems(new Set())
       }
-
-      throw 'There is no item to be copied or to be cut'
     }
   }
 
