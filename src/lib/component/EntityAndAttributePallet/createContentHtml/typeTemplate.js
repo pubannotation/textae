@@ -40,8 +40,8 @@ export default function (context) {
           </span>
           ${
             uri
-              ? ''
-              : `<a href="${uri}" target="_blank"><span class="textae-editor__type-pallet__link"></span></a>`
+              ? `<a href="${uri}" target="_blank"><span class="textae-editor__type-pallet__link"></span></a>`
+              : ``
           }
           ${
             defaultType
