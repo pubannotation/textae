@@ -1,6 +1,5 @@
 import TypeValues from '../TypeValues'
 import { makeEntityHTMLElementId } from '../idFactory'
-import mergeTypesOf from './mergeTypesOf'
 import SELECTED from '../SELECTED'
 import createEntityHTMLElement from './createEntityHTMLElement'
 import typeGapUnitHeight from '../typeGapUnitHeight'
@@ -24,10 +23,6 @@ export default class EntityModel {
     this._relationContaier = relationContaier
     this._entityGap = entityGap
     this._typeDefinition = typeDefinition
-  }
-
-  static mergedTypesOf(entities) {
-    return mergeTypesOf(entities)
   }
 
   static filterWithSamePredicateAttribute(entities, pred) {
