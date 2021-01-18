@@ -1,7 +1,7 @@
 import CompositeCommand from './CompositeCommand'
 import ChangeAttributeCommand from './ChangeAttributeCommand'
 
-export default class ChangeObjectOfSelectionAttributeCommand extends CompositeCommand {
+export default class ChangeObjectOfAttributeCommand extends CompositeCommand {
   constructor(annotationData, pred, oldObj, newObj) {
     super()
 

@@ -1,5 +1,5 @@
 import CompositeCommand from './CompositeCommand'
-import ChangeObjectOfSelectionAttributeCommand from './ChangeObjectOfSelectionAttributeCommand'
+import ChangeObjectOfAttributeCommand from './ChangeObjectOfAttributeCommand'
 import ChangeValueOfAttributeDefinitionCommand from './ChangeValueOfAttributeDefinitionCommand'
 
 export default class ChangeValueOfAttributeDefinitionAndObjectOfSelectionAttributeCommand extends CompositeCommand {
@@ -28,7 +28,7 @@ export default class ChangeValueOfAttributeDefinitionAndObjectOfSelectionAttribu
       attrDef.values[index].id !== value.id
     ) {
       this._subCommands.push(
-        new ChangeObjectOfSelectionAttributeCommand(
+        new ChangeObjectOfAttributeCommand(
           annotationData,
           attrDef.pred,
           attrDef.values[index].id,
