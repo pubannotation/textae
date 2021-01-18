@@ -5,7 +5,7 @@ import ChangeAttributesOfSelectedEntitiesWithSamePred from './ChangeAttributesOf
 import ChangeItemTypeCommand from './ChangeItemTypeCommand'
 import ChangeTypeDefinitionAndRefectInstancesCommand from './ChangeTypeDefinitionAndRefectInstancesCommand'
 import ChangeTypeOfSelectedItemsCommand from './ChangeTypeOfSelectedItemsCommand'
-import ChangeValueOfAttributeDefinitionAndObjectOfSelectionAttributeCommand from './ChangeValueOfAttributeDefinitionAndObjectOfSelectionAttributeCommand'
+import ChangeValueOfAttributeDefinitionAndObjectOfAttributeCommand from './ChangeValueOfAttributeDefinitionAndObjectOfAttributeCommand'
 import CreateAttributeDefinitionCommand from './CreateAttributeDefinitionCommand'
 import CreateAttributeToSelectedEntitiesCommand from './CreateAttributeToSelectedEntitiesCommand'
 import CreateBlockSpanCommand from './CreateBlockSpanCommand'
@@ -118,7 +118,7 @@ export default class Factory {
     index,
     value
   ) {
-    return new ChangeValueOfAttributeDefinitionAndObjectOfSelectionAttributeCommand(
+    return new ChangeValueOfAttributeDefinitionAndObjectOfAttributeCommand(
       this._annotationData,
       this._annotationData.typeDefinition.attribute,
       attributeDefinition,

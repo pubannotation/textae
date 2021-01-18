@@ -2,7 +2,7 @@ import CompositeCommand from './CompositeCommand'
 import ChangeObjectOfAttributeCommand from './ChangeObjectOfAttributeCommand'
 import ChangeValueOfAttributeDefinitionCommand from './ChangeValueOfAttributeDefinitionCommand'
 
-export default class ChangeValueOfAttributeDefinitionAndObjectOfSelectionAttributeCommand extends CompositeCommand {
+export default class ChangeValueOfAttributeDefinitionAndObjectOfAttributeCommand extends CompositeCommand {
   constructor(
     annotationData,
     typeContainer,
