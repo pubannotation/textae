@@ -55,40 +55,25 @@ export default class ClipBoard {
 
   pasteEntities() {
     if (this.hasCopyingItem) {
-      if (this.hasCopyingItem) {
-        const command = this._commander.factory.pasteTypesToSelectedSpansCommand(
-          this._items
-        )
-        this._commander.invoke(command)
-      }
+      const command = this._commander.factory.pasteTypesToSelectedSpansCommand(
+        this._items
+      )
+      this._commander.invoke(command)
 
-      if (this._itemsWillBeCutAndPaste.length) {
-        const command = this._commander.factory.moveEntitiesToSelectedSpansCommand(
-          this._itemsWillBeCutAndPaste
-        )
-        this._commander.invoke(command)
-      }
+      return
     }
 
     if (
       this._itemsWillBeCutAndPaste.length &&
       this._selectionModel.span.single
     ) {
-      if (this.hasCopyingItem) {
-        const command = this._commander.factory.pasteTypesToSelectedSpansCommand(
-          this._items
-        )
-        this._commander.invoke(command)
-        this._updateItems(new Set())
-      }
+      const command = this._commander.factory.moveEntitiesToSelectedSpansCommand(
+        this._itemsWillBeCutAndPaste
+      )
+      this._commander.invoke(command)
+      this._updateItems(new Set())
 
-      if (this._itemsWillBeCutAndPaste.length) {
-        const command = this._commander.factory.moveEntitiesToSelectedSpansCommand(
-          this._itemsWillBeCutAndPaste
-        )
-        this._commander.invoke(command)
-        this._updateItems(new Set())
-      }
+      return
     }
   }
 
