@@ -75,15 +75,6 @@ export default class EntityModel {
     return this._attributeContainer.all.filter((a) => a.subj === this._id)
   }
 
-  getDifferentAttributes(newAttributes) {
-    return this.attributes.filter(
-      (oldA) =>
-        !newAttributes.some(
-          (newA) => oldA.pred === newA.pred && oldA.obj === newA.obj
-        )
-    )
-  }
-
   get relations() {
     return this._relationContaier.all.filter(
       (r) => r.obj === this.id || r.subj === this.id
