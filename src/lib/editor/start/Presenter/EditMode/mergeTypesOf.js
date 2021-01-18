@@ -1,4 +1,4 @@
-import TypeValues from '../TypeValues'
+import TypeValues from '../../../TypeValues'
 
 // When you select multiple entities and display the edit dialog,
 // this is used to display the merged type name and attributes.
