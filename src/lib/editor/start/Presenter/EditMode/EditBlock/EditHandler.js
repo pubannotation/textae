@@ -1,5 +1,5 @@
 import EditEntityDialog from '../../../../../component/EditEntityDialog'
-import EntityModel from '../../../../EntityModel'
+import mergedTypesOf from '../../../../EntityModel/mergeTypesOf'
 import DefaultHandler from '../DefaultHandler'
 
 export default class EditHandler extends DefaultHandler {
@@ -48,7 +48,7 @@ export default class EditHandler extends DefaultHandler {
         this._typeContainer,
         this._annotationData.typeDefinition.attribute,
         autocompletionWs,
-        EntityModel.mergedTypesOf(this._selectionModel.entity.all)
+        mergedTypesOf(this._selectionModel.entity.all)
       )
       dialog.promise.then(done)
       dialog.open()
