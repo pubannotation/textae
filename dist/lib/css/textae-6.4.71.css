@@ -2586,11 +2586,6 @@ a.ui-button:active,
 .textae-editor__mode--block-without-relation .textae-editor__block-hit-area:hover {
   box-shadow: 1px 1px 10px #600;
 }
-.textae-editor__mode--block-with-relation .textae-editor__block-hit-area.ui-selected,
-.textae-editor__mode--block-without-relation .textae-editor__block-hit-area.ui-selected {
-  background-color: rgba(255, 200, 100, 0.9);
-  border-color: red;
-}
 .textae-editor__mode--relation .textae-editor__entity:hover .textae-editor__entity__type-label {
   box-shadow: none;
 }
