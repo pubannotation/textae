@@ -128,20 +128,4 @@ export default class ClipBoard {
   get _cuttingItems() {
     return this.hasCuttingItem ? this._items : []
   }
-
-  get _pasteCommand() {
-    if (this.hasCopyingItem) {
-      return this._commander.factory.pasteTypesToSelectedSpansCommand(
-        this._items
-      )
-    }
-
-    if (this._itemsWillBeCutAndPaste.length) {
-      return this._commander.factory.moveEntitiesToSelectedSpansCommand(
-        this._itemsWillBeCutAndPaste
-      )
-    }
-
-    throw 'There is no item to be copied or to be cut'
-  }
 }
