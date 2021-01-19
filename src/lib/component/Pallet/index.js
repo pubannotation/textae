@@ -51,6 +51,7 @@ export default class Pallet {
     updateDisplay(this._editor, this._el, this._content)
 
     const point = getMousePoint()
+    // point.top -= this._editor[0].offsetTop
     moveIntoWindow(this._editor, this._el, point)
   }
 
