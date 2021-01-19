@@ -6,10 +6,13 @@ export default function (editor, pallet, point) {
   }
 
   // Pull up the pallet when the pallet protrudes from bottom of the window.
-  if (pallet.offsetHeight + point.top > window.innerHeight) {
-    point.top = window.innerHeight - pallet.offsetHeight - 1
+  let top
+  if (pallet.offsetHeight + point.clientY > window.innerHeight) {
+    top = window.innerHeight - pallet.offsetHeight - 1
+  } else {
+    top = point.clientY
   }
 
-  pallet.style.top = `${point.top}px`
+  pallet.style.top = `${top}px`
   pallet.style.left = `${point.left}px`
 }

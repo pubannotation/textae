@@ -2,7 +2,7 @@
 const lastMousePoint = {}
 
 document.querySelector('html').addEventListener('mousemove', (e) => {
-  lastMousePoint.top = e.clientY
+  lastMousePoint.clientY = e.clientY
   lastMousePoint.left = e.clientX
 })
 
