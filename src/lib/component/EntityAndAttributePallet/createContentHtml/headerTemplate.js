@@ -6,7 +6,6 @@ export default function (context) {
     attributes,
     addAttribute,
     lastAttributeSelected,
-    addTypeButton,
     hasDiff
   } = context
 
