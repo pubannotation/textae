@@ -47,10 +47,10 @@ export default class Pallet {
   }
 
   show() {
-    const point = getMousePoint()
-
     this._el.style.display = 'block'
     updateDisplay(this._editor, this._el, this._content)
+
+    const point = getMousePoint()
     moveIntoWindow(this._editor, this._el, point)
   }
 
