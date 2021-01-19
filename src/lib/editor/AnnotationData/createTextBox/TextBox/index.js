@@ -4,9 +4,9 @@ import updateTextBoxHeight from './updateTextBoxHeight'
 import pixelToInt from './pixelToInt'
 
 export default class TextBox {
-  constructor(editor, el, annotationData) {
+  constructor(editor, annotationData) {
     this._editor = editor
-    this._el = el
+    this._el = editor.querySelector('.textae-editor__body__text-box')
     this._annotationData = annotationData
   }
 
