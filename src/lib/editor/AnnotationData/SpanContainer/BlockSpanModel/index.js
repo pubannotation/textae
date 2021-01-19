@@ -4,6 +4,7 @@ import renderBackground from './renderBackground'
 import setPosition from './setPosition'
 import SpanModel from '../SpanModel'
 import round from '../round'
+import getHeightIncludeDescendantGrids from '../getHeightIncludeDescendantGrids'
 
 // Leave a gap between the text and the block border.
 const gapBetweenText = 8
@@ -77,6 +78,10 @@ export default class BlockSpanModel extends SpanModel {
   destroyElement() {
     super.destroyElement()
     this._backgroundElement.remove()
+  }
+
+  getHeightIncludeDescendantGrids(typeGap) {
+    return getHeightIncludeDescendantGrids(this, typeGap)
   }
 
   get _contentHTML() {
