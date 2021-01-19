@@ -524,15 +524,11 @@
   margin: 0;
   max-height: 450px;
   line-height: normal;
-  overflow-x: scroll;
+  overflow-x: auto;
+  overflow-y: auto;
   padding: 5px;
   position: fixed !important;
   -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
   width: auto;
   white-space: normal;
   z-index: 90;
@@ -617,6 +613,8 @@
   margin-top: 25px;
   overflow: hidden;
   text-align: center;
+  -webkit-user-select: none;
+  user-select: none;
   width: 59px;
 }
 .textae-editor__type-pallet__attribute--selected {
