@@ -15,6 +15,7 @@ export default function (editor, annotationData) {
   editor[0].innerHTML = html.replace(/[\n\r]+/g, '')
 
   const textBox = new TextBox(
+    editor[0],
     editor[0].querySelector('.textae-editor__body__text-box'),
     annotationData
   )
