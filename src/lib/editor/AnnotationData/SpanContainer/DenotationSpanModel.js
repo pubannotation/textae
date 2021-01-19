@@ -3,6 +3,8 @@ import getHeightIncludeDescendantGrids from './getHeightIncludeDescendantGrids'
 import round from './round'
 import SpanModel from './SpanModel'
 
+const TEXT_HEIGHT = 23
+const MARGIN_TOP = 30
 export default class DenotationSpanModel extends SpanModel {
   constructor(editor, begin, end, entityContainer, spanContainer) {
     super(editor, begin, end, spanContainer)
@@ -65,7 +67,9 @@ export default class DenotationSpanModel extends SpanModel {
   }
 
   getHeightIncludeDescendantGrids(typeGap) {
-    return getHeightIncludeDescendantGrids(this, typeGap)
+    return (
+      getHeightIncludeDescendantGrids(this, typeGap) + TEXT_HEIGHT + MARGIN_TOP
+    )
   }
 
   get _contentHTML() {
