@@ -6,6 +6,7 @@ import getMousePoint from './getMousePoint'
 
 export default class Pallet {
   constructor(editor, el) {
+    this._editor = editor
     this._el = el
 
     // let the pallet draggable.
@@ -37,7 +38,7 @@ export default class Pallet {
 
   updateDisplay() {
     if (this.visibly) {
-      updateDisplay(this._el, this._content)
+      updateDisplay(this._editor, this._el, this._content)
     }
   }
 
@@ -49,7 +50,7 @@ export default class Pallet {
     const point = getMousePoint()
 
     this._el.style.display = 'block'
-    updateDisplay(this._el, this._content)
+    updateDisplay(this._editor, this._el, this._content)
     moveIntoWindow(this._el, point)
   }
 
