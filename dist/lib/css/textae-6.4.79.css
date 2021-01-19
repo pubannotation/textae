@@ -527,7 +527,7 @@
   overflow-x: auto;
   overflow-y: auto;
   padding: 5px;
-  position: fixed !important;
+  position: absolute !important;
   -webkit-touch-callout: none;
   width: auto;
   white-space: normal;
