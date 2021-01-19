@@ -36,8 +36,10 @@ export default class TextBox {
 
   _resetLineHeight() {
     // The default line height follows the editor's line height.
-    const style = window.getComputedStyle(this._el.closest('.textae-editor'))
-    this.lineHeight = pixelToInt(style.lineHeight)
+    const { lineHeight } = window.getComputedStyle(
+      this._el.closest('.textae-editor')
+    )
+    this.lineHeight = pixelToInt(lineHeight)
   }
 
   forceUpdate() {
