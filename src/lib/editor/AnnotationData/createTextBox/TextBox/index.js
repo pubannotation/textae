@@ -28,8 +28,10 @@ export default class TextBox {
   }
 
   updateLineHeight() {
-    if (this._annotationData.span.allDenotationSpans.length) {
-      this.lineHeight = this._annotationData.span.maxHeight
+    const lineHeight = this._annotationData.span.maxHeight
+
+    if (lineHeight) {
+      this.lineHeight = lineHeight
     } else {
       this._resetLineHeight()
     }
