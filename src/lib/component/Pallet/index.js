@@ -51,7 +51,7 @@ export default class Pallet {
 
     this._el.style.display = 'block'
     updateDisplay(this._editor, this._el, this._content)
-    moveIntoWindow(this._el, point)
+    moveIntoWindow(this._editor, this._el, point)
   }
 
   hide() {

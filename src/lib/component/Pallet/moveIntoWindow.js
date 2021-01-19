@@ -1,7 +1,8 @@
-export default function (pallet, point) {
-  // Pull left the pallet when the pallet protrudes from right of the window.
-  if (pallet.offsetWidth + point.left > window.innerWidth) {
-    point.left = window.innerWidth - pallet.offsetWidth - 2
+export default function (editor, pallet, point) {
+  // Pull left the pallet when the pallet protrudes from right of the editor.
+  if (pallet.offsetWidth + point.left > editor[0].offsetWidth) {
+    point.left =
+      editor[0].offsetLeft + editor[0].offsetWidth - pallet.offsetWidth - 2
   }
 
   // Pull up the pallet when the pallet protrudes from bottom of the window.
