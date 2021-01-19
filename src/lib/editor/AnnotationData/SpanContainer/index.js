@@ -332,8 +332,10 @@ export default class SpanContainer {
   }
 
   get maxHeight() {
-    if (this.allDenotationSpans.length) {
-      return getCurrentMaxHeight(this.allDenotationSpans, this._entityGap.value)
+    const spans = this.allDenotationSpans
+
+    if (spans.length) {
+      return getCurrentMaxHeight(spans, this._entityGap.value)
     } else {
       return null
     }
