@@ -8,6 +8,159 @@
 4.  ブラウザの開発ツールを起動します。
 5.  以下のテストを実行して、エラーが出ないこと
 
+## line-height 変更
+
+### 背景
+
+1.  4.1.8 で text−box の下の隙間を小さくした
+2.  4.1.16 の開発中にモジュール読み込み構文の修正漏れでエラーを起こしていました。
+
+### -- 手段 --
+
+1.  Seting ダイアログを開く
+2.  line-height を変更する
+3.  高さが再計算されること
+4.  下側の隙間が狭いこと
+
+## 行の高さ自動調整
+
+### 背景
+
+1.  6.0.0 から行の高さ自動調整機能を追加しました。
+2.  6.0.3 から、エンティティをすべて消したときに、行の高さ指定を初期値にもどします。
+
+### -- 手段 --
+
+1.  Editor2 を選択
+2.  `Auto Adjust LineHeight`アイコンを押下する
+3.  Entity を追加する
+4.  高さが調整されること
+5.  Entity を削除する
+6.  line-height が 14px になること
+
+## アノテーションが無いときに行の高さが 41px になること
+
+### 背景
+
+1.  5.0.0 でアノテーションが無いときに行の高さがなくなっていました
+2.  5.2.4 で対応しました
+
+### -- 手段 --
+
+1.  Editor7 を選択する
+2.  `.textae-editor__body__text-box`の line-height が`41px`であること
+3.  `.textae-editor__body__text-box`の padding-top が`20.5px`であること
+4.  Setting ダイアログを開く
+5.  Line Height の値が 41 であること
+
+## スタイルで行の高さを指定できること
+
+### 背景
+
+1.  4.1.14 で行の高さをスタイルで上書きできるようになりました
+2.  6.0.0 で padding-top と height が設定されなくなりました
+3.  6.1.45 で対応
+
+### -- 手段 --
+
+1.  Editor2 を選択する
+2.  `.textae-editor__body__text-box`の line-height が`14px`であること
+3.  `.textae-editor__body__text-box`の padding-top が`7px`であること
+4.  `.textae-editor__body__text-box`の height が`48px`であること
+5.  Setting ダイアログを開く
+6.  Line Height の値が 14 であること
+
+## 行の高さ調整アイコン
+
+### 背景
+
+1.  4.1.12 で行の高さ調整アイコンを追加しました。
+2.  4.1.16 の開発中にモジュール読み込み構文の修正漏れでエラーを起こしていました。
+
+### -- 手段 --
+
+1.  もっとも高い Grid を削除する
+2.  `Adjust LineHeight`アイコンをクリックする
+3.  高さが調整されること
+4.  もっとも高い Grid より高い Grid を作る
+5.  `Adjust LineHeight`アイコンをクリックする
+6.  高さが調整されること
+
+## Setting Dialog
+
+### タイトル
+
+#### 背景
+
+1.  タイトルを変更しました。
+
+#### -- 手段 --
+
+1.  Setting Dialog を開く
+2.  Setting Dialog のタイトルが`Setting`であること
+
+### 設定項目
+
+#### 背景
+
+1.  4.1.16 で、instance/Simple モードの切り替えチェックボックスを消しました
+2.  5.3.2 で、バージョン番号の表示を追加しました
+
+#### -- 手段 --
+
+1.  Setting Dialog を開く
+2.  Type Gap があること
+3.  Line Height があること
+4.  Version があること
+
+### Line Height を px で指定
+
+#### 背景
+
+1.  4.1.12 で Line Height の単位を px に変えました
+2.  4.1.11 までは指定値 x16px を行の高さに設定していました
+3.  4.2.1 で、LineHeight を変更しても Grid が移動しなくなっていました
+
+#### -- 手段 --
+
+1.  Setting Dialog を開く
+2.  Line Height を増やす
+3.  行の高さが px 単位で変更できること
+4.  最大 500px まで選べること
+5.  設定した値に応じて行の高さが変わること
+6.  行の高さに合わせて Grid が移動すること
+
+## TypeGap
+
+### TypeGap のデフォルト値
+
+1.  Setting ダイアログを開く
+2.  Simple モードが 0（変更不可）
+3.  Term モードが 2
+4.  Relation モードが 2
+
+### TypeGap を変更したら LineHeight を自動計算する
+
+1.  TypeGap を変更したら LineHeight を自動計算する
+2.  Setting Dialog の LineHeight の値が更新されること
+3.  Grid が正しい位置に表示されること
+
+### 一回 Simple モードにしてから元のモードに戻したときに TypeGap の値が保存されている
+
+#### 背景
+
+1.  TypeGap の値を保存しなくなっていた。
+2.  4.1.8 で修正
+
+#### -- 手段 --
+
+1.  Relation モードにする
+2.  TypeGap を 3 にする
+3.  Simple モードにする
+4.  TypeGap が 0 になること
+5.  Relation モードにする
+6.  TypeGap が 3 になること
+
 ## パレットは画面からはみ出ない
 
 ### 背景
@@ -924,37 +1077,6 @@
 5.  文面は`track annotations have been merged to root annotations.`
 6.  `Upload`ボタンに星マークがつくこと
 
-## TypeGap
-
-### TypeGap のデフォルト値
-
-1.  Setting ダイアログを開く
-2.  Simple モードが 0（変更不可）
-3.  Term モードが 2
-4.  Relation モードが 2
-
-### TypeGap を変更したら LineHeight を自動計算する
-
-1.  TypeGap を変更したら LineHeight を自動計算する
-2.  Setting Dialog の LineHeight の値が更新されること
-3.  Grid が正しい位置に表示されること
-
-### 一回 Simple モードにしてから元のモードに戻したときに TypeGap の値が保存されている
-
-#### 背景
-
-1.  TypeGap の値を保存しなくなっていた。
-2.  4.1.8 で修正
-
-#### -- 手段 --
-
-1.  Relation モードにする
-2.  TypeGap を 3 にする
-3.  Simple モードにする
-4.  TypeGap が 0 になること
-5.  Relation モードにする
-6.  TypeGap が 3 になること
-
 ## ショートカットキー
 
 ### 全体的な動作確認
@@ -1019,50 +1141,6 @@
 4.  Span を選択する
 5.  `Deleteボタン`（ゴミ箱アイコン）を押す
 6.  選択した Span が削除されること
-
-## Setting Dialog
-
-### タイトル
-
-#### 背景
-
-1.  タイトルを変更しました。
-
-#### -- 手段 --
-
-1.  Setting Dialog を開く
-2.  Setting Dialog のタイトルが`Setting`であること
-
-### 設定項目
-
-#### 背景
-
-1.  4.1.16 で、instance/Simple モードの切り替えチェックボックスを消しました
-2.  5.3.2 で、バージョン番号の表示を追加しました
-
-#### -- 手段 --
-
-1.  Setting Dialog を開く
-2.  Type Gap があること
-3.  Line Height があること
-4.  Version があること
-
-### Line Height を px で指定
-
-#### 背景
-
-1.  4.1.12 で Line Height の単位を px に変えました
-2.  4.1.11 までは指定値 x16px を行の高さに設定していました
-3.  4.2.1 で、LineHeight を変更しても Grid が移動しなくなっていました
-
-#### -- 手段 --
-
-1.  Setting Dialog を開く
-2.  Line Height を増やす
-3.  行の高さが px 単位で変更できること
-4.  最大 500px まで選べること
-5.  設定した値に応じて行の高さが変わること
-6.  行の高さに合わせて Grid が移動すること
 
 ## pubannotation 認証
 
