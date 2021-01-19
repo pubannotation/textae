@@ -1,7 +1,7 @@
 import getLineHeight from './getLineHeight'
 import setLineHeight from './setLineHeight'
 import updateTextBoxHeight from './updateTextBoxHeight'
-import resetLineHeight from './resetLineHeight'
+import pixelToInt from './pixelToInt'
 
 export default class TextBox {
   constructor(el, annotationData) {
@@ -35,8 +35,9 @@ export default class TextBox {
   }
 
   _resetLineHeight() {
-    resetLineHeight(this._el)
-    updateTextBoxHeight(this._el)
+    // The default line height follows the editor's line height.
+    const style = window.getComputedStyle(this._el.closest('.textae-editor'))
+    this.lineHeight = pixelToInt(style.lineHeight)
   }
 
   forceUpdate() {
