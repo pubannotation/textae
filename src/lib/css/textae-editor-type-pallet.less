@@ -27,8 +27,6 @@
   // Need '!important' because jQuery UI 'draggable()' set position as 'relative'.
   position: fixed !important;
   -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  user-select: none;
   width: auto;
   white-space: normal;
   z-index: 90;
@@ -110,6 +108,8 @@
     margin-top: 25px;
     overflow: hidden;
     text-align: center;
+    -webkit-user-select: none;
+    user-select: none;
     width: 59px;
 
     &--selected {
