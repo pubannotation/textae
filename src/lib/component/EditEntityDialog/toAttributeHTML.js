@@ -3,22 +3,20 @@ export default function (attribute, attributeContainer) {
   const editDisabled = attributeContainer.get(pred).valueType === 'flag'
 
   return `
-<div class="textae-editor__edit-type-dialog__attribute">
-  <div class="textae-editor__edit-type-dialog__attribute__predicate">
-    <label>Predicate:</label><br>
+<tr class="textae-editor__edit-type-dialog__attribute">
+  <td>
     <input class="textae-editor__edit-type-dialog__attribute__predicate__value" value="${pred}" disabled="disabled">
-  </div>
-  <div class="textae-editor__edit-type-dialog__attribute__value">
-    <label>Value:</label><br>
+  </td>
+  <td>
     <input class="textae-editor__edit-type-dialog__attribute__value__value" value="${obj}" disabled="disabled">
-  </div>
-  <div class="textae-editor__edit-type-dialog__attribute__edit">
+  </td>
+  <td>
+  </td>
+  <td>
     <button type="button" class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__edit__value" data-predicate="${pred}"${
     editDisabled ? 'disabled="disabled"' : ''
   }>edit</button>
-  </div>
-  <div class="textae-editor__edit-type-dialog__attribute__remove">
     <button type="button" class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__remove__value">remove</button>
-  </div>
-</div>`
+  </td>
+</tr>`
 }

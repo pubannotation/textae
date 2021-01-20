@@ -27,9 +27,11 @@ export default class EditEntityDialog extends PromiseDialog {
         </thead>
         <tbody>
           ${toEntityHTML(typeName, entityContainer)}
-        </tbody>
+          ${attributes
+            .map((a) => toAttributeHTML(a, attributeContainer))
+            .join('')}
+          </tbody>
       </table>
-      ${attributes.map((a) => toAttributeHTML(a, attributeContainer)).join('')}
       `
 
     super(
