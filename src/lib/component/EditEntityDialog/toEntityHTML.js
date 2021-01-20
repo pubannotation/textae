@@ -5,7 +5,6 @@ export default function (value, attributes, entityContainer) {
   const label = escape(entityContainer.getLabel(value)) || ''
 
   return `
-  <div class="textae-editor__edit-type-dialog__container">
     <div class="textae-editor__edit-type-dialog__type">
       <div class="textae-editor__edit-type-dialog__type__predicate">
         <label>Predicate:</label><br>
@@ -23,5 +22,5 @@ export default function (value, attributes, entityContainer) {
     <div class="textae-editor__edit-type-dialog__attributes">
       ${attributes.map((a) => toAttributeHTML(a)).join('')}
     </div>
-  </div>`
+  `
 }
