@@ -1,3 +1,5 @@
+@import 'textae-editor-fontawsome.less';
+
 // Rules
 .common() {
   &__label {
@@ -128,17 +130,11 @@
   &__edit-type-dialog {
     &__attribute {
       &__edit__value:before {
-        position: relative;
-        display: inline-block;
-        font-family: FontAwesome;
-        content: '\f040';
+        .fontAwesomeIcon('\f040');
       }
 
       &__remove__value:before {
-        position: relative;
-        display: inline-block;
-        font-family: FontAwesome;
-        content: '\f1f8';
+        .fontAwesomeIcon('\f1f8');
       }
 
       &__edit__value[disabled='disabled'] {
