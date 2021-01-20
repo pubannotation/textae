@@ -127,6 +127,20 @@
 
   &__edit-type-dialog {
     &__attribute {
+      &__edit__value:before {
+        position: relative;
+        display: inline-block;
+        font-family: FontAwesome;
+        content: '\f040';
+      }
+
+      &__remove__value:before {
+        position: relative;
+        display: inline-block;
+        font-family: FontAwesome;
+        content: '\f1f8';
+      }
+
       &__edit__value[disabled='disabled'] {
         opacity: 0.1;
       }

@@ -15,8 +15,8 @@ export default function (attribute, attributeContainer) {
   <td>
     <button type="button" class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__edit__value" data-predicate="${pred}"${
     editDisabled ? 'disabled="disabled"' : ''
-  }>edit</button>
-    <button type="button" class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__remove__value">remove</button>
+  }></button>
+    <button type="button" class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__remove__value"></button>
   </td>
 </tr>`
 }
