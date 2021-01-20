@@ -13,10 +13,11 @@ export default class EditEntityDialog extends PromiseDialog {
     autocompletionWs,
     typeValues
   ) {
+    const { typeName, attributes } = typeValues
     const contentHtml = toEntityHTML(
-      typeValues.typeName,
-      entityContainer.getLabel(typeValues.typeName),
-      typeValues.attributes.map((a) => ({
+      typeName,
+      entityContainer.getLabel(typeName),
+      attributes.map((a) => ({
         pred: a.pred,
         obj: a.obj,
         editDisabled: a.obj === true
