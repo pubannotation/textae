@@ -16,7 +16,6 @@ export default class EditEntityDialog extends PromiseDialog {
     const { typeName, attributes } = typeValues
     const contentHtml = toEntityHTML(
       typeName,
-      entityContainer.getLabel(typeName),
       attributes.map((a) => ({
         pred: a.pred,
         obj: a.obj,

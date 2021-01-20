@@ -1,7 +1,9 @@
 import escape from 'lodash.escape'
 import toAttributeHTML from './toAttributeHTML'
 
-export default function (value, label, attributes, entityContainer) {
+export default function (value, attributes, entityContainer) {
+  const label = entityContainer.getLabel(value)
+
   return `
   <div class="textae-editor__edit-type-dialog__container">
     <div class="textae-editor__edit-type-dialog__type">
