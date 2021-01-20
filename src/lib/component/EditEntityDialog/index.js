@@ -2,9 +2,8 @@ import delegate from 'delegate'
 import PromiseDialog from '../PromiseDialog'
 import getValues from './getValues'
 import setSourceOfAutoComplete from '../setSourceOfAutoComplete'
-import toEntityHTML from './toEntityHTML'
 import observeRemoveAttributeButton from './observeRemoveAttributeButton'
-import toAttributeHTML from './toAttributeHTML'
+import createContentHTML from './createContentHTML'
 
 export default class EditEntityDialog extends PromiseDialog {
   constructor(
@@ -14,25 +13,11 @@ export default class EditEntityDialog extends PromiseDialog {
     autocompletionWs,
     typeValues
   ) {
-    const { typeName, attributes } = typeValues
-    const contentHtml = `
-      <table class="textae-editor__edit-type-dialog__table">
-        <thead>
-          <tr>
-            <th>Predicate</th>
-            <th>Value</th>
-            <th>Label</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          ${toEntityHTML(typeName, entityContainer)}
-          ${attributes
-            .map((a) => toAttributeHTML(a, attributeContainer))
-            .join('')}
-          </tbody>
-      </table>
-      `
+    const contentHtml = createContentHTML(
+      typeValues,
+      entityContainer,
+      attributeContainer
+    )
 
     super(
       'Please edit type and attributes',
