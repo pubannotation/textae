@@ -1,4 +1,6 @@
-export default function (pred, obj, editDisabled) {
+export default function (attribute) {
+  const { pred, obj, editDisabled } = attribute
+
   return `
 <div class="textae-editor__edit-type-dialog__attribute">
   <div class="textae-editor__edit-type-dialog__attribute__predicate">

@@ -21,9 +21,7 @@ export default function (value, attributes, entityContainer) {
       </div>
     </div>
     <div class="textae-editor__edit-type-dialog__attributes">
-      ${attributes
-        .map((a) => toAttributeHTML(a.pred, a.obj, a.editDisabled))
-        .join('')}
+      ${attributes.map((a) => toAttributeHTML(a)).join('')}
     </div>
   </div>`
 }
