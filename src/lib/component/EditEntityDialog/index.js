@@ -16,7 +16,19 @@ export default class EditEntityDialog extends PromiseDialog {
   ) {
     const { typeName, attributes } = typeValues
     const contentHtml = `
-      ${toEntityHTML(typeName, entityContainer)}
+      <table>
+        <thead>
+          <tr>
+            <th>Predicate</th>
+            <th>Value</th>
+            <th>Label</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          ${toEntityHTML(typeName, entityContainer)}
+        </tbody>
+      </table>
       ${attributes.map((a) => toAttributeHTML(a, attributeContainer)).join('')}
       `
 
