@@ -4,6 +4,7 @@ import getValues from './getValues'
 import setSourceOfAutoComplete from '../setSourceOfAutoComplete'
 import toEntityHTML from './toEntityHTML'
 import observeRemoveAttributeButton from './observeRemoveAttributeButton'
+import toAttributeHTML from './toAttributeHTML'
 
 export default class EditEntityDialog extends PromiseDialog {
   constructor(
@@ -14,15 +15,19 @@ export default class EditEntityDialog extends PromiseDialog {
     typeValues
   ) {
     const { typeName, attributes } = typeValues
-    const contentHtml = toEntityHTML(
-      typeName,
-      attributes.map((a) => ({
-        pred: a.pred,
-        obj: a.obj,
-        editDisabled: a.obj === true
-      })),
-      entityContainer
-    )
+    const contentHtml = `
+      ${toEntityHTML(typeName, entityContainer)}
+      <div class="textae-editor__edit-type-dialog__attributes">
+        ${attributes
+          .map((a) => ({
+            pred: a.pred,
+            obj: a.obj,
+            editDisabled: a.obj === true
+          }))
+          .map((a) => toAttributeHTML(a))
+          .join('')}
+      </div>
+      `
 
     super(
       'Please edit type and attributes',
