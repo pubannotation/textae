@@ -1,5 +1,6 @@
-export default function (attribute) {
-  const { pred, obj, editDisabled } = attribute
+export default function (attribute, attributeContainer) {
+  const { pred, obj } = attribute
+  const editDisabled = attributeContainer.get(pred).valueType === 'flag'
 
   return `
 <div class="textae-editor__edit-type-dialog__attribute">

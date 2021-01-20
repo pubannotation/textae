@@ -24,7 +24,7 @@ export default class EditEntityDialog extends PromiseDialog {
             obj: a.obj,
             editDisabled: a.obj === true
           }))
-          .map((a) => toAttributeHTML(a))
+          .map((a) => toAttributeHTML(a, attributeContainer))
           .join('')}
       </div>
       `
