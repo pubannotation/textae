@@ -14,10 +14,10 @@ export default function (content) {
     attributes.push({
       pred: attr.querySelector(
         '.textae-editor__edit-type-dialog__attribute__predicate__value'
-      ).value,
+      ).innerText,
       obj: attr.querySelector(
         '.textae-editor__edit-type-dialog__attribute__value__value'
-      ).value
+      ).innerText
     })
   }
 

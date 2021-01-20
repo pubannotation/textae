@@ -5,10 +5,10 @@ export default function (attribute, attributeContainer) {
   return `
 <tr class="textae-editor__edit-type-dialog__attribute">
   <td>
-    <input class="textae-editor__edit-type-dialog__attribute__predicate__value" value="${pred}" disabled="disabled">
+    <span class="textae-editor__edit-type-dialog__attribute__predicate__value">${pred}</span>
   </td>
   <td>
-    <input class="textae-editor__edit-type-dialog__attribute__value__value" value="${obj}" disabled="disabled">
+    <span class="textae-editor__edit-type-dialog__attribute__value__value">${obj}</span>
   </td>
   <td>
   </td>
