@@ -16,7 +16,7 @@ export default class EditEntityDialog extends PromiseDialog {
   ) {
     const { typeName, attributes } = typeValues
     const contentHtml = `
-      <table>
+      <table class="textae-editor__edit-type-dialog__table">
         <thead>
           <tr>
             <th>Predicate</th>
