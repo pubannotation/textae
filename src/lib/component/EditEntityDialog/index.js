@@ -21,7 +21,8 @@ export default class EditEntityDialog extends PromiseDialog {
         pred: a.pred,
         obj: a.obj,
         editDisabled: a.obj === true
-      }))
+      })),
+      entityContainer
     )
 
     super(
