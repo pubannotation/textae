@@ -19,11 +19,6 @@ export default class EditEntityDialog extends PromiseDialog {
       ${toEntityHTML(typeName, entityContainer)}
       <div class="textae-editor__edit-type-dialog__attributes">
         ${attributes
-          .map((a) => ({
-            pred: a.pred,
-            obj: a.obj,
-            editDisabled: a.obj === true
-          }))
           .map((a) => toAttributeHTML(a, attributeContainer))
           .join('')}
       </div>
