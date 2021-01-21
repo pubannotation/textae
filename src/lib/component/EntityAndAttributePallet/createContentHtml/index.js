@@ -34,8 +34,6 @@ export default function (
     hasDiff,
     attrDef: attrDef.JSON,
     selectedPred,
-    lastAttributeSelected:
-      attributes.indexOf(attrDef) === attributes.length - 1,
     selectedEntityLabel: getSelectedEntityLabel(selectionModelItems.size),
     isEntityWithSamePredSelected: selectionModelItems.selectedWithAttributeOf(
       selectedPred

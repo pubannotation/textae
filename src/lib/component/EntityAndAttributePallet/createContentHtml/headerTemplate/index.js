@@ -6,11 +6,12 @@ export default function (context) {
     selectedEntityLabel,
     selectedPred,
     attributes,
-    lastAttributeSelected,
     hasDiff
   } = context
 
   const addAttribute = attributes.length < 30
+  const lastAttributeSelected =
+    selectedPred === attributes[attributes.length - 1].pred
 
   return `
 <div style="display: flex;">
