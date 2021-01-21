@@ -1,4 +1,4 @@
-import toAttributeTab from './toAttributeTab'
+import toAttributeTab from './attributeTabTemplate'
 
 export default function (context) {
   const {
