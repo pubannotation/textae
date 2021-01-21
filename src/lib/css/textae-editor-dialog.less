@@ -128,8 +128,34 @@
   }
 
   &__edit-type-dialog {
-    &__table th:nth-child(4) {
-      width: 7em;
+    &__table {
+      table-layout: fixed;
+      width: 761px;
+      th {
+        &:nth-child(1) {
+          width: 158px;
+        }
+        &:nth-child(2) {
+          width: 285px;
+        }
+        &:nth-child(3) {
+          width: 177px;
+        }
+        &:nth-child(4) {
+          width: 119px;
+        }
+      }
+      td {
+        word-break: break-all;
+        &:nth-child(2) {
+          input {
+            width: calc(100% - 7px);
+          }
+        }
+        &:nth-child(4) {
+          text-align: right;
+        }
+      }
     }
 
     &__attribute {
