@@ -1,7 +1,4 @@
-export default function (
-  { droppable, selectedPred, pred, shortcutKey },
-  index
-) {
+export default function ({ droppable, selectedPred, pred }, index) {
   return `
     ${
       droppable
