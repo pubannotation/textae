@@ -27,7 +27,7 @@ export default function (context) {
     Type
   </p>
   ${attributes
-    .map((a, index) => toAttributeTab(a, index, selectedPred))
+    .map((a, index, array) => toAttributeTab(a, index, array, selectedPred))
     .join('\n')}
   ${
     isLock
