@@ -19,8 +19,9 @@
 5.  6.4.16 で対応
 6.  6.4.1 で、Annotation ファイルの読込時 Validation での Attribute のチェックを緩め、 1 つの Entity に Predicate と Object が等しい Attribute が複数ついているかのチェックに変更しました
 7.  6.4.70 で、重複 Attribute を Entity 編集ダイアログに表示できるようにしました
-8.  Entity 編集ダイアログに表示する Entity を Attribute も pred と value という同じ見出しも持っている
+8.  Entity 編集ダイアログに表示する Entity を Attribute も Predicate と Value という同じ見出しも持っている
 9.  6.4.82 で、要素毎に見出しを表示するのをやめて、テーブルで表示し、テーブルヘッダーに見出しをまとめました。
+10. 6.4.83 で、Attribute の Predicate と Value をテキストにし、編集・削除ボタンをアイコンにしました。
 
 ### DenotationEntity
 
@@ -32,7 +33,9 @@
 6.  ダイアログのタイトルが`Please edit type and attributes`であること
 7.  1 行目の`Predicate`カラムに`type`、`Value`カラムに`null`が表示されること
 8.  2 行目の`Predicate`カラムに`denote`、`Value`カラムに`equivalentTo`が表示されること
-9.  3 行目の`Predicate`カラムに`denote`、`Value`カラムに`http://www.yahoo.co.jp/eeeeeeeeeeeeeeeeeoaoeuaoeuaoue`が表示されること
+9.  2 行目の`Predicate`カラムと`Value`カラムがテキストであること
+10. 2 行目の編集ボタンと削除ボタンにアイコンが表示されていること
+11. 3 行目の`Predicate`カラムに`denote`、`Value`カラムに`http://www.yahoo.co.jp/eeeeeeeeeeeeeeeeeoaoeuaoeuaoue`が表示されること
 
 ### BlockEntity
 
