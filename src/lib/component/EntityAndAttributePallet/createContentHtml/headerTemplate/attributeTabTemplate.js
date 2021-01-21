@@ -15,7 +15,7 @@ export default function (
       data-attribute="${pred}"
       data-index="${index}"
       ${selectedPred ? 'draggable="true"' : ''}>
-      ${shortcutKey ? `${shortcutKey}:` : ''}${pred}
+      ${index < 9 ? `${index + 1}:` : ''}${pred}
     </p>
   `
 }
