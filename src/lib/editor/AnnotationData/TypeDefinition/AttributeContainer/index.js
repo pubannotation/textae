@@ -130,6 +130,13 @@ export default class AttributeContainer {
   }
 
   attributeCompareFunction(a, b) {
+    // Order by attribute definition order.
+    const indexOfA = this.getIndexOf(a.pred)
+    const indexOfB = this.getIndexOf(b.pred)
+    if (indexOfA !== indexOfB) {
+      return indexOfA - indexOfB
+    }
+
     return a.id.localeCompare(b.id)
   }
 }
