@@ -296,19 +296,45 @@
 .textae-editor__edit-value-and-pred-dialog__input-box {
   width: 50%;
 }
-.textae-editor__edit-type-dialog__attribute__edit,
-.textae-editor__edit-type-dialog__attribute__remove {
-  padding-top: 11px;
+.textae-editor__edit-type-dialog__table {
+  table-layout: fixed;
+  width: 761px;
+}
+.textae-editor__edit-type-dialog__table th:nth-child(1) {
+  width: 158px;
+}
+.textae-editor__edit-type-dialog__table th:nth-child(2) {
+  width: 285px;
+}
+.textae-editor__edit-type-dialog__table th:nth-child(3) {
+  width: 177px;
+}
+.textae-editor__edit-type-dialog__table th:nth-child(4) {
+  width: 119px;
+}
+.textae-editor__edit-type-dialog__table td {
+  word-break: break-all;
+}
+.textae-editor__edit-type-dialog__table td:nth-child(2) input {
+  width: calc(100% - 7px);
+}
+.textae-editor__edit-type-dialog__table td:nth-child(4) {
+  text-align: right;
+}
+.textae-editor__edit-type-dialog__attribute__edit__value:before {
+  position: relative;
+  display: inline-block;
+  font-family: FontAwesome;
+  content: '\f040';
+}
+.textae-editor__edit-type-dialog__attribute__remove__value:before {
+  position: relative;
+  display: inline-block;
+  font-family: FontAwesome;
+  content: '\f1f8';
 }
 .textae-editor__edit-type-dialog__attribute__edit__value[disabled='disabled'] {
   opacity: 0.1;
-}
-.textae-editor__edit-type-dialog__attribute__message {
-  color: red;
-  padding-bottom: 30px;
-}
-.textae-editor__edit-type-dialog__attribute__message--valid {
-  display: none;
 }
 .textae-editor__edit-type-definition-dialog__container {
   display: flex;
