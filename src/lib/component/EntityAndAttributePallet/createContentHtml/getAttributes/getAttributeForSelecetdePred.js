@@ -6,7 +6,6 @@ export default function (attributeContainer, selectedPred) {
   for (const a of attributeContainer.attributes) {
     attributes.push({
       pred: a.pred,
-      selectedPred: selectedPred === a.pred,
       droppable: selectedPred !== a.pred && !isPrevSelected
     })
     isPrevSelected = selectedPred === a.pred
