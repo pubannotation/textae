@@ -6,6 +6,9 @@ export default function (editor, entityRenderer, relationRenderer) {
     .on('textae.typeDefinition.attribute.change', (pred) =>
       entityRenderer.updateAttribute(pred)
     )
+    .on('textae.typeDefinition.attribute.move', (pred) =>
+      entityRenderer.updateAttribute(pred)
+    )
     .on('textae.typeDefinition.relation.type.change', (typeName) =>
       relationRenderer.changeType(typeName)
     )
