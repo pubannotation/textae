@@ -8,6 +8,472 @@
 4.  ブラウザの開発ツールを起動します。
 5.  以下のテストを実行して、エラーが出ないこと
 
+## ラベルの定義に HTML タグが含まれているとき、HTML エスケープした文字列を Entity 編集ダイアログに表示すること
+
+### 背景
+
+1. オートコンプリートの候補には Type 定義の`id`と`label`を表示しています。
+2. HTML エスケープしていないため、`label`に HTML タグを含む Type を定義すると、編集ダイアログに任意の HTML タグを挿入することが可能です。
+3. 6.4.31 で対応しました。
+
+### -- 手段 --
+
+1. Editor1 を選択
+2. Term モードにする
+3. DenotationEntity `E31` を選択する
+4. `w`キーを押して Entity 編集ダイアログを開く
+5. `Label:`欄に、赤字の`Red color HTML label`ではなく、`<span style='color: red;'>Red color HTML label</span>`が表示されること
+
+## Entity に HTML タグを含むラベルを設定したときにラベルの定義に HTML エスケープされた文字列が設定されないこと
+
+### 背景
+
+1. ラベルは編集ダイアログの HTML 要素に innerText を使って設定され、その値を取得するときに innerHTML を使っていたため、HTML タグを含むラベルを設定した際に、HTML エスケープされていました。
+2. 6.4.18 で対応しまた。
+
+### -- 手段 --
+
+1. Editor1 を選択
+2. Term モードにする
+3. Entity を選択する
+4. `w`キーを押して Entity 編集ダイアログを開く
+5. `Value:`欄に`HTML`を入力する
+6. 候補から`HTML tag label`を選択し、確定する
+7. `q`キーを押してパレットを開く
+8. `Save Configurations`ダイアログを開く
+9. `entity types`に`HTML tag label`の変更がないこと
+
+## ラベルの定義に HTML タグが含まれているとき、HTML エスケープした文字列をオートコンプリートの候補として表示すること
+
+### 背景
+
+1. オートコンプリートの候補には Type 定義の`id`と`label`を表示しています。
+2. HTML エスケープしていないため、`label`に HTML タグを含む Type を定義すると、オートコンプリートの候補に任意の HTML タグを挿入することが可能です。
+3. 6.4.24 で対応しました。
+
+### -- 手段 --
+
+1. Editor1 を選択
+2. Term モードにする
+3. Entity を選択する
+4. `w`キーを押して Entity 編集ダイアログを開く
+5. `Value:`欄に`HTML`を入力する
+6. 候補に赤字の`Red color HTML label`ではなく、`<span style='color: red;'>Red color HTML label</span>...`が表示されること
+
+## Selection Attribute の編集
+
+### 背景
+
+1.  5.0.0 で、Attribute を追加するためにのショートカットキー T を追加しました
+2.  5.0.2 で、1~5 のキーで選択中の Entity へ、Attribute を追加、shift と同時押しで削除するようにしました
+3.  5.0.5 で、Attribute のショートカットキーを 1~9 までに増やしました
+4.  5.2.0 で、Attribute のショートカットキー T を廃止しました
+5.  5.2.3 で編集ダイアログの編集機能は廃止され、パレットを開くボタンに代わりました
+6.  6.2.71 で Block モードでパレットが開けるようになりました
+7.  6.2.79 で で Block モードで、ショートカットキー 1~9 で Attribute の追加ができるようになりました
+
+### BlockEntity の Attribute を編集ダイアログから変更
+
+1.  Editor1 を選択
+2.  Block モードにする
+3.  BlockEntity を選択する
+4.  1 キーを押す
+5.  Attribute が追加されること
+6.  W キーを押す
+7.  `Edit`ボタンを押す
+8.  パレットが開くこと
+9.  denote タブが選ばれていること
+
+### DenotationEntity の Attribute を編集ダイアログから変更
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  DenotationEntity を選択する
+4.  1 キーを押す
+5.  Attribute が追加されること
+6.  W キーを押す
+7.  `Edit`ボタンを押す
+8.  パレットが開くこと
+9.  denote タブが選ばれていること
+
+### BlockEntity の Attribute をショートカットキー操作で変更
+
+1.  Editor1 を選択
+2.  Block モードにする
+3.  BlockEntity を選択する
+4.  1 キーを押す、Attribute を追加されること
+5.  1 キーをもう一度押すと、Value 選択用のパレットが表示されること
+6.  パレットの Value を押すと、選択中の BlockEntity の該当 predicate の Attribute の Value が変更できること
+
+### DenotationEntity の Attribute をショートカットキー操作で変更
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  DenotationEntity を選択する
+4.  1 キーを押す、Attribute を追加されること
+5.  1 キーをもう一度押すと、Value 選択用のパレットが表示されること
+6.  パレットの Value を押すと、選択中の DenotationEntity の該当 predicate の Attribute の Value が変更できること
+
+## オートコンプリートの候補がダイアログの下に隠れないこと
+
+### 背景
+
+1.  4.3.0 でオートコンプリート導入。候補を config と source server(オートコンプリートの問い合わせ先サーバー。HTML 上の autocompletion_ws 属性で設定します)から検索します
+2.  4.5.5 で jQuery UI を textae.js に同梱した時、オートコンプリートの候補が選択できなくなりました。jQuery UI の core 部分と jQuery UI のオートコンプリート機能のバージョン不一致で、オートコンプリートの候補を選択したときにエラーが起きた。4.5.6 で対応
+3.  5.0.0 で type の編集機能を追加した際に、オートコンプリートで検索結果のラベルを`Value:`の右に、id を Value 欄に表示するように変更しました
+4.  5.0.0 で Relation のラベルも Entity と同様の短縮表示しました
+5.  5.0.5 でオートコンプリートの候補がダイアログの裏に隠れるバグを修正した際に、同時に、候補の末尾の文字が見切れない用に右寄せにしました
+6.  5.0.5 で Attribute のない Entity を編集するときに、オートコンプリートの候補の 2 つ目以降が見切れていました。5.2.6 でダイアログの高さに最小値を設定しました
+7.  6.2.0 からブロック機能を追加
+8.  6.4.21 で Type 定義編集ダイアログに適用しました
+
+### -- 手段 --
+
+#### Type 定義編集ダイアログ
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  `q`を押してパレットを表示する
+4.  `Edit this type`ボタンをクリックする
+5.  既存の id を消す
+6.  `pro`を入力
+7.  候補に`production@http://dbpedia.org/ontology/production`が右寄せで表示されること
+8.  既存の label を消す
+9.  `pro`を入力
+10. 候補に`productionCompany@http://dbpedia.org/ontology/productionCompany`が右寄せで表示されること
+
+#### DenotationEntity 編集ダイアログ
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  Attribute のない DenotationEntity を選択する
+4.  `Change Label[W]`ボタンを押す
+5.  既存の id を消す
+6.  `pro`を入力
+7.  候補に`production@http://dbpedia.org/ontology/production`が右寄せで表示されること
+8.  候補に`productionCompany@http://dbpedia.org/ontology/productionCompany`が右寄せで表示されること
+9.  2 つ目以降の候補が隠れないこと
+10. `production@http://dbpedia.org/ontology/production`を選択する
+11. Value の右に`production`が表示されること
+12. Value の値が`http://dbpedia.org/ontology/production`になること
+13. `OK`ボタンを押す
+14. DenotationEntity のラベルが`production`になること
+
+#### BlocknEntity 編集ダイアログ
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  BlocknEntity を選択する
+4.  `Change Label[W]`ボタンを押す
+5.  既存の id を消す
+6.  `par`を入力
+7.  候補に`parent@http://dbpedia.org/ontology/parent`が右寄せで表示されること
+8.  `parent@http://dbpedia.org/ontology/parent`を選択する
+9.  Value の右に`parent`が表示されること
+10. Value の値が`http://dbpedia.org/ontology/parent`になること
+11. `OK`ボタンを押す
+12. BlocknEntity のラベルが`parent`になること
+
+#### Relation
+
+1.  Editor1 を選択
+2.  Relation モードにする
+3.  Relation を選択する
+4.  `Change Label[W]`ボタンを押す
+5.  既存の id を消す
+6.  `par`を入力
+7.  候補に`parent@http://dbpedia.org/ontology/parent`が右寄せで表示されること
+8.  `parent@http://dbpedia.org/ontology/parent`を選択する
+9.  Value の右に`parent`が表示されること
+10. Value の値が`http://dbpedia.org/ontology/parent`になること
+11. `OK`ボタンを押す
+12. Relation のラベルが`parent`になること
+
+## オートコンプリートの候補を表示したときに Entity 編集ダイアログに横スクロールバーが表示されないこと
+
+### 背景
+
+1.  5.0.6 で Entity ダイアログのオートコンプリートの候補の幅を、なるべく値が省略されないように、広くしました。
+2.  Firefox では、Entity ダイアログに横スクロールバーが表示されていました。5.2.7 で候補の幅を 5px 短くして、対応しました。
+
+### --- 手段 ---
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  Attribute のない Entity を選択する
+4.  `Change Label[W]`ボタンを押す
+5.  既存の id を消す
+6.  `par`を入力
+7.  候補に`parent@http://dbpedia.org/ontology/parent`が表示されること
+8.  ダイアログに横スクロールバー表示されないこと
+
+## 編集ダイアログから Attribute インスタンスを削除する
+
+### 背景
+
+1.  5.0.0 で Attribute を導入した際に、Attribute の削除ができませんでした。
+2.  編集後の Attribute と同じ Attribute を編集前の Attribute から探してきて、すべて見つかったときには変更なしとしてモデルの更新をスキップしていました。
+3.  Attribute を減らしたときに変更があることを検知できませんでした。
+4.  5.0.2 で修正
+5.  6.2.0 からブロック機能を追加
+
+### 編集ダイアログから BlockEntity の Attribute インスタンスを削除する
+
+1.  Term モードにする
+2.  BlockEntity を選択する
+3.  1 キーを押す
+4.  Attribute が追加されること
+5.  W キーを押す
+6.  `Remove`ボタンを押す
+7.  `OK`ボタンを押す
+8.  選択中の BlockEntity の該当 predicate の Attribute が削除されること
+
+### 編集ダイアログから DenotationEntity の Attribute インスタンスを削除する
+
+1.  Term モードにする
+2.  DenotationEntity を選択する
+3.  1 キーを押す
+4.  Attribute が追加されること
+5.  W キーを押す
+6.  `Remove`ボタンを押す
+7.  `OK`ボタンを押す
+8.  選択中の DenotationEntity の該当 predicate の Attribute が削除されること
+
+## BlockEntity 編集ダイアログ
+
+### 背景
+
+1.  6.2.64 で対応しました
+
+#### Change Label[W]ボタン
+
+1.  Block モードにする
+2.  BlockEntity を選択する
+3.  `Change Label[W]`ボタンを押す
+4.  編集ダイアログが開くこと
+
+#### W キー
+
+1.  Block モードにする
+2.  BlockEntity を選択する
+3.  `W`キーを押す
+4.  編集ダイアログが開くこと
+
+#### コンテキストメニュー
+
+1.  Block モードにする
+2.  BlockEntity を選択する
+3.  右クリックする
+4.  コンテキストメニューが開くこと
+5.  コンテキストメニューの
+6.  `Change Label[W]`ボタンを押す
+7.  編集ダイアログが開くこと
+
+### 複数 BlockEntity 選択時は最後に選んだ Entity の Type と Attribute を表示すること
+
+1.  Block モードにする
+2.  複数 BlockEntity を選択する
+3.  Type を編集する
+4.  Value 欄に最初の Type の Value が表示されること
+
+### 編集確定
+
+#### OK ボタン
+
+1.  Block モードにする
+2.  BlockEntity を選択する
+3.  `W`キーを押す
+4.  編集ダイアログが開くこと
+5.  文字を変更する
+6.  `OK`ボタンを押す
+7.  BlockEntity の id が変わること
+
+#### Enter キー
+
+1.  Block モードにする
+2.  BlockEntity を選択する
+3.  `W`キーを押す
+4.  編集ダイアログが開くこと
+5.  文字を変更する
+6.  `Enter`キーを押す
+7.  BlockEntity の id が変わること
+
+### 編集キャンセル
+
+#### 閉じるボタン
+
+1.  Block モードにする
+2.  BlockEntity を選択する
+3.  `W`キーを押す
+4.  編集ダイアログが開くこと
+5.  文字を変更する
+6.  `X`ボタンを押す
+7.  BlockEntity の id が変わらないこと
+
+#### Esc キー
+
+1.  Block モードにする
+2.  BlockEntity を選択する
+3.  `W`キーを押す
+4.  編集ダイアログが開くこと
+5.  文字を変更する
+6.  `Esc`キーを押す
+7.  BlockEntity の id が変わらないこと
+
+## DenotationEntity 編集ダイアログ
+
+### 背景
+
+1.  5.0.0 から Attribute が追加されました。
+2.  Type は`Predicate`が`type`になりました。
+3.  Type の`id`は`Value`に呼び方が変りました。
+4.  6.3.31 で HTML 生成用のテンプレートを Handlebars.js からテンプレートリテラルに変えたときに、ラベルを持たない Entity のラベルに null と表示されるようになりました。
+5.  6.4.16 で対応
+
+#### ラベルを持たない Entity
+
+1.  Editor0 を選択
+2.  Term モードにする
+3.  ラベルを持たない Entity を選択
+4.  `Change Label[W]`ボタンを押す
+5.  編集ダイアログが開くこと
+6.  `Label:`の下に何も表示されないこと
+
+#### Change Label[W]ボタン
+
+1.  Term モードにする
+2.  DenotationEntity を選択する
+3.  `Change Label[W]`ボタンを押す
+4.  編集ダイアログが開くこと
+
+#### W キー
+
+1.  Term モードにする
+2.  DenotationEntity を選択する
+3.  `W`キーを押す
+4.  編集ダイアログが開くこと
+
+#### コンテキストメニュー
+
+1.  Term モードにする
+2.  DenotationEntity を選択する
+3.  右クリックする
+4.  コンテキストメニューが開くこと
+5.  コンテキストメニューの
+6.  `Change Label[W]`ボタンを押す
+7.  編集ダイアログが開くこと
+
+### 複数 DenotationEntity 選択時は最後に選んだ Entity の Type と Attribute を表示すること
+
+#### 背景
+
+1.  どの要素の Type を表示すればいいのかわからないので
+2.  5.0.0 で Attribute 編集を追加した際に、全部消してしまうと再入力が大変すぎるので、なるべく残すようにしました。
+
+#### -- 手段 --
+
+1.  Term モードにする
+2.  複数 DenotationEntity を選択する
+3.  Type を編集する
+4.  Value 欄に最後に選んだ Entity の Type の Value が表示されること
+5.  すべての Attribute の Predicate が表示されること
+6.  Attribute の Predicate が重複した際は、最後に選んだ Entity の Value が表示されること
+
+### 編集確定
+
+#### OK ボタン
+
+1.  Term モードにする
+2.  DenotationEntity を選択する
+3.  `W`キーを押す
+4.  編集ダイアログが開くこと
+5.  文字を変更する
+6.  `OK`ボタンを押す
+7.  DenotationEntity の id が変わること
+
+#### Enter キー
+
+1.  Term モードにする
+2.  DenotationEntity を選択する
+3.  `W`キーを押す
+4.  編集ダイアログが開くこと
+5.  文字を変更する
+6.  `Enter`キーを押す
+7.  DenotationEntity の id が変わること
+
+### 編集キャンセル
+
+#### 閉じるボタン
+
+1.  Term モードにする
+2.  DenotationEntity を選択する
+3.  `W`キーを押す
+4.  編集ダイアログが開くこと
+5.  文字を変更する
+6.  `X`ボタンを押す
+7.  DenotationEntity の id が変わらないこと
+
+#### Esc キー
+
+1.  Term モードにする
+2.  DenotationEntity を選択する
+3.  `W`キーを押す
+4.  編集ダイアログが開くこと
+5.  文字を変更する
+6.  `Esc`キーを押す
+7.  DenotationEntity の id が変わらないこと
+
+## ラベル編集時にオートコンプリートを表示して、ダイアログをクリックすると、次からオートコンプリートがダイアログの下に表示される
+
+#### 背景
+
+1.  ラベル編集時にオートコンプリートの候補を表示して、ダイアログをクリックしたとき、ダイアログの z-index がインクリメントされ、オートコンプリートの候補の z-index より大きくなります。以降、オートコンプリートの候補を表示した際にダイアログの裏に表示されます。4.4.2 で対応
+2.  5.0.0 の開発中に、ダイアログ内の input 要素をクリックしたときに再現することを発見。5.0.5 で対応しました
+
+#### -- 手段 --
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  Entity を選択する
+4.  `Change Label[W]`ボタンを押す
+5.  既存の id を消す
+6.  `par`を入力
+7.  候補に`parent@http://dbpedia.org/ontology/parent`が表示されること
+8.  編集ダイアログの input 要素をクリックする
+9.  `par`を入力しなおす
+10. 候補に`parent@http://dbpedia.org/ontology/parent`が表示されること
+
+## Entity 編集ダイアログに重複 Attribute を表示
+
+### 背景
+
+1.  6.4.1 で、Annotation ファイルの読込時 Validation での Attribute のチェックを緩め、 1 つの Entity に Predicate と Object が等しい Attribute が複数ついているかのチェックに変更しました
+2.  6.4.70 で、重複 Attribute を Entity 編集ダイアログに表示できるようにしました
+
+### DenotationEntity
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  DenotationEntity `E1:a:b` を選択する
+4.  `Change Label[W]`ボタンを押す
+5.  編集ダイアログが開くこと
+6.  ダイアログのタイトルが`Please edit type and attributes`であること
+7.  `Predicate`欄に`type`が表示されること
+8.  `Value`欄に選択した DenotationEntity の Type の id が表示されること
+9.  `Predicate`が`denoto`の Attribute が複数表示されること
+
+### BlockEntity
+
+1.  Editor1 を選択
+2.  Block モードにする
+3.  BlockEntity `B1` を選択する
+4.  `Change Label[W]`ボタンを押す
+5.  編集ダイアログが開くこと
+6.  ダイアログのタイトルが`Please edit type and attributes`であること
+7.  `Predicate`欄に`type`が表示されること
+8.  `Value`欄に選択した BlockEntity の Type の id が表示されること
+9.  `Predicate`が`denoto`の Attribute が複数表示されること
+
 ## 行の高さ調整アイコン
 
 ### 背景
@@ -359,37 +825,6 @@
 1.  Term モードにする
 2.  Entity を選択する
 3.  Entity のラベルのボーダーが赤色になること
-
-## Entity 編集ダイアログに重複 Attribute を表示
-
-### 背景
-
-1.  6.4.1 で、Annotation ファイルの読込時 Validation での Attribute のチェックを緩め、 1 つの Entity に Predicate と Object が等しい Attribute が複数ついているかのチェックに変更しました
-2.  6.4.70 で、重複 Attribute を Entity 編集ダイアログに表示できるようにしました
-
-### DenotationEntity
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  DenotationEntity `E1:a:b` を選択する
-4.  `Change Label[W]`ボタンを押す
-5.  編集ダイアログが開くこと
-6.  ダイアログのタイトルが`Please edit type and attributes`であること
-7.  `Predicate`欄に`type`が表示されること
-8.  `Value`欄に選択した DenotationEntity の Type の id が表示されること
-9.  `Predicate`が`denoto`の Attribute が複数表示されること
-
-### BlockEntity
-
-1.  Editor1 を選択
-2.  Block モードにする
-3.  BlockEntity `B1` を選択する
-4.  `Change Label[W]`ボタンを押す
-5.  編集ダイアログが開くこと
-6.  ダイアログのタイトルが`Please edit type and attributes`であること
-7.  `Predicate`欄に`type`が表示されること
-8.  `Value`欄に選択した BlockEntity の Type の id が表示されること
-9.  `Predicate`が`denoto`の Attribute が複数表示されること
 
 ## 編集モードを変更したらクリップボードを空にする
 
@@ -1096,26 +1531,6 @@
 
 1.  図が正しくでること
 2.  図の通りに動作すること
-
-## ラベル編集時にオートコンプリートを表示して、ダイアログをクリックすると、次からオートコンプリートがダイアログの下に表示される
-
-#### 背景
-
-1.  ラベル編集時にオートコンプリートの候補を表示して、ダイアログをクリックしたとき、ダイアログの z-index がインクリメントされ、オートコンプリートの候補の z-index より大きくなります。以降、オートコンプリートの候補を表示した際にダイアログの裏に表示されます。4.4.2 で対応
-2.  5.0.0 の開発中に、ダイアログ内の input 要素をクリックしたときに再現することを発見。5.0.5 で対応しました
-
-#### -- 手段 --
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  Entity を選択する
-4.  `Change Label[W]`ボタンを押す
-5.  既存の id を消す
-6.  `par`を入力
-7.  候補に`parent@http://dbpedia.org/ontology/parent`が表示されること
-8.  編集ダイアログの input 要素をクリックする
-9.  `par`を入力しなおす
-10. 候補に`parent@http://dbpedia.org/ontology/parent`が表示されること
 
 ## Span の全 Entity を消したときに Span も一緒に削除する
 
