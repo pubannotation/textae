@@ -6,10 +6,11 @@ export default function (context) {
     selectedEntityLabel,
     selectedPred,
     attributes,
-    addAttribute,
     lastAttributeSelected,
     hasDiff
   } = context
+
+  const addAttribute = attributes.length < 30
 
   return `
 <div style="display: flex;">

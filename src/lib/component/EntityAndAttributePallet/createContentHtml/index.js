@@ -15,7 +15,6 @@ export default function (
   isLock
 ) {
   const attributes = attributeContainer.attributes
-  const addAttribute = attributes.length < 30
 
   if (!selectedPred) {
     return typeTemplate({
@@ -23,7 +22,6 @@ export default function (
       attributes,
       hasDiff,
       types,
-      addAttribute,
       selectedEntityLabel: getSelectedEntityLabel(selectionModelItems.size)
     })
   }
@@ -38,7 +36,6 @@ export default function (
     selectedPred,
     lastAttributeSelected:
       attributes.indexOf(attrDef) === attributes.length - 1,
-    addAttribute,
     selectedEntityLabel: getSelectedEntityLabel(selectionModelItems.size),
     isEntityWithSamePredSelected: selectionModelItems.selectedWithAttributeOf(
       selectedPred
