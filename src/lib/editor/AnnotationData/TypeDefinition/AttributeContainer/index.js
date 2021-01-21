@@ -128,4 +128,8 @@ export default class AttributeContainer {
   getAttributeAt(number) {
     return Array.from(this._definedTypes.values())[number - 1]
   }
+
+  attributeCompareFunction(a, b) {
+    return a.id.localeCompare(b.id)
+  }
 }
