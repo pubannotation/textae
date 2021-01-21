@@ -17,7 +17,9 @@ export default function (typeValues, entityContainer, attributeContainer) {
       <tbody>
         ${toEntityHTML(typeName, entityContainer)}
         ${attributes
-          .map((a) => toAttributeHTML(a, attributeContainer))
+          .map((a, index, list) =>
+            toAttributeHTML(a, attributeContainer, list[index - 1])
+          )
           .join('')}
         </tbody>
     </table>

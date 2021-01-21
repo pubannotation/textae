@@ -1,11 +1,14 @@
-export default function (attribute, attributeContainer) {
+export default function (attribute, attributeContainer, previousAttribute) {
   const { pred, obj } = attribute
+  const previousPredicate = previousAttribute && previousAttribute.pred
   const editDisabled = attributeContainer.get(pred).valueType === 'flag'
 
   return `
 <tr class="textae-editor__edit-type-dialog__attribute">
   <td>
-    <span class="textae-editor__edit-type-dialog__attribute__predicate__value">${pred}</span>
+    <span class="textae-editor__edit-type-dialog__attribute__predicate__value">${
+      pred === previousPredicate ? '' : pred
+    }</span>
   </td>
   <td>
     <span class="textae-editor__edit-type-dialog__attribute__value__value">${obj}</span>
