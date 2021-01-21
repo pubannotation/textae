@@ -8,12 +8,19 @@
 4.  ブラウザの開発ツールを起動します。
 5.  以下のテストを実行して、エラーが出ないこと
 
-## Entity 編集ダイアログに重複 Attribute を表示
+## Entity 編集ダイアログに Entity と Attribute の情報を表示
 
 ### 背景
 
-1.  6.4.1 で、Annotation ファイルの読込時 Validation での Attribute のチェックを緩め、 1 つの Entity に Predicate と Object が等しい Attribute が複数ついているかのチェックに変更しました
-2.  6.4.70 で、重複 Attribute を Entity 編集ダイアログに表示できるようにしました
+1.  5.0.0 から Attribute が追加されました。
+2.  Type は`Predicate`が`type`になりました。
+3.  Type の`id`は`Value`に呼び方が変りました。
+4.  6.3.31 で HTML 生成用のテンプレートを Handlebars.js からテンプレートリテラルに変えたときに、ラベルを持たない Entity のラベルに null と表示されるようになりました。
+5.  6.4.16 で対応
+6.  6.4.1 で、Annotation ファイルの読込時 Validation での Attribute のチェックを緩め、 1 つの Entity に Predicate と Object が等しい Attribute が複数ついているかのチェックに変更しました
+7.  6.4.70 で、重複 Attribute を Entity 編集ダイアログに表示できるようにしました
+8.  Entity 編集ダイアログに表示する Entity を Attribute も pred と value という同じ見出しも持っている
+9.  6.4.82 で、要素毎に見出しを表示するのをやめて、テーブルで表示し、テーブルヘッダーに見出しをまとめました。
 
 ### DenotationEntity
 
@@ -23,9 +30,9 @@
 4.  `Change Label[W]`ボタンを押す
 5.  編集ダイアログが開くこと
 6.  ダイアログのタイトルが`Please edit type and attributes`であること
-7.  `Predicate`欄に`type`が表示されること
-8.  `Value`欄に選択した DenotationEntity の Type の id が表示されること
-9.  `Predicate`が`denoto`の Attribute が複数表示されること
+7.  1 行目の`Predicate`カラムに`type`、`Value`カラムに`null`が表示されること
+8.  2 行目の`Predicate`カラムに`denote`、`Value`カラムに`equivalentTo`が表示されること
+9.  3 行目の`Predicate`カラムに`denote`、`Value`カラムに`http://www.yahoo.co.jp/eeeeeeeeeeeeeeeeeoaoeuaoeuaoue`が表示されること
 
 ### BlockEntity
 
@@ -35,61 +42,17 @@
 4.  `Change Label[W]`ボタンを押す
 5.  編集ダイアログが開くこと
 6.  ダイアログのタイトルが`Please edit type and attributes`であること
-7.  `Predicate`欄に`type`が表示されること
-8.  `Value`欄に選択した BlockEntity の Type の id が表示されること
-9.  `Predicate`が`denoto`の Attribute が複数表示されること
+7.  1 行目の`Predicate`カラムに`type`、`Value`カラムに`block1`、`Label`カラムに`Label of block1` が表示されること
+8.  `Predicate`が`denoto`の Attribute が複数行表示されること
 
-## DenotationEntity 編集ダイアログ
-
-### 背景
-
-1.  5.0.0 から Attribute が追加されました。
-2.  Type は`Predicate`が`type`になりました。
-3.  Type の`id`は`Value`に呼び方が変りました。
-4.  6.3.31 で HTML 生成用のテンプレートを Handlebars.js からテンプレートリテラルに変えたときに、ラベルを持たない Entity のラベルに null と表示されるようになりました。
-5.  6.4.16 で対応
-
-#### ラベルを持たない Entity
-
-1.  Editor0 を選択
-2.  Term モードにする
-3.  ラベルを持たない Entity を選択
-4.  `Change Label[W]`ボタンを押す
-5.  編集ダイアログが開くこと
-6.  `Label:`の下に何も表示されないこと
-
-#### Change Label[W]ボタン
-
-1.  Term モードにする
-2.  DenotationEntity を選択する
-3.  `Change Label[W]`ボタンを押す
-4.  編集ダイアログが開くこと
-
-#### W キー
-
-1.  Term モードにする
-2.  DenotationEntity を選択する
-3.  `W`キーを押す
-4.  編集ダイアログが開くこと
-
-#### コンテキストメニュー
-
-1.  Term モードにする
-2.  DenotationEntity を選択する
-3.  右クリックする
-4.  コンテキストメニューが開くこと
-5.  コンテキストメニューの
-6.  `Change Label[W]`ボタンを押す
-7.  編集ダイアログが開くこと
-
-### 複数 DenotationEntity 選択時は最後に選んだ Entity の Type と Attribute を表示すること
+### 複数 Entity 選択時は最後に選んだ Entity の Type と Attribute を表示すること
 
 #### 背景
 
 1.  どの要素の Type を表示すればいいのかわからないので
 2.  5.0.0 で Attribute 編集を追加した際に、全部消してしまうと再入力が大変すぎるので、なるべく残すようにしました。
 
-#### -- 手段 --
+#### DenotationEntity
 
 1.  Term モードにする
 2.  複数 DenotationEntity を選択する
@@ -98,49 +61,44 @@
 5.  すべての Attribute の Predicate が表示されること
 6.  Attribute の Predicate が重複した際は、最後に選んだ Entity の Value が表示されること
 
-### 編集確定
+#### BlockEntity
 
-#### OK ボタン
+1.  Block モードにする
+2.  複数 BlockEntity を選択する
+3.  Type を編集する
+4.  Value 欄に最初の Type の Value が表示されること
+
+## 編集ダイアログから Attribute インスタンスを削除する
+
+### 背景
+
+1.  5.0.0 で Attribute を導入した際に、Attribute の削除ができませんでした。
+2.  編集後の Attribute と同じ Attribute を編集前の Attribute から探してきて、すべて見つかったときには変更なしとしてモデルの更新をスキップしていました。
+3.  Attribute を減らしたときに変更があることを検知できませんでした。
+4.  5.0.2 で修正
+5.  6.2.0 からブロック機能を追加
+
+### 編集ダイアログから BlockEntity の Attribute インスタンスを削除する
+
+1.  Term モードにする
+2.  BlockEntity を選択する
+3.  1 キーを押す
+4.  Attribute が追加されること
+5.  W キーを押す
+6.  `Remove`ボタンを押す
+7.  `OK`ボタンを押す
+8.  選択中の BlockEntity の該当 predicate の Attribute が削除されること
+
+### 編集ダイアログから DenotationEntity の Attribute インスタンスを削除する
 
 1.  Term モードにする
 2.  DenotationEntity を選択する
-3.  `W`キーを押す
-4.  編集ダイアログが開くこと
-5.  文字を変更する
-6.  `OK`ボタンを押す
-7.  DenotationEntity の id が変わること
-
-#### Enter キー
-
-1.  Term モードにする
-2.  DenotationEntity を選択する
-3.  `W`キーを押す
-4.  編集ダイアログが開くこと
-5.  文字を変更する
-6.  `Enter`キーを押す
-7.  DenotationEntity の id が変わること
-
-### 編集キャンセル
-
-#### 閉じるボタン
-
-1.  Term モードにする
-2.  DenotationEntity を選択する
-3.  `W`キーを押す
-4.  編集ダイアログが開くこと
-5.  文字を変更する
-6.  `X`ボタンを押す
-7.  DenotationEntity の id が変わらないこと
-
-#### Esc キー
-
-1.  Term モードにする
-2.  DenotationEntity を選択する
-3.  `W`キーを押す
-4.  編集ダイアログが開くこと
-5.  文字を変更する
-6.  `Esc`キーを押す
-7.  DenotationEntity の id が変わらないこと
+3.  1 キーを押す
+4.  Attribute が追加されること
+5.  W キーを押す
+6.  `Remove`ボタンを押す
+7.  `OK`ボタンを押す
+8.  選択中の DenotationEntity の該当 predicate の Attribute が削除されること
 
 ## ラベルの定義に HTML タグが含まれているとき、HTML エスケープした文字列を Entity 編集ダイアログに表示すること
 
@@ -149,6 +107,8 @@
 1. オートコンプリートの候補には Type 定義の`id`と`label`を表示しています。
 2. HTML エスケープしていないため、`label`に HTML タグを含む Type を定義すると、編集ダイアログに任意の HTML タグを挿入することが可能です。
 3. 6.4.31 で対応しました。
+4. Entity 編集ダイアログに表示する Entity を Attribute も pred と value という同じ見出しも持っている
+5. 6.4.82 で、要素毎に見出しを表示するのをやめて、テーブルで表示し、テーブルヘッダーに見出しをまとめました。
 
 ### -- 手段 --
 
@@ -156,7 +116,7 @@
 2. Term モードにする
 3. DenotationEntity `E31` を選択する
 4. `w`キーを押して Entity 編集ダイアログを開く
-5. `Label:`欄に、赤字の`Red color HTML label`ではなく、`<span style='color: red;'>Red color HTML label</span>`が表示されること
+5. `Label:`カラムに、赤字の`Red color HTML label`ではなく、`<span style='color: red;'>Red color HTML label</span>`が表示されること
 
 ## Entity に HTML タグを含むラベルを設定したときにラベルの定義に HTML エスケープされた文字列が設定されないこと
 
@@ -269,119 +229,6 @@
 11. `OK`ボタンを押す
 12. Relation のラベルが`parent`になること
 
-## BlockEntity 編集ダイアログ
-
-### 背景
-
-1.  6.2.64 で対応しました
-
-#### Change Label[W]ボタン
-
-1.  Block モードにする
-2.  BlockEntity を選択する
-3.  `Change Label[W]`ボタンを押す
-4.  編集ダイアログが開くこと
-
-#### W キー
-
-1.  Block モードにする
-2.  BlockEntity を選択する
-3.  `W`キーを押す
-4.  編集ダイアログが開くこと
-
-#### コンテキストメニュー
-
-1.  Block モードにする
-2.  BlockEntity を選択する
-3.  右クリックする
-4.  コンテキストメニューが開くこと
-5.  コンテキストメニューの
-6.  `Change Label[W]`ボタンを押す
-7.  編集ダイアログが開くこと
-
-### 複数 BlockEntity 選択時は最後に選んだ Entity の Type と Attribute を表示すること
-
-1.  Block モードにする
-2.  複数 BlockEntity を選択する
-3.  Type を編集する
-4.  Value 欄に最初の Type の Value が表示されること
-
-### 編集確定
-
-#### OK ボタン
-
-1.  Block モードにする
-2.  BlockEntity を選択する
-3.  `W`キーを押す
-4.  編集ダイアログが開くこと
-5.  文字を変更する
-6.  `OK`ボタンを押す
-7.  BlockEntity の id が変わること
-
-#### Enter キー
-
-1.  Block モードにする
-2.  BlockEntity を選択する
-3.  `W`キーを押す
-4.  編集ダイアログが開くこと
-5.  文字を変更する
-6.  `Enter`キーを押す
-7.  BlockEntity の id が変わること
-
-### 編集キャンセル
-
-#### 閉じるボタン
-
-1.  Block モードにする
-2.  BlockEntity を選択する
-3.  `W`キーを押す
-4.  編集ダイアログが開くこと
-5.  文字を変更する
-6.  `X`ボタンを押す
-7.  BlockEntity の id が変わらないこと
-
-#### Esc キー
-
-1.  Block モードにする
-2.  BlockEntity を選択する
-3.  `W`キーを押す
-4.  編集ダイアログが開くこと
-5.  文字を変更する
-6.  `Esc`キーを押す
-7.  BlockEntity の id が変わらないこと
-
-## 編集ダイアログから Attribute インスタンスを削除する
-
-### 背景
-
-1.  5.0.0 で Attribute を導入した際に、Attribute の削除ができませんでした。
-2.  編集後の Attribute と同じ Attribute を編集前の Attribute から探してきて、すべて見つかったときには変更なしとしてモデルの更新をスキップしていました。
-3.  Attribute を減らしたときに変更があることを検知できませんでした。
-4.  5.0.2 で修正
-5.  6.2.0 からブロック機能を追加
-
-### 編集ダイアログから BlockEntity の Attribute インスタンスを削除する
-
-1.  Term モードにする
-2.  BlockEntity を選択する
-3.  1 キーを押す
-4.  Attribute が追加されること
-5.  W キーを押す
-6.  `Remove`ボタンを押す
-7.  `OK`ボタンを押す
-8.  選択中の BlockEntity の該当 predicate の Attribute が削除されること
-
-### 編集ダイアログから DenotationEntity の Attribute インスタンスを削除する
-
-1.  Term モードにする
-2.  DenotationEntity を選択する
-3.  1 キーを押す
-4.  Attribute が追加されること
-5.  W キーを押す
-6.  `Remove`ボタンを押す
-7.  `OK`ボタンを押す
-8.  選択中の DenotationEntity の該当 predicate の Attribute が削除されること
-
 ## Selection Attribute の編集
 
 ### 背景
@@ -394,7 +241,7 @@
 6.  6.2.71 で Block モードでパレットが開けるようになりました
 7.  6.2.79 で で Block モードで、ショートカットキー 1~9 で Attribute の追加ができるようになりました
 
-### BlockEntity の Attribute をEntity編集ダイアログから変更
+### BlockEntity の Attribute を Entity 編集ダイアログから変更
 
 1.  Editor1 を選択
 2.  Block モードにする
@@ -406,7 +253,7 @@
 8.  パレットが開くこと
 9.  denote タブが選ばれていること
 
-### DenotationEntity の Attribute をEntity編集ダイアログから変更
+### DenotationEntity の Attribute を Entity 編集ダイアログから変更
 
 1.  Editor1 を選択
 2.  Term モードにする
@@ -473,6 +320,146 @@
 8.  編集ダイアログの input 要素をクリックする
 9.  `par`を入力しなおす
 10. 候補に`parent@http://dbpedia.org/ontology/parent`が表示されること
+
+## DenotationEntity 編集ダイアログを開く
+
+### Change Label[W]ボタン
+
+1.  Term モードにする
+2.  DenotationEntity を選択する
+3.  `Change Label[W]`ボタンを押す
+4.  編集ダイアログが開くこと
+
+### W キー
+
+1.  Term モードにする
+2.  DenotationEntity を選択する
+3.  `W`キーを押す
+4.  編集ダイアログが開くこと
+
+### コンテキストメニュー
+
+1.  Term モードにする
+2.  DenotationEntity を選択する
+3.  右クリックする
+4.  コンテキストメニューが開くこと
+5.  コンテキストメニューの
+6.  `Change Label[W]`ボタンを押す
+7.  編集ダイアログが開くこと
+
+## BlockEntity 編集ダイアログを開く
+
+### Change Label[W]ボタン
+
+1.  Block モードにする
+2.  BlockEntity を選択する
+3.  `Change Label[W]`ボタンを押す
+4.  編集ダイアログが開くこと
+
+### W キー
+
+1.  Block モードにする
+2.  BlockEntity を選択する
+3.  `W`キーを押す
+4.  編集ダイアログが開くこと
+
+### コンテキストメニュー
+
+1.  Block モードにする
+2.  BlockEntity を選択する
+3.  右クリックする
+4.  コンテキストメニューが開くこと
+5.  コンテキストメニューの
+6.  `Change Label[W]`ボタンを押す
+7.  編集ダイアログが開くこと
+
+## DenotationEntity 編集ダイアログの編集確定
+
+### OK ボタン
+
+1.  Term モードにする
+2.  DenotationEntity を選択する
+3.  `W`キーを押す
+4.  編集ダイアログが開くこと
+5.  文字を変更する
+6.  `OK`ボタンを押す
+7.  DenotationEntity の id が変わること
+
+### Enter キー
+
+1.  Term モードにする
+2.  DenotationEntity を選択する
+3.  `W`キーを押す
+4.  編集ダイアログが開くこと
+5.  文字を変更する
+6.  `Enter`キーを押す
+7.  DenotationEntity の id が変わること
+
+## BlockEntity 編集ダイアログの編集確定
+
+### OK ボタン
+
+1.  Block モードにする
+2.  BlockEntity を選択する
+3.  `W`キーを押す
+4.  編集ダイアログが開くこと
+5.  文字を変更する
+6.  `OK`ボタンを押す
+7.  BlockEntity の id が変わること
+
+### Enter キー
+
+1.  Block モードにする
+2.  BlockEntity を選択する
+3.  `W`キーを押す
+4.  編集ダイアログが開くこと
+5.  文字を変更する
+6.  `Enter`キーを押す
+7.  BlockEntity の id が変わること
+
+## DenotationEntity 編集ダイアログの編集キャンセル
+
+### 閉じるボタン
+
+1.  Term モードにする
+2.  DenotationEntity を選択する
+3.  `W`キーを押す
+4.  編集ダイアログが開くこと
+5.  文字を変更する
+6.  `X`ボタンを押す
+7.  DenotationEntity の id が変わらないこと
+
+### Esc キー
+
+1.  Term モードにする
+2.  DenotationEntity を選択する
+3.  `W`キーを押す
+4.  編集ダイアログが開くこと
+5.  文字を変更する
+6.  `Esc`キーを押す
+7.  DenotationEntity の id が変わらないこと
+
+## BlockEntity 編集ダイアログの編集キャンセル
+
+### 閉じるボタン
+
+1.  Block モードにする
+2.  BlockEntity を選択する
+3.  `W`キーを押す
+4.  編集ダイアログが開くこと
+5.  文字を変更する
+6.  `X`ボタンを押す
+7.  BlockEntity の id が変わらないこと
+
+### Esc キー
+
+1.  Block モードにする
+2.  BlockEntity を選択する
+3.  `W`キーを押す
+4.  編集ダイアログが開くこと
+5.  文字を変更する
+6.  `Esc`キーを押す
+7.  BlockEntity の id が変わらないこと
 
 ## 行の高さ調整アイコン
 
