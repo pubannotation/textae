@@ -1,4 +1,4 @@
-export default function ({ droppable, selectedPred, pred }, index) {
+export default function ({ droppable, pred }, index, selectedPred) {
   return `
     ${
       droppable
@@ -7,11 +7,13 @@ export default function ({ droppable, selectedPred, pred }, index) {
     }
     <p 
       class="textae-editor__type-pallet__attribute${
-        selectedPred ? ' textae-editor__type-pallet__attribute--selected' : ''
+        pred === selectedPred
+          ? ' textae-editor__type-pallet__attribute--selected'
+          : ''
       }"
       data-attribute="${pred}"
       data-index="${index}"
-      ${selectedPred ? 'draggable="true"' : ''}>
+      ${pred === selectedPred ? 'draggable="true"' : ''}>
       ${index < 9 ? `${index + 1}:` : ''}${pred}
     </p>
   `

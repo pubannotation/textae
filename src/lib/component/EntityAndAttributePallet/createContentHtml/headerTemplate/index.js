@@ -26,7 +26,9 @@ export default function (context) {
   }" data-attribute="">
     Type
   </p>
-  ${attributes.map((a, index) => toAttributeTab(a, index)).join('\n')}
+  ${attributes
+    .map((a, index) => toAttributeTab(a, index, selectedPred))
+    .join('\n')}
   ${
     isLock
       ? ''
