@@ -4,7 +4,6 @@ import flagAttributeTemplate from './flagAttributeTemplate'
 import numericAttributeTemplate from './numericAttributeTemplate'
 import selectionAttributeTemplate from './selectionAttributeTemplate'
 import stringAttributeTemplate from './stringAttributeTemplate'
-import getAttributes from './getAttributes'
 
 export default function (
   types,
@@ -16,7 +15,7 @@ export default function (
   isLock
 ) {
   const addAttribute = attributeContainer.attributes.length < 30
-  const attributes = getAttributes(attributeContainer, selectedPred)
+  const attributes = attributeContainer.attributes
 
   if (!selectedPred) {
     return typeTemplate({
