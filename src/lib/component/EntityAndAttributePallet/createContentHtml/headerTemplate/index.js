@@ -34,16 +34,19 @@ export default function (context) {
   ${
     isLock
       ? ''
-      : `${
+      : `
+        ${
+          lastAttributeSelected
+            ? ''
+            : '<span class="textae-editor__type-pallet__drop-target" data-index="-1"></span>'
+        }
+        ${
           addAttribute
-            ? `${
-                lastAttributeSelected
-                  ? ''
-                  : '<span class="textae-editor__type-pallet__drop-target" data-index="-1"></span>'
-              }    <p class="textae-editor__type-pallet__attribute textae-editor__type-pallet__create-predicate">
-  <span class="textae-editor__type-pallet__create-predicate__button" title="Add new attribute"></span>
-</p>
-`
+            ? `
+            <p class="textae-editor__type-pallet__attribute textae-editor__type-pallet__create-predicate">
+              <span class="textae-editor__type-pallet__create-predicate__button" title="Add new attribute"></span>
+            </p>
+            `
             : ''
         }`
   }
