@@ -74,9 +74,14 @@ export default class AttributeContainer {
       arrayMove(this.attributes, oldIndex, newIndex).map((a) => [a.pred, a])
     )
 
+    // -1 points to the end of the array.
+    const { pred } = this.attributes[
+      newIndex === -1 ? this.attributes.length - 1 : newIndex
+    ]
+
     // When an attribute definition move is undoed,
     // it fires an event to notify the palette to immediately reflect the display content.
-    this._editor.eventEmitter.emit(`textae.typeDefinition.attribute.move`)
+    this._editor.eventEmitter.emit(`textae.typeDefinition.attribute.move`, pred)
   }
 
   delete(pred) {
