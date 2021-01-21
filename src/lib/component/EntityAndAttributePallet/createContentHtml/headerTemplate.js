@@ -1,3 +1,5 @@
+import toAttributeTab from './toAttributeTab'
+
 export default function (context) {
   const {
     isLock,
@@ -24,26 +26,7 @@ export default function (context) {
   }" data-attribute="">
     Type
   </p>
-  ${attributes
-    .map(({ droppable, selectedPred, pred, shortcutKey }, index) => {
-      return `
-    ${
-      droppable
-        ? `<span class="textae-editor__type-pallet__drop-target" data-index="${index}"></span>`
-        : ''
-    }
-    <p 
-      class="textae-editor__type-pallet__attribute${
-        selectedPred ? ' textae-editor__type-pallet__attribute--selected' : ''
-      }"
-      data-attribute="${pred}"
-      data-index="${index}"
-      ${selectedPred ? 'draggable="true"' : ''}>
-      ${shortcutKey ? `${shortcutKey}:` : ''}${pred}
-    </p>
-  `
-    })
-    .join('\n')}
+  ${attributes.map((a, index) => toAttributeTab(a, index)).join('\n')}
   ${
     isLock
       ? ''
