@@ -14,8 +14,8 @@ export default function (
   attributeInstances,
   isLock
 ) {
-  const addAttribute = attributeContainer.attributes.length < 30
   const attributes = attributeContainer.attributes
+  const addAttribute = attributes.length < 30
 
   if (!selectedPred) {
     return typeTemplate({
@@ -28,9 +28,7 @@ export default function (
     })
   }
 
-  const attrDef = attributeContainer.attributes.find(
-    (a) => a.pred === selectedPred
-  )
+  const attrDef = attributes.find((a) => a.pred === selectedPred)
 
   const values = {
     isLock,
@@ -39,8 +37,7 @@ export default function (
     attrDef: attrDef.JSON,
     selectedPred,
     lastAttributeSelected:
-      attributeContainer.attributes.indexOf(attrDef) ===
-      attributeContainer.attributes.length - 1,
+      attributes.indexOf(attrDef) === attributes.length - 1,
     addAttribute,
     selectedEntityLabel: getSelectedEntityLabel(selectionModelItems.size),
     isEntityWithSamePredSelected: selectionModelItems.selectedWithAttributeOf(
