@@ -296,38 +296,6 @@
 .textae-editor__edit-value-and-pred-dialog__input-box {
   width: 50%;
 }
-.textae-editor__edit-type-dialog__type {
-  display: flex;
-  margin-bottom: 30px;
-}
-.textae-editor__edit-type-dialog__type__predicate {
-  margin-right: 30px;
-}
-.textae-editor__edit-type-dialog__type__value {
-  margin-right: 30px;
-}
-.textae-editor__edit-type-dialog__type__value__value {
-  width: 450px;
-}
-.textae-editor__edit-type-dialog__type__label {
-  margin-right: 30px;
-}
-.textae-editor__edit-type-dialog__attribute {
-  display: flex;
-  margin-bottom: 30px;
-}
-.textae-editor__edit-type-dialog__attribute__predicate {
-  margin-right: 30px;
-}
-.textae-editor__edit-type-dialog__attribute__predicate__value {
-  width: 262px;
-}
-.textae-editor__edit-type-dialog__attribute__value {
-  margin-right: 30px;
-}
-.textae-editor__edit-type-dialog__attribute__value__value {
-  width: 262px;
-}
 .textae-editor__edit-type-dialog__attribute__edit,
 .textae-editor__edit-type-dialog__attribute__remove {
   padding-top: 11px;
