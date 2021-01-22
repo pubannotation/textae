@@ -14,7 +14,14 @@ export default function (context) {
       <label>Predicate:</label><br>
       <input value="${pred}">
     </div>
-    ${showDefault ? `${inputDefault(_default)}` : ''}
+    ${
+      showDefault
+        ? `${inputDefault(
+            'textae-editor__edit-attribute-definition-dialog',
+            _default
+          )}`
+        : ''
+    }
   </div>
   ${showNumeric ? `${inputNumeric(min, max, step)}` : ''}
 </div>`
