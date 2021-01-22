@@ -1,14 +1,16 @@
+import getSelectedEntityLabel from '../getSelectedEntityLabel'
 import toAttributeTab from './attributeTabTemplate'
 
 export default function (context) {
   const {
     isLock,
-    selectedEntityLabel,
+    selectionModelItems,
     selectedPred,
     attributes,
     hasDiff
   } = context
 
+  const selectedEntityLabel = getSelectedEntityLabel(selectionModelItems.size)
   const addAttribute = attributes.length < 30
   const lastAttributeSelected =
     selectedPred === attributes[attributes.length - 1].pred

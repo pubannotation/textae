@@ -1,4 +1,3 @@
-import getSelectedEntityLabel from './getSelectedEntityLabel'
 import typeTemplate from './typeTemplate'
 import flagAttributeTemplate from './flagAttributeTemplate'
 import numericAttributeTemplate from './numericAttributeTemplate'
@@ -22,7 +21,7 @@ export default function (
       attributes,
       hasDiff,
       types,
-      selectedEntityLabel: getSelectedEntityLabel(selectionModelItems.size)
+      selectionModelItems
     })
   }
 
@@ -34,7 +33,7 @@ export default function (
     hasDiff,
     attrDef: attrDef.JSON,
     selectedPred,
-    selectedEntityLabel: getSelectedEntityLabel(selectionModelItems.size),
+    selectionModelItems,
     isEntityWithSamePredSelected: selectionModelItems.selectedWithAttributeOf(
       selectedPred
     ),
