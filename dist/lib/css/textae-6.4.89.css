@@ -2191,7 +2191,7 @@ a.ui-button:active,
 .textae-editor--active.textae-editor__mode--view-without-relation,
 .textae-editor--active.textae-editor__mode--denotation-with-relation,
 .textae-editor--active.textae-editor__mode--denotation-without-relation {
-  background-color: #ffe;
+  background-color: #ffd;
 }
 .textae-editor--active.textae-editor__mode--block-with-relation,
 .textae-editor--active.textae-editor__mode--block-without-relation {
