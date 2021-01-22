@@ -13,7 +13,9 @@ export default function (context) {
   const selectedEntityLabel = getSelectedEntityLabel(selectionModelItems.size)
   const addAttribute = attributes.length < 30
   const lastAttributeSelected =
-    selectedPred === attributes[attributes.length - 1].pred
+    selectedPred ===
+    (attributes[attributes.length - 1] &&
+      attributes[attributes.length - 1].pred)
 
   return `
 <div style="display: flex;">
