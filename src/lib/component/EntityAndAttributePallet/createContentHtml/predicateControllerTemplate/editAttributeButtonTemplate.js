@@ -1,6 +1,9 @@
 export default function (context) {
-  const { attrDef, isOnlyEntityWithJsutOneSamePredSelected } = context
+  const { attrDef, selectionModelItems, selectedPred } = context
   const valueType = attrDef['value type']
+  const isOnlyEntityWithJsutOneSamePredSelected = selectionModelItems.onlySelectedWithJustOneAttributeOf(
+    selectedPred
+  )
 
   return valueType === 'string' || valueType === 'numeric'
     ? isOnlyEntityWithJsutOneSamePredSelected
