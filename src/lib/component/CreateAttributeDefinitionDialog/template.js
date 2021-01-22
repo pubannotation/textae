@@ -1,5 +1,5 @@
 import inputDefault from '../inputDefault'
-import inputNumeric from './inputNumeric'
+import inputNumeric from '../EditAttributeDefinitionDialog/inputNumeric'
 
 export default function (context) {
   const {
@@ -48,6 +48,15 @@ export default function (context) {
         : ''
     }
   </div>
-  ${inputNumeric(showNumeric, min, max, step)}
+  ${
+    showNumeric
+      ? `${inputNumeric(
+          'textae-editor__create-attribute-definition-dialog',
+          min,
+          max,
+          step
+        )}`
+      : ''
+  }
 </div>`
 }
