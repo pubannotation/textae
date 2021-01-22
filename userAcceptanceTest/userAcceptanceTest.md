@@ -24,6 +24,7 @@
 10. 6.4.83 で、Attribute の Predicate と Value をテキストにし、編集・削除ボタンをアイコンにしました。
 11. 6.4.84 で Attribute の定義順に並べることにしました
 12. 6.4.86 で、同一の pred は一回だけ表示するようにしました
+13. 6.4.90 で、Attributeのpredと一緒にショートカットキーを表示するようにしました
 
 ### DenotationEntity
 
@@ -34,7 +35,7 @@
 5.  編集ダイアログが開くこと
 6.  ダイアログのタイトルが`Please edit type and attributes`であること
 7.  1 行目の`Predicate`カラムに`type`、`Value`カラムに`null`が表示されること
-8.  2 行目の`Predicate`カラムに`denote`、`Value`カラムに`equivalentTo`が表示されること
+8.  2 行目の`Predicate`カラムに`1:denote`、`Value`カラムに`equivalentTo`が表示されること
 9.  2 行目の`Predicate`カラムと`Value`カラムがテキストであること
 10. 2 行目の編集ボタンと削除ボタンにアイコンが表示されていること
 11. 3 行目の`Predicate`カラムに空文字、`Value`カラムに`http://www.yahoo.co.jp/eeeeeeeeeeeeeeeeeoaoeuaoeuaoue`が表示されること
@@ -48,7 +49,7 @@
 5.  編集ダイアログが開くこと
 6.  ダイアログのタイトルが`Please edit type and attributes`であること
 7.  1 行目の`Predicate`カラムに`type`、`Value`カラムに`block1`、`Label`カラムに`Label of block1` が表示されること
-8.  2 行目の`Predicate`カラムに`denote`、`Value`カラムに`equivalentTo`が表示されること
+8.  2 行目の`Predicate`カラムに`1:denote`、`Value`カラムに`equivalentTo`が表示されること
 9.  3 行目の`Predicate`カラムに空文字、`Value`カラムに`http://www.yahoo.co.jp/eeeeeeeeeeeeeeeeeoaoeuaoeuaoue`が表示されること
 
 ## 複数 Entity 選択時は、Entity 編集ダイアログに 、最後に選んだ Entity の Type と Attribute を表示すること
