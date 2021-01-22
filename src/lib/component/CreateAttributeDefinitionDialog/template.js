@@ -41,24 +41,8 @@ export default function (context) {
       <label>Predicate:</label><br>
       <input value="${pred || ''}">
     </div>
-    ${
-      showDefault
-        ? `${inputDefault(
-            'textae-editor__create-attribute-definition-dialog',
-            _default
-          )}`
-        : ''
-    }
+    ${showDefault ? `${inputDefault(componentClassName, _default)}` : ''}
   </div>
-  ${
-    showNumeric
-      ? `${inputNumeric(
-          'textae-editor__create-attribute-definition-dialog',
-          min,
-          max,
-          step
-        )}`
-      : ''
-  }
+  ${showNumeric ? `${inputNumeric(componentClassName, min, max, step)}` : ''}
 </div>`
 }
