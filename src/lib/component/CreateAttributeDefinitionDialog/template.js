@@ -1,5 +1,5 @@
-import inputDefault from '../inputDefault'
-import inputNumeric from '../inputNumeric'
+import inputDefault from '../inputAttributeDefinition/inputDefault'
+import inputNumeric from '../inputAttributeDefinition/inputNumeric'
 
 export default function (context) {
   const {
