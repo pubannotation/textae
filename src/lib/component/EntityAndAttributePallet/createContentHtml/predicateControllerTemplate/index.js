@@ -25,6 +25,7 @@ export default function (context) {
             ${addAttributeButtonTempalte(context)}
             ${editAttributeButtonTemplate(context)}
             ${removeAttributeButtonTemplate(context)}
+            the ${numberOfSelectedItems} items selected
             `
           : ``
       }
