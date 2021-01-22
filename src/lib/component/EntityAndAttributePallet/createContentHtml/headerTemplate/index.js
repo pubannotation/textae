@@ -1,4 +1,4 @@
-import getSelectedEntityLabel from '../getSelectedEntityLabel'
+import getSelectedEntityLabel from './getSelectedEntityLabel'
 import toAttributeTab from './attributeTabTemplate'
 
 export default function (context) {
