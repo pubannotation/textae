@@ -34,9 +34,6 @@ export default function (
     attrDef: attrDef.JSON,
     selectedPred,
     selectionModelItems,
-    isEntityWithoutSamePredSelected: selectionModelItems.selectedWithoutAttributeOf(
-      selectedPred
-    ),
     isOnlyEntityWithJsutOneSamePredSelected: selectionModelItems.onlySelectedWithJustOneAttributeOf(
       selectedPred
     ),
