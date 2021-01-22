@@ -6,11 +6,12 @@ export default function (context) {
 
   const showDefault = valueType === 'numeric' || valueType === 'string'
   const showNumeric = valueType === 'numeric'
+  const componentClassName = 'textae-editor__edit-attribute-definition-dialog'
 
   return `
-<div class="textae-editor__edit-attribute-definition-dialog__container">
-  <div class="textae-editor__edit-attribute-definition-dialog__row">
-    <div class="textae-editor__edit-attribute-definition-dialog__pred textae-editor__promise-daialog__observable-element">
+<div class="${componentClassName}__container">
+  <div class="${componentClassName}__row">
+    <div class="${componentClassName}__pred textae-editor__promise-daialog__observable-element">
       <label>Predicate:</label><br>
       <input value="${pred}">
     </div>
