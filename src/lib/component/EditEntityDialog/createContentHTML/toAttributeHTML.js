@@ -1,3 +1,5 @@
+import toShrotcutKey from '../../EntityAndAttributePallet/createContentHtml/headerTemplate/toShrotcutKey'
+
 export default function (
   attribute,
   index,
@@ -13,7 +15,7 @@ export default function (
 <tr class="textae-editor__edit-type-dialog__attribute">
   <td>
     <span class="textae-editor__edit-type-dialog__attribute__predicate__value">${
-      pred === previousPredicate ? '' : pred
+      pred === previousPredicate ? '' : toShrotcutKey(index) + pred
     }</span>
   </td>
   <td>
