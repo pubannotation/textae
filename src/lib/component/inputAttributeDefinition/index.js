@@ -11,7 +11,7 @@ export default function (componentClassName, context) {
     <div class="${componentClassName}__row">
       <div class="${componentClassName}__pred textae-editor__promise-daialog__observable-element">
         <label>Predicate:</label><br>
-        <input value="${pred}">
+        <input value="${pred || ''}">
       </div>
       ${showDefault ? `${inputDefault(componentClassName, _default)}` : ''}
     </div>
