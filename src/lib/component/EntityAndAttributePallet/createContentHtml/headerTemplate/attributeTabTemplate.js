@@ -18,7 +18,11 @@ export default function ({ pred }, index, array, selectedPred) {
       data-attribute="${pred}"
       data-index="${index}"
       ${pred === selectedPred ? 'draggable="true"' : ''}>
-      ${index < 9 ? `${index + 1}:` : ''}${pred}
+      ${toShrotcutKey(index)}${pred}
     </p>
   `
+}
+
+function toShrotcutKey(index) {
+  return index < 9 ? `${index + 1}:` : ''
 }
