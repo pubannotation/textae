@@ -111,11 +111,12 @@ export default class AttributeContainer {
   }
 
   getLabel(pred, obj) {
-    if (this._definedTypes.has(pred)) {
-      return this.get(pred).getLabel(obj)
-    }
+    console.assert(
+      this._definedTypes.has(pred),
+      'There is no attribute instance without definition.'
+    )
 
-    return
+    return this.get(pred).getLabel(obj)
   }
 
   getColor(pred, obj) {
