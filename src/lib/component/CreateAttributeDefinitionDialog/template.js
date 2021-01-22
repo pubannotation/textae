@@ -1,4 +1,4 @@
-import inputDefault from '../EditAttributeDefinitionDialog/inputDefault'
+import inputDefault from '../inputDefault'
 import inputNumeric from './inputNumeric'
 
 export default function (context) {
