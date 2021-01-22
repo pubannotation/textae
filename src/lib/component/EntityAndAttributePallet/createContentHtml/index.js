@@ -47,8 +47,7 @@ export default function (
       attributeInstances
         .filter((a) => a.pred === selectedPred)
         .map((a) => a.subj)
-    ),
-    numberOfSelectedItems: selectionModelItems.size
+    )
   }
 
   switch (attrDef.valueType) {
