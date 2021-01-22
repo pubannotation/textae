@@ -1,5 +1,5 @@
 import getSelectedEntityLabel from './getSelectedEntityLabel'
-import toAttributeTab from './attributeTabTemplate'
+import attributeTabTemplate from './attributeTabTemplate'
 
 export default function (context) {
   const {
@@ -31,7 +31,9 @@ export default function (context) {
     Type
   </p>
   ${attributes
-    .map((a, index, array) => toAttributeTab(a, index, array, selectedPred))
+    .map((a, index, array) =>
+      attributeTabTemplate(a, index, array, selectedPred)
+    )
     .join('\n')}
   ${
     isLock
