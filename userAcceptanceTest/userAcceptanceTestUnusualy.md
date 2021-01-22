@@ -2847,24 +2847,6 @@
 9.  パレットの`Upload`アイコンをクリック
 10. Configuration differences に表示される、追加した Attribute 定義の`default`, `min`, `max`, `step`が Number 型である(ダブルクォートされていない)こと
 
-## Attribute 定義の順序変更
-
-### 背景
-
-1.  5.3.6 で、パレットの Attribute タブをドラッグアンドドロップして、Attribute 定義の順序を変更する機能を追加しました。
-
-### -- 手順 --
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  `Q`キーを押してパレットを開く
-4.  `denote`タブを選択する
-5.  `denote`タブをドラッグして、`warning`タブの前の矢印の上に移動する、タブの左側に空間ができること
-6.  ドロップする
-7.  `denote`タブが、`warning`タブの前に移動すること
-8.  Z キーを押す
-9.  `denote`タブが先頭に戻ること
-
 ## Configuration の自動更新
 
 ### 背景
