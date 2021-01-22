@@ -34,9 +34,6 @@ export default function (
     attrDef: attrDef.JSON,
     selectedPred,
     selectionModelItems,
-    isOnlyEntityWithJsutOneSamePredSelected: selectionModelItems.onlySelectedWithJustOneAttributeOf(
-      selectedPred
-    ),
     numberOfItemsUsingSelectedPred: new Set(
       attributeInstances
         .filter((a) => a.pred === selectedPred)
