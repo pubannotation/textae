@@ -14,8 +14,8 @@ export default function (context) {
       <label>Predicate:</label><br>
       <input value="${pred}">
     </div>
-    ${inputDefault(showDefault, _default)}
+    ${showDefault ? `${inputDefault(_default)}` : ''}
   </div>
-  ${inputNumeric(showNumeric, min, max, step)}
+  ${showNumeric ? `${inputNumeric(min, max, step)}` : ''}
 </div>`
 }

@@ -1,6 +1,5 @@
-export default function (showNumeric, min, max, step) {
-  return showNumeric
-    ? `
+export default function (min, max, step) {
+  return `
   <div class="textae-editor__edit-attribute-definition-dialog__row">
   <div class="textae-editor__edit-attribute-definition-dialog__min">
     <label>Min:</label><br>
@@ -16,5 +15,4 @@ export default function (showNumeric, min, max, step) {
   </div>
 </div>
 `
-    : ''
 }
