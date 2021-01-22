@@ -1,4 +1,4 @@
-import inputDefault from './inputDefault'
+import inputDefault from '../EditAttributeDefinitionDialog/inputDefault'
 import inputNumeric from './inputNumeric'
 
 export default function (context) {
@@ -39,7 +39,14 @@ export default function (context) {
       <label>Predicate:</label><br>
       <input value="${pred || ''}">
     </div>
-    ${inputDefault(showDefault, _default)}
+    ${
+      showDefault
+        ? `${inputDefault(
+            'textae-editor__create-attribute-definition-dialog',
+            _default
+          )}`
+        : ''
+    }
   </div>
   ${inputNumeric(showNumeric, min, max, step)}
 </div>`
