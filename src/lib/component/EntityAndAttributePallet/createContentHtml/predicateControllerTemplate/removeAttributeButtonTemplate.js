@@ -1,5 +1,8 @@
 export default function (context) {
-  const { isEntityWithSamePredSelected } = context
+  const { selectionModelItems, selectedPred } = context
+  const isEntityWithSamePredSelected = selectionModelItems.selectedWithAttributeOf(
+    selectedPred
+  )
 
   return isEntityWithSamePredSelected
     ? `
