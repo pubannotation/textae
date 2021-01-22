@@ -15,11 +15,13 @@ export default function (context) {
     max,
     step
   } = context
+  const componentClassName = 'textae-editor__create-attribute-definition-dialog'
+
   return `
-<div class="textae-editor__create-attribute-definition-dialog__container">
-  <div class="textae-editor__create-attribute-definition-dialog__row">
+<div class="${componentClassName}__container">
+  <div class="${componentClassName}__row">
     <label>Attribute type:</label>
-    <select class="textae-editor__create-attribute-definition-dialog__value-type">
+    <select class="${componentClassName}__value-type">
       <option value="flag"${flagSelected ? ` selected` : ``}>
         flag
         </option>
@@ -34,8 +36,8 @@ export default function (context) {
       </option>
     </select>
   </div>
-  <div class="textae-editor__create-attribute-definition-dialog__row">
-    <div class="textae-editor__create-attribute-definition-dialog__pred textae-editor__promise-daialog__observable-element">
+  <div class="${componentClassName}__row">
+    <div class="${componentClassName}__pred textae-editor__promise-daialog__observable-element">
       <label>Predicate:</label><br>
       <input value="${pred || ''}">
     </div>
