@@ -1,4 +1,4 @@
-import toShrotcutKey from '../../EntityAndAttributePallet/createContentHtml/headerTemplate/toShrotcutKey'
+import toShrotcutKey from '../../toShrotcutKey'
 
 export default function (
   attribute,
