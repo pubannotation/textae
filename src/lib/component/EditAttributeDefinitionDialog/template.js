@@ -1,5 +1,5 @@
 import inputDefault from '../inputDefault'
-import inputNumeric from './inputNumeric'
+import inputNumeric from '../inputNumeric'
 
 export default function (context) {
   const { pred, default: _default, min, max, step, valueType } = context

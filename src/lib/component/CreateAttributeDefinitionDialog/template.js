@@ -1,5 +1,5 @@
 import inputDefault from '../inputDefault'
-import inputNumeric from '../EditAttributeDefinitionDialog/inputNumeric'
+import inputNumeric from '../inputNumeric'
 
 export default function (context) {
   const {
