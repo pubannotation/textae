@@ -23,6 +23,15 @@ export default function (context) {
         : ''
     }
   </div>
-  ${showNumeric ? `${inputNumeric(min, max, step)}` : ''}
+  ${
+    showNumeric
+      ? `${inputNumeric(
+          'textae-editor__edit-attribute-definition-dialog',
+          min,
+          max,
+          step
+        )}`
+      : ''
+  }
 </div>`
 }

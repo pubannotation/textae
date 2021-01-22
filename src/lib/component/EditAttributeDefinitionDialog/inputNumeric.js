@@ -1,15 +1,15 @@
-export default function (min, max, step) {
+export default function (componentClassName, min, max, step) {
   return `
-    <div class="textae-editor__edit-attribute-definition-dialog__row">
-      <div class="textae-editor__edit-attribute-definition-dialog__min">
+    <div class="${componentClassName}__row">
+      <div class="${componentClassName}__min">
         <label>Min:</label><br>
         <input type="text" value="${min || ''}">
       </div>
-      <div class="textae-editor__edit-attribute-definition-dialog__max">
+      <div class="${componentClassName}__max">
         <label>Max:</label><br>
         <input type="text" value="${max || ''}">
       </div>
-      <div class="textae-editor__edit-attribute-definition-dialog__step">
+      <div class="${componentClassName}__step">
         <label>Step:</label><br>
         <input type="text" value="${step || ''}">
       </div>
