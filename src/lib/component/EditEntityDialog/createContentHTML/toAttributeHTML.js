@@ -1,5 +1,6 @@
-export default function (attribute, attributeContainer, previousAttribute) {
+export default function (attribute, index, list, attributeContainer) {
   const { pred, obj } = attribute
+  const previousAttribute = list[index - 1]
   const previousPredicate = previousAttribute && previousAttribute.pred
   const editDisabled = attributeContainer.get(pred).valueType === 'flag'
 
