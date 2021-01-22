@@ -1,19 +1,11 @@
-import inputDefault from '../inputAttributeDefinition/inputDefault'
-import inputNumeric from '../inputAttributeDefinition/inputNumeric'
+import inputAttributeDefinition from '../inputAttributeDefinition'
 
 export default function (context) {
   const {
     flagSelected,
     selectionSelected,
     stringSelected,
-    numericSelected,
-    pred,
-    showDefault,
-    default: _default,
-    showNumeric,
-    min,
-    max,
-    step
+    numericSelected
   } = context
   const componentClassName = 'textae-editor__create-attribute-definition-dialog'
 
@@ -36,13 +28,6 @@ export default function (context) {
       </option>
     </select>
   </div>
-  <div class="${componentClassName}__row">
-    <div class="${componentClassName}__pred textae-editor__promise-daialog__observable-element">
-      <label>Predicate:</label><br>
-      <input value="${pred || ''}">
-    </div>
-    ${showDefault ? `${inputDefault(componentClassName, _default)}` : ''}
-  </div>
-  ${showNumeric ? `${inputNumeric(componentClassName, min, max, step)}` : ''}
+  ${inputAttributeDefinition(componentClassName, context)}
 </div>`
 }

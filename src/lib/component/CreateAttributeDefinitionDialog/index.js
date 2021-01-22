@@ -86,8 +86,7 @@ export default class CreateAttributeDefinitionDialog extends PromiseDialog {
           min,
           max,
           step,
-          showDefault: valueType === 'numeric' || valueType === 'string',
-          showNumeric: valueType === 'numeric'
+          valueType
         }
         state[`${valueType}Selected`] = true
 
