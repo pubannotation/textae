@@ -15,9 +15,7 @@ export default class EditAttributeDefinitionDialog extends PromiseDialog {
         min: json.min,
         max: json.max,
         step: json.step,
-        showDefault:
-          attrDef.valueType === 'numeric' || attrDef.valueType === 'string',
-        showNumeric: attrDef.valueType === 'numeric'
+        valueType: attrDef.valueType
       }),
       {},
       () => {

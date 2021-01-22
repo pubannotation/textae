@@ -2,15 +2,11 @@ import inputDefault from './inputDefault'
 import inputNumeric from './inputNumeric'
 
 export default function (context) {
-  const {
-    pred,
-    showDefault,
-    default: _default,
-    showNumeric,
-    min,
-    max,
-    step
-  } = context
+  const { pred, default: _default, min, max, step, valueType } = context
+
+  const showDefault = valueType === 'numeric' || valueType === 'string'
+  const showNumeric = valueType === 'numeric'
+
   return `
 <div class="textae-editor__edit-attribute-definition-dialog__container">
   <div class="textae-editor__edit-attribute-definition-dialog__row">
