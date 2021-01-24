@@ -1,7 +1,7 @@
 import $ from 'jquery'
 import determineCurviness from '../../../../determineCurviness'
 import connectorStrokeStyle from './connectorStrokeStyle'
-import toDisplayName from '../../../../toDisplayName'
+import toDisplayName from '../toDisplayName'
 import arrowConfig from '../../../../arrowConfig'
 
 // Make a connect by jsPlumb.

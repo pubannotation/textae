@@ -1,5 +1,5 @@
-import getDisplayName from '../getDisplayName'
-import getUri from '../getUri'
+import getDisplayName from '../../../../getDisplayName'
+import getUri from '../../../../getUri'
 
 export default function (namespace, typeContainer, value) {
   const label = getDisplayName(namespace, value, typeContainer.getLabel(value))
