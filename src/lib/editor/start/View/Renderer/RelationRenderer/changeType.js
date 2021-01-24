@@ -1,9 +1,9 @@
-import toLabelString from '../../../../toLabelString'
+import toDisplayName from '../../../../toDisplayName'
 
 export default function (annotationData, typeDefinition, relation) {
   const jsPlumbConnection = relation.jsPlumbConnection
   jsPlumbConnection.setColor()
-  jsPlumbConnection.label = toLabelString(
+  jsPlumbConnection.label = toDisplayName(
     relation,
     annotationData,
     typeDefinition

@@ -1,7 +1,7 @@
 import $ from 'jquery'
 import determineCurviness from '../../../../determineCurviness'
 import connectorStrokeStyle from './connectorStrokeStyle'
-import toLabelString from '../../../../toLabelString'
+import toDisplayName from '../../../../toDisplayName'
 import arrowConfig from '../../../../arrowConfig'
 
 // Make a connect by jsPlumb.
@@ -39,7 +39,7 @@ export default function (
         'Label',
         {
           id: 'textae-relation-label',
-          label: toLabelString(relation, annotationData, typeDefinition),
+          label: toDisplayName(relation, annotationData, typeDefinition),
           cssClass: 'textae-editor__relation__label'
         }
       ]
