@@ -17,7 +17,7 @@ export default class TypeValues {
 
   toHTMLElementContext(namespace, typeContainer, attributeContainer) {
     return {
-      label: this._getDisplayName(namespace, typeContainer),
+      displayName: this._getDisplayName(namespace, typeContainer),
       href: this._href(namespace, typeContainer),
       color: typeContainer.getColor(this.typeName),
       attributes: this._attributesInHTMLElementContext(

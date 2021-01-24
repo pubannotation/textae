@@ -3,7 +3,7 @@ import toAttribute from './toAttribute'
 import toLabel from './toLabel'
 
 export default function (context) {
-  const { id, title, color, href, label, attributes } = context
+  const { id, title, color, href, displayName, attributes } = context
 
   // A Type element has an entity_pane elment that has a label and will have entities.
   // jsPlumb requires the id of the DOM which is the endpoint for drawing relationships.
@@ -21,7 +21,7 @@ export default function (context) {
       class="textae-editor__entity__type-label"
       tabindex="0"
       >
-      ${toLabel(href, label)}
+      ${toLabel(href, displayName)}
     </div>
     ${attributes.map(toAttribute).join('\n')}
   </div>
