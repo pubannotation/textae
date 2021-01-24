@@ -1,4 +1,4 @@
-import toLabel from './toLabel'
+import toAnchorElement from './toAnchorElement'
 
 export default function ({ title, pred, obj, color, href, label }) {
   return `
@@ -10,7 +10,7 @@ export default function ({ title, pred, obj, color, href, label }) {
   ${color ? `style="background-color: ${color};"` : ''}
   >
   <span class="textae-editor__entity__attribute-label">
-    ${toLabel(href, label)}
+    ${toAnchorElement(href, label)}
   </span>
 </div>
 `
