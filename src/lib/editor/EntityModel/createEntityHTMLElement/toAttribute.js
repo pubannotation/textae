@@ -10,7 +10,7 @@ export default function ({ title, pred, obj, color, href, label }) {
   ${color ? `style="background-color: ${color};"` : ''}
   >
   <span class="textae-editor__entity__attribute-label">
-    ${toAnchorElement(href, label)}
+    ${toAnchorElement(label, href)}
   </span>
 </div>
 `

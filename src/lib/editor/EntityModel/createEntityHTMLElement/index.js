@@ -21,7 +21,7 @@ export default function (context) {
       class="textae-editor__entity__type-label"
       tabindex="0"
       >
-      ${toAnchorElement(href, displayName)}
+      ${toAnchorElement(displayName, href)}
     </div>
     ${attributes.map(toAttribute).join('\n')}
   </div>
