@@ -1,6 +1,6 @@
 import getAnnotationBox from '../getAnnotationBox'
 import makeJsPlumbInstance from './makeJsPlumbInstance'
-import changeType from './changeType'
+import renderElementAgain from './renderElementAgain'
 import renderLazy from './renderLazy'
 
 export default class RelationRenderer {
@@ -40,7 +40,7 @@ export default class RelationRenderer {
   }
 
   change(relation) {
-    changeType(
+    renderElementAgain(
       this._annotationData,
       this._annotationData.typeDefinition,
       relation
@@ -55,7 +55,7 @@ export default class RelationRenderer {
         (typeName.lastIndexOf('*') === typeName.length - 1 &&
           relation.typeName.indexOf(typeName.slice(0, -1) === 0))
       ) {
-        changeType(
+        renderElementAgain(
           this._annotationData,
           this._annotationData.typeDefinition,
           relation
@@ -66,7 +66,7 @@ export default class RelationRenderer {
 
   changeAll() {
     this._annotationData.relation.all.map((relation) => {
-      changeType(
+      renderElementAgain(
         this._annotationData,
         this._annotationData.typeDefinition,
         relation
