@@ -1,4 +1,4 @@
-import getLabel from './getLabel'
+import getDisplayName from './getDisplayName'
 import getUri from './getUri'
 
 export default class TypeValues {
@@ -28,7 +28,7 @@ export default class TypeValues {
   }
 
   _label(namespace, typeContainer) {
-    return getLabel(
+    return getDisplayName(
       namespace,
       this.typeName,
       typeContainer.getLabel(this.typeName)
@@ -44,7 +44,7 @@ export default class TypeValues {
       pred,
       obj,
       title: `pred: ${pred}, value: ${obj}`,
-      label: getLabel(
+      label: getDisplayName(
         namespace,
         typeof obj === 'string' ? obj : '',
         attributeContainer.getDisplayName(pred, obj)
