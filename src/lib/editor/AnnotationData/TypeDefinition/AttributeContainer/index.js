@@ -110,7 +110,7 @@ export default class AttributeContainer {
     return false
   }
 
-  getLabel(pred, obj) {
+  getDisplayName(pred, obj) {
     console.assert(
       this._definedTypes.has(pred),
       'There is no attribute instance without definition.'

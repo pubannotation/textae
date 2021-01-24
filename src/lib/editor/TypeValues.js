@@ -47,7 +47,7 @@ export default class TypeValues {
       label: getLabel(
         namespace,
         typeof obj === 'string' ? obj : '',
-        attributeContainer.getLabel(pred, obj)
+        attributeContainer.getDisplayName(pred, obj)
       ),
       href: getUri(namespace, typeof obj === 'string' ? obj : ''),
       color: attributeContainer.getColor(pred, obj)
