@@ -116,7 +116,7 @@ export default class AttributeContainer {
       'There is no attribute instance without definition.'
     )
 
-    return this.get(pred).getLabel(obj)
+    return this.get(pred).getDisplayName(obj)
   }
 
   getColor(pred, obj) {
