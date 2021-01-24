@@ -44,7 +44,7 @@ export default class TypeValues {
       pred,
       obj,
       title: `pred: ${pred}, value: ${obj}`,
-      label: getDisplayName(
+      displayName: getDisplayName(
         namespace,
         typeof obj === 'string' ? obj : '',
         attributeContainer.getDisplayName(pred, obj)
