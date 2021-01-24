@@ -2,10 +2,10 @@ import isUri from '../../isUri'
 import getMatchPrefix from '../getMatchPrefix'
 import getDisplayName from './getDisplayName'
 
-export default function (namespace, value, label) {
+export default function (namespace, value, displayName) {
   // When a type id has label attrdute.
-  if (label) {
-    return label
+  if (displayName) {
+    return displayName
   }
 
   // When a type id is uri
