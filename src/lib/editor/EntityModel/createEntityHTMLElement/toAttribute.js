@@ -1,4 +1,4 @@
-import toAnchorElement from './toAnchorElement'
+import toAnchorElement from '../../toAnchorElement'
 
 export default function ({ title, pred, obj, color, href, label }) {
   return `

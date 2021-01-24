@@ -1,6 +1,6 @@
 import dohtml from 'dohtml'
 import toAttribute from './toAttribute'
-import toAnchorElement from './toAnchorElement'
+import toAnchorElement from '../../toAnchorElement'
 
 export default function (context) {
   const { id, title, color, href, displayName, attributes } = context

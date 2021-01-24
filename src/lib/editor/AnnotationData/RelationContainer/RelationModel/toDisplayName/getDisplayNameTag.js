@@ -1,4 +1,4 @@
-import toAnchorElement from '../../../../EntityModel/createEntityHTMLElement/toAnchorElement'
+import toAnchorElement from '../../../../toAnchorElement'
 import getDisplayName from '../../../../getDisplayName'
 import getUri from '../../../../getUri'
 
