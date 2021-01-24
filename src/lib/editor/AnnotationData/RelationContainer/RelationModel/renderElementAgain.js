@@ -1,4 +1,4 @@
-import toDisplayName from '../../../../toDisplayName'
+import toDisplayName from '../../../toDisplayName'
 
 export default function (annotationData, typeDefinition, relation) {
   const jsPlumbConnection = relation.jsPlumbConnection

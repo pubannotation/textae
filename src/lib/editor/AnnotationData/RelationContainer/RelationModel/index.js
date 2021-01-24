@@ -1,5 +1,5 @@
 import determineCurviness from '../../../determineCurviness'
-import renderElementAgain from '../../../start/View/Renderer/RelationRenderer/renderElementAgain'
+import renderElementAgain from './renderElementAgain'
 import getEntityEndpoint from './getEntityEndpoint'
 import JsPlumbConnectionWrapper from './JsPlumbConnectionWrapper'
 
