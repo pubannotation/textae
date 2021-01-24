@@ -201,11 +201,13 @@
       {
         "pred": "Speculation",
         "value type": "flag",
+        "label": "?",
         "color": "#FF8000"
       },
       {
         "pred": "Negation",
         "value type": "flag",
+        "label": "X",
         "color": "#FF3399"
       },
       {
