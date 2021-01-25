@@ -47,7 +47,7 @@ export default class CreateAttributeDefinitionDialog extends PromiseDialog {
     )
     const defaultValue = getInputElementValue(
       super.el,
-      '.textae-editor__create-attribute-definition-dialog__default'
+      '.textae-editor__create-attribute-definition-dialog__default-value'
     )
     const min = getInputElementValue(
       super.el,

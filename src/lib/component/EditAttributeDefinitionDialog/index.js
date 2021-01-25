@@ -25,7 +25,7 @@ export default class EditAttributeDefinitionDialog extends PromiseDialog {
         )
         const defaultValue = getInputElementValue(
           super.el,
-          '.textae-editor__edit-attribute-definition-dialog__default'
+          '.textae-editor__edit-attribute-definition-dialog__default-value'
         )
 
         const diff = new Map()
