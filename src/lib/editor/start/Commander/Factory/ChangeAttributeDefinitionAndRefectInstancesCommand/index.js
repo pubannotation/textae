@@ -1,6 +1,6 @@
 import CompositeCommand from '../CompositeCommand'
-import createChangeAnnotationCommands from './createChangeAnnotationCommands'
 import ChangeAttributeDefinitionCommand from './ChangeAttributeDefinitionCommand'
+import ChangeAttributeCommand from '../ChangeAttributeCommand'
 
 export default class ChangeAttributeDefinitionAndRefectInstancesCommand extends CompositeCommand {
   constructor(annotationData, typeContainer, attrDef, changedProperties) {
@@ -18,11 +18,16 @@ export default class ChangeAttributeDefinitionAndRefectInstancesCommand extends 
     let changAnnotationCommands = []
     // change annotation
     if (changedProperties.has('pred')) {
-      changAnnotationCommands = createChangeAnnotationCommands(
-        annotationData,
-        attrDef.pred,
-        changedProperties.get('pred')
-      )
+      changAnnotationCommands = annotationData.attribute.all
+        .filter((attr) => attr.pred === attrDef.pred)
+        .map((attribute) => {
+          return new ChangeAttributeCommand(
+            annotationData,
+            attribute,
+            changedProperties.get('pred'),
+            attribute.obj
+          )
+        })
     }
 
     this._subCommands = changeConfigcommands.concat(changAnnotationCommands)
