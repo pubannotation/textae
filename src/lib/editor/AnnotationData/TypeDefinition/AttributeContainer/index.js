@@ -16,7 +16,7 @@ export default class AttributeContainer {
     )
   }
 
-  create(attrDef, index = null) {
+  create(valueType, attrDef, index = null) {
     // To restore the position of a deleted attribute,
     // insert the new attribute at the specified index, if specified.
     // Note: 0 is false in JavaScript
@@ -29,7 +29,7 @@ export default class AttributeContainer {
             if (i === index) {
               acc.push([
                 attrDef.pred,
-                createAttributeDefinition(attrDef['value type'], attrDef)
+                createAttributeDefinition(valueType, attrDef)
               ])
             }
             acc.push([key, val])
@@ -42,7 +42,7 @@ export default class AttributeContainer {
     } else {
       this._definedTypes.set(
         attrDef.pred,
-        createAttributeDefinition(attrDef['value type'], attrDef)
+        createAttributeDefinition(valueType, attrDef)
       )
     }
 

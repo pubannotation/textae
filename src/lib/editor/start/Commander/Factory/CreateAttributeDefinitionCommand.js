@@ -33,7 +33,11 @@ export default class CreateAttributeDefinitionCommand extends ConfigurationComma
       ]
     }
 
-    this._typeContainer.create(this._newAttrDef, this._index)
+    this._typeContainer.create(
+      this._newAttrDef['value type'],
+      this._newAttrDef,
+      this._index
+    )
 
     commandLog(
       `create a new attrribute definition:${JSON.stringify(
