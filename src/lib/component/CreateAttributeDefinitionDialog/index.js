@@ -13,7 +13,7 @@ export default class CreateAttributeDefinitionDialog extends PromiseDialog {
         super.el,
         '.textae-editor__create-attribute-definition-dialog__pred'
       )
-      const default_ = getInputElementValue(
+      const defaultValue = getInputElementValue(
         super.el,
         '.textae-editor__create-attribute-definition-dialog__default'
       )
@@ -35,7 +35,7 @@ export default class CreateAttributeDefinitionDialog extends PromiseDialog {
         return {
           'value type': valueType,
           pred,
-          default: parseFloat(default_),
+          default: parseFloat(defaultValue),
           min: parseFloat(min),
           max: parseFloat(max),
           step: parseFloat(step)
@@ -45,7 +45,7 @@ export default class CreateAttributeDefinitionDialog extends PromiseDialog {
       return {
         'value type': valueType,
         pred,
-        default: default_,
+        default: defaultValue,
         min,
         max,
         step
