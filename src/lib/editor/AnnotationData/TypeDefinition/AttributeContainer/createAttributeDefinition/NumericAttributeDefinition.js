@@ -3,7 +3,7 @@ import IntervalNotation from '../../../../../IntervalNotation'
 
 export default class NumericAttributeDefinition extends AttributeDefinition {
   constructor(hash) {
-    super(hash)
+    super(hash['value type'], hash)
     this.default = hash.default
     this.min = hash.min
     this.max = hash.max

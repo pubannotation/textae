@@ -1,7 +1,7 @@
 export default class AttributeDefinition {
-  constructor(hash) {
+  constructor(valueType, hash) {
+    this.valueType = valueType
     this.pred = hash.pred
-    this.valueType = hash['value type']
   }
 
   get JSON() {

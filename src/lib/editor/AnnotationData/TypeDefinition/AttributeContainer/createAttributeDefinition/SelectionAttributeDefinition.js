@@ -2,7 +2,7 @@ import AttributeDefinition from './AttributeDefinition'
 
 export default class SelectionAttributeDefinition extends AttributeDefinition {
   constructor(hash) {
-    super(hash)
+    super(hash['value type'], hash)
     this._values = hash.values || []
   }
 

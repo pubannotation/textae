@@ -2,7 +2,7 @@ import AttributeDefinition from './AttributeDefinition'
 
 export default class FlagAttributeDefinition extends AttributeDefinition {
   constructor(hash) {
-    super(hash)
+    super(hash['value type'], hash)
     this.default = true
     this.label = hash.label
     this.color = hash.color
