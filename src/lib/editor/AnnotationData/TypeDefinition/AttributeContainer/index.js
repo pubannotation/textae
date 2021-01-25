@@ -11,7 +11,7 @@ export default class AttributeContainer {
     this._definedTypes = new Map(
       (attributes || []).map((a) => [
         a.pred,
-        createAttributeDefinition(a, a['value type'])
+        createAttributeDefinition(a['value type'], a)
       ])
     )
   }
@@ -29,7 +29,7 @@ export default class AttributeContainer {
             if (i === index) {
               acc.push([
                 attrDef.pred,
-                createAttributeDefinition(attrDef, attrDef['value type'])
+                createAttributeDefinition(attrDef['value type'], attrDef)
               ])
             }
             acc.push([key, val])
@@ -42,7 +42,7 @@ export default class AttributeContainer {
     } else {
       this._definedTypes.set(
         attrDef.pred,
-        createAttributeDefinition(attrDef, attrDef['value type'])
+        createAttributeDefinition(attrDef['value type'], attrDef)
       )
     }
 
@@ -65,7 +65,7 @@ export default class AttributeContainer {
         if (key === oldPred) {
           return [
             attrDef.pred,
-            createAttributeDefinition(attrDef, attrDef['value type'])
+            createAttributeDefinition(attrDef['value type'], attrDef)
           ]
         } else {
           return [key, val]
