@@ -18,8 +18,8 @@ export default class ChangeAttributeDefinitionAndRefectInstancesCommand extends 
     let changAnnotationCommands = []
     // change annotation
     if (changedProperties.has('pred')) {
-      changAnnotationCommands = annotationData.attribute.all
-        .filter((attr) => attr.pred === attrDef.pred)
+      changAnnotationCommands = annotationData.attribute
+        .getSameDefinitionsAttributes(attrDef.pred)
         .map((attribute) => {
           return new ChangeAttributeCommand(
             annotationData,

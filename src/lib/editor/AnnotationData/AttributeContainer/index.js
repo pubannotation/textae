@@ -47,6 +47,10 @@ export default class AttributeContainer extends IdIssueContainer {
     return instance
   }
 
+  getSameDefinitionsAttributes(pred) {
+    return this.all.filter((attr) => attr.pred === pred)
+  }
+
   getSameAttributes(pred, obj) {
     return this.all.filter((a) => a.equalsTo(pred, obj))
   }
