@@ -5,7 +5,7 @@ import inputNumeric from './inputNumeric'
 export default function (componentClassName, context) {
   const {
     pred,
-    default: _default,
+    default: defaultValue,
     label,
     color,
     min,
@@ -24,7 +24,7 @@ export default function (componentClassName, context) {
         <label>Predicate:</label><br>
         <input value="${pred || ''}">
       </div>
-      ${showDefault ? `${inputDefault(componentClassName, _default)}` : ''}
+      ${showDefault ? `${inputDefault(componentClassName, defaultValue)}` : ''}
     </div>
     ${
       showLabelAndColor
