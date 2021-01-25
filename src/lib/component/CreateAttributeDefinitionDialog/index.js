@@ -61,9 +61,10 @@ export default class CreateAttributeDefinitionDialog extends PromiseDialog {
       super.el,
       '.textae-editor__create-attribute-definition-dialog__value-type',
       'change',
-      (e) => {
-        const valueType = e.target.value
-
+      () => {
+        const valueType = super.el.querySelector(
+          '.textae-editor__create-attribute-definition-dialog__value-type'
+        ).value
         const pred = getInputElementValue(
           super.el,
           '.textae-editor__create-attribute-definition-dialog__pred'
