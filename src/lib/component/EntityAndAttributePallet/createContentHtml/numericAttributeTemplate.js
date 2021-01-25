@@ -4,7 +4,7 @@ import showAddAttributeValueButton from './showAddAttributeValueButton'
 import predicateControllerTemplate from './predicateControllerTemplate'
 
 export default function (context) {
-  const { min, max, step, default: _default, values } = context.attrDef
+  const { min, max, step, default: defaultValue, values } = context.attrDef
   const { isLock } = context
 
   return `
@@ -15,7 +15,7 @@ export default function (context) {
       min: ${min}
       max: ${max}
       step: ${step}
-      default: ${_default}
+      default: ${defaultValue}
     </div>
 
     <table>
