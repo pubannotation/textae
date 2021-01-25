@@ -5,7 +5,7 @@ export default function (context) {
     labelForRangeOrIdOrPattern,
     rangeOrIdOrPattern,
     showDefault,
-    default: _default,
+    default: defaultValue,
     label,
     color
   } = context
@@ -17,7 +17,7 @@ export default function (context) {
       <label>${labelForRangeOrIdOrPattern}:</label><br>
       <input value="${rangeOrIdOrPattern || ''}">
     </div>
-    ${inputDefault(showDefault, _default)}
+    ${inputDefault(showDefault, defaultValue)}
     <div class="textae-editor__add-value-to-attribute-dialog__label">
       <label>label:</label><br>
       <input value="${label || ''}">
