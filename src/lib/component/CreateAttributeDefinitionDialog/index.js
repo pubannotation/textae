@@ -93,7 +93,6 @@ export default class CreateAttributeDefinitionDialog extends PromiseDialog {
           step,
           valueType
         }
-        state[`${valueType}Selected`] = true
 
         const html = template(state)
         super.el.closest('.ui-dialog-content').innerHTML = html
