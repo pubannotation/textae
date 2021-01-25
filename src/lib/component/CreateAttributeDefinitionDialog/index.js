@@ -5,52 +5,57 @@ import template from './template'
 
 export default class CreateAttributeDefinitionDialog extends PromiseDialog {
   constructor() {
-    super('Please enter new attribute definition', template({}), {}, () => {
-      const valueType = super.el.querySelector(
-        '.textae-editor__create-attribute-definition-dialog__value-type'
-      ).value
-      const pred = getInputElementValue(
-        super.el,
-        '.textae-editor__create-attribute-definition-dialog__pred'
-      )
-      const defaultValue = getInputElementValue(
-        super.el,
-        '.textae-editor__create-attribute-definition-dialog__default'
-      )
-      const min = getInputElementValue(
-        super.el,
-        '.textae-editor__create-attribute-definition-dialog__min'
-      )
-      const max = getInputElementValue(
-        super.el,
-        '.textae-editor__create-attribute-definition-dialog__max'
-      )
-      const step = getInputElementValue(
-        super.el,
-        '.textae-editor__create-attribute-definition-dialog__step'
-      )
+    super(
+      'Please enter new attribute definition',
+      template({ valueType: 'flag' }),
+      {},
+      () => {
+        const valueType = super.el.querySelector(
+          '.textae-editor__create-attribute-definition-dialog__value-type'
+        ).value
+        const pred = getInputElementValue(
+          super.el,
+          '.textae-editor__create-attribute-definition-dialog__pred'
+        )
+        const defaultValue = getInputElementValue(
+          super.el,
+          '.textae-editor__create-attribute-definition-dialog__default'
+        )
+        const min = getInputElementValue(
+          super.el,
+          '.textae-editor__create-attribute-definition-dialog__min'
+        )
+        const max = getInputElementValue(
+          super.el,
+          '.textae-editor__create-attribute-definition-dialog__max'
+        )
+        const step = getInputElementValue(
+          super.el,
+          '.textae-editor__create-attribute-definition-dialog__step'
+        )
 
-      // Numeric Attribute property value type must be Number type.
-      if (valueType === 'numeric') {
+        // Numeric Attribute property value type must be Number type.
+        if (valueType === 'numeric') {
+          return {
+            'value type': valueType,
+            pred,
+            default: parseFloat(defaultValue),
+            min: parseFloat(min),
+            max: parseFloat(max),
+            step: parseFloat(step)
+          }
+        }
+
         return {
           'value type': valueType,
           pred,
-          default: parseFloat(defaultValue),
-          min: parseFloat(min),
-          max: parseFloat(max),
-          step: parseFloat(step)
+          default: defaultValue,
+          min,
+          max,
+          step
         }
       }
-
-      return {
-        'value type': valueType,
-        pred,
-        default: defaultValue,
-        min,
-        max,
-        step
-      }
-    })
+    )
 
     delegate(
       super.el,
