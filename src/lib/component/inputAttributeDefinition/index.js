@@ -1,10 +1,21 @@
 import inputDefault from './inputDefault'
+import inputLabelAndColor from './inputLabelAndColor'
 import inputNumeric from './inputNumeric'
 
 export default function (componentClassName, context) {
-  const { pred, default: _default, min, max, step, valueType } = context
+  const {
+    pred,
+    default: _default,
+    label,
+    color,
+    min,
+    max,
+    step,
+    valueType
+  } = context
 
   const showDefault = valueType === 'numeric' || valueType === 'string'
+  const showLabelAndColor = valueType === 'flag'
   const showNumeric = valueType === 'numeric'
 
   return `
@@ -15,6 +26,11 @@ export default function (componentClassName, context) {
       </div>
       ${showDefault ? `${inputDefault(componentClassName, _default)}` : ''}
     </div>
+    ${
+      showLabelAndColor
+        ? `${inputLabelAndColor(componentClassName, label, color)}`
+        : ''
+    }
     ${showNumeric ? `${inputNumeric(componentClassName, min, max, step)}` : ''}
   `
 }

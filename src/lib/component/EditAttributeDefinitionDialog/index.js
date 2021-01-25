@@ -10,6 +10,8 @@ export default class EditAttributeDefinitionDialog extends PromiseDialog {
       template({
         pred: attrDef.pred,
         default: attrDef.default,
+        label: attrDef.label,
+        color: attrDef.color,
         min: attrDef.min,
         max: attrDef.max,
         step: attrDef.step,
@@ -30,6 +32,25 @@ export default class EditAttributeDefinitionDialog extends PromiseDialog {
 
         if (attrDef.pred !== pred) {
           diff.set('pred', pred)
+        }
+
+        if (attrDef.valueType === 'flag') {
+          const label = getInputElementValue(
+            super.el,
+            '.textae-editor__edit-attribute-definition-dialog__label'
+          )
+          const color = getInputElementValue(
+            super.el,
+            '.textae-editor__edit-attribute-definition-dialog__color'
+          )
+
+          if (attrDef.label !== label) {
+            diff.set('label', label)
+          }
+
+          if (attrDef.color !== color) {
+            diff.set('color', color)
+          }
         }
 
         if (attrDef.valueType === 'string') {
