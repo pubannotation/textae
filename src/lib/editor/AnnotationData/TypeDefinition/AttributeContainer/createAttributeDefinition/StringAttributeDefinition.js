@@ -1,7 +1,7 @@
 import AttributeDefinition from './AttributeDefinition'
 export default class StringAttributeDefinition extends AttributeDefinition {
-  constructor(hash) {
-    super(hash['value type'], hash.pred)
+  constructor(valueType, hash) {
+    super(valueType, hash.pred)
     this.autocompletionWs = hash.autocompletion_ws
     this.default = hash.default
     this._values = hash.values || []

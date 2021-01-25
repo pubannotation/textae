@@ -13,13 +13,13 @@ export default function (hash, valueType) {
 
   switch (valueType) {
     case 'flag':
-      return new FlagAttributeDefinition(hash)
+      return new FlagAttributeDefinition(valueType, hash)
     case 'numeric':
-      return new NumericAttributeDefinition(hash)
+      return new NumericAttributeDefinition(valueType, hash)
     case 'selection':
-      return new SelectionAttributeDefinition(hash)
+      return new SelectionAttributeDefinition(valueType, hash)
     case 'string':
-      return new StringAttributeDefinition(hash)
+      return new StringAttributeDefinition(valueType, hash)
     default:
       throw new Error(
         `${valueType} of ${JSON.stringify(hash)} is Uknown Attribute`

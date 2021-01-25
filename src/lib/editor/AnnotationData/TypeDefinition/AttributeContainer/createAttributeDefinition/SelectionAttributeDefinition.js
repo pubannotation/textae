@@ -1,8 +1,8 @@
 import AttributeDefinition from './AttributeDefinition'
 
 export default class SelectionAttributeDefinition extends AttributeDefinition {
-  constructor(hash) {
-    super(hash['value type'], hash.pred)
+  constructor(valueType, hash) {
+    super(valueType, hash.pred)
     this._values = hash.values || []
   }
 
