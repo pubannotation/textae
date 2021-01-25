@@ -23,7 +23,7 @@ export default class EditAttributeDefinitionDialog extends PromiseDialog {
           super.el,
           '.textae-editor__edit-attribute-definition-dialog__pred'
         )
-        const default_ = getInputElementValue(
+        const defaultValue = getInputElementValue(
           super.el,
           '.textae-editor__edit-attribute-definition-dialog__default'
         )
@@ -54,14 +54,14 @@ export default class EditAttributeDefinitionDialog extends PromiseDialog {
         }
 
         if (attrDef.valueType === 'string') {
-          if (attrDef.default !== default_) {
-            diff.set('default', default_)
+          if (attrDef.default !== defaultValue) {
+            diff.set('default', defaultValue)
           }
         }
 
         if (attrDef.valueType === 'numeric') {
-          if (isChanged(attrDef.default, default_)) {
-            diff.set('default', parseFloat(default_))
+          if (isChanged(attrDef.default, defaultValue)) {
+            diff.set('default', parseFloat(defaultValue))
           }
 
           const min = getInputElementValue(
