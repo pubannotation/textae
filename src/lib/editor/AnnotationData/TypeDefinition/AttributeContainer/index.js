@@ -65,7 +65,7 @@ export default class AttributeContainer {
         if (key === oldPred) {
           return [
             attrDef.pred,
-            createAttributeDefinition(attrDef['value type'], attrDef)
+            createAttributeDefinition(val.valueType, attrDef)
           ]
         } else {
           return [key, val]
