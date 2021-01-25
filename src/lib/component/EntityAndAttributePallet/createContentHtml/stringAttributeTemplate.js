@@ -4,7 +4,7 @@ import showAddAttributeValueButton from './showAddAttributeValueButton'
 import predicateControllerTemplate from './predicateControllerTemplate'
 
 export default function (context) {
-  const { default: _default, values } = context.attrDef
+  const { default: defaultValue, values } = context.attrDef
   const { isLock } = context
 
   return `
@@ -12,7 +12,7 @@ export default function (context) {
   <div>
     <div class="textae-editor__type-pallet__predicate">
       ${predicateControllerTemplate(context)}
-      default: ${_default}
+      default: ${defaultValue}
     </div>
 
     <table>
