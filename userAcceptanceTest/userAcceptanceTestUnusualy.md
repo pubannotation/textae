@@ -1,5 +1,270 @@
 # たまにやるテスト
 
+## ラベルの定義に HTML タグが含まれているとき、HTML エスケープした文字列を Entity 編集ダイアログに表示すること
+
+### 背景
+
+1. オートコンプリートの候補には Type 定義の`id`と`label`を表示しています。
+2. HTML エスケープしていないため、`label`に HTML タグを含む Type を定義すると、編集ダイアログに任意の HTML タグを挿入することが可能です。
+3. 6.4.31 で対応しました。
+4. Entity 編集ダイアログに表示する Entity を Attribute も pred と value という同じ見出しも持っている
+5. 6.4.82 で、要素毎に見出しを表示するのをやめて、テーブルで表示し、テーブルヘッダーに見出しをまとめました。
+
+### -- 手段 --
+
+1. Editor1 を選択
+2. Term モードにする
+3. DenotationEntity `E31` を選択する
+4. `w`キーを押して Entity 編集ダイアログを開く
+5. `Label:`カラムに、赤字の`Red color HTML label`ではなく、`<span style='color: red;'>Red color HTML label</span>`が表示されること
+
+## 編集ダイアログから Attribute インスタンスを削除する
+
+### 背景
+
+1.  5.0.0 で Attribute を導入した際に、Attribute の削除ができませんでした。
+2.  編集後の Attribute と同じ Attribute を編集前の Attribute から探してきて、すべて見つかったときには変更なしとしてモデルの更新をスキップしていました。
+3.  Attribute を減らしたときに変更があることを検知できませんでした。
+4.  5.0.2 で修正
+5.  6.2.0 からブロック機能を追加
+
+### 編集ダイアログから BlockEntity の Attribute インスタンスを削除する
+
+1.  Term モードにする
+2.  BlockEntity を選択する
+3.  1 キーを押す
+4.  Attribute が追加されること
+5.  W キーを押す
+6.  `Remove`ボタンを押す
+7.  `OK`ボタンを押す
+8.  選択中の BlockEntity の該当 predicate の Attribute が削除されること
+
+### 編集ダイアログから DenotationEntity の Attribute インスタンスを削除する
+
+1.  Term モードにする
+2.  DenotationEntity を選択する
+3.  1 キーを押す
+4.  Attribute が追加されること
+5.  W キーを押す
+6.  `Remove`ボタンを押す
+7.  `OK`ボタンを押す
+8.  選択中の DenotationEntity の該当 predicate の Attribute が削除されること
+
+## Attribute を定義順に並べる
+
+### 背景
+
+1.  Attribute の表示順には定義がありませんでした
+2.  アノテーションを読み込む際に ID の文字列順にソートし、追加したものが最後になっていました
+3.  6.4.84 で Attribute の定義順に並べることにしました
+4.  6.4.85 で Attribute の定義の順番を変えたときに Entity 上の Attribute の順序も変更するようにしました
+
+### -- 手段 --
+
+1. Editor1 を選択
+2. `E2`の`Cell`が一番上に表示されていること
+3. Term モードにする
+4. `E2`を選択
+5. `w`キーを押して Entity 編集ダイアログを開く
+6. `denote`が 2 行目に表示されていること
+7. 閉じる
+8. `q`キーを押してパレットを選択
+9. `denote`タブを選択する
+10. `denote`タブをドラッグアンドドロップして一番最後に移動する
+11. `E2`の`Cell`が一番下に表示されていること
+12. undo する
+13. `E2`の`Cell`が一番上に表示されていること
+
+## Attribute 定義の順序変更
+
+### 背景
+
+1.  5.3.6 で、パレットの Attribute タブをドラッグアンドドロップして、Attribute 定義の順序を変更する機能を追加しました。
+2.  Attribute 定義の最大数を超えているときに、プラスタブを表示しません。
+3.  このとき同時に最後尾へのドロップができなくなっていました。
+4.  6.4.88 で対応しました。
+
+### -- 手順 --
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  `Q`キーを押してパレットを開く
+4.  `denote`タブを選択する
+5.  `denote`タブをドラッグして、`warning`タブの前の矢印の上に移動する、タブの左側に空間ができること
+6.  ドロップする
+7.  `denote`タブが、`warning`タブの前に移動すること
+8.  Z キーを押す
+9.  `denote`タブが先頭に戻ること
+10. a~p までの Attribute 定義を追加する
+11. o を p の後ろにドロップする
+12. `o`タブが`p`タブの後ろに移動すること
+
+## パレットの Attribute タブの Attribute 情報フォーマット
+
+1. 6.4.48 で、文言を変更しました。
+2. 6.4.49 で、文言に選択中のアイテムの数を追加し、ボタンの文言を短くしました。
+3. 6.4.50 で、アイテムを選択していないときは、ボタンを表示しなくしました。
+4. 6.4.51 で、value type の説明をアイコンに変更しました。
+5. 6.4.55 で、Attribute 追加変更削除ボタンの表示・非表示切り替えを、有効・無効切り替えに変更しました
+6. 6.4.88 で、6.4.53 で選択アイテム数が表示されなくなっていたのを、直しました
+7. 6.4.91 で、6.4.88 でアトリビュート定義がないときにパレットを開くとエラーが起きていたのを直しました。
+
+### Attribute 定義がないとき
+
+1. Editor0 を選択
+2. Term モードにする
+3. `q` キーを押してパレットを開く
+4. エラーが起きないこと
+
+### Attribute 定義があるとき
+
+1. Editor1 を選択
+2. Term モードにする
+3. Attribute のない Entity を一つ選択する
+4. `q` キーを押してパレットを開く
+5. `denote` タブを選ぶ
+6. `Attribute "denote" ([list icon]) type) [add to] [remove from] the 1 item selected`が表示されること
+7. `add to`ボタンが有効であること
+8. `remove from`ボタンが無効であること
+9. `error` タブを選ぶ
+10. `Attribute "score" ([checkbox icon] type) [add to] [edit object of] [remove from]the 1 item selected` が表示されること
+11. `add to`ボタンが有効であること
+12. `edit object of`ボタンが無効であること
+13. `remove from`ボタンが無効であること
+14. Entity の選択を解除する
+15. `q` キーを押してパレットを開く
+16. `denote` タブを選ぶ
+17. `Attribute "denote" ([list icon]) type)`が表示されること
+18. `error` タブを選ぶ
+19. `Attribute "error" ([checkbox icon] type)` が表示されること
+
+## 複数 Entity 選択時は、Entity 編集ダイアログに 、最後に選んだ Entity の Type と Attribute を表示すること
+
+### 背景
+
+1.  どの要素の Type を表示すればいいのかわからないので
+2.  5.0.0 で Attribute 編集を追加した際に、全部消してしまうと再入力が大変すぎるので、なるべく残すようにしました。
+
+### DenotationEntity
+
+1.  Term モードにする
+2.  複数 DenotationEntity を選択する
+3.  Type を編集する
+4.  Value 欄に最後に選んだ Entity の Type の Value が表示されること
+5.  すべての Attribute の Predicate が表示されること
+6.  Attribute の Predicate が重複した際は、最後に選んだ Entity の Value が表示されること
+
+### BlockEntity
+
+1.  Block モードにする
+2.  複数 BlockEntity を選択する
+3.  Type を編集する
+4.  Value 欄に最初の Type の Value が表示されること
+
+## Entity 編集ダイアログに Entity と Attribute の情報を表示
+
+### 背景
+
+1.  5.0.0 から Attribute が追加されました。
+2.  Type は`Predicate`が`type`になりました。
+3.  Type の`id`は`Value`に呼び方が変りました。
+4.  6.3.31 で HTML 生成用のテンプレートを Handlebars.js からテンプレートリテラルに変えたときに、ラベルを持たない Entity のラベルに null と表示されるようになりました。
+5.  6.4.16 で対応
+6.  6.4.1 で、Annotation ファイルの読込時 Validation での Attribute のチェックを緩め、 1 つの Entity に Predicate と Object が等しい Attribute が複数ついているかのチェックに変更しました
+7.  6.4.70 で、重複 Attribute を Entity 編集ダイアログに表示できるようにしました
+8.  Entity 編集ダイアログに表示する Entity を Attribute も Predicate と Value という同じ見出しも持っている
+9.  6.4.82 で、要素毎に見出しを表示するのをやめて、テーブルで表示し、テーブルヘッダーに見出しをまとめました
+10. 6.4.83 で、Attribute の Predicate と Value をテキストにし、編集・削除ボタンをアイコンにしました
+11. 6.4.84 で Attribute の定義順に並べることにしました
+12. 6.4.86 で、同一の pred は一回だけ表示するようにしました
+13. 6.4.90 で、Attribute の pred と一緒にショートカットキーを表示するようにしました
+
+### DenotationEntity
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  DenotationEntity `E1:a:b` を選択する
+4.  `Change Label[W]`ボタンを押す
+5.  編集ダイアログが開くこと
+6.  ダイアログのタイトルが`Please edit type and attributes`であること
+7.  1 行目の`Predicate`カラムに`type`、`Value`カラムに`null`が表示されること
+8.  2 行目の`Predicate`カラムに`1:denote`、`Value`カラムに`equivalentTo`が表示されること
+9.  2 行目の`Predicate`カラムと`Value`カラムがテキストであること
+10. 2 行目の編集ボタンと削除ボタンにアイコンが表示されていること
+11. 3 行目の`Predicate`カラムに空文字、`Value`カラムに`http://www.yahoo.co.jp/eeeeeeeeeeeeeeeeeoaoeuaoeuaoue`が表示されること
+
+### BlockEntity
+
+1.  Editor1 を選択
+2.  Block モードにする
+3.  BlockEntity `B1` を選択する
+4.  `Change Label[W]`ボタンを押す
+5.  編集ダイアログが開くこと
+6.  ダイアログのタイトルが`Please edit type and attributes`であること
+7.  1 行目の`Predicate`カラムに`type`、`Value`カラムに`block1`、`Label`カラムに`Label of block1` が表示されること
+8.  2 行目の`Predicate`カラムに`1:denote`、`Value`カラムに`equivalentTo`が表示されること
+9.  3 行目の`Predicate`カラムに空文字、`Value`カラムに`http://www.yahoo.co.jp/eeeeeeeeeeeeeeeeeoaoeuaoeuaoue`が表示されること
+
+## BlockEntity 編集ダイアログの編集確定
+
+### 背景
+
+1. 6.4.90 で、Entity 編集ダイアログに表示する Attribute の pred と一緒にショートカットキーを表示するようにしました
+2. 6.4.90 で、ショートカットキーを表示した際、編集後の保存用の pred と表示用の pred を分けていなかったため、編集ダイアログを開いて閉じるだけで、エラーが起きていました
+3. 6.4.92 で、対応しました
+
+### OK ボタン
+
+1.  Editor1 を選択
+2.  Block モードにする
+3.  Attribute のある、BlockEntity を選択する
+4.  `W`キーを押す
+5.  編集ダイアログが開くこと
+6.  文字を変更する
+7.  `OK`ボタンを押す
+8.  BlockEntity の id が変わること
+
+### Enter キー
+
+1.  Editor1 を選択
+2.  Block モードにする
+3.  Attribute のある、BlockEntity を選択する
+4.  `W`キーを押す
+5.  編集ダイアログが開くこと
+6.  文字を変更する
+7.  `Enter`キーを押す
+8.  BlockEntity の id が変わること
+
+## DenotationEntity 編集ダイアログの編集確定
+
+### 背景
+
+1. 6.4.90 で、Entity 編集ダイアログに表示する Attribute の pred と一緒にショートカットキーを表示するようにしました
+2. 6.4.90 で、ショートカットキーを表示した際、編集後の保存用の pred と表示用の pred を分けていなかったため、編集ダイアログを開いて閉じるだけで、エラーが起きていました
+3. 6.4.92 で、対応しました
+
+### OK ボタン
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  Attribute のある、DenotationEntity を選択する
+4.  `W`キーを押す
+5.  編集ダイアログが開くこと
+6.  文字を変更する
+7.  `OK`ボタンを押す
+8.  DenotationEntity の id が変わること
+
+### Enter キー
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  Attribute のある、DenotationEntity を選択する
+4.  `W`キーを押す
+5.  編集ダイアログが開くこと
+6.  文字を変更する
+7.  `Enter`キーを押す
+8.  DenotationEntity の id が変わること
+
 ## カット&ペースト
 
 ### 背景
