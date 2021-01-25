@@ -23,7 +23,7 @@ export default class DeleteAttributeDefinitionCommand extends ConfigurationComma
   revert() {
     return new CreateAttributeDefinitionCommand(
       this._typeContainer,
-      this._removeAttrdef.JSON,
+      this._removeAttrdef,
       this._index
     )
   }

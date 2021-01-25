@@ -37,7 +37,7 @@ export default class CreateAttributeDefinitionDialog extends PromiseDialog {
         // Numeric Attribute property value type must be Number type.
         if (valueType === 'numeric') {
           return {
-            'value type': valueType,
+            valueType,
             pred,
             default: parseFloat(defaultValue),
             min: parseFloat(min),
@@ -47,7 +47,7 @@ export default class CreateAttributeDefinitionDialog extends PromiseDialog {
         }
 
         return {
-          'value type': valueType,
+          valueType,
           pred,
           default: defaultValue,
           min,

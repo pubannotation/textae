@@ -12,7 +12,7 @@ export default class CreateAttributeDefinitionCommand extends ConfigurationComma
 
   execute() {
     // Added default properties to newly created numeric attribute.
-    if (this._newAttrDef['value type'] === 'numeric') {
+    if (this._newAttrDef.valueType === 'numeric') {
       this._newAttrDef.min = this._newAttrDef.min || 0
       this._newAttrDef.max = this._newAttrDef.max || 0
       this._newAttrDef.step = this._newAttrDef.step || 0
@@ -22,7 +22,7 @@ export default class CreateAttributeDefinitionCommand extends ConfigurationComma
     // Added default value to newly created selection attribute definition.
     // Except when undoing the deletion of selection attribute definition.
     if (
-      this._newAttrDef['value type'] === 'selection' &&
+      this._newAttrDef.valueType === 'selection' &&
       !this._newAttrDef.values
     ) {
       this._newAttrDef.values = [
@@ -34,7 +34,7 @@ export default class CreateAttributeDefinitionCommand extends ConfigurationComma
     }
 
     this._typeContainer.create(
-      this._newAttrDef['value type'],
+      this._newAttrDef.valueType,
       this._newAttrDef,
       this._index
     )

@@ -2,15 +2,8 @@ import FlagAttributeDefinition from './FlagAttributeDefinition'
 import NumericAttributeDefinition from './NumericAttributeDefinition'
 import SelectionAttributeDefinition from './SelectionAttributeDefinition'
 import StringAttributeDefinition from './StringAttributeDefinition'
-import AttributeDefinition from './AttributeDefinition'
 
 export default function (valueType, hash) {
-  if (hash instanceof AttributeDefinition) {
-    throw new Error(
-      `Give me hash object instead of an AttributeDefinition instance`
-    )
-  }
-
   switch (valueType) {
     case 'flag':
       return new FlagAttributeDefinition(valueType, hash)
