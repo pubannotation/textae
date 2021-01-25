@@ -10,7 +10,7 @@ export default class CreateAttributeDefinitionDialog extends PromiseDialog {
       template({ valueType: 'flag' }),
       {},
       () => {
-        const state = this.state
+        const state = this._state
 
         // Numeric Attribute property value type must be Number type.
         if (state.valueType === 'numeric') {
@@ -31,13 +31,13 @@ export default class CreateAttributeDefinitionDialog extends PromiseDialog {
       '.textae-editor__create-attribute-definition-dialog__value-type',
       'change',
       () => {
-        const html = template(this.state)
+        const html = template(this._state)
         super.el.closest('.ui-dialog-content').innerHTML = html
       }
     )
   }
 
-  get state() {
+  get _state() {
     const valueType = super.el.querySelector(
       '.textae-editor__create-attribute-definition-dialog__value-type'
     ).value
