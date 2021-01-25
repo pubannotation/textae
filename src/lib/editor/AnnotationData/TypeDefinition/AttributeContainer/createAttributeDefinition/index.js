@@ -4,14 +4,14 @@ import SelectionAttributeDefinition from './SelectionAttributeDefinition'
 import StringAttributeDefinition from './StringAttributeDefinition'
 import AttributeDefinition from './AttributeDefinition'
 
-export default function (hash) {
+export default function (hash, valueType) {
   if (hash instanceof AttributeDefinition) {
     throw new Error(
       `Give me hash object instead of an AttributeDefinition instance`
     )
   }
 
-  switch (hash['value type']) {
+  switch (valueType) {
     case 'flag':
       return new FlagAttributeDefinition(hash)
     case 'numeric':
@@ -22,7 +22,7 @@ export default function (hash) {
       return new StringAttributeDefinition(hash)
     default:
       throw new Error(
-        `${hash['value type']} of ${JSON.stringify(hash)} is Uknown Attribute`
+        `${valueType} of ${JSON.stringify(hash)} is Uknown Attribute`
       )
   }
 }

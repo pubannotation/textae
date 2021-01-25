@@ -9,7 +9,10 @@ export default class AttributeContainer {
 
   set definedTypes(attributes) {
     this._definedTypes = new Map(
-      (attributes || []).map((a) => [a.pred, createAttributeDefinition(a)])
+      (attributes || []).map((a) => [
+        a.pred,
+        createAttributeDefinition(a, a['value type'])
+      ])
     )
   }
 
@@ -24,7 +27,10 @@ export default class AttributeContainer {
         Array.from(this._definedTypes.entries()).reduce(
           (acc, [key, val], i) => {
             if (i === index) {
-              acc.push([attrDef.pred, createAttributeDefinition(attrDef)])
+              acc.push([
+                attrDef.pred,
+                createAttributeDefinition(attrDef, attrDef['value type'])
+              ])
             }
             acc.push([key, val])
 
@@ -34,7 +40,10 @@ export default class AttributeContainer {
         )
       )
     } else {
-      this._definedTypes.set(attrDef.pred, createAttributeDefinition(attrDef))
+      this._definedTypes.set(
+        attrDef.pred,
+        createAttributeDefinition(attrDef, attrDef['value type'])
+      )
     }
 
     this._editor.eventEmitter.emit(
@@ -54,7 +63,10 @@ export default class AttributeContainer {
     this._definedTypes = new Map(
       Array.from(this._definedTypes.entries()).map(([key, val]) => {
         if (key === oldPred) {
-          return [attrDef.pred, createAttributeDefinition(attrDef)]
+          return [
+            attrDef.pred,
+            createAttributeDefinition(attrDef, attrDef['value type'])
+          ]
         } else {
           return [key, val]
         }
