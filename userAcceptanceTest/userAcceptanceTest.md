@@ -15,7 +15,7 @@
 1. Flag Attribute の定義には label と color をもつことできます
 2. Attribute インスタンスの表示には label と color を使っています
 3. パレットの Attribute タグで、Flag Attribute を表示したときに、label と color を表示していませんでした
-4. 6.4.92 で対応しました
+4. 6.4.95 で対応しました
 
 ### -- 手段 --
 
