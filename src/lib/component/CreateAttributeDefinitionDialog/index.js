@@ -10,50 +10,19 @@ export default class CreateAttributeDefinitionDialog extends PromiseDialog {
       template({ valueType: 'flag' }),
       {},
       () => {
-        const valueType = super.el.querySelector(
-          '.textae-editor__create-attribute-definition-dialog__value-type'
-        ).value
-        const pred = getInputElementValue(
-          super.el,
-          '.textae-editor__create-attribute-definition-dialog__pred'
-        )
-        const defaultValue = getInputElementValue(
-          super.el,
-          '.textae-editor__create-attribute-definition-dialog__default'
-        )
-        const min = getInputElementValue(
-          super.el,
-          '.textae-editor__create-attribute-definition-dialog__min'
-        )
-        const max = getInputElementValue(
-          super.el,
-          '.textae-editor__create-attribute-definition-dialog__max'
-        )
-        const step = getInputElementValue(
-          super.el,
-          '.textae-editor__create-attribute-definition-dialog__step'
-        )
+        const state = this.state
 
         // Numeric Attribute property value type must be Number type.
-        if (valueType === 'numeric') {
-          return {
-            valueType,
-            pred,
-            default: parseFloat(defaultValue),
-            min: parseFloat(min),
-            max: parseFloat(max),
-            step: parseFloat(step)
-          }
+        if (state.valueType === 'numeric') {
+          return Object.assign(state, {
+            default: parseFloat(state.default),
+            min: parseFloat(state.min),
+            max: parseFloat(state.max),
+            step: parseFloat(state.step)
+          })
         }
 
-        return {
-          valueType,
-          pred,
-          default: defaultValue,
-          min,
-          max,
-          step
-        }
+        return state
       }
     )
 
@@ -62,42 +31,44 @@ export default class CreateAttributeDefinitionDialog extends PromiseDialog {
       '.textae-editor__create-attribute-definition-dialog__value-type',
       'change',
       () => {
-        const valueType = super.el.querySelector(
-          '.textae-editor__create-attribute-definition-dialog__value-type'
-        ).value
-        const pred = getInputElementValue(
-          super.el,
-          '.textae-editor__create-attribute-definition-dialog__pred'
-        )
-        const defaultValue = getInputElementValue(
-          super.el,
-          '.textae-editor__create-attribute-definition-dialog__default'
-        )
-        const min = getInputElementValue(
-          super.el,
-          '.textae-editor__create-attribute-definition-dialog__min'
-        )
-        const max = getInputElementValue(
-          super.el,
-          '.textae-editor__create-attribute-definition-dialog__max'
-        )
-        const step = getInputElementValue(
-          super.el,
-          '.textae-editor__create-attribute-definition-dialog__step'
-        )
-
-        const state = {
-          pred,
-          default: defaultValue,
-          min,
-          max,
-          step,
-          valueType
-        }
-
-        const html = template(state)
+        const html = template(this.state)
         super.el.closest('.ui-dialog-content').innerHTML = html
       }
     )
+  }
+
+  get state() {
+    const valueType = super.el.querySelector(
+      '.textae-editor__create-attribute-definition-dialog__value-type'
+    ).value
+    const pred = getInputElementValue(
+      super.el,
+      '.textae-editor__create-attribute-definition-dialog__pred'
+    )
+    const defaultValue = getInputElementValue(
+      super.el,
+      '.textae-editor__create-attribute-definition-dialog__default'
+    )
+    const min = getInputElementValue(
+      super.el,
+      '.textae-editor__create-attribute-definition-dialog__min'
+    )
+    const max = getInputElementValue(
+      super.el,
+      '.textae-editor__create-attribute-definition-dialog__max'
+    )
+    const step = getInputElementValue(
+      super.el,
+      '.textae-editor__create-attribute-definition-dialog__step'
+    )
+
+    return {
+      pred,
+      default: defaultValue,
+      min,
+      max,
+      step,
+      valueType
+    }
   }
 }
