@@ -25,18 +25,6 @@ export default class EditAttributeDefinitionDialog extends PromiseDialog {
           super.el,
           '.textae-editor__edit-attribute-definition-dialog__default'
         )
-        const min = getInputElementValue(
-          super.el,
-          '.textae-editor__edit-attribute-definition-dialog__min'
-        )
-        const max = getInputElementValue(
-          super.el,
-          '.textae-editor__edit-attribute-definition-dialog__max'
-        )
-        const step = getInputElementValue(
-          super.el,
-          '.textae-editor__edit-attribute-definition-dialog__step'
-        )
 
         const diff = new Map()
 
@@ -54,6 +42,19 @@ export default class EditAttributeDefinitionDialog extends PromiseDialog {
           if (isChanged(attrDef.default, default_)) {
             diff.set('default', parseFloat(default_))
           }
+
+          const min = getInputElementValue(
+            super.el,
+            '.textae-editor__edit-attribute-definition-dialog__min'
+          )
+          const max = getInputElementValue(
+            super.el,
+            '.textae-editor__edit-attribute-definition-dialog__max'
+          )
+          const step = getInputElementValue(
+            super.el,
+            '.textae-editor__edit-attribute-definition-dialog__step'
+          )
 
           if (isChanged(attrDef.min, min)) {
             diff.set('min', parseFloat(min))
