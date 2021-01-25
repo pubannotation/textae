@@ -14,7 +14,7 @@ export default function (content) {
     attributes.push({
       pred: attr.querySelector(
         '.textae-editor__edit-type-dialog__attribute__predicate__value'
-      ).innerText,
+      ).dataset.predicate,
       obj: attr.querySelector(
         '.textae-editor__edit-type-dialog__attribute__value__value'
       ).innerText
