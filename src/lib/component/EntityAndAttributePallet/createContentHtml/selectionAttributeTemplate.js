@@ -25,7 +25,7 @@ export default function (context) {
         ${values
           .map(
             (
-              { color = '', id, default: _default, label = '', indelible },
+              { color = '', id, default: defaultValue, label = '', indelible },
               index
             ) => {
               return `
@@ -33,7 +33,7 @@ export default function (context) {
           <td class="textae-editor__type-pallet__selection-attribute-label" data-id="${id}">
             ${id}
             ${
-              _default
+              defaultValue
                 ? '<span class="textae-editor__type-pallet__default-icon" title="This type is set as a default type."></span>'
                 : ''
             }
