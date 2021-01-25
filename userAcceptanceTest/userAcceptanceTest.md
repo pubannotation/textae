@@ -8,6 +8,23 @@
 4.  ブラウザの開発ツールを起動します。
 5.  以下のテストを実行して、エラーが出ないこと
 
+## パレットに Flag Attribute の label と color を表示する
+
+### 背景
+
+1. Flag Attribute の定義には label と color をもつことできます
+2. Attribute インスタンスの表示には label と color を使っています
+3. パレットの Attribute タグで、Flag Attribute を表示したときに、label と color を表示していませんでした
+4. 6.4.92 で対応しました
+
+### -- 手段 --
+
+1. Editor1 を選択
+2. Term モードにする
+3. `q`キーを押してパレットを開く
+4. `Speculation`タブを開く
+5. `label: "?" color: "#FF8000"`が表示されていること
+
 ## Entity に HTML タグを含むラベルを設定したときにラベルの定義に HTML エスケープされた文字列が設定されないこと
 
 ### 背景
