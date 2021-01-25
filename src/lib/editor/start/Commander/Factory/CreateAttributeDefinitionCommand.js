@@ -11,14 +11,6 @@ export default class CreateAttributeDefinitionCommand extends ConfigurationComma
   }
 
   execute() {
-    // Added default properties to newly created numeric attribute.
-    if (this._newAttrDef.valueType === 'numeric') {
-      this._newAttrDef.min = this._newAttrDef.min || 0
-      this._newAttrDef.max = this._newAttrDef.max || 0
-      this._newAttrDef.step = this._newAttrDef.step || 0
-      this._newAttrDef.default = this._newAttrDef.default || 0
-    }
-
     // Added default value to newly created selection attribute definition.
     // Except when undoing the deletion of selection attribute definition.
     if (
