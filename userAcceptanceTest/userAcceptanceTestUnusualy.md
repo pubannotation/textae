@@ -1,5 +1,149 @@
 # たまにやるテスト
 
+## BlockEntity 編集ダイアログを開く
+
+### Change Label[W]ボタン
+
+1.  Block モードにする
+2.  BlockEntity を選択する
+3.  `Change Label[W]`ボタンを押す
+4.  編集ダイアログが開くこと
+
+### W キー
+
+1.  Block モードにする
+2.  BlockEntity を選択する
+3.  `W`キーを押す
+4.  編集ダイアログが開くこと
+
+### コンテキストメニュー
+
+1.  Block モードにする
+2.  BlockEntity を選択する
+3.  右クリックする
+4.  コンテキストメニューが開くこと
+5.  コンテキストメニューの
+6.  `Change Label[W]`ボタンを押す
+7.  編集ダイアログが開くこと
+
+## DenotationEntity 編集ダイアログを開く
+
+### Change Label[W]ボタン
+
+1.  Term モードにする
+2.  DenotationEntity を選択する
+3.  `Change Label[W]`ボタンを押す
+4.  編集ダイアログが開くこと
+
+### W キー
+
+1.  Term モードにする
+2.  DenotationEntity を選択する
+3.  `W`キーを押す
+4.  編集ダイアログが開くこと
+
+### コンテキストメニュー
+
+1.  Term モードにする
+2.  DenotationEntity を選択する
+3.  右クリックする
+4.  コンテキストメニューが開くこと
+5.  コンテキストメニューの
+6.  `Change Label[W]`ボタンを押す
+7.  編集ダイアログが開くこと
+
+## ラベル編集時にオートコンプリートを表示して、ダイアログをクリックすると、次からオートコンプリートがダイアログの下に表示される
+
+#### 背景
+
+1.  ラベル編集時にオートコンプリートの候補を表示して、ダイアログをクリックしたとき、ダイアログの z-index がインクリメントされ、オートコンプリートの候補の z-index より大きくなります。以降、オートコンプリートの候補を表示した際にダイアログの裏に表示されます。4.4.2 で対応
+2.  5.0.0 の開発中に、ダイアログ内の input 要素をクリックしたときに再現することを発見。5.0.5 で対応しました
+
+#### -- 手段 --
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  Entity を選択する
+4.  `Change Label[W]`ボタンを押す
+5.  既存の id を消す
+6.  `par`を入力
+7.  候補に`parent@http://dbpedia.org/ontology/parent`が表示されること
+8.  編集ダイアログの input 要素をクリックする
+9.  `par`を入力しなおす
+10. 候補に`parent@http://dbpedia.org/ontology/parent`が表示されること
+
+## オートコンプリートの候補を表示したときに Entity 編集ダイアログに横スクロールバーが表示されないこと
+
+### 背景
+
+1.  5.0.6 で Entity ダイアログのオートコンプリートの候補の幅を、なるべく値が省略されないように、広くしました。
+2.  Firefox では、Entity ダイアログに横スクロールバーが表示されていました。5.2.7 で候補の幅を 5px 短くして、対応しました。
+
+### --- 手段 ---
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  Attribute のない Entity を選択する
+4.  `Change Label[W]`ボタンを押す
+5.  既存の id を消す
+6.  `par`を入力
+7.  候補に`parent@http://dbpedia.org/ontology/parent`が表示されること
+8.  ダイアログに横スクロールバー表示されないこと
+
+## Selection Attribute の編集
+
+### 背景
+
+1.  5.0.0 で、Attribute を追加するためにのショートカットキー T を追加しました
+2.  5.0.2 で、1~5 のキーで選択中の Entity へ、Attribute を追加、shift と同時押しで削除するようにしました
+3.  5.0.5 で、Attribute のショートカットキーを 1~9 までに増やしました
+4.  5.2.0 で、Attribute のショートカットキー T を廃止しました
+5.  5.2.3 で編集ダイアログの編集機能は廃止され、パレットを開くボタンに代わりました
+6.  6.2.71 で Block モードでパレットが開けるようになりました
+7.  6.2.79 で で Block モードで、ショートカットキー 1~9 で Attribute の追加ができるようになりました
+
+### DenotationEntity の Attribute をショートカットキー操作で変更
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  DenotationEntity を選択する
+4.  1 キーを押す、Attribute を追加されること
+5.  1 キーをもう一度押すと、Value 選択用のパレットが表示されること
+6.  パレットの Value を押すと、選択中の DenotationEntity の該当 predicate の Attribute の Value が変更できること
+
+### DenotationEntity の Attribute を Entity 編集ダイアログから変更
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  DenotationEntity を選択する
+4.  1 キーを押す
+5.  Attribute が追加されること
+6.  W キーを押す
+7.  `Edit`ボタンを押す
+8.  パレットが開くこと
+9.  denote タブが選ばれていること
+
+### BlockEntity の Attribute をショートカットキー操作で変更
+
+1.  Editor1 を選択
+2.  Block モードにする
+3.  BlockEntity を選択する
+4.  1 キーを押す、Attribute を追加されること
+5.  1 キーをもう一度押すと、Value 選択用のパレットが表示されること
+6.  パレットの Value を押すと、選択中の BlockEntity の該当 predicate の Attribute の Value が変更できること
+
+### BlockEntity の Attribute を Entity 編集ダイアログから変更
+
+1.  Editor1 を選択
+2.  Block モードにする
+3.  BlockEntity を選択する
+4.  1 キーを押す
+5.  Attribute が追加されること
+6.  W キーを押す
+7.  `Edit`ボタンを押す
+8.  パレットが開くこと
+9.  denote タブが選ばれていること
+
 ## オートコンプリートの候補がダイアログの下に隠れないこと
 
 ### 背景
