@@ -43,6 +43,7 @@ export default class Factory {
 
   changeAttributeDefinitionCommand(attributeDefinition, changedProperties) {
     return new ChangeAttributeDefinitionAndRefectInstancesCommand(
+      this._editor,
       this._annotationData,
       this._annotationData.typeDefinition.attribute,
       attributeDefinition,

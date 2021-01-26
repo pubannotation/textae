@@ -3,7 +3,13 @@ import ChangeAttributeDefinitionCommand from './ChangeAttributeDefinitionCommand
 import ChangeAttributeCommand from '../ChangeAttributeCommand'
 
 export default class ChangeAttributeDefinitionAndRefectInstancesCommand extends CompositeCommand {
-  constructor(annotationData, typeContainer, attrDef, changedProperties) {
+  constructor(
+    editor,
+    annotationData,
+    typeContainer,
+    attrDef,
+    changedProperties
+  ) {
     super()
 
     // change config
@@ -18,16 +24,25 @@ export default class ChangeAttributeDefinitionAndRefectInstancesCommand extends 
     let changAnnotationCommands = []
     // change annotation
     if (changedProperties.has('pred')) {
-      changAnnotationCommands = annotationData.attribute
-        .getSameDefinitionsAttributes(attrDef.pred)
-        .map((attribute) => {
-          return new ChangeAttributeCommand(
-            annotationData,
-            attribute,
-            changedProperties.get('pred'),
-            attribute.obj
-          )
-        })
+      const sameDefinitionAttributes = annotationData.attribute.getSameDefinitionsAttributes(
+        attrDef.pred
+      )
+
+      changAnnotationCommands = sameDefinitionAttributes.map((attribute) => {
+        return new ChangeAttributeCommand(
+          annotationData,
+          attribute,
+          changedProperties.get('pred'),
+          attribute.obj
+        )
+      })
+
+      this._afterInvoke = () => {
+        editor.eventEmitter.emit(
+          'textae.command.attributes.change',
+          sameDefinitionAttributes
+        )
+      }
     }
 
     this._subCommands = changeConfigcommands.concat(changAnnotationCommands)

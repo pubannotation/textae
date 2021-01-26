@@ -17,6 +17,10 @@ export default class CompositeCommand extends BaseCommand {
 
     invoke(this._subCommands)
 
+    if (this._afterInvoke) {
+      this._afterInvoke()
+    }
+
     this.revert = () => ({
       _subCommands: this._subCommands,
       _logMessage: this._logMessage,
