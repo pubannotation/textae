@@ -766,6 +766,24 @@
       "subj": "E18",
       "pred": "free_text_predicate",
       "obj": "dupulicated text 2"
+    },
+    {
+      "id": "A18",
+      "subj": "E1:a:b",
+      "pred": "Speculation",
+      "obj": "true"
+    },
+    {
+      "id": "A19",
+      "subj": "E1:a:b",
+      "pred": "free_text_predicate",
+      "obj": "1"
+    },
+    {
+      "id": "A20",
+      "subj": "E1:a:b",
+      "pred": "score",
+      "obj": 0.1
     }
   ],
   "relations": [
