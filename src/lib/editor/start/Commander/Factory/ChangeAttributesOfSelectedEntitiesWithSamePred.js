@@ -4,6 +4,7 @@ import AddValueToAttributeDefinitionCommand from './AddValueToAttributeDefinitio
 
 export default class ChangeAttributesOfSelectedEntitiesWithSamePred extends CompositeCommand {
   constructor(
+    editor,
     annotationData,
     selectionModel,
     typeContainer,
@@ -33,6 +34,14 @@ export default class ChangeAttributesOfSelectedEntitiesWithSamePred extends Comp
       (attribute) =>
         new ChangeAttributeCommand(annotationData, attribute, null, newObj)
     )
+
+    if (effectedAttributes.length) {
+      this._afterInvoke = () =>
+        editor.eventEmitter.emit(
+          'textae.command.attributes.change',
+          effectedAttributes
+        )
+    }
 
     // When the value of the string attribute is acquired by auto-complete,
     // if the label of the acquired value is not registered in the attribute definition pattern,

@@ -57,6 +57,7 @@ export default class Factory {
     newLabel
   ) {
     return new ChangeAttributesOfSelectedEntitiesWithSamePred(
+      this._editor,
       this._annotationData,
       this._selectionModel,
       this._annotationData.typeDefinition.attribute,
