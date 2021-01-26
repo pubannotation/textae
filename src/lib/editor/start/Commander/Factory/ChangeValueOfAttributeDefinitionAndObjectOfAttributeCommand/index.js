@@ -4,6 +4,7 @@ import ChangeValueOfAttributeDefinitionCommand from './ChangeValueOfAttributeDef
 
 export default class ChangeValueOfAttributeDefinitionAndObjectOfAttributeCommand extends CompositeCommand {
   constructor(
+    editor,
     annotationData,
     typeContainer,
     attrDef,
@@ -27,13 +28,20 @@ export default class ChangeValueOfAttributeDefinitionAndObjectOfAttributeCommand
       attrDef['value type'] === 'selection' &&
       attrDef.values[index].id !== value.id
     ) {
-      const changeAnnotationCommands = annotationData.attribute
-        .getSameAttributes(attrDef.pred, attrDef.values[index].id)
-        .map(
-          (a) => new ChangeAttributeCommand(annotationData, a, null, value.id)
-        )
+      const sameAttributes = annotationData.attribute.getSameAttributes(
+        attrDef.pred,
+        attrDef.values[index].id
+      )
+      const changeAnnotationCommands = sameAttributes.map(
+        (a) => new ChangeAttributeCommand(annotationData, a, null, value.id)
+      )
 
       this._subCommands = this._subCommands.concat(changeAnnotationCommands)
+      this._afterInvoke = () =>
+        editor.eventEmitter.emit(
+          'textae.command.attributes.change',
+          sameAttributes
+        )
     }
 
     this._logMessage = `change attribute definition.`

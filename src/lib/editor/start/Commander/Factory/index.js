@@ -120,6 +120,7 @@ export default class Factory {
     value
   ) {
     return new ChangeValueOfAttributeDefinitionAndObjectOfAttributeCommand(
+      this._editor,
       this._annotationData,
       this._annotationData.typeDefinition.attribute,
       attributeDefinition,
