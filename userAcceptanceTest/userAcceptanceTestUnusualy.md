@@ -555,50 +555,6 @@
 3.  Type を編集する
 4.  Value 欄に最初の Type の Value が表示されること
 
-## Entity 編集ダイアログに Entity と Attribute の情報を表示
-
-### 背景
-
-1.  5.0.0 から Attribute が追加されました。
-2.  Type は`Predicate`が`type`になりました。
-3.  Type の`id`は`Value`に呼び方が変りました。
-4.  6.3.31 で HTML 生成用のテンプレートを Handlebars.js からテンプレートリテラルに変えたときに、ラベルを持たない Entity のラベルに null と表示されるようになりました。
-5.  6.4.16 で対応
-6.  6.4.1 で、Annotation ファイルの読込時 Validation での Attribute のチェックを緩め、 1 つの Entity に Predicate と Object が等しい Attribute が複数ついているかのチェックに変更しました
-7.  6.4.70 で、重複 Attribute を Entity 編集ダイアログに表示できるようにしました
-8.  Entity 編集ダイアログに表示する Entity を Attribute も Predicate と Value という同じ見出しも持っている
-9.  6.4.82 で、要素毎に見出しを表示するのをやめて、テーブルで表示し、テーブルヘッダーに見出しをまとめました
-10. 6.4.83 で、Attribute の Predicate と Value をテキストにし、編集・削除ボタンをアイコンにしました
-11. 6.4.84 で Attribute の定義順に並べることにしました
-12. 6.4.86 で、同一の pred は一回だけ表示するようにしました
-13. 6.4.90 で、Attribute の pred と一緒にショートカットキーを表示するようにしました
-
-### DenotationEntity
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  DenotationEntity `E1:a:b` を選択する
-4.  `Change Label[W]`ボタンを押す
-5.  編集ダイアログが開くこと
-6.  ダイアログのタイトルが`Please edit type and attributes`であること
-7.  1 行目の`Predicate`カラムに`type`、`Value`カラムに`null`が表示されること
-8.  2 行目の`Predicate`カラムに`1:denote`、`Value`カラムに`equivalentTo`が表示されること
-9.  2 行目の`Predicate`カラムと`Value`カラムがテキストであること
-10. 2 行目の編集ボタンと削除ボタンにアイコンが表示されていること
-11. 3 行目の`Predicate`カラムに空文字、`Value`カラムに`http://www.yahoo.co.jp/eeeeeeeeeeeeeeeeeoaoeuaoeuaoue`が表示されること
-
-### BlockEntity
-
-1.  Editor1 を選択
-2.  Block モードにする
-3.  BlockEntity `B1` を選択する
-4.  `Change Label[W]`ボタンを押す
-5.  編集ダイアログが開くこと
-6.  ダイアログのタイトルが`Please edit type and attributes`であること
-7.  1 行目の`Predicate`カラムに`type`、`Value`カラムに`block1`、`Label`カラムに`Label of block1` が表示されること
-8.  2 行目の`Predicate`カラムに`1:denote`、`Value`カラムに`equivalentTo`が表示されること
-9.  3 行目の`Predicate`カラムに空文字、`Value`カラムに`http://www.yahoo.co.jp/eeeeeeeeeeeeeeeeeoaoeuaoeuaoue`が表示されること
-
 ## BlockEntity 編集ダイアログの編集確定
 
 ### 背景
