@@ -159,7 +159,7 @@ export default class EntityModel {
     return createEntityHTMLElement(context)
   }
 
-  updateElement(namespace, attributeContainer, isSelected) {
+  updateElement(namespace, isSelected) {
     const element = this.renderElement(
       namespace,
       this._typeDefinition.attribute
