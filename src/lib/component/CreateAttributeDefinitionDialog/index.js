@@ -3,6 +3,8 @@ import PromiseDialog from '../PromiseDialog'
 import getInputElementValue from '../getInputElementValue'
 import template from './template'
 
+const componentClassName = `textae-editor__create-attribute-definition-dialog`
+
 export default class CreateAttributeDefinitionDialog extends PromiseDialog {
   constructor() {
     super(
@@ -25,43 +27,25 @@ export default class CreateAttributeDefinitionDialog extends PromiseDialog {
         return state
       }
     )
-    this._componentClassName = `textae-editor__create-attribute-definition-dialog`
 
-    delegate(
-      super.el,
-      `.${this._componentClassName}__value-type`,
-      'change',
-      () => {
-        const html = template(this._state)
-        super.el.closest('.ui-dialog-content').innerHTML = html
-      }
-    )
+    delegate(super.el, `.${componentClassName}__value-type`, 'change', () => {
+      const html = template(this._state)
+      super.el.closest('.ui-dialog-content').innerHTML = html
+    })
   }
 
   get _state() {
     const valueType = super.el.querySelector(
-      `.${this._componentClassName}__value-type`
+      `.${componentClassName}__value-type`
     ).value
-    const pred = getInputElementValue(
-      super.el,
-      `.${this._componentClassName}__pred`
-    )
+    const pred = getInputElementValue(super.el, `.${componentClassName}__pred`)
     const defaultValue = getInputElementValue(
       super.el,
-      `.${this._componentClassName}__default-value`
+      `.${componentClassName}__default-value`
     )
-    const min = getInputElementValue(
-      super.el,
-      `.${this._componentClassName}__min`
-    )
-    const max = getInputElementValue(
-      super.el,
-      `.${this._componentClassName}__max`
-    )
-    const step = getInputElementValue(
-      super.el,
-      `.${this._componentClassName}__step`
-    )
+    const min = getInputElementValue(super.el, `.${componentClassName}__min`)
+    const max = getInputElementValue(super.el, `.${componentClassName}__max`)
+    const step = getInputElementValue(super.el, `.${componentClassName}__step`)
 
     return {
       pred,
