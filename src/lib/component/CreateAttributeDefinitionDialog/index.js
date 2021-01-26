@@ -9,7 +9,7 @@ export default class CreateAttributeDefinitionDialog extends PromiseDialog {
   constructor() {
     super(
       'Please enter new attribute definition',
-      template({ valueType: 'flag' }),
+      template(componentClassName, { valueType: 'flag' }),
       {},
       () => {
         const state = this._state
@@ -29,7 +29,7 @@ export default class CreateAttributeDefinitionDialog extends PromiseDialog {
     )
 
     delegate(super.el, `.${componentClassName}__value-type`, 'change', () => {
-      const html = template(this._state)
+      const html = template(componentClassName, this._state)
       super.el.closest('.ui-dialog-content').innerHTML = html
     })
   }

@@ -1,8 +1,7 @@
 import inputAttributeDefinition from '../inputAttributeDefinition'
 
-export default function (context) {
+export default function (componentClassName, context) {
   const { valueType } = context
-  const componentClassName = 'textae-editor__create-attribute-definition-dialog'
 
   return `
 <div class="${componentClassName}__container">
