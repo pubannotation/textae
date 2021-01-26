@@ -94,7 +94,7 @@ export default class EntityModel {
       this.typeValues.toHTMLElementContext(
         namespace,
         typeContainer,
-        attributeContainer
+        this._typeDefinition.attribute
       )
     )
   }
