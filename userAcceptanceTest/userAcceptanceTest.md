@@ -26,6 +26,8 @@
 12. 6.4.86 で、同一の pred は一回だけ表示するようにしました
 13. 6.4.90 で、Attribute の pred と一緒にショートカットキーを表示するようにしました
 14. 6.4.104 で Attribute の label を表示するようにしました
+15. pred のショートカットキーと見せかけて、Attribute インスタンスの index を表示していました。正しくは Attribute 定義のインデックスである必要があります。
+16. 6.4.105 で対応しました
 
 ### DenotationEntity
 
@@ -40,9 +42,9 @@
 9.  2 行目の`Predicate`カラムと`Value`カラムがテキストであること
 10. 2 行目の編集ボタンと削除ボタンにアイコンが表示されていること
 11. 3 行目の`Predicate`カラムに空文字、`Value`カラムに`http://www.yahoo.co.jp/eeeeeeeeeeeeeeeeeoaoeuaoeuaoue`、`Label`カラムに`Regulation`が表示されること
-12. 4 行目の`Predicate`カラムに`score`、`Value`カラムに`0.1`、`Label`カラムに`Low`が表示されること
-13. 5 行目の`Predicate`カラムに`flee_text_predicate`、`Value`カラムに`1`、`Label`カラムに`High`が表示されること
-14. 6 行目の`Predicate`カラムに`Speculation`、`Value`カラムに`ture`、`Label`カラムに`?`が表示されること
+12. 4 行目の`Predicate`カラムに`4:score`、`Value`カラムに`0.1`、`Label`カラムに`Low`が表示されること
+13. 5 行目の`Predicate`カラムに`5:flee_text_predicate`、`Value`カラムに`1`、`Label`カラムに`High`が表示されること
+14. 6 行目の`Predicate`カラムに`7:Speculation`、`Value`カラムに`ture`、`Label`カラムに`?`が表示されること
 
 ### BlockEntity
 
