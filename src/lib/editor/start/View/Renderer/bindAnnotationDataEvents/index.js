@@ -43,8 +43,13 @@ export default function (
     .on('textae.annotationData.attribute.add', (attribute) => {
       entityRenderer.change(attribute.entity)
     })
-    .on('textae.annotationData.attribute.change', (attribute) => {
-      entityRenderer.change(attribute.entity)
+    .on('textae.command.attributes.change', (attributes) => {
+      for (const entity of attributes.reduce(
+        (prev, curr) => prev.add(curr.entity),
+        new Set()
+      )) {
+        entityRenderer.change(entity)
+      }
     })
     .on('textae.annotationData.attribute.remove', (attribute) => {
       entityRenderer.change(attribute.entity)
