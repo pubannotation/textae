@@ -25,10 +25,11 @@ export default class CreateAttributeDefinitionDialog extends PromiseDialog {
         return state
       }
     )
+    this._componentClassName = `textae-editor__create-attribute-definition-dialog`
 
     delegate(
       super.el,
-      '.textae-editor__create-attribute-definition-dialog__value-type',
+      `.${this._componentClassName}__value-type`,
       'change',
       () => {
         const html = template(this._state)
@@ -39,27 +40,27 @@ export default class CreateAttributeDefinitionDialog extends PromiseDialog {
 
   get _state() {
     const valueType = super.el.querySelector(
-      '.textae-editor__create-attribute-definition-dialog__value-type'
+      `.${this._componentClassName}__value-type`
     ).value
     const pred = getInputElementValue(
       super.el,
-      '.textae-editor__create-attribute-definition-dialog__pred'
+      `.${this._componentClassName}__pred`
     )
     const defaultValue = getInputElementValue(
       super.el,
-      '.textae-editor__create-attribute-definition-dialog__default-value'
+      `.${this._componentClassName}__default-value`
     )
     const min = getInputElementValue(
       super.el,
-      '.textae-editor__create-attribute-definition-dialog__min'
+      `.${this._componentClassName}__min`
     )
     const max = getInputElementValue(
       super.el,
-      '.textae-editor__create-attribute-definition-dialog__max'
+      `.${this._componentClassName}__max`
     )
     const step = getInputElementValue(
       super.el,
-      '.textae-editor__create-attribute-definition-dialog__step'
+      `.${this._componentClassName}__step`
     )
 
     return {
