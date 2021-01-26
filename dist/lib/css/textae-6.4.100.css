@@ -453,10 +453,10 @@
 .textae-editor__edit-attribute-definition-dialog__pred input {
   width: 199px;
 }
-.textae-editor__edit-attribute-definition-dialog__default {
+.textae-editor__edit-attribute-definition-dialog__default-value {
   padding-left: 50px;
 }
-.textae-editor__edit-attribute-definition-dialog__default input {
+.textae-editor__edit-attribute-definition-dialog__default-value input {
   width: 246px;
 }
 .textae-editor__edit-attribute-definition-dialog__min input {
