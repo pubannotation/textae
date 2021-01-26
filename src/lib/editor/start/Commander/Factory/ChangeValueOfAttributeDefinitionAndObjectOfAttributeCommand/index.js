@@ -1,5 +1,5 @@
+import ChangeAttributeCommand from '../ChangeAttributeCommand'
 import CompositeCommand from '../CompositeCommand'
-import ChangeObjectOfAttributeCommand from './ChangeObjectOfAttributeCommand'
 import ChangeValueOfAttributeDefinitionCommand from './ChangeValueOfAttributeDefinitionCommand'
 
 export default class ChangeValueOfAttributeDefinitionAndObjectOfAttributeCommand extends CompositeCommand {
@@ -27,14 +27,13 @@ export default class ChangeValueOfAttributeDefinitionAndObjectOfAttributeCommand
       attrDef['value type'] === 'selection' &&
       attrDef.values[index].id !== value.id
     ) {
-      this._subCommands.push(
-        new ChangeObjectOfAttributeCommand(
-          annotationData,
-          attrDef.pred,
-          attrDef.values[index].id,
-          value.id
+      const changeAnnotationCommands = annotationData.attribute
+        .getSameAttributes(attrDef.pred, attrDef.values[index].id)
+        .map(
+          (a) => new ChangeAttributeCommand(annotationData, a, null, value.id)
         )
-      )
+
+      this._subCommands = this._subCommands.concat(changeAnnotationCommands)
     }
 
     this._logMessage = `change attribute definition.`
