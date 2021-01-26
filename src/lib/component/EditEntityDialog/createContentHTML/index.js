@@ -23,5 +23,11 @@ export default function (typeValues, entityContainer, attributeContainer) {
           .join('')}
         </tbody>
     </table>
+    ${attributeContainer.attributes
+      .map(
+        ({ pred }) =>
+          `<button type="button" class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__add">${pred}</button>`
+      )
+      .join(' ')}
   `
 }
