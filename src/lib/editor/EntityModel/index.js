@@ -150,7 +150,7 @@ export default class EntityModel {
     this.element.classList.remove(SELECTED)
   }
 
-  renderElement(namespace, attributeContainer) {
+  renderElement(namespace) {
     const context = this._toHTMLElementContext(
       namespace,
       this._typeContainerFor,

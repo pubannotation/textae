@@ -11,6 +11,6 @@ export default function (attributeContainer, entity, namespace) {
   const grid = entity.span.gridElement || entity.span.renderGridElement()
 
   // Append a new entity to the type
-  const element = entity.renderElement(namespace, attributeContainer)
+  const element = entity.renderElement(namespace)
   grid.insertAdjacentElement('beforeend', element)
 }
