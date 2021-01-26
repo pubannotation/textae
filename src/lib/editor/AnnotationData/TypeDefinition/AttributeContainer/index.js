@@ -164,6 +164,10 @@ export default class AttributeContainer {
       return indexOfA - indexOfB
     }
 
-    return a.id.localeCompare(b.id)
+    if (a.id && b.id) {
+      return a.id.localeCompare(b.id)
+    }
+
+    return 0
   }
 }
