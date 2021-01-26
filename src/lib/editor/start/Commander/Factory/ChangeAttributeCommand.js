@@ -1,4 +1,5 @@
 import AnnotationCommand from './AnnotationCommand'
+import commandLog from './commandLog'
 
 export default class ChangeAttributeCommand extends AnnotationCommand {
   constructor(annotationData, attribute, newPred, newObj) {
@@ -16,6 +17,10 @@ export default class ChangeAttributeCommand extends AnnotationCommand {
       this._attribute.id,
       this._newPred,
       this._newObj
+    )
+
+    commandLog(
+      `atttribute: ${this._attribute.id} changed from ${this._oldPred}:${this._oldObj} to ${this._newPred}:${this._newObj}.`
     )
   }
 
