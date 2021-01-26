@@ -13,8 +13,10 @@ export default class EditEntityDialog extends PromiseDialog {
     autocompletionWs,
     typeValues
   ) {
+    const { typeName, attributes } = typeValues
     const contentHtml = createContentHTML(
-      typeValues,
+      typeName,
+      attributes,
       entityContainer,
       attributeContainer
     )

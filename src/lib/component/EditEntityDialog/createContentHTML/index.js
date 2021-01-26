@@ -1,9 +1,12 @@
 import toEntityHTML from './toEntityHTML'
 import toAttributeHTML from './toAttributeHTML'
 
-export default function (typeValues, entityContainer, attributeContainer) {
-  const { typeName, attributes } = typeValues
-
+export default function (
+  typeName,
+  attributes,
+  entityContainer,
+  attributeContainer
+) {
   return `
     <table class="textae-editor__edit-type-dialog__table">
       <thead>
