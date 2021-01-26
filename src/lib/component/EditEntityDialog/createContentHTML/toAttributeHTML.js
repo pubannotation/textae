@@ -9,6 +9,7 @@ export default function (
   const { pred, obj } = attribute
   const previousAttribute = attributeInstances[index - 1]
   const previousPredicate = previousAttribute && previousAttribute.pred
+  const definitionIndex = attributeContainer.getIndexOf(pred)
   const label = attributeContainer.getLabel(pred, obj) || ''
   const editDisabled = attributeContainer.get(pred).valueType === 'flag'
 
@@ -16,7 +17,7 @@ export default function (
 <tr class="textae-editor__edit-type-dialog__attribute">
   <td>
     <span class="textae-editor__edit-type-dialog__attribute__predicate__value" data-predicate="${pred}">${
-    pred === previousPredicate ? '' : toShrotcutKey(index) + pred
+    pred === previousPredicate ? '' : toShrotcutKey(definitionIndex) + pred
   }</span>
   </td>
   <td>
