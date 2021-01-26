@@ -39,6 +39,14 @@ export default class CreateAttributeDefinitionDialog extends PromiseDialog {
       `.${componentClassName}__value-type`
     ).value
     const pred = getInputElementValue(super.el, `.${componentClassName}__pred`)
+    const label = getInputElementValue(
+      super.el,
+      `.${componentClassName}__label`
+    )
+    const color = getInputElementValue(
+      super.el,
+      `.${componentClassName}__color`
+    )
     const defaultValue = getInputElementValue(
       super.el,
       `.${componentClassName}__default-value`
@@ -49,6 +57,8 @@ export default class CreateAttributeDefinitionDialog extends PromiseDialog {
 
     return {
       pred,
+      label,
+      color,
       default: defaultValue,
       min,
       max,
