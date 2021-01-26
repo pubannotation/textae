@@ -154,7 +154,7 @@ export default class EntityModel {
     const context = this._toHTMLElementContext(
       namespace,
       this._typeContainerFor,
-      attributeContainer
+      this._typeDefinition.attribute
     )
     return createEntityHTMLElement(context)
   }
