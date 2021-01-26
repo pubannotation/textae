@@ -25,11 +25,14 @@ export default class ChangeAttributesOfSelectedEntitiesWithSamePred extends Comp
       )
 
       if (attribute) {
-        effectedAttributes.push(
-          new ChangeAttributeCommand(annotationData, attribute, null, newObj)
-        )
+        effectedAttributes.push(attribute)
       }
     }
+
+    this._subCommands = effectedAttributes.map(
+      (attribute) =>
+        new ChangeAttributeCommand(annotationData, attribute, null, newObj)
+    )
 
     // When the value of the string attribute is acquired by auto-complete,
     // if the label of the acquired value is not registered in the attribute definition pattern,
@@ -48,14 +51,11 @@ export default class ChangeAttributesOfSelectedEntitiesWithSamePred extends Comp
       )
     }
 
-    this._subCommands = effectedAttributes.concat(
+    this._subCommands = this._subCommands.concat(
       addValueForLabelToStirngAttributeDefinitionCommands
     )
     this._logMessage = `update obj ${newObj} to attributes: ${effectedAttributes
-      .map(
-        ({ _attribute: attribute }) =>
-          `{id: ${attribute.id}, subj: ${attribute.subj}, pred: ${attribute.pred}, obj: ${attribute.obj}}`
-      )
+      .map((attribute) => attribute.id)
       .join(',')}`
   }
 }
