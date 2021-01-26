@@ -85,7 +85,7 @@ export default class EntityModel {
     )
   }
 
-  _toHTMLElementContext(namespace, typeContainer, attributeContainer) {
+  _toHTMLElementContext(namespace, typeContainer) {
     return Object.assign(
       {
         id: makeEntityHTMLElementId(this._editor, this.id),
@@ -160,10 +160,7 @@ export default class EntityModel {
   }
 
   updateElement(namespace, isSelected) {
-    const element = this.renderElement(
-      namespace,
-      this._typeDefinition.attribute
-    )
+    const element = this.renderElement(namespace)
     this.element.replaceWith(element)
 
     // Re-select a new entity element.
