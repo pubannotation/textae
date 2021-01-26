@@ -314,23 +314,6 @@
 11. `OK`ボタンを押す
 12. Relation のラベルが`parent`になること
 
-## Attribute 定義追加ダイアログを開いたときに label と color の入力欄を表示する
-
-### 背景
-
-1. Attribute 定義追加ダイアログを開いたときは Attribute type に`flag`が選択されています
-2. flag attribute は label と color を持ちますが、label と color の入力欄が表示されません
-3. 6.4.95 で Attribute type を一度別の値に変更して、`flag`に戻すと表示されるようになりました
-4. 6.4.99 で Attribute 定義追加ダイアログを開いたときに、label と color の入力欄欄を表示します
-
-### -- 手段 --
-
-1. Term モードにする
-2. `q`キーを押してパレットを開く
-3. Attribute 定義追加タブをクリック
-4. Attribute 定義追加ダイアログが開くこと
-5. Attribute 定義追加ダイアログに label 欄と color 欄があること
-
 ## ラベルの定義に HTML タグが含まれているとき、HTML エスケープした文字列をオートコンプリートの候補として表示すること
 
 ### 背景
