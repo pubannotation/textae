@@ -11,14 +11,16 @@ export default class NumericAttributeDefinition extends AttributeDefinition {
     this._values = hash.values || []
   }
 
-  getDisplayName(obj) {
+  getLabel(obj) {
     const def = this._getMatchedValue(obj)
 
     if (def && def.label) {
       return def.label
     }
+  }
 
-    return obj
+  getDisplayName(obj) {
+    return this.getLabel(obj) || obj
   }
 
   getColor(obj) {

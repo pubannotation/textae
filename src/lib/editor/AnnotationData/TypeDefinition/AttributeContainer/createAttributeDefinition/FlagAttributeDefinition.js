@@ -8,6 +8,10 @@ export default class FlagAttributeDefinition extends AttributeDefinition {
     this.color = hash.color
   }
 
+  getLabel() {
+    return this.label
+  }
+
   getDisplayName() {
     if (this.label) {
       return this.label

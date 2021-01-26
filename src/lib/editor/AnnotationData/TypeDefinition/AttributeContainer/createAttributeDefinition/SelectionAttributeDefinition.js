@@ -10,14 +10,16 @@ export default class SelectionAttributeDefinition extends AttributeDefinition {
     return this.values.find((a) => a.default).id
   }
 
-  getDisplayName(obj) {
+  getLabel(obj) {
     const def = this._getMatchedValue(obj)
 
     if (def && def.label) {
       return def.label
     }
+  }
 
-    return
+  getDisplayName(obj) {
+    return this.getLabel(obj)
   }
 
   getColor(obj) {

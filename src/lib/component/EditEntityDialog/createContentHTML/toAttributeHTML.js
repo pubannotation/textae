@@ -9,6 +9,7 @@ export default function (
   const { pred, obj } = attribute
   const previousAttribute = attributeInstances[index - 1]
   const previousPredicate = previousAttribute && previousAttribute.pred
+  const label = attributeContainer.getLabel(pred, obj) || ''
   const editDisabled = attributeContainer.get(pred).valueType === 'flag'
 
   return `
@@ -22,6 +23,7 @@ export default function (
     <span class="textae-editor__edit-type-dialog__attribute__value__value">${obj}</span>
   </td>
   <td>
+    ${label}
   </td>
   <td>
     <button type="button" class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__edit__value" data-predicate="${pred}"${
