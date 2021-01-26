@@ -123,13 +123,6 @@ export default class AttributeContainer {
   }
 
   getDisplayName(pred, obj) {
-    // Changing the attribute definition of a duplicate attribute will cause the same Entity to be redundant twice.
-    // In this first rendering, one of the attributes has not been updated yet,
-    // so it will try to get the display name of the attribute whose definition does not exist.
-    if (!this._definedTypes.has(pred)) {
-      return
-    }
-
     console.assert(
       this._definedTypes.has(pred),
       `There is no attribute definition for ${pred}.`
