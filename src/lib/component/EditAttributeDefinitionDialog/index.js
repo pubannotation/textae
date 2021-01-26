@@ -3,16 +3,18 @@ import getInputElementValue from '../getInputElementValue'
 import isChanged from './isChanged'
 import template from './template'
 
+const componentClassName = `textae-editor__edit-attribute-definition-dialog`
+
 export default class EditAttributeDefinitionDialog extends PromiseDialog {
   constructor(attrDef) {
     super('Please enter new values', template(attrDef), {}, () => {
       const pred = getInputElementValue(
         super.el,
-        '.textae-editor__edit-attribute-definition-dialog__pred'
+        `.${componentClassName}__pred`
       )
       const defaultValue = getInputElementValue(
         super.el,
-        '.textae-editor__edit-attribute-definition-dialog__default-value'
+        `.${componentClassName}__default-value`
       )
 
       const diff = new Map()
@@ -24,11 +26,11 @@ export default class EditAttributeDefinitionDialog extends PromiseDialog {
       if (attrDef.valueType === 'flag') {
         const label = getInputElementValue(
           super.el,
-          '.textae-editor__edit-attribute-definition-dialog__label'
+          `.${componentClassName}__label`
         )
         const color = getInputElementValue(
           super.el,
-          '.textae-editor__edit-attribute-definition-dialog__color'
+          `.${componentClassName}__color`
         )
 
         if (attrDef.label !== label) {
@@ -53,15 +55,15 @@ export default class EditAttributeDefinitionDialog extends PromiseDialog {
 
         const min = getInputElementValue(
           super.el,
-          '.textae-editor__edit-attribute-definition-dialog__min'
+          `.${componentClassName}__min`
         )
         const max = getInputElementValue(
           super.el,
-          '.textae-editor__edit-attribute-definition-dialog__max'
+          `.${componentClassName}__max`
         )
         const step = getInputElementValue(
           super.el,
-          '.textae-editor__edit-attribute-definition-dialog__step'
+          `.${componentClassName}__step`
         )
 
         if (isChanged(attrDef.min, min)) {
