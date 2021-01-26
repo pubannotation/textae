@@ -9,11 +9,7 @@ export default class EntityRenderer {
   }
 
   render(entity) {
-    create(
-      this._annotationData.typeDefinition.attribute,
-      entity,
-      this._annotationData.namespace
-    )
+    create(entity, this._annotationData.namespace)
 
     entity.reflectEntityGapInTheHeight()
   }
