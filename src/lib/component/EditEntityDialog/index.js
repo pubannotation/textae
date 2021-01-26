@@ -49,6 +49,27 @@ export default class EditEntityDialog extends PromiseDialog {
       }
     )
 
+    delegate(
+      super.el,
+      '.textae-editor__edit-type-dialog__attribute__add',
+      'click',
+      (e) => {
+        const pred = e.target.innerText
+        const defaultValue = attributeContainer.get(pred).default
+
+        const { typeName, attributes } = getValues(super.el)
+        const contentHtml = createContentHTML(
+          typeName,
+          attributes
+            .concat({ pred, obj: defaultValue, id: '' })
+            .sort((a, b) => attributeContainer.attributeCompareFunction(a, b)),
+          entityContainer,
+          attributeContainer
+        )
+        super.el.closest('.ui-dialog-content').innerHTML = contentHtml
+      }
+    )
+
     // Setup autocomplete
     const value = super.el.querySelector(
       '.textae-editor__edit-type-dialog__type__value__value'
