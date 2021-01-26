@@ -24,8 +24,14 @@ export default class CompositeCommand extends BaseCommand {
     this.revert = () => ({
       _subCommands: this._subCommands,
       _logMessage: this._logMessage,
+      _afterInvoke: this._afterInvoke,
       execute() {
         invokeRevert(this._subCommands)
+
+        if (this._afterInvoke) {
+          this._afterInvoke()
+        }
+
         commandLog(`revert: ${this._logMessage}`)
       }
     })
