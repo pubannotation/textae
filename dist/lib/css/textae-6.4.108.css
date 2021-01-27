@@ -516,16 +516,39 @@
   box-shadow: gray 10px 10px 10px 0;
   font-size: x-small;
   margin: 0;
-  max-height: 450px;
   line-height: normal;
-  overflow-x: auto;
-  overflow-y: auto;
   padding: 5px;
   position: absolute !important;
   -webkit-touch-callout: none;
   width: auto;
   white-space: normal;
   z-index: 90;
+}
+.textae-editor__type-pallet__title-bar {
+  font-size: 1.7em;
+  padding: 0.4em 1em;
+  position: relative;
+}
+.textae-editor__type-pallet__title-bar span {
+  margin: 0.1em 0;
+  white-space: nowrap;
+  width: 90%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.textae-editor__type-pallet__title-bar .ui-dialog-titlebar-close {
+  position: absolute;
+  right: 0.3em;
+  top: 50%;
+  width: 20px;
+  margin: -10px 0 0 0;
+  padding: 1px;
+  height: 20px;
+}
+.textae-editor__type-pallet__content {
+  max-height: 450px;
+  overflow-x: auto;
+  overflow-y: auto;
 }
 .textae-editor__type-pallet--entity {
   background-color: rgba(200, 255, 255, 0.9);
@@ -536,13 +559,13 @@
 .textae-editor__type-pallet--selection-attribute {
   background-color: rgba(200, 255, 255, 0.9);
 }
-.textae-editor__type-pallet__title {
+.textae-editor__type-pallet__information {
   font-size: 1.4em;
   margin-bottom: -3px;
   margin-right: 10px;
   min-width: 205px;
 }
-.textae-editor__type-pallet__title__selected-entity-label {
+.textae-editor__type-pallet__information__selected-entity-label {
   font-size: small;
 }
 .textae-editor__type-pallet__lock-icon {
