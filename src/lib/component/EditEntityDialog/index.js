@@ -58,15 +58,14 @@ export default class EditEntityDialog extends PromiseDialog {
         const defaultValue = attributeContainer.get(pred).default
 
         const { typeName, attributes } = getValues(super.el)
-        const contentHtml = createContentHTML(
+        this._updateDisplay(
           typeName,
-          attributes
-            .concat({ pred, obj: defaultValue, id: '' })
-            .sort((a, b) => attributeContainer.attributeCompareFunction(a, b)),
-          entityContainer,
-          attributeContainer
+          attributes,
+          pred,
+          defaultValue,
+          attributeContainer,
+          entityContainer
         )
-        super.el.closest('.ui-dialog-content').innerHTML = contentHtml
       }
     )
 
@@ -80,5 +79,24 @@ export default class EditEntityDialog extends PromiseDialog {
     setSourceOfAutoComplete(value, labelSpan, autocompletionWs, (term) =>
       entityContainer.findByLabel(term)
     )
+  }
+
+  _updateDisplay(
+    typeName,
+    attributes,
+    pred,
+    defaultValue,
+    attributeContainer,
+    entityContainer
+  ) {
+    const contentHtml = createContentHTML(
+      typeName,
+      attributes
+        .concat({ pred, obj: defaultValue, id: '' })
+        .sort((a, b) => attributeContainer.attributeCompareFunction(a, b)),
+      entityContainer,
+      attributeContainer
+    )
+    super.el.closest('.ui-dialog-content').innerHTML = contentHtml
   }
 }
