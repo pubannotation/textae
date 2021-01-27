@@ -3,14 +3,15 @@ import enableJqueryDraggable from './enableJqueryDraggable'
 import moveIntoWindow from './moveIntoWindow'
 import updateDisplay from './updateDisplay'
 import getMousePoint from './getMousePoint'
+import createPalletElement from './createPalletElement'
 
 export default class Pallet {
-  constructor(editor, el) {
+  constructor(editor, annotationType) {
     this._editor = editor
-    this._el = el
+    this._el = createPalletElement(annotationType)
 
     // let the pallet draggable.
-    enableJqueryDraggable(el, editor)
+    enableJqueryDraggable(this._el, editor)
 
     // bugfix: Shortcut keys do not work after operating palette buttons.
     //
@@ -23,14 +24,20 @@ export default class Pallet {
     // 2. preventDefault changes default operations other than focus. Difficult to investigate impact range
     // 3. Operations that focus on a specific DOM element will work in any browser
     // 4. Refocusing on a focused DOM element has no side effects
-    delegate(el, '[type="button"]', 'click', () => editor.focus())
+    delegate(this._el, '[type="button"]', 'click', () => editor.focus())
 
-    delegate(el, `.textae-editor__type-pallet__read-button`, 'click', () =>
-      editor.eventEmitter.emit('textae.pallet.read-button.click')
+    delegate(
+      this._el,
+      `.textae-editor__type-pallet__read-button`,
+      'click',
+      () => editor.eventEmitter.emit('textae.pallet.read-button.click')
     )
 
-    delegate(el, '.textae-editor__type-pallet__write-button', 'click', () =>
-      editor.eventEmitter.emit('textae.pallet.write-button.click')
+    delegate(
+      this._el,
+      '.textae-editor__type-pallet__write-button',
+      'click',
+      () => editor.eventEmitter.emit('textae.pallet.write-button.click')
     )
 
     this.hide()

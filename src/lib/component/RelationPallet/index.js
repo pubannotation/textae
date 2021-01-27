@@ -1,11 +1,10 @@
 import { diff } from 'jsondiffpatch'
 import Pallet from '../Pallet'
-import createPalletElement from '../Pallet/createPalletElement'
 import template from './template'
 
 export default class RelationPallet extends Pallet {
   constructor(editor, originalData, typeDefinition) {
-    super(editor, createPalletElement('relation'))
+    super(editor, 'relation')
 
     this._originalData = originalData
     this._typeDefinition = typeDefinition

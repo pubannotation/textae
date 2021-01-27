@@ -1,6 +1,5 @@
 import { diff } from 'jsondiffpatch'
 import Pallet from '../Pallet'
-import createPalletElement from '../Pallet/createPalletElement'
 import bindAttributeEvent from './bindAttributeEvent'
 import bindSelectionAttributeLabel from './bindAttributeEvent/bindSelectionAttributeLabel'
 import createContentHtml from './createContentHtml'
@@ -14,7 +13,7 @@ export default class EntityAndAttributePallet extends Pallet {
     entityContainer,
     selectionModelEntity
   ) {
-    super(editor, createPalletElement('entity'))
+    super(editor, 'entity')
 
     this._eventEmitter = editor.eventEmitter
     this._originalData = originalData
