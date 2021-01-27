@@ -15,7 +15,6 @@
   box-shadow: gray 10px 10px 10px 0;
   font-size: x-small;
   margin: 0;
-  max-height: 450px;
   line-height: normal;
   padding: 5px;
   // Need '!important' because jQuery UI 'draggable()' set position as 'relative'.
@@ -26,6 +25,7 @@
   z-index: 90;
 
   &__content {
+    max-height: 450px;
     overflow-x: auto;
     overflow-y: auto;
   }
