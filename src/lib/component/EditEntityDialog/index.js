@@ -60,9 +60,9 @@ export default class EditEntityDialog extends PromiseDialog {
         const { typeName, attributes } = getValues(super.el)
         this._updateDisplay(
           typeName,
-          attributes,
-          pred,
-          defaultValue,
+          attributes
+            .concat({ pred, obj: defaultValue, id: '' })
+            .sort((a, b) => attributeContainer.attributeCompareFunction(a, b)),
           attributeContainer,
           entityContainer
         )
@@ -81,19 +81,10 @@ export default class EditEntityDialog extends PromiseDialog {
     )
   }
 
-  _updateDisplay(
-    typeName,
-    attributes,
-    pred,
-    defaultValue,
-    attributeContainer,
-    entityContainer
-  ) {
+  _updateDisplay(typeName, attributes, attributeContainer, entityContainer) {
     const contentHtml = createContentHTML(
       typeName,
-      attributes
-        .concat({ pred, obj: defaultValue, id: '' })
-        .sort((a, b) => attributeContainer.attributeCompareFunction(a, b)),
+      attributes,
       entityContainer,
       attributeContainer
     )
