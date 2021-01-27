@@ -24,6 +24,30 @@
   white-space: normal;
   z-index: 90;
 
+  &__title {
+    font-size: 1.7em;
+    padding: 0.4em 1em;
+    position: relative;
+
+    span {
+      margin: 0.1em 0;
+      white-space: nowrap;
+      width: 90%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .ui-dialog-titlebar-close {
+      position: absolute;
+      right: 0.3em;
+      top: 50%;
+      width: 20px;
+      margin: -10px 0 0 0;
+      padding: 1px;
+      height: 20px;
+    }
+  }
+
   &__content {
     max-height: 450px;
     overflow-x: auto;
