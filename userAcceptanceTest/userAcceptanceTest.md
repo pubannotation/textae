@@ -8,7 +8,7 @@
 4.  ブラウザの開発ツールを起動します。
 5.  以下のテストを実行して、エラーが出ないこと
 
-## Entity 編集ダイアログに Entity と Attribute の情報を表示
+## Entity 編集ダイアログに Entity と Attribute の情報を編集
 
 ### 背景
 
@@ -28,6 +28,7 @@
 14. 6.4.104 で Attribute の label を表示するようにしました
 15. pred のショートカットキーと見せかけて、Attribute インスタンスの index を表示していました。正しくは Attribute 定義のインデックスである必要があります。
 16. 6.4.105 で対応しました
+17. 6.4.106 で Attribute 追加ボタンを追加しました
 
 ### DenotationEntity
 
@@ -45,6 +46,9 @@
 12. 4 行目の`Predicate`カラムに`4:score`、`Value`カラムに`0.1`、`Label`カラムに`Low`が表示されること
 13. 5 行目の`Predicate`カラムに`5:flee_text_predicate`、`Value`カラムに`1`、`Label`カラムに`High`が表示されること
 14. 6 行目の`Predicate`カラムに`7:Speculation`、`Value`カラムに`ture`、`Label`カラムに`?`が表示されること
+15. テーブルの下に Attribute 追加ボタンがあること
+16. Attribute 追加ボタンのラベルが Attribute の predicate であること
+17. Attribute 追加ボタンをクリックすると、クリックした predicate が default 値でテーブルに追加されること
 
 ### BlockEntity
 
