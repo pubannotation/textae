@@ -2,7 +2,6 @@ import delegate from 'delegate'
 import PromiseDialog from '../PromiseDialog'
 import getValues from './getValues'
 import setSourceOfAutoComplete from '../setSourceOfAutoComplete'
-import observeRemoveAttributeButton from './observeRemoveAttributeButton'
 import createContentHTML from './createContentHTML'
 
 export default class EditEntityDialog extends PromiseDialog {
@@ -31,8 +30,6 @@ export default class EditEntityDialog extends PromiseDialog {
       () => getValues(super.el)
     )
 
-    observeRemoveAttributeButton(super.el)
-
     // Observe edit an attributu button
     delegate(
       super.el,
@@ -46,6 +43,19 @@ export default class EditEntityDialog extends PromiseDialog {
           'textae.editTypeDialog.attribute.value.edit',
           attrDef
         )
+      }
+    )
+
+    // Observe remove an attributu button
+    delegate(
+      super.el,
+      '.textae-editor__edit-type-dialog__attribute__remove__value',
+      'click',
+      (e) => {
+        const attribute = e.target.closest(
+          '.textae-editor__edit-type-dialog__attribute'
+        )
+        attribute.parentElement.removeChild(attribute)
       }
     )
 
