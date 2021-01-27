@@ -8,7 +8,7 @@ export default function (editor, pallet, annotationType, content) {
   // After updating the palette, the click event reaches the body.
   // At that time, if the target of the event is the palette, you can see that it is an event for textae-editor.
   pallet.innerHTML = `
-    <div class="textae-editor__type-pallet__title ui-widget-header ui-corner-all">
+    <div class="textae-editor__type-pallet__title-bar ui-widget-header ui-corner-all">
       <span>${
         annotationType.charAt(0).toUpperCase() + annotationType.slice(1)
       } configuration</span>
