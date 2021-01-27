@@ -4,7 +4,6 @@ export default function (context) {
   const { isLock, hasDiff, types } = context
   return `
 <p class="textae-editor__type-pallet__title">
-  <span>Relation configuration</span>
   <span 
     class="textae-editor__type-pallet__lock-icon" 
     style="display: ${isLock ? `inline-block` : `none`};">
