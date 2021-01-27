@@ -569,7 +569,7 @@
   position: relative;
   display: inline-block;
   font-family: FontAwesome;
-  content: '\f046';
+  content: '\f024';
 }
 .textae-editor__type-pallet__predicate__value-type--selection:before {
   position: relative;
