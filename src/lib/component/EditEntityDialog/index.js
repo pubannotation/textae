@@ -30,7 +30,7 @@ export default class EditEntityDialog extends PromiseDialog {
       () => getValues(super.el)
     )
 
-    // Observe edit an attributu button
+    // Observe edit an attributu button.
     delegate(
       super.el,
       '.textae-editor__edit-type-dialog__attribute__edit__value',
@@ -46,7 +46,7 @@ export default class EditEntityDialog extends PromiseDialog {
       }
     )
 
-    // Observe remove an attributu button
+    // Observe remove an attributu button.
     delegate(
       super.el,
       '.textae-editor__edit-type-dialog__attribute__remove__value',
@@ -67,6 +67,7 @@ export default class EditEntityDialog extends PromiseDialog {
       }
     )
 
+    // Observe add an attributu button.
     delegate(
       super.el,
       '.textae-editor__edit-type-dialog__attribute__add',
