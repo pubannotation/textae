@@ -12,7 +12,10 @@ export default function (editor, pallet, annotationType, content) {
       <span>${
         annotationType.charAt(0).toUpperCase() + annotationType.slice(1)
       } configuration</span>
-      <button type="button" class="ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close" title="Close">
+      <button 
+        type="button"
+        class="textae-editor__type-pallet__close-button ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close"
+        title="Close">
         <span class="ui-button-icon ui-icon ui-icon-closethick"></span>
         <span class="ui-button-icon-space"> </span>Close
       </button>

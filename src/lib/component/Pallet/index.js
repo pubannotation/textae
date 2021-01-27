@@ -41,6 +41,13 @@ export default class Pallet {
       () => editor.eventEmitter.emit('textae.pallet.write-button.click')
     )
 
+    delegate(
+      this._el,
+      '.textae-editor__type-pallet__close-button',
+      'click',
+      () => this.hide()
+    )
+
     this.hide()
   }
 
