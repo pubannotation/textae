@@ -32,7 +32,7 @@
 11. Relation モードにする
 12. `q` キーを押してパレットを開く
 13. タイトルバーがあること
-14. タイトルが`Entity configuration`であること
+14. タイトルが`Relation configuration`であること
 15. 閉じるボタンをクリックして、パレットを閉じられること
 
 ## パレットの Attribute タブの Attribute 情報フォーマット
