@@ -19,7 +19,7 @@ export default function (context) {
 
   return `
 <div style="display: flex;">
-  <p class="textae-editor__type-pallet__title">
+  <p class="textae-editor__type-pallet__information">
     <span>Entity configuration</span>
     <span class="textae-editor__type-pallet__lock-icon" style="display: ${
       isLock ? 'inline-block' : 'none'
