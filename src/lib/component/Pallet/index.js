@@ -8,6 +8,7 @@ import createPalletElement from './createPalletElement'
 export default class Pallet {
   constructor(editor, annotationType) {
     this._editor = editor
+    this._annotationType = annotationType
     this._el = createPalletElement(annotationType)
 
     // let the pallet draggable.
@@ -45,7 +46,7 @@ export default class Pallet {
 
   updateDisplay() {
     if (this.visibly) {
-      updateDisplay(this._editor, this._el, this._content)
+      updateDisplay(this._editor, this._el, this._annotationType, this._content)
     }
   }
 
@@ -55,7 +56,7 @@ export default class Pallet {
 
   show() {
     this._el.style.display = 'block'
-    updateDisplay(this._editor, this._el, this._content)
+    updateDisplay(this._editor, this._el, this._annotationType, this._content)
 
     const point = getMousePoint()
     // point.top -= this._editor[0].offsetTop
