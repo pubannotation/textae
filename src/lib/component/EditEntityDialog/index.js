@@ -52,10 +52,18 @@ export default class EditEntityDialog extends PromiseDialog {
       '.textae-editor__edit-type-dialog__attribute__remove__value',
       'click',
       (e) => {
-        const attribute = e.target.closest(
+        const tableRow = e.target.closest(
           '.textae-editor__edit-type-dialog__attribute'
         )
-        attribute.parentElement.removeChild(attribute)
+        const indexOfAttribute =
+          [...tableRow.parentElement.children].indexOf(tableRow) - 1
+        const { typeName, attributes } = getValues(super.el)
+        this._updateDisplay(
+          typeName,
+          attributes.filter((_, i) => i !== indexOfAttribute),
+          attributeContainer,
+          entityContainer
+        )
       }
     )
 
