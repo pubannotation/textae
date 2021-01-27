@@ -8,6 +8,46 @@
 4.  ブラウザの開発ツールを起動します。
 5.  以下のテストを実行して、エラーが出ないこと
 
+## パレットの Attribute タブの Attribute 情報フォーマット
+
+1. 6.4.48 で、文言を変更しました
+2. 6.4.49 で、文言に選択中のアイテムの数を追加し、ボタンの文言を短くしました
+3. 6.4.50 で、アイテムを選択していないときは、ボタンを表示しなくしました
+4. 6.4.51 で、value type の説明をアイコンに変更しました
+5. 6.4.55 で、Attribute 追加変更削除ボタンの表示・非表示切り替えを、有効・無効切り替えに変更しました
+6. 6.4.88 で、6.4.53 で選択アイテム数が表示されなくなっていたのを、直しました
+7. 6.4.91 で、6.4.88 で Attribute 定義がないときにパレットを開くとエラーが起きていたのを直しました
+8. 6.4.107 で、value type の説明をアイコンのみにしました。また、フラグ Attribute のアイコンをチェックボックスからフラッグに変えました
+
+### Attribute 定義がないとき
+
+1. Editor0 を選択
+2. Term モードにする
+3. `q` キーを押してパレットを開く
+4. エラーが起きないこと
+
+### Attribute 定義があるとき
+
+1. Editor1 を選択
+2. Term モードにする
+3. Attribute のない Entity を一つ選択する
+4. `q` キーを押してパレットを開く
+5. `denote` タブを選ぶ
+6. `Attribute [list icon] "denote" [add to] [remove from] the 1 item selected`が表示されること
+7. `add to`ボタンが有効であること
+8. `remove from`ボタンが無効であること
+9. `error` タブを選ぶ
+10. `Attribute [flag] icon] "score" [add to] [edit object of] [remove from]the 1 item selected` が表示されること
+11. `add to`ボタンが有効であること
+12. `edit object of`ボタンが無効であること
+13. `remove from`ボタンが無効であること
+14. Entity の選択を解除する
+15. `q` キーを押してパレットを開く
+16. `denote` タブを選ぶ
+17. `Attribute [list icon] "denote"`が表示されること
+18. `error` タブを選ぶ
+19. `Attribute [flag] icon] "error"` が表示されること
+
 ## Entity 編集ダイアログに Entity と Attribute の情報を編集
 
 ### 背景
