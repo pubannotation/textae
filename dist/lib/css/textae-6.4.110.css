@@ -336,6 +336,11 @@
 .textae-editor__edit-type-dialog__attribute__edit__value[disabled='disabled'] {
   opacity: 0.1;
 }
+.textae-editor__edit-type-dialog__add-attribute-buttons {
+  line-height: 2.3em;
+  max-height: 4.5em;
+  overflow-y: auto;
+}
 .textae-editor__edit-type-definition-dialog__container {
   display: flex;
   flex-wrap: wrap;
