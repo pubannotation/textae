@@ -298,7 +298,7 @@
 }
 .textae-editor__edit-type-dialog__table {
   table-layout: fixed;
-  width: 761px;
+  width: 746px;
 }
 .textae-editor__edit-type-dialog__table th:nth-child(1) {
   width: 158px;
@@ -307,7 +307,7 @@
   width: 285px;
 }
 .textae-editor__edit-type-dialog__table th:nth-child(3) {
-  width: 177px;
+  width: 162px;
 }
 .textae-editor__edit-type-dialog__table th:nth-child(4) {
   width: 119px;
@@ -338,7 +338,7 @@
 }
 .textae-editor__edit-type-dialog__add-attribute-buttons {
   line-height: 2.3em;
-  max-height: 4.5em;
+  max-height: 4.7em;
   overflow-y: auto;
 }
 .textae-editor__edit-type-definition-dialog__container {
