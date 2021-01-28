@@ -31,6 +31,7 @@
 17. 6.4.106 で Attribute 追加ボタンを追加しました
 18. 削除ボタンを押した際は、ダイアログの内容全体を更新せずに、対象の Attribute 行を削除していたため、削除した Attribute が追加ボタンに再表示されませんでした
 19. 6.4.109 で対応しました
+20. 6.4.110 で、Attribute 追加ボタンは 2 行まで表示するようにしました。
 
 ### DenotationEntity
 
@@ -49,11 +50,12 @@
 13. 5 行目の`Predicate`カラムに`5:flee_text_predicate`、`Value`カラムに`1`、`Label`カラムに`High`が表示されること
 14. 6 行目の`Predicate`カラムに`7:Speculation`、`Value`カラムに`ture`、`Label`カラムに`?`が表示されること
 15. テーブルの下に Attribute 追加ボタンがあること
-16. Attribute 追加ボタンのラベルが Attribute の predicate であること
-17. Attribute 追加ボタンをクリックすると、クリックした predicate が default 値でテーブルに追加されること
-18. Attribute 追加ボタンに`Speculation`が表示されていないこと
-19. `7:Speculation`の削除ボタン押す
-20. Attribute 追加ボタンに`Speculation`が表示されること
+16. Attribute 追加ボタンは 2 行表示されそれ以降を見るためにスクロールできること
+17. Attribute 追加ボタンのラベルが Attribute の predicate であること
+18. Attribute 追加ボタンをクリックすると、クリックした predicate が default 値でテーブルに追加されること
+19. Attribute 追加ボタンに`Speculation`が表示されていないこと
+20. `7:Speculation`の削除ボタン押す
+21. Attribute 追加ボタンに`Speculation`が表示されること
 
 ### BlockEntity
 
