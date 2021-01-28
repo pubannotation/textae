@@ -41,7 +41,11 @@ export default function (
                   i.pred === pred &&
                   String(i.obj) === String(attributeContainer.get(pred).default)
               )
-                ? ``
+                ? `<button
+                    type="button" 
+                    class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__add"
+                    disabled="disabled"
+                    title="There is an attribute with a default value.">${pred}</button>`
                 : `<button type="button" class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__add">${pred}</button>`
             }`
         )

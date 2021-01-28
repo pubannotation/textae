@@ -170,8 +170,11 @@
         .fontAwesomeIcon('\f1f8');
       }
 
-      &__edit__value[disabled='disabled'] {
-        opacity: 0.1;
+      &__edit__value,
+      &__add {
+        &[disabled='disabled'] {
+          opacity: 0.1;
+        }
       }
     }
 
