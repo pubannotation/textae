@@ -33,6 +33,7 @@
 19. 6.4.109 で対応しました
 20. 6.4.110 で、Attribute 追加ボタンは 2 行まで表示するようにしました。
 21. 6.4.111 で、テーブルの高さを制限しました
+22. 6.4.112 で、ショートカットキーのカラムを分けました
 
 ### DenotationEntity
 
@@ -43,13 +44,13 @@
 5.  編集ダイアログが開くこと
 6.  ダイアログのタイトルが`Please edit type and attributes`であること
 7.  1 行目の`Predicate`カラムに`type`、`Value`カラムに`null`が表示されること
-8.  2 行目の`Predicate`カラムに`1:denote`、`Value`カラムに`equivalentTo`が表示されること
+8.  2 行目の最初のカラムに`1:`、`Predicate`カラムに`denote`、`Value`カラムに`equivalentTo`が表示されること
 9.  2 行目の`Predicate`カラムと`Value`カラムがテキストであること
 10. 2 行目の編集ボタンと削除ボタンにアイコンが表示されていること
 11. 3 行目の`Predicate`カラムに空文字、`Value`カラムに`http://www.yahoo.co.jp/eeeeeeeeeeeeeeeeeoaoeuaoeuaoue`、`Label`カラムに`Regulation`が表示されること
-12. 4 行目の`Predicate`カラムに`4:score`、`Value`カラムに`0.1`、`Label`カラムに`Low`が表示されること
-13. 5 行目の`Predicate`カラムに`5:flee_text_predicate`、`Value`カラムに`1`、`Label`カラムに`High`が表示されること
-14. 6 行目の`Predicate`カラムに`7:Speculation`、`Value`カラムに`ture`、`Label`カラムに`?`が表示されること
+12. 4 行目の最初のカラムに`4:`、`Predicate`カラムに`score`、`Value`カラムに`0.1`、`Label`カラムに`Low`が表示されること
+13. 5 行目の最初のカラムに`5:`、`Predicate`カラムに`flee_text_predicate`、`Value`カラムに`1`、`Label`カラムに`High`が表示されること
+14. 6 行目の最初のカラムに`7:`、`Predicate`カラムに`Speculation`、`Value`カラムに`ture`、`Label`カラムに`?`が表示されること
 15. テーブルの下に Attribute 追加ボタンがあること
 16. Attribute 追加ボタンは 2 行表示されそれ以降を見るためにスクロールできること
 17. Attribute 追加ボタンのラベルが Attribute の predicate であること
