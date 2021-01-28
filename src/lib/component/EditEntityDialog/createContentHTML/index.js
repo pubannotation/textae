@@ -28,6 +28,7 @@ export default function (
     </table>
     <fieldset>
       <legend>Attributes:</legend>
+      <div class="textae-editor__edit-type-dialog__add-attribute-buttons">
       ${attributeContainer.attributes
         .filter(
           (a) =>
@@ -42,6 +43,7 @@ export default function (
             `<button type="button" class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__add">${pred}</button>`
         )
         .join(' ')}
+      </div>
     </fieldset>
   `
 }
