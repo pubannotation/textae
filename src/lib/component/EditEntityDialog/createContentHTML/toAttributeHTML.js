@@ -16,9 +16,12 @@ export default function (
   return `
 <tr class="textae-editor__edit-type-dialog__attribute">
   <td>
-    <span class="textae-editor__edit-type-dialog__attribute__predicate__value" data-predicate="${pred}">${
-    pred === previousPredicate ? '' : toShrotcutKey(definitionIndex) + pred
-  }</span>
+    ${pred === previousPredicate ? '' : toShrotcutKey(definitionIndex)}
+  </td>
+  <td>
+    <span class="textae-editor__edit-type-dialog__attribute__predicate__value" data-predicate="${pred}">
+      ${pred === previousPredicate ? '' : pred}
+    </span>
   </td>
   <td>
     <span class="textae-editor__edit-type-dialog__attribute__value__value">${obj}</span>

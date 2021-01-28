@@ -5,6 +5,7 @@ export default function (value, entityContainer) {
 
   return `
     <tr>
+      <td></td>
       <td>
         <span class="textae-editor__edit-type-dialog__type__predicate__value">type</span>
       </td>

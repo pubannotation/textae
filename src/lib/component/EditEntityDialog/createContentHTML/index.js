@@ -12,6 +12,7 @@ export default function (
       <table class="textae-editor__edit-type-dialog__table">
         <thead>
           <tr>
+            <th></th>
             <th>Predicate</th>
             <th>Value</th>
             <th>Label</th>
