@@ -301,15 +301,18 @@
   width: 746px;
 }
 .textae-editor__edit-type-dialog__table th:nth-child(1) {
-  width: 158px;
+  width: 20px;
 }
 .textae-editor__edit-type-dialog__table th:nth-child(2) {
-  width: 285px;
+  width: 148px;
 }
 .textae-editor__edit-type-dialog__table th:nth-child(3) {
-  width: 162px;
+  width: 275px;
 }
 .textae-editor__edit-type-dialog__table th:nth-child(4) {
+  width: 162px;
+}
+.textae-editor__edit-type-dialog__table th:nth-child(5) {
   width: 119px;
 }
 .textae-editor__edit-type-dialog__table td {
