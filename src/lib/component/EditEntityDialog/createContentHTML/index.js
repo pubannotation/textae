@@ -8,24 +8,26 @@ export default function (
   attributeContainer
 ) {
   return `
-    <table class="textae-editor__edit-type-dialog__table">
-      <thead>
-        <tr>
-          <th>Predicate</th>
-          <th>Value</th>
-          <th>Label</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        ${toEntityHTML(typeName, entityContainer)}
-        ${attributes
-          .map((a, index, list) =>
-            toAttributeHTML(a, index, list, attributeContainer)
-          )
-          .join('')}
-        </tbody>
-    </table>
+    <div style="overflow-y: auto; max-height: 25em; overflow-x: hidden;">
+      <table class="textae-editor__edit-type-dialog__table">
+        <thead>
+          <tr>
+            <th>Predicate</th>
+            <th>Value</th>
+            <th>Label</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          ${toEntityHTML(typeName, entityContainer)}
+          ${attributes
+            .map((a, index, list) =>
+              toAttributeHTML(a, index, list, attributeContainer)
+            )
+            .join('')}
+          </tbody>
+      </table>
+    </div>
     <fieldset>
       <legend>Attributes:</legend>
       <div class="textae-editor__edit-type-dialog__add-attribute-buttons">
