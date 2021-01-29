@@ -1,5 +1,4 @@
 import { CreateCommand } from './commandTemplate'
-import EntityModel from '../../../EntityModel'
 
 export default function (
   editor,
@@ -9,8 +8,9 @@ export default function (
   pred,
   obj
 ) {
-  return EntityModel.filterWithoutSamePredicateAttribute(items, pred).map(
-    (entity) => {
+  return items
+    .filter((i) => !i.hasSpecificPredicateAttribute(pred))
+    .map((entity) => {
       return new CreateCommand(
         editor,
         annotationData,
@@ -24,6 +24,5 @@ export default function (
           obj
         }
       )
-    }
-  )
+    })
 }
