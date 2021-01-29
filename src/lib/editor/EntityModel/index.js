@@ -26,12 +26,12 @@ export default class EntityModel {
   }
 
   static filterWithSamePredicateAttribute(entities, pred) {
-    return entities.filter((e) => e._hasSpecificPredicateAttribute(pred))
+    return entities.filter((e) => e.hasSpecificPredicateAttribute(pred))
   }
 
   // An entity cannot have more than one attribute with the same predicate.
   static filterWithoutSamePredicateAttribute(items, pred) {
-    return items.filter((i) => !i._hasSpecificPredicateAttribute(pred))
+    return items.filter((i) => !i.hasSpecificPredicateAttribute(pred))
   }
 
   get id() {
@@ -111,7 +111,7 @@ export default class EntityModel {
     )
   }
 
-  _hasSpecificPredicateAttribute(pred) {
+  hasSpecificPredicateAttribute(pred) {
     return this.attributes.some((a) => a.pred === pred)
   }
 
