@@ -10,6 +10,7 @@ export default class ToggleFlagAttributeToSelectedEntitiesCommand extends Compos
       annotationData,
       editor,
       selectionModel,
+      selectionModel.entity.all,
       attributeDefinition.pred,
       attributeDefinition.default
     )
