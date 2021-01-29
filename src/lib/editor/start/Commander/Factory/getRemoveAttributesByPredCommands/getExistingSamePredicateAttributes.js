@@ -1,8 +1,6 @@
-export default function (entities, attrDef) {
+export default function (entities, { pred }) {
   return entities.reduce((attrs, entity) => {
-    for (const attr of entity.attributes.filter(
-      (a) => a.pred === attrDef.pred
-    )) {
+    for (const attr of entity.attributes.filter((a) => a.pred === pred)) {
       attrs.push(attr)
     }
     return attrs
