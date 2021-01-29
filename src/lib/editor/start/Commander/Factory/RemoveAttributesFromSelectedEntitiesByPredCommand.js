@@ -9,6 +9,7 @@ export default class RemoveAttributesFromSelectedEntitiesByPredCommand extends C
       editor,
       annotationData,
       selectionModel,
+      selectionModel.entity.all,
       attributeDefinition.pred
     )
 
