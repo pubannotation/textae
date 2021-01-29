@@ -2,7 +2,7 @@ import { RemoveCommand } from './commandTemplate'
 import CompositeCommand from './CompositeCommand'
 
 export default class RemoveEntityAndAssociatesCommand extends CompositeCommand {
-  constructor(editor, annotationData, selectionModel, id) {
+  constructor(editor, annotationData, id) {
     super()
     const removeEentityCommand = (entity) =>
       new RemoveCommand(editor, annotationData, 'entity', entity)

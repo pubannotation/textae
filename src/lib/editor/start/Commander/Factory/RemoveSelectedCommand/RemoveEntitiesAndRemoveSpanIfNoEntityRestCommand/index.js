@@ -25,7 +25,6 @@ export default class RemoveEntitiesAndRemoveSpanIfNoEntityRestCommand extends Co
               new RemoveEntityAndRemoveAssociatesCommand(
                 editor,
                 annotationData,
-                selectionModel,
                 entity.id
               )
           )
