@@ -26,6 +26,6 @@ export default class ToggleFlagAttributeToSelectedEntitiesCommand extends Compos
 
     this._logMessage = `toggle flag attirbute ${
       attributeDefinition.pred
-    } to entity ${items.map((entity) => entity.id).join(', ')}`
+    } to item ${items.map((entity) => entity.id).join(', ')}`
   }
 }
