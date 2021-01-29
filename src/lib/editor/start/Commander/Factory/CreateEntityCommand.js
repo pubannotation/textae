@@ -59,7 +59,6 @@ export default class CreateEntityCommand extends AnnotationCommand {
     return new CreateAttributesForEntityCommand(
       this._editor,
       this._annotationData,
-      this._selectionModel,
       this._attributes,
       subj
     )

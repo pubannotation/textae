@@ -2,7 +2,7 @@ import CompositeCommand from './CompositeCommand'
 import { CreateCommand } from './commandTemplate'
 
 export default class CreateAttributesForEntityCommand extends CompositeCommand {
-  constructor(editor, annotationData, selectionModel, attributes, entity) {
+  constructor(editor, annotationData, attributes, entity) {
     super()
 
     this._subCommands = attributes.map(
