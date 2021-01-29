@@ -141,7 +141,7 @@ export default class Factory {
     return new CreateAttributeToSelectedEntitiesCommand(
       this._editor,
       this._annotationData,
-      this._selectionModel,
+      this._selectionModel.entity.all,
       attributeDefinition,
       obj
     )
