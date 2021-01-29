@@ -6,7 +6,7 @@ export default function (newObj, commander, attrDef, newLabel) {
       newLabel
     )
   } else {
-    return commander.factory.removeAttributesOfSelectedEntitiesByPredCommand(
+    return commander.factory.removeAttributesFromSelectedEntitiesByPredCommand(
       attrDef
     )
   }

@@ -93,7 +93,7 @@ export default class AttributeEditor {
   deleteAt(number) {
     const attrDef = this._typeDefinition.attribute.getAttributeAt(number)
 
-    const command = this._commander.factory.removeAttributesOfSelectedEntitiesByPredCommand(
+    const command = this._commander.factory.removeAttributesFromSelectedEntitiesByPredCommand(
       attrDef
     )
     this._commander.invoke(command)

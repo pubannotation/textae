@@ -139,7 +139,7 @@ export default function (eventEmitter, commander, selectionModelEntity) {
       'textae.entityAndAttributePallet.attribute.remove-attribute-instance-button.click',
       (attrDef) =>
         commander.invoke(
-          commander.factory.removeAttributesOfSelectedEntitiesByPredCommand(
+          commander.factory.removeAttributesFromSelectedEntitiesByPredCommand(
             attrDef
           )
         )
