@@ -13,13 +13,13 @@ export default class CreateDefaultTypeEntityToSelectedSpansCommand extends Compo
         new CreateCommand(
           editor,
           annotationData,
-          selectionModel,
           'entity',
-          true,
           {
             span,
             typeName
-          }
+          },
+          selectionModel,
+          true
         )
     )
 

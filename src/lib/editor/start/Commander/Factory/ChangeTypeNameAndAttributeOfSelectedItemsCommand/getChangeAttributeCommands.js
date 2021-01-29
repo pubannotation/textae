@@ -51,14 +51,14 @@ export default function (
           new CreateCommand(
             editor,
             annotationData,
-            selectionModel,
             'attribute',
-            false,
             {
               subj: element.id,
               pred: newAttribute.pred,
               obj: newAttribute.obj
-            }
+            },
+            selectionModel,
+            false
           )
         )
       }

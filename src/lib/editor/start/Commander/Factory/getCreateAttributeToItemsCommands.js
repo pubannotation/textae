@@ -14,15 +14,15 @@ export default function (
       return new CreateCommand(
         editor,
         annotationData,
-        selectionModel,
         'attribute',
-        false,
         {
           id: null,
           subj: id,
           pred,
           obj
-        }
+        },
+        selectionModel,
+        false
       )
     })
 }

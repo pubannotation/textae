@@ -15,10 +15,17 @@ export default class CreateSpanAndTypesCommand extends CompositeCommand {
     super()
 
     this._subCommands = [
-      new CreateCommand(editor, annotationData, selectionModel, 'span', true, {
-        begin,
-        end
-      })
+      new CreateCommand(
+        editor,
+        annotationData,
+        'span',
+        {
+          begin,
+          end
+        },
+        selectionModel,
+        true
+      )
     ].concat(
       typeValuesList.map(
         (typeValues) =>

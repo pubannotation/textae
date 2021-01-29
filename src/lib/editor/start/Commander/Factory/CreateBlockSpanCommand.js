@@ -11,14 +11,14 @@ export default class CreateBlockCommand extends CompositeCommand {
     const createSpanCommand = new CreateCommand(
       editor,
       annotationData,
-      selectionModel,
       'span',
-      true,
       {
         begin,
         end,
         isBlock: true
-      }
+      },
+      selectionModel,
+      true
     )
     const createEntityCommand = new CreateEntityCommand(
       editor,

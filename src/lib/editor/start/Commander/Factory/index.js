@@ -173,10 +173,10 @@ export default class Factory {
     return new CreateCommand(
       this._editor,
       this._annotationData,
-      this._selectionModel,
       'relation',
-      true,
-      relation
+      relation,
+      this._selectionModel,
+      true
     )
   }
 

@@ -5,10 +5,10 @@ class CreateCommand extends AnnotationCommand {
   constructor(
     editor,
     annotationData,
-    selectionModel,
     modelType,
-    isSelectable,
-    newModel
+    newModel,
+    selectionModel,
+    isSelectable
   ) {
     super()
     this.editor = editor
@@ -67,10 +67,10 @@ class RemoveCommand extends AnnotationCommand {
       return new CreateCommand(
         this.editor,
         this.annotationData,
-        this.selectionModel,
         this.modelType,
-        false,
-        this.oloModel
+        this.oloModel,
+        this.selectionModel,
+        false
       )
     } else {
       // Do not revert unless an object was removed.

@@ -10,14 +10,14 @@ export default class CreateAttributesForEntityCommand extends CompositeCommand {
         new CreateCommand(
           editor,
           annotationData,
-          selectionModel,
           'attribute',
-          false,
           {
             subj: entity,
             obj,
             pred
-          }
+          },
+          selectionModel,
+          false
         )
     )
 
