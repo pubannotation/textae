@@ -26,6 +26,6 @@ export default class ToggleFlagAttributeToItemsCommand extends CompositeCommand 
 
     this._logMessage = `toggle flag attirbute ${
       attributeDefinition.pred
-    } to item ${items.map((entity) => entity.id).join(', ')}`
+    } to item ${items.map(({ id }) => id).join(', ')}`
   }
 }
