@@ -35,8 +35,7 @@ export default class ChangeTypeNameAndAttributeOfSelectedItemsCommand extends Co
       itemsWithChange,
       attributes,
       annotationData,
-      editor,
-      selectionModel
+      editor
     )
 
     this._subCommands = changeTypeCommands.concat(changeAttributeCommnads)
