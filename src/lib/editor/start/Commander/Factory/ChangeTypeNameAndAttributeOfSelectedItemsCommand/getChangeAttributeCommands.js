@@ -32,7 +32,6 @@ export default function (
             new RemoveCommand(
               editor,
               annotationData,
-              selectionModel,
               'attribute',
               oldAttribute.id
             )

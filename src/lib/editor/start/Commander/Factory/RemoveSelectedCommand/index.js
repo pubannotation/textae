@@ -14,14 +14,7 @@ export default class RemoveSelectedCommand extends CompositeCommand {
 
     this._subCommands = [].concat(
       selectedRelations.map(
-        (id) =>
-          new RemoveCommand(
-            editor,
-            annotationData,
-            selectionModel,
-            'relation',
-            id
-          )
+        (id) => new RemoveCommand(editor, annotationData, 'relation', id)
       ),
       selectionModel.entity.some
         ? [

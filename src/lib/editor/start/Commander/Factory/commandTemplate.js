@@ -27,7 +27,6 @@ class CreateCommand extends AnnotationCommand {
     return new RemoveCommand(
       this._editor,
       this._annotationData,
-      this._selectionModel,
       this._modelType,
       this._newModel.id
     )
@@ -35,7 +34,7 @@ class CreateCommand extends AnnotationCommand {
 }
 
 class RemoveCommand extends AnnotationCommand {
-  constructor(editor, annotationData, selectionModel, modelType, id) {
+  constructor(editor, annotationData, modelType, id) {
     super()
     this._editor = editor
     this._annotationData = annotationData
