@@ -7,7 +7,7 @@ import ChangeTypeDefinitionAndRefectInstancesCommand from './ChangeTypeDefinitio
 import ChangeTypeOfSelectedItemsCommand from './ChangeTypeOfSelectedItemsCommand'
 import ChangeValueOfAttributeDefinitionAndObjectOfAttributeCommand from './ChangeValueOfAttributeDefinitionAndObjectOfAttributeCommand'
 import CreateAttributeDefinitionCommand from './CreateAttributeDefinitionCommand'
-import CreateAttributeToSelectedEntitiesCommand from './CreateAttributeToSelectedEntitiesCommand'
+import CreateAttributeToItemsCommand from './CreateAttributeToItemsCommand'
 import CreateBlockSpanCommand from './CreateBlockSpanCommand'
 import CreateDefaultTypeEntityToSelectedSpansCommand from './CreateDefaultTypeEntityToSelectedSpansCommand'
 import CreateSpanAndAutoReplicateCommand from './CreateSpanAndAutoReplicateCommand'
@@ -138,7 +138,7 @@ export default class Factory {
   }
 
   createAttributeToSelectedEntitiesCommand(attributeDefinition, obj = null) {
-    return new CreateAttributeToSelectedEntitiesCommand(
+    return new CreateAttributeToItemsCommand(
       this._editor,
       this._annotationData,
       this._selectionModel.entity.all,
