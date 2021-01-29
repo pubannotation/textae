@@ -25,10 +25,6 @@ export default class EntityModel {
     this._typeDefinition = typeDefinition
   }
 
-  static filterWithSamePredicateAttribute(entities, pred) {
-    return entities.filter((e) => e.hasSpecificPredicateAttribute(pred))
-  }
-
   get id() {
     return this._id
   }
