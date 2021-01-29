@@ -8,14 +8,13 @@ class CreateCommand extends AnnotationCommand {
     this._annotationData = annotationData
     this._selectionModel = selectionModel
     this._modelType = modelType
-    this._isSelectable = selectionModel ? true : false
     this._newModel = newModel
   }
 
   execute() {
     this._newModel = this._annotationData[this._modelType].add(this._newModel)
 
-    if (this._isSelectable) {
+    if (this._selectionModel) {
       this._selectionModel.add(this._modelType, this._newModel.id)
     }
     commandLog(`create a new ${this._modelType}: ${this._newModel.id}`)
