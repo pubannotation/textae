@@ -1,4 +1,4 @@
-import { RemoveCommand } from '../commandTemplate'
+import { RemoveCommand } from './commandTemplate'
 
 export default function (
   editor,
