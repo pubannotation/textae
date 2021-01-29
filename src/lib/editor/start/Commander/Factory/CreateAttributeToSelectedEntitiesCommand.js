@@ -1,5 +1,5 @@
 import CompositeCommand from './CompositeCommand'
-import getCreateAttributeToSelectedEntitiesCommands from './getCreateAttributeToItemsCommands'
+import getCreateAttributeToItemsCommands from './getCreateAttributeToItemsCommands'
 
 export default class CreateAttributeToSelectedEntitiesCommand extends CompositeCommand {
   constructor(
@@ -11,7 +11,7 @@ export default class CreateAttributeToSelectedEntitiesCommand extends CompositeC
   ) {
     super()
 
-    this._subCommands = getCreateAttributeToSelectedEntitiesCommands(
+    this._subCommands = getCreateAttributeToItemsCommands(
       editor,
       annotationData,
       selectionModel.entity.all,
