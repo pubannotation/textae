@@ -19,7 +19,6 @@ export default class ToggleFlagAttributeToSelectedEntitiesCommand extends Compos
     const removeAttributeCommands = getRemoveAttributesByPredCommands(
       editor,
       annotationData,
-      selectionModel,
       selectionModel.entity.all,
       attributeDefinition.pred
     )
