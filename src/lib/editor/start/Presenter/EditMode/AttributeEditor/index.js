@@ -19,11 +19,11 @@ export default class AttributeEditor {
     this._typeDefinition = typeDefinition
 
     entityPallet.onSelectionAttributeLabelClick((attrDef, value) =>
-      this.selectionAttributeLabelClick(attrDef, value)
+      this._selectionAttributeLabelClick(attrDef, value)
     )
   }
 
-  selectionAttributeLabelClick(attrDef, newObj) {
+  _selectionAttributeLabelClick(attrDef, newObj) {
     if (this._selectionModel.entity.selectedWithAttributeOf(attrDef.pred)) {
       if (
         this._selectionModel.entity.isDupulicatedPredAttrributeSelected(
