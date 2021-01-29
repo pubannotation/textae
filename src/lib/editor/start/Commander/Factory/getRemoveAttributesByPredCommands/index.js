@@ -1,4 +1,4 @@
-import getRemoveAtributesByPredAndObjCommands from './getRemoveAtributesByPredAndObjCommands'
+import { RemoveCommand } from '../commandTemplate'
 
 export default function (
   editor,
@@ -6,14 +6,16 @@ export default function (
   selectionModel,
   attributeDefinition
 ) {
-  const attrs = selectionModel.entity.all
+  return selectionModel.entity.all
     .reduce((attrs, entity) => attrs.concat(entity.attributes), [])
     .filter((a) => a.pred === attributeDefinition.pred)
-
-  return getRemoveAtributesByPredAndObjCommands(
-    attrs,
-    editor,
-    annotationData,
-    selectionModel
-  )
+    .map((attribute) => {
+      return new RemoveCommand(
+        editor,
+        annotationData,
+        selectionModel,
+        'attribute',
+        attribute.id
+      )
+    })
 }
