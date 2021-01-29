@@ -2,22 +2,26 @@ import CompositeCommand from './CompositeCommand'
 import getRemoveAttributesByPredCommands from './getRemoveAttributesByPredCommands'
 
 export default class RemoveAttributesFromSelectedEntitiesByPredCommand extends CompositeCommand {
-  constructor(editor, annotationData, selectionModel, attributeDefinition) {
+  constructor(
+    editor,
+    annotationData,
+    selectionModel,
+    items,
+    attributeDefinition
+  ) {
     super()
 
     const removeAttributeCommands = getRemoveAttributesByPredCommands(
       editor,
       annotationData,
       selectionModel,
-      selectionModel.entity.all,
+      items,
       attributeDefinition.pred
     )
 
     this._subCommands = removeAttributeCommands
     this._logMessage = `remove ${
       attributeDefinition.pred
-    } attribute from entity ${selectionModel.entity.all
-      .map((entity) => entity.id)
-      .join(', ')}`
+    } attribute from items ${items.map((i) => i.id).join(', ')}`
   }
 }
