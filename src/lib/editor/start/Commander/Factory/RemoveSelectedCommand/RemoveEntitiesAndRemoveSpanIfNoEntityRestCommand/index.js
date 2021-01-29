@@ -1,5 +1,5 @@
 import RemoveSpanCommand from '../../RemoveSpanCommand'
-import RemoveEntityAndRemoveAssociatesCommand from '../../RemoveEntityAndAssociatesCommand'
+import RemoveEntityAndAssociatesCommand from '../../RemoveEntityAndAssociatesCommand'
 import CompositeCommand from '../../CompositeCommand'
 import getSpans from './getSpans'
 import removedEntitiesFromSpan from './removedEntitiesFromSpan'
@@ -22,7 +22,7 @@ export default class RemoveEntitiesAndRemoveSpanIfNoEntityRestCommand extends Co
         commands = commands.concat(
           removedEntitiesFromSpan(selectedEntities, span).map(
             (entity) =>
-              new RemoveEntityAndRemoveAssociatesCommand(
+              new RemoveEntityAndAssociatesCommand(
                 editor,
                 annotationData,
                 entity.id
