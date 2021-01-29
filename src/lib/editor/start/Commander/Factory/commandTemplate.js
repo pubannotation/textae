@@ -11,32 +11,32 @@ class CreateCommand extends AnnotationCommand {
     isSelectable
   ) {
     super()
-    this.editor = editor
-    this.annotationData = annotationData
-    this.selectionModel = selectionModel
-    this.modelType = modelType
-    this.isSelectable = isSelectable
-    this.newModel = newModel
+    this._editor = editor
+    this._annotationData = annotationData
+    this._selectionModel = selectionModel
+    this._modelType = modelType
+    this._isSelectable = isSelectable
+    this._newModel = newModel
   }
 
   execute() {
-    this.newModel = this.annotationData[this.modelType].add(this.newModel)
+    this._newModel = this._annotationData[this._modelType].add(this._newModel)
 
-    if (this.isSelectable) {
-      this.selectionModel.add(this.modelType, this.newModel.id)
+    if (this._isSelectable) {
+      this._selectionModel.add(this._modelType, this._newModel.id)
     }
-    commandLog(`create a new ${this.modelType}: ${this.newModel.id}`)
+    commandLog(`create a new ${this._modelType}: ${this._newModel.id}`)
 
-    return this.newModel
+    return this._newModel
   }
 
   revert() {
     return new RemoveCommand(
-      this.editor,
-      this.annotationData,
-      this.selectionModel,
-      this.modelType,
-      this.newModel.id
+      this._editor,
+      this._annotationData,
+      this._selectionModel,
+      this._modelType,
+      this._newModel.id
     )
   }
 }
@@ -44,32 +44,32 @@ class CreateCommand extends AnnotationCommand {
 class RemoveCommand extends AnnotationCommand {
   constructor(editor, annotationData, selectionModel, modelType, id) {
     super()
-    this.editor = editor
-    this.annotationData = annotationData
-    this.selectionModel = selectionModel
-    this.modelType = modelType
-    this.id = id
+    this._editor = editor
+    this._annotationData = annotationData
+    this._selectionModel = selectionModel
+    this._modelType = modelType
+    this._id = id
   }
 
   execute() {
     // Update model
-    this.oloModel = this.annotationData[this.modelType].remove(this.id)
+    this.oloModel = this._annotationData[this._modelType].remove(this._id)
 
     if (this.oloModel) {
-      commandLog(`remove a ${this.modelType}: `, this.oloModel)
+      commandLog(`remove a ${this._modelType}: `, this.oloModel)
     } else {
-      commandLog(`already removed ${this.modelType}: `, this.id)
+      commandLog(`already removed ${this._modelType}: `, this._id)
     }
   }
 
   revert() {
     if (this.oloModel) {
       return new CreateCommand(
-        this.editor,
-        this.annotationData,
-        this.modelType,
+        this._editor,
+        this._annotationData,
+        this._modelType,
         this.oloModel,
-        this.selectionModel,
+        this._selectionModel,
         false
       )
     } else {
