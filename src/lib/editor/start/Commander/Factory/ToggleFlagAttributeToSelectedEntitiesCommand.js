@@ -1,12 +1,12 @@
 import CompositeCommand from './CompositeCommand'
-import getCreateAttributeToSelectedEntitiesCommands from './getCreateAttributeToSelectedEntitiesCommands'
+import getCreateAttributeToItemsCommands from './getCreateAttributeToItemsCommands'
 import getRemoveAttributesByPredCommands from './getRemoveAttributesByPredCommands'
 
 export default class ToggleFlagAttributeToSelectedEntitiesCommand extends CompositeCommand {
   constructor(editor, annotationData, selectionModel, attributeDefinition) {
     super()
 
-    this._subCommands = getCreateAttributeToSelectedEntitiesCommands(
+    this._subCommands = getCreateAttributeToItemsCommands(
       annotationData,
       editor,
       selectionModel,

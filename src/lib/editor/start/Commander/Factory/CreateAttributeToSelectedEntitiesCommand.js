@@ -1,5 +1,5 @@
 import CompositeCommand from './CompositeCommand'
-import getCreateAttributeToSelectedEntitiesCommands from './getCreateAttributeToSelectedEntitiesCommands'
+import getCreateAttributeToSelectedEntitiesCommands from './getCreateAttributeToItemsCommands'
 
 export default class CreateAttributeToSelectedEntitiesCommand extends CompositeCommand {
   constructor(
