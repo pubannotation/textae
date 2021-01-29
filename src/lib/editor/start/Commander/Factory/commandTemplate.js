@@ -12,9 +12,9 @@ class CreateCommand extends AnnotationCommand {
     super()
     this._editor = editor
     this._annotationData = annotationData
-    this._selectionModel = selectionModel
     this._modelType = modelType
     this._newModel = newModel
+    this._selectionModel = selectionModel
   }
 
   execute() {
