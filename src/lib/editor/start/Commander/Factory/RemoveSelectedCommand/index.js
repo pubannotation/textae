@@ -26,8 +26,7 @@ export default class RemoveSelectedCommand extends CompositeCommand {
           ]
         : [],
       selectedSpans.map(
-        (id) =>
-          new RemoveSpanCommand(editor, annotationData, selectionModel, id)
+        (id) => new RemoveSpanCommand(editor, annotationData, id)
       )
     )
     this._logMessage = `remove selected ${selectedSpans

@@ -262,12 +262,7 @@ export default class Factory {
   }
 
   removeSpanCommand(id) {
-    return new RemoveSpanCommand(
-      this._editor,
-      this._annotationData,
-      this._selectionModel,
-      id
-    )
+    return new RemoveSpanCommand(this._editor, this._annotationData, id)
   }
 
   removeSelectedComand() {

@@ -15,9 +15,7 @@ export default class RemoveEntitiesAndRemoveSpanIfNoEntityRestCommand extends Co
     for (const span of spans.values()) {
       // Remove span toggether when all entities of span will be removed.
       if (areAllEntiesOfSpan(span, selectedEntities)) {
-        commands.push(
-          new RemoveSpanCommand(editor, annotationData, selectionModel, span.id)
-        )
+        commands.push(new RemoveSpanCommand(editor, annotationData, span.id))
       } else {
         commands = commands.concat(
           removedEntitiesFromSpan(selectedEntities, span).map(
