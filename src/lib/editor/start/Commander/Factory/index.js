@@ -24,7 +24,7 @@ import RemoveSelectedCommand from './RemoveSelectedCommand'
 import RemoveSpanCommand from './RemoveSpanCommand'
 import RemoveTypeDefinitionCommand from './RemoveTypeDefinitionCommand'
 import RemoveValueFromAttributeDefinitionCommand from './RemoveValueFromAttributeDefinitionCommand'
-import ToggleFlagAttributeToSelectedEntitiesCommand from './ToggleFlagAttributeToSelectedEntitiesCommand'
+import ToggleFlagAttributeToItemsCommand from './ToggleFlagAttributeToItemsCommand'
 
 export default class Factory {
   constructor(editor, annotationData, selectionModel) {
@@ -290,7 +290,7 @@ export default class Factory {
   }
 
   toggleFlagAttributeToSelectedEntitiesCommand(attributeDefinition) {
-    return new ToggleFlagAttributeToSelectedEntitiesCommand(
+    return new ToggleFlagAttributeToItemsCommand(
       this._editor,
       this._annotationData,
       this._selectionModel.entity.all,
