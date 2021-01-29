@@ -1,13 +1,6 @@
 import { CreateCommand } from './commandTemplate'
 
-export default function (
-  editor,
-  annotationData,
-  selectionModel,
-  items,
-  pred,
-  obj
-) {
+export default function (editor, annotationData, items, pred, obj) {
   return items
     .filter((i) => !i.hasSpecificPredicateAttribute(pred))
     .map(({ id }) => {

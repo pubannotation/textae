@@ -14,7 +14,6 @@ export default class CreateAttributeToSelectedEntitiesCommand extends CompositeC
     this._subCommands = getCreateAttributeToSelectedEntitiesCommands(
       editor,
       annotationData,
-      selectionModel,
       selectionModel.entity.all,
       attributeDefinition.pred,
       obj || attributeDefinition.default
