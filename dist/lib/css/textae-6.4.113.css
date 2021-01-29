@@ -336,7 +336,8 @@
   font-family: FontAwesome;
   content: '\f1f8';
 }
-.textae-editor__edit-type-dialog__attribute__edit__value[disabled='disabled'] {
+.textae-editor__edit-type-dialog__attribute__edit__value[disabled='disabled'],
+.textae-editor__edit-type-dialog__attribute__add[disabled='disabled'] {
   opacity: 0.1;
 }
 .textae-editor__edit-type-dialog__add-attribute-buttons {
