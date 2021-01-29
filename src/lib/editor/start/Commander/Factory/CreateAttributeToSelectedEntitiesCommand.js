@@ -15,6 +15,6 @@ export default class CreateAttributeToSelectedEntitiesCommand extends CompositeC
 
     this._logMessage = `create attirbute ${attributeDefinition.pred}:${
       attributeDefinition.default
-    } to item ${items.map((i) => i.id).join(', ')}`
+    } to item ${items.map(({ id }) => id).join(', ')}`
   }
 }
