@@ -2,8 +2,8 @@ import { CreateCommand } from './commandTemplate'
 import EntityModel from '../../../EntityModel'
 
 export default function (
-  annotationData,
   editor,
+  annotationData,
   selectionModel,
   items,
   pred,
