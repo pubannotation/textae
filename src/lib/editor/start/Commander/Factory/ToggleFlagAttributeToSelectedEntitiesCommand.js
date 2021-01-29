@@ -3,13 +3,13 @@ import getCreateAttributeToItemsCommands from './getCreateAttributeToItemsComman
 import getRemoveAttributesByPredCommands from './getRemoveAttributesByPredCommands'
 
 export default class ToggleFlagAttributeToSelectedEntitiesCommand extends CompositeCommand {
-  constructor(editor, annotationData, selectionModel, attributeDefinition) {
+  constructor(editor, annotationData, items, attributeDefinition) {
     super()
 
     this._subCommands = getCreateAttributeToItemsCommands(
       editor,
       annotationData,
-      selectionModel.entity.all,
+      items,
       attributeDefinition.pred,
       attributeDefinition.default
     )
@@ -18,7 +18,7 @@ export default class ToggleFlagAttributeToSelectedEntitiesCommand extends Compos
     const removeAttributeCommands = getRemoveAttributesByPredCommands(
       editor,
       annotationData,
-      selectionModel.entity.all,
+      items,
       attributeDefinition.pred
     )
 
@@ -26,8 +26,6 @@ export default class ToggleFlagAttributeToSelectedEntitiesCommand extends Compos
 
     this._logMessage = `toggle flag attirbute ${
       attributeDefinition.pred
-    } to entity ${selectionModel.entity.all
-      .map((entity) => entity.id)
-      .join(', ')}`
+    } to entity ${items.map((entity) => entity.id).join(', ')}`
   }
 }

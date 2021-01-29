@@ -293,7 +293,7 @@ export default class Factory {
     return new ToggleFlagAttributeToSelectedEntitiesCommand(
       this._editor,
       this._annotationData,
-      this._selectionModel,
+      this._selectionModel.entity.all,
       attributeDefinition
     )
   }
