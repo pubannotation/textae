@@ -2,7 +2,13 @@ import commandLog from './commandLog'
 import AnnotationCommand from './AnnotationCommand'
 
 class CreateCommand extends AnnotationCommand {
-  constructor(editor, annotationData, modelType, newModel, selectionModel) {
+  constructor(
+    editor,
+    annotationData,
+    modelType,
+    newModel,
+    selectionModel = null
+  ) {
     super()
     this._editor = editor
     this._annotationData = annotationData
