@@ -10,7 +10,7 @@ export default function (
 ) {
   return items
     .filter((i) => !i.hasSpecificPredicateAttribute(pred))
-    .map((entity) => {
+    .map(({ id }) => {
       return new CreateCommand(
         editor,
         annotationData,
@@ -19,7 +19,7 @@ export default function (
         false,
         {
           id: null,
-          subj: entity.id,
+          subj: id,
           pred,
           obj
         }
