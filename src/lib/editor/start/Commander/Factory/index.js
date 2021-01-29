@@ -19,7 +19,7 @@ import MoveDenotationSpanCommand from './MoveDenotationSpanCommand'
 import MoveEntitiesToSelectedSpansCommand from './MoveEntitiesToSelectedSpansCommand'
 import PasteTypesToSelectedSpansCommand from './PasteTypesToSelectedSpansCommand'
 import ReplicateSpanCommand from './ReplicateSpanCommand'
-import RemoveAttributesFromSelectedEntitiesByPredCommand from './RemoveAttributesFromSelectedEntitiesByPredCommand'
+import RemoveAttributesFromItemsByPredCommand from './RemoveAttributesFromItemsByPredCommand'
 import RemoveSelectedCommand from './RemoveSelectedCommand'
 import RemoveSpanCommand from './RemoveSpanCommand'
 import RemoveTypeDefinitionCommand from './RemoveTypeDefinitionCommand'
@@ -254,7 +254,7 @@ export default class Factory {
   }
 
   removeAttributesFromSelectedEntitiesByPredCommand(attributeDefinition) {
-    return new RemoveAttributesFromSelectedEntitiesByPredCommand(
+    return new RemoveAttributesFromItemsByPredCommand(
       this._editor,
       this._annotationData,
       this._selectionModel,
