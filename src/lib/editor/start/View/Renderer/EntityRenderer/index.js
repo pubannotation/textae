@@ -1,6 +1,5 @@
 import create from './create'
 import destroy from './destroy'
-import EntityModel from '../../../../EntityModel'
 
 export default class EntityRenderer {
   constructor(annotationData, selectionModel) {
@@ -41,9 +40,8 @@ export default class EntityRenderer {
   }
 
   updateAttribute(pred) {
-    for (const entity of EntityModel.filterWithSamePredicateAttribute(
-      this._annotationData.entity.all,
-      pred
+    for (const entity of this._annotationData.entity.all.filter((e) =>
+      e.hasSpecificPredicateAttribute(pred)
     )) {
       this.change(entity)
     }
