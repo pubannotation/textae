@@ -5,7 +5,6 @@ import checkButtonEnable from './checkButtonEnable'
 
 export default function (
   pallet,
-  editor,
   commander,
   handler,
   getAutocompletionWs,

@@ -19,7 +19,6 @@ export default class Edit {
 
     bindPalletEvents(
       pallet,
-      editor,
       commander,
       handler,
       getAutocompletionWs,
