@@ -8,9 +8,10 @@ export default class ToggleFlagAttributeToSelectedEntitiesCommand extends Compos
 
     this._subCommands = getCreateAttributeToSelectedEntitiesCommands(
       annotationData,
-      attributeDefinition,
       editor,
-      selectionModel
+      selectionModel,
+      attributeDefinition.pred,
+      attributeDefinition.default
     )
 
     // Toggle exisitng flag type attributes

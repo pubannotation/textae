@@ -13,10 +13,10 @@ export default class CreateAttributeToSelectedEntitiesCommand extends CompositeC
 
     this._subCommands = getCreateAttributeToSelectedEntitiesCommands(
       annotationData,
-      attributeDefinition,
       editor,
       selectionModel,
-      obj
+      attributeDefinition.pred,
+      obj || attributeDefinition.default
     )
 
     this._logMessage = `create attirbute ${attributeDefinition.pred}:${
