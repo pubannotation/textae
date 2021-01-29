@@ -40,9 +40,6 @@ export default class EditDenotation extends Edit {
       denotationPallet,
       annotationData.typeDefinition
     )
-    denotationPallet.onSelectionAttributeLabelClick((attrDef, value) =>
-      attributeEditor.selectionAttributeLabelClick(attrDef, value)
-    )
 
     const handler = new EditHandler(
       editor,

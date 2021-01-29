@@ -32,9 +32,6 @@ export default class EditBlock extends Edit {
       blockPallet,
       annotationData.typeDefinition
     )
-    blockPallet.onSelectionAttributeLabelClick((attrDef, value) =>
-      attributeEditor.selectionAttributeLabelClick(attrDef, value)
-    )
 
     const handler = new EditHandler(
       editor,
