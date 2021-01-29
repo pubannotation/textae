@@ -7,18 +7,11 @@ export default class CreateAttributesForEntityCommand extends CompositeCommand {
 
     this._subCommands = attributes.map(
       ({ obj, pred }) =>
-        new CreateCommand(
-          editor,
-          annotationData,
-          'attribute',
-          {
-            subj: entity,
-            obj,
-            pred
-          },
-          selectionModel,
-          false
-        )
+        new CreateCommand(editor, annotationData, 'attribute', {
+          subj: entity,
+          obj,
+          pred
+        })
     )
 
     this._logMessage = `create attributes ${attributes.map(

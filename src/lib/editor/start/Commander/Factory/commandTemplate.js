@@ -2,20 +2,13 @@ import commandLog from './commandLog'
 import AnnotationCommand from './AnnotationCommand'
 
 class CreateCommand extends AnnotationCommand {
-  constructor(
-    editor,
-    annotationData,
-    modelType,
-    newModel,
-    selectionModel,
-    isSelectable
-  ) {
+  constructor(editor, annotationData, modelType, newModel, selectionModel) {
     super()
     this._editor = editor
     this._annotationData = annotationData
     this._selectionModel = selectionModel
     this._modelType = modelType
-    this._isSelectable = isSelectable
+    this._isSelectable = selectionModel ? true : false
     this._newModel = newModel
   }
 
@@ -68,9 +61,7 @@ class RemoveCommand extends AnnotationCommand {
         this._editor,
         this._annotationData,
         this._modelType,
-        this.oloModel,
-        this._selectionModel,
-        false
+        this.oloModel
       )
     } else {
       // Do not revert unless an object was removed.

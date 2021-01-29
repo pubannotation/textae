@@ -23,8 +23,7 @@ export default class CreateSpanAndTypesCommand extends CompositeCommand {
           begin,
           end
         },
-        selectionModel,
-        true
+        selectionModel
       )
     ].concat(
       typeValuesList.map(

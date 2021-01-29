@@ -18,8 +18,7 @@ export default class CreateDefaultTypeEntityToSelectedSpansCommand extends Compo
             span,
             typeName
           },
-          selectionModel,
-          true
+          selectionModel
         )
     )
 

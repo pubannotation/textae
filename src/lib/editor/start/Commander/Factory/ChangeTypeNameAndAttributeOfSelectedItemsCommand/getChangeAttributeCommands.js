@@ -48,18 +48,11 @@ export default function (
         )
       ) {
         changeAttributeCommnads.push(
-          new CreateCommand(
-            editor,
-            annotationData,
-            'attribute',
-            {
-              subj: element.id,
-              pred: newAttribute.pred,
-              obj: newAttribute.obj
-            },
-            selectionModel,
-            false
-          )
+          new CreateCommand(editor, annotationData, 'attribute', {
+            subj: element.id,
+            pred: newAttribute.pred,
+            obj: newAttribute.obj
+          })
         )
       }
     }

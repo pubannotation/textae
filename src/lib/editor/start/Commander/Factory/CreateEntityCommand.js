@@ -51,8 +51,7 @@ export default class CreateEntityCommand extends AnnotationCommand {
         span: this._spanId,
         typeName: this._typeName
       },
-      this._selectionModel,
-      true
+      this._selectionModel
     )
   }
 

@@ -175,8 +175,7 @@ export default class Factory {
       this._annotationData,
       'relation',
       relation,
-      this._selectionModel,
-      true
+      this._selectionModel
     )
   }
 

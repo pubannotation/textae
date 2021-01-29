@@ -17,8 +17,7 @@ export default class CreateBlockCommand extends CompositeCommand {
         end,
         isBlock: true
       },
-      selectionModel,
-      true
+      selectionModel
     )
     const createEntityCommand = new CreateEntityCommand(
       editor,
