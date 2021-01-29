@@ -9,7 +9,11 @@ module.exports = merge(common, {
       {
         test: /\.js$/,
         enforce: 'pre',
-        use: ['source-map-loader']
+        use: ['source-map-loader'],
+        include: [
+          path.resolve(__dirname, 'node_modules/ajv'),
+          path.resolve(__dirname, 'node_modules/uri-js')
+        ]
       }
     ]
   },
