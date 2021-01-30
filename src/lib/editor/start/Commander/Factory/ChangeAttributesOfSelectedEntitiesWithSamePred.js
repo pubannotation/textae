@@ -14,8 +14,8 @@ export default class ChangeAttributesOfSelectedEntitiesWithSamePred extends Comp
   ) {
     super()
 
-    const items = selectionModel.entity.all
-    const itemsWithSamePred = items.filter((item) =>
+    const entities = selectionModel.entity.all
+    const itemsWithSamePred = entities.filter((item) =>
       item.attributes.some((attribute) => attribute.pred === attrDef.pred)
     )
 
