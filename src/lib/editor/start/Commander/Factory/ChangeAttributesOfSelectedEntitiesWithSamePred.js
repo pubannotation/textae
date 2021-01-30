@@ -20,8 +20,8 @@ export default class ChangeAttributesOfSelectedEntitiesWithSamePred extends Comp
     )
 
     const effectedAttributes = []
-    for (const entity of itemsWithSamePred) {
-      const attribute = entity.attributes.find(
+    for (const item of itemsWithSamePred) {
+      const attribute = item.attributes.find(
         (a) => a.pred == attrDef.pred && a.obj !== newObj
       )
 
