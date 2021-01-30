@@ -132,7 +132,12 @@ export default function (eventEmitter, commander, selectionModelEntity) {
           openEditNumericAttributeDialog(attrDef, attribute, commander)
           break
         case 'string':
-          openEditStringAttributeDialog(attribute, commander, attrDef)
+          openEditStringAttributeDialog(
+            selectionModelEntity,
+            attribute,
+            commander,
+            attrDef
+          )
           break
         default:
           throw new Error(`Invalid attribute valueType: ${attrDef.valueType}`)

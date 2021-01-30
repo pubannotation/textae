@@ -8,7 +8,12 @@ export default function (selectionModel, attrDef, commander) {
     const attribute = selectedEntityWithSamePred.attributes.find(
       (a) => a.pred === attrDef.pred
     )
-    openEditStringAttributeDialog(attribute, commander, attrDef)
+    openEditStringAttributeDialog(
+      selectionModel.entity,
+      attribute,
+      commander,
+      attrDef
+    )
   } else {
     const command = commander.factory.createAttributeToItemsCommand(
       selectionModel.entity.all,
