@@ -63,6 +63,7 @@ export default class AttributeEditor {
       case 'flag':
         this._commander.invoke(
           this._commander.factory.toggleFlagAttributeToSelectedEntitiesCommand(
+            this._selectionModel.entity.all,
             attrDef
           )
         )
