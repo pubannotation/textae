@@ -6,7 +6,7 @@ export default function (selectionModel, attrDef, commander, pallet) {
     pallet.show()
     pallet.showAttribute(attrDef.pred)
   } else {
-    const command = commander.factory.createAttributeToSelectedEntitiesCommand(
+    const command = commander.factory.createAttributeToItemsCommand(
       selectionModel.entity.all,
       attrDef
     )

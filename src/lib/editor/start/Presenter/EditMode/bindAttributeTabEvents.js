@@ -113,7 +113,7 @@ export default function (eventEmitter, commander, selectionModelEntity) {
       'textae.entityAndAttributePallet.attribute.add-button.click',
       (attrDef) =>
         commander.invoke(
-          commander.factory.createAttributeToSelectedEntitiesCommand(
+          commander.factory.createAttributeToItemsCommand(
             selectionModelEntity.all,
             attrDef
           )

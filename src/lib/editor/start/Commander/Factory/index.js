@@ -137,11 +137,7 @@ export default class Factory {
     )
   }
 
-  createAttributeToSelectedEntitiesCommand(
-    items,
-    attributeDefinition,
-    obj = null
-  ) {
+  createAttributeToItemsCommand(items, attributeDefinition, obj = null) {
     return new CreateAttributeToItemsCommand(
       this._editor,
       this._annotationData,
