@@ -21,5 +21,11 @@ module.exports = merge(common, {
     path: path.resolve(__dirname, 'dev'),
     filename: 'bundle.js'
   },
-  watch: true
+  watch: true,
+  cache: {
+    type: 'filesystem',
+    buildDependencies: {
+      config: [__filename]
+    }
+  }
 })
