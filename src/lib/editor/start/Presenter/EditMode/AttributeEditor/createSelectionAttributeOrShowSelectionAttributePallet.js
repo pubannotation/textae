@@ -7,6 +7,7 @@ export default function (selectionModel, attrDef, commander, pallet) {
     pallet.showAttribute(attrDef.pred)
   } else {
     const command = commander.factory.createAttributeToSelectedEntitiesCommand(
+      selectionModel.entity.all,
       attrDef
     )
     commander.invoke(command)

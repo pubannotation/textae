@@ -42,6 +42,7 @@ export default class AttributeEditor {
       }
     } else {
       const command = this._commander.factory.createAttributeToSelectedEntitiesCommand(
+        this._selectionModel.entity.all,
         attrDef,
         newObj
       )

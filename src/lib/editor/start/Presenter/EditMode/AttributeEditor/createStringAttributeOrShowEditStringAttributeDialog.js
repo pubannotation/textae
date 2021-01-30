@@ -11,6 +11,7 @@ export default function (selectionModel, attrDef, commander) {
     openEditStringAttributeDialog(attribute, commander, attrDef)
   } else {
     const command = commander.factory.createAttributeToSelectedEntitiesCommand(
+      selectionModel.entity.all,
       attrDef
     )
     commander.invoke(command)

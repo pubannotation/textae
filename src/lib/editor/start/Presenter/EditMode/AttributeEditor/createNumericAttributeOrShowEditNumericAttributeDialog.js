@@ -11,6 +11,7 @@ export default function (selectionModel, attrDef, commander) {
     openEditNumericAttributeDialog(attrDef, attribute, commander)
   } else {
     const command = commander.factory.createAttributeToSelectedEntitiesCommand(
+      selectionModel.entity.all,
       attrDef
     )
     commander.invoke(command)
