@@ -252,10 +252,7 @@ export default class Factory {
     )
   }
 
-  removeAttributesFromSelectedEntitiesByPredCommand(
-    items,
-    attributeDefinition
-  ) {
+  removeAttributesFromItemsByPredCommand(items, attributeDefinition) {
     return new RemoveAttributesFromItemsByPredCommand(
       this._editor,
       this._annotationData,
