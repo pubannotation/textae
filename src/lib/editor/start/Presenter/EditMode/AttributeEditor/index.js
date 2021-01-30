@@ -2,7 +2,6 @@ import alertifyjs from 'alertifyjs'
 import createNumericAttributeOrShowEditNumericAttributeDialog from './createNumericAttributeOrShowEditNumericAttributeDialog'
 import createSelectionAttributeOrShowSelectionAttributePallet from './createSelectionAttributeOrShowSelectionAttributePallet'
 import createStringAttributeOrShowEditStringAttributeDialog from './createStringAttributeOrShowEditStringAttributeDialog'
-import toggleFlagAttribute from './toggleFlagAttribute'
 
 export default class AttributeEditor {
   constructor(
@@ -62,7 +61,11 @@ export default class AttributeEditor {
 
     switch (attrDef.valueType) {
       case 'flag':
-        toggleFlagAttribute(attrDef, this._commander)
+        this._commander.invoke(
+          this._commander.factory.toggleFlagAttributeToSelectedEntitiesCommand(
+            attrDef
+          )
+        )
         break
       case 'numeric':
         createNumericAttributeOrShowEditNumericAttributeDialog(
