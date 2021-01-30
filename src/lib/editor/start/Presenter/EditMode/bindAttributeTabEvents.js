@@ -148,6 +148,7 @@ export default function (eventEmitter, commander, selectionModelEntity) {
       (attrDef) =>
         commander.invoke(
           commander.factory.removeAttributesFromSelectedEntitiesByPredCommand(
+            selectionModelEntity.all,
             attrDef
           )
         )

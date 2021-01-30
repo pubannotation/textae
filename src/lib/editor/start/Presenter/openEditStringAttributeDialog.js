@@ -15,6 +15,7 @@ export default function (selectionModelEntity, attribute, commander, attrDef) {
     } else {
       commander.invoke(
         commander.factory.removeAttributesFromSelectedEntitiesByPredCommand(
+          selectionModelEntity.all,
           attrDef
         )
       )
