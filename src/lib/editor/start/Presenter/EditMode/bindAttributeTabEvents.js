@@ -120,13 +120,9 @@ export default function (eventEmitter, commander, selectionModelEntity) {
         )
     )
     .on('textae.entityAndAttributePallet.attribute.object.edit', (attrDef) => {
-      const selectedEntityWithSamePred = selectionModelEntity.findSelectedWithSamePredicateAttribute(
+      const attribute = selectionModelEntity.findSelectedAttributeWithSamePredicate(
         attrDef.pred
       )
-      const attribute = selectedEntityWithSamePred.attributes.find(
-        (a) => a.pred === attrDef.pred
-      )
-
       switch (attrDef.valueType) {
         case 'numeric':
           openEditNumericAttributeDialog(attrDef, attribute, commander)
