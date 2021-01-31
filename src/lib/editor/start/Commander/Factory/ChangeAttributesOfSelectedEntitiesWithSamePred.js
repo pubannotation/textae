@@ -6,18 +6,13 @@ export default class ChangeAttributesOfSelectedEntitiesWithSamePred extends Comp
   constructor(
     editor,
     annotationData,
-    selectionModel,
     typeContainer,
+    items,
     attrDef,
     newObj,
     newLabel = null
   ) {
     super()
-
-    const entities = selectionModel.entity.all
-    const items = entities.filter((item) =>
-      item.attributes.some((attribute) => attribute.pred === attrDef.pred)
-    )
 
     const effectedAttributes = []
     for (const item of items) {

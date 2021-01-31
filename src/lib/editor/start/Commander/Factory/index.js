@@ -56,11 +56,18 @@ export default class Factory {
     newObj,
     newLabel
   ) {
+    const entities = this._selectionModel.entity.all
+    const items = entities.filter((item) =>
+      item.attributes.some(
+        (attribute) => attribute.pred === attributeDefinition.pred
+      )
+    )
+
     return new ChangeAttributesOfSelectedEntitiesWithSamePred(
       this._editor,
       this._annotationData,
-      this._selectionModel,
       this._annotationData.typeDefinition.attribute,
+      items,
       attributeDefinition,
       newObj,
       newLabel
