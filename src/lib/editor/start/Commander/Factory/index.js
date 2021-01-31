@@ -1,7 +1,7 @@
 import { CreateCommand } from './commandTemplate'
 import AddValueToAttributeDefinitionCommand from './AddValueToAttributeDefinitionCommand'
 import ChangeAttributeDefinitionAndRefectInstancesCommand from './ChangeAttributeDefinitionAndRefectInstancesCommand'
-import ChangeAttributesOfSelectedEntitiesWithSamePred from './ChangeAttributesOfSelectedEntitiesWithSamePred'
+import ChangeAttributesOfItems from './ChangeAttributesOfItems'
 import ChangeItemTypeCommand from './ChangeItemTypeCommand'
 import ChangeTypeDefinitionAndRefectInstancesCommand from './ChangeTypeDefinitionAndRefectInstancesCommand'
 import ChangeTypeOfSelectedItemsCommand from './ChangeTypeOfSelectedItemsCommand'
@@ -63,7 +63,7 @@ export default class Factory {
       )
     )
 
-    return new ChangeAttributesOfSelectedEntitiesWithSamePred(
+    return new ChangeAttributesOfItems(
       this._editor,
       this._annotationData,
       this._annotationData.typeDefinition.attribute,
