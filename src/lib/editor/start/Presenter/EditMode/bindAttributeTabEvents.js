@@ -121,7 +121,7 @@ export default function (eventEmitter, commander, selectionModelEntity) {
     )
     .on('textae.entityAndAttributePallet.attribute.object.edit', (attrDef) => {
       const selectedEntityWithSamePred = selectionModelEntity.findSelectedWithSamePredicateAttribute(
-        attrDef
+        attrDef.pred
       )
       const attribute = selectedEntityWithSamePred.attributes.find(
         (a) => a.pred === attrDef.pred

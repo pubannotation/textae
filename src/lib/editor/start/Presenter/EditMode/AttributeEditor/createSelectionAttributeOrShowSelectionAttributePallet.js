@@ -1,6 +1,6 @@
 export default function (selectionModel, attrDef, commander, pallet) {
   const selectedEntityWithSamePred = selectionModel.entity.findSelectedWithSamePredicateAttribute(
-    attrDef
+    attrDef.pred
   )
   if (selectedEntityWithSamePred) {
     pallet.show()

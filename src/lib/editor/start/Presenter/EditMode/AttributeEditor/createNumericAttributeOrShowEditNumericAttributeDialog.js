@@ -2,7 +2,7 @@ import openEditNumericAttributeDialog from '../../openEditNumericAttributeDialog
 
 export default function (selectionModel, attrDef, commander) {
   const selectedEntityWithSamePred = selectionModel.entity.findSelectedWithSamePredicateAttribute(
-    attrDef
+    attrDef.pred
   )
   if (selectedEntityWithSamePred) {
     const attribute = selectedEntityWithSamePred.attributes.find(

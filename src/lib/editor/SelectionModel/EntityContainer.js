@@ -30,9 +30,9 @@ export default class EntityContainer extends SelectedElements {
     )
   }
 
-  findSelectedWithSamePredicateAttribute(attrDef) {
+  findSelectedWithSamePredicateAttribute(pred) {
     return this.all.find((entity) =>
-      entity.attributes.find((attribute) => attribute.pred === attrDef.pred)
+      entity.attributes.find((attribute) => attribute.pred === pred)
     )
   }
 }
