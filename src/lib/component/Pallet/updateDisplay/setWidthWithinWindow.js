@@ -1,8 +1,7 @@
-export default function (editor, pallet) {
+export default function (pallet, width) {
   pallet.style.width = 'auto'
 
-  if (editor[0].offsetWidth - 2 <= pallet.offsetWidth) {
-    const width = editor[0].offsetWidth - 4
-    pallet.style.width = `${width}px`
+  if (width - 2 <= pallet.offsetWidth) {
+    pallet.style.width = `${width - 4}px`
   }
 }
