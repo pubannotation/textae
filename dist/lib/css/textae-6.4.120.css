@@ -321,9 +321,6 @@
 .textae-editor__edit-type-dialog__table td:nth-child(2) input {
   width: calc(100% - 7px);
 }
-.textae-editor__edit-type-dialog__table td:nth-child(4) {
-  text-align: right;
-}
 .textae-editor__edit-type-dialog__attribute__edit__value:before {
   position: relative;
   display: inline-block;
