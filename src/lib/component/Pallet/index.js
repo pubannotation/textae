@@ -64,10 +64,10 @@ export default class Pallet {
     this._el.style.display = 'block'
     updateDisplay(this._editor, this._el, this._annotationType, this._content)
 
-    this._moveIntoWindow(this._editor, this._el)
+    this._moveInto(this._editor, this._el)
   }
 
-  _moveIntoWindow(editor, pallet) {
+  _moveInto(editor, pallet) {
     const point = getMousePoint()
 
     // Pull left the pallet when the pallet protrudes from right of the editor.
