@@ -65,18 +65,14 @@ export default class Pallet {
     updateDisplay(this._editor, this._el, this._annotationType, this._content)
 
     const point = getMousePoint()
-    this._moveIntoWindow(
-      this._editor,
-      this._el,
-      point,
-      this._editor[0].offsetWidth
-    )
+    this._moveIntoWindow(this._editor, this._el, point)
   }
 
-  _moveIntoWindow(editor, pallet, point, maxWidth) {
+  _moveIntoWindow(editor, pallet, point) {
     // Pull left the pallet when the pallet protrudes from right of the editor.
-    if (pallet.offsetWidth + point.left > maxWidth) {
-      point.left = editor[0].offsetLeft + maxWidth - pallet.offsetWidth - 2
+    if (pallet.offsetWidth + point.left > this._maxWidth) {
+      point.left =
+        editor[0].offsetLeft + this._maxWidth - pallet.offsetWidth - 2
     }
 
     // Pull up the pallet when the pallet protrudes from bottom of the window.
@@ -92,6 +88,10 @@ export default class Pallet {
 
     pallet.style.top = `${top}px`
     pallet.style.left = `${point.left}px`
+  }
+
+  get _maxWidth() {
+    return this._editor[0].offsetWidth
   }
 
   get _maxHeight() {
