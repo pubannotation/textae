@@ -23,5 +23,6 @@ export default function (editor, pallet, annotationType, content) {
     <div class="textae-editor__type-pallet__content">${content}</div>
   `
   setWidthWithinWindow(editor, pallet)
-  setHeightWithinWindow(pallet)
+
+  setHeightWithinWindow(pallet, window.innerHeight)
 }
