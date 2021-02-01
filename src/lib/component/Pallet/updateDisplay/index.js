@@ -1,5 +1,5 @@
 import setWidthWithinWindow from './setWidthWithinWindow'
-import setHeightWithinWindow from './setHeightWithinWindow'
+import setHeightWithin from './setHeightWithin'
 
 export default function (editor, pallet, annotationType, content) {
   // Wrap the content in a special class so that you can determine if the target of the event is an element of the palette
@@ -24,5 +24,5 @@ export default function (editor, pallet, annotationType, content) {
   `
   setWidthWithinWindow(editor, pallet)
 
-  setHeightWithinWindow(pallet, window.innerHeight)
+  setHeightWithin(pallet, window.innerHeight)
 }
