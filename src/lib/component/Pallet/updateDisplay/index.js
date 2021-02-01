@@ -22,7 +22,7 @@ export default function (editor, pallet, annotationType, content) {
     </div>
     <div class="textae-editor__type-pallet__content">${content}</div>
   `
-  setWidthWithin(pallet, editor[0].offsetWidth)
 
+  setWidthWithin(pallet, editor[0].offsetWidth)
   setHeightWithin(pallet, window.innerHeight)
 }
