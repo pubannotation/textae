@@ -1,5 +1,81 @@
 # たまにやるテスト
 
+## TypeGap
+
+### TypeGap のデフォルト値
+
+1.  Setting ダイアログを開く
+2.  Simple モードが 0（変更不可）
+3.  Term モードが 2
+4.  Block モードが 2
+5.  Relation モードが 2
+
+### TypeGap を変更したら LineHeight を自動計算する
+
+1.  TypeGap を変更したら LineHeight を自動計算する
+2.  Setting Dialog の LineHeight の値が更新されること
+3.  Grid が正しい位置に表示されること
+
+### 一回 Simple モードにしてから元のモードに戻したときに TypeGap の値が保存されている
+
+#### 背景
+
+1.  TypeGap の値を保存しなくなっていた。
+2.  4.1.8 で修正
+
+#### -- 手段 --
+
+1.  Relation モードにする
+2.  TypeGap を 3 にする
+3.  Simple モードにする
+4.  TypeGap が 0 になること
+5.  Relation モードにする
+6.  TypeGap が 3 になること
+
+## Setting Dialog
+
+### タイトル
+
+#### 背景
+
+1.  タイトルを変更しました。
+
+#### -- 手段 --
+
+1.  Setting Dialog を開く
+2.  Setting Dialog のタイトルが`Setting`であること
+
+### 設定項目
+
+#### 背景
+
+1.  4.1.16 で、instance/Simple モードの切り替えチェックボックスを消しました
+2.  5.3.2 で、バージョン番号の表示を追加しました
+
+#### -- 手段 --
+
+1.  Setting Dialog を開く
+2.  Type Gap があること
+3.  Line Height があること
+4.  Version があること
+
+### Line Height を px で指定
+
+#### 背景
+
+1.  4.1.12 で Line Height の単位を px に変えました
+2.  4.1.11 までは`指定値 * 16px`を行の高さに設定していました
+3.  4.2.1 で、LineHeight を変更しても Grid が移動しなくなっていました
+
+#### -- 手段 --
+
+1.  Setting Dialog を開く
+2.  Line Height を増やす
+3.  行の高さが px 単位で変更できること
+4.  最大 500px まで選べること
+5.  設定した値に応じて行の高さが変わること
+6.  行の高さに合わせて Grid が移動すること
+
 ## スタイルで行の高さを指定できること
 
 ### 背景
