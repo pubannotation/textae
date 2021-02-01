@@ -1,3 +1,4 @@
+import alertifyjs from 'alertifyjs'
 import openEditNumericAttributeDialog from '../../openEditNumericAttributeDialog'
 
 export default function (selectionModel, attrDef, commander) {
@@ -6,7 +7,17 @@ export default function (selectionModel, attrDef, commander) {
   )
 
   if (attribute) {
-    openEditNumericAttributeDialog(attrDef, attribute, commander)
+    const isOnlyEntityWithJsutOneSamePredSelected = selectionModel.entity.onlySelectedWithJustOneAttributeOf(
+      attrDef.pred
+    )
+
+    if (isOnlyEntityWithJsutOneSamePredSelected) {
+      openEditNumericAttributeDialog(attrDef, attribute, commander)
+    } else {
+      alertifyjs.warning(
+        'Some selected items has zero or multi this attribute.'
+      )
+    }
   } else {
     const command = commander.factory.createAttributeToItemsCommand(
       selectionModel.entity.all,
