@@ -68,27 +68,29 @@ export default class Pallet {
   }
 
   _moveInto(editor, pallet) {
-    const point = getMousePoint()
+    const { left, clientY, pageY } = getMousePoint()
 
-    // Pull left the pallet when the pallet protrudes from right of the editor.
-    if (pallet.offsetWidth + point.left > this._maxWidth) {
-      point.left =
+    if (pallet.offsetWidth + left <= this._maxWidth) {
+      pallet.style.left = `${left}px`
+    } else {
+      // Pull left the pallet when the pallet protrudes from right of the editor.
+      pallet.style.left = `${
         editor[0].offsetLeft + this._maxWidth - pallet.offsetWidth - 2
+      }px`
     }
 
     // Pull up the pallet when the pallet protrudes from bottom of the window.
     let top
-    if (pallet.offsetHeight + point.clientY > this._maxHeight) {
+    if (pallet.offsetHeight + clientY > this._maxHeight) {
       top =
-        point.pageY -
+        pageY -
         editor[0].offsetTop -
-        (pallet.offsetHeight + point.clientY - this._maxHeight)
+        (pallet.offsetHeight + clientY - this._maxHeight)
     } else {
-      top = point.pageY - editor[0].offsetTop
+      top = pageY - editor[0].offsetTop
     }
 
     pallet.style.top = `${top}px`
-    pallet.style.left = `${point.left}px`
   }
 
   get _maxWidth() {
