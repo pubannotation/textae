@@ -66,7 +66,13 @@ export default class Pallet {
     updateDisplay(this._editor, this._el, this._annotationType, this._content)
 
     const point = getMousePoint()
-    moveIntoWindow(this._editor, this._el, point)
+    moveIntoWindow(
+      this._editor,
+      this._el,
+      point,
+      this._editor[0].offsetWidth,
+      window.innerHeight
+    )
   }
 
   hide() {
