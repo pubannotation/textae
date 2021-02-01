@@ -79,18 +79,17 @@ export default class Pallet {
       }px`
     }
 
-    // Pull up the pallet when the pallet protrudes from bottom of the window.
-    let top
-    if (pallet.offsetHeight + clientY > this._maxHeight) {
-      top =
+    if (pallet.offsetHeight + clientY <= this._maxHeight) {
+      const top = pageY - editor[0].offsetTop
+      pallet.style.top = `${top}px`
+    } else {
+      // Pull up the pallet when the pallet protrudes from bottom of the window.
+      const top =
         pageY -
         editor[0].offsetTop -
         (pallet.offsetHeight + clientY - this._maxHeight)
-    } else {
-      top = pageY - editor[0].offsetTop
+      pallet.style.top = `${top}px`
     }
-
-    pallet.style.top = `${top}px`
   }
 
   get _maxWidth() {
