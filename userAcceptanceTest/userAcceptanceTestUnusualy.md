@@ -1,5 +1,58 @@
 # たまにやるテスト
 
+## スタイルで行の高さを指定できること
+
+### 背景
+
+1.  4.1.14 で行の高さをスタイルで上書きできるようになりました
+2.  6.0.0 で padding-top と height が設定されなくなりました
+3.  6.1.45 で対応
+
+### -- 手段 --
+
+1.  Editor2 を選択する
+2.  `.textae-editor__body__text-box`の line-height が`14px`であること
+3.  `.textae-editor__body__text-box`の padding-top が`7px`であること
+4.  `.textae-editor__body__text-box`の height が`48px`であること
+5.  Setting ダイアログを開く
+6.  Line Height の値が 14 であること
+
+## アノテーションが無いときに行の高さが 41px になること
+
+### 背景
+
+1.  5.0.0 でアノテーションが無いときに行の高さがなくなっていました
+2.  5.2.4 で対応しました
+
+### -- 手段 --
+
+1.  Editor7 を選択する
+2.  `.textae-editor__body__text-box`の line-height が`41px`であること
+3.  `.textae-editor__body__text-box`の padding-top が`20.5px`であること
+4.  Setting ダイアログを開く
+5.  Line Height の値が 41 であること
+
+## Attribute 定義追加ダイアログで flag attribute の label と color を設定する
+
+### 背景
+
+1. Attribute 定義追加ダイアログを開いたときは Attribute type に`flag`が選択されています
+2. flag attribute は label と color を持ちますが、label と color の入力欄が表示されません
+3. 6.4.95 で Attribute type を一度別の値に変更して、`flag`に戻すと表示されるようになりました
+4. 6.4.99 で Attribute 定義追加ダイアログを開いたときに、label と color の入力欄欄を表示します
+5. label と color は入力欄を表示するだけで、作成した flag attribute の定義には反映していませんでした
+6. 6.4.103 で対応しました
+
+### -- 手段 --
+
+1. Term モードにする
+2. `q`キーを押してパレットを開く
+3. Attribute 定義追加タブをクリック
+4. Attribute 定義追加ダイアログが開くこと
+5. Attribute 定義追加ダイアログに label 欄と color 欄があること
+6. `pred`, `label`, `color`を入力して`OK`ボタンをおす
+7. 作成した flag attribute の定義に`pred`, `label`, `color`が反映されていること
+
 ## パレットの Attribute タブの Attribute 情報フォーマット
 
 ### 背景
