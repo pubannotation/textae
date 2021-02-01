@@ -1,4 +1,4 @@
-import setWidthWithinWindow from './setWidthWithinWindow'
+import setWidthWithin from './setWidthWithin'
 import setHeightWithin from './setHeightWithin'
 
 export default function (editor, pallet, annotationType, content) {
@@ -22,7 +22,7 @@ export default function (editor, pallet, annotationType, content) {
     </div>
     <div class="textae-editor__type-pallet__content">${content}</div>
   `
-  setWidthWithinWindow(pallet, editor[0].offsetWidth)
+  setWidthWithin(pallet, editor[0].offsetWidth)
 
   setHeightWithin(pallet, window.innerHeight)
 }
