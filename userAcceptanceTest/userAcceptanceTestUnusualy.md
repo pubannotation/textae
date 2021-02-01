@@ -1,5 +1,78 @@
 # たまにやるテスト
 
+## パレットの Attribute タブの Attribute 情報フォーマット
+
+### 背景
+
+1. 6.4.48 で、文言を変更しました
+2. 6.4.49 で、文言に選択中のアイテムの数を追加し、ボタンの文言を短くしました
+3. 6.4.50 で、アイテムを選択していないときは、ボタンを表示しなくしました
+4. 6.4.51 で、value type の説明をアイコンに変更しました
+5. 6.4.55 で、Attribute 追加変更削除ボタンの表示・非表示切り替えを、有効・無効切り替えに変更しました
+6. 6.4.88 で、6.4.53 で選択アイテム数が表示されなくなっていたのを、直しました
+7. 6.4.91 で、6.4.88 で Attribute 定義がないときにパレットを開くとエラーが起きていたのを直しました
+8. 6.4.107 で、value type の説明をアイコンのみにしました。また、フラグ Attribute のアイコンをチェックボックスからフラッグに変えました
+
+### Attribute 定義がないとき
+
+1. Editor0 を選択
+2. Term モードにする
+3. `q` キーを押してパレットを開く
+4. エラーが起きないこと
+
+### Attribute 定義があるとき
+
+1. Editor1 を選択
+2. Term モードにする
+3. Attribute のない Entity を一つ選択する
+4. `q` キーを押してパレットを開く
+5. `denote` タブを選ぶ
+6. `Attribute [list icon] "denote" [add to] [remove from] the 1 item selected`が表示されること
+7. `add to`ボタンが有効であること
+8. `remove from`ボタンが無効であること
+9. `error` タブを選ぶ
+10. `Attribute [flag icon] "error" [add to] [remove from]the 1 item selected` が表示されること
+11. `add to`ボタンが有効であること
+12. `remove from`ボタンが無効であること
+13. `score` タブを選ぶ
+14. `Attribute [thermometer icon] "score" [add to] [edit object of] [remove from]the 1 item selected` が表示されること
+15. `add to`ボタンが有効であること
+16. `edit object of`ボタンが無効であること
+17. `remove from`ボタンが無効であること
+18. Entity の選択を解除する
+19. `q` キーを押してパレットを開く
+20. `denote` タブを選ぶ
+21. `Attribute [list icon] "denote"`が表示されること
+22. `error` タブを選ぶ
+23. `Attribute [flag] icon] "error"` が表示されること
+
+## パレットのタイトルバー
+
+### 背景
+
+1. パレットは Esc キーまたは、パレット外の要素をクリックすることで閉じることができます
+2. 初めて使うユーザーには、パレットの閉じ方がわかりにくいです
+3. jQueury UI ダイアログと同等のタイトルバーを表示して、そこに閉じるボタンを配置します
+4. 6.4.108 で、対応しました
+
+### -- 手段 --
+
+1. Term モードにする
+2. `q` キーを押してパレットを開く
+3. タイトルバーがあること
+4. タイトルが`Entity configuration`であること
+5. 閉じるボタンをクリックして、パレットを閉じられること
+6. Block モードにする
+7. `q` キーを押してパレットを開く
+8. タイトルバーがあること
+9. タイトルが`Entity configuration`であること
+10. 閉じるボタンをクリックして、パレットを閉じられること
+11. Relation モードにする
+12. `q` キーを押してパレットを開く
+13. タイトルバーがあること
+14. タイトルが`Relation configuration`であること
+15. 閉じるボタンをクリックして、パレットを閉じられること
+
 ## Entity 編集ダイアログで Entity と Attribute の情報を編集
 
 ### 背景
