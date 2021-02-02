@@ -52,7 +52,7 @@ export default class Factory {
   }
 
   changeAttributesOfSelectedEntitiesWithSamePred(
-    entities,
+    items,
     attributeDefinition,
     newObj,
     newLabel
@@ -61,7 +61,7 @@ export default class Factory {
       this._editor,
       this._annotationData,
       this._annotationData.typeDefinition.attribute,
-      entities,
+      items,
       attributeDefinition,
       newObj,
       newLabel
