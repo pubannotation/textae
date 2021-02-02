@@ -12,7 +12,12 @@ export default function (selectionModel, attrDef, commander) {
     )
 
     if (isOnlyEntityWithJsutOneSamePredSelected) {
-      openEditNumericAttributeDialog(attrDef, attribute, commander)
+      openEditNumericAttributeDialog(
+        selectionModel.entity,
+        attrDef,
+        attribute,
+        commander
+      )
     } else {
       alertifyjs.warning(
         'Some selected items has zero or multi this attribute.'

@@ -125,7 +125,12 @@ export default function (eventEmitter, commander, selectionModelEntity) {
       )
       switch (attrDef.valueType) {
         case 'numeric':
-          openEditNumericAttributeDialog(attrDef, attribute, commander)
+          openEditNumericAttributeDialog(
+            selectionModelEntity,
+            attrDef,
+            attribute,
+            commander
+          )
           break
         case 'string':
           openEditStringAttributeDialog(
