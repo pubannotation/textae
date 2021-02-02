@@ -15,10 +15,6 @@ export default class AttributeEditor {
     this._selectionModel = selectionModel
     this._pallet = entityPallet
     this._typeDefinition = typeDefinition
-
-    // entityPallet.onSelectionAttributeLabelClick((attrDef, value) =>
-    //   this._selectionAttributeLabelClick(attrDef, value)
-    // )
   }
 
   addOrEditAt(number) {
