@@ -530,6 +530,11 @@
   white-space: normal;
   z-index: 90;
 }
+.textae-editor__type-pallet__container {
+  display: flex;
+  flex-direction: column;
+  max-height: 450px;
+}
 .textae-editor__type-pallet__title-bar {
   font-size: 1.7em;
   padding: 0.4em 1em;
@@ -552,7 +557,6 @@
   height: 20px;
 }
 .textae-editor__type-pallet__content {
-  max-height: 450px;
   overflow-x: auto;
   overflow-y: auto;
 }
