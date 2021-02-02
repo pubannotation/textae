@@ -38,10 +38,10 @@
 2.  Term モードにする
 3.  `T1:a:b`と`E1:a:b`を選択する
 4.  `5`キーを押す
-5.  `Some selected items has zero or multi this attribute.`が表示されること
+5.  `Some selected items has zero or multi this attribute.`がアラート表示されること
 6.  `E18`を追加選択する
 7.  `5`キーを押す
-8.  `Some selected items has zero or multi this attribute.`が表示されること
+8.  `Some selected items has zero or multi this attribute.`がアラート表示されること
 9.  Attribute のない Entity を一つ選択する
 10. `5`キーを押す
 11. `Down the Rabbit Hole` Attribute が追加されること
