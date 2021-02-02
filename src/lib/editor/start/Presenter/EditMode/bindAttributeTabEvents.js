@@ -119,31 +119,34 @@ export default function (eventEmitter, commander, selectionModelEntity) {
           )
         )
     )
-    .on('textae.entityAndAttributePallet.attribute.object.edit', (attrDef) => {
-      const attribute = selectionModelEntity.findSelectedAttributeWithSamePredicate(
-        attrDef.pred
-      )
-      switch (attrDef.valueType) {
-        case 'numeric':
-          openEditNumericAttributeDialog(
-            selectionModelEntity,
-            attrDef,
-            attribute,
-            commander
-          )
-          break
-        case 'string':
-          openEditStringAttributeDialog(
-            selectionModelEntity,
-            attribute,
-            commander,
-            attrDef
-          )
-          break
-        default:
-          throw new Error(`Invalid attribute valueType: ${attrDef.valueType}`)
+    .on(
+      'textae.entityAndAttributePallet.attribute.edit-attribute-instance-button.click',
+      (attrDef) => {
+        const attribute = selectionModelEntity.findSelectedAttributeWithSamePredicate(
+          attrDef.pred
+        )
+        switch (attrDef.valueType) {
+          case 'numeric':
+            openEditNumericAttributeDialog(
+              selectionModelEntity,
+              attrDef,
+              attribute,
+              commander
+            )
+            break
+          case 'string':
+            openEditStringAttributeDialog(
+              selectionModelEntity,
+              attribute,
+              commander,
+              attrDef
+            )
+            break
+          default:
+            throw new Error(`Invalid attribute valueType: ${attrDef.valueType}`)
+        }
       }
-    })
+    )
     .on(
       'textae.entityAndAttributePallet.attribute.remove-attribute-instance-button.click',
       (attrDef) =>
