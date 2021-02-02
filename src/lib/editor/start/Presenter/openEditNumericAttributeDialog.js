@@ -3,7 +3,7 @@ import EditNumericAttributeDialog from '../../../component/EditNumericAttributeD
 export default function (selectionModelEntity, attrDef, attribute, commander) {
   const dialog = new EditNumericAttributeDialog(attrDef, attribute)
   dialog.promise.then(({ newObj }) => {
-    const command = commander.factory.changeAttributesOfSelectedEntitiesWithSamePred(
+    const command = commander.factory.changeAttributesOfItemsWithSamePred(
       selectionModelEntity.all,
       attrDef,
       newObj

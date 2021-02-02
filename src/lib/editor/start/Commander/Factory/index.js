@@ -51,7 +51,7 @@ export default class Factory {
     )
   }
 
-  changeAttributesOfSelectedEntitiesWithSamePred(
+  changeAttributesOfItemsWithSamePred(
     items,
     attributeDefinition,
     newObj,

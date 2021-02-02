@@ -6,7 +6,7 @@ export default function (selectionModelEntity, attribute, commander, attrDef) {
   dialog.promise.then(({ newObj, newLabel }) => {
     if (newObj) {
       commander.invoke(
-        commander.factory.changeAttributesOfSelectedEntitiesWithSamePred(
+        commander.factory.changeAttributesOfItemsWithSamePred(
           selectionModelEntity.all,
           attrDef,
           newObj,

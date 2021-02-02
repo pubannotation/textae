@@ -33,7 +33,7 @@ export default class AttributeEditor {
           'An item among the selected has this attribute multiple times.'
         )
       } else {
-        const command = this._commander.factory.changeAttributesOfSelectedEntitiesWithSamePred(
+        const command = this._commander.factory.changeAttributesOfItemsWithSamePred(
           this._selectionModel.entity.all,
           attrDef,
           newObj
