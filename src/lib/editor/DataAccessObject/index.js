@@ -18,7 +18,10 @@ export default class DataAccessObject {
     this._cursorChanger = new CursorChanger(editor)
     this._ajaxSender = new AjaxSender(
       () => this._cursorChanger.startWait(),
-      () => this._editor.eventEmitter.emit('textae-event.saveError'),
+      () =>
+        this._editor.eventEmitter.emit(
+          'textae-event.data-access-object.save.error'
+        ),
       () => this._cursorChanger.endWait()
     )
 

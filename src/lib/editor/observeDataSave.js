@@ -10,7 +10,7 @@ export default function (editor, history) {
       history.configurationSaved()
       alertifyjs.success('configuration saved')
     })
-    .on('textae-event.saveError', () => {
+    .on('textae-event.data-access-object.save.error', () => {
       alertifyjs.error('could not save')
     })
 }

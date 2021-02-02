@@ -23,7 +23,7 @@ export default class AnnotationAutoSaver {
 
     editor.eventEmitter
       .on('textae-event.annotation.load', () => this._disabled())
-      .on('textae-event.saveError', () => this._disabled())
+      .on('textae-event.data-access-object.save.error', () => this._disabled())
       .on('textae-event.annotation.setUrl', (url) =>
         editor.eventEmitter.emit(
           'textae-event.annotation-auto-saver.enable',
