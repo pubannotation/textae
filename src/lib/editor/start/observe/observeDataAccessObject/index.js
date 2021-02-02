@@ -53,7 +53,7 @@ export default function (
         )
     )
     .on(
-      'taxtae-event.annotation-data.configuration.load.success',
+      'taxtae-event.data-access-object.configuration.load.success',
       (sourceType, source, config, loadedAnnotation = null) => {
         // If an annotation that does not contain a configuration is loaded
         // and a configuration is loaded from a taxtae attribute value,
@@ -83,7 +83,7 @@ export default function (
       }
     )
     .on(
-      'taxtae-event.annotation-data.configuration.load.successError',
+      'taxtae-event.data-access-object.configuration.load.error',
       (sourceType, source) =>
         alertifyjs.error(
           `${toSourceString(

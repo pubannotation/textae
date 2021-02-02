@@ -81,7 +81,7 @@ export default class DataAccessObject {
       url,
       (source, config) => {
         this._editor.eventEmitter.emit(
-          'taxtae-event.annotation-data.configuration.load.success',
+          'taxtae-event.data-access-object.configuration.load.success',
           'url',
           source,
           config,
