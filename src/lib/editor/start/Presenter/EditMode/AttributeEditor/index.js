@@ -21,34 +21,6 @@ export default class AttributeEditor {
     // )
   }
 
-  _selectionAttributeLabelClick(attrDef, newObj) {
-    if (this._selectionModel.entity.selectedWithAttributeOf(attrDef.pred)) {
-      if (
-        this._selectionModel.entity.isDupulicatedPredAttrributeSelected(
-          attrDef.pred
-        )
-      ) {
-        alertifyjs.warning(
-          'An item among the selected has this attribute multiple times.'
-        )
-      } else {
-        const command = this._commander.factory.changeAttributesOfItemsWithSamePred(
-          this._selectionModel.entity.all,
-          attrDef,
-          newObj
-        )
-        this._commander.invoke(command)
-      }
-    } else {
-      const command = this._commander.factory.createAttributeToItemsCommand(
-        this._selectionModel.entity.all,
-        attrDef,
-        newObj
-      )
-      this._commander.invoke(command)
-    }
-  }
-
   addOrEditAt(number) {
     this._pallet.hide()
 
