@@ -10,7 +10,7 @@ export default async function (files, editor) {
   if (isTxtFile(file.name)) {
     // If this is .txt, New annotation json is made from .txt
     editor.eventEmitter.emit(
-      'taxtae-event.annotation-data.annotation.load.success',
+      'taxtae-event.data-access-object.annotation.load.success',
       'local file',
       file.name,
       {
@@ -26,7 +26,7 @@ export default async function (files, editor) {
 
     if (annotation.text) {
       editor.eventEmitter.emit(
-        'taxtae-event.annotation-data.annotation.load.success',
+        'taxtae-event.data-access-object.annotation.load.success',
         'local file',
         file.name,
         annotation
