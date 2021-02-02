@@ -1,6 +1,6 @@
 # 対応予定のテスト
 
-## Selection Attribute をショートカットキーから編集
+## Selection Attribute をショートカットキーからパレットを開いて編集
 
 ### 背景
 
@@ -10,7 +10,7 @@
 4.  5.2.0 で、Attribute のショートカットキー T を廃止しました
 5.  6.2.79 で で Block モードで、ショートカットキー 1~9 で Attribute の追加ができるようになりました
 
-### DenotationEntity の Attribute をショートカットキー操作で変更
+### DenotationEntity
 
 1.  Editor1 を選択
 2.  Term モードにする
@@ -19,7 +19,7 @@
 5.  `1` キーをもう一度押すと、Value 選択用のパレットが表示されること
 6.  パレットの Value を押すと、選択中の DenotationEntity の該当 predicate の Attribute の Value が変更できること
 
-### BlockEntity の Attribute をショートカットキー操作で変更
+### BlockEntity
 
 1.  Editor1 を選択
 2.  Block モードにする
@@ -28,14 +28,14 @@
 5.  1 キーをもう一度押すと、Value 選択用のパレットが表示されること
 6.  パレットの Value を押すと、選択中の BlockEntity の該当 predicate の Attribute の Value が変更できること
 
-## Selection Attribute を編集ダイアログから編集
+## Selection Attribute を編集ダイアログからパレットを開いて編集
 
 ### 背景
 
 1.  5.0.0 で、Attribute を追加するためにのショートカットキー T を追加しました
 2.  5.2.3 で編集ダイアログの編集機能は廃止され、パレットを開くボタンに代わりました
 
-### DenotationEntity の Attribute を Entity 編集ダイアログから変更
+### DenotationEntity
 
 1.  Editor1 を選択
 2.  Term モードにする
@@ -47,7 +47,7 @@
 8.  パレットが開くこと
 9.  denote タブが選ばれていること
 
-### BlockEntity の Attribute を Entity 編集ダイアログから変更
+### BlockEntity
 
 1.  Editor1 を選択
 2.  Block モードにする
@@ -75,7 +75,7 @@
 6.  `add to`ボタンを押す
 7.  Attribute が追加されること
 
-## パレットは重複 Attribute の作成をサポートしない
+## パレットから重複 Attribute を作成できない
 
 ### 背景
 
