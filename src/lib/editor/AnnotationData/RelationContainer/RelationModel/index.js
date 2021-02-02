@@ -105,7 +105,7 @@ export default class RelationModel {
       .bind('mouseexit', () => jsPlumbConnection.pointdown())
       .bind('click', (_, event) => {
         editor.eventEmitter.emit(
-          'textae-event.editor.jsPlumbConnection.click',
+          'textae-event.editor.js-plumb-connection.click',
           jsPlumbConnection,
           event
         )
