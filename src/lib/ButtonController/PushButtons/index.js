@@ -10,7 +10,7 @@ export default class PushButtons {
     }, new Map())
 
     // Bind an event.
-    editor.eventEmitter.on('textae-event.editMode.transition', (mode) =>
+    editor.eventEmitter.on('textae-event.edit-mode.transition', (mode) =>
       this._setMode(mode)
     )
 

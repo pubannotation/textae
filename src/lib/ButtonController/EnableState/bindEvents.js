@@ -10,7 +10,7 @@ export default function (editor, button) {
       button.updateByRelation()
     )
     .on('textae-event.selection.entity.change', () => button.updateByEntity())
-    .on('textae-event.editMode.transition', (mode) => button.setForMode(mode))
+    .on('textae-event.edit-mode.transition', (mode) => button.setForMode(mode))
     .on('textae-event.clipBoard.change', () => button.updateByClipboard)
     .on('textae-event.annotationAutoSaver.enable', (enable) =>
       button.enable('write-auto', enable)

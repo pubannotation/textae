@@ -19,7 +19,7 @@ export default class ClipBoard {
           this._updateItems(new Set(this._items.filter((e) => e != entity)))
         }
       })
-      .on('textae-event.editMode.transition', () => this._updateItems())
+      .on('textae-event.edit-mode.transition', () => this._updateItems())
   }
 
   get hasCopyingItem() {
