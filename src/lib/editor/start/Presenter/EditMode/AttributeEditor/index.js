@@ -16,9 +16,9 @@ export default class AttributeEditor {
     this._pallet = entityPallet
     this._typeDefinition = typeDefinition
 
-    entityPallet.onSelectionAttributeLabelClick((attrDef, value) =>
-      this._selectionAttributeLabelClick(attrDef, value)
-    )
+    // entityPallet.onSelectionAttributeLabelClick((attrDef, value) =>
+    //   this._selectionAttributeLabelClick(attrDef, value)
+    // )
   }
 
   _selectionAttributeLabelClick(attrDef, newObj) {

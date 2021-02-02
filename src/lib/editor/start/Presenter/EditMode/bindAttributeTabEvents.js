@@ -1,3 +1,4 @@
+import alertifyjs from 'alertifyjs'
 import CreateAttributeDefinitionDialog from '../../../../component/CreateAttributeDefinitionDialog'
 import EditAttributeDefinitionDialog from '../../../../component/EditAttributeDefinitionDialog'
 import EditValueToAttributeDefinitionDialog from '../../../../component/EditValueOfAttributeDefinitionDialog'
@@ -64,6 +65,36 @@ export default function (eventEmitter, commander, selectionModelEntity) {
           }
         })
         dialog.open()
+      }
+    )
+    .on(
+      `textae.entityAndAttributePallet.attribute.value-of-attribute-definition-label.click`,
+      (attrDef, newObj) => {
+        if (selectionModelEntity.selectedWithAttributeOf(attrDef.pred)) {
+          if (
+            selectionModelEntity.isDupulicatedPredAttrributeSelected(
+              attrDef.pred
+            )
+          ) {
+            alertifyjs.warning(
+              'An item among the selected has this attribute multiple times.'
+            )
+          } else {
+            const command = commander.factory.changeAttributesOfItemsWithSamePred(
+              selectionModelEntity.all,
+              attrDef,
+              newObj
+            )
+            commander.invoke(command)
+          }
+        } else {
+          const command = commander.factory.createAttributeToItemsCommand(
+            selectionModelEntity.all,
+            attrDef,
+            newObj
+          )
+          commander.invoke(command)
+        }
       }
     )
     .on(
