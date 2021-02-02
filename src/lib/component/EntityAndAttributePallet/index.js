@@ -1,7 +1,6 @@
 import { diff } from 'jsondiffpatch'
 import Pallet from '../Pallet'
 import bindAttributeEvent from './bindAttributeEvent'
-import bindSelectionAttributeLabel from './bindAttributeEvent/bindSelectionAttributeLabel'
 import createContentHtml from './createContentHtml'
 import enableDrag from './enableDrag'
 
@@ -122,10 +121,6 @@ export default class EntityAndAttributePallet extends Pallet {
 
   get attrDef() {
     return this._annotationData.typeDefinition.attribute.get(this._selectedPred)
-  }
-
-  onSelectionAttributeLabelClick(onClick) {
-    bindSelectionAttributeLabel(this._el, this, onClick)
   }
 
   get _attributes() {
