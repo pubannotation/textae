@@ -96,7 +96,7 @@ export default class DataAccessObject {
         this._ajaxSender,
         url,
         JSON.stringify(editedData),
-        'taxtae-event.annotation-data.save'
+        'taxtae-event.annotation-data.annotation.save'
       )
     }
   }
