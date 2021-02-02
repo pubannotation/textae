@@ -32,6 +32,25 @@
 20. `add to`ボタンが非表示になること
 21. `remove from`ボタンが非表示になること
 
+## ショートカットキーから重複 Attribute を作成できない
+
+### 背景
+
+1.  **1 つの Entity に Predicate が等しい Attribute をひとつまでしか持てない** 制約がありました
+2.  この制約を **1 つの Entity に Predicate と Object が等しい Attribute をひとつまでしか持てない** に緩めることにしました
+3.  ショートカットキー操作では、1 つの Entity 上の Predicate が重複した Attribute の作成をサポートしません
+
+### -- 手段 --
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  Entity を選択する
+4.  1 キーを押す
+5.  Attribute が追加されること
+6.  1 キーを押す
+7.  パレットが開いて denote タブが選択されていること
+8.  Attribute が追加されないこと
+
 ## 1 つの Entity は同一の Predicate の Attribute をひとつまでしか持てない
 
 ### 背景
@@ -56,17 +75,6 @@
 4.  Validation Dialog を閉じる
 5.  DenotationEntity `T3`に Attribute が２つ表示されること
 6.  BlockEntity `B9`に Attribute が２つ表示されること
-
-### ショートカットキー
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  Entity を選択する
-4.  1 キーを押す
-5.  Attribute が追加されること
-6.  1 キーを押す
-7.  パレットが開いて denote タブが選択されていること
-8.  Attribute が追加されないこと
 
 ## パレットの Attribute タブの Attribute 情報フォーマット
 
