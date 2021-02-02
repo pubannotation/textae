@@ -53,7 +53,7 @@ export default class Pallet {
 
   updateDisplay() {
     if (this.visibly) {
-      this._updateDisplay(this._el, this._annotationType)
+      this._updateDisplay(this._el)
     }
   }
 
@@ -63,12 +63,12 @@ export default class Pallet {
 
   show() {
     this._el.style.display = 'block'
-    this._updateDisplay(this._el, this._annotationType)
+    this._updateDisplay(this._el)
 
     this._moveInto(this._editor, this._el)
   }
 
-  _updateDisplay(pallet, annotationType) {
+  _updateDisplay(pallet) {
     // Wrap the content in a special class so that you can determine if the target of the event is an element of the palette
     // even after the content has been removed from the DOM tree.
     // The taxtae-editor deselects itself when a click event to something other than taxtae-editor occurs.
@@ -77,7 +77,8 @@ export default class Pallet {
     pallet.innerHTML = `
       <div class="textae-editor__type-pallet__title-bar ui-widget-header ui-corner-all">
         <span>${
-          annotationType.charAt(0).toUpperCase() + annotationType.slice(1)
+          this._annotationType.charAt(0).toUpperCase() +
+          this._annotationType.slice(1)
         } configuration</span>
         <button 
           type="button"
