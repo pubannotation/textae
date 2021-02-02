@@ -128,29 +128,6 @@
 7.  パレットが開いて denote タブが選択されていること
 8.  Attribute が追加されないこと
 
-## Annotation ファイルの読み込み時に 1 つの Entity に Predicate と Object が等しい Attribute が複数ついているかチェックする
-
-### 背景
-
-1.  5.0.0 で、エディタ上での Attribute の追加・編集機能を追加しました。Annotation ファイルの読み込み時はチェックしていませんでした
-2.  5.3.2 から、Annotation ファイルの読み込み時に 1 つの Entity に Predicate が等しい Attribute が複数ついているかチェックします
-3.  5.3.5 から、アラートを pred 単位で分けました
-4.  6.1.8 から、重複した Attribute を無視し、Validation Dialog に表示します
-5.  6.2.93 で`Dupulicated`の typo を修正
-6.  6.2.97 で、参照先がない Attribute も、`Duplicated attributes.`テーブルに表示することにしました
-7.  6.2.100 で、BlockEntity の Attribute の重複チェックを追加しました
-8.  この制約を **1 つの Entity に Predicate と Object が等しい Attribute をひとつまでしか持てない** に緩めることにしました
-9.  6.4.1 で、Annotation ファイルの読込時 Validation での Attribute のチェックを緩め、 1 つの Entity に Predicate と Object が等しい Attribute が複数ついているかのチェックに変更しました
-
-### -- 手段 --
-
-1.  アノテーション読込ダイアログを開く
-2.  `invlaid.json`を読み込む
-3.  Validation Dialog の`Duplicated attributes.`に`A1`と`A2`が表示されること
-4.  Validation Dialog を閉じる
-5.  DenotationEntity `T3`に Attribute が２つ表示されること
-6.  BlockEntity `B9`に Attribute が２つ表示されること
-
 ## パレットの Attribute タブの Attribute 情報フォーマット
 
 ### 背景
