@@ -7,6 +7,8 @@
 1.  **1 つの Entity に Predicate が等しい Attribute をひとつまでしか持てない** 制約がありました
 2.  この制約を **1 つの Entity に Predicate と Object が等しい Attribute をひとつまでしか持てない** に緩めることにしました
 3.  パレットからは、1 つの Entity 上の Predicate が重複した Attribute の作成をサポートしません
+4.  6.3.32 で、Entity が Boolean または Selection Attribute を持つときに、Entity パレットに Attribute 削除ボタンを表示する代わりに、Attribute 追加ボタンを表示していました
+5.  6.4.3 で対応
 
 ### -- 手段 --
 
@@ -44,10 +46,10 @@
 
 1.  Editor1 を選択
 2.  Term モードにする
-3.  Entity を選択する
-4.  1 キーを押す
+3.  Attribute を持たない Entity を選択する
+4.  `1` キーを押す
 5.  Attribute が追加されること
-6.  1 キーを押す
+6.  `1` キーを押す
 7.  パレットが開いて denote タブが選択されていること
 8.  Attribute が追加されないこと
 
@@ -64,8 +66,6 @@
 7.  6.2.100 で、BlockEntity の Attribute の重複チェックを追加しました
 8.  この制約を **1 つの Entity に Predicate と Object が等しい Attribute をひとつまでしか持てない** に緩めることにしました
 9.  6.4.1 で、Annotation ファイルの読込時 Validation での Attribute のチェックを緩め、 1 つの Entity に Predicate と Object が等しい Attribute が複数ついているかのチェックに変更しました
-10. 6.3.32 で、Entity が Boolean または Selection Attribute を持つときに、Entity パレットに Attribute 削除ボタンを表示する代わりに、Attribute 追加ボタンを表示していました
-11. 6.4.3 で対応
 
 ### Annotation ファイルの読み込み時に 1 つの Entity に Predicate と Object が等しい Attribute が複数ついているかチェックする
 
