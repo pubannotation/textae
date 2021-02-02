@@ -25,8 +25,8 @@
 1.  Editor1 を選択
 2.  Block モードにする
 3.  Attribute を持たない BlockEntity を選択する
-4.  1 キーを押す、Attribute を追加されること
-5.  1 キーをもう一度押すと、Value 選択用のパレットが表示されること
+4.  `1` キーを押す、Attribute を追加されること
+5.  `1` キーをもう一度押すと、Value 選択用のパレットが表示されること
 6.  パレットの Value を押すと、選択中の BlockEntity の該当 predicate の Attribute の Value が変更できること
 
 ## Selection Attribute を編集ダイアログからパレットを開いて編集
