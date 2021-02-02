@@ -86,7 +86,7 @@ export default class ClipBoard {
     this._items = [...newItems]
 
     this._editor.eventEmitter.emit(
-      'textae-event.clipBoard.change',
+      'textae-event.clip-board.change',
       this._cuttingItems,
       oldItems
     )

@@ -1,7 +1,7 @@
 const cssClass = 'ui-to-be-cut'
 
 export default function (editor) {
-  editor.eventEmitter.on('textae-event.clipBoard.change', (added, removed) => {
+  editor.eventEmitter.on('textae-event.clip-board.change', (added, removed) => {
     for (const entity of added) {
       if (entity.element) {
         entity.element.classList.add(cssClass)
