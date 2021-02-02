@@ -59,7 +59,7 @@ export default function (pallet, el, eventEmitter) {
 
   delegate(el, '.textae-editor__type-pallet__add-attribute', 'click', () =>
     eventEmitter.emit(
-      `textae.entityAndAttributePallet.attribute.add-button.click`,
+      `textae.entityAndAttributePallet.add-attribute-instance-button.click`,
       pallet.attrDef
     )
   )
