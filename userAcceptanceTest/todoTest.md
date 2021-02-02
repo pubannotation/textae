@@ -1,5 +1,33 @@
 # 対応予定のテスト
 
+## パレットは重複 Attribute の編集をサポートしない
+
+### 背景
+
+1.  **1 つの Entity に Predicate が等しい Attribute をひとつまでしか持てない** 制約がありました
+2.  この制約を **1 つの Entity に Predicate と Object が等しい Attribute をひとつまでしか持てない** に緩めることにしました
+3.  パレットからは、1 つの Entity 上の Predicate が重複した Attribute の編集をサポートしません
+
+### -- 手段 --
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  Entity を選択する
+4.  パレットを開く
+5.  denote タブを選ぶ
+6.  `Add to selected entity`ボタンを押す
+7.  Attribute が追加されること
+8.  `Add to selected entity`ボタンが`Remove from selected entity`ボタンに変わること
+9.  `Remove from selected entity`ボタンを押す
+10. Attribute が削除されること
+11. `Remove from selected entity`ボタンが`Add to selected entity`ボタンに変わること
+12. error タブを選ぶ
+13. `Add to selected entity`ボタンを押す
+14. Attribute が追加されること
+15. `Add to selected entity`ボタンが`Remove from selected entity`ボタンに変わること
+16. Entity の選択を解除する
+17. `Add to selected entity`ボタンが表示されること
+
 ## 1 つの Entity は同一の Predicate の Attribute をひとつまでしか持てない
 
 ### 背景
@@ -24,26 +52,6 @@
 4.  Validation Dialog を閉じる
 5.  DenotationEntity `T3`に Attribute が２つ表示されること
 6.  BlockEntity `B9`に Attribute が２つ表示されること
-
-### パレット
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  Entity を選択する
-4.  パレットを開く
-5.  denote タブを選ぶ
-6.  `Add to selected entity`ボタンを押す
-7.  Attribute が追加されること
-8.  `Add to selected entity`ボタンが`Remove from selected entity`ボタンに変わること
-9.  `Remove from selected entity`ボタンを押す
-10. Attribute が削除されること
-11. `Remove from selected entity`ボタンが`Add to selected entity`ボタンに変わること
-12. error タブを選ぶ
-13. `Add to selected entity`ボタンを押す
-14. Attribute が追加されること
-15. `Add to selected entity`ボタンが`Remove from selected entity`ボタンに変わること
-16. Entity の選択を解除する
-17. `Add to selected entity`ボタンが表示されること
 
 ### ショートカットキー
 
