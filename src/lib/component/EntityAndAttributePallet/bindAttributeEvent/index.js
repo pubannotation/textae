@@ -32,6 +32,18 @@ export default function (pallet, el, eventEmitter) {
 
   delegate(
     el,
+    '.textae-editor__type-pallet__selection-attribute-label',
+    'click',
+    (e) =>
+      eventEmitter.emit(
+        `textae.entityAndAttributePallet.attribute.value-of-attribute-definition-label.click`,
+        pallet.attrDef,
+        e.target.dataset.id
+      )
+  )
+
+  delegate(
+    el,
     '.textae-editor__type-pallet__add-attribute-value-button',
     'click',
     () =>
