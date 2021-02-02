@@ -25,7 +25,7 @@
 5.  DenotationEntity `T3`に Attribute が２つ表示されること
 6.  BlockEntity `B9`に Attribute が２つ表示されること
 
-#### パレット
+### パレット
 
 1.  Editor1 を選択
 2.  Term モードにする
