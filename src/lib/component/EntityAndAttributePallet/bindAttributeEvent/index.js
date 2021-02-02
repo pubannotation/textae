@@ -25,7 +25,7 @@ export default function (pallet, el, eventEmitter) {
 
   delegate(el, '.textae-editor__type-pallet__delete-predicate', 'click', () =>
     eventEmitter.emit(
-      `textae.entityAndAttributePallet.attribute.delete-predicate-button.click`,
+      `textae.entityAndAttributePallet.attribute.delete-attribute-definition-button.click`,
       pallet.attrDef
     )
   )

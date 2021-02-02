@@ -41,7 +41,7 @@ export default function (eventEmitter, commander, selectionModelEntity) {
       }
     )
     .on(
-      `textae.entityAndAttributePallet.attribute.delete-predicate-button.click`,
+      `textae.entityAndAttributePallet.attribute.delete-attribute-definition-button.click`,
       (attrDef) =>
         commander.invoke(
           commander.factory.deleteAttributeDefinitionCommand(attrDef)
