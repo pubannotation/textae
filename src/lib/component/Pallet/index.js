@@ -65,7 +65,7 @@ export default class Pallet {
     this._el.style.display = 'block'
     this._updateDisplay()
 
-    this._moveInto(this._editor)
+    this._moveInto()
   }
 
   _updateDisplay() {
@@ -95,7 +95,7 @@ export default class Pallet {
     setHeightWithin(this._el, this._maxHeight)
   }
 
-  _moveInto(editor) {
+  _moveInto() {
     const { left, clientY, pageY } = getMousePoint()
 
     if (this._el.offsetWidth + left <= this._maxWidth) {
@@ -103,18 +103,18 @@ export default class Pallet {
     } else {
       // Pull left the pallet when the pallet protrudes from right of the editor.
       this._el.style.left = `${
-        editor[0].offsetLeft + this._maxWidth - this._el.offsetWidth - 2
+        this._editor[0].offsetLeft + this._maxWidth - this._el.offsetWidth - 2
       }px`
     }
 
     if (this._el.offsetHeight + clientY <= this._maxHeight) {
-      const top = pageY - editor[0].offsetTop
+      const top = pageY - this._editor[0].offsetTop
       this._el.style.top = `${top}px`
     } else {
       // Pull up the pallet when the pallet protrudes from bottom of the window.
       const top =
         pageY -
-        editor[0].offsetTop -
+        this._editor[0].offsetTop -
         (this._el.offsetHeight + clientY - this._maxHeight)
       this._el.style.top = `${top}px`
     }
