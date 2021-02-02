@@ -53,7 +53,7 @@
 7.  パレットが開いて denote タブが選択されていること
 8.  Attribute が追加されないこと
 
-## 1 つの Entity は同一の Predicate の Attribute をひとつまでしか持てない
+## Annotation ファイルの読み込み時に 1 つの Entity に Predicate と Object が等しい Attribute が複数ついているかチェックする
 
 ### 背景
 
@@ -67,7 +67,7 @@
 8.  この制約を **1 つの Entity に Predicate と Object が等しい Attribute をひとつまでしか持てない** に緩めることにしました
 9.  6.4.1 で、Annotation ファイルの読込時 Validation での Attribute のチェックを緩め、 1 つの Entity に Predicate と Object が等しい Attribute が複数ついているかのチェックに変更しました
 
-### Annotation ファイルの読み込み時に 1 つの Entity に Predicate と Object が等しい Attribute が複数ついているかチェックする
+### -- 手段 --
 
 1.  アノテーション読込ダイアログを開く
 2.  `invlaid.json`を読み込む
