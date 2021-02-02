@@ -23,7 +23,7 @@ export default function (eventEmitter, commander, selectionModelEntity) {
       }
     )
     .on(
-      `textae.entityAndAttributePallet.attribute.edit-predicate-button.click`,
+      `textae.entityAndAttributePallet.attribute.edit-attribute-definition-button.click`,
       (attrDef) => {
         const dialog = new EditAttributeDefinitionDialog(attrDef)
         dialog.promise.then((changedProperties) => {
