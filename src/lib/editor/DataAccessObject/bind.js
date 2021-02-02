@@ -8,7 +8,7 @@ export default function bind(editor, ajaxSender) {
     .on('textae-event.save-annotation-dialog.viewsource.click', () =>
       emitter.emit('textae-event.annotation.save')
     )
-    .on('textae-event.saveConfigurationDialog.download.click', () =>
+    .on('textae-event.save-configuration-dialog.download.click', () =>
       emitter.emit('textae-event.configuration.save')
     )
 }
