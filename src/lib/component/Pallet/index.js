@@ -53,7 +53,7 @@ export default class Pallet {
 
   updateDisplay() {
     if (this.visibly) {
-      this._updateDisplay(this._el)
+      this._updateDisplay()
     }
   }
 
@@ -63,18 +63,18 @@ export default class Pallet {
 
   show() {
     this._el.style.display = 'block'
-    this._updateDisplay(this._el)
+    this._updateDisplay()
 
     this._moveInto(this._editor, this._el)
   }
 
-  _updateDisplay(pallet) {
+  _updateDisplay() {
     // Wrap the content in a special class so that you can determine if the target of the event is an element of the palette
     // even after the content has been removed from the DOM tree.
     // The taxtae-editor deselects itself when a click event to something other than taxtae-editor occurs.
     // After updating the palette, the click event reaches the body.
     // At that time, if the target of the event is the palette, you can see that it is an event for textae-editor.
-    pallet.innerHTML = `
+    this._el.innerHTML = `
       <div class="textae-editor__type-pallet__title-bar ui-widget-header ui-corner-all">
         <span>${
           this._annotationType.charAt(0).toUpperCase() +
@@ -91,8 +91,8 @@ export default class Pallet {
       <div class="textae-editor__type-pallet__content">${this._content}</div>
     `
 
-    setWidthWithin(pallet, this._maxWidth)
-    setHeightWithin(pallet, this._maxHeight)
+    setWidthWithin(this._el, this._maxWidth)
+    setHeightWithin(this._el, this._maxHeight)
   }
 
   _moveInto(editor, pallet) {
