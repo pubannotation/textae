@@ -39,7 +39,7 @@ export default class ChangeValueOfAttributeDefinitionAndObjectOfAttributeCommand
       this._subCommands = this._subCommands.concat(changeAnnotationCommands)
       this._afterInvoke = () =>
         editor.eventEmitter.emit(
-          'textae-event.command.attributes.change',
+          'textae-event.commander.attributes.change',
           sameAttributes
         )
     }

@@ -33,7 +33,7 @@ export default class ChangeAttributeOfItemsCommand extends CompositeCommand {
     if (effectedAttributes.length) {
       this._afterInvoke = () =>
         editor.eventEmitter.emit(
-          'textae-event.command.attributes.change',
+          'textae-event.commander.attributes.change',
           effectedAttributes
         )
     }

@@ -39,7 +39,7 @@ export default class ChangeAttributeDefinitionAndRefectInstancesCommand extends 
 
       this._afterInvoke = () => {
         editor.eventEmitter.emit(
-          'textae-event.command.attributes.change',
+          'textae-event.commander.attributes.change',
           sameDefinitionAttributes
         )
       }
