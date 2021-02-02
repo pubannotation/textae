@@ -135,19 +135,9 @@
 6.  `add to`ボタンを押す
 7.  Attribute が追加されること
 8.  `add to`ボタンが無効になること
-9.  `remove from`ボタンが有効になること
-10. `remove from`ボタンを押す
-11. Attribute が削除されること
-12. `add to`ボタンが有効になること
-13. `remove from`ボタンが無効になること
-14. error タブを選ぶ
-15. `add to`ボタンを押す
-16. Attribute が追加されること
-17. `add to`ボタンが無効になること
-18. `remove from`ボタンが有効になること
-19. Entity の選択を解除する
-20. `add to`ボタンが非表示になること
-21. `remove from`ボタンが非表示になること
+9.  `remove from`ボタンを押す
+10. Attribute が削除されること
+11. `add to`ボタンが有効になること
 
 ## ショートカットキーから重複 Attribute を作成できない
 
