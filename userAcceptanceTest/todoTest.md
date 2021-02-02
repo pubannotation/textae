@@ -1,32 +1,36 @@
 # 対応予定のテスト
 
-## パレットは重複 Attribute の編集をサポートしない
+## パレットは重複 Attribute の作成をサポートしない
 
 ### 背景
 
 1.  **1 つの Entity に Predicate が等しい Attribute をひとつまでしか持てない** 制約がありました
 2.  この制約を **1 つの Entity に Predicate と Object が等しい Attribute をひとつまでしか持てない** に緩めることにしました
-3.  パレットからは、1 つの Entity 上の Predicate が重複した Attribute の編集をサポートしません
+3.  パレットからは、1 つの Entity 上の Predicate が重複した Attribute の作成をサポートしません
 
 ### -- 手段 --
 
 1.  Editor1 を選択
 2.  Term モードにする
-3.  Entity を選択する
+3.  Attribute を持たない Entity を選択する
 4.  パレットを開く
 5.  denote タブを選ぶ
-6.  `Add to selected entity`ボタンを押す
+6.  `add to`ボタンを押す
 7.  Attribute が追加されること
-8.  `Add to selected entity`ボタンが`Remove from selected entity`ボタンに変わること
-9.  `Remove from selected entity`ボタンを押す
-10. Attribute が削除されること
-11. `Remove from selected entity`ボタンが`Add to selected entity`ボタンに変わること
-12. error タブを選ぶ
-13. `Add to selected entity`ボタンを押す
-14. Attribute が追加されること
-15. `Add to selected entity`ボタンが`Remove from selected entity`ボタンに変わること
-16. Entity の選択を解除する
-17. `Add to selected entity`ボタンが表示されること
+8.  `add to`ボタンが無効になること
+9.  `remove from`ボタンが有効になること
+10. `remove from`ボタンを押す
+11. Attribute が削除されること
+12. `add to`ボタンが有効になること
+13. `remove from`ボタンが無効になること
+14. error タブを選ぶ
+15. `add to`ボタンを押す
+16. Attribute が追加されること
+17. `add to`ボタンが無効になること
+18. `remove from`ボタンが有効になること
+19. Entity の選択を解除する
+20. `add to`ボタンが非表示になること
+21. `remove from`ボタンが非表示になること
 
 ## 1 つの Entity は同一の Predicate の Attribute をひとつまでしか持てない
 
