@@ -98,10 +98,14 @@ export default class AttributeEditor {
   deleteAt(number) {
     const attrDef = this._typeDefinition.attribute.getAttributeAt(number)
 
-    const command = this._commander.factory.removeAttributesFromItemsByPredCommand(
-      this._selectionModel.entity.all,
-      attrDef
-    )
-    this._commander.invoke(command)
+    if (this._selectionModel.entity.selectedWithAttributeOf(attrDef.pred)) {
+      const command = this._commander.factory.removeAttributesFromItemsByPredCommand(
+        this._selectionModel.entity.all,
+        attrDef
+      )
+      this._commander.invoke(command)
+    } else {
+      alertifyjs.warning('None of the selected items has this attribute.')
+    }
   }
 }
