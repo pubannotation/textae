@@ -84,7 +84,7 @@ export default class EditMode {
     )
 
     editor.eventEmitter.on(
-      'textae-event.editTypeDialog.attribute.value.edit',
+      'textae-event.edit-type-dialog.attribute.value.edit',
       (attrDef) => {
         switch (this._stateMachine.currentState) {
           case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
