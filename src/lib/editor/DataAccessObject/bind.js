@@ -9,6 +9,6 @@ export default function bind(editor, ajaxSender) {
       emitter.emit('taxtae-event.annotation-data.annotation.save')
     )
     .on('textae-event.save-configuration-dialog.download.click', () =>
-      emitter.emit('taxtae-event.annotation-data.configuration.save')
+      emitter.emit('taxtae-event.data-access-object.configuration.save')
     )
 }

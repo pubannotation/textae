@@ -92,7 +92,7 @@ export default function (
           )} is not a configuration file or its format is invalid.`
         )
     )
-    .on('taxtae-event.annotation-data.configuration.save', () => {
+    .on('taxtae-event.data-access-object.configuration.save', () => {
       originalData.configuration = Object.assign(
         originalData.configuration,
         annotationData.typeDefinition.config
