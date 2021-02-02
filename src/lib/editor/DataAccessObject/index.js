@@ -49,7 +49,7 @@ export default class DataAccessObject {
       (source, annotation) => {
         if (annotation && annotation.text) {
           this._editor.eventEmitter.emit(
-            'textae-event.annotation.load',
+            'taxtae-event.annotation-data.annotation.load.success',
             'url',
             source,
             annotation,
@@ -59,7 +59,7 @@ export default class DataAccessObject {
           this._urlOfLastRead.annotation = url
         } else {
           this._editor.eventEmitter.emit(
-            'textae-event.annotation.loadError',
+            'taxtae-event.annotation-data.annotation.load.successError',
             'url',
             source
           )

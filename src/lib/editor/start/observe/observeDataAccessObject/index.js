@@ -14,38 +14,43 @@ export default function (
   buttonController
 ) {
   editor.eventEmitter
-    .on('textae-event.annotation.load', (sourceType, source, annotation) => {
-      if (
-        !setAnnotation(
-          spanConfig,
-          annotationData,
-          annotation,
-          params.get('config'),
-          dataAccessObject,
-          buttonController
+    .on(
+      'taxtae-event.annotation-data.annotation.load.success',
+      (sourceType, source, annotation) => {
+        if (
+          !setAnnotation(
+            spanConfig,
+            annotationData,
+            annotation,
+            params.get('config'),
+            dataAccessObject,
+            buttonController
+          )
+        ) {
+          return
+        }
+
+        statusBar.status(toSourceString(sourceType, source))
+
+        // When saving the changed data,
+        // it keeps the original data so that properties not edited by textae are not lost.
+        originalData.annotation = annotation
+        if (annotation.config) {
+          originalData.configuration = annotation.config
+        }
+
+        editor.eventEmitter.emit('textae-event.pallet.update')
+      }
+    )
+    .on(
+      'taxtae-event.annotation-data.annotation.load.successError',
+      (sourceType, source) =>
+        alertifyjs.error(
+          `${toSourceString(
+            sourceType,
+            source
+          )} is not a annotation file or its format is invalid.`
         )
-      ) {
-        return
-      }
-
-      statusBar.status(toSourceString(sourceType, source))
-
-      // When saving the changed data,
-      // it keeps the original data so that properties not edited by textae are not lost.
-      originalData.annotation = annotation
-      if (annotation.config) {
-        originalData.configuration = annotation.config
-      }
-
-      editor.eventEmitter.emit('textae-event.pallet.update')
-    })
-    .on('textae-event.annotation.loadError', (sourceType, source) =>
-      alertifyjs.error(
-        `${toSourceString(
-          sourceType,
-          source
-        )} is not a annotation file or its format is invalid.`
-      )
     )
     .on(
       'taxtae-event.annotation-data.configuration.load',
