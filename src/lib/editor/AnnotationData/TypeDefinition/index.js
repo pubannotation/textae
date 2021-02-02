@@ -26,7 +26,7 @@ export default class TypeDefinition {
     )
 
     this._lockStateObservable(() =>
-      this._editor.eventEmitter.emit(`textae-event.typeDefinition.type.lock`)
+      this._editor.eventEmitter.emit(`textae-event.type-definition.type.lock`)
     )
   }
 
@@ -94,6 +94,6 @@ export default class TypeDefinition {
       this.autocompletionWs = ''
     }
 
-    this._editor.eventEmitter.emit(`textae-event.typeDefinition.reset`)
+    this._editor.eventEmitter.emit(`textae-event.type-definition.reset`)
   }
 }

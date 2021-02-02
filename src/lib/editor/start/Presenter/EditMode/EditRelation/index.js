@@ -44,10 +44,10 @@ export default class EditRelation extends Edit {
     )
 
     editor.eventEmitter
-      .on(`textae-event.typeDefinition.relation.type.change`, () =>
+      .on(`textae-event.type-definition.relation.type.change`, () =>
         relationPallet.updateDisplay()
       )
-      .on(`textae-event.typeDefinition.relation.type.default.change`, () =>
+      .on(`textae-event.type-definition.relation.type.default.change`, () =>
         relationPallet.updateDisplay()
       )
   }

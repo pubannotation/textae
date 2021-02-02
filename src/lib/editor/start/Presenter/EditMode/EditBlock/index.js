@@ -69,10 +69,10 @@ export default class EditBlock extends Edit {
     )
 
     editor.eventEmitter
-      .on(`textae-event.typeDefinition.block.type.change`, () =>
+      .on(`textae-event.type-definition.block.type.change`, () =>
         blockPallet.updateDisplay()
       )
-      .on(`textae-event.typeDefinition.block.type.default.change`, () =>
+      .on(`textae-event.type-definition.block.type.default.change`, () =>
         blockPallet.updateDisplay()
       )
   }

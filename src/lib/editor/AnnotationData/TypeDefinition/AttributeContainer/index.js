@@ -47,7 +47,7 @@ export default class AttributeContainer {
     }
 
     this._editor.eventEmitter.emit(
-      `textae-event.typeDefinition.attribute.create`,
+      `textae-event.type-definition.attribute.create`,
       attrDef.pred
     )
   }
@@ -74,7 +74,7 @@ export default class AttributeContainer {
     )
 
     this._editor.eventEmitter.emit(
-      `textae-event.typeDefinition.attribute.change`,
+      `textae-event.type-definition.attribute.change`,
       attrDef.pred
     )
 
@@ -94,7 +94,7 @@ export default class AttributeContainer {
     // When an attribute definition move is undoed,
     // it fires an event to notify the palette to immediately reflect the display content.
     this._editor.eventEmitter.emit(
-      `textae-event.typeDefinition.attribute.move`,
+      `textae-event.type-definition.attribute.move`,
       pred
     )
   }
@@ -102,7 +102,7 @@ export default class AttributeContainer {
   delete(pred) {
     this._definedTypes.delete(pred)
     this._editor.eventEmitter.emit(
-      `textae-event.typeDefinition.attribute.delete`
+      `textae-event.type-definition.attribute.delete`
     )
   }
 

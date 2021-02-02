@@ -68,10 +68,10 @@ export default class EditDenotation extends Edit {
     )
 
     editor.eventEmitter
-      .on(`textae-event.typeDefinition.denotation.type.change`, () =>
+      .on(`textae-event.type-definition.denotation.type.change`, () =>
         denotationPallet.updateDisplay()
       )
-      .on(`textae-event.typeDefinition.denotation.type.default.change`, () =>
+      .on(`textae-event.type-definition.denotation.type.default.change`, () =>
         denotationPallet.updateDisplay()
       )
   }
