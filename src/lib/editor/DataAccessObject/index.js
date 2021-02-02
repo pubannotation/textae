@@ -62,7 +62,7 @@ export default class DataAccessObject {
           this._urlOfLastRead.annotation = url
         } else {
           this._editor.eventEmitter.emit(
-            'taxtae-event.annotation-data.configuration.load.error',
+            'taxtae-event.data-access-object.configuration.load.error',
             'url',
             source
           )

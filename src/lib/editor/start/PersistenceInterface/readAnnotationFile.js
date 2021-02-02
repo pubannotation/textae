@@ -37,7 +37,7 @@ export default async function (files, editor) {
   }
 
   editor.eventEmitter.emit(
-    'taxtae-event.annotation-data.configuration.load.error',
+    'taxtae-event.data-access-object.configuration.load.error',
     'local file',
     file.name
   )

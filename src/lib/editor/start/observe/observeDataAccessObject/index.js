@@ -43,7 +43,7 @@ export default function (
       }
     )
     .on(
-      'taxtae-event.annotation-data.configuration.load.error',
+      'taxtae-event.data-access-object.configuration.load.error',
       (sourceType, source) =>
         alertifyjs.error(
           `${toSourceString(
