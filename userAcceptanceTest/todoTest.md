@@ -10,6 +10,9 @@
 4.  5.2.0 で、Attribute のショートカットキー T を廃止しました
 5.  6.2.71 で Block モードでパレットが開けるようになりました
 6.  6.2.79 で で Block モードで、ショートカットキー 1~9 で Attribute の追加ができるようになりました
+7.  **1 つの Entity に Predicate が等しい Attribute をひとつまでしか持てない** 制約がありました
+8.  この制約を **1 つの Entity に Predicate と Object が等しい Attribute をひとつまでしか持てない** に緩めることにしました
+9.  ショートカットキー操作では、1 つの Entity 上の Predicate が重複した Attribute の作成をサポートしません
 
 ### DenotationEntity
 
@@ -138,25 +141,6 @@
 9.  `remove from`ボタンを押す
 10. Attribute が削除されること
 11. `add to`ボタンが有効になること
-
-## ショートカットキーから重複 Attribute を作成できない
-
-### 背景
-
-1.  **1 つの Entity に Predicate が等しい Attribute をひとつまでしか持てない** 制約がありました
-2.  この制約を **1 つの Entity に Predicate と Object が等しい Attribute をひとつまでしか持てない** に緩めることにしました
-3.  ショートカットキー操作では、1 つの Entity 上の Predicate が重複した Attribute の作成をサポートしません
-
-### -- 手段 --
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  Attribute を持たない Entity を選択する
-4.  `1` キーを押す
-5.  Attribute が追加されること
-6.  `1` キーを押す
-7.  パレットが開いて denote タブが選択されていること
-8.  Attribute が追加されないこと
 
 ## 該当 Attribute を持たないアイテムを選択しているときに、パレットの Attribute 追加ボタンを有効にする
 
