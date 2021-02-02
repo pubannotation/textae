@@ -101,7 +101,7 @@ export default class Pallet {
     `
 
     setWidthWithin(pallet, editor[0].offsetWidth)
-    setHeightWithin(pallet, window.innerHeight)
+    setHeightWithin(pallet, this._maxHeight)
   }
 
   _moveInto(editor, pallet) {
