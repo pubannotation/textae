@@ -26,7 +26,7 @@ export default class AnnotationAutoSaver {
       .on('textae-event.saveError', () => this._disabled())
       .on('textae-event.annotation.setUrl', (url) =>
         editor.eventEmitter.emit(
-          'textae-event.annotationAutoSaver.enable',
+          'textae-event.annotation-auto-saver.enable',
           Boolean(saveToParameter || url)
         )
       )
