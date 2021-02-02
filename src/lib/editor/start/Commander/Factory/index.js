@@ -52,11 +52,11 @@ export default class Factory {
   }
 
   changeAttributesOfSelectedEntitiesWithSamePred(
+    entities,
     attributeDefinition,
     newObj,
     newLabel
   ) {
-    const entities = this._selectionModel.entity.all
     const items = entities.filter((item) =>
       item.attributes.some(
         (attribute) => attribute.pred === attributeDefinition.pred

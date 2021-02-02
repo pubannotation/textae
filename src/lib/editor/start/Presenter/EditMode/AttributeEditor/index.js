@@ -34,6 +34,7 @@ export default class AttributeEditor {
         )
       } else {
         const command = this._commander.factory.changeAttributesOfSelectedEntitiesWithSamePred(
+          this._selectionModel.entity.all,
           attrDef,
           newObj
         )
