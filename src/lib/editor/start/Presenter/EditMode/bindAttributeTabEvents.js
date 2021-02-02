@@ -48,7 +48,7 @@ export default function (eventEmitter, commander, selectionModelEntity) {
         )
     )
     .on(
-      `textae.entityAndAttributePallet.attribute.add-value-button.click`,
+      `textae.entityAndAttributePallet.attribute.add-value-of-attribute-definition-button.click`,
       (attrDef) => {
         const dialog = new EditValueToAttributeDefinitionDialog(
           attrDef.valueType

@@ -36,7 +36,7 @@ export default function (pallet, el, eventEmitter) {
     'click',
     () =>
       eventEmitter.emit(
-        `textae.entityAndAttributePallet.attribute.add-value-button.click`,
+        `textae.entityAndAttributePallet.attribute.add-value-of-attribute-definition-button.click`,
         pallet.attrDef
       )
   )
