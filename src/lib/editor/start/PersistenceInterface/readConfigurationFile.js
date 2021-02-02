@@ -7,14 +7,14 @@ export default function (files, editor) {
   readFile(file).then(({ target }) => {
     if (isJSON(target.result)) {
       editor.eventEmitter.emit(
-        'taxtae-event.annotation-data.configuration.load',
+        'taxtae-event.annotation-data.configuration.load.success',
         'local file',
         file.name,
         JSON.parse(target.result)
       )
     } else {
       editor.eventEmitter.emit(
-        'taxtae-event.annotation-data.configuration.loadError',
+        'taxtae-event.annotation-data.configuration.load.successError',
         'local file',
         file.name
       )
