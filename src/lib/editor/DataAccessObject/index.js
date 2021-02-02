@@ -49,7 +49,7 @@ export default class DataAccessObject {
       (source, annotation) => {
         if (annotation && annotation.text) {
           this._editor.eventEmitter.emit(
-            'taxtae-event.data-access-object.configuration.load.error',
+            'taxtae-event.annotation-data.annotation.load.success',
             'url',
             source,
             annotation,

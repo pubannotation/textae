@@ -15,7 +15,7 @@ export default function (
 ) {
   editor.eventEmitter
     .on(
-      'taxtae-event.data-access-object.configuration.load.error',
+      'taxtae-event.annotation-data.annotation.load.success',
       (sourceType, source, annotation) => {
         if (
           !setAnnotation(
