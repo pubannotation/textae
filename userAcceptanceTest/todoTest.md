@@ -1,14 +1,12 @@
 # 対応予定のテスト
 
-## パレットからAttribute の追加
+## パレットから Attribute の追加
 
 ### 背景
 
 1.  5.0.0 で Attitude を追加しました
 2.  5.2.0 でショートカットキー T を廃止しました
-3.  5.2.3 で編集ダイアログの編集機能は廃止され、パレットを開くボタンに代わりました
-4.  6.2.71 で Block モードでパレットが開けるようになりました
-5.  6.2.79 で で Block モードで、ショートカットキー 1~9 で Attribute の追加ができるようになりました
+3.  6.2.71 で Block モードでパレットが開けるようになりました
 
 ### -- 手段 --
 
@@ -32,6 +30,17 @@
 6.  `Add to selected entity`ボタンを押す
 7.  Attribute が追加されること
 
+## ショートカットキーから Attribute の追加
+
+### 背景
+
+1.  5.0.0 で Attitude を追加しました
+2.  5.2.0 でショートカットキー T を廃止しました
+3.  6.2.71 で Block モードでパレットが開けるようになりました
+4.  6.2.79 で で Block モードで、ショートカットキー 1~9 で Attribute の追加ができるようになりました
+
+### -- 手段 --
+
 #### BlockEntity にショートカットキーから Attribute を追加
 
 1.  Editor1 を選択
@@ -39,26 +48,6 @@
 3.  BlockEntity を選択する
 4.  1 キーを押す
 5.  Attribute が追加されること
-
-#### DenotationEntity にパレットから Attribute を追加
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  DenotationEntity を選択する
-4.  パレットを開く
-5.  denote タブを選択する
-6.  `Add to selected entity`ボタンを押す
-7.  Attribute が追加されること
-
-#### DenotationEntity にパレットから Attribute を追加
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  DenotationEntity を選択する
-4.  パレットを開く
-5.  denote タブを選択する
-6.  `Add to selected entity`ボタンを押す
-7.  Attribute が追加されること
 
 #### DenotationEntity にショートカットキーから Attribute を追加
 
