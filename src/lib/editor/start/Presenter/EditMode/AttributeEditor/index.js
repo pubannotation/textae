@@ -1,6 +1,5 @@
 import alertifyjs from 'alertifyjs'
 import createNumericAttributeOrShowEditNumericAttributeDialog from './createNumericAttributeOrShowEditNumericAttributeDialog'
-import createSelectionAttributeOrShowSelectionAttributePallet from './createSelectionAttributeOrShowSelectionAttributePallet'
 import createStringAttributeOrShowEditStringAttributeDialog from './createStringAttributeOrShowEditStringAttributeDialog'
 
 export default class AttributeEditor {
@@ -77,12 +76,22 @@ export default class AttributeEditor {
         )
         break
       case 'selection':
-        createSelectionAttributeOrShowSelectionAttributePallet(
-          this._selectionModel,
-          attrDef,
-          this._commander,
-          this._pallet
-        )
+        {
+          if (
+            this._selectionModel.entity.findSelectedAttributeWithSamePredicate(
+              attrDef.pred
+            )
+          ) {
+            this._pallet.show()
+            this._pallet.showAttribute(attrDef.pred)
+          } else {
+            const command = this._commander.factory.createAttributeToItemsCommand(
+              this._selectionModel.entity.all,
+              attrDef
+            )
+            this._commander.invoke(command)
+          }
+        }
         break
       case 'string':
         createStringAttributeOrShowEditStringAttributeDialog(
