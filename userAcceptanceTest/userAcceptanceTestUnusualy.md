@@ -593,60 +593,6 @@
 7.  候補に`parent@http://dbpedia.org/ontology/parent`が表示されること
 8.  ダイアログに横スクロールバー表示されないこと
 
-## Selection Attribute の編集
-
-### 背景
-
-1.  5.0.0 で、Attribute を追加するためにのショートカットキー T を追加しました
-2.  5.0.2 で、1~5 のキーで選択中の Entity へ、Attribute を追加、shift と同時押しで削除するようにしました
-3.  5.0.5 で、Attribute のショートカットキーを 1~9 までに増やしました
-4.  5.2.0 で、Attribute のショートカットキー T を廃止しました
-5.  5.2.3 で編集ダイアログの編集機能は廃止され、パレットを開くボタンに代わりました
-6.  6.2.71 で Block モードでパレットが開けるようになりました
-7.  6.2.79 で で Block モードで、ショートカットキー 1~9 で Attribute の追加ができるようになりました
-
-### DenotationEntity の Attribute をショートカットキー操作で変更
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  DenotationEntity を選択する
-4.  1 キーを押す、Attribute を追加されること
-5.  1 キーをもう一度押すと、Value 選択用のパレットが表示されること
-6.  パレットの Value を押すと、選択中の DenotationEntity の該当 predicate の Attribute の Value が変更できること
-
-### DenotationEntity の Attribute を Entity 編集ダイアログから変更
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  DenotationEntity を選択する
-4.  1 キーを押す
-5.  Attribute が追加されること
-6.  W キーを押す
-7.  `Edit`ボタンを押す
-8.  パレットが開くこと
-9.  denote タブが選ばれていること
-
-### BlockEntity の Attribute をショートカットキー操作で変更
-
-1.  Editor1 を選択
-2.  Block モードにする
-3.  BlockEntity を選択する
-4.  1 キーを押す、Attribute を追加されること
-5.  1 キーをもう一度押すと、Value 選択用のパレットが表示されること
-6.  パレットの Value を押すと、選択中の BlockEntity の該当 predicate の Attribute の Value が変更できること
-
-### BlockEntity の Attribute を Entity 編集ダイアログから変更
-
-1.  Editor1 を選択
-2.  Block モードにする
-3.  BlockEntity を選択する
-4.  1 キーを押す
-5.  Attribute が追加されること
-6.  W キーを押す
-7.  `Edit`ボタンを押す
-8.  パレットが開くこと
-9.  denote タブが選ばれていること
-
 ## オートコンプリートの候補がダイアログの下に隠れないこと
 
 ### 背景
@@ -3923,74 +3869,6 @@
 2.  `block1`に TypeGap（ラベルの上の空間）がないこと
 3.  `block1`に Attribute を追加する
 4.  `block1`に TypeGap（ラベルの上の空間）がないこと
-
-## Attribute の追加
-
-### 背景
-
-1.  5.0.0 で Attitude を追加しました
-2.  5.2.0 でショートカットキー T を廃止しました
-3.  5.2.3 で編集ダイアログの編集機能は廃止され、パレットを開くボタンに代わりました
-4.  6.2.71 で Block モードでパレットが開けるようになりました
-5.  6.2.79 で で Block モードで、ショートカットキー 1~9 で Attribute の追加ができるようになりました
-
-### -- 手段 --
-
-#### BlockEntity にパレットから Attribute を追加
-
-1.  Editor1 を選択
-2.  Block モードにする
-3.  BlockEntity を選択する
-4.  パレットを開く
-5.  denote タブを選択する
-6.  `Add to selected entity`ボタンを押す
-7.  Attribute が追加されること
-
-#### BlockEntity にパレットから Attribute を追加
-
-1.  Editor1 を選択
-2.  Block モードにする
-3.  BlockEntity を選択する
-4.  パレットを開く
-5.  denote タブを選択する
-6.  `Add to selected entity`ボタンを押す
-7.  Attribute が追加されること
-
-#### BlockEntity にショートカットキーから Attribute を追加
-
-1.  Editor1 を選択
-2.  Block モードにする
-3.  BlockEntity を選択する
-4.  1 キーを押す
-5.  Attribute が追加されること
-
-#### DenotationEntity にパレットから Attribute を追加
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  DenotationEntity を選択する
-4.  パレットを開く
-5.  denote タブを選択する
-6.  `Add to selected entity`ボタンを押す
-7.  Attribute が追加されること
-
-#### DenotationEntity にパレットから Attribute を追加
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  DenotationEntity を選択する
-4.  パレットを開く
-5.  denote タブを選択する
-6.  `Add to selected entity`ボタンを押す
-7.  Attribute が追加されること
-
-#### DenotationEntity にショートカットキーから Attribute を追加
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  DenotationEntity を選択する
-4.  1 キーを押す
-5.  Attribute が追加されること
 
 ## BlockEntity の色とラベル
 
