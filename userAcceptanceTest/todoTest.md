@@ -1,5 +1,127 @@
 # 対応予定のテスト
 
+## 1 つの Entity は同一の Predicate の Attribute をひとつまでしか持てない
+
+### 背景
+
+1.  5.0.0 で、エディタ上での Attribute の追加・編集機能を追加しました。Annotation ファイルの読み込み時はチェックしていませんでした
+2.  5.3.2 から、Annotation ファイルの読み込み時に 1 つの Entity に Predicate が等しい Attribute が複数ついているかチェックします
+3.  5.3.5 から、アラートを pred 単位で分けました
+4.  6.1.8 から、重複した Attribute を無視し、Validation Dialog に表示します
+5.  6.2.93 で`Dupulicated`の typo を修正
+6.  6.2.97 で、参照先がない Attribute も、`Duplicated attributes.`テーブルに表示することにしました
+7.  6.2.100 で、BlockEntity の Attribute の重複チェックを追加しました
+8.  この制約を **1 つの Entity に Predicate と Object が等しい Attribute をひとつまでしか持てない** に緩めることにしました
+9.  6.4.1 で、Annotation ファイルの読込時 Validation での Attribute のチェックを緩め、 1 つの Entity に Predicate と Object が等しい Attribute が複数ついているかのチェックに変更しました
+10. 6.3.32 で、Entity が Boolean または Selection Attribute を持つときに、Entity パレットに Attribute 削除ボタンを表示する代わりに、Attribute 追加ボタンを表示していました
+11. 6.4.3 で対応
+
+### Annotation ファイルの読み込み時に 1 つの Entity に Predicate と Object が等しい Attribute が複数ついているかチェックする
+
+1.  アノテーション読込ダイアログを開く
+2.  `invlaid.json`を読み込む
+3.  Validation Dialog の`Duplicated attributes.`に`A1`と`A2`が表示されること
+4.  Validation Dialog を閉じる
+5.  DenotationEntity `T3`に Attribute が２つ表示されること
+6.  BlockEntity `B9`に Attribute が２つ表示されること
+
+#### パレット
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  Entity を選択する
+4.  パレットを開く
+5.  denote タブを選ぶ
+6.  `Add to selected entity`ボタンを押す
+7.  Attribute が追加されること
+8.  `Add to selected entity`ボタンが`Remove from selected entity`ボタンに変わること
+9.  `Remove from selected entity`ボタンを押す
+10. Attribute が削除されること
+11. `Remove from selected entity`ボタンが`Add to selected entity`ボタンに変わること
+12. error タブを選ぶ
+13. `Add to selected entity`ボタンを押す
+14. Attribute が追加されること
+15. `Add to selected entity`ボタンが`Remove from selected entity`ボタンに変わること
+16. Entity の選択を解除する
+17. `Add to selected entity`ボタンが表示されること
+
+### ショートカットキー
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  Entity を選択する
+4.  1 キーを押す
+5.  Attribute が追加されること
+6.  1 キーを押す
+7.  パレットが開いて denote タブが選択されていること
+8.  Attribute が追加されないこと
+
+## パレットの Attribute タブの Attribute 情報フォーマット
+
+### 背景
+
+1. 6.4.48 で、文言を変更しました
+2. 6.4.49 で、文言に選択中のアイテムの数を追加し、ボタンの文言を短くしました
+3. 6.4.50 で、アイテムを選択していないときは、ボタンを表示しなくしました
+4. 6.4.51 で、value type の説明をアイコンに変更しました
+5. 6.4.55 で、Attribute 追加変更削除ボタンの表示・非表示切り替えを、有効・無効切り替えに変更しました
+6. 6.4.88 で、6.4.53 で選択アイテム数が表示されなくなっていたのを、直しました
+7. 6.4.91 で、6.4.88 で Attribute 定義がないときにパレットを開くとエラーが起きていたのを直しました
+8. 6.4.107 で、value type の説明をアイコンのみにしました。また、フラグ Attribute のアイコンをチェックボックスからフラッグに変えました
+
+### Attribute 定義がないとき
+
+1. Editor0 を選択
+2. Term モードにする
+3. `q` キーを押してパレットを開く
+4. エラーが起きないこと
+
+### Attribute 定義があるとき
+
+1. Editor1 を選択
+2. Term モードにする
+3. Attribute のない Entity を一つ選択する
+4. `q` キーを押してパレットを開く
+5. `denote` タブを選ぶ
+6. `Attribute [list icon] "denote" [add to] [remove from] the 1 item selected`が表示されること
+7. `add to`ボタンが有効であること
+8. `remove from`ボタンが無効であること
+9. `error` タブを選ぶ
+10. `Attribute [flag icon] "error" [add to] [remove from]the 1 item selected` が表示されること
+11. `add to`ボタンが有効であること
+12. `remove from`ボタンが無効であること
+13. `score` タブを選ぶ
+14. `Attribute [thermometer icon] "score" [add to] [edit object of] [remove from]the 1 item selected` が表示されること
+15. `add to`ボタンが有効であること
+16. `edit object of`ボタンが無効であること
+17. `remove from`ボタンが無効であること
+18. Entity の選択を解除する
+19. `q` キーを押してパレットを開く
+20. `denote` タブを選ぶ
+21. `Attribute [list icon] "denote"`が表示されること
+22. `error` タブを選ぶ
+23. `Attribute [flag] icon] "error"` が表示されること
+
+## 該当 Attribute を持たないアイテムを選択しているときに、パレットの Attribute 追加ボタンを有効にする
+
+### 背景
+
+1. 6.4.56 で Attribute 追加ボタンを有効にする条件を、選択アイテムが「一つでも該当 Attribute を持つ」から「一つでも該当 Attribute を持たない」に変えました
+1. 6.4.57 で無効理由を title タグで記述します
+
+### -- 手段 --
+
+1. Editor1 を選択
+2. Term モードにする
+3. Attribute のない Entity を一つ選択する
+4. `q` キーを押してパレットを開く
+5. `denote` タブを選ぶ
+6. `add to`ボタンを押す
+7. `add to`ボタンが無効になること
+8. title が`All the selected items already have this attribute.`であること
+9. Attribute のない Entity をもう一つ追加で選択する
+10. `add to`ボタンが有効になること
+
 ## パレットから Attribute の追加
 
 ### 背景
@@ -174,23 +296,3 @@
 7. title が`None of the selected items has this attribute.`であること
 8. `add to`ボタンを押す
 9. `remove form`ボタンが有効になること
-
-## 該当 Attribute を持たないアイテムを選択しているときに、パレットの Attribute 追加ボタンを有効にする
-
-### 背景
-
-1. 6.4.56 で Attribute 追加ボタンを有効にする条件を、選択アイテムが「一つでも該当 Attribute を持つ」から「一つでも該当 Attribute を持たない」に変えました
-1. 6.4.57 で無効理由を title タグで記述します
-
-### -- 手段 --
-
-1. Editor1 を選択
-2. Term モードにする
-3. Attribute のない Entity を一つ選択する
-4. `q` キーを押してパレットを開く
-5. `denote` タブを選ぶ
-6. `add to`ボタンを押す
-7. `add to`ボタンが無効になること
-8. title が`All the selected items already have this attribute.`であること
-9. Attribute のない Entity をもう一つ追加で選択する
-10. `add to`ボタンが有効になること
