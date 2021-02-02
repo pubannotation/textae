@@ -8,7 +8,7 @@ export default function (eventEmitter, commander, selectionModelEntity) {
   // Bind events about attributes.
   eventEmitter
     .on(
-      `textae.entityAndAttributePallet.attribute.create-predicate-button.click`,
+      `textae.entityAndAttributePallet.attribute.create-attribute-definition-button.click`,
       () => {
         const dialog = new CreateAttributeDefinitionDialog()
         dialog.promise.then((attrDef) => {

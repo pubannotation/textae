@@ -12,7 +12,7 @@ export default function (pallet, el, eventEmitter) {
 
   delegate(el, '.textae-editor__type-pallet__create-predicate', 'click', () =>
     eventEmitter.emit(
-      `textae.entityAndAttributePallet.attribute.create-predicate-button.click`
+      `textae.entityAndAttributePallet.attribute.create-attribute-definition-button.click`
     )
   )
 
