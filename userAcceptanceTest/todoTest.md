@@ -13,7 +13,7 @@
 2. Term モードにする
 3. Attribute のない Entity を一つ選択する
 4. `shift`キーを押しながら、`1`キーを押す
-5. `Some selected items has zero or multi this attribute.`がアラート表示されること
+5. `None of the selected items has this attribute.`がアラート表示されること
 
 ## 該当 Attribute を持つアイテムを選択しているときに、パレットの Attribute 削除ボタンを有効にする
 
