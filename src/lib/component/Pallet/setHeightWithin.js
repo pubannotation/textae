@@ -1,4 +1,4 @@
-const BUFFER = 2
+const BUFFER = 14
 
 export default function (pallet, height) {
   if (height - BUFFER <= pallet.offsetHeight) {

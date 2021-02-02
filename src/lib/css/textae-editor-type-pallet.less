@@ -24,6 +24,12 @@
   white-space: normal;
   z-index: 90;
 
+  &__container {
+    display: flex;
+    flex-direction: column;
+    max-height: 450px;
+  }
+
   &__title-bar {
     font-size: 1.7em;
     padding: 0.4em 1em;
@@ -49,7 +55,6 @@
   }
 
   &__content {
-    max-height: 450px;
     overflow-x: auto;
     overflow-y: auto;
   }
