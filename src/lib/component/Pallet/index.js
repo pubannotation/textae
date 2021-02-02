@@ -125,7 +125,7 @@ export default class Pallet {
   }
 
   get _maxHeight() {
-    return window.innerHeight
+    return document.documentElement.clientHeight
   }
 
   hide() {
