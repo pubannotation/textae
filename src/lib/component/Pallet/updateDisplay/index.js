@@ -1,5 +1,5 @@
-import setWidthWithin from './setWidthWithin'
-import setHeightWithin from './setHeightWithin'
+import setWidthWithin from '../setWidthWithin'
+import setHeightWithin from '../setHeightWithin'
 
 export default function (editor, pallet, annotationType, content) {
   // Wrap the content in a special class so that you can determine if the target of the event is an element of the palette

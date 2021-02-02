@@ -2,8 +2,8 @@ import delegate from 'delegate'
 import enableJqueryDraggable from './enableJqueryDraggable'
 import getMousePoint from './getMousePoint'
 import createPalletElement from './createPalletElement'
-import setWidthWithin from './updateDisplay/setWidthWithin'
-import setHeightWithin from './updateDisplay/setHeightWithin'
+import setWidthWithin from './setWidthWithin'
+import setHeightWithin from './setHeightWithin'
 
 export default class Pallet {
   constructor(editor, annotationType) {
