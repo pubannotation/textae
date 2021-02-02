@@ -2,7 +2,7 @@ import ValidationDialog from '../component/ValidationDialog'
 
 export default function (editor, history) {
   editor.eventEmitter.on(
-    'textae-event.annotationData.all.change',
+    'textae-event.annotation-data.all.change',
     (_, __, hasError, reject) => {
       history.resetAllHistories()
 

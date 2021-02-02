@@ -145,7 +145,7 @@ export default class SpanContainer {
       this
     )
     this._addDenotation(newOne, oldSpan)
-    this._emitter.emit('textae-event.annotationData.span.move')
+    this._emitter.emit('textae-event.annotation-data.span.move')
 
     return {
       begin: oldSpan.begin,
@@ -171,7 +171,7 @@ export default class SpanContainer {
       this
     )
     this._addBlock(newOne, oldSpan)
-    this._emitter.emit('textae-event.annotationData.span.move')
+    this._emitter.emit('textae-event.annotation-data.span.move')
 
     return {
       begin: oldSpan.begin,
@@ -202,13 +202,13 @@ export default class SpanContainer {
       oldSpan.passesAllEntitiesTo(span)
     }
 
-    this._emitter.emit(`textae-event.annotationData.span.add`, span)
+    this._emitter.emit(`textae-event.annotation-data.span.add`, span)
   }
 
   _removeDenotation(denotationSpan) {
     this._denotations.delete(denotationSpan.id)
     this._emitter.emit(
-      `textae-event.annotationData.span.remove`,
+      `textae-event.annotation-data.span.remove`,
       denotationSpan
     )
     return denotationSpan
@@ -216,7 +216,7 @@ export default class SpanContainer {
 
   _removeBlock(blockSpan) {
     this._blocks.delete(blockSpan.id)
-    this._emitter.emit(`textae-event.annotationData.span.remove`, blockSpan)
+    this._emitter.emit(`textae-event.annotation-data.span.remove`, blockSpan)
     this._textBox.forceUpdate()
     return blockSpan
   }

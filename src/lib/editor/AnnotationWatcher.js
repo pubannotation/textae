@@ -22,7 +22,7 @@ export default class AnnotationWatcher {
     })
 
     editor.eventEmitter.on(
-      'textae-event.annotationData.all.change',
+      'textae-event.annotation-data.all.change',
       (_, multitrack, hasError) => {
         if (multitrack || hasError) {
           this._observable.set(true)

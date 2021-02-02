@@ -54,7 +54,7 @@ export default class AnnotationData {
     const { multitrack, hasError, rejects } = parseAnnotation(this, rawData)
 
     this._editor.eventEmitter.emit(
-      'textae-event.annotationData.all.change',
+      'textae-event.annotation-data.all.change',
       this,
       multitrack,
       hasError,

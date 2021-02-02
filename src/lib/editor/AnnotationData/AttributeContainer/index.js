@@ -32,7 +32,7 @@ export default class AttributeContainer extends IdIssueContainer {
       model.obj = newObj
     }
 
-    super._emit(`textae-event.annotationData.attribute.change`, model)
+    super._emit(`textae-event.annotation-data.attribute.change`, model)
 
     return model
   }
@@ -42,7 +42,7 @@ export default class AttributeContainer extends IdIssueContainer {
 
     console.assert(instance, `There are no attribute ${id} to delete!`)
 
-    super._emit('textae-event.annotationData.attribute.remove', instance)
+    super._emit('textae-event.annotation-data.attribute.remove', instance)
 
     return instance
   }

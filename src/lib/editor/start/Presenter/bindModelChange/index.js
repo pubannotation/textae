@@ -4,7 +4,7 @@ import forEditable from './forEditable'
 
 export default function (editor, editMode, mode) {
   editor.eventEmitter.on(
-    'textae-event.annotationData.all.change',
+    'textae-event.annotation-data.all.change',
     (annotationData, multitrack) => {
       if (mode !== 'edit') {
         forView(editMode, annotationData)

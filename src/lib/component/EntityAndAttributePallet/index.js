@@ -41,10 +41,10 @@ export default class EntityAndAttributePallet extends Pallet {
 
     // Reload when instance addition / deletion is undo / redo.
     editor.eventEmitter
-      .on('textae-event.annotationData.attribute.add', () =>
+      .on('textae-event.annotation-data.attribute.add', () =>
         this.updateDisplay()
       )
-      .on('textae-event.annotationData.attribute.remove', () =>
+      .on('textae-event.annotation-data.attribute.remove', () =>
         this.updateDisplay()
       )
 
