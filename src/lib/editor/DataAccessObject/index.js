@@ -55,7 +55,10 @@ export default class DataAccessObject {
             annotation,
             url
           )
-          this._editor.eventEmitter.emit('textae-event.annotation.setUrl', url)
+          this._editor.eventEmitter.emit(
+            'taxtae-event.data-access-object.annotation.url.set',
+            url
+          )
           this._urlOfLastRead.annotation = url
         } else {
           this._editor.eventEmitter.emit(
