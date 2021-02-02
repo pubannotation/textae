@@ -48,7 +48,7 @@ export default function (
       )
     )
     .on(
-      'textae-event.configuration.load',
+      'taxtae-event.annotation-data.configuration.load',
       (sourceType, source, config, loadedAnnotation = null) => {
         // If an annotation that does not contain a configuration is loaded
         // and a configuration is loaded from a taxtae attribute value,
@@ -77,15 +77,17 @@ export default function (
         }
       }
     )
-    .on('textae-event.configuration.loadError', (sourceType, source) =>
-      alertifyjs.error(
-        `${toSourceString(
-          sourceType,
-          source
-        )} is not a configuration file or its format is invalid.`
-      )
+    .on(
+      'taxtae-event.annotation-data.configuration.loadError',
+      (sourceType, source) =>
+        alertifyjs.error(
+          `${toSourceString(
+            sourceType,
+            source
+          )} is not a configuration file or its format is invalid.`
+        )
     )
-    .on('textae-event.configuration.save', () => {
+    .on('taxtae-event.annotation-data.configuration.save', () => {
       originalData.configuration = Object.assign(
         originalData.configuration,
         annotationData.typeDefinition.config

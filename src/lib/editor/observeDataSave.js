@@ -6,7 +6,7 @@ export default function (editor, history) {
       history.annotatioSaved()
       alertifyjs.success('annotation saved')
     })
-    .on('textae-event.configuration.save', () => {
+    .on('taxtae-event.annotation-data.configuration.save', () => {
       history.configurationSaved()
       alertifyjs.success('configuration saved')
     })

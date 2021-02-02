@@ -78,7 +78,7 @@ export default class DataAccessObject {
       url,
       (source, config) => {
         this._editor.eventEmitter.emit(
-          'textae-event.configuration.load',
+          'taxtae-event.annotation-data.configuration.load',
           'url',
           source,
           config,
@@ -110,7 +110,7 @@ export default class DataAccessObject {
         this._ajaxSender,
         url,
         JSON.stringify(editedData),
-        'textae-event.configuration.save'
+        'taxtae-event.annotation-data.configuration.save'
       )
     }
   }

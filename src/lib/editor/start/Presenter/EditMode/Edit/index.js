@@ -28,7 +28,9 @@ export default class Edit {
     editor.eventEmitter
       .on('textae-event.editor.unselect', () => pallet.hide()) // Close pallet when selecting other editor.
       .on('textae-event.history.change', () => pallet.updateDisplay()) // Update save config button when changing history and savigng configuration.
-      .on('textae-event.configuration.save', () => pallet.updateDisplay())
+      .on('taxtae-event.annotation-data.configuration.save', () =>
+        pallet.updateDisplay()
+      )
       .on(`textae-event.type-definition.type.lock`, () =>
         pallet.updateDisplay()
       )
