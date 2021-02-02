@@ -2,7 +2,7 @@ import alertifyjs from 'alertifyjs'
 
 export default function (editor, history) {
   editor.eventEmitter
-    .on('taxtae-event.annotation-data.annotation.save', () => {
+    .on('taxtae-event.data-access-object.annotation.save', () => {
       history.annotatioSaved()
       alertifyjs.success('annotation saved')
     })
