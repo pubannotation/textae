@@ -120,7 +120,7 @@ export default function (eventEmitter, commander, selectionModelEntity) {
         )
     )
     .on(
-      'textae.entityAndAttributePallet.attribute.edit-attribute-instance-button.click',
+      'textae.entityAndAttributePallet.attribute.edit-object-of-attribute-instance-button.click',
       (attrDef) => {
         const attribute = selectionModelEntity.findSelectedAttributeWithSamePredicate(
           attrDef.pred
