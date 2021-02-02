@@ -100,7 +100,7 @@ export default function (eventEmitter, commander, selectionModelEntity) {
       }
     )
     .on(
-      `textae.entityAndAttributePallet.attribute.remove-value-button.click`,
+      `textae.entityAndAttributePallet.attribute.remove-value-from-attribute-definition-button.click`,
       (attrDef, index) =>
         commander.invoke(
           commander.factory.removeValueFromAttributeDefinitionCommand(

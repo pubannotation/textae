@@ -51,7 +51,7 @@ export default function (pallet, el, eventEmitter) {
 
   delegate(el, '.textae-editor__type-pallet__remove-value', 'click', (e) =>
     eventEmitter.emit(
-      `textae.entityAndAttributePallet.attribute.remove-value-button.click`,
+      `textae.entityAndAttributePallet.attribute.remove-value-from-attribute-definition-button.click`,
       pallet.attrDef,
       e.target.dataset.index
     )
