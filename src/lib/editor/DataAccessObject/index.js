@@ -18,7 +18,7 @@ export default class DataAccessObject {
     this._cursorChanger = new CursorChanger(editor)
     this._ajaxSender = new AjaxSender(
       () => this._cursorChanger.startWait(),
-      () => this._editor.eventEmitter.emit('textae.saveError'),
+      () => this._editor.eventEmitter.emit('textae-event.saveError'),
       () => this._cursorChanger.endWait()
     )
 
@@ -46,17 +46,17 @@ export default class DataAccessObject {
       (source, annotation) => {
         if (annotation && annotation.text) {
           this._editor.eventEmitter.emit(
-            'textae.annotation.load',
+            'textae-event.annotation.load',
             'url',
             source,
             annotation,
             url
           )
-          this._editor.eventEmitter.emit('textae.annotation.setUrl', url)
+          this._editor.eventEmitter.emit('textae-event.annotation.setUrl', url)
           this._urlOfLastRead.annotation = url
         } else {
           this._editor.eventEmitter.emit(
-            'textae.annotation.loadError',
+            'textae-event.annotation.loadError',
             'url',
             source
           )
@@ -69,13 +69,13 @@ export default class DataAccessObject {
   // The second argument is the annotation you want to be notified of
   // when the configuration loading is complete.
   // This is supposed to be used when reading an annotation that does not contain a configuration
-  // and then reading the configuration set by the attribute value of the textae.
+  // and then reading the configuration set by the attribute value of the textae-event.
   loadConfigulation(url, annotation = null) {
     get(
       url,
       (source, config) => {
         this._editor.eventEmitter.emit(
-          'textae.configuration.load',
+          'textae-event.configuration.load',
           'url',
           source,
           config,
@@ -93,7 +93,7 @@ export default class DataAccessObject {
         this._ajaxSender,
         url,
         JSON.stringify(editedData),
-        'textae.annotation.save'
+        'textae-event.annotation.save'
       )
     }
   }
@@ -107,7 +107,7 @@ export default class DataAccessObject {
         this._ajaxSender,
         url,
         JSON.stringify(editedData),
-        'textae.configuration.save'
+        'textae-event.configuration.save'
       )
     }
   }

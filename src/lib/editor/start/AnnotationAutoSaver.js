@@ -22,15 +22,15 @@ export default class AnnotationAutoSaver {
     })
 
     editor.eventEmitter
-      .on('textae.annotation.load', () => this._disabled())
-      .on('textae.saveError', () => this._disabled())
-      .on('textae.annotation.setUrl', (url) =>
+      .on('textae-event.annotation.load', () => this._disabled())
+      .on('textae-event.saveError', () => this._disabled())
+      .on('textae-event.annotation.setUrl', (url) =>
         editor.eventEmitter.emit(
-          'textae.annotationAutoSaver.enable',
+          'textae-event.annotationAutoSaver.enable',
           Boolean(saveToParameter || url)
         )
       )
-      .on('textae.control.button.push', ({ buttonName, state }) => {
+      .on('textae-event.control.button.push', ({ buttonName, state }) => {
         // If there is something to save when the 'write-auto' button is pushed,
         // it will be saved immediately.
         if (

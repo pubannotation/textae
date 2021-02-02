@@ -26,10 +26,10 @@ export default class Edit {
     )
 
     editor.eventEmitter
-      .on('textae.editor.unselect', () => pallet.hide()) // Close pallet when selecting other editor.
-      .on('textae.history.change', () => pallet.updateDisplay()) // Update save config button when changing history and savigng configuration.
-      .on('textae.configuration.save', () => pallet.updateDisplay())
-      .on(`textae.typeDefinition.type.lock`, () => pallet.updateDisplay())
+      .on('textae-event.editor.unselect', () => pallet.hide()) // Close pallet when selecting other editor.
+      .on('textae-event.history.change', () => pallet.updateDisplay()) // Update save config button when changing history and savigng configuration.
+      .on('textae-event.configuration.save', () => pallet.updateDisplay())
+      .on(`textae-event.typeDefinition.type.lock`, () => pallet.updateDisplay())
 
     editor[0].appendChild(pallet.el)
   }

@@ -21,7 +21,7 @@ export default class ModelContainer {
 
   add(instance) {
     const newInstance = this._addToContainer(instance)
-    this._emit(`textae.annotationData.${this._name}.add`, newInstance)
+    this._emit(`textae-event.annotationData.${this._name}.add`, newInstance)
     return newInstance
   }
 
@@ -44,7 +44,7 @@ export default class ModelContainer {
   changeType(id, newType) {
     const instance = this._container.get(id)
     instance.typeName = newType
-    this._emit(`textae.annotationData.${this._name}.change`, instance)
+    this._emit(`textae-event.annotationData.${this._name}.change`, instance)
     return instance
   }
 
@@ -52,7 +52,7 @@ export default class ModelContainer {
     const instance = this._container.get(id)
     if (instance) {
       this._container.delete(id)
-      this._emit(`textae.annotationData.${this._name}.remove`, instance)
+      this._emit(`textae-event.annotationData.${this._name}.remove`, instance)
     }
     return instance
   }

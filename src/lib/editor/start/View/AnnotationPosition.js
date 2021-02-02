@@ -7,7 +7,7 @@ export default class AnnotationPosition {
 
   async update() {
     this._editor.eventEmitter.emit(
-      'textae.annotationPosition.position-update.start'
+      'textae-event.annotationPosition.position-update.start'
     )
 
     this._annotationData.span.arrangeDenotationEntityPosition()
@@ -19,7 +19,7 @@ export default class AnnotationPosition {
 
     this._renderer.arrangeRelationPositionAll()
     this._editor.eventEmitter.emit(
-      'textae.annotationPosition.position-update.end'
+      'textae-event.annotationPosition.position-update.end'
     )
   }
 }

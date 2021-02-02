@@ -120,7 +120,7 @@ export default class History {
   }
 
   _trigger() {
-    this._eventEmitter.emit('textae.history.change', this)
+    this._eventEmitter.emit('textae-event.history.change', this)
   }
 
   _removeConfigurationOperationsFromHistory() {

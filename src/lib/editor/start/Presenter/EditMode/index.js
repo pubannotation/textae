@@ -76,7 +76,7 @@ export default class EditMode {
     // The jsPlumbConnetion has an original event mecanism.
     // We can only bind the connection directory.
     editor.eventEmitter.on(
-      'textae.editor.jsPlumbConnection.click',
+      'textae-event.editor.jsPlumbConnection.click',
       (jsPlumbConnection, event) => {
         // The EventHandlar for clieck event of jsPlumbConnection.
         this._getHandler().jsPlumbConnectionClicked(jsPlumbConnection, event)
@@ -84,7 +84,7 @@ export default class EditMode {
     )
 
     editor.eventEmitter.on(
-      'textae.editTypeDialog.attribute.value.edit',
+      'textae-event.editTypeDialog.attribute.value.edit',
       (attrDef) => {
         switch (this._stateMachine.currentState) {
           case MODE.EDIT_DENOTATION_WITHOUT_RELATION:

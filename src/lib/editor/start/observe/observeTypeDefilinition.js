@@ -1,5 +1,5 @@
 export default function (editor, history) {
-  editor.eventEmitter.on('textae.typeDefinition.reset', () =>
+  editor.eventEmitter.on('textae-event.typeDefinition.reset', () =>
     history.resetConfiguration()
   )
 }

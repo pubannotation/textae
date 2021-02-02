@@ -2,13 +2,13 @@ export default function (editor, contextMenu) {
   // add context menu
   editor[0].appendChild(contextMenu.el)
   editor.eventEmitter
-    .on('textae.control.button.push', (data) =>
+    .on('textae-event.control.button.push', (data) =>
       contextMenu.updateButtonPushState(data.buttonName, data.state)
     )
-    .on('textae.control.buttons.change', (enableButtons) =>
+    .on('textae-event.control.buttons.change', (enableButtons) =>
       contextMenu.updateAllButtonEnableState(enableButtons)
     )
-    .on('textae.editor.key.input', () => contextMenu.hide())
+    .on('textae-event.editor.key.input', () => contextMenu.hide())
 
   // Close ContextMenu when another editor is clicked
   window.addEventListener('click', (e) => {

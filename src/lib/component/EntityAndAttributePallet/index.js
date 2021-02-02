@@ -23,29 +23,33 @@ export default class EntityAndAttributePallet extends Pallet {
     bindAttributeEvent(this, this._el, editor.eventEmitter)
 
     editor.eventEmitter
-      .on('textae.typeDefinition.attribute.create', (pred) => {
+      .on('textae-event.typeDefinition.attribute.create', (pred) => {
         // Reload pallet when reverting deleted attribute.
         this.showAttribute(pred)
       })
-      .on('textae.typeDefinition.attribute.change', (pred) => {
+      .on('textae-event.typeDefinition.attribute.change', (pred) => {
         // Reload pallet when reverting change attribute.
         this.showAttribute(pred)
       })
-      .on('textae.typeDefinition.attribute.delete', () => {
+      .on('textae-event.typeDefinition.attribute.delete', () => {
         // Reload pallet when undo deleted attribute.
         this.showAttribute(null)
       })
-      .on('textae.typeDefinition.attribute.move', () => {
+      .on('textae-event.typeDefinition.attribute.move', () => {
         this.updateDisplay()
       })
 
     // Reload when instance addition / deletion is undo / redo.
     editor.eventEmitter
-      .on('textae.annotationData.attribute.add', () => this.updateDisplay())
-      .on('textae.annotationData.attribute.remove', () => this.updateDisplay())
+      .on('textae-event.annotationData.attribute.add', () =>
+        this.updateDisplay()
+      )
+      .on('textae-event.annotationData.attribute.remove', () =>
+        this.updateDisplay()
+      )
 
     // Update selected entity label
-    editor.eventEmitter.on('textae.selection.entity.change', () =>
+    editor.eventEmitter.on('textae-event.selection.entity.change', () =>
       this.updateDisplay()
     )
   }

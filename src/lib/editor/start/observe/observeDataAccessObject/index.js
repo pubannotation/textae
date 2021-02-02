@@ -14,7 +14,7 @@ export default function (
   buttonController
 ) {
   editor.eventEmitter
-    .on('textae.annotation.load', (sourceType, source, annotation) => {
+    .on('textae-event.annotation.load', (sourceType, source, annotation) => {
       if (
         !setAnnotation(
           spanConfig,
@@ -37,9 +37,9 @@ export default function (
         originalData.configuration = annotation.config
       }
 
-      editor.eventEmitter.emit('textae.pallet.update')
+      editor.eventEmitter.emit('textae-event.pallet.update')
     })
-    .on('textae.annotation.loadError', (sourceType, source) =>
+    .on('textae-event.annotation.loadError', (sourceType, source) =>
       alertifyjs.error(
         `${toSourceString(
           sourceType,
@@ -48,7 +48,7 @@ export default function (
       )
     )
     .on(
-      'textae.configuration.load',
+      'textae-event.configuration.load',
       (sourceType, source, config, loadedAnnotation = null) => {
         // If an annotation that does not contain a configuration is loaded
         // and a configuration is loaded from a taxtae attribute value,
@@ -77,7 +77,7 @@ export default function (
         }
       }
     )
-    .on('textae.configuration.loadError', (sourceType, source) =>
+    .on('textae-event.configuration.loadError', (sourceType, source) =>
       alertifyjs.error(
         `${toSourceString(
           sourceType,
@@ -85,7 +85,7 @@ export default function (
         )} is not a configuration file or its format is invalid.`
       )
     )
-    .on('textae.configuration.save', () => {
+    .on('textae-event.configuration.save', () => {
       originalData.configuration = Object.assign(
         originalData.configuration,
         annotationData.typeDefinition.config

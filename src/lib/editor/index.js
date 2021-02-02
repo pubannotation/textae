@@ -26,7 +26,7 @@ export default function () {
 
   const annotationWatcher = new AnnotationWatcher(this)
   annotationWatcher.bind((val) =>
-    this.eventEmitter.emit('textae.control.writeButton.transit', val)
+    this.eventEmitter.emit('textae-event.control.writeButton.transit', val)
   )
   observeDataSave(this, history)
   observeModelChange(this, history)

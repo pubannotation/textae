@@ -10,40 +10,42 @@ export default function (
   const spanRenderer = new SpanRenderer(editor, entityRenderer)
 
   editor.eventEmitter
-    .on('textae.annotationData.all.change', () => {
+    .on('textae-event.annotationData.all.change', () => {
       renderAllAnnotations(editor, annotationData, spanRenderer)
       relationRenderer.reset()
     })
-    .on('textae.annotationData.span.add', (span) => spanRenderer.render(span))
-    .on('textae.annotationData.span.remove', (span) => {
+    .on('textae-event.annotationData.span.add', (span) =>
+      spanRenderer.render(span)
+    )
+    .on('textae-event.annotationData.span.remove', (span) => {
       spanRenderer.remove(span)
       span.destroyGridElement()
     })
-    .on('textae.annotationData.entity.add', (entity) => {
+    .on('textae-event.annotationData.entity.add', (entity) => {
       entityRenderer.render(entity)
     })
-    .on('textae.annotationData.entity.change', (entity) => {
+    .on('textae-event.annotationData.entity.change', (entity) => {
       entityRenderer.change(entity)
     })
-    .on('textae.annotationData.entity.remove', (entity) => {
+    .on('textae-event.annotationData.entity.remove', (entity) => {
       entityRenderer.remove(entity)
     })
-    .on('textae.annotationData.entity.move', (entities) => {
+    .on('textae-event.annotationData.entity.move', (entities) => {
       for (const entity of entities) {
         entityRenderer.remove(entity)
         entityRenderer.render(entity)
       }
     })
-    .on('textae.annotationData.relation.change', (relation) => {
+    .on('textae-event.annotationData.relation.change', (relation) => {
       relationRenderer.change(relation)
     })
-    .on('textae.annotationData.relation.remove', (relation) => {
+    .on('textae-event.annotationData.relation.remove', (relation) => {
       relationRenderer.remove(relation)
     })
-    .on('textae.annotationData.attribute.add', (attribute) => {
+    .on('textae-event.annotationData.attribute.add', (attribute) => {
       entityRenderer.change(attribute.entity)
     })
-    .on('textae.command.attributes.change', (attributes) => {
+    .on('textae-event.command.attributes.change', (attributes) => {
       for (const entity of attributes.reduce(
         (prev, curr) => prev.add(curr.entity),
         new Set()
@@ -51,7 +53,7 @@ export default function (
         entityRenderer.change(entity)
       }
     })
-    .on('textae.annotationData.attribute.remove', (attribute) => {
+    .on('textae-event.annotationData.attribute.remove', (attribute) => {
       entityRenderer.change(attribute.entity)
     })
 }

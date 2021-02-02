@@ -15,16 +15,16 @@ export default class SelectionModel {
 
     // Bind the selection model to the model.
     eventEmitter
-      .on('textae.annotationData.span.remove', (span) =>
+      .on('textae-event.annotationData.span.remove', (span) =>
         this.span.removeInstance(span)
       )
-      .on('textae.annotationData.entity.remove', (entity) =>
+      .on('textae-event.annotationData.entity.remove', (entity) =>
         this.entity.removeInstance(entity)
       )
-      .on('textae.annotationData.relation.remove', (relation) =>
+      .on('textae-event.annotationData.relation.remove', (relation) =>
         this.relation.removeInstance(relation)
       )
-      .on('textae.annotationData.all.change', () => {
+      .on('textae-event.annotationData.all.change', () => {
         // When the annotations are reset, the view will remove all HTML elements.
         // The selection model will release the selection instance without any manipulation.
         this.span.clear()

@@ -96,7 +96,7 @@ export default class EventMap {
 
   unselect() {
     this._editor[0].classList.remove('textae-editor--active')
-    this._editor.eventEmitter.emit('textae.editor.unselect')
+    this._editor.eventEmitter.emit('textae-event.editor.unselect')
   }
 
   selectLeft(shiftKey) {

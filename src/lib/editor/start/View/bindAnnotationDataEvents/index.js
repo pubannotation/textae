@@ -9,16 +9,16 @@ export default function (editor, annotationPosition, textBox) {
   }, 100)
 
   editor.eventEmitter
-    .on('textae.annotationData.all.change', debouncedUpdatePosition)
-    .on('textae.annotationData.entity.add', debouncedUpdatePosition)
-    .on('textae.annotationData.entity.change', debouncedUpdatePosition)
-    .on('textae.annotationData.entity.remove', debouncedUpdatePosition)
-    .on('textae.annotationData.entity.move', debouncedUpdatePosition)
-    .on('textae.annotationData.relation.add', debouncedUpdatePosition)
-    .on('textae.annotationData.attribute.add', debouncedUpdatePosition)
-    .on('textae.annotationData.attribute.change', debouncedUpdatePosition)
-    .on('textae.annotationData.attribute.remove', debouncedUpdatePosition)
-    .on('textae.annotationData.span.move', () => {
+    .on('textae-event.annotationData.all.change', debouncedUpdatePosition)
+    .on('textae-event.annotationData.entity.add', debouncedUpdatePosition)
+    .on('textae-event.annotationData.entity.change', debouncedUpdatePosition)
+    .on('textae-event.annotationData.entity.remove', debouncedUpdatePosition)
+    .on('textae-event.annotationData.entity.move', debouncedUpdatePosition)
+    .on('textae-event.annotationData.relation.add', debouncedUpdatePosition)
+    .on('textae-event.annotationData.attribute.add', debouncedUpdatePosition)
+    .on('textae-event.annotationData.attribute.change', debouncedUpdatePosition)
+    .on('textae-event.annotationData.attribute.remove', debouncedUpdatePosition)
+    .on('textae-event.annotationData.span.move', () => {
       // Move grids and relations synchronously.
       // If grid and relations move asynchronously,
       // grid positions in cache may be deleted before render relation when moving span frequently.

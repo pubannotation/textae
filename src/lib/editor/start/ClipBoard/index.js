@@ -14,12 +14,12 @@ export default class ClipBoard {
     this._items = []
 
     editor.eventEmitter
-      .on('textae.annotationData.entity.remove', (entity) => {
+      .on('textae-event.annotationData.entity.remove', (entity) => {
         if (this.hasCuttingItem) {
           this._updateItems(new Set(this._items.filter((e) => e != entity)))
         }
       })
-      .on('textae.editMode.transition', () => this._updateItems())
+      .on('textae-event.editMode.transition', () => this._updateItems())
   }
 
   get hasCopyingItem() {
@@ -86,7 +86,7 @@ export default class ClipBoard {
     this._items = [...newItems]
 
     this._editor.eventEmitter.emit(
-      'textae.clipBoard.change',
+      'textae-event.clipBoard.change',
       this._cuttingItems,
       oldItems
     )

@@ -23,7 +23,7 @@ export default class EnableState {
 
   propagate() {
     this._editor.eventEmitter.emit(
-      'textae.control.buttons.change',
+      'textae-event.control.buttons.change',
       this._states
     )
   }

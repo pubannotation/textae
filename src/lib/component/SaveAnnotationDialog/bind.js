@@ -20,13 +20,15 @@ export default function (editor, element, data, closeDialog, saveAnnotation) {
     const downloadPath = createDownloadPath(data)
     aTag.setAttribute('href', downloadPath)
     aTag.setAttribute('download', aTag.previousElementSibling.value)
-    editor.eventEmitter.emit('textae.saveAnnotationDialog.download.click')
+    editor.eventEmitter.emit('textae-event.saveAnnotationDialog.download.click')
     closeDialog()
   })
 
   delegate(element, 'a.viewsource', 'click', () => {
     window.open(createDownloadPath(data), '_blank')
-    editor.eventEmitter.emit('textae.saveAnnotationDialog.viewsource.click')
+    editor.eventEmitter.emit(
+      'textae-event.saveAnnotationDialog.viewsource.click'
+    )
     closeDialog()
   })
 }

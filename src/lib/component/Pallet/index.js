@@ -31,14 +31,14 @@ export default class Pallet {
       this._el,
       `.textae-editor__type-pallet__read-button`,
       'click',
-      () => editor.eventEmitter.emit('textae.pallet.read-button.click')
+      () => editor.eventEmitter.emit('textae-event.pallet.read-button.click')
     )
 
     delegate(
       this._el,
       '.textae-editor__type-pallet__write-button',
       'click',
-      () => editor.eventEmitter.emit('textae.pallet.write-button.click')
+      () => editor.eventEmitter.emit('textae-event.pallet.write-button.click')
     )
 
     delegate(

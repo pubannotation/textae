@@ -7,14 +7,14 @@ export default function (files, editor) {
   readFile(file).then(({ target }) => {
     if (isJSON(target.result)) {
       editor.eventEmitter.emit(
-        'textae.configuration.load',
+        'textae-event.configuration.load',
         'local file',
         file.name,
         JSON.parse(target.result)
       )
     } else {
       editor.eventEmitter.emit(
-        'textae.configuration.loadError',
+        'textae-event.configuration.loadError',
         'local file',
         file.name
       )

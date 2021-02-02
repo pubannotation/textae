@@ -128,10 +128,10 @@ export default function (
   )
 
   editor.eventEmitter
-    .on('textae.pallet.read-button.click', () =>
+    .on('textae-event.pallet.read-button.click', () =>
       persistenceInterface.importConfiguration()
     )
-    .on('textae.pallet.write-button.click', () =>
+    .on('textae-event.pallet.write-button.click', () =>
       persistenceInterface.uploadConfiguration()
     )
 

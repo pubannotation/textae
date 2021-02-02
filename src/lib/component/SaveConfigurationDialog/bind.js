@@ -26,7 +26,9 @@ export default function (
     const downloadPath = createDownloadPath(editedData)
     aTag.setAttribute('href', downloadPath)
     aTag.setAttribute('download', aTag.previousElementSibling.value)
-    editor.eventEmitter.emit('textae.saveConfigurationDialog.download.click')
+    editor.eventEmitter.emit(
+      'textae-event.saveConfigurationDialog.download.click'
+    )
     dialogClose()
   })
 }

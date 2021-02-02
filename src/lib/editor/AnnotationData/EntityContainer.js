@@ -70,7 +70,7 @@ export default class EntityContainer extends IdIssueContainer {
     for (const entity of entities) {
       entity.span = span
     }
-    this._emit(`textae.annotationData.entity.move`, entities)
+    this._emit(`textae-event.annotationData.entity.move`, entities)
   }
 
   getAllOfSpan(span) {

@@ -9,7 +9,7 @@ export default function (eventEmitter, commander, selectionModelEntity) {
   // Bind events about attributes.
   eventEmitter
     .on(
-      `textae.entityAndAttributePallet.attribute.create-attribute-definition-button.click`,
+      `textae-event.entityAndAttributePallet.attribute.create-attribute-definition-button.click`,
       () => {
         const dialog = new CreateAttributeDefinitionDialog()
         dialog.promise.then((attrDef) => {
@@ -24,7 +24,7 @@ export default function (eventEmitter, commander, selectionModelEntity) {
       }
     )
     .on(
-      `textae.entityAndAttributePallet.attribute.edit-attribute-definition-button.click`,
+      `textae-event.entityAndAttributePallet.attribute.edit-attribute-definition-button.click`,
       (attrDef) => {
         const dialog = new EditAttributeDefinitionDialog(attrDef)
         dialog.promise.then((changedProperties) => {
@@ -42,14 +42,14 @@ export default function (eventEmitter, commander, selectionModelEntity) {
       }
     )
     .on(
-      `textae.entityAndAttributePallet.attribute.delete-attribute-definition-button.click`,
+      `textae-event.entityAndAttributePallet.attribute.delete-attribute-definition-button.click`,
       (attrDef) =>
         commander.invoke(
           commander.factory.deleteAttributeDefinitionCommand(attrDef)
         )
     )
     .on(
-      `textae.entityAndAttributePallet.attribute.add-value-of-attribute-definition-button.click`,
+      `textae-event.entityAndAttributePallet.attribute.add-value-of-attribute-definition-button.click`,
       (attrDef) => {
         const dialog = new EditValueToAttributeDefinitionDialog(
           attrDef.valueType
@@ -68,7 +68,7 @@ export default function (eventEmitter, commander, selectionModelEntity) {
       }
     )
     .on(
-      `textae.entityAndAttributePallet.attribute.value-of-attribute-definition-label.click`,
+      `textae-event.entityAndAttributePallet.attribute.value-of-attribute-definition-label.click`,
       (attrDef, newObj) => {
         if (selectionModelEntity.selectedWithAttributeOf(attrDef.pred)) {
           if (
@@ -98,7 +98,7 @@ export default function (eventEmitter, commander, selectionModelEntity) {
       }
     )
     .on(
-      `textae.entityAndAttributePallet.attribute.edit-value-of-attribute-definition-button.click`,
+      `textae-event.entityAndAttributePallet.attribute.edit-value-of-attribute-definition-button.click`,
       (attrDef, index) => {
         const oldValue = attrDef.JSON.values[index]
         const dialog = new EditValueToAttributeDefinitionDialog(
@@ -131,7 +131,7 @@ export default function (eventEmitter, commander, selectionModelEntity) {
       }
     )
     .on(
-      `textae.entityAndAttributePallet.attribute.remove-value-from-attribute-definition-button.click`,
+      `textae-event.entityAndAttributePallet.attribute.remove-value-from-attribute-definition-button.click`,
       (attrDef, index) =>
         commander.invoke(
           commander.factory.removeValueFromAttributeDefinitionCommand(
@@ -141,7 +141,7 @@ export default function (eventEmitter, commander, selectionModelEntity) {
         )
     )
     .on(
-      'textae.entityAndAttributePallet.add-attribute-instance-button.click',
+      'textae-event.entityAndAttributePallet.add-attribute-instance-button.click',
       (attrDef) =>
         commander.invoke(
           commander.factory.createAttributeToItemsCommand(
@@ -151,7 +151,7 @@ export default function (eventEmitter, commander, selectionModelEntity) {
         )
     )
     .on(
-      'textae.entityAndAttributePallet.attribute.edit-object-of-attribute-instance-button.click',
+      'textae-event.entityAndAttributePallet.attribute.edit-object-of-attribute-instance-button.click',
       (attrDef) => {
         const attribute = selectionModelEntity.findSelectedAttributeWithSamePredicate(
           attrDef.pred
@@ -179,7 +179,7 @@ export default function (eventEmitter, commander, selectionModelEntity) {
       }
     )
     .on(
-      'textae.entityAndAttributePallet.attribute.remove-attribute-instance-button.click',
+      'textae-event.entityAndAttributePallet.attribute.remove-attribute-instance-button.click',
       (attrDef) =>
         commander.invoke(
           commander.factory.removeAttributesFromItemsByPredCommand(
@@ -189,7 +189,7 @@ export default function (eventEmitter, commander, selectionModelEntity) {
         )
     )
     .on(
-      'textae.entityAndAttributePallet.attribute.tab.drop',
+      'textae-event.entityAndAttributePallet.attribute.tab.drop',
       (oldIndex, newIndex) => {
         commander.invoke(
           commander.factory.moveAttributeDefintionComannd(oldIndex, newIndex)

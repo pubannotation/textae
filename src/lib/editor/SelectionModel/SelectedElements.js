@@ -93,6 +93,6 @@ export default class SelectedElements {
   }
 
   _triggerChange() {
-    this._emitter.emit(`textae.selection.${this._kindName}.change`)
+    this._emitter.emit(`textae-event.selection.${this._kindName}.change`)
   }
 }

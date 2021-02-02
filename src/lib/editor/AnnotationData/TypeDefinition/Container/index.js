@@ -55,7 +55,7 @@ export default class Container {
   replace(id, newType) {
     this._definedTypes.replace(id, newType)
     this._editor.eventEmitter.emit(
-      `textae.typeDefinition.${this._annotationType}.type.change`,
+      `textae-event.typeDefinition.${this._annotationType}.type.change`,
       newType.id
     )
   }
@@ -125,7 +125,7 @@ export default class Container {
     console.assert(id, 'id is necessary!')
     this._defaultType = id
     this._editor.eventEmitter.emit(
-      `textae.typeDefinition.${this._annotationType}.type.default.change`
+      `textae-event.typeDefinition.${this._annotationType}.type.default.change`
     )
   }
 
@@ -163,7 +163,7 @@ export default class Container {
   delete(id) {
     this._definedTypes.delete(id)
     this._editor.eventEmitter.emit(
-      `textae.typeDefinition.${this._annotationType}.type.change`,
+      `textae-event.typeDefinition.${this._annotationType}.type.change`,
       id
     )
   }

@@ -8,13 +8,13 @@ export default function (editor, controlBar) {
   stickInParent(controlBar.el)
 
   editor.eventEmitter
-    .on('textae.control.button.push', (data) =>
+    .on('textae-event.control.button.push', (data) =>
       controlBar.updateButtonPushState(data.buttonName, data.state)
     )
-    .on('textae.control.buttons.change', (enableButtons) =>
+    .on('textae-event.control.buttons.change', (enableButtons) =>
       controlBar.updateAllButtonEnableState(enableButtons)
     )
-    .on('textae.control.writeButton.transit', (isTrasit) =>
+    .on('textae-event.control.writeButton.transit', (isTrasit) =>
       controlBar.transitWriteButtonImage(isTrasit)
     )
 }
