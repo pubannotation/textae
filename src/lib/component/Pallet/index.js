@@ -100,7 +100,7 @@ export default class Pallet {
       <div class="textae-editor__type-pallet__content">${content}</div>
     `
 
-    setWidthWithin(pallet, editor[0].offsetWidth)
+    setWidthWithin(pallet, this._maxWidth)
     setHeightWithin(pallet, this._maxHeight)
   }
 
