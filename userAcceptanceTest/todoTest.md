@@ -8,7 +8,8 @@
 2.  5.0.2 で、1~5 のキーで選択中の Entity へ、Attribute を追加、shift と同時押しで削除するようにしました
 3.  5.0.5 で、Attribute のショートカットキーを 1~9 までに増やしました
 4.  5.2.0 で、Attribute のショートカットキー T を廃止しました
-5.  6.2.79 で で Block モードで、ショートカットキー 1~9 で Attribute の追加ができるようになりました
+5.  6.2.71 で Block モードでパレットが開けるようになりました
+6.  6.2.79 で で Block モードで、ショートカットキー 1~9 で Attribute の追加ができるようになりました
 
 ### DenotationEntity
 
@@ -194,33 +195,6 @@
 8. title が`All the selected items already have this attribute.`であること
 9. Attribute のない Entity をもう一つ追加で選択する
 10. `add to`ボタンが有効になること
-
-## ショートカットキーから Attribute の追加
-
-### 背景
-
-1.  5.0.0 で Attitude を追加しました
-2.  5.2.0 でショートカットキー T を廃止しました
-3.  6.2.71 で Block モードでパレットが開けるようになりました
-4.  6.2.79 で で Block モードで、ショートカットキー 1~9 で Attribute の追加ができるようになりました
-
-### -- 手段 --
-
-#### BlockEntity にショートカットキーから Attribute を追加
-
-1.  Editor1 を選択
-2.  Block モードにする
-3.  BlockEntity を選択する
-4.  1 キーを押す
-5.  Attribute が追加されること
-
-#### DenotationEntity にショートカットキーから Attribute を追加
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  DenotationEntity を選択する
-4.  1 キーを押す
-5.  Attribute が追加されること
 
 ## Attribute のある Entity と Attribute のない Entity を同時に選択しているとき、その Attribute を編集するショートカットキーを押したら警告を表示する
 
