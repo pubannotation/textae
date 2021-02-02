@@ -12,20 +12,20 @@ export default function (pallet, el, eventEmitter) {
 
   delegate(el, '.textae-editor__type-pallet__create-predicate', 'click', () =>
     eventEmitter.emit(
-      `textae-event.entityAndAttributePallet.attribute.create-attribute-definition-button.click`
+      `textae-event.entity-and-attribute-pallet.attribute.create-attribute-definition-button.click`
     )
   )
 
   delegate(el, '.textae-editor__type-pallet__edit-predicate', 'click', () =>
     eventEmitter.emit(
-      `textae-event.entityAndAttributePallet.attribute.edit-attribute-definition-button.click`,
+      `textae-event.entity-and-attribute-pallet.attribute.edit-attribute-definition-button.click`,
       pallet.attrDef
     )
   )
 
   delegate(el, '.textae-editor__type-pallet__delete-predicate', 'click', () =>
     eventEmitter.emit(
-      `textae-event.entityAndAttributePallet.attribute.delete-attribute-definition-button.click`,
+      `textae-event.entity-and-attribute-pallet.attribute.delete-attribute-definition-button.click`,
       pallet.attrDef
     )
   )
@@ -36,7 +36,7 @@ export default function (pallet, el, eventEmitter) {
     'click',
     (e) =>
       eventEmitter.emit(
-        `textae-event.entityAndAttributePallet.attribute.value-of-attribute-definition-label.click`,
+        `textae-event.entity-and-attribute-pallet.attribute.value-of-attribute-definition-label.click`,
         pallet.attrDef,
         e.target.dataset.id
       )
@@ -48,14 +48,14 @@ export default function (pallet, el, eventEmitter) {
     'click',
     () =>
       eventEmitter.emit(
-        `textae-event.entityAndAttributePallet.attribute.add-value-of-attribute-definition-button.click`,
+        `textae-event.entity-and-attribute-pallet.attribute.add-value-of-attribute-definition-button.click`,
         pallet.attrDef
       )
   )
 
   delegate(el, '.textae-editor__type-pallet__edit-value', 'click', (e) =>
     eventEmitter.emit(
-      `textae-event.entityAndAttributePallet.attribute.edit-value-of-attribute-definition-button.click`,
+      `textae-event.entity-and-attribute-pallet.attribute.edit-value-of-attribute-definition-button.click`,
       pallet.attrDef,
       e.target.dataset.index
     )
@@ -63,7 +63,7 @@ export default function (pallet, el, eventEmitter) {
 
   delegate(el, '.textae-editor__type-pallet__remove-value', 'click', (e) =>
     eventEmitter.emit(
-      `textae-event.entityAndAttributePallet.attribute.remove-value-from-attribute-definition-button.click`,
+      `textae-event.entity-and-attribute-pallet.attribute.remove-value-from-attribute-definition-button.click`,
       pallet.attrDef,
       e.target.dataset.index
     )
@@ -71,21 +71,21 @@ export default function (pallet, el, eventEmitter) {
 
   delegate(el, '.textae-editor__type-pallet__add-attribute', 'click', () =>
     eventEmitter.emit(
-      `textae-event.entityAndAttributePallet.add-attribute-instance-button.click`,
+      `textae-event.entity-and-attribute-pallet.add-attribute-instance-button.click`,
       pallet.attrDef
     )
   )
 
   delegate(el, '.textae-editor__type-pallet__edit-object', 'click', () =>
     eventEmitter.emit(
-      'textae-event.entityAndAttributePallet.attribute.edit-object-of-attribute-instance-button.click',
+      'textae-event.entity-and-attribute-pallet.attribute.edit-object-of-attribute-instance-button.click',
       pallet.attrDef
     )
   )
 
   delegate(el, '.textae-editor__type-pallet__remove-attribute', 'click', () =>
     eventEmitter.emit(
-      `textae-event.entityAndAttributePallet.attribute.remove-attribute-instance-button.click`,
+      `textae-event.entity-and-attribute-pallet.attribute.remove-attribute-instance-button.click`,
       pallet.attrDef
     )
   )
