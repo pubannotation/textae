@@ -38,8 +38,6 @@ export default function (
         if (annotation.config) {
           originalData.configuration = annotation.config
         }
-
-        editor.eventEmitter.emit('textae-event.pallet.update')
       }
     )
     .on(
