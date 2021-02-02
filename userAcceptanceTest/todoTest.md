@@ -76,6 +76,59 @@
 6.  `add to`ボタンを押す
 7.  Attribute が追加されること
 
+## Attribute 定義がないときにパレットが開ける
+
+### 背景
+
+1.  5.0.0 で Attitude を追加しました
+2.  6.4.91 で、6.4.88 で Attribute 定義がないときにパレットを開くとエラーが起きていたのを直しました
+
+### -- 手段 --
+
+1. Editor0 を選択
+2. Term モードにする
+3. `q` キーを押してパレットを開く
+4. エラーが起きないこと
+
+## パレットの Attribute タブの Attribute 情報フォーマット
+
+### 背景
+
+1.  5.0.0 で Attitude を追加しました
+2.  6.4.48 で、文言を変更しました
+3.  6.4.49 で、文言に選択中のアイテムの数を追加し、ボタンの文言を短くしました
+4.  6.4.50 で、アイテムを選択していないときは、ボタンを表示しなくしました
+5.  6.4.51 で、value type の説明をアイコンに変更しました
+6.  6.4.55 で、Attribute 追加変更削除ボタンの表示・非表示切り替えを、有効・無効切り替えに変更しました
+7.  6.4.88 で、6.4.53 で選択アイテム数が表示されなくなっていたのを、直しました
+8.  6.4.107 で、value type の説明をアイコンのみにしました。また、フラグ Attribute のアイコンをチェックボックスからフラッグに変えました
+
+### -- 手段 --
+
+1. Editor1 を選択
+2. Term モードにする
+3. Attribute のない Entity を一つ選択する
+4. `q` キーを押してパレットを開く
+5. `denote` タブを選ぶ
+6. `Attribute [list icon] "denote" [add to] [remove from] the 1 item selected`が表示されること
+7. `add to`ボタンが有効であること
+8. `remove from`ボタンが無効であること
+9. `error` タブを選ぶ
+10. `Attribute [flag icon] "error" [add to] [remove from]the 1 item selected` が表示されること
+11. `add to`ボタンが有効であること
+12. `remove from`ボタンが無効であること
+13. `score` タブを選ぶ
+14. `Attribute [thermometer icon] "score" [add to] [edit object of] [remove from]the 1 item selected` が表示されること
+15. `add to`ボタンが有効であること
+16. `edit object of`ボタンが無効であること
+17. `remove from`ボタンが無効であること
+18. Entity の選択を解除する
+19. `q` キーを押してパレットを開く
+20. `denote` タブを選ぶ
+21. `Attribute [list icon] "denote"`が表示されること
+22. `error` タブを選ぶ
+23. `Attribute [flag] icon] "error"` が表示されること
+
 ## パレットから重複 Attribute を作成できない
 
 ### 背景
@@ -128,53 +181,6 @@
 6.  `1` キーを押す
 7.  パレットが開いて denote タブが選択されていること
 8.  Attribute が追加されないこと
-
-## パレットの Attribute タブの Attribute 情報フォーマット
-
-### 背景
-
-1.  5.0.0 で Attitude を追加しました
-2.  6.4.48 で、文言を変更しました
-3.  6.4.49 で、文言に選択中のアイテムの数を追加し、ボタンの文言を短くしました
-4.  6.4.50 で、アイテムを選択していないときは、ボタンを表示しなくしました
-5.  6.4.51 で、value type の説明をアイコンに変更しました
-6.  6.4.55 で、Attribute 追加変更削除ボタンの表示・非表示切り替えを、有効・無効切り替えに変更しました
-7.  6.4.88 で、6.4.53 で選択アイテム数が表示されなくなっていたのを、直しました
-8.  6.4.91 で、6.4.88 で Attribute 定義がないときにパレットを開くとエラーが起きていたのを直しました
-9.  6.4.107 で、value type の説明をアイコンのみにしました。また、フラグ Attribute のアイコンをチェックボックスからフラッグに変えました
-
-### Attribute 定義がないとき
-
-1. Editor0 を選択
-2. Term モードにする
-3. `q` キーを押してパレットを開く
-4. エラーが起きないこと
-
-### Attribute 定義があるとき
-
-1. Editor1 を選択
-2. Term モードにする
-3. Attribute のない Entity を一つ選択する
-4. `q` キーを押してパレットを開く
-5. `denote` タブを選ぶ
-6. `Attribute [list icon] "denote" [add to] [remove from] the 1 item selected`が表示されること
-7. `add to`ボタンが有効であること
-8. `remove from`ボタンが無効であること
-9. `error` タブを選ぶ
-10. `Attribute [flag icon] "error" [add to] [remove from]the 1 item selected` が表示されること
-11. `add to`ボタンが有効であること
-12. `remove from`ボタンが無効であること
-13. `score` タブを選ぶ
-14. `Attribute [thermometer icon] "score" [add to] [edit object of] [remove from]the 1 item selected` が表示されること
-15. `add to`ボタンが有効であること
-16. `edit object of`ボタンが無効であること
-17. `remove from`ボタンが無効であること
-18. Entity の選択を解除する
-19. `q` キーを押してパレットを開く
-20. `denote` タブを選ぶ
-21. `Attribute [list icon] "denote"`が表示されること
-22. `error` タブを選ぶ
-23. `Attribute [flag] icon] "error"` が表示されること
 
 ## 該当 Attribute を持たないアイテムを選択しているときに、パレットの Attribute 追加ボタンを有効にする
 
