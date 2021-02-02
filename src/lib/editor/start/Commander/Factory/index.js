@@ -57,17 +57,11 @@ export default class Factory {
     newObj,
     newLabel
   ) {
-    const items = entities.filter((item) =>
-      item.attributes.some(
-        (attribute) => attribute.pred === attributeDefinition.pred
-      )
-    )
-
     return new ChangeAttributeOfItemsCommand(
       this._editor,
       this._annotationData,
       this._annotationData.typeDefinition.attribute,
-      items,
+      entities,
       attributeDefinition,
       newObj,
       newLabel
