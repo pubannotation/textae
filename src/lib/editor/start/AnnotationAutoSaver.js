@@ -22,11 +22,11 @@ export default class AnnotationAutoSaver {
     })
 
     editor.eventEmitter
-      .on('taxtae-event.data-access-object.annotation.load.success', () =>
+      .on('textae-event.data-access-object.annotation.load.success', () =>
         this._disabled()
       )
       .on('textae-event.data-access-object.save.error', () => this._disabled())
-      .on('taxtae-event.data-access-object.annotation.url.set', (url) =>
+      .on('textae-event.data-access-object.annotation.url.set', (url) =>
         editor.eventEmitter.emit(
           'textae-event.annotation-auto-saver.enable',
           Boolean(saveToParameter || url)

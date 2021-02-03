@@ -15,7 +15,7 @@ export default function (
 ) {
   editor.eventEmitter
     .on(
-      'taxtae-event.data-access-object.annotation.load.success',
+      'textae-event.data-access-object.annotation.load.success',
       (sourceType, source, annotation) => {
         if (
           !setAnnotation(
@@ -41,7 +41,7 @@ export default function (
       }
     )
     .on(
-      'taxtae-event.data-access-object.configuration.load.error',
+      'textae-event.data-access-object.configuration.load.error',
       (sourceType, source) =>
         alertifyjs.error(
           `${toSourceString(
@@ -51,7 +51,7 @@ export default function (
         )
     )
     .on(
-      'taxtae-event.data-access-object.configuration.load.success',
+      'textae-event.data-access-object.configuration.load.success',
       (sourceType, source, config, loadedAnnotation = null) => {
         // If an annotation that does not contain a configuration is loaded
         // and a configuration is loaded from a taxtae attribute value,
@@ -81,7 +81,7 @@ export default function (
       }
     )
     .on(
-      'taxtae-event.data-access-object.configuration.load.error',
+      'textae-event.data-access-object.configuration.load.error',
       (sourceType, source) =>
         alertifyjs.error(
           `${toSourceString(
@@ -90,7 +90,7 @@ export default function (
           )} is not a configuration file or its format is invalid.`
         )
     )
-    .on('taxtae-event.data-access-object.configuration.save', () => {
+    .on('textae-event.data-access-object.configuration.save', () => {
       originalData.configuration = Object.assign(
         originalData.configuration,
         annotationData.typeDefinition.config

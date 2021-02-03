@@ -49,20 +49,20 @@ export default class DataAccessObject {
       (source, annotation) => {
         if (annotation && annotation.text) {
           this._editor.eventEmitter.emit(
-            'taxtae-event.data-access-object.annotation.load.success',
+            'textae-event.data-access-object.annotation.load.success',
             'url',
             source,
             annotation,
             url
           )
           this._editor.eventEmitter.emit(
-            'taxtae-event.data-access-object.annotation.url.set',
+            'textae-event.data-access-object.annotation.url.set',
             url
           )
           this._urlOfLastRead.annotation = url
         } else {
           this._editor.eventEmitter.emit(
-            'taxtae-event.data-access-object.configuration.load.error',
+            'textae-event.data-access-object.configuration.load.error',
             'url',
             source
           )
@@ -81,7 +81,7 @@ export default class DataAccessObject {
       url,
       (source, config) => {
         this._editor.eventEmitter.emit(
-          'taxtae-event.data-access-object.configuration.load.success',
+          'textae-event.data-access-object.configuration.load.success',
           'url',
           source,
           config,
@@ -99,7 +99,7 @@ export default class DataAccessObject {
         this._ajaxSender,
         url,
         JSON.stringify(editedData),
-        'taxtae-event.data-access-object.annotation.save'
+        'textae-event.data-access-object.annotation.save'
       )
     }
   }
@@ -113,7 +113,7 @@ export default class DataAccessObject {
         this._ajaxSender,
         url,
         JSON.stringify(editedData),
-        'taxtae-event.data-access-object.configuration.save'
+        'textae-event.data-access-object.configuration.save'
       )
     }
   }

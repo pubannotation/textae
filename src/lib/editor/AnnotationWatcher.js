@@ -17,7 +17,7 @@ export default class AnnotationWatcher {
     })
 
     editor.eventEmitter.on(
-      'taxtae-event.data-access-object.annotation.save',
+      'textae-event.data-access-object.annotation.save',
       () => {
         this._observable.set(false)
         loadedAnnotationIsModified = false

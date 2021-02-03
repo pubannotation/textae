@@ -2,11 +2,11 @@ import alertifyjs from 'alertifyjs'
 
 export default function (editor, history) {
   editor.eventEmitter
-    .on('taxtae-event.data-access-object.annotation.save', () => {
+    .on('textae-event.data-access-object.annotation.save', () => {
       history.annotatioSaved()
       alertifyjs.success('annotation saved')
     })
-    .on('taxtae-event.data-access-object.configuration.save', () => {
+    .on('textae-event.data-access-object.configuration.save', () => {
       history.configurationSaved()
       alertifyjs.success('configuration saved')
     })
