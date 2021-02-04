@@ -1,6 +1,6 @@
 import invoke from '../invoke'
 import invokeRevert from '../invokeRevert'
-import { CreateCommand } from './commandTemplate'
+import { RemoveCommand } from './commandTemplate'
 import commandLog from './commandLog'
 import AnnotationCommand from './AnnotationCommand'
 
@@ -54,15 +54,51 @@ export default class CreateEntityCommand extends AnnotationCommand {
   }
 
   _createAttributesCommands() {
-    const subj = this._annotationData.entity.all.pop().id // Only one entity was created.
-
     return this._attributes.map(
       ({ obj, pred }) =>
         new CreateCommand(this._editor, this._annotationData, 'attribute', {
-          subj,
           obj,
           pred
         })
+    )
+  }
+}
+
+class CreateCommand extends AnnotationCommand {
+  constructor(
+    editor,
+    annotationData,
+    modelType,
+    newModel,
+    selectionModel = null
+  ) {
+    super()
+    this._editor = editor
+    this._annotationData = annotationData
+    this._modelType = modelType
+    this._newModel = newModel
+    this._selectionModel = selectionModel
+  }
+
+  execute() {
+    const subj = this._annotationData.entity.all.pop().id // Only one entity was created.
+    this._newModel.subj = subj
+    this._newModel = this._annotationData[this._modelType].add(this._newModel)
+
+    if (this._selectionModel) {
+      this._selectionModel.add(this._modelType, this._newModel.id)
+    }
+    commandLog(`create a new ${this._modelType}: ${this._newModel.id}`)
+
+    return this._newModel
+  }
+
+  revert() {
+    return new RemoveCommand(
+      this._editor,
+      this._annotationData,
+      this._modelType,
+      this._newModel.id
     )
   }
 }
