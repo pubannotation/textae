@@ -1,7 +1,7 @@
 import CompositeCommand from './CompositeCommand'
 import { CreateCommand } from './commandTemplate'
 
-export default class CreateAttributesForEntityCommand extends CompositeCommand {
+export default class AddAttributesToTheLatestEntityCommand extends CompositeCommand {
   constructor(editor, annotationData, attributes) {
     super()
 
