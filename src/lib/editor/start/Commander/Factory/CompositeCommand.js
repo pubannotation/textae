@@ -1,4 +1,3 @@
-import invoke from '../invoke'
 import invokeRevert from '../invokeRevert'
 import commandLog from './commandLog'
 import BaseCommand from './BaseCommand'
@@ -15,7 +14,7 @@ export default class CompositeCommand extends BaseCommand {
       return
     }
 
-    invoke(this._subCommands)
+    this._subCommands.map((c) => c.execute())
 
     if (this._afterInvoke) {
       this._afterInvoke()
