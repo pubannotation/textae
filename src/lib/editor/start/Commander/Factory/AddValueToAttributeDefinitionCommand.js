@@ -6,7 +6,6 @@ export default class AddValueToAttributeDefinitionCommand extends ConfigurationC
   constructor(typeContainer, attrDef, value, index = null) {
     super()
     this._typeContainer = typeContainer
-    this._attrDef = attrDef
     this._value = value
     this._index = index
 
@@ -27,20 +26,22 @@ export default class AddValueToAttributeDefinitionCommand extends ConfigurationC
     // The array of values is a copy. If you add values to the array of values when the command executes,
     // the value object will increase each time the command is executed.
     attrDef.values.splice(index || attrDef.values.length, 0, value)
+
+    this._modifiedAttrDef = attrDef
   }
 
   execute() {
     this._updatedAttrDef = this._typeContainer.update(
-      this._attrDef.pred,
-      this._attrDef
+      this._modifiedAttrDef.pred,
+      this._modifiedAttrDef
     )
 
     commandLog(
       `add a new value to attrribute:${
-        this._attrDef.pred
+        this._modifiedAttrDef.pred
       }, value: ${JSON.stringify(this._value)}, index: ${
         this._index
-      }, updated values: \n ${this._attrDef.values
+      }, updated values: \n ${this._modifiedAttrDef.values
         .map((v) => JSON.stringify(v))
         .join('\n ')}`
     )
