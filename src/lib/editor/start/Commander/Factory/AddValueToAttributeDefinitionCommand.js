@@ -34,7 +34,7 @@ export default class AddValueToAttributeDefinitionCommand extends ConfigurationC
     this._updatedAttrDef = this._typeContainer.update(
       this._attrDef.pred,
       this._attrDef
-    ).JSON
+    )
 
     commandLog(
       `add a new value to attrribute:${
@@ -50,7 +50,7 @@ export default class AddValueToAttributeDefinitionCommand extends ConfigurationC
   revert() {
     return new RemoveValueFromAttributeDefinitionCommand(
       this._typeContainer,
-      this._updatedAttrDef,
+      this._updatedAttrDef.JSON,
       this._updatedAttrDef.values.length - 1,
       this._indexThatRemoveDefaultFrom
     )
