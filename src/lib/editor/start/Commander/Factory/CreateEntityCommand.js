@@ -26,7 +26,7 @@ export default class CreateEntityCommand extends CompositeCommand {
     ].concat(
       attributes.map(
         ({ obj, pred }) =>
-          new CreateAttribtueToTheLatestEntityCommand(
+          new CreateAttributeToTheLatestEntityCommand(
             editor,
             annotationData,
             obj,
@@ -39,7 +39,7 @@ export default class CreateEntityCommand extends CompositeCommand {
   }
 }
 
-class CreateAttribtueToTheLatestEntityCommand extends CreateCommand {
+class CreateAttributeToTheLatestEntityCommand extends CreateCommand {
   constructor(editor, annotationData, obj, pred) {
     super(editor, annotationData, 'attribute', {
       obj,
