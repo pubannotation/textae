@@ -31,7 +31,7 @@ export default function (
     isLock,
     attributes,
     hasDiff,
-    attrDef: attrDef.JSON,
+    attrDef,
     selectedPred,
     selectionModelItems,
     numberOfItemsUsingSelectedPred: new Set(
