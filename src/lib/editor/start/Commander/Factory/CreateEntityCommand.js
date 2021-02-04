@@ -6,7 +6,7 @@ export default class CreateEntityCommand extends CompositeCommand {
     editor,
     annotationData,
     selectionModel,
-    spanId,
+    span,
     typeName,
     attributes
   ) {
@@ -18,7 +18,7 @@ export default class CreateEntityCommand extends CompositeCommand {
         annotationData,
         'entity',
         {
-          span: spanId,
+          span,
           typeName
         },
         selectionModel
@@ -35,7 +35,7 @@ export default class CreateEntityCommand extends CompositeCommand {
       )
     )
 
-    this._logMessage = `create a type for span: ${spanId}`
+    this._logMessage = `create a type for span: ${span}`
   }
 }
 
