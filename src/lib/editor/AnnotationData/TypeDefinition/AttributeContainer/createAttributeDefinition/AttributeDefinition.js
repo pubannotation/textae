@@ -4,6 +4,12 @@ export default class AttributeDefinition {
     this.pred = pred
   }
 
+  get values() {
+    console.assert(this._values, 'this._values to return!')
+
+    return this._values
+  }
+
   get JSON() {
     return {
       pred: this.pred
