@@ -26,6 +26,7 @@ export default class CreateEntityCommand extends CompositeCommand {
     ].concat(
       attributes.map(
         ({ obj, pred }) =>
+          // Only one entity was created.
           new CreateAttributeToTheLatestEntityCommand(
             editor,
             annotationData,
@@ -48,7 +49,7 @@ class CreateAttributeToTheLatestEntityCommand extends CreateCommand {
   }
 
   execute() {
-    const subj = this._annotationData.entity.all.pop().id // Only one entity was created.
+    const subj = this._annotationData.entity.all.pop().id
     this._newModel.subj = subj
     return super.execute()
   }
