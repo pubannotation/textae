@@ -28,8 +28,7 @@ export default class CreateEntityCommand extends AnnotationCommand {
     // Holds commands that was called to undo them.
     const entityCommand = this._createEntityCommand()
     invoke([entityCommand])
-    const entityId = this._annotationData.entity.all.pop().id // Only one entity was created.
-    const attributeCommands = this._createAttributesCommands(entityId)
+    const attributeCommands = this._createAttributesCommands()
     invoke([attributeCommands])
 
     this.revert = () => ({
@@ -55,7 +54,8 @@ export default class CreateEntityCommand extends AnnotationCommand {
     )
   }
 
-  _createAttributesCommands(subj) {
+  _createAttributesCommands() {
+    const subj = this._annotationData.entity.all.pop().id // Only one entity was created.
     return new CreateAttributesForEntityCommand(
       this._editor,
       this._annotationData,
