@@ -1,5 +1,5 @@
-import { CreateCommand } from './commandTemplate'
-import CompositeCommand from './CompositeCommand'
+import { CreateCommand } from '../commandTemplate'
+import CompositeCommand from '../CompositeCommand'
 
 export default class CreateEntityAndAttributesCommand extends CompositeCommand {
   constructor(
