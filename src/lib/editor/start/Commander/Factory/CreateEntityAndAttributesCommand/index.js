@@ -1,5 +1,6 @@
 import { CreateCommand } from '../commandTemplate'
 import CompositeCommand from '../CompositeCommand'
+import CreateAttributeToTheLatestEntityCommand from './CreateAttributeToTheLatestEntityCommand'
 
 export default class CreateEntityAndAttributesCommand extends CompositeCommand {
   constructor(
@@ -37,20 +38,5 @@ export default class CreateEntityAndAttributesCommand extends CompositeCommand {
     )
 
     this._logMessage = `create a type for span: ${span}`
-  }
-}
-
-class CreateAttributeToTheLatestEntityCommand extends CreateCommand {
-  constructor(editor, annotationData, obj, pred) {
-    super(editor, annotationData, 'attribute', {
-      obj,
-      pred
-    })
-  }
-
-  execute() {
-    const subj = this._annotationData.entity.all.pop().id
-    this._newModel.subj = subj
-    return super.execute()
   }
 }
