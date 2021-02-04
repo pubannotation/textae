@@ -1,5 +1,4 @@
 import alertifyjs from 'alertifyjs'
-import invoke from './invoke'
 import invokeRevert from './invokeRevert'
 import Factory from './Factory'
 
@@ -18,7 +17,7 @@ export default class Commander {
       return
     }
 
-    invoke([command])
+    this._invoke([command])
     this._history.push([command])
   }
 
@@ -48,7 +47,7 @@ export default class Commander {
         alertifyjs.success('configuration has been redo')
       }
 
-      invoke(commands.commands)
+      this._invoke(commands.commands)
     }
   }
 
@@ -59,5 +58,9 @@ export default class Commander {
       this._selectionModel,
       this._annotationData.typeDefinition
     )
+  }
+
+  _invoke(commands) {
+    return commands.map((c) => c.execute())
   }
 }
