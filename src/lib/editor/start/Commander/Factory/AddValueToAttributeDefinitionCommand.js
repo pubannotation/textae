@@ -6,8 +6,9 @@ export default class AddValueToAttributeDefinitionCommand extends ConfigurationC
   constructor(typeContainer, attrDef, value, index = null) {
     super()
     this._typeContainer = typeContainer
-    this._value = value
+    this._pred = attrDef.pred
     this._index = index
+    this._value = value
 
     if (attrDef['value type'] === 'selection') {
       // When adding default, remove default property from existing default value.
@@ -32,14 +33,14 @@ export default class AddValueToAttributeDefinitionCommand extends ConfigurationC
 
   execute() {
     this._updatedAttrDef = this._typeContainer.update(
-      this._modifiedAttrHash.pred,
+      this._pred,
       this._modifiedAttrHash
     )
 
     commandLog(
-      `add a new value to attrribute:${
-        this._modifiedAttrHash.pred
-      }, value: ${JSON.stringify(this._value)}, index: ${
+      `add a new value to attrribute:${this._pred}, value: ${JSON.stringify(
+        this._value
+      )}, index: ${
         this._index
       }, updated values: \n ${this._modifiedAttrHash.values
         .map((v) => JSON.stringify(v))
