@@ -30,24 +30,22 @@ export default class CreateEntityCommand extends CompositeCommand {
         },
         this._selectionModel
       )
-    ].concat(this._createAttributesCommands())
+    ].concat(
+      this._attributes.map(
+        ({ obj, pred }) =>
+          new CreateAttribtueToTheLatestEntityCommand(
+            this._editor,
+            this._annotationData,
+            'attribute',
+            {
+              obj,
+              pred
+            }
+          )
+      )
+    )
 
     this._logMessage = `create a type for span: ${this._spanId}`
-  }
-
-  _createAttributesCommands() {
-    return this._attributes.map(
-      ({ obj, pred }) =>
-        new CreateAttribtueToTheLatestEntityCommand(
-          this._editor,
-          this._annotationData,
-          'attribute',
-          {
-            obj,
-            pred
-          }
-        )
-    )
   }
 }
 
