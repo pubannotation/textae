@@ -27,21 +27,21 @@ export default class AddValueToAttributeDefinitionCommand extends ConfigurationC
     // the value object will increase each time the command is executed.
     attrDef.values.splice(index || attrDef.values.length, 0, value)
 
-    this._modifiedAttrDef = attrDef
+    this._modifiedAttrHash = attrDef
   }
 
   execute() {
     this._updatedAttrDef = this._typeContainer.update(
-      this._modifiedAttrDef.pred,
-      this._modifiedAttrDef
+      this._modifiedAttrHash.pred,
+      this._modifiedAttrHash
     )
 
     commandLog(
       `add a new value to attrribute:${
-        this._modifiedAttrDef.pred
+        this._modifiedAttrHash.pred
       }, value: ${JSON.stringify(this._value)}, index: ${
         this._index
-      }, updated values: \n ${this._modifiedAttrDef.values
+      }, updated values: \n ${this._modifiedAttrHash.values
         .map((v) => JSON.stringify(v))
         .join('\n ')}`
     )
