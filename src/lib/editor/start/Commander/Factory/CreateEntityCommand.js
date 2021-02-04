@@ -1,10 +1,7 @@
-import invoke from '../invoke'
-import invokeRevert from '../invokeRevert'
 import { CreateCommand } from './commandTemplate'
-import commandLog from './commandLog'
-import AnnotationCommand from './AnnotationCommand'
+import CompositeCommand from './CompositeCommand'
 
-export default class CreateEntityCommand extends AnnotationCommand {
+export default class CreateEntityCommand extends CompositeCommand {
   constructor(
     editor,
     annotationData,
@@ -21,23 +18,12 @@ export default class CreateEntityCommand extends AnnotationCommand {
     this._spanId = spanId
     this._typeName = typeName
     this._attributes = attributes
-  }
 
-  execute() {
-    // Holds commands that was called to undo them.
-    const entityCommand = this._createEntityCommand()
-    invoke([entityCommand])
-    const attributeCommands = this._createAttributesCommands()
-    invoke(attributeCommands)
+    this._subCommands = [this._createEntityCommand()].concat(
+      this._createAttributesCommands()
+    )
 
-    this.revert = () => ({
-      execute() {
-        invokeRevert([entityCommand].concat(attributeCommands))
-        commandLog(`revert create a type for span: ${this.id}`)
-      }
-    })
-
-    commandLog(`create a type for span: ${this._spanId}`)
+    this._logMessage = `create a type for span: ${this._spanId}`
   }
 
   _createEntityCommand() {
