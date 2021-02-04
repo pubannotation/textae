@@ -27,7 +27,7 @@ export default class CreateEntityCommand extends CompositeCommand {
   }
 
   _createEntityCommand() {
-    return new CreateAttribtueToTheLatestEntityCommand(
+    return new CreateCommand(
       this._editor,
       this._annotationData,
       'entity',
