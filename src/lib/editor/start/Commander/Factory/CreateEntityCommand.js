@@ -19,24 +19,20 @@ export default class CreateEntityCommand extends CompositeCommand {
     this._typeName = typeName
     this._attributes = attributes
 
-    this._subCommands = [this._createEntityCommand()].concat(
-      this._createAttributesCommands()
-    )
+    this._subCommands = [
+      new CreateCommand(
+        this._editor,
+        this._annotationData,
+        'entity',
+        {
+          span: this._spanId,
+          typeName: this._typeName
+        },
+        this._selectionModel
+      )
+    ].concat(this._createAttributesCommands())
 
     this._logMessage = `create a type for span: ${this._spanId}`
-  }
-
-  _createEntityCommand() {
-    return new CreateCommand(
-      this._editor,
-      this._annotationData,
-      'entity',
-      {
-        span: this._spanId,
-        typeName: this._typeName
-      },
-      this._selectionModel
-    )
   }
 
   _createAttributesCommands() {
