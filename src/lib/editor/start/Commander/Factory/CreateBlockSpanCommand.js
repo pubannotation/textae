@@ -1,7 +1,7 @@
 import { makeBlockSpanHTMLElementId } from '../../../idFactory'
 import { CreateCommand } from './commandTemplate'
 import CompositeCommand from './CompositeCommand'
-import CreateEntityCommand from './CreateEntityCommand'
+import CreateEntityAndAttributesCommand from './CreateEntityAndAttributesCommand'
 
 export default class CreateBlockCommand extends CompositeCommand {
   constructor(editor, annotationData, selectionModel, begin, end, defaultType) {
@@ -19,7 +19,7 @@ export default class CreateBlockCommand extends CompositeCommand {
       },
       selectionModel
     )
-    const createEntityCommand = new CreateEntityCommand(
+    const createEntityCommand = new CreateEntityAndAttributesCommand(
       editor,
       annotationData,
       selectionModel,

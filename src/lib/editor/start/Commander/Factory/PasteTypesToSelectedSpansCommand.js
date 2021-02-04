@@ -1,5 +1,5 @@
 import CompositeCommand from './CompositeCommand'
-import CreateEntityCommand from './CreateEntityCommand'
+import CreateEntityAndAttributesCommand from './CreateEntityAndAttributesCommand'
 
 export default class PasteTypesToSelectedSpansCommand extends CompositeCommand {
   constructor(editor, annotationData, selectionModel, typeValuesList) {
@@ -10,7 +10,7 @@ export default class PasteTypesToSelectedSpansCommand extends CompositeCommand {
       .map((span) =>
         typeValuesList.map(
           (typeValues) =>
-            new CreateEntityCommand(
+            new CreateEntityAndAttributesCommand(
               editor,
               annotationData,
               selectionModel,

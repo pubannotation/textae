@@ -1,6 +1,6 @@
 import { CreateCommand } from './commandTemplate'
 import CompositeCommand from './CompositeCommand'
-import CreateEntityCommand from './CreateEntityCommand'
+import CreateEntityAndAttributesCommand from './CreateEntityAndAttributesCommand'
 
 export default class CreateSpanAndTypesCommand extends CompositeCommand {
   constructor(
@@ -28,7 +28,7 @@ export default class CreateSpanAndTypesCommand extends CompositeCommand {
     ].concat(
       typeValuesList.map(
         (typeValues) =>
-          new CreateEntityCommand(
+          new CreateEntityAndAttributesCommand(
             editor,
             annotationData,
             selectionModel,
