@@ -29,11 +29,8 @@ export default class CreateEntityCommand extends CompositeCommand {
           new CreateAttribtueToTheLatestEntityCommand(
             editor,
             annotationData,
-            'attribute',
-            {
-              obj,
-              pred
-            }
+            obj,
+            pred
           )
       )
     )
@@ -43,6 +40,13 @@ export default class CreateEntityCommand extends CompositeCommand {
 }
 
 class CreateAttribtueToTheLatestEntityCommand extends CreateCommand {
+  constructor(editor, annotationData, obj, pred) {
+    super(editor, annotationData, 'attribute', {
+      obj,
+      pred
+    })
+  }
+
   execute() {
     const subj = this._annotationData.entity.all.pop().id // Only one entity was created.
     this._newModel.subj = subj
