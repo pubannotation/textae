@@ -45,7 +45,7 @@ export default class ChangeAttributeOfItemsCommand extends CompositeCommand {
     if (
       newLabel &&
       attrDef.valueType === 'string' &&
-      !attrDef.JSON.values.some((v) => v.pattern === newObj)
+      !attrDef.values.some((v) => v.pattern === newObj)
     ) {
       addValueForLabelToStirngAttributeDefinitionCommands.push(
         new AddValueToAttributeDefinitionCommand(typeContainer, attrDef.JSON, {
