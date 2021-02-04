@@ -3,7 +3,6 @@ import invokeRevert from '../invokeRevert'
 import { CreateCommand } from './commandTemplate'
 import commandLog from './commandLog'
 import AnnotationCommand from './AnnotationCommand'
-import AddAttributesToTheLatestEntityCommand from './AddAttributesToTheLatestEntityCommand'
 
 export default class CreateEntityCommand extends AnnotationCommand {
   constructor(
@@ -29,7 +28,7 @@ export default class CreateEntityCommand extends AnnotationCommand {
     const entityCommand = this._createEntityCommand()
     invoke([entityCommand])
     const attributeCommands = this._createAttributesCommands()
-    invoke([attributeCommands])
+    invoke(attributeCommands)
 
     this.revert = () => ({
       execute() {
@@ -55,10 +54,15 @@ export default class CreateEntityCommand extends AnnotationCommand {
   }
 
   _createAttributesCommands() {
-    return new AddAttributesToTheLatestEntityCommand(
-      this._editor,
-      this._annotationData,
-      this._attributes
+    const subj = this._annotationData.entity.all.pop().id // Only one entity was created.
+
+    return this._attributes.map(
+      ({ obj, pred }) =>
+        new CreateCommand(this._editor, this._annotationData, 'attribute', {
+          subj,
+          obj,
+          pred
+        })
     )
   }
 }
