@@ -12,30 +12,23 @@ export default class CreateEntityCommand extends CompositeCommand {
   ) {
     super()
 
-    this._editor = editor
-    this._annotationData = annotationData
-    this._selectionModel = selectionModel
-    this._spanId = spanId
-    this._typeName = typeName
-    this._attributes = attributes
-
     this._subCommands = [
       new CreateCommand(
-        this._editor,
-        this._annotationData,
+        editor,
+        annotationData,
         'entity',
         {
-          span: this._spanId,
-          typeName: this._typeName
+          span: spanId,
+          typeName
         },
-        this._selectionModel
+        selectionModel
       )
     ].concat(
-      this._attributes.map(
+      attributes.map(
         ({ obj, pred }) =>
           new CreateAttribtueToTheLatestEntityCommand(
-            this._editor,
-            this._annotationData,
+            editor,
+            annotationData,
             'attribute',
             {
               obj,
@@ -45,7 +38,7 @@ export default class CreateEntityCommand extends CompositeCommand {
       )
     )
 
-    this._logMessage = `create a type for span: ${this._spanId}`
+    this._logMessage = `create a type for span: ${spanId}`
   }
 }
 
