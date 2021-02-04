@@ -55,12 +55,10 @@ export default class CreateEntityCommand extends AnnotationCommand {
   }
 
   _createAttributesCommands() {
-    const subj = this._annotationData.entity.all.pop().id // Only one entity was created.
     return new CreateAttributesForEntityCommand(
       this._editor,
       this._annotationData,
-      this._attributes,
-      subj
+      this._attributes
     )
   }
 }

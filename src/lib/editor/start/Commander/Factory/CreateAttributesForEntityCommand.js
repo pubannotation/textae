@@ -2,13 +2,15 @@ import CompositeCommand from './CompositeCommand'
 import { CreateCommand } from './commandTemplate'
 
 export default class CreateAttributesForEntityCommand extends CompositeCommand {
-  constructor(editor, annotationData, attributes, entity) {
+  constructor(editor, annotationData, attributes) {
     super()
+
+    const subj = annotationData.entity.all.pop().id // Only one entity was created.
 
     this._subCommands = attributes.map(
       ({ obj, pred }) =>
         new CreateCommand(editor, annotationData, 'attribute', {
-          subj: entity,
+          subj,
           obj,
           pred
         })
@@ -16,6 +18,6 @@ export default class CreateAttributesForEntityCommand extends CompositeCommand {
 
     this._logMessage = `create attributes ${attributes.map(
       ({ obj, pred }) => `obj:${obj} pred:${pred}`
-    )} for entity ${entity}`
+    )} for entity ${subj}`
   }
 }
