@@ -17,7 +17,7 @@ export default class Commander {
     }
 
     command.execute()
-    this._history.push([command])
+    this._history.push(command)
   }
 
   undo() {

@@ -8,8 +8,8 @@ export default class History {
     this._eventEmitter = eventEmitter
   }
 
-  push(commands) {
-    const newCommands = new Commands(commands)
+  push(command) {
+    const newCommands = new Commands([command])
 
     // Delete the following history.
     this._histories.splice(
