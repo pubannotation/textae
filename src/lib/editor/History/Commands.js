@@ -11,9 +11,4 @@ export default class Commands {
       new Set()
     )
   }
-
-  isExactly(kind) {
-    const kinds = this.kinds
-    return kinds.has(kind) && kinds.size === 1
-  }
 }
