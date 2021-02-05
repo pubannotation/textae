@@ -27,12 +27,12 @@ export default class Commander {
       this._selectionModel.removeAll()
       this._editor.focus()
 
-      const commands = this._history.prev()
-      if (commands.kind.has('configuration_command')) {
+      const command = this._history.prev()
+      if (command.kind.has('configuration_command')) {
         alertifyjs.success('configuration has been undone')
       }
 
-      commands.revert().execute()
+      command.revert().execute()
     }
   }
 
@@ -41,12 +41,12 @@ export default class Commander {
       // Select only new element when redo a creation.
       this._selectionModel.removeAll()
 
-      const commands = this._history.next()
-      if (commands.kind.has('configuration_command')) {
+      const command = this._history.next()
+      if (command.kind.has('configuration_command')) {
         alertifyjs.success('configuration has been redo')
       }
 
-      commands.execute()
+      command.execute()
     }
   }
 
