@@ -19,7 +19,7 @@ export default class RemoveValueFromAttributeDefinitionCommand extends Configura
     ) {
       let indexThatAddDefaultTo = null
 
-      this._attrDef.values.forEach((v, index) => {
+      this._attrDef.values.forEach((_, index) => {
         if (indexThatAddDefaultTo === null && index != this._index) {
           indexThatAddDefaultTo = index
         }
