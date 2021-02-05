@@ -81,6 +81,11 @@ export default class AttributeContainer {
     return this.get(attrDef.pred)
   }
 
+  updateValues(pred, values) {
+    const hash = this.get(pred).JSON
+    return this.update(pred, Object.assign(hash, { values }))
+  }
+
   move(oldIndex, newIndex) {
     this._definedTypes = new Map(
       arrayMove(this.attributes, oldIndex, newIndex).map((a) => [a.pred, a])
