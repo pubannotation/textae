@@ -17,9 +17,7 @@ export default class Commander {
       return
     }
 
-    for (const c of [command]) {
-      c.execute()
-    }
+    command.execute()
     this._history.push([command])
   }
 
