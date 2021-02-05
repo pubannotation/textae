@@ -14,7 +14,9 @@ export default class CompositeCommand extends BaseCommand {
       return
     }
 
-    this._subCommands.map((c) => c.execute())
+    for (const c of this._subCommands) {
+      c.execute()
+    }
 
     if (this._afterInvoke) {
       this._afterInvoke()
