@@ -1,4 +1,3 @@
-import invokeRevert from '../invokeRevert'
 import commandLog from './commandLog'
 import BaseCommand from './BaseCommand'
 
@@ -27,7 +26,9 @@ export default class CompositeCommand extends BaseCommand {
       _logMessage: this._logMessage,
       _afterInvoke: this._afterInvoke,
       execute() {
-        invokeRevert(this._subCommands)
+        for (const c of this._subCommands.map((c) => c.revert()).reverse()) {
+          c.execute()
+        }
 
         if (this._afterInvoke) {
           this._afterInvoke()

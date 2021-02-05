@@ -1,5 +1,4 @@
 import alertifyjs from 'alertifyjs'
-import invokeRevert from './invokeRevert'
 import Factory from './Factory'
 
 // A command is an operation by user that is saved as history, and can undo and redo.
@@ -33,7 +32,9 @@ export default class Commander {
         alertifyjs.success('configuration has been undone')
       }
 
-      invokeRevert(commands.commands)
+      for (const c of commands.commands.map((c) => c.revert()).reverse()) {
+        c.execute()
+      }
     }
   }
 
