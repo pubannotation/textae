@@ -61,6 +61,8 @@ export default class Commander {
   }
 
   _invoke(commands) {
-    return commands.map((c) => c.execute())
+    for (const c of commands) {
+      c.execute()
+    }
   }
 }
