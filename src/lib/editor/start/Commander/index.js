@@ -32,7 +32,7 @@ export default class Commander {
         alertifyjs.success('configuration has been undone')
       }
 
-      commands.commands.revert().execute()
+      commands.command.revert().execute()
     }
   }
 
@@ -46,7 +46,7 @@ export default class Commander {
         alertifyjs.success('configuration has been redo')
       }
 
-      commands.commands.execute()
+      commands.command.execute()
     }
   }
 
