@@ -1,6 +1,6 @@
 export default function (commands) {
   commands
-    .map((originCommand) => originCommand.revert())
+    .map((c) => c.revert())
     .reverse()
     .map((c) => c.execute())
 }
