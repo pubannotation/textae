@@ -32,9 +32,7 @@ export default class Commander {
         alertifyjs.success('configuration has been undone')
       }
 
-      for (const c of commands.commands.map((c) => c.revert()).reverse()) {
-        c.execute()
-      }
+      commands.commands.revert().execute()
     }
   }
 
@@ -48,9 +46,7 @@ export default class Commander {
         alertifyjs.success('configuration has been redo')
       }
 
-      for (const c of commands.commands) {
-        c.execute()
-      }
+      commands.commands.execute()
     }
   }
 
