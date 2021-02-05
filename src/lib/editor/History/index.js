@@ -9,7 +9,7 @@ export default class History {
   }
 
   push(command) {
-    const newCommands = new Commands([command])
+    const newCommands = new Commands(command)
 
     // Delete the following history.
     this._histories.splice(

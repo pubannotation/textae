@@ -1,6 +1,6 @@
 export default class Commands {
-  constructor(commands) {
-    this.commands = commands
+  constructor(command) {
+    this.commands = [command]
   }
 
   // Summarizes whether the included command affects Annotation or Configuration,
