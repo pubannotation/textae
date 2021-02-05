@@ -1,6 +1,5 @@
 export default function (commands) {
-  commands
-    .map((c) => c.revert())
-    .reverse()
-    .map((c) => c.execute())
+  for (const c of commands.map((c) => c.revert()).reverse()) {
+    c.execute()
+  }
 }
