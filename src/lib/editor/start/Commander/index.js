@@ -17,7 +17,9 @@ export default class Commander {
       return
     }
 
-    this._invoke([command])
+    for (const c of [command]) {
+      c.execute()
+    }
     this._history.push([command])
   }
 
@@ -47,7 +49,9 @@ export default class Commander {
         alertifyjs.success('configuration has been redo')
       }
 
-      this._invoke(commands.commands)
+      for (const c of commands.commands) {
+        c.execute()
+      }
     }
   }
 
