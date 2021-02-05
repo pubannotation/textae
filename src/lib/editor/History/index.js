@@ -19,10 +19,10 @@ export default class History {
     )
     this._pointer++
 
-    if (newCommands.kinds.has('annotation_command')) {
+    if (newCommands.kind.has('annotation_command')) {
       this._pointerForAnnotation.lastEdit = this._pointer
     }
-    if (newCommands.kinds.has('configuration_command')) {
+    if (newCommands.kind.has('configuration_command')) {
       this._pointerForConfiguration.lastEdit = this._pointer
     }
 
@@ -33,10 +33,10 @@ export default class History {
     this._pointer++
     const next = this._histories[this._pointer]
 
-    if (next.kinds.has('annotation_command')) {
+    if (next.kind.has('annotation_command')) {
       this._pointerForAnnotation.lastEdit = this._pointer
     }
-    if (next.kinds.has('configuration_command')) {
+    if (next.kind.has('configuration_command')) {
       this._pointerForConfiguration.lastEdit = this._pointer
     }
 
@@ -47,12 +47,12 @@ export default class History {
   prev() {
     const prev = this._histories[this._pointer]
 
-    if (prev.kinds.has('annotation_command')) {
+    if (prev.kind.has('annotation_command')) {
       this._pointerForAnnotation.lastEdit = this._getPrevPrevCommandIndexOf(
         'annotation_command'
       )
     }
-    if (prev.kinds.has('configuration_command')) {
+    if (prev.kind.has('configuration_command')) {
       this._pointerForConfiguration.lastEdit = this._getPrevPrevCommandIndexOf(
         'configuration_command'
       )
@@ -113,7 +113,7 @@ export default class History {
 
   _getPrevKindCommand(kind) {
     for (let i = this._pointer - 1; i >= 0; i--) {
-      if (this._histories[i].kinds.has(kind)) {
+      if (this._histories[i].kind.has(kind)) {
         return i
       }
     }

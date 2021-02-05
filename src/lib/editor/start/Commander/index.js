@@ -28,7 +28,7 @@ export default class Commander {
       this._editor.focus()
 
       const commands = this._history.prev()
-      if (commands.kinds.has('configuration_command')) {
+      if (commands.kind.has('configuration_command')) {
         alertifyjs.success('configuration has been undone')
       }
 
@@ -44,7 +44,7 @@ export default class Commander {
       this._selectionModel.removeAll()
 
       const commands = this._history.next()
-      if (commands.kinds.has('configuration_command')) {
+      if (commands.kind.has('configuration_command')) {
         alertifyjs.success('configuration has been redo')
       }
 
