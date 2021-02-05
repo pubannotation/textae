@@ -8,32 +8,6 @@
 4.  ブラウザの開発ツールを起動します。
 5.  以下のテストを実行して、エラーが出ないこと
 
-## String Attribute インスタンスの Obcjet 変更
-
-### 背景
-
-1. String Attribute インスタンスの Object 変更時はオートコンプリートが使えます
-2. 6.3.36 でオートコンプリートで取得したラベルを配置する HTML 要素を消したためエラーが起きていました
-3. 6.4.53 で対応していました
-4. 6.1.62 で Attribute 定義の更新に Denotation の TypeDefinition.TypeContainer を経由していたのを、Attribute の TypeDefinition.TypeContainer を直接呼び出す変更をしました
-5. そのとき、渡す TypeContainer を Denotation から Attribute に変更する修正が漏れていました
-6. 必要なメソッドが定義されていないため、エラーが起きていました
-7. 6.1.63 で対応しました
-
-### -- 手段 --
-
-1. Editor1 を選択
-2. Term モードにする
-3. Entity を選択
-4. `q`を押してパレットを開く
-5. `free_text`タブを選択
-6. `add_to`ボタンをクリック
-7. `edit_object`ボタンをクリック
-8. String Attribute ダイアログの`Object`を`par`に変更
-9. 表示された候補を選択
-10. `OK`ボタンをクリック
-11. エラーが起きないこと
-
 ## Lock Edit Config 有効時のパレットの表示項目
 
 ### 背景
