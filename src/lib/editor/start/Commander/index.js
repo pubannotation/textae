@@ -63,10 +63,4 @@ export default class Commander {
       this._annotationData.typeDefinition
     )
   }
-
-  _invoke(commands) {
-    for (const c of commands) {
-      c.execute()
-    }
-  }
 }
