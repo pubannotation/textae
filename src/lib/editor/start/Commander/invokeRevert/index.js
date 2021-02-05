@@ -1,5 +1,6 @@
-import RevertCommands from './RevertCommands'
-
 export default function (commands) {
-  RevertCommands(commands).map((c) => c.execute())
+  commands
+    .map((originCommand) => originCommand.revert())
+    .reverse()
+    .map((c) => c.execute())
 }
