@@ -22,6 +22,11 @@ export default class PasteTypesToSelectedSpansCommand extends CompositeCommand {
       )
       .flat()
 
-    this._logMessage = `paste types ${typeValuesList} to ${selecteedSpans}`
+    this._logMessage = `paste types [${typeValuesList.map(
+      ({ typeName, attributes }) =>
+        [`{type:${typeName}}`].concat(
+          attributes.map(({ pred, obj }) => `{${pred}:${obj}}`)
+        )
+    )}] to ${selecteedSpans}`
   }
 }
