@@ -1,5 +1,4 @@
 import Pointer from './Pointer'
-import Commands from './Commands'
 
 // histories of edit to undo and redo.
 export default class History {
@@ -9,20 +8,18 @@ export default class History {
   }
 
   push(command) {
-    const newCommands = new Commands(command)
-
     // Delete the following history.
     this._histories.splice(
       this._pointer + 1,
       this._histories.length - this._pointer,
-      newCommands
+      command
     )
     this._pointer++
 
-    if (newCommands.kind.has('annotation_command')) {
+    if (command.kind.has('annotation_command')) {
       this._pointerForAnnotation.lastEdit = this._pointer
     }
-    if (newCommands.kind.has('configuration_command')) {
+    if (command.kind.has('configuration_command')) {
       this._pointerForConfiguration.lastEdit = this._pointer
     }
 
