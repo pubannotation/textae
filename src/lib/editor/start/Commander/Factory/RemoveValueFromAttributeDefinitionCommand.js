@@ -38,7 +38,10 @@ export default class RemoveValueFromAttributeDefinitionCommand extends Configura
       this._attrDef.values[this._indexThatAddDefaultTo].default = true
     }
 
-    this._typeContainer.update(this._attrDef.pred, this._attrDef)
+    this._updatedAttrDef = this._typeContainer.update(
+      this._attrDef.pred,
+      this._attrDef
+    )
 
     commandLog(
       `remove a value from an attrribute:${this._attrDef.pred}, index:${
@@ -52,7 +55,7 @@ export default class RemoveValueFromAttributeDefinitionCommand extends Configura
   revert() {
     return new AddValueToAttributeDefinitionCommand(
       this._typeContainer,
-      this._attrDef,
+      this._updatedAttrDef.JSON,
       this._deletedValue,
       this._index
     )
