@@ -12,10 +12,6 @@ export default class Commands {
     )
   }
 
-  get hasCommands() {
-    return this.commands && this.commands.length > 0
-  }
-
   isExactly(kind) {
     const kinds = this.kinds
     return kinds.has(kind) && kinds.size === 1
