@@ -15,7 +15,7 @@ export default class RemoveValueFromAttributeDefinitionCommand extends Configura
     const clonedJSON = this._attrDef.JSON
     // When removing value with default property.
     if (
-      clonedJSON['value type'] === 'selection' &&
+      this._attrDef.valueType === 'selection' &&
       clonedJSON.values[this._index].default &&
       this._indexThatAddDefaultTo === null
     ) {
@@ -34,7 +34,7 @@ export default class RemoveValueFromAttributeDefinitionCommand extends Configura
 
     // When undoing to add new value with default property.
     if (
-      clonedJSON['value type'] === 'selection' &&
+      this._attrDef.valueType === 'selection' &&
       this._indexThatAddDefaultTo !== null
     ) {
       clonedJSON.values[this._indexThatAddDefaultTo].default = true
