@@ -29,13 +29,13 @@ export default class AddValueToAttributeDefinitionCommand extends ConfigurationC
     // the value object will increase each time the command is executed.
     clonedJSON.values.splice(index || clonedJSON.values.length, 0, value)
 
-    this._modifiedAttrHash = clonedJSON
+    this._modifiedValues = clonedJSON.values
   }
 
   execute() {
     this._updatedAttrDef = this._typeContainer.updateValues(
       this._pred,
-      this._modifiedAttrHash.values
+      this._modifiedValues
     )
 
     commandLog(
@@ -43,7 +43,7 @@ export default class AddValueToAttributeDefinitionCommand extends ConfigurationC
         this._value
       )}, index: ${
         this._index
-      }, updated values: \n ${this._modifiedAttrHash.values
+      }, updated values: \n ${this._modifiedValues
         .map((v) => JSON.stringify(v))
         .join('\n ')}`
     )
