@@ -32,9 +32,9 @@ export default class AddValueToAttributeDefinitionCommand extends ConfigurationC
   }
 
   execute() {
-    this._updatedAttrDef = this._typeContainer.update(
+    this._updatedAttrDef = this._typeContainer.updateValues(
       this._pred,
-      this._modifiedAttrHash
+      this._modifiedAttrHash.values
     )
 
     commandLog(
