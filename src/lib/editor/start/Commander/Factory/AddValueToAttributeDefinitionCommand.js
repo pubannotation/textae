@@ -11,7 +11,7 @@ export default class AddValueToAttributeDefinitionCommand extends ConfigurationC
     this._value = value
 
     const clonedJSON = attrDef.JSON
-    if (clonedJSON['value type'] === 'selection') {
+    if (attrDef.valueType === 'selection') {
       // When adding default, remove default property from existing default value.
       if (value.default) {
         if (!this._indexThatRemoveDefaultFrom) {
