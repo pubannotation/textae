@@ -3,9 +3,9 @@ import valueButtonsTemplate from './valueButtonsTemplate'
 import showAddAttributeValueButton from './showAddAttributeValueButton'
 import predicateControllerTemplate from './predicateControllerTemplate'
 
-export default function (context) {
+export default function (context, attributeContainer) {
   const { values } = context.attrDef
-  const { isLock } = context
+  const { isLock, selectedPred } = context
 
   return `
   ${headerTemplate(context)}
@@ -24,10 +24,7 @@ export default function (context) {
         </tr>
         ${values
           .map(
-            (
-              { color = '', id, default: defaultValue, label = '', indelible },
-              index
-            ) => {
+            ({ color = '', id, default: defaultValue, label = '' }, index) => {
               return `
         <tr class="textae-editor__type-pallet__row" style="background-color: ${color};">
           <td class="textae-editor__type-pallet__selection-attribute-label" data-id="${id}">
@@ -44,7 +41,14 @@ export default function (context) {
           <td class="textae-editor__type-pallet__short-label">
             ${color}
           </td>
-          ${valueButtonsTemplate(isLock, index, indelible)}
+          ${valueButtonsTemplate(
+            isLock,
+            index,
+            attributeContainer.isSelectionAttributeValueIndelible(
+              selectedPred,
+              id
+            )
+          )}
         </tr>
         `
             }

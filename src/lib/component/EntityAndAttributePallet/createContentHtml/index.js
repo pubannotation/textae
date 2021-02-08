@@ -55,7 +55,7 @@ export default function (
         )
       }
 
-      return selectionAttributeTemplate(values)
+      return selectionAttributeTemplate(values, attributeContainer)
     case 'string':
       return stringAttributeTemplate(values)
     default:
