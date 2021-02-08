@@ -45,6 +45,7 @@ export default function (context, attributeContainer) {
             isLock,
             index,
             attributeContainer.isSelectionAttributeValueIndelible(
+              // Disable to press the remove button for the value used in the selection attribute.
               selectedPred,
               id
             )
