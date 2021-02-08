@@ -10,26 +10,24 @@ export default class AddValueToAttributeDefinitionCommand extends ConfigurationC
     this._index = index
     this._value = value
 
-    const clonedJSON = attrDef.JSON
+    const { values } = attrDef.JSON
     if (attrDef.valueType === 'selection') {
       // When adding default, remove default property from existing default value.
       if (value.default) {
         if (!this._indexThatRemoveDefaultFrom) {
-          this._indexThatRemoveDefaultFrom = clonedJSON.values.findIndex(
-            (v) => v.default
-          )
+          this._indexThatRemoveDefaultFrom = values.findIndex((v) => v.default)
         }
 
-        delete clonedJSON.values[this._indexThatRemoveDefaultFrom].default
+        delete values[this._indexThatRemoveDefaultFrom].default
       }
     }
 
     // When undoing, insert to the position before remove.
     // The array of values is a copy. If you add values to the array of values when the command executes,
     // the value object will increase each time the command is executed.
-    clonedJSON.values.splice(index || clonedJSON.values.length, 0, value)
+    values.splice(index || values.length, 0, value)
 
-    this._modifiedValues = clonedJSON.values
+    this._modifiedValues = values
   }
 
   execute() {
