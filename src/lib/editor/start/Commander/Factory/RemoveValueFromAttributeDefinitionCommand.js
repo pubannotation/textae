@@ -27,11 +27,10 @@ export default class RemoveValueFromAttributeDefinitionCommand extends Configura
         }
       })
 
-      values[indexThatAddDefaultTo] = Object.assign(
-        {},
-        values[indexThatAddDefaultTo],
-        { default: true }
-      )
+      values[indexThatAddDefaultTo] = {
+        ...values[indexThatAddDefaultTo],
+        ...{ default: true }
+      }
     }
 
     this._deletedValue = values.splice(this._index, 1)[0]
@@ -41,11 +40,10 @@ export default class RemoveValueFromAttributeDefinitionCommand extends Configura
       this._attrDef.valueType === 'selection' &&
       this._indexThatAddDefaultTo !== null
     ) {
-      values[this._indexThatAddDefaultTo] = Object.assign(
-        {},
-        values[this._indexThatAddDefaultTo],
-        { default: true }
-      )
+      values[this._indexThatAddDefaultTo] = {
+        ...values[this._indexThatAddDefaultTo],
+        ...{ default: true }
+      }
     }
 
     this._updatedAttrDef = this._typeContainer.updateValues(
