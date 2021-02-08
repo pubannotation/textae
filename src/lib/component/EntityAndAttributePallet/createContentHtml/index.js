@@ -47,14 +47,6 @@ export default function (
     case 'numeric':
       return numericAttributeTemplate(values)
     case 'selection':
-      // Disable to press the remove button for the value used in the selection attribute.
-      for (const value of values.attrDef.values) {
-        value.indelible = attributeContainer.isSelectionAttributeValueIndelible(
-          selectedPred,
-          value.id
-        )
-      }
-
       return selectionAttributeTemplate(values, attributeContainer)
     case 'string':
       return stringAttributeTemplate(values)
