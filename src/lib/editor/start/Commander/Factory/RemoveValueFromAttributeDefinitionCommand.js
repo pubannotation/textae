@@ -15,7 +15,8 @@ export default class RemoveValueFromAttributeDefinitionCommand extends Configura
     // When removing value with default property.
     if (
       this._attrDef['value type'] === 'selection' &&
-      this._attrDef.values[this._index].default
+      this._attrDef.values[this._index].default &&
+      this._indexThatAddDefaultTo === null
     ) {
       let indexThatAddDefaultTo = null
 
