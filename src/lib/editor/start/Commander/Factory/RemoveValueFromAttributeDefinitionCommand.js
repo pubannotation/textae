@@ -39,9 +39,9 @@ export default class RemoveValueFromAttributeDefinitionCommand extends Configura
       this._attrDef.values[this._indexThatAddDefaultTo].default = true
     }
 
-    this._updatedAttrDef = this._typeContainer.update(
+    this._updatedAttrDef = this._typeContainer.updateValues(
       this._attrDef.pred,
-      this._attrDef
+      this._attrDef.values
     )
 
     commandLog(
