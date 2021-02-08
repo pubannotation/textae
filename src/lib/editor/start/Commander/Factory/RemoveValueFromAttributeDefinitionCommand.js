@@ -41,12 +41,12 @@ export default class RemoveValueFromAttributeDefinitionCommand extends Configura
     }
 
     this._updatedAttrDef = this._typeContainer.updateValues(
-      clonedJSON.pred,
+      this._attrDef.pred,
       clonedJSON.values
     )
 
     commandLog(
-      `remove a value from an attrribute:${clonedJSON.pred}, index:${
+      `remove a value from an attrribute:${this._attrDef.pred}, index:${
         this._index
       }, updated values: \n ${clonedJSON.values
         .map((v) => JSON.stringify(v))
