@@ -12,42 +12,43 @@ export default class RemoveValueFromAttributeDefinitionCommand extends Configura
   }
 
   execute() {
+    const clonedJSON = this._attrDef.JSON
     // When removing value with default property.
     if (
-      this._attrDef['value type'] === 'selection' &&
-      this._attrDef.values[this._index].default &&
+      clonedJSON['value type'] === 'selection' &&
+      clonedJSON.values[this._index].default &&
       this._indexThatAddDefaultTo === null
     ) {
       let indexThatAddDefaultTo = null
 
-      this._attrDef.values.forEach((_, index) => {
+      clonedJSON.values.forEach((_, index) => {
         if (indexThatAddDefaultTo === null && index != this._index) {
           indexThatAddDefaultTo = index
         }
       })
 
-      this._attrDef.values[indexThatAddDefaultTo].default = true
+      clonedJSON.values[indexThatAddDefaultTo].default = true
     }
 
-    this._deletedValue = this._attrDef.values.splice(this._index, 1)[0]
+    this._deletedValue = clonedJSON.values.splice(this._index, 1)[0]
 
     // When undoing to add new value with default property.
     if (
-      this._attrDef['value type'] === 'selection' &&
+      clonedJSON['value type'] === 'selection' &&
       this._indexThatAddDefaultTo !== null
     ) {
-      this._attrDef.values[this._indexThatAddDefaultTo].default = true
+      clonedJSON.values[this._indexThatAddDefaultTo].default = true
     }
 
     this._updatedAttrDef = this._typeContainer.updateValues(
-      this._attrDef.pred,
-      this._attrDef.values
+      clonedJSON.pred,
+      clonedJSON.values
     )
 
     commandLog(
-      `remove a value from an attrribute:${this._attrDef.pred}, index:${
+      `remove a value from an attrribute:${clonedJSON.pred}, index:${
         this._index
-      }, updated values: \n ${this._attrDef.values
+      }, updated values: \n ${clonedJSON.values
         .map((v) => JSON.stringify(v))
         .join('\n ')}`
     )
@@ -56,7 +57,7 @@ export default class RemoveValueFromAttributeDefinitionCommand extends Configura
   revert() {
     return new AddValueToAttributeDefinitionCommand(
       this._typeContainer,
-      this._updatedAttrDef.JSON,
+      this._updatedAttrDef,
       this._deletedValue,
       this._index
     )

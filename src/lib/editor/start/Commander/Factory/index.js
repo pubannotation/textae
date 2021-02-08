@@ -36,7 +36,7 @@ export default class Factory {
   addValueToAttributeDefinitionCommand(attributeDefinition, value) {
     return new AddValueToAttributeDefinitionCommand(
       this._annotationData.typeDefinition.attribute,
-      attributeDefinition.JSON,
+      attributeDefinition,
       value
     )
   }
@@ -285,7 +285,7 @@ export default class Factory {
   removeValueFromAttributeDefinitionCommand(attributeDefinition, index) {
     return new RemoveValueFromAttributeDefinitionCommand(
       this._annotationData.typeDefinition.attribute,
-      attributeDefinition.JSON,
+      attributeDefinition,
       index
     )
   }

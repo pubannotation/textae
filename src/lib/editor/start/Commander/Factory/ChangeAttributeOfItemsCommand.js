@@ -48,7 +48,7 @@ export default class ChangeAttributeOfItemsCommand extends CompositeCommand {
       !attrDef.values.some((v) => v.pattern === newObj)
     ) {
       addValueForLabelToStirngAttributeDefinitionCommands.push(
-        new AddValueToAttributeDefinitionCommand(typeContainer, attrDef.JSON, {
+        new AddValueToAttributeDefinitionCommand(typeContainer, attrDef, {
           pattern: newObj,
           label: newLabel
         })
