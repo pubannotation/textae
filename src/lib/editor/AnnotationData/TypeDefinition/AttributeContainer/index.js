@@ -83,7 +83,7 @@ export default class AttributeContainer {
 
   updateValues(pred, values) {
     const hash = this.get(pred).JSON
-    return this.update(pred, Object.assign(hash, { values }))
+    return this.update(pred, { ...hash, ...{ values } })
   }
 
   move(oldIndex, newIndex) {
