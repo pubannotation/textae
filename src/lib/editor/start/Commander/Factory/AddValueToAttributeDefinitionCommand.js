@@ -10,7 +10,7 @@ export default class AddValueToAttributeDefinitionCommand extends ConfigurationC
     this._index = index
     this._value = value
 
-    const { values } = attrDef.JSON
+    const values = [...attrDef.values]
     if (attrDef.valueType === 'selection') {
       // When adding default, remove default property from existing default value.
       if (value.default) {
@@ -18,7 +18,9 @@ export default class AddValueToAttributeDefinitionCommand extends ConfigurationC
           this._indexThatRemoveDefaultFrom = values.findIndex((v) => v.default)
         }
 
-        delete values[this._indexThatRemoveDefaultFrom].default
+        const newValue = { ...values[this._indexThatRemoveDefaultFrom] }
+        delete newValue.default
+        values[this._indexThatRemoveDefaultFrom] = newValue
       }
     }
 
