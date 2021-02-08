@@ -194,6 +194,15 @@ export default class SpanEditor {
       return
     }
 
+    if (
+      selectionWrapper.parentOfFocusNode.parentElement ===
+      selectionWrapper.parentOfAnchorNode.parentElement
+    ) {
+      const spanId = getExpandTargetSpan(this._selectionModel, selectionWrapper)
+      this._expand(selectionWrapper, spanId)
+      return
+    }
+
     // When you mouse down in one span and mouse up in another span
     clearTextSelection()
   }
