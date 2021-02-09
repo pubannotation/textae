@@ -14,6 +14,11 @@ export default class ChangeValueOfAttributeDefinitionAndObjectOfAttributeCommand
   ) {
     super()
 
+    // Remove the property itself if it is false.
+    if (value.default === false) {
+      delete value.default
+    }
+
     this._subCommands = [
       new ChangeValueOfAttributeDefinitionCommand(
         typeContainer,

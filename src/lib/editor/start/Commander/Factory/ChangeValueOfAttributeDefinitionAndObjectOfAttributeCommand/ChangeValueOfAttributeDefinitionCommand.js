@@ -34,11 +34,6 @@ export default class ChangeValueOfAttributeDefinitionCommand extends Configurati
         delete this._attrDef.values[this._indexThatRemoveDefaultFrom].default
       }
 
-      // Remove the property itself if it is false.
-      if (this._newValue.default === false) {
-        delete this._newValue.default
-      }
-
       // When removeing default.
       if (
         this._attrDef.values[this._targetIndex].default &&
