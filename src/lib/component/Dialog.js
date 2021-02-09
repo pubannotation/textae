@@ -16,15 +16,17 @@ export default class Dialog {
     })
 
     if (buttonLabel) {
-      option = option || {}
-      Object.assign(option, {
-        buttons: [
-          {
-            text: buttonLabel,
-            click: () => this.close()
-          }
-        ]
-      })
+      option = {
+        ...option,
+        ...{
+          buttons: [
+            {
+              text: buttonLabel,
+              click: () => this.close()
+            }
+          ]
+        }
+      }
     }
 
     this._option = option
