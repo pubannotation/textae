@@ -43,18 +43,16 @@ export default class Dialog {
   }
 
   open() {
-    this._$dialog.dialog(
-      Object.assign(
-        {
-          dialogClass: 'textae-editor--dialog',
-          height: 'auto',
-          modal: true,
-          resizable: false,
-          width: 550
-        },
-        this._option
-      )
-    )
+    this._$dialog.dialog({
+      ...{
+        dialogClass: 'textae-editor--dialog',
+        height: 'auto',
+        modal: true,
+        resizable: false,
+        width: 550
+      },
+      ...this._option
+    })
   }
 
   close() {
