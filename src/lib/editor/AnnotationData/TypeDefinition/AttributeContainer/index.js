@@ -142,6 +142,10 @@ export default class AttributeContainer {
   }
 
   getDisplayName(pred, obj) {
+    if (!this._definedTypes.has(pred)) {
+      return
+    }
+
     console.assert(
       this._definedTypes.has(pred),
       `There is no attribute definition for ${pred}.`
