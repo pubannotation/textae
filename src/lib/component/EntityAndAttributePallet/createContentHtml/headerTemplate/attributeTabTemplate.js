@@ -1,5 +1,3 @@
-import toShrotcutKey from './toShrotcutKey'
-
 export default function ({ pred }, index, array, selectedPred) {
   // Moving an attribute to before or after the current position does not change the position.
   const droppable =
@@ -20,7 +18,7 @@ export default function ({ pred }, index, array, selectedPred) {
       data-attribute="${pred}"
       data-index="${index}"
       ${pred === selectedPred ? 'draggable="true"' : ''}>
-      ${toShrotcutKey(index)}${pred}
+      ${index < 9 ? `${index + 1}:` : ''}${pred}
     </p>
   `
 }
