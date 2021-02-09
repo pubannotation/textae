@@ -77,17 +77,17 @@ export default class EntityModel {
   }
 
   _toHTMLElementContext(namespace, typeContainer) {
-    return Object.assign(
-      {
+    return {
+      ...{
         id: makeEntityHTMLElementId(this._editor, this.id),
         title: this.id
       },
-      this.typeValues.toHTMLElementContext(
+      ...this.typeValues.toHTMLElementContext(
         namespace,
         typeContainer,
         this._typeDefinition.attribute
       )
-    )
+    }
   }
 
   _hasSameAttributes(newAttributes) {
