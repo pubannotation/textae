@@ -1,5 +1,22 @@
 # 対応予定のテスト
 
+## Selection Attribute 定義の default でない Value を default に変更して UNDO する
+
+### 背景
+
+1.  5.2.0 から Entity パレットで Selection Attribute の Value が編集出来るようになりました。
+
+### -- 手段 --
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  `Select Label [Q]`ボタンをクリックする
+4.  `denote`タブを選択
+5.  `Cell`の Edit Value ボタンをクリック
+6.  `default`をチェックして`OK`をクリック
+7.  Undo する
+8.  `equivalentTo`が`default`になること
+
 ## Selection Attribute 定義の Value が annotation 上で使われているときは、削除不可
 
 ### 背景
