@@ -53,11 +53,9 @@
 23. すべてもどす
 24. すべてやり直す
 
-## Selection Attribute 定義の Value の編集
+## Selection Attribute 定義の Value の id 変更
 
-### Selection Attribute 定義の Value の id 変更
-
-#### 背景
+### 背景
 
 1.  5.2.0 から Entity パレットで Selection Attribute の Value が編集出来るようになりました。
 2.  Selection Attribute 定義の value の id を変更したときに、annotation 上の Attribute の obj の値を更新していなかったため、Attribute 定義と annotation 上の Attribute の情報が乖離するバグがありました。
@@ -65,7 +63,7 @@
 4.  6.2.66 で ChangeAttributeCommand のプロパティ名を変更時の修正もれでエラーがおきました。
 5.  6.2.72 で対応しました
 
-#### -- 手段 --
+### -- 手段 --
 
 1.  Editor1 を選択
 2.  パレットを開く
@@ -76,14 +74,14 @@
 7.  すべてもどす
 8.  すべてやり直す
 
-### Selection Attribute 定義の Value が唯一のときは、削除不可
+## Selection Attribute 定義の Value が唯一のときは、削除不可
 
-#### 背景
+### 背景
 
 1.  Selection Attribute の Value をすべて消そうとするとエラーが起きます
 2.  6.1.57 で対応しました。
 
-#### -- 手段 --
+### -- 手段 --
 
 1.  Editor1 を選択
 2.  Term モードにする
@@ -97,13 +95,13 @@
 10. 追加した Value の`Remove this value.`ボタンがクリックする
 11. `default`の`Remove this value.`ボタンが無効になること
 
-### Selection Attribute 定義の Value の label、color 変更
+## Selection Attribute 定義の Value の label、color 変更
 
-#### 背景
+### 背景
 
 1.  5.2.0 から Entity パレットで Selection Attribute の Value が編集出来るようになりました。
 
-#### -- 手段 --
+### -- 手段 --
 
 1.  Editor1 を選択
 2.  Term モードにする
