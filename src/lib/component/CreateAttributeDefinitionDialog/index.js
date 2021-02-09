@@ -16,12 +16,15 @@ export default class CreateAttributeDefinitionDialog extends PromiseDialog {
 
         // Numeric Attribute property value type must be Number type.
         if (state.valueType === 'numeric') {
-          return Object.assign(state, {
-            default: parseFloat(state.default) || 0,
-            min: parseFloat(state.min) || 0,
-            max: parseFloat(state.max) || 0,
-            step: parseFloat(state.step) || 0
-          })
+          return {
+            ...state,
+            ...{
+              default: parseFloat(state.default) || 0,
+              min: parseFloat(state.min) || 0,
+              max: parseFloat(state.max) || 0,
+              step: parseFloat(state.step) || 0
+            }
+          }
         }
 
         return state
