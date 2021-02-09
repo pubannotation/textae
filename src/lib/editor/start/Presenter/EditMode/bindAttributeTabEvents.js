@@ -119,11 +119,6 @@ export default function (eventEmitter, commander, selectionModelEntity) {
               return
             }
 
-            // Remove the property itself if it is false.
-            if (newValue.default === false) {
-              delete newValue.default
-            }
-
             commander.invoke(
               commander.factory.changeValueOfAttributeDefinitionAndObjectOfSelectionAttributeCommand(
                 attrDef.JSON,

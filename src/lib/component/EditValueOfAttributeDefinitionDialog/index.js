@@ -61,9 +61,15 @@ export default class EditValueOfAttributeDefinitionDialog extends PromiseDialog 
           break
         case 'selection':
           ret.id = rangeOrIdOrPattern
-          ret.default = super.el.querySelector(
-            '.textae-editor__add-value-to-attribute-dialog__default input'
-          ).checked
+
+          if (
+            super.el.querySelector(
+              '.textae-editor__add-value-to-attribute-dialog__default input'
+            ).checked
+          ) {
+            ret.default = true
+          }
+
           break
         case 'string':
           ret.pattern = rangeOrIdOrPattern
