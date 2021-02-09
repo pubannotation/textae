@@ -30,7 +30,7 @@ export default function (
       </table>
     </div>
     <fieldset>
-      <legend>Attributes:</legend>
+      <legend>Available Predicates:</legend>
       <div class="textae-editor__edit-type-dialog__add-attribute-buttons">
       ${attributeContainer.attributes
         .map(
