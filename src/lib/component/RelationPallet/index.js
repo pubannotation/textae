@@ -12,14 +12,10 @@ export default class RelationPallet extends Pallet {
   }
 
   get _content() {
-    const hasDiff = diff(
-      this._originalData.configuration,
-      Object.assign(
-        {},
-        this._originalData.configuration,
-        this._typeDefinition.config
-      )
-    )
+    const hasDiff = diff(this._originalData.configuration, {
+      ...this._originalData.configuration,
+      ...this._typeDefinition.config
+    })
 
     return template({
       isLock: this._typeContainer.isLock,
