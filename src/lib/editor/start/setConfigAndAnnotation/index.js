@@ -23,8 +23,7 @@ export default function (
 
   setPushBUttons(validConfig, buttonController)
   spanConfig.set(validConfig)
-  annotationData.typeDefinition.setTypeConfig(validConfig)
-  annotationData.reset(annotation)
+  annotationData.reset(annotation, validConfig)
 
   return true
 }

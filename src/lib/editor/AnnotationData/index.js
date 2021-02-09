@@ -44,9 +44,10 @@ export default class AnnotationData {
     )
   }
 
-  reset(rawData) {
+  reset(rawData, config) {
     console.assert(rawData.text, 'This is not a json file of anntations.')
 
+    this._typeDefinition.setTypeConfig(config)
     this._sourceDoc = rawData.text
     this._textBox.render(this.sourceDoc)
 
