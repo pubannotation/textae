@@ -2,7 +2,6 @@ import warningIfBeginEndOfSpanAreNotInteger from './warningIfBeginEndOfSpanAreNo
 import setConfigAndAnnotation from '../setConfigAndAnnotation'
 import patchConfiguration from '../validateConfigurationAndAlert/patchConfiguration'
 import validateAttribueDefinitionAndAlert from '../validateAttribueDefinitionAndAlert'
-import setSpanAndTypeConfig from '../setSpanAndTypeConfig'
 
 // Return true if the annotation is set.
 export default function (
@@ -38,11 +37,8 @@ export default function (
         return
       }
 
-      setSpanAndTypeConfig(
-        spanConfig,
-        annotationData.typeDefinition,
-        validConfig
-      )
+      spanConfig.set(validConfig)
+      annotationData.typeDefinition.setTypeConfig(validConfig)
       annotationData.reset(annotation)
 
       return true
