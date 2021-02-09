@@ -1,5 +1,3 @@
-import toShrotcutKey from '../../toShrotcutKey'
-
 export default function (
   attribute,
   index,
@@ -26,7 +24,13 @@ export default function (
     `
       : `
     <td>
-      ${toShrotcutKey(definitionIndex)}
+      ${
+        definitionIndex < 9
+          ? `<span title="Shotcut key for this predicate" style="border-style: solid; border-width: 1px; text-align: center;">${
+              definitionIndex + 1
+            }</span>`
+          : ''
+      }
     </td>
     <td>
       <span class="textae-editor__edit-type-dialog__attribute__predicate__value" data-predicate="${pred}">
