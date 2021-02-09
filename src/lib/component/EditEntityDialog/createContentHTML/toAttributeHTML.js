@@ -26,7 +26,7 @@ export default function (
     <td>
       ${
         definitionIndex < 9
-          ? `<span title="Shotcut key for this predicate" style="border-style: solid; border-width: 1px; text-align: center;">${
+          ? `<span class="textae-editor__edit-type-dialog__shortcut-key" title="Shotcut key for this predicate">${
               definitionIndex + 1
             }</span>`
           : ''
