@@ -12,8 +12,4 @@ export default function (editor, entityRenderer, relationRenderer) {
     .on('textae-event.type-definition.relation.type.change', (typeName) =>
       relationRenderer.changeType(typeName)
     )
-    .on('textae-event.type-definition.reset', () => {
-      entityRenderer.updateEntityHtmlelementAll()
-      relationRenderer.changeAll()
-    })
 }
