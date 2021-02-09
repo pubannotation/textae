@@ -121,6 +121,11 @@ export default class Factory {
     index,
     value
   ) {
+    // Remove the property itself if it is false.
+    if (value.default === false) {
+      delete value.default
+    }
+
     return new ChangeValueOfAttributeDefinitionAndObjectOfAttributeCommand(
       this._editor,
       this._annotationData,
