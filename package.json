@@ -1,7 +1,7 @@
 {
   "name": "textae",
   "description": "text annotation editor",
-  "version": "6.4.138",
+  "version": "6.4.139",
   "author": "jdkim",
   "bugs": {
     "url": "https://github.com/pubannotation/textae/issues"
