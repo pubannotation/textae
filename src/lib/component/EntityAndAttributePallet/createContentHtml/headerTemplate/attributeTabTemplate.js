@@ -1,4 +1,4 @@
-import toShrotcutKey from '../../../toShrotcutKey'
+import toShrotcutKey from './toShrotcutKey'
 
 export default function ({ pred }, index, array, selectedPred) {
   // Moving an attribute to before or after the current position does not change the position.
