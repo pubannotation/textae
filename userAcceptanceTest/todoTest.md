@@ -36,9 +36,9 @@
 23. すべてもどす
 24. すべてやり直す
 
-## Selection Attribute の Value の編集
+## Selection Attribute 定義の Value の編集
 
-### Selection Attribute の Value の id 変更
+### Selection Attribute 定義の Value の id 変更
 
 #### 背景
 
@@ -59,7 +59,7 @@
 7.  すべてもどす
 8.  すべてやり直す
 
-### Selection Attribute の Value が唯一のときは、削除不可
+### Selection Attribute 定義の Value が唯一のときは、削除不可
 
 #### 背景
 
@@ -80,7 +80,7 @@
 10. 追加した Value の`Remove this value.`ボタンがクリックする
 11. `default`の`Remove this value.`ボタンが無効になること
 
-### Selection Attribute の Value の label、color 変更
+### Selection Attribute 定義の Value の label、color 変更
 
 #### 背景
 
