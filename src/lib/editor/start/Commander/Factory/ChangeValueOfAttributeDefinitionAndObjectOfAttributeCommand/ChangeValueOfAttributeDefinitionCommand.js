@@ -41,6 +41,8 @@ export default class ChangeValueOfAttributeDefinitionCommand extends Configurati
       ) {
         if (this._attrDef.values.length === 1) {
           this._newValue.default = true
+        } else if (this._indexThatRemoveDefaultFrom) {
+          this._attrDef.values[this._indexThatRemoveDefaultFrom].default = true
         } else {
           let indexThatAddDefaultTo = null
 
