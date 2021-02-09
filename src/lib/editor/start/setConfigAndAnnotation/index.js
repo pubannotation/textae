@@ -1,5 +1,4 @@
 import validateConfigurationAndAlert from '../validateConfigurationAndAlert'
-import setSpanAndTypeConfig from '../setSpanAndTypeConfig'
 import setPushBUttons from './setPushBUttons'
 
 export default function (
@@ -23,7 +22,9 @@ export default function (
   }
 
   setPushBUttons(validConfig, buttonController)
-  setSpanAndTypeConfig(spanConfig, annotationData.typeDefinition, validConfig)
+  spanConfig.set(validConfig)
+  annotationData.typeDefinition.setTypeConfig(validConfig)
   annotationData.reset(annotation)
+
   return true
 }
