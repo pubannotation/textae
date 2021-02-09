@@ -107,14 +107,10 @@ export default class EntityAndAttributePallet extends Pallet {
   get _content() {
     return createContentHtml(
       this._entityContainer.pallet,
-      diff(
-        this._originalData.configuration,
-        Object.assign(
-          {},
-          this._originalData.configuration,
-          this._annotationData.typeDefinition.config
-        )
-      ),
+      diff(this._originalData.configuration, {
+        ...this._originalData.configuration,
+        ...this._annotationData.typeDefinition.config
+      }),
       this._selectedPred,
       this._selectionModelEntity,
       this._annotationData.typeDefinition.attribute,
