@@ -9,7 +9,7 @@ const ALWAYS_ENABLES = {
 
 export default function (el, enableButtons) {
   // Make buttons in a enableButtons enabled, and other buttons in the buttonList disabled.
-  const enables = Object.assign({}, enableButtons, ALWAYS_ENABLES)
+  const enables = { ...enableButtons, ...ALWAYS_ENABLES }
   // A function to enable/disable button.
   updateButtons(el, enables)
 }
