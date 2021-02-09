@@ -44,7 +44,9 @@ export default class ChangeValueOfAttributeDefinitionCommand extends Configurati
             }
           })
 
+          // Remove the property itself as it can be false.
           delete this._value.default
+
           this._attrDef.values[indexThatAddDefaultTo].default = true
           this._indexThatRemoveDefaultFrom = indexThatAddDefaultTo
         }
