@@ -42,7 +42,7 @@ export default function (
         config,
         dataAccessObject,
         buttonController,
-        () => statusBar.status('inline')
+        () => {}
       )
 
       return originalAnnotation
