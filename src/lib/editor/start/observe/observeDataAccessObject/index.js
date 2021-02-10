@@ -24,19 +24,20 @@ export default function (
             annotation,
             params.get('config'),
             dataAccessObject,
-            buttonController
+            buttonController,
+            () => {
+              statusBar.status(toSourceString(sourceType, source))
+
+              // When saving the changed data,
+              // it keeps the original data so that properties not edited by textae are not lost.
+              originalData.annotation = annotation
+              if (annotation.config) {
+                originalData.configuration = annotation.config
+              }
+            }
           )
         ) {
           return
-        }
-
-        statusBar.status(toSourceString(sourceType, source))
-
-        // When saving the changed data,
-        // it keeps the original data so that properties not edited by textae are not lost.
-        originalData.annotation = annotation
-        if (annotation.config) {
-          originalData.configuration = annotation.config
         }
       }
     )

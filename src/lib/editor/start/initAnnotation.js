@@ -21,9 +21,9 @@ export default function (
         originalAnnotation,
         config,
         dataAccessObject,
-        buttonController
+        buttonController,
+        () => statusBar.status('inline')
       )
-      statusBar.status('inline')
 
       return originalAnnotation
     } else if (annotation.has('url')) {

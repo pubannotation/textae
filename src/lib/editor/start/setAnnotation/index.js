@@ -10,19 +10,24 @@ export default function (
   annotation,
   configUrl,
   dataAccessObject,
-  buttonController
+  buttonController,
+  okHandler
 ) {
   warningIfBeginEndOfSpanAreNotInteger(annotation)
 
   if (annotation.config) {
-    return setConfigAndAnnotation(
-      annotation,
-      annotation.config,
-      `configuration in anntotaion file is invalid.`,
-      spanConfig,
-      annotationData,
-      buttonController
-    )
+    if (
+      setConfigAndAnnotation(
+        annotation,
+        annotation.config,
+        `configuration in anntotaion file is invalid.`,
+        spanConfig,
+        annotationData,
+        buttonController
+      )
+    ) {
+      okHandler()
+    }
   } else {
     if (configUrl) {
       dataAccessObject.loadConfigulation(configUrl, annotation)
@@ -39,8 +44,7 @@ export default function (
 
       spanConfig.set(validConfig)
       annotationData.reset(annotation, validConfig)
-
-      return true
+      okHandler()
     }
   }
 }
