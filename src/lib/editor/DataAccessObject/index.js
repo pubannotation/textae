@@ -62,7 +62,7 @@ export default class DataAccessObject {
           this._urlOfLastRead.annotation = url
         } else {
           this._editor.eventEmitter.emit(
-            'textae-event.data-access-object.configuration.load.error',
+            'textae-event.data-access-object.annotation.load.error',
             'url',
             source
           )

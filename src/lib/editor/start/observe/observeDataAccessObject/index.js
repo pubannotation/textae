@@ -37,7 +37,7 @@ export default function (
         )
     )
     .on(
-      'textae-event.data-access-object.configuration.load.error',
+      'textae-event.data-access-object.annotation.load.error',
       (sourceType, source) =>
         alertifyjs.error(
           `${toSourceString(
@@ -83,7 +83,7 @@ export default function (
           `${toSourceString(
             sourceType,
             source
-          )} is not a configuration file or its format is invalid.`
+          )} is not a configuration file or its format is invalid.!`
         )
     )
     .on('textae-event.data-access-object.configuration.save', () => {
