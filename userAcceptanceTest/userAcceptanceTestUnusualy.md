@@ -2279,22 +2279,6 @@
 4.  赤いトーストが表示されること
 5.  右上に`Invalid configuration: '<span style='color:red'>Invalid color format</span>' is invalid color format.`と赤色のトースト表示がされること
 
-## 不正なフォーマットの アノテーションファイルを読み込んだ  ときにステータスバーの情報を更新しない
-
-### 背景
-
-1. 読み込んだアノテーションファイルの内容のチェックを行っていました
-2. チェックに引っかかった場合も、ステータスバーの情報を更新していました
-3. チェックに引っかかった場合も、基準とするアノテーションデーたを更新していました
-4. チェックに引っかかった場合も、パレットを更新していまいした
-5. 6.4.29 で上記 3 情報を更新しない対応をしました
-
-### -- 手段 --
-
-1.  Editor0 を選択
-1.  `invalid_color_annotation.json` を読み込む
-1.  ステータスバーに表示される URL が`http://pubannotation.org/projects/DisGeNET/docs/sourcedb/PubMed/sourceid/10021369/annotations.json `から変わらないこと
-
 ## パスに日本語を含む URL から annotations ファイルを読み込んだときにステータスバーにデコードした URL を表示する
 
 ### 背景
