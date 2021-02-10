@@ -14,17 +14,19 @@ export default function (
     if (annotation.has('inlineAnnotation')) {
       // Set an inline annotation.
       const originalAnnotation = JSON.parse(annotation.get('inlineAnnotation'))
+      const loadConfigulationHandler = params.get('config')
+        ? () =>
+            dataAccessObject.loadConfigulation(
+              params.get('config'),
+              originalAnnotation
+            )
+        : null
+
       setAnnotation(
         spanConfig,
         annotationData,
         originalAnnotation,
-        params.get('config')
-          ? () =>
-              dataAccessObject.loadConfigulation(
-                params.get('config'),
-                originalAnnotation
-              )
-          : null,
+        loadConfigulationHandler,
         buttonController,
         () => statusBar.status('inline')
       )
@@ -38,18 +40,19 @@ export default function (
         text:
           'Currently, the document is empty. Use the `import` button or press the key `i` to open a document with annotation.'
       }
+      const loadConfigulationHandler = params.get('config')
+        ? () =>
+            dataAccessObject.loadConfigulation(
+              params.get('config'),
+              originalAnnotation
+            )
+        : null
 
       setAnnotation(
         spanConfig,
         annotationData,
         originalAnnotation,
-        params.get('config')
-          ? () =>
-              dataAccessObject.loadConfigulation(
-                params.get('config'),
-                originalAnnotation
-              )
-          : null,
+        loadConfigulationHandler,
         buttonController,
         () => {}
       )
