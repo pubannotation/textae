@@ -1,8 +1,9 @@
 import alertifyjs from 'alertifyjs'
 import warningIfBeginEndOfSpanAreNotInteger from './warningIfBeginEndOfSpanAreNotInteger'
-import setConfigAndAnnotation from '../setConfigAndAnnotation'
 import patchConfiguration from '../patchConfiguration'
 import validateAttribueDefinitionAndAlert from '../validateAttribueDefinitionAndAlert'
+import validateConfigurationAndAlert from '../validateConfigurationAndAlert'
+import setPushBUttons from '../setConfigAndAnnotation/setPushBUttons'
 
 // Return true if the annotation is set.
 export default function (
@@ -23,17 +24,20 @@ export default function (
       return
     }
 
-    if (
-      setConfigAndAnnotation(
-        annotation,
-        annotation.config,
-        spanConfig,
-        annotationData,
-        buttonController
-      )
-    ) {
-      okHandler()
+    const validConfig = validateConfigurationAndAlert(
+      annotation,
+      annotation.config
+    )
+
+    if (!validConfig) {
+      return
     }
+
+    setPushBUttons(validConfig, buttonController)
+    spanConfig.set(validConfig)
+    annotationData.reset(annotation, validConfig)
+
+    okHandler()
   } else {
     if (loadConfigulationHandler) {
       loadConfigulationHandler()

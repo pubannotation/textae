@@ -1,6 +1,7 @@
 import alertifyjs from 'alertifyjs'
 import setAnnotation from '../../setAnnotation'
-import setConfigAndAnnotation from '../../setConfigAndAnnotation'
+import setPushBUttons from '../../setConfigAndAnnotation/setPushBUttons'
+import validateConfigurationAndAlert from '../../validateConfigurationAndAlert'
 import toSourceString from './toSourceString'
 
 export default function (
@@ -74,18 +75,18 @@ export default function (
           loadedAnnotation ||
           Object.assign(originalData.annotation, annotationData.toJson())
 
-        if (
-          setConfigAndAnnotation(
-            annotation,
-            config,
-            spanConfig,
-            annotationData,
-            buttonController
-          )
-        ) {
-          if (sourceType === 'url') {
-            dataAccessObject.configurationUrl = source
-          }
+        const validConfig = validateConfigurationAndAlert(annotation, config)
+
+        if (!validConfig) {
+          return
+        }
+
+        setPushBUttons(validConfig, buttonController)
+        spanConfig.set(validConfig)
+        annotationData.reset(annotation, validConfig)
+
+        if (sourceType === 'url') {
+          dataAccessObject.configurationUrl = source
         }
       }
     )
