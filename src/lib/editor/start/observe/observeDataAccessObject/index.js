@@ -1,6 +1,6 @@
 import alertifyjs from 'alertifyjs'
 import setAnnotation from '../../setAnnotation'
-import warningIfBeginEndOfSpanAreNotInteger from '../../setAnnotation/warningIfBeginEndOfSpanAreNotInteger'
+import warningIfBeginEndOfSpanAreNotInteger from '../../warningIfBeginEndOfSpanAreNotInteger'
 import setPushBUttons from '../../setPushBUttons'
 import validateConfigurationAndAlert from '../../validateConfigurationAndAlert'
 import toSourceString from './toSourceString'

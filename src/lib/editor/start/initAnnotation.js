@@ -1,5 +1,5 @@
 import setAnnotation from './setAnnotation'
-import warningIfBeginEndOfSpanAreNotInteger from './setAnnotation/warningIfBeginEndOfSpanAreNotInteger'
+import warningIfBeginEndOfSpanAreNotInteger from './warningIfBeginEndOfSpanAreNotInteger'
 
 export default function (
   spanConfig,
