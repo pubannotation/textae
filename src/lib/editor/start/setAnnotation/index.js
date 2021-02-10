@@ -1,7 +1,5 @@
 import alertifyjs from 'alertifyjs'
 import warningIfBeginEndOfSpanAreNotInteger from './warningIfBeginEndOfSpanAreNotInteger'
-import patchConfiguration from '../patchConfiguration'
-import validateAttribueDefinitionAndAlert from '../validateAttribueDefinitionAndAlert'
 import validateConfigurationAndAlert from '../validateConfigurationAndAlert'
 import setPushBUttons from '../setPushBUttons'
 
@@ -42,11 +40,7 @@ export default function (
     if (loadConfigulationHandler) {
       loadConfigulationHandler()
     } else {
-      const patchedConfig = patchConfiguration(annotation)
-      const validConfig = validateAttribueDefinitionAndAlert(
-        annotation,
-        patchedConfig
-      )
+      const validConfig = validateConfigurationAndAlert(annotation)
 
       if (validConfig) {
         spanConfig.set(validConfig)

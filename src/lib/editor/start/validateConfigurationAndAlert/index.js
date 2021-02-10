@@ -4,8 +4,6 @@ import validateConfiguration from './validateConfiguration'
 import validateAttribueDefinitionAndAlert from '../validateAttribueDefinitionAndAlert'
 
 export default function (annotation, config) {
-  console.assert(config, 'config is necessary')
-
   const patchedConfig = patchConfiguration(annotation, config)
   const errorMessage = validateConfiguration(patchedConfig)
   if (errorMessage) {
