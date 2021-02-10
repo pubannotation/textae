@@ -27,15 +27,12 @@ export default function (
       annotation.config
     )
 
-    if (!validConfig) {
-      return
+    if (validConfig) {
+      setPushBUttons(validConfig, buttonController)
+      spanConfig.set(validConfig)
+      annotationData.reset(annotation, validConfig)
+      okHandler()
     }
-
-    setPushBUttons(validConfig, buttonController)
-    spanConfig.set(validConfig)
-    annotationData.reset(annotation, validConfig)
-
-    okHandler()
   } else {
     if (loadConfigulationHandler) {
       loadConfigulationHandler()
