@@ -16,14 +16,14 @@ export default function (
       // Set an inline annotation.
       const originalAnnotation = JSON.parse(annotation.get('inlineAnnotation'))
 
-      warningIfBeginEndOfSpanAreNotInteger(originalAnnotation)
-
       if (params.get('config') && !originalAnnotation.config) {
         dataAccessObject.loadConfigulation(
           params.get('config'),
           originalAnnotation
         )
       } else {
+        warningIfBeginEndOfSpanAreNotInteger(originalAnnotation)
+
         setAnnotation(
           spanConfig,
           annotationData,

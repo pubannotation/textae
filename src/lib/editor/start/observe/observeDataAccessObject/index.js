@@ -19,11 +19,11 @@ export default function (
     .on(
       'textae-event.data-access-object.annotation.load.success',
       (sourceType, source, annotation) => {
-        warningIfBeginEndOfSpanAreNotInteger(annotation)
-
         if (params.get('config') && !annotation.config) {
           dataAccessObject.loadConfigulation(params.get('config'), annotation)
         } else {
+          warningIfBeginEndOfSpanAreNotInteger(annotation)
+
           setAnnotation(
             spanConfig,
             annotationData,
@@ -66,6 +66,10 @@ export default function (
             )} is not a configuration file or its format is invalid.`
           )
           return
+        }
+
+        if (loadedAnnotation) {
+          warningIfBeginEndOfSpanAreNotInteger(loadedAnnotation)
         }
 
         // If an annotation that does not contain a configuration is loaded
