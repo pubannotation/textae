@@ -30,7 +30,20 @@ export default function (
       // Load an annotation from server.
       dataAccessObject.loadAnnotation(annotation.get('url'))
     } else {
-      throw new Error('annotation text is empty.')
+      const originalAnnotation = JSON.parse(
+        '{"text": "Currently, the document is empty. Use the `import` button or press the key `i` to open a document with annotation."}'
+      )
+      setAnnotation(
+        spanConfig,
+        annotationData,
+        originalAnnotation,
+        config,
+        dataAccessObject,
+        buttonController,
+        () => statusBar.status('inline')
+      )
+
+      return originalAnnotation
     }
   }
 

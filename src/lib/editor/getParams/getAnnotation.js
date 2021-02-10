@@ -23,11 +23,5 @@ export default function (element, source) {
     annotation.set('save_to', getSaveToUrl(element))
   }
 
-  if (!inlineAnnotation && !url) {
-    const defaultText =
-      '{"text": "Currently, the document is empty. Use the `import` button or press the key `i` to open a document with annotation."}'
-    annotation.set('inlineAnnotation', defaultText)
-  }
-
   return annotation
 }
