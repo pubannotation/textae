@@ -38,9 +38,13 @@ export default function (
           )
 
           if (validConfig) {
-            setPushBUttons(validConfig, buttonController)
-            spanConfig.set(validConfig)
-            annotationData.reset(annotation, validConfig)
+            setAnnotation(
+              validConfig,
+              buttonController,
+              spanConfig,
+              annotationData,
+              annotation
+            )
 
             statusBar.status(toSourceString(sourceType, source))
 
@@ -97,9 +101,13 @@ export default function (
           return
         }
 
-        setPushBUttons(validConfig, buttonController)
-        spanConfig.set(validConfig)
-        annotationData.reset(annotation, validConfig)
+        setAnnotation(
+          validConfig,
+          buttonController,
+          spanConfig,
+          annotationData,
+          annotation
+        )
 
         if (sourceType === 'url') {
           dataAccessObject.configurationUrl = source
@@ -122,4 +130,16 @@ export default function (
         annotationData.typeDefinition.config
       )
     })
+}
+
+function setAnnotation(
+  validConfig,
+  buttonController,
+  spanConfig,
+  annotationData,
+  annotation
+) {
+  setPushBUttons(validConfig, buttonController)
+  spanConfig.set(validConfig)
+  annotationData.reset(annotation, validConfig)
 }
