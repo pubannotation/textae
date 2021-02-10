@@ -22,7 +22,7 @@ export default function (
           ? () =>
               dataAccessObject.loadConfigulation(
                 params.get('config'),
-                annotation
+                originalAnnotation
               )
           : null,
         buttonController,
@@ -47,7 +47,7 @@ export default function (
           ? () =>
               dataAccessObject.loadConfigulation(
                 params.get('config'),
-                annotation
+                originalAnnotation
               )
           : null,
         buttonController,
