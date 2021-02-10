@@ -1,6 +1,6 @@
 import warningIfBeginEndOfSpanAreNotInteger from './warningIfBeginEndOfSpanAreNotInteger'
 import setConfigAndAnnotation from '../setConfigAndAnnotation'
-import patchConfiguration from '../validateConfigurationAndAlert/patchConfiguration'
+import patchConfiguration from '../patchConfiguration'
 import validateAttribueDefinitionAndAlert from '../validateAttribueDefinitionAndAlert'
 
 // Return true if the annotation is set.

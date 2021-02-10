@@ -1,5 +1,5 @@
 import alertifyjs from 'alertifyjs'
-import patchConfiguration from './patchConfiguration'
+import patchConfiguration from '../patchConfiguration'
 import validateConfiguration from './validateConfiguration'
 import validateAttribueDefinitionAndAlert from '../validateAttribueDefinitionAndAlert'
 
