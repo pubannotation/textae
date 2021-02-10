@@ -1,6 +1,6 @@
 import alertifyjs from 'alertifyjs'
 import setAnnotation from '../../setAnnotation'
-import setPushBUttons from '../../setConfigAndAnnotation/setPushBUttons'
+import setPushBUttons from '../../setPushBUttons'
 import validateConfigurationAndAlert from '../../validateConfigurationAndAlert'
 import toSourceString from './toSourceString'
 

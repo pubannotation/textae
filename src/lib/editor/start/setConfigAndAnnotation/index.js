@@ -1,5 +1,5 @@
 import validateConfigurationAndAlert from '../validateConfigurationAndAlert'
-import setPushBUttons from './setPushBUttons'
+import setPushBUttons from '../setPushBUttons'
 
 export default function (
   annotation,

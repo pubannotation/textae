@@ -3,7 +3,7 @@ import warningIfBeginEndOfSpanAreNotInteger from './warningIfBeginEndOfSpanAreNo
 import patchConfiguration from '../patchConfiguration'
 import validateAttribueDefinitionAndAlert from '../validateAttribueDefinitionAndAlert'
 import validateConfigurationAndAlert from '../validateConfigurationAndAlert'
-import setPushBUttons from '../setConfigAndAnnotation/setPushBUttons'
+import setPushBUttons from '../setPushBUttons'
 
 // Return true if the annotation is set.
 export default function (
