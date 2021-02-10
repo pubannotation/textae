@@ -6,28 +6,28 @@ import setPushBUttons from '../setPushBUttons'
 export default function (
   spanConfig,
   annotationData,
-  annotation,
+  originalAnnotation,
   buttonController,
   okHandler
 ) {
-  if (annotation.config) {
+  if (originalAnnotation.config) {
     // When config is specified, it must be JSON.
     // For example, when we load an HTML file, we treat it as text here.
-    if (typeof annotation.config !== 'object') {
+    if (typeof originalAnnotation.config !== 'object') {
       alertifyjs.error(`configuration in anntotaion file is invalid.`)
       return
     }
   }
 
   const validConfig = validateConfigurationAndAlert(
-    annotation,
-    annotation.config
+    originalAnnotation,
+    originalAnnotation.config
   )
 
   if (validConfig) {
     setPushBUttons(validConfig, buttonController)
     spanConfig.set(validConfig)
-    annotationData.reset(annotation, validConfig)
+    annotationData.reset(originalAnnotation, validConfig)
     okHandler()
   }
 }
