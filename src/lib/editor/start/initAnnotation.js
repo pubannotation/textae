@@ -43,8 +43,6 @@ export default function (
           'Currently, the document is empty. Use the `import` button or press the key `i` to open a document with annotation.'
       }
 
-      warningIfBeginEndOfSpanAreNotInteger(originalAnnotation)
-
       if (params.get('config')) {
         dataAccessObject.loadConfigulation(
           params.get('config'),
