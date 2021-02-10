@@ -1,4 +1,7 @@
+import alertifyjs from 'alertifyjs'
 import setAnnotation from './setAnnotation'
+import setPushBUttons from './setPushBUttons'
+import validateConfigurationAndAlert from './validateConfigurationAndAlert'
 import warningIfBeginEndOfSpanAreNotInteger from './warningIfBeginEndOfSpanAreNotInteger'
 
 export default function (
@@ -24,13 +27,26 @@ export default function (
       } else {
         warningIfBeginEndOfSpanAreNotInteger(originalAnnotation)
 
-        setAnnotation(
-          spanConfig,
-          annotationData,
+        if (originalAnnotation.config) {
+          // When config is specified, it must be JSON.
+          // For example, when we load an HTML file, we treat it as text here.
+          if (typeof originalAnnotation.config !== 'object') {
+            alertifyjs.error(`configuration in anntotaion file is invalid.`)
+            return
+          }
+        }
+
+        const validConfig = validateConfigurationAndAlert(
           originalAnnotation,
-          buttonController,
-          () => statusBar.status('inline')
+          originalAnnotation.config
         )
+
+        if (validConfig) {
+          setPushBUttons(validConfig, buttonController)
+          spanConfig.set(validConfig)
+          annotationData.reset(originalAnnotation, validConfig)
+          statusBar.status('inline')
+        }
       }
 
       return originalAnnotation
