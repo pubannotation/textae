@@ -16,30 +16,25 @@ export default function (
   editor.eventEmitter
     .on(
       'textae-event.data-access-object.annotation.load.success',
-      (sourceType, source, annotation) => {
-        if (
-          !setAnnotation(
-            spanConfig,
-            annotationData,
-            annotation,
-            params.get('config'),
-            dataAccessObject,
-            buttonController,
-            () => {
-              statusBar.status(toSourceString(sourceType, source))
+      (sourceType, source, annotation) =>
+        setAnnotation(
+          spanConfig,
+          annotationData,
+          annotation,
+          params.get('config'),
+          dataAccessObject,
+          buttonController,
+          () => {
+            statusBar.status(toSourceString(sourceType, source))
 
-              // When saving the changed data,
-              // it keeps the original data so that properties not edited by textae are not lost.
-              originalData.annotation = annotation
-              if (annotation.config) {
-                originalData.configuration = annotation.config
-              }
+            // When saving the changed data,
+            // it keeps the original data so that properties not edited by textae are not lost.
+            originalData.annotation = annotation
+            if (annotation.config) {
+              originalData.configuration = annotation.config
             }
-          )
-        ) {
-          return
-        }
-      }
+          }
+        )
     )
     .on(
       'textae-event.data-access-object.configuration.load.error',
