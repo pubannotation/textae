@@ -1,5 +1,4 @@
 import alertifyjs from 'alertifyjs'
-import setAnnotation from '../../setAnnotation'
 import warningIfBeginEndOfSpanAreNotInteger from '../../warningIfBeginEndOfSpanAreNotInteger'
 import setPushBUttons from '../../setPushBUttons'
 import validateConfigurationAndAlert from '../../validateConfigurationAndAlert'
@@ -24,22 +23,34 @@ export default function (
         } else {
           warningIfBeginEndOfSpanAreNotInteger(annotation)
 
-          setAnnotation(
-            spanConfig,
-            annotationData,
-            annotation,
-            buttonController,
-            () => {
-              statusBar.status(toSourceString(sourceType, source))
-
-              // When saving the changed data,
-              // it keeps the original data so that properties not edited by textae are not lost.
-              originalData.annotation = annotation
-              if (annotation.config) {
-                originalData.configuration = annotation.config
-              }
+          if (annotation.config) {
+            // When config is specified, it must be JSON.
+            // For example, when we load an HTML file, we treat it as text here.
+            if (typeof annotation.config !== 'object') {
+              alertifyjs.error(`configuration in anntotaion file is invalid.`)
+              return
             }
+          }
+
+          const validConfig = validateConfigurationAndAlert(
+            annotation,
+            annotation.config
           )
+
+          if (validConfig) {
+            setPushBUttons(validConfig, buttonController)
+            spanConfig.set(validConfig)
+            annotationData.reset(annotation, validConfig)
+
+            statusBar.status(toSourceString(sourceType, source))
+
+            // When saving the changed data,
+            // it keeps the original data so that properties not edited by textae are not lost.
+            originalData.annotation = annotation
+            if (annotation.config) {
+              originalData.configuration = annotation.config
+            }
+          }
         }
       }
     )
