@@ -1,3 +1,4 @@
+import alertifyjs from 'alertifyjs'
 import warningIfBeginEndOfSpanAreNotInteger from './warningIfBeginEndOfSpanAreNotInteger'
 import setConfigAndAnnotation from '../setConfigAndAnnotation'
 import patchConfiguration from '../patchConfiguration'
@@ -15,11 +16,17 @@ export default function (
   warningIfBeginEndOfSpanAreNotInteger(annotation)
 
   if (annotation.config) {
+    // When config is specified, it must be JSON.
+    // For example, when we load an HTML file, we treat it as text here.
+    if (typeof annotation.config !== 'object') {
+      alertifyjs.error(`configuration in anntotaion file is invalid.`)
+      return
+    }
+
     if (
       setConfigAndAnnotation(
         annotation,
         annotation.config,
-        `configuration in anntotaion file is invalid.`,
         spanConfig,
         annotationData,
         buttonController

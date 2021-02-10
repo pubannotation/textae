@@ -54,6 +54,18 @@ export default function (
     .on(
       'textae-event.data-access-object.configuration.load.success',
       (sourceType, source, config, loadedAnnotation = null) => {
+        // When config is specified, it must be JSON.
+        // For example, when we load an HTML file, we treat it as text here.
+        if (typeof config !== 'object') {
+          alertifyjs.error(
+            `${toSourceString(
+              sourceType,
+              source
+            )} is not a configuration file or its format is invalid.`
+          )
+          return
+        }
+
         // If an annotation that does not contain a configuration is loaded
         // and a configuration is loaded from a taxtae attribute value,
         // both the loaded configuration and the annotation are passed.
@@ -66,10 +78,6 @@ export default function (
           setConfigAndAnnotation(
             annotation,
             config,
-            `${toSourceString(
-              sourceType,
-              source
-            )} is not a configuration file or its format is invalid.`,
             spanConfig,
             annotationData,
             buttonController
