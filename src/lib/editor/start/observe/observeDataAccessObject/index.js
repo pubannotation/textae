@@ -1,5 +1,6 @@
 import alertifyjs from 'alertifyjs'
 import setAnnotation from '../../setAnnotation'
+import warningIfBeginEndOfSpanAreNotInteger from '../../setAnnotation/warningIfBeginEndOfSpanAreNotInteger'
 import setPushBUttons from '../../setPushBUttons'
 import validateConfigurationAndAlert from '../../validateConfigurationAndAlert'
 import toSourceString from './toSourceString'
@@ -17,7 +18,9 @@ export default function (
   editor.eventEmitter
     .on(
       'textae-event.data-access-object.annotation.load.success',
-      (sourceType, source, annotation) =>
+      (sourceType, source, annotation) =>{
+        warningIfBeginEndOfSpanAreNotInteger(annotation)
+
         setAnnotation(
           spanConfig,
           annotationData,
@@ -40,7 +43,7 @@ export default function (
               originalData.configuration = annotation.config
             }
           }
-        )
+        )}
     )
     .on(
       'textae-event.data-access-object.annotation.load.error',

@@ -1,4 +1,5 @@
 import setAnnotation from './setAnnotation'
+import warningIfBeginEndOfSpanAreNotInteger from './setAnnotation/warningIfBeginEndOfSpanAreNotInteger'
 
 export default function (
   spanConfig,
@@ -22,7 +23,9 @@ export default function (
             )
         : null
 
-      setAnnotation(
+        warningIfBeginEndOfSpanAreNotInteger(originalAnnotation)
+
+        setAnnotation(
         spanConfig,
         annotationData,
         originalAnnotation,
@@ -48,7 +51,9 @@ export default function (
             )
         : null
 
-      setAnnotation(
+        warningIfBeginEndOfSpanAreNotInteger(originalAnnotation)
+
+        setAnnotation(
         spanConfig,
         annotationData,
         originalAnnotation,

@@ -1,5 +1,4 @@
 import alertifyjs from 'alertifyjs'
-import warningIfBeginEndOfSpanAreNotInteger from './warningIfBeginEndOfSpanAreNotInteger'
 import validateConfigurationAndAlert from '../validateConfigurationAndAlert'
 import setPushBUttons from '../setPushBUttons'
 
@@ -12,8 +11,6 @@ export default function (
   buttonController,
   okHandler
 ) {
-  warningIfBeginEndOfSpanAreNotInteger(annotation)
-
   if (annotation.config) {
     // When config is specified, it must be JSON.
     // For example, when we load an HTML file, we treat it as text here.
