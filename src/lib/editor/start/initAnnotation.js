@@ -18,7 +18,7 @@ export default function (
       // Set an inline annotation.
       const originalAnnotation = JSON.parse(annotation.get('inlineAnnotation'))
 
-      if (params.get('config') && !originalAnnotation.config) {
+      if (!originalAnnotation.config && params.get('config')) {
         dataAccessObject.loadConfigulation(
           params.get('config'),
           originalAnnotation
