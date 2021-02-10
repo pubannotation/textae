@@ -18,32 +18,30 @@ export default function (
   editor.eventEmitter
     .on(
       'textae-event.data-access-object.annotation.load.success',
-      (sourceType, source, annotation) =>{
+      (sourceType, source, annotation) => {
         warningIfBeginEndOfSpanAreNotInteger(annotation)
 
-        setAnnotation(
-          spanConfig,
-          annotationData,
-          annotation,
-          params.get('config')
-            ? () =>
-                dataAccessObject.loadConfigulation(
-                  params.get('config'),
-                  annotation
-                )
-            : null,
-          buttonController,
-          () => {
-            statusBar.status(toSourceString(sourceType, source))
+        if (params.get('config') && !annotation.config) {
+          dataAccessObject.loadConfigulation(params.get('config'), annotation)
+        } else {
+          setAnnotation(
+            spanConfig,
+            annotationData,
+            annotation,
+            buttonController,
+            () => {
+              statusBar.status(toSourceString(sourceType, source))
 
-            // When saving the changed data,
-            // it keeps the original data so that properties not edited by textae are not lost.
-            originalData.annotation = annotation
-            if (annotation.config) {
-              originalData.configuration = annotation.config
+              // When saving the changed data,
+              // it keeps the original data so that properties not edited by textae are not lost.
+              originalData.annotation = annotation
+              if (annotation.config) {
+                originalData.configuration = annotation.config
+              }
             }
-          }
-        )}
+          )
+        }
+      }
     )
     .on(
       'textae-event.data-access-object.annotation.load.error',

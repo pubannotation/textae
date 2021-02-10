@@ -7,7 +7,6 @@ export default function (
   spanConfig,
   annotationData,
   annotation,
-  loadConfigulationHandler,
   buttonController,
   okHandler
 ) {
@@ -31,17 +30,13 @@ export default function (
       okHandler()
     }
   } else {
-    if (loadConfigulationHandler) {
-      loadConfigulationHandler()
-    } else {
-      const validConfig = validateConfigurationAndAlert(annotation)
+    const validConfig = validateConfigurationAndAlert(annotation)
 
-      if (validConfig) {
-        setPushBUttons(validConfig, buttonController)
-        spanConfig.set(validConfig)
-        annotationData.reset(annotation, validConfig)
-        okHandler()
-      }
+    if (validConfig) {
+      setPushBUttons(validConfig, buttonController)
+      spanConfig.set(validConfig)
+      annotationData.reset(annotation, validConfig)
+      okHandler()
     }
   }
 }
