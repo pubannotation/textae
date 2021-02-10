@@ -21,7 +21,13 @@ export default function (
           spanConfig,
           annotationData,
           annotation,
-          params.get('config') ? () => dataAccessObject.loadConfigulation(params.get('config'), annotation): null,
+          params.get('config')
+            ? () =>
+                dataAccessObject.loadConfigulation(
+                  params.get('config'),
+                  annotation
+                )
+            : null,
           buttonController,
           () => {
             statusBar.status(toSourceString(sourceType, source))
