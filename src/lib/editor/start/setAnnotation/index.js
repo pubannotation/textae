@@ -38,13 +38,11 @@ export default function (
         patchedConfig
       )
 
-      if (!validConfig) {
-        return
+      if (validConfig) {
+        spanConfig.set(validConfig)
+        annotationData.reset(annotation, validConfig)
+        okHandler()
       }
-
-      spanConfig.set(validConfig)
-      annotationData.reset(annotation, validConfig)
-      okHandler()
     }
   }
 }
