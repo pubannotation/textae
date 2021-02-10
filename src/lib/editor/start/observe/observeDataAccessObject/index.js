@@ -2,7 +2,7 @@ import alertifyjs from 'alertifyjs'
 import warningIfBeginEndOfSpanAreNotInteger from '../../warningIfBeginEndOfSpanAreNotInteger'
 import validateConfigurationAndAlert from '../../validateConfigurationAndAlert'
 import toSourceString from './toSourceString'
-import  setAnnotation  from '../../setAnnotation'
+import setAnnotationAndConfiguration from '../../setAnnotationAndConfiguration'
 
 export default function (
   editor,
@@ -38,7 +38,7 @@ export default function (
           )
 
           if (validConfig) {
-            setAnnotation(
+            setAnnotationAndConfiguration(
               validConfig,
               buttonController,
               spanConfig,
@@ -101,7 +101,7 @@ export default function (
           return
         }
 
-        setAnnotation(
+        setAnnotationAndConfiguration(
           validConfig,
           buttonController,
           spanConfig,
@@ -131,5 +131,3 @@ export default function (
       )
     })
 }
-
-
