@@ -40,6 +40,7 @@ export default function (
       const validConfig = validateConfigurationAndAlert(annotation)
 
       if (validConfig) {
+        setPushBUttons(validConfig, buttonController)
         spanConfig.set(validConfig)
         annotationData.reset(annotation, validConfig)
         okHandler()
