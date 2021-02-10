@@ -9,7 +9,6 @@ export default function (
   buttonController
 ) {
   const annotation = params.get('annotation')
-  const config = params.get('config')
 
   if (annotation) {
     if (annotation.has('inlineAnnotation')) {
@@ -19,8 +18,13 @@ export default function (
         spanConfig,
         annotationData,
         originalAnnotation,
-        config,
-        dataAccessObject,
+        params.get('config')
+          ? () =>
+              dataAccessObject.loadConfigulation(
+                params.get('config'),
+                annotation
+              )
+          : null,
         buttonController,
         () => statusBar.status('inline')
       )
@@ -39,8 +43,13 @@ export default function (
         spanConfig,
         annotationData,
         originalAnnotation,
-        config,
-        dataAccessObject,
+        params.get('config')
+          ? () =>
+              dataAccessObject.loadConfigulation(
+                params.get('config'),
+                annotation
+              )
+          : null,
         buttonController,
         () => {}
       )

@@ -8,8 +8,7 @@ export default function (
   spanConfig,
   annotationData,
   annotation,
-  configUrl,
-  dataAccessObject,
+  loadConfigulationHandler,
   buttonController,
   okHandler
 ) {
@@ -29,8 +28,8 @@ export default function (
       okHandler()
     }
   } else {
-    if (configUrl) {
-      dataAccessObject.loadConfigulation(configUrl, annotation)
+    if (loadConfigulationHandler) {
+      loadConfigulationHandler()
     } else {
       const patchedConfig = patchConfiguration(annotation)
       const validConfig = validateAttribueDefinitionAndAlert(
