@@ -3401,58 +3401,6 @@
 4.  BlockSpan とテキストの間に隙間があること
 5.  BlockEntity の右に隙間があること
 
-## URL からアノテーション読込
-
-### URL が指定されていなければ Open ボタンを押せない
-
-1.  アノテーション読込ダイアログを開く
-2.  URL 欄が空の時は`Open`ボタンは無効
-3.  Local のファイルが選択されていない時は`Open`ボタンは無効
-
-### 読み込み失敗メッセージ
-
-#### 背景
-
-1.  読み込み失敗時のメッセージが素っ気なかった
-2.  4.1.12 から優しくなりました
-
-#### -- 手段 --
-
-1.  存在しないファイルを読み込む
-2.  赤いトーストが表示されること
-3.  `Could not load the file from the location you specified.:`が表示されること
-
-### annotation.json 以外のファイルを読み込んだらエラーメッセージを表示する
-
-#### 背景
-
-1.  コンソールにエラーを表示して、ぐるぐるが出たままでした。
-2.  継続して使うことができませんでした。
-3.  4.4.3 で導入
-4.  5.0.0 でエラーメッセージを`This is not a json file of annotations.`から詳細化しました。
-5.  5.3.4 でエラーが起きていました。
-6.  6.0.6 で対応
-
-#### -- 手段 --
-
-1.  アノテーション読込ダイアログを表示
-2.  URL 欄に`development.html`を入力
-3.  `Open`ボタンをクリック
-4.  赤いトーストが表示されること
-5.  `http://localhost:8000/dist/demo/development.html is not a annotation file or its format is invalid.`が表示されること
-
-### URL からはテキストファイルは読み込めない
-
-#### 背景
-
-1.  5.0.0 でローカルファイルからのテストファイル読み込み機能を追加しました。
-
-#### -- 手段 --
-
-1.  アノテーション読込ダイアログを表示
-2.  URL 欄に`http://localhost:8000/dev/target.txt`を入力し、`Open`ボタンを押して、サーバーから読み込む
-3.  右上に`http://localhost:8000/dev/target.txt is not a annotation file or its format is invalid.`と赤色のトースト表示がされること
-
 ## ローカルファイルからアノテーション読込
 
 ### ファイルが指定されていなければ Open ボタンを押せない
