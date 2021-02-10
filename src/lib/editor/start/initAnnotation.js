@@ -32,14 +32,6 @@ export default function (
     } else {
       throw new Error('annotation text is empty.')
     }
-  } else {
-    // The annotation file may contain configuration.
-    // When annotion is specified, configuration is not read immediately.
-    // Read configuration when configuration is not included in the read annotation file.
-    // If no annotation is specified, the configuration is read immediately.
-    if (config) {
-      dataAccessObject.loadConfigulation(config)
-    }
   }
 
   return null
