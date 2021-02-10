@@ -17,26 +17,17 @@ export default function (
       alertifyjs.error(`configuration in anntotaion file is invalid.`)
       return
     }
+  }
 
-    const validConfig = validateConfigurationAndAlert(
-      annotation,
-      annotation.config
-    )
+  const validConfig = validateConfigurationAndAlert(
+    annotation,
+    annotation.config
+  )
 
-    if (validConfig) {
-      setPushBUttons(validConfig, buttonController)
-      spanConfig.set(validConfig)
-      annotationData.reset(annotation, validConfig)
-      okHandler()
-    }
-  } else {
-    const validConfig = validateConfigurationAndAlert(annotation)
-
-    if (validConfig) {
-      setPushBUttons(validConfig, buttonController)
-      spanConfig.set(validConfig)
-      annotationData.reset(annotation, validConfig)
-      okHandler()
-    }
+  if (validConfig) {
+    setPushBUttons(validConfig, buttonController)
+    spanConfig.set(validConfig)
+    annotationData.reset(annotation, validConfig)
+    okHandler()
   }
 }
