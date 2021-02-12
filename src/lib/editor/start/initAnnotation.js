@@ -69,7 +69,7 @@ export default function (
       if (params.get('config')) {
         dataAccessObject.loadConfigulation(params.get('config'), dataSource)
       } else {
-        const validConfig = validateConfigurationAndAlert(annotation)
+        const validConfig = validateConfigurationAndAlert(dataSource.data)
 
         if (validConfig) {
           setAnnotationAndConfiguration(
@@ -77,12 +77,12 @@ export default function (
             buttonController,
             spanConfig,
             annotationData,
-            annotation
+            dataSource.data
           )
         }
       }
 
-      return annotation
+      return dataSource.data
     }
   }
 
