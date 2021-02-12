@@ -1,5 +1,12 @@
 # たまにやるテスト
 
+## 新しく作った Relation をラベルを使って複数選択
+
+1.  新規に Relation を作る
+2.  他の Relation を選択
+3.  Ctrl を押しながら新しく作った Relation のラベルをクリック
+4.  両方の Relation が選択されること
+
 ## Entity と Relation を同時に選択した時の Label 編集は Relation の Label を表示
 
 ### 背景
