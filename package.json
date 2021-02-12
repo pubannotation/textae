@@ -7,7 +7,7 @@
     "url": "https://github.com/pubannotation/textae/issues"
   },
   "dependencies": {
-    "ajv": "^7.0.4",
+    "ajv": "^7.1.0",
     "ajv-formats": "^1.5.1",
     "ajv-keywords": "^4.0.0",
     "alertifyjs": "^1.13.1",
