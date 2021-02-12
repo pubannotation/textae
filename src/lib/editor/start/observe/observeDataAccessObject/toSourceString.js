@@ -1,9 +1,7 @@
-import url from 'url'
-
 export default function (sourceType, source) {
   switch (sourceType) {
     case 'url': {
-      return url.resolve(location.href, source)
+      return new URL(source, location.href).href
     }
     case 'local file':
       return `${source}(local file)`
