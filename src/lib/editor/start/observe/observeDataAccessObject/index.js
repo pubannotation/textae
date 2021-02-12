@@ -110,9 +110,7 @@ export default function (
           originalData.annotation = loadedAnnotation.data
         }
 
-        if (dataSource.type === 'url') {
-          dataAccessObject.configurationUrl = dataSource.id
-        }
+        dataAccessObject.configurationUrl = dataSource
       }
     )
     .on(

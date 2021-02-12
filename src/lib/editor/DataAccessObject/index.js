@@ -40,8 +40,10 @@ export default class DataAccessObject {
   // The configuration validation is done with setConfigAndAnnotation
   // because it requires both configuration and annotation.
   // The URL is set after the validation.
-  set configurationUrl(url) {
-    this._urlOfLastRead.config = url
+  set configurationUrl(dataSource) {
+    if (dataSource.type === 'url') {
+      this._urlOfLastRead.config = dataSource.id
+    }
   }
 
   loadAnnotation(url) {
