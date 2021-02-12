@@ -6,7 +6,9 @@ export default class StatusBar {
     this._container = editor[0]
   }
 
-  status(message) {
+  status(dataSource) {
+    const message = dataSource.displayName
+
     if (message !== '') {
       getAreaIn(this._container).innerHTML = isUri(message)
         ? `Source: ${`<a class="textae-editor__footer__message__link" href="${message}">${decodeURI(

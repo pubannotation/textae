@@ -49,7 +49,7 @@ export default function (
               dataSource.data
             )
 
-            statusBar.status(dataSource.displayName)
+            statusBar.status(dataSource)
 
             // When saving the changed data,
             // it keeps the original data so that properties not edited by textae are not lost.
