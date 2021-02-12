@@ -2429,8 +2429,7 @@
 1.  アノテーション読込ダイアログを表示
 2.  URL 欄に`invalid_color_annotation.json`を入力
 3.  `Open`ボタンをクリック
-4.  赤いトーストが表示されること
-5.  右上に`Invalid configuration: '<span style='color:red'>Invalid color format</span>' is invalid color format.`と赤色のトースト表示がされること
+4.  右上に`Invalid configuration: '<span style='color:red'>Invalid color format</span>' is invalid color format.`と赤色のトースト表示がされること
 
 ## パスに日本語を含む URL から annotations ファイルを読み込んだときにステータスバーにデコードした URL を表示する
 
