@@ -77,11 +77,11 @@ export default class DataAccessObject {
   loadConfigulation(url, annotation = null) {
     get(
       url,
-      (source, config) => {
+      (_, config) => {
         this._editor.eventEmitter.emit(
           'textae-event.data-access-object.configuration.load.success',
           'url',
-          source,
+          url,
           config,
           annotation
         )
