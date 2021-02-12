@@ -1,7 +1,7 @@
 import alertifyjs from 'alertifyjs'
 import warningIfBeginEndOfSpanAreNotInteger from '../../warningIfBeginEndOfSpanAreNotInteger'
 import validateConfigurationAndAlert from '../../validateConfigurationAndAlert'
-import toSourceString from './toSourceString'
+import toSourceString from '../../toSourceString'
 import setAnnotationAndConfiguration from '../../setAnnotationAndConfiguration'
 
 export default function (

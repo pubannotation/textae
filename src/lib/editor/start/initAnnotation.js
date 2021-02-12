@@ -1,5 +1,5 @@
 import alertifyjs from 'alertifyjs'
-import toSourceString from './observe/observeDataAccessObject/toSourceString'
+import toSourceString from './toSourceString'
 import setAnnotationAndConfiguration from './setAnnotationAndConfiguration'
 import validateConfigurationAndAlert from './validateConfigurationAndAlert'
 import warningIfBeginEndOfSpanAreNotInteger from './warningIfBeginEndOfSpanAreNotInteger'
