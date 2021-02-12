@@ -105,6 +105,11 @@ export default function (
           annotation
         )
 
+        if (loadedAnnotation) {
+          statusBar.status(loadedAnnotation)
+          originalData.annotation = loadedAnnotation.data
+        }
+
         if (dataSource.type === 'url') {
           dataAccessObject.configurationUrl = dataSource.id
         }
