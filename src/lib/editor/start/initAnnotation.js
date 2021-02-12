@@ -12,15 +12,15 @@ export default function (
   dataAccessObject,
   buttonController
 ) {
-  const annotation = params.get('annotation')
+  const annotationParameter = params.get('annotation')
 
-  if (annotation) {
-    if (annotation.has('inlineAnnotation')) {
+  if (annotationParameter) {
+    if (annotationParameter.has('inlineAnnotation')) {
       // Set an inline annotation.
       const dataSource = new DataSource(
         'inline',
         null,
-        JSON.parse(annotation.get('inlineAnnotation'))
+        JSON.parse(annotationParameter.get('inlineAnnotation'))
       )
 
       if (!dataSource.data.config && params.get('config')) {
@@ -59,9 +59,9 @@ export default function (
       }
 
       return dataSource.data
-    } else if (annotation.has('url')) {
+    } else if (annotationParameter.has('url')) {
       // Load an annotation from server.
-      dataAccessObject.loadAnnotation(annotation.get('url'))
+      dataAccessObject.loadAnnotation(annotationParameter.get('url'))
     } else {
       const originalAnnotation = {
         text:
