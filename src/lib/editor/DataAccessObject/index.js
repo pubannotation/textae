@@ -47,11 +47,11 @@ export default class DataAccessObject {
   loadAnnotation(url) {
     get(
       url,
-      (source, annotation) => {
+      (_, annotation) => {
         if (annotation && annotation.text) {
           this._editor.eventEmitter.emit(
             'textae-event.data-access-object.annotation.load.success',
-            new DataSource('url', source, annotation)
+            new DataSource('url', url, annotation)
           )
           this._editor.eventEmitter.emit(
             'textae-event.data-access-object.annotation.url.set',
@@ -62,7 +62,7 @@ export default class DataAccessObject {
           this._editor.eventEmitter.emit(
             'textae-event.data-access-object.annotation.load.error',
             'url',
-            source
+            url
           )
         }
       },
