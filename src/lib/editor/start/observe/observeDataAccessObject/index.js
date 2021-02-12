@@ -17,24 +17,27 @@ export default function (
   editor.eventEmitter
     .on(
       'textae-event.data-access-object.annotation.load.success',
-      (sourceType, source, annotation) => {
-        if (!annotation.config && params.get('config')) {
-          dataAccessObject.loadConfigulation(params.get('config'), annotation)
+      (dataSource) => {
+        if (!dataSource.data.config && params.get('config')) {
+          dataAccessObject.loadConfigulation(
+            params.get('config'),
+            dataSource.data
+          )
         } else {
-          warningIfBeginEndOfSpanAreNotInteger(annotation)
+          warningIfBeginEndOfSpanAreNotInteger(dataSource.data)
 
-          if (annotation.config) {
+          if (dataSource.data.config) {
             // When config is specified, it must be JSON.
             // For example, when we load an HTML file, we treat it as text here.
-            if (typeof annotation.config !== 'object') {
+            if (typeof dataSource.data.config !== 'object') {
               alertifyjs.error(`configuration in anntotaion file is invalid.`)
               return
             }
           }
 
           const validConfig = validateConfigurationAndAlert(
-            annotation,
-            annotation.config
+            dataSource.data,
+            dataSource.data.config
           )
 
           if (validConfig) {
@@ -43,16 +46,16 @@ export default function (
               buttonController,
               spanConfig,
               annotationData,
-              annotation
+              dataSource.data
             )
 
-            statusBar.status(toSourceString(sourceType, source))
+            statusBar.status(dataSource.displayName)
 
             // When saving the changed data,
             // it keeps the original data so that properties not edited by textae are not lost.
-            originalData.annotation = annotation
-            if (annotation.config) {
-              originalData.configuration = annotation.config
+            originalData.annotation = dataSource.data
+            if (dataSource.data.config) {
+              originalData.configuration = dataSource.data.config
             }
           }
         }

@@ -4,6 +4,7 @@ import bind from './bind'
 import get from './get'
 import post from './post'
 import patch from './patch'
+import DataSource from '../start/DataSource'
 
 // A sub component to save and load data.
 export default class DataAccessObject {
@@ -50,9 +51,7 @@ export default class DataAccessObject {
         if (annotation && annotation.text) {
           this._editor.eventEmitter.emit(
             'textae-event.data-access-object.annotation.load.success',
-            'url',
-            source,
-            annotation
+            new DataSource('url', source, annotation)
           )
           this._editor.eventEmitter.emit(
             'textae-event.data-access-object.annotation.url.set',

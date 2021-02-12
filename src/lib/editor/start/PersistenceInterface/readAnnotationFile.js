@@ -1,6 +1,7 @@
 import readFile from './readFile'
 import isJSON from './isJSON'
 import isTxtFile from './isTxtFile'
+import DataSource from '../DataSource'
 
 export default async function (files, editor) {
   const file = files[0]
@@ -11,11 +12,9 @@ export default async function (files, editor) {
     // If this is .txt, New annotation json is made from .txt
     editor.eventEmitter.emit(
       'textae-event.data-access-object.annotation.load.success',
-      'local file',
-      file.name,
-      {
+      new DataSource('local file', file.name, {
         text: fileContent
-      }
+      })
     )
 
     return
@@ -27,9 +26,7 @@ export default async function (files, editor) {
     if (annotation.text) {
       editor.eventEmitter.emit(
         'textae-event.data-access-object.annotation.load.success',
-        'local file',
-        file.name,
-        annotation
+        new DataSource('local file', file.name, annotation)
       )
 
       return
