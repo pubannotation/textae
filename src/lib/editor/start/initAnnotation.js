@@ -1,8 +1,8 @@
 import alertifyjs from 'alertifyjs'
-import toSourceString from './toSourceString'
 import setAnnotationAndConfiguration from './setAnnotationAndConfiguration'
 import validateConfigurationAndAlert from './validateConfigurationAndAlert'
 import warningIfBeginEndOfSpanAreNotInteger from './warningIfBeginEndOfSpanAreNotInteger'
+import DataSource from './DataSource'
 
 export default function (
   spanConfig,
@@ -17,28 +17,32 @@ export default function (
   if (annotation) {
     if (annotation.has('inlineAnnotation')) {
       // Set an inline annotation.
-      const originalAnnotation = JSON.parse(annotation.get('inlineAnnotation'))
+      const dataSource = new DataSource(
+        'inline',
+        null,
+        JSON.parse(annotation.get('inlineAnnotation'))
+      )
 
-      if (!originalAnnotation.config && params.get('config')) {
+      if (!dataSource.data.config && params.get('config')) {
         dataAccessObject.loadConfigulation(
           params.get('config'),
-          originalAnnotation
+          dataSource.data
         )
       } else {
-        warningIfBeginEndOfSpanAreNotInteger(originalAnnotation)
+        warningIfBeginEndOfSpanAreNotInteger(dataSource.data)
 
-        if (originalAnnotation.config) {
+        if (dataSource.data.config) {
           // When config is specified, it must be JSON.
           // For example, when we load an HTML file, we treat it as text here.
-          if (typeof originalAnnotation.config !== 'object') {
+          if (typeof dataSource.data.config !== 'object') {
             alertifyjs.error(`configuration in anntotaion file is invalid.`)
             return
           }
         }
 
         const validConfig = validateConfigurationAndAlert(
-          originalAnnotation,
-          originalAnnotation.config
+          dataSource.data,
+          dataSource.data.config
         )
 
         if (validConfig) {
@@ -47,14 +51,14 @@ export default function (
             buttonController,
             spanConfig,
             annotationData,
-            originalAnnotation
+            dataSource.data
           )
 
-          statusBar.status(toSourceString('inline'))
+          statusBar.status(dataSource.displayName)
         }
       }
 
-      return originalAnnotation
+      return dataSource.data
     } else if (annotation.has('url')) {
       // Load an annotation from server.
       dataAccessObject.loadAnnotation(annotation.get('url'))
