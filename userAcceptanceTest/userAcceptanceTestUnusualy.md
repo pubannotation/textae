@@ -4512,7 +4512,7 @@
 1.  config 属性が指定されている場合、初期化時に config を読み込みます
 2.  config 読み込みの完了がアノテーションよりあとになることがあるため、初期表示では config が優先されることがあります
 3.  手動でアノテーションを読み込んだ際は、属性より annotation ファイル内をを優先します
-4.  5.0.2 で annotation 属性と config 属性を同時に指定した時は、annotation ファイル内に congfig がないときだけ、config を読み込むことにしました。
+4.  5.0.2 で annotation 属性と config 属性を同時に指定した時は、annotation ファイル内に config がないときだけ、config を読み込むことにしました。
 
 #### -- 手段 --
 
