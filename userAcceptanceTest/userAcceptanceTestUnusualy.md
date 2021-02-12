@@ -2355,7 +2355,7 @@
 ### -- 手段 --
 
 1.  `Select Label [Q]`ボタンをクリックする
-2.  コンフィグレーション読み込みダイアログを開く
+2.  コンフィグレーション読込ダイアログを開く
 3.  `invalid_attributes_config.json`を読み込む
 4.  右上に`Invalid configuration: The attribute type whose predicate is 'category' misses a mandatory property, 'default'.`と赤色のトースト表示がされること
 
