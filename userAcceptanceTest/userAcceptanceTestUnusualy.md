@@ -5048,50 +5048,6 @@
 12. `[R13] SPARQL`をクリック
 13. 新しいタブで <https://en.wikipedia.org/wiki/SPARQL> が開かないこと
 
-## コンフィグレーション読み込み
-
-### URL が指定されていなければ Open ボタンを押せない
-
-1.  editor1 を選択
-2.  `Select Label [Q]`ボタンをクリックする
-3.  コンフィグレーション読み込みダイアログを開く
-4.  URL が空の時は`Open`ボタンは無効
-5.  Local のファイルが選択されていない時は`Open`ボタンは無効
-
-### JSON でないファイルをサーバーから読み込んだらエラーを alertify.js で表示
-
-#### 背景
-
-1.  5.0.0 の開発中にエラーが起きていました
-2.  5.0.0 で対応
-3.  5.3.0 で再びエラーになりました
-4.  5.3.4 で対応
-
-#### -- 手段 --
-
-1.  editor1 を選択
-2.  `Select Label [Q]`ボタンをクリックする
-3.  コンフィグレーション読み込みダイアログを開く
-4.  URL 欄に`development.html`を入力し、`Open`ボタンを押して、サーバーから読み込む
-5.  右上に`http://localhost:8000/dist/demo/development.html is not a configuration file or its format is invalid.`と赤色のトースト表示がされること
-
-### JSON でないファイルをファイルから読み込んだらエラーを alertify.js で表示
-
-#### 背景
-
-1.  editor1 を選択
-2.  `Select Label [Q]`ボタンをクリックする
-3.  コンフィグレーション読み込みダイアログを開く
-4.  エラーが起きていました
-5.  5.0.0 で対応
-6.  5.3.0 でアラートを表示せずに、config を初期化するようになりました
-7.  5.3.4 で対応
-
-#### -- 手段 --
-
-1.  適当な json でも text でもないファイルを読み込む
-2.  右上に`ファイル名(local file) is not a configuration file or its format is invalid.`と赤色のトースト表示がされること
-
 ## BlockSpan を選択したときに自動的に BlockEntity を選択
 
 ### 背景
