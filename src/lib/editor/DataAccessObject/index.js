@@ -4,7 +4,7 @@ import bind from './bind'
 import get from './get'
 import post from './post'
 import patch from './patch'
-import DataSource from '../start/DataSource'
+import DataSource from '../DataSource'
 
 // A sub component to save and load data.
 export default class DataAccessObject {
