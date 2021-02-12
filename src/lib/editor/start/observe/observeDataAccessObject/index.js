@@ -67,15 +67,12 @@ export default function (
     )
     .on(
       'textae-event.data-access-object.configuration.load.success',
-      (sourceType, source, config, loadedAnnotation = null) => {
+      (dataSource, loadedAnnotation = null) => {
         // When config is specified, it must be JSON.
         // For example, when we load an HTML file, we treat it as text here.
-        if (typeof config !== 'object') {
+        if (typeof dataSource.data !== 'object') {
           alertifyjs.error(
-            `${toSourceString(
-              sourceType,
-              source
-            )} is not a configuration file or its format is invalid.`
+            `${dataSource.displayName} is not a configuration file or its format is invalid.`
           )
           return
         }
@@ -92,7 +89,10 @@ export default function (
           loadedAnnotation ||
           Object.assign(originalData.annotation, annotationData.toJson())
 
-        const validConfig = validateConfigurationAndAlert(annotation, config)
+        const validConfig = validateConfigurationAndAlert(
+          annotation,
+          dataSource.data
+        )
 
         if (!validConfig) {
           return
@@ -106,8 +106,8 @@ export default function (
           annotation
         )
 
-        if (sourceType === 'url') {
-          dataAccessObject.configurationUrl = source
+        if (dataSource.type === 'url') {
+          dataAccessObject.configurationUrl = dataSource.id
         }
       }
     )

@@ -1,5 +1,6 @@
 import readFile from './readFile'
 import isJSON from './isJSON'
+import DataSource from '../../DataSource'
 
 export default function (files, editor) {
   const file = files[0]
@@ -8,9 +9,7 @@ export default function (files, editor) {
     if (isJSON(target.result)) {
       editor.eventEmitter.emit(
         'textae-event.data-access-object.configuration.load.success',
-        'local file',
-        file.name,
-        JSON.parse(target.result)
+        new DataSource('local file', file.name, JSON.parse(target.result))
       )
     } else {
       editor.eventEmitter.emit(
