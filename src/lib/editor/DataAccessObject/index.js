@@ -81,7 +81,7 @@ export default class DataAccessObject {
         this._editor.eventEmitter.emit(
           'textae-event.data-access-object.configuration.load.success',
           new DataSource('url', url, config),
-          annotationDataSource && annotationDataSource.data
+          annotationDataSource
         )
       },
       this._cursorChanger

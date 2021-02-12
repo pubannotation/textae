@@ -77,7 +77,7 @@ export default function (
         }
 
         if (loadedAnnotation) {
-          warningIfBeginEndOfSpanAreNotInteger(loadedAnnotation)
+          warningIfBeginEndOfSpanAreNotInteger(loadedAnnotation.data)
         }
 
         // If an annotation that does not contain a configuration is loaded
@@ -85,7 +85,7 @@ export default function (
         // both the loaded configuration and the annotation are passed.
         // If only the configuration is read, the annotation is null.
         const annotation =
-          loadedAnnotation ||
+          loadedAnnotation.data ||
           Object.assign(originalData.annotation, annotationData.toJson())
 
         const validConfig = validateConfigurationAndAlert(
