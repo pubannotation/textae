@@ -24,10 +24,7 @@ export default function (
       )
 
       if (!dataSource.data.config && params.get('config')) {
-        dataAccessObject.loadConfigulation(
-          params.get('config'),
-          dataSource.data
-        )
+        dataAccessObject.loadConfigulation(params.get('config'), dataSource)
       } else {
         warningIfBeginEndOfSpanAreNotInteger(dataSource.data)
 
@@ -67,9 +64,10 @@ export default function (
         text:
           'Currently, the document is empty. Use the `import` button or press the key `i` to open a document with annotation.'
       }
+      const dataSource = new DataSource(null, null, annotation)
 
       if (params.get('config')) {
-        dataAccessObject.loadConfigulation(params.get('config'), annotation)
+        dataAccessObject.loadConfigulation(params.get('config'), dataSource)
       } else {
         const validConfig = validateConfigurationAndAlert(annotation)
 

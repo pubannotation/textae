@@ -19,10 +19,7 @@ export default function (
       'textae-event.data-access-object.annotation.load.success',
       (dataSource) => {
         if (!dataSource.data.config && params.get('config')) {
-          dataAccessObject.loadConfigulation(
-            params.get('config'),
-            dataSource.data
-          )
+          dataAccessObject.loadConfigulation(params.get('config'), dataSource)
         } else {
           warningIfBeginEndOfSpanAreNotInteger(dataSource.data)
 

@@ -74,7 +74,7 @@ export default class DataAccessObject {
   // when the configuration loading is complete.
   // This is supposed to be used when reading an annotation that does not contain a configuration
   // and then reading the configuration set by the attribute value of the textae-event.
-  loadConfigulation(url, annotation = null) {
+  loadConfigulation(url, annotationDataSource = null) {
     get(
       url,
       (config) => {
@@ -83,7 +83,7 @@ export default class DataAccessObject {
           'url',
           url,
           config,
-          annotation
+          annotationDataSource.data
         )
       },
       this._cursorChanger
