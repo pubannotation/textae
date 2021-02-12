@@ -35,7 +35,6 @@ export default async function (files, editor) {
 
   editor.eventEmitter.emit(
     'textae-event.data-access-object.configuration.load.error',
-    'local file',
-    file.name
+    new DataSource('local file', file.name)
   )
 }

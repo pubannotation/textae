@@ -1,7 +1,6 @@
 import alertifyjs from 'alertifyjs'
 import warningIfBeginEndOfSpanAreNotInteger from '../../warningIfBeginEndOfSpanAreNotInteger'
 import validateConfigurationAndAlert from '../../validateConfigurationAndAlert'
-import toSourceString from '../../toSourceString'
 import setAnnotationAndConfiguration from '../../setAnnotationAndConfiguration'
 
 export default function (
@@ -113,12 +112,9 @@ export default function (
     )
     .on(
       'textae-event.data-access-object.configuration.load.error',
-      (sourceType, source) =>
+      ({ displayName }) =>
         alertifyjs.error(
-          `${toSourceString(
-            sourceType,
-            source
-          )} is not a configuration file or its format is invalid.!`
+          `${displayName} is not a configuration file or its format is invalid.!`
         )
     )
     .on('textae-event.data-access-object.configuration.save', () => {
