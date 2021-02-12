@@ -63,18 +63,15 @@ export default function (
       // Load an annotation from server.
       dataAccessObject.loadAnnotation(annotationParameter.get('url'))
     } else {
-      const originalAnnotation = {
+      const annotation = {
         text:
           'Currently, the document is empty. Use the `import` button or press the key `i` to open a document with annotation.'
       }
 
       if (params.get('config')) {
-        dataAccessObject.loadConfigulation(
-          params.get('config'),
-          originalAnnotation
-        )
+        dataAccessObject.loadConfigulation(params.get('config'), annotation)
       } else {
-        const validConfig = validateConfigurationAndAlert(originalAnnotation)
+        const validConfig = validateConfigurationAndAlert(annotation)
 
         if (validConfig) {
           setAnnotationAndConfiguration(
@@ -82,12 +79,12 @@ export default function (
             buttonController,
             spanConfig,
             annotationData,
-            originalAnnotation
+            annotation
           )
         }
       }
 
-      return originalAnnotation
+      return annotation
     }
   }
 
