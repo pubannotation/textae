@@ -11,6 +11,10 @@ export default class DataSource {
     return this._type
   }
 
+  get id() {
+    return this._id
+  }
+
   get data() {
     return this._data
   }
