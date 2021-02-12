@@ -1,4 +1,5 @@
 import alertifyjs from 'alertifyjs'
+import toSourceString from './observe/observeDataAccessObject/toSourceString'
 import setAnnotationAndConfiguration from './setAnnotationAndConfiguration'
 import validateConfigurationAndAlert from './validateConfigurationAndAlert'
 import warningIfBeginEndOfSpanAreNotInteger from './warningIfBeginEndOfSpanAreNotInteger'
@@ -49,7 +50,7 @@ export default function (
             originalAnnotation
           )
 
-          statusBar.status('inline')
+          statusBar.status(toSourceString('inline'))
         }
       }
 
