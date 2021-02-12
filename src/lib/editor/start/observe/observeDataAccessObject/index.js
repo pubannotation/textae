@@ -45,6 +45,7 @@ export default function (
               dataSource.data
             )
 
+            dataAccessObject.annotationUrl = dataSource
             statusBar.status = dataSource
 
             // When saving the changed data,
@@ -106,6 +107,7 @@ export default function (
         )
 
         if (loadedAnnotation) {
+          dataAccessObject.annotationUrl = loadedAnnotation
           statusBar.status = loadedAnnotation
           originalData.annotation = loadedAnnotation.data
         }
