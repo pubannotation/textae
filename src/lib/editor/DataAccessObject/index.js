@@ -33,6 +33,12 @@ export default class DataAccessObject {
     return this._urlOfLastRead.annotation
   }
 
+  set annotationUrl(dataSource) {
+    if (dataSource.type === 'url') {
+      this._urlOfLastRead.annotation = dataSource.id
+    }
+  }
+
   get configurationUrl() {
     return this._urlOfLastRead.config
   }
