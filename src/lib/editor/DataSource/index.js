@@ -1,4 +1,4 @@
-import toSourceStrin from '../start/toSourceString'
+import toSourceStrin from './toSourceString'
 
 export default class DataSource {
   constructor(type, id, data) {
