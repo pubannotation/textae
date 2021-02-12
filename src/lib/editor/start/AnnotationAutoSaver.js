@@ -26,10 +26,10 @@ export default class AnnotationAutoSaver {
         this._disabled()
       )
       .on('textae-event.data-access-object.save.error', () => this._disabled())
-      .on('textae-event.data-access-object.annotation.url.set', (url) =>
+      .on('textae-event.data-access-object.annotation.url.set', (dataSource) =>
         editor.eventEmitter.emit(
           'textae-event.annotation-auto-saver.enable',
-          Boolean(saveToParameter || url)
+          Boolean(saveToParameter || dataSource.id)
         )
       )
       .on('textae-event.control.button.push', ({ buttonName, state }) => {
