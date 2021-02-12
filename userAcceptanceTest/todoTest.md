@@ -12,7 +12,7 @@
 
 ### -- 手段 --
 
-1.  editor1 を選択
+1.  Editor1 を選択
 2.  アノテーション読込ダイアログを開く
 3.  `/dev/invalid_color_annotation.json`を読み込む
 4.  右上に`Invalid configuration: '<span style='color:red'>Invalid color format</span>' is invalid color format.`と赤色のトースト表示がされること
@@ -30,7 +30,7 @@
 
 ### -- 手段 --
 
-1.  editor1 を選択
+1.  Editor1 を選択
 2.  アノテーション読込ダイアログを開く
 3.  `/dev/2_annotations.json`を読み込む
 4.  `Select Label [Q]`ボタンをクリックする
@@ -119,7 +119,7 @@
 
 ### URL を指定して保存
 
-1.  editor1 を選択
+1.  Editor1 を選択
 2.  `Select Label [Q]`ボタンをクリックする
 3.  Save Configurations ダイアログを開く
 4.  URL に保存する
@@ -128,7 +128,7 @@
 
 ### Local ファイルに保存
 
-1.  editor1 を選択
+1.  Editor1 を選択
 2.  `Select Label [Q]`ボタンをクリックする
 3.  Save Configurations ダイアログを開く
 4.  Local に保存する
@@ -137,7 +137,7 @@
 
 ### URL が指定されていなければ save ボタンを押せない
 
-1.  editor1 を選択
+1.  Editor1 を選択
 2.  `Select Label [Q]`ボタンをクリックする
 3.  Save Configurations ダイアログを開く
 4.  URL 欄を空にする
@@ -151,7 +151,7 @@
 
 #### -- 手段 --
 
-1.  editor1 を選択
+1.  Editor1 を選択
 2.  `Select Label [Q]`ボタンをクリックする
 3.  Save Configurations ダイアログを開く
 4.  `Save`ボタンをクリックする
