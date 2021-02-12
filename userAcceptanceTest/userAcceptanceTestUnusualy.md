@@ -1,5 +1,12 @@
 # たまにやるテスト
 
+## Term モードで Ctrl/Cmd を押して複数選択
+
+1.  Term モードにする
+2.  Span と Span を同時に複数選択する
+3.  Entity と Entity を同時に複数選択する
+4.  Span と Entity を同時に複数選択する
+
 ## 新しく作った Relation をラベルを使って複数選択
 
 1.  新規に Relation を作る

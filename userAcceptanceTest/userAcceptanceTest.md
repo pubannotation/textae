@@ -8,16 +8,7 @@
 4.  ブラウザの開発ツールを起動します。
 5.  以下のテストを実行して、エラーが出ないこと
 
-## Ctrl/Cmd を押して複数選択 Term モード
-
-1.  Term モードにする
-2.  要素を複数選択する
-    1.  Span
-    2.  Entity
-    3.  Relation
-3.  Span と Entity は同時に選択できる
-
-## Ctrl/Cmd を押して複数選択 Relation モード
+## Relation モードで Ctrl/Cmd を押して複数選択
 
 ### 背景
 
