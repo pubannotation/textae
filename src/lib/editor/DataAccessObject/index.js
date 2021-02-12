@@ -83,7 +83,7 @@ export default class DataAccessObject {
           'url',
           url,
           config,
-          annotationDataSource.data
+          annotationDataSource && annotationDataSource.data
         )
       },
       this._cursorChanger
