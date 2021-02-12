@@ -48,20 +48,21 @@ export default class DataAccessObject {
     get(
       url,
       (annotation) => {
+        const dataSource = new DataSource('url', url, annotation)
         if (annotation && annotation.text) {
           this._editor.eventEmitter.emit(
             'textae-event.data-access-object.annotation.load.success',
-            new DataSource('url', url, annotation)
+            dataSource
           )
           this._editor.eventEmitter.emit(
             'textae-event.data-access-object.annotation.url.set',
-            new DataSource('url', url, annotation)
+            dataSource
           )
           this._urlOfLastRead.annotation = url
         } else {
           this._editor.eventEmitter.emit(
             'textae-event.data-access-object.annotation.load.error',
-            new DataSource('url', url, annotation)
+            dataSource
           )
         }
       },
