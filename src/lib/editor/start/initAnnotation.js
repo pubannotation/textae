@@ -51,7 +51,7 @@ export default function (
             dataSource.data
           )
 
-          statusBar.status(dataSource)
+          statusBar.status = dataSource
         }
       }
 

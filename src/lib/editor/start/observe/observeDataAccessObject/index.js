@@ -45,7 +45,7 @@ export default function (
               dataSource.data
             )
 
-            statusBar.status(dataSource)
+            statusBar.status = dataSource
 
             // When saving the changed data,
             // it keeps the original data so that properties not edited by textae are not lost.
@@ -106,7 +106,7 @@ export default function (
         )
 
         if (loadedAnnotation) {
-          statusBar.status(loadedAnnotation)
+          statusBar.status = loadedAnnotation
           originalData.annotation = loadedAnnotation.data
         }
 

@@ -6,7 +6,7 @@ export default class StatusBar {
     this._container = editor[0]
   }
 
-  status(dataSource) {
+  set status(dataSource) {
     const message = dataSource.displayName
 
     if (message !== '') {
