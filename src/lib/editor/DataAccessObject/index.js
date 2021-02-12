@@ -52,8 +52,7 @@ export default class DataAccessObject {
             'textae-event.data-access-object.annotation.load.success',
             'url',
             source,
-            annotation,
-            url
+            annotation
           )
           this._editor.eventEmitter.emit(
             'textae-event.data-access-object.annotation.url.set',
