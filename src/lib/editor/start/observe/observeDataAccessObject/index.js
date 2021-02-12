@@ -61,10 +61,12 @@ export default function (
         }
       }
     )
-    .on('textae-event.data-access-object.annotation.load.error', (dataSource) =>
-      alertifyjs.error(
-        `${dataSource.displayName} is not a annotation file or its format is invalid.`
-      )
+    .on(
+      'textae-event.data-access-object.annotation.load.error',
+      ({ displayName }) =>
+        alertifyjs.error(
+          `${displayName} is not a annotation file or its format is invalid.`
+        )
     )
     .on(
       'textae-event.data-access-object.configuration.load.success',
