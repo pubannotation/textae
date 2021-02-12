@@ -8,24 +8,6 @@
 4.  ブラウザの開発ツールを起動します。
 5.  以下のテストを実行して、エラーが出ないこと
 
-## Entity と Relation を同時に選択した時の Label 編集は Relation の Label を表示
-
-### 背景
-
-1.  selectionModel は id だけを保持しています
-2.  id は外部（anntation.js）から指定されることがあります
-3.  id だけでは何を選択しているかわかりません
-4.  selectionModel は Entity と Relation に分かれています
-5.  編集モードに応じて参照する selectionModel を切り替えます
-
-### -- 手段 --
-
-1.  Relation モードにする
-2.  Entity を選択する
-3.  Ctrl を押しながら Relation を選択する
-4.  Label を編集する
-5.  Relation の元の文字列が表示されること
-
 ## 新しく作った Relation をラベルを使って複数選択
 
 1.  新規に Relation を作る
