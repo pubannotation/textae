@@ -1,5 +1,46 @@
 # たまにやるテスト
 
+## コンフィグレーション保存先 URL は、読み込んだコンフィグレーションの URL
+
+### 背景
+
+1. Save Configurations ダイアログの保存先 URL の初期値は、最後に読み込んだコンフィグレーションの URL です
+2. 読み込んだアノテーションファイルにコンフィグレーションが含まれず、textae の HTML 属性でコンフィグレーションの URL が指定されているときは、指定 URL からコンフィグレーションを読み込みます。このときは読み込んだ URL を保存していませんでした。
+3. コンフィグレーション読込ダイアログから、不正なコンフィグレーションを読み込んだときに、コンフィグレーションを適用しません。その URL を保存していました。
+4. 6.1.3 で対応しました
+
+### -- 手段 --
+
+1.  Editor1 を選択
+2.  アノテーション読込ダイアログを開く
+3.  `/dev/2_annotations.json`を読み込む
+4.  `Select Label [Q]`ボタンをクリックする
+5.  Save Configurations ダイアログを開く
+6.  URL 欄に`../../dev/1_config.json?aaa`が表示されていること
+7.  コンフィグレーション読込ダイアログを開く
+8.  URL 欄に`/dev/invalid_attributes_config.json`を入力して`open`ボタンをクリック
+9.  Save Configurations ダイアログを開く
+10. URL 欄に`../../dev/1_config.json?aaa`が表示されていること
+
+## アノテーション保存先 URL は、読み込んだアノテーションの URL
+
+### 背景
+
+1. Save Annotations ダイアログの保存ファイルの初期値は、最後に読み込んだアノテーションのファイル名です
+2. 6.1.4 で対応しました
+3. 不正なアノテーションを読み込んだときに、アノテーションを適用しません。
+4. 不正なアノテーションを読み込んだときに、その URL を保存していました。
+5. 6.4.151 で対応しました
+
+### -- 手段 --
+
+1.  Editor1 を選択
+2.  アノテーション読込ダイアログを開く
+3.  `/dev/invalid_color_annotation.json`を読み込む
+4.  右上に`Invalid configuration: '<span style='color:red'>Invalid color format</span>' is invalid color format.`と赤色のトースト表示がされること
+5.  Save Annotations ダイアログを開く
+6.  URL 欄に`http://pubannotation.org/projects/DisGeNET/docs/sourcedb/PubMed/sourceid/10021369/annotations.json`が表示されていること
+
 ## コンフィグレーション読み込み
 
 ### 背景
