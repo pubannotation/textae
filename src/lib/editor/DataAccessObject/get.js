@@ -7,7 +7,7 @@ export default function (url, done, cursorChanger) {
   ajaxAccessor(
     url,
     (data) => {
-      done(url, data)
+      done(data)
       cursorChanger.endWait()
     },
     () => {

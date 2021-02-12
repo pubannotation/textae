@@ -47,7 +47,7 @@ export default class DataAccessObject {
   loadAnnotation(url) {
     get(
       url,
-      (_, annotation) => {
+      (annotation) => {
         if (annotation && annotation.text) {
           this._editor.eventEmitter.emit(
             'textae-event.data-access-object.annotation.load.success',
@@ -77,7 +77,7 @@ export default class DataAccessObject {
   loadConfigulation(url, annotation = null) {
     get(
       url,
-      (_, config) => {
+      (config) => {
         this._editor.eventEmitter.emit(
           'textae-event.data-access-object.configuration.load.success',
           'url',
