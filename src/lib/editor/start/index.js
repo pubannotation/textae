@@ -87,7 +87,7 @@ export default function (
     params,
     dataAccessObject,
     buttonController
-  )
+  ).data
 
   const persistenceInterface = new PersistenceInterface(
     editor,

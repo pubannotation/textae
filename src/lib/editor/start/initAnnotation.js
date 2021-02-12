@@ -33,7 +33,7 @@ export default function (
           // For example, when we load an HTML file, we treat it as text here.
           if (typeof dataSource.data.config !== 'object') {
             alertifyjs.error(`configuration in anntotaion file is invalid.`)
-            return
+            return new DataSource()
           }
         }
 
@@ -55,7 +55,7 @@ export default function (
         }
       }
 
-      return dataSource.data
+      return dataSource
     } else if (annotationParameter.has('url')) {
       // Load an annotation from server.
       dataAccessObject.loadAnnotation(annotationParameter.get('url'))
@@ -82,9 +82,9 @@ export default function (
         }
       }
 
-      return dataSource.data
+      return dataSource
     }
   }
 
-  return null
+  return new DataSource()
 }
