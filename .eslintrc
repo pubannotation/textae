@@ -6,6 +6,7 @@
     "prefer-const": "warn",
     "object-shorthand": ["warn", "always"],
     "prefer-arrow-callback": "warn",
+    "prefer-object-spread": "error",
     "prefer-template": "warn",
     "import/no-unresolved": "error",
     "unused-imports/no-unused-imports": "error"

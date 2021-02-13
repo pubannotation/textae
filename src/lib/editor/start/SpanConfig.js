@@ -34,7 +34,7 @@ export default class SpanConfig {
   }
 
   set(config) {
-    const settings = Object.assign({}, defaults, config)
+    const settings = { ...defaults, ...config }
 
     this._delimiterCharacters = settings['delimiter characters']
     this._blankCharacters = settings['non-edge characters']

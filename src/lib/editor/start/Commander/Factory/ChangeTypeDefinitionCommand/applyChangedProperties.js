@@ -1,5 +1,5 @@
 export default function (changedProperties, oldType) {
-  const newType = Object.assign({}, oldType)
+  const newType = { ...oldType }
   const revertChangedProperties = new Map()
 
   // change config

@@ -41,7 +41,7 @@ export default class Container {
   }
 
   get(id) {
-    const type = Object.assign({}, this._definedTypes.get(id))
+    const type = { ...this._definedTypes.get(id) }
 
     if (this._defaultType === id) {
       type.default = true
@@ -100,7 +100,7 @@ export default class Container {
     // Make default type and delete defalut type from original configuratian.
     for (const [key, type] of types.entries()) {
       // Make a copy so as not to destroy the original object.
-      const copy = Object.assign({}, type)
+      const copy = { ...type }
       if (type.id === this.defaultType) {
         copy.default = true
       } else {

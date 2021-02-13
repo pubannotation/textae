@@ -41,23 +41,19 @@ export default class AnnotationsForPred {
   }
 
   get _numericAttribute() {
-    return Object.assign(
-      {
-        min: Math.min(...this._objects),
-        max: Math.max(...this._objects),
-        step: getStep(this._objects),
-        default: getMostFrequentObject(this._objects)
-      },
-      this._prototype
-    )
+    return {
+      min: Math.min(...this._objects),
+      max: Math.max(...this._objects),
+      step: getStep(this._objects),
+      default: getMostFrequentObject(this._objects),
+      ...this._prototype
+    }
   }
 
   get _stringAttribute() {
-    return Object.assign(
-      {
-        default: getMostFrequentObject(this._objects)
-      },
-      this._prototype
-    )
+    return {
+      default: getMostFrequentObject(this._objects),
+      ...this._prototype
+    }
   }
 }

@@ -21,7 +21,7 @@ export default class AttributeDefinition {
 
     const values = []
     for (const value of this._values) {
-      values.push(Object.assign({}, value))
+      values.push({ ...value })
     }
     return values
   }

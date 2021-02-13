@@ -38,9 +38,7 @@ export default function (
   importSource(
     [span],
     (src) => {
-      return Object.assign({}, src, {
-        span: convertBeginAndEndToInteger(src.span)
-      })
+      return { ...src, span: convertBeginAndEndToInteger(src.span) }
     },
     result.accept.typeSetting,
     'typesetting'

@@ -23,15 +23,9 @@ export default function (
     // The change properties contain only the changed attributes.
     // When the ID is changed, it does not overwrite the ID with the old ID.
     // When you add a label, the old ID is used to add the type definition.
-    return new CreateTypeDefinitionCommand(
-      editor,
-      typeContainer,
-      Object.assign(
-        {
-          id
-        },
-        Object.fromEntries(changedProperties)
-      )
-    )
+    return new CreateTypeDefinitionCommand(editor, typeContainer, {
+      id,
+      ...Object.fromEntries(changedProperties)
+    })
   }
 }

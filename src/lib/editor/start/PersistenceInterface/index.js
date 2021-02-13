@@ -76,11 +76,10 @@ export default class PersistenceInterface {
 
   uploadConfiguration() {
     // Merge with the original config and save the value unchanged in the editor.
-    const editidConfig = Object.assign(
-      {},
-      this._getOriginalConfig(),
-      this._annotationData.typeDefinition.config
-    )
+    const editidConfig = {
+      ...this._getOriginalConfig(),
+      ...this._annotationData.typeDefinition.config
+    }
 
     new SaveConfigurationDialog(
       this._editor,

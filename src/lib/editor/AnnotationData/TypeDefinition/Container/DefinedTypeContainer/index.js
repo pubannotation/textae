@@ -11,7 +11,7 @@ export default class DefinedTypeContainer {
   }
 
   get(id) {
-    return Object.assign({}, this._map.get(id))
+    return { ...this._map.get(id) }
   }
 
   replace(id, newType) {
