@@ -6,7 +6,7 @@ import removeAttributeButtonTemplate from './removeAttributeButtonTemplate'
 export default function (context) {
   const { attrDef, selectionModelItems } = context
   const { pred } = attrDef
-  const valueType = attrDef.valueType
+  const { valueType } = attrDef
   const numberOfSelectedItems = selectionModelItems.size
 
   return `

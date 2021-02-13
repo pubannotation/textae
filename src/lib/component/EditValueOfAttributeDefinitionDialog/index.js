@@ -88,7 +88,7 @@ export default class EditValueOfAttributeDefinitionDialog extends PromiseDialog 
           '.textae-editor__add-value-to-attribute-dialog__range_or_id_or_pattern'
         )
         .addEventListener('input', (e) => {
-          const value = e.target.value
+          const { value } = e.target
           try {
             new IntervalNotation(value)
             enableHTMLElement(super.button, true)
@@ -105,7 +105,7 @@ export default class EditValueOfAttributeDefinitionDialog extends PromiseDialog 
           '.textae-editor__add-value-to-attribute-dialog__range_or_id_or_pattern'
         )
         .addEventListener('input', (e) => {
-          const value = e.target.value
+          const { value } = e.target
           try {
             new RegExp(value)
             enableHTMLElement(super.button, true)
@@ -119,7 +119,7 @@ export default class EditValueOfAttributeDefinitionDialog extends PromiseDialog 
     super.el
       .querySelector('.textae-editor__add-value-to-attribute-dialog__color')
       .addEventListener('input', (e) => {
-        const value = e.target.value
+        const { value } = e.target
         enableHTMLElement(
           super.button,
           !value || /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/.test(value)

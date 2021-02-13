@@ -12,7 +12,7 @@ export default class RemoveTypeDefinitionCommand extends ConfigurationCommand {
   }
 
   execute() {
-    const id = this._removeType.id
+    const { id } = this._removeType
     const oldType = this._typeContainer.get(id)
 
     this._typeContainer.delete(id)

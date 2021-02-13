@@ -10,7 +10,7 @@ export default function (el, editor) {
       return
     }
 
-    const buttonType = e.currentTarget.dataset.buttonType
+    const { buttonType } = e.currentTarget.dataset
     editor.api.handleButtonClick(buttonType)
   }
 

@@ -1,6 +1,6 @@
 export default function (context) {
   const { attrDef, selectionModelItems, selectedPred } = context
-  const valueType = attrDef.valueType
+  const { valueType } = attrDef
   const isOnlyEntityWithJsutOneSamePredSelected = selectionModelItems.onlySelectedWithJustOneAttributeOf(
     selectedPred
   )

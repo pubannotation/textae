@@ -24,7 +24,7 @@ export default class DefaultHandler {
 
   jsPlumbConnectionClicked(jsPlumbConnection) {
     // Open link when view mode because link in label of jsPlumb event is not fired.
-    const link = jsPlumbConnection.link
+    const { link } = jsPlumbConnection
     if (link) {
       const href = link.getAttribute('href')
       window.open(href, '_blank')

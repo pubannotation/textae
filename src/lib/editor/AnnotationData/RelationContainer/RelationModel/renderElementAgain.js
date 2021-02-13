@@ -1,7 +1,7 @@
 import toDisplayName from './toDisplayName'
 
 export default function (annotationData, typeDefinition, relation) {
-  const jsPlumbConnection = relation.jsPlumbConnection
+  const { jsPlumbConnection } = relation
   jsPlumbConnection.setColor()
   jsPlumbConnection.label = toDisplayName(
     relation,

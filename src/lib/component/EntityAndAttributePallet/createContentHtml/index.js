@@ -13,7 +13,7 @@ export default function (
   attributeInstances,
   isLock
 ) {
-  const attributes = attributeContainer.attributes
+  const { attributes } = attributeContainer
 
   if (!selectedPred) {
     return typeTemplate({

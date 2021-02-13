@@ -11,8 +11,8 @@ export default function (
   annotationData,
   typeDefinition
 ) {
-  const sourceEndpoint = relation.sourceEndpoint
-  const targetEndpoint = relation.targetEndpoint
+  const { sourceEndpoint } = relation
+  const { targetEndpoint } = relation
 
   return jsPlumbInstance.connect({
     source: $(sourceEndpoint),
