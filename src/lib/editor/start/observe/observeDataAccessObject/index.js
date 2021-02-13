@@ -113,6 +113,7 @@ export default function (
         }
 
         dataAccessObject.configurationUrl = dataSource
+        originalData.configuration = dataSource.data
       }
     )
     .on(
