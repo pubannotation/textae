@@ -80,14 +80,15 @@ export default function (
     annotationData.typeDefinition.unlockEdit()
   }
 
-  originalData.annotation = initAnnotation(
+  initAnnotation(
     spanConfig,
     annotationData,
     statusBar,
     params,
     dataAccessObject,
-    buttonController
-  ).data
+    buttonController,
+    originalData
+  )
 
   const persistenceInterface = new PersistenceInterface(
     editor,
