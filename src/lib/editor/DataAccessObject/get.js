@@ -1,7 +1,6 @@
 import ajaxAccessor from '../../util/ajaxAccessor'
-import alertifyjs from 'alertifyjs'
 
-export default function (url, done, cursorChanger) {
+export default function (url, done, errorHandler, cursorChanger) {
   cursorChanger.startWait()
 
   ajaxAccessor(
@@ -11,10 +10,8 @@ export default function (url, done, cursorChanger) {
       cursorChanger.endWait()
     },
     () => {
+      errorHandler()
       cursorChanger.endWait()
-      alertifyjs.error(
-        `Could not load the file from the location you specified.: ${url}`
-      )
     }
   )
 }

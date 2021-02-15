@@ -1,3 +1,4 @@
+import alertifyjs from 'alertifyjs'
 import CursorChanger from '../../util/CursorChanger'
 import AjaxSender from './AjaxSender'
 import bind from './bind'
@@ -72,6 +73,10 @@ export default class DataAccessObject {
           )
         }
       },
+      () =>
+        alertifyjs.error(
+          `Could not load the file from the location you specified.: ${url}`
+        ),
       this._cursorChanger
     )
   }
@@ -90,6 +95,10 @@ export default class DataAccessObject {
           annotationDataSource
         )
       },
+      () =>
+        alertifyjs.error(
+          `Could not load the file from the location you specified.: ${url}`
+        ),
       this._cursorChanger
     )
   }
