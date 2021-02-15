@@ -1,4 +1,3 @@
-import isEmptyString from '../../../util/isEmptyString'
 import requestAjax from './requestAjax'
 
 export default function (
@@ -9,9 +8,8 @@ export default function (
   failHandler,
   finishHandler
 ) {
-  if (isEmptyString(url)) {
-    return
-  }
+  console.assert(url, 'url is necessary!')
+
   beforeSend()
   requestAjax('post', url, data, successHandler, failHandler, finishHandler)
 }
