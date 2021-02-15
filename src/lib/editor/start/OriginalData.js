@@ -10,20 +10,20 @@ export default class OriginalData {
   }
 
   get defaultAnnotation() {
-    return new DataSource(null, null, {
+    return {
       text:
         'Currently, the document is empty. Use the `import` button or press the key `i` to open a document with annotation.'
-    })
+    }
   }
 
   get defaultConfiguration() {
-    return patchConfiguration(this.defaultAnnotation.data)
+    return patchConfiguration(this.defaultAnnotation)
   }
 
   get annotation() {
     return this._map.has('annotation')
       ? this._map.get('annotation').data
-      : this.defaultAnnotation.data
+      : this.defaultAnnotation
   }
 
   set annotation(dataSource) {

@@ -67,7 +67,7 @@ export default function (
           buttonController,
           spanConfig,
           annotationData,
-          originalData.defaultAnnotation.data
+          originalData.defaultAnnotation
         )
       }
     }
