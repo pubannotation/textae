@@ -5,11 +5,11 @@ export default class OriginalData {
   }
 
   get annotation() {
-    return this._map.get('annotation') || {}
+    return this._map.has('annotation') ? this._map.get('annotation').data : {}
   }
 
-  set annotation(annotation) {
-    this._map.set('annotation', annotation)
+  set annotation(dataSource) {
+    this._map.set('annotation', dataSource)
   }
 
   get configuration() {

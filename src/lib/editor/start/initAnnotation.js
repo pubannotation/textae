@@ -54,7 +54,7 @@ export default function (
 
           dataAccessObject.annotationUrl = dataSource
           statusBar.status = dataSource
-          originalData.annotation = dataSource.data
+          originalData.annotation = dataSource
         }
       }
     } else if (annotationParameter.has('url')) {
@@ -80,7 +80,7 @@ export default function (
             annotationData,
             dataSource.data
           )
-          originalData.annotation = dataSource.data
+          originalData.annotation = dataSource
         }
       }
     }

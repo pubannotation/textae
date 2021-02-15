@@ -51,7 +51,7 @@ export default function (
 
             // When saving the changed data,
             // it keeps the original data so that properties not edited by textae are not lost.
-            originalData.annotation = dataSource.data
+            originalData.annotation = dataSource
             if (dataSource.data.config) {
               originalData.configuration = new DataSource(
                 null,
@@ -114,7 +114,7 @@ export default function (
         if (loadedAnnotation) {
           dataAccessObject.annotationUrl = loadedAnnotation
           statusBar.status = loadedAnnotation
-          originalData.annotation = loadedAnnotation.data
+          originalData.annotation = loadedAnnotation
         }
 
         dataAccessObject.configurationUrl = dataSource
