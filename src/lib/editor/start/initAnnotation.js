@@ -65,15 +65,13 @@ export default function (
         const dataSource = originalData.defaultAnnotation
         const validConfig = validateConfigurationAndAlert(dataSource.data)
 
-        if (validConfig) {
-          setAnnotationAndConfiguration(
-            validConfig,
-            buttonController,
-            spanConfig,
-            annotationData,
-            dataSource.data
-          )
-        }
+        setAnnotationAndConfiguration(
+          validConfig,
+          buttonController,
+          spanConfig,
+          annotationData,
+          dataSource.data
+        )
       }
     }
   }
