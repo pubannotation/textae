@@ -52,8 +52,6 @@ export default function (
             dataSource.data
           )
 
-          dataAccessObject.annotationUrl = dataSource
-          statusBar.status = dataSource
           originalData.annotation = dataSource
         }
       }

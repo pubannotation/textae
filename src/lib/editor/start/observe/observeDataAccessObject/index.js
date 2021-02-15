@@ -46,11 +46,6 @@ export default function (
               dataSource.data
             )
 
-            dataAccessObject.annotationUrl = dataSource
-            statusBar.status = dataSource
-
-            // When saving the changed data,
-            // it keeps the original data so that properties not edited by textae are not lost.
             originalData.annotation = dataSource
           }
         }
@@ -105,8 +100,6 @@ export default function (
         )
 
         if (loadedAnnotation) {
-          dataAccessObject.annotationUrl = loadedAnnotation
-          statusBar.status = loadedAnnotation
           originalData.annotation = loadedAnnotation
         }
 
