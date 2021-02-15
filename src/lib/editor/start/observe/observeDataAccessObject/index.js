@@ -113,14 +113,7 @@ export default function (
           `${displayName} is not a configuration file or its format is invalid.!`
         )
     )
-    .on('textae-event.data-access-object.configuration.save', () => {
-      originalData.configuration = new DataSource(
-        null,
-        null,
-        Object.assign(
-          originalData.configuration,
-          annotationData.typeDefinition.config
-        )
-      )
+    .on('textae-event.data-access-object.configuration.save', (editedData) => {
+      originalData.configuration = new DataSource(null, null, editedData)
     })
 }
