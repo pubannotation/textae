@@ -107,7 +107,7 @@ export default function (
       }
     )
     .on(
-      'textae-event.data-access-object.configuration.load.error',
+      'textae-event.data-access-object.configuration.format.error',
       ({ displayName }) =>
         alertifyjs.error(
           `${displayName} is not a configuration file or its format is invalid.!`

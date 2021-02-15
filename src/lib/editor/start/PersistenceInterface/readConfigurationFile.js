@@ -13,7 +13,7 @@ export default function (files, editor) {
       )
     } else {
       editor.eventEmitter.emit(
-        'textae-event.data-access-object.configuration.load.error',
+        'textae-event.data-access-object.configuration.format.error',
         new DataSource('local file', file.name)
       )
     }
