@@ -8,6 +8,13 @@ export default class OriginalData {
     this._map = new Map()
   }
 
+  get defaultAnnotation() {
+    return new DataSource(null, null, {
+      text:
+        'Currently, the document is empty. Use the `import` button or press the key `i` to open a document with annotation.'
+    })
+  }
+
   get annotation() {
     return this._map.has('annotation') ? this._map.get('annotation').data : {}
   }
