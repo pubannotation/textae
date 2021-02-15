@@ -67,7 +67,7 @@ export default class DataAccessObject {
           )
         } else {
           this._editor.eventEmitter.emit(
-            'textae-event.data-access-object.annotation.load.error',
+            'textae-event.data-access-object.annotation.format.error',
             dataSource
           )
         }

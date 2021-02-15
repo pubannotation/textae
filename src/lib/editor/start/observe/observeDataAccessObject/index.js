@@ -52,7 +52,7 @@ export default function (
       }
     )
     .on(
-      'textae-event.data-access-object.annotation.load.error',
+      'textae-event.data-access-object.annotation.format.error',
       ({ displayName }) =>
         alertifyjs.error(
           `${displayName} is not a annotation file or its format is invalid.`

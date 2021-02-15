@@ -34,7 +34,7 @@ export default async function (files, editor) {
   }
 
   editor.eventEmitter.emit(
-    'textae-event.data-access-object.annotation.load.error',
+    'textae-event.data-access-object.annotation.format.error',
     new DataSource('local file', file.name)
   )
 }
