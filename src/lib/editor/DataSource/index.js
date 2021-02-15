@@ -1,4 +1,4 @@
-import toSourceStrin from './toSourceString'
+import toSourceString from './toSourceString'
 
 export default class DataSource {
   constructor(type, id, data) {
@@ -20,6 +20,6 @@ export default class DataSource {
   }
 
   get displayName() {
-    return toSourceStrin(this._type, this._id)
+    return toSourceString(this._type, this._id)
   }
 }
