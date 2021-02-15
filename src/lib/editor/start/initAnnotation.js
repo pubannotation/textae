@@ -3,6 +3,7 @@ import setAnnotationAndConfiguration from './setAnnotationAndConfiguration'
 import validateConfigurationAndAlert from './validateConfigurationAndAlert'
 import warningIfBeginEndOfSpanAreNotInteger from './warningIfBeginEndOfSpanAreNotInteger'
 import DataSource from '../DataSource'
+import patchConfiguration from './patchConfiguration'
 
 export default function (
   spanConfig,
@@ -63,10 +64,10 @@ export default function (
         dataAccessObject.loadConfigulation(params.get('config'))
       } else {
         const dataSource = originalData.defaultAnnotation
-        const validConfig = validateConfigurationAndAlert(dataSource.data)
+        const patchedConfig = patchConfiguration(dataSource.data)
 
         setAnnotationAndConfiguration(
-          validConfig,
+          patchedConfig,
           buttonController,
           spanConfig,
           annotationData,
