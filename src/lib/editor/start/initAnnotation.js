@@ -62,14 +62,12 @@ export default function (
       if (params.get('config')) {
         dataAccessObject.loadConfigulation(params.get('config'))
       } else {
-        const dataSource = originalData.defaultAnnotation
-
         setAnnotationAndConfiguration(
           originalData.defaultConfiguration,
           buttonController,
           spanConfig,
           annotationData,
-          dataSource.data
+          originalData.defaultAnnotation.data
         )
       }
     }
