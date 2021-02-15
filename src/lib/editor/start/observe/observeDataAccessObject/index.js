@@ -52,13 +52,6 @@ export default function (
             // When saving the changed data,
             // it keeps the original data so that properties not edited by textae are not lost.
             originalData.annotation = dataSource
-            if (dataSource.data.config) {
-              originalData.configuration = new DataSource(
-                null,
-                null,
-                dataSource.data.config
-              )
-            }
           }
         }
       }
