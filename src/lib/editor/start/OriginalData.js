@@ -33,5 +33,6 @@ export default class OriginalData {
 
   set configuration(dataSource) {
     this._map.set('configuration', dataSource)
+    this._dataAccessObject.configurationUrl = dataSource
   }
 }
