@@ -1,4 +1,4 @@
-export default function bind(editor, ajaxSender) {
+export default function bind(editor) {
   const emitter = editor.eventEmitter
 
   emitter
