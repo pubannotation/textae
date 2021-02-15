@@ -1,4 +1,5 @@
 import DataSource from '../DataSource'
+import patchConfiguration from './patchConfiguration'
 
 // Manage the original annotations and the original configuration and merge the changes when you save them.
 export default class OriginalData {
@@ -13,6 +14,10 @@ export default class OriginalData {
       text:
         'Currently, the document is empty. Use the `import` button or press the key `i` to open a document with annotation.'
     })
+  }
+
+  get defaultConfiguration() {
+    return patchConfiguration(this.defaultAnnotation.data)
   }
 
   get annotation() {
