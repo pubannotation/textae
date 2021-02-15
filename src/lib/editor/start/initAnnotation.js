@@ -59,11 +59,10 @@ export default function (
       // Load an annotation from server.
       dataAccessObject.loadAnnotation(annotationParameter.get('url'))
     } else {
-      const dataSource = originalData.defaultAnnotation
-
       if (params.get('config')) {
         dataAccessObject.loadConfigulation(params.get('config'))
       } else {
+        const dataSource = originalData.defaultAnnotation
         const validConfig = validateConfigurationAndAlert(dataSource.data)
 
         if (validConfig) {
