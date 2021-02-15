@@ -19,7 +19,10 @@ export default class OriginalData {
     }
 
     this._dataAccessObject.annotationUrl = dataSource
-    this._statusBar.status = dataSource
+
+    if (dataSource.type) {
+      this._statusBar.status = dataSource
+    }
   }
 
   get configuration() {
