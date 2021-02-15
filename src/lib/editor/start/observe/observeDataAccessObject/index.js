@@ -51,6 +51,11 @@ export default function (
         }
       }
     )
+    .on('textae-event.data-access-object.annotation.load.error', (url) =>
+      alertifyjs.error(
+        `Could not load the file from the location you specified.: ${url}`
+      )
+    )
     .on(
       'textae-event.data-access-object.annotation.format.error',
       ({ displayName }) =>
@@ -105,6 +110,11 @@ export default function (
 
         originalData.configuration = dataSource
       }
+    )
+    .on('textae-event.data-access-object.configuration.load.error', (url) =>
+      alertifyjs.error(
+        `Could not load the file from the location you specified.: ${url}`
+      )
     )
     .on(
       'textae-event.data-access-object.configuration.format.error',

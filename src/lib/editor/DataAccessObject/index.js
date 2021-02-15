@@ -1,4 +1,3 @@
-import alertifyjs from 'alertifyjs'
 import CursorChanger from '../../util/CursorChanger'
 import AjaxSender from './AjaxSender'
 import bind from './bind'
@@ -74,8 +73,9 @@ export default class DataAccessObject {
         }
       },
       () =>
-        alertifyjs.error(
-          `Could not load the file from the location you specified.: ${url}`
+        this._editor.eventEmitter.emit(
+          'textae-event.data-access-object.annotation.load.error',
+          url
         ),
       this._cursorChanger
     )
@@ -96,8 +96,9 @@ export default class DataAccessObject {
         )
       },
       () =>
-        alertifyjs.error(
-          `Could not load the file from the location you specified.: ${url}`
+        this._editor.eventEmitter.emit(
+          'textae-event.data-access-object.configuration.load.error',
+          url
         ),
       this._cursorChanger
     )
