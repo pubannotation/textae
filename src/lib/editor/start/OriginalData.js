@@ -2,7 +2,9 @@ import DataSource from '../DataSource'
 
 // Manage the original annotations and the original configuration and merge the changes when you save them.
 export default class OriginalData {
-  constructor() {
+  constructor(dataAccessObject, statusBar) {
+    this._dataAccessObject = dataAccessObject
+    this._statusBar = statusBar
     this._map = new Map()
   }
 
@@ -15,6 +17,9 @@ export default class OriginalData {
     if (dataSource.data.config) {
       this.configuration = new DataSource(null, null, dataSource.data.config)
     }
+
+    this._dataAccessObject.annotationUrl = dataSource
+    this._statusBar.status = dataSource
   }
 
   get configuration() {

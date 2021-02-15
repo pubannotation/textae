@@ -40,7 +40,8 @@ export default function (
     clipBoard
   )
   const view = new View(editor, annotationData, selectionModel)
-  const originalData = new OriginalData()
+  const statusBar = getStatusBar(editor, params.get('status_bar'))
+  const originalData = new OriginalData(dataAccessObject, statusBar)
   const presenter = new Presenter(
     editor,
     annotationData,
@@ -56,8 +57,6 @@ export default function (
   )
 
   focusEditorWhenFocusedChildRemoved(editor)
-
-  const statusBar = getStatusBar(editor, params.get('status_bar'))
 
   if (params.get('control') === 'visible') {
     editor[0].classList.add('textae-editor--control-visible')
