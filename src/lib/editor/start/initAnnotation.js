@@ -62,7 +62,7 @@ export default function (
       const dataSource = originalData.defaultAnnotation
 
       if (params.get('config')) {
-        dataAccessObject.loadConfigulation(params.get('config'), dataSource)
+        dataAccessObject.loadConfigulation(params.get('config'))
       } else {
         const validConfig = validateConfigurationAndAlert(dataSource.data)
 

@@ -16,7 +16,9 @@ export default class OriginalData {
   }
 
   get annotation() {
-    return this._map.has('annotation') ? this._map.get('annotation').data : {}
+    return this._map.has('annotation')
+      ? this._map.get('annotation').data
+      : this.defaultAnnotation.data
   }
 
   set annotation(dataSource) {
