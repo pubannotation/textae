@@ -1,10 +1,7 @@
 import $ from 'jquery'
-import isEmptyString from './isEmptyString'
 
 export default function (url, dataHandler, failedHandler) {
-  if (isEmptyString(url)) {
-    return
-  }
+  console.assert(url, 'url is necessary!')
 
   const opt = {
     type: 'GET',
