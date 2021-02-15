@@ -73,7 +73,6 @@ export default function (
             annotationData,
             dataSource.data
           )
-          originalData.annotation = dataSource
         }
       }
     }
