@@ -59,11 +59,7 @@ export default function (
       // Load an annotation from server.
       dataAccessObject.loadAnnotation(annotationParameter.get('url'))
     } else {
-      const annotation = {
-        text:
-          'Currently, the document is empty. Use the `import` button or press the key `i` to open a document with annotation.'
-      }
-      const dataSource = new DataSource(null, null, annotation)
+      const dataSource = originalData.defaultAnnotation
 
       if (params.get('config')) {
         dataAccessObject.loadConfigulation(params.get('config'), dataSource)
