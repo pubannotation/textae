@@ -103,7 +103,6 @@ export default function (
           originalData.annotation = loadedAnnotation
         }
 
-        dataAccessObject.configurationUrl = dataSource
         originalData.configuration = dataSource
       }
     )
