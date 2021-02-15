@@ -13,10 +13,12 @@ export default class OriginalData {
   }
 
   get configuration() {
-    return this._map.get('configuration') || {}
+    return this._map.has('configuration')
+      ? this._map.get('configuration').data
+      : {}
   }
 
-  set configuration(configuration) {
-    this._map.set('configuration', configuration)
+  set configuration(dataSource) {
+    this._map.set('configuration', dataSource)
   }
 }

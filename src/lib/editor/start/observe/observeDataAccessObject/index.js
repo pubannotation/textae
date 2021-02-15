@@ -2,6 +2,7 @@ import alertifyjs from 'alertifyjs'
 import warningIfBeginEndOfSpanAreNotInteger from '../../warningIfBeginEndOfSpanAreNotInteger'
 import validateConfigurationAndAlert from '../../validateConfigurationAndAlert'
 import setAnnotationAndConfiguration from '../../setAnnotationAndConfiguration'
+import DataSource from '../../../DataSource'
 
 export default function (
   editor,
@@ -52,7 +53,11 @@ export default function (
             // it keeps the original data so that properties not edited by textae are not lost.
             originalData.annotation = dataSource.data
             if (dataSource.data.config) {
-              originalData.configuration = dataSource.data.config
+              originalData.configuration = new DataSource(
+                null,
+                null,
+                dataSource.data.config
+              )
             }
           }
         }
@@ -113,7 +118,7 @@ export default function (
         }
 
         dataAccessObject.configurationUrl = dataSource
-        originalData.configuration = dataSource.data
+        originalData.configuration = dataSource
       }
     )
     .on(
@@ -124,9 +129,13 @@ export default function (
         )
     )
     .on('textae-event.data-access-object.configuration.save', () => {
-      originalData.configuration = Object.assign(
-        originalData.configuration,
-        annotationData.typeDefinition.config
+      originalData.configuration = new DataSource(
+        null,
+        null,
+        Object.assign(
+          originalData.configuration,
+          annotationData.typeDefinition.config
+        )
       )
     })
 }
