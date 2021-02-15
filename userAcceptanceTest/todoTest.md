@@ -1,5 +1,29 @@
 # 対応予定のテスト
 
+## 起動時のアノテーションとコンフィグレーションの読込に失敗したら、初期状態になること
+
+### 背景
+
+1. 初期読込に失敗すると OriginalData が設定されません
+2. アノテーション保存ダイアログを開こうとすると、OriginalData を参照しようとしてエラーが起きます
+
+### -- 手段 --
+
+1. <http://localhost:8000/dist/initial_load_error.html> を開く
+2. 赤いアラートが 4 つでること
+3. Editor0 中に`Currently, the document is empty. Use the "import" button or press the key "i" to open a document with annotation.`が表示されること
+4. Editor0 を選択
+5. アノテーション保存ダイアログが開けること
+6. Editor1 中に`Currently, the document is empty. Use the "import" button or press the key "i" to open a document with annotation.`が表示されること
+7. Editor1 を選択
+8. アノテーション保存ダイアログが開けること
+9. Editor2 中に`Currently, the document is empty. Use the "import" button or press the key "i" to open a document with annotation.`が表示されること
+10. Editor2 を選択
+11. アノテーション保存ダイアログが開けること
+12. Editor3 中に`Currently, the document is empty. Use the "import" button or press the key "i" to open a document with annotation.`が表示されること
+13. Editor3 を選択
+14. アノテーション保存ダイアログが開けること
+
 ## 左右キーで選択 Entity を変更
 
 ### 背景
