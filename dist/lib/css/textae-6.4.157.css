@@ -537,27 +537,27 @@
 .ui-dialog-buttonpane button[disabled='disabled'] {
   opacity: 0.1;
 }
-.textae-editor--dialog {
+.textae-editor__dialog {
   /* To show candidates of the autocomplete, overwrite a style of the jQuery-ui dialog */
 }
-.textae-editor--dialog.ui-dialog {
+.textae-editor__dialog.ui-dialog {
   overflow: visible;
 }
-.textae-editor--dialog .ui-menu-item {
+.textae-editor__dialog .ui-menu-item {
   max-width: 100%;
 }
-.textae-editor--dialog .ui-menu-item div {
+.textae-editor__dialog .ui-menu-item div {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.textae-editor--dialog .ui-state-focus {
+.textae-editor__dialog .ui-state-focus {
   margin: -1px 0;
 }
-.textae-editor--dialog .ui-menu-item:hover div {
+.textae-editor__dialog .ui-menu-item:hover div {
   overflow: visible;
 }
-.textae-editor--dialog .ui-widget.ui-autocomplete {
+.textae-editor__dialog .ui-widget.ui-autocomplete {
   direction: rtl;
   z-index: 102;
 }
