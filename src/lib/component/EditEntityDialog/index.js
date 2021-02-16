@@ -4,6 +4,7 @@ import getValues from './getValues'
 import setSourceOfAutoComplete from '../setSourceOfAutoComplete'
 import createContentHTML from './createContentHTML'
 import SelectionAttributePallet from '../SelectionAttributePallet'
+import EditNumericAttributeDialog from '../EditNumericAttributeDialog'
 
 export default class EditEntityDialog extends PromiseDialog {
   constructor(
@@ -45,6 +46,22 @@ export default class EditEntityDialog extends PromiseDialog {
         const { typeName, attributes } = getValues(super.el)
 
         switch (attrDef.valueType) {
+          case 'numeric':
+            new EditNumericAttributeDialog(
+              attrDef,
+              attributes[e.target.dataset.index]
+            )
+              .open()
+              .then(({ newObj }) => {
+                attributes[e.target.dataset.index].obj = newObj
+                this._updateDisplay(
+                  typeName,
+                  attributes,
+                  attributeContainer,
+                  entityContainer
+                )
+              })
+            break
           case 'selection':
             new SelectionAttributePallet(editor)
               .show(attrDef, zIndex)
