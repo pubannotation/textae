@@ -3,6 +3,7 @@ import PromiseDialog from '../PromiseDialog'
 import getValues from './getValues'
 import setSourceOfAutoComplete from '../setSourceOfAutoComplete'
 import createContentHTML from './createContentHTML'
+import SelectionAttributePallet from '../SellectionAttributePallet'
 
 export default class EditEntityDialog extends PromiseDialog {
   constructor(
@@ -36,17 +37,34 @@ export default class EditEntityDialog extends PromiseDialog {
       '.textae-editor__edit-type-dialog__attribute__edit__value',
       'click',
       (e) => {
-        super.close()
         const { pred } = e.target.dataset
         const attrDef = attributeContainer.get(pred)
         const zIndex = parseInt(
           super.el.closest('.textae-editor__dialog').style['z-index']
         )
-        editor.eventEmitter.emit(
-          'textae-event.edit-type-dialog.attribute.value.edit',
-          attrDef,
-          zIndex
-        )
+
+        if (attrDef.valueType === 'selection') {
+          new SelectionAttributePallet(editor, (obj) => {
+            const { typeName, attributes } = getValues(super.el)
+            const { index } = e.target.dataset
+            const indexOfAttribute = parseInt(index)
+            attributes[indexOfAttribute].obj = obj
+
+            this._updateDisplay(
+              typeName,
+              attributes,
+              attributeContainer,
+              entityContainer
+            )
+          }).show(attrDef, zIndex)
+        } else {
+          super.close()
+          editor.eventEmitter.emit(
+            'textae-event.edit-type-dialog.attribute.value.edit',
+            attrDef,
+            zIndex
+          )
+        }
       }
     )
 
