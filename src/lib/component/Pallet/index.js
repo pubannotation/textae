@@ -48,8 +48,6 @@ export default class Pallet {
       'click',
       () => this.hide()
     )
-
-    this.hide()
   }
 
   updateDisplay() {
