@@ -28,24 +28,13 @@ export default function (
         </td>
         `
   }
-  ${
-    pred === previousPredicate
-      ? `<td>
-          <span
-            class="textae-editor__edit-type-dialog__attribute__predicate__value" 
-            data-predicate="${pred}">
-          </span>
-        </td>
-        `
-      : `<td>
-          <span
-            class="textae-editor__edit-type-dialog__attribute__predicate__value"
-            data-predicate="${pred}">
-            ${pred}
-          </span>
-        </td>
-        `
-  }
+  <td>
+    <span
+      class="textae-editor__edit-type-dialog__attribute__predicate__value"
+      data-predicate="${pred}">
+      ${pred === previousPredicate ? '' : pred}
+    </span>
+  </td>
   <td>
     <span class="textae-editor__edit-type-dialog__attribute__value__value">${obj}</span>
   </td>
