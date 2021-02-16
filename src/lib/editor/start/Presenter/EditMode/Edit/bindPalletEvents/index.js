@@ -15,14 +15,9 @@ export default function (
     `.textae-editor__type-pallet__add-button`,
     'click',
     () => {
-      const dialog = new CreateTypeDefinitionDialog(
-        typeContainer,
-        getAutocompletionWs()
-      )
-      dialog.promise.then(({ newType }) =>
-        commander.invoke(handler.addType(newType))
-      )
-      dialog.open()
+      new CreateTypeDefinitionDialog(typeContainer, getAutocompletionWs())
+        .open()
+        .then(({ newType }) => commander.invoke(handler.addType(newType)))
     }
   )
 
@@ -50,19 +45,19 @@ export default function (
     '.textae-editor__type-pallet__edit-type',
     'click',
     (e) => {
-      const dialog = new EditTypeDefinitionDialog(
+      new EditTypeDefinitionDialog(
         typeContainer,
         e.target.dataset.id,
         e.target.dataset.color.toLowerCase(),
         e.target.dataset.isDefault === 'true',
         getAutocompletionWs()
       )
-      dialog.promise.then(({ id, changedProperties }) => {
-        if (changedProperties.size) {
-          commander.invoke(handler.changeType(id, changedProperties))
-        }
-      })
-      dialog.open()
+        .open()
+        .then(({ id, changedProperties }) => {
+          if (changedProperties.size) {
+            commander.invoke(handler.changeType(id, changedProperties))
+          }
+        })
     }
   )
 
