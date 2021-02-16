@@ -37,7 +37,7 @@ export default class EditEntityDialog extends PromiseDialog {
       'click',
       (e) => {
         super.close()
-        const pred = e.target.dataset.predicate
+        const { pred } = e.target.dataset
         const attrDef = attributeContainer.get(pred)
         editor.eventEmitter.emit(
           'textae-event.edit-type-dialog.attribute.value.edit',
