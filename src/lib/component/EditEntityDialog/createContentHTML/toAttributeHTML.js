@@ -47,7 +47,11 @@ export default function (
     <button type="button" class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__edit__value" data-pred="${pred}"${
     editDisabled ? 'disabled="disabled"' : ''
   }></button>
-    <button type="button" class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__remove__value"></button>
+    <button
+      type="button" 
+      class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__remove__value" 
+      data-index="${index}">
+    </button>
   </td>
 </tr>`
 }
