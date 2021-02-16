@@ -11,8 +11,7 @@ export default function (eventEmitter, commander, selectionModelEntity) {
     .on(
       `textae-event.entity-and-attribute-pallet.attribute.create-attribute-definition-button.click`,
       () => {
-        const dialog = new CreateAttributeDefinitionDialog()
-        dialog.promise.then((attrDef) => {
+        new CreateAttributeDefinitionDialog().open().then((attrDef) => {
           // Predicate is necessary and Ignore without predicate.
           if (attrDef.pred) {
             commander.invoke(
@@ -20,7 +19,6 @@ export default function (eventEmitter, commander, selectionModelEntity) {
             )
           }
         })
-        dialog.open()
       }
     )
     .on(
