@@ -19,7 +19,9 @@ export default function (
       ? `
     <td></td>
     <td>
-      <span class="textae-editor__edit-type-dialog__attribute__predicate__value" data-predicate="${pred}">
+      <span
+        class="textae-editor__edit-type-dialog__attribute__predicate__value" 
+        data-predicate="${pred}">
       </span>
     </td>
     `
@@ -34,7 +36,9 @@ export default function (
       }
     </td>
     <td>
-      <span class="textae-editor__edit-type-dialog__attribute__predicate__value" data-predicate="${pred}">
+      <span
+        class="textae-editor__edit-type-dialog__attribute__predicate__value"
+        data-predicate="${pred}">
         ${pred}
       </span>
     </td>
