@@ -52,20 +52,18 @@ export default function (eventEmitter, commander, selectionModelEntity) {
     .on(
       `textae-event.entity-and-attribute-pallet.attribute.add-value-of-attribute-definition-button.click`,
       (attrDef) => {
-        const dialog = new EditValueOfAttributeDefinitionDialog(
-          attrDef.valueType
-        )
-        dialog.promise.then((value) => {
-          if (value.range || value.id || value.pattern) {
-            commander.invoke(
-              commander.factory.addValueToAttributeDefinitionCommand(
-                attrDef,
-                value
+        new EditValueOfAttributeDefinitionDialog(attrDef.valueType)
+          .open()
+          .then((value) => {
+            if (value.range || value.id || value.pattern) {
+              commander.invoke(
+                commander.factory.addValueToAttributeDefinitionCommand(
+                  attrDef,
+                  value
+                )
               )
-            )
-          }
-        })
-        dialog.open()
+            }
+          })
       }
     )
     .on(
@@ -102,34 +100,31 @@ export default function (eventEmitter, commander, selectionModelEntity) {
       `textae-event.entity-and-attribute-pallet.attribute.edit-value-of-attribute-definition-button.click`,
       (attrDef, index) => {
         const oldValue = attrDef.values[index]
-        const dialog = new EditValueOfAttributeDefinitionDialog(
-          attrDef.valueType,
-          oldValue
-        )
-        dialog.promise.then((newValue) => {
-          if (newValue.range || newValue.id || newValue.pattern) {
-            const changed =
-              Object.keys(newValue).reduce((acc, cur) => {
-                return acc || newValue[cur] !== oldValue[cur]
-              }, false) ||
-              Object.keys(oldValue).reduce((acc, cur) => {
-                return acc || newValue[cur] !== oldValue[cur]
-              }, false)
-            // Ignore if there is no change
-            if (!changed) {
-              return
-            }
+        new EditValueOfAttributeDefinitionDialog(attrDef.valueType, oldValue)
+          .open()
+          .then((newValue) => {
+            if (newValue.range || newValue.id || newValue.pattern) {
+              const changed =
+                Object.keys(newValue).reduce((acc, cur) => {
+                  return acc || newValue[cur] !== oldValue[cur]
+                }, false) ||
+                Object.keys(oldValue).reduce((acc, cur) => {
+                  return acc || newValue[cur] !== oldValue[cur]
+                }, false)
+              // Ignore if there is no change
+              if (!changed) {
+                return
+              }
 
-            commander.invoke(
-              commander.factory.changeValueOfAttributeDefinitionAndObjectOfSelectionAttributeCommand(
-                attrDef.JSON,
-                index,
-                newValue
+              commander.invoke(
+                commander.factory.changeValueOfAttributeDefinitionAndObjectOfSelectionAttributeCommand(
+                  attrDef.JSON,
+                  index,
+                  newValue
+                )
               )
-            )
-          }
-        })
-        dialog.open()
+            }
+          })
       }
     )
     .on(
