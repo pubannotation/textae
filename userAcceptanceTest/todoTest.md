@@ -1,29 +1,5 @@
 # 対応予定のテスト
 
-## Numeric Attribute を編集ダイアログから追加・編集
-
-### 背景
-
-1.  5.2.3 で編集ダイアログの編集機能は廃止され、パレットを開くボタンに代わりました
-2.  6.4.158 で 編集ダイアログの編集ボタンから、パレットを経由せずに、直接 Numeric Attribute 編集ダイアログを開くようにしました
-
-### DenotationEntity
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  Attribute を持たない DenotationEntity を選択する
-4.  `W` キーを押して Entity 編集ダイアログを開く
-5.  `score` ボタンを押す
-6.  Value が`0.5`の`score` Attribute が追加されること
-7.  `Edit`ボタンを押す
-8.  Numeric Attribute 編集ダイアログ が開くこと
-9.  Object を`0.8`に変更して`OK`ボタンを押す
-10. Entity 編集ダイアログ上の Value 欄の値が`0.8`に変わること
-11. もう一度`score` ボタンを押す
-12. Value が`0.5`の`score` Attribute が追加されること
-13. `OK`ボタンをおす
-14. DenotationEntity の Attribute のラベルに`High`と`Middel`になること
-
 ## 起動時のアノテーションとコンフィグレーションの読込に失敗したら、初期状態になること
 
 ### 背景
