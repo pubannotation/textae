@@ -27,6 +27,7 @@
 21. 6.4.111 で、テーブルの高さを制限しました
 22. 6.4.112 で、ショートカットキーのカラムを分けました
 23. 6.4.113 で、追加不可能な Attribute 追加ボタンの表示を、非表示から無効に変更しました
+24. 6.4.156 で、Attribute アイコンを表示するようにしました
 
 ### DenotationEntity
 
@@ -37,16 +38,16 @@
 5.  編集ダイアログが開くこと
 6.  ダイアログのタイトルが`Please edit type and attributes`であること
 7.  1 行目の`Predicate`カラムに`type`、`Value`カラムに`null`が表示されること
-8.  2 行目の最初のカラムに`1`、`Predicate`カラムに`denote`、`Value`カラムに`equivalentTo`が表示されること
+8.  2 行目の最初のカラムに`1`、`Predicate`カラムに`[list icon] denote`、`Value`カラムに`equivalentTo`が表示されること
 9.  2 行目の`Predicate`カラムと`Value`カラムがテキストであること
 10. 2 行目の編集ボタンと削除ボタンにアイコンが表示されていること
 11. 3 行目の`Predicate`カラムに空文字、`Value`カラムに`http://www.yahoo.co.jp/eeeeeeeeeeeeeeeeeoaoeuaoeuaoue`、`Label`カラムに`Regulation`が表示されること
-12. 4 行目の最初のカラムに`4`、`Predicate`カラムに`score`、`Value`カラムに`0.1`、`Label`カラムに`Low`が表示されること
-13. 5 行目の最初のカラムに`5`、`Predicate`カラムに`flee_text_predicate`、`Value`カラムに`1`、`Label`カラムに`High`が表示されること
-14. 6 行目の最初のカラムに`7`、`Predicate`カラムに`Speculation`、`Value`カラムに`ture`、`Label`カラムに`?`が表示されること
+12. 4 行目の最初のカラムに`4`、`Predicate`カラムに`[thermometer icon] score`、`Value`カラムに`0.1`、`Label`カラムに`Low`が表示されること
+13. 5 行目の最初のカラムに`5`、`Predicate`カラムに`[speech balloon icon] flee_text_predicate`、`Value`カラムに`1`、`Label`カラムに`High`が表示されること
+14. 6 行目の最初のカラムに`7`、`Predicate`カラムに`[flag icon]S peculation`、`Value`カラムに`ture`、`Label`カラムに`?`が表示されること
 15. テーブルの下に Attribute 追加ボタンがあること
 16. Attribute 追加ボタンは 2 行表示されそれ以降を見るためにスクロールできること
-17. Attribute 追加ボタンのラベルが Attribute の predicate であること
+17. Attribute 追加ボタンのラベルが Attribute の アイコンと predicate であること
 18. `error`ボタンをクリックすると、Value`true`でテーブルに追加されること
 19. `warning`ボタンをクリックすると、Value`true`でテーブルに追加されること
 20. テーブルに縦スクロールバーが表示されること
@@ -136,8 +137,8 @@
 2.  `左キー`を押す
 3.  選択する Entity が変わらないこと
 4.  最後の Entity を選択する
-6.  選択する Entity が変わらないこと
-5.  `右キー`を押す
+5.  選択する Entity が変わらないこと
+6.  `右キー`を押す
 
 ## 左右キーに連動してスクロールすること
 
