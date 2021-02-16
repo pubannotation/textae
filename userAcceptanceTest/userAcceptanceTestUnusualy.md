@@ -1183,37 +1183,6 @@
 6.  `add to`ボタンを押す
 7.  Attribute が追加されること
 
-## Selection Attribute を編集ダイアログからパレットを開いて編集
-
-### 背景
-
-1.  5.0.0 で、Attribute を追加するためにのショートカットキー T を追加しました
-2.  5.2.3 で編集ダイアログの編集機能は廃止され、パレットを開くボタンに代わりました
-
-### DenotationEntity
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  Attribute を持たない DenotationEntity を選択する
-4.  `1` キーを押す
-5.  Attribute が追加されること
-6.  `W` キーを押す
-7.  `Edit`ボタンを押す
-8.  パレットが開くこと
-9.  denote タブが選ばれていること
-
-### BlockEntity
-
-1.  Editor1 を選択
-2.  Block モードにする
-3.  Attribute を持たない BlockEntity を選択する
-4.  `1` キーを押す
-5.  Attribute が追加されること
-6.  `W` キーを押す
-7.  `Edit`ボタンを押す
-8.  パレットが開くこと
-9.  denote タブが選ばれていること
-
 ## Selection Attribute をショートカットキーからパレットを開いて編集
 
 ### 背景

@@ -1,5 +1,43 @@
 # 対応予定のテスト
 
+## Selection Attribute を編集ダイアログからパレットを開いて編集
+
+### 背景
+
+1.  5.0.0 で、Attribute を追加するためにのショートカットキー T を追加しました
+2.  5.2.3 で編集ダイアログの編集機能は廃止され、パレットを開くボタンに代わりました
+3.  6.4.157 で Selection Attribute の値選択専用の SelectionAttributePallet を導入しました
+
+### DenotationEntity
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  Attribute を持たない DenotationEntity を選択する
+4.  `1` キーを押す
+5.  Attribute が追加されること
+6.  `W` キーを押して Entity 編集ダイアログを開く
+7.  `Edit`ボタンを押す
+8.  SelectionAttributePallet が開くこと
+9.  `Cell`を選択
+10. Entity 編集ダイアログ上の Value 欄の値が`Cell`に変わること
+11. `OK`ボタンをおす
+12. DenotationEntity の Attribute のラベルが`Cell`になること
+
+### BlockEntity
+
+1.  Editor1 を選択
+2.  Block モードにする
+3.  Attribute を持たない BlockEntity を選択する
+4.  `1` キーを押す
+5.  Attribute が追加されること
+6.  `W` キーを押して Entity 編集ダイアログを開く
+7.  `Edit`ボタンを押す
+8.  SelectionAttributePallet が開くこと
+9.  `Cell`を選択
+10. Entity 編集ダイアログ上の Value 欄の値が`Cell`に変わること
+11. `OK`ボタンをおす
+12. DenotationEntity の Attribute のラベルが`Cell`になること
+
 ## 起動時のアノテーションとコンフィグレーションの読込に失敗したら、初期状態になること
 
 ### 背景
