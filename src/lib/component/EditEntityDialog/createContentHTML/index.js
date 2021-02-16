@@ -35,19 +35,19 @@ export default function (
       ${attributeContainer.attributes
         .map(
           ({ pred, valueType }) =>
-            `${
-              attributes.some(
-                (i) =>
-                  i.pred === pred &&
-                  String(i.obj) === String(attributeContainer.get(pred).default)
-              )
-                ? `<button
-                    type="button" 
-                    class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__add textae-editor__edit-type-dialog__attribute__add--${valueType}"
-                    disabled="disabled"
-                    title="There is an attribute with a default value.">${pred}</button>`
-                : `<button type="button" class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__add  textae-editor__edit-type-dialog__attribute__add--${valueType}">${pred}</button>`
-            }`
+            `<button
+              type="button" 
+              class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__add textae-editor__edit-type-dialog__attribute__add--${valueType}"
+              ${
+                attributes.some(
+                  (i) =>
+                    i.pred === pred &&
+                    String(i.obj) ===
+                      String(attributeContainer.get(pred).default)
+                )
+                  ? `disabled="disabled" title="There is an attribute with a default value."`
+                  : ''
+              }>${pred}</button>`
         )
         .join(' ')}
       </div>
