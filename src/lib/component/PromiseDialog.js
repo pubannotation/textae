@@ -5,7 +5,7 @@ export default class PromiseDialog extends Dialog {
   constructor(title, contentHtml, option, getResultsFunc) {
     super(title, contentHtml, 'OK', option)
 
-    this.promise = new Promise((resolve) => {
+    this._promise = new Promise((resolve) => {
       const onClick = () => {
         const results = getResultsFunc()
         if (results) {
@@ -32,6 +32,6 @@ export default class PromiseDialog extends Dialog {
 
   open() {
     super.open()
-    return this.promise
+    return this._promise
   }
 }
