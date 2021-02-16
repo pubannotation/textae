@@ -16,33 +16,35 @@ export default function (
 <tr class="textae-editor__edit-type-dialog__attribute">
   ${
     pred === previousPredicate
-      ? `
-    <td></td>
-    <td>
-      <span
-        class="textae-editor__edit-type-dialog__attribute__predicate__value" 
-        data-predicate="${pred}">
-      </span>
-    </td>
-    `
-      : `
-    <td>
-      ${
-        definitionIndex < 9
-          ? `<span class="textae-editor__edit-type-dialog__shortcut-key" title="Shotcut key for this predicate">${
-              definitionIndex + 1
-            }</span>`
-          : ''
-      }
-    </td>
-    <td>
-      <span
-        class="textae-editor__edit-type-dialog__attribute__predicate__value"
-        data-predicate="${pred}">
-        ${pred}
-      </span>
-    </td>
-    `
+      ? `<td></td>`
+      : `<td>
+          ${
+            definitionIndex < 9
+              ? `<span class="textae-editor__edit-type-dialog__shortcut-key" title="Shotcut key for this predicate">${
+                  definitionIndex + 1
+                }</span>`
+              : ''
+          }
+        </td>
+        `
+  }
+  ${
+    pred === previousPredicate
+      ? `<td>
+          <span
+            class="textae-editor__edit-type-dialog__attribute__predicate__value" 
+            data-predicate="${pred}">
+          </span>
+        </td>
+        `
+      : `<td>
+          <span
+            class="textae-editor__edit-type-dialog__attribute__predicate__value"
+            data-predicate="${pred}">
+            ${pred}
+          </span>
+        </td>
+        `
   }
   <td>
     <span class="textae-editor__edit-type-dialog__attribute__value__value">${obj}</span>
