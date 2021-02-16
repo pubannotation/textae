@@ -42,17 +42,14 @@ export default class EditEntityDialog extends PromiseDialog {
         const zIndex = parseInt(
           super.el.closest('.textae-editor__dialog').style['z-index']
         )
+        const { typeName, attributes } = getValues(super.el)
 
         switch (attrDef.valueType) {
           case 'selection':
             new SelectionAttributePallet(editor)
               .show(attrDef, zIndex)
               .then((obj) => {
-                const { typeName, attributes } = getValues(super.el)
-                const { index } = e.target.dataset
-                const indexOfAttribute = parseInt(index)
-                attributes[indexOfAttribute].obj = obj
-
+                attributes[e.target.dataset.index].obj = obj
                 this._updateDisplay(
                   typeName,
                   attributes,
