@@ -44,19 +44,21 @@ export default class EditEntityDialog extends PromiseDialog {
         )
 
         if (attrDef.valueType === 'selection') {
-          new SelectionAttributePallet(editor, (obj) => {
-            const { typeName, attributes } = getValues(super.el)
-            const { index } = e.target.dataset
-            const indexOfAttribute = parseInt(index)
-            attributes[indexOfAttribute].obj = obj
+          new SelectionAttributePallet(editor)
+            .show(attrDef, zIndex)
+            .then((obj) => {
+              const { typeName, attributes } = getValues(super.el)
+              const { index } = e.target.dataset
+              const indexOfAttribute = parseInt(index)
+              attributes[indexOfAttribute].obj = obj
 
-            this._updateDisplay(
-              typeName,
-              attributes,
-              attributeContainer,
-              entityContainer
-            )
-          }).show(attrDef, zIndex)
+              this._updateDisplay(
+                typeName,
+                attributes,
+                attributeContainer,
+                entityContainer
+              )
+            })
         } else {
           super.close()
           editor.eventEmitter.emit(

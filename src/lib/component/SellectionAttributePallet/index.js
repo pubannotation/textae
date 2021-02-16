@@ -4,21 +4,11 @@ import selectionAttributeTemplate from './selectionAttributeTemplate'
 import Pallet from '../Pallet'
 
 export default class SelectionAttributePallet extends Pallet {
-  constructor(editor, done) {
+  constructor(editor) {
     super(editor, 'entity', 'Please select value')
 
     this._veil = dohtml.create(
       `<div style="width: ${window.innerWidth}px; height: ${window.innerHeight}px; position: fixed; right: 0; top: 0; background-color: rgba(0, 0, 10, 0.3);"></div>`
-    )
-
-    delegate(
-      this._el,
-      '.textae-editor__type-pallet__selection-attribute-label',
-      'click',
-      (e) => {
-        this.hide()
-        done(e.target.dataset.id)
-      }
     )
   }
 
@@ -29,6 +19,18 @@ export default class SelectionAttributePallet extends Pallet {
     this._el.style['z-index'] = zIndex + 1
     this._attributeDefinition = attrDef
     super.show()
+
+    return new Promise((resolve) => {
+      delegate(
+        this._el,
+        '.textae-editor__type-pallet__selection-attribute-label',
+        'click',
+        (e) => {
+          this.hide()
+          resolve(e.target.dataset.id)
+        }
+      )
+    })
   }
 
   hide() {
