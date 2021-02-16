@@ -43,29 +43,31 @@ export default class EditEntityDialog extends PromiseDialog {
           super.el.closest('.textae-editor__dialog').style['z-index']
         )
 
-        if (attrDef.valueType === 'selection') {
-          new SelectionAttributePallet(editor)
-            .show(attrDef, zIndex)
-            .then((obj) => {
-              const { typeName, attributes } = getValues(super.el)
-              const { index } = e.target.dataset
-              const indexOfAttribute = parseInt(index)
-              attributes[indexOfAttribute].obj = obj
+        switch (attrDef.valueType) {
+          case 'selection':
+            new SelectionAttributePallet(editor)
+              .show(attrDef, zIndex)
+              .then((obj) => {
+                const { typeName, attributes } = getValues(super.el)
+                const { index } = e.target.dataset
+                const indexOfAttribute = parseInt(index)
+                attributes[indexOfAttribute].obj = obj
 
-              this._updateDisplay(
-                typeName,
-                attributes,
-                attributeContainer,
-                entityContainer
-              )
-            })
-        } else {
-          super.close()
-          editor.eventEmitter.emit(
-            'textae-event.edit-type-dialog.attribute.value.edit',
-            attrDef,
-            zIndex
-          )
+                this._updateDisplay(
+                  typeName,
+                  attributes,
+                  attributeContainer,
+                  entityContainer
+                )
+              })
+            break
+          default:
+            super.close()
+            editor.eventEmitter.emit(
+              'textae-event.edit-type-dialog.attribute.value.edit',
+              attrDef,
+              zIndex
+            )
         }
       }
     )

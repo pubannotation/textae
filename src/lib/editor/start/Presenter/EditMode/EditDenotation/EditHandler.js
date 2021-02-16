@@ -26,6 +26,7 @@ export default class EditHandler extends DefaultHandler {
   changeLabelHandler(autocompletionWs) {
     if (this._selectionModel.entity.some) {
       const done = ({ typeName, label, attributes }) => {
+        console.log('hi')
         const commands = this._commander.factory.changeItemTypeCommand(
           label,
           typeName,
