@@ -39,9 +39,13 @@ export default class EditEntityDialog extends PromiseDialog {
         super.close()
         const { pred } = e.target.dataset
         const attrDef = attributeContainer.get(pred)
+        const zIndex = parseInt(
+          super.el.closest('.textae-editor__dialog').style['z-index']
+        )
         editor.eventEmitter.emit(
           'textae-event.edit-type-dialog.attribute.value.edit',
-          attrDef
+          attrDef,
+          zIndex
         )
       }
     )
