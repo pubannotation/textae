@@ -3,7 +3,7 @@ import PromiseDialog from '../PromiseDialog'
 import getValues from './getValues'
 import setSourceOfAutoComplete from '../setSourceOfAutoComplete'
 import createContentHTML from './createContentHTML'
-import SelectionAttributePallet from '../SellectionAttributePallet'
+import SelectionAttributePallet from '../SelectionAttributePallet'
 
 export default class EditEntityDialog extends PromiseDialog {
   constructor(
