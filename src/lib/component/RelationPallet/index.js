@@ -4,7 +4,7 @@ import template from './template'
 
 export default class RelationPallet extends Pallet {
   constructor(editor, originalData, typeDefinition) {
-    super(editor, 'relation')
+    super(editor, 'relation', 'Relation configuration')
 
     this._originalData = originalData
     this._typeDefinition = typeDefinition

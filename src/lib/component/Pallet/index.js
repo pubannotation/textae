@@ -6,9 +6,10 @@ import setWidthWithin from './setWidthWithin'
 import setHeightWithin from './setHeightWithin'
 
 export default class Pallet {
-  constructor(editor, annotationType) {
+  constructor(editor, annotationType, title) {
     this._editor = editor
     this._annotationType = annotationType
+    this._title = title
     this._el = createPalletElement(annotationType)
 
     // let the pallet draggable.
@@ -77,10 +78,7 @@ export default class Pallet {
     this._el.innerHTML = `
       <div class="textae-editor__type-pallet__container">
         <div class="textae-editor__type-pallet__title-bar ui-widget-header ui-corner-all">
-          <span>${
-            this._annotationType.charAt(0).toUpperCase() +
-            this._annotationType.slice(1)
-          } configuration</span>
+          <span>${this._title}</span>
           <button 
             type="button"
             class="textae-editor__type-pallet__close-button ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close"

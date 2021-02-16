@@ -12,7 +12,7 @@ export default class EntityAndAttributePallet extends Pallet {
     entityContainer,
     selectionModelEntity
   ) {
-    super(editor, 'entity')
+    super(editor, 'entity', 'Entity configuration')
 
     this._eventEmitter = editor.eventEmitter
     this._originalData = originalData
