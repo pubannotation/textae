@@ -30,7 +30,7 @@ export default function (
   }
   <td>
     <span
-      class="textae-editor__edit-type-dialog__attribute__predicate__value"
+      class="textae-editor__edit-type-dialog__attribute__predicate__value textae-editor__edit-type-dialog__attribute__predicate__value--${valueType}"
       data-predicate="${pred}">
       ${pred === previousPredicate ? '' : pred}
     </span>
