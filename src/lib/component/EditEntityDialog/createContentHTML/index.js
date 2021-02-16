@@ -34,7 +34,7 @@ export default function (
       <div class="textae-editor__edit-type-dialog__add-attribute-buttons">
       ${attributeContainer.attributes
         .map(
-          ({ pred }) =>
+          ({ pred, valueType }) =>
             `${
               attributes.some(
                 (i) =>
@@ -43,10 +43,10 @@ export default function (
               )
                 ? `<button
                     type="button" 
-                    class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__add"
+                    class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__add textae-editor__edit-type-dialog__attribute__add--${valueType}"
                     disabled="disabled"
                     title="There is an attribute with a default value.">${pred}</button>`
-                : `<button type="button" class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__add">${pred}</button>`
+                : `<button type="button" class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__add  textae-editor__edit-type-dialog__attribute__add--${valueType}">${pred}</button>`
             }`
         )
         .join(' ')}
