@@ -322,9 +322,34 @@
   width: calc(100% - 7px);
 }
 .textae-editor__edit-type-dialog__shortcut-key {
-  border-style: outset;
+  border-style: solid;
   border-width: 1px;
+  box-shadow: 1px 1px 1px #aaa;
   text-align: center;
+}
+.textae-editor__edit-type-dialog__attribute__predicate__value--flag:before {
+  position: relative;
+  display: inline-block;
+  font-family: FontAwesome;
+  content: '\f024';
+}
+.textae-editor__edit-type-dialog__attribute__predicate__value--selection:before {
+  position: relative;
+  display: inline-block;
+  font-family: FontAwesome;
+  content: '\f0ca';
+}
+.textae-editor__edit-type-dialog__attribute__predicate__value--numeric:before {
+  position: relative;
+  display: inline-block;
+  font-family: FontAwesome;
+  content: '\f2c9';
+}
+.textae-editor__edit-type-dialog__attribute__predicate__value--string:before {
+  position: relative;
+  display: inline-block;
+  font-family: FontAwesome;
+  content: '\f27a';
 }
 .textae-editor__edit-type-dialog__attribute__edit__value:before {
   position: relative;
@@ -337,6 +362,34 @@
   display: inline-block;
   font-family: FontAwesome;
   content: '\f1f8';
+}
+.textae-editor__edit-type-dialog__attribute__edit__value--flag:before,
+.textae-editor__edit-type-dialog__attribute__add--flag:before {
+  position: relative;
+  display: inline-block;
+  font-family: FontAwesome;
+  content: '\f024';
+}
+.textae-editor__edit-type-dialog__attribute__edit__value--selection:before,
+.textae-editor__edit-type-dialog__attribute__add--selection:before {
+  position: relative;
+  display: inline-block;
+  font-family: FontAwesome;
+  content: '\f0ca';
+}
+.textae-editor__edit-type-dialog__attribute__edit__value--numeric:before,
+.textae-editor__edit-type-dialog__attribute__add--numeric:before {
+  position: relative;
+  display: inline-block;
+  font-family: FontAwesome;
+  content: '\f2c9';
+}
+.textae-editor__edit-type-dialog__attribute__edit__value--string:before,
+.textae-editor__edit-type-dialog__attribute__add--string:before {
+  position: relative;
+  display: inline-block;
+  font-family: FontAwesome;
+  content: '\f27a';
 }
 .textae-editor__edit-type-dialog__attribute__edit__value[disabled='disabled'],
 .textae-editor__edit-type-dialog__attribute__add[disabled='disabled'] {
