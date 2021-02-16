@@ -71,7 +71,7 @@ export default class SettingDialog extends Dialog {
     reflectImmediately(super.el, editor, entityGap, typeDefinition, textBox)
 
     // Observe enter key press
-    delegate(super.el, `.textae-editor--dialog`, 'keyup', (e) => {
+    delegate(super.el, `.textae-editor__dialog`, 'keyup', (e) => {
       if (e.keyCode === 13) {
         super.close()
       }

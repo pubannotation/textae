@@ -24,7 +24,7 @@ export default function (editors) {
   // The focus events are not fired on the un-focusable elements like div.
   document.body.addEventListener('click', (e) => {
     // Ignore clicks on the jQuery UI dialogs.
-    if (e.target.closest('.textae-editor--dialog') !== null) {
+    if (e.target.closest('.textae-editor__dialog') !== null) {
       return
     }
 
