@@ -29,4 +29,9 @@ export default class PromiseDialog extends Dialog {
       )
     })
   }
+
+  open() {
+    super.open()
+    return this.promise
+  }
 }
