@@ -1,7 +1,7 @@
 import alertifyjs from 'alertifyjs'
 import CreateAttributeDefinitionDialog from '../../../../component/CreateAttributeDefinitionDialog'
 import EditAttributeDefinitionDialog from '../../../../component/EditAttributeDefinitionDialog'
-import EditValueToAttributeDefinitionDialog from '../../../../component/EditValueOfAttributeDefinitionDialog'
+import EditValueOfAttributeDefinitionDialog from '../../../../component/EditValueOfAttributeDefinitionDialog'
 import openEditNumericAttributeDialog from '../openEditNumericAttributeDialog'
 import openEditStringAttributeDialog from '../openEditStringAttributeDialog'
 
@@ -52,7 +52,7 @@ export default function (eventEmitter, commander, selectionModelEntity) {
     .on(
       `textae-event.entity-and-attribute-pallet.attribute.add-value-of-attribute-definition-button.click`,
       (attrDef) => {
-        const dialog = new EditValueToAttributeDefinitionDialog(
+        const dialog = new EditValueOfAttributeDefinitionDialog(
           attrDef.valueType
         )
         dialog.promise.then((value) => {
@@ -102,7 +102,7 @@ export default function (eventEmitter, commander, selectionModelEntity) {
       `textae-event.entity-and-attribute-pallet.attribute.edit-value-of-attribute-definition-button.click`,
       (attrDef, index) => {
         const oldValue = attrDef.values[index]
-        const dialog = new EditValueToAttributeDefinitionDialog(
+        const dialog = new EditValueOfAttributeDefinitionDialog(
           attrDef.valueType,
           oldValue
         )
