@@ -24,19 +24,22 @@ export default function (eventEmitter, commander, selectionModelEntity) {
     .on(
       `textae-event.entity-and-attribute-pallet.attribute.edit-attribute-definition-button.click`,
       (attrDef) => {
-        const dialog = new EditAttributeDefinitionDialog(attrDef)
-        dialog.promise.then((changedProperties) => {
-          // Predicate is necessary and Ignore without predicate.
-          if (changedProperties.size && changedProperties.get('pred') !== '') {
-            commander.invoke(
-              commander.factory.changeAttributeDefinitionCommand(
-                attrDef,
-                changedProperties
+        new EditAttributeDefinitionDialog(attrDef)
+          .open()
+          .then((changedProperties) => {
+            // Predicate is necessary and Ignore without predicate.
+            if (
+              changedProperties.size &&
+              changedProperties.get('pred') !== ''
+            ) {
+              commander.invoke(
+                commander.factory.changeAttributeDefinitionCommand(
+                  attrDef,
+                  changedProperties
+                )
               )
-            )
-          }
-        })
-        dialog.open()
+            }
+          })
       }
     )
     .on(
