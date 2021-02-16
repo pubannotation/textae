@@ -4,3 +4,18 @@
   font-family: FontAwesome;
   content: @content;
 }
+
+.attributeIcons() {
+  &--flag:before {
+    .fontAwesomeIcon('\f024');
+  }
+  &--selection:before {
+    .fontAwesomeIcon('\f0ca');
+  }
+  &--numeric:before {
+    .fontAwesomeIcon('\f2c9');
+  }
+  &--string:before {
+    .fontAwesomeIcon('\f27a');
+  }
+}
