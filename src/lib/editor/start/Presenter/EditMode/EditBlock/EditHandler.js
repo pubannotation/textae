@@ -43,15 +43,15 @@ export default class EditHandler extends DefaultHandler {
         }
       }
 
-      const dialog = new EditEntityDialog(
+      new EditEntityDialog(
         this._editor,
         this._typeContainer,
         this._annotationData.typeDefinition.attribute,
         autocompletionWs,
         mergedTypesOf(this._selectionModel.entity.all)
       )
-      dialog.promise.then(done)
-      dialog.open()
+        .open()
+        .then(done)
     }
   }
 
