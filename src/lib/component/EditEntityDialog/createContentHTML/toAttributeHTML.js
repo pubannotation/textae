@@ -38,9 +38,7 @@ export default function (
   <td>
     <span class="textae-editor__edit-type-dialog__attribute__value__value">${obj}</span>
   </td>
-  <td>
-    ${label}
-  </td>
+  <td>${label}</td>
   <td>
     <button type="button" class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__edit__value" data-predicate="${pred}"${
     editDisabled ? 'disabled="disabled"' : ''
