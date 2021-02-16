@@ -38,6 +38,7 @@ export default function (
             `<button
               type="button" 
               class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__add textae-editor__edit-type-dialog__attribute__add--${valueType}"
+              data-pred="${pred}"
               ${
                 attributes.some(
                   (i) =>
@@ -47,7 +48,7 @@ export default function (
                 )
                   ? `disabled="disabled" title="There is an attribute with a default value."`
                   : ''
-              }>${pred}</button>`
+              }> ${pred}</button>`
         )
         .join(' ')}
       </div>

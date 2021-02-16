@@ -73,7 +73,7 @@ export default class EditEntityDialog extends PromiseDialog {
       '.textae-editor__edit-type-dialog__attribute__add',
       'click',
       (e) => {
-        const pred = e.target.innerText
+        const { pred } = e.target.dataset
         const defaultValue = attributeContainer.get(pred).default
 
         const { typeName, attributes } = getValues(super.el)
