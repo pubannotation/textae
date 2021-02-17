@@ -1,5 +1,35 @@
 # 対応予定のテスト
 
+## SelectionAttributePallet で選択済みの Value を選択できない
+
+### 背景
+
+1.  6.4.157 で Selection Attribute の値選択専用の SelectionAttributePallet を導入しました
+2.  現在は、選択済みの Value を選択できます
+3.  重複した Value を選択した場合、`OK`ボタンを押して Entity に反映する際に一つにまとまります
+4.  最初から選べない方が親切に思います
+
+### -- 手段 --
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  Attribute を持たない DenotationEntity を選択する
+4.  `W` キーを押して Entity 編集ダイアログを開く
+5.  `denote` ボタンを押す
+6.  Value が`equivalentTo`の`denote` Attribute が追加されること
+7.  `Edit`ボタンを押す
+8.  SelectionAttributePallet が開くこと
+9.  `equivalentTo`が選択できないこと、ホバーすると選択できない理由が表示されること
+10. `Cell`を選択
+11. Entity 編集ダイアログ上の Value 欄の値が`Cell`に変わること
+12. `denote` ボタンを押す
+13. `Edit`ボタンを押す
+14. SelectionAttributePallet が開くこと
+15. `equivalentTo`が選択できないこと、ホバーすると選択できない理由が表示されること
+16. `Cell`が選択できないこと、ホバーすると選択できない理由が表示されること
+17. `http://www.yahoo.co.jp/eeeeeeeeeeeeeeeeeoaoeuaoeuaoue`を選択
+18. `Edit`ボタンが無効なこと、、ホバーすると無効な理由が表示されること
+
 ## エンティティ編集ダイアログから String Attribute の Object を編集したときにラベルに反映される
 
 ### 背景
