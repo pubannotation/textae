@@ -22,9 +22,8 @@ export default class JsPlumbConnectionWrapper {
 
     // Bind a jsPlumbConnection event.
     this._bind('click', onClick)
-    this._bind('mouseenter', () => this.pointup())._bind('mouseexit', () =>
-      this.pointdown()
-    )
+    this._bind('mouseenter', () => this.pointup())
+    this._bind('mouseexit', () => this.pointdown())
   }
 
   _addClass(className) {
@@ -40,7 +39,6 @@ export default class JsPlumbConnectionWrapper {
     // the connection click event won't fire when you click on a label.
     // So we will bind the label event in addition to the connection.
     this._labelOverlay.bind(event, eventHandler)
-    return this
   }
 
   deselect() {
