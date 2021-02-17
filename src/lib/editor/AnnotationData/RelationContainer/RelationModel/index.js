@@ -65,11 +65,6 @@ export default class RelationModel {
     this._connect = val
   }
 
-  deleteJsPlumbConnection() {
-    this._connect.detach()
-    this._connect = undefined
-  }
-
   select() {
     setTimeout(() => {
       if (this._connect) this._connect.select()
@@ -117,6 +112,7 @@ export default class RelationModel {
       return
     }
 
-    this.deleteJsPlumbConnection()
+    this._connect.detach()
+    this._connect = undefined
   }
 }
