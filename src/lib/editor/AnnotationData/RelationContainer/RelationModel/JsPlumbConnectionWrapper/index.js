@@ -3,7 +3,13 @@ import connectorStrokeStyle from './connectorStrokeStyle'
 import createJsPlumbConnecttion from './createJsPlumbConnecttion'
 
 export default class JsPlumbConnectionWrapper {
-  constructor(jsPlumbInstance, relation, annotationData, typeDefinition) {
+  constructor(
+    jsPlumbInstance,
+    relation,
+    annotationData,
+    typeDefinition,
+    onClick
+  ) {
     this._relationId = relation.id
     this._annotationData = annotationData
     this._typeDefinition = typeDefinition
@@ -14,6 +20,8 @@ export default class JsPlumbConnectionWrapper {
       typeDefinition
     )
 
+    // Bind a jsPlumbConnection event.
+    this.bind('click', onClick)
     this.bind('mouseenter', () => this.pointup()).bind('mouseexit', () =>
       this.pointdown()
     )

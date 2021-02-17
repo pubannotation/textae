@@ -96,17 +96,14 @@ export default class RelationModel {
       jsPlumbInstance,
       this,
       annotationData,
-      typeDefinition
+      typeDefinition,
+      (_, event) =>
+        editor.eventEmitter.emit(
+          'textae-event.editor.js-plumb-connection.click',
+          jsPlumbConnection,
+          event
+        )
     )
-
-    // Bind a jsPlumbConnection event.
-    jsPlumbConnection.bind('click', (_, event) => {
-      editor.eventEmitter.emit(
-        'textae-event.editor.js-plumb-connection.click',
-        jsPlumbConnection,
-        event
-      )
-    })
 
     this._connect = jsPlumbConnection
   }
