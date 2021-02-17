@@ -26,21 +26,6 @@ export default class JsPlumbConnectionWrapper {
     this._bind('mouseexit', () => this.pointdown())
   }
 
-  _addClass(className) {
-    this._jsPlumbConnection.addClass(className)
-    this._labelOverlay.addClass(className)
-  }
-
-  _bind(event, eventHandler) {
-    this._jsPlumbConnection.bind(event, eventHandler)
-    // In jsPlumb, when you draw a connection for the first time,
-    // clicking on a label fires a connection click event.
-    // But after resizing and redrawing a connection,
-    // the connection click event won't fire when you click on a label.
-    // So we will bind the label event in addition to the connection.
-    this._labelOverlay.bind(event, eventHandler)
-  }
-
   deselect() {
     this.resetColor()
     this._removeClass('ui-selected')
@@ -96,11 +81,6 @@ export default class JsPlumbConnectionWrapper {
     this._labelOverlay.setLabel(lableString)
   }
 
-  _removeClass(className) {
-    this._jsPlumbConnection.removeClass(className)
-    this._labelOverlay.removeClass(className)
-  }
-
   set curviness(curviness) {
     // Set changed values only.
     if (this._jsPlumbConnection.connector.getCurviness() !== curviness) {
@@ -116,6 +96,26 @@ export default class JsPlumbConnectionWrapper {
   }
 
   // Private APIs
+  _addClass(className) {
+    this._jsPlumbConnection.addClass(className)
+    this._labelOverlay.addClass(className)
+  }
+
+  _removeClass(className) {
+    this._jsPlumbConnection.removeClass(className)
+    this._labelOverlay.removeClass(className)
+  }
+
+  _bind(event, eventHandler) {
+    this._jsPlumbConnection.bind(event, eventHandler)
+    // In jsPlumb, when you draw a connection for the first time,
+    // clicking on a label fires a connection click event.
+    // But after resizing and redrawing a connection,
+    // the connection click event won't fire when you click on a label.
+    // So we will bind the label event in addition to the connection.
+    this._labelOverlay.bind(event, eventHandler)
+  }
+
   get _arrowOverlays() {
     return this._jsPlumbConnection
       .getOverlays()
