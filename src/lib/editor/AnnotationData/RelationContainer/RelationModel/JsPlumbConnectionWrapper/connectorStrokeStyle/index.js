@@ -1,7 +1,7 @@
 import converseHEXinotRGBA from './converseHEXinotRGBA'
 
 export default function (annotationData, typeDefinition, relation) {
-  const { typeName } = annotationData.relation.get(relation.id)
+  const { typeName } = relation
   const colorHex = typeDefinition.relation.getColor(typeName)
 
   return {
