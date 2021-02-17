@@ -76,7 +76,7 @@
 1.  editor6 を選択
 2.  アノテーション読込ダイアログを表示する
 3.  URL 欄に`../../dev/3_annotations.json`が表示されること
-4.  Save Annotations ダイアログを表示する
+4.  アノテーション保存ダイアログを表示する
 5.  URL 欄に`http://pubannotation.org/projects/penguin-fly/docs/sourcedb/PubMed/sourceid/10089213/annotations.json`が表示されること
 
 ### Save Configurations ダイアログには影響を与えない

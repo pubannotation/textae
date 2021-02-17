@@ -43,7 +43,7 @@
 
 #### 背景
 
-1.  Save Annotations ダイアログの保存ファイルの初期値は、最後に読み込んだアノテーションのファイル名です
+1.  アノテーション保存ダイアログの保存ファイルの初期値は、最後に読み込んだアノテーションのファイル名です
 2.  6.1.4 で対応しました
 
 #### -- 手段 --
@@ -51,7 +51,7 @@
 1.  Editor0 を選択
 2.  アノテーション読込ダイアログを開く
 3.  ローカルファイルから`1_annotations.json`を読み込む
-4.  Save Annotations ダイアログを開く
+4.  アノテーション保存ダイアログを開く
 5.  Local 欄に`1_annotations.json`が表示されていること
 
 ### Clipboard
@@ -63,7 +63,7 @@
 
 #### -- 手段 --
 
-1.  Save Annotations ダイアログを開く
+1.  アノテーション保存ダイアログを開く
 2.  `Click to see the json source in a new window`をクリックする
 3.  新しいタブが開いて annotation.json が表示されること
 4.  `{\"target\"`のようにエスケープ用のバックスラッシュが入っていないこと
@@ -72,21 +72,21 @@
 ### URL
 
 1.  Editor1 を選択
-2.  Save Annotations ダイアログを開く
+2.  アノテーション保存ダイアログを開く
 3.  URL に保存する
 4.  指定したファイル名`.dev_data.json`のファイルができていること
 5.  指定したファイル名`.dev_data.json`のファイルに変更内容が反映されていること
 
 ### Local
 
-1.  Save Annotations ダイアログを開く
+1.  アノテーション保存ダイアログを開く
 2.  Local に保存する
 3.  指定したファイル名のファイルがダウンロードできること
 4.  ダウンロードしたファイルに変更内容が反映されていること
 
 ### URL が指定されていなければ save ボタンを押せない
 
-1.  Save Annotations ダイアログを開く
+1.  アノテーション保存ダイアログを開く
 2.  URL 欄を空にする
 3.  保存ダイアログ上の Save ボタンが無効になること
 
@@ -206,7 +206,7 @@
 
 ### 背景
 
-1. Save Annotations ダイアログの保存ファイルの初期値は、最後に読み込んだアノテーションのファイル名です
+1. アノテーション保存ダイアログの保存ファイルの初期値は、最後に読み込んだアノテーションのファイル名です
 2. 6.1.4 で対応しました
 3. 不正なアノテーションを読み込んだときに、アノテーションを適用しません。
 4. 不正なアノテーションを読み込んだときに、その URL を保存していました。
@@ -218,7 +218,7 @@
 2.  アノテーション読込ダイアログを開く
 3.  `/dev/invalid_color_annotation.json`を読み込む
 4.  右上に`Invalid configuration: '<span style='color:red'>Invalid color format</span>' is invalid color format.`と赤色のトースト表示がされること
-5.  Save Annotations ダイアログを開く
+5.  アノテーション保存ダイアログを開く
 6.  URL 欄に`http://pubannotation.org/projects/DisGeNET/docs/sourcedb/PubMed/sourceid/10021369/annotations.json`が表示されていること
 
 ## コンフィグレーション読み込み
@@ -3672,7 +3672,7 @@
 
 ### namespace を更新しない
 
-1.  Save Annotations ダイアログを開く
+1.  アノテーション保存ダイアログを開く
 2.  ソースを表示する
 3.  namespace に id を追加していないこと
 
