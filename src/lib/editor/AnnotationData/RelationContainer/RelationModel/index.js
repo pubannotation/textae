@@ -112,7 +112,7 @@ export default class RelationModel {
       return
     }
 
-    this._connect.detach()
+    this._connect.destroy()
     this._connect = undefined
   }
 }

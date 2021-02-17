@@ -47,7 +47,7 @@ export default class JsPlumbConnectionWrapper {
     this._hideBigArrow()
   }
 
-  detach() {
+  destroy() {
     this._jsPlumbConnection._jsPlumb.instance.detach(this._jsPlumbConnection)
   }
 
