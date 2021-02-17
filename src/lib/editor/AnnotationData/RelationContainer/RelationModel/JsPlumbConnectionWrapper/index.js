@@ -13,6 +13,10 @@ export default class JsPlumbConnectionWrapper {
       annotationData,
       typeDefinition
     )
+
+    this.bind('mouseenter', () => this.pointup()).bind('mouseexit', () =>
+      this.pointdown()
+    )
   }
 
   _addClass(className) {
