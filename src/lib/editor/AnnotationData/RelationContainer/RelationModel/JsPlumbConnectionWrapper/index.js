@@ -101,7 +101,7 @@ export default class JsPlumbConnectionWrapper {
     this._labelOverlay.removeClass(className)
   }
 
-  resetCurviness(curviness) {
+  set curviness(curviness) {
     // Set changed values only.
     if (this._jsPlumbConnection.connector.getCurviness() !== curviness) {
       this._jsPlumbConnection.setConnector([

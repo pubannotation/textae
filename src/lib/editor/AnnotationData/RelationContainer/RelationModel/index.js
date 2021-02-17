@@ -83,7 +83,7 @@ export default class RelationModel {
       this.targetEndpoint
     )
 
-    this.jsPlumbConnection.resetCurviness(curviness)
+    this.jsPlumbConnection.curviness = curviness
   }
 
   renderElement(jsPlumbInstance, editor, annotationData, typeDefinition) {
