@@ -71,7 +71,7 @@ export default class JsPlumbConnectionWrapper {
     const strokeStyle = connectorStrokeStyle(
       this._annotationData,
       this._typeDefinition,
-      this._relation.id
+      this._relation
     )
 
     this._jsPlumbConnection.setPaintStyle(strokeStyle)
