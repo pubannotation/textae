@@ -4,6 +4,9 @@ import createJsPlumbConnecttion from './createJsPlumbConnecttion'
 
 export default class JsPlumbConnectionWrapper {
   constructor(jsPlumbInstance, relation, annotationData, typeDefinition) {
+    this._relationId = relation.id
+    this._annotationData = annotationData
+    this._typeDefinition = typeDefinition
     this._jsPlumbConnection = createJsPlumbConnecttion(
       jsPlumbInstance,
       relation,
@@ -11,7 +14,11 @@ export default class JsPlumbConnectionWrapper {
       typeDefinition
     )
     this._getStrokeStyle = () =>
-      connectorStrokeStyle(annotationData, typeDefinition, relation.id)
+      connectorStrokeStyle(
+        this._annotationData,
+        this._typeDefinition,
+        this._relationId
+      )
   }
 
   addClass(className) {
