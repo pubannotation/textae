@@ -82,24 +82,6 @@ export default class EditMode {
         this._getHandler().jsPlumbConnectionClicked(jsPlumbConnection, event)
       }
     )
-
-    editor.eventEmitter.on(
-      'textae-event.edit-type-dialog.attribute.value.edit',
-      (attrDef) => {
-        switch (this._stateMachine.currentState) {
-          case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
-          case MODE.EDIT_DENOTATION_WITH_RELATION:
-            this._editDenotation.pallet.show()
-            this._editDenotation.pallet.showAttribute(attrDef.pred)
-            break
-          case MODE.EDIT_BLOCK_WITHOUT_RELATION:
-          case MODE.EDIT_BLOCK_WITH_RELATION:
-            this._editBlock.pallet.show()
-            this._editBlock.pallet.showAttribute(attrDef.pred)
-            break
-        }
-      }
-    )
   }
 
   get isEditDenotation() {
