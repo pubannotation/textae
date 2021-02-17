@@ -13,12 +13,6 @@ export default class JsPlumbConnectionWrapper {
       annotationData,
       typeDefinition
     )
-    this._getStrokeStyle = () =>
-      connectorStrokeStyle(
-        this._annotationData,
-        this._typeDefinition,
-        this._relationId
-      )
   }
 
   addClass(className) {
