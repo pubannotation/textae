@@ -5,6 +5,7 @@ import setSourceOfAutoComplete from '../setSourceOfAutoComplete'
 import createContentHTML from './createContentHTML'
 import SelectionAttributePallet from '../SelectionAttributePallet'
 import EditNumericAttributeDialog from '../EditNumericAttributeDialog'
+import EditStringAttributeDialog from '../EditStringAttributeDialog'
 
 export default class EditEntityDialog extends PromiseDialog {
   constructor(
@@ -75,13 +76,24 @@ export default class EditEntityDialog extends PromiseDialog {
                 )
               })
             break
-          default:
-            super.close()
-            editor.eventEmitter.emit(
-              'textae-event.edit-type-dialog.attribute.value.edit',
-              attrDef,
-              zIndex
+          case 'string':
+            new EditStringAttributeDialog(
+              attributes[e.target.dataset.index],
+              attrDef
             )
+              .open()
+              .then(({ newObj }) => {
+                attributes[e.target.dataset.index].obj = newObj
+                this._updateDisplay(
+                  typeName,
+                  attributes,
+                  attributeContainer,
+                  entityContainer
+                )
+              })
+            break
+          default:
+            throw `${attrDef.valueType} is unknown attribute.`
         }
       }
     )
