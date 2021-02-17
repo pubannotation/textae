@@ -15,7 +15,7 @@ export default class JsPlumbConnectionWrapper {
     )
   }
 
-  addClass(className) {
+  _addClass(className) {
     this._jsPlumbConnection.addClass(className)
     this._labelOverlay.addClass(className)
   }
@@ -60,14 +60,14 @@ export default class JsPlumbConnectionWrapper {
   pointup() {
     if (!this._isSelected) {
       this.setColor()
-      this.addClass('hover')
+      this._addClass('hover')
       this._showBigArrow()
     }
   }
 
   select() {
     this.setColor()
-    this.addClass('ui-selected')
+    this._addClass('ui-selected')
     this.removeClass('hover')
     this._showBigArrow()
   }
