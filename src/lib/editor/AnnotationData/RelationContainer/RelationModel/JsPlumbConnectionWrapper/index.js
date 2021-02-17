@@ -42,7 +42,7 @@ export default class JsPlumbConnectionWrapper {
   }
 
   deselect() {
-    this.setColor()
+    this.resetColor()
     this._removeClass('ui-selected')
     this._hideBigArrow()
   }
@@ -61,7 +61,7 @@ export default class JsPlumbConnectionWrapper {
 
   pointdown() {
     if (!this._isSelected) {
-      this.setColor()
+      this.resetColor()
       this._removeClass('hover')
       this._hideBigArrow()
     }
@@ -69,20 +69,20 @@ export default class JsPlumbConnectionWrapper {
 
   pointup() {
     if (!this._isSelected) {
-      this.setColor()
+      this.resetColor()
       this._addClass('hover')
       this._showBigArrow()
     }
   }
 
   select() {
-    this.setColor()
+    this.resetColor()
     this._addClass('ui-selected')
     this._removeClass('hover')
     this._showBigArrow()
   }
 
-  setColor() {
+  resetColor() {
     const strokeStyle = connectorStrokeStyle(
       this._annotationData,
       this._typeDefinition,
