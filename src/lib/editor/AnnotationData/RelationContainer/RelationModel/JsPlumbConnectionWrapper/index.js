@@ -10,7 +10,7 @@ export default class JsPlumbConnectionWrapper {
     typeDefinition,
     onClick
   ) {
-    this._relationId = relation.id
+    this._relation = relation
     this._annotationData = annotationData
     this._typeDefinition = typeDefinition
     this._jsPlumbConnection = createJsPlumbConnecttion(
@@ -41,7 +41,7 @@ export default class JsPlumbConnectionWrapper {
   }
 
   get relationId() {
-    return this._relationId
+    return this._relation.id
   }
 
   pointdown() {
@@ -71,7 +71,7 @@ export default class JsPlumbConnectionWrapper {
     const strokeStyle = connectorStrokeStyle(
       this._annotationData,
       this._typeDefinition,
-      this._relationId
+      this._relation.id
     )
 
     this._jsPlumbConnection.setPaintStyle(strokeStyle)
