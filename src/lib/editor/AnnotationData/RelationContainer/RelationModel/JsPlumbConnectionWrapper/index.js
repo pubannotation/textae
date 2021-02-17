@@ -79,7 +79,13 @@ export default class JsPlumbConnectionWrapper {
   }
 
   setColor() {
-    this._jsPlumbConnection.setPaintStyle(this._getStrokeStyle())
+    const strokeStyle = connectorStrokeStyle(
+      this._annotationData,
+      this._typeDefinition,
+      this._relationId
+    )
+
+    this._jsPlumbConnection.setPaintStyle(strokeStyle)
   }
 
   set label(lableString) {
