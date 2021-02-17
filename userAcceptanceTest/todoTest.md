@@ -1,30 +1,5 @@
 # 対応予定のテスト
 
-## String Attribute を編集ダイアログから追加・編集
-
-### 背景
-
-1.  5.2.3 で編集ダイアログの編集機能は廃止され、パレットを開くボタンに代わりました
-2.  6.5.0 で 編集ダイアログの編集ボタンから、パレットを経由せずに、直接 String Attribute 編集ダイアログを開くようにしました
-
-### DenotationEntity
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  Attribute を持たない DenotationEntity を選択する
-4.  `W` キーを押して Entity 編集ダイアログを開く
-5.  `free_text_predicate` ボタンを押す
-6.  Value が`Down the Rabbit Hole`の`free_text_predicate` Attribute が追加されること
-7.  `Edit`ボタンを押す
-8.  String Attribute 編集ダイアログ が開くこと
-9.  Object を`123`に変更して`OK`ボタンを押す
-10. Entity 編集ダイアログ上の Value 欄の値が`123`に変わること
-11. Entity 編集ダイアログ上の Label 欄の値が`High`に変わること
-12. もう一度`free_text_predicate` ボタンを押す
-13. Value が`Down the Rabbit Hole`の`free_text_predicate` Attribute が追加されること
-14. `OK`ボタンをおす
-15. DenotationEntity の Attribute のラベルが`High`と`Down the Rabbit Hole`になること
-
 ## 起動時のアノテーションとコンフィグレーションの読込に失敗したら、初期状態になること
 
 ### 背景
