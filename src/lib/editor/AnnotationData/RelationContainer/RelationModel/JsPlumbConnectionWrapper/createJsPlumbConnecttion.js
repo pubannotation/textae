@@ -24,7 +24,7 @@ export default function (
         curviness: determineCurviness(sourceEndpoint, targetEndpoint)
       }
     ],
-    paintStyle: connectorStrokeStyle(annotationData, typeDefinition, relation),
+    paintStyle: connectorStrokeStyle(typeDefinition, relation),
     cssClass: 'textae-editor__relation',
     overlays: [
       ['Arrow', arrowConfig.normal],
