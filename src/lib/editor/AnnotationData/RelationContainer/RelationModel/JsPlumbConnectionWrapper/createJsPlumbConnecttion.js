@@ -29,9 +29,6 @@ export default function (
       typeDefinition,
       relation.id
     ),
-    parameters: {
-      id: relation.id
-    },
     cssClass: 'textae-editor__relation',
     overlays: [
       ['Arrow', arrowConfig.normal],
