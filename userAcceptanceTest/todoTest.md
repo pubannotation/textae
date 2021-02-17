@@ -1,12 +1,12 @@
 # 対応予定のテスト
 
-## String Attribute 定義の Value の編集
+## String Attribute 定義の Value の追加、編集、削除
 
 ### 背景
 
 1.  5.2.0 から Entity パレットで String Attribute の Value が編集出来るようになりました。
 
-### String Attribute 定義の Value の追加、編集、削除
+### -- 手段 --
 
 1.  Editor1 を選択
 2.  Term モードにする
