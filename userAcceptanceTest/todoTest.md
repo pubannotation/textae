@@ -1,5 +1,30 @@
 # 対応予定のテスト
 
+## エンティティ編集ダイアログから String Attribute の Object を編集したときにラベルに反映される
+
+### 背景
+
+1.  6.5.0 で Entity 編集ダイアログの編集ボタンから、パレットを経由せずに、直接 String Attribute 編集ダイアログを開くようにしました
+2.  String Attribute 編集ダイアログではオートコンプリートを使ったラベル設定ができます
+3.  現在、設定されたラベルは Entity 編集ダイアログに反映されません
+4.  またラベル定義が新規の場合、String Attribute 定義の Value と追加されて欲しいです
+
+### -- 手段 --
+
+1.  Editor1 を選択
+2.  Term モードにする
+3.  Attribute を持たない DenotationEntity を選択する
+4.  `W` キーを押して Entity 編集ダイアログを開く
+5.  `free_text_predicate` ボタンを押す
+6.  Value が`Down the Rabbit Hole`の`free_text_predicate` Attribute が追加されること
+7.  `Edit`ボタンを押す
+8.  String Attribute 編集ダイアログ が開くこと
+9.  `Object`を`par`に変更
+10. 表示された候補を選択
+11. `OK`ボタンを押す
+12. Entity 編集ダイアログ上の Value 欄の値が`http://dbpedia.org/ontology/parent`に変わること
+13. Entity 編集ダイアログ上の Label 欄の値が`parent`に変わること
+
 ## String Attribute 定義の Value の追加、編集、削除
 
 ### 背景
