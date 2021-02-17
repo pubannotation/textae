@@ -32,7 +32,11 @@ export default function (
         'Label',
         {
           id: 'textae-relation-label',
-          label: toDisplayName(relation, annotationData, typeDefinition),
+          label: toDisplayName(
+            relation,
+            annotationData.namespace,
+            typeDefinition
+          ),
           cssClass: 'textae-editor__relation__label'
         }
       ]

@@ -5,7 +5,7 @@ export default function (annotationData, typeDefinition, relation) {
   jsPlumbConnection.resetColor()
   jsPlumbConnection.label = toDisplayName(
     relation,
-    annotationData,
+    annotationData.namespace,
     typeDefinition
   )
 }
