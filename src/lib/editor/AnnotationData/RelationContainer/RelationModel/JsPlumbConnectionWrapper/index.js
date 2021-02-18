@@ -16,7 +16,7 @@ export default class JsPlumbConnectionWrapper {
       jsPlumbInstance,
       relation,
       annotationData,
-      typeDefinition
+      typeDefinition.relation
     )
 
     // Bind a jsPlumbConnection event.

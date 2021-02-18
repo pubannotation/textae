@@ -9,7 +9,7 @@ export default function (
   jsPlumbInstance,
   relation,
   annotationData,
-  typeDefinition
+  typeContainer
 ) {
   const { sourceEndpoint } = relation
   const { targetEndpoint } = relation
@@ -24,7 +24,7 @@ export default function (
         curviness: determineCurviness(sourceEndpoint, targetEndpoint)
       }
     ],
-    paintStyle: connectorStrokeStyle(typeDefinition.relation, relation),
+    paintStyle: connectorStrokeStyle(typeContainer, relation),
     cssClass: 'textae-editor__relation',
     overlays: [
       ['Arrow', arrowConfig.normal],
@@ -35,7 +35,7 @@ export default function (
           label: toDisplayName(
             relation,
             annotationData.namespace,
-            typeDefinition.relation
+            typeContainer
           ),
           cssClass: 'textae-editor__relation__label'
         }
