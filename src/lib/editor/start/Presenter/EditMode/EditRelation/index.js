@@ -1,4 +1,4 @@
-import EditHandler from './EditHandler'
+import EditRelationHandler from './EditRelationHandler'
 import bindMouseEvents from './bindMouseEvents'
 import MouseEventHandler from './MouseEventHandler'
 import Edit from '../Edit'
@@ -19,7 +19,7 @@ export default class EditRelation extends Edit {
       annotationData.typeDefinition
     )
 
-    const handler = new EditHandler(
+    const handler = new EditRelationHandler(
       annotationData.typeDefinition.relation,
       commander,
       annotationData,
