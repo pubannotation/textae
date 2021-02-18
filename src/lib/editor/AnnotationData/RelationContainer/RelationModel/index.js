@@ -101,9 +101,8 @@ export default class RelationModel {
   }
 
   renderElementAgain() {
-    const { jsPlumbConnection } = this
-    jsPlumbConnection.resetColor()
-    jsPlumbConnection.resetLabel()
+    this._connect.resetColor()
+    this._connect.resetLabel()
   }
 
   destroyElement() {
