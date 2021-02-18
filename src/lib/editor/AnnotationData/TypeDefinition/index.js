@@ -1,5 +1,4 @@
 import Observable from 'observ'
-import EntityContainer from './EntityContainer'
 import Container from './Container'
 import AttributeContainer from './AttributeContainer'
 
@@ -7,9 +6,11 @@ export default class TypeDefinition {
   constructor(editor, entity, relation, attribute) {
     this._editor = editor
     this._attributeContainer = new AttributeContainer(this._editor, attribute)
-    this._denotationContainer = new EntityContainer(
+    this._denotationContainer = new Container(
       editor,
-      () => entity.denotations
+      'entity',
+      () => entity.denotations,
+      '#77DDDD'
     )
     this._relationContainer = new Container(
       editor,
@@ -17,7 +18,12 @@ export default class TypeDefinition {
       () => relation.all,
       '#555555'
     )
-    this._blockContainer = new EntityContainer(editor, () => entity.blocks)
+    this._blockContainer = new Container(
+      editor,
+      'entity',
+      () => entity.blocks,
+      '#77DDDD'
+    )
 
     this._lockStateObservable = new Observable(false)
     this._lockStateObservable(() =>
