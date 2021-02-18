@@ -152,9 +152,5 @@ export default class Container {
 
   delete(id) {
     this._definedTypes.delete(id)
-    this._editor.eventEmitter.emit(
-      `textae-event.type-definition.${this._annotationType}.type.change`,
-      id
-    )
   }
 }
