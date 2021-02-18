@@ -14,7 +14,8 @@ export default class TypeDefinition {
     this._relationContainer = new Container(
       editor,
       'relation',
-      () => relation.all
+      () => relation.all,
+      '#555555'
     )
     this._blockContainer = new EntityContainer(editor, () => entity.blocks)
 

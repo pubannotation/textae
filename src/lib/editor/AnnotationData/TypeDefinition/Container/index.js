@@ -4,12 +4,7 @@ import formatForPallet from './formatForPallet'
 import DefinedTypeContainer from './DefinedTypeContainer'
 
 export default class Container {
-  constructor(
-    editor,
-    annotationType,
-    getAllInstanceFunc,
-    defaultColor = '#555555'
-  ) {
+  constructor(editor, annotationType, getAllInstanceFunc, defaultColor) {
     this._editor = editor
     this._annotationType = annotationType
     this._definedTypes = null
