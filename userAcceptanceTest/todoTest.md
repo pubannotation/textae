@@ -1,12 +1,13 @@
 # 対応予定のテスト
 
-## Term モード
+## 編集モード毎のリレーションの z-index
 
 ### 背景
 
 1.  4.1.18 で text を Relation より前に表示するようにしました。
 2.  6.0.0 で text が Relation のラベルの後ろに隠れていて、背後のテキストを選択して Span がつくることができませんでした
 3.  6.1.46 で対応しました
+4.  6.2.0 で Block モードを追加しました
 
 ### -- 手段 --
 
@@ -14,10 +15,14 @@
 2.  text が Relation と Relation のラベルの手前に表示されること
 3.  Relation を持つ Entity をホバーする
 4.  Relation と Relation のラベルが text の手前に表示されること
-5.  Relation モードにする
-6.  Relation と Relation のラベルが text の手前に表示されること
-7.  View モードにする
+5.  Block モードにする
+6.  text が Relation と Relation のラベルの手前に表示されること
+7.  Relation を持つ Entity をホバーする
 8.  Relation と Relation のラベルが text の手前に表示されること
+9.  Relation モードにする
+10. Relation と Relation のラベルが text の手前に表示されること
+11. View モードにする
+12. Relation と Relation のラベルが text の手前に表示されること
 
 ## SelectionAttributePallet で選択済みの Value を選択できない
 
