@@ -1,4 +1,4 @@
-import EditHandler from './EditHandler'
+import EditDenotationHandler from './EditDenotationHandler'
 import MouseEventHandler from './MouseEventHandler'
 import SpanEditor from './SpanEditor'
 import Edit from '../Edit'
@@ -41,7 +41,7 @@ export default class EditDenotation extends Edit {
       annotationData.typeDefinition
     )
 
-    const handler = new EditHandler(
+    const handler = new EditDenotationHandler(
       editor,
       annotationData.typeDefinition.denotation,
       commander,
