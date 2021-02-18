@@ -109,7 +109,7 @@ export default class RelationModel {
     jsPlumbConnection.label = toDisplayName(
       this,
       annotationData.namespace,
-      typeDefinition
+      typeDefinition.relation
     )
   }
 

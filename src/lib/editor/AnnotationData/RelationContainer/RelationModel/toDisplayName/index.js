@@ -1,9 +1,9 @@
 import getDisplayNameTag from './getDisplayNameTag'
 
-export default function (relation, namespace, typeDefinition) {
+export default function (relation, namespace, typeContainer) {
   return `[${relation.id}] ${getDisplayNameTag(
     namespace,
-    typeDefinition.relation,
+    typeContainer,
     relation.typeName
   )}`
 }

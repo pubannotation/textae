@@ -35,7 +35,7 @@ export default function (
           label: toDisplayName(
             relation,
             annotationData.namespace,
-            typeDefinition
+            typeDefinition.relation
           ),
           cssClass: 'textae-editor__relation__label'
         }
