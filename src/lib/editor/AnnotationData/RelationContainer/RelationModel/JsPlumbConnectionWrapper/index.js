@@ -1,5 +1,6 @@
 import arrowConfig from '../../../../arrowConfig'
 import determineCurviness from '../../../../determineCurviness'
+import getUri from '../../../../getUri'
 import toDisplayName from '../toDisplayName'
 import converseHEXinotRGBA from './converseHEXinotRGBA'
 import createJsPlumbConnecttion from './createJsPlumbConnecttion'
@@ -39,7 +40,11 @@ export default class JsPlumbConnectionWrapper {
   }
 
   get link() {
-    return this._labelOverlay.canvas.querySelector('a')
+    return getUri(
+      this._namespace,
+      this._relation.typeName,
+      this._definitionContainer.getUri(this._relation.typeName)
+    )
   }
 
   get relationId() {
