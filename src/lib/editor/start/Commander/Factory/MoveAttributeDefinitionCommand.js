@@ -2,15 +2,15 @@ import ConfigurationCommand from './ConfigurationCommand'
 import commandLog from './commandLog'
 
 export default class MoveAttributeDefinitionCommand extends ConfigurationCommand {
-  constructor(typeContainer, oldIndex, newIndex) {
+  constructor(definitionContainer, oldIndex, newIndex) {
     super()
-    this._typeContainer = typeContainer
+    this._definitionContainer = definitionContainer
     this._oldIndex = oldIndex
     this._newIndex = newIndex
   }
 
   execute() {
-    this._typeContainer.move(this._oldIndex, this._newIndex)
+    this._definitionContainer.move(this._oldIndex, this._newIndex)
 
     commandLog(
       `move the attrribute definition: from ${this._oldIndex} to ${this._newIndex}`
@@ -19,7 +19,7 @@ export default class MoveAttributeDefinitionCommand extends ConfigurationCommand
 
   revert() {
     return new MoveAttributeDefinitionCommand(
-      this._typeContainer,
+      this._definitionContainer,
       this._newIndex,
       this._oldIndex
     )

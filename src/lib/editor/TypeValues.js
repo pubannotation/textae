@@ -15,11 +15,11 @@ export default class TypeValues {
     return this._attributes
   }
 
-  toHTMLElementContext(namespace, typeContainer, attributeContainer) {
+  toHTMLElementContext(namespace, definitionContainer, attributeContainer) {
     return {
-      displayName: this._getDisplayName(namespace, typeContainer),
-      href: this._href(namespace, typeContainer),
-      color: typeContainer.getColor(this.typeName),
+      displayName: this._getDisplayName(namespace, definitionContainer),
+      href: this._href(namespace, definitionContainer),
+      color: definitionContainer.getColor(this.typeName),
       attributes: this._attributesInHTMLElementContext(
         namespace,
         attributeContainer
@@ -27,16 +27,20 @@ export default class TypeValues {
     }
   }
 
-  _getDisplayName(namespace, typeContainer) {
+  _getDisplayName(namespace, definitionContainer) {
     return getDisplayName(
       namespace,
       this.typeName,
-      typeContainer.getLabel(this.typeName)
+      definitionContainer.getLabel(this.typeName)
     )
   }
 
-  _href(namespace, typeContainer) {
-    return getUri(namespace, this.typeName, typeContainer.getUri(this.typeName))
+  _href(namespace, definitionContainer) {
+    return getUri(
+      namespace,
+      this.typeName,
+      definitionContainer.getUri(this.typeName)
+    )
   }
 
   _attributesInHTMLElementContext(namespace, attributeContainer) {

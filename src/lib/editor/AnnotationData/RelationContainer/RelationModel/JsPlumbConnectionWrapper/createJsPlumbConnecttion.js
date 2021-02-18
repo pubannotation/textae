@@ -5,7 +5,12 @@ import toDisplayName from '../toDisplayName'
 import arrowConfig from '../../../../arrowConfig'
 
 // Make a connect by jsPlumb.
-export default function (jsPlumbInstance, relation, namespace, typeContainer) {
+export default function (
+  jsPlumbInstance,
+  relation,
+  namespace,
+  definitionContainer
+) {
   const { sourceEndpoint } = relation
   const { targetEndpoint } = relation
 
@@ -19,7 +24,7 @@ export default function (jsPlumbInstance, relation, namespace, typeContainer) {
         curviness: determineCurviness(sourceEndpoint, targetEndpoint)
       }
     ],
-    paintStyle: connectorStrokeStyle(typeContainer, relation),
+    paintStyle: connectorStrokeStyle(definitionContainer, relation),
     cssClass: 'textae-editor__relation',
     overlays: [
       ['Arrow', arrowConfig.normal],
@@ -27,7 +32,7 @@ export default function (jsPlumbInstance, relation, namespace, typeContainer) {
         'Label',
         {
           id: 'textae-relation-label',
-          label: toDisplayName(relation, namespace, typeContainer),
+          label: toDisplayName(relation, namespace, definitionContainer),
           cssClass: 'textae-editor__relation__label'
         }
       ]

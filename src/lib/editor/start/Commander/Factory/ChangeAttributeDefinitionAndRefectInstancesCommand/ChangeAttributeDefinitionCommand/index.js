@@ -3,9 +3,9 @@ import commandLog from '../../commandLog'
 import applyChangedProperties from './applyChangedProperties'
 
 export default class ChangeAttributeDefinitionCommand extends ConfigurationCommand {
-  constructor(typeContainer, attrDef, changedProperties) {
+  constructor(definitionContainer, attrDef, changedProperties) {
     super()
-    this._typeContainer = typeContainer
+    this._definitionContainer = definitionContainer
     this._attrDef = attrDef
     this._changedProperties = changedProperties
   }
@@ -17,7 +17,7 @@ export default class ChangeAttributeDefinitionCommand extends ConfigurationComma
       this._changedProperties
     )
 
-    this._revertAttrDef = this._typeContainer.update(oldPred, newAttrDef)
+    this._revertAttrDef = this._definitionContainer.update(oldPred, newAttrDef)
     this._revertChangedProperties = revertChangedProperties
 
     commandLog(
@@ -29,7 +29,7 @@ export default class ChangeAttributeDefinitionCommand extends ConfigurationComma
 
   revert() {
     return new ChangeAttributeDefinitionCommand(
-      this._typeContainer,
+      this._definitionContainer,
       this._revertAttrDef,
       this._revertChangedProperties
     )

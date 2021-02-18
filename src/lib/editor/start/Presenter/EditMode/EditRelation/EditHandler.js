@@ -2,8 +2,8 @@ import DefaultHandler from '../DefaultHandler'
 import EditRelationDialog from '../../../../../component/EditRelationDialog'
 
 export default class EditHandler extends DefaultHandler {
-  constructor(typeContainer, commander, annotationData, selectionModel) {
-    super('relation', typeContainer, commander)
+  constructor(definitionContainer, commander, annotationData, selectionModel) {
+    super('relation', definitionContainer, commander)
 
     this._annotationData = annotationData
     this._selectionModel = selectionModel
@@ -19,7 +19,7 @@ export default class EditHandler extends DefaultHandler {
         const commands = this._commander.factory.changeItemTypeCommand(
           label,
           value,
-          this._typeContainer,
+          this._definitionContainer,
           []
         )
 
@@ -29,7 +29,7 @@ export default class EditHandler extends DefaultHandler {
       }
 
       const type = this._getSelectedType()
-      new EditRelationDialog(type, this._typeContainer, autocompletionWs)
+      new EditRelationDialog(type, this._definitionContainer, autocompletionWs)
         .open()
         .then(done)
     }

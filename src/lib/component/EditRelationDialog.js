@@ -24,12 +24,12 @@ function template(context) {
 }
 
 export default class EditRelationDialog extends PromiseDialog {
-  constructor(typeName, typeContainer, autocompletionWs) {
+  constructor(typeName, definitionContainer, autocompletionWs) {
     super(
       'Please enter new values',
       template({
         value: typeName,
-        label: typeContainer.getLabel(typeName)
+        label: definitionContainer.getLabel(typeName)
       }),
       {
         height: 250
@@ -52,7 +52,7 @@ export default class EditRelationDialog extends PromiseDialog {
       '.textae-editor__edit-value-and-pred-dialog--label span'
     )
     setSourceOfAutoComplete(value, labelSpan, autocompletionWs, (term) =>
-      typeContainer.findByLabel(term)
+      definitionContainer.findByLabel(term)
     )
   }
 }

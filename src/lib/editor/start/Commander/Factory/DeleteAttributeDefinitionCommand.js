@@ -3,15 +3,15 @@ import CreateAttributeDefinitionCommand from './CreateAttributeDefinitionCommand
 import ConfigurationCommand from './ConfigurationCommand'
 
 export default class DeleteAttributeDefinitionCommand extends ConfigurationCommand {
-  constructor(typeContainer, attrDef) {
+  constructor(definitionContainer, attrDef) {
     super()
-    this._typeContainer = typeContainer
+    this._definitionContainer = definitionContainer
     this._removeAttrdef = attrDef
-    this._index = typeContainer.getIndexOf(attrDef.pred)
+    this._index = definitionContainer.getIndexOf(attrDef.pred)
   }
 
   execute() {
-    this._typeContainer.delete(this._removeAttrdef.pred)
+    this._definitionContainer.delete(this._removeAttrdef.pred)
 
     commandLog(
       `remove an attrribute definition:${JSON.stringify(
@@ -22,7 +22,7 @@ export default class DeleteAttributeDefinitionCommand extends ConfigurationComma
 
   revert() {
     return new CreateAttributeDefinitionCommand(
-      this._typeContainer,
+      this._definitionContainer,
       this._removeAttrdef,
       this._index
     )

@@ -76,7 +76,7 @@ export default class EntityModel {
     )
   }
 
-  _toHTMLElementContext(namespace, typeContainer) {
+  _toHTMLElementContext(namespace, definitionContainer) {
     return {
       ...{
         id: makeEntityHTMLElementId(this._editor, this.id),
@@ -84,7 +84,7 @@ export default class EntityModel {
       },
       ...this.typeValues.toHTMLElementContext(
         namespace,
-        typeContainer,
+        definitionContainer,
         this._typeDefinition.attribute
       )
     }
@@ -144,7 +144,7 @@ export default class EntityModel {
   renderElement(namespace) {
     const context = this._toHTMLElementContext(
       namespace,
-      this._typeContainerFor,
+      this._definitionContainerFor,
       this._typeDefinition.attribute
     )
     return createEntityHTMLElement(context)
@@ -176,7 +176,7 @@ export default class EntityModel {
     }
   }
 
-  get _typeContainerFor() {
+  get _definitionContainerFor() {
     if (this.isDenotation) {
       return this._typeDefinition.denotation
     } else if (this.isBlock) {

@@ -3,14 +3,14 @@ import ConfigurationCommand from '../ConfigurationCommand'
 
 export default class ChangeValueOfAttributeDefinitionCommand extends ConfigurationCommand {
   constructor(
-    typeContainer,
+    definitionContainer,
     attrDef,
     targetIndex,
     newValue,
     indexThatRemoveDefaultFrom
   ) {
     super()
-    this._typeContainer = typeContainer
+    this._definitionContainer = definitionContainer
     this._attrDef = attrDef
     this._targetIndex = targetIndex
     this._newValue = newValue
@@ -64,7 +64,7 @@ export default class ChangeValueOfAttributeDefinitionCommand extends Configurati
       this._newValue
     )[0]
 
-    this._typeContainer.update(this._attrDef.pred, this._attrDef)
+    this._definitionContainer.update(this._attrDef.pred, this._attrDef)
 
     commandLog(
       `change value of attrribute:${
@@ -77,7 +77,7 @@ export default class ChangeValueOfAttributeDefinitionCommand extends Configurati
 
   revert() {
     return new ChangeValueOfAttributeDefinitionCommand(
-      this._typeContainer,
+      this._definitionContainer,
       this._attrDef,
       this._targetIndex,
       this._valueBeforeChange,

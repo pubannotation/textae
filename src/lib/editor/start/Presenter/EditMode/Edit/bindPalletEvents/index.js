@@ -8,14 +8,14 @@ export default function (
   commander,
   handler,
   getAutocompletionWs,
-  typeContainer
+  definitionContainer
 ) {
   delegate(
     pallet.el,
     `.textae-editor__type-pallet__add-button`,
     'click',
     () => {
-      new CreateTypeDefinitionDialog(typeContainer, getAutocompletionWs())
+      new CreateTypeDefinitionDialog(definitionContainer, getAutocompletionWs())
         .open()
         .then(({ newType }) => commander.invoke(handler.addType(newType)))
     }
@@ -46,7 +46,7 @@ export default function (
     'click',
     (e) => {
       new EditTypeDefinitionDialog(
-        typeContainer,
+        definitionContainer,
         e.target.dataset.id,
         e.target.dataset.color.toLowerCase(),
         e.target.dataset.isDefault === 'true',

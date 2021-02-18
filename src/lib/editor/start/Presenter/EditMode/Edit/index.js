@@ -9,7 +9,7 @@ export default class Edit {
     pallet,
     commander,
     getAutocompletionWs,
-    typeContainer
+    definitionContainer
   ) {
     this._editor = editor
     this._bindMouseEvents = bindMouseEvents
@@ -22,7 +22,7 @@ export default class Edit {
       commander,
       handler,
       getAutocompletionWs,
-      typeContainer
+      definitionContainer
     )
 
     editor.eventEmitter

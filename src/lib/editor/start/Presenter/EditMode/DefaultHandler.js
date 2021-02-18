@@ -1,21 +1,21 @@
 export default class DefaultHandler {
-  constructor(annotationType, typeContainer, commander) {
+  constructor(annotationType, definitionContainer, commander) {
     this._annotationType = annotationType
-    this._typeContainer = typeContainer
+    this._definitionContainer = definitionContainer
     this._commander = commander
   }
 
   addType(newType) {
     console.assert(newType.id, 'id is necessary!')
     return this._commander.factory.createTypeDefinitionCommand(
-      this._typeContainer,
+      this._definitionContainer,
       newType
     )
   }
 
   changeType(id, changedProperties) {
     return this._commander.factory.changeTypeDefinitionCommand(
-      this._typeContainer,
+      this._definitionContainer,
       this._annotationType,
       id,
       changedProperties
@@ -42,7 +42,7 @@ export default class DefaultHandler {
     }
 
     return this._commander.factory.removeTypeDefinitionCommand(
-      this._typeContainer,
+      this._definitionContainer,
       removeType
     )
   }

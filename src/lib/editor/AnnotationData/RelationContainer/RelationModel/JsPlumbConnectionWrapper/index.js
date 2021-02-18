@@ -3,14 +3,20 @@ import connectorStrokeStyle from './connectorStrokeStyle'
 import createJsPlumbConnecttion from './createJsPlumbConnecttion'
 
 export default class JsPlumbConnectionWrapper {
-  constructor(jsPlumbInstance, relation, namespace, typeContainer, onClick) {
+  constructor(
+    jsPlumbInstance,
+    relation,
+    namespace,
+    definitionContainer,
+    onClick
+  ) {
     this._relation = relation
-    this._typeContainer = typeContainer
+    this._definitionContainer = definitionContainer
     this._jsPlumbConnection = createJsPlumbConnecttion(
       jsPlumbInstance,
       relation,
       namespace,
-      typeContainer
+      definitionContainer
     )
 
     // Bind a jsPlumbConnection event.
@@ -62,7 +68,7 @@ export default class JsPlumbConnectionWrapper {
 
   resetColor() {
     const strokeStyle = connectorStrokeStyle(
-      this._typeContainer,
+      this._definitionContainer,
       this._relation
     )
 

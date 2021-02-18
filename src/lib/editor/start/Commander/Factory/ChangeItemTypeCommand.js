@@ -9,7 +9,7 @@ export default class ChangeItemTypeCommand extends CompositeCommand {
     selectionModel,
     label,
     value,
-    typeContainer,
+    definitionContainer,
     attributes
   ) {
     super()
@@ -18,7 +18,7 @@ export default class ChangeItemTypeCommand extends CompositeCommand {
     if (label) {
       commands.push(
         createChangeConfigCommand(
-          typeContainer,
+          definitionContainer,
           value,
           editor,
           annotationData,
@@ -31,7 +31,7 @@ export default class ChangeItemTypeCommand extends CompositeCommand {
       editor,
       annotationData,
       selectionModel,
-      typeContainer.annotationType,
+      definitionContainer.annotationType,
       value,
       attributes
     )
@@ -41,7 +41,7 @@ export default class ChangeItemTypeCommand extends CompositeCommand {
 
     this._subCommands = commands
     this._logMessage = `change ${
-      typeContainer.annotationType
+      definitionContainer.annotationType
     } value:"${value}"${label ? `, label:"${label}"` : ``}${
       attributes.length > 0 ? `, attributes:${JSON.stringify(attributes)}` : ``
     }`

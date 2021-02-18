@@ -6,7 +6,7 @@ export default class ChangeAttributeOfItemsCommand extends CompositeCommand {
   constructor(
     editor,
     annotationData,
-    typeContainer,
+    definitionContainer,
     items,
     attrDef,
     newObj,
@@ -48,7 +48,7 @@ export default class ChangeAttributeOfItemsCommand extends CompositeCommand {
       !attrDef.values.some((v) => v.pattern === newObj)
     ) {
       addValueForLabelToStirngAttributeDefinitionCommands.push(
-        new AddValueToAttributeDefinitionCommand(typeContainer, attrDef, {
+        new AddValueToAttributeDefinitionCommand(definitionContainer, attrDef, {
           pattern: newObj,
           label: newLabel
         })

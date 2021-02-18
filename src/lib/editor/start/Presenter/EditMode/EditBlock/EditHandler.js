@@ -5,13 +5,13 @@ import DefaultHandler from '../DefaultHandler'
 export default class EditHandler extends DefaultHandler {
   constructor(
     editor,
-    typeContainer,
+    definitionContainer,
     commander,
     annotationData,
     selectionModel,
     attributeEditor
   ) {
-    super('entity', typeContainer, commander)
+    super('entity', definitionContainer, commander)
 
     this._editor = editor
     this._selectionModel = selectionModel
@@ -34,7 +34,7 @@ export default class EditHandler extends DefaultHandler {
         const commands = this._commander.factory.changeItemTypeCommand(
           label,
           typeName,
-          this._typeContainer,
+          this._definitionContainer,
           attributes
         )
 
@@ -45,7 +45,7 @@ export default class EditHandler extends DefaultHandler {
 
       new EditEntityDialog(
         this._editor,
-        this._typeContainer,
+        this._definitionContainer,
         this._annotationData.typeDefinition.attribute,
         autocompletionWs,
         mergedTypesOf(this._selectionModel.entity.all)

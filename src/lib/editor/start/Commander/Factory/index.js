@@ -68,20 +68,20 @@ export default class Factory {
     )
   }
 
-  changeItemTypeCommand(label, value, typeContainer, attributes) {
+  changeItemTypeCommand(label, value, definitionContainer, attributes) {
     return new ChangeItemTypeCommand(
       this._editor,
       this._annotationData,
       this._selectionModel,
       label,
       value,
-      typeContainer,
+      definitionContainer,
       attributes
     )
   }
 
   changeTypeDefinitionCommand(
-    typeContainer,
+    definitionContainer,
     annotationType,
     id,
     changedProperties
@@ -89,7 +89,7 @@ export default class Factory {
     return new ChangeTypeDefinitionAndRefectInstancesCommand(
       this._editor,
       this._annotationData,
-      typeContainer,
+      definitionContainer,
       annotationType,
       id,
       changedProperties
@@ -192,8 +192,12 @@ export default class Factory {
     )
   }
 
-  createTypeDefinitionCommand(typeContainer, newType) {
-    return new CreateTypeDefinitionCommand(this._editor, typeContainer, newType)
+  createTypeDefinitionCommand(definitionContainer, newType) {
+    return new CreateTypeDefinitionCommand(
+      this._editor,
+      definitionContainer,
+      newType
+    )
   }
 
   deleteAttributeDefinitionCommand(attributeDefinition) {
@@ -274,10 +278,10 @@ export default class Factory {
     )
   }
 
-  removeTypeDefinitionCommand(typeContainer, removeType) {
+  removeTypeDefinitionCommand(definitionContainer, removeType) {
     return new RemoveTypeDefinitionCommand(
       this._editor,
-      typeContainer,
+      definitionContainer,
       removeType
     )
   }

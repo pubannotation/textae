@@ -6,7 +6,7 @@ export default class ChangeValueOfAttributeDefinitionAndObjectOfAttributeCommand
   constructor(
     editor,
     annotationData,
-    typeContainer,
+    definitionContainer,
     attrDef,
     index,
     value,
@@ -16,7 +16,7 @@ export default class ChangeValueOfAttributeDefinitionAndObjectOfAttributeCommand
 
     this._subCommands = [
       new ChangeValueOfAttributeDefinitionCommand(
-        typeContainer,
+        definitionContainer,
         attrDef,
         index,
         value,

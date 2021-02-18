@@ -37,7 +37,7 @@ export default class TypeDefinitionDialog extends PromiseDialog {
   constructor(
     title,
     content,
-    typeContainer,
+    definitionContainer,
     autocompletionWs,
     convertToReseltsFunc
   ) {
@@ -52,7 +52,7 @@ export default class TypeDefinitionDialog extends PromiseDialog {
     })
 
     setSourceOfAutoComplete(super.el, autocompletionWs, (term) =>
-      typeContainer.findByLabel(term)
+      definitionContainer.findByLabel(term)
     )
   }
 }

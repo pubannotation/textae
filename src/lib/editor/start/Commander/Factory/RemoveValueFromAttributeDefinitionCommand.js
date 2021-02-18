@@ -3,9 +3,14 @@ import AddValueToAttributeDefinitionCommand from './AddValueToAttributeDefinitio
 import ConfigurationCommand from './ConfigurationCommand'
 
 export default class RemoveValueFromAttributeDefinitionCommand extends ConfigurationCommand {
-  constructor(typeContainer, attrDef, index, indexThatAddDefaultTo = null) {
+  constructor(
+    definitionContainer,
+    attrDef,
+    index,
+    indexThatAddDefaultTo = null
+  ) {
     super()
-    this._typeContainer = typeContainer
+    this._definitionContainer = definitionContainer
     this._attrDef = attrDef
     this._index = index
     this._indexThatAddDefaultTo = indexThatAddDefaultTo
@@ -46,7 +51,7 @@ export default class RemoveValueFromAttributeDefinitionCommand extends Configura
       }
     }
 
-    this._updatedAttrDef = this._typeContainer.updateValues(
+    this._updatedAttrDef = this._definitionContainer.updateValues(
       this._attrDef.pred,
       values
     )
@@ -60,7 +65,7 @@ export default class RemoveValueFromAttributeDefinitionCommand extends Configura
 
   revert() {
     return new AddValueToAttributeDefinitionCommand(
-      this._typeContainer,
+      this._definitionContainer,
       this._updatedAttrDef,
       this._deletedValue,
       this._index

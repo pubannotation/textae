@@ -8,7 +8,7 @@ export default class RelationPallet extends Pallet {
 
     this._originalData = originalData
     this._typeDefinition = typeDefinition
-    this._typeContainer = typeDefinition.relation
+    this._definitionContainer = typeDefinition.relation
   }
 
   get _content() {
@@ -20,7 +20,7 @@ export default class RelationPallet extends Pallet {
     return template({
       isLock: this._typeDefinition.isLock,
       hasDiff,
-      types: this._typeContainer.pallet
+      types: this._definitionContainer.pallet
     })
   }
 }

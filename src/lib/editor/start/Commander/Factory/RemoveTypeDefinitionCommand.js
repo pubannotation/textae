@@ -3,22 +3,22 @@ import CreateTypeDefinitionCommand from './CreateTypeDefinitionCommand'
 import ConfigurationCommand from './ConfigurationCommand'
 
 export default class RemoveTypeDefinitionCommand extends ConfigurationCommand {
-  constructor(editor, typeContainer, removeType, revertDefaultTypeId) {
+  constructor(editor, definitionContainer, removeType, revertDefaultTypeId) {
     super()
     this._editor = editor
-    this._typeContainer = typeContainer
+    this._definitionContainer = definitionContainer
     this._removeType = removeType
     this._revertDefaultTypeId = revertDefaultTypeId
   }
 
   execute() {
     const { id } = this._removeType
-    const oldType = this._typeContainer.get(id)
+    const oldType = this._definitionContainer.get(id)
 
-    this._typeContainer.delete(id)
+    this._definitionContainer.delete(id)
 
     if (this._revertDefaultTypeId) {
-      this._typeContainer.defaultType = this._revertDefaultTypeId
+      this._definitionContainer.defaultType = this._revertDefaultTypeId
     }
 
     if (oldType) {
@@ -27,7 +27,7 @@ export default class RemoveTypeDefinitionCommand extends ConfigurationCommand {
 
     commandLog(
       `remove a type:${JSON.stringify(this._removeType)}, default is ${
-        this._typeContainer.defaultType
+        this._definitionContainer.defaultType
       }`
     )
   }
@@ -35,7 +35,7 @@ export default class RemoveTypeDefinitionCommand extends ConfigurationCommand {
   revert() {
     return new CreateTypeDefinitionCommand(
       this._editor,
-      this._typeContainer,
+      this._definitionContainer,
       this._removeType
     )
   }

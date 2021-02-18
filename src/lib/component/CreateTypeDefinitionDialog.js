@@ -1,7 +1,7 @@
 import TypeDefinitionDialog from './TypeDefinitionDialog'
 
 export default class CreateTypeDefinitionDialog extends TypeDefinitionDialog {
-  constructor(typeContainer, autocompletionWs) {
+  constructor(definitionContainer, autocompletionWs) {
     const convertToReseltsFunc = (newId, newLabel, newColor, newDefault) => {
       if (newId === '') {
         return
@@ -28,10 +28,10 @@ export default class CreateTypeDefinitionDialog extends TypeDefinitionDialog {
       {
         id: null,
         label: '',
-        color: typeContainer.defaultColor,
+        color: definitionContainer.defaultColor,
         isDefault: false
       },
-      typeContainer,
+      definitionContainer,
       autocompletionWs,
       convertToReseltsFunc
     )

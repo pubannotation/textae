@@ -6,7 +6,7 @@ export default class ChangeAttributeDefinitionAndRefectInstancesCommand extends 
   constructor(
     editor,
     annotationData,
-    typeContainer,
+    definitionContainer,
     attrDef,
     changedProperties
   ) {
@@ -15,7 +15,7 @@ export default class ChangeAttributeDefinitionAndRefectInstancesCommand extends 
     // change config
     const changeConfigcommands = [
       new ChangeAttributeDefinitionCommand(
-        typeContainer,
+        definitionContainer,
         attrDef,
         changedProperties
       )

@@ -3,9 +3,9 @@ import DeleteAttributeDefinitionCommand from './DeleteAttributeDefinitionCommand
 import ConfigurationCommand from './ConfigurationCommand'
 
 export default class CreateAttributeDefinitionCommand extends ConfigurationCommand {
-  constructor(typeContainer, attrDef, index) {
+  constructor(definitionContainer, attrDef, index) {
     super()
-    this._typeContainer = typeContainer
+    this._definitionContainer = definitionContainer
     this._newAttrDef = attrDef
     this._index = index
   }
@@ -25,7 +25,7 @@ export default class CreateAttributeDefinitionCommand extends ConfigurationComma
       ]
     }
 
-    this._typeContainer.create(
+    this._definitionContainer.create(
       this._newAttrDef.valueType,
       this._newAttrDef,
       this._index
@@ -40,7 +40,7 @@ export default class CreateAttributeDefinitionCommand extends ConfigurationComma
 
   revert() {
     return new DeleteAttributeDefinitionCommand(
-      this._typeContainer,
+      this._definitionContainer,
       this._newAttrDef
     )
   }
