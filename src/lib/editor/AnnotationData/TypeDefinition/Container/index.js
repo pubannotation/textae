@@ -16,7 +16,6 @@ export default class Container {
     this._definedTypes = null
     this._getAllInstanceFunc = getAllInstanceFunc
     this._defaultColor = defaultColor
-    this._lockStateObservable = lockStateObservable
   }
 
   get annotationType() {
