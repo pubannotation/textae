@@ -3,7 +3,7 @@ import getDefaultTypeAutomatically from './getDefaultTypeAutomatically'
 import formatForPallet from './formatForPallet'
 import DefinedTypeContainer from './DefinedTypeContainer'
 
-export default class Container {
+export default class DefinitionContainer {
   constructor(editor, annotationType, getAllInstanceFunc, defaultColor) {
     this._editor = editor
     this._annotationType = annotationType
