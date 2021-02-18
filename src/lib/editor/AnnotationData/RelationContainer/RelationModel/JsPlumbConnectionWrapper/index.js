@@ -68,7 +68,7 @@ export default class JsPlumbConnectionWrapper {
 
   resetColor() {
     const strokeStyle = connectorStrokeStyle(
-      this._typeDefinition,
+      this._typeDefinition.relation,
       this._relation
     )
 
