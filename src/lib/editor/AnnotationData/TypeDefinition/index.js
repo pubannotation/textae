@@ -5,7 +5,6 @@ import AttributeContainer from './AttributeContainer'
 export default class TypeDefinition {
   constructor(editor, entity, relation, attribute) {
     this._editor = editor
-    this._attributeContainer = new AttributeContainer(this._editor, attribute)
     this._denotationContainer = new Container(
       editor,
       'entity',
@@ -24,6 +23,7 @@ export default class TypeDefinition {
       () => relation.all,
       '#555555'
     )
+    this._attributeContainer = new AttributeContainer(this._editor, attribute)
 
     this._lockStateObservable = new Observable(false)
     this._lockStateObservable(() =>
