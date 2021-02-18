@@ -16,8 +16,7 @@ export default class TypeDefinition {
     this._relationContainer = new Container(
       editor,
       'relation',
-      () => relation.all,
-      this._lockStateObservable
+      () => relation.all
     )
     this._blockContainer = new EntityContainer(
       editor,

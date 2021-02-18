@@ -8,7 +8,6 @@ export default class Container {
     editor,
     annotationType,
     getAllInstanceFunc,
-    lockStateObservable,
     defaultColor = '#555555'
   ) {
     this._editor = editor
