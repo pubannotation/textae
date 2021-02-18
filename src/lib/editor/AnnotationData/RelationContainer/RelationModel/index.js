@@ -1,6 +1,5 @@
 import getEntityEndpoint from './getEntityEndpoint'
 import JsPlumbConnectionWrapper from './JsPlumbConnectionWrapper'
-import toDisplayName from './toDisplayName'
 
 export default class RelationModel {
   constructor(editor, { id, pred, subj, obj }) {
@@ -104,11 +103,7 @@ export default class RelationModel {
   renderElementAgain(annotationData, typeDefinition) {
     const { jsPlumbConnection } = this
     jsPlumbConnection.resetColor()
-    jsPlumbConnection.label = toDisplayName(
-      this,
-      annotationData.namespace,
-      typeDefinition.relation
-    )
+    jsPlumbConnection.resetLabel()
   }
 
   destroyElement() {

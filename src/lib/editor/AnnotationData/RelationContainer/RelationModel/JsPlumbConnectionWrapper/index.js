@@ -1,5 +1,6 @@
 import arrowConfig from '../../../../arrowConfig'
 import determineCurviness from '../../../../determineCurviness'
+import toDisplayName from '../toDisplayName'
 import converseHEXinotRGBA from './converseHEXinotRGBA'
 import createJsPlumbConnecttion from './createJsPlumbConnecttion'
 
@@ -76,8 +77,10 @@ export default class JsPlumbConnectionWrapper {
     })
   }
 
-  set label(lableString) {
-    this._labelOverlay.setLabel(lableString)
+  resetLabel() {
+    this._labelOverlay.setLabel(
+      toDisplayName(this._relation, this._namespace, this._definitionContainer)
+    )
   }
 
   resetCurviness() {
