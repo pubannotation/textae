@@ -5,12 +5,7 @@ import toDisplayName from '../toDisplayName'
 import arrowConfig from '../../../../arrowConfig'
 
 // Make a connect by jsPlumb.
-export default function (
-  jsPlumbInstance,
-  relation,
-  annotationData,
-  typeContainer
-) {
+export default function (jsPlumbInstance, relation, namespace, typeContainer) {
   const { sourceEndpoint } = relation
   const { targetEndpoint } = relation
 
@@ -32,11 +27,7 @@ export default function (
         'Label',
         {
           id: 'textae-relation-label',
-          label: toDisplayName(
-            relation,
-            annotationData.namespace,
-            typeContainer
-          ),
+          label: toDisplayName(relation, namespace, typeContainer),
           cssClass: 'textae-editor__relation__label'
         }
       ]

@@ -15,7 +15,7 @@ export default class JsPlumbConnectionWrapper {
     this._jsPlumbConnection = createJsPlumbConnecttion(
       jsPlumbInstance,
       relation,
-      annotationData,
+      annotationData.namespace,
       typeContainer
     )
 
