@@ -27,7 +27,7 @@ export default class TypeDefinition {
 
     this._lockStateObservable = new Observable(false)
     this._lockStateObservable(() =>
-      this._editor.eventEmitter.emit(`textae-event.type-definition.type.lock`)
+      this._editor.eventEmitter.emit(`textae-event.type-definition.lock`)
     )
   }
 

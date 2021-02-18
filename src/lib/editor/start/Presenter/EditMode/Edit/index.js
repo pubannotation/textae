@@ -31,9 +31,7 @@ export default class Edit {
       .on('textae-event.data-access-object.configuration.save', () =>
         pallet.updateDisplay()
       )
-      .on(`textae-event.type-definition.type.lock`, () =>
-        pallet.updateDisplay()
-      )
+      .on(`textae-event.type-definition.lock`, () => pallet.updateDisplay())
 
     editor[0].appendChild(pallet.el)
   }
