@@ -2,7 +2,7 @@ import EditEntityDialog from '../../../../../component/EditEntityDialog'
 import mergedTypesOf from '../mergeTypesOf'
 import DefaultHandler from '../DefaultHandler'
 
-export default class EditHandler extends DefaultHandler {
+export default class EditBlockHandler extends DefaultHandler {
   constructor(
     editor,
     definitionContainer,

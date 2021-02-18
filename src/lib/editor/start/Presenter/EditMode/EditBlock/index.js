@@ -2,7 +2,7 @@ import SpanEditor from './SpanEditor'
 import bindMouseEvents from './bindMouseEvents'
 import MouseEventHandler from './MouseEventHandler'
 import Edit from '../Edit'
-import EditHandler from './EditHandler'
+import EditBlockHandler from './EditBlockHandler'
 import EntityAndAttributePallet from '../../../../../component/EntityAndAttributePallet'
 import AttributeEditor from '../AttributeEditor'
 
@@ -33,7 +33,7 @@ export default class EditBlock extends Edit {
       annotationData.typeDefinition
     )
 
-    const handler = new EditHandler(
+    const handler = new EditBlockHandler(
       editor,
       annotationData.typeDefinition.block,
       commander,
