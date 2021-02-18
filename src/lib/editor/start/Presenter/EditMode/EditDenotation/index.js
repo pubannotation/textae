@@ -66,13 +66,5 @@ export default class EditDenotation extends Edit {
       () => autocompletionWs || annotationData.typeDefinition.autocompletionWs,
       annotationData.typeDefinition.denotation
     )
-
-    editor.eventEmitter
-      .on(`textae-event.type-definition.denotation.type.change`, () =>
-        denotationPallet.updateDisplay()
-      )
-      .on(`textae-event.type-definition.denotation.type.default.change`, () =>
-        denotationPallet.updateDisplay()
-      )
   }
 }

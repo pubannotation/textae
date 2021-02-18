@@ -67,13 +67,5 @@ export default class EditBlock extends Edit {
       () => autocompletionWs || annotationData.typeDefinition.autocompletionWs,
       annotationData.typeDefinition.block
     )
-
-    editor.eventEmitter
-      .on(`textae-event.type-definition.block.type.change`, () =>
-        blockPallet.updateDisplay()
-      )
-      .on(`textae-event.type-definition.block.type.default.change`, () =>
-        blockPallet.updateDisplay()
-      )
   }
 }

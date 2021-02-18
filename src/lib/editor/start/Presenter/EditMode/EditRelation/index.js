@@ -42,13 +42,5 @@ export default class EditRelation extends Edit {
       () => autocompletionWs || annotationData.typeDefinition.autocompletionWs,
       annotationData.typeDefinition.relation
     )
-
-    editor.eventEmitter
-      .on(`textae-event.type-definition.relation.type.change`, () =>
-        relationPallet.updateDisplay()
-      )
-      .on(`textae-event.type-definition.relation.type.default.change`, () =>
-        relationPallet.updateDisplay()
-      )
   }
 }
