@@ -6,7 +6,6 @@ import AttributeContainer from './AttributeContainer'
 export default class TypeDefinition {
   constructor(editor, entity, relation, attribute) {
     this._editor = editor
-    this._lockStateObservable = new Observable(false)
     this._attributeContainer = new AttributeContainer(this._editor, attribute)
     this._denotationContainer = new EntityContainer(
       editor,
@@ -19,6 +18,7 @@ export default class TypeDefinition {
     )
     this._blockContainer = new EntityContainer(editor, () => entity.blocks)
 
+    this._lockStateObservable = new Observable(false)
     this._lockStateObservable(() =>
       this._editor.eventEmitter.emit(`textae-event.type-definition.type.lock`)
     )
