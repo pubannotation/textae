@@ -4,7 +4,7 @@ import bindAttributeTabEvents from './bindAttributeTabEvents'
 import EditDenotation from './EditDenotation'
 import EditBlock from './EditBlock'
 import EditRelation from './EditRelation'
-import DefaultHandler from './DefaultHandler'
+import ViewHandler from './ViewHandler'
 
 export default class EditMode {
   constructor(
@@ -211,7 +211,7 @@ export default class EditMode {
       case MODE.EDIT_RELATION:
         return this._editRelation.handler
       default:
-        return new DefaultHandler()
+        return new ViewHandler()
     }
   }
 
