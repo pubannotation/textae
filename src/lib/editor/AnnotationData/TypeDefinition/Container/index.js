@@ -117,9 +117,6 @@ export default class Container {
   set defaultType(id) {
     console.assert(id, 'id is necessary!')
     this._defaultType = id
-    this._editor.eventEmitter.emit(
-      `textae-event.type-definition.${this._annotationType}.type.default.change`
-    )
   }
 
   get defaultColor() {
