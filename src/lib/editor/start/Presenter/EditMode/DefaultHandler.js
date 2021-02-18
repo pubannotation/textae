@@ -22,15 +22,6 @@ export default class DefaultHandler {
     )
   }
 
-  jsPlumbConnectionClicked(jsPlumbConnection) {
-    // Open link when view mode because link in label of jsPlumb event is not fired.
-    const { link } = jsPlumbConnection
-    if (link) {
-      const href = link.getAttribute('href')
-      window.open(href, '_blank')
-    }
-  }
-
   removeType(id, label) {
     const removeType = {
       id,
@@ -47,9 +38,6 @@ export default class DefaultHandler {
     )
   }
 
-  // Dummy funtion for shotcut key 'w' in the ViewMode.
-  changeLabelHandler() {}
-
-  // Dummy funtion for shotcut key '1' ~ 9 in the ViewMode and RelationMode.
+  // Dummy funtion for shotcut key '1' ~ 9 in the RelationMode.
   manipulateAttribute() {}
 }
