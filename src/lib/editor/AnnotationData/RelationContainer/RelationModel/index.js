@@ -90,7 +90,7 @@ export default class RelationModel {
     const jsPlumbConnection = new JsPlumbConnectionWrapper(
       jsPlumbInstance,
       this,
-      annotationData,
+      annotationData.namespace,
       typeDefinition.relation,
       (_, event) =>
         editor.eventEmitter.emit(

@@ -3,19 +3,13 @@ import connectorStrokeStyle from './connectorStrokeStyle'
 import createJsPlumbConnecttion from './createJsPlumbConnecttion'
 
 export default class JsPlumbConnectionWrapper {
-  constructor(
-    jsPlumbInstance,
-    relation,
-    annotationData,
-    typeContainer,
-    onClick
-  ) {
+  constructor(jsPlumbInstance, relation, namespace, typeContainer, onClick) {
     this._relation = relation
     this._typeContainer = typeContainer
     this._jsPlumbConnection = createJsPlumbConnecttion(
       jsPlumbInstance,
       relation,
-      annotationData.namespace,
+      namespace,
       typeContainer
     )
 
