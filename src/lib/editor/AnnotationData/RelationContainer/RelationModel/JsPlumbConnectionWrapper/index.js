@@ -11,7 +11,7 @@ export default class JsPlumbConnectionWrapper {
     onClick
   ) {
     this._relation = relation
-    this._typeDefinition = typeDefinition
+    this._typeContainer = typeDefinition.relation
     this._jsPlumbConnection = createJsPlumbConnecttion(
       jsPlumbInstance,
       relation,
@@ -68,7 +68,7 @@ export default class JsPlumbConnectionWrapper {
 
   resetColor() {
     const strokeStyle = connectorStrokeStyle(
-      this._typeDefinition.relation,
+      this._typeContainer,
       this._relation
     )
 
