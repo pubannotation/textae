@@ -1,5 +1,5 @@
 import arrowConfig from '../../../../arrowConfig'
-import connectorStrokeStyle from './connectorStrokeStyle'
+import converseHEXinotRGBA from './connectorStrokeStyle/converseHEXinotRGBA'
 import createJsPlumbConnecttion from './createJsPlumbConnecttion'
 
 export default class JsPlumbConnectionWrapper {
@@ -67,12 +67,11 @@ export default class JsPlumbConnectionWrapper {
   }
 
   resetColor() {
-    const strokeStyle = connectorStrokeStyle(
-      this._definitionContainer,
-      this._relation
-    )
-
-    this._jsPlumbConnection.setPaintStyle(strokeStyle)
+    this._jsPlumbConnection.setPaintStyle({
+      strokeStyle: converseHEXinotRGBA(
+        this._relation.getColor(this._definitionContainer)
+      )
+    })
   }
 
   set label(lableString) {

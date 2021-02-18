@@ -1,8 +1,8 @@
 import $ from 'jquery'
 import determineCurviness from '../../../../determineCurviness'
-import connectorStrokeStyle from './connectorStrokeStyle'
 import toDisplayName from '../toDisplayName'
 import arrowConfig from '../../../../arrowConfig'
+import converseHEXinotRGBA from './connectorStrokeStyle/converseHEXinotRGBA'
 
 // Make a connect by jsPlumb.
 export default function (
@@ -24,7 +24,9 @@ export default function (
         curviness: determineCurviness(sourceEndpoint, targetEndpoint)
       }
     ],
-    paintStyle: connectorStrokeStyle(definitionContainer, relation),
+    paintStyle: {
+      strokeStyle: converseHEXinotRGBA(relation.getColor(definitionContainer))
+    },
     cssClass: 'textae-editor__relation',
     overlays: [
       ['Arrow', arrowConfig.normal],
