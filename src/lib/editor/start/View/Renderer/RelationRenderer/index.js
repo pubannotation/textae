@@ -39,10 +39,7 @@ export default class RelationRenderer {
   }
 
   change(relation) {
-    relation.renderElementAgain(
-      this._annotationData,
-      this._annotationData.typeDefinition
-    )
+    relation.renderElementAgain()
   }
 
   changeType(typeName) {
@@ -53,20 +50,14 @@ export default class RelationRenderer {
         (typeName.lastIndexOf('*') === typeName.length - 1 &&
           relation.typeName.indexOf(typeName.slice(0, -1) === 0))
       ) {
-        relation.renderElementAgain(
-          this._annotationData,
-          this._annotationData.typeDefinition
-        )
+        relation.renderElementAgain()
       }
     }
   }
 
   changeAll() {
     this._annotationData.relation.all.map((relation) => {
-      relation.renderElementAgain(
-        this._annotationData,
-        this._annotationData.typeDefinition
-      )
+      relation.renderElementAgain()
     })
   }
 

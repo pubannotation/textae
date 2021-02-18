@@ -100,7 +100,7 @@ export default class RelationModel {
     this._connect = jsPlumbConnection
   }
 
-  renderElementAgain(annotationData, typeDefinition) {
+  renderElementAgain() {
     const { jsPlumbConnection } = this
     jsPlumbConnection.resetColor()
     jsPlumbConnection.resetLabel()
