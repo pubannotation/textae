@@ -12,17 +12,17 @@ export default class TypeDefinition {
       () => entity.denotations,
       '#77DDDD'
     )
-    this._relationContainer = new Container(
-      editor,
-      'relation',
-      () => relation.all,
-      '#555555'
-    )
     this._blockContainer = new Container(
       editor,
       'entity',
       () => entity.blocks,
       '#77DDDD'
+    )
+    this._relationContainer = new Container(
+      editor,
+      'relation',
+      () => relation.all,
+      '#555555'
     )
 
     this._lockStateObservable = new Observable(false)
