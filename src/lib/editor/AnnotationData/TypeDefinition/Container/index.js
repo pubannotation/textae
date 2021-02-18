@@ -167,8 +167,4 @@ export default class Container {
       id
     )
   }
-
-  get isLock() {
-    return this._lockStateObservable()
-  }
 }
