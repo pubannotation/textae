@@ -1,4 +1,3 @@
-import determineCurviness from '../../../determineCurviness'
 import getEntityEndpoint from './getEntityEndpoint'
 import JsPlumbConnectionWrapper from './JsPlumbConnectionWrapper'
 import toDisplayName from './toDisplayName'
@@ -82,12 +81,7 @@ export default class RelationModel {
   }
 
   resetCurviness() {
-    const curviness = determineCurviness(
-      this.sourceEndpoint,
-      this.targetEndpoint
-    )
-
-    this.jsPlumbConnection.curviness = curviness
+    this._connect.resetCurviness()
   }
 
   renderElement(jsPlumbInstance, editor, annotationData, typeDefinition) {

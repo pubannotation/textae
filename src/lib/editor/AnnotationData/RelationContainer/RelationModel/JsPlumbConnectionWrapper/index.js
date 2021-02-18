@@ -1,4 +1,5 @@
 import arrowConfig from '../../../../arrowConfig'
+import determineCurviness from '../../../../determineCurviness'
 import converseHEXinotRGBA from './converseHEXinotRGBA'
 import createJsPlumbConnecttion from './createJsPlumbConnecttion'
 
@@ -78,7 +79,12 @@ export default class JsPlumbConnectionWrapper {
     this._labelOverlay.setLabel(lableString)
   }
 
-  set curviness(curviness) {
+  resetCurviness() {
+    const curviness = determineCurviness(
+      this._relation.sourceEndpoint,
+      this._relation.targetEndpoint
+    )
+
     // Set changed values only.
     if (this._jsPlumbConnection.connector.getCurviness() !== curviness) {
       this._jsPlumbConnection.setConnector([
