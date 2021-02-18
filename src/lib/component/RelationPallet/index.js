@@ -18,7 +18,7 @@ export default class RelationPallet extends Pallet {
     })
 
     return template({
-      isLock: this._typeContainer.isLock,
+      isLock: this._typeDefinition.isLock,
       hasDiff,
       types: this._typeContainer.pallet
     })
