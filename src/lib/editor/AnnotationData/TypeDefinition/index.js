@@ -10,19 +10,14 @@ export default class TypeDefinition {
     this._attributeContainer = new AttributeContainer(this._editor, attribute)
     this._denotationContainer = new EntityContainer(
       editor,
-      () => entity.denotations,
-      this._lockStateObservable
+      () => entity.denotations
     )
     this._relationContainer = new Container(
       editor,
       'relation',
       () => relation.all
     )
-    this._blockContainer = new EntityContainer(
-      editor,
-      () => entity.blocks,
-      this._lockStateObservable
-    )
+    this._blockContainer = new EntityContainer(editor, () => entity.blocks)
 
     this._lockStateObservable(() =>
       this._editor.eventEmitter.emit(`textae-event.type-definition.type.lock`)
