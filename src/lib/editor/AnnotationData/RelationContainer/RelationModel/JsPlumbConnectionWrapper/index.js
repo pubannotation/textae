@@ -7,16 +7,16 @@ export default class JsPlumbConnectionWrapper {
     jsPlumbInstance,
     relation,
     annotationData,
-    typeDefinition,
+    typeContainer,
     onClick
   ) {
     this._relation = relation
-    this._typeContainer = typeDefinition.relation
+    this._typeContainer = typeContainer
     this._jsPlumbConnection = createJsPlumbConnecttion(
       jsPlumbInstance,
       relation,
       annotationData,
-      typeDefinition.relation
+      typeContainer
     )
 
     // Bind a jsPlumbConnection event.
