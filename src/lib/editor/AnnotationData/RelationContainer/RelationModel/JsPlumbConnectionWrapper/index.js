@@ -1,5 +1,5 @@
 import arrowConfig from '../../../../arrowConfig'
-import converseHEXinotRGBA from './connectorStrokeStyle/converseHEXinotRGBA'
+import converseHEXinotRGBA from './converseHEXinotRGBA'
 import createJsPlumbConnecttion from './createJsPlumbConnecttion'
 
 export default class JsPlumbConnectionWrapper {

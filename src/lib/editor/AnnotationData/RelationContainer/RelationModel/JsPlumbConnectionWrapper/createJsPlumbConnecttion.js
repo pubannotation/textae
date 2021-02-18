@@ -2,7 +2,7 @@ import $ from 'jquery'
 import determineCurviness from '../../../../determineCurviness'
 import toDisplayName from '../toDisplayName'
 import arrowConfig from '../../../../arrowConfig'
-import converseHEXinotRGBA from './connectorStrokeStyle/converseHEXinotRGBA'
+import converseHEXinotRGBA from './converseHEXinotRGBA'
 
 // Make a connect by jsPlumb.
 export default function (
