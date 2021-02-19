@@ -2363,6 +2363,10 @@ a.ui-button:active,
 .textae-editor__block-hit-area {
   z-index: 1;
 }
+.textae-editor__relation:hover,
+.textae-editor__relation.hover {
+  stroke-width: 3;
+}
 .textae-editor__relation__label {
   background-color: yellow;
   display: block;
@@ -2400,7 +2404,6 @@ a.ui-button:active,
 .textae-editor__mode--denotation-with-relation .textae-editor__relation:hover,
 .textae-editor__mode--view-with-relation .textae-editor__relation.hover,
 .textae-editor__mode--denotation-with-relation .textae-editor__relation.hover {
-  stroke-width: 3;
   z-index: 5;
 }
 .textae-editor__mode--view-with-relation .textae-editor__relation__label:hover,
@@ -2425,7 +2428,6 @@ a.ui-button:active,
 .textae-editor__mode--relation .textae-editor__relation:hover,
 .textae-editor__mode--relation .textae-editor__relation.hover {
   z-index: 1;
-  stroke-width: 3;
 }
 .textae-editor__mode--relation .textae-editor__relation__label:hover,
 .textae-editor__mode--relation .textae-editor__relation__label.hover {
