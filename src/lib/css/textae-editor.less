@@ -182,13 +182,6 @@
     }
   }
 
-  &__mode--block-with-relation,
-  &__mode--block-without-relation {
-    .textae-editor__block-bg {
-      border-width: 1px 1px 1px 0;
-    }
-  }
-
   &__mode {
     &--denotation-with-relation,
     &--block-with-relation,
@@ -210,6 +203,13 @@
         &__relation__label.hover {
           z-index: 6;
         }
+      }
+    }
+
+    &--block-with-relation,
+    &--block-without-relation {
+      .textae-editor__block-bg {
+        border-width: 1px 1px 1px 0;
       }
     }
 
