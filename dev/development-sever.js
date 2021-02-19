@@ -14,7 +14,7 @@ app
   .use(favicon(path.resolve(__dirname, 'favicon.ico')))
   .use((req, res, next) => {
     // Path to Sever Auth test
-    const pathname = req._parsedUrl.pathname
+    const { pathname } = req._parsedUrl
     if (pathname !== '/dev/server_auth') return next()
 
     res.statusCode = 401
@@ -24,10 +24,10 @@ app
   })
   .use((req, res, next) => {
     // Require authorization if file is 'private.json'.
-    const pathname = req._parsedUrl.pathname
+    const { pathname } = req._parsedUrl
     if (pathname !== '/dev/private.json') return next()
 
-    const authorization = req.headers.authorization
+    const { authorization } = req.headers
     if (!authorization) {
       return unauthorized(res)
     }
@@ -100,7 +100,7 @@ app
             'http://www.amazon.com/Learning-SPARQL-Bob-DuCharme/dp/1449371434/ref=sr_1_1?ie=UTF8&qid=1452147643&sr=8-1&keywords=sparql'
         }
       ]
-      const term = querystring.parse(req._parsedUrl.query).term
+      const { term } = querystring.parse(req._parsedUrl.query)
 
       res.setHeader('Content-Type', 'application/json')
       res.end(JSON.stringify(rawData.filter((d) => d.label.includes(term))))
