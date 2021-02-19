@@ -8,24 +8,6 @@
 4.  ブラウザの開発ツールを起動します。
 5.  以下のテストを実行して、エラーが出ないこと
 
-## pubannotation 認証
-
-### 背景
-
-1.  6.1.14 から PubAnnotation の認証に対応しました。
-2.  textae は PubAnnotation のエディタとして利用可能です。
-3.  PubAnnotation では、ログインしていないユーザからの保存リクエストにはログインを促します。
-4.  PubAnnotation では、ダイジェスト認証と Google OAuth2 認証を選択可能にするためにログインページを開きます。
-5.  PubAnnotation は、401 レスポンスに独自のヘッダー（WWW-Authenticate に ServerPage を指定し、Location ヘッダーでログイン画面の場所を指示）を返却します。
-
-### 手段
-
-1.  保存ダイアログを開く
-2.  URL に`/dev/server_auth`を入力して、Save ボタンを押す
-3.  ポップアップウインドウが開き`This is a dummy atuth page!`と表示されること
-4.  ポップアップウインドウをとじる
-5.  右上に`could not save`と赤色のトースト表示がされること
-
 ## String Attribute 定義の Value の追加、編集、削除
 
 ### 背景
