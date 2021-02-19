@@ -197,7 +197,9 @@
       }
     }
 
-    &--view-without-relation {
+    &--view-without-relation,
+    &--denotation-without-relation,
+    &--block-without-relation {
       .hideRelation();
     }
 
@@ -205,18 +207,10 @@
       .hoverRelation();
     }
 
-    &--denotation-without-relation {
-      .hideRelation();
-    }
-
     &--denotation-with-relation {
       .disableRelationLabelLink();
       .relationBehindText();
       .hoverRelation();
-    }
-
-    &--block-without-relation {
-      .hideRelation();
     }
 
     &--block-with-relation {
