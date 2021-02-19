@@ -122,6 +122,13 @@
   }
 
   /* relation */
+  &__relation {
+    &:hover,
+    &.hover {
+      stroke-width: 3;
+    }
+  }
+
   &__relation__label {
     background-color: yellow;
     display: block;
@@ -160,12 +167,10 @@
 
   /* denotation with relation mode */
   &__mode--view-with-relation,
-  &__mode--denotation-with-relation,
-  &__mode--block-with-relation {
+  &__mode--denotation-with-relation {
     .textae-editor {
       &__relation:hover,
       &__relation.hover {
-        stroke-width: 3;
         z-index: 5;
       }
 
@@ -199,7 +204,6 @@
     .textae-editor__relation:hover,
     .textae-editor__relation.hover {
       z-index: 1;
-      stroke-width: 3;
     }
 
     .textae-editor__relation__label:hover,
