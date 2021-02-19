@@ -146,6 +146,23 @@
   }
 
   &__mode {
+    .hideRelation() {
+      .textae-editor {
+        &__relation,
+        &__relation__label {
+          display: none !important;
+        }
+      }
+
+      path,
+      circle {
+        fill: none;
+        height: 0;
+        stroke-width: 0;
+        width: 0;
+      }
+    }
+
     .hoverRelation () {
       .textae-editor {
         &__relation:hover,
@@ -201,20 +218,7 @@
     &--view-without-relation,
     &--denotation-without-relation,
     &--block-without-relation {
-      .textae-editor {
-        &__relation,
-        &__relation__label {
-          display: none !important;
-        }
-      }
-
-      path,
-      circle {
-        fill: none;
-        height: 0;
-        stroke-width: 0;
-        width: 0;
-      }
+      .hideRelation();
     }
 
     /* relation edit mode */
