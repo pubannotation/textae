@@ -1,42 +1,5 @@
 # 対応予定のテスト
 
-## pubannotation 認証する際にポップアップブロックされる
-
-### 背景
-
-1.  6.1.14 から PubAnnotation の認証に対応しました
-2.  textae は PubAnnotation のログイン画面は新規ウインドウで開きます
-3.  ウインドウが閉じられた際に自動的に保存をしに行くために、ウインドウの状態を監視しています
-4.  ブラウザの設定よってはポップアップブロック機能によって新規ウインドウがひらけません
-5.  ウインドウが開けなかったときにエラーが起きていました
-
-### 手段
-
-1.  ブラウザのポップアップブロック機能で http://localhost:8000/ を対象とする
-2.  アノテーション保存ダイアログを開く
-3.  URL に`/dev/server_auth`を入力して、Save ボタンを押す
-4.  ポップアップがブロックされること
-5.  右上に`could not save`と赤色のトースト表示がされること
-
-## pubannotation 認証
-
-### 背景
-
-1.  6.1.14 から PubAnnotation の認証に対応しました
-2.  textae は PubAnnotation のエディタとして利用可能です
-3.  PubAnnotation では、ログインしていないユーザからの保存リクエストにはログインを促します
-4.  PubAnnotation では、ダイジェスト認証と Google OAuth2 認証を選択可能にするためにログインページを開きます
-5.  PubAnnotation は、401 レスポンスに独自のヘッダー（WWW-Authenticate に ServerPage を指定し、Location ヘッダーでログイン画面の場所を指示）を返却します
-6.  textae はログイン画面をひらき、PubAnnotation へのログイン方法を選択可能にします
-
-### 手段
-
-1.  アノテーション保存ダイアログを開く
-2.  URL に`/dev/server_auth`を入力して、Save ボタンを押す
-3.  ポップアップウインドウが開き`This is a dummy atuth page!`と表示されること
-4.  ポップアップウインドウをとじる
-5.  右上に`could not save`と赤色のトースト表示がされること
-
 ## SelectionAttributePallet で選択済みの Value を選択できない
 
 ### 背景
