@@ -145,26 +145,6 @@
     }
   }
 
-  /* without relation mode */
-  &__mode--view-without-relation,
-  &__mode--denotation-without-relation,
-  &__mode--block-without-relation {
-    .textae-editor {
-      &__relation,
-      &__relation__label {
-        display: none !important;
-      }
-    }
-
-    path,
-    circle {
-      fill: none;
-      height: 0;
-      stroke-width: 0;
-      width: 0;
-    }
-  }
-
   &__mode {
     &--denotation-with-relation,
     &--block-with-relation,
@@ -210,6 +190,26 @@
         &__relation__label.hover {
           z-index: 6;
         }
+      }
+    }
+
+    /* without relation mode */
+    &--view-without-relation,
+    &--denotation-without-relation,
+    &--block-without-relation {
+      .textae-editor {
+        &__relation,
+        &__relation__label {
+          display: none !important;
+        }
+      }
+
+      path,
+      circle {
+        fill: none;
+        height: 0;
+        stroke-width: 0;
+        width: 0;
       }
     }
 
