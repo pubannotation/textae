@@ -209,13 +209,17 @@
       .hideRelation();
     }
 
-    &--denotation-with-relation,
+    &--denotation-with-relation {
+      .disableRelationLabelLink();
+      .relationBehindText();
+      .hoverRelation();
+    }
+
     &--block-with-relation,
     &--relation {
       .disableRelationLabelLink();
     }
 
-    &--denotation-with-relation,
     &--block-with-relation {
       .relationBehindText();
     }
@@ -228,7 +232,6 @@
     }
 
     /* with relation mode */
-    &--denotation-with-relation,
     &--block-with-relation {
       .hoverRelation();
     }
