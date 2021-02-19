@@ -177,6 +177,14 @@
       }
     }
 
+    .disableRelationLabelLink {
+      .textae-editor__relation__label a {
+        color: black;
+        pointer-events: none;
+        text-decoration: none;
+      }
+    }
+
     &--view-without-relation {
       .hideRelation();
     }
@@ -192,11 +200,7 @@
     &--denotation-with-relation,
     &--block-with-relation,
     &--relation {
-      .textae-editor__relation__label a {
-        color: black;
-        pointer-events: none;
-        text-decoration: none;
-      }
+      .disableRelationLabelLink();
     }
 
     // Allow selection of text after relation labels in entity edit mode.
