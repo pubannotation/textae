@@ -146,6 +146,20 @@
   }
 
   &__mode {
+    .hoverRelation () {
+      .textae-editor {
+        &__relation:hover,
+        &__relation.hover {
+          z-index: 5;
+        }
+
+        &__relation__label:hover,
+        &__relation__label.hover {
+          z-index: 6;
+        }
+      }
+    }
+
     &--denotation-with-relation,
     &--block-with-relation,
     &--relation {
@@ -180,17 +194,7 @@
     &--view-with-relation,
     &--denotation-with-relation,
     &--block-with-relation {
-      .textae-editor {
-        &__relation:hover,
-        &__relation.hover {
-          z-index: 5;
-        }
-
-        &__relation__label:hover,
-        &__relation__label.hover {
-          z-index: 6;
-        }
-      }
+      .hoverRelation();
     }
 
     /* without relation mode */
