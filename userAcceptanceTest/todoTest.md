@@ -1,5 +1,13 @@
 # 対応予定のテスト
 
+## Relation をホバーする
+
+1.  Relation モードにする
+2.  Relation のラベルをホバーする
+3.  Relation のラベルが濃くなること
+4.  Relation の線が太くなること
+5.  Relation の矢印が大きくなること
+
 ## 編集モード毎のリレーションの z-index
 
 ### 背景
