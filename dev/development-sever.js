@@ -20,6 +20,7 @@ app
     res.statusCode = 401
     res.setHeader('WWW-Authenticate', 'ServerPage')
     res.setHeader('Location', '/dev/dummy_auth_page.html')
+    res.setHeader('Content-Type', 'text/plain')
     res.end('Unauthorized')
   })
   .use((req, res, next) => {
