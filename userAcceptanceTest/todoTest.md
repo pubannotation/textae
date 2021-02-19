@@ -2,11 +2,23 @@
 
 ## Relation をホバーする
 
-1.  Relation モードにする
-2.  Relation のラベルをホバーする
-3.  Relation のラベルが濃くなること
-4.  Relation の線が太くなること
-5.  Relation の矢印が大きくなること
+### 背景
+
+1. 6.2.0 で Block モードを追加しました
+2. Block モードではホバーした Relation の線が太くなっていませんでした
+
+### -- 手段 --
+
+1. Block モードにする
+2. Relation を持つ Entity をホバーする
+3. Relation のラベルが濃くなること
+4. Relation の線が太くなること
+5. Relation の矢印が大きくなること
+6. Relation モードにする
+7. Relation のラベルをホバーする
+8. Relation のラベルが濃くなること
+9. Relation の線が太くなること
+10. Relation の矢印が大きくなること
 
 ## 編集モード毎のリレーションの z-index
 
