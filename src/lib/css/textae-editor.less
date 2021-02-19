@@ -219,22 +219,15 @@
       .hideRelation();
     }
 
-    &--block-with-relation,
-    &--relation {
+    &--block-with-relation {
       .disableRelationLabelLink();
-    }
-
-    &--block-with-relation {
       .relationBehindText();
-    }
-
-    /* with relation mode */
-    &--block-with-relation {
       .hoverRelation();
     }
 
-    /* relation edit mode */
     &--relation {
+      .disableRelationLabelLink();
+
       .textae-editor__span:hover {
         text-shadow: none;
         padding: 0;
