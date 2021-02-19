@@ -167,7 +167,8 @@
 
   /* denotation with relation mode */
   &__mode--view-with-relation,
-  &__mode--denotation-with-relation {
+  &__mode--denotation-with-relation,
+  &__mode--block-with-relation {
     .textae-editor {
       &__relation:hover,
       &__relation.hover {
@@ -235,7 +236,8 @@
     }
 
     // Allow selection of text after relation labels in entity edit mode.
-    &--denotation-with-relation {
+    &--denotation-with-relation,
+    &--block-with-relation {
       .textae-editor {
         &__relation__label {
           z-index: 0;
