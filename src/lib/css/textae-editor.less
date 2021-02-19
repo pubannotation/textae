@@ -165,23 +165,6 @@
     }
   }
 
-  /* denotation with relation mode */
-  &__mode--view-with-relation,
-  &__mode--denotation-with-relation,
-  &__mode--block-with-relation {
-    .textae-editor {
-      &__relation:hover,
-      &__relation.hover {
-        z-index: 5;
-      }
-
-      &__relation__label:hover,
-      &__relation__label.hover {
-        z-index: 6;
-      }
-    }
-  }
-
   &__mode {
     &--denotation-with-relation,
     &--block-with-relation,
@@ -210,6 +193,23 @@
     &--block-without-relation {
       .textae-editor__block-bg {
         border-width: 1px 1px 1px 0;
+      }
+    }
+
+    /* with relation mode */
+    &--view-with-relation,
+    &--denotation-with-relation,
+    &--block-with-relation {
+      .textae-editor {
+        &__relation:hover,
+        &__relation.hover {
+          z-index: 5;
+        }
+
+        &__relation__label:hover,
+        &__relation__label.hover {
+          z-index: 6;
+        }
       }
     }
 
