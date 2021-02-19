@@ -15,10 +15,9 @@ export default function (ajaxResponse, errorHandler, retryHandler) {
           retryHandler()
         }
       }, 1000)
-    } else {
-      errorHandler()
+      return
     }
-  } else {
-    errorHandler()
   }
+
+  errorHandler()
 }
