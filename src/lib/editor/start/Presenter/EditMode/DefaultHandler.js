@@ -20,7 +20,7 @@ export default class DefaultHandler {
     )
   }
 
-  changeType(id, changedProperties) {
+  changeTypeDefinition(id, changedProperties) {
     return this._commander.factory.changeTypeDefinitionCommand(
       this._definitionContainer,
       this._annotationType,

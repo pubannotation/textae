@@ -57,7 +57,9 @@ export default function (
         .open()
         .then(({ id, changedProperties }) => {
           if (changedProperties.size) {
-            commander.invoke(handler.changeType(id, changedProperties))
+            commander.invoke(
+              handler.changeTypeDefinition(id, changedProperties)
+            )
           }
         })
     }
