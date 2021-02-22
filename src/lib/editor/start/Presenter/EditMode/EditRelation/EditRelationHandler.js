@@ -18,7 +18,7 @@ export default class EditHandler extends DefaultHandler {
     }
   }
 
-  jsPlumbConnectionClicked(jsPlumbConnection, event, relation) {
+  jsPlumbConnectionClicked(event, relation) {
     if (event.originalEvent.ctrlKey || event.originalEvent.metaKey) {
       this._selectionModel.relation.add(relation.id)
     } else {

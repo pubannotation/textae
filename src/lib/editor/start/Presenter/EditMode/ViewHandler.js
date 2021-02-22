@@ -4,7 +4,7 @@ export default class ViewHandler {
     this._denititionContainer = definitionContainer
   }
 
-  jsPlumbConnectionClicked(jsPlumbConnection, _, relation) {
+  jsPlumbConnectionClicked(_, relation) {
     // Open link when view mode because link in label of jsPlumb event is not fired.
     const link = relation.getLink(this._namespace, this._denititionContainer)
 
