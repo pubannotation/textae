@@ -18,15 +18,11 @@ export default class EditHandler extends DefaultHandler {
     }
   }
 
-  jsPlumbConnectionClicked(jsPlumbConnection, event) {
-    // Select or deselect relation.
-    // This function is expected to be called when Relation-Edit-Mode.
-    const { relationId } = jsPlumbConnection
-
-    if (event.ctrlKey || event.metaKey) {
-      this._selectionModel.relation.add(relationId)
+  jsPlumbConnectionClicked(jsPlumbConnection, event, relation) {
+    if (event.originalEvent.ctrlKey || event.originalEvent.metaKey) {
+      this._selectionModel.relation.add(relation.id)
     } else {
-      this._selectionModel.selectRelation(relationId)
+      this._selectionModel.selectRelation(relation.id)
     }
   }
 
