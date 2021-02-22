@@ -21,7 +21,7 @@ export default class EditDenotationHandler extends DefaultHandler {
 
   changeTypeOfSelectedElement(newType) {
     return this._commander.factory.changeTypeOfSelectedItemsCommand(
-      'entity',
+      this._annotationType,
       newType
     )
   }

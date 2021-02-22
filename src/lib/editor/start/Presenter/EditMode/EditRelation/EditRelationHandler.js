@@ -11,7 +11,7 @@ export default class EditHandler extends DefaultHandler {
 
   changeTypeOfSelectedElement(newType) {
     return this._commander.factory.changeTypeOfSelectedItemsCommand(
-      'relation',
+      this._annotationType,
       newType
     )
   }
