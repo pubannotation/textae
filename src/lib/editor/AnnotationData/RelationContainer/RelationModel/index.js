@@ -93,9 +93,8 @@ export default class RelationModel {
       (_, event) =>
         editor.eventEmitter.emit(
           'textae-event.editor.js-plumb-connection.click',
-          jsPlumbConnection,
           event,
-          this
+          jsPlumbConnection.relation
         )
     )
 

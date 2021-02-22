@@ -47,8 +47,8 @@ export default class JsPlumbConnectionWrapper {
     )
   }
 
-  get relationId() {
-    return this._relation.id
+  get relation() {
+    return this._relation
   }
 
   pointdown() {
