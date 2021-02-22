@@ -84,7 +84,13 @@ export default class RelationModel {
     this._connect.resetCurviness()
   }
 
-  renderElement(jsPlumbInstance, editor, annotationData, typeDefinition) {
+  renderElement(
+    jsPlumbInstance,
+    editor,
+    annotationData,
+    typeDefinition,
+    annotationBox
+  ) {
     const jsPlumbConnection = new JsPlumbConnectionWrapper(
       jsPlumbInstance,
       this,
@@ -95,7 +101,8 @@ export default class RelationModel {
           'textae-event.editor.js-plumb-connection.click',
           event,
           jsPlumbConnection.relation
-        )
+        ),
+      annotationBox
     )
 
     this._connect = jsPlumbConnection
