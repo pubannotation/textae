@@ -9,7 +9,7 @@ export default class EditHandler extends DefaultHandler {
     this._selectionModel = selectionModel
   }
 
-  changeLabelHandler(autocompletionWs) {
+  changeInstance(autocompletionWs) {
     if (this._selectionModel.relation.some) {
       const type = this._getSelectedType()
       new EditRelationDialog(type, this._definitionContainer, autocompletionWs)

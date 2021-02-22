@@ -19,7 +19,7 @@ export default class EditBlockHandler extends DefaultHandler {
     this._attributeEditor = attributeEditor
   }
 
-  changeLabelHandler(autocompletionWs) {
+  changeInstance(autocompletionWs) {
     if (this._selectionModel.entity.some) {
       new EditEntityDialog(
         this._editor,

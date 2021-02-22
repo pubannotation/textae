@@ -151,7 +151,7 @@ export default class EditMode {
   }
 
   changeLabel() {
-    this._getHandler().changeLabelHandler(
+    this._getHandler().changeInstance(
       this._autocompletionWsFromParams ||
         this._annotationData.typeDefinition.autocompletionWs
     )

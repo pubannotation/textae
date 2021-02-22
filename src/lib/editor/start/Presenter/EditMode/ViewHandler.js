@@ -9,7 +9,7 @@ export default class ViewHandler {
   }
 
   // Dummy funtion for shotcut key 'w'.
-  changeLabelHandler() {}
+  changeInstance() {}
 
   // Dummy funtion for shotcut key '1' ~ '9'.
   manipulateAttribute() {}
