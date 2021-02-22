@@ -39,9 +39,11 @@ export default class EditDenotationHandler extends DefaultHandler {
   }
 
   selectAll(typeName) {
-    this._selectionModel.entity.clear()
-    for (const { id } of this._annotationData.entity.findByType(typeName)) {
-      this._selectionModel.entity.add(id)
+    this._selectionModel[this._annotationType].clear()
+    for (const { id } of this._annotationData[this._annotationType].findByType(
+      typeName
+    )) {
+      this._selectionModel[this._annotationType].add(id)
     }
   }
 
