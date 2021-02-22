@@ -1,6 +1,6 @@
 import getAnnotationBox from '../getAnnotationBox'
 import makeJsPlumbInstance from './makeJsPlumbInstance'
-import renderLazy from './renderLazy'
+import areEndpointsPrepared from './renderLazy/areEndpointsPrepared'
 
 export default class RelationRenderer {
   constructor(editor, annotationData, selectionModel) {
@@ -15,11 +15,16 @@ export default class RelationRenderer {
       if (relation.isRendered) {
         relation.resetCurviness()
       } else {
-        renderLazy(
+        // The grid and its endpoints may be destroyed
+        // when the spans was moved repetitively by undo or redo.
+        if (!areEndpointsPrepared(this._annotationData, relation.id)) {
+          return
+        }
+
+        relation.renderElement(
+          this._jsPlumbInstance,
           this._editor,
           this._annotationData,
-          relation,
-          this._jsPlumbInstance,
           this._annotationData.typeDefinition
         )
       }
