@@ -86,6 +86,11 @@ export default class EditMode {
         )
       }
     )
+
+    this._viewHandler = new ViewHandler(
+      annotationData.namespace,
+      annotationData.typeDefinition.relation
+    )
   }
 
   get isEditDenotation() {
@@ -215,7 +220,7 @@ export default class EditMode {
       case MODE.EDIT_RELATION:
         return this._editRelation.handler
       default:
-        return new ViewHandler()
+        return this._viewHandler
     }
   }
 

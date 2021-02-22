@@ -1,7 +1,13 @@
 export default class ViewHandler {
-  jsPlumbConnectionClicked(jsPlumbConnection) {
+  constructor(namespace, definitionContainer) {
+    this._namespace = namespace
+    this._denititionContainer = definitionContainer
+  }
+
+  jsPlumbConnectionClicked(jsPlumbConnection, _, relation) {
     // Open link when view mode because link in label of jsPlumb event is not fired.
-    const { link } = jsPlumbConnection
+    const link = relation.getLink(this._namespace, this._denititionContainer)
+
     if (link) {
       const href = link.getAttribute('href')
       window.open(href, '_blank')

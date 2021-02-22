@@ -1,3 +1,4 @@
+import getUri from '../../../getUri'
 import getEntityEndpoint from './getEntityEndpoint'
 import JsPlumbConnectionWrapper from './JsPlumbConnectionWrapper'
 
@@ -113,5 +114,13 @@ export default class RelationModel {
 
     this._connect.destroy()
     this._connect = undefined
+  }
+
+  getLink(namespace, definitionContainer) {
+    return getUri(
+      namespace,
+      this.typeName,
+      definitionContainer.getUri(this.typeName)
+    )
   }
 }
