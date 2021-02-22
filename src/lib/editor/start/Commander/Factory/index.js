@@ -106,26 +106,6 @@ export default class Factory {
     )
   }
 
-  changeTypeOfSelectedRelationsCommand(newType) {
-    return new ChangeTypeOfSelectedItemsCommand(
-      this._editor,
-      this._annotationData,
-      this._selectionModel,
-      'relation',
-      newType
-    )
-  }
-
-  changeTypeOfSelectedEntitiesCommand(newType) {
-    return new ChangeTypeOfSelectedItemsCommand(
-      this._editor,
-      this._annotationData,
-      this._selectionModel,
-      'entity',
-      newType
-    )
-  }
-
   changeValueOfAttributeDefinitionAndObjectOfSelectionAttributeCommand(
     attributeDefinition,
     index,
