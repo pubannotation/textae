@@ -1,5 +1,21 @@
 # 対応予定のテスト
 
+## Ctrl 押しながら Relation を選択するとトグルする
+
+### 背景
+
+1. 6.1.48 から選択中の Relation を Ctrl を押しながらクリックしたときに選択解除していません
+2. Relation はラベルと jsPlumbConnection から二重に click イベントが発生しているため対応が難しいです
+3. jsPlumb を独自 SVG への置き換えが完了してから対応します
+
+### 手段
+
+1. Relation モードにする
+2. Relation をクリックする
+3. Relation が選択されること
+4. 選択中の Relation を Ctrl（Mac の場合は Cmd）キーを押しながらクリックする
+5. 選択中の Relation が選択解除されること
+
 ## SelectionAttributePallet で選択済みの Value を選択できない
 
 ### 背景
