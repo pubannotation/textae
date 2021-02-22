@@ -20,7 +20,10 @@ export default class EditBlockHandler extends DefaultHandler {
   }
 
   changeTypeOfSelectedElement(newType) {
-    return this._commander.factory.changeTypeOfSelectedEntitiesCommand(newType)
+    return this._commander.factory.changeTypeOfSelectedItemsCommand(
+      'entity',
+      newType
+    )
   }
 
   changeLabelHandler(autocompletionWs) {

@@ -10,7 +10,10 @@ export default class EditHandler extends DefaultHandler {
   }
 
   changeTypeOfSelectedElement(newType) {
-    return this._commander.factory.changeTypeOfSelectedRelationsCommand(newType)
+    return this._commander.factory.changeTypeOfSelectedItemsCommand(
+      'relation',
+      newType
+    )
   }
 
   changeLabelHandler(autocompletionWs) {
