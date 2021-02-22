@@ -14,7 +14,7 @@ export default class JsPlumbConnectionWrapper {
     onClick
   ) {
     this._relation = relation
-    this.namespace = namespace
+    this._namespace = namespace
     this._definitionContainer = definitionContainer
     this._jsPlumbConnection = createJsPlumbConnecttion(
       jsPlumbInstance,
