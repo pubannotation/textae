@@ -44,4 +44,17 @@ export default class DefaultHandler {
       removeType
     )
   }
+
+  _done({ typeName, label, attributes = [] }) {
+    const commands = this._commander.factory.changeItemTypeCommand(
+      label,
+      typeName,
+      this._definitionContainer,
+      attributes
+    )
+
+    if (typeName) {
+      this._commander.invoke(commands)
+    }
+  }
 }

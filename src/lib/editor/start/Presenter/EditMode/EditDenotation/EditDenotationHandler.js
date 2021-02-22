@@ -21,19 +21,6 @@ export default class EditDenotationHandler extends DefaultHandler {
 
   changeLabelHandler(autocompletionWs) {
     if (this._selectionModel.entity.some) {
-      const done = ({ typeName, label, attributes }) => {
-        const commands = this._commander.factory.changeItemTypeCommand(
-          label,
-          typeName,
-          this._definitionContainer,
-          attributes
-        )
-
-        if (typeName) {
-          this._commander.invoke(commands)
-        }
-      }
-
       new EditEntityDialog(
         this._editor,
         this._definitionContainer,
@@ -42,7 +29,7 @@ export default class EditDenotationHandler extends DefaultHandler {
         mergedTypesOf(this._selectionModel.entity.all)
       )
         .open()
-        .then(done)
+        .then((values) => this._done(values))
     }
   }
 

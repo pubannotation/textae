@@ -9,19 +9,6 @@ export default class EditHandler extends DefaultHandler {
     this._selectionModel = selectionModel
   }
 
-  _done({ typeName, label, attributes = [] }) {
-    const commands = this._commander.factory.changeItemTypeCommand(
-      label,
-      typeName,
-      this._definitionContainer,
-      attributes
-    )
-
-    if (typeName) {
-      this._commander.invoke(commands)
-    }
-  }
-
   changeLabelHandler(autocompletionWs) {
     if (this._selectionModel.relation.some) {
       const type = this._getSelectedType()
