@@ -40,7 +40,7 @@ export default class EditRelationDialog extends PromiseDialog {
         )
         const label = super.el.querySelector('span')
 
-        return { value: input.value, label: label.innerText }
+        return { typeName: input.value, label: label.innerText }
       }
     )
 

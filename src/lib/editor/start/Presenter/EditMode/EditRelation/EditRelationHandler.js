@@ -11,15 +11,15 @@ export default class EditHandler extends DefaultHandler {
 
   changeLabelHandler(autocompletionWs) {
     if (this._selectionModel.relation.some) {
-      const done = ({ value, label }) => {
+      const done = ({ typeName, label }) => {
         const commands = this._commander.factory.changeItemTypeCommand(
           label,
-          value,
+          typeName,
           this._definitionContainer,
           []
         )
 
-        if (value) {
+        if (typeName) {
           this._commander.invoke(commands)
         }
       }
