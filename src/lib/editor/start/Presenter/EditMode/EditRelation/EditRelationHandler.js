@@ -30,15 +30,6 @@ export default class EditHandler extends DefaultHandler {
     }
   }
 
-  selectAll(typeName) {
-    this._selectionModel[this._annotationType].clear()
-    for (const { id } of this._annotationData[this._annotationType].findByType(
-      typeName
-    )) {
-      this._selectionModel[this._annotationType].add(id)
-    }
-  }
-
   manipulateAttribute() {}
 
   _getSelectedType() {

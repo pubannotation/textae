@@ -5,6 +5,15 @@ export default class DefaultHandler {
     this._commander = commander
   }
 
+  selectAll(typeName) {
+    this._selectionModel[this._annotationType].clear()
+    for (const { id } of this._annotationData[this._annotationType].findByType(
+      typeName
+    )) {
+      this._selectionModel[this._annotationType].add(id)
+    }
+  }
+
   changeTypeOfSelectedElement(newType) {
     return this._commander.factory.changeTypeOfSelectedItemsCommand(
       this._annotationType,

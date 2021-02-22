@@ -38,15 +38,6 @@ export default class EditDenotationHandler extends DefaultHandler {
     event.originalEvent.preventDefault()
   }
 
-  selectAll(typeName) {
-    this._selectionModel[this._annotationType].clear()
-    for (const { id } of this._annotationData[this._annotationType].findByType(
-      typeName
-    )) {
-      this._selectionModel[this._annotationType].add(id)
-    }
-  }
-
   manipulateAttribute(number, shiftKey) {
     if (shiftKey) {
       this._attributeEditor.deleteAt(number)
