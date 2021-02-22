@@ -11,6 +11,9 @@ export default class RelationRenderer {
   }
 
   arrangePositionAll() {
+    // The jsPlumb error occurs when a relation between same points.
+    // And entities of same length spans was same point before moving grids.
+    // A relaiton will be rendered after moving grids.
     for (const relation of this._annotationData.relation.all) {
       if (relation.isRendered) {
         relation.resetCurviness()
