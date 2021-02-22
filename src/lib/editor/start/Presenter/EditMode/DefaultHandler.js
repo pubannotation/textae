@@ -29,7 +29,7 @@ export default class DefaultHandler {
     )
   }
 
-  removeType(id, label) {
+  removeTypeDefinition(id, label) {
     const removeType = {
       id,
       label: label || ''

@@ -71,7 +71,7 @@ export default function (
     }
 
     commander.invoke(
-      handler.removeType(
+      handler.removeTypeDefinition(
         e.delegateTarget.dataset.id,
         e.delegateTarget.dataset.label
       )
