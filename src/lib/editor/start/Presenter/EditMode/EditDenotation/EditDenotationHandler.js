@@ -33,7 +33,7 @@ export default class EditDenotationHandler extends DefaultHandler {
     }
   }
 
-  jsPlumbConnectionClicked(_, event) {
+  relationClicked(_, event) {
     // Do not open link when term mode or simple mode.
     event.originalEvent.preventDefault()
   }

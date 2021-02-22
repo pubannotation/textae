@@ -79,7 +79,7 @@ export default class EditMode {
       'textae-event.editor.js-plumb-connection.click',
       (jsPlumbConnection, event, relation) => {
         // The EventHandlar for clieck event of jsPlumbConnection.
-        this._getHandler().jsPlumbConnectionClicked(event, relation)
+        this._getHandler().relationClicked(event, relation)
       }
     )
 
