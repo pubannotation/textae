@@ -1,6 +1,5 @@
 import arrowConfig from '../../../../arrowConfig'
 import determineCurviness from '../../../../determineCurviness'
-import getUri from '../../../../getUri'
 import toDisplayName from '../toDisplayName'
 import converseHEXinotRGBA from './converseHEXinotRGBA'
 import createJsPlumbConnecttion from './createJsPlumbConnecttion'
@@ -37,14 +36,6 @@ export default class JsPlumbConnectionWrapper {
 
   destroy() {
     this._jsPlumbConnection._jsPlumb.instance.detach(this._jsPlumbConnection)
-  }
-
-  get link() {
-    return getUri(
-      this._namespace,
-      this._relation.typeName,
-      this._definitionContainer.getUri(this._relation.typeName)
-    )
   }
 
   get relation() {
