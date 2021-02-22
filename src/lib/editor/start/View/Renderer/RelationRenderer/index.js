@@ -1,6 +1,6 @@
 import getAnnotationBox from '../getAnnotationBox'
 import makeJsPlumbInstance from './makeJsPlumbInstance'
-import areEndpointsPrepared from './renderLazy/areEndpointsPrepared'
+import areEndpointsPrepared from './areEndpointsPrepared'
 
 export default class RelationRenderer {
   constructor(editor, annotationData, selectionModel) {
