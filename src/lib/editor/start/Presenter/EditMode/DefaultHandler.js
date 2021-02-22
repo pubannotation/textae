@@ -37,7 +37,4 @@ export default class DefaultHandler {
       removeType
     )
   }
-
-  // Dummy funtion for shotcut key '1' ~ 9 in the RelationMode.
-  manipulateAttribute() {}
 }

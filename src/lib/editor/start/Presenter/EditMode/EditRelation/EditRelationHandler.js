@@ -54,6 +54,8 @@ export default class EditHandler extends DefaultHandler {
     }
   }
 
+  manipulateAttribute() {}
+
   _getSelectedType() {
     const relation = this._selectionModel.relation.single
 
