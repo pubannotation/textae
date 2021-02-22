@@ -19,13 +19,6 @@ export default class EditBlockHandler extends DefaultHandler {
     this._attributeEditor = attributeEditor
   }
 
-  changeTypeOfSelectedElement(newType) {
-    return this._commander.factory.changeTypeOfSelectedItemsCommand(
-      this._annotationType,
-      newType
-    )
-  }
-
   changeLabelHandler(autocompletionWs) {
     if (this._selectionModel.entity.some) {
       const done = ({ typeName, label, attributes }) => {

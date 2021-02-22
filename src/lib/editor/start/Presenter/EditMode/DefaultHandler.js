@@ -5,6 +5,13 @@ export default class DefaultHandler {
     this._commander = commander
   }
 
+  changeTypeOfSelectedElement(newType) {
+    return this._commander.factory.changeTypeOfSelectedItemsCommand(
+      this._annotationType,
+      newType
+    )
+  }
+
   addType(newType) {
     console.assert(newType.id, 'id is necessary!')
     return this._commander.factory.createTypeDefinitionCommand(

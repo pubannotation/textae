@@ -9,13 +9,6 @@ export default class EditHandler extends DefaultHandler {
     this._selectionModel = selectionModel
   }
 
-  changeTypeOfSelectedElement(newType) {
-    return this._commander.factory.changeTypeOfSelectedItemsCommand(
-      this._annotationType,
-      newType
-    )
-  }
-
   changeLabelHandler(autocompletionWs) {
     if (this._selectionModel.relation.some) {
       const done = ({ value, label }) => {
