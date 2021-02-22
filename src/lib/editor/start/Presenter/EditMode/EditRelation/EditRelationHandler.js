@@ -14,7 +14,7 @@ export default class EditHandler extends DefaultHandler {
       const type = this._getSelectedType()
       new EditRelationDialog(type, this._definitionContainer, autocompletionWs)
         .open()
-        .then((values) => this._done(values))
+        .then((values) => this._labelChanged(values))
     }
   }
 

@@ -29,7 +29,7 @@ export default class EditBlockHandler extends DefaultHandler {
         mergedTypesOf(this._selectionModel.entity.all)
       )
         .open()
-        .then((values) => this._done(values))
+        .then((values) => this._labelChanged(values))
     }
   }
 
