@@ -17,7 +17,9 @@ export default function (
     () => {
       new CreateTypeDefinitionDialog(definitionContainer, getAutocompletionWs())
         .open()
-        .then(({ newType }) => commander.invoke(handler.addType(newType)))
+        .then(({ newType }) =>
+          commander.invoke(handler.addTypeDefinition(newType))
+        )
     }
   )
 
