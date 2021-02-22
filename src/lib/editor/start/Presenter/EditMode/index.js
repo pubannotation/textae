@@ -77,9 +77,13 @@ export default class EditMode {
     // We can only bind the connection directory.
     editor.eventEmitter.on(
       'textae-event.editor.js-plumb-connection.click',
-      (jsPlumbConnection, event) => {
+      (jsPlumbConnection, event, relation) => {
         // The EventHandlar for clieck event of jsPlumbConnection.
-        this._getHandler().jsPlumbConnectionClicked(jsPlumbConnection, event)
+        this._getHandler().jsPlumbConnectionClicked(
+          jsPlumbConnection,
+          event,
+          relation
+        )
       }
     )
   }
