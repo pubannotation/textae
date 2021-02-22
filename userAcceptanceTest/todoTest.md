@@ -1,21 +1,5 @@
 # 対応予定のテスト
 
-## Term モードで Relation を持つ Entity をホバーして強調された Relation をクリックする
-
-### 背景
-
-1. Term モードでは Relation は通常 text の背面にあるためクリックできません
-2. Relation を持つ Entity をホバーすると Relation は text の前面に移動します
-3. このときクリック可能ですが、イベントハンドラーがないためエラーが発生します
-4. 発生バージョン不明
-
-### -- 手段 --
-
-1. Term モードにする
-2. Relation を持つ Entity をホバーする
-3. 強調された Relation をクリックする
-4. 開発コンソールに`jsPlumb: fire failed for event click : TypeError: this._getHandler(...).jsPlumbConnectionClicked is not a function`が表示されないこと
-
 ## SelectionAttributePallet で選択済みの Value を選択できない
 
 ### 背景
