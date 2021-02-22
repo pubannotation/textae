@@ -19,11 +19,6 @@ export default class EditDenotationHandler extends DefaultHandler {
     this._attributeEditor = attributeEditor
   }
 
-  jsPlumbConnectionClicked(_, event) {
-    // Do not open link when term mode or simple mode.
-    event.originalEvent.preventDefault()
-  }
-
   changeTypeOfSelectedElement(newType) {
     return this._commander.factory.changeTypeOfSelectedEntitiesCommand(newType)
   }
@@ -55,18 +50,23 @@ export default class EditDenotationHandler extends DefaultHandler {
     }
   }
 
-  manipulateAttribute(number, shiftKey) {
-    if (shiftKey) {
-      this._attributeEditor.deleteAt(number)
-    } else {
-      this._attributeEditor.addOrEditAt(number)
-    }
+  jsPlumbConnectionClicked(_, event) {
+    // Do not open link when term mode or simple mode.
+    event.originalEvent.preventDefault()
   }
 
   selectAll(typeName) {
     this._selectionModel.entity.clear()
     for (const { id } of this._annotationData.entity.findByType(typeName)) {
       this._selectionModel.entity.add(id)
+    }
+  }
+
+  manipulateAttribute(number, shiftKey) {
+    if (shiftKey) {
+      this._attributeEditor.deleteAt(number)
+    } else {
+      this._attributeEditor.addOrEditAt(number)
     }
   }
 }

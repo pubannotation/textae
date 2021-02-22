@@ -47,6 +47,13 @@ export default class EditHandler extends DefaultHandler {
     }
   }
 
+  selectAll(typeName) {
+    this._selectionModel.relation.clear()
+    for (const { id } of this._annotationData.relation.findByType(typeName)) {
+      this._selectionModel.relation.add(id)
+    }
+  }
+
   _getSelectedType() {
     const relation = this._selectionModel.relation.single
 
@@ -55,12 +62,5 @@ export default class EditHandler extends DefaultHandler {
     }
 
     return ''
-  }
-
-  selectAll(typeName) {
-    this._selectionModel.relation.clear()
-    for (const { id } of this._annotationData.relation.findByType(typeName)) {
-      this._selectionModel.relation.add(id)
-    }
   }
 }
