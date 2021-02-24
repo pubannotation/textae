@@ -17,17 +17,8 @@ export default class JsPlumbConnectionWrapper {
     this._namespace = namespace
     this._definitionContainer = definitionContainer
     this._onClick = onClick
-    this._jsPlumbConnection = createJsPlumbConnecttion(
-      jsPlumbInstance,
-      relation,
-      namespace,
-      definitionContainer
-    )
 
-    // Bind a jsPlumbConnection event.
-    this._bind('click', onClick)
-    this._bind('mouseenter', () => this.pointup())
-    this._bind('mouseexit', () => this.pointdown())
+    this._create()
   }
 
   deselect() {
@@ -83,6 +74,11 @@ export default class JsPlumbConnectionWrapper {
 
   resetCurviness() {
     this.destroy()
+    this._create()
+  }
+
+  // Private APIs
+  _create() {
     this._jsPlumbConnection = createJsPlumbConnecttion(
       this._jsPlumbInstance,
       this._relation,
@@ -96,7 +92,6 @@ export default class JsPlumbConnectionWrapper {
     this._bind('mouseexit', () => this.pointdown())
   }
 
-  // Private APIs
   _addClass(className) {
     this._jsPlumbConnection.addClass(className)
     this._labelOverlay.addClass(className)
