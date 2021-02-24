@@ -104,12 +104,6 @@ export default class JsPlumbConnectionWrapper {
 
   _bind(event, eventHandler) {
     this._jsPlumbConnection.bind(event, eventHandler)
-    // In jsPlumb, when you draw a connection for the first time,
-    // clicking on a label fires a connection click event.
-    // But after resizing and redrawing a connection,
-    // the connection click event won't fire when you click on a label.
-    // So we will bind the label event in addition to the connection.
-    this._labelOverlay.bind(event, eventHandler)
   }
 
   get _arrowOverlays() {
