@@ -1,5 +1,4 @@
 import arrowConfig from '../../../../arrowConfig'
-import determineCurviness from '../../../../determineCurviness'
 import toDisplayName from '../toDisplayName'
 import converseHEXinotRGBA from './converseHEXinotRGBA'
 import createJsPlumbConnecttion from './createJsPlumbConnecttion'
@@ -13,9 +12,11 @@ export default class JsPlumbConnectionWrapper {
     onClick,
     annotationBox
   ) {
+    this._jsPlumbInstance = jsPlumbInstance
     this._relation = relation
     this._namespace = namespace
     this._definitionContainer = definitionContainer
+    this._onClick = onClick
     this._jsPlumbConnection = createJsPlumbConnecttion(
       jsPlumbInstance,
       relation,
@@ -81,22 +82,18 @@ export default class JsPlumbConnectionWrapper {
   }
 
   resetCurviness() {
-    const curviness = determineCurviness(
-      this._relation.sourceEndpoint,
-      this._relation.targetEndpoint
+    this.destroy()
+    this._jsPlumbConnection = createJsPlumbConnecttion(
+      this._jsPlumbInstance,
+      this._relation,
+      this._namespace,
+      this._definitionContainer
     )
 
-    // Set changed values only.
-    if (this._jsPlumbConnection.connector.getCurviness() !== curviness) {
-      this._jsPlumbConnection.setConnector([
-        'Bezier',
-        {
-          curviness
-        }
-      ])
-
-      this._resetArrow()
-    }
+    // Bind a jsPlumbConnection event.
+    this._bind('click', this._onClick)
+    this._bind('mouseenter', () => this.pointup())
+    this._bind('mouseexit', () => this.pointdown())
   }
 
   // Private APIs
