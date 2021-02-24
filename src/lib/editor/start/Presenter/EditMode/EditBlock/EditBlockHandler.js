@@ -33,7 +33,7 @@ export default class EditBlockHandler extends DefaultHandler {
     }
   }
 
-  relationClicked(_, event) {
+  relationClicked(event) {
     // Do not open link when term mode or simple mode.
     event.originalEvent.preventDefault()
   }
