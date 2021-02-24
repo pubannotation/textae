@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import determineCurviness from '../../../../determineCurviness'
+import determineCurviness from './determineCurviness'
 import toDisplayName from '../toDisplayName'
 import arrowConfig from '../../../../arrowConfig'
 import converseHEXinotRGBA from './converseHEXinotRGBA'
