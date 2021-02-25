@@ -34,7 +34,7 @@
     "connect": "^3.7.0",
     "cpx2": "^3.0.0",
     "eslint": "^7.20.0",
-    "eslint-config-prettier": "^8.0.0",
+    "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-unused-imports": "^1.1.0",
     "husky": "^5.1.1",
