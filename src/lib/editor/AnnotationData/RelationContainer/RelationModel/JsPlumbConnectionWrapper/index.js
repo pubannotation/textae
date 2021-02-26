@@ -63,7 +63,8 @@ export default class JsPlumbConnectionWrapper {
       this._jsPlumbInstance,
       this._relation,
       this._namespace,
-      this._definitionContainer
+      this._definitionContainer,
+      arrowConfig.normal
     )
 
     // Bind a jsPlumbConnection event.

@@ -1,7 +1,6 @@
 import $ from 'jquery'
 import determineCurviness from './determineCurviness'
 import toDisplayName from '../toDisplayName'
-import arrowConfig from '../../../../arrowConfig'
 import converseHEXinotRGBA from './converseHEXinotRGBA'
 
 // Make a connect by jsPlumb.
@@ -9,7 +8,8 @@ export default function (
   jsPlumbInstance,
   relation,
   namespace,
-  definitionContainer
+  definitionContainer,
+  arrowConfig
 ) {
   const { sourceEndpoint } = relation
   const { targetEndpoint } = relation
@@ -29,7 +29,7 @@ export default function (
     },
     cssClass: 'textae-editor__relation',
     overlays: [
-      ['Arrow', arrowConfig.normal],
+      ['Arrow', arrowConfig],
       [
         'Label',
         {
