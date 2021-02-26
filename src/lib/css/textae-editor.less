@@ -187,13 +187,6 @@
       }
     }
 
-    // Allow selection of text after relation labels in entity edit mode.
-    .relationBehindText {
-      .textae-editor__relation__label {
-        z-index: 0;
-      }
-    }
-
     &--view-without-relation,
     &--denotation-without-relation,
     &--block-without-relation {
@@ -206,13 +199,19 @@
 
     &--denotation-with-relation {
       .disableRelationLabelLink();
-      .relationBehindText();
+      // Allow selection of text after relation labels in entity edit mode.
+      .textae-editor__relation__label {
+        z-index: 0;
+      }
       .hoverRelation();
     }
 
     &--block-with-relation {
       .disableRelationLabelLink();
-      .relationBehindText();
+      // Allow selection of text after relation labels in entity edit mode.
+      .textae-editor__relation__label {
+        z-index: 0;
+      }
       .hoverRelation();
     }
 
