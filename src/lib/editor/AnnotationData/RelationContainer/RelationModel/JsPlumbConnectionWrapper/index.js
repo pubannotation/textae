@@ -21,12 +21,6 @@ export default class JsPlumbConnectionWrapper {
     this._create()
   }
 
-  deselect() {
-    this.resetColor()
-    this._removeClass('ui-selected')
-    this._hideBigArrow()
-  }
-
   destroy() {
     this._jsPlumbConnection._jsPlumb.instance.detach(this._jsPlumbConnection)
   }
@@ -35,12 +29,17 @@ export default class JsPlumbConnectionWrapper {
     return this._relation
   }
 
-  pointDown() {
-    if (!this._isSelected) {
-      this.resetColor()
-      this._removeClass('hover')
-      this._hideBigArrow()
-    }
+  select() {
+    this.resetColor()
+    this._addClass('ui-selected')
+    this._removeClass('hover')
+    this._showBigArrow()
+  }
+
+  deselect() {
+    this.resetColor()
+    this._removeClass('ui-selected')
+    this._hideBigArrow()
   }
 
   pointUp() {
@@ -51,11 +50,12 @@ export default class JsPlumbConnectionWrapper {
     }
   }
 
-  select() {
-    this.resetColor()
-    this._addClass('ui-selected')
-    this._removeClass('hover')
-    this._showBigArrow()
+  pointDown() {
+    if (!this._isSelected) {
+      this.resetColor()
+      this._removeClass('hover')
+      this._hideBigArrow()
+    }
   }
 
   resetColor() {
