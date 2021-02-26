@@ -87,15 +87,15 @@ export default class RelationModel {
   // When you do this, a mouse-out event may occur
   // before the rendering of the relationship is complete.
   // You need to make sure that the relationship has been rendered.
-  pointup() {
+  pointUp() {
     if (this.isRendered) {
-      this._connect.pointup()
+      this._connect.pointUp()
     }
   }
 
-  pointdown() {
+  pointDown() {
     if (this.isRendered) {
-      this._connect.pointdown()
+      this._connect.pointDown()
     }
   }
 

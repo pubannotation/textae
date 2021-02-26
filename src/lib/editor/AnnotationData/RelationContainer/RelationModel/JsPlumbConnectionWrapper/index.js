@@ -35,7 +35,7 @@ export default class JsPlumbConnectionWrapper {
     return this._relation
   }
 
-  pointdown() {
+  pointDown() {
     if (!this._isSelected) {
       this.resetColor()
       this._removeClass('hover')
@@ -43,7 +43,7 @@ export default class JsPlumbConnectionWrapper {
     }
   }
 
-  pointup() {
+  pointUp() {
     if (!this._isSelected) {
       this.resetColor()
       this._addClass('hover')
@@ -88,8 +88,8 @@ export default class JsPlumbConnectionWrapper {
 
     // Bind a jsPlumbConnection event.
     this._bind('click', this._onClick)
-    this._bind('mouseenter', () => this.pointup())
-    this._bind('mouseexit', () => this.pointdown())
+    this._bind('mouseenter', () => this.pointUp())
+    this._bind('mouseexit', () => this.pointDown())
   }
 
   _addClass(className) {

@@ -6,13 +6,13 @@ export default class HoverRelation {
 
   on(entityId) {
     for (const relation of this._getRelationsOf(entityId)) {
-      relation.pointup()
+      relation.pointUp()
     }
   }
 
   off(entityId) {
     for (const relation of this._getRelationsOf(entityId)) {
-      relation.pointdown()
+      relation.pointDown()
     }
   }
 
