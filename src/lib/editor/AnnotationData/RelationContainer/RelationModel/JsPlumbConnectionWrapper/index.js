@@ -1,6 +1,5 @@
 import arrowConfig from '../../../../arrowConfig'
 import toDisplayName from '../toDisplayName'
-import converseHEXinotRGBA from './converseHEXinotRGBA'
 import createJsPlumbConnecttion from './createJsPlumbConnecttion'
 
 export default class JsPlumbConnectionWrapper {
@@ -55,11 +54,8 @@ export default class JsPlumbConnectionWrapper {
   }
 
   resetColor() {
-    this._jsPlumbConnection.setPaintStyle({
-      strokeStyle: converseHEXinotRGBA(
-        this._relation.getColor(this._definitionContainer)
-      )
-    })
+    this.destroy()
+    this._create()
   }
 
   resetLabel() {
