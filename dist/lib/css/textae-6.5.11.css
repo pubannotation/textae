@@ -2360,8 +2360,8 @@ a.ui-button:active,
 .textae-editor__block-hit-area {
   z-index: 1;
 }
-.textae-editor__relation:hover,
-.textae-editor__relation.hover {
+.textae-editor__relation:hover path:nth-child(1),
+.textae-editor__relation.hover path:nth-child(1) {
   stroke-width: 3;
 }
 .textae-editor__relation__label {
