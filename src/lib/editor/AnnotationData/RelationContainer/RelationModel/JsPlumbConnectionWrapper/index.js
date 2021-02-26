@@ -141,26 +141,6 @@ export default class JsPlumbConnectionWrapper {
     this._jsPlumbConnection.addOverlay(['Arrow', arrowConfig.normal])
   }
 
-  // Re-set arrow because it is disappered when setConnector is called.
-  _resetArrow() {
-    for (const overlay of this._arrowOverlays) {
-      this._resetOverlay(overlay)
-    }
-  }
-
-  _resetOverlay(overlay) {
-    this._jsPlumbConnection.removeOverlay(overlay.id)
-    this._jsPlumbConnection.addOverlay([
-      'Arrow',
-      {
-        id: overlay.id,
-        width: overlay.width,
-        length: overlay.length,
-        location: overlay.loc
-      }
-    ])
-  }
-
   _showBigArrow() {
     if (this._jsPlumbConnection.getOverlay(arrowConfig.hover.id)) {
       return
