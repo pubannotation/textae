@@ -5,18 +5,18 @@ export default class HoverRelation {
   }
 
   on(entityId) {
-    for (const connect of this._getConnectsOf(entityId)) {
-      connect.pointup()
+    for (const relation of this._getRelationsOf(entityId)) {
+      relation.pointup()
     }
   }
 
   off(entityId) {
-    for (const connect of this._getConnectsOf(entityId)) {
-      connect.pointdown()
+    for (const relation of this._getRelationsOf(entityId)) {
+      relation.pointdown()
     }
   }
 
-  _getConnectsOf(entityId) {
+  _getRelationsOf(entityId) {
     // Relationships are rendered asynchronously.
     // You can create a relationship fast
     // by holding down the control or command key
