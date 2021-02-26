@@ -30,21 +30,18 @@ export default class JsPlumbConnectionWrapper {
   }
 
   select() {
-    this.resetColor()
     this._addClass('ui-selected')
     this._removeClass('hover')
     this._showBigArrow()
   }
 
   deselect() {
-    this.resetColor()
     this._removeClass('ui-selected')
     this._hideBigArrow()
   }
 
   pointUp() {
     if (!this._isSelected) {
-      this.resetColor()
       this._addClass('hover')
       this._showBigArrow()
     }
@@ -52,7 +49,6 @@ export default class JsPlumbConnectionWrapper {
 
   pointDown() {
     if (!this._isSelected) {
-      this.resetColor()
       this._removeClass('hover')
       this._hideBigArrow()
     }
