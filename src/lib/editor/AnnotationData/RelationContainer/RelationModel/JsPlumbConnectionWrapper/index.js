@@ -1,5 +1,4 @@
 import arrowConfig from '../../../../arrowConfig'
-import toDisplayName from '../toDisplayName'
 import createJsPlumbConnecttion from './createJsPlumbConnecttion'
 
 export default class JsPlumbConnectionWrapper {
@@ -59,9 +58,8 @@ export default class JsPlumbConnectionWrapper {
   }
 
   resetLabel() {
-    this._labelOverlay.setLabel(
-      toDisplayName(this._relation, this._namespace, this._definitionContainer)
-    )
+    this.destroy()
+    this._create()
   }
 
   resetCurviness() {
