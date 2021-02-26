@@ -34,8 +34,7 @@ export default class JsPlumbConnectionWrapper {
   }
 
   deselect() {
-    this._removeClass('ui-selected')
-    this._hideBigArrow()
+    this.recreate()
   }
 
   pointUp() {
