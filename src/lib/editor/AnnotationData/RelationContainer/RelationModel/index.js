@@ -99,10 +99,6 @@ export default class RelationModel {
     }
   }
 
-  resetCurviness() {
-    this._connect.recreate()
-  }
-
   renderElement(
     jsPlumbInstance,
     editor,

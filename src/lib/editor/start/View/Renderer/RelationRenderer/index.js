@@ -17,7 +17,7 @@ export default class RelationRenderer {
     // A relaiton will be rendered after moving grids.
     for (const relation of this._annotationData.relation.all) {
       if (relation.isRendered) {
-        relation.resetCurviness()
+        relation.renderElementAgain()
       } else {
         // The grid and its endpoints may be destroyed
         // when the spans was moved repetitively by undo or redo.
