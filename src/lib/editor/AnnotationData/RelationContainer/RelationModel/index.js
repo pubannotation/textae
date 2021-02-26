@@ -115,7 +115,7 @@ export default class RelationModel {
         editor.eventEmitter.emit(
           'textae-event.editor.js-plumb-connection.click',
           event,
-          jsPlumbConnection.relation
+          this
         ),
       annotationBox
     )
