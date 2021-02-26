@@ -128,6 +128,11 @@
       path:nth-child(1) {
         stroke-width: 3;
       }
+
+      + .textae-editor__relation__label {
+        opacity: 1;
+        text-shadow: 1px 1px 1px #800;
+      }
     }
   }
 
@@ -139,12 +144,6 @@
     opacity: 0.6;
     white-space: nowrap;
     z-index: 1;
-
-    &:hover,
-    &.hover {
-      opacity: 1;
-      text-shadow: 1px 1px 1px #800;
-    }
   }
 
   &__mode {
