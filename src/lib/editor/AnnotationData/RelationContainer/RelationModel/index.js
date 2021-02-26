@@ -80,6 +80,18 @@ export default class RelationModel {
     }, 150)
   }
 
+  pointup() {
+    if (this.isRendered) {
+      this._connect.pointup()
+    }
+  }
+
+  pointdown() {
+    if (this.isRendered) {
+      this._connect.pointdown()
+    }
+  }
+
   resetCurviness() {
     this._connect.resetCurviness()
   }

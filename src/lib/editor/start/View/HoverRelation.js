@@ -24,9 +24,6 @@ export default class HoverRelation {
     // When you do this, a mouse-out event may occur
     // before the rendering of the relationship is complete.
     // You need to make sure that the relationship has been rendered.
-    return this._entityContainer
-      .get(entityId)
-      .relations.filter((r) => r.isRendered)
-      .map((r) => r.jsPlumbConnection)
+    return this._entityContainer.get(entityId).relations
   }
 }
