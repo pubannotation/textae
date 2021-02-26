@@ -76,6 +76,18 @@ export default class EntityModel {
     )
   }
 
+  pointUpRelations() {
+    for (const relation of this.relations) {
+      relation.pointUp()
+    }
+  }
+
+  pointDownRelations() {
+    for (const relation of this.relations) {
+      relation.pointDown()
+    }
+  }
+
   _toHTMLElementContext(namespace, definitionContainer) {
     return {
       ...{
