@@ -90,20 +90,6 @@ export default class JsPlumbConnectionWrapper {
     )
   }
 
-  get _labelOverlay() {
-    // Find the label overlay by self,
-    // because the function 'getLabelOverlays' returns no label overlay.
-    const labelOverlay = this._jsPlumbConnection.getOverlay(
-      'textae-relation-label'
-    )
-
-    if (!labelOverlay) {
-      throw new Error('no label overlay')
-    }
-
-    return labelOverlay
-  }
-
   _showBigArrow() {
     if (this._jsPlumbConnection.getOverlay(arrowConfig.hover.id)) {
       return
