@@ -5,7 +5,6 @@ import bindClipBoardEvents from './bindClipBoardEvents'
 import bindAnnotaitonPositionEvents from './bindAnnotaitonPositionEvents'
 import Renderer from './Renderer'
 import bindAnnotationDataEvents from './bindAnnotationDataEvents'
-import HoverRelation from './HoverRelation'
 import getEntityHTMLelementFromChild from '../getEntityHTMLelementFromChild'
 
 export default class View {
@@ -27,15 +26,16 @@ export default class View {
     )
     bindAnnotaitonPositionEvents(editor, new CursorChanger(editor))
 
-    const dom = editor[0]
-    const hoverRelation = new HoverRelation(editor, annotationData.entity)
     // Highlight retaitons when related entity is heverd.
-    delegate(dom, '.textae-editor__entity__type-values', 'mouseover', (e) =>
-      hoverRelation.on(getEntityHTMLelementFromChild(e.target).title)
-    )
-    delegate(dom, '.textae-editor__entity__type-values', 'mouseout', (e) =>
-      hoverRelation.off(getEntityHTMLelementFromChild(e.target).title)
-    )
+    const dom = editor[0]
+    delegate(dom, '.textae-editor__entity__type-values', 'mouseover', (e) => {
+      const entityId = getEntityHTMLelementFromChild(e.target).title
+      annotationData.entity.get(entityId).pointUpRelations()
+    })
+    delegate(dom, '.textae-editor__entity__type-values', 'mouseout', (e) => {
+      const entityId = getEntityHTMLelementFromChild(e.target).title
+      annotationData.entity.get(entityId).pointDownRelations()
+    })
   }
 
   updateDisplay() {
