@@ -74,12 +74,10 @@ export default class JsPlumbConnectionWrapper {
 
   _addClass(className) {
     this._jsPlumbConnection.addClass(className)
-    this._labelOverlay.addClass(className)
   }
 
   _removeClass(className) {
     this._jsPlumbConnection.removeClass(className)
-    this._labelOverlay.removeClass(className)
   }
 
   _bind(event, eventHandler) {
