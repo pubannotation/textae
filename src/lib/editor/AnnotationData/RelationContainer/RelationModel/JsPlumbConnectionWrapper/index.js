@@ -106,12 +106,6 @@ export default class JsPlumbConnectionWrapper {
     this._jsPlumbConnection.bind(event, eventHandler)
   }
 
-  get _arrowOverlays() {
-    return this._jsPlumbConnection
-      .getOverlays()
-      .filter((overlay) => overlay.type === 'Arrow')
-  }
-
   get _isSelected() {
     return this._jsPlumbConnection.connector.canvas.classList.contains(
       'ui-selected'
