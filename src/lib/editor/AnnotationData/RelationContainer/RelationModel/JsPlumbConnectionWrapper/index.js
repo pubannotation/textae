@@ -52,17 +52,7 @@ export default class JsPlumbConnectionWrapper {
     }
   }
 
-  resetColor() {
-    this.destroy()
-    this._create()
-  }
-
-  resetLabel() {
-    this.destroy()
-    this._create()
-  }
-
-  resetCurviness() {
+  recreate() {
     this.destroy()
     this._create()
   }

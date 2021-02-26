@@ -100,7 +100,7 @@ export default class RelationModel {
   }
 
   resetCurviness() {
-    this._connect.resetCurviness()
+    this._connect.recreate()
   }
 
   renderElement(
@@ -128,8 +128,7 @@ export default class RelationModel {
   }
 
   renderElementAgain() {
-    this._connect.resetColor()
-    this._connect.resetLabel()
+    this._connect.recreate()
   }
 
   destroyElement() {
