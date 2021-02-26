@@ -9,7 +9,8 @@ export default function (
   relation,
   namespace,
   definitionContainer,
-  arrowConfig
+  arrowConfig,
+  className = ''
 ) {
   const { sourceEndpoint } = relation
   const { targetEndpoint } = relation
@@ -27,7 +28,7 @@ export default function (
     paintStyle: {
       strokeStyle: converseHEXinotRGBA(relation.getColor(definitionContainer))
     },
-    cssClass: 'textae-editor__relation',
+    cssClass: `textae-editor__relation ${className}`,
     overlays: [
       ['Arrow', arrowConfig],
       [
