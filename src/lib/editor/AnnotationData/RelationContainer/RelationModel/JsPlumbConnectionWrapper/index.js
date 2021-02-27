@@ -75,10 +75,6 @@ export default class JsPlumbConnectionWrapper {
     this._jsPlumbConnection.addClass(className)
   }
 
-  _removeClass(className) {
-    this._jsPlumbConnection.removeClass(className)
-  }
-
   _bind(event, eventHandler) {
     this._jsPlumbConnection.bind(event, eventHandler)
   }
@@ -98,14 +94,5 @@ export default class JsPlumbConnectionWrapper {
     // Because an arrow is out of position if hideOverlay and showOverlay is used.
     this._jsPlumbConnection.removeOverlay(arrowConfig.normal.id)
     this._jsPlumbConnection.addOverlay(['Arrow', arrowConfig.hover])
-  }
-
-  _hideBigArrow() {
-    if (this._jsPlumbConnection.getOverlay(arrowConfig.normal.id)) {
-      return
-    }
-
-    this._jsPlumbConnection.removeOverlay(arrowConfig.hover.id)
-    this._jsPlumbConnection.addOverlay(['Arrow', arrowConfig.normal])
   }
 }
