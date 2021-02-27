@@ -38,7 +38,7 @@ export default class JsPlumbConnectionWrapper {
 
   pointUp() {
     if (!this._isSelected) {
-      this._addClass('hover')
+      this._jsPlumbConnection.addClass('hover')
       this._showBigArrow()
     }
   }
@@ -69,10 +69,6 @@ export default class JsPlumbConnectionWrapper {
     this._bind('click', this._onClick)
     this._bind('mouseenter', () => this.pointUp())
     this._bind('mouseexit', () => this.pointDown())
-  }
-
-  _addClass(className) {
-    this._jsPlumbConnection.addClass(className)
   }
 
   _bind(event, eventHandler) {
