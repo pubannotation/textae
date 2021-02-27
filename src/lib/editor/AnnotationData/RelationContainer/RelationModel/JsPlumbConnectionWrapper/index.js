@@ -42,7 +42,11 @@ export default class JsPlumbConnectionWrapper {
     if (!this._isSelected && !this._isHovered) {
       this._isHovered = true
       this._jsPlumbConnection.addClass('hover')
-      this._showBigArrow()
+
+      // Remove a normal arrow and add a new big arrow.
+      // Because an arrow is out of position if hideOverlay and showOverlay is used.
+      this._jsPlumbConnection.removeOverlay(arrowConfig.normal.id)
+      this._jsPlumbConnection.addOverlay(['Arrow', arrowConfig.hover])
     }
   }
 
@@ -77,16 +81,5 @@ export default class JsPlumbConnectionWrapper {
 
   _bind(event, eventHandler) {
     this._jsPlumbConnection.bind(event, eventHandler)
-  }
-
-  _showBigArrow() {
-    if (this._isHovered) {
-      return
-    }
-
-    // Remove a normal arrow and add a new big arrow.
-    // Because an arrow is out of position if hideOverlay and showOverlay is used.
-    this._jsPlumbConnection.removeOverlay(arrowConfig.normal.id)
-    this._jsPlumbConnection.addOverlay(['Arrow', arrowConfig.hover])
   }
 }
