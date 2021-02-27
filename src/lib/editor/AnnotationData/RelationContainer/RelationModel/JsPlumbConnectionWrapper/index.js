@@ -39,7 +39,7 @@ export default class JsPlumbConnectionWrapper {
   }
 
   pointUp() {
-    if (!this._isSelected) {
+    if (!this._isSelected && !this._isHovered) {
       this._isHovered = true
       this._jsPlumbConnection.addClass('hover')
       this._showBigArrow()
