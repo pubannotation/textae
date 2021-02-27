@@ -56,7 +56,7 @@ export default class JsPlumbConnectionWrapper {
   }
 
   // Private APIs
-  _create(arrow, className) {
+  _create(arrow, className = '') {
     this._jsPlumbConnection = createJsPlumbConnecttion(
       this._jsPlumbInstance,
       this._relation,

@@ -10,7 +10,7 @@ export default function (
   namespace,
   definitionContainer,
   arrowConfig,
-  className = ''
+  className
 ) {
   const { sourceEndpoint } = relation
   const { targetEndpoint } = relation
