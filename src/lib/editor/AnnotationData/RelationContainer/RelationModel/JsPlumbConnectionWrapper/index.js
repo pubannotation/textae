@@ -69,13 +69,8 @@ export default class JsPlumbConnectionWrapper {
       className
     )
 
-    // Bind a jsPlumbConnection event.
-    this._bind('click', this._onClick)
-    this._bind('mouseenter', () => this.pointUp())
-    this._bind('mouseexit', () => this.pointDown())
-  }
-
-  _bind(event, eventHandler) {
-    this._jsPlumbConnection.bind(event, eventHandler)
+    this._jsPlumbConnection.bind('click', this._onClick)
+    this._jsPlumbConnection.bind('mouseenter', () => this.pointUp())
+    this._jsPlumbConnection.bind('mouseexit', () => this.pointDown())
   }
 }
