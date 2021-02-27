@@ -45,8 +45,7 @@ export default class JsPlumbConnectionWrapper {
 
   pointDown() {
     if (!this._isSelected) {
-      this._removeClass('hover')
-      this._hideBigArrow()
+      this.recreate()
     }
   }
 
