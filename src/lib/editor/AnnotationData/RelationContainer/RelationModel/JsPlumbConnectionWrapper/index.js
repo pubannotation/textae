@@ -16,7 +16,7 @@ export default class JsPlumbConnectionWrapper {
     this._definitionContainer = definitionContainer
     this._onClick = onClick
 
-    this._create()
+    this._create(arrowConfig.normal)
   }
 
   destroy() {
@@ -29,19 +29,7 @@ export default class JsPlumbConnectionWrapper {
 
   select() {
     this.destroy()
-    this._jsPlumbConnection = createJsPlumbConnecttion(
-      this._jsPlumbInstance,
-      this._relation,
-      this._namespace,
-      this._definitionContainer,
-      arrowConfig.hover,
-      'ui-selected'
-    )
-
-    // Bind a jsPlumbConnection event.
-    this._bind('click', this._onClick)
-    this._bind('mouseenter', () => this.pointUp())
-    this._bind('mouseexit', () => this.pointDown())
+    this._create(arrowConfig.hover, 'ui-selected')
   }
 
   deselect() {
@@ -64,17 +52,18 @@ export default class JsPlumbConnectionWrapper {
 
   recreate() {
     this.destroy()
-    this._create()
+    this._create(arrowConfig.normal)
   }
 
   // Private APIs
-  _create() {
+  _create(arrow, className) {
     this._jsPlumbConnection = createJsPlumbConnecttion(
       this._jsPlumbInstance,
       this._relation,
       this._namespace,
       this._definitionContainer,
-      arrowConfig.normal
+      arrow,
+      className
     )
 
     // Bind a jsPlumbConnection event.
