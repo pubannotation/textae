@@ -82,7 +82,7 @@ export default class JsPlumbConnectionWrapper {
   }
 
   _showBigArrow() {
-    if (this._jsPlumbConnection.getOverlay(arrowConfig.hover.id)) {
+    if (this._jsPlumbConnection.connector.canvas.classList.contains('hover')) {
       return
     }
 
