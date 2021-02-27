@@ -28,11 +28,13 @@ export default class JsPlumbConnectionWrapper {
   }
 
   select() {
+    this._isSelected = true
     this.destroy()
     this._create(arrowConfig.hover, 'ui-selected')
   }
 
   deselect() {
+    this._isSelected = false
     this.recreate()
   }
 
@@ -73,12 +75,6 @@ export default class JsPlumbConnectionWrapper {
 
   _bind(event, eventHandler) {
     this._jsPlumbConnection.bind(event, eventHandler)
-  }
-
-  get _isSelected() {
-    return this._jsPlumbConnection.connector.canvas.classList.contains(
-      'ui-selected'
-    )
   }
 
   _showBigArrow() {
