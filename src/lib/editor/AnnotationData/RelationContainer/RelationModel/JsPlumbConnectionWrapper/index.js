@@ -37,6 +37,8 @@ export default class JsPlumbConnectionWrapper {
   pointUp() {
     if (!this._isSelected && !this._isHovered) {
       this._isHovered = true
+
+      // Click event doesn't fire if jsPlumb connection is recreated on hover.
       this._jsPlumbConnection.addClass('hover')
 
       // Remove a normal arrow and add a new big arrow.
