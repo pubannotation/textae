@@ -28,9 +28,20 @@ export default class JsPlumbConnectionWrapper {
   }
 
   select() {
-    this._addClass('ui-selected')
-    this._removeClass('hover')
-    this._showBigArrow()
+    this.destroy()
+    this._jsPlumbConnection = createJsPlumbConnecttion(
+      this._jsPlumbInstance,
+      this._relation,
+      this._namespace,
+      this._definitionContainer,
+      arrowConfig.hover,
+      'ui-selected'
+    )
+
+    // Bind a jsPlumbConnection event.
+    this._bind('click', this._onClick)
+    this._bind('mouseenter', () => this.pointUp())
+    this._bind('mouseexit', () => this.pointDown())
   }
 
   deselect() {
