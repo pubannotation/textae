@@ -24,14 +24,18 @@ export default class JsPlumbConnectionWrapper {
   }
 
   select() {
-    this._isSelected = true
-    this.destroy()
-    this._create(arrowConfig.hover, 'ui-selected')
+    if (!this._isSelected) {
+      this._isSelected = true
+      this.destroy()
+      this._create(arrowConfig.hover, 'ui-selected')
+    }
   }
 
   deselect() {
-    this._isSelected = false
-    this.recreate()
+    if (this._isSelected) {
+      this._isSelected = false
+      this.recreate()
+    }
   }
 
   pointUp() {
@@ -49,7 +53,7 @@ export default class JsPlumbConnectionWrapper {
   }
 
   pointDown() {
-    if (!this._isSelected) {
+    if (!this._isSelected && this._isHovered) {
       this._isHovered = false
       this.recreate()
     }
