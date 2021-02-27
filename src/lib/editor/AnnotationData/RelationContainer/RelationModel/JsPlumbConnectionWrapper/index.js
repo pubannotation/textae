@@ -23,10 +23,6 @@ export default class JsPlumbConnectionWrapper {
     this._jsPlumbConnection._jsPlumb.instance.detach(this._jsPlumbConnection)
   }
 
-  get relation() {
-    return this._relation
-  }
-
   select() {
     this._isSelected = true
     this.destroy()
