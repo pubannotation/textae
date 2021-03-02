@@ -7,8 +7,7 @@ export default class RelationRenderer {
     this._editor = editor
     this._annotationData = annotationData
     this._selectionModel = selectionModel
-    this._annotationBox = getAnnotationBox(editor)
-    this._jsPlumbInstance = makeJsPlumbInstance(this._annotationBox)
+    this._jsPlumbInstance = makeJsPlumbInstance(getAnnotationBox(editor))
   }
 
   arrangePositionAll() {
@@ -29,8 +28,7 @@ export default class RelationRenderer {
           this._jsPlumbInstance,
           this._editor,
           this._annotationData,
-          this._annotationData.typeDefinition,
-          this._annotationBox
+          this._annotationData.typeDefinition
         )
       }
     }
