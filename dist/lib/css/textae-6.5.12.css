@@ -2364,6 +2364,11 @@ a.ui-button:active,
 .textae-editor__relation.hover path:nth-child(1) {
   stroke-width: 3;
 }
+.textae-editor__relation:hover + .textae-editor__relation__label,
+.textae-editor__relation.hover + .textae-editor__relation__label {
+  opacity: 1;
+  text-shadow: 1px 1px 1px #800;
+}
 .textae-editor__relation__label {
   background-color: yellow;
   display: block;
@@ -2373,21 +2378,10 @@ a.ui-button:active,
   white-space: nowrap;
   z-index: 1;
 }
-.textae-editor__relation__label:hover,
-.textae-editor__relation__label.hover {
-  opacity: 1;
-  text-shadow: 1px 1px 1px #800;
-}
 .textae-editor__mode .disableRelationLabelLink .textae-editor__relation__label a {
   color: black;
   pointer-events: none;
   text-decoration: none;
-}
-.textae-editor__mode .relationBehindText .textae-editor__relation__label {
-  z-index: 0;
-}
-.textae-editor__mode .relationBehindText .textae-editor__relation__label.hover {
-  z-index: 6;
 }
 .textae-editor__mode--view-without-relation .textae-editor__relation,
 .textae-editor__mode--denotation-without-relation .textae-editor__relation,
@@ -2412,8 +2406,8 @@ a.ui-button:active,
 .textae-editor__mode--view-with-relation .textae-editor__relation.hover {
   z-index: 5;
 }
-.textae-editor__mode--view-with-relation .textae-editor__relation__label:hover,
-.textae-editor__mode--view-with-relation .textae-editor__relation__label.hover {
+.textae-editor__mode--view-with-relation .textae-editor__relation:hover + .textae-editor__relation__label,
+.textae-editor__mode--view-with-relation .textae-editor__relation.hover + .textae-editor__relation__label {
   z-index: 6;
 }
 .textae-editor__mode--denotation-with-relation .textae-editor__relation__label a {
@@ -2424,15 +2418,12 @@ a.ui-button:active,
 .textae-editor__mode--denotation-with-relation .textae-editor__relation__label {
   z-index: 0;
 }
-.textae-editor__mode--denotation-with-relation .textae-editor__relation__label.hover {
-  z-index: 6;
-}
 .textae-editor__mode--denotation-with-relation .textae-editor__relation:hover,
 .textae-editor__mode--denotation-with-relation .textae-editor__relation.hover {
   z-index: 5;
 }
-.textae-editor__mode--denotation-with-relation .textae-editor__relation__label:hover,
-.textae-editor__mode--denotation-with-relation .textae-editor__relation__label.hover {
+.textae-editor__mode--denotation-with-relation .textae-editor__relation:hover + .textae-editor__relation__label,
+.textae-editor__mode--denotation-with-relation .textae-editor__relation.hover + .textae-editor__relation__label {
   z-index: 6;
 }
 .textae-editor__mode--block-with-relation .textae-editor__relation__label a {
@@ -2443,15 +2434,12 @@ a.ui-button:active,
 .textae-editor__mode--block-with-relation .textae-editor__relation__label {
   z-index: 0;
 }
-.textae-editor__mode--block-with-relation .textae-editor__relation__label.hover {
-  z-index: 6;
-}
 .textae-editor__mode--block-with-relation .textae-editor__relation:hover,
 .textae-editor__mode--block-with-relation .textae-editor__relation.hover {
   z-index: 5;
 }
-.textae-editor__mode--block-with-relation .textae-editor__relation__label:hover,
-.textae-editor__mode--block-with-relation .textae-editor__relation__label.hover {
+.textae-editor__mode--block-with-relation .textae-editor__relation:hover + .textae-editor__relation__label,
+.textae-editor__mode--block-with-relation .textae-editor__relation.hover + .textae-editor__relation__label {
   z-index: 6;
 }
 .textae-editor__mode--relation .textae-editor__relation__label a {
@@ -2472,15 +2460,15 @@ a.ui-button:active,
 .textae-editor__mode--relation .textae-editor__relation.hover {
   z-index: 1;
 }
-.textae-editor__mode--relation .textae-editor__relation__label:hover,
-.textae-editor__mode--relation .textae-editor__relation__label.hover {
-  z-index: 2;
+.textae-editor__mode--relation .textae-editor__relation:hover + .textae-editor__relation__label,
+.textae-editor__mode--relation .textae-editor__relation.hover + .textae-editor__relation__label {
+  z-index: 6;
 }
 .textae-editor__mode--relation .textae-editor__relation.ui-selected {
   z-index: 1;
   stroke-width: 3;
 }
-.textae-editor__mode--relation .textae-editor__relation__label.ui-selected {
+.textae-editor__mode--relation .textae-editor__relation.ui-selected + .textae-editor__relation__label {
   font-weight: 700;
   opacity: 1;
   z-index: 2;
