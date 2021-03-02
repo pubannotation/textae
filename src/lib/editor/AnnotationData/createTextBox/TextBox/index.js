@@ -37,13 +37,13 @@ export default class TextBox {
     }
   }
 
+  forceUpdate() {
+    updateTextBoxHeight(this._el)
+  }
+
   _resetLineHeight() {
     // The default line height follows the editor's line height.
     const { lineHeight } = window.getComputedStyle(this._editor)
     this.lineHeight = pixelToInt(lineHeight)
-  }
-
-  forceUpdate() {
-    updateTextBoxHeight(this._el)
   }
 }
