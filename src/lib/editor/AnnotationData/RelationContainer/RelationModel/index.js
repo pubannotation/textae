@@ -117,7 +117,7 @@ export default class RelationModel {
           event,
           this
         ),
-      annotationBox
+      editor
     )
 
     this._connect = jsPlumbConnection

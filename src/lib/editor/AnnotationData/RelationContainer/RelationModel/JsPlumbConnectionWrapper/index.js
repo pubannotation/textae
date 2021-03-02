@@ -8,7 +8,7 @@ export default class JsPlumbConnectionWrapper {
     namespace,
     definitionContainer,
     onClick,
-    annotationBox
+    editor
   ) {
     this._jsPlumbInstance = jsPlumbInstance
     this._relation = relation
