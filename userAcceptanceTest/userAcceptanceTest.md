@@ -5569,28 +5569,3 @@
 1.  Relation モードにする
 2.  shift を押しながら Relation を作る
 3.  あとに選んだ Entity と作った Relation が選択される
-
-## Relation モードの背景色
-
-1.  Relation モードにする
-2.  背景が薄ピンク色になること
-
-## Ctrl/Cmd を押して複数選択した要素を編集できる
-
-### 背景
-
-1.  6.0.0 で Modification を廃止しました。
-
-### -- 手段 --
-
-1.  Span を複数選択して Entity をコピー
-2.  Span を複数選択して貼付け
-3.  Span を複数選択して削除
-4.  Entity を複数選択してコピーして、Span に貼りけ
-5.  Entity を複数選択して Type 変更
-6.  Entity を複数選択して Attribute 追加
-7.  Entity を複数選択して Attribute 編集
-8.  Entity を複数選択して Attribute 削除
-9.  Entity を複数選択して削除
-10. Relation を複数選択して Type 変更
-11. Relation を複数選択して削除
