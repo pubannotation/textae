@@ -5,8 +5,8 @@ export default function (editor, annotationData) {
   // to select the text behind the relationship label in entity editing mode.
   const html = `
     <div class="textae-editor__body">
-      <div class="textae-editor__body__annotation-box"></div>
-      <div class="textae-editor__body__text-box"></div>
+      <div class="textae-editor__annotation-box"></div>
+      <div class="textae-editor__text-box"></div>
     </div>
     `
   // The editor itself has a "white-space: pre" style for processing text that contains a series of whitespace.

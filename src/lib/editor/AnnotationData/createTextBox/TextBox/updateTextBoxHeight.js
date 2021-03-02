@@ -1,6 +1,6 @@
 import pixelToInt from './pixelToInt'
 
-// Reduce the space under the .textae-editor__body__text-box same as padding-top.
+// Reduce the space under the .textae-editor__text-box same as padding-top.
 export default function (textBox) {
   const style = window.getComputedStyle(textBox)
 

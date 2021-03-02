@@ -13,9 +13,9 @@ export default function (editor, mouseEventHandler) {
   let afterSpanMouseUpEventFlag = false
 
   listeners.push(
-    delegate(editor[0], '.textae-editor__body__text-box', 'click', (e) => {
+    delegate(editor[0], '.textae-editor__text-box', 'click', (e) => {
       if (
-        e.target.classList.contains('textae-editor__body__text-box') &&
+        e.target.classList.contains('textae-editor__text-box') &&
         !afterSpanMouseUpEventFlag
       ) {
         mouseEventHandler.textBoxClicked(e)

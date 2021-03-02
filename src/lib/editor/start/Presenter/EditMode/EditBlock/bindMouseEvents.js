@@ -4,8 +4,8 @@ export default function (editor, mouseEventHandler) {
   const listeners = []
 
   listeners.push(
-    delegate(editor[0], '.textae-editor__body__text-box', 'click', (e) => {
-      if (e.target.classList.contains('textae-editor__body__text-box')) {
+    delegate(editor[0], '.textae-editor__text-box', 'click', (e) => {
+      if (e.target.classList.contains('textae-editor__text-box')) {
         mouseEventHandler.textBoxClicked(e)
       }
     })

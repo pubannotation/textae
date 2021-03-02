@@ -259,7 +259,7 @@ export default class SpanContainer {
 
   // It has a common interface with the span model so that it can be the parent of the span model
   get element() {
-    return this._editor[0].querySelector(`.textae-editor__body__text-box`)
+    return this._editor[0].querySelector(`.textae-editor__text-box`)
   }
 
   _updateSpanTree() {
