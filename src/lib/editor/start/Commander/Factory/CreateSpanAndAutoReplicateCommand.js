@@ -37,7 +37,7 @@ export default class CreateSpanAndAutoReplicateCommand extends CompositeCommand 
         typeValuesList
       )
     ]
-    this._logMessage = `create a span ${newSpan.begin}:${newSpan.end} with type ${typeValuesList[0].name}`
+    this._logMessage = `create a span ${newSpan.begin}:${newSpan.end} with type ${typeValuesList[0].typeName}`
 
     if (isReplicateAuto && newSpan.end - newSpan.begin <= BLOCK_THRESHOLD) {
       this._subCommands.push(
