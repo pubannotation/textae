@@ -61,7 +61,11 @@ export default class JsPlumbConnectionWrapper {
 
   recreate() {
     this.destroy()
-    this._create(arrowConfig.normal)
+    if (this._isSelected) {
+      this._create(arrowConfig.hover, 'ui-selected')
+    } else {
+      this._create(arrowConfig.normal)
+    }
   }
 
   // Private APIs
