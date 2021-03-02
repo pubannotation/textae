@@ -59,7 +59,7 @@
     {
       "id": "T3",
       "span": {
-        "begin": 162,
+        "begin": "162",
         "end": 165
       },
       "obj": "http://foo.com/blah_blah_(wikipedia)_(again)"
