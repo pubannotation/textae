@@ -7,6 +7,11 @@ export default function (editor, annotationData) {
     <div class="textae-editor__body">
       <div class="textae-editor__annotation-box"></div>
       <div class="textae-editor__text-box"></div>
+      <svg
+        namespace="http://www.w3.org/2000/svg"
+        class="textae-editor__relation-box">
+        <defs></defs>
+      </svg>
     </div>
     `
   // The editor itself has a "white-space: pre" style for processing text that contains a series of whitespace.

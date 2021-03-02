@@ -21,6 +21,7 @@ export default class TextBox {
   set lineHeight(val) {
     setLineHeight(this._el, val)
     updateTextBoxHeight(this._el)
+    this._updateSizeOfRelationBox()
   }
 
   render(text) {
@@ -39,11 +40,20 @@ export default class TextBox {
 
   forceUpdate() {
     updateTextBoxHeight(this._el)
+    this._updateSizeOfRelationBox()
   }
 
   _resetLineHeight() {
     // The default line height follows the editor's line height.
     const { lineHeight } = window.getComputedStyle(this._editor)
     this.lineHeight = pixelToInt(lineHeight)
+  }
+
+  _updateSizeOfRelationBox() {
+    const relationBox = this._editor.querySelector(
+      '.textae-editor__relation-box'
+    )
+    relationBox.style.height = this._el.style.height
+    relationBox.style.width = window.getComputedStyle(this._el).width
   }
 }
