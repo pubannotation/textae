@@ -54,6 +54,9 @@
   &__relation-box {
     position: absolute;
     top: 0;
+    text {
+      font-size: x-small;
+    }
   }
 
   &__footer {
@@ -139,6 +142,10 @@
         text-shadow: 1px 1px 1px #800;
       }
     }
+
+    &--isBold {
+      stroke-width: 3;
+    }
   }
 
   &__relation__label {
@@ -149,6 +156,10 @@
     opacity: 0.6;
     white-space: nowrap;
     z-index: 1;
+
+    &--isBold {
+      font-weight: bold;
+    }
   }
 
   &__mode {
@@ -166,6 +177,10 @@
         height: 0;
         stroke-width: 0;
         width: 0;
+      }
+
+      .textae-editor__relation-box {
+        display: none;
       }
     }
 
@@ -197,6 +212,11 @@
 
     &--view-with-relation {
       .hoverRelation();
+      .textae-editor__relation__label--isLink {
+        cursor: pointer;
+        fill: blue;
+        text-decoration: underline;
+      }
     }
 
     &--denotation-with-relation {
@@ -229,6 +249,13 @@
       .textae-editor__relation__label {
         cursor: pointer;
         z-index: 1;
+      }
+
+      .textae-editor__relation-box {
+        path,
+        text {
+          cursor: pointer;
+        }
       }
 
       .textae-editor__relation:hover,
