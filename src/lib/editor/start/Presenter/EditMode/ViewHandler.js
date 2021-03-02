@@ -9,8 +9,7 @@ export default class ViewHandler {
     const link = relation.getLink(this._namespace, this._denititionContainer)
 
     if (link) {
-      const href = link.getAttribute('href')
-      window.open(href, '_blank')
+      window.open(link, '_blank')
     }
   }
 
