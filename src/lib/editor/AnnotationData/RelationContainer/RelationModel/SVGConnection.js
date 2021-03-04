@@ -160,10 +160,10 @@ export default class SVGConnection {
       this._definitionContainer
     )
     if (link) {
-      label.classList.add('textae-editor__relation__label--isLink')
+      label.classList.add('textae-editor__relation-label--isLink')
     }
     if (isBold) {
-      label.classList.add('textae-editor__relation__label--isBold')
+      label.classList.add('textae-editor__relation-label--isBold')
     }
 
     label.addEventListener('click', (e) =>
