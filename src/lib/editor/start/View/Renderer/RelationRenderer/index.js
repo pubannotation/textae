@@ -32,8 +32,6 @@ export default class RelationRenderer {
         )
       }
     }
-
-    this._jsPlumbInstance.repaintEverything()
   }
 
   reset() {
