@@ -57,15 +57,11 @@ export default class RelationModel {
   }
 
   select() {
-    setTimeout(() => {
-      if (this._connect) this._connect.select()
-    }, 150)
+    if (this._connect) this._connect.select()
   }
 
   deselect() {
-    setTimeout(() => {
-      if (this._connect) this._connect.deselect()
-    }, 150)
+    if (this._connect) this._connect.deselect()
   }
 
   // Relationships are rendered asynchronously.
