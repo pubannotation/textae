@@ -29,7 +29,7 @@
   },
   "devDependencies": {
     "@typescript-eslint/parser": "^4.16.1",
-    "clean-css-cli": "^5.2.0",
+    "clean-css-cli": "^5.2.1",
     "concat": "^1.0.3",
     "connect": "^3.7.0",
     "cpx2": "^3.0.0",
