@@ -34,12 +34,6 @@ export default class RelationRenderer {
     }
 
     this._jsPlumbInstance.repaintEverything()
-
-    for (const selectedRelation of this._selectionModel.relation.all) {
-      if (selectedRelation.isRendered) {
-        selectedRelation.jsPlumbConnection.select()
-      }
-    }
   }
 
   reset() {
