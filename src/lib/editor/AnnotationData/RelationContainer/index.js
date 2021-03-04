@@ -19,4 +19,11 @@ export default class RelationContainer extends IdIssueContainer {
 
     return super.add(this._toModel(newValue))
   }
+
+  clear() {
+    for (const relation of this.all) {
+      relation.destroyElement()
+    }
+    super.clear()
+  }
 }
