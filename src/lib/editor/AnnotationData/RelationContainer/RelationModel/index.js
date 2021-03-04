@@ -56,18 +56,6 @@ export default class RelationModel {
     return this._connect !== undefined
   }
 
-  get jsPlumbConnection() {
-    if (!this._connect) {
-      throw new Error(`no connect for id: ${this._id}`)
-    }
-
-    return this._connect
-  }
-
-  set jsPlumbConnection(val) {
-    this._connect = val
-  }
-
   select() {
     setTimeout(() => {
       if (this._connect) this._connect.select()
