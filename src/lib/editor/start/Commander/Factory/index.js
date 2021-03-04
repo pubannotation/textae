@@ -158,8 +158,6 @@ export default class Factory {
     )
   }
 
-  // The relaitonId is optional set only when revert of the relationRemoveCommand.
-  // Set the css class lately, because jsPlumbConnector is no applyed that css class immediately after create.
   createRelationCommand(relation) {
     return new CreateCommand(
       this._editor,
