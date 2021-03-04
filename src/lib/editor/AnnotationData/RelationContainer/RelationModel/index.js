@@ -100,7 +100,7 @@ export default class RelationModel {
   }
 
   renderElement(jsPlumbInstance, editor, annotationData, typeDefinition) {
-    const jsPlumbConnection = new JsPlumbConnectionWrapper(
+    const connection = new JsPlumbConnectionWrapper(
       jsPlumbInstance,
       this,
       annotationData.namespace,
@@ -114,7 +114,7 @@ export default class RelationModel {
       editor
     )
 
-    this._connect = jsPlumbConnection
+    this._connect = connection
   }
 
   renderElementAgain() {
