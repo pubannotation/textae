@@ -2300,8 +2300,16 @@ a.ui-button:active,
   white-space: pre-wrap;
 }
 .textae-editor__relation-box {
+  pointer-events: none;
   position: absolute;
   top: 0;
+}
+.textae-editor__relation-box path {
+  pointer-events: visiblePainted;
+}
+.textae-editor__relation-box text {
+  font-size: x-small;
+  pointer-events: visiblePainted;
 }
 .textae-editor__footer {
   background: linear-gradient(to left, #ffffff, #ddddff);
@@ -2364,118 +2372,29 @@ a.ui-button:active,
 .textae-editor__block-hit-area {
   z-index: 1;
 }
-.textae-editor__relation:hover path:nth-child(1),
-.textae-editor__relation.hover path:nth-child(1) {
+.textae-editor__relation--isBold {
   stroke-width: 3;
 }
-.textae-editor__relation:hover + .textae-editor__relation__label,
-.textae-editor__relation.hover + .textae-editor__relation__label {
-  opacity: 1;
-  text-shadow: 1px 1px 1px #800;
+.textae-editor__relation-label--isBold {
+  font-weight: bold;
 }
-.textae-editor__relation__label {
-  background-color: yellow;
-  display: block;
-  font-size: x-small;
-  line-height: normal;
-  opacity: 0.6;
-  white-space: nowrap;
-  z-index: 1;
+.textae-editor__mode--view-without-relation .textae-editor__relation-box,
+.textae-editor__mode--denotation-without-relation .textae-editor__relation-box,
+.textae-editor__mode--block-without-relation .textae-editor__relation-box {
+  display: none;
 }
-.textae-editor__mode .disableRelationLabelLink .textae-editor__relation__label a {
-  color: black;
-  pointer-events: none;
-  text-decoration: none;
-}
-.textae-editor__mode--view-without-relation .textae-editor__relation,
-.textae-editor__mode--denotation-without-relation .textae-editor__relation,
-.textae-editor__mode--block-without-relation .textae-editor__relation,
-.textae-editor__mode--view-without-relation .textae-editor__relation__label,
-.textae-editor__mode--denotation-without-relation .textae-editor__relation__label,
-.textae-editor__mode--block-without-relation .textae-editor__relation__label {
-  display: none !important;
-}
-.textae-editor__mode--view-without-relation path,
-.textae-editor__mode--denotation-without-relation path,
-.textae-editor__mode--block-without-relation path,
-.textae-editor__mode--view-without-relation circle,
-.textae-editor__mode--denotation-without-relation circle,
-.textae-editor__mode--block-without-relation circle {
-  fill: none;
-  height: 0;
-  stroke-width: 0;
-  width: 0;
-}
-.textae-editor__mode--view-with-relation .textae-editor__relation:hover,
-.textae-editor__mode--view-with-relation .textae-editor__relation.hover {
-  z-index: 5;
-}
-.textae-editor__mode--view-with-relation .textae-editor__relation:hover + .textae-editor__relation__label,
-.textae-editor__mode--view-with-relation .textae-editor__relation.hover + .textae-editor__relation__label {
-  z-index: 6;
-}
-.textae-editor__mode--denotation-with-relation .textae-editor__relation__label a {
-  color: black;
-  pointer-events: none;
-  text-decoration: none;
-}
-.textae-editor__mode--denotation-with-relation .textae-editor__relation__label {
-  z-index: 0;
-}
-.textae-editor__mode--denotation-with-relation .textae-editor__relation:hover,
-.textae-editor__mode--denotation-with-relation .textae-editor__relation.hover {
-  z-index: 5;
-}
-.textae-editor__mode--denotation-with-relation .textae-editor__relation:hover + .textae-editor__relation__label,
-.textae-editor__mode--denotation-with-relation .textae-editor__relation.hover + .textae-editor__relation__label {
-  z-index: 6;
-}
-.textae-editor__mode--block-with-relation .textae-editor__relation__label a {
-  color: black;
-  pointer-events: none;
-  text-decoration: none;
-}
-.textae-editor__mode--block-with-relation .textae-editor__relation__label {
-  z-index: 0;
-}
-.textae-editor__mode--block-with-relation .textae-editor__relation:hover,
-.textae-editor__mode--block-with-relation .textae-editor__relation.hover {
-  z-index: 5;
-}
-.textae-editor__mode--block-with-relation .textae-editor__relation:hover + .textae-editor__relation__label,
-.textae-editor__mode--block-with-relation .textae-editor__relation.hover + .textae-editor__relation__label {
-  z-index: 6;
-}
-.textae-editor__mode--relation .textae-editor__relation__label a {
-  color: black;
-  pointer-events: none;
-  text-decoration: none;
+.textae-editor__mode--view-with-relation .textae-editor__relation__label-isLink {
+  cursor: pointer;
+  fill: blue;
+  text-decoration: underline;
 }
 .textae-editor__mode--relation .textae-editor__span:hover {
   text-shadow: none;
   padding: 0;
 }
-.textae-editor__mode--relation .textae-editor__relation,
-.textae-editor__mode--relation .textae-editor__relation__label {
+.textae-editor__mode--relation .textae-editor__relation-box path,
+.textae-editor__mode--relation .textae-editor__relation-box text {
   cursor: pointer;
-  z-index: 1;
-}
-.textae-editor__mode--relation .textae-editor__relation:hover,
-.textae-editor__mode--relation .textae-editor__relation.hover {
-  z-index: 1;
-}
-.textae-editor__mode--relation .textae-editor__relation:hover + .textae-editor__relation__label,
-.textae-editor__mode--relation .textae-editor__relation.hover + .textae-editor__relation__label {
-  z-index: 6;
-}
-.textae-editor__mode--relation .textae-editor__relation.ui-selected {
-  z-index: 1;
-  stroke-width: 3;
-}
-.textae-editor__mode--relation .textae-editor__relation.ui-selected + .textae-editor__relation__label {
-  font-weight: 700;
-  opacity: 1;
-  z-index: 2;
 }
 .textae-editor-veil {
   cursor: wait;
@@ -2500,10 +2419,6 @@ a.ui-button:active,
 .textae-editor__style--superscript {
   font-size: smaller;
   vertical-align: super;
-}
-/* relation */
-._jsPlumb_endpoint {
-  visibility: hidden;
 }
 .textae-editor {
   /* denotation without relation mode */
