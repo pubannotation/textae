@@ -52,10 +52,15 @@
   }
 
   &__relation-box {
+    pointer-events: none;
     position: absolute;
     top: 0;
+    path {
+      pointer-events: visiblePainted;
+    }
     text {
       font-size: x-small;
+      pointer-events: visiblePainted;
     }
   }
 
