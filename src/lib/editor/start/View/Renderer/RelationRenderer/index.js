@@ -1,5 +1,3 @@
-import getAnnotationBox from '../../../../getAnnotationBox'
-import makeJsPlumbInstance from './makeJsPlumbInstance'
 import areEndpointsPrepared from './areEndpointsPrepared'
 
 export default class RelationRenderer {
@@ -7,7 +5,6 @@ export default class RelationRenderer {
     this._editor = editor
     this._annotationData = annotationData
     this._selectionModel = selectionModel
-    this._jsPlumbInstance = makeJsPlumbInstance(getAnnotationBox(editor))
   }
 
   arrangePositionAll() {
@@ -25,7 +22,6 @@ export default class RelationRenderer {
         }
 
         relation.renderElement(
-          this._jsPlumbInstance,
           this._editor,
           this._annotationData,
           this._annotationData.typeDefinition

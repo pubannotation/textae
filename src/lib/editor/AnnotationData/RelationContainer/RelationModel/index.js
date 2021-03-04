@@ -99,7 +99,7 @@ export default class RelationModel {
     }
   }
 
-  renderElement(jsPlumbInstance, editor, annotationData, typeDefinition) {
+  renderElement(editor, annotationData, typeDefinition) {
     const connection = new SVGConnection(
       this,
       annotationData.namespace,
