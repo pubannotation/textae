@@ -35,7 +35,7 @@ export default class EditDenotationHandler extends DefaultHandler {
 
   relationClicked(event) {
     // Do not open link when term mode or simple mode.
-    event.originalEvent.preventDefault()
+    event.preventDefault()
   }
 
   manipulateAttribute(number, shiftKey) {

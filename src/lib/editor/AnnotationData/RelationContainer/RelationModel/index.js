@@ -94,7 +94,7 @@ export default class RelationModel {
           event,
           this
         )
-        event.originalEvent.stopPropagation()
+        event.stopPropagation()
       },
       editor
     )

@@ -19,7 +19,7 @@ export default class EditHandler extends DefaultHandler {
   }
 
   relationClicked(event, relation) {
-    if (event.originalEvent.ctrlKey || event.originalEvent.metaKey) {
+    if (event.ctrlKey || event.metaKey) {
       this._selectionModel.relation.add(relation.id)
     } else {
       this._selectionModel.selectRelation(relation.id)
