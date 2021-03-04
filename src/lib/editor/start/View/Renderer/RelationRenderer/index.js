@@ -30,12 +30,6 @@ export default class RelationRenderer {
     }
   }
 
-  reset() {
-    for (const relation of this._annotationData.relation.all) {
-      relation.destroyElement()
-    }
-  }
-
   change(relation) {
     relation.renderElementAgain()
   }

@@ -12,7 +12,6 @@ export default function (
   editor.eventEmitter
     .on('textae-event.annotation-data.all.change', () => {
       renderAllAnnotations(editor, annotationData, spanRenderer)
-      relationRenderer.reset()
     })
     .on('textae-event.annotation-data.span.add', (span) =>
       spanRenderer.render(span)
