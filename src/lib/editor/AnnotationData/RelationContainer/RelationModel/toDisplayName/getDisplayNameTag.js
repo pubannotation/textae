@@ -9,7 +9,5 @@ export default function (namespace, definitionContainer, value) {
     definitionContainer.getLabel(value)
   )
   const href = getUri(namespace, value, definitionContainer.getUri(value))
-  return href
-    ? eskape`<a target="_blank" href="${href}">${displayName}</a>`
-    : eskape`${displayName}`
+  return href ? eskape`<a href="#">${displayName}</a>` : eskape`${displayName}`
 }
