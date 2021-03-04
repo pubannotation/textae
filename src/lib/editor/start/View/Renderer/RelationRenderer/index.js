@@ -35,7 +35,9 @@ export default class RelationRenderer {
   }
 
   reset() {
-    this._jsPlumbInstance.reset()
+    for (const relation of this._annotationData.relation.all) {
+      relation.destroyElement()
+    }
   }
 
   change(relation) {
