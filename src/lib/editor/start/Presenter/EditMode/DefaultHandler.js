@@ -54,6 +54,8 @@ export default class DefaultHandler {
     )
   }
 
+  relationClicked() {}
+
   _labelChanged({ typeName, label, attributes = [] }) {
     const commands = this._commander.factory.changeItemTypeCommand(
       label,

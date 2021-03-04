@@ -33,11 +33,6 @@ export default class EditBlockHandler extends DefaultHandler {
     }
   }
 
-  relationClicked(event) {
-    // Do not open link when term mode or simple mode.
-    event.preventDefault()
-  }
-
   manipulateAttribute(number, shiftKey) {
     if (shiftKey) {
       this._attributeEditor.deleteAt(number)
