@@ -1,5 +1,3 @@
-import areEndpointsPrepared from './areEndpointsPrepared'
-
 export default class RelationRenderer {
   constructor(editor, annotationData, selectionModel) {
     this._editor = editor
@@ -7,26 +5,17 @@ export default class RelationRenderer {
     this._selectionModel = selectionModel
   }
 
-  arrangePositionAll() {
-    // The jsPlumb error occurs when a relation between same points.
-    // And entities of same length spans was same point before moving grids.
-    // A relaiton will be rendered after moving grids.
-    for (const relation of this._annotationData.relation.all) {
-      if (relation.isRendered) {
-        relation.renderElementAgain()
-      } else {
-        // The grid and its endpoints may be destroyed
-        // when the spans was moved repetitively by undo or redo.
-        if (!areEndpointsPrepared(this._annotationData, relation.id)) {
-          return
-        }
+  render(relation) {
+    relation.renderElement(
+      this._editor,
+      this._annotationData,
+      this._annotationData.typeDefinition
+    )
+  }
 
-        relation.renderElement(
-          this._editor,
-          this._annotationData,
-          this._annotationData.typeDefinition
-        )
-      }
+  arrangePositionAll() {
+    for (const relation of this._annotationData.relation.all) {
+      relation.renderElementAgain()
     }
   }
 
