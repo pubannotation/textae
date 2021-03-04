@@ -131,87 +131,27 @@
 
   /* relation */
   &__relation {
-    &:hover,
-    &.hover {
-      path:nth-child(1) {
-        stroke-width: 3;
-      }
-
-      + .textae-editor__relation__label {
-        opacity: 1;
-        text-shadow: 1px 1px 1px #800;
-      }
-    }
-
     &--isBold {
       stroke-width: 3;
     }
   }
 
   &__relation__label {
-    background-color: yellow;
-    display: block;
-    font-size: x-small;
-    line-height: normal;
-    opacity: 0.6;
-    white-space: nowrap;
-    z-index: 1;
-
     &--isBold {
       font-weight: bold;
     }
   }
 
   &__mode {
-    .hideRelation() {
-      .textae-editor {
-        &__relation,
-        &__relation__label {
-          display: none !important;
-        }
-      }
-
-      path,
-      circle {
-        fill: none;
-        height: 0;
-        stroke-width: 0;
-        width: 0;
-      }
-
+    &--view-without-relation,
+    &--denotation-without-relation,
+    &--block-without-relation {
       .textae-editor__relation-box {
         display: none;
       }
     }
 
-    .hoverRelation () {
-      .textae-editor {
-        &__relation:hover,
-        &__relation.hover {
-          z-index: 5;
-          & + .textae-editor__relation__label {
-            z-index: 6;
-          }
-        }
-      }
-    }
-
-    .disableRelationLabelLink {
-      .textae-editor__relation__label a {
-        color: black;
-        pointer-events: none;
-        text-decoration: none;
-      }
-    }
-
-    &--view-without-relation,
-    &--denotation-without-relation,
-    &--block-without-relation {
-      .hideRelation();
-    }
-
     &--view-with-relation {
-      .hoverRelation();
       .textae-editor__relation__label--isLink {
         cursor: pointer;
         fill: blue;
@@ -219,60 +159,16 @@
       }
     }
 
-    &--denotation-with-relation {
-      .disableRelationLabelLink();
-      // Allow selection of text after relation labels in entity edit mode.
-      .textae-editor__relation__label {
-        z-index: 0;
-      }
-      .hoverRelation();
-    }
-
-    &--block-with-relation {
-      .disableRelationLabelLink();
-      // Allow selection of text after relation labels in entity edit mode.
-      .textae-editor__relation__label {
-        z-index: 0;
-      }
-      .hoverRelation();
-    }
-
     &--relation {
-      .disableRelationLabelLink();
-
       .textae-editor__span:hover {
         text-shadow: none;
         padding: 0;
-      }
-
-      .textae-editor__relation,
-      .textae-editor__relation__label {
-        cursor: pointer;
-        z-index: 1;
       }
 
       .textae-editor__relation-box {
         path,
         text {
           cursor: pointer;
-        }
-      }
-
-      .textae-editor__relation:hover,
-      .textae-editor__relation.hover {
-        z-index: 1;
-        & + .textae-editor__relation__label {
-          z-index: 6;
-        }
-      }
-
-      .textae-editor__relation.ui-selected {
-        z-index: 1;
-        stroke-width: 3;
-        & + .textae-editor__relation__label {
-          font-weight: 700;
-          opacity: 1;
-          z-index: 2;
         }
       }
     }
