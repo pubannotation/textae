@@ -1,4 +1,4 @@
-import toAnchorElement from '../../../../toAnchorElement'
+import eskape from 'eskape'
 import getDisplayName from '../../../../getDisplayName'
 import getUri from '../../../../getUri'
 
@@ -9,5 +9,7 @@ export default function (namespace, definitionContainer, value) {
     definitionContainer.getLabel(value)
   )
   const href = getUri(namespace, value, definitionContainer.getUri(value))
-  return toAnchorElement(displayName, href)
+  return href
+    ? eskape`<a target="_blank" href="${href}">${displayName}</a>`
+    : eskape`${displayName}`
 }
