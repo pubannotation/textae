@@ -1,4 +1,4 @@
-import getAnnotationBox from '../../getAnnotationBox'
+import getAnnotationBox from '../../../../../getAnnotationBox'
 
 // Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
 export default function (editor, span, entityRenderer) {

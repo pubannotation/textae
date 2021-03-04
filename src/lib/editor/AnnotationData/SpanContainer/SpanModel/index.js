@@ -3,7 +3,7 @@ import { makeDenotationSpanHTMLElementId } from '../../../idFactory'
 import createGridHtml from './createGridHtml'
 import getBigBrotherSpan from './getBigBrotherSpan'
 import updateGridPosition from './updateGridPosition'
-import getAnnotationBox from '../../../start/View/Renderer/getAnnotationBox'
+import getAnnotationBox from '../../../getAnnotationBox'
 import getRightGrid from './getRightGrid'
 import createRangeToSpan from '../createRangeToSpan'
 

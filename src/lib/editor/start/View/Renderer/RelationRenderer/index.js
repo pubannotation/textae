@@ -1,4 +1,4 @@
-import getAnnotationBox from '../getAnnotationBox'
+import getAnnotationBox from '../../../../getAnnotationBox'
 import makeJsPlumbInstance from './makeJsPlumbInstance'
 import areEndpointsPrepared from './areEndpointsPrepared'
 

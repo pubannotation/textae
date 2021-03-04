@@ -1,4 +1,4 @@
-import getAnnotationBox from '../../getAnnotationBox'
+import getAnnotationBox from '../../../../../getAnnotationBox'
 import renderAllSpan from './renderAllSpan'
 
 export default function (editor, annotationData, spanRenderer) {
