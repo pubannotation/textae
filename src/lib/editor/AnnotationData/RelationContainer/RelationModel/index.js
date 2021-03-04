@@ -1,6 +1,6 @@
 import getUri from '../../../getUri'
 import getEntityEndpoint from './getEntityEndpoint'
-import JsPlumbConnectionWrapper from './JsPlumbConnectionWrapper'
+import SVGConnection from './SVGConnection'
 
 export default class RelationModel {
   constructor(editor, { id, pred, subj, obj }) {
@@ -100,8 +100,7 @@ export default class RelationModel {
   }
 
   renderElement(jsPlumbInstance, editor, annotationData, typeDefinition) {
-    const connection = new JsPlumbConnectionWrapper(
-      jsPlumbInstance,
+    const connection = new SVGConnection(
       this,
       annotationData.namespace,
       typeDefinition.relation,
