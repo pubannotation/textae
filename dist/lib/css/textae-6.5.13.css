@@ -2292,12 +2292,16 @@ a.ui-button:active,
   position: relative;
   white-space: normal;
 }
-.textae-editor__body__text-box {
+.textae-editor__text-box {
   overflow: hidden;
   position: relative;
   padding-left: 16px;
   padding-right: 108px;
   white-space: pre-wrap;
+}
+.textae-editor__relation-box {
+  position: absolute;
+  top: 0;
 }
 .textae-editor__footer {
   background: linear-gradient(to left, #ffffff, #ddddff);
