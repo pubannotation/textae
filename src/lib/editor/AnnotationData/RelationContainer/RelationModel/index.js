@@ -88,12 +88,14 @@ export default class RelationModel {
       this,
       annotationData.namespace,
       typeDefinition.relation,
-      (_, event) =>
+      (_, event) => {
         editor.eventEmitter.emit(
           'textae-event.editor.js-plumb-connection.click',
           event,
           this
-        ),
+        )
+        event.originalEvent.stopPropagation()
+      },
       editor
     )
 
