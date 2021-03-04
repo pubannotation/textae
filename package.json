@@ -92,7 +92,7 @@
     "dist:clean": "rimraf dist/* src/lib/bundle.js",
     "dist:cleancss": "cleancss -o dist/lib/css/$npm_package_name-$npm_package_version.min.css dist/lib/css/$npm_package_name-$npm_package_version.css",
     "dist:concat:css": "mkdirp dist/lib/css & concat -o dist/lib/css/$npm_package_name-$npm_package_version.css src/lib/css/textae.css",
-    "dist:concat:js": "mkdirp dist/lib & concat -o dist/lib/$npm_package_name-$npm_package_version.min.js node_modules/jquery/dist/jquery.min.js src/lib/modules/jquery.jsPlumb-1.5.5-min.js src/lib/bundle.js",
+    "dist:concat:js": "mkdirp dist/lib & concat -o dist/lib/$npm_package_name-$npm_package_version.min.js node_modules/jquery/dist/jquery.min.js src/lib/bundle.js",
     "dist:copy": "npm-run-all -p dist:copy:**",
     "dist:copy:app": "cpx src/app/editor.html dist",
     "dist:copy:demo": "cpx 'src/demo/**' dist/demo",
