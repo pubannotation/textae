@@ -3,8 +3,4 @@ npm-debug.log
 *.dev_data.json
 dev/bundle.js
 src/lib/textae-*.min.js
-src/lib/css/textae.css
-src/lib/css/textae-control.css
-src/lib/css/textae-editor.css
-src/lib/css/textae-editor-dialog.css
-src/lib/css/textae-editor-type-pallet.css
+src/lib/css/textae*.css
