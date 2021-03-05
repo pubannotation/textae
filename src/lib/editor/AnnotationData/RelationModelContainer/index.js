@@ -33,6 +33,12 @@ export default class RelationModelContainer extends IdIssueContainer {
     return super.add(newValue)
   }
 
+  changeType(id, newType) {
+    const relation = super.changeType(id, newType)
+    relation.renderElementAgain()
+    return relation
+  }
+
   clear() {
     for (const relation of this.all) {
       relation.destroyElement()
