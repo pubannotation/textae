@@ -1,7 +1,5 @@
-import doesSpanHasNoEntity from './doesSpanHasNoEntity'
-
 export default function (entity) {
-  if (doesSpanHasNoEntity(entity.span)) {
+  if (entity.span.entities.length === 0) {
     // Destroy a grid when all entities are remove.
     entity.span.destroyGridElement()
   } else {
