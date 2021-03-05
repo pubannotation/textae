@@ -1,7 +1,8 @@
 import getAnnotationBox from '../../../../../getAnnotationBox'
-import renderAllSpan from './renderAllSpan'
 
 export default function (editor, annotationData, spanRenderer) {
   getAnnotationBox(editor).innerHTML = ''
-  renderAllSpan(annotationData, spanRenderer)
+  for (const span of annotationData.span.topLevel) {
+    spanRenderer.render(span)
+  }
 }
