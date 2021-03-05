@@ -16,17 +16,14 @@ export default class EntityRenderer {
     const grid = entity.span.gridElement || entity.span.renderGridElement()
 
     // Append a new entity to the type
-    const element = entity.renderElement(this._annotationData.namespace)
+    const element = entity.renderElement()
     grid.insertAdjacentElement('beforeend', element)
 
     entity.reflectEntityGapInTheHeight()
   }
 
   change(entity) {
-    entity.updateElement(
-      this._annotationData.namespace,
-      this._selectionModel.entity.has(entity.id)
-    )
+    entity.updateElement(this._selectionModel.entity.has(entity.id))
 
     entity.reflectEntityGapInTheHeight()
   }

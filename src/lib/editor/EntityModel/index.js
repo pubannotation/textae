@@ -13,6 +13,7 @@ export default class EntityModel {
     typeDefinition,
     span,
     typeName,
+    namespace,
     id = null
   ) {
     this._editor = editor
@@ -23,6 +24,7 @@ export default class EntityModel {
     this._relationContaier = relationContaier
     this._entityGap = entityGap
     this._typeDefinition = typeDefinition
+    this._namespace = namespace
   }
 
   get id() {
@@ -153,17 +155,17 @@ export default class EntityModel {
     this.element.classList.remove(SELECTED)
   }
 
-  renderElement(namespace) {
+  renderElement() {
     const context = this._toHTMLElementContext(
-      namespace,
+      this._namespace,
       this._definitionContainerFor,
       this._typeDefinition.attribute
     )
     return createEntityHTMLElement(context)
   }
 
-  updateElement(namespace, isSelected) {
-    const element = this.renderElement(namespace)
+  updateElement(isSelected) {
+    const element = this.renderElement()
     this.element.replaceWith(element)
 
     // Re-select a new entity element.

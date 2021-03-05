@@ -6,7 +6,7 @@ import {
 import IdIssueContainer from './IdIssueContainer'
 
 export default class EntityModelContainer extends IdIssueContainer {
-  constructor(editor, emitter, parentContainer, entityGap) {
+  constructor(editor, emitter, parentContainer, entityGap, namespace) {
     super(emitter, 'entity', 'T')
 
     this._editor = editor
@@ -16,6 +16,7 @@ export default class EntityModelContainer extends IdIssueContainer {
     this._parentContainer = parentContainer
 
     this._entityGap = entityGap
+    this._namespace = namespace
   }
 
   get _spanContainer() {
@@ -40,6 +41,7 @@ export default class EntityModelContainer extends IdIssueContainer {
       this._parentContainer.typeDefinition,
       this._getSpan(type, denotation),
       denotation.obj,
+      this._namespace,
       denotation.id
     )
   }
@@ -61,7 +63,8 @@ export default class EntityModelContainer extends IdIssueContainer {
         this._entityGap,
         this._parentContainer.typeDefinition,
         this._spanContainer.get(newValue.span),
-        newValue.typeName
+        newValue.typeName,
+        this._namespace
       )
     )
   }

@@ -37,7 +37,8 @@ export default class AnnotationData {
       editor,
       editor.eventEmitter,
       this,
-      this._entityGap
+      this._entityGap,
+      this.namespace
     )
     this.attribute = new AttributeModelContainer(
       editor.eventEmitter,
