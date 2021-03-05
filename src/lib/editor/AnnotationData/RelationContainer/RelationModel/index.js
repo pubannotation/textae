@@ -90,7 +90,7 @@ export default class RelationModel {
       typeDefinition.relation,
       (_, event) => {
         editor.eventEmitter.emit(
-          'textae-event.editor.js-plumb-connection.click',
+          'textae-event.editor.relation.click',
           event,
           this
         )
