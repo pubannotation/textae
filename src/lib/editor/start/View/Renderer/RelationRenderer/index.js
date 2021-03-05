@@ -3,10 +3,6 @@ export default class RelationRenderer {
     this._annotationDataRelation = annotationDataRelation
   }
 
-  change(relation) {
-    relation.renderElementAgain()
-  }
-
   changeType(typeName) {
     for (const relation of this._annotationDataRelation.all) {
       // If the type name ends in a wildcard, look for the DOMs to update with a forward match.

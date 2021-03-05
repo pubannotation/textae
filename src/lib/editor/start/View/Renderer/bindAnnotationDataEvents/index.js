@@ -42,7 +42,7 @@ export default function (
       relation.renderElement()
     })
     .on('textae-event.annotation-data.relation.change', (relation) => {
-      relationRenderer.change(relation)
+      relation.renderElementAgain()
     })
     .on('textae-event.annotation-data.relation.remove', (relation) => {
       relationRenderer.remove(relation)
