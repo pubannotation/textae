@@ -88,7 +88,7 @@ export default class RelationModel {
       this,
       annotationData.namespace,
       typeDefinition.relation,
-      (_, event) => {
+      (event) => {
         editor.eventEmitter.emit(
           'textae-event.editor.relation.click',
           event,

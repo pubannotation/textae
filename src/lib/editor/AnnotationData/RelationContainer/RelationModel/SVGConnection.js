@@ -115,7 +115,7 @@ export default class SVGConnection {
     }
     svg.appendChild(path)
 
-    path.addEventListener('click', (e) => this._onClick(null, e))
+    path.addEventListener('click', this._onClick)
     path.addEventListener('mouseenter', () => this.pointUp())
     path.addEventListener('mouseleave', () => this.pointDown())
     this._path = path
@@ -164,7 +164,7 @@ export default class SVGConnection {
       label.classList.add('textae-editor__relation-label--isBold')
     }
 
-    label.addEventListener('click', (e) => this._onClick(null, e))
+    label.addEventListener('click', this._onClick)
     this._label = label
 
     const labelBackground = document.createElementNS(NS.SVG, 'rect')
