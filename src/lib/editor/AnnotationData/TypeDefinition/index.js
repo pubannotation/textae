@@ -1,6 +1,6 @@
 import Observable from 'observ'
 import DefinitionContainer from './DefinitionContainer'
-import AttributeContainer from './AttributeContainer'
+import AttributeDefinitionContainer from './AttributeDefinitionContainer'
 
 export default class TypeDefinition {
   constructor(editor, entity, relation, attribute) {
@@ -23,7 +23,10 @@ export default class TypeDefinition {
       () => relation.all,
       '#555555'
     )
-    this._attributeContainer = new AttributeContainer(this._editor, attribute)
+    this._attributeContainer = new AttributeDefinitionContainer(
+      this._editor,
+      attribute
+    )
 
     this._lockStateObservable = new Observable(false)
     this._lockStateObservable(() =>
