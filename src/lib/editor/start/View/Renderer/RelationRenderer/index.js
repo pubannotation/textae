@@ -1,11 +1,10 @@
 export default class RelationRenderer {
-  constructor(editor, annotationData) {
-    this._editor = editor
+  constructor(annotationData) {
     this._annotationData = annotationData
   }
 
   render(relation) {
-    relation.renderElement(this._editor)
+    relation.renderElement()
   }
 
   arrangePositionAll() {
