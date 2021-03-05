@@ -24,7 +24,6 @@
     "lodash.escape": "^4.0.1",
     "observ": "^0.2.0",
     "path-browserify": "^1.0.1",
-    "sticky-kit": "github:leafo/sticky-kit",
     "throttleit": "^1.0.0"
   },
   "devDependencies": {
