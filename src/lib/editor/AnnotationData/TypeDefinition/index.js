@@ -1,32 +1,12 @@
 import Observable from 'observ'
-import DefinitionContainer from './DefinitionContainer'
-import AttributeDefinitionContainer from './AttributeDefinitionContainer'
 
 export default class TypeDefinition {
-  constructor(editor, entity, relation, attribute) {
+  constructor(editor, denotation, block, relation, attribute) {
     this._editor = editor
-    this._denotationContainer = new DefinitionContainer(
-      editor,
-      'entity',
-      () => entity.denotations,
-      '#77DDDD'
-    )
-    this._blockContainer = new DefinitionContainer(
-      editor,
-      'entity',
-      () => entity.blocks,
-      '#77DDDD'
-    )
-    this._relationContainer = new DefinitionContainer(
-      editor,
-      'relation',
-      () => relation.all,
-      '#555555'
-    )
-    this._attributeContainer = new AttributeDefinitionContainer(
-      this._editor,
-      attribute
-    )
+    this._denotationContainer = denotation
+    this._blockContainer = block
+    this._relationContainer = relation
+    this._attributeContainer = attribute
 
     this._lockStateObservable = new Observable(false)
     this._lockStateObservable(() =>

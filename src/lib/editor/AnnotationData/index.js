@@ -13,6 +13,8 @@ import getReplicationRanges from './getReplicationRanges'
 import EntityGap from './EntityGap'
 import createTextBox from './createTextBox'
 import TypeDefinition from './TypeDefinition'
+import DefinitionContainer from './TypeDefinition/DefinitionContainer'
+import AttributeDefinitionContainer from './TypeDefinition/AttributeDefinitionContainer'
 
 export default class AnnotationData {
   constructor(editor) {
@@ -36,11 +38,35 @@ export default class AnnotationData {
       this._entityGap
     )
     this._editor = editor
-    this._typeDefinition = new TypeDefinition(
-      this._editor,
-      this.entity,
-      this.relation,
+
+    const denotationDefinitionContainer = new DefinitionContainer(
+      editor,
+      'entity',
+      () => this.entity.denotations,
+      '#77DDDD'
+    )
+    const blockDefinitionContainer = new DefinitionContainer(
+      editor,
+      'entity',
+      () => this.entity.blocks,
+      '#77DDDD'
+    )
+    const relationDefinitionContainer = new DefinitionContainer(
+      editor,
+      'relation',
+      () => this.relation.all,
+      '#555555'
+    )
+    const attributeDefinitionContainer = new AttributeDefinitionContainer(
+      editor,
       this.attribute
+    )
+    this._typeDefinition = new TypeDefinition(
+      editor,
+      denotationDefinitionContainer,
+      blockDefinitionContainer,
+      relationDefinitionContainer,
+      attributeDefinitionContainer
     )
   }
 
