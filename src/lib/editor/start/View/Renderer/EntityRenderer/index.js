@@ -1,5 +1,3 @@
-import destroy from './destroy'
-
 export default class EntityRenderer {
   constructor(annotationData, selectionModel) {
     this._annotationData = annotationData
@@ -34,7 +32,13 @@ export default class EntityRenderer {
   }
 
   remove(entity) {
-    destroy(entity)
+    if (entity.span.entities.length === 0) {
+      // Destroy a grid when all entities are remove.
+      entity.span.destroyGridElement()
+    } else {
+      // Destroy whole of type DOM.
+      entity.destroyElement()
+    }
   }
 
   updateEntityHtmlelement(typeName) {
