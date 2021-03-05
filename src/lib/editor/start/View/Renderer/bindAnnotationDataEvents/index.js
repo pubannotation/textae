@@ -13,7 +13,7 @@ export default function (
     .on('textae-event.annotation-data.all.change', () => {
       renderAllAnnotations(editor, annotationData, spanRenderer)
       for (const relation of annotationData.relation.all) {
-        relationRenderer.render(relation)
+        relation.renderElement()
       }
     })
     .on('textae-event.annotation-data.span.add', (span) =>
@@ -39,7 +39,7 @@ export default function (
       }
     })
     .on('textae-event.annotation-data.relation.add', (relation) => {
-      relationRenderer.render(relation)
+      relation.renderElement()
     })
     .on('textae-event.annotation-data.relation.change', (relation) => {
       relationRenderer.change(relation)
