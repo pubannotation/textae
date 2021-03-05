@@ -5,7 +5,7 @@ import {
 } from '../idFactory'
 import IdIssueContainer from './IdIssueContainer'
 
-export default class EntityContainer extends IdIssueContainer {
+export default class EntityModelContainer extends IdIssueContainer {
   constructor(editor, emitter, parentContainer, entityGap) {
     super(emitter, 'entity', 'T')
 
