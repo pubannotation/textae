@@ -1,12 +1,7 @@
 import renderAllAnnotations from './renderAllAnnotations'
 import SpanRenderer from './SpanRenderer'
 
-export default function (
-  annotationData,
-  editor,
-  relationRenderer,
-  entityRenderer
-) {
+export default function (annotationData, editor, entityRenderer) {
   const spanRenderer = new SpanRenderer(editor, entityRenderer)
 
   editor.eventEmitter

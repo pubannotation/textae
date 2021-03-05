@@ -1,19 +1,12 @@
 import EntityRenderer from './EntityRenderer'
 import bindAnnotationDataEvents from './bindAnnotationDataEvents'
-import RelationRenderer from './RelationRenderer'
 
 export default class Renderer {
   constructor(editor, annotationData, selectionModel) {
     this._annotationData = annotationData
     const entityRenderer = new EntityRenderer(annotationData, selectionModel)
-    this._relationRenderer = new RelationRenderer(annotationData.relation)
 
-    bindAnnotationDataEvents(
-      annotationData,
-      editor,
-      this._relationRenderer,
-      entityRenderer
-    )
+    bindAnnotationDataEvents(annotationData, editor, entityRenderer)
 
     editor.eventEmitter
       .on('textae-event.type-definition.entity.change', (typeName) =>
