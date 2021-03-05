@@ -83,11 +83,11 @@ export default class RelationModel {
     }
   }
 
-  renderElement(editor, annotationData, typeDefinition) {
+  renderElement(editor, namespace, definitionContainer) {
     const connection = new SVGConnection(
       this,
-      annotationData.namespace,
-      typeDefinition.relation,
+      namespace,
+      definitionContainer,
       (event) => {
         editor.eventEmitter.emit(
           'textae-event.editor.relation.click',

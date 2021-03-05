@@ -7,8 +7,8 @@ export default class RelationRenderer {
   render(relation) {
     relation.renderElement(
       this._editor,
-      this._annotationData,
-      this._annotationData.typeDefinition
+      this._annotationData.namespace,
+      this._annotationData.typeDefinition.relation
     )
   }
 
