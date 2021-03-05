@@ -1,6 +1,6 @@
 import ModelContainer from './ModelContainer'
 import SpanModelContainer from './SpanModelContainer'
-import AttributeContainer from './AttributeContainer'
+import AttributeModelContainer from './AttributeModelContainer'
 import RelationModelContainer from './RelationModelContainer'
 import EntityModelContainer from './EntityModelContainer'
 import parseAnnotation from './parseAnnotation'
@@ -28,7 +28,10 @@ export default class AnnotationData {
       this,
       this._entityGap
     )
-    this.attribute = new AttributeContainer(editor.eventEmitter, this.entity)
+    this.attribute = new AttributeModelContainer(
+      editor.eventEmitter,
+      this.entity
+    )
     this._textBox = createTextBox(editor, this)
     this.span = new SpanModelContainer(
       editor,

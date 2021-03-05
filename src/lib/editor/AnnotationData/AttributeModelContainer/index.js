@@ -1,7 +1,7 @@
 import AttributeModel from './AttributeModel'
 import IdIssueContainer from '../IdIssueContainer'
 
-export default class AttributeContainer extends IdIssueContainer {
+export default class AttributeModelContainer extends IdIssueContainer {
   constructor(emitter, entityContainer) {
     super(emitter, 'attribute', 'A')
 
