@@ -1,5 +1,4 @@
 import EntityRenderer from './EntityRenderer'
-import bindTypeDefinitionEvents from './bindTypeDefinitionEvents'
 import bindAnnotationDataEvents from './bindAnnotationDataEvents'
 import RelationRenderer from './RelationRenderer'
 
@@ -16,7 +15,19 @@ export default class Renderer {
       entityRenderer
     )
 
-    bindTypeDefinitionEvents(editor, entityRenderer, this._relationRenderer)
+    editor.eventEmitter
+      .on('textae-event.type-definition.entity.change', (typeName) =>
+        entityRenderer.updateEntityHtmlelement(typeName)
+      )
+      .on('textae-event.type-definition.attribute.change', (pred) =>
+        entityRenderer.updateAttribute(pred)
+      )
+      .on('textae-event.type-definition.attribute.move', (pred) =>
+        entityRenderer.updateAttribute(pred)
+      )
+      .on('textae-event.type-definition.relation.change', (typeName) =>
+        this._relationRenderer.changeType(typeName)
+      )
 
     this._editor = editor
     this._annotationData = annotationData
