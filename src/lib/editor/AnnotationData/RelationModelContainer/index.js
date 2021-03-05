@@ -1,7 +1,7 @@
 import RelationModel from './RelationModel'
 import IdIssueContainer from '../IdIssueContainer'
 
-export default class RelationContainer extends IdIssueContainer {
+export default class RelationModelContainer extends IdIssueContainer {
   constructor(editor, emitter) {
     super(emitter, 'relation', 'R')
     this._editor = editor

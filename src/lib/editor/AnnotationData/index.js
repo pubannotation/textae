@@ -1,7 +1,7 @@
 import ModelContainer from './ModelContainer'
 import SpanContainer from './SpanContainer'
 import AttributeContainer from './AttributeContainer'
-import RelationContainer from './RelationContainer'
+import RelationModelContainer from './RelationModelContainer'
 import EntityContainer from './EntityContainer'
 import parseAnnotation from './parseAnnotation'
 import clearAnnotationData from './clearAnnotationData'
@@ -20,7 +20,7 @@ export default class AnnotationData {
   constructor(editor) {
     this._sourceDoc = ''
     this.namespace = new ModelContainer(editor.eventEmitter, 'namespace')
-    this.relation = new RelationContainer(editor, editor.eventEmitter)
+    this.relation = new RelationModelContainer(editor, editor.eventEmitter)
     this._entityGap = new EntityGap()
     this.entity = new EntityContainer(
       editor,
