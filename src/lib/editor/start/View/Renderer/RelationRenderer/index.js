@@ -1,8 +1,7 @@
 export default class RelationRenderer {
-  constructor(editor, annotationData, selectionModel) {
+  constructor(editor, annotationData) {
     this._editor = editor
     this._annotationData = annotationData
-    this._selectionModel = selectionModel
   }
 
   render(relation) {
