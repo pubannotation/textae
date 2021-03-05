@@ -1,4 +1,4 @@
-import getUrlMatches from '../../../getUrlMatches'
+import getUrlMatches from '../../getUrlMatches'
 import getDefaultTypeAutomatically from './getDefaultTypeAutomatically'
 import formatForPallet from './formatForPallet'
 import DefinedTypeContainer from './DefinedTypeContainer'

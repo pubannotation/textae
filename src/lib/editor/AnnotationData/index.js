@@ -13,8 +13,8 @@ import getReplicationRanges from './getReplicationRanges'
 import EntityGap from './EntityGap'
 import createTextBox from './createTextBox'
 import TypeDefinition from './TypeDefinition'
-import DefinitionContainer from './TypeDefinition/DefinitionContainer'
-import AttributeDefinitionContainer from './TypeDefinition/AttributeDefinitionContainer'
+import DefinitionContainer from './DefinitionContainer'
+import AttributeDefinitionContainer from './AttributeDefinitionContainer'
 
 export default class AnnotationData {
   constructor(editor) {

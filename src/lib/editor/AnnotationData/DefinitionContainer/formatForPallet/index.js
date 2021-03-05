@@ -1,4 +1,4 @@
-import getUrlMatches from '../../../../getUrlMatches'
+import getUrlMatches from '../../../getUrlMatches'
 import createCountMap from '../createCountMap'
 import sortByCountAndName from './sortByCountAndName'
 import createTypesWithoutInstance from './createTypesWithoutInstance'
