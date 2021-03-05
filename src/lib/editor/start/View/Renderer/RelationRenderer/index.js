@@ -1,10 +1,10 @@
 export default class RelationRenderer {
   constructor(annotationData) {
-    this._annotationData = annotationData
+    this._annotationDataRelation = annotationData.relation
   }
 
   arrangePositionAll() {
-    for (const relation of this._annotationData.relation.all) {
+    for (const relation of this._annotationDataRelation.all) {
       relation.renderElementAgain()
     }
   }
@@ -14,7 +14,7 @@ export default class RelationRenderer {
   }
 
   changeType(typeName) {
-    for (const relation of this._annotationData.relation.all) {
+    for (const relation of this._annotationDataRelation.all) {
       // If the type name ends in a wildcard, look for the DOMs to update with a forward match.
       if (
         relation.typeName === typeName ||
@@ -27,7 +27,7 @@ export default class RelationRenderer {
   }
 
   changeAll() {
-    this._annotationData.relation.all.map((relation) => {
+    this._annotationDataRelation.all.map((relation) => {
       relation.renderElementAgain()
     })
   }
