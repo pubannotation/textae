@@ -3,12 +3,14 @@ import getEntityEndpoint from './getEntityEndpoint'
 import SVGConnection from './SVGConnection'
 
 export default class RelationModel {
-  constructor(editor, { id, pred, subj, obj }) {
+  constructor(editor, { id, pred, subj, obj }, namespace, definitionContainer) {
     this._editor = editor
     this._id = id
     this.typeName = pred
     this._subj = subj
     this._obj = obj
+    this._namespace = namespace
+    this._definitionContainer = definitionContainer
   }
 
   get id() {
@@ -83,11 +85,11 @@ export default class RelationModel {
     }
   }
 
-  renderElement(editor, namespace, definitionContainer) {
+  renderElement(editor) {
     const connection = new SVGConnection(
       this,
-      namespace,
-      definitionContainer,
+      this._namespace,
+      this._definitionContainer,
       (event) => {
         editor.eventEmitter.emit(
           'textae-event.editor.relation.click',

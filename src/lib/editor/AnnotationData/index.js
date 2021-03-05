@@ -20,7 +20,18 @@ export default class AnnotationData {
   constructor(editor) {
     this._sourceDoc = ''
     this.namespace = new ModelContainer(editor.eventEmitter, 'namespace')
-    this.relation = new RelationModelContainer(editor, editor.eventEmitter)
+    const relationDefinitionContainer = new DefinitionContainer(
+      editor,
+      'relation',
+      () => this.relation.all,
+      '#555555'
+    )
+    this.relation = new RelationModelContainer(
+      editor,
+      editor.eventEmitter,
+      this.namespace,
+      relationDefinitionContainer
+    )
     this._entityGap = new EntityGap()
     this.entity = new EntityModelContainer(
       editor,
@@ -53,12 +64,6 @@ export default class AnnotationData {
       'entity',
       () => this.entity.blocks,
       '#77DDDD'
-    )
-    const relationDefinitionContainer = new DefinitionContainer(
-      editor,
-      'relation',
-      () => this.relation.all,
-      '#555555'
     )
     const attributeDefinitionContainer = new AttributeDefinitionContainer(
       editor,

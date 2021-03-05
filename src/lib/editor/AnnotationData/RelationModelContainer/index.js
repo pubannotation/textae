@@ -2,13 +2,20 @@ import RelationModel from './RelationModel'
 import IdIssueContainer from '../IdIssueContainer'
 
 export default class RelationModelContainer extends IdIssueContainer {
-  constructor(editor, emitter) {
+  constructor(editor, emitter, namespace, definitionContainer) {
     super(emitter, 'relation', 'R')
     this._editor = editor
+    this._namespace = namespace
+    this._definitionContainer = definitionContainer
   }
 
   _toModel(relation) {
-    return new RelationModel(this._editor, relation)
+    return new RelationModel(
+      this._editor,
+      relation,
+      this._namespace,
+      this._definitionContainer
+    )
   }
 
   add(newValue) {
@@ -17,7 +24,14 @@ export default class RelationModelContainer extends IdIssueContainer {
       return super.add(newValue)
     }
 
-    return super.add(new RelationModel(this._editor, newValue))
+    return super.add(
+      new RelationModel(
+        this._editor,
+        newValue,
+        this._namespace,
+        this._definitionContainer
+      )
+    )
   }
 
   clear() {
