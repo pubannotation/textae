@@ -11,7 +11,7 @@ import isBoundaryCrossingWithOtherSpans from '../isBoundaryCrossingWithOtherSpan
 import rangeFrom from './rangeFrom'
 import getCurrentMaxHeight from './getCurrentMaxHeight'
 
-export default class SpanContainer {
+export default class SpanModelContainer {
   constructor(editor, emitter, entityContainer, textBox, entityGap) {
     this._editor = editor
     this._emitter = emitter

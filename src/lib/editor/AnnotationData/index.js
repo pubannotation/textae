@@ -1,5 +1,5 @@
 import ModelContainer from './ModelContainer'
-import SpanContainer from './SpanContainer'
+import SpanModelContainer from './SpanModelContainer'
 import AttributeContainer from './AttributeContainer'
 import RelationModelContainer from './RelationModelContainer'
 import EntityContainer from './EntityContainer'
@@ -30,7 +30,7 @@ export default class AnnotationData {
     )
     this.attribute = new AttributeContainer(editor.eventEmitter, this.entity)
     this._textBox = createTextBox(editor, this)
-    this.span = new SpanContainer(
+    this.span = new SpanModelContainer(
       editor,
       editor.eventEmitter,
       this.entity,
