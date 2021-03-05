@@ -1,7 +1,7 @@
 import arrayMove from 'array-move'
 import createAttributeDefinition from './createAttributeDefinition'
 
-export default class AttributeContainer {
+export default class AttributeDefinitionContainer {
   constructor(editor, annotationDataAttribute) {
     this._editor = editor
     this._annotationDataAttribute = annotationDataAttribute
