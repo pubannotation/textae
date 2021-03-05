@@ -3,12 +3,6 @@ export default class RelationRenderer {
     this._annotationDataRelation = annotationDataRelation
   }
 
-  arrangePositionAll() {
-    for (const relation of this._annotationDataRelation.all) {
-      relation.renderElementAgain()
-    }
-  }
-
   change(relation) {
     relation.renderElementAgain()
   }

@@ -5,6 +5,7 @@ import RelationRenderer from './RelationRenderer'
 
 export default class Renderer {
   constructor(editor, annotationData, selectionModel) {
+    this._annotationData = annotationData
     const entityRenderer = new EntityRenderer(annotationData, selectionModel)
     this._relationRenderer = new RelationRenderer(annotationData.relation)
 
@@ -22,6 +23,8 @@ export default class Renderer {
   }
 
   arrangeRelationPositionAll() {
-    this._relationRenderer.arrangePositionAll()
+    for (const relation of this._annotationData.relation.all) {
+      relation.renderElementAgain()
+    }
   }
 }
