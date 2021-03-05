@@ -1,6 +1,6 @@
 export default class RelationRenderer {
-  constructor(annotationData) {
-    this._annotationDataRelation = annotationData.relation
+  constructor(annotationDataRelation) {
+    this._annotationDataRelation = annotationDataRelation
   }
 
   arrangePositionAll() {
