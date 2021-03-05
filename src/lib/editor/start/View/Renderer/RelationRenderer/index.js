@@ -5,11 +5,7 @@ export default class RelationRenderer {
   }
 
   render(relation) {
-    relation.renderElement(
-      this._editor,
-      this._annotationData.namespace,
-      this._annotationData.typeDefinition.relation
-    )
+    relation.renderElement(this._editor)
   }
 
   arrangePositionAll() {
