@@ -1,4 +1,4 @@
-import create from './create'
+import getAnnotationBox from '../../../../../getAnnotationBox'
 
 export default class SpanRenderer {
   constructor(editor, entityRenderer) {
@@ -7,7 +7,23 @@ export default class SpanRenderer {
   }
 
   render(span) {
-    create(this._editor, span, this._entityRenderer)
+    // Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
+    span.traverse((span) => {
+      if (span.element !== null) {
+        span.destroyElement()
+      }
+    })
+
+    span.traverse(
+      (span) => span.renderElement(getAnnotationBox(this._editor)),
+      (span) => {
+        // When the child spans contain bold style spans, the width of the parent span changes.
+        // Render the entity after the child span has been rendered.
+        for (const entity of span.entities) {
+          this._entityRenderer.render(entity)
+        }
+      }
+    )
   }
 
   remove(span) {
