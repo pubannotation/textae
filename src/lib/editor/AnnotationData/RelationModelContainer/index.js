@@ -20,18 +20,17 @@ export default class RelationModelContainer extends IdIssueContainer {
 
   add(newValue) {
     // When redoing, the newValue is instance of the RelationModel already.
-    if (newValue instanceof RelationModel) {
-      return super.add(newValue)
-    }
-
-    return super.add(
-      new RelationModel(
-        this._editor,
-        newValue,
-        this._namespace,
-        this._definitionContainer
-      )
-    )
+    newValue =
+      newValue instanceof RelationModel
+        ? newValue
+        : new RelationModel(
+            this._editor,
+            newValue,
+            this._namespace,
+            this._definitionContainer
+          )
+    newValue.renderElement()
+    return super.add(newValue)
   }
 
   clear() {
