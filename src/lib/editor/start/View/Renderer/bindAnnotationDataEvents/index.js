@@ -37,9 +37,6 @@ export default function (annotationData, editor, entityRenderer) {
         entityRenderer.render(entity)
       }
     })
-    .on('textae-event.annotation-data.relation.remove', (relation) => {
-      relation.destroyElement()
-    })
     .on('textae-event.annotation-data.attribute.add', (attribute) => {
       entityRenderer.change(attribute.entity)
     })
