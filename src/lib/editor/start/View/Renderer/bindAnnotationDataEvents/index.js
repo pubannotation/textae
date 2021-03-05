@@ -1,4 +1,4 @@
-import renderAllAnnotations from './renderAllAnnotations'
+import getAnnotationBox from '../../../../getAnnotationBox'
 import SpanRenderer from './SpanRenderer'
 
 export default function (annotationData, editor, entityRenderer) {
@@ -6,7 +6,11 @@ export default function (annotationData, editor, entityRenderer) {
 
   editor.eventEmitter
     .on('textae-event.annotation-data.all.change', () => {
-      renderAllAnnotations(editor, annotationData, spanRenderer)
+      getAnnotationBox(editor).innerHTML = ''
+      for (const span of annotationData.span.topLevel) {
+        spanRenderer.render(span)
+      }
+
       for (const relation of annotationData.relation.all) {
         relation.renderElement()
       }
