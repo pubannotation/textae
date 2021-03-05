@@ -17,7 +17,7 @@ export default class RelationContainer extends IdIssueContainer {
       return super.add(newValue)
     }
 
-    return super.add(this._toModel(newValue))
+    return super.add(new RelationModel(this._editor, newValue))
   }
 
   clear() {
