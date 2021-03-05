@@ -73,14 +73,9 @@ export default class EditMode {
     this._autocompletionWsFromParams = autocompletionWs
     this._selectionModel = selectionModel
 
-    // The jsPlumbConnetion has an original event mecanism.
-    // We can only bind the connection directory.
     editor.eventEmitter.on(
       'textae-event.editor.relation.click',
-      (event, relation) => {
-        // The EventHandlar for clieck event of jsPlumbConnection.
-        this._getHandler().relationClicked(event, relation)
-      }
+      (event, relation) => this._getHandler().relationClicked(event, relation)
     )
 
     this._viewHandler = new ViewHandler(
