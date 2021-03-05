@@ -18,7 +18,7 @@
     "emitter-fsm": "0.0.2",
     "eskape": "^1.2.0",
     "font-awesome": "^4.7.0",
-    "jquery": "^2.2.0",
+    "jquery": "^3.6.0",
     "jquery-ui": "^1.12.1",
     "jsondiffpatch": "^0.4.1",
     "lodash.escape": "^4.0.1",
