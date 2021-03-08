@@ -1,4 +1,4 @@
-import getDisplayName from '../../../getDisplayName'
+import getDisplayName from '../../../../getDisplayName'
 
 const NS = {
   SVG: 'http://www.w3.org/2000/svg'
