@@ -115,6 +115,7 @@ export default class SVGConnection {
       this._setArrowStyle(arrow, arrowWeights)
       defs.appendChild(arrow)
     }
+
     this._relationBox.appendChild(path)
 
     path.addEventListener('click', this._onClick)
@@ -122,10 +123,10 @@ export default class SVGConnection {
     path.addEventListener('mouseleave', () => this.pointDown())
     this._path = path
 
-    this.createLabel(isBold)
+    this._createLabel(isBold)
   }
 
-  createLabel(isBold) {
+  _createLabel(isBold) {
     const pathBBox = this._path.getBBox()
     const labelX = pathBBox.x + pathBBox.width / 2
     const labelY = pathBBox.y - 2
