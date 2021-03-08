@@ -187,9 +187,7 @@ export default class SVGConnection {
 
       arrowPolygon.setAttribute(
         'style',
-        `fill: ${this._relation
-          .getColor(this._definitionContainer)
-          .toLowerCase()}`
+        `fill: ${this._relation.getColor(this._definitionContainer)}`
       )
     } else {
       const arrowPolygon = document.createElementNS(NS.SVG, 'polygon')
@@ -202,9 +200,7 @@ export default class SVGConnection {
 
       arrowPolygon.setAttribute(
         'style',
-        `fill: ${this._relation
-          .getColor(this._definitionContainer)
-          .toLowerCase()}`
+        `fill: ${this._relation.getColor(this._definitionContainer)}`
       )
 
       arrow.appendChild(arrowPolygon)
