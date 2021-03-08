@@ -1,5 +1,43 @@
 # 極めて稀にやるテスト
 
+## Attribute 付きの Span を伸ばす/縮める
+
+### 画面上の Attribute が増えないこと
+
+#### 背景
+
+1.  5.0.0 の開発中に Attribute のある Span を伸ばしたり縮めると、画面上の Attribute が増えることがありました。
+2.  Entity の場合は既に DOM がある場合に二重に描かないチェックを指定していました。
+3.  Attribute では同様のチェックが抜けていました。
+
+#### -- 手段 --
+
+1.  Term モードにする
+2.  Span を作る
+3.  Attribute を追加する
+4.  Attribute 付きの Span を伸ばす
+5.  画面上の Attribute の数が増えないこと
+6.  Attribute 付きの Span を縮める
+7.  画面上の Attribute の数が増えないこと
+
+### 戻したときに Attribute の表示が消えないこと
+
+#### 背景
+
+1.  5.0.0 の開発中に新規追加した Attribute のある Span を伸ばしたり縮めたあとに戻すと、Attribute が消えることがありました。
+
+#### -- 手段 --
+
+1.  Term モードにする
+2.  Span を作る
+3.  Attribute を追加する
+4.  Attribute 付きの Span を伸ばす
+5.  戻す
+6.  Attribute が消えないこと
+7.  Attribute 付きの Span を縮める
+8.  戻す
+9.  Attribute が消えないこと
+
 ## Span を選択して削除
 
 ### 背景
