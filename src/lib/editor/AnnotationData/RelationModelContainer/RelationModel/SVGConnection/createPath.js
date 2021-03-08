@@ -1,7 +1,7 @@
 import { NS } from './NS'
 
 const MinimumDistance = 20
-const DistanceToShift = 10
+const DistanceToShift = 5
 
 export default function (
   sourceEndpoint,
@@ -23,10 +23,10 @@ export default function (
   if (sourceX < targetX - MinimumDistance) {
     // Shift only when the entity has enough width to shift the endpoint.
     if (DistanceToShift < sourceEndpoint.width / 2) {
-      sourceX += DistanceToShift
+      sourceX += DistanceToShift * 2
     }
     if (DistanceToShift < targetEndpoint.width / 2) {
-      targetX -= DistanceToShift
+      targetX -= DistanceToShift * 2
     }
   }
 
@@ -40,7 +40,7 @@ export default function (
   }
 
   const controleY =
-    Math.min(sourceY, targetY) - Math.abs(targetX - sourceX) / 6 - 10
+    Math.min(sourceY, targetY) - Math.abs(targetX - sourceX) / 2 + 10
   path.setAttribute(
     'd',
     `M ${sourceX}, ${sourceY} C ${sourceX} ${controleY}, ${targetX} ${controleY}, ${targetX} ${targetY}`
