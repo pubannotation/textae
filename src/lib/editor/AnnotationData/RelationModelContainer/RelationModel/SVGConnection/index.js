@@ -92,26 +92,26 @@ export default class SVGConnection {
   }
 
   _createMarker(isBold) {
-    // Markers are affected by the stroke-width of the path.
-    // If the path is made thicker, the marker will be larger than intended.
-    //  When the path is made thicker, the marker should be smaller.
-    const weights = isBold ? 0.5 : 1
-    const defs = this._relationBox.children[0]
-
     // The ID of the SVG element is global scope in the Window.
     // If you don't make it unique, it will use another editor's arrow.
     const id = `${this._editor.editorId}_${this._relation.id}`
 
-    if (defs.querySelector(`#${id}`)) {
-      const color = this._color
-      setMarkerStyle(defs.querySelector(`#${id}`), weights, color)
-    } else {
-      const color = this._color
-      const marker = createMarker(id, weights, color)
+    // Markers are affected by the stroke-width of the path.
+    // If the path is made thicker, the marker will be larger than intended.
+    //  When the path is made thicker, the marker should be smaller.
+    const weights = isBold ? 0.5 : 1
+
+    const color = this._color
+
+    const defs = this._relationBox.children[0]
+    if (!defs.querySelector(`#${id}`)) {
+      const marker = createMarker(id)
       defs.appendChild(marker)
     }
 
-    return defs.querySelector(`#${id}`)
+    const marker = defs.querySelector(`#${id}`)
+    setMarkerStyle(marker, weights, color)
+    return marker
   }
 
   _createLabel(isBold) {
@@ -166,11 +166,10 @@ export default class SVGConnection {
   }
 }
 
-function createMarker(id, arrowWeights, color) {
+function createMarker(id) {
   const arrow = document.createElementNS(NS.SVG, 'marker')
   arrow.setAttribute('id', id)
   arrow.setAttribute('orient', 'auto')
-  setMarkerStyle(arrow, arrowWeights, color)
   return arrow
 }
 
