@@ -11,7 +11,7 @@ export default class SVGConnection {
     this._definitionContainer = definitionContainer
     this._onClick = onClick
     this._editor = editor
-    this._svg = editor[0].querySelector('.textae-editor__relation-box')
+    this._relationBox = editor[0].querySelector('.textae-editor__relation-box')
 
     this._createPath(false)
   }
@@ -102,7 +102,7 @@ export default class SVGConnection {
       path.classList.add('textae-editor__relation--isBold')
     }
 
-    const defs = this._svg.children[0]
+    const defs = this._relationBox.children[0]
     if (defs.querySelector(`#${this._editor.editorId}_${this._relation.id}`)) {
       this._setArrowStyle(
         defs.querySelector(`#${this._editor.editorId}_${this._relation.id}`),
@@ -115,7 +115,7 @@ export default class SVGConnection {
       this._setArrowStyle(arrow, arrowWeights)
       defs.appendChild(arrow)
     }
-    this._svg.appendChild(path)
+    this._relationBox.appendChild(path)
 
     path.addEventListener('click', this._onClick)
     path.addEventListener('mouseenter', () => this.pointUp())
@@ -136,7 +136,7 @@ export default class SVGConnection {
       this._relation.typeName,
       this._definitionContainer.getLabel(this._relation.typeName)
     )}`
-    this._svg.appendChild(label)
+    this._relationBox.appendChild(label)
     const labelBBox = label.getBBox()
     label.setAttribute('x', labelX - labelBBox.width / 2)
     label.setAttribute('y', labelY)
@@ -162,7 +162,7 @@ export default class SVGConnection {
     labelBackground.setAttribute('height', labelBBox.height)
     labelBackground.style.fill = 'yellow'
     labelBackground.style.fillOpacity = 0.6
-    this._svg.insertBefore(labelBackground, label)
+    this._relationBox.insertBefore(labelBackground, label)
     this._labelBackground = labelBackground
   }
 
@@ -208,8 +208,8 @@ export default class SVGConnection {
   }
 
   _destoryPath() {
-    this._svg.removeChild(this._path)
-    this._svg.removeChild(this._label)
-    this._svg.removeChild(this._labelBackground)
+    this._relationBox.removeChild(this._path)
+    this._relationBox.removeChild(this._label)
+    this._relationBox.removeChild(this._labelBackground)
   }
 }
