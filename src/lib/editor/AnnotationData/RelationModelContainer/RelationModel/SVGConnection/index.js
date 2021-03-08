@@ -65,7 +65,7 @@ export default class SVGConnection {
 
   // Private APIs
   _createPath(isBold) {
-    const arrow = this._createArrow(isBold)
+    const marker = this._createMarker(isBold)
 
     const annotationBox = this._editor[0]
       .querySelector('.textae-editor__annotation-box')
@@ -79,7 +79,7 @@ export default class SVGConnection {
       annotationBox,
       targetEndpoint,
       color,
-      arrow,
+      marker,
       isBold
     )
 
@@ -91,7 +91,7 @@ export default class SVGConnection {
     this._path = path
   }
 
-  _createArrow(isBold) {
+  _createMarker(isBold) {
     // Markers are affected by the stroke-width of the path.
     // If the path is made thicker, the marker will be larger than intended.
     //  When the path is made thicker, the marker should be smaller.
