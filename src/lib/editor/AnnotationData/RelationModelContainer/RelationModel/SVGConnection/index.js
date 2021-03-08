@@ -95,7 +95,7 @@ export default class SVGConnection {
     // Markers are affected by the stroke-width of the path.
     // If the path is made thicker, the marker will be larger than intended.
     //  When the path is made thicker, the marker should be smaller.
-    const arrowWeights = isBold ? 0.5 : 1
+    const weights = isBold ? 0.5 : 1
     const defs = this._relationBox.children[0]
 
     // The ID of the SVG element is global scope in the Window.
@@ -104,14 +104,11 @@ export default class SVGConnection {
 
     if (defs.querySelector(`#${id}`)) {
       const color = this._color
-      setMarkerStyle(defs.querySelector(`#${id}`), arrowWeights, color)
+      setMarkerStyle(defs.querySelector(`#${id}`), weights, color)
     } else {
-      const arrow = document.createElementNS(NS.SVG, 'marker')
-      arrow.setAttribute('id', id)
-      arrow.setAttribute('orient', 'auto')
       const color = this._color
-      setMarkerStyle(arrow, arrowWeights, color)
-      defs.appendChild(arrow)
+      const marker = createMarker(id, weights, color)
+      defs.appendChild(marker)
     }
 
     return defs.querySelector(`#${id}`)
@@ -167,6 +164,14 @@ export default class SVGConnection {
     this._relationBox.removeChild(this._label)
     this._relationBox.removeChild(this._labelBackground)
   }
+}
+
+function createMarker(id, arrowWeights, color) {
+  const arrow = document.createElementNS(NS.SVG, 'marker')
+  arrow.setAttribute('id', id)
+  arrow.setAttribute('orient', 'auto')
+  setMarkerStyle(arrow, arrowWeights, color)
+  return arrow
 }
 
 function setMarkerStyle(arrow, weight, color) {
