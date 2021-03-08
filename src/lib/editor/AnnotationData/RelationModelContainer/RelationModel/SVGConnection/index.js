@@ -100,23 +100,21 @@ export default class SVGConnection {
 
     // The ID of the SVG element is global scope in the Window.
     // If you don't make it unique, it will use another editor's arrow.
-    if (defs.querySelector(`#${this._editor.editorId}_${this._relation.id}`)) {
+    const id = `${this._editor.editorId}_${this._relation.id}`
+
+    if (defs.querySelector(`#${id}`)) {
       const color = this._color
-      setMarkerStyle(
-        defs.querySelector(`#${this._editor.editorId}_${this._relation.id}`),
-        arrowWeights,
-        color
-      )
+      setMarkerStyle(defs.querySelector(`#${id}`), arrowWeights, color)
     } else {
       const arrow = document.createElementNS(NS.SVG, 'marker')
-      arrow.setAttribute('id', `${this._editor.editorId}_${this._relation.id}`)
+      arrow.setAttribute('id', id)
       arrow.setAttribute('orient', 'auto')
       const color = this._color
       setMarkerStyle(arrow, arrowWeights, color)
       defs.appendChild(arrow)
     }
 
-    return defs.querySelector(`#${this._editor.editorId}_${this._relation.id}`)
+    return defs.querySelector(`#${id}`)
   }
 
   _createLabel(isBold) {
