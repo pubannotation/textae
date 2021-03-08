@@ -1,6 +1,7 @@
 import { NS } from './NS'
 
 const MinimumDistance = 20
+const DistanceToShift = 10
 
 export default function (
   sourceEndpoint,
@@ -21,20 +22,20 @@ export default function (
   // When the source and target are close, don't shift them.
   if (sourceX < targetX - MinimumDistance) {
     // Shift only when the entity has enough width to shift the endpoint.
-    if (10 < sourceEndpoint.width / 2) {
-      sourceX += 10
+    if (DistanceToShift < sourceEndpoint.width / 2) {
+      sourceX += DistanceToShift
     }
-    if (10 < targetEndpoint.width / 2) {
-      targetX -= 10
+    if (DistanceToShift < targetEndpoint.width / 2) {
+      targetX -= DistanceToShift
     }
   }
 
   if (targetX < sourceX - MinimumDistance) {
-    if (10 < sourceEndpoint.width / 2) {
-      sourceX -= 10
+    if (DistanceToShift < sourceEndpoint.width / 2) {
+      sourceX -= DistanceToShift
     }
-    if (10 < targetEndpoint.width / 2) {
-      targetX += 10
+    if (DistanceToShift < targetEndpoint.width / 2) {
+      targetX += DistanceToShift
     }
   }
 
