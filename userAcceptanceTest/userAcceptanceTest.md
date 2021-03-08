@@ -5189,29 +5189,3 @@
 6.  BlockSpan ができること
 7.  テキストでマウスダウン、StyleSpan でマウスアップ
 8.  BlockSpan ができること
-
-## Block モードで StyleSpan をクリックしたら選択解除する
-
-### 背景
-
-1.  6.2.41 で対応しました
-
-### -- 手段 --
-
-1.  Block モードにする
-2.  BlockSpan を選択
-3.  StyleSpan をクリック
-4.  BlockSpan が選択解除されること
-
-## Block モードで DenotationSpan をクリックしたら選択解除する
-
-### 背景
-
-1.  6.2.42 で対応しました
-
-### -- 手段 --
-
-1.  Block モードにする
-2.  BlockSpan を選択
-3.  DenotationSpan をクリック
-4.  BlockSpan が選択解除されること
