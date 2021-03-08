@@ -62,7 +62,7 @@ export default class SVGConnection {
 
   // Private APIs
   _createPath(isBold) {
-    const arrowWeights = isBold ? 0.5 : 1
+    this._createArrow(isBold ? 0.5 : 1)
 
     const path = document.createElementNS(NS.SVG, 'path')
 
@@ -101,8 +101,6 @@ export default class SVGConnection {
     if (isBold) {
       path.classList.add('textae-editor__relation--isBold')
     }
-
-    this._createArrow(arrowWeights)
 
     this._relationBox.appendChild(path)
 
