@@ -167,33 +167,18 @@ export default class SVGConnection {
   }
 }
 
-function setMarkerStyle(arrow, weight, color) {
-  arrow.setAttribute('markerWidth', 12 * weight)
-  arrow.setAttribute('markerHeight', 12 * weight)
-  arrow.setAttribute('refX', 12 * weight)
-  arrow.setAttribute('refY', 6 * weight)
+function setMarkerStyle(marker, weight, color) {
+  marker.setAttribute('markerWidth', 12 * weight)
+  marker.setAttribute('markerHeight', 12 * weight)
+  marker.setAttribute('refX', 12 * weight)
+  marker.setAttribute('refY', 6 * weight)
 
-  if (arrow.children.length) {
-    const arrowPolygon = arrow.children[0]
-    arrowPolygon.setAttribute(
-      'points',
-      `0 0, ${12 * weight} ${6 * weight}, 0 ${12 * weight}, ${6 * weight} ${
-        6 * weight
-      }`
-    )
-
-    arrowPolygon.setAttribute('style', `fill: ${color}`)
-  } else {
-    const arrowPolygon = document.createElementNS(NS.SVG, 'polygon')
-    arrowPolygon.setAttribute(
-      'points',
-      `0 0, ${12 * weight} ${6 * weight}, 0 ${12 * weight}, ${6 * weight} ${
-        6 * weight
-      }`
-    )
-
-    arrowPolygon.setAttribute('style', `fill: ${color}`)
-
-    arrow.appendChild(arrowPolygon)
-  }
+  const polygon = marker.children[0]
+  polygon.setAttribute(
+    'points',
+    `0 0, ${12 * weight} ${6 * weight}, 0 ${12 * weight}, ${6 * weight} ${
+      6 * weight
+    }`
+  )
+  polygon.setAttribute('style', `fill: ${color}`)
 }
