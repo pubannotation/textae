@@ -135,7 +135,8 @@
   margin-left: 2px;
   padding: 0 20px 5px 10px;
   position: relative;
-  visibility: hidden;
+  position: sticky;
+  top: 0;
   z-index: 8;
   /*== Elements inside the textae_control ==*/
 }
@@ -2383,7 +2384,7 @@ a.ui-button:active,
 .textae-editor__mode--block-without-relation .textae-editor__relation-box {
   display: none;
 }
-.textae-editor__mode--view-with-relation .textae-editor__relation__label-isLink {
+.textae-editor__mode--view-with-relation .textae-editor__relation-label--isLink {
   cursor: pointer;
   fill: blue;
   text-decoration: underline;
