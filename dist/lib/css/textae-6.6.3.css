@@ -10,6 +10,7 @@
   font-size: 18px;
   line-height: normal;
   vertical-align: bottom;
+  width: 65px;
 }
 .textae-control__title a {
   text-decoration: none;
@@ -131,8 +132,10 @@
   border-radius: 15px;
   border-right: 5px solid #558;
   box-shadow: 6px 6px 6px 6px rgba(0, 0, 0, 0.4);
-  display: inline-block;
+  display: flex;
+  flex-wrap: wrap;
   margin-left: 2px;
+  max-width: 763px;
   padding: 0 20px 5px 10px;
   position: relative;
   position: sticky;
@@ -141,18 +144,15 @@
   /*== Elements inside the textae_control ==*/
 }
 .textae-control-bar .textae-control__title {
-  display: inline-block;
-  float: left;
+  display: block;
 }
 .textae-control-bar .textae-control__separator {
-  display: inline-block;
-  float: left;
+  display: block;
   height: 16px;
   border: 2px solid #aad;
 }
 .textae-control-bar .textae-control__icon {
-  display: inline-block;
-  float: left;
+  display: block;
   width: 16px;
   height: 16px;
 }
