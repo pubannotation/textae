@@ -1,5 +1,7 @@
 import { NS } from './NS'
 
+const MinimumDistance = 20
+
 export default function (
   sourceEndpoint,
   annotationBox,
@@ -17,7 +19,7 @@ export default function (
   const targetY = targetEndpoint.top - annotationBox.top
 
   // When the source and target are close, don't shift them.
-  if (sourceX < targetX - 20) {
+  if (sourceX < targetX - MinimumDistance) {
     // Shift only when the entity has enough width to shift the endpoint.
     if (10 < sourceEndpoint.width / 2) {
       sourceX += 10
@@ -27,7 +29,7 @@ export default function (
     }
   }
 
-  if (targetX < sourceX - 20) {
+  if (targetX < sourceX - MinimumDistance) {
     if (10 < sourceEndpoint.width / 2) {
       sourceX -= 10
     }
