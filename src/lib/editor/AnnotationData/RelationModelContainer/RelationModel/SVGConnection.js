@@ -11,6 +11,7 @@ export default class SVGConnection {
     this._definitionContainer = definitionContainer
     this._onClick = onClick
     this._editor = editor
+    this._svg = editor[0].querySelector('.textae-editor__relation-box')
 
     this._createPath(false)
   }
@@ -101,8 +102,7 @@ export default class SVGConnection {
       path.classList.add('textae-editor__relation--isBold')
     }
 
-    const svg = this._editor[0].querySelector('.textae-editor__relation-box')
-    const defs = svg.children[0]
+    const defs = this._svg.children[0]
     if (defs.querySelector(`#${this._editor.editorId}_${this._relation.id}`)) {
       this._setArrowStyle(
         defs.querySelector(`#${this._editor.editorId}_${this._relation.id}`),
@@ -115,7 +115,7 @@ export default class SVGConnection {
       this._setArrowStyle(arrow, arrowWeights)
       defs.appendChild(arrow)
     }
-    svg.appendChild(path)
+    this._svg.appendChild(path)
 
     path.addEventListener('click', this._onClick)
     path.addEventListener('mouseenter', () => this.pointUp())
@@ -126,7 +126,6 @@ export default class SVGConnection {
   }
 
   createLabel(isBold) {
-    const svg = this._editor[0].querySelector('.textae-editor__relation-box')
     const pathBBox = this._path.getBBox()
     const labelX = pathBBox.x + pathBBox.width / 2
     const labelY = pathBBox.y - 2
@@ -137,7 +136,7 @@ export default class SVGConnection {
       this._relation.typeName,
       this._definitionContainer.getLabel(this._relation.typeName)
     )}`
-    svg.appendChild(label)
+    this._svg.appendChild(label)
     const labelBBox = label.getBBox()
     label.setAttribute('x', labelX - labelBBox.width / 2)
     label.setAttribute('y', labelY)
@@ -163,7 +162,7 @@ export default class SVGConnection {
     labelBackground.setAttribute('height', labelBBox.height)
     labelBackground.style.fill = 'yellow'
     labelBackground.style.fillOpacity = 0.6
-    svg.insertBefore(labelBackground, label)
+    this._svg.insertBefore(labelBackground, label)
     this._labelBackground = labelBackground
   }
 
@@ -209,9 +208,8 @@ export default class SVGConnection {
   }
 
   _destoryPath() {
-    const svg = this._editor[0].querySelector('.textae-editor__relation-box')
-    svg.removeChild(this._path)
-    svg.removeChild(this._label)
-    svg.removeChild(this._labelBackground)
+    this._svg.removeChild(this._path)
+    this._svg.removeChild(this._label)
+    this._svg.removeChild(this._labelBackground)
   }
 }
