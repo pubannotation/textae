@@ -101,15 +101,18 @@ export default class SVGConnection {
     // The ID of the SVG element is global scope in the Window.
     // If you don't make it unique, it will use another editor's arrow.
     if (defs.querySelector(`#${this._editor.editorId}_${this._relation.id}`)) {
-      this._setArrowStyle(
+      const color = this._color
+      setMarkerStyle(
         defs.querySelector(`#${this._editor.editorId}_${this._relation.id}`),
-        arrowWeights
+        arrowWeights,
+        color
       )
     } else {
       const arrow = document.createElementNS(NS.SVG, 'marker')
       arrow.setAttribute('id', `${this._editor.editorId}_${this._relation.id}`)
       arrow.setAttribute('orient', 'auto')
-      this._setArrowStyle(arrow, arrowWeights)
+      const color = this._color
+      setMarkerStyle(arrow, arrowWeights, color)
       defs.appendChild(arrow)
     }
 
@@ -155,11 +158,6 @@ export default class SVGConnection {
     labelBackground.style.fillOpacity = 0.6
     this._relationBox.insertBefore(labelBackground, label)
     this._labelBackground = labelBackground
-  }
-
-  _setArrowStyle(arrow, weight) {
-    const color = this._color
-    setMarkerStyle(arrow, weight, color)
   }
 
   get _color() {
