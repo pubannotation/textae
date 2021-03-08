@@ -65,9 +65,7 @@ export default class SVGConnection {
     // Markers are affected by the stroke-width of the path.
     // If the path is made thicker, the marker will be larger than intended.
     //  When the path is made thicker, the marker should be smaller.
-    this._createArrow(isBold ? 0.5 : 1)
-
-    const path = document.createElementNS(NS.SVG, 'path')
+    const arrow = this._createArrow(isBold ? 0.5 : 1)
 
     const annotationBox = this._editor[0]
       .querySelector('.textae-editor__annotation-box')
@@ -75,6 +73,7 @@ export default class SVGConnection {
     const sourceEndpoint = this._relation.sourceEndpoint.getBoundingClientRect()
     const targetEndpoint = this._relation.targetEndpoint.getBoundingClientRect()
 
+    const path = document.createElementNS(NS.SVG, 'path')
     const x1 =
       sourceEndpoint.left + sourceEndpoint.width / 2 - annotationBox.left
     const y1 = sourceEndpoint.top - annotationBox.top
@@ -96,10 +95,7 @@ export default class SVGConnection {
 
     // The ID of the SVG element is global scope in the Window.
     // If you don't make it unique, it will use another editor's arrow.
-    path.setAttribute(
-      'marker-end',
-      `url(#${this._editor.editorId}_${this._relation.id})`
-    )
+    path.setAttribute('marker-end', `url(#${arrow.id})`)
 
     if (isBold) {
       path.classList.add('textae-editor__relation--isBold')
@@ -129,6 +125,8 @@ export default class SVGConnection {
       this._setArrowStyle(arrow, arrowWeights)
       defs.appendChild(arrow)
     }
+
+    return defs.querySelector(`#${this._editor.editorId}_${this._relation.id}`)
   }
 
   _createLabel(isBold) {
