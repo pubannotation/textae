@@ -12,6 +12,7 @@ export default class SVGConnection {
     this._relationBox = editor[0].querySelector('.textae-editor__relation-box')
 
     this._createPath(false)
+    this._createLabel(false)
   }
 
   destroy() {
@@ -23,6 +24,7 @@ export default class SVGConnection {
       this._isSelected = true
       this.destroy()
       this._createPath(true)
+      this._createLabel(true)
     }
   }
 
@@ -39,6 +41,7 @@ export default class SVGConnection {
 
       this._destoryPath()
       this._createPath(true)
+      this._createLabel(true)
     }
   }
 
@@ -53,8 +56,10 @@ export default class SVGConnection {
     this.destroy()
     if (this._isSelected) {
       this._createPath(true)
+      this._createLabel(true)
     } else {
       this._createPath(false)
+      this._createLabel(false)
     }
   }
 
@@ -87,8 +92,6 @@ export default class SVGConnection {
     path.addEventListener('mouseenter', () => this.pointUp())
     path.addEventListener('mouseleave', () => this.pointDown())
     this._path = path
-
-    this._createLabel(isBold)
   }
 
   _createArrow(arrowWeights) {
