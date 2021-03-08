@@ -89,7 +89,9 @@ export default class SVGConnection {
         this._definitionContainer
       )};`
     )
-    // IDはWindowでグローバル。ユニークにしないと、別のエディターの矢印を使ってしまう
+
+    // The ID of the SVG element is global scope in the Window.
+    // If you don't make it unique, it will use another editor's arrow.
     path.setAttribute(
       'marker-end',
       `url(#${this._editor.editorId}_${this._relation.id})`
