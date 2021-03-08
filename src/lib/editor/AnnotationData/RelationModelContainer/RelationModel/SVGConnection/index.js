@@ -158,34 +158,8 @@ export default class SVGConnection {
   }
 
   _setArrowStyle(arrow, weight) {
-    arrow.setAttribute('markerWidth', 12 * weight)
-    arrow.setAttribute('markerHeight', 12 * weight)
-    arrow.setAttribute('refX', 12 * weight)
-    arrow.setAttribute('refY', 6 * weight)
-
-    if (arrow.children.length) {
-      const arrowPolygon = arrow.children[0]
-      arrowPolygon.setAttribute(
-        'points',
-        `0 0, ${12 * weight} ${6 * weight}, 0 ${12 * weight}, ${6 * weight} ${
-          6 * weight
-        }`
-      )
-
-      arrowPolygon.setAttribute('style', `fill: ${this._color}`)
-    } else {
-      const arrowPolygon = document.createElementNS(NS.SVG, 'polygon')
-      arrowPolygon.setAttribute(
-        'points',
-        `0 0, ${12 * weight} ${6 * weight}, 0 ${12 * weight}, ${6 * weight} ${
-          6 * weight
-        }`
-      )
-
-      arrowPolygon.setAttribute('style', `fill: ${this._color}`)
-
-      arrow.appendChild(arrowPolygon)
-    }
+    const color = this._color
+    setMarkerStyle(arrow, weight, color)
   }
 
   get _color() {
@@ -196,5 +170,36 @@ export default class SVGConnection {
     this._relationBox.removeChild(this._path)
     this._relationBox.removeChild(this._label)
     this._relationBox.removeChild(this._labelBackground)
+  }
+}
+
+function setMarkerStyle(arrow, weight, color) {
+  arrow.setAttribute('markerWidth', 12 * weight)
+  arrow.setAttribute('markerHeight', 12 * weight)
+  arrow.setAttribute('refX', 12 * weight)
+  arrow.setAttribute('refY', 6 * weight)
+
+  if (arrow.children.length) {
+    const arrowPolygon = arrow.children[0]
+    arrowPolygon.setAttribute(
+      'points',
+      `0 0, ${12 * weight} ${6 * weight}, 0 ${12 * weight}, ${6 * weight} ${
+        6 * weight
+      }`
+    )
+
+    arrowPolygon.setAttribute('style', `fill: ${color}`)
+  } else {
+    const arrowPolygon = document.createElementNS(NS.SVG, 'polygon')
+    arrowPolygon.setAttribute(
+      'points',
+      `0 0, ${12 * weight} ${6 * weight}, 0 ${12 * weight}, ${6 * weight} ${
+        6 * weight
+      }`
+    )
+
+    arrowPolygon.setAttribute('style', `fill: ${color}`)
+
+    arrow.appendChild(arrowPolygon)
   }
 }
