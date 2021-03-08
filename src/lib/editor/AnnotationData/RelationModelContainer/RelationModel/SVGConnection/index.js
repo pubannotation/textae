@@ -1,4 +1,5 @@
 import getDisplayName from '../../../../getDisplayName'
+import createMarker from './createMarker'
 import createPath from './createPath'
 import { NS } from './NS'
 
@@ -164,13 +165,6 @@ export default class SVGConnection {
     this._relationBox.removeChild(this._label)
     this._relationBox.removeChild(this._labelBackground)
   }
-}
-
-function createMarker(id) {
-  const arrow = document.createElementNS(NS.SVG, 'marker')
-  arrow.setAttribute('id', id)
-  arrow.setAttribute('orient', 'auto')
-  return arrow
 }
 
 function setMarkerStyle(arrow, weight, color) {
