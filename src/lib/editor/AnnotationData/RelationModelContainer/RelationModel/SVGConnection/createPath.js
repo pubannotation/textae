@@ -16,7 +16,7 @@ export default function (
     targetEndpoint.left + targetEndpoint.width / 2 - annotationBox.left
   const targetY = targetEndpoint.top - annotationBox.top
 
-  // Source is left, target is right.
+  // When the source and target are close, don't shift them.
   if (sourceX < targetX - 20) {
     // Shift only when the entity has enough width to shift the endpoint.
     if (10 < sourceEndpoint.width / 2) {
@@ -27,7 +27,6 @@ export default function (
     }
   }
 
-  // Target is left, source is right.
   if (targetX < sourceX - 20) {
     if (10 < sourceEndpoint.width / 2) {
       sourceX -= 10
