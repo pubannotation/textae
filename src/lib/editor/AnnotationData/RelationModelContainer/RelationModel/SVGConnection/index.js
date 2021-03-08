@@ -1,8 +1,5 @@
 import getDisplayName from '../../../../getDisplayName'
-
-const NS = {
-  SVG: 'http://www.w3.org/2000/svg'
-}
+import { NS } from './NS'
 
 export default class SVGConnection {
   constructor(relation, namespace, definitionContainer, onClick, editor) {
