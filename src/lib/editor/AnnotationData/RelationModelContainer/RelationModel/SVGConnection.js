@@ -102,6 +102,19 @@ export default class SVGConnection {
       path.classList.add('textae-editor__relation--isBold')
     }
 
+    this._createArrow(arrowWeights)
+
+    this._relationBox.appendChild(path)
+
+    path.addEventListener('click', this._onClick)
+    path.addEventListener('mouseenter', () => this.pointUp())
+    path.addEventListener('mouseleave', () => this.pointDown())
+    this._path = path
+
+    this._createLabel(isBold)
+  }
+
+  _createArrow(arrowWeights) {
     const defs = this._relationBox.children[0]
     if (defs.querySelector(`#${this._editor.editorId}_${this._relation.id}`)) {
       this._setArrowStyle(
@@ -115,15 +128,6 @@ export default class SVGConnection {
       this._setArrowStyle(arrow, arrowWeights)
       defs.appendChild(arrow)
     }
-
-    this._relationBox.appendChild(path)
-
-    path.addEventListener('click', this._onClick)
-    path.addEventListener('mouseenter', () => this.pointUp())
-    path.addEventListener('mouseleave', () => this.pointDown())
-    this._path = path
-
-    this._createLabel(isBold)
   }
 
   _createLabel(isBold) {
