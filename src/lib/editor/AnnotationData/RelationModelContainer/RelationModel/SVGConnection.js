@@ -95,6 +95,9 @@ export default class SVGConnection {
 
   _createArrow(arrowWeights) {
     const defs = this._relationBox.children[0]
+
+    // The ID of the SVG element is global scope in the Window.
+    // If you don't make it unique, it will use another editor's arrow.
     if (defs.querySelector(`#${this._editor.editorId}_${this._relation.id}`)) {
       this._setArrowStyle(
         defs.querySelector(`#${this._editor.editorId}_${this._relation.id}`),
@@ -214,9 +217,6 @@ function createPath(
   )
 
   path.setAttribute('style', `fill:none; stroke: ${color};`)
-
-  // The ID of the SVG element is global scope in the Window.
-  // If you don't make it unique, it will use another editor's arrow.
   path.setAttribute('marker-end', `url(#${arrow.id})`)
 
   if (isBold) {
