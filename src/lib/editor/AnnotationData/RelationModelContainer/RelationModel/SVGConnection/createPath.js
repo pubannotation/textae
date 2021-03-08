@@ -9,10 +9,29 @@ export default function (
   isBold
 ) {
   const path = document.createElementNS(NS.SVG, 'path')
-  const x1 = sourceEndpoint.left + sourceEndpoint.width / 2 - annotationBox.left
+  let x1 = sourceEndpoint.left + sourceEndpoint.width / 2 - annotationBox.left
   const y1 = sourceEndpoint.top - annotationBox.top
-  const x2 = targetEndpoint.left + targetEndpoint.width / 2 - annotationBox.left
+  let x2 = targetEndpoint.left + targetEndpoint.width / 2 - annotationBox.left
   const y2 = targetEndpoint.top - annotationBox.top
+
+  if (20 < x2 - x1) {
+    if (10 < sourceEndpoint.width / 2) {
+      x1 += 10
+    }
+    if (10 < targetEndpoint.width / 2) {
+      x2 -= 10
+    }
+  }
+
+  if (20 < x1 - x2) {
+    if (10 < sourceEndpoint.width / 2) {
+      x1 -= 10
+    }
+    if (10 < targetEndpoint.width / 2) {
+      x2 += 10
+    }
+  }
+
   const controleY = Math.min(y1, y2) - Math.abs(x2 - x1) / 6 - 10
   path.setAttribute(
     'd',
