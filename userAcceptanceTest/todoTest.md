@@ -1,5 +1,18 @@
 # 対応予定のテスト
 
+## 右の Entity につながる Relation を右へずらす。左の Entity につながる Relation を左にずらす
+
+### 背景
+
+1. 一つの Entity が複数の Relation を持っているときに、Relation の向きが見分けにくいです
+2. Relation がつながる Entity の方向に合わせて、Entity 上の Relation の端点の位置をずらします
+
+### -- 手段 --
+
+1. 右側の Entity につながる Relation が、Entity の中心より右にずれた点で Entity に接続されていること
+2. 左側の Entity につながる Relation が、Entity の中心より左にずれた点で Entity に接続されていること
+3. Entity の左右位置にほとんど差がない時は、Relation が Entity の中心で Entity に接続されていること
+
 ## Relation モードで Span をクリックしたら選択解除する
 
 ### 背景
