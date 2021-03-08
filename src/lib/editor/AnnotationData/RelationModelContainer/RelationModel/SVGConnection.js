@@ -86,12 +86,7 @@ export default class SVGConnection {
       `M ${x1}, ${y1} C ${x1} ${controleY}, ${x2} ${controleY}, ${x2} ${y2}`
     )
 
-    path.setAttribute(
-      'style',
-      `fill:none; stroke: ${this._relation.getColor(
-        this._definitionContainer
-      )};`
-    )
+    path.setAttribute('style', `fill:none; stroke: ${this._color};`)
 
     // The ID of the SVG element is global scope in the Window.
     // If you don't make it unique, it will use another editor's arrow.
@@ -185,10 +180,7 @@ export default class SVGConnection {
         }`
       )
 
-      arrowPolygon.setAttribute(
-        'style',
-        `fill: ${this._relation.getColor(this._definitionContainer)}`
-      )
+      arrowPolygon.setAttribute('style', `fill: ${this._color}`)
     } else {
       const arrowPolygon = document.createElementNS(NS.SVG, 'polygon')
       arrowPolygon.setAttribute(
@@ -198,13 +190,14 @@ export default class SVGConnection {
         }`
       )
 
-      arrowPolygon.setAttribute(
-        'style',
-        `fill: ${this._relation.getColor(this._definitionContainer)}`
-      )
+      arrowPolygon.setAttribute('style', `fill: ${this._color}`)
 
       arrow.appendChild(arrowPolygon)
     }
+  }
+
+  get _color() {
+    return this._relation.getColor(this._definitionContainer)
   }
 
   _destoryPath() {
