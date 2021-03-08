@@ -863,7 +863,11 @@
       "pred": "equivalentTo",
       "subj": "B1",
       "obj": "B2"
-    }
+    },
+    { "id": "R15", "pred": "equivalentTo", "subj": "E6", "obj": "E7" },
+    { "id": "R16", "pred": "equivalentTo", "subj": "E7", "obj": "E6" },
+    { "id": "R17", "pred": "equivalentTo", "subj": "E7", "obj": "T9" },
+    { "id": "R18", "pred": "equivalentTo", "subj": "T9", "obj": "E7" }
   ],
   "typesettings": [
     {
