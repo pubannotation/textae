@@ -62,6 +62,9 @@ export default class SVGConnection {
 
   // Private APIs
   _createPath(isBold) {
+    // Markers are affected by the stroke-width of the path.
+    // If the path is made thicker, the marker will be larger than intended.
+    //  When the path is made thicker, the marker should be smaller.
     this._createArrow(isBold ? 0.5 : 1)
 
     const path = document.createElementNS(NS.SVG, 'path')
