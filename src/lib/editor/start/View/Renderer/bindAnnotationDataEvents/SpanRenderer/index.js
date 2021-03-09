@@ -1,5 +1,3 @@
-import getAnnotationBox from '../../../../../getAnnotationBox'
-
 export default class SpanRenderer {
   constructor(editor, entityRenderer) {
     this._editor = editor
@@ -15,7 +13,7 @@ export default class SpanRenderer {
     })
 
     span.traverse(
-      (span) => span.renderElement(getAnnotationBox(this._editor)),
+      (span) => span.renderElement(),
       (span) => {
         // When the child spans contain bold style spans, the width of the parent span changes.
         // Render the entity after the child span has been rendered.

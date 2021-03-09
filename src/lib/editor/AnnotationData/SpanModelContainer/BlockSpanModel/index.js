@@ -5,6 +5,7 @@ import setPosition from './setPosition'
 import SpanModel from '../SpanModel'
 import round from '../round'
 import getGridHeight from '../getHeightIncludeDescendantGrids/getGridHeight'
+import getAnnotationBox from '../../../getAnnotationBox'
 
 // Leave a gap between the text and the block border.
 const gapBetweenText = 8
@@ -67,11 +68,12 @@ export default class BlockSpanModel extends SpanModel {
     this.gridElement.style.height = `${this._rectangle.height}px`
   }
 
-  renderElement(annotationBox) {
+  renderElement() {
     super.renderElement()
 
     // Place the background in the annotation box
     // to shift the background up by half a line from the block span area.
+    const annotationBox = getAnnotationBox(this._editor)
     renderBackground(annotationBox, this._backgroundId)
   }
 
