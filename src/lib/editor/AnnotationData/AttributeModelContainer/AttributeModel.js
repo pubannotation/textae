@@ -18,7 +18,7 @@ export default class AttributeModel {
     this._definitionContainer = definitionContainer
   }
 
-  get entity() {
+  get subjectModel() {
     return this._entityContainer.get(this.subj)
   }
 

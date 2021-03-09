@@ -35,11 +35,11 @@ export default function (annotationData, editor, entityRenderer) {
       }
     })
     .on('textae-event.commander.attributes.change', (attributes) => {
-      for (const entity of attributes.reduce(
-        (prev, curr) => prev.add(curr.entity),
+      for (const subjectModel of attributes.reduce(
+        (prev, curr) => prev.add(curr.subjectModel),
         new Set()
       )) {
-        entity.updateElement()
+        subjectModel.updateElement()
       }
     })
 }

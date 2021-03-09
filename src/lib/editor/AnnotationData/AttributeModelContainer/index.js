@@ -26,7 +26,7 @@ export default class AttributeModelContainer extends IdIssueContainer {
 
     super.add(newValue)
 
-    newValue.entity.updateElement()
+    newValue.subjectModel.updateElement()
 
     return newValue
   }
@@ -52,7 +52,7 @@ export default class AttributeModelContainer extends IdIssueContainer {
 
     console.assert(instance, `There are no attribute ${id} to delete!`)
 
-    instance.entity.updateElement()
+    instance.subjectModel.updateElement()
 
     super._emit('textae-event.annotation-data.attribute.remove', instance)
 
