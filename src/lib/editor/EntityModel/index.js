@@ -139,24 +139,32 @@ export default class EntityModel {
   }
 
   select() {
-    const el = this.element
-    el.classList.add(SELECTED)
+    if (!this._selected) {
+      this._selected = true
 
-    // The block span renders as a div HTML element.
-    // Because the positioning of div HTML elements is slower than that of span HTML elements,
-    // block span grids do not move at render time.
-    // Focusing before moving causes the browser to scroll to the top of the document.
-    // So focus after the move, not at render time.
-    if (this.span.isGridBeforePositioned) {
-      this.span.entityToFocusOn = this
-    } else {
-      // Set focus to the label element in order to scroll the browser to the position of the element.
-      el.querySelector('.textae-editor__entity__type-label').focus()
+      const el = this.element
+      el.classList.add(SELECTED)
+
+      // The block span renders as a div HTML element.
+      // Because the positioning of div HTML elements is slower than that of span HTML elements,
+      // block span grids do not move at render time.
+      // Focusing before moving causes the browser to scroll to the top of the document.
+      // So focus after the move, not at render time.
+      if (this.span.isGridBeforePositioned) {
+        this.span.entityToFocusOn = this
+      } else {
+        // Set focus to the label element in order to scroll the browser to the position of the element.
+        el.querySelector('.textae-editor__entity__type-label').focus()
+      }
     }
   }
 
   deselect() {
-    this.element.classList.remove(SELECTED)
+    if (this._selected) {
+      this._selected = false
+
+      this.element.classList.remove(SELECTED)
+    }
   }
 
   renderElement() {
