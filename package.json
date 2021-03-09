@@ -27,7 +27,7 @@
     "throttleit": "^1.0.0"
   },
   "devDependencies": {
-    "@typescript-eslint/parser": "^4.16.1",
+    "@typescript-eslint/parser": "^4.17.0",
     "clean-css-cli": "^5.2.1",
     "connect": "^3.7.0",
     "cpx2": "^3.0.0",
