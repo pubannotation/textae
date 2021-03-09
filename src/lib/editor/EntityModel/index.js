@@ -168,6 +168,22 @@ export default class EntityModel {
     }
   }
 
+  destroyElement() {
+    this.element.remove()
+  }
+
+  reflectEntityGapInTheHeight() {
+    if (this.isDenotation) {
+      const entityElement = this.element
+      if (entityElement) {
+        entityElement.setAttribute(
+          'style',
+          `padding-top: ${typeGapUnitHeight * this._entityGap.value}px;`
+        )
+      }
+    }
+  }
+
   _selectElement() {
     const el = this.element
     el.classList.add(SELECTED)
@@ -182,22 +198,6 @@ export default class EntityModel {
     } else {
       // Set focus to the label element in order to scroll the browser to the position of the element.
       el.querySelector('.textae-editor__entity__type-label').focus()
-    }
-  }
-
-  destroyElement() {
-    this.element.remove()
-  }
-
-  reflectEntityGapInTheHeight() {
-    if (this.isDenotation) {
-      const entityElement = this.element
-      if (entityElement) {
-        entityElement.setAttribute(
-          'style',
-          `padding-top: ${typeGapUnitHeight * this._entityGap.value}px;`
-        )
-      }
     }
   }
 
