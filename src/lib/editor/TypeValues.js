@@ -21,8 +21,16 @@ export default class TypeValues {
     attributeDefinitionContainer
   ) {
     return {
-      displayName: this._getDisplayName(namespace, definitionContainer),
-      href: this._href(namespace, definitionContainer),
+      displayName: getDisplayName(
+        namespace,
+        this.typeName,
+        definitionContainer.getLabel(this.typeName)
+      ),
+      href: getUri(
+        namespace,
+        this.typeName,
+        definitionContainer.getUri(this.typeName)
+      ),
       color: definitionContainer.getColor(this.typeName),
       attributes: this.attributes.map(
         ({ pred, obj, displayName, href, color }) => ({
@@ -35,21 +43,5 @@ export default class TypeValues {
         })
       )
     }
-  }
-
-  _getDisplayName(namespace, definitionContainer) {
-    return getDisplayName(
-      namespace,
-      this.typeName,
-      definitionContainer.getLabel(this.typeName)
-    )
-  }
-
-  _href(namespace, definitionContainer) {
-    return getUri(
-      namespace,
-      this.typeName,
-      definitionContainer.getUri(this.typeName)
-    )
   }
 }
