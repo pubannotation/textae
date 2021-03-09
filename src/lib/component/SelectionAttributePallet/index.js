@@ -1,6 +1,6 @@
 import delegate from 'delegate'
 import dohtml from 'dohtml'
-import selectionAttributeTemplate from './selectionAttributeTemplate'
+import template from './template'
 import Pallet from '../Pallet'
 
 export default class SelectionAttributePallet extends Pallet {
@@ -42,6 +42,6 @@ export default class SelectionAttributePallet extends Pallet {
     const values = {
       attrDef: this._attributeDefinition.JSON
     }
-    return selectionAttributeTemplate(values)
+    return template(values)
   }
 }
