@@ -154,7 +154,7 @@ export default class SVGConnection {
   }
 
   get _color() {
-    return this._relation.getColor(this._definitionContainer)
+    return this._relation.color
   }
 
   _destoryPath() {

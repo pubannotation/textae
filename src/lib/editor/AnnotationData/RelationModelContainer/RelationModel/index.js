@@ -34,10 +34,6 @@ export default class RelationModel {
     return this.typeName === typeName
   }
 
-  getColor(definitionContainer) {
-    return definitionContainer.getColor(this.typeName)
-  }
-
   get subj() {
     return this._subj
   }
@@ -123,5 +119,9 @@ export default class RelationModel {
       this.typeName,
       this._definitionContainer.getUri(this.typeName)
     )
+  }
+
+  get color() {
+    return this._definitionContainer.getColor(this.typeName)
   }
 }
