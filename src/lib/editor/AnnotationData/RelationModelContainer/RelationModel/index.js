@@ -52,17 +52,11 @@ export default class RelationModel {
   }
 
   select() {
-    if (!this._isSelected) {
-      this._isSelected = true
-      this._connect.select()
-    }
+    this._connect.select()
   }
 
   deselect() {
-    if (this._isSelected) {
-      this._isSelected = false
-      this._connect.deselect()
-    }
+    this._connect.deselect()
   }
 
   // Relationships are rendered asynchronously.

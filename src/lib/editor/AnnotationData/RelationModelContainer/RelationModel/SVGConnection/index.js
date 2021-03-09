@@ -21,13 +21,19 @@ export default class SVGConnection {
   }
 
   select() {
-    this.destroy()
-    this._createPath(true)
-    this._createLabel(true)
+    if (!this._isSelected) {
+      this._isSelected = true
+      this.destroy()
+      this._createPath(true)
+      this._createLabel(true)
+    }
   }
 
   deselect() {
-    this.recreate()
+    if (this._isSelected) {
+      this._isSelected = false
+      this.recreate()
+    }
   }
 
   pointUp() {
