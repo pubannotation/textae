@@ -4,8 +4,8 @@ export default class ViewHandler {
     this._denititionContainer = definitionContainer
   }
 
-  relationClicked(_, relation) {
-    const { href } = relation
+  relationClicked(_, relation, attribute) {
+    const { href } = attribute || relation
 
     if (href) {
       window.open(href, '_blank')

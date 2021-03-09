@@ -784,6 +784,18 @@
       "subj": "E1:a:b",
       "pred": "score",
       "obj": 0.1
+    },
+    {
+      "id": "A20",
+      "subj": "R12",
+      "pred": "score",
+      "obj": 0.8
+    },
+    {
+      "id": "A21",
+      "subj": "R12",
+      "pred": "denote",
+      "obj": "http://www.yahoo.co.jp/eeeeeeeeeeeeeeeeeoaoeuaoeuaoue"
     }
   ],
   "relations": [

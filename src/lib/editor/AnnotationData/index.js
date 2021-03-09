@@ -49,6 +49,7 @@ export default class AnnotationData {
     this.attribute = new AttributeModelContainer(
       editor.eventEmitter,
       this.entity,
+      this.relation,
       this.namespace,
       attributeDefinitionContainer
     )

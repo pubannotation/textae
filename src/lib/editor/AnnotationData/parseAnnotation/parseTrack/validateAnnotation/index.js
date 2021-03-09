@@ -30,14 +30,14 @@ export default function (text, rowData) {
 
   const [block, errorBlocks] = validateBlock(text, rowData.blocks, spans)
 
-  const [attribute, errorAttributes] = validateAttribute(
-    denotation.concat(block),
-    rowData.attributes
-  )
-
   const [relation, errorRelations] = validateRelation(
     denotation.concat(block),
     rowData.relations
+  )
+
+  const [attribute, errorAttributes] = validateAttribute(
+    denotation.concat(block).concat(relation),
+    rowData.attributes
   )
 
   debugLogCrossing('TypeSettings', errorTypeSettings)

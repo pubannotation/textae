@@ -68,7 +68,8 @@ export default class EditMode {
 
     editor.eventEmitter.on(
       'textae-event.editor.relation.click',
-      (event, relation) => this._getHandler().relationClicked(event, relation)
+      (event, relation, attribute) =>
+        this._getHandler().relationClicked(event, relation, attribute)
     )
 
     this._viewHandler = new ViewHandler(

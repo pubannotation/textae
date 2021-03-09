@@ -10,6 +10,7 @@ export default class Label {
     displayName,
     href,
     color,
+    attributes,
     onClick,
     isSelected
   ) {
@@ -28,7 +29,7 @@ export default class Label {
       color,
       href,
       displayName,
-      [],
+      attributes,
       isSelected ? 'ui-selected' : null,
       null
     )
@@ -41,5 +42,17 @@ export default class Label {
 
   destructor() {
     this._container.removeChild(this._label)
+  }
+
+  get y() {
+    return this._background.getBBox().y
+  }
+
+  get width() {
+    return this._label.getBBox().width
+  }
+
+  get height() {
+    return this._label.getBBox().height
   }
 }

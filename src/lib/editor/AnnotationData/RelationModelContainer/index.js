@@ -20,6 +20,7 @@ export default class RelationModelContainer extends IdIssueContainer {
     return new RelationModel(
       this._editor,
       this._parentContainer.entity,
+      this._parentContainer.attribute,
       relation,
       this._namespace,
       this._definitionContainer
@@ -34,6 +35,7 @@ export default class RelationModelContainer extends IdIssueContainer {
         : new RelationModel(
             this._editor,
             this._parentContainer.entity,
+            this._parentContainer.attribute,
             newValue,
             this._namespace,
             this._definitionContainer

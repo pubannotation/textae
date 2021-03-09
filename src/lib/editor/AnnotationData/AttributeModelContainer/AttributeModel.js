@@ -6,6 +6,7 @@ export default class AttributeModel {
   constructor(
     { id, subj, pred, obj },
     entityContainer,
+    relationContaier,
     namespace,
     definitionContainer
   ) {
@@ -14,6 +15,7 @@ export default class AttributeModel {
     this.pred = pred
     this._obj = obj
     this._entityContainer = entityContainer
+    this._relationContaier = relationContaier
     this._namespace = namespace
     this._definitionContainer = definitionContainer
   }
@@ -31,7 +33,10 @@ export default class AttributeModel {
   }
 
   get subjectModel() {
-    return this._entityContainer.get(this.subj)
+    return (
+      this._entityContainer.get(this.subj) ||
+      this._relationContaier.get(this.subj)
+    )
   }
 
   get title() {
