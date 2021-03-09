@@ -12,7 +12,7 @@ export default function (annotationData, editor, entityRenderer) {
       }
 
       for (const relation of annotationData.relation.all) {
-        relation.renderElement(editor)
+        relation.renderElement()
       }
     })
     .on('textae-event.annotation-data.span.add', (span) =>
