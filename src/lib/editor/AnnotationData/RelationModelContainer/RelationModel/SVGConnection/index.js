@@ -1,4 +1,3 @@
-import getDisplayName from '../../../../getDisplayName'
 import createMarker from './createMarker'
 import createPath from './createPath'
 import { NS } from './NS'
@@ -119,11 +118,7 @@ export default class SVGConnection {
     const labelY = pathBBox.y - 2
 
     const label = document.createElementNS(NS.SVG, 'text')
-    label.textContent = `[${this._relation.id}] ${getDisplayName(
-      this._namespace,
-      this._relation.typeName,
-      this._definitionContainer.getLabel(this._relation.typeName)
-    )}`
+    label.textContent = `[${this._relation.id}] ${this._relation.displayName}`
     this._relationBox.appendChild(label)
     const labelBBox = label.getBBox()
     label.setAttribute('x', labelX - labelBBox.width / 2)

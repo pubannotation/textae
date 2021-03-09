@@ -1,3 +1,4 @@
+import getDisplayName from '../../../getDisplayName'
 import getUri from '../../../getUri'
 import getEntityEndpoint from './getEntityEndpoint'
 import SVGConnection from './SVGConnection'
@@ -111,6 +112,14 @@ export default class RelationModel {
 
     this._connect.destroy()
     this._connect = undefined
+  }
+
+  get displayName() {
+    return getDisplayName(
+      this._namespace,
+      this.typeName,
+      this._definitionContainer.getLabel(this.typeName)
+    )
   }
 
   get href() {
