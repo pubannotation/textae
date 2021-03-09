@@ -2,9 +2,9 @@ import arrayMove from 'array-move'
 import createAttributeDefinition from './createAttributeDefinition'
 
 export default class AttributeDefinitionContainer {
-  constructor(editor, annotationDataAttribute) {
+  constructor(editor, getAllInstanceFunc) {
     this._editor = editor
-    this._annotationDataAttribute = annotationDataAttribute
+    this._getAllInstanceFunc = getAllInstanceFunc
   }
 
   set definedTypes(attributes) {
@@ -125,7 +125,7 @@ export default class AttributeDefinitionContainer {
     }
 
     // If there is an instance that uses a selection attribute, do not delete it.
-    if (this._annotationDataAttribute.all.some((a) => a.equalsTo(pred, id))) {
+    if (this._getAllInstanceFunc().some((a) => a.equalsTo(pred, id))) {
       return true
     }
 

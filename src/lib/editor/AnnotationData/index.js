@@ -68,7 +68,7 @@ export default class AnnotationData {
     )
     const attributeDefinitionContainer = new AttributeDefinitionContainer(
       editor,
-      this.attribute
+      () => this.attribute.all
     )
     this._typeDefinition = new TypeDefinition(
       editor,
