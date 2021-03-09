@@ -9,7 +9,7 @@ import getEntityHTMLelementFromChild from '../getEntityHTMLelementFromChild'
 
 export default class View {
   constructor(editor, annotationData, selectionModel) {
-    const renderer = new Renderer(editor, annotationData, selectionModel)
+    const renderer = new Renderer(editor, annotationData)
     this._annotationPosition = new AnnotationPosition(
       editor,
       annotationData,
