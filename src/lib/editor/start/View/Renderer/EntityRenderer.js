@@ -1,7 +1,6 @@
 export default class EntityRenderer {
-  constructor(annotationData, selectionModel) {
+  constructor(annotationData) {
     this._annotationData = annotationData
-    this._selectionModel = selectionModel
   }
 
   render(entity) {

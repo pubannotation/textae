@@ -4,7 +4,7 @@ import bindAnnotationDataEvents from './bindAnnotationDataEvents'
 export default class Renderer {
   constructor(editor, annotationData, selectionModel) {
     this._annotationData = annotationData
-    const entityRenderer = new EntityRenderer(annotationData, selectionModel)
+    const entityRenderer = new EntityRenderer(annotationData)
 
     bindAnnotationDataEvents(annotationData, editor, entityRenderer)
 
