@@ -8,7 +8,7 @@ import bindAnnotationDataEvents from './bindAnnotationDataEvents'
 import getEntityHTMLelementFromChild from '../getEntityHTMLelementFromChild'
 
 export default class View {
-  constructor(editor, annotationData, selectionModel) {
+  constructor(editor, annotationData) {
     const renderer = new Renderer(editor, annotationData)
     this._annotationPosition = new AnnotationPosition(
       editor,
