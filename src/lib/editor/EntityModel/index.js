@@ -65,11 +65,7 @@ export default class EntityModel {
   }
 
   get attributes() {
-    return this._attributeContainer.all
-      .filter((a) => a.subj === this._id)
-      .sort((a, b) =>
-        this._typeDefinition.attribute.attributeCompareFunction(a, b)
-      )
+    return this._attributeContainer.getAttributesFor(this._id)
   }
 
   get relations() {

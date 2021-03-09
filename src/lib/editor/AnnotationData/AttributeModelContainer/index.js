@@ -2,10 +2,11 @@ import AttributeModel from './AttributeModel'
 import IdIssueContainer from '../IdIssueContainer'
 
 export default class AttributeModelContainer extends IdIssueContainer {
-  constructor(emitter, entityContainer) {
+  constructor(emitter, entityContainer, definitionContainer) {
     super(emitter, 'attribute', 'A')
 
     this._entityContainer = entityContainer
+    this._definitionContainer = definitionContainer
   }
 
   _toModel(attribute) {
@@ -53,5 +54,11 @@ export default class AttributeModelContainer extends IdIssueContainer {
 
   getSameAttributes(pred, obj) {
     return this.all.filter((a) => a.equalsTo(pred, obj))
+  }
+
+  getAttributesFor(subj) {
+    return this.all
+      .filter((a) => a.subj === subj)
+      .sort((a, b) => this._definitionContainer.attributeCompareFunction(a, b))
   }
 }

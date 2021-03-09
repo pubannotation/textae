@@ -47,7 +47,8 @@ export default class AnnotationData {
     )
     this.attribute = new AttributeModelContainer(
       editor.eventEmitter,
-      this.entity
+      this.entity,
+      attributeDefinitionContainer
     )
 
     this._textBox = createTextBox(editor, this)
