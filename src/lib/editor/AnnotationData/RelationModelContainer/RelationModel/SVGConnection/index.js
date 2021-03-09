@@ -117,37 +117,59 @@ export default class SVGConnection {
     const labelX = pathBBox.x + pathBBox.width / 2
     const labelY = pathBBox.y - 2
 
-    const label = document.createElementNS(NS.SVG, 'text')
-    label.textContent = `[${this._relation.id}] ${this._relation.displayName}`
-    this._relationBox.appendChild(label)
-    const labelBBox = label.getBBox()
-    label.setAttribute('x', labelX - labelBBox.width / 2)
-    label.setAttribute('y', labelY)
-
-    if (this._relation.href) {
-      label.classList.add('textae-editor__relation-label--isLink')
-    }
-    if (isBold) {
-      label.classList.add('textae-editor__relation-label--isBold')
-    }
-
-    label.addEventListener('click', this._onClick)
-    this._label = label
-
-    const labelBackground = document.createElementNS(NS.SVG, 'rect')
-    labelBackground.setAttribute('x', labelX - labelBBox.width / 2)
-    labelBackground.setAttribute('y', labelY - labelBBox.height / 2 - 3)
-    labelBackground.setAttribute('width', labelBBox.width)
-    labelBackground.setAttribute('height', labelBBox.height)
-    labelBackground.style.fill = 'yellow'
-    labelBackground.style.fillOpacity = 0.6
-    this._relationBox.insertBefore(labelBackground, label)
-    this._labelBackground = labelBackground
+    this._label = new Label(
+      this._relationBox,
+      labelX,
+      labelY,
+      `[${this._relation.id}] ${this._relation.displayName}`,
+      this._relation.href,
+      'yellow',
+      this._onClick,
+      isBold
+    )
   }
 
   _destoryPath() {
     this._relationBox.removeChild(this._path)
-    this._relationBox.removeChild(this._label)
-    this._relationBox.removeChild(this._labelBackground)
+    this._label.destructor()
+  }
+}
+
+class Label {
+  constructor(container, x, y, displayName, href, color, onClick, isBold) {
+    this._container = container
+
+    const label = document.createElementNS(NS.SVG, 'text')
+    label.textContent = displayName
+    container.appendChild(label)
+    const labelBBox = label.getBBox()
+    label.setAttribute('x', x - labelBBox.width / 2)
+    label.setAttribute('y', y)
+
+    if (href) {
+      label.classList.add('textae-editor__relation-label--isLink')
+    }
+
+    if (isBold) {
+      label.classList.add('textae-editor__relation-label--isBold')
+    }
+
+    label.addEventListener('click', onClick)
+    this._label = label
+
+    const background = document.createElementNS(NS.SVG, 'rect')
+    background.setAttribute('x', x - labelBBox.width / 2)
+    background.setAttribute('y', y - labelBBox.height / 2 - 3)
+    background.setAttribute('width', labelBBox.width)
+    background.setAttribute('height', labelBBox.height)
+    background.style.fill = color
+    background.style.fillOpacity = 0.6
+    container.insertBefore(background, label)
+    this._background = background
+  }
+
+  destructor() {
+    this._container.removeChild(this._label)
+    this._container.removeChild(this._background)
   }
 }
