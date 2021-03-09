@@ -166,6 +166,8 @@ export default class EntityModel {
     if (this._selected) {
       this._selectElement()
     }
+
+    this.reflectEntityGapInTheHeight()
   }
 
   destroyElement() {

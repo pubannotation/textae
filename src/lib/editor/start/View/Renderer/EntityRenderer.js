@@ -23,7 +23,6 @@ export default class EntityRenderer {
 
   change(entity) {
     entity.updateElement()
-    entity.reflectEntityGapInTheHeight()
   }
 
   remove(entity) {
