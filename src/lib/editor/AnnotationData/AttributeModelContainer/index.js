@@ -49,6 +49,8 @@ export default class AttributeModelContainer extends IdIssueContainer {
 
     console.assert(instance, `There are no attribute ${id} to delete!`)
 
+    instance.entity.updateElement()
+
     super._emit('textae-event.annotation-data.attribute.remove', instance)
 
     return instance

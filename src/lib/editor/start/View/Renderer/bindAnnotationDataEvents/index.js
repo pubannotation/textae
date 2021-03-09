@@ -48,7 +48,4 @@ export default function (annotationData, editor, entityRenderer) {
         entity.updateElement()
       }
     })
-    .on('textae-event.annotation-data.attribute.remove', (attribute) => {
-      attribute.entity.updateElement()
-    })
 }
