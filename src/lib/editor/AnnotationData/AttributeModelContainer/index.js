@@ -10,7 +10,11 @@ export default class AttributeModelContainer extends IdIssueContainer {
   }
 
   _toModel(attribute) {
-    return new AttributeModel(attribute, this._entityContainer)
+    return new AttributeModel(
+      attribute,
+      this._entityContainer,
+      this._definitionContainer
+    )
   }
 
   add(newValue) {

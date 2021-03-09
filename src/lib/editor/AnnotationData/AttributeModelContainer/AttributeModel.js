@@ -1,15 +1,20 @@
 export default class AttributeModel {
   // Expected an attribute like {id: "A1", subj: "T1", pred: "example_predicate_1", obj: "attr1"}.
-  constructor({ id, subj, pred, obj }, entityContainer) {
+  constructor({ id, subj, pred, obj }, entityContainer, definitionContainer) {
     this.id = id
     this.subj = subj
     this.pred = pred
     this.obj = obj
     this._entityContainer = entityContainer
+    this._definitionContainer = definitionContainer
   }
 
   get entity() {
     return this._entityContainer.get(this.subj)
+  }
+
+  get color() {
+    return this._definitionContainer.getColor(this.pred, this.obj)
   }
 
   equalsTo(pred, obj) {
