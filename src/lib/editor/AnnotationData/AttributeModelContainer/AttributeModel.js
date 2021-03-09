@@ -1,3 +1,4 @@
+import getDisplayName from '../../getDisplayName'
 import getUri from '../../getUri'
 
 export default class AttributeModel {
@@ -19,6 +20,14 @@ export default class AttributeModel {
 
   get entity() {
     return this._entityContainer.get(this.subj)
+  }
+
+  get displayName() {
+    return getDisplayName(
+      this._namespace,
+      typeof this.obj === 'string' ? this.obj : '',
+      this._definitionContainer.getDisplayName(this.pred, this.obj)
+    )
   }
 
   get href() {
