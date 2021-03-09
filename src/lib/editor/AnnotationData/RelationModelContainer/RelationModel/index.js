@@ -51,16 +51,12 @@ export default class RelationModel {
     return getEntityEndpoint(this._editor, this.obj)
   }
 
-  get isRendered() {
-    return this._connect !== undefined
-  }
-
   select() {
-    if (this._connect) this._connect.select()
+    this._connect.select()
   }
 
   deselect() {
-    if (this._connect) this._connect.deselect()
+    this._connect.deselect()
   }
 
   // Relationships are rendered asynchronously.
@@ -71,15 +67,11 @@ export default class RelationModel {
   // before the rendering of the relationship is complete.
   // You need to make sure that the relationship has been rendered.
   pointUp() {
-    if (this.isRendered) {
-      this._connect.pointUp()
-    }
+    this._connect.pointUp()
   }
 
   pointDown() {
-    if (this.isRendered) {
-      this._connect.pointDown()
-    }
+    this._connect.pointDown()
   }
 
   renderElement() {
@@ -106,10 +98,6 @@ export default class RelationModel {
   }
 
   destroyElement() {
-    if (!this.isRendered) {
-      return
-    }
-
     this._connect.destroy()
     this._connect = undefined
   }
