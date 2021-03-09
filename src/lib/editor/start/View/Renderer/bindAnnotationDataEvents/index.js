@@ -37,9 +37,6 @@ export default function (annotationData, editor, entityRenderer) {
         entityRenderer.render(entity)
       }
     })
-    .on('textae-event.annotation-data.attribute.add', (attribute) => {
-      attribute.entity.updateElement()
-    })
     .on('textae-event.commander.attributes.change', (attributes) => {
       for (const entity of attributes.reduce(
         (prev, curr) => prev.add(curr.entity),

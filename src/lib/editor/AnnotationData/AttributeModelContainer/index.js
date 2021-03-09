@@ -21,11 +21,14 @@ export default class AttributeModelContainer extends IdIssueContainer {
 
   add(newValue) {
     // When redoing, the newValue is instance of the AttributeModel already.
-    if (newValue instanceof AttributeModel) {
-      return super.add(newValue)
-    }
+    newValue =
+      newValue instanceof AttributeModel ? newValue : this._toModel(newValue)
 
-    return super.add(this._toModel(newValue))
+    super.add(newValue)
+
+    newValue.entity.updateElement()
+
+    return newValue
   }
 
   change(id, newPred, newObj) {
