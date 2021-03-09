@@ -2,10 +2,11 @@ import AttributeModel from './AttributeModel'
 import IdIssueContainer from '../IdIssueContainer'
 
 export default class AttributeModelContainer extends IdIssueContainer {
-  constructor(emitter, entityContainer, definitionContainer) {
+  constructor(emitter, entityContainer, namespace, definitionContainer) {
     super(emitter, 'attribute', 'A')
 
     this._entityContainer = entityContainer
+    this._namespace = namespace
     this._definitionContainer = definitionContainer
   }
 
@@ -13,6 +14,7 @@ export default class AttributeModelContainer extends IdIssueContainer {
     return new AttributeModel(
       attribute,
       this._entityContainer,
+      this._namespace,
       this._definitionContainer
     )
   }
