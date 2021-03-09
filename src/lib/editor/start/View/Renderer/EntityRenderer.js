@@ -43,7 +43,7 @@ export default class EntityRenderer {
         (typeName.lastIndexOf('*') === typeName.length - 1 &&
           entity.typeName.indexOf(typeName.slice(0, -1) === 0))
       ) {
-        this.change(entity)
+        entity.updateElement()
       }
     }
   }
