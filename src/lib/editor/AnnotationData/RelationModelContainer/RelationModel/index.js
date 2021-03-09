@@ -119,9 +119,9 @@ export default class RelationModel {
 
   getLink(namespace, definitionContainer) {
     return getUri(
-      namespace,
+      this._namespace,
       this.typeName,
-      definitionContainer.getUri(this.typeName)
+      this._definitionContainer.getUri(this.typeName)
     )
   }
 }
