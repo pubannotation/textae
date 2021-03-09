@@ -158,7 +158,7 @@ export default class EntityModel {
     return createEntityHTMLElement(this._HTMLElementContext)
   }
 
-  updateElement(isSelected) {
+  updateElement() {
     const element = this.renderElement()
     this.element.replaceWith(element)
 

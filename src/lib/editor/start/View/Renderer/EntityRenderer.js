@@ -23,8 +23,7 @@ export default class EntityRenderer {
   }
 
   change(entity) {
-    entity.updateElement(this._selectionModel.entity.has(entity.id))
-
+    entity.updateElement()
     entity.reflectEntityGapInTheHeight()
   }
 
