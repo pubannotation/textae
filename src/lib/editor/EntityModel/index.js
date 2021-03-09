@@ -92,17 +92,9 @@ export default class EntityModel {
     return {
       id: makeEntityHTMLElementId(this._editor, this.id),
       title: this.id,
-      displayName: getDisplayName(
-        namespace,
-        this.typeName,
-        definitionContainer.getLabel(this.typeName)
-      ),
-      href: getUri(
-        namespace,
-        this.typeName,
-        definitionContainer.getUri(this.typeName)
-      ),
-      color: definitionContainer.getColor(this.typeName),
+      displayName: this.displayName,
+      href: this.href,
+      color: this.color,
       attributes: this.attributes.map(
         ({ pred, obj, displayName, href, color }) => ({
           pred,
@@ -210,5 +202,25 @@ export default class EntityModel {
     } else {
       throw 'unknown entity type'
     }
+  }
+
+  get displayName() {
+    return getDisplayName(
+      this._namespace,
+      this.typeName,
+      this._definitionContainerFor.getLabel(this.typeName)
+    )
+  }
+
+  get href() {
+    return getUri(
+      this._namespace,
+      this.typeName,
+      this._definitionContainerFor.getUri(this.typeName)
+    )
+  }
+
+  get color() {
+    return this._definitionContainerFor.getColor(this.typeName)
   }
 }
