@@ -48,13 +48,13 @@ export default class EntityRenderer {
     for (const entity of this._annotationData.entity.all.filter((e) =>
       e.hasSpecificPredicateAttribute(pred)
     )) {
-      this.change(entity)
+      entity.updateElement()
     }
   }
 
   updateEntityHtmlelementAll() {
     for (const entity of this._annotationData.entity.all) {
-      this.change(entity)
+      entity.updateElement()
     }
   }
 }
