@@ -74,13 +74,12 @@ export default class SVGConnection {
       .getBoundingClientRect()
     const sourceEndpoint = this._relation.sourceEndpoint.getBoundingClientRect()
     const targetEndpoint = this._relation.targetEndpoint.getBoundingClientRect()
-    const color = this._color
 
     const path = createPath(
       sourceEndpoint,
       annotationBox,
       targetEndpoint,
-      color,
+      this._relation.color,
       marker,
       isBold
     )
@@ -103,8 +102,6 @@ export default class SVGConnection {
     //  When the path is made thicker, the marker should be smaller.
     const weights = isBold ? 0.5 : 1
 
-    const color = this._color
-
     const defs = this._relationBox.children[0]
     if (!defs.querySelector(`#${id}`)) {
       const marker = createMarker(id)
@@ -112,7 +109,7 @@ export default class SVGConnection {
     }
 
     const marker = defs.querySelector(`#${id}`)
-    setMarkerStyle(marker, weights, color)
+    setMarkerStyle(marker, weights, this._relation.color)
     return marker
   }
 
@@ -151,10 +148,6 @@ export default class SVGConnection {
     labelBackground.style.fillOpacity = 0.6
     this._relationBox.insertBefore(labelBackground, label)
     this._labelBackground = labelBackground
-  }
-
-  get _color() {
-    return this._relation.color
   }
 
   _destoryPath() {
