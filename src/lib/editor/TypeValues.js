@@ -1,6 +1,3 @@
-import getDisplayName from './getDisplayName'
-import getUri from './getUri'
-
 export default class TypeValues {
   constructor(typeName, attributes = []) {
     this._typeName = typeName
@@ -13,35 +10,5 @@ export default class TypeValues {
 
   get attributes() {
     return this._attributes
-  }
-
-  toHTMLElementContext(
-    namespace,
-    definitionContainer,
-    attributeDefinitionContainer
-  ) {
-    return {
-      displayName: getDisplayName(
-        namespace,
-        this.typeName,
-        definitionContainer.getLabel(this.typeName)
-      ),
-      href: getUri(
-        namespace,
-        this.typeName,
-        definitionContainer.getUri(this.typeName)
-      ),
-      color: definitionContainer.getColor(this.typeName),
-      attributes: this.attributes.map(
-        ({ pred, obj, displayName, href, color }) => ({
-          pred,
-          obj,
-          title: `pred: ${pred}, value: ${obj}`,
-          displayName,
-          href,
-          color
-        })
-      )
-    }
   }
 }

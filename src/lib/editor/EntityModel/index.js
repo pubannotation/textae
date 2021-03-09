@@ -3,6 +3,8 @@ import { makeEntityHTMLElementId } from '../idFactory'
 import SELECTED from '../SELECTED'
 import createEntityHTMLElement from './createEntityHTMLElement'
 import typeGapUnitHeight from '../typeGapUnitHeight'
+import getDisplayName from '../getDisplayName'
+import getUri from '../getUri'
 
 export default class EntityModel {
   constructor(
@@ -88,14 +90,28 @@ export default class EntityModel {
 
   _toHTMLElementContext(namespace, definitionContainer) {
     return {
-      ...{
-        id: makeEntityHTMLElementId(this._editor, this.id),
-        title: this.id
-      },
-      ...this.typeValues.toHTMLElementContext(
+      id: makeEntityHTMLElementId(this._editor, this.id),
+      title: this.id,
+      displayName: getDisplayName(
         namespace,
-        definitionContainer,
-        this._typeDefinition.attribute
+        this.typeName,
+        definitionContainer.getLabel(this.typeName)
+      ),
+      href: getUri(
+        namespace,
+        this.typeName,
+        definitionContainer.getUri(this.typeName)
+      ),
+      color: definitionContainer.getColor(this.typeName),
+      attributes: this.attributes.map(
+        ({ pred, obj, displayName, href, color }) => ({
+          pred,
+          obj,
+          title: `pred: ${pred}, value: ${obj}`,
+          displayName,
+          href,
+          color
+        })
       )
     }
   }
