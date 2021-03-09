@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid'
 import createMarker from './createMarker'
 import createPath from './createPath'
 import Label from './Label'
@@ -94,7 +95,7 @@ export default class SVGConnection {
   _createMarker(isBold) {
     // The ID of the SVG element is global scope in the Window.
     // If you don't make it unique, it will use another editor's arrow.
-    const id = `${this._editor.editorId}_${this._relation.id}`
+    const id = `r${uuidv4()}`
 
     // Markers are affected by the stroke-width of the path.
     // If the path is made thicker, the marker will be larger than intended.
