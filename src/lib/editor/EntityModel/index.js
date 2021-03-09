@@ -142,7 +142,7 @@ export default class EntityModel {
     if (!this._selected) {
       this._selected = true
 
-      this._select()
+      this._selectElement()
     }
   }
 
@@ -164,11 +164,11 @@ export default class EntityModel {
 
     // Re-select a new entity element.
     if (this._selected) {
-      this._select()
+      this._selectElement()
     }
   }
 
-  _select() {
+  _selectElement() {
     const el = this.element
     el.classList.add(SELECTED)
 
