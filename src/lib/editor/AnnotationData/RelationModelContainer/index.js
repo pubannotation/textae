@@ -35,7 +35,7 @@ export default class RelationModelContainer extends IdIssueContainer {
 
   changeType(id, newType) {
     const relation = super.changeType(id, newType)
-    relation.renderElementAgain()
+    relation.updateElement()
     return relation
   }
 

@@ -93,7 +93,7 @@ export default class RelationModel {
     this._connect = connection
   }
 
-  renderElementAgain() {
+  updateElement() {
     this._connect.recreate()
   }
 

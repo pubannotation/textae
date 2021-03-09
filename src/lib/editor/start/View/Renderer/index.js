@@ -26,7 +26,7 @@ export default class Renderer {
             (typeName.lastIndexOf('*') === typeName.length - 1 &&
               relation.typeName.indexOf(typeName.slice(0, -1) === 0))
           ) {
-            relation.renderElementAgain()
+            relation.updateElement()
           }
         }
       })
@@ -37,7 +37,7 @@ export default class Renderer {
 
   arrangeRelationPositionAll() {
     for (const relation of this._annotationData.relation.all) {
-      relation.renderElementAgain()
+      relation.updateElement()
     }
   }
 }
