@@ -92,9 +92,9 @@ export default class EntityModel {
     return {
       id: makeEntityHTMLElementId(this._editor, this.id),
       title: this.id,
-      displayName: this.displayName,
-      href: this.href,
-      color: this.color,
+      displayName: this._displayName,
+      href: this._href,
+      color: this._color,
       attributes: this.attributes.map(
         ({ pred, obj, displayName, href, color }) => ({
           pred,
@@ -199,7 +199,7 @@ export default class EntityModel {
     }
   }
 
-  get displayName() {
+  get _displayName() {
     return getDisplayName(
       this._namespace,
       this.typeName,
@@ -207,7 +207,7 @@ export default class EntityModel {
     )
   }
 
-  get href() {
+  get _href() {
     return getUri(
       this._namespace,
       this.typeName,
@@ -215,7 +215,7 @@ export default class EntityModel {
     )
   }
 
-  get color() {
+  get _color() {
     return this._definitionContainerFor.getColor(this.typeName)
   }
 }
