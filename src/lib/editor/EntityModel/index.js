@@ -88,7 +88,7 @@ export default class EntityModel {
     }
   }
 
-  _toHTMLElementContext(namespace, definitionContainer) {
+  get _HTMLElementContext() {
     return {
       id: makeEntityHTMLElementId(this._editor, this.id),
       title: this.id,
@@ -160,12 +160,7 @@ export default class EntityModel {
   }
 
   renderElement() {
-    const context = this._toHTMLElementContext(
-      this._namespace,
-      this._definitionContainerFor,
-      this._typeDefinition.attribute
-    )
-    return createEntityHTMLElement(context)
+    return createEntityHTMLElement(this._HTMLElementContext)
   }
 
   updateElement(isSelected) {
