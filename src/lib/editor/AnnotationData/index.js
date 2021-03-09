@@ -40,10 +40,16 @@ export default class AnnotationData {
       this._entityGap,
       this.namespace
     )
+
+    const attributeDefinitionContainer = new AttributeDefinitionContainer(
+      editor,
+      () => this.attribute.all
+    )
     this.attribute = new AttributeModelContainer(
       editor.eventEmitter,
       this.entity
     )
+
     this._textBox = createTextBox(editor, this)
     this.span = new SpanModelContainer(
       editor,
@@ -65,10 +71,6 @@ export default class AnnotationData {
       'entity',
       () => this.entity.blocks,
       '#77DDDD'
-    )
-    const attributeDefinitionContainer = new AttributeDefinitionContainer(
-      editor,
-      () => this.attribute.all
     )
     this._typeDefinition = new TypeDefinition(
       editor,
