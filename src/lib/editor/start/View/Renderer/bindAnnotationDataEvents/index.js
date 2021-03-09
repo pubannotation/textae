@@ -26,7 +26,7 @@ export default function (annotationData, editor, entityRenderer) {
       entityRenderer.render(entity)
     })
     .on('textae-event.annotation-data.entity.change', (entity) => {
-      entityRenderer.change(entity)
+      entity.updateElement()
     })
     .on('textae-event.annotation-data.entity.remove', (entity) => {
       entityRenderer.remove(entity)
@@ -38,17 +38,17 @@ export default function (annotationData, editor, entityRenderer) {
       }
     })
     .on('textae-event.annotation-data.attribute.add', (attribute) => {
-      entityRenderer.change(attribute.entity)
+      attribute.entity.updateElement()
     })
     .on('textae-event.commander.attributes.change', (attributes) => {
       for (const entity of attributes.reduce(
         (prev, curr) => prev.add(curr.entity),
         new Set()
       )) {
-        entityRenderer.change(entity)
+        entity.updateElement()
       }
     })
     .on('textae-event.annotation-data.attribute.remove', (attribute) => {
-      entityRenderer.change(attribute.entity)
+      attribute.entity.updateElement()
     })
 }
