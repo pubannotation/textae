@@ -21,10 +21,6 @@ export default class EntityRenderer {
     entity.reflectEntityGapInTheHeight()
   }
 
-  change(entity) {
-    entity.updateElement()
-  }
-
   remove(entity) {
     if (entity.span.entities.length === 0) {
       // Destroy a grid when all entities are remove.
