@@ -5,10 +5,10 @@ export default class ViewHandler {
   }
 
   relationClicked(_, relation) {
-    const link = relation.href
+    const { href } = relation
 
-    if (link) {
-      window.open(link, '_blank')
+    if (href) {
+      window.open(href, '_blank')
     }
   }
 
