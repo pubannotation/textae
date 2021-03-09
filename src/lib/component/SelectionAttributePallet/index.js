@@ -8,7 +8,7 @@ export default class SelectionAttributePallet extends Pallet {
     super(editor, 'entity', 'Please select value')
 
     this._veil = dohtml.create(
-      `<div style="inset: 0; position: fixed; right: 0; top: 0; background-color: rgba(0, 0, 10, 0.3);"></div>`
+      `<div style="position: fixed; right: 0; top: 0; bottom:0; left: 0; background-color: rgba(0, 0, 10, 0.3);"></div>`
     )
   }
 
