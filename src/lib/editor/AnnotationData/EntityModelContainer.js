@@ -69,6 +69,12 @@ export default class EntityModelContainer extends IdIssueContainer {
     )
   }
 
+  changeType(id, newType) {
+    const entity = super.changeType(id, newType)
+    entity.updateElement()
+    return entity
+  }
+
   moveEntities(span, entities) {
     for (const entity of entities) {
       entity.span = span

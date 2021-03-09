@@ -25,9 +25,6 @@ export default function (annotationData, editor, entityRenderer) {
     .on('textae-event.annotation-data.entity.add', (entity) => {
       entityRenderer.render(entity)
     })
-    .on('textae-event.annotation-data.entity.change', (entity) => {
-      entity.updateElement()
-    })
     .on('textae-event.annotation-data.entity.remove', (entity) => {
       entityRenderer.remove(entity)
     })
