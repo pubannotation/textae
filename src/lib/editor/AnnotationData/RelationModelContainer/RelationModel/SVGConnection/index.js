@@ -132,10 +132,7 @@ export default class SVGConnection {
     label.setAttribute('x', labelX - labelBBox.width / 2)
     label.setAttribute('y', labelY)
 
-    const link = this._relation.getLink(
-      this._namespace,
-      this._definitionContainer
-    )
+    const link = this._relation.href
     if (link) {
       label.classList.add('textae-editor__relation-label--isLink')
     }

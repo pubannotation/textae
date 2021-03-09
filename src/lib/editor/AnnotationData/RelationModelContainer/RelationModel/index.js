@@ -117,7 +117,7 @@ export default class RelationModel {
     this._connect = undefined
   }
 
-  getLink(namespace, definitionContainer) {
+  get href() {
     return getUri(
       this._namespace,
       this.typeName,

@@ -5,7 +5,7 @@ export default class ViewHandler {
   }
 
   relationClicked(_, relation) {
-    const link = relation.getLink(this._namespace, this._denititionContainer)
+    const link = relation.href
 
     if (link) {
       window.open(link, '_blank')
