@@ -48,7 +48,7 @@ export default class TypeValues {
   }
 
   _attributesInHTMLElementContext(namespace, attributeDefinitionContainer) {
-    return this.attributes.map(({ pred, obj, color }) => ({
+    return this.attributes.map(({ pred, obj, href, color }) => ({
       pred,
       obj,
       title: `pred: ${pred}, value: ${obj}`,
@@ -57,7 +57,7 @@ export default class TypeValues {
         typeof obj === 'string' ? obj : '',
         attributeDefinitionContainer.getDisplayName(pred, obj)
       ),
-      href: getUri(namespace, typeof obj === 'string' ? obj : ''),
+      href,
       color
     }))
   }

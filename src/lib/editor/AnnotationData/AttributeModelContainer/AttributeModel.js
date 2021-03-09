@@ -1,3 +1,5 @@
+import getUri from '../../getUri'
+
 export default class AttributeModel {
   // Expected an attribute like {id: "A1", subj: "T1", pred: "example_predicate_1", obj: "attr1"}.
   constructor(
@@ -17,6 +19,10 @@ export default class AttributeModel {
 
   get entity() {
     return this._entityContainer.get(this.subj)
+  }
+
+  get href() {
+    return getUri(this._namespace, typeof this.obj === 'string' ? this.obj : '')
   }
 
   get color() {
