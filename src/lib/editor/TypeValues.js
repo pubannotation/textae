@@ -24,9 +24,15 @@ export default class TypeValues {
       displayName: this._getDisplayName(namespace, definitionContainer),
       href: this._href(namespace, definitionContainer),
       color: definitionContainer.getColor(this.typeName),
-      attributes: this._attributesInHTMLElementContext(
-        namespace,
-        attributeDefinitionContainer
+      attributes: this.attributes.map(
+        ({ pred, obj, displayName, href, color }) => ({
+          pred,
+          obj,
+          title: `pred: ${pred}, value: ${obj}`,
+          displayName,
+          href,
+          color
+        })
       )
     }
   }
@@ -45,16 +51,5 @@ export default class TypeValues {
       this.typeName,
       definitionContainer.getUri(this.typeName)
     )
-  }
-
-  _attributesInHTMLElementContext(namespace, attributeDefinitionContainer) {
-    return this.attributes.map(({ pred, obj, displayName, href, color }) => ({
-      pred,
-      obj,
-      title: `pred: ${pred}, value: ${obj}`,
-      displayName,
-      href,
-      color
-    }))
   }
 }
