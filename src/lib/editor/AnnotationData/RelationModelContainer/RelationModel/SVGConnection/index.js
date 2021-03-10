@@ -67,7 +67,11 @@ export default class SVGConnection {
 
   // Private APIs
   _createPath(isBold) {
-    const marker = this._createMarker(isBold)
+    const marker = this._createMarker(
+      this._relationBox,
+      this._relation.color,
+      isBold
+    )
 
     const annotationBox = this._editor[0]
       .querySelector('.textae-editor__annotation-box')
@@ -92,7 +96,7 @@ export default class SVGConnection {
     this._path = path
   }
 
-  _createMarker(isBold) {
+  _createMarker(container, color, isBold) {
     // The ID of the SVG element is global scope in the Window.
     // If you don't make it unique, it will use another editor's arrow.
     const id = `r${uuidv4()}`
@@ -102,14 +106,14 @@ export default class SVGConnection {
     //  When the path is made thicker, the marker should be smaller.
     const weights = isBold ? 0.5 : 1
 
-    const defs = this._relationBox.children[0]
+    const defs = container.children[0]
     if (!defs.querySelector(`#${id}`)) {
       const marker = createMarker(id)
       defs.appendChild(marker)
     }
 
     const marker = defs.querySelector(`#${id}`)
-    setMarkerStyle(marker, weights, this._relation.color)
+    setMarkerStyle(marker, weights, color)
     return marker
   }
 
