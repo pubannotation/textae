@@ -10,6 +10,7 @@ export default function (
   color,
   head,
   tail,
+  downTail,
   isBold
 ) {
   let sourceX =
@@ -18,10 +19,12 @@ export default function (
     targetEndpoint.left + targetEndpoint.width / 2 - annotationBox.left
 
   const markerSize = isBold ? 18 : 12
-  const sourceY = sourceEndpoint.top - annotationBox.top - markerSize
+  let sourceY = sourceEndpoint.top - annotationBox.top - markerSize
   const targetY = targetEndpoint.top - annotationBox.top - markerSize
 
   const path = document.createElementNS(NS.SVG, 'path')
+
+  path.setAttribute('marker-start', `url(#${tail.id})`)
 
   // When the source and target are close, don't shift them.
   if (sourceX < targetX - MinimumDistance) {
@@ -32,14 +35,21 @@ export default function (
     if (isBold || MinimumDistance <= targetEndpoint.width / 2) {
       targetX -= DistanceToShift * 3
     }
-  }
-
-  if (targetX < sourceX - MinimumDistance) {
+  } else if (targetX < sourceX - MinimumDistance) {
     if (isBold || MinimumDistance <= sourceEndpoint.width / 2) {
       sourceX -= DistanceToShift
     }
     if (isBold || MinimumDistance <= targetEndpoint.width / 2) {
       targetX += DistanceToShift
+    }
+  } else {
+    if (sourceY < targetY) {
+      sourceY =
+        sourceEndpoint.top +
+        sourceEndpoint.height -
+        annotationBox.top +
+        markerSize
+      path.setAttribute('marker-start', `url(#${downTail.id})`)
     }
   }
 
@@ -51,7 +61,6 @@ export default function (
   )
 
   path.setAttribute('style', `fill:none; stroke: ${color};`)
-  path.setAttribute('marker-start', `url(#${tail.id})`)
   path.setAttribute('marker-end', `url(#${head.id})`)
 
   if (isBold) {
