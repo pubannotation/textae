@@ -9,5 +9,7 @@ export default function (marker, weight, color, isTail) {
     'points',
     `0 0, ${12 * weight} ${6 * weight}, 0 ${12 * weight}`
   )
-  polygon.setAttribute('style', `fill: ${color}`)
+  polygon.setAttribute('stroke', `${color}`)
+  polygon.setAttribute('fill', `${color}`)
+  polygon.setAttribute('fill-opacity', 0.5)
 }
