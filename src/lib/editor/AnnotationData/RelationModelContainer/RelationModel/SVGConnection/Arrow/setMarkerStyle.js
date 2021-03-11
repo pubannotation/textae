@@ -11,5 +11,5 @@ export default function (marker, weight, color, isTail) {
   )
   polygon.setAttribute('stroke', `${color}`)
   polygon.setAttribute('fill', `${color}`)
-  polygon.setAttribute('fill-opacity', 0.5)
+  polygon.setAttribute('fill-opacity', 0.2)
 }
