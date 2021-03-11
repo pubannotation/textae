@@ -8,13 +8,14 @@ export default function (
   annotationBox,
   targetEndpoint,
   color,
-  arrow,
+  head,
+  tail,
   isBold
 ) {
   const path = document.createElementNS(NS.SVG, 'path')
   let sourceX =
     sourceEndpoint.left + sourceEndpoint.width / 2 - annotationBox.left
-  const sourceY = sourceEndpoint.top - annotationBox.top
+  const sourceY = sourceEndpoint.top - annotationBox.top - (isBold ? 18 : 12)
   let targetX =
     targetEndpoint.left + targetEndpoint.width / 2 - annotationBox.left
   const targetY = targetEndpoint.top - annotationBox.top - (isBold ? 18 : 12)
@@ -47,7 +48,8 @@ export default function (
   )
 
   path.setAttribute('style', `fill:none; stroke: ${color};`)
-  path.setAttribute('marker-end', `url(#${arrow.id})`)
+  path.setAttribute('marker-start', `url(#${tail.id})`)
+  path.setAttribute('marker-end', `url(#${head.id})`)
 
   if (isBold) {
     path.classList.add('textae-editor__relation--isBold')
