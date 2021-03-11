@@ -14,10 +14,12 @@ export default function (
 ) {
   let sourceX =
     sourceEndpoint.left + sourceEndpoint.width / 2 - annotationBox.left
-  const sourceY = sourceEndpoint.top - annotationBox.top - (isBold ? 18 : 12)
   let targetX =
     targetEndpoint.left + targetEndpoint.width / 2 - annotationBox.left
-  const targetY = targetEndpoint.top - annotationBox.top - (isBold ? 18 : 12)
+
+  const markerSize = isBold ? 18 : 12
+  const sourceY = sourceEndpoint.top - annotationBox.top - markerSize
+  const targetY = targetEndpoint.top - annotationBox.top - markerSize
 
   const path = document.createElementNS(NS.SVG, 'path')
 
