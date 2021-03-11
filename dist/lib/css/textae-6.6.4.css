@@ -4,12 +4,12 @@
   /*== Elements inside the textae_control ==*/
 }
 .textae-control__title {
-  margin: 0 10px 0 0;
-  font-weight: bold;
-  text-shadow: 2px 2px 5px #555;
+  margin: 2px 10px 0 0;
+  font-family: 'Helvetica Neue', Arial;
+  font-weight: 600;
   font-size: 18px;
+  letter-spacing: 2px;
   line-height: normal;
-  vertical-align: bottom;
   width: 65px;
 }
 .textae-control__title a {
@@ -119,15 +119,7 @@
 }
 /* control bar */
 .textae-control-bar {
-  background-color: #bbe;
-  /* fallback (Opera) */
-  background: #bbe;
-  /* Mozilla: */
-  background: -moz-linear-gradient(left, #bbbbee, #ffffff);
-  /* Chrome, Safari:*/
-  background: -webkit-gradient(linear, left top, right top, from(#bbbbee), to(#ffffff));
-  /* MSIE */
-  filter: progid:DXImageTransform.Microsoft.Gradient(StartColorStr='#BBBBEE', EndColorStr='#FFFFFF', GradientType=1);
+  background: linear-gradient(to right, #bbbbee, #ffffff);
   border-left: 5px solid #558;
   border-radius: 15px;
   border-right: 5px solid #558;
@@ -137,7 +129,6 @@
   margin-left: 2px;
   max-width: 763px;
   padding: 0 20px 5px 10px;
-  position: relative;
   position: sticky;
   top: 0;
   z-index: 8;
@@ -3799,11 +3790,13 @@ ul.jsondiffpatch-textdiff {
   color: white;
   font-weight: bold;
 }
+.textae-editor {
+  font-family: verdana, arial, helvetica, sans-serif;
+}
 .textae-editor,
 .textae-editor * {
   box-sizing: border-box;
   -moz-box-sizing: border-box;
-  font-family: verdana, arial, helvetica, sans-serif;
 }
 .textae-tool__key-help {
   background: url('./images/keyhelp.png');
