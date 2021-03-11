@@ -60,7 +60,7 @@ export default class Arrow {
     // The ID of the SVG element is global scope in the Window.
     // If you don't make it unique, it will use another editor's arrow.
     const id = `r${uuidv4()}`
-    const marker = createMarker(id, isTail)
+    const marker = createMarker(id, !isTail)
 
     // Markers are affected by the stroke-width of the path.
     // If the path is made thicker, the marker will be larger than intended.
