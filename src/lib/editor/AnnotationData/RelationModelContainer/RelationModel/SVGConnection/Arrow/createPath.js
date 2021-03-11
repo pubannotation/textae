@@ -12,13 +12,14 @@ export default function (
   tail,
   isBold
 ) {
-  const path = document.createElementNS(NS.SVG, 'path')
   let sourceX =
     sourceEndpoint.left + sourceEndpoint.width / 2 - annotationBox.left
   const sourceY = sourceEndpoint.top - annotationBox.top - (isBold ? 18 : 12)
   let targetX =
     targetEndpoint.left + targetEndpoint.width / 2 - annotationBox.left
   const targetY = targetEndpoint.top - annotationBox.top - (isBold ? 18 : 12)
+
+  const path = document.createElementNS(NS.SVG, 'path')
 
   // When the source and target are close, don't shift them.
   if (sourceX < targetX - MinimumDistance) {
