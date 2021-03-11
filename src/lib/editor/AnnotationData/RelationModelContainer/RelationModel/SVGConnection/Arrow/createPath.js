@@ -23,19 +23,19 @@ export default function (
   // When the source and target are close, don't shift them.
   if (sourceX < targetX - MinimumDistance) {
     // Shift only when the entity has enough width to shift the endpoint.
-    if (MinimumDistance <= sourceEndpoint.width / 2) {
+    if (isBold || MinimumDistance <= sourceEndpoint.width / 2) {
       sourceX += DistanceToShift * 3
     }
-    if (MinimumDistance <= targetEndpoint.width / 2) {
+    if (isBold || MinimumDistance <= targetEndpoint.width / 2) {
       targetX -= DistanceToShift * 3
     }
   }
 
   if (targetX < sourceX - MinimumDistance) {
-    if (MinimumDistance <= sourceEndpoint.width / 2) {
+    if (isBold || MinimumDistance <= sourceEndpoint.width / 2) {
       sourceX -= DistanceToShift
     }
-    if (MinimumDistance <= targetEndpoint.width / 2) {
+    if (isBold || MinimumDistance <= targetEndpoint.width / 2) {
       targetX += DistanceToShift
     }
   }
