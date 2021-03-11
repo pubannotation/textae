@@ -17,7 +17,7 @@ export default function (
   const sourceY = sourceEndpoint.top - annotationBox.top
   let targetX =
     targetEndpoint.left + targetEndpoint.width / 2 - annotationBox.left
-  const targetY = targetEndpoint.top - annotationBox.top
+  const targetY = targetEndpoint.top - annotationBox.top - (isBold ? 18 : 12)
 
   // When the source and target are close, don't shift them.
   if (sourceX < targetX - MinimumDistance) {

@@ -1,7 +1,7 @@
 export default function (marker, weight, color) {
   marker.setAttribute('markerWidth', 12 * weight)
   marker.setAttribute('markerHeight', 12 * weight)
-  marker.setAttribute('refX', 12 * weight)
+  marker.setAttribute('refX', 0)
   marker.setAttribute('refY', 6 * weight)
 
   const polygon = marker.children[0]
