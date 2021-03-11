@@ -10,7 +10,7 @@ export default class SVGConnection {
     this._editor = editor
     this._relationBox = editor[0].querySelector('.textae-editor__relation-box')
 
-    this._createPath(false)
+    this._createArrow(false)
     this._createLabel(false)
   }
 
@@ -22,7 +22,7 @@ export default class SVGConnection {
     if (!this._isSelected) {
       this._isSelected = true
       this.destroy()
-      this._createPath(true)
+      this._createArrow(true)
       this._createLabel(true)
     }
   }
@@ -39,7 +39,7 @@ export default class SVGConnection {
       this._isHovered = true
 
       this._destoryPath()
-      this._createPath(true)
+      this._createArrow(true)
       this._createLabel(true)
     }
   }
@@ -54,16 +54,16 @@ export default class SVGConnection {
   recreate() {
     this.destroy()
     if (this._isSelected) {
-      this._createPath(true)
+      this._createArrow(true)
       this._createLabel(true)
     } else {
-      this._createPath(false)
+      this._createArrow(false)
       this._createLabel(false)
     }
   }
 
   // Private APIs
-  _createPath(isBold) {
+  _createArrow(isBold) {
     const annotationBox = this._editor[0]
       .querySelector('.textae-editor__annotation-box')
       .getBoundingClientRect()
