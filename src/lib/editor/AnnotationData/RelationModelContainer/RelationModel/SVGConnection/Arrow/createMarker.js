@@ -1,4 +1,4 @@
-import { NS } from './NS'
+import { NS } from '../NS'
 
 export default function (id) {
   const marker = document.createElementNS(NS.SVG, 'marker')

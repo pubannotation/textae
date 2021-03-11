@@ -1,4 +1,4 @@
-import { NS } from './NS'
+import { NS } from '../NS'
 
 const DistanceToShift = 8
 const MinimumDistance = DistanceToShift * 3

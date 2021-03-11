@@ -1,4 +1,4 @@
-import Arrow from './Arrow'
+import Arrow from './Arrow/inedx'
 import Label from './Label'
 
 export default class SVGConnection {

@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid'
 import createMarker from './createMarker'
 import createPath from './createPath'
-import setMarkerStyle from './setMarkerStyle'
+import setMarkerStyle from '../setMarkerStyle'
 
 export default class Arrow {
   constructor(
