@@ -7,9 +7,7 @@ export default function (marker, weight, color) {
   const polygon = marker.children[0]
   polygon.setAttribute(
     'points',
-    `0 0, ${12 * weight} ${6 * weight}, 0 ${12 * weight}, ${6 * weight} ${
-      6 * weight
-    }`
+    `0 0, ${12 * weight} ${6 * weight}, 0 ${12 * weight}`
   )
   polygon.setAttribute('style', `fill: ${color}`)
 }
