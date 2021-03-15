@@ -6,39 +6,39 @@ import {
 import IdIssueContainer from './IdIssueContainer'
 
 export default class EntityModelContainer extends IdIssueContainer {
-  constructor(editor, emitter, parentContainer, entityGap, namespace) {
+  constructor(editor, emitter, parent, entityGap, namespace) {
     super(emitter, 'entity', 'T')
 
     this._editor = editor
 
-    // Since the attribute container and the entity container are cross-referenced,
-    // the entity container is retrieved dynamically.
-    this._parentContainer = parentContainer
+    // Since the attribute model container and the entity model container are cross-referenced,
+    // the entity model retrieves other containers dynamically.
+    this._parent = parent
 
     this._entityGap = entityGap
     this._namespace = namespace
   }
 
-  get _spanContainer() {
-    return this._parentContainer.span
+  get _spanModelContainer() {
+    return this._parent.span
   }
 
-  get _attributeContainer() {
-    return this._parentContainer.attribute
+  get _attributeModelContainer() {
+    return this._parent.attribute
   }
 
-  get _relationContainer() {
-    return this._parentContainer.relation
+  get _relationModelContainer() {
+    return this._parent.relation
   }
 
   _toModel(denotation, type) {
     // Expected an entity like {id: "E21", span: "editor2__S50_54", obj: "Protein"}.
     return new EntityModel(
       this._editor,
-      this._attributeContainer,
-      this._relationContainer,
+      this._attributeModelContainer,
+      this._relationModelContainer,
       this._entityGap,
-      this._parentContainer.typeDefinition,
+      this._parent.typeDefinition,
       this._getSpan(type, denotation),
       denotation.obj,
       this._namespace,
@@ -58,11 +58,11 @@ export default class EntityModelContainer extends IdIssueContainer {
     return super.add(
       new EntityModel(
         this._editor,
-        this._attributeContainer,
-        this._relationContainer,
+        this._attributeModelContainer,
+        this._relationModelContainer,
         this._entityGap,
-        this._parentContainer.typeDefinition,
-        this._spanContainer.get(newValue.span),
+        this._parent.typeDefinition,
+        this._spanModelContainer.get(newValue.span),
         newValue.typeName,
         this._namespace
       )
@@ -95,7 +95,7 @@ export default class EntityModelContainer extends IdIssueContainer {
   }
 
   _getSpan(type, denotation) {
-    return this._spanContainer.get(this._getSpanId(type, denotation))
+    return this._spanModelContainer.get(this._getSpanId(type, denotation))
   }
 
   _getSpanId(type, denotation) {
