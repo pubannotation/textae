@@ -1,8 +1,8 @@
 import SpanModel from './SpanModel'
 
 export default class StyleSpanModel extends SpanModel {
-  constructor(editor, begin, end, spanContainer, style) {
-    super(editor, begin, end, spanContainer)
+  constructor(editor, begin, end, spanModelContainer, style) {
+    super(editor, begin, end, spanModelContainer)
     this.styles = new Set([style])
   }
 
