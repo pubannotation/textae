@@ -8,11 +8,11 @@ const MARGIN_TOP = 30
 export default class DenotationSpanModel extends SpanModel {
   constructor(editor, begin, end, entityModelContainer, spanModelContainer) {
     super(editor, begin, end, spanModelContainer)
-    this._entityContainer = entityModelContainer
+    this._entityModelContainer = entityModelContainer
   }
 
   get entities() {
-    return this._entityContainer.getAllOfSpan(this)
+    return this._entityModelContainer.getAllOfSpan(this)
   }
 
   passesAllEntitiesTo(newSpan) {
