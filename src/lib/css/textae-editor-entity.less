@@ -113,6 +113,35 @@
   }
 
   &__mode--denotation-with-relation,
+  &__mode--denotation-without-relation {
+    .textae-editor__signboard[data-entity-type='denotation'] {
+      .textae-editor__signboard__type-values {
+        cursor: pointer;
+      }
+    }
+  }
+
+  &__mode--block-with-relation,
+  &__mode--block-without-relation {
+    .textae-editor__signboard[data-entity-type='block'] {
+      .textae-editor__signboard__type-values {
+        cursor: pointer;
+      }
+    }
+  }
+
+  &__mode--relation {
+    .textae-editor__signboard {
+      &[data-entity-type='denotation'],
+      &[data-entity-type='block'] {
+        .textae-editor__signboard__type-values {
+          cursor: pointer;
+        }
+      }
+    }
+  }
+
+  &__mode--denotation-with-relation,
   &__mode--denotation-without-relation,
   &__mode--relation {
     .textae-editor__signboard {
@@ -128,9 +157,6 @@
           .type-values--selected();
         }
       }
-    }
-    .textae-editor__signboard__type-values {
-      cursor: pointer;
     }
   }
 
