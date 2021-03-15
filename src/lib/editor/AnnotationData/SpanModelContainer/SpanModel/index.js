@@ -8,11 +8,11 @@ import getRightGrid from './getRightGrid'
 import createRangeToSpan from '../createRangeToSpan'
 
 export default class SpanModel {
-  constructor(editor, begin, end, spanContainer) {
+  constructor(editor, begin, end, spanModelContainer) {
     this._editor = editor
     this._begin = begin
     this._end = end
-    this._spanContainer = spanContainer
+    this._spanModelContainer = spanModelContainer
 
     this.severTies()
   }
@@ -38,12 +38,12 @@ export default class SpanModel {
   }
 
   get bigBrother() {
-    return getBigBrotherSpan(this, this._spanContainer.topLevel)
+    return getBigBrotherSpan(this, this._spanModelContainer.topLevel)
   }
 
   // Return the SpanContainer.
   get root() {
-    return this._spanContainer
+    return this._spanModelContainer
   }
 
   get parent() {

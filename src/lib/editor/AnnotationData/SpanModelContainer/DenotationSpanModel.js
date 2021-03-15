@@ -27,7 +27,7 @@ export default class DenotationSpanModel extends SpanModel {
 
   // Merges a span and a typesetting so that it can be rendered as a single DOM element.
   get styles() {
-    return this._spanContainer.getStyle(this.id)
+    return this._spanModelContainer.getStyle(this.id)
   }
 
   get rectangle() {
@@ -94,7 +94,7 @@ export default class DenotationSpanModel extends SpanModel {
         top -
           getHeightIncludeDescendantGrids(
             this,
-            this._spanContainer._entityGap.value
+            this._spanModelContainer._entityGap.value
           )
       ),
       left: round(left)

@@ -102,12 +102,12 @@ export default class BlockSpanModel extends SpanModel {
 
   get _gridRectangle() {
     console.assert(this.element, 'span is not renderd')
-    const rectOfTextBox = this._spanContainer._textBox.boundingClientRect
+    const rectOfTextBox = this._spanModelContainer._textBox.boundingClientRect
 
     return {
       width: 100,
       top: round(
-        this.getReactOfSidekicksOfBlock(this._spanContainer._textBox).top
+        this.getReactOfSidekicksOfBlock(this._spanModelContainer._textBox).top
       ),
       left: round(rectOfTextBox.width - 108)
     }
