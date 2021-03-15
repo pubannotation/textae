@@ -10,9 +10,9 @@ import getAnnotationBox from '../../../getAnnotationBox'
 // Leave a gap between the text and the block border.
 const gapBetweenText = 8
 export default class BlockSpanModel extends SpanModel {
-  constructor(editor, begin, end, entityContainer, spanContainer) {
+  constructor(editor, begin, end, entityModelContainer, spanContainer) {
     super(editor, begin, end, spanContainer)
-    this._entityContainer = entityContainer
+    this._entityModelContainer = entityModelContainer
   }
 
   // Utility to distinguish with otehr type spans.
@@ -21,7 +21,7 @@ export default class BlockSpanModel extends SpanModel {
   }
 
   get entities() {
-    return this._entityContainer.getAllOfSpan(this)
+    return this._entityModelContainer.getAllOfSpan(this)
   }
 
   passesAllEntitiesTo(newSpan) {
