@@ -1,5 +1,5 @@
-import getOffsetFromParent from './getPosition/getOffsetFromParent'
-import getParentOffset from './getPosition/getParentOffset'
+import getOffsetFromParent from './getOffsetFromParent'
+import getParentOffset from './getParentOffset'
 
 export default class PositionsOnAnnotation {
   constructor(spanModelContainer, selectionWrapper) {
