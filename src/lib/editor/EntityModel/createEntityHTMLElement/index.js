@@ -7,7 +7,12 @@ export default function (context) {
 
   // A Type element has an entity_pane elment that has a label and will have entities.
   const html = `
-<div class="textae-editor__entity" id="${id}" title="${title}">
+<div
+  class="textae-editor__entity"
+  id="${id}"
+  title="${title}"
+  data-annotation-type="entity"
+  >
   <div
     class="textae-editor__entity__type-values"
     style="background-color: ${color};"
