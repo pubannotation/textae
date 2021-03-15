@@ -8,24 +8,6 @@
 4.  ブラウザの開発ツールを起動します。
 5.  以下のテストを実行して、エラーが出ないこと
 
-## Relation モードで Ctrl/Cmd を押して複数選択
-
-### 背景
-
-1.  5.0.5 で Entity -> Relation の順で選択した際に、Ctrl/Cmd を押していなくても、両方選択されるバグが発生
-2.  6.1.28 で対応
-
-### -- 手段 --
-
-1.  Relation モードにする
-2.  Entity を選択する
-3.  Relation をクリックする
-4.  Entity の選択が解除され、Relation が選択されること
-5.  Entity をクリックする
-6.  Relation の選択が解除され、Entity が選択されること
-7.  Ctrl/Cmd を押して Relation をクリックする
-8.  Entity と Relation が両方選択されること
-
 ## Attribute インスタスがあるアノテーション読み込んでから、Attribute 定義がないアノテーションを読み込む
 
 ### 背景
@@ -4995,56 +4977,3 @@
 11. Relation モードにする
 12. `[R13] SPARQL`をクリック
 13. 新しいタブで <https://en.wikipedia.org/wiki/SPARQL> が開かないこと
-
-## BlockSpan を選択したときに自動的に BlockEntity を選択
-
-### 背景
-
-1.  6.2.0 からブロック機能を追加
-2.  BlockSpan は BlockEntity をただひとつ持つので、別々に選択する必要がありません
-3.  6.2.59 で導入
-
-### −− 手段 --
-
-1.  Block モードにする
-2.  BlockSpan を選択する
-3.  BlockEntity が選択されること
-4.  BlockEntity を選択する
-5.  BlockSpan が選択されること
-
-## 作成して自動選択した Span と他の Span を shift を押して範囲選択
-
-### 背景
-
-1.  作成して自動選択した Span と他の Span を shift を押して範囲選択すると、Selection.type が`None`になります
-2.  `Caret`のみ対応していたため、作成して自動選択した Span と他の Span を shift を押して範囲選択できませんでした
-3.  作成して自動選択した Span を一度選択解除して、選択しなおせば、他の Span を shift を押して範囲選択可能です
-4.  6.2.57 で BlockSpan に対応しました
-5.  6.2.58 で DenotationSpan に対応しました
-
-### -- 手段 --
-
-1.  Term モードにする
-2.  DenotationSpan を作成する
-3.  Shift を押しながら他の DenotationSpan を選択する
-4.  両端を含む、間の DenotationSpan が選択されること
-5.  Block モードにする
-6.  BlockSpan を作成する
-7.  Shift を押しながら他の BlockSpan を選択する
-8.  両端を含む、間の BlockSpan が選択されること
-
-## shift を押して Span を範囲選択
-
-### 背景
-
-1.  6.0.0 でテキスト中の改行のレンダリングをパラグラフから、css の`white-space: pre-wrap;`に変更しました
-2.  6.1.0 で折返し可能な Block Span を廃止しました。
-
-### -- 手段 --
-
-1.  Term モードにする
-2.  Span を 1 つ選ぶ
-3.  2 つ以上の Span を選んでいると、最後に選んだ Span だけが選択される
-4.  shift を押しながら２つ以上離れた Span を選ぶ
-5.  両端を含む、間の Span が選択される
-6.  Span の他に Entity を選択していても選ばれること
