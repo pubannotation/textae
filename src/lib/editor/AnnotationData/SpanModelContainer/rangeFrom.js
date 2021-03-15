@@ -12,6 +12,10 @@ export default function (container, firstId, secondId) {
   }
 
   return [...container.values()]
-    .filter((span) => first.begin <= span.begin && span.end <= second.end)
+    .filter(
+      (span) =>
+        first.begin <= span.begin &&
+        (span.end <= first.end || span.end <= second.end)
+    )
     .map((span) => span.id)
 }
