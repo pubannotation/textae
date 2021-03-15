@@ -1,21 +1,22 @@
 import spanComparator from './spanComparator'
 
 export default function (container, firstId, secondId) {
-  let first = container.get(firstId)
-  let second = container.get(secondId)
+  const first = container.get(firstId)
+  const second = container.get(secondId)
+  let left = first
+  let right = second
 
   // switch if seconfId before firstId
   if (spanComparator(first, second) > 0) {
-    const temp = first
-    first = second
-    second = temp
+    left = second
+    right = first
   }
 
   return [...container.values()]
     .filter(
       (span) =>
-        first.begin <= span.begin &&
-        (span.end <= first.end || span.end <= second.end)
+        left.begin <= span.begin &&
+        (span.end <= left.end || span.end <= right.end)
     )
     .map((span) => span.id)
 }
