@@ -1,8 +1,8 @@
 import getPosition from './getPosition'
 
 export default class PositionsOnAnnotation {
-  constructor(spanContainer, selectionWrapper) {
-    this._spanContainer = spanContainer
+  constructor(spanModelContainer, selectionWrapper) {
+    this._spanContainer = spanModelContainer
     this._selection = selectionWrapper.selection
   }
 
