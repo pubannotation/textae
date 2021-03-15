@@ -3,7 +3,15 @@ import toAttribute from './toAttribute'
 import toAnchorElement from '../../toAnchorElement'
 
 export default function (context) {
-  const { id, title, color, href, displayName, attributes } = context
+  const {
+    id,
+    title,
+    color,
+    href,
+    displayName,
+    attributes,
+    entityType
+  } = context
 
   // A Type element has an entity_pane elment that has a label and will have entities.
   const html = `
@@ -11,7 +19,7 @@ export default function (context) {
   class="textae-editor__signboard"
   id="${id}"
   title="${title}"
-  data-annotation-type="entity"
+  data-entity-type="${entityType}"
   >
   <div
     class="textae-editor__signboard__type-values"

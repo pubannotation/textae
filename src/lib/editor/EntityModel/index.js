@@ -104,7 +104,8 @@ export default class EntityModel {
           href,
           color
         })
-      )
+      ),
+      entityType: this.isDenotation ? 'denotation' : 'block'
     }
   }
 

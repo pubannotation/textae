@@ -34,7 +34,10 @@ export default class View {
       'mouseover',
       (e) => {
         const entityElement = getEntityHTMLelementFromChild(e.target)
-        if (entityElement.dataset.annotationType === 'entity') {
+        if (
+          entityElement.dataset.entityType === 'denotation' ||
+          entityElement.dataset.entityType === 'block'
+        ) {
           const entityId = entityElement.title
           annotationData.entity.get(entityId).pointUpRelations()
         }
@@ -42,7 +45,10 @@ export default class View {
     )
     delegate(dom, '.textae-editor__signboard__type-values', 'mouseout', (e) => {
       const entityElement = getEntityHTMLelementFromChild(e.target)
-      if (entityElement.dataset.annotationType === 'entity') {
+      if (
+        entityElement.dataset.entityType === 'denotation' ||
+        entityElement.dataset.entityType === 'block'
+      ) {
         const entityId = entityElement.title
         annotationData.entity.get(entityId).pointDownRelations()
       }
