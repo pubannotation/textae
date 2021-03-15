@@ -37,14 +37,17 @@ export default function (editor, mouseEventHandler) {
   )
 
   listeners.push(
-    delegate(editor[0], '.textae-editor__entity', 'click', () =>
+    delegate(editor[0], '.textae-editor__signboard', 'click', () =>
       mouseEventHandler.entityClicked()
     )
   )
 
   listeners.push(
-    delegate(editor[0], '.textae-editor__entity__type-values', 'click', (e) =>
-      mouseEventHandler.typeValuesClicked(e)
+    delegate(
+      editor[0],
+      '.textae-editor__signboard__type-values',
+      'click',
+      (e) => mouseEventHandler.typeValuesClicked(e)
     )
   )
 

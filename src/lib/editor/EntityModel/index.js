@@ -199,7 +199,7 @@ export default class EntityModel {
       this.span.entityToFocusOn = this
     } else {
       // Set focus to the label element in order to scroll the browser to the position of the element.
-      el.querySelector('.textae-editor__entity__type-label').focus()
+      el.querySelector('.textae-editor__signboard__type-label').focus()
     }
   }
 

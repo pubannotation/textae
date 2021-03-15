@@ -36,7 +36,7 @@
     }
   }
 
-  &__entity {
+  &__signboard {
     font-size: small;
     position: relative;
     text-align: center;
@@ -72,31 +72,31 @@
     &:hover {
       z-index: 2;
 
-      .textae-editor__entity__type-values {
+      .textae-editor__signboard__type-values {
         opacity: 1;
         overflow: visible;
       }
 
-      .textae-editor__entity__type-label,
-      .textae-editor__entity__attribute,
-      .textae-editor__entity__attribute-label {
+      .textae-editor__signboard__type-label,
+      .textae-editor__signboard__attribute,
+      .textae-editor__signboard__attribute-label {
         background-color: inherit;
       }
 
-      .textae-editor__entity__type-label,
-      .textae-editor__entity__attribute-label {
+      .textae-editor__signboard__type-label,
+      .textae-editor__signboard__attribute-label {
         .label--full-length();
       }
     }
 
     &.ui-to-be-cut {
-      .textae-editor__entity__type-values {
+      .textae-editor__signboard__type-values {
         opacity: 0.5;
       }
     }
   }
 
-  &__entity__attribute {
+  &__signboard__attribute {
     background-color: inherit;
     height: 18px;
     margin: 0 2px;
@@ -108,28 +108,28 @@
     }
   }
 
-  &__mode--relation &__type:hover &__entity__type-values {
+  &__mode--relation &__type:hover &__signboard__type-values {
     opacity: 0.9;
   }
 
   &__mode--denotation-with-relation,
   &__mode--denotation-without-relation,
   &__mode--relation {
-    .textae-editor__entity {
+    .textae-editor__signboard {
       &:hover {
-        .textae-editor__entity__type-values {
+        .textae-editor__signboard__type-values {
           .entity-shadow();
         }
       }
       &.ui-selected {
         z-index: 2;
 
-        .textae-editor__entity__type-values {
+        .textae-editor__signboard__type-values {
           .type-values--selected();
         }
       }
     }
-    .textae-editor__entity__type-values {
+    .textae-editor__signboard__type-values {
       cursor: pointer;
     }
   }
@@ -140,18 +140,18 @@
   &__mode--block-without-relation,
   &__mode--relation {
     .textae-editor {
-      &__entity__type-values {
+      &__signboard__type-values {
         box-shadow: none;
         opacity: 0.9;
         overflow: hidden;
       }
 
-      &__entity__attribute {
+      &__signboard__attribute {
         background-color: transparent;
       }
 
-      &__entity__type-label,
-      &__entity__attribute-label {
+      &__signboard__type-label,
+      &__signboard__attribute-label {
         background-color: transparent;
         border-width: 0;
         border-radius: 0;
@@ -175,12 +175,12 @@
         border-style: none;
       }
 
-      &__entity {
+      &__signboard {
         margin-bottom: 0;
         padding-top: 0;
       }
 
-      &__entity__type-label {
+      &__signboard__type-label {
         border-width: 1px 0 0 0;
       }
     }
@@ -196,14 +196,15 @@
         .entity-shadow();
       }
     }
-    .textae-editor__entity.ui-selected .textae-editor__entity__type-values {
+    .textae-editor__signboard.ui-selected
+      .textae-editor__signboard__type-values {
       .type-values--selected();
     }
   }
 
   /* relation edit mode */
   &__mode--relation {
-    .textae-editor__entity:hover .textae-editor__entity__type-label {
+    .textae-editor__signboard:hover .textae-editor__signboard__type-label {
       box-shadow: none;
     }
   }

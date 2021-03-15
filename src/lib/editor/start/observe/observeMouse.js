@@ -11,7 +11,7 @@ export default function (editor) {
   })
 
   // Prevent a selection of an entity by the double-click.
-  delegate(dom, '.textae-editor__entity', 'mousedown', (e) =>
+  delegate(dom, '.textae-editor__signboard', 'mousedown', (e) =>
     e.preventDefault()
   )
 }

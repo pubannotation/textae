@@ -8,14 +8,14 @@ export default class Vertical {
     // When one span is selected.
     if (this._selectionModel.span.single) {
       const grid = this._selectionModel.span.single.gridElement
-      const entity = grid.querySelector('.textae-editor__entity')
+      const entity = grid.querySelector('.textae-editor__signboard')
       this._selectionModel.selectEntity(entity.title)
     }
   }
 
   down() {
     const selectedEntityHtmlelement = this._editor[0].querySelector(
-      '.textae-editor__entity.ui-selected'
+      '.textae-editor__signboard.ui-selected'
     )
 
     if (selectedEntityHtmlelement) {

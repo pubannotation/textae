@@ -28,14 +28,19 @@ export default class View {
 
     // Highlight retaitons when related entity is heverd.
     const dom = editor[0]
-    delegate(dom, '.textae-editor__entity__type-values', 'mouseover', (e) => {
-      const entityElement = getEntityHTMLelementFromChild(e.target)
-      if (entityElement.dataset.annotationType === 'entity') {
-        const entityId = entityElement.title
-        annotationData.entity.get(entityId).pointUpRelations()
+    delegate(
+      dom,
+      '.textae-editor__signboard__type-values',
+      'mouseover',
+      (e) => {
+        const entityElement = getEntityHTMLelementFromChild(e.target)
+        if (entityElement.dataset.annotationType === 'entity') {
+          const entityId = entityElement.title
+          annotationData.entity.get(entityId).pointUpRelations()
+        }
       }
-    })
-    delegate(dom, '.textae-editor__entity__type-values', 'mouseout', (e) => {
+    )
+    delegate(dom, '.textae-editor__signboard__type-values', 'mouseout', (e) => {
       const entityElement = getEntityHTMLelementFromChild(e.target)
       if (entityElement.dataset.annotationType === 'entity') {
         const entityId = entityElement.title

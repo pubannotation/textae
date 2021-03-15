@@ -8,17 +8,17 @@ export default function (context) {
   // A Type element has an entity_pane elment that has a label and will have entities.
   const html = `
 <div
-  class="textae-editor__entity"
+  class="textae-editor__signboard"
   id="${id}"
   title="${title}"
   data-annotation-type="entity"
   >
   <div
-    class="textae-editor__entity__type-values"
+    class="textae-editor__signboard__type-values"
     style="background-color: ${color};"
     >
     <div
-      class="textae-editor__entity__type-label"
+      class="textae-editor__signboard__type-label"
       tabindex="0"
       >
       ${toAnchorElement(displayName, href)}

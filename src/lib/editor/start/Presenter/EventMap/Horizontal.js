@@ -15,7 +15,7 @@ export default class Horizontal {
       return
     }
 
-    const nextEntity = this._searchLeft('textae-editor__entity')
+    const nextEntity = this._searchLeft('textae-editor__signboard')
     if (nextEntity) {
       if (shiftKey) {
         this._selectionModel.entity.add(nextEntity.title)
@@ -36,7 +36,7 @@ export default class Horizontal {
       return
     }
 
-    const nextEntity = this._searchRight('textae-editor__entity')
+    const nextEntity = this._searchRight('textae-editor__signboard')
     if (nextEntity) {
       if (shiftKey) {
         this._selectionModel.entity.add(nextEntity.title)
