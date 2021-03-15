@@ -12,6 +12,8 @@ export default function (spanModelContainer, firstId, secondId) {
     right = first
   }
 
+  // When the parent-child span is selected, the child span will be on the right.
+  // In this case, the end of the child span is to the left of the end of the parent span.
   return [...spanModelContainer.values()]
     .filter(
       (span) =>
