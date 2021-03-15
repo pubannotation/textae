@@ -1,4 +1,5 @@
-import getPosition from './getPosition'
+import getOffsetFromParent from './getPosition/getOffsetFromParent'
+import getParentOffset from './getPosition/getParentOffset'
 
 export default class PositionsOnAnnotation {
   constructor(spanModelContainer, selectionWrapper) {
@@ -7,18 +8,18 @@ export default class PositionsOnAnnotation {
   }
 
   get anchor() {
-    const position = getPosition(
-      this._spanModelContainer,
-      this._selection.anchorNode
-    )
+    const position =
+      getParentOffset(this._spanModelContainer, this._selection.anchorNode) +
+      getOffsetFromParent(this._selection.anchorNode)
+
     return position + this._selection.anchorOffset
   }
 
   get focus() {
-    const position = getPosition(
-      this._spanModelContainer,
-      this._selection.focusNode
-    )
+    const position =
+      getParentOffset(this._spanModelContainer, this._selection.focusNode) +
+      getOffsetFromParent(this._selection.focusNode)
+
     return position + this._selection.focusOffset
   }
 }
