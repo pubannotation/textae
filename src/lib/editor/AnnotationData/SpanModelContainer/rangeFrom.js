@@ -1,8 +1,8 @@
 import spanComparator from './spanComparator'
 
-export default function (container, firstId, secondId) {
-  const first = container.get(firstId)
-  const second = container.get(secondId)
+export default function (spanModelContainer, firstId, secondId) {
+  const first = spanModelContainer.get(firstId)
+  const second = spanModelContainer.get(secondId)
   let left = first
   let right = second
 
@@ -12,7 +12,7 @@ export default function (container, firstId, secondId) {
     right = first
   }
 
-  return [...container.values()]
+  return [...spanModelContainer.values()]
     .filter(
       (span) =>
         left.begin <= span.begin &&
