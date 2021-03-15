@@ -41,7 +41,6 @@ export default class SpanModel {
     return getBigBrotherSpan(this, this._spanModelContainer.topLevel)
   }
 
-  // Return the SpanContainer.
   get root() {
     return this._spanModelContainer
   }
