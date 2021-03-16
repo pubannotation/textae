@@ -137,11 +137,9 @@
   }
 
   &__mode--relation {
-    .textae-editor__signboard {
-      &[data-entity-type='denotation'],
-      &[data-entity-type='block'] {
-        .selectable-signboard();
-      }
+    .textae-editor__signboard[data-entity-type='denotation'],
+    .textae-editor__signboard[data-entity-type='block'] {
+      .selectable-signboard();
     }
   }
 
