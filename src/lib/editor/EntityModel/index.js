@@ -1,7 +1,7 @@
 import TypeValues from '../TypeValues'
 import { makeEntityHTMLElementId } from '../idFactory'
 import SELECTED from '../SELECTED'
-import createEntityHTMLElement from './createEntityHTMLElement'
+import createSignboardHTMLElement from './createSignboardHTMLElement'
 import typeGapUnitHeight from '../typeGapUnitHeight'
 import getDisplayName from '../getDisplayName'
 import getUri from '../getUri'
@@ -135,7 +135,7 @@ export default class EntityModel {
   }
 
   renderElement() {
-    return createEntityHTMLElement({
+    return createSignboardHTMLElement({
       id: makeEntityHTMLElementId(this._editor, this.id),
       title: this.id,
       displayName: this._displayName,
