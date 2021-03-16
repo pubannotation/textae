@@ -30,7 +30,7 @@ export default class MouseEventHandler {
       this._selectionModel,
       entity,
       this._commander,
-      this._typeDefinition,
+      this._typeDefinition.relation,
       e
     )
   }

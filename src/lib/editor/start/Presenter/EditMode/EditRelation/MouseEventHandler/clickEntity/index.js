@@ -4,7 +4,7 @@ export default function (
   selectionModel,
   entityId,
   commander,
-  typeDefinition,
+  relationDefinitionContainer,
   event
 ) {
   if (!selectionModel.entity.some) {
@@ -21,7 +21,7 @@ export default function (
         commander.factory.createRelationCommand({
           subj: subjectEntityId,
           obj: objectEntityId,
-          pred: typeDefinition.relation.defaultType
+          pred: relationDefinitionContainer.defaultType
         })
       )
 
