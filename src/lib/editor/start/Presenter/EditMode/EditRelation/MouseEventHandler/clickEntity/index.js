@@ -16,8 +16,7 @@ export default function (
 
     // Cannot make a self reference relation.
     if (subjectEntityId === objectEntityId) {
-      // Deslect already selected entity.
-      selectionModel.entity.remove(subjectEntityId)
+      selectionModel.entity.toggle(subjectEntityId)
     } else {
       createRelation(commander, subjectEntityId, objectEntityId, typeDefinition)
       updateSelectionOfEntity(
