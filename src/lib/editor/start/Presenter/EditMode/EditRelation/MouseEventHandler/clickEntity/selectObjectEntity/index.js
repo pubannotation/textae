@@ -9,7 +9,7 @@ export default function (
   entityId
 ) {
   // Cannot make a self reference relation.
-  const subjectEntityId = selectionModel.entity.all[0].id
+  const subjectEntityId = selectionModel.entity.singleId
   const objectEntityId = entityId
 
   if (subjectEntityId === objectEntityId) {
