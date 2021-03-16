@@ -1,4 +1,5 @@
-import selectObjectEntity from './selectObjectEntity'
+import createRelation from './selectObjectEntity/createRelation'
+import updateSelectionOfEntity from './selectObjectEntity/updateSelectionOfEntity'
 
 export default function (
   selectionModel,
@@ -11,12 +12,21 @@ export default function (
     selectionModel.removeAll()
     selectionModel.entity.add(entityId)
   } else {
-    selectObjectEntity(
-      selectionModel,
-      commander,
-      typeDefinition,
-      event,
-      entityId
-    )
+    const subjectEntityId = selectionModel.entity.singleId
+    const objectEntityId = entityId
+
+    // Cannot make a self reference relation.
+    if (subjectEntityId === objectEntityId) {
+      // Deslect already selected entity.
+      selectionModel.entity.remove(subjectEntityId)
+    } else {
+      createRelation(commander, subjectEntityId, objectEntityId, typeDefinition)
+      updateSelectionOfEntity(
+        event,
+        selectionModel.entity,
+        subjectEntityId,
+        objectEntityId
+      )
+    }
   }
 }
