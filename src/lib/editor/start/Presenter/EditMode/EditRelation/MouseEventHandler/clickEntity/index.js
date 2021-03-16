@@ -1,12 +1,14 @@
+import getEntityHTMLelementFromChild from '../../../../../getEntityHTMLelementFromChild'
 import updateSelectionOfEntity from './updateSelectionOfEntity'
 
 export default function (
   selectionModel,
-  entityId,
   commander,
   relationDefinitionContainer,
   event
 ) {
+  const entityId = getEntityHTMLelementFromChild(event.target).title
+
   if (!selectionModel.entity.some) {
     selectionModel.selectEntity(entityId)
   } else {
