@@ -20,7 +20,7 @@ export default class NumericAttributeDefinition extends AttributeDefinition {
   }
 
   getDisplayName(obj) {
-    return this.getLabel(obj) || obj
+    return this.getLabel(obj) || String(obj)
   }
 
   getColor(obj) {
