@@ -2,18 +2,16 @@ import dohtml from 'dohtml'
 import toAttribute from './toAttribute'
 import toAnchorElement from '../../toAnchorElement'
 
-export default function (context) {
-  const {
-    title,
-    entityType,
-    color,
-    href,
-    displayName,
-    attributes,
-    cssClass,
-    id
-  } = context
-
+export default function (
+  title,
+  entityType,
+  color,
+  href,
+  displayName,
+  attributes,
+  cssClass,
+  id
+) {
   // A Type element has an entity_pane elment that has a label and will have entities.
   const html = `
 <div

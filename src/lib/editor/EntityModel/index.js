@@ -135,24 +135,23 @@ export default class EntityModel {
   }
 
   renderElement() {
-    return createSignboardHTMLElement({
-      id: makeEntityHTMLElementId(this._editor, this.id),
-      title: this.id,
-      displayName: this._displayName,
-      href: this._href,
-      color: this._color,
-      attributes: this.attributes.map(
-        ({ pred, obj, displayName, href, color }) => ({
-          pred,
-          obj,
-          title: `pred: ${pred}, value: ${obj}`,
-          displayName,
-          href,
-          color
-        })
-      ),
-      entityType: this.isDenotation ? 'denotation' : 'block'
-    })
+    return createSignboardHTMLElement(
+      this.id,
+      this.isDenotation ? 'denotation' : 'block',
+      this._color,
+      this._href,
+      this._displayName,
+      this.attributes.map(({ pred, obj, displayName, href, color }) => ({
+        pred,
+        obj,
+        title: `pred: ${pred}, value: ${obj}`,
+        displayName,
+        href,
+        color
+      })),
+      null,
+      makeEntityHTMLElementId(this._editor, this.id)
+    )
   }
 
   updateElement() {
