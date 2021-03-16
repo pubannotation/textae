@@ -69,16 +69,19 @@
       outline-style: none;
     }
 
-    &:hover {
-      z-index: 2;
+    &[data-entity-type='denotation'],
+    &[data-entity-type='block'] {
+      &:hover {
+        z-index: 2;
 
-      .textae-editor__signboard__type-values {
-        overflow: visible;
-      }
+        .textae-editor__signboard__type-values {
+          overflow: visible;
+        }
 
-      .textae-editor__signboard__type-label,
-      .textae-editor__signboard__attribute-label {
-        .label--full-length();
+        .textae-editor__signboard__type-label,
+        .textae-editor__signboard__attribute-label {
+          .label--full-length();
+        }
       }
     }
 
