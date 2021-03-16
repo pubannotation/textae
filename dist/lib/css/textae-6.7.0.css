@@ -2536,20 +2536,16 @@ a.ui-button:active,
 .textae-editor__mode--block-without-relation .textae-editor__signboard[data-entity-type='block'].ui-selected .textae-editor__signboard__type-values {
   box-shadow: 0 0 0 2pt red;
 }
-.textae-editor__mode--relation .textae-editor__signboard[data-entity-type='denotation'] .textae-editor__signboard__type-values,
-.textae-editor__mode--relation .textae-editor__signboard[data-entity-type='block'] .textae-editor__signboard__type-values {
+.textae-editor__mode--relation .textae-editor__signboard .textae-editor__signboard__type-values {
   cursor: pointer;
 }
-.textae-editor__mode--relation .textae-editor__signboard[data-entity-type='denotation']:hover .textae-editor__signboard__type-values,
-.textae-editor__mode--relation .textae-editor__signboard[data-entity-type='block']:hover .textae-editor__signboard__type-values {
+.textae-editor__mode--relation .textae-editor__signboard:hover .textae-editor__signboard__type-values {
   box-shadow: 1px 1px 10px #600;
 }
-.textae-editor__mode--relation .textae-editor__signboard[data-entity-type='denotation'].ui-selected,
-.textae-editor__mode--relation .textae-editor__signboard[data-entity-type='block'].ui-selected {
+.textae-editor__mode--relation .textae-editor__signboard.ui-selected {
   z-index: 2;
 }
-.textae-editor__mode--relation .textae-editor__signboard[data-entity-type='denotation'].ui-selected .textae-editor__signboard__type-values,
-.textae-editor__mode--relation .textae-editor__signboard[data-entity-type='block'].ui-selected .textae-editor__signboard__type-values {
+.textae-editor__mode--relation .textae-editor__signboard.ui-selected .textae-editor__signboard__type-values {
   box-shadow: 0 0 0 2pt red;
 }
 .textae-editor__mode--denotation-with-relation .textae-editor__signboard.ui-selected,
