@@ -4,20 +4,21 @@ import toAnchorElement from '../../toAnchorElement'
 
 export default function (context) {
   const {
-    id,
     title,
+    entityType,
     color,
     href,
     displayName,
     attributes,
-    entityType
+    cssClass,
+    id
   } = context
 
   // A Type element has an entity_pane elment that has a label and will have entities.
   const html = `
 <div
-  class="textae-editor__signboard"
-  id="${id}"
+  class="textae-editor__signboard ${cssClass ? cssClass : ''}"
+  ${id ? `id="${id}"` : ''}
   title="${title}"
   data-entity-type="${entityType}"
   >
