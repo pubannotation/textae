@@ -1,4 +1,3 @@
-import createRelation from './createRelation'
 import updateSelectionOfEntity from './updateSelectionOfEntity'
 
 export default function (
@@ -18,7 +17,14 @@ export default function (
     if (subjectEntityId === objectEntityId) {
       selectionModel.entity.toggle(subjectEntityId)
     } else {
-      createRelation(commander, subjectEntityId, objectEntityId, typeDefinition)
+      commander.invoke(
+        commander.factory.createRelationCommand({
+          subj: subjectEntityId,
+          obj: objectEntityId,
+          pred: typeDefinition.relation.defaultType
+        })
+      )
+
       updateSelectionOfEntity(
         event,
         selectionModel.entity,
