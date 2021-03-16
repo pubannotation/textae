@@ -20,7 +20,7 @@ export default class MouseEventHandler {
     this._selectionModel.removeAll()
   }
 
-  entityClicked() {
+  signboardClicked() {
     this._editor.focus()
   }
 

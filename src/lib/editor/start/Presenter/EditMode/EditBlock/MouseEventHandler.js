@@ -91,7 +91,7 @@ export default class MouseEventHandler {
     }
   }
 
-  entityClicked() {
+  signboardClicked() {
     this._editor.focus()
   }
 
