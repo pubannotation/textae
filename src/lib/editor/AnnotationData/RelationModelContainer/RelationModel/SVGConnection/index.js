@@ -1,3 +1,4 @@
+import getAnnotationBox from '../../../../getAnnotationBox'
 import Arrow from './Arrow/inedx'
 import Label from './Label'
 
@@ -9,6 +10,7 @@ export default class SVGConnection {
     this._onClick = onClick
     this._editor = editor
     this._relationBox = editor[0].querySelector('.textae-editor__relation-box')
+    this._annotationBox = getAnnotationBox(editor)
 
     this._createArrow(false)
     this._createLabel(false)
@@ -84,18 +86,16 @@ export default class SVGConnection {
   }
 
   _createLabel(isBold) {
-    const labelX = this._arrow.center
-    const labelY = this._arrow.top - 2
-
     this._label = new Label(
-      this._relationBox,
-      labelX,
-      labelY,
-      `[${this._relation.id}] ${this._relation.displayName}`,
+      this._annotationBox,
+      this._arrow.left,
+      this._arrow.top,
+      this._arrow.width,
+      this._relation.id,
+      this._relation.displayName,
       this._relation.href,
       'yellow',
-      this._onClick,
-      isBold
+      this._onClick
     )
   }
 

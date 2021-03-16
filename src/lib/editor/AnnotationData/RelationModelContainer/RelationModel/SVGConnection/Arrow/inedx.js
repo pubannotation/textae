@@ -55,9 +55,14 @@ export default class Arrow {
     return pathBBox.y
   }
 
-  get center() {
+  get left() {
     const pathBBox = this._path.getBBox()
-    return pathBBox.x + pathBBox.width / 2
+    return pathBBox.x
+  }
+
+  get width() {
+    const pathBBox = this._path.getBBox()
+    return pathBBox.width
   }
 
   _createMarker(color, isBold, isTail, up) {

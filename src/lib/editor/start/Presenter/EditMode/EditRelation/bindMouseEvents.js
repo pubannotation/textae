@@ -26,7 +26,9 @@ export default function (editor, mouseEventHandler) {
   )
 
   listeners.push(
-    delegate(editor[0], '.textae-editor__signboard', 'click', () =>
+    // When a relation is selected, the HTML element of the relation is recreated,
+    // so the click event is not fired on the parent element.
+    delegate(editor[0], '.textae-editor__signboard', 'mousedown', () =>
       mouseEventHandler.signboardClicked()
     )
   )
