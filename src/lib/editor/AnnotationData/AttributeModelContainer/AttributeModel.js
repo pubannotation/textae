@@ -12,10 +12,22 @@ export default class AttributeModel {
     this.id = id
     this.subj = subj
     this.pred = pred
-    this.obj = obj
+    this._obj = obj
     this._entityContainer = entityContainer
     this._namespace = namespace
     this._definitionContainer = definitionContainer
+  }
+
+  get obj() {
+    return this._obj
+  }
+
+  set obj(value) {
+    if (this._definitionContainer.get(this.pred).valueType === 'numeric') {
+      this._obj = parseFloat(value)
+    } else {
+      this._obj = value
+    }
   }
 
   get subjectModel() {
@@ -25,23 +37,26 @@ export default class AttributeModel {
   get displayName() {
     return getDisplayName(
       this._namespace,
-      typeof this.obj === 'string' ? this.obj : '',
-      this._definitionContainer.getDisplayName(this.pred, this.obj)
+      typeof this._obj === 'string' ? this._obj : '',
+      this._definitionContainer.getDisplayName(this.pred, this._obj)
     )
   }
 
   get href() {
-    return getUri(this._namespace, typeof this.obj === 'string' ? this.obj : '')
+    return getUri(
+      this._namespace,
+      typeof this._obj === 'string' ? this._obj : ''
+    )
   }
 
   get color() {
-    return this._definitionContainer.getColor(this.pred, this.obj)
+    return this._definitionContainer.getColor(this.pred, this._obj)
   }
 
   equalsTo(pred, obj) {
     // If the attribute is a numeric type,
     // then the type of obj is numeric.
     // Cast obj to a string to compare.
-    return this.pred === pred && String(this.obj) === obj
+    return this.pred === pred && String(this._obj) === obj
   }
 }
