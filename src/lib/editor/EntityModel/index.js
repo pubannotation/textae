@@ -88,27 +88,6 @@ export default class EntityModel {
     }
   }
 
-  get _HTMLElementContext() {
-    return {
-      id: makeEntityHTMLElementId(this._editor, this.id),
-      title: this.id,
-      displayName: this._displayName,
-      href: this._href,
-      color: this._color,
-      attributes: this.attributes.map(
-        ({ pred, obj, displayName, href, color }) => ({
-          pred,
-          obj,
-          title: `pred: ${pred}, value: ${obj}`,
-          displayName,
-          href,
-          color
-        })
-      ),
-      entityType: this.isDenotation ? 'denotation' : 'block'
-    }
-  }
-
   _hasSameAttributes(newAttributes) {
     if (newAttributes.length != this.attributes.length) {
       return false
@@ -156,7 +135,24 @@ export default class EntityModel {
   }
 
   renderElement() {
-    return createEntityHTMLElement(this._HTMLElementContext)
+    return createEntityHTMLElement({
+      id: makeEntityHTMLElementId(this._editor, this.id),
+      title: this.id,
+      displayName: this._displayName,
+      href: this._href,
+      color: this._color,
+      attributes: this.attributes.map(
+        ({ pred, obj, displayName, href, color }) => ({
+          pred,
+          obj,
+          title: `pred: ${pred}, value: ${obj}`,
+          displayName,
+          href,
+          color
+        })
+      ),
+      entityType: this.isDenotation ? 'denotation' : 'block'
+    })
   }
 
   updateElement() {
