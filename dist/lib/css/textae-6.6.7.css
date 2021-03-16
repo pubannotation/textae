@@ -2432,13 +2432,13 @@ a.ui-button:active,
   flex-direction: column-reverse;
   padding-bottom: 15px;
 }
-.textae-editor__entity {
+.textae-editor__signboard {
   font-size: small;
   position: relative;
   text-align: center;
   white-space: nowrap;
 }
-.textae-editor__entity__type-values {
+.textae-editor__signboard__type-values {
   border-color: rgba(100, 100, 215, 0.8);
   border-radius: 4px;
   border-style: solid;
@@ -2455,7 +2455,7 @@ a.ui-button:active,
   -webkit-touch-callout: none;
   z-index: 1;
 }
-.textae-editor__entity__type-label {
+.textae-editor__signboard__type-label {
   border-width: 1px;
   border-radius: 1px;
   border-bottom-style: dashed;
@@ -2464,23 +2464,23 @@ a.ui-button:active,
   padding: 0 4px;
   background-color: inherit;
 }
-.textae-editor__entity__type-label:focus {
+.textae-editor__signboard__type-label:focus {
   outline-style: none;
 }
-.textae-editor__entity:hover {
+.textae-editor__signboard:hover {
   z-index: 2;
 }
-.textae-editor__entity:hover .textae-editor__entity__type-values {
+.textae-editor__signboard:hover .textae-editor__signboard__type-values {
   opacity: 1;
   overflow: visible;
 }
-.textae-editor__entity:hover .textae-editor__entity__type-label,
-.textae-editor__entity:hover .textae-editor__entity__attribute,
-.textae-editor__entity:hover .textae-editor__entity__attribute-label {
+.textae-editor__signboard:hover .textae-editor__signboard__type-label,
+.textae-editor__signboard:hover .textae-editor__signboard__attribute,
+.textae-editor__signboard:hover .textae-editor__signboard__attribute-label {
   background-color: inherit;
 }
-.textae-editor__entity:hover .textae-editor__entity__type-label,
-.textae-editor__entity:hover .textae-editor__entity__attribute-label {
+.textae-editor__signboard:hover .textae-editor__signboard__type-label,
+.textae-editor__signboard:hover .textae-editor__signboard__attribute-label {
   border-width: 1px;
   border-radius: 1px;
   border-bottom-style: dashed;
@@ -2488,16 +2488,16 @@ a.ui-button:active,
   display: inline-block;
   padding: 0 4px;
 }
-.textae-editor__entity.ui-to-be-cut .textae-editor__entity__type-values {
+.textae-editor__signboard.ui-to-be-cut .textae-editor__signboard__type-values {
   opacity: 0.5;
 }
-.textae-editor__entity__attribute {
+.textae-editor__signboard__attribute {
   background-color: inherit;
   height: 18px;
   margin: 0 2px;
   width: calc(100% - 4px);
 }
-.textae-editor__entity__attribute-label {
+.textae-editor__signboard__attribute-label {
   border-width: 1px;
   border-radius: 1px;
   border-bottom-style: dashed;
@@ -2506,71 +2506,78 @@ a.ui-button:active,
   padding: 0 4px;
   background-color: inherit;
 }
-.textae-editor__mode--relation .textae-editor__type:hover .textae-editor__entity__type-values {
+.textae-editor__mode--relation .textae-editor__type:hover .textae-editor__signboard__type-values {
   opacity: 0.9;
 }
-.textae-editor__mode--denotation-with-relation .textae-editor__entity:hover .textae-editor__entity__type-values,
-.textae-editor__mode--denotation-without-relation .textae-editor__entity:hover .textae-editor__entity__type-values,
-.textae-editor__mode--relation .textae-editor__entity:hover .textae-editor__entity__type-values {
-  box-shadow: 1px 1px 10px #600;
-}
-.textae-editor__mode--denotation-with-relation .textae-editor__entity.ui-selected,
-.textae-editor__mode--denotation-without-relation .textae-editor__entity.ui-selected,
-.textae-editor__mode--relation .textae-editor__entity.ui-selected {
-  z-index: 2;
-}
-.textae-editor__mode--denotation-with-relation .textae-editor__entity.ui-selected .textae-editor__entity__type-values,
-.textae-editor__mode--denotation-without-relation .textae-editor__entity.ui-selected .textae-editor__entity__type-values,
-.textae-editor__mode--relation .textae-editor__entity.ui-selected .textae-editor__entity__type-values {
-  box-shadow: 0 0 0 2pt red;
-}
-.textae-editor__mode--denotation-with-relation .textae-editor__entity__type-values,
-.textae-editor__mode--denotation-without-relation .textae-editor__entity__type-values,
-.textae-editor__mode--relation .textae-editor__entity__type-values {
+.textae-editor__mode--denotation-with-relation .textae-editor__signboard[data-entity-type='denotation'] .textae-editor__signboard__type-values,
+.textae-editor__mode--denotation-without-relation .textae-editor__signboard[data-entity-type='denotation'] .textae-editor__signboard__type-values {
   cursor: pointer;
 }
-.textae-editor__mode--denotation-with-relation .textae-editor__entity__type-values,
-.textae-editor__mode--denotation-without-relation .textae-editor__entity__type-values,
-.textae-editor__mode--block-with-relation .textae-editor__entity__type-values,
-.textae-editor__mode--block-without-relation .textae-editor__entity__type-values,
-.textae-editor__mode--relation .textae-editor__entity__type-values {
+.textae-editor__mode--block-with-relation .textae-editor__signboard[data-entity-type='block'] .textae-editor__signboard__type-values,
+.textae-editor__mode--block-without-relation .textae-editor__signboard[data-entity-type='block'] .textae-editor__signboard__type-values {
+  cursor: pointer;
+}
+.textae-editor__mode--relation .textae-editor__signboard[data-entity-type='denotation'] .textae-editor__signboard__type-values,
+.textae-editor__mode--relation .textae-editor__signboard[data-entity-type='block'] .textae-editor__signboard__type-values {
+  cursor: pointer;
+}
+.textae-editor__mode--denotation-with-relation .textae-editor__signboard:hover .textae-editor__signboard__type-values,
+.textae-editor__mode--denotation-without-relation .textae-editor__signboard:hover .textae-editor__signboard__type-values,
+.textae-editor__mode--relation .textae-editor__signboard:hover .textae-editor__signboard__type-values {
+  box-shadow: 1px 1px 10px #600;
+}
+.textae-editor__mode--denotation-with-relation .textae-editor__signboard.ui-selected,
+.textae-editor__mode--denotation-without-relation .textae-editor__signboard.ui-selected,
+.textae-editor__mode--relation .textae-editor__signboard.ui-selected {
+  z-index: 2;
+}
+.textae-editor__mode--denotation-with-relation .textae-editor__signboard.ui-selected .textae-editor__signboard__type-values,
+.textae-editor__mode--denotation-without-relation .textae-editor__signboard.ui-selected .textae-editor__signboard__type-values,
+.textae-editor__mode--relation .textae-editor__signboard.ui-selected .textae-editor__signboard__type-values {
+  box-shadow: 0 0 0 2pt red;
+}
+.textae-editor__mode--denotation-with-relation .textae-editor__signboard__type-values,
+.textae-editor__mode--denotation-without-relation .textae-editor__signboard__type-values,
+.textae-editor__mode--block-with-relation .textae-editor__signboard__type-values,
+.textae-editor__mode--block-without-relation .textae-editor__signboard__type-values,
+.textae-editor__mode--relation .textae-editor__signboard__type-values {
   box-shadow: none;
   opacity: 0.9;
   overflow: hidden;
 }
-.textae-editor__mode--denotation-with-relation .textae-editor__entity__attribute,
-.textae-editor__mode--denotation-without-relation .textae-editor__entity__attribute,
-.textae-editor__mode--block-with-relation .textae-editor__entity__attribute,
-.textae-editor__mode--block-without-relation .textae-editor__entity__attribute,
-.textae-editor__mode--relation .textae-editor__entity__attribute {
+.textae-editor__mode--denotation-with-relation .textae-editor__signboard__attribute,
+.textae-editor__mode--denotation-without-relation .textae-editor__signboard__attribute,
+.textae-editor__mode--block-with-relation .textae-editor__signboard__attribute,
+.textae-editor__mode--block-without-relation .textae-editor__signboard__attribute,
+.textae-editor__mode--relation .textae-editor__signboard__attribute {
   background-color: transparent;
 }
-.textae-editor__mode--denotation-with-relation .textae-editor__entity__type-label,
-.textae-editor__mode--denotation-without-relation .textae-editor__entity__type-label,
-.textae-editor__mode--block-with-relation .textae-editor__entity__type-label,
-.textae-editor__mode--block-without-relation .textae-editor__entity__type-label,
-.textae-editor__mode--relation .textae-editor__entity__type-label,
-.textae-editor__mode--denotation-with-relation .textae-editor__entity__attribute-label,
-.textae-editor__mode--denotation-without-relation .textae-editor__entity__attribute-label,
-.textae-editor__mode--block-with-relation .textae-editor__entity__attribute-label,
-.textae-editor__mode--block-without-relation .textae-editor__entity__attribute-label,
-.textae-editor__mode--relation .textae-editor__entity__attribute-label {
+.textae-editor__mode--denotation-with-relation .textae-editor__signboard__type-label,
+.textae-editor__mode--denotation-without-relation .textae-editor__signboard__type-label,
+.textae-editor__mode--block-with-relation .textae-editor__signboard__type-label,
+.textae-editor__mode--block-without-relation .textae-editor__signboard__type-label,
+.textae-editor__mode--relation .textae-editor__signboard__type-label,
+.textae-editor__mode--denotation-with-relation .textae-editor__signboard__attribute-label,
+.textae-editor__mode--denotation-without-relation .textae-editor__signboard__attribute-label,
+.textae-editor__mode--block-with-relation .textae-editor__signboard__attribute-label,
+.textae-editor__mode--block-without-relation .textae-editor__signboard__attribute-label,
+.textae-editor__mode--relation .textae-editor__signboard__attribute-label {
   background-color: transparent;
   border-width: 0;
   border-radius: 0;
   border-bottom-style: none;
   padding: 0;
 }
-.textae-editor__mode--denotation-with-relation .textae-editor__entity__type-label a,
-.textae-editor__mode--denotation-without-relation .textae-editor__entity__type-label a,
-.textae-editor__mode--block-with-relation .textae-editor__entity__type-label a,
-.textae-editor__mode--block-without-relation .textae-editor__entity__type-label a,
-.textae-editor__mode--relation .textae-editor__entity__type-label a,
-.textae-editor__mode--denotation-with-relation .textae-editor__entity__attribute-label a,
-.textae-editor__mode--denotation-without-relation .textae-editor__entity__attribute-label a,
-.textae-editor__mode--block-with-relation .textae-editor__entity__attribute-label a,
-.textae-editor__mode--block-without-relation .textae-editor__entity__attribute-label a,
-.textae-editor__mode--relation .textae-editor__entity__attribute-label a {
+.textae-editor__mode--denotation-with-relation .textae-editor__signboard__type-label a,
+.textae-editor__mode--denotation-without-relation .textae-editor__signboard__type-label a,
+.textae-editor__mode--block-with-relation .textae-editor__signboard__type-label a,
+.textae-editor__mode--block-without-relation .textae-editor__signboard__type-label a,
+.textae-editor__mode--relation .textae-editor__signboard__type-label a,
+.textae-editor__mode--denotation-with-relation .textae-editor__signboard__attribute-label a,
+.textae-editor__mode--denotation-without-relation .textae-editor__signboard__attribute-label a,
+.textae-editor__mode--block-with-relation .textae-editor__signboard__attribute-label a,
+.textae-editor__mode--block-without-relation .textae-editor__signboard__attribute-label a,
+.textae-editor__mode--relation .textae-editor__signboard__attribute-label a {
   color: black;
   pointer-events: none;
   text-decoration: none;
@@ -2579,13 +2586,13 @@ a.ui-button:active,
 .textae-editor__mode--denotation-without-relation .textae-editor__grid {
   border-style: none;
 }
-.textae-editor__mode--view-without-relation .textae-editor__entity,
-.textae-editor__mode--denotation-without-relation .textae-editor__entity {
+.textae-editor__mode--view-without-relation .textae-editor__signboard,
+.textae-editor__mode--denotation-without-relation .textae-editor__signboard {
   margin-bottom: 0;
   padding-top: 0;
 }
-.textae-editor__mode--view-without-relation .textae-editor__entity__type-label,
-.textae-editor__mode--denotation-without-relation .textae-editor__entity__type-label {
+.textae-editor__mode--view-without-relation .textae-editor__signboard__type-label,
+.textae-editor__mode--denotation-without-relation .textae-editor__signboard__type-label {
   border-width: 1px 0 0 0;
 }
 .textae-editor__mode--block-with-relation .textae-editor__block-hit-area,
@@ -2597,11 +2604,11 @@ a.ui-button:active,
 .textae-editor__mode--block-without-relation .textae-editor__block-hit-area:hover {
   box-shadow: 1px 1px 10px #600;
 }
-.textae-editor__mode--block-with-relation .textae-editor__entity.ui-selected .textae-editor__entity__type-values,
-.textae-editor__mode--block-without-relation .textae-editor__entity.ui-selected .textae-editor__entity__type-values {
+.textae-editor__mode--block-with-relation .textae-editor__signboard.ui-selected .textae-editor__signboard__type-values,
+.textae-editor__mode--block-without-relation .textae-editor__signboard.ui-selected .textae-editor__signboard__type-values {
   box-shadow: 0 0 0 2pt red;
 }
-.textae-editor__mode--relation .textae-editor__entity:hover .textae-editor__entity__type-label {
+.textae-editor__mode--relation .textae-editor__signboard:hover .textae-editor__signboard__type-label {
   box-shadow: none;
 }
 /**
