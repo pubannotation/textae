@@ -1,4 +1,4 @@
-import clickEntity from './clickEntity'
+import typeValuesClicked from './typeValuesClicked'
 
 export default class MouseEventHandler {
   constructor(editor, selectionModel, commander, typeDefinition, pallet) {
@@ -24,7 +24,7 @@ export default class MouseEventHandler {
   }
 
   typeValuesClicked(e) {
-    clickEntity(
+    typeValuesClicked(
       this._selectionModel,
       this._commander,
       this._typeDefinition.relation,
