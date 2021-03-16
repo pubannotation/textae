@@ -9,8 +9,7 @@ export default function (
   event
 ) {
   if (!selectionModel.entity.some) {
-    selectionModel.removeAll()
-    selectionModel.entity.add(entityId)
+    selectionModel.selectEntity(entityId)
   } else {
     const subjectEntityId = selectionModel.entity.singleId
     const objectEntityId = entityId
