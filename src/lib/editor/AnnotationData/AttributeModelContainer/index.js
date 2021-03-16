@@ -38,7 +38,7 @@ export default class AttributeModelContainer extends IdIssueContainer {
       model.pred = newPred
     }
 
-    if (newObj) {
+    if (newObj !== undefined) {
       model.obj = newObj
     }
 
