@@ -25,10 +25,9 @@ export default class MouseEventHandler {
   }
 
   typeValuesClicked(e) {
-    const entity = getEntityHTMLelementFromChild(e.target).title
     clickEntity(
       this._selectionModel,
-      entity,
+      getEntityHTMLelementFromChild(e.target).title,
       this._commander,
       this._typeDefinition.relation,
       e
