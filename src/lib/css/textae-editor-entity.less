@@ -8,6 +8,24 @@
   box-shadow: 0 0 0 2pt @selected;
 }
 
+.selectable-signboard() {
+  .textae-editor__signboard__type-values {
+    cursor: pointer;
+  }
+  &:hover {
+    .textae-editor__signboard__type-values {
+      .entity-shadow();
+    }
+  }
+  &.ui-selected {
+    z-index: 2;
+
+    .textae-editor__signboard__type-values {
+      .type-values--selected();
+    }
+  }
+}
+
 .label--full-length() {
   border-width: 1px;
   border-radius: 1px;
@@ -107,42 +125,14 @@
   &__mode--denotation-with-relation,
   &__mode--denotation-without-relation {
     .textae-editor__signboard[data-entity-type='denotation'] {
-      .textae-editor__signboard__type-values {
-        cursor: pointer;
-      }
-      &:hover {
-        .textae-editor__signboard__type-values {
-          .entity-shadow();
-        }
-      }
-      &.ui-selected {
-        z-index: 2;
-
-        .textae-editor__signboard__type-values {
-          .type-values--selected();
-        }
-      }
+      .selectable-signboard();
     }
   }
 
   &__mode--block-with-relation,
   &__mode--block-without-relation {
     .textae-editor__signboard[data-entity-type='block'] {
-      .textae-editor__signboard__type-values {
-        cursor: pointer;
-      }
-      &:hover {
-        .textae-editor__signboard__type-values {
-          .entity-shadow();
-        }
-      }
-      &.ui-selected {
-        z-index: 2;
-
-        .textae-editor__signboard__type-values {
-          .type-values--selected();
-        }
-      }
+      .selectable-signboard();
     }
   }
 
@@ -150,21 +140,7 @@
     .textae-editor__signboard {
       &[data-entity-type='denotation'],
       &[data-entity-type='block'] {
-        .textae-editor__signboard__type-values {
-          cursor: pointer;
-        }
-        &:hover {
-          .textae-editor__signboard__type-values {
-            .entity-shadow();
-          }
-        }
-        &.ui-selected {
-          z-index: 2;
-
-          .textae-editor__signboard__type-values {
-            .type-values--selected();
-          }
-        }
+        .selectable-signboard();
       }
     }
   }
