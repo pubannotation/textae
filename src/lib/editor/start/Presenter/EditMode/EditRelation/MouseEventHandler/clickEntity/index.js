@@ -1,5 +1,5 @@
-import createRelation from './selectObjectEntity/createRelation'
-import updateSelectionOfEntity from './selectObjectEntity/updateSelectionOfEntity'
+import createRelation from './createRelation'
+import updateSelectionOfEntity from './updateSelectionOfEntity'
 
 export default function (
   selectionModel,
