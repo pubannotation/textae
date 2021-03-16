@@ -38,8 +38,12 @@ export default class AttributeModelContainer extends IdIssueContainer {
       model.pred = newPred
     }
 
-    if (newObj !== undefined) {
-      model.obj = newObj
+    if (newObj) {
+      if (this._definitionContainer.get(model.pred).valueType === 'numeric') {
+        model.obj = parseFloat(newObj)
+      } else {
+        model.obj = newObj
+      }
     }
 
     super._emit(`textae-event.annotation-data.attribute.change`, model)

@@ -42,7 +42,7 @@ export default class EditNumericAttributeDialog extends PromiseDialog {
         )
 
         // Numeric attribute obj value type must be Number type.
-        return { newObj: parseFloat(input.value) }
+        return { newObj: input.value }
       }
     )
   }
