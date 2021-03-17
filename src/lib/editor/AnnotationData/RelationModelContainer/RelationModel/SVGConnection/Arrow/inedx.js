@@ -18,12 +18,10 @@ export default class Arrow {
     this._container = container
 
     const defs = container.children[0]
-    this._head = this._createMarker(color, isBold, false, false)
+    this._head = this._createMarker(color, isBold, false)
     defs.appendChild(this._head)
-    this._tail = this._createMarker(color, isBold, true, true)
+    this._tail = this._createMarker(color, isBold, true)
     defs.appendChild(this._tail)
-    this._downTail = this._createMarker(color, isBold, true, false)
-    defs.appendChild(this._downTail)
 
     const path = createPath(
       sourceEndpoint,
@@ -32,7 +30,6 @@ export default class Arrow {
       color,
       this._head,
       this._tail,
-      this._downTail,
       isBold
     )
     container.appendChild(path)
@@ -47,7 +44,6 @@ export default class Arrow {
     const defs = this._container.children[0]
     defs.removeChild(this._head)
     defs.removeChild(this._tail)
-    defs.removeChild(this._downTail)
   }
 
   get top() {
@@ -65,11 +61,11 @@ export default class Arrow {
     return pathBBox.width
   }
 
-  _createMarker(color, isBold, isTail, up) {
+  _createMarker(color, isBold, isTail) {
     // The ID of the SVG element is global scope in the Window.
     // If you don't make it unique, it will use another editor's arrow.
     const id = `r${uuidv4()}`
-    const marker = createMarker(id, up)
+    const marker = createMarker(id, !isTail)
 
     // Markers are affected by the stroke-width of the path.
     // If the path is made thicker, the marker will be larger than intended.
