@@ -43,7 +43,8 @@ export default function (
   }
 
   const controleY =
-    Math.min(sourceY, targetY) - Math.abs(targetX - sourceX) / 2 + 10
+    Math.min(sourceY, targetY) - Math.abs(targetX - sourceX) / 2 - 20
+
   path.setAttribute(
     'd',
     `M ${sourceX}, ${sourceY} C ${sourceX} ${controleY}, ${targetX} ${controleY}, ${targetX} ${targetY}`
