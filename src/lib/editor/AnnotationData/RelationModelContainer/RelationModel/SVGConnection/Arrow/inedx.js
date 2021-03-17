@@ -23,7 +23,7 @@ export default class Arrow {
     this._tail = this._createMarker(color, isBold, true)
     defs.appendChild(this._tail)
 
-    const path = createPath(
+    const [path, pathPoints] = createPath(
       sourceEndpoint,
       annotationBox,
       targetEndpoint,
@@ -36,7 +36,9 @@ export default class Arrow {
     path.addEventListener('click', onClick)
     path.addEventListener('mouseenter', onMouseEnter)
     path.addEventListener('mouseleave', onMouseLeave)
+
     this._path = path
+    this._pathPoints = pathPoints
   }
 
   destructor() {
@@ -52,13 +54,44 @@ export default class Arrow {
   }
 
   get left() {
+    if (this._t) {
+      const { sourceX, targetX } = this._pathPoints
+      const labelX =
+        Math.pow(1 - this._t, 3) * sourceX +
+        3 * Math.pow(1 - this._t, 2) * this._t * sourceX +
+        3 * (1 - this._t) * Math.pow(this._t, 2) * targetX +
+        Math.pow(this._t, 3) * targetX
+      return labelX
+    }
+
     const pathBBox = this._path.getBBox()
     return pathBBox.x
   }
 
   get width() {
+    if (this._t) {
+      return 0
+    }
+
     const pathBBox = this._path.getBBox()
     return pathBBox.width
+  }
+
+  get _t() {
+    const { sourceY, targetY, controleY } = this._pathPoints
+    // https://ja.javascript.info/bezier-curve
+    // (1−t)3P1 + 3(1−t)2tP2 +3(1−t)t2P3 + t3P4
+    const sample = 20
+    return [...Array(sample).keys()]
+      .map((i) => (i * 1) / sample)
+      .find((t) => {
+        const labelY =
+          Math.pow(1 - t, 3) * sourceY +
+          3 * Math.pow(1 - t, 2) * t * controleY +
+          3 * (1 - t) * Math.pow(t, 2) * controleY +
+          Math.pow(t, 3) * targetY
+        return Math.abs(labelY - this._path.getBBox().y) < 1
+      })
   }
 
   _createMarker(color, isBold, isTail) {

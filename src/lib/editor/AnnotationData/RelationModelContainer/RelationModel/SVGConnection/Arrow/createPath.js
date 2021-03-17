@@ -57,5 +57,6 @@ export default function (
   if (isBold) {
     path.classList.add('textae-editor__relation--isBold')
   }
-  return path
+
+  return [path, { sourceY, targetY, controleY, sourceX, targetX }]
 }
