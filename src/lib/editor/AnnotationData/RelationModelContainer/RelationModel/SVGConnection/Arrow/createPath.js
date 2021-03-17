@@ -18,7 +18,7 @@ export default function (
   let targetX =
     targetEndpoint.left + targetEndpoint.width / 2 - annotationBox.left
 
-  const markerSize = isBold ? 18 : 12
+  const markerSize = 12
   let sourceY = sourceEndpoint.top - annotationBox.top - markerSize
   const targetY = targetEndpoint.top - annotationBox.top - markerSize
 
