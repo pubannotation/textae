@@ -1,3 +1,5 @@
+import { MarkerHeight } from './MarkerHeight'
+
 export default function (marker, weight, color, isTail) {
   marker.setAttribute('markerWidth', 12 * weight)
   marker.setAttribute('markerHeight', 12 * weight)
@@ -7,7 +9,7 @@ export default function (marker, weight, color, isTail) {
   const polygon = marker.children[0]
   polygon.setAttribute(
     'points',
-    `0 0, ${8 * weight} ${6 * weight}, 0 ${12 * weight}`
+    `0 0, ${MarkerHeight * weight} ${6 * weight}, 0 ${12 * weight}`
   )
   polygon.setAttribute('stroke', `${color}`)
   polygon.setAttribute('fill', `${color}`)

@@ -1,8 +1,8 @@
 import { NS } from '../NS'
+import { MarkerHeight } from './MarkerHeight'
 
 const DistanceToShift = 8
 const MinimumDistance = DistanceToShift * 3
-
 export default function (
   sourceEndpoint,
   annotationBox,
@@ -18,9 +18,8 @@ export default function (
   let targetX =
     targetEndpoint.left + targetEndpoint.width / 2 - annotationBox.left
 
-  const markerSize = 8
-  let sourceY = sourceEndpoint.top - annotationBox.top - markerSize
-  const targetY = targetEndpoint.top - annotationBox.top - markerSize
+  let sourceY = sourceEndpoint.top - annotationBox.top - MarkerHeight
+  const targetY = targetEndpoint.top - annotationBox.top - MarkerHeight
 
   const path = document.createElementNS(NS.SVG, 'path')
 
@@ -48,7 +47,7 @@ export default function (
         sourceEndpoint.top +
         sourceEndpoint.height -
         annotationBox.top +
-        markerSize
+        MarkerHeight
       path.setAttribute('marker-start', `url(#${downTail.id})`)
     }
   }
