@@ -24,7 +24,7 @@ export default class AnnotationData {
       editor,
       'relation',
       () => this.relation.all,
-      '#555555'
+      '#00CC66'
     )
     this.relation = new RelationModelContainer(
       editor,
