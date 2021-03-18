@@ -2365,7 +2365,7 @@ a.ui-button:active,
   z-index: 1;
 }
 .textae-editor__relation--isBold {
-  stroke-width: 3;
+  stroke-width: 2;
 }
 .textae-editor__relation-label--isBold {
   font-weight: bold;
@@ -2379,6 +2379,9 @@ a.ui-button:active,
   cursor: pointer;
   fill: blue;
   text-decoration: underline;
+}
+.textae-editor__mode--relation .textae-editor__relation-box {
+  z-index: 1;
 }
 .textae-editor__mode--relation .textae-editor__span:hover {
   text-shadow: none;
