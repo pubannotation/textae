@@ -94,7 +94,7 @@ export default class SVGConnection {
       this._relation.id,
       this._relation.displayName,
       this._relation.href,
-      'yellow',
+      this._relation.color,
       this._onClick
     )
   }
