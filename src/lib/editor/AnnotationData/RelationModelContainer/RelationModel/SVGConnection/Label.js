@@ -14,11 +14,11 @@ export default class Label {
   ) {
     this._container = container
 
-    const grid = document.createElement('div')
+    const location = document.createElement('div')
 
-    grid.classList.add('textae-editor__relation__signboard-location')
-    grid.style.top = `${y - 18}px`
-    grid.style.left = `${x}px`
+    location.classList.add('textae-editor__relation__signboard-location')
+    location.style.top = `${y - 18}px`
+    location.style.left = `${x}px`
 
     const entity = createSignboardHTMLElement(
       relationId,
@@ -30,11 +30,11 @@ export default class Label {
       null,
       null
     )
-    grid.appendChild(entity)
-    container.appendChild(grid)
+    location.appendChild(entity)
+    container.appendChild(location)
 
     entity.addEventListener('click', onClick)
-    this._label = grid
+    this._label = location
   }
 
   destructor() {
