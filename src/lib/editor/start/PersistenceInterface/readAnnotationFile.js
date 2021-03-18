@@ -3,8 +3,7 @@ import isJSON from './isJSON'
 import isTxtFile from './isTxtFile'
 import DataSource from '../../DataSource'
 
-export default async function (files, editor) {
-  const file = files[0]
+export default async function (file, editor) {
   const event = await readFile(file)
   const fileContent = event.target.result
 

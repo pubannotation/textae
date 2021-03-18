@@ -1,6 +1,7 @@
 import delegate from 'delegate'
 import Dialog from './Dialog'
 import enableHTMLelment from './enableHTMLElement'
+import Dropzone from 'dropzone'
 
 function template(context) {
   const { url } = context
@@ -24,15 +25,20 @@ function template(context) {
     <label class="textae-editor__load-dialog__label">
       Local
     </label>
-    <input 
-      class="textae-editor__load-dialog__file" 
-      type="file">
+    <div class="textae-editor__load-dialog__dz-file-preview">
+      <div class="dz-filename"><span data-dz-name>No file uploaded</span></div>
+    </div>
     <input 
       type="button" 
-      class="local" 
-      disabled="disabled" 
+      class="local"
+      disabled="disabled"
       value="Open">
   </div>
+  <form class="dropzone textae-editor__load-dialog__dropzone">
+    <div class="dz-message">
+      Drop a file here or click to upload.
+    </div>
+  </form>
 </div>`
 }
 
@@ -48,11 +54,6 @@ export default class LoadDialog extends Dialog {
       enableHTMLelment(e.target.nextElementSibling, e.target.value)
     })
 
-    // Disabled the button to load from a file when no file.
-    delegate(super.el, '.textae-editor__load-dialog__file', 'change', (e) => {
-      enableHTMLelment(e.target.nextElementSibling, e.target.files.length > 0)
-    })
-
     const isUserConfirm = () =>
       !hasChange || window.confirm(CONFIRM_DISCARD_CHANGE_MESSAGE)
 
@@ -65,14 +66,67 @@ export default class LoadDialog extends Dialog {
     })
 
     // Load from a file.
-    delegate(super.el, '[type="button"].local', 'click', (e) => {
-      const file = e.target.previousElementSibling
-
+    delegate(super.el, '[type="button"].local', 'click', () => {
       if (isUserConfirm()) {
-        readFromFile(file)
+        readFromFile(this.dropedFile)
       }
 
       super.close()
+    })
+  }
+
+  open() {
+    super.open()
+
+    const dropzoneConfig = {
+      url: 'nothing', //Because it's a setting that cannot be omitted.
+      previewsContainer: '.textae-editor__load-dialog__dz-file-preview',
+      previewTemplate: super.el.querySelector(
+        '.textae-editor__load-dialog__dz-file-preview'
+      ).innerHTML
+    }
+
+    const overlayDropzone = new Dropzone(
+      'body > div.ui-widget-overlay.ui-front',
+      {
+        ...dropzoneConfig,
+        clickable: false
+      }
+    )
+    overlayDropzone.on('addedfile', (file) => {
+      this._showFilePreview(file)
+    })
+
+    const dialogDropzone = new Dropzone(
+      '.textae-editor__load-dialog__dropzone',
+      dropzoneConfig
+    )
+    dialogDropzone.on('addedfile', (file) => {
+      this._showFilePreview(file)
+    })
+
+    this._preventDropOutsideDropzone()
+  }
+
+  _showFilePreview(file) {
+    super.el
+      .querySelector('.textae-editor__load-dialog__dz-file-preview > div')
+      .remove()
+    this.dropedFile = file
+    super.el
+      .querySelector('.textae-editor__load-dialog__dz-file-preview > div')
+      .setAttribute('title', this.dropedFile.name)
+    enableHTMLelment(super.el.querySelector('[type="button"].local'), true)
+  }
+
+  _preventDropOutsideDropzone() {
+    const dialog = super.el.closest('.textae-editor__dialog')
+    dialog.addEventListener('dragover', (ev) => {
+      ev.preventDefault()
+    })
+    dialog.addEventListener('drop', (ev) => {
+      ev.preventDefault()
+      ev.stopPropagation()
     })
   }
 }

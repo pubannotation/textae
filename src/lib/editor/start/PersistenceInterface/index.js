@@ -35,9 +35,9 @@ export default class PersistenceInterface {
       'Load Annotations',
       this._dataAccessObject.annotationUrl,
       (url) => this._dataAccessObject.loadAnnotation(url),
-      ({ files }) => {
-        readAnnotationFile(files, this._editor)
-        this._filenameOfLastRead.annotation = files[0].name
+      (file) => {
+        readAnnotationFile(file, this._editor)
+        this._filenameOfLastRead.annotation = file.name
       },
       this._history.hasAnythingToSaveAnnotation
     ).open()
