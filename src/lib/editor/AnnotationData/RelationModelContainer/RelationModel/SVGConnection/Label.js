@@ -16,10 +16,7 @@ export default class Label {
 
     const grid = document.createElement('div')
 
-    grid.style.width = `${width}px`
-    grid.style.display = 'flex'
-    grid.style.justifyContent = 'center'
-    grid.style.position = 'absolute'
+    grid.classList.add('textae-editor__relation__signboard-location')
     grid.style.top = `${y - 18}px`
     grid.style.left = `${x}px`
 
