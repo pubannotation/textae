@@ -20,7 +20,7 @@ export default class Label {
     location.style.top = `${y - 18}px`
     location.style.left = `${x}px`
 
-    const entity = createSignboardHTMLElement(
+    const signboard = createSignboardHTMLElement(
       relationId,
       'relation',
       color,
@@ -30,10 +30,10 @@ export default class Label {
       null,
       null
     )
-    location.appendChild(entity)
+    location.appendChild(signboard)
     container.appendChild(location)
 
-    entity.addEventListener('click', onClick)
+    signboard.addEventListener('click', onClick)
     this._label = location
   }
 
