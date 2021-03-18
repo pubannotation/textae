@@ -17,6 +17,7 @@ export default class Label {
     const location = document.createElement('div')
 
     location.classList.add('textae-editor__relation__signboard-location')
+    location.style.width = `${width}px`
     location.style.top = `${y - 18}px`
     location.style.left = `${x}px`
 
