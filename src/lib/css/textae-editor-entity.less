@@ -8,24 +8,6 @@
   box-shadow: 0 0 0 2pt @selected;
 }
 
-.selectable-signboard() {
-  .textae-editor__signboard__type-values {
-    cursor: pointer;
-  }
-  &:hover {
-    .textae-editor__signboard__type-values {
-      .entity-shadow();
-    }
-  }
-  &.ui-selected {
-    z-index: 2;
-
-    .textae-editor__signboard__type-values {
-      .type-values--selected();
-    }
-  }
-}
-
 .label--full-length() {
   border-width: 1px;
   border-radius: 1px;
@@ -119,6 +101,24 @@
     &-label {
       .label--full-length();
       background-color: inherit;
+    }
+  }
+
+  .selectable-signboard() {
+    .textae-editor__signboard__type-values {
+      cursor: pointer;
+    }
+    &:hover {
+      .textae-editor__signboard__type-values {
+        .entity-shadow();
+      }
+    }
+    &.ui-selected {
+      z-index: 2;
+
+      .textae-editor__signboard__type-values {
+        .type-values--selected();
+      }
     }
   }
 
