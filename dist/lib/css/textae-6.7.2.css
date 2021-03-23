@@ -2364,6 +2364,12 @@ a.ui-button:active,
 .textae-editor__block-hit-area {
   z-index: 1;
 }
+.textae-editor__relation__signboard-location {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  width: 0px;
+}
 .textae-editor__relation--isBold {
   stroke-width: 2;
 }
