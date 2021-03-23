@@ -52,7 +52,7 @@ export default class SVGConnection {
   recreate() {
     this.destroy()
     this._createArrow(this._isSelected || this._isHovered)
-    this._createLabel(this._isSelected || this._isHovered)
+    this._createLabel(this._isSelected)
   }
 
   // Private APIs
@@ -76,7 +76,7 @@ export default class SVGConnection {
     )
   }
 
-  _createLabel(isBold) {
+  _createLabel(isSelected) {
     this._label = new Label(
       this._annotationBox,
       this._arrow.left,
@@ -86,7 +86,8 @@ export default class SVGConnection {
       this._relation.displayName,
       this._relation.href,
       this._relation.color,
-      this._onClick
+      this._onClick,
+      isSelected
     )
   }
 }

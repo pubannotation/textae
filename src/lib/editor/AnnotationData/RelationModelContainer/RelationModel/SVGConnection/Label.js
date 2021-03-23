@@ -10,7 +10,8 @@ export default class Label {
     displayName,
     href,
     color,
-    onClick
+    onClick,
+    isSelected
   ) {
     this._container = container
 
@@ -28,7 +29,7 @@ export default class Label {
       href,
       displayName,
       [],
-      null,
+      isSelected ? 'ui-selected' : null,
       null
     )
     location.appendChild(signboard)
