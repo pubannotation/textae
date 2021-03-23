@@ -17,7 +17,8 @@ export default class SVGConnection {
   }
 
   destroy() {
-    this._destoryPath()
+    this._arrow.destructor()
+    this._label.destructor()
   }
 
   select() {
@@ -40,7 +41,7 @@ export default class SVGConnection {
     if (!this._isSelected && !this._isHovered) {
       this._isHovered = true
 
-      this._destoryPath()
+      this.destroy()
       this._createArrow(true)
       this._createLabel(true)
     }
@@ -97,10 +98,5 @@ export default class SVGConnection {
       this._relation.color,
       this._onClick
     )
-  }
-
-  _destoryPath() {
-    this._arrow.destructor()
-    this._label.destructor()
   }
 }
