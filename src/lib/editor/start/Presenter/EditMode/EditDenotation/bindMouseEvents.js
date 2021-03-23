@@ -37,7 +37,7 @@ export default function (editor, mouseEventHandler) {
   )
 
   listeners.push(
-    delegate(editor[0], '.textae-editor__signboard', 'click', () =>
+    delegate(editor[0], '.textae-editor__signboard', 'mousedown', () =>
       mouseEventHandler.signboardClicked()
     )
   )
