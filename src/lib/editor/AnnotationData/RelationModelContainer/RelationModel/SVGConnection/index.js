@@ -24,9 +24,7 @@ export default class SVGConnection {
   select() {
     if (!this._isSelected) {
       this._isSelected = true
-      this.destroy()
-      this._createArrow(true)
-      this._createLabel(true)
+      this.recreate()
     }
   }
 
@@ -40,10 +38,7 @@ export default class SVGConnection {
   pointUp() {
     if (!this._isSelected && !this._isHovered) {
       this._isHovered = true
-
-      this.destroy()
-      this._createArrow(true)
-      this._createLabel(true)
+      this.recreate()
     }
   }
 
@@ -56,13 +51,8 @@ export default class SVGConnection {
 
   recreate() {
     this.destroy()
-    if (this._isSelected) {
-      this._createArrow(true)
-      this._createLabel(true)
-    } else {
-      this._createArrow(false)
-      this._createLabel(false)
-    }
+    this._createArrow(this._isSelected || this._isHovered)
+    this._createLabel(this._isSelected || this._isHovered)
   }
 
   // Private APIs
