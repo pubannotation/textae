@@ -48,18 +48,38 @@
     .common();
     .save_load();
 
-    &__config-title {
-      .config-title();
-    }
-
-    &__file-name,
-    &__file-name--config {
+    &__file-name {
       .file();
     }
 
-    &__file,
-    &__file--config {
-      .file();
+    &__dropzone {
+      border: 3px dashed;
+      border-radius: 10px;
+      cursor: pointer;
+      height: 100px;
+      margin: 10px auto;
+      width: 500px;
+      .dz-message {
+        font-weight: bold;
+        line-height: 100px;
+        text-align: center;
+      }
+    }
+
+    &__dz-file-preview {
+      display: inline-block;
+      width: 348px;
+      .dz-filename {
+        align-items: center;
+        display: flex;
+        span {
+          display: inline-block;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          width: 348px;
+        }
+      }
     }
   }
 
