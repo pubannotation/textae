@@ -18,18 +18,18 @@ export default class Arrow {
     this._container = container
 
     const defs = container.children[0]
-    this._head = this._createMarker(pathColor, isBold, false)
-    defs.appendChild(this._head)
-    this._tail = this._createMarker(pathColor, isBold, true)
-    defs.appendChild(this._tail)
+    this._targetMarker = this._createMarker(pathColor, isBold, false)
+    defs.appendChild(this._targetMarker)
+    this._sourceMarker = this._createMarker(pathColor, isBold, true)
+    defs.appendChild(this._sourceMarker)
 
     const [path, pathPoints] = createPath(
       sourceEndpoint,
       annotationBox,
       targetEndpoint,
       pathColor,
-      this._head,
-      this._tail,
+      this._targetMarker,
+      this._sourceMarker,
       isBold
     )
     container.appendChild(path)
@@ -44,8 +44,8 @@ export default class Arrow {
   destructor() {
     this._container.removeChild(this._path)
     const defs = this._container.children[0]
-    defs.removeChild(this._head)
-    defs.removeChild(this._tail)
+    defs.removeChild(this._targetMarker)
+    defs.removeChild(this._sourceMarker)
   }
 
   get top() {
