@@ -58,6 +58,14 @@ export default class RelationModel {
     return getEntityEndpoint(this._editor, this.obj)
   }
 
+  get sourceColor() {
+    return this._entityContainer.get(this.subj).color
+  }
+
+  get targetColor() {
+    return this._entityContainer.get(this.obj).color
+  }
+
   select() {
     this._connect.select()
   }
