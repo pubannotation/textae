@@ -27,6 +27,11 @@ export default class EntityModel {
     this._entityGap = entityGap
     this._typeDefinition = typeDefinition
     this._namespace = namespace
+
+    this._typeValues = new TypeValues(
+      this._typeName,
+      this._attributeContainer.getAttributesFor(this._id)
+    )
   }
 
   get id() {
@@ -59,7 +64,7 @@ export default class EntityModel {
   }
 
   get typeValues() {
-    return new TypeValues(this._typeName, this.attributes)
+    return this._typeValues
   }
 
   get attributes() {
