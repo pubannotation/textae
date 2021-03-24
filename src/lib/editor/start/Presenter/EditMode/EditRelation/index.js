@@ -20,6 +20,7 @@ export default class EditRelation extends Edit {
     )
 
     const handler = new EditRelationHandler(
+      editor,
       annotationData.typeDefinition.relation,
       commander,
       annotationData,

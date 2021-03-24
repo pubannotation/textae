@@ -1,18 +1,31 @@
 import DefaultHandler from '../DefaultHandler'
-import EditRelationDialog from '../../../../../component/EditRelationDialog'
+import EditEntityDialog from '../../../../../component/EditEntityDialog'
+import mergedTypeValuesOf from '../mergedTypeValuesOf'
 
 export default class EditRelationHandler extends DefaultHandler {
-  constructor(definitionContainer, commander, annotationData, selectionModel) {
+  constructor(
+    editor,
+    definitionContainer,
+    commander,
+    annotationData,
+    selectionModel
+  ) {
     super('relation', definitionContainer, commander)
 
+    this._editor = editor
     this._annotationData = annotationData
     this._selectionModel = selectionModel
   }
 
   changeInstance(autocompletionWs) {
     if (this._selectionModel.relation.some) {
-      const type = this._getSelectedType()
-      new EditRelationDialog(type, this._definitionContainer, autocompletionWs)
+      new EditEntityDialog(
+        this._editor,
+        this._definitionContainer,
+        this._annotationData.typeDefinition.attribute,
+        autocompletionWs,
+        mergedTypeValuesOf(this._selectionModel.relation.all)
+      )
         .open()
         .then((values) => this._labelChanged(values))
     }

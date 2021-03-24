@@ -42,7 +42,10 @@ export default class RelationModel {
   }
 
   get typeValues() {
-    return new TypeValues(this._typeName)
+    return new TypeValues(
+      this._typeName,
+      this._attributeContainer.getAttributesFor(this._id)
+    )
   }
 
   get subj() {
