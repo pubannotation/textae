@@ -2,9 +2,7 @@ import readFile from './readFile'
 import isJSON from './isJSON'
 import DataSource from '../../DataSource'
 
-export default function (files, editor) {
-  const file = files[0]
-
+export default function (file, editor) {
   readFile(file).then(({ target }) => {
     if (isJSON(target.result)) {
       editor.eventEmitter.emit(

@@ -66,9 +66,9 @@ export default class PersistenceInterface {
       'Load Configurations',
       this._dataAccessObject.configurationUrl,
       (url) => this._dataAccessObject.loadConfigulation(url),
-      ({ files }) => {
-        readConfigurationFile(files, this._editor)
-        this._filenameOfLastRead.configuration = files[0].name
+      (file) => {
+        readConfigurationFile(file, this._editor)
+        this._filenameOfLastRead.configuration = file.name
       },
       this._history.hasAnythingToSaveConfiguration
     ).open()
