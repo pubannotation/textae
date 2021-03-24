@@ -65,10 +65,6 @@ export default class EntityModel {
     )
   }
 
-  get attributes() {
-    return this.typeValues.attributes
-  }
-
   get relations() {
     return this._relationContaier.all.filter(
       (r) => r.obj === this.id || r.subj === this.id
