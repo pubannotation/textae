@@ -1,5 +1,6 @@
 import getDisplayName from '../../../getDisplayName'
 import getUri from '../../../getUri'
+import TypeValues from '../../../TypeValues'
 import getEntityEndpoint from './getEntityEndpoint'
 import SVGConnection from './SVGConnection'
 
@@ -40,6 +41,10 @@ export default class RelationModel {
 
   isSameType(typeName) {
     return this.typeName === typeName
+  }
+
+  get typeValues() {
+    return new TypeValues(this._typeName)
   }
 
   get subj() {
