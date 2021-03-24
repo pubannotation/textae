@@ -11,6 +11,6 @@ export default function (marker, weight, color, isTail) {
     'points',
     `0 0, ${MarkerHeight * weight} ${6 * weight}, 0 ${12 * weight}`
   )
-  polygon.setAttribute('stroke', `${color}`)
+  polygon.setAttribute('stroke', 'rgba(100, 100, 215, 0.8)')
   polygon.setAttribute('fill', `${color}`)
 }
