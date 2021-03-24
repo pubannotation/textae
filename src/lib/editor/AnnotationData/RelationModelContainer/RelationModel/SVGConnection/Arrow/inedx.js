@@ -9,7 +9,7 @@ export default class Arrow {
     sourceEndpoint,
     targetEndpoint,
     annotationBox,
-    color,
+    pathColor,
     onClick,
     onMouseEnter,
     onMouseLeave,
@@ -18,16 +18,16 @@ export default class Arrow {
     this._container = container
 
     const defs = container.children[0]
-    this._head = this._createMarker(color, isBold, false)
+    this._head = this._createMarker(pathColor, isBold, false)
     defs.appendChild(this._head)
-    this._tail = this._createMarker(color, isBold, true)
+    this._tail = this._createMarker(pathColor, isBold, true)
     defs.appendChild(this._tail)
 
     const [path, pathPoints] = createPath(
       sourceEndpoint,
       annotationBox,
       targetEndpoint,
-      color,
+      pathColor,
       this._head,
       this._tail,
       isBold
