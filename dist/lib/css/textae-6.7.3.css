@@ -204,23 +204,38 @@
 .textae-editor__load-dialog__row {
   margin-bottom: 4px;
 }
-.textae-editor__load-dialog__config-title {
-  margin: 20px 0 12px 6px;
-  padding: 0.2em 0.4em;
-  border-bottom: 1px solid #e78f08;
+.textae-editor__load-dialog__file-name {
+  line-height: 16px;
+  height: 32px;
+  width: 340px;
+}
+.textae-editor__load-dialog__dropzone {
+  border: 3px dashed;
+  border-radius: 10px;
+  cursor: pointer;
+  height: 100px;
+  margin: 10px auto;
+  width: 500px;
+}
+.textae-editor__load-dialog__dropzone .dz-message {
   font-weight: bold;
+  line-height: 100px;
+  text-align: center;
 }
-.textae-editor__load-dialog__file-name,
-.textae-editor__load-dialog__file-name--config {
-  line-height: 16px;
-  height: 32px;
-  width: 340px;
+.textae-editor__load-dialog__dz-file-preview {
+  display: inline-block;
+  width: 348px;
 }
-.textae-editor__load-dialog__file,
-.textae-editor__load-dialog__file--config {
-  line-height: 16px;
-  height: 32px;
-  width: 340px;
+.textae-editor__load-dialog__dz-file-preview .dz-filename {
+  align-items: center;
+  display: flex;
+}
+.textae-editor__load-dialog__dz-file-preview .dz-filename span {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 348px;
 }
 .textae-editor__save-dialog__label {
   display: inline-block;
