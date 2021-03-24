@@ -138,7 +138,7 @@ export default class EntityModel {
     return createSignboardHTMLElement(
       this.id,
       this.isDenotation ? 'denotation' : 'block',
-      this._color,
+      this.color,
       this._href,
       this._displayName,
       this.attributes.map(({ pred, obj, displayName, href, color }) => ({
@@ -225,7 +225,7 @@ export default class EntityModel {
     )
   }
 
-  get _color() {
+  get color() {
     return this._definitionContainerFor.getColor(this.typeName)
   }
 }
