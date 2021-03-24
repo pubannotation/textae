@@ -59,11 +59,14 @@ export default class EntityModel {
   }
 
   get typeValues() {
-    return new TypeValues(this._typeName, this.attributes)
+    return new TypeValues(
+      this._typeName,
+      this._attributeContainer.getAttributesFor(this._id)
+    )
   }
 
   get attributes() {
-    return this._attributeContainer.getAttributesFor(this._id)
+    return this.typeValues.attributes
   }
 
   get relations() {
@@ -85,7 +88,7 @@ export default class EntityModel {
   }
 
   hasSpecificPredicateAttribute(pred) {
-    return this.attributes.some((a) => a.pred === pred)
+    return this.typeValues.attributes.some((a) => a.pred === pred)
   }
 
   get element() {
@@ -125,14 +128,16 @@ export default class EntityModel {
       this.color,
       this._href,
       this._displayName,
-      this.attributes.map(({ pred, obj, displayName, href, color }) => ({
-        pred,
-        obj,
-        title: `pred: ${pred}, value: ${obj}`,
-        displayName,
-        href,
-        color
-      })),
+      this.typeValues.attributes.map(
+        ({ pred, obj, displayName, href, color }) => ({
+          pred,
+          obj,
+          title: `pred: ${pred}, value: ${obj}`,
+          displayName,
+          href,
+          color
+        })
+      ),
       null,
       makeEntityHTMLElementId(this._editor, this.id)
     )

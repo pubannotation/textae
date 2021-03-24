@@ -16,7 +16,7 @@ export default class ChangeAttributeOfItemsCommand extends CompositeCommand {
 
     const effectedAttributes = []
     for (const item of items) {
-      const attribute = item.attributes.find(
+      const attribute = item.typeValues.attributes.find(
         (a) => a.pred == attrDef.pred && a.obj !== newObj
       )
 

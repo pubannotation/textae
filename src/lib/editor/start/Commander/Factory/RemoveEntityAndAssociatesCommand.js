@@ -15,7 +15,7 @@ export default class RemoveEntityAndAssociatesCommand extends CompositeCommand {
       )
     const removeAttribute = annotationData.entity
       .get(id)
-      .attributes.map(
+      .typeValues.attributes.map(
         (attribute) =>
           new RemoveCommand(editor, annotationData, 'attribute', attribute.id)
       )
