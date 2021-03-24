@@ -11,4 +11,24 @@ export default class TypeValues {
   get attributes() {
     return this._attributes
   }
+
+  isSameType(typeName, attributes = null) {
+    if (attributes) {
+      return this.typeName === typeName && this._hasSameAttributes(attributes)
+    }
+
+    return this.typeName === typeName
+  }
+
+  _hasSameAttributes(newAttributes) {
+    if (newAttributes.length != this.attributes.length) {
+      return false
+    }
+
+    return (
+      newAttributes.filter((a) =>
+        this.attributes.some((b) => b.equalsTo(a.pred, a.obj))
+      ).length == this.attributes.length
+    )
+  }
 }

@@ -55,11 +55,7 @@ export default class EntityModel {
   }
 
   isSameType(typeName, attributes = null) {
-    if (attributes) {
-      return this.typeName === typeName && this._hasSameAttributes(attributes)
-    }
-
-    return this.typeName === typeName
+    return this.typeValues.isSameType(typeName, attributes)
   }
 
   get typeValues() {
@@ -86,18 +82,6 @@ export default class EntityModel {
     for (const relation of this.relations) {
       relation.pointDown()
     }
-  }
-
-  _hasSameAttributes(newAttributes) {
-    if (newAttributes.length != this.attributes.length) {
-      return false
-    }
-
-    return (
-      newAttributes.filter((a) =>
-        this.attributes.some((b) => b.equalsTo(a.pred, a.obj))
-      ).length == this.attributes.length
-    )
   }
 
   hasSpecificPredicateAttribute(pred) {
