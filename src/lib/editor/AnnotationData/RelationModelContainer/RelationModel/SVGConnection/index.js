@@ -69,6 +69,8 @@ export default class SVGConnection {
       targetEndpoint,
       annotationBox,
       this._relation.color,
+      this._relation.sourceColor,
+      this._relation.targetColor,
       this._onClick,
       () => this.pointUp(),
       () => this.pointDown(),
