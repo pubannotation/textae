@@ -4,8 +4,15 @@ import getEntityEndpoint from './getEntityEndpoint'
 import SVGConnection from './SVGConnection'
 
 export default class RelationModel {
-  constructor(editor, { id, pred, subj, obj }, namespace, definitionContainer) {
+  constructor(
+    editor,
+    entityContainer,
+    { id, pred, subj, obj },
+    namespace,
+    definitionContainer
+  ) {
     this._editor = editor
+    this._entityContainer = entityContainer
     this._id = id
     this.typeName = pred
     this._subj = subj

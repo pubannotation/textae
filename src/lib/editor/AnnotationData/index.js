@@ -29,6 +29,7 @@ export default class AnnotationData {
     this.relation = new RelationModelContainer(
       editor,
       editor.eventEmitter,
+      this,
       this.namespace,
       relationDefinitionContainer
     )
