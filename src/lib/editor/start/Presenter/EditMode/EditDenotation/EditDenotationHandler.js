@@ -1,5 +1,5 @@
 import EditEntityDialog from '../../../../../component/EditEntityDialog'
-import mergedTypesOf from '../mergeTypesOf'
+import mergedTypeValuesOf from '../mergedTypeValuesOf'
 import DefaultHandler from '../DefaultHandler'
 
 export default class EditDenotationHandler extends DefaultHandler {
@@ -26,7 +26,7 @@ export default class EditDenotationHandler extends DefaultHandler {
         this._definitionContainer,
         this._annotationData.typeDefinition.attribute,
         autocompletionWs,
-        mergedTypesOf(this._selectionModel.entity.all)
+        mergedTypeValuesOf(this._selectionModel.entity.all)
       )
         .open()
         .then((values) => this._labelChanged(values))
