@@ -47,24 +47,24 @@ export default class Horizontal {
   }
 
   _searchLeft(selector) {
-    const allElements = this._editor[0].querySelectorAll(selector)
-    const firstSelectedIndex = [...allElements].findIndex((el) =>
+    const elements = this._editor[0].querySelectorAll(selector)
+    const firstSelectedIndex = [...elements].findIndex((el) =>
       el.classList.contains('ui-selected')
     )
 
     if (firstSelectedIndex > 0) {
-      return allElements[firstSelectedIndex - 1]
+      return elements[firstSelectedIndex - 1]
     }
   }
 
   _searchRight(selector) {
-    const allElements = this._editor[0].querySelectorAll(selector)
-    const lastSelectedIndex = [...allElements]
+    const elements = this._editor[0].querySelectorAll(selector)
+    const lastSelectedIndex = [...elements]
       .reverse()
       .findIndex((el) => el.classList.contains('ui-selected'))
 
-    if (allElements.length - lastSelectedIndex > 0) {
-      return allElements[allElements.length - lastSelectedIndex]
+    if (elements.length - lastSelectedIndex > 0) {
+      return elements[elements.length - lastSelectedIndex]
     }
   }
 }
