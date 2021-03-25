@@ -20,6 +20,10 @@ export default class TypeValues {
     return this.typeName === typeName
   }
 
+  hasSpecificPredicateAttribute(pred) {
+    return this.attributes.some((a) => a.pred === pred)
+  }
+
   _hasSameAttributes(newAttributes) {
     if (newAttributes.length != this.attributes.length) {
       return false

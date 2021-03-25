@@ -80,7 +80,7 @@ export default class EntityModel {
   }
 
   hasSpecificPredicateAttribute(pred) {
-    return this.typeValues.attributes.some((a) => a.pred === pred)
+    return this.typeValues.hasSpecificPredicateAttribute(pred)
   }
 
   get element() {
