@@ -46,7 +46,7 @@ export default class EntityRenderer {
 
   updateAttribute(pred) {
     for (const entity of this._annotationData.entity.all.filter((e) =>
-      e.hasSpecificPredicateAttribute(pred)
+      e.typeValues.hasSpecificPredicateAttribute(pred)
     )) {
       entity.updateElement()
     }
