@@ -4,6 +4,8 @@ import SaveConfigurationDialog from '../../../component/SaveConfigurationDialog'
 import mergeAnnotation from './mergeAnnotation'
 import readAnnotationFile from './readAnnotationFile'
 import readConfigurationFile from './readConfigurationFile'
+import DataSource from '../../DataSource'
+import isJSON from './isJSON'
 
 export default class PersistenceInterface {
   constructor(
@@ -39,6 +41,23 @@ export default class PersistenceInterface {
         readAnnotationFile(file, this._editor)
         this._filenameOfLastRead.annotation = file.name
       },
+      (text) => {
+        if (isJSON(text)) {
+          const annotation = JSON.parse(text)
+          if (annotation.text) {
+            this._editor.eventEmitter.emit(
+              'textae-event.data-access-object.annotation.load.success',
+              new DataSource('instant', null, annotation)
+            )
+            return
+          }
+        }
+
+        this._editor.eventEmitter.emit(
+          'textae-event.data-access-object.annotation.format.error',
+          new DataSource('instant', null)
+        )
+      },
       this._history.hasAnythingToSaveAnnotation
     ).open()
   }
@@ -69,6 +88,19 @@ export default class PersistenceInterface {
       (file) => {
         readConfigurationFile(file, this._editor)
         this._filenameOfLastRead.configuration = file.name
+      },
+      (text) => {
+        if (isJSON(text)) {
+          this._editor.eventEmitter.emit(
+            'textae-event.data-access-object.configuration.load.success',
+            new DataSource('instant', null, JSON.parse(text))
+          )
+        } else {
+          this._editor.eventEmitter.emit(
+            'textae-event.data-access-object.configuration.format.error',
+            new DataSource('instant', null)
+          )
+        }
       },
       this._history.hasAnythingToSaveConfiguration
     ).open()
