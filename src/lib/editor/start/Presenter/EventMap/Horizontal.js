@@ -5,7 +5,7 @@ export default class Horizontal {
   }
 
   left(shiftKey) {
-    const nextSpan = this._searchLeft('textae-editor__span')
+    const nextSpan = this._searchLeft('.textae-editor__span')
     if (nextSpan) {
       if (shiftKey) {
         this._selectionModel.span.add(nextSpan.id)
@@ -15,7 +15,7 @@ export default class Horizontal {
       return
     }
 
-    const nextEntity = this._searchLeft('textae-editor__signboard')
+    const nextEntity = this._searchLeft('.textae-editor__signboard')
     if (nextEntity) {
       if (shiftKey) {
         this._selectionModel.entity.add(nextEntity.title)
@@ -26,7 +26,7 @@ export default class Horizontal {
   }
 
   right(shiftKey) {
-    const nextSpan = this._searchRight('textae-editor__span')
+    const nextSpan = this._searchRight('.textae-editor__span')
     if (nextSpan) {
       if (shiftKey) {
         this._selectionModel.span.add(nextSpan.id)
@@ -36,7 +36,7 @@ export default class Horizontal {
       return
     }
 
-    const nextEntity = this._searchRight('textae-editor__signboard')
+    const nextEntity = this._searchRight('.textae-editor__signboard')
     if (nextEntity) {
       if (shiftKey) {
         this._selectionModel.entity.add(nextEntity.title)
@@ -46,8 +46,8 @@ export default class Horizontal {
     }
   }
 
-  _searchLeft(className) {
-    const allElements = this._editor[0].querySelectorAll(`.${className}`)
+  _searchLeft(selector) {
+    const allElements = this._editor[0].querySelectorAll(selector)
     const firstSelectedIndex = [...allElements].findIndex((el) =>
       el.classList.contains('ui-selected')
     )
@@ -57,8 +57,8 @@ export default class Horizontal {
     }
   }
 
-  _searchRight(className) {
-    const allElements = this._editor[0].querySelectorAll(`.${className}`)
+  _searchRight(selector) {
+    const allElements = this._editor[0].querySelectorAll(selector)
     const lastSelectedIndex = [...allElements]
       .reverse()
       .findIndex((el) => el.classList.contains('ui-selected'))
