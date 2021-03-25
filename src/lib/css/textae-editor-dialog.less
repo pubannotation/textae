@@ -1,4 +1,5 @@
 @import 'textae-editor-fontawsome.less';
+@import (css) '/node_modules/codemirror/lib/codemirror.css';
 
 // Rules
 .common() {
@@ -44,12 +45,27 @@
 
 /* dialog */
 .textae-editor {
+  &__dialog {
+    &__expanded {
+      width: calc(100% - 50px) !important;
+      min-height: calc(100% - 50px);
+      position: fixed !important;
+      overflow-y: scroll !important;
+      top: 25px !important;
+      left: 25px !important;
+      .expanded-item {
+        width: 89%;
+      }
+    }
+  }
+
   &__load-dialog {
     .common();
     .save_load();
 
     &__file-name {
       .file();
+      width: 65%;
     }
 
     &__dropzone {
@@ -73,7 +89,8 @@
 
     &__dz-file-preview {
       display: inline-block;
-      width: 348px;
+      width: 65%;
+      margin-right: 8px;
       .dz-filename {
         align-items: center;
         display: flex;
@@ -82,9 +99,14 @@
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
-          width: 348px;
+          width: 100%;
         }
       }
+    }
+
+    &__textarea {
+      width: 341px;
+      height: auto;
     }
   }
 
