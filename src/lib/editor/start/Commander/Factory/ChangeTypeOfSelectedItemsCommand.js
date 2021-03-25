@@ -12,7 +12,7 @@ export default class ChangeTypeOfSelectedItemsCommand extends CompositeCommand {
     super()
 
     const itemsWithChange = selectionModel[annotationType].all.filter(
-      (item) => !item.isSameType(typeName)
+      (item) => !item.typeValues.isSameType(typeName)
     )
 
     this._subCommands = itemsWithChange.map(

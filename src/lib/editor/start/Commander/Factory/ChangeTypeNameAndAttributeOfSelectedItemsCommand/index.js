@@ -15,7 +15,7 @@ export default class ChangeTypeNameAndAttributeOfSelectedItemsCommand extends Co
 
     // Get only items with changes.
     const itemsWithChange = selectionModel[annotationType].all.filter(
-      (item) => !item.isSameType(typeName, attributes)
+      (item) => !item.typeValues.isSameType(typeName, attributes)
     )
 
     // Change type of items.
