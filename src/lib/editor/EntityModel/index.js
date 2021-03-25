@@ -54,10 +54,6 @@ export default class EntityModel {
     this._typeName = String(val)
   }
 
-  isSameType(typeName, attributes = null) {
-    return this.typeValues.isSameType(typeName, attributes)
-  }
-
   get typeValues() {
     return new TypeValues(
       this._typeName,

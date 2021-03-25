@@ -39,10 +39,6 @@ export default class RelationModel {
     this._typeName = String(val)
   }
 
-  isSameType(typeName) {
-    return this.typeName === typeName
-  }
-
   get typeValues() {
     return new TypeValues(this._typeName)
   }
