@@ -47,7 +47,7 @@ export default class Horizontal {
   }
 
   _searchLeft(className) {
-    const allElements = this._getAllElementsOf(className)
+    const allElements = this._getAllElementsOf(`.${className}`)
     const firstSelectedIndex = [...allElements].findIndex((el) =>
       el.classList.contains('ui-selected')
     )
@@ -58,7 +58,7 @@ export default class Horizontal {
   }
 
   _searchRight(className) {
-    const allElements = this._getAllElementsOf(className)
+    const allElements = this._getAllElementsOf(`.${className}`)
     const lastSelectedIndex = [...allElements]
       .reverse()
       .findIndex((el) => el.classList.contains('ui-selected'))
@@ -68,7 +68,7 @@ export default class Horizontal {
     }
   }
 
-  _getAllElementsOf(className) {
-    return this._editor[0].querySelectorAll(`.${className}`)
+  _getAllElementsOf(selector) {
+    return this._editor[0].querySelectorAll(selector)
   }
 }
