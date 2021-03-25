@@ -1,4 +1,5 @@
 @import 'textae-editor-fontawsome.less';
+@import (css) '/node_modules/codemirror/lib/codemirror.css';
 
 // Rules
 .common() {
@@ -44,12 +45,38 @@
 
 /* dialog */
 .textae-editor {
+  &__dialog--expanded {
+    width: calc(100% - 50px) !important;
+    min-height: calc(100% - 50px);
+    position: fixed !important;
+    overflow-y: scroll !important;
+    top: 25px !important;
+    left: 25px !important;
+    .textae-editor__load-dialog__row {
+      display: flex;
+      align-items: baseline;
+      .textae-editor__load-dialog__dz-file-preview {
+        margin-right: 16px;
+      }
+    }
+    .textae-editor__load-dialog__file-name,
+    .textae-editor__load-dialog__dz-file-preview,
+    .textae-editor__load-dialog__dropzone {
+      width: 89%;
+      margin-right: 8px;
+    }
+    .edit {
+      display: none;
+    }
+  }
+
   &__load-dialog {
     .common();
     .save_load();
 
     &__file-name {
       .file();
+      width: 65%;
     }
 
     &__dropzone {
@@ -73,7 +100,8 @@
 
     &__dz-file-preview {
       display: inline-block;
-      width: 348px;
+      width: 65%;
+      margin-right: 8px;
       .dz-filename {
         align-items: center;
         display: flex;
@@ -82,7 +110,27 @@
           overflow: hidden;
           text-overflow: ellipsis;
           white-space: nowrap;
-          width: 348px;
+          width: 100%;
+        }
+      }
+    }
+
+    &__textarea {
+      width: 65%;
+      height: 60px;
+      margin-left: 8px;
+    }
+
+    &__row.json {
+      display: flex;
+      margin-bottom: 4px;
+      .button-container {
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-left: 8px;
+        input {
+          margin: 3px 0;
         }
       }
     }

@@ -2,6 +2,9 @@ import delegate from 'delegate'
 import Dialog from './Dialog'
 import enableHTMLelment from './enableHTMLElement'
 import Dropzone from 'dropzone'
+import CodeMirror from 'codemirror'
+import 'codemirror/mode/javascript/javascript.js'
+import isJSON from '../editor/start/PersistenceInterface/isJSON'
 
 function template(context) {
   const { url } = context
@@ -33,11 +36,21 @@ function template(context) {
       class="local"
       disabled="disabled"
       value="Open">
-    <form class="dropzone textae-editor__load-dialog__dropzone">
-      <div class="dz-message">
-        Drop a file here or click to select
-      </div>
-    </form>
+  </div>
+  <form class="dropzone textae-editor__load-dialog__dropzone">
+    <div class="dz-message">
+      Drop a file here or click to select
+    </div>
+  </form>
+  <div class="textae-editor__load-dialog__row json">
+    <label class="textae-editor__load-dialog__label">
+      JSON
+    </label>
+    <textarea class="textae-editor__load-dialog__textarea"></textarea>
+    <div class="button-container">
+      <input type="button" value="Edit" class="edit" disabled="disabled">
+      <input type="button" value="Open" class="instant" disabled="disabled">
+    </div>
   </div>
 </div>`
 }
@@ -46,13 +59,36 @@ const CONFIRM_DISCARD_CHANGE_MESSAGE =
   'There is a change that has not been saved. If you procceed now, you will lose it.'
 
 export default class LoadDialog extends Dialog {
-  constructor(title, url, loadFromServer, readFromFile, hasChange) {
+  constructor(
+    title,
+    url,
+    loadFromServer,
+    readFromFile,
+    readFromText,
+    hasChange
+  ) {
     super(title, template({ url }), 'Cancel')
 
     // Disabled the button to load from the URL when no URL.
     delegate(super.el, '[type="text"].url', 'input', (e) => {
       enableHTMLelment(e.target.nextElementSibling, e.target.value)
     })
+
+    delegate(
+      super.el,
+      '.textae-editor__load-dialog__textarea',
+      'input',
+      (e) => {
+        enableHTMLelment(
+          super.el.querySelector('[type="button"].instant'),
+          e.target.value
+        )
+        enableHTMLelment(
+          super.el.querySelector('[type="button"].edit'),
+          e.target.value
+        )
+      }
+    )
 
     const isUserConfirm = () =>
       !hasChange || window.confirm(CONFIRM_DISCARD_CHANGE_MESSAGE)
@@ -72,6 +108,30 @@ export default class LoadDialog extends Dialog {
       }
 
       super.close()
+    })
+
+    // Load from a textarea
+    delegate(super.el, '[type="button"].instant', 'click', () => {
+      const text = super.el.querySelector(
+        '.textae-editor__load-dialog__textarea'
+      ).value
+      if (isUserConfirm()) {
+        readFromText(text)
+      }
+
+      super.close()
+    })
+
+    // Open JSON editor
+    delegate(super.el, '[type="button"].edit', 'click', () => {
+      this._expandDialog()
+      const textarea = super.el.querySelector(
+        '.textae-editor__load-dialog__textarea'
+      )
+      if (isJSON(textarea.value)) {
+        textarea.value = JSON.stringify(JSON.parse(textarea.value), null, 2)
+      }
+      this._createJSONEditor(textarea)
     })
   }
 
@@ -127,6 +187,27 @@ export default class LoadDialog extends Dialog {
     dialog.addEventListener('drop', (ev) => {
       ev.preventDefault()
       ev.stopPropagation()
+    })
+  }
+
+  _expandDialog() {
+    const dialog = super.el.closest('.textae-editor__dialog')
+    dialog.classList.add('textae-editor__dialog--expanded')
+  }
+
+  _createJSONEditor(textarea) {
+    const JSONEditor = CodeMirror.fromTextArea(textarea, {
+      mode: {
+        name: 'javascript',
+        json: true
+      },
+      lineNumbers: true,
+      value: textarea.value
+    })
+    const dialogHeight = super.el.closest('.textae-editor__dialog').clientHeight
+    JSONEditor.setSize('90%', dialogHeight * 0.6)
+    JSONEditor.on('change', (cm) => {
+      textarea.value = cm.getValue()
     })
   }
 }
