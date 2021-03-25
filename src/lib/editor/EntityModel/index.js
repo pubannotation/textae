@@ -116,16 +116,7 @@ export default class EntityModel {
       this.color,
       this._href,
       this._displayName,
-      this.typeValues.attributes.map(
-        ({ pred, obj, displayName, href, color }) => ({
-          pred,
-          obj,
-          title: `pred: ${pred}, value: ${obj}`,
-          displayName,
-          href,
-          color
-        })
-      ),
+      this.typeValues.attributes,
       null,
       makeEntityHTMLElementId(this._editor, this.id)
     )

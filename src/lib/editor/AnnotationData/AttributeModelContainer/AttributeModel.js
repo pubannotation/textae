@@ -34,6 +34,10 @@ export default class AttributeModel {
     return this._entityContainer.get(this.subj)
   }
 
+  get title() {
+    return `pred: ${this.pred}, value: ${this._obj}`
+  }
+
   get displayName() {
     return getDisplayName(
       this._namespace,
