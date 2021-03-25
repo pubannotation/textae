@@ -79,10 +79,6 @@ export default class EntityModel {
     }
   }
 
-  hasSpecificPredicateAttribute(pred) {
-    return this.typeValues.hasSpecificPredicateAttribute(pred)
-  }
-
   get element() {
     return document.querySelector(
       `#${makeEntityHTMLElementId(this._editor, this.id)}`
