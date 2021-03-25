@@ -864,7 +864,7 @@
 3.  BlockEntity のヒットエリアはホバー時にシャドウはついていませんでした
 4.  6.4.64 で、この動作を統一し、選択できるモードのとき Entity をホバーするとシャドウをつける対応をしました。
 5.  6.4.65 で、シャドウのほかに、カーソルを指にしました。
-6.  6.4.66 で、Relationモードのときに、常にカーソルが指になっていたのを、DenotationEntity と Relation だけに変更しました。
+6.  6.4.66 で、Relation モードのときに、常にカーソルが指になっていたのを、DenotationEntity と Relation だけに変更しました。
 
 ### Term モード
 
@@ -2626,7 +2626,7 @@
 
 1.  6.1.1 で一つの denotation を一つのエンティティに表示することしました。
 2.  Type と Entity の選択状態が区別されなくなりました。
-3.  6.1.1 で上下キーがによる Span と Entity の選択切り替えをRelationモードで動かなくしようとして、一緒にシンプルもーおでも動かなくしていました
+3.  6.1.1 で上下キーがによる Span と Entity の選択切り替えを Relation モードで動かなくしようとして、一緒にシンプルもーおでも動かなくしていました
 4.  6.4.12 で対応しました
 
 ### Term モード
@@ -3842,7 +3842,7 @@
 3.  Relation 描画開始前に Entity を削除するとエラーが起きます
 4.  Undo/Redo 時は一連の処理が終わるまで Relation のレンダリングをスキップしています
 5.  Entity の位置はキャッシュした Grid の位置から求めています
-6.  5.0.0 の開発中、span の移動時に Grid の位置をキャッシュから削除したら、キャッシュ削除とRelation移動が入れ違い、Grid の位置が取れずにエラーが発生しました
+6.  5.0.0 の開発中、span の移動時に Grid の位置をキャッシュから削除したら、キャッシュ削除と Relation 移動が入れ違い、Grid の位置が取れずにエラーが発生しました
 
 ### -- 手段 --
 
@@ -4109,13 +4109,13 @@
 ### 背景
 
 1.  6.2.0 からブロック機能を追加
-2.  アノテーションファイルに BlockEntity 間のRelationを記述しても、Relationの参照先として BlockEntity が見つからにためバリデーションエラーになっていました
+2.  アノテーションファイルに BlockEntity 間の Relation を記述しても、Relation の参照先として BlockEntity が見つからにためバリデーションエラーになっていました
 3.  6.2.97 で対応しました。
 
 ### -- 手段 --
 
 1.  Editor1 を選択
-2.  BlockEntity の間にRelationがあること
+2.  BlockEntity の間に Relation があること
 
 ## Simple モードでの Entity 追加したらメッセージを alertify.js で表示しない
 
@@ -4504,56 +4504,3 @@
 14. `precision`の default が 10 であること
 15. `remark`が string attribute であること
 16. `remark`の default が suspicious であること
-
-## config 指定
-
-### 属性より annotation ファイル内を優先
-
-#### 背景
-
-1.  config 属性が指定されている場合、初期化時に config を読み込みます
-2.  config 読み込みの完了がアノテーションよりあとになることがあるため、初期表示では config が優先されることがあります
-3.  手動でアノテーションを読み込んだ際は、属性より annotation ファイル内をを優先します
-4.  5.0.2 で annotation 属性と config 属性を同時に指定した時は、annotation ファイル内に config がないときだけ、config を読み込むことにしました。
-
-#### -- 手段 --
-
-1.  Editor1 を開く
-2.  annotation 内の config が使用され、Protein がピンクであること
-3.  config なし annotation を指定して Editor をひらく(2_annotations.json)
-4.  config 属性の config が使用され、Protein が青であること
-
-### config のない annotation を読み込んだら default タイプをリセットする
-
-#### 背景
-
-1.  5.0.0 の開発中に、config のない annotation を読み込んでも default タイプをリセットしないバグが起きました
-
-#### -- 手段 --
-
-1.  Editor0 を開く
-2.  config ありの annotation を開く(1_annotation.json)
-3.  config なしの annotation を開く(2_annotation.json)
-4.  Term モードにする
-5.  Span を作る
-6.  Type が`something`であること
-7.  パレットを開く
-8.  Type が`something`だけであること
-
-## BlockSpan をつくったときに TextBox の高さを調整する
-
-### 背景
-
-1.  6.2.0 からブロック機能を追加
-2.  BlockSpan をつくるとテキストが折り返されるため、テキストの高さが変わります。
-3.  変わったテキストの高さに合わせて TextBox の高さを調整する必要があります。
-4.  6.2.29 で対応しました。
-
-### -- 手段 --
-
-1.  Editor4 を選択
-2.  Block モードにする
-3.  BlockSpan を追加する
-4.  テキストがエディタの下にはみ出ていかないこと
-5.  追加した BlockSpan を削除する
-6.  テキストの下に余白ができないこと
