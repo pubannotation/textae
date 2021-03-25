@@ -12,6 +12,12 @@ export default class SelectedElements {
     }
 
     const modelInstance = this._annotationData[this._kindName].get(id)
+
+    console.assert(
+      modelInstance,
+      `${id} is not a instance of ${this._kindName}.`
+    )
+
     this._selected.set(id, modelInstance)
     modelInstance.select()
     this._triggerChange()
