@@ -213,13 +213,18 @@
   border: 3px dashed;
   border-radius: 10px;
   cursor: pointer;
-  height: 100px;
-  margin: 10px auto;
-  width: 500px;
+  height: 40px;
+  margin: 10px 0 10px 64px;
+  transition-duration: 0.3s;
+  width: 65%;
+}
+.textae-editor__load-dialog__dropzone:hover {
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4);
+  transform: scale(1.05);
 }
 .textae-editor__load-dialog__dropzone .dz-message {
   font-weight: bold;
-  line-height: 100px;
+  line-height: 40px;
   text-align: center;
 }
 .textae-editor__load-dialog__dz-file-preview {
