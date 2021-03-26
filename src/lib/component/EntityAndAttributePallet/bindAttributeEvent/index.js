@@ -105,13 +105,34 @@ export default function (
         })
   )
 
-  delegate(el, '.textae-editor__type-pallet__edit-value', 'click', (e) =>
-    eventEmitter.emit(
-      `textae-event.entity-and-attribute-pallet.attribute.edit-value-of-attribute-definition-button.click`,
-      pallet.attrDef,
-      e.target.dataset.index
-    )
-  )
+  delegate(el, '.textae-editor__type-pallet__edit-value', 'click', (e) => {
+    const oldValue = pallet.attrDef.values[e.target.dataset.index]
+    new EditValueOfAttributeDefinitionDialog(pallet.attrDef.valueType, oldValue)
+      .open()
+      .then((newValue) => {
+        if (newValue.range || newValue.id || newValue.pattern) {
+          const changed =
+            Object.keys(newValue).reduce((acc, cur) => {
+              return acc || newValue[cur] !== oldValue[cur]
+            }, false) ||
+            Object.keys(oldValue).reduce((acc, cur) => {
+              return acc || newValue[cur] !== oldValue[cur]
+            }, false)
+          // Ignore if there is no change
+          if (!changed) {
+            return
+          }
+
+          commander.invoke(
+            commander.factory.changeValueOfAttributeDefinitionAndObjectOfSelectionAttributeCommand(
+              pallet.attrDef.JSON,
+              e.target.dataset.index,
+              newValue
+            )
+          )
+        }
+      })
+  })
 
   delegate(el, '.textae-editor__type-pallet__remove-value', 'click', (e) =>
     eventEmitter.emit(
