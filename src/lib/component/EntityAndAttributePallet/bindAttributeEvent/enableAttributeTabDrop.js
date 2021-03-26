@@ -1,6 +1,6 @@
 import delegate from 'delegate'
 
-export default function (el, eventEmitter) {
+export default function (el, commander) {
   delegate(el, '.textae-editor__type-pallet__drop-target', 'dragover', (e) => {
     // Display the image after the drop.
     const width = e.target
@@ -23,10 +23,11 @@ export default function (el, eventEmitter) {
     )
     const newIndex = parseInt(e.target.dataset.index)
 
-    eventEmitter.emit(
-      `textae-event.entity-and-attribute-pallet.attribute.tab.drop`,
-      oldIndex,
-      oldIndex < newIndex ? newIndex - 1 : newIndex
+    commander.invoke(
+      commander.factory.moveAttributeDefintionComannd(
+        oldIndex,
+        oldIndex < newIndex ? newIndex - 1 : newIndex
+      )
     )
   })
 }

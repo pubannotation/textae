@@ -16,7 +16,7 @@ export default function (
   selectionModelEntity
 ) {
   enableAttributeTabDrag(el)
-  enableAttributeTabDrop(el, eventEmitter)
+  enableAttributeTabDrop(el, commander)
 
   delegate(el, '.textae-editor__type-pallet__attribute', 'click', (e) => {
     pallet.showAttribute(e.target.dataset['attribute'])
