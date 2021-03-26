@@ -1,6 +1,5 @@
 import { MODE } from '../../../../MODE'
 import StateMachine from './StateMachine'
-import bindAttributeTabEvents from './bindAttributeTabEvents'
 import EditDenotation from './EditDenotation'
 import EditBlock from './EditBlock'
 import EditRelation from './EditRelation'
@@ -51,12 +50,6 @@ export default class EditMode {
     )
 
     this._listeners = []
-
-    bindAttributeTabEvents(
-      editor.eventEmitter,
-      commander,
-      selectionModel.entity
-    )
 
     this._stateMachine = new StateMachine(
       editor,
