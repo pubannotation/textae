@@ -1,41 +1,9 @@
-import EditValueOfAttributeDefinitionDialog from '../../../../component/EditValueOfAttributeDefinitionDialog'
 import openEditNumericAttributeDialog from '../openEditNumericAttributeDialog'
 import openEditStringAttributeDialog from '../openEditStringAttributeDialog'
 
 export default function (eventEmitter, commander, selectionModelEntity) {
   // Bind events about attributes.
   eventEmitter
-    .on(
-      `textae-event.entity-and-attribute-pallet.attribute.edit-value-of-attribute-definition-button.click`,
-      (attrDef, index) => {
-        const oldValue = attrDef.values[index]
-        new EditValueOfAttributeDefinitionDialog(attrDef.valueType, oldValue)
-          .open()
-          .then((newValue) => {
-            if (newValue.range || newValue.id || newValue.pattern) {
-              const changed =
-                Object.keys(newValue).reduce((acc, cur) => {
-                  return acc || newValue[cur] !== oldValue[cur]
-                }, false) ||
-                Object.keys(oldValue).reduce((acc, cur) => {
-                  return acc || newValue[cur] !== oldValue[cur]
-                }, false)
-              // Ignore if there is no change
-              if (!changed) {
-                return
-              }
-
-              commander.invoke(
-                commander.factory.changeValueOfAttributeDefinitionAndObjectOfSelectionAttributeCommand(
-                  attrDef.JSON,
-                  index,
-                  newValue
-                )
-              )
-            }
-          })
-      }
-    )
     .on(
       `textae-event.entity-and-attribute-pallet.attribute.remove-value-from-attribute-definition-button.click`,
       (attrDef, index) =>
