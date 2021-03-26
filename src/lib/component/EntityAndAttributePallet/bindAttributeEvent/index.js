@@ -1,5 +1,6 @@
 import delegate from 'delegate'
 import CreateAttributeDefinitionDialog from '../../CreateAttributeDefinitionDialog'
+import EditAttributeDefinitionDialog from '../../EditAttributeDefinitionDialog'
 import enableAttributeTabDrag from './enableAttributeTabDrag'
 import enableAttributeTabDrop from './enableAttributeTabDrop'
 
@@ -23,10 +24,19 @@ export default function (pallet, el, eventEmitter, commander) {
   )
 
   delegate(el, '.textae-editor__type-pallet__edit-predicate', 'click', () =>
-    eventEmitter.emit(
-      `textae-event.entity-and-attribute-pallet.attribute.edit-attribute-definition-button.click`,
-      pallet.attrDef
-    )
+    new EditAttributeDefinitionDialog(pallet.attrDef)
+      .open()
+      .then((changedProperties) => {
+        // Predicate is necessary and Ignore without predicate.
+        if (changedProperties.size && changedProperties.get('pred') !== '') {
+          commander.invoke(
+            commander.factory.changeAttributeDefinitionCommand(
+              pallet.attrDef,
+              changedProperties
+            )
+          )
+        }
+      })
   )
 
   delegate(el, '.textae-editor__type-pallet__delete-predicate', 'click', () =>
