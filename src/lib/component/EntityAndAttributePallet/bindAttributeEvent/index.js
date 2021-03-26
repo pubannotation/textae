@@ -8,13 +8,7 @@ import enableAttributeTabDrop from './enableAttributeTabDrop'
 import openEditNumericAttributeDialog from '../../../editor/start/Presenter/openEditNumericAttributeDialog'
 import openEditStringAttributeDialog from '../../../editor/start/Presenter/openEditStringAttributeDialog'
 
-export default function (
-  pallet,
-  el,
-  eventEmitter,
-  commander,
-  selectionModelEntity
-) {
+export default function (pallet, el, commander, selectionModelEntity) {
   enableAttributeTabDrag(el)
   enableAttributeTabDrop(el, commander)
 
