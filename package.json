@@ -9,7 +9,7 @@
   "dependencies": {
     "ajv": "^7.2.3",
     "ajv-formats": "^1.5.1",
-    "ajv-keywords": "^4.0.0",
+    "ajv-keywords": "^4.0.1",
     "alertifyjs": "^1.13.1",
     "array-move": "^3.0.1",
     "debounce": "^1.2.1",
