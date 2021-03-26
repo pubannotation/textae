@@ -1,5 +1,4 @@
 import alertifyjs from 'alertifyjs'
-import CreateAttributeDefinitionDialog from '../../../../component/CreateAttributeDefinitionDialog'
 import EditAttributeDefinitionDialog from '../../../../component/EditAttributeDefinitionDialog'
 import EditValueOfAttributeDefinitionDialog from '../../../../component/EditValueOfAttributeDefinitionDialog'
 import openEditNumericAttributeDialog from '../openEditNumericAttributeDialog'
@@ -8,19 +7,6 @@ import openEditStringAttributeDialog from '../openEditStringAttributeDialog'
 export default function (eventEmitter, commander, selectionModelEntity) {
   // Bind events about attributes.
   eventEmitter
-    .on(
-      `textae-event.entity-and-attribute-pallet.attribute.create-attribute-definition-button.click`,
-      () => {
-        new CreateAttributeDefinitionDialog().open().then((attrDef) => {
-          // Predicate is necessary and Ignore without predicate.
-          if (attrDef.pred) {
-            commander.invoke(
-              commander.factory.createAttributeDefinitionCommand(attrDef)
-            )
-          }
-        })
-      }
-    )
     .on(
       `textae-event.entity-and-attribute-pallet.attribute.edit-attribute-definition-button.click`,
       (attrDef) => {
