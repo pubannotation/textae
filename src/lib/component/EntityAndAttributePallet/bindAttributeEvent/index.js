@@ -144,9 +144,11 @@ export default function (
   )
 
   delegate(el, '.textae-editor__type-pallet__add-attribute', 'click', () =>
-    eventEmitter.emit(
-      `textae-event.entity-and-attribute-pallet.add-attribute-instance-button.click`,
-      pallet.attrDef
+    commander.invoke(
+      commander.factory.createAttributeToItemsCommand(
+        selectionModelEntity.all,
+        pallet.attrDef
+      )
     )
   )
 
