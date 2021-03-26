@@ -7,7 +7,7 @@ export default class SelectionModel {
 
     this.span = new SelectedElements(eventEmitter, 'span', annotationData)
     this.entity = new EntityContainer(eventEmitter, 'entity', annotationData)
-    this.relation = new SelectedElements(
+    this.relation = new EntityContainer(
       eventEmitter,
       'relation',
       annotationData

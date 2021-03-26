@@ -165,7 +165,11 @@ export default class EditMode {
   }
 
   get isEntityAndAttributePalletShown() {
-    return this._editDenotation.pallet.visibly || this._editBlock.pallet.visibly
+    return (
+      this._editDenotation.pallet.visibly ||
+      this._editBlock.pallet.visibly ||
+      this._editRelation.pallet.visibly
+    )
   }
 
   selectLeftAttributeTab() {
@@ -177,6 +181,9 @@ export default class EditMode {
       case MODE.EDIT_BLOCK_WITHOUT_RELATION:
       case MODE.EDIT_BLOCK_WITH_RELATION:
         this._editBlock.pallet.selectLeftTab()
+        break
+      case MODE.EDIT_RELATION:
+        this._editRelation.pallet.selectLeftTab()
         break
     }
   }
@@ -190,6 +197,9 @@ export default class EditMode {
       case MODE.EDIT_BLOCK_WITHOUT_RELATION:
       case MODE.EDIT_BLOCK_WITH_RELATION:
         this._editBlock.pallet.selectRightTab()
+        break
+      case MODE.EDIT_RELATION:
+        this._editRelation.pallet.selectRightTab()
         break
     }
   }
