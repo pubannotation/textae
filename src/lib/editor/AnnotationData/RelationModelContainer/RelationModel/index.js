@@ -98,7 +98,6 @@ export default class RelationModel {
   renderElement() {
     const connection = new SVGConnection(
       this,
-      this._attributeContainer.getAttributesFor(this._id),
       this._namespace,
       this._definitionContainer,
       (event, attribute) => {
