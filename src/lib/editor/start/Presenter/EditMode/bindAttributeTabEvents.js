@@ -7,13 +7,6 @@ export default function (eventEmitter, commander, selectionModelEntity) {
   // Bind events about attributes.
   eventEmitter
     .on(
-      `textae-event.entity-and-attribute-pallet.attribute.delete-attribute-definition-button.click`,
-      (attrDef) =>
-        commander.invoke(
-          commander.factory.deleteAttributeDefinitionCommand(attrDef)
-        )
-    )
-    .on(
       `textae-event.entity-and-attribute-pallet.attribute.add-value-of-attribute-definition-button.click`,
       (attrDef) => {
         new EditValueOfAttributeDefinitionDialog(attrDef.valueType)
