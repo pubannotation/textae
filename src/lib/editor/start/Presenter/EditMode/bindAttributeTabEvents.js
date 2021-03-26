@@ -5,16 +5,6 @@ export default function (eventEmitter, commander, selectionModelEntity) {
   // Bind events about attributes.
   eventEmitter
     .on(
-      `textae-event.entity-and-attribute-pallet.attribute.remove-value-from-attribute-definition-button.click`,
-      (attrDef, index) =>
-        commander.invoke(
-          commander.factory.removeValueFromAttributeDefinitionCommand(
-            attrDef,
-            index
-          )
-        )
-    )
-    .on(
       'textae-event.entity-and-attribute-pallet.add-attribute-instance-button.click',
       (attrDef) =>
         commander.invoke(
