@@ -4308,27 +4308,3 @@
 2.  隣の単語と単語の一部までが Span にする（例：`Ribonucleic a`）
 3.  単語の残りの部分を選択する（例：`cid`）
 4.  Span ができること
-
-## 読み込んだアノテーションの typesettings に不正データが含まれていたら Validation Dialog に表示すること
-
-### 背景
-
-1.  6.2.17 で不正な範囲の typesettings 検出機能を追加しました
-2.  6.2.19 でテキスト外の typesettings 検出機能を追加しました
-
-### -- 手段 --
-
-1.  invalid.json を読み込む
-2.  Validation Dialog を表示すること
-3.  `Wrong range typesettings.`に `begin` が `10` で `end` が `5` の typesetting が表示されること
-4.  `Out of text typesettings.`に `begin` が `0` で `end` が `1786` の typesetting が表示されること
-
-## Entity の見た目
-
-### 背景
-
-1.  6.2.28 で Entity のエンドポイントの表示をやめました。
-
-### -- 手段 --
-
-1.  Entity の上に丸が表示されないこと
