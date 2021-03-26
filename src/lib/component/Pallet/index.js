@@ -8,7 +8,6 @@ import setHeightWithin from './setHeightWithin'
 export default class Pallet {
   constructor(editor, annotationType, title) {
     this._editor = editor
-    this._annotationType = annotationType
     this._title = title
     this._el = createPalletElement(annotationType)
 
