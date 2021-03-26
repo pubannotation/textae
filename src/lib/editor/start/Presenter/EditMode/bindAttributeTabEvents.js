@@ -1,4 +1,3 @@
-import alertifyjs from 'alertifyjs'
 import EditValueOfAttributeDefinitionDialog from '../../../../component/EditValueOfAttributeDefinitionDialog'
 import openEditNumericAttributeDialog from '../openEditNumericAttributeDialog'
 import openEditStringAttributeDialog from '../openEditStringAttributeDialog'
@@ -6,36 +5,6 @@ import openEditStringAttributeDialog from '../openEditStringAttributeDialog'
 export default function (eventEmitter, commander, selectionModelEntity) {
   // Bind events about attributes.
   eventEmitter
-    .on(
-      `textae-event.entity-and-attribute-pallet.attribute.value-of-attribute-definition-label.click`,
-      (attrDef, newObj) => {
-        if (selectionModelEntity.selectedWithAttributeOf(attrDef.pred)) {
-          if (
-            selectionModelEntity.isDupulicatedPredAttrributeSelected(
-              attrDef.pred
-            )
-          ) {
-            alertifyjs.warning(
-              'An item among the selected has this attribute multiple times.'
-            )
-          } else {
-            const command = commander.factory.changeAttributesOfItemsWithSamePred(
-              selectionModelEntity.all,
-              attrDef,
-              newObj
-            )
-            commander.invoke(command)
-          }
-        } else {
-          const command = commander.factory.createAttributeToItemsCommand(
-            selectionModelEntity.all,
-            attrDef,
-            newObj
-          )
-          commander.invoke(command)
-        }
-      }
-    )
     .on(
       `textae-event.entity-and-attribute-pallet.attribute.edit-value-of-attribute-definition-button.click`,
       (attrDef, index) => {
