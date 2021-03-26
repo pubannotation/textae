@@ -1,6 +1,7 @@
 import delegate from 'delegate'
 import CreateAttributeDefinitionDialog from '../../CreateAttributeDefinitionDialog'
 import EditAttributeDefinitionDialog from '../../EditAttributeDefinitionDialog'
+import EditValueOfAttributeDefinitionDialog from '../../EditValueOfAttributeDefinitionDialog'
 import enableAttributeTabDrag from './enableAttributeTabDrag'
 import enableAttributeTabDrop from './enableAttributeTabDrop'
 
@@ -62,10 +63,18 @@ export default function (pallet, el, eventEmitter, commander) {
     '.textae-editor__type-pallet__add-attribute-value-button',
     'click',
     () =>
-      eventEmitter.emit(
-        `textae-event.entity-and-attribute-pallet.attribute.add-value-of-attribute-definition-button.click`,
-        pallet.attrDef
-      )
+      new EditValueOfAttributeDefinitionDialog(pallet.attrDef.valueType)
+        .open()
+        .then((value) => {
+          if (value.range || value.id || value.pattern) {
+            commander.invoke(
+              commander.factory.addValueToAttributeDefinitionCommand(
+                pallet.attrDef,
+                value
+              )
+            )
+          }
+        })
   )
 
   delegate(el, '.textae-editor__type-pallet__edit-value', 'click', (e) =>
