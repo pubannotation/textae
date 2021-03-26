@@ -1,7 +1,7 @@
-export default function (numberOfSelectedEntities) {
-  return numberOfSelectedEntities === 1
+export default function (numberOfSelectedItems) {
+  return numberOfSelectedItems === 1
     ? '1 item selected'
-    : numberOfSelectedEntities > 1
-    ? `${numberOfSelectedEntities} items selected`
+    : numberOfSelectedItems > 1
+    ? `${numberOfSelectedItems} items selected`
     : ''
 }
