@@ -1,11 +1,18 @@
 import delegate from 'delegate'
+import alertifyjs from 'alertifyjs'
 import CreateAttributeDefinitionDialog from '../../CreateAttributeDefinitionDialog'
 import EditAttributeDefinitionDialog from '../../EditAttributeDefinitionDialog'
 import EditValueOfAttributeDefinitionDialog from '../../EditValueOfAttributeDefinitionDialog'
 import enableAttributeTabDrag from './enableAttributeTabDrag'
 import enableAttributeTabDrop from './enableAttributeTabDrop'
 
-export default function (pallet, el, eventEmitter, commander) {
+export default function (
+  pallet,
+  el,
+  eventEmitter,
+  commander,
+  selectionModelEntity
+) {
   enableAttributeTabDrag(el)
   enableAttributeTabDrop(el, eventEmitter)
 
@@ -50,12 +57,33 @@ export default function (pallet, el, eventEmitter, commander) {
     el,
     '.textae-editor__type-pallet__selection-attribute-label',
     'click',
-    (e) =>
-      eventEmitter.emit(
-        `textae-event.entity-and-attribute-pallet.attribute.value-of-attribute-definition-label.click`,
-        pallet.attrDef,
-        e.target.dataset.id
-      )
+    (e) => {
+      if (selectionModelEntity.selectedWithAttributeOf(pallet.attrDef.pred)) {
+        if (
+          selectionModelEntity.isDupulicatedPredAttrributeSelected(
+            pallet.attrDef.pred
+          )
+        ) {
+          alertifyjs.warning(
+            'An item among the selected has this attribute multiple times.'
+          )
+        } else {
+          const command = commander.factory.changeAttributesOfItemsWithSamePred(
+            selectionModelEntity.all,
+            pallet.attrDef,
+            e.target.dataset.id
+          )
+          commander.invoke(command)
+        }
+      } else {
+        const command = commander.factory.createAttributeToItemsCommand(
+          selectionModelEntity.all,
+          pallet.attrDef,
+          e.target.dataset.id
+        )
+        commander.invoke(command)
+      }
+    }
   )
 
   delegate(
