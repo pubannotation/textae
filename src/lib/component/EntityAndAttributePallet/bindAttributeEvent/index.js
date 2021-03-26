@@ -1,8 +1,9 @@
 import delegate from 'delegate'
+import CreateAttributeDefinitionDialog from '../../CreateAttributeDefinitionDialog'
 import enableAttributeTabDrag from './enableAttributeTabDrag'
 import enableAttributeTabDrop from './enableAttributeTabDrop'
 
-export default function (pallet, el, eventEmitter) {
+export default function (pallet, el, eventEmitter, commander) {
   enableAttributeTabDrag(el)
   enableAttributeTabDrop(el, eventEmitter)
 
@@ -11,9 +12,14 @@ export default function (pallet, el, eventEmitter) {
   })
 
   delegate(el, '.textae-editor__type-pallet__create-predicate', 'click', () =>
-    eventEmitter.emit(
-      `textae-event.entity-and-attribute-pallet.attribute.create-attribute-definition-button.click`
-    )
+    new CreateAttributeDefinitionDialog().open().then((attrDef) => {
+      // Predicate is necessary and Ignore without predicate.
+      if (attrDef.pred) {
+        commander.invoke(
+          commander.factory.createAttributeDefinitionCommand(attrDef)
+        )
+      }
+    })
   )
 
   delegate(el, '.textae-editor__type-pallet__edit-predicate', 'click', () =>

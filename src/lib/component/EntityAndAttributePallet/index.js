@@ -10,7 +10,8 @@ export default class EntityAndAttributePallet extends Pallet {
     originalData,
     annotationData,
     entityContainer,
-    selectionModelEntity
+    selectionModelEntity,
+    commander
   ) {
     super(editor, 'entity', 'Entity configuration')
 
@@ -20,7 +21,7 @@ export default class EntityAndAttributePallet extends Pallet {
     this._entityContainer = entityContainer
     this._selectionModelEntity = selectionModelEntity
 
-    bindAttributeEvent(this, this._el, editor.eventEmitter)
+    bindAttributeEvent(this, this._el, editor.eventEmitter, commander)
 
     editor.eventEmitter
       .on('textae-event.type-definition.attribute.create', (pred) => {
