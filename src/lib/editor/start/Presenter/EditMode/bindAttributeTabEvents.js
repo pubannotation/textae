@@ -5,16 +5,6 @@ export default function (eventEmitter, commander, selectionModelEntity) {
   // Bind events about attributes.
   eventEmitter
     .on(
-      'textae-event.entity-and-attribute-pallet.add-attribute-instance-button.click',
-      (attrDef) =>
-        commander.invoke(
-          commander.factory.createAttributeToItemsCommand(
-            selectionModelEntity.all,
-            attrDef
-          )
-        )
-    )
-    .on(
       'textae-event.entity-and-attribute-pallet.attribute.edit-object-of-attribute-instance-button.click',
       (attrDef) => {
         const attribute = selectionModelEntity.findSelectedAttributeWithSamePredicate(
