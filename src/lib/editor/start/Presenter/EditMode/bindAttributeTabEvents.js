@@ -7,23 +7,6 @@ export default function (eventEmitter, commander, selectionModelEntity) {
   // Bind events about attributes.
   eventEmitter
     .on(
-      `textae-event.entity-and-attribute-pallet.attribute.add-value-of-attribute-definition-button.click`,
-      (attrDef) => {
-        new EditValueOfAttributeDefinitionDialog(attrDef.valueType)
-          .open()
-          .then((value) => {
-            if (value.range || value.id || value.pattern) {
-              commander.invoke(
-                commander.factory.addValueToAttributeDefinitionCommand(
-                  attrDef,
-                  value
-                )
-              )
-            }
-          })
-      }
-    )
-    .on(
       `textae-event.entity-and-attribute-pallet.attribute.value-of-attribute-definition-label.click`,
       (attrDef, newObj) => {
         if (selectionModelEntity.selectedWithAttributeOf(attrDef.pred)) {
