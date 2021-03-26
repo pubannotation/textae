@@ -20,7 +20,7 @@ export default class EntityAndAttributePallet extends Pallet {
     this._originalData = originalData
     this._annotationData = annotationData
     this._entityContainer = entityContainer
-    this._selectionModelEntity = selectionModelEntity
+    this._selectionModelItems = selectionModelEntity
 
     bindAttributeEvent(this, this._el, commander, selectionModelEntity)
 
@@ -114,7 +114,7 @@ export default class EntityAndAttributePallet extends Pallet {
         ...this._annotationData.typeDefinition.config
       }),
       this._selectedPred,
-      this._selectionModelEntity,
+      this._selectionModelItems,
       this._annotationData.typeDefinition.attribute,
       this._annotationData.attribute.all,
       this._annotationData.typeDefinition.isLock
