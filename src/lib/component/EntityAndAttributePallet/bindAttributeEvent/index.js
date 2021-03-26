@@ -5,6 +5,8 @@ import EditAttributeDefinitionDialog from '../../EditAttributeDefinitionDialog'
 import EditValueOfAttributeDefinitionDialog from '../../EditValueOfAttributeDefinitionDialog'
 import enableAttributeTabDrag from './enableAttributeTabDrag'
 import enableAttributeTabDrop from './enableAttributeTabDrop'
+import openEditNumericAttributeDialog from '../../../editor/start/Presenter/openEditNumericAttributeDialog'
+import openEditStringAttributeDialog from '../../../editor/start/Presenter/openEditStringAttributeDialog'
 
 export default function (
   pallet,
@@ -152,12 +154,33 @@ export default function (
     )
   )
 
-  delegate(el, '.textae-editor__type-pallet__edit-object', 'click', () =>
-    eventEmitter.emit(
-      'textae-event.entity-and-attribute-pallet.attribute.edit-object-of-attribute-instance-button.click',
-      pallet.attrDef
+  delegate(el, '.textae-editor__type-pallet__edit-object', 'click', () => {
+    const attribute = selectionModelEntity.findSelectedAttributeWithSamePredicate(
+      pallet.attrDef.pred
     )
-  )
+    switch (pallet.attrDef.valueType) {
+      case 'numeric':
+        openEditNumericAttributeDialog(
+          selectionModelEntity,
+          pallet.attrDef,
+          attribute,
+          commander
+        )
+        break
+      case 'string':
+        openEditStringAttributeDialog(
+          selectionModelEntity,
+          attribute,
+          commander,
+          pallet.attrDef
+        )
+        break
+      default:
+        throw new Error(
+          `Invalid attribute valueType: ${pallet.attrDef.valueType}`
+        )
+    }
+  })
 
   delegate(el, '.textae-editor__type-pallet__remove-attribute', 'click', () =>
     eventEmitter.emit(
