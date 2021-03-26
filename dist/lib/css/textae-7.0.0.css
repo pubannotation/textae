@@ -678,9 +678,6 @@
 .textae-editor__type-pallet--entity {
   background-color: rgba(200, 255, 255, 0.9);
 }
-.textae-editor__type-pallet--relation {
-  background-color: rgba(255, 187, 187, 0.9);
-}
 .textae-editor__type-pallet--selection-attribute {
   background-color: rgba(200, 255, 255, 0.9);
 }
@@ -2368,6 +2365,9 @@ a.ui-button:active,
   font-size: x-small;
   pointer-events: visiblePainted;
 }
+.textae-editor__relation-box rect {
+  pointer-events: visiblePainted;
+}
 .textae-editor__footer {
   background: linear-gradient(to left, #ffffff, #ddddff);
   bottom: -2px;
@@ -2459,7 +2459,8 @@ a.ui-button:active,
   padding: 0;
 }
 .textae-editor__mode--relation .textae-editor__relation-box path,
-.textae-editor__mode--relation .textae-editor__relation-box text {
+.textae-editor__mode--relation .textae-editor__relation-box text,
+.textae-editor__mode--relation .textae-editor__relation-box rect {
   cursor: pointer;
 }
 .textae-editor-veil {
