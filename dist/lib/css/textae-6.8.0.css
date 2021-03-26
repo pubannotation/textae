@@ -1,4 +1,5 @@
 /* common css of controls */
+@import '/node_modules/codemirror/lib/codemirror.css';
 .textae-control {
   white-space: normal;
   /*== Elements inside the textae_control ==*/
@@ -189,6 +190,30 @@
   display: none;
 }
 /* dialog */
+.textae-editor__dialog--expanded {
+  width: calc(100% - 50px) !important;
+  min-height: calc(100% - 50px);
+  position: fixed !important;
+  overflow-y: scroll !important;
+  top: 25px !important;
+  left: 25px !important;
+}
+.textae-editor__dialog--expanded .textae-editor__load-dialog__row {
+  display: flex;
+  align-items: baseline;
+}
+.textae-editor__dialog--expanded .textae-editor__load-dialog__row .textae-editor__load-dialog__dz-file-preview {
+  margin-right: 16px;
+}
+.textae-editor__dialog--expanded .textae-editor__load-dialog__file-name,
+.textae-editor__dialog--expanded .textae-editor__load-dialog__dz-file-preview,
+.textae-editor__dialog--expanded .textae-editor__load-dialog__dropzone {
+  width: 89%;
+  margin-right: 8px;
+}
+.textae-editor__dialog--expanded .edit {
+  display: none;
+}
 .textae-editor__load-dialog__label {
   display: inline-block;
   padding-right: 2px;
@@ -208,6 +233,7 @@
   line-height: 16px;
   height: 32px;
   width: 340px;
+  width: 65%;
 }
 .textae-editor__load-dialog__dropzone {
   border: 3px dashed;
@@ -229,7 +255,8 @@
 }
 .textae-editor__load-dialog__dz-file-preview {
   display: inline-block;
-  width: 348px;
+  width: 65%;
+  margin-right: 8px;
 }
 .textae-editor__load-dialog__dz-file-preview .dz-filename {
   align-items: center;
@@ -240,7 +267,25 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  width: 348px;
+  width: 100%;
+}
+.textae-editor__load-dialog__textarea {
+  width: 65%;
+  height: 60px;
+  margin-left: 8px;
+}
+.textae-editor__load-dialog__row.json {
+  display: flex;
+  margin-bottom: 4px;
+}
+.textae-editor__load-dialog__row.json .button-container {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  margin-left: 8px;
+}
+.textae-editor__load-dialog__row.json .button-container input {
+  margin: 3px 0;
 }
 .textae-editor__save-dialog__label {
   display: inline-block;
