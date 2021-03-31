@@ -18,7 +18,7 @@ export default function (
     targetEndpoint.left + targetEndpoint.width / 2 - annotationBox.left
 
   // When the source and target are close, don't shift them.
-  const { sourceX, targetX } = getXPositions(
+  const { source: sourceX, target: targetX } = getXPositions(
     centerOfSourceEntity,
     centerOfTargetEntity,
     isBold,
@@ -88,5 +88,5 @@ function getXPositions(
     targetX = centerOfTargetEntity
   }
 
-  return { sourceX, targetX }
+  return { source: sourceX, target: targetX }
 }
