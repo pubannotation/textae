@@ -31,9 +31,7 @@ export default function (
     if (isBold || MinimumDistance <= targetEndpoint.width / 2) {
       targetX -= DistanceToShift * 3
     }
-  }
-
-  if (targetX < sourceX - MinimumDistance) {
+  } else if (targetX < sourceX - MinimumDistance) {
     if (isBold || MinimumDistance <= sourceEndpoint.width / 2) {
       sourceX -= DistanceToShift
     }
