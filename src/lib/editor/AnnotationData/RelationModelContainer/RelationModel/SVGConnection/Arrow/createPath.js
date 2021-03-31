@@ -24,17 +24,17 @@ export default function (
   if (centerOfSourceEntity < centerOfTargetEntity - MinimumDistance) {
     // Shift only when the entity has enough width to shift the endpoint.
     if (isBold || MinimumDistance <= sourceEndpoint.width / 2) {
-      sourceX += DistanceToShift * 3
+      sourceX = centerOfSourceEntity + DistanceToShift * 3
     }
     if (isBold || MinimumDistance <= targetEndpoint.width / 2) {
-      targetX -= DistanceToShift * 3
+      targetX = centerOfTargetEntity - DistanceToShift * 3
     }
   } else if (centerOfTargetEntity < centerOfSourceEntity - MinimumDistance) {
     if (isBold || MinimumDistance <= sourceEndpoint.width / 2) {
-      sourceX -= DistanceToShift
+      sourceX = centerOfSourceEntity - DistanceToShift
     }
     if (isBold || MinimumDistance <= targetEndpoint.width / 2) {
-      targetX += DistanceToShift
+      targetX = centerOfTargetEntity + DistanceToShift
     }
   }
 
