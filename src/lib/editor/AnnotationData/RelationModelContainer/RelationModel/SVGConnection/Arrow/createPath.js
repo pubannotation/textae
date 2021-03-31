@@ -17,10 +17,47 @@ export default function (
   const centerOfTargetEntity =
     targetEndpoint.left + targetEndpoint.width / 2 - annotationBox.left
 
+  // When the source and target are close, don't shift them.
+  const { sourceX, targetX } = getXPositions(
+    centerOfSourceEntity,
+    centerOfTargetEntity,
+    isBold,
+    sourceEndpoint,
+    targetEndpoint
+  )
+
+  const sourceY = sourceEndpoint.top - annotationBox.top - MarkerHeight
+  const targetY = targetEndpoint.top - annotationBox.top - MarkerHeight
+  const controleY =
+    Math.min(sourceY, targetY) - Math.abs(targetX - sourceX) / 2 - 20
+
+  const path = document.createElementNS(NS.SVG, 'path')
+  path.setAttribute(
+    'd',
+    `M ${sourceX}, ${sourceY} C ${sourceX} ${controleY}, ${targetX} ${controleY}, ${targetX} ${targetY}`
+  )
+
+  path.setAttribute('style', `fill:none; stroke: ${color};`)
+  path.setAttribute('marker-start', `url(#${tail.id})`)
+  path.setAttribute('marker-end', `url(#${head.id})`)
+
+  if (isBold) {
+    path.classList.add('textae-editor__relation--isBold')
+  }
+
+  return [path, { sourceY, targetY, controleY, sourceX, targetX }]
+}
+
+function getXPositions(
+  centerOfSourceEntity,
+  centerOfTargetEntity,
+  isBold,
+  sourceEndpoint,
+  targetEndpoint
+) {
   let sourceX = null
   let targetX = null
 
-  // When the source and target are close, don't shift them.
   if (centerOfSourceEntity < centerOfTargetEntity - MinimumDistance) {
     // Shift only when the entity has enough width to shift the endpoint.
     if (isBold || MinimumDistance <= sourceEndpoint.width / 2) {
@@ -51,24 +88,5 @@ export default function (
     targetX = centerOfTargetEntity
   }
 
-  const sourceY = sourceEndpoint.top - annotationBox.top - MarkerHeight
-  const targetY = targetEndpoint.top - annotationBox.top - MarkerHeight
-  const controleY =
-    Math.min(sourceY, targetY) - Math.abs(targetX - sourceX) / 2 - 20
-
-  const path = document.createElementNS(NS.SVG, 'path')
-  path.setAttribute(
-    'd',
-    `M ${sourceX}, ${sourceY} C ${sourceX} ${controleY}, ${targetX} ${controleY}, ${targetX} ${targetY}`
-  )
-
-  path.setAttribute('style', `fill:none; stroke: ${color};`)
-  path.setAttribute('marker-start', `url(#${tail.id})`)
-  path.setAttribute('marker-end', `url(#${head.id})`)
-
-  if (isBold) {
-    path.classList.add('textae-editor__relation--isBold')
-  }
-
-  return [path, { sourceY, targetY, controleY, sourceX, targetX }]
+  return { sourceX, targetX }
 }
