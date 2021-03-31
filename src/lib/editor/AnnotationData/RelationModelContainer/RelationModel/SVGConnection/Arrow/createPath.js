@@ -54,28 +54,33 @@ function getXPositions(
   sourceEndpoint,
   targetEndpoint
 ) {
+  const leftTarget = centerOfTargetEntity - DistanceToShift * 3
+  const leftSource = centerOfSourceEntity - DistanceToShift
+  const rightTarget = centerOfTargetEntity + DistanceToShift
+  const rightSource = centerOfSourceEntity + DistanceToShift * 3
+
   // When the source and target are close, don't shift them.
   if (centerOfSourceEntity < centerOfTargetEntity - MinimumDistance) {
     // Shift only when the entity has enough width to shift the endpoint.
     return {
       source:
         isBold || MinimumDistance <= sourceEndpoint.width / 2
-          ? centerOfSourceEntity + DistanceToShift * 3
+          ? rightSource
           : centerOfSourceEntity,
       target:
         isBold || MinimumDistance <= targetEndpoint.width / 2
-          ? centerOfTargetEntity - DistanceToShift * 3
+          ? leftTarget
           : centerOfTargetEntity
     }
   } else if (centerOfTargetEntity < centerOfSourceEntity - MinimumDistance) {
     return {
       source:
         isBold || MinimumDistance <= sourceEndpoint.width / 2
-          ? centerOfSourceEntity - DistanceToShift
+          ? leftSource
           : centerOfSourceEntity,
       target:
         isBold || MinimumDistance <= targetEndpoint.width / 2
-          ? centerOfTargetEntity + DistanceToShift
+          ? rightTarget
           : centerOfTargetEntity
     }
   } else {
