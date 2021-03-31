@@ -20,9 +20,6 @@ export default function (
   let sourceX = centerOfSourceEntity
   let targetX = centerOfTargetEntity
 
-  const sourceY = sourceEndpoint.top - annotationBox.top - MarkerHeight
-  const targetY = targetEndpoint.top - annotationBox.top - MarkerHeight
-
   // When the source and target are close, don't shift them.
   if (sourceX < targetX - MinimumDistance) {
     // Shift only when the entity has enough width to shift the endpoint.
@@ -41,6 +38,8 @@ export default function (
     }
   }
 
+  const sourceY = sourceEndpoint.top - annotationBox.top - MarkerHeight
+  const targetY = targetEndpoint.top - annotationBox.top - MarkerHeight
   const controleY =
     Math.min(sourceY, targetY) - Math.abs(targetX - sourceX) / 2 - 20
 
