@@ -17,7 +17,6 @@ export default function (
   const centerOfTargetEntity =
     targetEndpoint.left + targetEndpoint.width / 2 - annotationBox.left
 
-  // When the source and target are close, don't shift them.
   const { source: sourceX, target: targetX } = getXPositions(
     centerOfSourceEntity,
     centerOfTargetEntity,
@@ -55,6 +54,7 @@ function getXPositions(
   sourceEndpoint,
   targetEndpoint
 ) {
+  // When the source and target are close, don't shift them.
   if (centerOfSourceEntity < centerOfTargetEntity - MinimumDistance) {
     const ret = {}
 
