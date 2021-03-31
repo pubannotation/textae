@@ -12,10 +12,13 @@ export default function (
   tail,
   isBold
 ) {
-  let sourceX =
+  const centerOfSourceEntity =
     sourceEndpoint.left + sourceEndpoint.width / 2 - annotationBox.left
-  let targetX =
+  const centerOfTargetEntity =
     targetEndpoint.left + targetEndpoint.width / 2 - annotationBox.left
+
+  let sourceX = centerOfSourceEntity
+  let targetX = centerOfTargetEntity
 
   const sourceY = sourceEndpoint.top - annotationBox.top - MarkerHeight
   const targetY = targetEndpoint.top - annotationBox.top - MarkerHeight
