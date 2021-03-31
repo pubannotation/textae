@@ -66,7 +66,7 @@ function getXPositions(isBold, sourceEndpoint, targetEndpoint, annotationBox) {
     ? centerOfSource + DistanceToShift * 3
     : centerOfSource
 
-  // When the source and target are close, don't shift them.
+  // Shift if the source and target positions are not swapped.
   if (rightSource < leftTarget) {
     return {
       source: rightSource,
