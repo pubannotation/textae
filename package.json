@@ -30,7 +30,7 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@typescript-eslint/parser": "^4.19.0",
+    "@typescript-eslint/parser": "^4.20.0",
     "clean-css-cli": "^5.2.2",
     "connect": "^3.7.0",
     "cpx2": "^3.0.0",
