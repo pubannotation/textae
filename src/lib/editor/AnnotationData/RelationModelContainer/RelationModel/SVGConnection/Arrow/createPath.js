@@ -59,33 +59,29 @@ function getXPositions(
     const ret = {}
 
     // Shift only when the entity has enough width to shift the endpoint.
-    if (isBold || MinimumDistance <= sourceEndpoint.width / 2) {
-      ret.source = centerOfSourceEntity + DistanceToShift * 3
-    } else {
-      ret.source = centerOfSourceEntity
-    }
+    ret.source =
+      isBold || MinimumDistance <= sourceEndpoint.width / 2
+        ? centerOfSourceEntity + DistanceToShift * 3
+        : centerOfSourceEntity
 
-    if (isBold || MinimumDistance <= targetEndpoint.width / 2) {
-      ret.target = centerOfTargetEntity - DistanceToShift * 3
-    } else {
-      ret.target = centerOfTargetEntity
-    }
+    ret.target =
+      isBold || MinimumDistance <= targetEndpoint.width / 2
+        ? centerOfTargetEntity - DistanceToShift * 3
+        : (ret.target = centerOfTargetEntity)
 
     return ret
   } else if (centerOfTargetEntity < centerOfSourceEntity - MinimumDistance) {
     const ret = {}
 
-    if (isBold || MinimumDistance <= sourceEndpoint.width / 2) {
-      ret.source = centerOfSourceEntity - DistanceToShift
-    } else {
-      ret.source = centerOfSourceEntity
-    }
+    ret.source =
+      isBold || MinimumDistance <= sourceEndpoint.width / 2
+        ? centerOfSourceEntity - DistanceToShift
+        : (ret.source = centerOfSourceEntity)
 
-    if (isBold || MinimumDistance <= targetEndpoint.width / 2) {
-      ret.target = centerOfTargetEntity + DistanceToShift
-    } else {
-      ret.target = centerOfTargetEntity
-    }
+    ret.target =
+      isBold || MinimumDistance <= targetEndpoint.width / 2
+        ? centerOfTargetEntity + DistanceToShift
+        : centerOfTargetEntity
 
     return ret
   } else {
