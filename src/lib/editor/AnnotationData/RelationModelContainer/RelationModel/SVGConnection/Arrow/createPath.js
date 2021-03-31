@@ -42,9 +42,9 @@ export default function (
 }
 
 function getXPositions(isBold, sourceEndpoint, targetEndpoint, annotationBox) {
-  const centerOfSourceEntity =
+  const centerOfSource =
     sourceEndpoint.left + sourceEndpoint.width / 2 - annotationBox.left
-  const centerOfTargetEntity =
+  const centerOfTarget =
     targetEndpoint.left + targetEndpoint.width / 2 - annotationBox.left
 
   const hasSourceEnoughWidth =
@@ -54,17 +54,17 @@ function getXPositions(isBold, sourceEndpoint, targetEndpoint, annotationBox) {
 
   // Shift only when the entity has enough width to shift the endpoint.
   const leftTarget = hasTaregtEntityWidth
-    ? centerOfTargetEntity - DistanceToShift * 3
-    : centerOfTargetEntity
+    ? centerOfTarget - DistanceToShift * 3
+    : centerOfTarget
   const leftSource = hasSourceEnoughWidth
-    ? centerOfSourceEntity - DistanceToShift
-    : centerOfSourceEntity
+    ? centerOfSource - DistanceToShift
+    : centerOfSource
   const rightTarget = hasTaregtEntityWidth
-    ? centerOfTargetEntity + DistanceToShift
-    : centerOfTargetEntity
+    ? centerOfTarget + DistanceToShift
+    : centerOfTarget
   const rightSource = hasSourceEnoughWidth
-    ? centerOfSourceEntity + DistanceToShift * 3
-    : centerOfSourceEntity
+    ? centerOfSource + DistanceToShift * 3
+    : centerOfSource
 
   // When the source and target are close, don't shift them.
   if (rightSource < leftTarget) {
@@ -78,6 +78,6 @@ function getXPositions(isBold, sourceEndpoint, targetEndpoint, annotationBox) {
       target: rightTarget
     }
   } else {
-    return { source: centerOfSourceEntity, target: centerOfTargetEntity }
+    return { source: centerOfSource, target: centerOfTarget }
   }
 }
