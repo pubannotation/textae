@@ -60,7 +60,7 @@ function getXPositions(
   const rightSource = centerOfSourceEntity + DistanceToShift * 3
 
   // When the source and target are close, don't shift them.
-  if (centerOfSourceEntity < centerOfTargetEntity - MinimumDistance) {
+  if (rightSource < leftTarget) {
     // Shift only when the entity has enough width to shift the endpoint.
     return {
       source:
@@ -72,7 +72,7 @@ function getXPositions(
           ? leftTarget
           : centerOfTargetEntity
     }
-  } else if (centerOfTargetEntity < centerOfSourceEntity - MinimumDistance) {
+  } else if (rightTarget < leftSource) {
     return {
       source:
         isBold || MinimumDistance <= sourceEndpoint.width / 2
