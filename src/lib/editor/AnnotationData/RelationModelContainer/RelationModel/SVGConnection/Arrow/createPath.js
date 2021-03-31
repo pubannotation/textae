@@ -23,8 +23,6 @@ export default function (
   const sourceY = sourceEndpoint.top - annotationBox.top - MarkerHeight
   const targetY = targetEndpoint.top - annotationBox.top - MarkerHeight
 
-  const path = document.createElementNS(NS.SVG, 'path')
-
   // When the source and target are close, don't shift them.
   if (sourceX < targetX - MinimumDistance) {
     // Shift only when the entity has enough width to shift the endpoint.
@@ -46,6 +44,7 @@ export default function (
   const controleY =
     Math.min(sourceY, targetY) - Math.abs(targetX - sourceX) / 2 - 20
 
+  const path = document.createElementNS(NS.SVG, 'path')
   path.setAttribute(
     'd',
     `M ${sourceX}, ${sourceY} C ${sourceX} ${controleY}, ${targetX} ${controleY}, ${targetX} ${targetY}`
