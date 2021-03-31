@@ -37,7 +37,7 @@
     "eslint": "^7.23.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-import": "^2.22.1",
-    "eslint-plugin-unused-imports": "^1.1.0",
+    "eslint-plugin-unused-imports": "^1.1.1",
     "husky": "^5.2.0",
     "less": "^4.1.1",
     "less-watch-compiler": "^1.14.6",
