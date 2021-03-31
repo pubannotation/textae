@@ -12,17 +12,11 @@ export default function (
   tail,
   isBold
 ) {
-  const centerOfSourceEntity =
-    sourceEndpoint.left + sourceEndpoint.width / 2 - annotationBox.left
-  const centerOfTargetEntity =
-    targetEndpoint.left + targetEndpoint.width / 2 - annotationBox.left
-
   const { source: sourceX, target: targetX } = getXPositions(
-    centerOfSourceEntity,
-    centerOfTargetEntity,
     isBold,
     sourceEndpoint,
-    targetEndpoint
+    targetEndpoint,
+    annotationBox
   )
 
   const sourceY = sourceEndpoint.top - annotationBox.top - MarkerHeight
@@ -47,13 +41,12 @@ export default function (
   return [path, { sourceY, targetY, controleY, sourceX, targetX }]
 }
 
-function getXPositions(
-  centerOfSourceEntity,
-  centerOfTargetEntity,
-  isBold,
-  sourceEndpoint,
-  targetEndpoint
-) {
+function getXPositions(isBold, sourceEndpoint, targetEndpoint, annotationBox) {
+  const centerOfSourceEntity =
+    sourceEndpoint.left + sourceEndpoint.width / 2 - annotationBox.left
+  const centerOfTargetEntity =
+    targetEndpoint.left + targetEndpoint.width / 2 - annotationBox.left
+
   const hasSourceEnoughWidth =
     isBold || MinimumDistance <= sourceEndpoint.width / 2
   const hasTaregtEntityWidth =
