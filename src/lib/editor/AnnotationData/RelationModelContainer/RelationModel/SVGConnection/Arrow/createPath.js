@@ -17,25 +17,38 @@ export default function (
   const centerOfTargetEntity =
     targetEndpoint.left + targetEndpoint.width / 2 - annotationBox.left
 
-  let sourceX = centerOfSourceEntity
-  let targetX = centerOfTargetEntity
+  let sourceX = null
+  let targetX = null
 
   // When the source and target are close, don't shift them.
   if (centerOfSourceEntity < centerOfTargetEntity - MinimumDistance) {
     // Shift only when the entity has enough width to shift the endpoint.
     if (isBold || MinimumDistance <= sourceEndpoint.width / 2) {
       sourceX = centerOfSourceEntity + DistanceToShift * 3
+    } else {
+      sourceX = centerOfSourceEntity
     }
+
     if (isBold || MinimumDistance <= targetEndpoint.width / 2) {
       targetX = centerOfTargetEntity - DistanceToShift * 3
+    } else {
+      targetX = centerOfTargetEntity
     }
   } else if (centerOfTargetEntity < centerOfSourceEntity - MinimumDistance) {
     if (isBold || MinimumDistance <= sourceEndpoint.width / 2) {
       sourceX = centerOfSourceEntity - DistanceToShift
+    } else {
+      sourceX = centerOfSourceEntity
     }
+
     if (isBold || MinimumDistance <= targetEndpoint.width / 2) {
       targetX = centerOfTargetEntity + DistanceToShift
+    } else {
+      targetX = centerOfTargetEntity
     }
+  } else {
+    sourceX = centerOfSourceEntity
+    targetX = centerOfTargetEntity
   }
 
   const sourceY = sourceEndpoint.top - annotationBox.top - MarkerHeight
