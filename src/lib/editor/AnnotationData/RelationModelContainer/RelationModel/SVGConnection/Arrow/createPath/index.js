@@ -1,5 +1,5 @@
-import { NS } from '../NS'
-import { MarkerHeight } from './MarkerHeight'
+import { NS } from '../../NS'
+import { MarkerHeight } from '../MarkerHeight'
 
 const DistanceToShift = 8
 const MinimumDistance = DistanceToShift * 3
