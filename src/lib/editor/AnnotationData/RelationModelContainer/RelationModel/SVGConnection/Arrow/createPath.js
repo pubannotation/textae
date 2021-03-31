@@ -54,34 +54,34 @@ function getXPositions(
   sourceEndpoint,
   targetEndpoint
 ) {
-  const leftTarget = centerOfTargetEntity - DistanceToShift * 3
-  const leftSource = centerOfSourceEntity - DistanceToShift
-  const rightTarget = centerOfTargetEntity + DistanceToShift
-  const rightSource = centerOfSourceEntity + DistanceToShift * 3
+  // Shift only when the entity has enough width to shift the endpoint.
+  const leftTarget =
+    isBold || MinimumDistance <= targetEndpoint.width / 2
+      ? centerOfTargetEntity - DistanceToShift * 3
+      : centerOfTargetEntity
+  const leftSource =
+    isBold || MinimumDistance <= sourceEndpoint.width / 2
+      ? centerOfSourceEntity - DistanceToShift
+      : centerOfSourceEntity
+  const rightTarget =
+    isBold || MinimumDistance <= targetEndpoint.width / 2
+      ? centerOfTargetEntity + DistanceToShift
+      : centerOfTargetEntity
+  const rightSource =
+    isBold || MinimumDistance <= sourceEndpoint.width / 2
+      ? centerOfSourceEntity + DistanceToShift * 3
+      : centerOfSourceEntity
 
   // When the source and target are close, don't shift them.
   if (rightSource < leftTarget) {
-    // Shift only when the entity has enough width to shift the endpoint.
     return {
-      source:
-        isBold || MinimumDistance <= sourceEndpoint.width / 2
-          ? rightSource
-          : centerOfSourceEntity,
-      target:
-        isBold || MinimumDistance <= targetEndpoint.width / 2
-          ? leftTarget
-          : centerOfTargetEntity
+      source: rightSource,
+      target: leftTarget
     }
   } else if (rightTarget < leftSource) {
     return {
-      source:
-        isBold || MinimumDistance <= sourceEndpoint.width / 2
-          ? leftSource
-          : centerOfSourceEntity,
-      target:
-        isBold || MinimumDistance <= targetEndpoint.width / 2
-          ? rightTarget
-          : centerOfTargetEntity
+      source: leftSource,
+      target: rightTarget
     }
   } else {
     return { source: centerOfSourceEntity, target: centerOfTargetEntity }
