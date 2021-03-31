@@ -21,7 +21,7 @@ export default function (
   let targetX = centerOfTargetEntity
 
   // When the source and target are close, don't shift them.
-  if (sourceX < targetX - MinimumDistance) {
+  if (centerOfSourceEntity < centerOfTargetEntity - MinimumDistance) {
     // Shift only when the entity has enough width to shift the endpoint.
     if (isBold || MinimumDistance <= sourceEndpoint.width / 2) {
       sourceX += DistanceToShift * 3
@@ -29,7 +29,7 @@ export default function (
     if (isBold || MinimumDistance <= targetEndpoint.width / 2) {
       targetX -= DistanceToShift * 3
     }
-  } else if (targetX < sourceX - MinimumDistance) {
+  } else if (centerOfTargetEntity < centerOfSourceEntity - MinimumDistance) {
     if (isBold || MinimumDistance <= sourceEndpoint.width / 2) {
       sourceX -= DistanceToShift
     }
