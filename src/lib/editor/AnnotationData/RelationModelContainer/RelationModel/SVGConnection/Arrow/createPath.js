@@ -42,15 +42,15 @@ export default function (
 }
 
 function getXPositions(isBold, sourceEndpoint, targetEndpoint, annotationBox) {
-  const centerOfSource =
-    sourceEndpoint.left + sourceEndpoint.width / 2 - annotationBox.left
-  const centerOfTarget =
-    targetEndpoint.left + targetEndpoint.width / 2 - annotationBox.left
-
   const hasSourceEnoughWidth =
     isBold || MinimumDistance <= sourceEndpoint.width / 2
   const hasTaregtEntityWidth =
     isBold || MinimumDistance <= targetEndpoint.width / 2
+
+  const centerOfSource =
+    sourceEndpoint.left + sourceEndpoint.width / 2 - annotationBox.left
+  const centerOfTarget =
+    targetEndpoint.left + targetEndpoint.width / 2 - annotationBox.left
 
   // Shift only when the entity has enough width to shift the endpoint.
   const leftTarget = hasTaregtEntityWidth
