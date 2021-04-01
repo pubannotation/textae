@@ -32,12 +32,12 @@ export default function (
     : centerOfSource
 
   // Shift if the source and target positions are not swapped.
-  if (rightSource < leftTarget) {
+  if (isBold || rightSource < leftTarget) {
     return {
       source: rightSource,
       target: leftTarget
     }
-  } else if (rightTarget < leftSource) {
+  } else if (isBold || rightTarget < leftSource) {
     return {
       source: leftSource,
       target: rightTarget
