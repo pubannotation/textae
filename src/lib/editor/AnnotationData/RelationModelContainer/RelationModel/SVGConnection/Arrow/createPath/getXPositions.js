@@ -31,7 +31,9 @@ export default function (
     ? centerOfSource + DistanceToShift * 3
     : centerOfSource
 
-  // Shift if the source and target positions are not swapped.
+  // When the left and right positions of the entities are close
+  // and the left and right positions of the endpoints are opposite to the left and right positions of the entities,
+  //  move the endpoints to the source side.
   if (centerOfSource < centerOfTarget) {
     return {
       source: rightSource,
