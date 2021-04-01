@@ -26,7 +26,10 @@ export default function (
   const path = document.createElementNS(NS.SVG, 'path')
   path.setAttribute(
     'd',
-    `M ${sourceX}, ${sourceY} C ${sourceX} ${controleY}, ${targetX} ${controleY}, ${targetX} ${targetY}`
+    `M ${sourceX}, ${sourceY} C ${sourceX} ${controleY}, ${
+      targetX +
+      (Math.abs(targetX - sourceX) > 24 ? 0 : sourceX < targetX ? 150 : -150)
+    } ${controleY}, ${targetX} ${targetY}`
   )
 
   path.setAttribute('style', `fill:none; stroke: ${color};`)
