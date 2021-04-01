@@ -33,28 +33,14 @@ export default function (
 
   // Shift if the source and target positions are not swapped.
   if (centerOfSource < centerOfTarget) {
-    if (rightSource < leftTarget) {
-      return {
-        source: rightSource,
-        target: leftTarget
-      }
-    } else {
-      return {
-        source: rightSource,
-        target: rightTarget
-      }
+    return {
+      source: rightSource,
+      target: rightSource < leftTarget ? leftTarget : rightTarget
     }
   } else if (centerOfTarget < centerOfSource) {
-    if (rightTarget < leftSource) {
-      return {
-        source: leftSource,
-        target: rightTarget
-      }
-    } else {
-      return {
-        source: leftSource,
-        target: leftTarget
-      }
+    return {
+      source: leftSource,
+      target: rightTarget < leftSource ? rightTarget : leftTarget
     }
   }
 
