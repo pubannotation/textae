@@ -2,6 +2,8 @@ import { v4 as uuidv4 } from 'uuid'
 import createMarker from './createMarker'
 import createPath from './createPath'
 import setMarkerStyle from './setMarkerStyle'
+import { NS } from '../NS'
+import { MarkerHeight } from './MarkerHeight'
 
 export default class Arrow {
   constructor(
@@ -34,6 +36,73 @@ export default class Arrow {
       this._sourceMarker,
       isBold
     )
+
+    if (isBold) {
+      const { sourceX, sourceY } = pathPoints
+      const centerOfSource =
+        sourceEndpoint.left + sourceEndpoint.width / 2 - annotationBox.left
+
+      const sourceLine = document.createElementNS(NS.SVG, 'line')
+      sourceLine.setAttribute('x1', sourceX)
+      sourceLine.setAttribute('y1', sourceY + MarkerHeight)
+      sourceLine.setAttribute('x2', centerOfSource)
+      sourceLine.setAttribute('y2', sourceY + MarkerHeight)
+      sourceLine.setAttribute(
+        'style',
+        'stroke:rgba(100, 100, 215, 0.8); stroke-width:1'
+      )
+      container.appendChild(sourceLine)
+
+      const sourceVerticalLine = document.createElementNS(NS.SVG, 'line')
+      sourceVerticalLine.setAttribute('x1', centerOfSource)
+      sourceVerticalLine.setAttribute('y1', sourceY + MarkerHeight)
+      sourceVerticalLine.setAttribute('x2', centerOfSource)
+      sourceVerticalLine.setAttribute(
+        'y2',
+        sourceEndpoint.top - annotationBox.top
+      )
+      sourceVerticalLine.setAttribute(
+        'style',
+        'stroke:rgba(100, 100, 215, 0.8); stroke-width:1'
+      )
+      container.appendChild(sourceVerticalLine)
+
+      const targetLine = document.createElementNS(NS.SVG, 'line')
+      const { targetX, targetY } = pathPoints
+      const centerOfTarget =
+        targetEndpoint.left + targetEndpoint.width / 2 - annotationBox.left
+      targetLine.setAttribute('x1', targetX)
+      targetLine.setAttribute('y1', targetY + MarkerHeight)
+      targetLine.setAttribute('x2', centerOfTarget)
+      targetLine.setAttribute('y2', targetY + MarkerHeight)
+      targetLine.setAttribute(
+        'style',
+        'stroke:rgba(100, 100, 215, 0.8); stroke-width:1'
+      )
+      container.appendChild(targetLine)
+
+      const targetVerticalLine = document.createElementNS(NS.SVG, 'line')
+      targetVerticalLine.setAttribute('x1', centerOfTarget)
+      targetVerticalLine.setAttribute('y1', targetY + MarkerHeight)
+      targetVerticalLine.setAttribute('x2', centerOfTarget)
+      targetVerticalLine.setAttribute(
+        'y2',
+        targetEndpoint.top - annotationBox.top
+      )
+      targetVerticalLine.setAttribute(
+        'style',
+        'stroke:rgba(100, 100, 215, 0.8); stroke-width:1'
+      )
+      container.appendChild(targetVerticalLine)
+
+      this._lines = [
+        sourceLine,
+        sourceVerticalLine,
+        targetLine,
+        targetVerticalLine
+      ]
+    }
+
     container.appendChild(path)
     path.addEventListener('click', onClick)
     path.addEventListener('mouseenter', onMouseEnter)
@@ -48,6 +117,13 @@ export default class Arrow {
     const defs = this._container.children[0]
     defs.removeChild(this._targetMarker)
     defs.removeChild(this._sourceMarker)
+
+    if (this._lines) {
+      for (const line of this._lines) {
+        this._container.removeChild(line)
+      }
+      this._lines = null
+    }
   }
 
   get top() {
