@@ -18,18 +18,22 @@ export default function (
     annotationBox
   )
 
+  // When the source endpoint and target endpoint are close,
+  // bend the target endpoint side of the relationship significantly.
+  const targetContlorX =
+    targetX +
+    (Math.abs(targetX - sourceX) > 24 ? 0 : sourceX < targetX ? 150 : -150)
+
   const sourceY = sourceEndpoint.top - annotationBox.top - MarkerHeight
   const targetY = targetEndpoint.top - annotationBox.top - MarkerHeight
   const controleY =
     Math.min(sourceY, targetY) - Math.abs(targetX - sourceX) / 2 - 20
 
   const path = document.createElementNS(NS.SVG, 'path')
+
   path.setAttribute(
     'd',
-    `M ${sourceX}, ${sourceY} C ${sourceX} ${controleY}, ${
-      targetX +
-      (Math.abs(targetX - sourceX) > 24 ? 0 : sourceX < targetX ? 150 : -150)
-    } ${controleY}, ${targetX} ${targetY}`
+    `M ${sourceX}, ${sourceY} C ${sourceX} ${controleY}, ${targetContlorX} ${controleY}, ${targetX} ${targetY}`
   )
 
   path.setAttribute('style', `fill:none; stroke: ${color};`)
@@ -40,5 +44,8 @@ export default function (
     path.classList.add('textae-editor__relation--isBold')
   }
 
-  return [path, { sourceY, targetY, controleY, sourceX, targetX }]
+  return [
+    path,
+    { sourceY, targetY, controleY, sourceX, targetX, targetContlorX }
+  ]
 }

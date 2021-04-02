@@ -57,11 +57,11 @@ export default class Arrow {
 
   get left() {
     if (this._t) {
-      const { sourceX, targetX } = this._pathPoints
+      const { sourceX, targetX, targetContlorX } = this._pathPoints
       const labelX =
         Math.pow(1 - this._t, 3) * sourceX +
         3 * Math.pow(1 - this._t, 2) * this._t * sourceX +
-        3 * (1 - this._t) * Math.pow(this._t, 2) * targetX +
+        3 * (1 - this._t) * Math.pow(this._t, 2) * targetContlorX +
         Math.pow(this._t, 3) * targetX
       return labelX
     }
