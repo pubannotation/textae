@@ -39,17 +39,12 @@ export default class Arrow {
 
     if (isBold) {
       const { sourceX, sourceY } = pathPoints
-
-      const sourceLine = document.createElementNS(NS.SVG, 'polyline')
-      const centerOfSource =
-        sourceEndpoint.left + sourceEndpoint.width / 2 - annotationBox.left
-      sourceLine.setAttribute(
-        'points',
-        `${sourceX} ${sourceY + MarkerHeight}, ${centerOfSource} ${
-          sourceY + MarkerHeight
-        }, ${centerOfSource} ${sourceEndpoint.top - annotationBox.top}`
+      const sourceLine = this._createSourceLine(
+        sourceX,
+        sourceY,
+        sourceEndpoint,
+        annotationBox
       )
-      sourceLine.setAttribute('style', 'stroke:rgb(100, 100, 215); fill: none;')
       container.appendChild(sourceLine)
 
       const targetLine = document.createElementNS(NS.SVG, 'polyline')
@@ -150,5 +145,20 @@ export default class Arrow {
     setMarkerStyle(marker, weights, color, isTail)
 
     return marker
+  }
+
+  _createSourceLine(sourceX, sourceY, sourceEndpoint, annotationBox) {
+    const sourceLine = document.createElementNS(NS.SVG, 'polyline')
+    const centerOfSource =
+      sourceEndpoint.left + sourceEndpoint.width / 2 - annotationBox.left
+    sourceLine.setAttribute(
+      'points',
+      `${sourceX} ${sourceY + MarkerHeight}, ${centerOfSource} ${
+        sourceY + MarkerHeight
+      }, ${centerOfSource} ${sourceEndpoint.top - annotationBox.top}`
+    )
+    sourceLine.setAttribute('style', 'stroke:rgb(100, 100, 215); fill: none;')
+
+    return sourceLine
   }
 }
