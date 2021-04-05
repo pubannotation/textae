@@ -33,23 +33,8 @@ export default class Arrow {
 
     this._lines = []
     if (isBold) {
-      const sourceLine = this._createSourceLine(
-        sourceX,
-        sourceY,
-        sourceEndpoint,
-        annotationBox
-      )
-      container.appendChild(sourceLine)
-
-      const targetLine = this._createTargetLine(
-        targetX,
-        targetY,
-        targetEndpoint,
-        annotationBox
-      )
-      container.appendChild(targetLine)
-
-      this._lines = [sourceLine, targetLine]
+      this._createSourceLine(sourceX, sourceY, sourceEndpoint, annotationBox)
+      this._createTargetLine(targetX, targetY, targetEndpoint, annotationBox)
     }
 
     container.appendChild(path)
@@ -139,10 +124,24 @@ export default class Arrow {
   }
 
   _createSourceLine(sourceX, sourceY, sourceEndpoint, annotationBox) {
-    return createSourceLine(sourceX, sourceY, sourceEndpoint, annotationBox)
+    const sourceLine = createSourceLine(
+      sourceX,
+      sourceY,
+      sourceEndpoint,
+      annotationBox
+    )
+    this._lines.push(sourceLine)
+    this._container.appendChild(sourceLine)
   }
 
   _createTargetLine(targetX, targetY, targetEndpoint, annotationBox) {
-    return createTargetLine(targetX, targetY, targetEndpoint, annotationBox)
+    const targetLine = createTargetLine(
+      targetX,
+      targetY,
+      targetEndpoint,
+      annotationBox
+    )
+    this._lines.push(targetLine)
+    this._container.appendChild(targetLine)
   }
 }
