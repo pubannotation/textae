@@ -35,15 +35,10 @@ export default class Arrow {
     this._sourceTriagle = sourceTriangle
     this._container.appendChild(sourceTriangle)
 
-    const targetTriangle = document.createElementNS(NS.SVG, 'polygon')
-    targetTriangle.setAttribute('points', `-6 0, 6 0, 0 ${MarkerHeight}`)
-    targetTriangle.setAttribute(
-      'style',
-      `${BaseColorStroke}; fill:${targetMarkerColor}`
-    )
-    targetTriangle.setAttribute(
-      'transform',
-      `translate(${targetX}, ${targetY})`
+    const targetTriangle = this._createTargetTriangle(
+      targetX,
+      targetY,
+      targetMarkerColor
     )
     this._targetTriagle = targetTriangle
     this._container.appendChild(targetTriangle)
@@ -152,6 +147,21 @@ export default class Arrow {
     )
 
     return sourceTriangle
+  }
+
+  _createTargetTriangle(targetX, targetY, targetMarkerColor) {
+    const targetTriangle = document.createElementNS(NS.SVG, 'polygon')
+    targetTriangle.setAttribute('points', `-6 0, 6 0, 0 ${MarkerHeight}`)
+    targetTriangle.setAttribute(
+      'style',
+      `${BaseColorStroke}; fill:${targetMarkerColor}`
+    )
+    targetTriangle.setAttribute(
+      'transform',
+      `translate(${targetX}, ${targetY})`
+    )
+
+    return targetTriangle
   }
 
   _createSourceLine(sourceX, sourceY, sourceEndpoint, annotationBox) {
