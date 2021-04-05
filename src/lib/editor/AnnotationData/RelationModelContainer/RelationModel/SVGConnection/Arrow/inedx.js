@@ -49,7 +49,7 @@ export default class Arrow {
       sourceLine.setAttribute('y2', sourceY + MarkerHeight)
       sourceLine.setAttribute(
         'style',
-        'stroke:rgba(100, 100, 215, 0.8); stroke-width:1'
+        'stroke:rgb(100, 100, 215); stroke-width:1'
       )
       container.appendChild(sourceLine)
 
@@ -63,7 +63,7 @@ export default class Arrow {
       )
       sourceVerticalLine.setAttribute(
         'style',
-        'stroke:rgba(100, 100, 215, 0.8); stroke-width:1'
+        'stroke:rgb(100, 100, 215); stroke-width:1'
       )
       container.appendChild(sourceVerticalLine)
 
@@ -77,7 +77,7 @@ export default class Arrow {
       targetLine.setAttribute('y2', targetY + MarkerHeight)
       targetLine.setAttribute(
         'style',
-        'stroke:rgba(100, 100, 215, 0.8); stroke-width:1'
+        'stroke:rgb(100, 100, 215); stroke-width:1'
       )
       container.appendChild(targetLine)
 
@@ -91,7 +91,7 @@ export default class Arrow {
       )
       targetVerticalLine.setAttribute(
         'style',
-        'stroke:rgba(100, 100, 215, 0.8); stroke-width:1'
+        'stroke:rgb(100, 100, 215); stroke-width:1'
       )
       container.appendChild(targetVerticalLine)
 
