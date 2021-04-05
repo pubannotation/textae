@@ -28,21 +28,8 @@ export default class Arrow {
       isBold
     )
 
-    const sourceTriangle = this._createSourceTriangle(
-      sourceX,
-      sourceY,
-      sourceMarkerColor
-    )
-    this._sourceTriagle = sourceTriangle
-    this._container.appendChild(sourceTriangle)
-
-    const targetTriangle = this._createTargetTriangle(
-      targetX,
-      targetY,
-      targetMarkerColor
-    )
-    this._targetTriagle = targetTriangle
-    this._container.appendChild(targetTriangle)
+    this._createSourceTriangle(sourceX, sourceY, sourceMarkerColor)
+    this._createTargetTriangle(targetX, targetY, targetMarkerColor)
 
     if (isBold) {
       const sourceLine = this._createSourceLine(
@@ -133,11 +120,23 @@ export default class Arrow {
   }
 
   _createSourceTriangle(sourceX, sourceY, sourceMarkerColor) {
-    return createSourceTriangle(sourceX, sourceY, sourceMarkerColor)
+    const sourceTriangle = createSourceTriangle(
+      sourceX,
+      sourceY,
+      sourceMarkerColor
+    )
+    this._sourceTriagle = sourceTriangle
+    this._container.appendChild(sourceTriangle)
   }
 
   _createTargetTriangle(targetX, targetY, targetMarkerColor) {
-    return createTargetTriangle(targetX, targetY, targetMarkerColor)
+    const targetTriangle = createTargetTriangle(
+      targetX,
+      targetY,
+      targetMarkerColor
+    )
+    this._targetTriagle = targetTriangle
+    this._container.appendChild(targetTriangle)
   }
 
   _createSourceLine(sourceX, sourceY, sourceEndpoint, annotationBox) {
