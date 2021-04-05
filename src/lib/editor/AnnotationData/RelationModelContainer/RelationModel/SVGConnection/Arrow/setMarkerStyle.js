@@ -3,7 +3,7 @@ import { MarkerHeight } from './MarkerHeight'
 export default function (marker, weight, color, isTail) {
   marker.setAttribute('markerWidth', 12 * weight)
   marker.setAttribute('markerHeight', 12 * weight)
-  marker.setAttribute('refX', isTail ? 8 * weight : 0)
+  marker.setAttribute('refX', isTail ? 8 * weight : 1)
   marker.setAttribute('refY', 6 * weight)
 
   const polygon = marker.children[0]
