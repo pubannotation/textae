@@ -52,29 +52,20 @@ export default class Arrow {
       sourceLine.setAttribute('style', 'stroke:rgb(100, 100, 215); fill: none;')
       container.appendChild(sourceLine)
 
-      const targetLine = document.createElementNS(NS.SVG, 'line')
+      const targetLine = document.createElementNS(NS.SVG, 'polyline')
       const { targetX, targetY } = pathPoints
       const centerOfTarget =
         targetEndpoint.left + targetEndpoint.width / 2 - annotationBox.left
-      targetLine.setAttribute('x1', targetX)
-      targetLine.setAttribute('y1', targetY + MarkerHeight)
-      targetLine.setAttribute('x2', centerOfTarget)
-      targetLine.setAttribute('y2', targetY + MarkerHeight)
-      targetLine.setAttribute('style', 'stroke:rgb(100, 100, 215);')
+      targetLine.setAttribute(
+        'points',
+        `${targetX} ${targetY + MarkerHeight}, ${centerOfTarget} ${
+          targetY + MarkerHeight
+        }, ${centerOfTarget} ${targetEndpoint.top - annotationBox.top}`
+      )
+      targetLine.setAttribute('style', 'stroke:rgb(100, 100, 215); fill: none;')
       container.appendChild(targetLine)
 
-      const targetVerticalLine = document.createElementNS(NS.SVG, 'line')
-      targetVerticalLine.setAttribute('x1', centerOfTarget)
-      targetVerticalLine.setAttribute('y1', targetY + MarkerHeight)
-      targetVerticalLine.setAttribute('x2', centerOfTarget)
-      targetVerticalLine.setAttribute(
-        'y2',
-        targetEndpoint.top - annotationBox.top
-      )
-      targetVerticalLine.setAttribute('style', 'stroke:rgb(100, 100, 215);')
-      container.appendChild(targetVerticalLine)
-
-      this._lines = [sourceLine, targetLine, targetVerticalLine]
+      this._lines = [sourceLine, targetLine]
     }
 
     container.appendChild(path)
