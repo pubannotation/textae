@@ -31,8 +31,10 @@ export default class Arrow {
       'points',
       `-6 ${MarkerHeight}, 6 ${MarkerHeight}, 0 0`
     )
-    sourceTriangle.setAttribute('stroke', 'rgb(100, 100, 215)')
-    sourceTriangle.setAttribute('fill', `${sourceMarkerColor}`)
+    sourceTriangle.setAttribute(
+      'style',
+      `stroke:rgb(100, 100, 215); fill:${sourceMarkerColor}`
+    )
     const { sourceX, sourceY } = pathPoints
     sourceTriangle.setAttribute(
       'transform',
@@ -43,8 +45,10 @@ export default class Arrow {
 
     const targetTriangle = document.createElementNS(NS.SVG, 'polygon')
     targetTriangle.setAttribute('points', `-6 0, 6 0, 0 ${MarkerHeight}`)
-    targetTriangle.setAttribute('stroke', 'rgb(100, 100, 215)')
-    targetTriangle.setAttribute('fill', `${targetMarkerColor}`)
+    targetTriangle.setAttribute(
+      'style',
+      `stroke:rgb(100, 100, 215); fill:${targetMarkerColor}`
+    )
     const { targetX, targetY } = pathPoints
     targetTriangle.setAttribute(
       'transform',
