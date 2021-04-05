@@ -41,7 +41,7 @@ export default class Arrow {
     const polygon = document.createElementNS(NS.SVG, 'polygon')
     polygon.setAttribute('points', `0 0, ${MarkerHeight} 6, 0 12`)
     polygon.setAttribute('stroke', 'rgb(100, 100, 215)')
-    polygon.setAttribute('fill', `${targetMarkerColor}`)
+    polygon.setAttribute('fill', `${sourceMarkerColor}`)
     const { sourceX, sourceY } = pathPoints
     polygon.setAttribute(
       'transform',
