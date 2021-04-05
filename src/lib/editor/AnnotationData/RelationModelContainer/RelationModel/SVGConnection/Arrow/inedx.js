@@ -39,10 +39,10 @@ export default class Arrow {
 
     if (isBold) {
       const { sourceX, sourceY } = pathPoints
-      const centerOfSource =
-        sourceEndpoint.left + sourceEndpoint.width / 2 - annotationBox.left
 
       const sourceLine = document.createElementNS(NS.SVG, 'polyline')
+      const centerOfSource =
+        sourceEndpoint.left + sourceEndpoint.width / 2 - annotationBox.left
       sourceLine.setAttribute(
         'points',
         `${sourceX} ${sourceY + MarkerHeight}, ${centerOfSource} ${
