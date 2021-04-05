@@ -21,16 +21,11 @@ export default class Arrow {
   ) {
     this._container = container
 
-    const defs = container.children[0]
-    this._targetMarker = this._createMarker(targetMarkerColor, isBold, false)
-    defs.appendChild(this._targetMarker)
-
     const [path, pathPoints] = createPath(
       sourceEndpoint,
       annotationBox,
       targetEndpoint,
       pathColor,
-      this._targetMarker,
       isBold
     )
 
@@ -93,8 +88,6 @@ export default class Arrow {
     this._container.removeChild(this._path)
     this._container.removeChild(this._sourceTriagle)
     this._container.removeChild(this._targetTriagle)
-    const defs = this._container.children[0]
-    defs.removeChild(this._targetMarker)
 
     if (this._lines) {
       for (const line of this._lines) {

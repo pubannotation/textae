@@ -7,7 +7,6 @@ export default function (
   annotationBox,
   targetEndpoint,
   color,
-  head,
   isBold
 ) {
   const { source: sourceX, target: targetX } = getXPositions(
@@ -38,7 +37,6 @@ export default function (
   )
 
   path.setAttribute('style', `fill:none; stroke: ${color};`)
-  path.setAttribute('marker-end', `url(#${head.id})`)
 
   if (isBold) {
     path.classList.add('textae-editor__relation--isBold')
