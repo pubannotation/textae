@@ -8,7 +8,6 @@ export default function (
   targetEndpoint,
   color,
   head,
-  tail,
   isBold
 ) {
   const { source: sourceX, target: targetX } = getXPositions(
@@ -39,7 +38,6 @@ export default function (
   )
 
   path.setAttribute('style', `fill:none; stroke: ${color};`)
-  path.setAttribute('marker-start', `url(#${tail.id})`)
   path.setAttribute('marker-end', `url(#${head.id})`)
 
   if (isBold) {

@@ -25,16 +25,12 @@ export default class Arrow {
     this._targetMarker = this._createMarker(targetMarkerColor, isBold, false)
     defs.appendChild(this._targetMarker)
 
-    this._sourceMarker = this._createMarker(sourceMarkerColor, isBold, true)
-    defs.appendChild(this._sourceMarker)
-
     const [path, pathPoints] = createPath(
       sourceEndpoint,
       annotationBox,
       targetEndpoint,
       pathColor,
       this._targetMarker,
-      this._sourceMarker,
       isBold
     )
 
@@ -86,7 +82,6 @@ export default class Arrow {
     this._container.removeChild(this._polygon)
     const defs = this._container.children[0]
     defs.removeChild(this._targetMarker)
-    defs.removeChild(this._sourceMarker)
 
     if (this._lines) {
       for (const line of this._lines) {
