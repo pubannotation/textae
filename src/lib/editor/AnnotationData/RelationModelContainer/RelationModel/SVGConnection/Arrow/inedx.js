@@ -3,6 +3,7 @@ import { NS } from '../NS'
 import { MarkerHeight } from './MarkerHeight'
 import { BaseColorStroke } from './BaseColorStroke'
 import createSourceTriangle from './createSourceTriangle'
+import createTargetTriangle from './createTargetTriangle'
 
 export default class Arrow {
   constructor(
@@ -137,18 +138,7 @@ export default class Arrow {
   }
 
   _createTargetTriangle(targetX, targetY, targetMarkerColor) {
-    const targetTriangle = document.createElementNS(NS.SVG, 'polygon')
-    targetTriangle.setAttribute('points', `-6 0, 6 0, 0 ${MarkerHeight}`)
-    targetTriangle.setAttribute(
-      'style',
-      `${BaseColorStroke}; fill:${targetMarkerColor}`
-    )
-    targetTriangle.setAttribute(
-      'transform',
-      `translate(${targetX}, ${targetY})`
-    )
-
-    return targetTriangle
+    return createTargetTriangle(targetX, targetY, targetMarkerColor)
   }
 
   _createSourceLine(sourceX, sourceY, sourceEndpoint, annotationBox) {
