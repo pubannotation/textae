@@ -2,6 +2,7 @@ import createPath from './createPath'
 import { NS } from '../NS'
 import { MarkerHeight } from './MarkerHeight'
 
+const BaseColorStroke = 'stroke:rgb(100, 100, 215)'
 export default class Arrow {
   constructor(
     container,
@@ -33,7 +34,7 @@ export default class Arrow {
     )
     sourceTriangle.setAttribute(
       'style',
-      `stroke:rgb(100, 100, 215); fill:${sourceMarkerColor}`
+      `${BaseColorStroke}; fill:${sourceMarkerColor}`
     )
     const { sourceX, sourceY } = pathPoints
     sourceTriangle.setAttribute(
@@ -47,7 +48,7 @@ export default class Arrow {
     targetTriangle.setAttribute('points', `-6 0, 6 0, 0 ${MarkerHeight}`)
     targetTriangle.setAttribute(
       'style',
-      `stroke:rgb(100, 100, 215); fill:${targetMarkerColor}`
+      `${BaseColorStroke}; fill:${targetMarkerColor}`
     )
     const { targetX, targetY } = pathPoints
     targetTriangle.setAttribute(
@@ -157,7 +158,7 @@ export default class Arrow {
         sourceY + MarkerHeight
       }, ${centerOfSource} ${sourceEndpoint.top - annotationBox.top}`
     )
-    sourceLine.setAttribute('style', 'stroke:rgb(100, 100, 215); fill: none;')
+    sourceLine.setAttribute('style', `${BaseColorStroke}; fill: none;`)
 
     return sourceLine
   }
@@ -172,7 +173,7 @@ export default class Arrow {
         targetY + MarkerHeight
       }, ${centerOfTarget} ${targetEndpoint.top - annotationBox.top}`
     )
-    targetLine.setAttribute('style', 'stroke:rgb(100, 100, 215); fill: none;')
+    targetLine.setAttribute('style', `${BaseColorStroke}; fill: none;`)
 
     return targetLine
   }
