@@ -34,17 +34,17 @@ export default class Arrow {
       isBold
     )
 
-    const polygon = document.createElementNS(NS.SVG, 'polygon')
-    polygon.setAttribute('points', `0 0, ${MarkerHeight} 6, 0 12`)
-    polygon.setAttribute('stroke', 'rgb(100, 100, 215)')
-    polygon.setAttribute('fill', `${sourceMarkerColor}`)
+    const sourceTriangle = document.createElementNS(NS.SVG, 'polygon')
+    sourceTriangle.setAttribute('points', `0 0, ${MarkerHeight} 6, 0 12`)
+    sourceTriangle.setAttribute('stroke', 'rgb(100, 100, 215)')
+    sourceTriangle.setAttribute('fill', `${sourceMarkerColor}`)
     const { sourceX, sourceY } = pathPoints
-    polygon.setAttribute(
+    sourceTriangle.setAttribute(
       'transform',
       `translate(${sourceX - 6}, ${sourceY + MarkerHeight}) rotate(-90)`
     )
-    this._polygon = polygon
-    this._container.appendChild(polygon)
+    this._sourceTriagle = sourceTriangle
+    this._container.appendChild(sourceTriangle)
 
     if (isBold) {
       const { sourceX, sourceY } = pathPoints
@@ -79,7 +79,7 @@ export default class Arrow {
 
   destructor() {
     this._container.removeChild(this._path)
-    this._container.removeChild(this._polygon)
+    this._container.removeChild(this._sourceTriagle)
     const defs = this._container.children[0]
     defs.removeChild(this._targetMarker)
 
