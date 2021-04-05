@@ -1,7 +1,4 @@
-import { v4 as uuidv4 } from 'uuid'
-import createMarker from './createMarker'
 import createPath from './createPath'
-import setMarkerStyle from './setMarkerStyle'
 import { NS } from '../NS'
 import { MarkerHeight } from './MarkerHeight'
 
@@ -141,21 +138,6 @@ export default class Arrow {
           Math.pow(t, 3) * targetY
         return Math.abs(labelY - this._path.getBBox().y) < 1
       })
-  }
-
-  _createMarker(color, isBold, isTail) {
-    // The ID of the SVG element is global scope in the Window.
-    // If you don't make it unique, it will use another editor's arrow.
-    const id = `r${uuidv4()}`
-    const marker = createMarker(id, !isTail)
-
-    // Markers are affected by the stroke-width of the path.
-    // If the path is made thicker, the marker will be larger than intended.
-    //  When the path is made thicker, the marker should be smaller.
-    const weights = isBold ? 0.5 : 1
-    setMarkerStyle(marker, weights, color, isTail)
-
-    return marker
   }
 
   _createSourceLine(sourceX, sourceY, sourceEndpoint, annotationBox) {
