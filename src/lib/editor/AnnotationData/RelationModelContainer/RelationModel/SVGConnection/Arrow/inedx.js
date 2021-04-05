@@ -1,8 +1,8 @@
 import createPath from './createPath'
 import { NS } from '../NS'
 import { MarkerHeight } from './MarkerHeight'
+import { BaseColorStroke } from './BaseColorStroke'
 
-const BaseColorStroke = 'stroke:rgb(100, 100, 215)'
 export default class Arrow {
   constructor(
     container,
