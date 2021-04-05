@@ -10,7 +10,6 @@ export default function (editor, annotationData) {
       <svg
         namespace="http://www.w3.org/2000/svg"
         class="textae-editor__relation-box">
-        <defs></defs>
       </svg>
     </div>
     `
