@@ -31,6 +31,7 @@ export default class Arrow {
     this._createSourceTriangle(sourceX, sourceY, sourceMarkerColor)
     this._createTargetTriangle(targetX, targetY, targetMarkerColor)
 
+    this._lines = []
     if (isBold) {
       const sourceLine = this._createSourceLine(
         sourceX,
@@ -65,12 +66,10 @@ export default class Arrow {
     this._container.removeChild(this._sourceTriagle)
     this._container.removeChild(this._targetTriagle)
 
-    if (this._lines) {
-      for (const line of this._lines) {
-        this._container.removeChild(line)
-      }
-      this._lines = null
+    for (const line of this._lines) {
+      this._container.removeChild(line)
     }
+    this._lines = []
   }
 
   get top() {
