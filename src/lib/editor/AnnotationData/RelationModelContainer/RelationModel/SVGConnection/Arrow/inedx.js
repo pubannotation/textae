@@ -19,7 +19,7 @@ export default class Arrow {
   ) {
     this._container = container
 
-    const [path, pathPoints] = createPath(
+    const [path, { sourceX, sourceY, targetX, targetY }] = createPath(
       sourceEndpoint,
       annotationBox,
       targetEndpoint,
@@ -36,7 +36,6 @@ export default class Arrow {
       'style',
       `${BaseColorStroke}; fill:${sourceMarkerColor}`
     )
-    const { sourceX, sourceY } = pathPoints
     sourceTriangle.setAttribute(
       'transform',
       `translate(${sourceX}, ${sourceY})`
@@ -50,7 +49,6 @@ export default class Arrow {
       'style',
       `${BaseColorStroke}; fill:${targetMarkerColor}`
     )
-    const { targetX, targetY } = pathPoints
     targetTriangle.setAttribute(
       'transform',
       `translate(${targetX}, ${targetY})`
@@ -59,7 +57,6 @@ export default class Arrow {
     this._container.appendChild(targetTriangle)
 
     if (isBold) {
-      const { sourceX, sourceY } = pathPoints
       const sourceLine = this._createSourceLine(
         sourceX,
         sourceY,
@@ -68,7 +65,6 @@ export default class Arrow {
       )
       container.appendChild(sourceLine)
 
-      const { targetX, targetY } = pathPoints
       const targetLine = this._createTargetLine(
         targetX,
         targetY,
@@ -86,7 +82,7 @@ export default class Arrow {
     path.addEventListener('mouseleave', onMouseLeave)
 
     this._path = path
-    this._pathPoints = pathPoints
+    this._pathPoints = { sourceX, sourceY, targetX, targetY }
   }
 
   destructor() {
