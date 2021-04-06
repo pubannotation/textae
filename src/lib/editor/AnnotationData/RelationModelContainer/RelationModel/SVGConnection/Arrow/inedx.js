@@ -20,13 +20,14 @@ export default class Arrow {
   ) {
     this._container = container
 
-    const [path, { sourceX, sourceY, targetX, targetY }] = createPath(
+    const [path, pathPoints] = createPath(
       sourceEndpoint,
       annotationBox,
       targetEndpoint,
       pathColor,
       isBold
     )
+    const { sourceX, sourceY, targetX, targetY } = pathPoints
 
     this._createSourceTriangle(sourceX, sourceY, sourceMarkerColor)
     this._createTargetTriangle(targetX, targetY, targetMarkerColor)
@@ -43,7 +44,7 @@ export default class Arrow {
     path.addEventListener('mouseleave', onMouseLeave)
 
     this._path = path
-    this._pathPoints = { sourceX, sourceY, targetX, targetY }
+    this._pathPoints = pathPoints
   }
 
   destructor() {
