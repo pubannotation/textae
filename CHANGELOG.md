@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.2.0](https://github.com/pubannotation/textae/compare/v7.1.0...v7.2.0) (2021-04-06)
+
+
+### Features
+
+* Shift the Y coordinate of the target endpoint up by 1 pixel ([abb5ef2](https://github.com/pubannotation/textae/commit/abb5ef266322828b1848928308fa49f1baf537d5))
+* Stop using transparent colors for entity borders ([f9552e2](https://github.com/pubannotation/textae/commit/f9552e27e6b32124c8f2481a4a6297fdccbb9159))
+* When a relation is hovered, the endpoints are separated from the entity and a line is drawn between them ([161675c](https://github.com/pubannotation/textae/commit/161675c2e43249ebda45f03dbdc910c0fe797389))
+* When the target endpoint side of the relation is bent wide, the label is placed in the middle of the relation. ([be852f1](https://github.com/pubannotation/textae/commit/be852f1a0b71f8bb3e48b195cf6096086a546d87))
+
 ## [7.1.0](https://github.com/pubannotation/textae/compare/v7.0.1...v7.1.0) (2021-04-02)
 
 
