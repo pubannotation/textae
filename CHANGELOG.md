@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.2.1](https://github.com/pubannotation/textae/compare/v7.2.0...v7.2.1) (2021-04-06)
+
+
+### Bug Fixes
+
+* The x-coordinates of the labels of the relations are misaligned ([d696f2b](https://github.com/pubannotation/textae/commit/d696f2b976b8caaadb6abde8613dfaf78f107b80))
+
 ## [7.2.0](https://github.com/pubannotation/textae/compare/v7.1.0...v7.2.0) (2021-04-06)
 
 
