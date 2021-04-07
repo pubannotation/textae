@@ -3,12 +3,15 @@ import { MarkerHeight } from '../MarkerHeight'
 import getXPositions from './getXPositions'
 
 export default function (
-  sourceEndpoint,
   annotationBox,
-  targetEndpoint,
+  sourceEntity,
+  targetEntity,
   color,
   isBold
 ) {
+  const sourceEndpoint = sourceEntity.typeValuesElement.getBoundingClientRect()
+  const targetEndpoint = targetEntity.typeValuesElement.getBoundingClientRect()
+
   const { source: sourceX, target: targetX } = getXPositions(
     isBold,
     sourceEndpoint,

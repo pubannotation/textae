@@ -20,12 +20,10 @@ export default class Arrow {
   ) {
     this._container = container
 
-    const sourceEndpoint = sourceEntity.typeValuesElement.getBoundingClientRect()
-    const targetEndpoint = targetEntity.typeValuesElement.getBoundingClientRect()
     const [path, pathPoints] = createPath(
-      sourceEndpoint,
       annotationBox,
-      targetEndpoint,
+      sourceEntity,
+      targetEntity,
       pathColor,
       isBold
     )
@@ -36,6 +34,8 @@ export default class Arrow {
 
     this._lines = []
     if (isBold) {
+      const sourceEndpoint = sourceEntity.typeValuesElement.getBoundingClientRect()
+      const targetEndpoint = targetEntity.typeValuesElement.getBoundingClientRect()
       this._createSourceLine(sourceX, sourceY, sourceEndpoint, annotationBox)
       this._createTargetLine(targetX, targetY, targetEndpoint, annotationBox)
     }
