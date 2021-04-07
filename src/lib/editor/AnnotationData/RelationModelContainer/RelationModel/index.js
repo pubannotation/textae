@@ -64,15 +64,11 @@ export default class RelationModel {
   }
 
   get sourceEndpoint() {
-    return this.sourceEntity.element.querySelector(
-      '.textae-editor__signboard__type-values'
-    )
+    return this.sourceEntity.typeValuesElement
   }
 
   get targetEndpoint() {
-    return this.targetEntity.element.querySelector(
-      '.textae-editor__signboard__type-values'
-    )
+    return this.targetEntity.typeValuesElement
   }
 
   get sourceColor() {

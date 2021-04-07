@@ -85,6 +85,15 @@ export default class EntityModel {
     )
   }
 
+  get typeValuesElement() {
+    return document.querySelector(
+      `#${makeEntityHTMLElementId(
+        this._editor,
+        this.id
+      )} .textae-editor__signboard__type-values`
+    )
+  }
+
   get isDenotation() {
     return this._span.isDenotation
   }
