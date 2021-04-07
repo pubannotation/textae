@@ -1,7 +1,6 @@
 import getDisplayName from '../../../getDisplayName'
 import getUri from '../../../getUri'
 import TypeValues from '../../../TypeValues'
-import getEntityEndpoint from './getEntityEndpoint'
 import SVGConnection from './SVGConnection'
 
 export default class RelationModel {
@@ -65,11 +64,15 @@ export default class RelationModel {
   }
 
   get sourceEndpoint() {
-    return getEntityEndpoint(this._editor, this.subj)
+    return this.sourceEntity.element.querySelector(
+      '.textae-editor__signboard__type-values'
+    )
   }
 
   get targetEndpoint() {
-    return getEntityEndpoint(this._editor, this.obj)
+    return this.targetEntity.element.querySelector(
+      '.textae-editor__signboard__type-values'
+    )
   }
 
   get sourceColor() {
