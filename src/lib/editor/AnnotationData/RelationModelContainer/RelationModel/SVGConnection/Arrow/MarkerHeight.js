@@ -1,1 +1,1 @@
-export const MarkerHeight = 8
+export const MarkerHeight = 6

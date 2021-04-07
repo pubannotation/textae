@@ -6,7 +6,7 @@ export default function (sourceX, sourceY, sourceMarkerColor) {
   const sourceTriangle = document.createElementNS(NS.SVG, 'polygon')
   sourceTriangle.setAttribute(
     'points',
-    `-6 ${MarkerHeight}, 6 ${MarkerHeight}, 0 0`
+    `-4 ${MarkerHeight}, 4 ${MarkerHeight}, 0 0`
   )
   sourceTriangle.setAttribute(
     'style',
