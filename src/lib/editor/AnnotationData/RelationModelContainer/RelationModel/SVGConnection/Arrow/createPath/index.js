@@ -20,7 +20,7 @@ export default function (
   // bend the target endpoint side of the relationship significantly.
   const targetContlorX =
     targetX +
-    (Math.abs(targetX - sourceX) > 24 ? 0 : sourceX < targetX ? 150 : -150)
+    (Math.abs(targetX - sourceX) > 42 ? 0 : sourceX < targetX ? 150 : -150)
 
   const sourceEndpoint = sourceEntity.typeValuesElement.getBoundingClientRect()
   const sourceY =
