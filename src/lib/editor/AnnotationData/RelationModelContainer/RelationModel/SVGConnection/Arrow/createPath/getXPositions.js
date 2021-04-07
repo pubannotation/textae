@@ -7,12 +7,14 @@ export default function (isBold, sourceEntity, targetEntity, annotationBox) {
 
   // When the entity width is small and the endpoint is displayed in the center of the entity and the entity has only one endpoint,
   // hovering will not move the entity left or right.
-  const hasSourceEnoughWidth =
+  const combineSourceEndpoints = !(
     (isBold && sourceEntity.relations.length > 1) ||
     MinimumDistance <= sourceEndpoint.width / 2
-  const hasTaregtEntityWidth =
+  )
+  const combineTargetEndpoints = !(
     (isBold && targetEntity.relations.length > 1) ||
     MinimumDistance <= targetEndpoint.width / 2
+  )
 
   const centerOfSource =
     sourceEndpoint.left + sourceEndpoint.width / 2 - annotationBox.left
@@ -20,18 +22,18 @@ export default function (isBold, sourceEntity, targetEntity, annotationBox) {
     targetEndpoint.left + targetEndpoint.width / 2 - annotationBox.left
 
   // Shift only when the entity has enough width to shift the endpoint.
-  const leftTarget = hasTaregtEntityWidth
-    ? centerOfTarget - DistanceToShift * 3
-    : centerOfTarget
-  const leftSource = hasSourceEnoughWidth
-    ? centerOfSource - DistanceToShift
-    : centerOfSource
-  const rightTarget = hasTaregtEntityWidth
-    ? centerOfTarget + DistanceToShift
-    : centerOfTarget
-  const rightSource = hasSourceEnoughWidth
-    ? centerOfSource + DistanceToShift * 3
-    : centerOfSource
+  const leftTarget = combineTargetEndpoints
+    ? centerOfTarget
+    : centerOfTarget - DistanceToShift * 3
+  const leftSource = combineSourceEndpoints
+    ? centerOfSource
+    : centerOfSource - DistanceToShift
+  const rightTarget = combineTargetEndpoints
+    ? centerOfTarget
+    : centerOfTarget + DistanceToShift
+  const rightSource = combineSourceEndpoints
+    ? centerOfSource
+    : centerOfSource + DistanceToShift * 3
 
   // When the left and right positions of the entities are close
   // and the left and right positions of the endpoints are opposite to the left and right positions of the entities,
