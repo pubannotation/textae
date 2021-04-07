@@ -7,8 +7,8 @@ import createTargetLine from './createTargetLine'
 export default class Arrow {
   constructor(
     container,
-    sourceEndpoint,
-    targetEndpoint,
+    sourceEntity,
+    targetEntity,
     annotationBox,
     pathColor,
     sourceMarkerColor,
@@ -20,6 +20,8 @@ export default class Arrow {
   ) {
     this._container = container
 
+    const sourceEndpoint = sourceEntity.typeValuesElement.getBoundingClientRect()
+    const targetEndpoint = targetEntity.typeValuesElement.getBoundingClientRect()
     const [path, pathPoints] = createPath(
       sourceEndpoint,
       annotationBox,
