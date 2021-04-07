@@ -23,9 +23,9 @@ export default function (
     (Math.abs(targetX - sourceX) > 24 ? 0 : sourceX < targetX ? 150 : -150)
 
   const sourceY =
-    sourceEndpoint.top - annotationBox.top - MarkerHeight - (isBold ? 4 : 0)
+    sourceEndpoint.top - annotationBox.top - MarkerHeight - (isBold ? 3 : 0)
   const targetY =
-    targetEndpoint.top - annotationBox.top - MarkerHeight - (isBold ? 4 : 0)
+    targetEndpoint.top - annotationBox.top - MarkerHeight - (isBold ? 3 : 0)
   const controleY =
     Math.min(sourceY, targetY) - Math.abs(targetX - sourceX) / 2 - 20
 
