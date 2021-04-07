@@ -9,13 +9,10 @@ export default function (
   color,
   isBold
 ) {
-  const sourceEndpoint = sourceEntity.typeValuesElement.getBoundingClientRect()
-  const targetEndpoint = targetEntity.typeValuesElement.getBoundingClientRect()
-
   const { source: sourceX, target: targetX } = getXPositions(
     isBold,
-    sourceEndpoint,
-    targetEndpoint,
+    sourceEntity,
+    targetEntity,
     annotationBox
   )
 
@@ -25,8 +22,11 @@ export default function (
     targetX +
     (Math.abs(targetX - sourceX) > 24 ? 0 : sourceX < targetX ? 150 : -150)
 
+  const sourceEndpoint = sourceEntity.typeValuesElement.getBoundingClientRect()
   const sourceY =
     sourceEndpoint.top - annotationBox.top - MarkerHeight - (isBold ? 3 : 0)
+
+  const targetEndpoint = targetEntity.typeValuesElement.getBoundingClientRect()
   const targetY =
     targetEndpoint.top - annotationBox.top - MarkerHeight - (isBold ? 3 : 0)
   const controleY =
