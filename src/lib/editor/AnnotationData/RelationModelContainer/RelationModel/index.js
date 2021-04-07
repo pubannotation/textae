@@ -63,14 +63,6 @@ export default class RelationModel {
     return this._entityContainer.get(this.obj)
   }
 
-  get sourceEndpoint() {
-    return this.sourceEntity.typeValuesElement
-  }
-
-  get targetEndpoint() {
-    return this.targetEntity.typeValuesElement
-  }
-
   get sourceColor() {
     return this.sourceEntity.color
   }

@@ -60,8 +60,8 @@ export default class SVGConnection {
     const annotationBox = this._editor[0]
       .querySelector('.textae-editor__annotation-box')
       .getBoundingClientRect()
-    const sourceEndpoint = this._relation.sourceEndpoint.getBoundingClientRect()
-    const targetEndpoint = this._relation.targetEndpoint.getBoundingClientRect()
+    const sourceEndpoint = this._relation.sourceEntity.typeValuesElement.getBoundingClientRect()
+    const targetEndpoint = this._relation.targetEntity.typeValuesElement.getBoundingClientRect()
 
     this._arrow = new Arrow(
       this._relationBox,
