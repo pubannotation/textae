@@ -16,12 +16,6 @@ export default function (
     annotationBox
   )
 
-  // When the source endpoint and target endpoint are close,
-  // bend the target endpoint side of the relationship significantly.
-  const targetContlorX =
-    targetX +
-    (Math.abs(targetX - sourceX) > 42 ? 0 : sourceX < targetX ? 150 : -150)
-
   const sourceEndpoint = sourceEntity.typeValuesElement.getBoundingClientRect()
   const sourceY =
     sourceEndpoint.top - annotationBox.top - MarkerHeight - (isBold ? 3 : 0)
@@ -29,6 +23,17 @@ export default function (
   const targetEndpoint = targetEntity.typeValuesElement.getBoundingClientRect()
   const targetY =
     targetEndpoint.top - annotationBox.top - MarkerHeight - (isBold ? 3 : 0)
+
+  // When the source endpoint and target endpoint are close,
+  // bend the target endpoint side of the relationship significantly.
+  const targetContlorX =
+    targetX +
+    (targetY === sourceY || Math.abs(targetX - sourceX) > 42
+      ? 0
+      : sourceX < targetX
+      ? 150
+      : -150)
+
   const controleY =
     Math.min(sourceY, targetY) - Math.abs(targetX - sourceX) / 2 - 20
 
