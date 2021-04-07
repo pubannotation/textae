@@ -16,13 +16,17 @@ export default function (
     annotationBox
   )
 
-  const sourceEndpoint = sourceEntity.typeValuesElement.getBoundingClientRect()
   const sourceY =
-    sourceEndpoint.top - annotationBox.top - MarkerHeight - (isBold ? 3 : 0)
+    sourceEntity.typeValuesElement.getBoundingClientRect().top -
+    annotationBox.top -
+    MarkerHeight -
+    (isBold ? 3 : 0)
 
-  const targetEndpoint = targetEntity.typeValuesElement.getBoundingClientRect()
   const targetY =
-    targetEndpoint.top - annotationBox.top - MarkerHeight - (isBold ? 3 : 0)
+    targetEntity.typeValuesElement.getBoundingClientRect().top -
+    annotationBox.top -
+    MarkerHeight -
+    (isBold ? 3 : 0)
 
   // When the source endpoint and target endpoint are close,
   // bend the target endpoint side of the relationship significantly.
