@@ -5,10 +5,14 @@ export default function (isBold, sourceEntity, targetEntity, annotationBox) {
   const sourceEndpoint = sourceEntity.typeValuesElement.getBoundingClientRect()
   const targetEndpoint = targetEntity.typeValuesElement.getBoundingClientRect()
 
+  // When the entity width is small and the endpoint is displayed in the center of the entity and the entity has only one endpoint,
+  // hovering will not move the entity left or right.
   const hasSourceEnoughWidth =
-    isBold || MinimumDistance <= sourceEndpoint.width / 2
+    (isBold && sourceEntity.relations.length > 1) ||
+    MinimumDistance <= sourceEndpoint.width / 2
   const hasTaregtEntityWidth =
-    isBold || MinimumDistance <= targetEndpoint.width / 2
+    (isBold && targetEntity.relations.length > 1) ||
+    MinimumDistance <= targetEndpoint.width / 2
 
   const centerOfSource =
     sourceEndpoint.left + sourceEndpoint.width / 2 - annotationBox.left
