@@ -90,6 +90,8 @@ export default class SVGConnection {
       this._relation.color,
       this._relation.typeValues.attributes,
       this._onClick,
+      () => this.pointUp(),
+      () => this.pointDown(),
       isSelected
     )
   }

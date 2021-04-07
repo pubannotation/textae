@@ -12,6 +12,8 @@ export default class Label {
     color,
     attributes,
     onClick,
+    onMouseEnter,
+    onMouseLeave,
     isSelected
   ) {
     this._container = container
@@ -37,6 +39,8 @@ export default class Label {
     container.appendChild(location)
 
     signboard.addEventListener('click', onClick)
+    signboard.addEventListener('mouseenter', onMouseEnter)
+    signboard.addEventListener('mouseleave', onMouseLeave)
     this._label = location
   }
 
