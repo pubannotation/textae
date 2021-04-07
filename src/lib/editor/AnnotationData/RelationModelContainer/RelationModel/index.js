@@ -56,6 +56,14 @@ export default class RelationModel {
     return this._obj
   }
 
+  get sourceEntity() {
+    return this._entityContainer.get(this.subj)
+  }
+
+  get targetEntity() {
+    return this._entityContainer.get(this.obj)
+  }
+
   get sourceEndpoint() {
     return getEntityEndpoint(this._editor, this.subj)
   }
@@ -65,11 +73,11 @@ export default class RelationModel {
   }
 
   get sourceColor() {
-    return this._entityContainer.get(this.subj).color
+    return this.sourceEntity.color
   }
 
   get targetColor() {
-    return this._entityContainer.get(this.obj).color
+    return this.targetEntity.color
   }
 
   select() {
