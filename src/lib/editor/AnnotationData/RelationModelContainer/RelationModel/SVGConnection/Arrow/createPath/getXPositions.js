@@ -45,7 +45,7 @@ export default function (isBold, sourceEntity, targetEntity, annotationBox) {
   } else if (centerOfTarget < centerOfSource) {
     return {
       source: leftSource,
-      target: rightTarget < leftSource ? rightTarget : leftTarget
+      target: leftSource < rightTarget ? rightTarget : leftTarget
     }
   }
 
