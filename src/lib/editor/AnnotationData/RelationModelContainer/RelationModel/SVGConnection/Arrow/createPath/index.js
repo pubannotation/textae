@@ -34,7 +34,7 @@ export default function (
     targetX +
     (targetY === sourceY || Math.abs(targetX - sourceX) > 42
       ? 0
-      : sourceX < targetX
+      : sourceX <= targetX + 16
       ? 150
       : -150)
 
