@@ -1,7 +1,7 @@
 {
     "types": [
       {"type": "feature", "section": "Features"},
-      {"type": "bugfix", "section": "Bug Fixes"},
+      {"type": "fix", "section": "Bug Fixes"},
       {"type": "refactor", "hidden": true},
       {"type": "chore", "hidden": true},
       {"type": "misc", "hidden": true},
