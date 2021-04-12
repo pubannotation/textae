@@ -90,7 +90,7 @@ export default class Arrow {
   }
 
   get _t() {
-    const { sourceY, targetY, controleY } = this._pathPoints
+    const { sourceY, targetY, controlY } = this._pathPoints
     // https://ja.javascript.info/bezier-curve
     // (1−t)3P1 + 3(1−t)2tP2 +3(1−t)t2P3 + t3P4
     const sample = 20
@@ -99,8 +99,8 @@ export default class Arrow {
       .find((t) => {
         const labelY =
           Math.pow(1 - t, 3) * sourceY +
-          3 * Math.pow(1 - t, 2) * t * controleY +
-          3 * (1 - t) * Math.pow(t, 2) * controleY +
+          3 * Math.pow(1 - t, 2) * t * controlY +
+          3 * (1 - t) * Math.pow(t, 2) * controlY +
           Math.pow(t, 3) * targetY
         return Math.abs(labelY - this._path.getBBox().y) < 1
       })

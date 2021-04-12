@@ -38,14 +38,14 @@ export default function (
       ? 150
       : -150)
 
-  const controleY =
+  const controlY =
     Math.min(sourceY, targetY) - Math.abs(targetX - sourceX) / 2 - 20
 
   const path = document.createElementNS(NS.SVG, 'path')
 
   path.setAttribute(
     'd',
-    `M ${sourceX}, ${sourceY} C ${sourceX} ${controleY}, ${targetControlX} ${controleY}, ${targetX} ${targetY}`
+    `M ${sourceX}, ${sourceY} C ${sourceX} ${controlY}, ${targetControlX} ${controlY}, ${targetX} ${targetY}`
   )
 
   path.setAttribute(
@@ -59,6 +59,6 @@ export default function (
 
   return [
     path,
-    { sourceY, targetY, controleY, sourceX, targetX, targetControlX }
+    { sourceY, targetY, controlY, sourceX, targetX, targetControlX }
   ]
 }
