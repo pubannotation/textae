@@ -42,7 +42,7 @@ export default function (
 
   path.setAttribute(
     'd',
-    `M ${sourceX}, ${sourceY} C ${sourceX} ${controlY}, ${targetControlX} ${controlY}, ${targetX} ${targetY}`
+    `M ${sourceX}, ${sourceY} C ${sourceControlX} ${controlY}, ${targetControlX} ${controlY}, ${targetX} ${targetY}`
   )
 
   path.setAttribute(
