@@ -3,19 +3,17 @@ export default function (sourceX, sourceY, targetX, targetY) {
     return { sourceControlX: sourceX, targetControlX: targetX }
   }
 
+  // When the source endpoint and target endpoint are close
   if (sourceY < targetY) {
-    const sourceControlX = sourceX
-
-    // When the source endpoint and target endpoint are close,
     // bend the target endpoint side of the relationship significantly.
-    const targetControlX = targetX + (sourceX <= targetX + 16 ? 150 : -150)
-
-    return { sourceControlX, targetControlX }
+    return {
+      sourceControlX: sourceX,
+      targetControlX: targetX + (sourceX <= targetX + 16 ? 150 : -150)
+    }
   } else {
-    const sourceControlX = sourceX + (sourceX <= targetX + 16 ? 150 : -150)
-
-    const targetControlX = targetX
-
-    return { sourceControlX, targetControlX }
+    return {
+      sourceControlX: sourceX + (sourceX <= targetX + 16 ? 150 : -150),
+      targetControlX: targetX
+    }
   }
 }
