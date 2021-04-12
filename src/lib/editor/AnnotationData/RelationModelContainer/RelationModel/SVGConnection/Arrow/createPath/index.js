@@ -30,7 +30,7 @@ export default function (
 
   // When the source endpoint and target endpoint are close,
   // bend the target endpoint side of the relationship significantly.
-  const targetContlorX =
+  const targetControlX =
     targetX +
     (targetY === sourceY || Math.abs(targetX - sourceX) > 42
       ? 0
@@ -45,7 +45,7 @@ export default function (
 
   path.setAttribute(
     'd',
-    `M ${sourceX}, ${sourceY} C ${sourceX} ${controleY}, ${targetContlorX} ${controleY}, ${targetX} ${targetY}`
+    `M ${sourceX}, ${sourceY} C ${sourceX} ${controleY}, ${targetControlX} ${controleY}, ${targetX} ${targetY}`
   )
 
   path.setAttribute(
@@ -59,6 +59,6 @@ export default function (
 
   return [
     path,
-    { sourceY, targetY, controleY, sourceX, targetX, targetContlorX }
+    { sourceY, targetY, controleY, sourceX, targetX, targetControlX }
   ]
 }
