@@ -28,6 +28,8 @@ export default function (
     MarkerHeight -
     (isBold ? 3 : 0)
 
+  const sourceControlX = sourceX
+
   // When the source endpoint and target endpoint are close,
   // bend the target endpoint side of the relationship significantly.
   const targetControlX =
@@ -59,6 +61,14 @@ export default function (
 
   return [
     path,
-    { sourceY, targetY, controlY, sourceX, targetX, targetControlX }
+    {
+      sourceY,
+      targetY,
+      controlY,
+      sourceX,
+      targetX,
+      sourceControlX,
+      targetControlX
+    }
   ]
 }
