@@ -1,5 +1,5 @@
-import { NS } from '../../NS'
 import { MarkerHeight } from '../MarkerHeight'
+import createPath from './createPath'
 import getControlXs from './getControlXs'
 import getXPositions from './getXPositions'
 
@@ -20,7 +20,7 @@ export default function (
     controlY
   } = getPathPoints(annotationBox, sourceEntity, targetEntity, isBold)
 
-  const path = create()
+  const path = createPath()
 
   path.setAttribute(
     'd',
@@ -45,12 +45,6 @@ export default function (
       targetControlX
     }
   ]
-}
-
-function create() {
-  const path = document.createElementNS(NS.SVG, 'path')
-  path.classList.add('textae-editor__relation')
-  return path
 }
 
 function getPathPoints(annotationBox, sourceEntity, targetEntity, isBold) {
