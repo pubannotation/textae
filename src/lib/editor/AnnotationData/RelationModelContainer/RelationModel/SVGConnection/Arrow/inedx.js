@@ -23,16 +23,56 @@ export default class Arrow {
     this._container = container
 
     const path = createPath()
+
+    this._createSourceTriangle()
+    this._createTargetTriangle()
+
+    container.appendChild(path)
+    path.addEventListener('click', onClick)
+    path.addEventListener('mouseenter', onMouseEnter)
+    path.addEventListener('mouseleave', onMouseLeave)
+
+    this._path = path
+
+    this._update(
+      annotationBox,
+      sourceEntity,
+      targetEntity,
+      pathColor,
+      sourceMarkerColor,
+      targetMarkerColor,
+      isBold
+    )
+  }
+
+  _update(
+    annotationBox,
+    sourceEntity,
+    targetEntity,
+    pathColor,
+    sourceMarkerColor,
+    targetMarkerColor,
+    isBold
+  ) {
     const pathPoints = new PathPoints(
       annotationBox,
       sourceEntity,
       targetEntity,
       isBold
     )
-    updatePath(path, pathPoints, pathColor, isBold)
+    updatePath(this._path, pathPoints, pathColor, isBold)
 
-    this._createSourceTriangle(pathPoints, sourceMarkerColor)
-    this._createTargetTriangle(pathPoints, targetMarkerColor)
+    this._sourceTriangle.setAttribute('style', `fill:${sourceMarkerColor}`)
+    this._sourceTriangle.setAttribute(
+      'transform',
+      pathPoints.transformDefinitionsForSourceTriangle
+    )
+
+    this._targetTriangle.setAttribute('style', `fill:${targetMarkerColor}`)
+    this._targetTriangle.setAttribute(
+      'transform',
+      pathPoints.transformDefinitionsForTargetTriangle
+    )
 
     this._lines = []
     if (isBold) {
@@ -42,12 +82,6 @@ export default class Arrow {
       this._createTargetLine(pathPoints, targetEndpoint, annotationBox)
     }
 
-    container.appendChild(path)
-    path.addEventListener('click', onClick)
-    path.addEventListener('mouseenter', onMouseEnter)
-    path.addEventListener('mouseleave', onMouseLeave)
-
-    this._path = path
     this._pathPoints = pathPoints
   }
 
@@ -113,24 +147,14 @@ export default class Arrow {
       })
   }
 
-  _createSourceTriangle(pathPoints, sourceMarkerColor) {
+  _createSourceTriangle() {
     const sourceTriangle = createSourceTriangle()
-    sourceTriangle.setAttribute('style', `fill:${sourceMarkerColor}`)
-    sourceTriangle.setAttribute(
-      'transform',
-      pathPoints.transformDefinitionsForSourceTriangle
-    )
     this._container.appendChild(sourceTriangle)
     this._sourceTriangle = sourceTriangle
   }
 
-  _createTargetTriangle(pathPoints, targetMarkerColor) {
+  _createTargetTriangle() {
     const targetTriangle = createTargetTriangle()
-    targetTriangle.setAttribute('style', `fill:${targetMarkerColor}`)
-    targetTriangle.setAttribute(
-      'transform',
-      pathPoints.transformDefinitionsForTargetTriangle
-    )
     this._container.appendChild(targetTriangle)
     this._targetTriangle = targetTriangle
   }
