@@ -60,10 +60,7 @@ export default class Arrow {
     if (isBold) {
       this._drawLines(sourceEntity, targetEntity, pathPoints, annotationBox)
     } else {
-      for (const line of this._lines) {
-        this._container.removeChild(line)
-      }
-      this._lines = []
+      this._destroyLines()
     }
 
     this._pathPoints = pathPoints
@@ -74,10 +71,7 @@ export default class Arrow {
     this._container.removeChild(this._sourceTriangle)
     this._container.removeChild(this._targetTriangle)
 
-    for (const line of this._lines) {
-      this._container.removeChild(line)
-    }
-    this._lines = []
+    this._destroyLines()
   }
 
   get top() {
@@ -149,5 +143,12 @@ export default class Arrow {
     )
     this._container.appendChild(targetLine)
     this._lines.push(targetLine)
+  }
+
+  _destroyLines() {
+    for (const line of this._lines) {
+      this._container.removeChild(line)
+    }
+    this._lines = []
   }
 }
