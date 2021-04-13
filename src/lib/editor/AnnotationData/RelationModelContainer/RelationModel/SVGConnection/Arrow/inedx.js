@@ -22,8 +22,6 @@ export default class Arrow {
   ) {
     this._container = container
 
-    const path = createPath()
-
     const sourceTriangle = createSourceTriangle()
     this._container.appendChild(sourceTriangle)
     this._sourceTriangle = sourceTriangle
@@ -32,11 +30,11 @@ export default class Arrow {
     this._container.appendChild(targetTriangle)
     this._targetTriangle = targetTriangle
 
+    const path = createPath()
     container.appendChild(path)
     path.addEventListener('click', onClick)
     path.addEventListener('mouseenter', onMouseEnter)
     path.addEventListener('mouseleave', onMouseLeave)
-
     this._path = path
 
     this._lines = []
