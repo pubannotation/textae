@@ -35,13 +35,33 @@ export default function (annotationBox, sourceEntity, targetEntity, isBold) {
     20 +
     (isBold ? 3 : 0)
 
-  return {
+  return new PathPoints(
+    sourceX,
     sourceY,
+    targetX,
     targetY,
     controlY,
-    sourceX,
-    targetX,
     sourceControlX,
     targetControlX
+  )
+}
+
+class PathPoints {
+  constructor(
+    sourceX,
+    sourceY,
+    targetX,
+    targetY,
+    controlY,
+    sourceControlX,
+    targetControlX
+  ) {
+    this.sourceY = sourceY
+    this.targetY = targetY
+    this.controlY = controlY
+    this.sourceX = sourceX
+    this.targetX = targetX
+    this.sourceControlX = sourceControlX
+    this.targetControlX = targetControlX
   }
 }
