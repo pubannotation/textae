@@ -113,30 +113,21 @@ export default class Arrow {
       })
   }
 
-  _createSourceTriangle({ sourceX, sourceY }, sourceMarkerColor) {
-    const sourceTriangle = createSourceTriangle(
-      sourceX,
-      sourceY,
-      sourceMarkerColor
-    )
+  _createSourceTriangle(pathPoints, sourceMarkerColor) {
+    const sourceTriangle = createSourceTriangle(pathPoints, sourceMarkerColor)
     this._sourceTriagle = sourceTriangle
     this._container.appendChild(sourceTriangle)
   }
 
-  _createTargetTriangle({ targetX, targetY }, targetMarkerColor) {
-    const targetTriangle = createTargetTriangle(
-      targetX,
-      targetY,
-      targetMarkerColor
-    )
+  _createTargetTriangle(pathPoints, targetMarkerColor) {
+    const targetTriangle = createTargetTriangle(pathPoints, targetMarkerColor)
     this._targetTriagle = targetTriangle
     this._container.appendChild(targetTriangle)
   }
 
-  _createSourceLine({ sourceX, sourceY }, sourceEndpoint, annotationBox) {
+  _createSourceLine(pathPoints, sourceEndpoint, annotationBox) {
     const sourceLine = createSourceLine(
-      sourceX,
-      sourceY,
+      pathPoints,
       sourceEndpoint,
       annotationBox
     )
@@ -144,10 +135,9 @@ export default class Arrow {
     this._container.appendChild(sourceLine)
   }
 
-  _createTargetLine({ targetX, targetY }, targetEndpoint, annotationBox) {
+  _createTargetLine(pathPoints, targetEndpoint, annotationBox) {
     const targetLine = createTargetLine(
-      targetX,
-      targetY,
+      pathPoints,
       targetEndpoint,
       annotationBox
     )
