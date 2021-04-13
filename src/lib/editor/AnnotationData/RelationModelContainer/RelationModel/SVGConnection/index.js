@@ -36,14 +36,14 @@ export default class SVGConnection {
   }
 
   pointUp() {
-    if (!this._isSelected && !this._isHovered) {
+    if (!this._isHovered) {
       this._isHovered = true
       this.recreate()
     }
   }
 
   pointDown() {
-    if (!this._isSelected && this._isHovered) {
+    if (this._isHovered) {
       this._isHovered = false
       this.recreate()
     }
