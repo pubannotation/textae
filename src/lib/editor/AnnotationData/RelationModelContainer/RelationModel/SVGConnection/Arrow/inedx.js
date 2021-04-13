@@ -53,8 +53,8 @@ export default class Arrow {
 
   destructor() {
     this._container.removeChild(this._path)
-    this._container.removeChild(this._sourceTriagle)
-    this._container.removeChild(this._targetTriagle)
+    this._container.removeChild(this._sourceTriangle)
+    this._container.removeChild(this._targetTriangle)
 
     for (const line of this._lines) {
       this._container.removeChild(line)
@@ -121,7 +121,7 @@ export default class Arrow {
       pathPoints.transformDefinitionsForSourceTriangle
     )
     this._container.appendChild(sourceTriangle)
-    this._sourceTriagle = sourceTriangle
+    this._sourceTriangle = sourceTriangle
   }
 
   _createTargetTriangle(pathPoints, targetMarkerColor) {
@@ -132,7 +132,7 @@ export default class Arrow {
       pathPoints.transformDefinitionsForTargetTriangle
     )
     this._container.appendChild(targetTriangle)
-    this._targetTriagle = targetTriangle
+    this._targetTriangle = targetTriangle
   }
 
   _createSourceLine(pathPoints, sourceEndpoint, annotationBox) {
