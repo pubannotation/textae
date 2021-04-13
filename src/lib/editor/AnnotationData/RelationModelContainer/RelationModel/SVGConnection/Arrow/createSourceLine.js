@@ -1,6 +1,5 @@
 import { NS } from '../NS'
 import { MarkerHeight } from './MarkerHeight'
-import { BaseColorStroke } from './BaseColorStroke'
 
 export default function ({ sourceX, sourceY }, sourceEndpoint, annotationBox) {
   const sourceLine = document.createElementNS(NS.SVG, 'polyline')
@@ -12,7 +11,7 @@ export default function ({ sourceX, sourceY }, sourceEndpoint, annotationBox) {
       sourceY + MarkerHeight
     }, ${centerOfSource} ${sourceEndpoint.top - annotationBox.top}`
   )
-  sourceLine.setAttribute('style', `${BaseColorStroke}; fill: none;`)
+  sourceLine.setAttribute('style', `fill: none;`)
 
   return sourceLine
 }
