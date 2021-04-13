@@ -3,7 +3,7 @@ import createSourceTriangle from './createSourceTriangle'
 import createTargetTriangle from './createTargetTriangle'
 import createSourceLine from './createSourceLine'
 import createTargetLine from './createTargetLine'
-import createPath from './updatePath/createPath'
+import createPath from './createPath'
 
 export default class Arrow {
   constructor(
