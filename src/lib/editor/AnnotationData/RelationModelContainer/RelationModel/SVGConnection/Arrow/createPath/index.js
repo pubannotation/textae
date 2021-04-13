@@ -10,7 +10,6 @@ export default function (
   color,
   isBold
 ) {
-  const path = document.createElementNS(NS.SVG, 'path')
   const {
     sourceX,
     sourceY,
@@ -21,14 +20,14 @@ export default function (
     controlY
   } = getPathPoints(annotationBox, sourceEntity, targetEntity, isBold)
 
+  const path = create()
+
   path.setAttribute(
     'd',
     `M ${sourceX}, ${sourceY} C ${sourceControlX} ${controlY}, ${targetControlX} ${controlY}, ${targetX} ${targetY}`
   )
 
   path.setAttribute('style', `stroke: ${color};`)
-
-  path.classList.add('textae-editor__relation')
 
   if (isBold) {
     path.classList.add('textae-editor__relation--isBold')
@@ -46,6 +45,12 @@ export default function (
       targetControlX
     }
   ]
+}
+
+function create() {
+  const path = document.createElementNS(NS.SVG, 'path')
+  path.classList.add('textae-editor__relation')
+  return path
 }
 
 function getPathPoints(annotationBox, sourceEntity, targetEntity, isBold) {
