@@ -114,7 +114,8 @@ export default class Arrow {
   }
 
   _createSourceTriangle(pathPoints, sourceMarkerColor) {
-    const sourceTriangle = createSourceTriangle(sourceMarkerColor)
+    const sourceTriangle = createSourceTriangle()
+    sourceTriangle.setAttribute('style', `fill:${sourceMarkerColor}`)
     sourceTriangle.setAttribute(
       'transform',
       pathPoints.transformDefinitionsForSourceTriangle
@@ -124,7 +125,8 @@ export default class Arrow {
   }
 
   _createTargetTriangle(pathPoints, targetMarkerColor) {
-    const targetTriangle = createTargetTriangle(targetMarkerColor)
+    const targetTriangle = createTargetTriangle()
+    targetTriangle.setAttribute('style', `fill:${targetMarkerColor}`)
     targetTriangle.setAttribute(
       'transform',
       pathPoints.transformDefinitionsForTargetTriangle
