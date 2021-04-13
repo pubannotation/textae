@@ -75,15 +75,17 @@ export default class SVGConnection {
 
     this._arrow = new Arrow(
       this._relationBox,
+      this._onClick,
+      () => this.pointUp(),
+      () => this.pointDown()
+    )
+    this._arrow.update(
+      annotationBox,
       this._relation.sourceEntity,
       this._relation.targetEntity,
-      annotationBox,
       this._relation.color,
       this._relation.sourceColor,
       this._relation.targetColor,
-      this._onClick,
-      () => this.pointUp(),
-      () => this.pointDown(),
       isBold
     )
   }

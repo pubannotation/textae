@@ -7,19 +7,7 @@ import createPath from './createPath'
 import PathPoints from './PathPoints'
 
 export default class Arrow {
-  constructor(
-    container,
-    sourceEntity,
-    targetEntity,
-    annotationBox,
-    pathColor,
-    sourceMarkerColor,
-    targetMarkerColor,
-    onClick,
-    onMouseEnter,
-    onMouseLeave,
-    isBold
-  ) {
+  constructor(container, onClick, onMouseEnter, onMouseLeave) {
     this._container = container
 
     const sourceTriangle = createSourceTriangle()
@@ -38,15 +26,6 @@ export default class Arrow {
     this._path = path
 
     this._lines = []
-    this.update(
-      annotationBox,
-      sourceEntity,
-      targetEntity,
-      pathColor,
-      sourceMarkerColor,
-      targetMarkerColor,
-      isBold
-    )
   }
 
   update(
