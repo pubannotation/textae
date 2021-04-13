@@ -12,7 +12,7 @@ export default class SVGConnection {
     this._relationBox = editor[0].querySelector('.textae-editor__relation-box')
     this._annotationBox = getAnnotationBox(editor)
 
-    this._createArrow(false)
+    this._createArrow()
     this._createLabel(false)
   }
 
@@ -68,7 +68,7 @@ export default class SVGConnection {
   }
 
   // Private APIs
-  _createArrow(isBold) {
+  _createArrow() {
     const annotationBox = this._editor[0]
       .querySelector('.textae-editor__annotation-box')
       .getBoundingClientRect()
@@ -86,7 +86,7 @@ export default class SVGConnection {
       this._relation.color,
       this._relation.sourceColor,
       this._relation.targetColor,
-      isBold
+      false
     )
   }
 
