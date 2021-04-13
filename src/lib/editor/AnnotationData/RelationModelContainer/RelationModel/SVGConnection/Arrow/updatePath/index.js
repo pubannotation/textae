@@ -1,13 +1,4 @@
-import getPathPoints from './getPathPoints'
-
-export default function (
-  path,
-  annotationBox,
-  sourceEntity,
-  targetEntity,
-  color,
-  isBold
-) {
+export default function (path, pathPoints, color, isBold) {
   const {
     sourceX,
     sourceY,
@@ -16,7 +7,7 @@ export default function (
     sourceControlX,
     targetControlX,
     controlY
-  } = getPathPoints(annotationBox, sourceEntity, targetEntity, isBold)
+  } = pathPoints
 
   path.setAttribute(
     'd',
@@ -27,15 +18,5 @@ export default function (
 
   if (isBold) {
     path.classList.add('textae-editor__relation--isBold')
-  }
-
-  return {
-    sourceY,
-    targetY,
-    controlY,
-    sourceX,
-    targetX,
-    sourceControlX,
-    targetControlX
   }
 }
