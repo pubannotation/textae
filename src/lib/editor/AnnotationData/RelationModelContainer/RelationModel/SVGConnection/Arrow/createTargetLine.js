@@ -11,7 +11,6 @@ export default function ({ targetX, targetY }, targetEndpoint, annotationBox) {
       targetY + MarkerHeight
     }, ${centerOfTarget} ${targetEndpoint.top - annotationBox.top}`
   )
-  targetLine.setAttribute('style', `fill: none;`)
 
   return targetLine
 }
