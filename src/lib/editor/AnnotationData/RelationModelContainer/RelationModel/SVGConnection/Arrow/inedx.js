@@ -3,6 +3,7 @@ import createSourceTriangle from './createSourceTriangle'
 import createTargetTriangle from './createTargetTriangle'
 import createSourceLine from './createSourceLine'
 import createTargetLine from './createTargetLine'
+import createPath from './updatePath/createPath'
 
 export default class Arrow {
   constructor(
@@ -20,7 +21,9 @@ export default class Arrow {
   ) {
     this._container = container
 
-    const [path, pathPoints] = updatePath(
+    const path = createPath()
+    const pathPoints = updatePath(
+      path,
       annotationBox,
       sourceEntity,
       targetEntity,

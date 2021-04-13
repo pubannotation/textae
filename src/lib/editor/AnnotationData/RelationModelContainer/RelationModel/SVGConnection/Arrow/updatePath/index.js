@@ -1,9 +1,9 @@
 import { MarkerHeight } from '../MarkerHeight'
-import createPath from './createPath'
 import getControlXs from './getControlXs'
 import getXPositions from './getXPositions'
 
 export default function (
+  path,
   annotationBox,
   sourceEntity,
   targetEntity,
@@ -20,8 +20,6 @@ export default function (
     controlY
   } = getPathPoints(annotationBox, sourceEntity, targetEntity, isBold)
 
-  const path = createPath()
-
   path.setAttribute(
     'd',
     `M ${sourceX}, ${sourceY} C ${sourceControlX} ${controlY}, ${targetControlX} ${controlY}, ${targetX} ${targetY}`
@@ -33,18 +31,15 @@ export default function (
     path.classList.add('textae-editor__relation--isBold')
   }
 
-  return [
-    path,
-    {
-      sourceY,
-      targetY,
-      controlY,
-      sourceX,
-      targetX,
-      sourceControlX,
-      targetControlX
-    }
-  ]
+  return {
+    sourceY,
+    targetY,
+    controlY,
+    sourceX,
+    targetX,
+    sourceControlX,
+    targetControlX
+  }
 }
 
 function getPathPoints(annotationBox, sourceEntity, targetEntity, isBold) {
