@@ -26,10 +26,9 @@ export default function (
     `M ${sourceX}, ${sourceY} C ${sourceControlX} ${controlY}, ${targetControlX} ${controlY}, ${targetX} ${targetY}`
   )
 
-  path.setAttribute(
-    'style',
-    `fill:none; stroke: ${color}; opacity: ${isBold ? 1 : 0.5}`
-  )
+  path.setAttribute('style', `stroke: ${color};`)
+
+  path.classList.add('textae-editor__relation')
 
   if (isBold) {
     path.classList.add('textae-editor__relation--isBold')
