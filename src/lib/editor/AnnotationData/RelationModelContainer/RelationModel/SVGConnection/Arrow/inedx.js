@@ -60,8 +60,22 @@ export default class Arrow {
     if (isBold) {
       const sourceEndpoint = sourceEntity.typeValuesElement.getBoundingClientRect()
       const targetEndpoint = targetEntity.typeValuesElement.getBoundingClientRect()
-      this._createSourceLine(pathPoints, sourceEndpoint, annotationBox)
-      this._createTargetLine(pathPoints, targetEndpoint, annotationBox)
+
+      const sourceLine = createSourceLine(
+        pathPoints,
+        sourceEndpoint,
+        annotationBox
+      )
+      this._lines.push(sourceLine)
+      this._container.appendChild(sourceLine)
+
+      const targetLine = createTargetLine(
+        pathPoints,
+        targetEndpoint,
+        annotationBox
+      )
+      this._lines.push(targetLine)
+      this._container.appendChild(targetLine)
     } else {
       for (const line of this._lines) {
         this._container.removeChild(line)
@@ -132,25 +146,5 @@ export default class Arrow {
           Math.pow(t, 3) * targetY
         return Math.abs(labelY - this._path.getBBox().y) < 1
       })
-  }
-
-  _createSourceLine(pathPoints, sourceEndpoint, annotationBox) {
-    const sourceLine = createSourceLine(
-      pathPoints,
-      sourceEndpoint,
-      annotationBox
-    )
-    this._lines.push(sourceLine)
-    this._container.appendChild(sourceLine)
-  }
-
-  _createTargetLine(pathPoints, targetEndpoint, annotationBox) {
-    const targetLine = createTargetLine(
-      pathPoints,
-      targetEndpoint,
-      annotationBox
-    )
-    this._lines.push(targetLine)
-    this._container.appendChild(targetLine)
   }
 }
