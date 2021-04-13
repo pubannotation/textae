@@ -37,7 +37,10 @@ export default function (
   )
 
   const controlY =
-    Math.min(sourceY, targetY) - Math.abs(targetX - sourceX) / 2 - 20
+    Math.min(sourceY, targetY) -
+    Math.abs(targetX - sourceX) / 2 -
+    20 +
+    (isBold ? 3 : 0)
 
   const path = document.createElementNS(NS.SVG, 'path')
 
