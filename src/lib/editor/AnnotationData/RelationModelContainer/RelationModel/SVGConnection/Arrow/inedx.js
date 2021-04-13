@@ -31,17 +31,15 @@ export default class Arrow {
     )
     updatePath(path, pathPoints, pathColor, isBold)
 
-    const { sourceX, sourceY, targetX, targetY } = pathPoints
-
-    this._createSourceTriangle(sourceX, sourceY, sourceMarkerColor)
-    this._createTargetTriangle(targetX, targetY, targetMarkerColor)
+    this._createSourceTriangle(pathPoints, sourceMarkerColor)
+    this._createTargetTriangle(pathPoints, targetMarkerColor)
 
     this._lines = []
     if (isBold) {
       const sourceEndpoint = sourceEntity.typeValuesElement.getBoundingClientRect()
       const targetEndpoint = targetEntity.typeValuesElement.getBoundingClientRect()
-      this._createSourceLine(sourceX, sourceY, sourceEndpoint, annotationBox)
-      this._createTargetLine(targetX, targetY, targetEndpoint, annotationBox)
+      this._createSourceLine(pathPoints, sourceEndpoint, annotationBox)
+      this._createTargetLine(pathPoints, targetEndpoint, annotationBox)
     }
 
     container.appendChild(path)
@@ -115,7 +113,7 @@ export default class Arrow {
       })
   }
 
-  _createSourceTriangle(sourceX, sourceY, sourceMarkerColor) {
+  _createSourceTriangle({ sourceX, sourceY }, sourceMarkerColor) {
     const sourceTriangle = createSourceTriangle(
       sourceX,
       sourceY,
@@ -125,7 +123,7 @@ export default class Arrow {
     this._container.appendChild(sourceTriangle)
   }
 
-  _createTargetTriangle(targetX, targetY, targetMarkerColor) {
+  _createTargetTriangle({ targetX, targetY }, targetMarkerColor) {
     const targetTriangle = createTargetTriangle(
       targetX,
       targetY,
@@ -135,7 +133,7 @@ export default class Arrow {
     this._container.appendChild(targetTriangle)
   }
 
-  _createSourceLine(sourceX, sourceY, sourceEndpoint, annotationBox) {
+  _createSourceLine({ sourceX, sourceY }, sourceEndpoint, annotationBox) {
     const sourceLine = createSourceLine(
       sourceX,
       sourceY,
@@ -146,7 +144,7 @@ export default class Arrow {
     this._container.appendChild(sourceLine)
   }
 
-  _createTargetLine(targetX, targetY, targetEndpoint, annotationBox) {
+  _createTargetLine({ targetX, targetY }, targetEndpoint, annotationBox) {
     const targetLine = createTargetLine(
       targetX,
       targetY,
