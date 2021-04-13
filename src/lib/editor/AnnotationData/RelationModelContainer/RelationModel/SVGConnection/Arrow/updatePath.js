@@ -5,5 +5,7 @@ export default function (path, pathPoints, color, isBold) {
 
   if (isBold) {
     path.classList.add('textae-editor__relation--isBold')
+  } else {
+    path.classList.remove('textae-editor__relation--isBold')
   }
 }

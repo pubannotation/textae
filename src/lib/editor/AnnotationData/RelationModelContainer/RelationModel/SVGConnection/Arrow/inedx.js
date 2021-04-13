@@ -34,7 +34,8 @@ export default class Arrow {
 
     this._path = path
 
-    this._update(
+    this._lines = []
+    this.update(
       annotationBox,
       sourceEntity,
       targetEntity,
@@ -45,7 +46,7 @@ export default class Arrow {
     )
   }
 
-  _update(
+  update(
     annotationBox,
     sourceEntity,
     targetEntity,
@@ -74,12 +75,16 @@ export default class Arrow {
       pathPoints.transformDefinitionsForTargetTriangle
     )
 
-    this._lines = []
     if (isBold) {
       const sourceEndpoint = sourceEntity.typeValuesElement.getBoundingClientRect()
       const targetEndpoint = targetEntity.typeValuesElement.getBoundingClientRect()
       this._createSourceLine(pathPoints, sourceEndpoint, annotationBox)
       this._createTargetLine(pathPoints, targetEndpoint, annotationBox)
+    } else {
+      for (const line of this._lines) {
+        this._container.removeChild(line)
+      }
+      this._lines = []
     }
 
     this._pathPoints = pathPoints

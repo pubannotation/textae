@@ -50,8 +50,20 @@ export default class SVGConnection {
   }
 
   recreate() {
-    this.destroy()
-    this._createArrow(this._isSelected || this._isHovered)
+    const annotationBox = this._editor[0]
+      .querySelector('.textae-editor__annotation-box')
+      .getBoundingClientRect()
+    this._arrow.update(
+      annotationBox,
+      this._relation.sourceEntity,
+      this._relation.targetEntity,
+      this._relation.color,
+      this._relation.sourceColor,
+      this._relation.targetColor,
+      this._isSelected || this._isHovered
+    )
+
+    this._label.destructor()
     this._createLabel(this._isSelected)
   }
 
