@@ -48,4 +48,8 @@ export default class PathPoints {
   get pathCommands() {
     return `M ${this.sourceX}, ${this.sourceY} C ${this.sourceControlX} ${this.controlY}, ${this.targetControlX} ${this.controlY}, ${this.targetX} ${this.targetY}`
   }
+
+  get transformDefinitionsForSourceTriangle() {
+    return `translate(${this.sourceX}, ${this.sourceY})`
+  }
 }

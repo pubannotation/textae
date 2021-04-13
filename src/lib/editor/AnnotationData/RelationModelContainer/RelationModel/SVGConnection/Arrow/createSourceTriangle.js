@@ -2,7 +2,7 @@ import { NS } from '../NS'
 import { MarkerHeight } from './MarkerHeight'
 import { BaseColorStroke } from './BaseColorStroke'
 
-export default function ({ sourceX, sourceY }, sourceMarkerColor) {
+export default function (pathPoints, sourceMarkerColor) {
   const sourceTriangle = document.createElementNS(NS.SVG, 'polygon')
   sourceTriangle.setAttribute(
     'points',
@@ -12,7 +12,10 @@ export default function ({ sourceX, sourceY }, sourceMarkerColor) {
     'style',
     `${BaseColorStroke}; fill:${sourceMarkerColor}`
   )
-  sourceTriangle.setAttribute('transform', `translate(${sourceX}, ${sourceY})`)
+  sourceTriangle.setAttribute(
+    'transform',
+    pathPoints.transformDefinitionsForSourceTriangle
+  )
 
   return sourceTriangle
 }
