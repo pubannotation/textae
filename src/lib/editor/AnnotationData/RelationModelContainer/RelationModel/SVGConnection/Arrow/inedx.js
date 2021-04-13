@@ -24,8 +24,13 @@ export default class Arrow {
 
     const path = createPath()
 
-    this._createSourceTriangle()
-    this._createTargetTriangle()
+    const sourceTriangle = createSourceTriangle()
+    this._container.appendChild(sourceTriangle)
+    this._sourceTriangle = sourceTriangle
+
+    const targetTriangle = createTargetTriangle()
+    this._container.appendChild(targetTriangle)
+    this._targetTriangle = targetTriangle
 
     container.appendChild(path)
     path.addEventListener('click', onClick)
@@ -150,18 +155,6 @@ export default class Arrow {
           Math.pow(t, 3) * targetY
         return Math.abs(labelY - this._path.getBBox().y) < 1
       })
-  }
-
-  _createSourceTriangle() {
-    const sourceTriangle = createSourceTriangle()
-    this._container.appendChild(sourceTriangle)
-    this._sourceTriangle = sourceTriangle
-  }
-
-  _createTargetTriangle() {
-    const targetTriangle = createTargetTriangle()
-    this._container.appendChild(targetTriangle)
-    this._targetTriangle = targetTriangle
   }
 
   _createSourceLine(pathPoints, sourceEndpoint, annotationBox) {
