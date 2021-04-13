@@ -1,5 +1,5 @@
 export default function (path, pathPoints, color, isBold) {
-  path.setAttribute('d', pathPoints.d)
+  path.setAttribute('d', pathPoints.pathCommands)
 
   path.setAttribute('style', `stroke: ${color};`)
 
