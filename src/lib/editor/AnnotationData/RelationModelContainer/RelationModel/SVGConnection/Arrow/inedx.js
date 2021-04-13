@@ -5,6 +5,7 @@ import createSourceLine from './createSourceLine'
 import createTargetLine from './createTargetLine'
 import createPath from './createPath'
 import PathPoints from './PathPoints'
+import { NS } from '../NS'
 
 export default class Arrow {
   constructor(container, onClick, onMouseEnter, onMouseLeave) {
@@ -20,10 +21,15 @@ export default class Arrow {
 
     const path = createPath()
     container.appendChild(path)
-    path.addEventListener('click', onClick)
-    path.addEventListener('mouseenter', onMouseEnter)
-    path.addEventListener('mouseleave', onMouseLeave)
     this._path = path
+
+    const aura = document.createElementNS(NS.SVG, 'path')
+    aura.classList.add('textae-editor__relation-aura')
+    aura.addEventListener('click', onClick)
+    aura.addEventListener('mouseenter', onMouseEnter)
+    aura.addEventListener('mouseleave', onMouseLeave)
+    container.appendChild(aura)
+    this._aura = aura
 
     this._lines = []
   }
@@ -44,6 +50,7 @@ export default class Arrow {
       isBold
     )
     updatePath(this._path, pathPoints, pathColor, isBold)
+    updatePath(this._aura, pathPoints, pathColor, false)
 
     this._sourceTriangle.setAttribute('style', `fill:${sourceMarkerColor}`)
     this._sourceTriangle.setAttribute(
@@ -68,6 +75,7 @@ export default class Arrow {
 
   destructor() {
     this._container.removeChild(this._path)
+    this._container.removeChild(this._aura)
     this._container.removeChild(this._sourceTriangle)
     this._container.removeChild(this._targetTriangle)
 
