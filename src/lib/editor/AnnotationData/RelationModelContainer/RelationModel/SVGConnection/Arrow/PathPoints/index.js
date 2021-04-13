@@ -2,11 +2,7 @@ import { MarkerHeight } from '../MarkerHeight'
 import getControlXs from './getControlXs'
 import getXPositions from './getXPositions'
 
-export default function (annotationBox, sourceEntity, targetEntity, isBold) {
-  return new PathPoints(annotationBox, sourceEntity, targetEntity, isBold)
-}
-
-class PathPoints {
+export default class PathPoints {
   constructor(annotationBox, sourceEntity, targetEntity, isBold) {
     const { source: sourceX, target: targetX } = getXPositions(
       isBold,
