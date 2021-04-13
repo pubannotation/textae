@@ -69,27 +69,6 @@ export default class Arrow {
     this._pathPoints = pathPoints
   }
 
-  _drawLines(sourceEntity, targetEntity, pathPoints, annotationBox) {
-    const sourceEndpoint = sourceEntity.typeValuesElement.getBoundingClientRect()
-    const targetEndpoint = targetEntity.typeValuesElement.getBoundingClientRect()
-
-    const sourceLine = createSourceLine(
-      pathPoints,
-      sourceEndpoint,
-      annotationBox
-    )
-    this._lines.push(sourceLine)
-    this._container.appendChild(sourceLine)
-
-    const targetLine = createTargetLine(
-      pathPoints,
-      targetEndpoint,
-      annotationBox
-    )
-    this._lines.push(targetLine)
-    this._container.appendChild(targetLine)
-  }
-
   destructor() {
     this._container.removeChild(this._path)
     this._container.removeChild(this._sourceTriangle)
@@ -150,5 +129,25 @@ export default class Arrow {
           Math.pow(t, 3) * targetY
         return Math.abs(labelY - this._path.getBBox().y) < 1
       })
+  }
+
+  _drawLines(sourceEntity, targetEntity, pathPoints, annotationBox) {
+    const sourceEndpoint = sourceEntity.typeValuesElement.getBoundingClientRect()
+    const sourceLine = createSourceLine(
+      pathPoints,
+      sourceEndpoint,
+      annotationBox
+    )
+    this._container.appendChild(sourceLine)
+    this._lines.push(sourceLine)
+
+    const targetEndpoint = targetEntity.typeValuesElement.getBoundingClientRect()
+    const targetLine = createTargetLine(
+      pathPoints,
+      targetEndpoint,
+      annotationBox
+    )
+    this._container.appendChild(targetLine)
+    this._lines.push(targetLine)
   }
 }
