@@ -52,4 +52,8 @@ export default class PathPoints {
   get transformDefinitionsForSourceTriangle() {
     return `translate(${this.sourceX}, ${this.sourceY})`
   }
+
+  get transformDefinitionsForTargetTriangle() {
+    return `translate(${this.targetX}, ${this.targetY})`
+  }
 }
