@@ -10,6 +10,46 @@ export default function (
   color,
   isBold
 ) {
+  const path = document.createElementNS(NS.SVG, 'path')
+  const {
+    sourceX,
+    sourceY,
+    targetX,
+    targetY,
+    sourceControlX,
+    targetControlX,
+    controlY
+  } = getPathPoints(annotationBox, sourceEntity, targetEntity, isBold)
+
+  path.setAttribute(
+    'd',
+    `M ${sourceX}, ${sourceY} C ${sourceControlX} ${controlY}, ${targetControlX} ${controlY}, ${targetX} ${targetY}`
+  )
+
+  path.setAttribute(
+    'style',
+    `fill:none; stroke: ${color}; opacity: ${isBold ? 1 : 0.5}`
+  )
+
+  if (isBold) {
+    path.classList.add('textae-editor__relation--isBold')
+  }
+
+  return [
+    path,
+    {
+      sourceY,
+      targetY,
+      controlY,
+      sourceX,
+      targetX,
+      sourceControlX,
+      targetControlX
+    }
+  ]
+}
+
+function getPathPoints(annotationBox, sourceEntity, targetEntity, isBold) {
   const { source: sourceX, target: targetX } = getXPositions(
     isBold,
     sourceEntity,
@@ -42,32 +82,13 @@ export default function (
     20 +
     (isBold ? 3 : 0)
 
-  const path = document.createElementNS(NS.SVG, 'path')
-
-  path.setAttribute(
-    'd',
-    `M ${sourceX}, ${sourceY} C ${sourceControlX} ${controlY}, ${targetControlX} ${controlY}, ${targetX} ${targetY}`
-  )
-
-  path.setAttribute(
-    'style',
-    `fill:none; stroke: ${color}; opacity: ${isBold ? 1 : 0.5}`
-  )
-
-  if (isBold) {
-    path.classList.add('textae-editor__relation--isBold')
+  return {
+    sourceY,
+    targetY,
+    controlY,
+    sourceX,
+    targetX,
+    sourceControlX,
+    targetControlX
   }
-
-  return [
-    path,
-    {
-      sourceY,
-      targetY,
-      controlY,
-      sourceX,
-      targetX,
-      sourceControlX,
-      targetControlX
-    }
-  ]
 }
