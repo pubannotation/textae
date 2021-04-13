@@ -64,4 +64,8 @@ class PathPoints {
     this.sourceControlX = sourceControlX
     this.targetControlX = targetControlX
   }
+
+  get d() {
+    return `M ${this.sourceX}, ${this.sourceY} C ${this.sourceControlX} ${this.controlY}, ${this.targetControlX} ${this.controlY}, ${this.targetX} ${this.targetY}`
+  }
 }
