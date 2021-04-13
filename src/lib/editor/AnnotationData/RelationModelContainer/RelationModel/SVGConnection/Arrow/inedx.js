@@ -1,4 +1,4 @@
-import createPath from './createPath'
+import updatePath from './updatePath'
 import createSourceTriangle from './createSourceTriangle'
 import createTargetTriangle from './createTargetTriangle'
 import createSourceLine from './createSourceLine'
@@ -20,7 +20,7 @@ export default class Arrow {
   ) {
     this._container = container
 
-    const [path, pathPoints] = createPath(
+    const [path, pathPoints] = updatePath(
       annotationBox,
       sourceEntity,
       targetEntity,
