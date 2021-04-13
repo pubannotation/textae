@@ -114,15 +114,23 @@ export default class Arrow {
   }
 
   _createSourceTriangle(pathPoints, sourceMarkerColor) {
-    const sourceTriangle = createSourceTriangle(pathPoints, sourceMarkerColor)
-    this._sourceTriagle = sourceTriangle
+    const sourceTriangle = createSourceTriangle(sourceMarkerColor)
+    sourceTriangle.setAttribute(
+      'transform',
+      pathPoints.transformDefinitionsForSourceTriangle
+    )
     this._container.appendChild(sourceTriangle)
+    this._sourceTriagle = sourceTriangle
   }
 
   _createTargetTriangle(pathPoints, targetMarkerColor) {
-    const targetTriangle = createTargetTriangle(pathPoints, targetMarkerColor)
-    this._targetTriagle = targetTriangle
+    const targetTriangle = createTargetTriangle(targetMarkerColor)
+    targetTriangle.setAttribute(
+      'transform',
+      pathPoints.transformDefinitionsForTargetTriangle
+    )
     this._container.appendChild(targetTriangle)
+    this._targetTriagle = targetTriangle
   }
 
   _createSourceLine(pathPoints, sourceEndpoint, annotationBox) {
