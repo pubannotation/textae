@@ -40,40 +40,17 @@ export default class AttributeModel {
     )
   }
 
-  get title() {
-    return `[${this.id}] pred: ${this.pred}, value: ${this._obj}`
-  }
-
-  get displayName() {
-    return getDisplayName(
-      this._namespace,
-      typeof this._obj === 'string' ? this._obj : '',
-      this._definitionContainer.getDisplayName(this.pred, this._obj)
-    )
-  }
-
-  get href() {
-    return getUri(
-      this._namespace,
-      typeof this._obj === 'string' ? this._obj : ''
-    )
-  }
-
-  get color() {
-    return this._definitionContainer.getColor(this.pred, this._obj)
-  }
-
   get contentHTML() {
     return `
       <div
         class="textae-editor__signboard__attribute"
-        title="${this.title}"
+        title="${this._title}"
         data-pred="${this.pred}"
         data-obj="${this.obj}"
-        ${this.color ? `style="background-color: ${this.color};"` : ''}
+        ${this._color ? `style="background-color: ${this._color};"` : ''}
         >
         <span class="textae-editor__signboard__attribute-label">
-          ${toAnchorElement(this.displayName, this.href)}
+          ${toAnchorElement(this._displayName, this._href)}
         </span>
       </div>
       `
@@ -84,5 +61,28 @@ export default class AttributeModel {
     // then the type of obj is numeric.
     // Cast obj to a string to compare.
     return this.pred === pred && String(this._obj) === obj
+  }
+
+  get _title() {
+    return `[${this.id}] pred: ${this.pred}, value: ${this._obj}`
+  }
+
+  get _displayName() {
+    return getDisplayName(
+      this._namespace,
+      typeof this._obj === 'string' ? this._obj : '',
+      this._definitionContainer.getDisplayName(this.pred, this._obj)
+    )
+  }
+
+  get _href() {
+    return getUri(
+      this._namespace,
+      typeof this._obj === 'string' ? this._obj : ''
+    )
+  }
+
+  get _color() {
+    return this._definitionContainer.getColor(this.pred, this._obj)
   }
 }
