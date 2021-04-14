@@ -1,5 +1,4 @@
 import dohtml from 'dohtml'
-import toAttribute from './toAttribute'
 import toAnchorElement from '../../toAnchorElement'
 
 export default function (
@@ -30,7 +29,7 @@ export default function (
       >
       ${toAnchorElement(displayName, href)}
     </div>
-    ${attributes.map(toAttribute).join('\n')}
+    ${attributes.map((a) => a.contentHTML).join('\n')}
   </div>
 </div>
 `
