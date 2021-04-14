@@ -1,4 +1,4 @@
-import createSignboardHTMLElement from '../../../../EntityModel/createSignboardHTMLElement'
+import createSignboardHTMLElement from '../../../../createSignboardHTMLElement'
 
 export default class Label {
   constructor(

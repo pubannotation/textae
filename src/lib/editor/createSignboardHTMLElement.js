@@ -1,5 +1,5 @@
 import dohtml from 'dohtml'
-import toAnchorElement from '../toAnchorElement'
+import toAnchorElement from './toAnchorElement'
 
 export default function (
   title,
