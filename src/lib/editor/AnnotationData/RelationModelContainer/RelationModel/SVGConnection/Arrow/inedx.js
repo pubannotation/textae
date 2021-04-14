@@ -28,6 +28,8 @@ export default class Arrow {
     aura.addEventListener('click', onClick)
     aura.addEventListener('mouseenter', onMouseEnter)
     aura.addEventListener('mouseleave', onMouseLeave)
+    const title = document.createElementNS(NS.SVG, 'title')
+    aura.appendChild(title)
     container.appendChild(aura)
     this._aura = aura
 
@@ -41,6 +43,7 @@ export default class Arrow {
     pathColor,
     sourceMarkerColor,
     targetMarkerColor,
+    title,
     isBold
   ) {
     const pathPoints = new PathPoints(
@@ -51,6 +54,7 @@ export default class Arrow {
     )
     updatePath(this._path, pathPoints, pathColor, isBold)
     updatePath(this._aura, pathPoints, pathColor, false)
+    this._aura.children[0].textContent = title
 
     this._sourceTriangle.setAttribute('style', `fill:${sourceMarkerColor}`)
     this._sourceTriangle.setAttribute(

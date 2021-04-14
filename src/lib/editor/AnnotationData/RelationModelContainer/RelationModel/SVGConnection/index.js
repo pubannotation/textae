@@ -60,6 +60,7 @@ export default class SVGConnection {
       this._relation.color,
       this._relation.sourceColor,
       this._relation.targetColor,
+      this._relation.title,
       this._isSelected || this._isHovered
     )
 
@@ -86,6 +87,7 @@ export default class SVGConnection {
       this._relation.color,
       this._relation.sourceColor,
       this._relation.targetColor,
+      this._relation.title,
       false
     )
   }
