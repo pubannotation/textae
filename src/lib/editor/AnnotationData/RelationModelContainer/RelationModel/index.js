@@ -128,7 +128,15 @@ export default class RelationModel {
     return `[${this.id}] pred: type, value: ${this.typeName}`
   }
 
-  get displayName() {
+  get color() {
+    return this._definitionContainer.getColor(this.typeName)
+  }
+
+  get anchorHTML() {
+    return toAnchorElement(this._displayName, this._href)
+  }
+
+  get _displayName() {
     return getDisplayName(
       this._namespace,
       this.typeName,
@@ -136,19 +144,11 @@ export default class RelationModel {
     )
   }
 
-  get href() {
+  get _href() {
     return getUri(
       this._namespace,
       this.typeName,
       this._definitionContainer.getUri(this.typeName)
     )
-  }
-
-  get color() {
-    return this._definitionContainer.getColor(this.typeName)
-  }
-
-  get anchorHTML() {
-    return toAnchorElement(this.displayName, this.href)
   }
 }
