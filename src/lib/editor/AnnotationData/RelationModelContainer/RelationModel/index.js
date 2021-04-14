@@ -123,6 +123,10 @@ export default class RelationModel {
     this._connect = undefined
   }
 
+  get title() {
+    return `[${this.id}] pred: type, value: ${this.typeName}`
+  }
+
   get displayName() {
     return getDisplayName(
       this._namespace,
