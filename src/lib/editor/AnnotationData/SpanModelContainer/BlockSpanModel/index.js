@@ -87,9 +87,7 @@ export default class BlockSpanModel extends SpanModel {
   }
 
   get _contentHTML() {
-    return `
-      <div id="${this.id}" title="${this.begin}-${this.end}" class="textae-editor__block"></div>
-    `
+    return `<div id="${this.id}" class="textae-editor__block"></div>`
   }
 
   _createGridElement() {
