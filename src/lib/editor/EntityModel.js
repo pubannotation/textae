@@ -120,7 +120,7 @@ export default class EntityModel {
 
   renderElement() {
     return createSignboardHTMLElement(
-      this.id,
+      this._title,
       this.id,
       this.isDenotation ? 'denotation' : 'block',
       this.color,
@@ -185,6 +185,10 @@ export default class EntityModel {
     } else {
       throw 'unknown entity type'
     }
+  }
+
+  get _title() {
+    return `[${this.id}] pred: type, value: ${this._typeName}`
   }
 
   get _displayName() {
