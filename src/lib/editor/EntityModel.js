@@ -121,6 +121,7 @@ export default class EntityModel {
   renderElement() {
     return createSignboardHTMLElement(
       this.id,
+      this.id,
       this.isDenotation ? 'denotation' : 'block',
       this.color,
       this._href,

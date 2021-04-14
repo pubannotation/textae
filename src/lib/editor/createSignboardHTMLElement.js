@@ -2,6 +2,7 @@ import dohtml from 'dohtml'
 import toAnchorElement from './toAnchorElement'
 
 export default function (
+  title,
   entityId,
   entityType,
   color,
@@ -16,7 +17,7 @@ export default function (
 <div
   class="textae-editor__signboard ${cssClass ? cssClass : ''}"
   ${HTMLId ? `id="${HTMLId}"` : ''}
-  title="${entityId}"
+  title="${title}"
   data-entity-type="${entityType}"
   data-id="${entityId}"
   >
