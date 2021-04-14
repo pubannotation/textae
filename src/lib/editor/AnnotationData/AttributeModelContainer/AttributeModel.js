@@ -40,7 +40,7 @@ export default class AttributeModel {
   }
 
   get title() {
-    return `pred: ${this.pred}, value: ${this._obj}`
+    return `[${this.id}] pred: ${this.pred}, value: ${this._obj}`
   }
 
   get displayName() {
