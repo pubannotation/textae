@@ -126,7 +126,7 @@ export default class EntityModel {
       this.color,
       this._href,
       this._displayName,
-      this._attributeContainer.getAttributesFor(this._id),
+      this.typeValues.attributes,
       null,
       makeEntityHTMLElementId(this._editor, this.id)
     )
