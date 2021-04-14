@@ -1,5 +1,43 @@
 # 極めて稀にやるテスト
 
+## Relation 描画は非同期
+
+### 背景
+
+1.  6.6.0 で、jsPlumb を廃止し SVG を直接描画することにしました
+2.  6.6.1 で、Relation の描画を同期にしました
+
+### 高速に Relation のある Span を削除して戻す
+
+#### 背景
+
+1.  Relation の移動時に Relation のカーブの曲率を修正しています
+2.  Relation のカーブは Entity の位置から決めます
+3.  Relation の移動が非同期です
+4.  Relation を作ってから移動するまでの間に Entity が削除されることがある
+5.  Relation は Model からは削除されない（？）
+6.  removed フラグをチエックする必要があります
+
+#### -- 手段 --
+
+1.  Relation のある Span を削除する
+2.  `z`と`y`をできる限り高速に連打する
+3.  30 回、Undo/Redo を繰り返しても、エラーがでないこと
+
+### 高速に Relation を作って Relation を作る
+
+#### 背景
+
+1.  Relation 描画は非同期です
+2.  Relation を追加後、Relation 描画開始前にデータを削除するとエラーが起きます
+3.  Undo/Redo 時は一連の処理が終わるまで Relation のレンダリングをスキップしています
+
+#### -- 手段 --
+
+1.  Relation を作る
+2.  Relation を作る
+3.  z, z, y, y を 10 回なるべく高速に繰り返す
+
 ## Attribute 付きの Span を伸ばす/縮める
 
 ### 画面上の Attribute が増えないこと
@@ -798,7 +836,7 @@ Block Span に Sentence 以外の Type を作ると上手く表示できない�
 
 ## 重たい操作にカーソルがぐるぐるになる
 
-1.  次のときRelationの配置完了までカーソルがぐるぐるになり要素がクリック不能になること
+1.  次のとき Relation の配置完了までカーソルがぐるぐるになり要素がクリック不能になること
     1.  初回読み込み
     2.  annotation データ<http://pubannotation.org/docs/sourcedb/PMC/sourceid/1315279/divs/10/annotations.json>読込み時
     3.  リサイズ時
