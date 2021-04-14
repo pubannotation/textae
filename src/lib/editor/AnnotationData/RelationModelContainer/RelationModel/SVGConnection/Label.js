@@ -6,11 +6,7 @@ export default class Label {
     x,
     y,
     width,
-    relationId,
-    displayName,
-    href,
-    color,
-    attributes,
+    relation,
     onClick,
     onMouseEnter,
     onMouseLeave,
@@ -22,16 +18,18 @@ export default class Label {
 
     location.classList.add('textae-editor__relation__signboard-location')
     location.style.width = `${width}px`
-    location.style.top = `${y - 18 - attributes.length * 18}px`
+    location.style.top = `${
+      y - 18 - relation.typeValues.attributes.length * 18
+    }px`
     location.style.left = `${x}px`
 
     const signboard = createSignboardHTMLElement(
-      relationId,
-      relationId,
-      color,
-      href,
-      displayName,
-      attributes,
+      relation.id,
+      relation.id,
+      relation.color,
+      relation.href,
+      relation.displayName,
+      relation.typeValues.attributes,
       'relation',
       isSelected ? 'ui-selected' : null,
       null
