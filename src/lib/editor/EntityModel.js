@@ -42,28 +42,12 @@ export default class EntityModel {
     return `[${this.id}] pred: type, value: ${this._typeName}`
   }
 
-  get displayName() {
-    return getDisplayName(
-      this._namespace,
-      this.typeName,
-      this._definitionContainerFor.getLabel(this.typeName)
-    )
-  }
-
-  get href() {
-    return getUri(
-      this._namespace,
-      this.typeName,
-      this._definitionContainerFor.getUri(this.typeName)
-    )
-  }
-
   get color() {
     return this._definitionContainerFor.getColor(this.typeName)
   }
 
   get anchorHTML() {
-    return toAnchorElement(this.displayName, this.href)
+    return toAnchorElement(this._displayName, this._href)
   }
 
   get span() {
@@ -209,5 +193,21 @@ export default class EntityModel {
     } else {
       throw 'unknown entity type'
     }
+  }
+
+  get _displayName() {
+    return getDisplayName(
+      this._namespace,
+      this.typeName,
+      this._definitionContainerFor.getLabel(this.typeName)
+    )
+  }
+
+  get _href() {
+    return getUri(
+      this._namespace,
+      this.typeName,
+      this._definitionContainerFor.getUri(this.typeName)
+    )
   }
 }
