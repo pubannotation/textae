@@ -1,5 +1,6 @@
 import getDisplayName from '../../getDisplayName'
 import getUri from '../../getUri'
+import toAnchorElement from '../../toAnchorElement'
 
 export default class AttributeModel {
   // Expected an attribute like {id: "A1", subj: "T1", pred: "example_predicate_1", obj: "attr1"}.
@@ -60,6 +61,22 @@ export default class AttributeModel {
 
   get color() {
     return this._definitionContainer.getColor(this.pred, this._obj)
+  }
+
+  get contentHTML() {
+    return `
+      <div
+        class="textae-editor__signboard__attribute"
+        title="${this.title}"
+        data-pred="${this.pred}"
+        data-obj="${this.obj}"
+        ${this.color ? `style="background-color: ${this.color};"` : ''}
+        >
+        <span class="textae-editor__signboard__attribute-label">
+          ${toAnchorElement(this.displayName, this.href)}
+        </span>
+      </div>
+      `
   }
 
   equalsTo(pred, obj) {
