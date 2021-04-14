@@ -9,7 +9,7 @@ export default class Vertical {
     if (this._selectionModel.span.single) {
       const grid = this._selectionModel.span.single.gridElement
       const entity = grid.querySelector('.textae-editor__signboard')
-      this._selectionModel.selectEntity(entity.title)
+      this._selectionModel.selectEntity(entity.dataset.id)
     }
   }
 

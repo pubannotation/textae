@@ -96,7 +96,7 @@ export default class MouseEventHandler {
   }
 
   typeValuesClicked(e) {
-    const entityId = getEntityHTMLelementFromChild(e.target).title
+    const entityId = getEntityHTMLelementFromChild(e.target).dataset.id
     const entity = this._annotationData.entity.get(entityId)
 
     if (entity.isBlock) {

@@ -99,7 +99,7 @@ export default class MouseEventHandler {
   }
 
   typeValuesClicked(e) {
-    const entityId = getEntityHTMLelementFromChild(e.target).title
+    const entityId = getEntityHTMLelementFromChild(e.target).dataset.id
 
     if (this._annotationData.entity.get(entityId).isDenotation) {
       if (e.ctrlKey || e.metaKey) {

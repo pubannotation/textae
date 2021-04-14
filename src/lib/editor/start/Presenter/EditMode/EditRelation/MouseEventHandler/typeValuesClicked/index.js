@@ -7,7 +7,7 @@ export default function (
   relationDefinitionContainer,
   event
 ) {
-  const entityId = getEntityHTMLelementFromChild(event.target).title
+  const entityId = getEntityHTMLelementFromChild(event.target).dataset.id
 
   if (!selectionModel.entity.some) {
     selectionModel.selectEntity(entityId)

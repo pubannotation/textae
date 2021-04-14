@@ -20,9 +20,9 @@ export default class Horizontal {
     )
     if (nextEntity) {
       if (shiftKey) {
-        this._selectionModel.entity.add(nextEntity.title)
+        this._selectionModel.entity.add(nextEntity.dataset.id)
       } else {
-        this._selectionModel.selectEntity(nextEntity.title)
+        this._selectionModel.selectEntity(nextEntity.dataset.id)
       }
     }
   }
@@ -43,9 +43,9 @@ export default class Horizontal {
     )
     if (nextEntity) {
       if (shiftKey) {
-        this._selectionModel.entity.add(nextEntity.title)
+        this._selectionModel.entity.add(nextEntity.dataset.id)
       } else {
-        this._selectionModel.selectEntity(nextEntity.title)
+        this._selectionModel.selectEntity(nextEntity.dataset.id)
       }
     }
   }

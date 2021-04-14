@@ -38,7 +38,7 @@ export default class View {
           entityElement.dataset.entityType === 'denotation' ||
           entityElement.dataset.entityType === 'block'
         ) {
-          const entityId = entityElement.title
+          const entityId = entityElement.dataset.id
           annotationData.entity.get(entityId).pointUpRelations()
         }
       }
@@ -49,7 +49,7 @@ export default class View {
         entityElement.dataset.entityType === 'denotation' ||
         entityElement.dataset.entityType === 'block'
       ) {
-        const entityId = entityElement.title
+        const entityId = entityElement.dataset.id
         annotationData.entity.get(entityId).pointDownRelations()
       }
     })

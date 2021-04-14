@@ -18,6 +18,7 @@ export default function (
   ${id ? `id="${id}"` : ''}
   title="${title}"
   data-entity-type="${entityType}"
+  data-id="${title}"
   >
   <div
     class="textae-editor__signboard__type-values"
