@@ -37,6 +37,30 @@ export default class EntityModel {
     this._id = val
   }
 
+  get title() {
+    return `[${this.id}] pred: type, value: ${this._typeName}`
+  }
+
+  get displayName() {
+    return getDisplayName(
+      this._namespace,
+      this.typeName,
+      this._definitionContainerFor.getLabel(this.typeName)
+    )
+  }
+
+  get href() {
+    return getUri(
+      this._namespace,
+      this.typeName,
+      this._definitionContainerFor.getUri(this.typeName)
+    )
+  }
+
+  get color() {
+    return this._definitionContainerFor.getColor(this.typeName)
+  }
+
   get span() {
     return this._span
   }
@@ -120,11 +144,11 @@ export default class EntityModel {
 
   renderElement() {
     return createSignboardHTMLElement(
-      this._title,
+      this.title,
       this.id,
       this.color,
-      this._href,
-      this._displayName,
+      this.href,
+      this.displayName,
       this.typeValues.attributes,
       this.isDenotation ? 'denotation' : 'block',
       null,
@@ -185,29 +209,5 @@ export default class EntityModel {
     } else {
       throw 'unknown entity type'
     }
-  }
-
-  get _title() {
-    return `[${this.id}] pred: type, value: ${this._typeName}`
-  }
-
-  get _displayName() {
-    return getDisplayName(
-      this._namespace,
-      this.typeName,
-      this._definitionContainerFor.getLabel(this.typeName)
-    )
-  }
-
-  get _href() {
-    return getUri(
-      this._namespace,
-      this.typeName,
-      this._definitionContainerFor.getUri(this.typeName)
-    )
-  }
-
-  get color() {
-    return this._definitionContainerFor.getColor(this.typeName)
   }
 }
