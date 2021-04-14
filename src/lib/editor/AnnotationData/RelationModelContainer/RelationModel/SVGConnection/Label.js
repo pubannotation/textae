@@ -24,7 +24,7 @@ export default class Label {
     location.style.left = `${x}px`
 
     const signboard = createSignboardHTMLElement(
-      relation.id,
+      relation.title,
       relation.id,
       relation.color,
       relation.href,
