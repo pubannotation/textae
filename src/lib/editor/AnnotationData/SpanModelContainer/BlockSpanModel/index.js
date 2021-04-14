@@ -94,7 +94,7 @@ export default class BlockSpanModel extends SpanModel {
     const el = super._createGridElement()
     el.classList.add('textae-editor__block-hit-area')
     el.dataset.id = this.id
-    el.title = this.id
+    el.title = `${this.begin}-${this.end}`
     return el
   }
 
