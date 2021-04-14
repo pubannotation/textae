@@ -1,10 +1,10 @@
-import TypeValues from '../TypeValues'
-import { makeEntityHTMLElementId } from '../idFactory'
-import SELECTED from '../SELECTED'
-import createSignboardHTMLElement from '../createSignboardHTMLElement'
-import typeGapUnitHeight from '../typeGapUnitHeight'
-import getDisplayName from '../getDisplayName'
-import getUri from '../getUri'
+import TypeValues from './TypeValues'
+import { makeEntityHTMLElementId } from './idFactory'
+import SELECTED from './SELECTED'
+import createSignboardHTMLElement from './createSignboardHTMLElement'
+import typeGapUnitHeight from './typeGapUnitHeight'
+import getDisplayName from './getDisplayName'
+import getUri from './getUri'
 
 export default class EntityModel {
   constructor(
