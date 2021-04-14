@@ -2359,14 +2359,15 @@ a.ui-button:active,
   top: 0;
 }
 .textae-editor__relation-box path {
+  fill: none;
   pointer-events: visiblePainted;
 }
-.textae-editor__relation-box text {
-  font-size: x-small;
-  pointer-events: visiblePainted;
+.textae-editor__relation-box polyline {
+  fill: none;
+  stroke: #6464d7;
 }
-.textae-editor__relation-box rect {
-  pointer-events: visiblePainted;
+.textae-editor__relation-box polygon {
+  stroke: #6464d7;
 }
 .textae-editor__footer {
   background: linear-gradient(to left, #ffffff, #ddddff);
@@ -2435,7 +2436,12 @@ a.ui-button:active,
   position: absolute;
   width: 0px;
 }
+.textae-editor__relation {
+  fill: none;
+  stroke-opacity: 0.5;
+}
 .textae-editor__relation--isBold {
+  stroke-opacity: 1;
   stroke-width: 2;
 }
 .textae-editor__relation-label--isBold {
@@ -2462,6 +2468,11 @@ a.ui-button:active,
 .textae-editor__mode--relation .textae-editor__relation-box text,
 .textae-editor__mode--relation .textae-editor__relation-box rect {
   cursor: pointer;
+}
+.textae-editor__mode--relation .textae-editor__relation-box .textae-editor__relation-aura {
+  fill: none;
+  stroke-width: 28;
+  stroke-opacity: 0.05;
 }
 .textae-editor-veil {
   cursor: wait;

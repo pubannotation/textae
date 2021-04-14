@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.3.0](https://github.com/pubannotation/textae/compare/v7.2.1...v7.3.0) (2021-04-14)
+
+
+### Features
+
+* Display an area around the relation to receive mouse events ([1f2d215](https://github.com/pubannotation/textae/commit/1f2d2151926a30d05b9cb3e30e043d2c7799a016))
+* Display relations behind text in term mode ([0e8e3c7](https://github.com/pubannotation/textae/commit/0e8e3c7d78cda9464f8d981752452c074c0881f4))
+* Don't bend relations too much when endpoints are on the same row ([bcb7287](https://github.com/pubannotation/textae/commit/bcb7287a1f2ff4400577dd0c061bd6f69709f2fc))
+* Highlight the relation when you mouse over the relation label ([740ea44](https://github.com/pubannotation/textae/commit/740ea44083e2112e2b075d9b271c8702bd53368d))
+* Increase the threshold value used to determine whether or not to bend the relation significantly ([ef6f052](https://github.com/pubannotation/textae/commit/ef6f052db82fac8431821606e9697c6d5d61f86a))
+* Make sure to stop the hover state when you mouse-leave the relation ([082dd24](https://github.com/pubannotation/textae/commit/082dd24ffc83493905c836bd813e15ffcbaba897))
+* Make the endpoint triangle smaller ([e7b42f5](https://github.com/pubannotation/textae/commit/e7b42f530966273c9ac28049e55b618cf7f30f19))
+* Make the lines of the relation transparent ([9a8a70a](https://github.com/pubannotation/textae/commit/9a8a70a1716cd1a273ca9195a0643c46857b2590))
+* Reduce the upward movement of hovered relations ([0df575d](https://github.com/pubannotation/textae/commit/0df575d4131bd2a581e9bb5a8c441ae339b1c526))
+* To make it easier to distinguish between a pier and an endpoint that is not hovering, reduce the amount of relation movement during hover ([8409295](https://github.com/pubannotation/textae/commit/8409295d35ac133819daab6c380478b3770225e8))
+* When the entity width is small and the endpoint is displayed in the center of the entity and the entity has only one endpoint, hovering will not move the entity left or right ([09d6f05](https://github.com/pubannotation/textae/commit/09d6f05c98db72b31c2a194bde445990dcc26c71))
+* When the source endpoint is within 16 pixels to the left of the target endpoint, the relation goes through the right side of the entity ([660a50a](https://github.com/pubannotation/textae/commit/660a50ab5f4b58f3cf84ee19fd291a70d25e0777))
+* When the source entity is below the target entity, the control point on the source endpoint side is moved outward ([da50dd2](https://github.com/pubannotation/textae/commit/da50dd2ad1385897634fe1e41a09b70a1270742f))
+
+
+### Bug Fixes
+
+* When a relation is deselected, the relation line does not become thinner ([726d68e](https://github.com/pubannotation/textae/commit/726d68eb033e86917c0191715734bf8865a430e0))
+* When the source endpoint on the left is to the right of the target endpoint, the target endpoint on the right is used ([f73db4c](https://github.com/pubannotation/textae/commit/f73db4cbf6db1b4a8c1a20e45ed9a81c876ce5fc))
+
 ### [7.2.1](https://github.com/pubannotation/textae/compare/v7.2.0...v7.2.1) (2021-04-06)
 
 
