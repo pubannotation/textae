@@ -1,5 +1,6 @@
 import getDisplayName from '../../../getDisplayName'
 import getUri from '../../../getUri'
+import toAnchorElement from '../../../toAnchorElement'
 import TypeValues from '../../../TypeValues'
 import SVGConnection from './SVGConnection'
 
@@ -145,5 +146,9 @@ export default class RelationModel {
 
   get color() {
     return this._definitionContainer.getColor(this.typeName)
+  }
+
+  get anchorHTML() {
+    return toAnchorElement(this.displayName, this.href)
   }
 }

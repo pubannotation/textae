@@ -5,6 +5,7 @@ import createSignboardHTMLElement from './createSignboardHTMLElement'
 import typeGapUnitHeight from './typeGapUnitHeight'
 import getDisplayName from './getDisplayName'
 import getUri from './getUri'
+import toAnchorElement from './toAnchorElement'
 
 export default class EntityModel {
   constructor(
@@ -59,6 +60,10 @@ export default class EntityModel {
 
   get color() {
     return this._definitionContainerFor.getColor(this.typeName)
+  }
+
+  get anchorHTML() {
+    return toAnchorElement(this.displayName, this.href)
   }
 
   get span() {
