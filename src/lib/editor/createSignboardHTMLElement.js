@@ -4,11 +4,11 @@ import toAnchorElement from './toAnchorElement'
 export default function (
   title,
   entityId,
-  entityType,
   color,
   href,
   displayName,
   attributes,
+  entityType,
   cssClass,
   HTMLId
 ) {

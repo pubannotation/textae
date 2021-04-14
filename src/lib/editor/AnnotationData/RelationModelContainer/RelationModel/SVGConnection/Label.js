@@ -28,11 +28,11 @@ export default class Label {
     const signboard = createSignboardHTMLElement(
       relationId,
       relationId,
-      'relation',
       color,
       href,
       displayName,
       attributes,
+      'relation',
       isSelected ? 'ui-selected' : null,
       null
     )
