@@ -76,7 +76,7 @@ export default class DenotationSpanModel extends SpanModel {
     return `
       <span
         id="${this.id}"
-        title="${this.begin}-${this.end}"
+        title="${this.title}"
         tabindex="0"
         class="${['textae-editor__span'].concat(this._styleClasses).join(' ')}"
         >

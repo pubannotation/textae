@@ -29,6 +29,10 @@ export default class SpanModel {
     return this._end
   }
 
+  get title() {
+    return `${this._begin}-${this._end}`
+  }
+
   get types() {
     return []
   }

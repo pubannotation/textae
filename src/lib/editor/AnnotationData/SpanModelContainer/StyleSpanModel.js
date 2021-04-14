@@ -19,7 +19,7 @@ export default class StyleSpanModel extends SpanModel {
     return `
       <span
         id="${this.id}"
-        title="${this.begin}-${this.end}"
+        title="${this.title}"
         class="${this._styleClasses.join(' ')}"
         >
       </span>
