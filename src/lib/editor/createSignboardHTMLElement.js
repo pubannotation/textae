@@ -2,23 +2,23 @@ import dohtml from 'dohtml'
 import toAnchorElement from './toAnchorElement'
 
 export default function (
-  title,
+  entityId,
   entityType,
   color,
   href,
   displayName,
   attributes,
   cssClass,
-  id
+  HTMLId
 ) {
   // A Type element has an entity_pane elment that has a label and will have entities.
   const html = `
 <div
   class="textae-editor__signboard ${cssClass ? cssClass : ''}"
-  ${id ? `id="${id}"` : ''}
-  title="${title}"
+  ${HTMLId ? `id="${HTMLId}"` : ''}
+  title="${entityId}"
   data-entity-type="${entityType}"
-  data-id="${title}"
+  data-id="${entityId}"
   >
   <div
     class="textae-editor__signboard__type-values"
