@@ -55,12 +55,7 @@ export default class SVGConnection {
       .getBoundingClientRect()
     this._arrow.update(
       annotationBox,
-      this._relation.sourceEntity,
-      this._relation.targetEntity,
-      this._relation.color,
-      this._relation.sourceColor,
-      this._relation.targetColor,
-      this._relation.title,
+      this._relation,
       this._isSelected || this._isHovered
     )
 
@@ -80,16 +75,7 @@ export default class SVGConnection {
       () => this.pointUp(),
       () => this.pointDown()
     )
-    this._arrow.update(
-      annotationBox,
-      this._relation.sourceEntity,
-      this._relation.targetEntity,
-      this._relation.color,
-      this._relation.sourceColor,
-      this._relation.targetColor,
-      this._relation.title,
-      false
-    )
+    this._arrow.update(annotationBox, this._relation, false)
   }
 
   _createLabel(isSelected) {
