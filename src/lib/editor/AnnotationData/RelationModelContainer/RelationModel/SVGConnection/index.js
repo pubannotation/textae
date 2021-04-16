@@ -71,6 +71,7 @@ export default class SVGConnection {
 
     this._arrow = new Arrow(
       this._relationBox,
+      this._relation,
       this._onClick,
       () => this.pointUp(),
       () => this.pointDown()

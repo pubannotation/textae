@@ -8,8 +8,9 @@ import PathPoints from './PathPoints'
 import { NS } from '../NS'
 
 export default class Arrow {
-  constructor(container, onClick, onMouseEnter, onMouseLeave) {
+  constructor(container, relation, onClick, onMouseEnter, onMouseLeave) {
     this._container = container
+    this._relation = relation
 
     const sourceTriangle = createSourceTriangle()
     this._container.appendChild(sourceTriangle)
