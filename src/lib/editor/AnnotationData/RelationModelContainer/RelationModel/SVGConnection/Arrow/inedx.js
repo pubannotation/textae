@@ -38,11 +38,10 @@ export default class Arrow {
   }
 
   update(annotationBox, isBold) {
-    const { sourceEntity, targetEntity } = this._relation
     const pathPoints = new PathPoints(
       annotationBox,
-      sourceEntity,
-      targetEntity,
+      this._relation.sourceEntity,
+      this._relation.targetEntity,
       isBold
     )
     const { color: pathColor } = this._relation
