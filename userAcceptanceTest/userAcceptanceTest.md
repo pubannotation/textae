@@ -4082,38 +4082,3 @@
 4.  5 秒後に認証ダイアログが表示されたらキャンセルする
 5.  `could not save`とトースト表示されること
 6.  自動保存機能ボタンの押下が戻っていること
-
-## 読み込んだアノテーションの denotations と blocks の ID 重複の検出
-
-### 背景
-
-1.  6.2.20 ID が重複した denotations 検出機能を追加しました
-2.  6.2.21 で blocks のバリデーションを追加しました。
-3.  6.2.93 で`Dupulicated`の typo を修正
-4.  6.2.94 ID 重複用のテーブルを denotations と blocks で一つにまとめました
-5.  6.2.95 で denotations と blocks の ID が重複している場合もチェックするようにしました。
-
-### -- 手段 --
-
-1.  invalid.json を読み込む
-2.  `Duplicated IDs in Denotations and Blocks.`に`T2`がふたつと`B3`がふたつ表示されること
-3.  `Duplicated IDs in Denotations and Blocks.`に`EB1`がふたつ表示されること
-
-## 読み込んだアノテーションの denotations と blocks と typesettings の境界交差の検出
-
-### 背景
-
-1.  6.0.0 で typesettings を導入し、typesettings の境界交差を検出していました
-2.  denotations と typesettings が境界交差した場合にエラーが起きていました
-3.  6.1.7 で対応しました。
-4.  6.2.16 でテーブル名を`Denotations or Typesettings with boundary-cross.`に変えました
-5.  6.2.89 で境界交差の検査対象に blocks を追加しました
-
-### -- 手段 --
-
-1.  invalid.json を読み込む
-2.  `Denotations or Blocks or Typesettings with boundary-cross.`に typesettings が表示されること
-3.  `Denotations or Blocks or Typesettings with boundary-cross.`に denotations が表示されること
-4.  `Denotations or Blocks or Typesettings with boundary-cross.`に blocks が表示されること
-5.  `Denotations or Blocks or Typesettings with boundary-cross.`に typesettings と denotations が交差している`E21`が表示されること
-
