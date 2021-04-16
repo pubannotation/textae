@@ -53,11 +53,7 @@ export default class SVGConnection {
     const annotationBox = this._editor[0]
       .querySelector('.textae-editor__annotation-box')
       .getBoundingClientRect()
-    this._arrow.update(
-      annotationBox,
-      this._relation,
-      this._isSelected || this._isHovered
-    )
+    this._arrow.update(annotationBox, this._isSelected || this._isHovered)
 
     this._label.destructor()
     this._createLabel(this._isSelected)
@@ -76,7 +72,7 @@ export default class SVGConnection {
       () => this.pointUp(),
       () => this.pointDown()
     )
-    this._arrow.update(annotationBox, this._relation, false)
+    this._arrow.update(annotationBox, false)
   }
 
   _createLabel(isSelected) {

@@ -37,26 +37,32 @@ export default class Arrow {
     this._lines = []
   }
 
-  update(annotationBox, relation, isBold) {
-    const { sourceEntity, targetEntity } = relation
+  update(annotationBox, isBold) {
+    const { sourceEntity, targetEntity } = this._relation
     const pathPoints = new PathPoints(
       annotationBox,
       sourceEntity,
       targetEntity,
       isBold
     )
-    const { color: pathColor } = relation
+    const { color: pathColor } = this._relation
     updatePath(this._path, pathPoints, pathColor, isBold)
     updatePath(this._aura, pathPoints, pathColor, false)
-    this._aura.children[0].textContent = relation.title
+    this._aura.children[0].textContent = this._relation.title
 
-    this._sourceTriangle.setAttribute('style', `fill:${relation.sourceColor}`)
+    this._sourceTriangle.setAttribute(
+      'style',
+      `fill:${this._relation.sourceColor}`
+    )
     this._sourceTriangle.setAttribute(
       'transform',
       pathPoints.transformDefinitionsForSourceTriangle
     )
 
-    this._targetTriangle.setAttribute('style', `fill:${relation.targetColor}`)
+    this._targetTriangle.setAttribute(
+      'style',
+      `fill:${this._relation.targetColor}`
+    )
     this._targetTriangle.setAttribute(
       'transform',
       pathPoints.transformDefinitionsForTargetTriangle
