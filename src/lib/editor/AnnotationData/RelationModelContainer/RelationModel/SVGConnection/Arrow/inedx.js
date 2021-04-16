@@ -69,7 +69,7 @@ export default class Arrow {
     )
 
     if (isBold) {
-      this._drawLines(sourceEntity, targetEntity, pathPoints, annotationBox)
+      this._drawLines(pathPoints, annotationBox)
     } else {
       this._destroyLines()
     }
@@ -137,7 +137,9 @@ export default class Arrow {
       })
   }
 
-  _drawLines(sourceEntity, targetEntity, pathPoints, annotationBox) {
+  _drawLines(pathPoints, annotationBox) {
+    const { sourceEntity, targetEntity } = this._relation
+
     const sourceEndpoint = sourceEntity.typeValuesElement.getBoundingClientRect()
     const sourceLine = createSourceLine(
       pathPoints,
