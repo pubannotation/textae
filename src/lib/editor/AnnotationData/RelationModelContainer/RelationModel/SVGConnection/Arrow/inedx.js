@@ -44,9 +44,8 @@ export default class Arrow {
       this._relation.targetEntity,
       isBold
     )
-    const { color: pathColor } = this._relation
-    updatePath(this._path, pathPoints, pathColor, isBold)
-    updatePath(this._aura, pathPoints, pathColor, false)
+    updatePath(this._path, pathPoints, this._relation.color, isBold)
+    updatePath(this._aura, pathPoints, this._relation.color, false)
     this._aura.children[0].textContent = this._relation.title
 
     this._sourceTriangle.setAttribute(
