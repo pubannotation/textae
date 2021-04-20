@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.4.0](https://github.com/pubannotation/textae/compare/v7.3.0...v7.4.0) (2021-04-20)
+
+
+### Features
+
+* Add an ID to the title attribute of the attribute ([319f789](https://github.com/pubannotation/textae/commit/319f7895ffe7a5f55cbe3ce25efbfe838bf0bfd7))
+* Add pred and value to the title attribute of entities ([73f0d94](https://github.com/pubannotation/textae/commit/73f0d940c03860352823442438326f2709eeeab4))
+* Change the format of the block span title attribute to begin-end ([7580ad9](https://github.com/pubannotation/textae/commit/7580ad975c5475118cacfde5e6a4d08577733dbb))
+* Change the format of the denotation span title attribute to begin-end ([7e70b98](https://github.com/pubannotation/textae/commit/7e70b986f4bbb4fd79552eafec7e4b91ef45f6ab))
+* Change the format of the hit area of the block span title attribute to begin-end ([5e6bb70](https://github.com/pubannotation/textae/commit/5e6bb70dc8917ba104cb08301ca149d08a1e30d2))
+* Change the format of the style span title attribute to begin-end ([8e00863](https://github.com/pubannotation/textae/commit/8e00863d3ecb6eeca9f1a90353aa80c97c3c96df))
+* Remove the title attribute of the block span because the position of the ID of the block span and the background are shifted ([4b207b2](https://github.com/pubannotation/textae/commit/4b207b272d03377bdeab187e4a64f58c2e878c68))
+* Show tooltip of the connection of relations ([876583b](https://github.com/pubannotation/textae/commit/876583b8de40b60af62bd52576207011fc5bb1c9))
+* To make the angle of incidence to the triangle a right angle, make the relation a combination of cubic and quadratic Bezier curves ([31e4253](https://github.com/pubannotation/textae/commit/31e4253b3f148330e88aad71384a50ad6cf2685a))
+
 ## [7.3.0](https://github.com/pubannotation/textae/compare/v7.2.1...v7.3.0) (2021-04-14)
 
 
