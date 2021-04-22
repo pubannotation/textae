@@ -1,4 +1,5 @@
 import dohtml from 'dohtml'
+import hexToRGBA from './hexToRGBA'
 
 export default function (model, entityType, cssClass, HTMLId) {
   // A Type element has an entity_pane elment that has a label and will have entities.
@@ -26,14 +27,4 @@ export default function (model, entityType, cssClass, HTMLId) {
 `
 
   return dohtml.create(html)
-}
-
-function hexToRGBA(hex, alpha) {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex)
-  console.assert(result, `${hex} is not a hexadecimal color values!`)
-
-  return `rgba(${parseInt(result[1], 16)}, ${parseInt(
-    result[2],
-    16
-  )}, ${parseInt(result[3], 16)}, ${alpha})`
 }
