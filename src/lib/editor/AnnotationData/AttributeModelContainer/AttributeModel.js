@@ -1,5 +1,6 @@
 import getDisplayName from '../../getDisplayName'
 import getUri from '../../getUri'
+import hexToRGBA from '../../hexToRGBA'
 import toAnchorElement from '../../toAnchorElement'
 
 export default class AttributeModel {
@@ -47,7 +48,11 @@ export default class AttributeModel {
         title="${this._title}"
         data-pred="${this.pred}"
         data-obj="${this.obj}"
-        ${this._color ? `style="background-color: ${this._color};"` : ''}
+        ${
+          this._color
+            ? `style="background-color: ${hexToRGBA(this._color, 0.8)};"`
+            : ''
+        }
         >
         <span class="textae-editor__signboard__attribute-label">
           ${toAnchorElement(this._displayName, this._href)}
