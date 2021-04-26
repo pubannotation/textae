@@ -102,6 +102,16 @@
     }
   }
 
+  .selected-signboard() {
+    &.ui-selected {
+      z-index: 2;
+
+      .textae-editor__signboard__type-values {
+        .type-values--selected();
+      }
+    }
+  }
+
   &__mode--denotation-with-relation,
   &__mode--denotation-without-relation {
     .textae-editor__signboard[data-entity-type='denotation'] {
@@ -113,13 +123,7 @@
           .entity-shadow();
         }
       }
-      &.ui-selected {
-        z-index: 2;
-
-        .textae-editor__signboard__type-values {
-          .type-values--selected();
-        }
-      }
+      .selected-signboard();
     }
   }
 
@@ -134,13 +138,7 @@
           .entity-shadow();
         }
       }
-      &.ui-selected {
-        z-index: 2;
-
-        .textae-editor__signboard__type-values {
-          .type-values--selected();
-        }
-      }
+      .selected-signboard();
     }
   }
 
@@ -154,13 +152,7 @@
           .entity-shadow();
         }
       }
-      &.ui-selected {
-        z-index: 2;
-
-        .textae-editor__signboard__type-values {
-          .type-values--selected();
-        }
-      }
+      .selected-signboard();
     }
   }
 
@@ -168,13 +160,7 @@
   &__mode--denotation-without-relation,
   &__mode--relation {
     .textae-editor__signboard {
-      &.ui-selected {
-        z-index: 2;
-
-        .textae-editor__signboard__type-values {
-          .type-values--selected();
-        }
-      }
+      .selected-signboard();
     }
   }
 
