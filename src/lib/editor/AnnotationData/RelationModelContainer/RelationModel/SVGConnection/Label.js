@@ -27,7 +27,11 @@ export default class Label {
     const signboard = createSignboardHTMLElement(
       relation,
       'relation',
-      isSelected ? 'ui-selected' : null,
+      isSelected
+        ? 'ui-selected'
+        : isHovered
+        ? 'textae-editor__signboard--hover'
+        : null,
       null
     )
     location.appendChild(signboard)
