@@ -13,7 +13,7 @@ export default class SVGConnection {
     this._annotationBox = getAnnotationBox(editor)
 
     this._createArrow()
-    this._createLabel(false)
+    this._createLabel(false, false)
   }
 
   destroy() {
@@ -56,7 +56,7 @@ export default class SVGConnection {
     this._arrow.update(annotationBox, this._isSelected || this._isHovered)
 
     this._label.destructor()
-    this._createLabel(this._isSelected)
+    this._createLabel(this._isSelected, this._isHovered)
   }
 
   // Private APIs
@@ -75,7 +75,7 @@ export default class SVGConnection {
     this._arrow.update(annotationBox, false)
   }
 
-  _createLabel(isSelected) {
+  _createLabel(isSelected, isHovered) {
     this._label = new Label(
       this._annotationBox,
       this._arrow.left,
