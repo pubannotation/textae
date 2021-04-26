@@ -3807,26 +3807,6 @@
 2.  Type の Value を`http://hoge`に変更する
 3.  Type の表示が`http://hoge`になること
 
-## Span は必ず Entity を持つ
-
-### Entity を自動作成
-
-#### 背景
-
-1.  4.1.8 で Entity につける id の prefix を`E`から`T`に変えました
-2.  6.2.0 からブロック機能を追加
-
-#### -- 手段 --
-
-1.  Term モードにする
-2.  DenotationSpan を作成する
-3.  default の Type の Entity ができること
-4.  Entity の id が`T`で始まること
-5.  Block モードにする
-6.  BlockSpan を作成する
-7.  default の Type の Entity ができること
-8.  Entity の id が`T`で始まること
-
 ## 重複してコピーしない
 
 1.  Span とその Entity を選択してコピーする
@@ -3839,23 +3819,3 @@
 3.  削除する
 4.  別の Span を選択する
 5.  貼付ける
-
-## 起動直後
-
-### 背景
-
-1.  `4.4.0`からデフォルト文字列を表示します
-2.  annotation がない場合も、Editor はサイズがありクリックできます
-3.  起動時に一番上の Editor を選択する機能を消します
-
-### -- 手段 --
-
-1.  Editor7 が選択されていないこと（背景色が白い）
-2.  Editor7 をクリック
-3.  Editor7 が選択されること（背景色がベージュ）
-
-## 外部 JavaScript で Editor を初期フォーカスできること
-
-1.  <http://localhost:8000/dist/editor.html> を開く
-2.  Editor1 が選択されていること（背景色がベージュ）
-
