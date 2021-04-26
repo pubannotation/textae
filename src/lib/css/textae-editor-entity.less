@@ -129,6 +129,9 @@
     .textae-editor__signboard[data-entity-type='denotation'] {
       .seletable-signboard();
     }
+    .textae-editor__signboard {
+      .selected-signboard();
+    }
   }
 
   &__mode--block-with-relation,
@@ -142,11 +145,6 @@
     .textae-editor__signboard {
       .seletable-signboard();
     }
-  }
-
-  &__mode--denotation-with-relation,
-  &__mode--denotation-without-relation,
-  &__mode--relation {
     .textae-editor__signboard {
       .selected-signboard();
     }
