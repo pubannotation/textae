@@ -33,7 +33,7 @@
     "clean-css-cli": "^5.2.2",
     "connect": "^3.7.0",
     "cpx2": "^3.0.0",
-    "eslint": "^7.24.0",
+    "eslint": "^7.25.0",
     "eslint-config-prettier": "^8.2.0",
     "eslint-plugin-import": "^2.22.1",
     "eslint-plugin-unused-imports": "^1.1.1",
