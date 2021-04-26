@@ -85,7 +85,8 @@ export default class SVGConnection {
       this._onClick,
       () => this.pointUp(),
       () => this.pointDown(),
-      isSelected
+      isSelected,
+      isHovered
     )
   }
 }

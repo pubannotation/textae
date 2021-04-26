@@ -10,7 +10,8 @@ export default class Label {
     onClick,
     onMouseEnter,
     onMouseLeave,
-    isSelected
+    isSelected,
+    isHovered
   ) {
     this._container = container
 
