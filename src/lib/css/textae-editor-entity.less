@@ -102,41 +102,65 @@
     }
   }
 
-  .selectable-signboard() {
-    .textae-editor__signboard__type-values {
-      cursor: pointer;
-    }
-    &:hover {
-      .textae-editor__signboard__type-values {
-        .entity-shadow();
-      }
-    }
-    &.ui-selected {
-      z-index: 2;
-
-      .textae-editor__signboard__type-values {
-        .type-values--selected();
-      }
-    }
-  }
-
   &__mode--denotation-with-relation,
   &__mode--denotation-without-relation {
     .textae-editor__signboard[data-entity-type='denotation'] {
-      .selectable-signboard();
+      .textae-editor__signboard__type-values {
+        cursor: pointer;
+      }
+      &:hover {
+        .textae-editor__signboard__type-values {
+          .entity-shadow();
+        }
+      }
+      &.ui-selected {
+        z-index: 2;
+
+        .textae-editor__signboard__type-values {
+          .type-values--selected();
+        }
+      }
     }
   }
 
   &__mode--block-with-relation,
   &__mode--block-without-relation {
     .textae-editor__signboard[data-entity-type='block'] {
-      .selectable-signboard();
+      .textae-editor__signboard__type-values {
+        cursor: pointer;
+      }
+      &:hover {
+        .textae-editor__signboard__type-values {
+          .entity-shadow();
+        }
+      }
+      &.ui-selected {
+        z-index: 2;
+
+        .textae-editor__signboard__type-values {
+          .type-values--selected();
+        }
+      }
     }
   }
 
   &__mode--relation {
     .textae-editor__signboard {
-      .selectable-signboard();
+      .textae-editor__signboard__type-values {
+        cursor: pointer;
+      }
+      &:hover {
+        .textae-editor__signboard__type-values {
+          .entity-shadow();
+        }
+      }
+      &.ui-selected {
+        z-index: 2;
+
+        .textae-editor__signboard__type-values {
+          .type-values--selected();
+        }
+      }
     }
   }
 
