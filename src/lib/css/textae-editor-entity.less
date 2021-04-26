@@ -91,6 +91,24 @@
     }
   }
 
+  &__mode--view-with-relation,
+  &__mode--view-without-relation,
+  &__mode--denotation-with-relation,
+  &__mode--denotation-without-relation,
+  &__mode--block-with-relation,
+  &__mode--block-without-relation {
+    .textae-editor__signboard[data-entity-type='denotation'],
+    .textae-editor__signboard[data-entity-type='block'] {
+      z-index: 2;
+    }
+  }
+
+  &__mode--relation {
+    .textae-editor__signboard[data-entity-type='relation'] {
+      z-index: 2;
+    }
+  }
+
   &__signboard__attribute {
     background-color: inherit;
     height: 18px;
@@ -124,42 +142,23 @@
     .selected-signboard();
   }
 
-  &__mode--view-with-relation,
-  &__mode--view-without-relation {
-    .textae-editor__signboard[data-entity-type='denotation'],
-    .textae-editor__signboard[data-entity-type='block'] {
-      z-index: 2;
-    }
-  }
-
   &__mode--denotation-with-relation,
   &__mode--denotation-without-relation {
     .textae-editor__signboard[data-entity-type='denotation'] {
       .seletable-signboard();
-      z-index: 2;
-    }
-    .textae-editor__signboard[data-entity-type='block'] {
-      z-index: 2;
     }
   }
 
   &__mode--block-with-relation,
   &__mode--block-without-relation {
-    .textae-editor__signboard[data-entity-type='denotation'] {
-      z-index: 2;
-    }
     .textae-editor__signboard[data-entity-type='block'] {
       .seletable-signboard();
-      z-index: 2;
     }
   }
 
   &__mode--relation {
     .textae-editor__signboard {
       .seletable-signboard();
-    }
-    .textae-editor__signboard[data-entity-type='relation'] {
-      z-index: 2;
     }
   }
 
