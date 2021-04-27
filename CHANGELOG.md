@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.5.0](https://github.com/pubannotation/textae/compare/v7.4.0...v7.5.0) (2021-04-27)
+
+
+### Features
+
+* In denotation mode and block mode, the labels of denotation and block entities are before the labels of relations ([392a1a3](https://github.com/pubannotation/textae/commit/392a1a35159fccc8a8aadd81f39405d59a0b2c76))
+* In view mode, the labels of denotation and block entities are before the labels of relations ([1c38da8](https://github.com/pubannotation/textae/commit/1c38da8ceaf7ec825c01f7bb90edef638d9b8cb8))
+* Sets the transparency of the attribute label background color to 80% ([78644f9](https://github.com/pubannotation/textae/commit/78644f9cb27f94d025c53ecc2edf6d6f02c59ad8))
+* Sets the transparency of the entity label background color to 80% ([b942388](https://github.com/pubannotation/textae/commit/b9423883e0390bba25133e87e894af22dc5f6523))
+* Sets the transparency of the span background color to 80% ([dfcc00e](https://github.com/pubannotation/textae/commit/dfcc00e9909ee7fdac357ced03ec7aebe38344d7))
+* Show the label of the relationship of the hovered entity in denotation mode in front of the entity's label ([5837ca8](https://github.com/pubannotation/textae/commit/5837ca83871d0d8bd2a6bee57081dae080765e53))
+
 ## [7.4.0](https://github.com/pubannotation/textae/compare/v7.3.0...v7.4.0) (2021-04-20)
 
 

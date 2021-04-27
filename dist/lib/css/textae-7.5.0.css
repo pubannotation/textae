@@ -2394,7 +2394,7 @@ a.ui-button:active,
   width: calc(100% - 5em);
 }
 .textae-editor__span {
-  background-color: rgba(100, 100, 215, 0.5);
+  background-color: rgba(100, 100, 215, 0.8);
   border-color: #6464d7;
   border-style: solid;
   border-width: 1px 0;
@@ -2523,6 +2523,7 @@ a.ui-button:active,
   position: relative;
   text-align: center;
   white-space: nowrap;
+  z-index: 1;
 }
 .textae-editor__signboard__type-values {
   border-color: #6464d7;
@@ -2539,7 +2540,6 @@ a.ui-button:active,
   -ms-user-select: none;
   user-select: none;
   -webkit-touch-callout: none;
-  z-index: 1;
 }
 .textae-editor__signboard__type-label {
   border-width: 1px;
@@ -2548,14 +2548,13 @@ a.ui-button:active,
   border-bottom-color: white;
   display: inline-block;
   padding: 0 4px;
-  background-color: inherit;
 }
 .textae-editor__signboard__type-label:focus {
   outline-style: none;
 }
 .textae-editor__signboard[data-entity-type='denotation']:hover,
 .textae-editor__signboard[data-entity-type='block']:hover {
-  z-index: 2;
+  z-index: 3;
 }
 .textae-editor__signboard[data-entity-type='denotation']:hover .textae-editor__signboard__type-values,
 .textae-editor__signboard[data-entity-type='block']:hover .textae-editor__signboard__type-values {
@@ -2572,8 +2571,28 @@ a.ui-button:active,
   display: inline-block;
   padding: 0 4px;
 }
+.textae-editor__signboard--hover {
+  z-index: 3;
+}
 .textae-editor__signboard.ui-to-be-cut .textae-editor__signboard__type-values {
   opacity: 0.5;
+}
+.textae-editor__mode--view-with-relation .textae-editor__signboard[data-entity-type='denotation'],
+.textae-editor__mode--view-without-relation .textae-editor__signboard[data-entity-type='denotation'],
+.textae-editor__mode--denotation-with-relation .textae-editor__signboard[data-entity-type='denotation'],
+.textae-editor__mode--denotation-without-relation .textae-editor__signboard[data-entity-type='denotation'],
+.textae-editor__mode--block-with-relation .textae-editor__signboard[data-entity-type='denotation'],
+.textae-editor__mode--block-without-relation .textae-editor__signboard[data-entity-type='denotation'],
+.textae-editor__mode--view-with-relation .textae-editor__signboard[data-entity-type='block'],
+.textae-editor__mode--view-without-relation .textae-editor__signboard[data-entity-type='block'],
+.textae-editor__mode--denotation-with-relation .textae-editor__signboard[data-entity-type='block'],
+.textae-editor__mode--denotation-without-relation .textae-editor__signboard[data-entity-type='block'],
+.textae-editor__mode--block-with-relation .textae-editor__signboard[data-entity-type='block'],
+.textae-editor__mode--block-without-relation .textae-editor__signboard[data-entity-type='block'] {
+  z-index: 2;
+}
+.textae-editor__mode--relation .textae-editor__signboard[data-entity-type='relation'] {
+  z-index: 2;
 }
 .textae-editor__signboard__attribute {
   background-color: inherit;
@@ -2588,7 +2607,6 @@ a.ui-button:active,
   border-bottom-color: white;
   display: inline-block;
   padding: 0 4px;
-  background-color: inherit;
 }
 .textae-editor__mode--denotation-with-relation .textae-editor__signboard[data-entity-type='denotation'] .textae-editor__signboard__type-values,
 .textae-editor__mode--denotation-without-relation .textae-editor__signboard[data-entity-type='denotation'] .textae-editor__signboard__type-values {
@@ -2600,7 +2618,7 @@ a.ui-button:active,
 }
 .textae-editor__mode--denotation-with-relation .textae-editor__signboard[data-entity-type='denotation'].ui-selected,
 .textae-editor__mode--denotation-without-relation .textae-editor__signboard[data-entity-type='denotation'].ui-selected {
-  z-index: 2;
+  z-index: 3;
 }
 .textae-editor__mode--denotation-with-relation .textae-editor__signboard[data-entity-type='denotation'].ui-selected .textae-editor__signboard__type-values,
 .textae-editor__mode--denotation-without-relation .textae-editor__signboard[data-entity-type='denotation'].ui-selected .textae-editor__signboard__type-values {
@@ -2616,7 +2634,7 @@ a.ui-button:active,
 }
 .textae-editor__mode--block-with-relation .textae-editor__signboard[data-entity-type='block'].ui-selected,
 .textae-editor__mode--block-without-relation .textae-editor__signboard[data-entity-type='block'].ui-selected {
-  z-index: 2;
+  z-index: 3;
 }
 .textae-editor__mode--block-with-relation .textae-editor__signboard[data-entity-type='block'].ui-selected .textae-editor__signboard__type-values,
 .textae-editor__mode--block-without-relation .textae-editor__signboard[data-entity-type='block'].ui-selected .textae-editor__signboard__type-values {
@@ -2629,18 +2647,8 @@ a.ui-button:active,
   box-shadow: 1px 1px 10px #600;
 }
 .textae-editor__mode--relation .textae-editor__signboard.ui-selected {
-  z-index: 2;
+  z-index: 3;
 }
-.textae-editor__mode--relation .textae-editor__signboard.ui-selected .textae-editor__signboard__type-values {
-  box-shadow: 0 0 0 2pt red;
-}
-.textae-editor__mode--denotation-with-relation .textae-editor__signboard.ui-selected,
-.textae-editor__mode--denotation-without-relation .textae-editor__signboard.ui-selected,
-.textae-editor__mode--relation .textae-editor__signboard.ui-selected {
-  z-index: 2;
-}
-.textae-editor__mode--denotation-with-relation .textae-editor__signboard.ui-selected .textae-editor__signboard__type-values,
-.textae-editor__mode--denotation-without-relation .textae-editor__signboard.ui-selected .textae-editor__signboard__type-values,
 .textae-editor__mode--relation .textae-editor__signboard.ui-selected .textae-editor__signboard__type-values {
   box-shadow: 0 0 0 2pt red;
 }
