@@ -39,4 +39,7 @@ export default class Edit {
   get pallet() {
     return this._pallet
   }
+
+  // A dummy funcition
+  createSpan() {}
 }

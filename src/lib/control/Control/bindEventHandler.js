@@ -18,7 +18,7 @@ export default function (el, editor) {
     if (button.dataset.buttonType === 'help') {
       button.addEventListener('click', () => helpDialog.open())
     } else {
-      button.addEventListener('click', eventHandler)
+      button.addEventListener('mousedown', eventHandler)
     }
   }
 }

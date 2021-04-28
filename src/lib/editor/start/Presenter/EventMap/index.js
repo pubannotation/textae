@@ -29,6 +29,10 @@ export default class EventMap {
     this._vertical = new Vertical(editor, selectionModel)
   }
 
+  createSpan(e) {
+    this._editMode.createSpan(e)
+  }
+
   copyEntities() {
     this._clipBoard.copyEntities()
   }

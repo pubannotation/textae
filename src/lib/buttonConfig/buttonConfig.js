@@ -83,6 +83,11 @@ export const buttonConfig = [
     }
   ],
   [
+    'ontouchstart' in window ||
+    navigator.maxTouchPoints > 0 ||
+    navigator.msMaxTouchPoints > 0
+      ? { type: 'span', title: 'Create span' }
+      : null,
     {
       type: 'entity',
       title: 'New entity [E]',
@@ -103,7 +108,7 @@ export const buttonConfig = [
         relation: (selectionModel) => selectionModel.relation.some
       }
     }
-  ],
+  ].filter((e) => e),
   [
     {
       type: 'delete',

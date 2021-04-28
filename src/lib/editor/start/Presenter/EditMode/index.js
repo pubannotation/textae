@@ -102,6 +102,10 @@ export default class EditMode {
   }
 
   // For buttan actions.
+  createSpan() {
+    this._currentEdit.createSpan()
+  }
+
   pushView() {
     this._stateMachine.pushView()
   }

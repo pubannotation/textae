@@ -65,4 +65,8 @@ export default class EditBlock extends Edit {
       annotationData.typeDefinition.block
     )
   }
+
+  createSpan() {
+    this._mouseEventHandler.textBoxClicked({ stopPropagation() {} })
+  }
 }

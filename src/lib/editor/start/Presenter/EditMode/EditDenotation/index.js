@@ -48,21 +48,29 @@ export default class EditDenotation extends Edit {
       getAutocompletionWs
     )
 
+    const mouseEventHandler = new MouseEventHandler(
+      editor,
+      annotationData,
+      selectionModel,
+      denotationPallet,
+      spanEditor
+    )
+
     super(
       editor,
       bindMouseEvents,
-      new MouseEventHandler(
-        editor,
-        annotationData,
-        selectionModel,
-        denotationPallet,
-        spanEditor
-      ),
+      mouseEventHandler,
       handler,
       denotationPallet,
       commander,
       getAutocompletionWs,
       annotationData.typeDefinition.denotation
     )
+
+    this._mouseEventHandler = mouseEventHandler
+  }
+
+  createSpan() {
+    this._mouseEventHandler.textBoxClicked({ stopPropagation() {} })
   }
 }

@@ -21,6 +21,7 @@ export default class MouseEventHandler {
     this._pallet.hide()
 
     const selection = window.getSelection()
+
     if (selection.type === 'Range') {
       this._spanEditor.editFor(new SelectionWrapper())
       event.stopPropagation()

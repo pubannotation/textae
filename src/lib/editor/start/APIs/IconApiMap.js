@@ -6,6 +6,7 @@ export default function (
   buttonController
 ) {
   const map = new Map([
+    ['span', () => presenter.event.createSpan()],
     ['view', () => presenter.event.toViewMode()],
     ['term', () => presenter.event.toTermMode()],
     ['block', () => presenter.event.toBlockMode()],

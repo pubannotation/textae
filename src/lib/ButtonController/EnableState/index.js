@@ -69,18 +69,26 @@ export default class EnableState {
     switch (mode) {
       case MODE.VIEW_WITHOUT_RELATION:
       case MODE.VIEW_WITH_RELATION:
-        this._updateButtonsForMode(true, false, false, false, false, false)
+        this._updateButtonsForMode(
+          true,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        )
         break
       case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
       case MODE.EDIT_DENOTATION_WITH_RELATION:
-        this._updateButtonsForMode(true, true, true, true, true, true)
+        this._updateButtonsForMode(true, true, true, true, true, true, true)
         break
       case MODE.EDIT_BLOCK_WITHOUT_RELATION:
       case MODE.EDIT_BLOCK_WITH_RELATION:
-        this._updateButtonsForMode(true, false, true, true, true, true)
+        this._updateButtonsForMode(true, false, true, true, true, true, true)
         break
       case MODE.EDIT_RELATION:
-        this._updateButtonsForMode(false, false, false, true, true, true)
+        this._updateButtonsForMode(false, false, false, true, true, false, true)
         break
       default:
         throw `unknown edit mode!${mode}`
@@ -94,13 +102,16 @@ export default class EnableState {
     boundaryDetection,
     lineHeight,
     lineHeightAuto,
+    span,
     pallet
   ) {
+    this._states['span'] = true
     this._states['simple'] = simple
     this._states['replicate-auto'] = replicateAuto
     this._states['boundary-detection'] = boundaryDetection
     this._states['line-height'] = lineHeight
     this._states['line-height-auto'] = lineHeightAuto
+    this._states['span'] = span
     this._states['pallet'] = pallet
   }
 }
