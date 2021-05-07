@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.5.1](https://github.com/pubannotation/textae/compare/v7.5.0...v7.5.1) (2021-05-07)
+
+
+### Bug Fixes
+
+* An error occurs when an invalid configuration is loaded ([c69a3ef](https://github.com/pubannotation/textae/commit/c69a3ef4afc7e80cd8120dc85ce86fc43f74ed7c))
+
 ## [7.5.0](https://github.com/pubannotation/textae/compare/v7.4.0...v7.5.0) (2021-04-27)
 
 
