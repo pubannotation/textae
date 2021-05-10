@@ -9,7 +9,7 @@ export default class EntityAndAttributePallet extends Pallet {
     editor,
     originalData,
     annotationData,
-    entityContainer,
+    definitionContainer,
     selectionModelEntity,
     commander,
     title
@@ -19,7 +19,7 @@ export default class EntityAndAttributePallet extends Pallet {
     this._eventEmitter = editor.eventEmitter
     this._originalData = originalData
     this._annotationData = annotationData
-    this._definitionContainer = entityContainer
+    this._definitionContainer = definitionContainer
     this._selectionModelItems = selectionModelEntity
 
     bindAttributeEvent(this, this._el, commander, selectionModelEntity)
