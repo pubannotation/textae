@@ -1,4 +1,4 @@
-import editAttributeDefinitionBlockTemplate from '../editAttributeDefinitionBlockTemplate'
+import editAttributeDefinitionBlockTemplate from './editAttributeDefinitionBlockTemplate'
 
 export default function (context) {
   const { attrDef } = context
