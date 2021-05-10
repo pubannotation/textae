@@ -24,7 +24,7 @@ export default function (context) {
     </div>
     <div class="textae-editor__add-value-to-attribute-dialog__color">
       <label>color:</label><br>
-      <input value="${color || ''}">
+      <input type="color" value="${color || ''}">
     </div>
   </div>
 </div>`
