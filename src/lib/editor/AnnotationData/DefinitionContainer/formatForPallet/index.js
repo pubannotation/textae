@@ -13,11 +13,10 @@ export default function (instances, definedTypes, defaultType, defaultColor) {
 
   return types.map((id) => ({
     id,
-    label: (definedTypes.has(id) && definedTypes.get(id)['label']) || undefined,
+    label: (definedTypes.has(id) && definedTypes.get(id).label) || undefined,
     defaultType: id === defaultType,
     uri: getUrlMatches(id) ? id : undefined,
-    color:
-      (definedTypes.has(id) && definedTypes.get(id)['color']) || defaultColor,
+    color: (definedTypes.has(id) && definedTypes.get(id).color) || defaultColor,
     useNumber: countMap.get(id)
   }))
 }
