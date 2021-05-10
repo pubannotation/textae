@@ -3,20 +3,25 @@ export default function (context) {
 
   if (isLock) {
     return `
-      <button 
-        type="button"
-        class="textae-editor__type-pallet__table-button textae-editor__type-pallet__table-button--disabled textae-editor__type-pallet__delete-predicate"
-        disabled="disabled">
-      </button>
       <button
         type="button"
         class="textae-editor__type-pallet__table-button textae-editor__type-pallet__table-button--disabled textae-editor__type-pallet__edit-predicate"
+        disabled="disabled">
+      </button>
+      <button 
+        type="button"
+        class="textae-editor__type-pallet__table-button textae-editor__type-pallet__table-button--disabled textae-editor__type-pallet__delete-predicate"
         disabled="disabled">
       </button>
     `
   }
 
   return `
+    <button
+      type="button"
+      class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-predicate"
+      title="Edit this predicate.">
+    </button>
     ${
       numberOfItemsUsingSelectedPred.size > 0
         ? `<button 
@@ -31,10 +36,5 @@ export default function (context) {
             title="Delet this predicate.">
           </button>`
     }
-    <button
-      type="button"
-      class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-predicate"
-      title="Edit this predicate.">
-    </button>
   `
 }
