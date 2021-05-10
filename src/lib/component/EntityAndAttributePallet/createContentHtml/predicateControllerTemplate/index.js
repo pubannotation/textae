@@ -1,10 +1,9 @@
 import editAttributeDefinitionBlockTemplate from '../editAttributeDefinitionBlockTemplate'
 
 export default function (context) {
-  const { attrDef, selectionModelItems } = context
+  const { attrDef } = context
   const { pred } = attrDef
   const { valueType } = attrDef
-  const numberOfSelectedItems = selectionModelItems.size
 
   return `
   <div class="textae-editor__type-pallet__predicate-controller">
