@@ -11,16 +11,13 @@ export default function (instances, definedTypes, defaultType, defaultColor) {
   )
   const types = sortByCountAndName(countMap).concat(typesWithoutInstance)
 
-  return types.map((id) => {
-    return {
-      id,
-      label:
-        (definedTypes.has(id) && definedTypes.get(id)['label']) || undefined,
-      defaultType: id === defaultType,
-      uri: getUrlMatches(id) ? id : undefined,
-      color:
-        (definedTypes.has(id) && definedTypes.get(id)['color']) || defaultColor,
-      useNumber: countMap.get(id)
-    }
-  })
+  return types.map((id) => ({
+    id,
+    label: (definedTypes.has(id) && definedTypes.get(id)['label']) || undefined,
+    defaultType: id === defaultType,
+    uri: getUrlMatches(id) ? id : undefined,
+    color:
+      (definedTypes.has(id) && definedTypes.get(id)['color']) || defaultColor,
+    useNumber: countMap.get(id)
+  }))
 }
