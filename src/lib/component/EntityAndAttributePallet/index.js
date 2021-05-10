@@ -19,7 +19,7 @@ export default class EntityAndAttributePallet extends Pallet {
     this._eventEmitter = editor.eventEmitter
     this._originalData = originalData
     this._annotationData = annotationData
-    this._entityContainer = entityContainer
+    this._definitionContainer = entityContainer
     this._selectionModelItems = selectionModelEntity
 
     bindAttributeEvent(this, this._el, commander, selectionModelEntity)
@@ -108,7 +108,7 @@ export default class EntityAndAttributePallet extends Pallet {
 
   get _content() {
     return createContentHtml(
-      this._entityContainer.pallet,
+      this._definitionContainer.pallet,
       diff(this._originalData.configuration, {
         ...this._originalData.configuration,
         ...this._annotationData.typeDefinition.config
