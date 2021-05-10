@@ -1,8 +1,7 @@
 export default function (context) {
   const { selectionModelItems, selectedPred } = context
-  const isEntityWithoutSamePredSelected = selectionModelItems.selectedWithoutAttributeOf(
-    selectedPred
-  )
+  const isEntityWithoutSamePredSelected =
+    selectionModelItems.selectedWithoutAttributeOf(selectedPred)
 
   return isEntityWithoutSamePredSelected
     ? `

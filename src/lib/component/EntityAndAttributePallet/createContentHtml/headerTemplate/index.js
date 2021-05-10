@@ -1,8 +1,8 @@
 import getSelectedEntityLabel from './getSelectedEntityLabel'
 import attributeTabTemplate from './attributeTabTemplate'
-import addAttributeButtonTempalte from '../predicateControllerTemplate/addAttributeButtonTemplate'
-import editAttributeButtonTemplate from '../predicateControllerTemplate/editAttributeButtonTemplate'
-import removeAttributeButtonTemplate from '../predicateControllerTemplate/removeAttributeButtonTemplate'
+import addAttributeButtonTempalte from './addAttributeButtonTemplate'
+import editAttributeButtonTemplate from './editAttributeButtonTemplate'
+import removeAttributeButtonTemplate from './removeAttributeButtonTemplate'
 
 export default function (context) {
   const { isLock, selectionModelItems, selectedPred, attributes, hasDiff } =
