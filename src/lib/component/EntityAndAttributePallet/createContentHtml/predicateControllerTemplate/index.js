@@ -6,7 +6,6 @@ export default function (context) {
   const { valueType } = attrDef
 
   return `
-  <div class="textae-editor__type-pallet__predicate-controller">
     <div>
       Attribute
       <span
@@ -16,6 +15,5 @@ export default function (context) {
       "${pred}"
       ${editAttributeDefinitionBlockTemplate(context)}
     </div>
-  </div>
   `
 }
