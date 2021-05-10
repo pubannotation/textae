@@ -365,27 +365,6 @@
 5. エラーが起きないこと
 6. 作成した Entity が消えること
 
-## Selection Attribute 定義の Value の label、color 変更
-
-### 背景
-
-1.  5.2.0 から Entity パレットで Selection Attribute の Value が編集出来るようになりました。
-
-### -- 手段 --
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  `Select Label [Q]`ボタンをクリックする
-4.  `denote`タブを選択
-5.  `Cell`の`Edit this value`ボタンをクリックする
-6.  `label`欄を変更する
-7.  `color`欄を変更する
-8.  `OK`ボタンを押す
-9.  パレットの Value の値が更新されるここと
-10. エンティティ`E1:a:b`の Attribute のラベルと色が更新されるここと
-11. すべてもどす
-12. すべてやり直す
-
 ## Selection Attribute 定義の Value が唯一のときは、削除不可
 
 ### 背景
@@ -874,24 +853,6 @@
 4.  `Q`キーを押す
 5.  パレットがエディターからはみ出ないこと
 6.  パレットの左右に 1px ずつ隙間ができること
-
-## 該当 Attribute を持つアイテムを選択しているときに、パレットの Attribute 削除ボタンを有効にする
-
-### 背景
-
-1. 6.4.58 で無効理由を title タグで記述します
-
-### -- 手段 --
-
-1. Editor1 を選択
-2. Term モードにする
-3. Attribute のない Entity を一つ選択する
-4. `q` キーを押してパレットを開く
-5. `denote` タブを選ぶ
-6. `remove form`ボタンが無効であること
-7. title が`None of the selected items has this attribute.`であること
-8. `add to`ボタンを押す
-9. `remove form`ボタンが有効になること
 
 ## 該当 Attribute のない Entity を選択しているときに、ショートカットキーから Attribute インスタンスを削除しようとしたら警告を表示する
 
@@ -1764,31 +1725,6 @@
 6.  `Remove`ボタンを押す
 7.  `OK`ボタンを押す
 8.  選択中の DenotationEntity の該当 predicate の Attribute が削除されること
-
-## Attribute を定義順に並べる
-
-### 背景
-
-1.  Attribute の表示順には定義がありませんでした
-2.  アノテーションを読み込む際に ID の文字列順にソートし、追加したものが最後になっていました
-3.  6.4.84 で Attribute の定義順に並べることにしました
-4.  6.4.85 で Attribute の定義の順番を変えたときに Entity 上の Attribute の順序も変更するようにしました
-
-### -- 手段 --
-
-1. Editor1 を選択
-2. `E2`の`Cell`が一番上に表示されていること
-3. Term モードにする
-4. `E2`を選択
-5. `w`キーを押して Entity 編集ダイアログを開く
-6. `denote`が 2 行目に表示されていること
-7. 閉じる
-8. `q`キーを押してパレットを選択
-9. `denote`タブを選択する
-10. `denote`タブをドラッグアンドドロップして一番最後に移動する
-11. `E2`の`Cell`が一番下に表示されていること
-12. undo する
-13. `E2`の`Cell`が一番上に表示されていること
 
 ## Attribute 定義の順序変更
 
@@ -3664,17 +3600,3 @@
 13. `Select Label [Q]`ボタンをクリックする
 14. `Select all the cases of this type`ボタンをクリックする
 15. Type を持つ Relation がすべて選択されること
-
-## BlockSpan にはひとつの BlockEntity しか追加できない
-
-### 背景
-
-1.  6.2.110 で、BlockSpan にはひとつの BlockEntity しか追加できなくしました
-
-### -- 手順 --
-
-1.  Editor1 を選択
-2.  Block モードにする
-3.  BlockSpan を選択
-4.  `E`キーを押す
-5.  BlockEntity が追加されないこと
