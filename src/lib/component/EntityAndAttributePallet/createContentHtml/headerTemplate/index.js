@@ -1,14 +1,12 @@
 import getSelectedEntityLabel from './getSelectedEntityLabel'
 import attributeTabTemplate from './attributeTabTemplate'
+import addAttributeButtonTempalte from '../predicateControllerTemplate/addAttributeButtonTemplate'
+import editAttributeButtonTemplate from '../predicateControllerTemplate/editAttributeButtonTemplate'
+import removeAttributeButtonTemplate from '../predicateControllerTemplate/removeAttributeButtonTemplate'
 
 export default function (context) {
-  const {
-    isLock,
-    selectionModelItems,
-    selectedPred,
-    attributes,
-    hasDiff
-  } = context
+  const { isLock, selectionModelItems, selectedPred, attributes, hasDiff } =
+    context
 
   const selectedEntityLabel = getSelectedEntityLabel(selectionModelItems.size)
   const addAttribute = attributes.length < 30
@@ -23,6 +21,15 @@ export default function (context) {
     <span class="textae-editor__type-pallet__lock-icon" style="display: ${
       isLock ? 'inline-block' : 'none'
     };">locked</span>
+    ${
+      selectedPred && selectionModelItems.size > 0
+        ? `
+          ${addAttributeButtonTempalte(context)}
+          ${editAttributeButtonTemplate(context)}
+          ${removeAttributeButtonTemplate(context)}
+          `
+        : ``
+    }
     <span class="textae-editor__type-pallet__selected-entity-label">${selectedEntityLabel}</span>
   </p>
   <p class="textae-editor__type-pallet__attribute ${

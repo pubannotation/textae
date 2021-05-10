@@ -1,7 +1,4 @@
 import editAttributeDefinitionBlockTemplate from '../editAttributeDefinitionBlockTemplate'
-import addAttributeButtonTempalte from './addAttributeButtonTemplate'
-import editAttributeButtonTemplate from './editAttributeButtonTemplate'
-import removeAttributeButtonTemplate from './removeAttributeButtonTemplate'
 
 export default function (context) {
   const { attrDef, selectionModelItems } = context
@@ -19,16 +16,6 @@ export default function (context) {
         title="${valueType} type">
       </span>
       "${pred}"
-      ${
-        numberOfSelectedItems > 0
-          ? `
-            ${addAttributeButtonTempalte(context)}
-            ${editAttributeButtonTemplate(context)}
-            ${removeAttributeButtonTemplate(context)}
-            the ${numberOfSelectedItems} items selected
-            `
-          : ``
-      }
     </div>
   </div>
   `
