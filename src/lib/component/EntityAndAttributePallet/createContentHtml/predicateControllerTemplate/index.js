@@ -8,13 +8,13 @@ export default function (context) {
   return `
   <div class="textae-editor__type-pallet__predicate-controller">
     <div>
-      ${editAttributeDefinitionBlockTemplate(context)}
       Attribute
       <span
         class="textae-editor__type-pallet__predicate__value-type textae-editor__type-pallet__predicate__value-type--${valueType}"
         title="${valueType} type">
       </span>
       "${pred}"
+      ${editAttributeDefinitionBlockTemplate(context)}
     </div>
   </div>
   `
