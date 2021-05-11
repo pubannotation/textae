@@ -31,15 +31,20 @@ export default class CreateAttributeDefinitionDialog extends PromiseDialog {
       }
     )
 
-    delegate(super.el, `.${componentClassName}__value-type`, 'change', () => {
-      const html = template(componentClassName, this._state)
-      super.el.closest('.ui-dialog-content').innerHTML = html
-    })
+    delegate(
+      super.el,
+      `[name="${componentClassName}__value-type"]`,
+      'change',
+      () => {
+        const html = template(componentClassName, this._state)
+        super.el.closest('.ui-dialog-content').innerHTML = html
+      }
+    )
   }
 
   get _state() {
     const valueType = super.el.querySelector(
-      `.${componentClassName}__value-type`
+      `[name="${componentClassName}__value-type"]:checked`
     ).value
     const pred = getInputElementValue(super.el, `.${componentClassName}__pred`)
     const label = getInputElementValue(

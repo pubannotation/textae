@@ -7,20 +7,18 @@ export default function (componentClassName, context) {
 <div class="${componentClassName}__container">
   <div class="${componentClassName}__row">
     <label>Attribute type:</label>
-    <select class="${componentClassName}__value-type">
-      <option value="flag"${valueType === 'flag' ? ` selected` : ``}>
-        flag
-        </option>
-      <option value="selection"${valueType === 'selection' ? ` selected` : ``}>
-        selection
-      </option>
-      <option value="string"${valueType === 'string' ? ` selected` : ``}>
-        string
-      </option>
-      <option value="numeric"${valueType === 'numeric' ? ` selected` : ``}>
-        numeric
-      </option>
-    </select>
+    <label><input type="radio" name="${componentClassName}__value-type" value="flag"${
+    valueType === 'flag' ? ` checked` : ``
+  }>flag</label>
+    <label><input type="radio" name="${componentClassName}__value-type" value="selection"${
+    valueType === 'selection' ? ` checked` : ``
+  }>selection</label>
+    <label><input type="radio" name="${componentClassName}__value-type" value="string"${
+    valueType === 'string' ? ` checked` : ``
+  }>string</label>
+    <label><input type="radio" name="${componentClassName}__value-type" value="numeric"${
+    valueType === 'numeric' ? ` checked` : ``
+  }>numeric</label>
   </div>
   ${inputAttributeDefinition(componentClassName, context)}
 </div>`
