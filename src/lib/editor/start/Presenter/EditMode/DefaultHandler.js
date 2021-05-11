@@ -6,7 +6,7 @@ export default class DefaultHandler {
   }
 
   selectAll(typeName) {
-    this._selectionModel[this._annotationType].clear()
+    this._selectionModel[this._annotationType].removeAll()
     for (const { id } of this._annotationData[this._annotationType].findByType(
       typeName
     )) {
