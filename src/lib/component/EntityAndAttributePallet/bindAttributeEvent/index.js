@@ -149,9 +149,10 @@ export default function (pallet, el, commander, selectionModelEntity) {
   )
 
   delegate(el, '.textae-editor__type-pallet__edit-object', 'click', () => {
-    const attribute = selectionModelEntity.findSelectedAttributeWithSamePredicate(
-      pallet.attrDef.pred
-    )
+    const attribute =
+      selectionModelEntity.findSelectedAttributeWithSamePredicate(
+        pallet.attrDef.pred
+      )
     switch (pallet.attrDef.valueType) {
       case 'numeric':
         openEditNumericAttributeDialog(

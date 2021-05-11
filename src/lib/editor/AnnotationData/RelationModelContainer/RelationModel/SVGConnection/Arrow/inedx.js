@@ -91,12 +91,8 @@ export default class Arrow {
 
   get left() {
     if (this._t) {
-      const {
-        sourceX,
-        targetX,
-        sourceControlX,
-        targetControlX
-      } = this._pathPoints
+      const { sourceX, targetX, sourceControlX, targetControlX } =
+        this._pathPoints
       const labelX =
         Math.pow(1 - this._t, 3) * sourceX +
         3 * Math.pow(1 - this._t, 2) * this._t * sourceControlX +
@@ -138,7 +134,8 @@ export default class Arrow {
   _drawLines(pathPoints, annotationBox) {
     const { sourceEntity, targetEntity } = this._relation
 
-    const sourceEndpoint = sourceEntity.typeValuesElement.getBoundingClientRect()
+    const sourceEndpoint =
+      sourceEntity.typeValuesElement.getBoundingClientRect()
     const sourceLine = createSourceLine(
       pathPoints,
       sourceEndpoint,
@@ -147,7 +144,8 @@ export default class Arrow {
     this._container.appendChild(sourceLine)
     this._lines.push(sourceLine)
 
-    const targetEndpoint = targetEntity.typeValuesElement.getBoundingClientRect()
+    const targetEndpoint =
+      targetEntity.typeValuesElement.getBoundingClientRect()
     const targetLine = createTargetLine(
       pathPoints,
       targetEndpoint,

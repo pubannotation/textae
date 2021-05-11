@@ -2,14 +2,12 @@ import alertifyjs from 'alertifyjs'
 import openEditNumericAttributeDialog from '../../openEditNumericAttributeDialog'
 
 export default function (selectionModel, attrDef, commander) {
-  const attribute = selectionModel.entity.findSelectedAttributeWithSamePredicate(
-    attrDef.pred
-  )
+  const attribute =
+    selectionModel.entity.findSelectedAttributeWithSamePredicate(attrDef.pred)
 
   if (attribute) {
-    const isOnlyEntityWithJsutOneSamePredSelected = selectionModel.entity.onlySelectedWithJustOneAttributeOf(
-      attrDef.pred
-    )
+    const isOnlyEntityWithJsutOneSamePredSelected =
+      selectionModel.entity.onlySelectedWithJustOneAttributeOf(attrDef.pred)
 
     if (isOnlyEntityWithJsutOneSamePredSelected) {
       openEditNumericAttributeDialog(

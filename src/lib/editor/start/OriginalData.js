@@ -11,8 +11,7 @@ export default class OriginalData {
 
   get defaultAnnotation() {
     return {
-      text:
-        'Currently, the document is empty. Use the `import` button or press the key `i` to open a document with annotation.'
+      text: 'Currently, the document is empty. Use the `import` button or press the key `i` to open a document with annotation.'
     }
   }
 

@@ -58,9 +58,8 @@ export default class BlockSpanModel extends SpanModel {
   }
 
   updateSidekicksOfBlockSpanPosition(textBox) {
-    const { top, left, width, height } = this.getReactOfSidekicksOfBlock(
-      textBox
-    )
+    const { top, left, width, height } =
+      this.getReactOfSidekicksOfBlock(textBox)
     setPosition(this._backgroundElement, top, left, width, height)
 
     // The div height cannot be obtained at grid rendering time,
@@ -155,7 +154,8 @@ export default class BlockSpanModel extends SpanModel {
     // An element.offsetTop and element.offsetLeft does not work in the Firefox,
     // when much spans are loaded like http://pubannotation.org/docs/sourcedb/PMC/sourceid/1315279/divs/10/annotations.json.
     const rectOfSpan = spanElement.getBoundingClientRect()
-    const rectOfTextBox = spanElement.offsetParent.offsetParent.getBoundingClientRect()
+    const rectOfTextBox =
+      spanElement.offsetParent.offsetParent.getBoundingClientRect()
 
     return {
       top: rectOfSpan.top - rectOfTextBox.top,

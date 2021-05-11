@@ -13,9 +13,8 @@
 // ==============================================================
 export default function (httpResponse) {
   const statusCode = httpResponse.status
-  const wwwAuthenticateHeader = httpResponse.getResponseHeader(
-    'WWW-Authenticate'
-  )
+  const wwwAuthenticateHeader =
+    httpResponse.getResponseHeader('WWW-Authenticate')
   const locationHeader = httpResponse.getResponseHeader('Location')
   const required =
     statusCode === 401 &&

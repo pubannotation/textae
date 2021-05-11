@@ -41,9 +41,7 @@ export default class AddValueToAttributeDefinitionCommand extends ConfigurationC
     commandLog(
       `add a new value to attrribute:${this._pred}, value: ${JSON.stringify(
         this._value
-      )}, index: ${
-        this._index
-      }, updated values: \n ${this._modifiedValues
+      )}, index: ${this._index}, updated values: \n ${this._modifiedValues
         .map((v) => JSON.stringify(v))
         .join('\n ')}`
     )

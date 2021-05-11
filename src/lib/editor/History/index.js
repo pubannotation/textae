@@ -45,9 +45,8 @@ export default class History {
     const prev = this._histories[this._pointer]
 
     if (prev.kind.has('annotation_command')) {
-      this._pointerForAnnotation.lastEdit = this._getPrevPrevCommandIndexOf(
-        'annotation_command'
-      )
+      this._pointerForAnnotation.lastEdit =
+        this._getPrevPrevCommandIndexOf('annotation_command')
     }
     if (prev.kind.has('configuration_command')) {
       this._pointerForConfiguration.lastEdit = this._getPrevPrevCommandIndexOf(

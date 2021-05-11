@@ -69,9 +69,10 @@ export default class ClipBoard {
       this._itemsWillBeCutAndPaste.length &&
       this._selectionModel.span.single
     ) {
-      const command = this._commander.factory.moveEntitiesToSelectedSpansCommand(
-        this._itemsWillBeCutAndPaste
-      )
+      const command =
+        this._commander.factory.moveEntitiesToSelectedSpansCommand(
+          this._itemsWillBeCutAndPaste
+        )
       this._commander.invoke(command)
       this._updateItems()
 

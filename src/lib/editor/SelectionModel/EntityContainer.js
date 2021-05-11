@@ -41,9 +41,8 @@ export default class EntityContainer extends SelectedElements {
   }
 
   findSelectedAttributeWithSamePredicate(pred) {
-    const selectedEntityWithSamePred = this.findSelectedWithSamePredicateAttribute(
-      pred
-    )
+    const selectedEntityWithSamePred =
+      this.findSelectedWithSamePredicateAttribute(pred)
 
     if (selectedEntityWithSamePred) {
       return selectedEntityWithSamePred.typeValues.attributes.find(

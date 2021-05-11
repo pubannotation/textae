@@ -53,10 +53,11 @@ export default class AttributeEditor {
             this._pallet.show()
             this._pallet.showAttribute(attrDef.pred)
           } else {
-            const command = this._commander.factory.createAttributeToItemsCommand(
-              this._selectionModel.entity.all,
-              attrDef
-            )
+            const command =
+              this._commander.factory.createAttributeToItemsCommand(
+                this._selectionModel.entity.all,
+                attrDef
+              )
             this._commander.invoke(command)
           }
         }
@@ -77,10 +78,11 @@ export default class AttributeEditor {
     const attrDef = this._typeDefinition.attribute.getAttributeAt(number)
 
     if (this._selectionModel.entity.selectedWithAttributeOf(attrDef.pred)) {
-      const command = this._commander.factory.removeAttributesFromItemsByPredCommand(
-        this._selectionModel.entity.all,
-        attrDef
-      )
+      const command =
+        this._commander.factory.removeAttributesFromItemsByPredCommand(
+          this._selectionModel.entity.all,
+          attrDef
+        )
       this._commander.invoke(command)
     } else {
       alertifyjs.warning('None of the selected items has this attribute.')

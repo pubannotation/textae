@@ -27,14 +27,15 @@ export default class ChangeItemTypeCommand extends CompositeCommand {
       )
     }
 
-    const changeInstanceCommand = new ChangeTypeNameAndAttributeOfSelectedItemsCommand(
-      editor,
-      annotationData,
-      selectionModel,
-      definitionContainer.annotationType,
-      value,
-      attributes
-    )
+    const changeInstanceCommand =
+      new ChangeTypeNameAndAttributeOfSelectedItemsCommand(
+        editor,
+        annotationData,
+        selectionModel,
+        definitionContainer.annotationType,
+        value,
+        attributes
+      )
     if (!changeInstanceCommand.isEmpty) {
       commands.push(changeInstanceCommand)
     }
