@@ -77,17 +77,17 @@
 #### -- 手段 --
 
 1.  Editor0 を選択
-2.  `Select Label [Q]`ボタンをクリックする
+2.  `Show label list editor [Q]`ボタンをクリックする
 3.  コンフィグレーション読込ダイアログを開く
 4.  ローカルファイルから`1_config.json`を読み込む
-5.  `Select Label [Q]`ボタンをクリックする
+5.  `Show label list editor [Q]`ボタンをクリックする
 6.  コンフィグレーション保存ダイアログを開く
 7.  Local 欄に`1_config.json`が表示されていること
 
 ### URL を指定して保存
 
 1.  Editor1 を選択
-2.  `Select Label [Q]`ボタンをクリックする
+2.  `Show label list editor [Q]`ボタンをクリックする
 3.  コンフィグレーション保存ダイアログを開く
 4.  URL に保存する
 5.  指定したファイル名`.dev_data.json`のファイルができていること
@@ -96,7 +96,7 @@
 ### Local ファイルに保存
 
 1.  Editor1 を選択
-2.  `Select Label [Q]`ボタンをクリックする
+2.  `Show label list editor [Q]`ボタンをクリックする
 3.  コンフィグレーション保存ダイアログを開く
 4.  Local に保存する
 5.  指定したファイル名のファイルがダウンロードできること
@@ -105,7 +105,7 @@
 ### URL が指定されていなければ save ボタンを押せない
 
 1.  Editor1 を選択
-2.  `Select Label [Q]`ボタンをクリックする
+2.  `Show label list editor [Q]`ボタンをクリックする
 3.  コンフィグレーション保存ダイアログを開く
 4.  URL 欄を空にする
 5.  保存ダイアログ上の Save ボタンが無効になること
@@ -119,7 +119,7 @@
 #### -- 手段 --
 
 1.  Editor1 を選択
-2.  `Select Label [Q]`ボタンをクリックする
+2.  `Show label list editor [Q]`ボタンをクリックする
 3.  コンフィグレーション保存ダイアログを開く
 4.  `Save`ボタンをクリックする
 5.  右上に`configuration saved`と緑色のトースト表示がされること
@@ -165,7 +165,7 @@
 1.  Editor1 を選択
 2.  アノテーション読込ダイアログを開く
 3.  `/dev/2_annotations.json`を読み込む
-4.  `Select Label [Q]`ボタンをクリックする
+4.  `Show label list editor [Q]`ボタンをクリックする
 5.  コンフィグレーション保存ダイアログを開く
 6.  URL 欄に`../../dev/1_config.json?aaa`が表示されていること
 7.  コンフィグレーション読込ダイアログを開く
@@ -376,7 +376,7 @@
 
 1.  Editor1 を選択
 2.  Term モードにする
-3.  `Select Label [Q]`ボタンをクリックする
+3.  `Show label list editor [Q]`ボタンをクリックする
 4.  `selection`タブを選択
 5.  `default`の`Remove this value.`ボタンが無効なこと
 6.  `Add new value`ボタンをクリックする
@@ -422,7 +422,7 @@
 
 1.  Editor1 を選択
 2.  Term モードにする
-3.  `Select Label [Q]`ボタンをクリックする
+3.  `Show label list editor [Q]`ボタンをクリックする
 4.  `denote`タブを選択
 5.  `Cell`の Edit Value ボタンをクリック
 6.  `default`をチェックして`OK`をクリック
@@ -442,7 +442,7 @@
 
 1.  Editor1 を選択
 2.  Term モードにする
-3.  `Select Label [Q]`ボタンをクリックする
+3.  `Show label list editor [Q]`ボタンをクリックする
 4.  `denote`タブを選択
 5.  `Add new value`ボタンをクリックする
 6.  `id`欄を入力する
@@ -669,7 +669,7 @@
 ### Term モード
 
 1.  Term モードにする
-2.  `Select Label [Q]`ボタンをクリックする
+2.  `Show label list editor [Q]`ボタンをクリックする
 3.  パレットが開くこと
 4.  行間をクリックする
 5.  パレットが閉じること
@@ -677,7 +677,7 @@
 ### Relation モード
 
 1.  Relation モードにする
-2.  `Select Label [Q]`ボタンをクリックする
+2.  `Show label list editor [Q]`ボタンをクリックする
 3.  パレットが開くこと
 4.  行間をクリックする
 5.  パレットが閉じること
@@ -693,7 +693,7 @@
 ### -- 手段 --
 
 1.  Block モードにする
-2.  `Select Label [Q]`ボタンをクリックする
+2.  `Show label list editor [Q]`ボタンをクリックする
 3.  パレットが開くこと
 4.  行間をクリックする
 5.  パレットが閉じること
@@ -1228,7 +1228,7 @@
 ## パレットはマウスカーソルの近くに開く
 
 1.  Term モードにする
-2.  `Select Label [Q]`ボタンをクリックする
+2.  `Show label list editor [Q]`ボタンをクリックする
 3.  パレットがボタンの近くに開くこと
 4.  `Q`キーを押す
 5.  パレットがマウスカーソルの近くに開くこと
@@ -2015,7 +2015,7 @@
 
 1.  Editor0 を選択
 2.  Term モードにする
-3.  `Select Label [Q]`ボタンをクリックする
+3.  `Show label list editor [Q]`ボタンをクリックする
 4.  `Edit this type`ボタンをクリックする
 5.  デフォルトラジオボタンが見切れていないこと
 
@@ -2034,7 +2034,7 @@
 
 1.  Editor0 を選択
 2.  Relation モードにする
-3.  `Select Label [Q]`ボタンをクリックする
+3.  `Show label list editor [Q]`ボタンをクリックする
 4.  `Edit this type`ボタンをクリックする
 5.  `Label`欄を変更する
 6.  `OK`ボタンを押す
@@ -2053,7 +2053,7 @@
 
 1.  Editor0 を選択
 2.  Relation モードにする
-3.  `Select Label [Q]`ボタンをクリックする
+3.  `Show label list editor [Q]`ボタンをクリックする
 4.  `Edit this type`ボタンをクリックする
 5.  `Id`欄を変更する
 6.  `OK`ボタンを押す
@@ -2073,7 +2073,7 @@
 
 1.  Editor0 を選択
 2.  Term モードにする
-3.  `Select Label [Q]`ボタンをクリックする
+3.  `Show label list editor [Q]`ボタンをクリックする
 4.  `Protein`の`Edit this type`ボタンをクリックする
 5.  `Id`を変更して、`OK`ボタンをクリックする
 6.  パレット上の`Proetin`のデフォルトマークが消えないこと
@@ -2299,7 +2299,7 @@
 
 ### -- 手段 --
 
-1.  `Select Label [Q]`ボタンをクリックする
+1.  `Show label list editor [Q]`ボタンをクリックする
 2.  コンフィグレーション読込ダイアログを開く
 3.  `invalid_attributes_config.json`を読み込む
 4.  右上に`Invalid configuration: The attribute type whose predicate is 'category' misses a mandatory property, 'default'.`と赤色のトースト表示がされること
@@ -2684,7 +2684,7 @@
 
 1.  Editor2 を選択
 2.  Term モードにする
-3.  `Select Label [Q]`ボタンをクリックする
+3.  `Show label list editor [Q]`ボタンをクリックする
 4.  `Add new type`ボタンをクリックする
 5.  `Id`欄に`SPA`を入力する
 6.  候補に`http://www.amazon.com/Learning-SPARQL-Bob-DuCharme/dp/1449371434/ref=sr_1_1?ie=UTF8&qid=1452147643&sr=8-1&keywords=sparql`が右寄せで表示されること
@@ -2693,7 +2693,7 @@
 
 1.  Editor2 を選択
 2.  Term モードにする
-3.  `Select Label [Q]`ボタンをクリックする
+3.  `Show label list editor [Q]`ボタンをクリックする
 4.  `Edit this type`ボタンをクリックする
 5.  `Id`欄に`Lig`を入力する
 6.  候補に`http://www.yahoo.co.jp`が右寄せで表示されること
@@ -2702,7 +2702,7 @@
 
 1.  Editor2 を選択
 2.  Block モードにする
-3.  `Select Label [Q]`ボタンをクリックする
+3.  `Show label list editor [Q]`ボタンをクリックする
 4.  `Add new type`ボタンをクリックする
 5.  `Id`欄に`SPA`を入力する
 6.  候補に`http://www.amazon.com/Learning-SPARQL-Bob-DuCharme/dp/1449371434/ref=sr_1_1?ie=UTF8&qid=1452147643&sr=8-1&keywords=sparql`が右寄せで表示されること
@@ -2711,7 +2711,7 @@
 
 1.  Editor2 を選択
 2.  Block モードにする
-3.  `Select Label [Q]`ボタンをクリックする
+3.  `Show label list editor [Q]`ボタンをクリックする
 4.  `Edit this type`ボタンをクリックする
 5.  `Id`欄に`Lig`を入力する
 6.  候補に`http://www.yahoo.co.jp`が右寄せで表示されること
@@ -2720,7 +2720,7 @@
 
 1.  Editor2 を選択
 2.  Relation モードにする
-3.  `Select Label [Q]`ボタンをクリックする
+3.  `Show label list editor [Q]`ボタンをクリックする
 4.  `Add new type`ボタンをクリックする
 5.  `Id`欄に`SPA`を入力する
 6.  候補に`http://www.amazon.com/Learning-SPARQL-Bob-DuCharme/dp/1449371434/ref=sr_1_1?ie=UTF8&qid=1452147643&sr=8-1&keywords=sparql`が右寄せで表示されること
@@ -2729,7 +2729,7 @@
 
 1.  Editor2 を選択
 2.  Relation モードにする
-3.  `Select Label [Q]`ボタンをクリックする
+3.  `Show label list editor [Q]`ボタンをクリックする
 4.  `Edit this type`ボタンをクリックする
 5.  `Id`欄に`Lig`を入力する
 6.  候補に`http://www.yahoo.co.jp`が右寄せで表示されること
@@ -3370,7 +3370,7 @@
 
 1.  Editor1 を選択
 2.  Term モードにする
-3.  `Select Label [Q]`ボタンをクリックする
+3.  `Show label list editor [Q]`ボタンをクリックする
 4.  `Add new type`ボタンをクリックする
 5.  `Id`欄に`http*`を入力する
 6.  `Color`欄を変更する
@@ -3381,7 +3381,7 @@
 
 1.  Editor1 を選択
 2.  Block モードにする
-3.  `Select Label [Q]`ボタンをクリックする
+3.  `Show label list editor [Q]`ボタンをクリックする
 4.  `Add new type`ボタンをクリックする
 5.  `Id`欄に`block*`を入力する
 6.  `Color`欄を変更する
@@ -3392,7 +3392,7 @@
 
 1.  Editor1 を選択
 2.  Relation モードにする
-3.  `Select Label [Q]`ボタンをクリックする
+3.  `Show label list editor [Q]`ボタンをクリックする
 4.  `Add new type`ボタンをクリックする
 5.  `Id`欄に`http*`を入力する
 6.  `Color`欄を変更する
@@ -3539,7 +3539,7 @@
 ### -- 手段 --
 
 1.  editor1 を選択
-2.  `Select Label [Q]`ボタンをクリックする
+2.  `Show label list editor [Q]`ボタンをクリックする
 3.  Type 定義を編集する
 4.  コンフィグレーション保存ダイアログを開く
 5.  `Configuration differences`に diff が表示されること
@@ -3587,16 +3587,16 @@
 
 1.  Editor1 を選択
 2.  Term モードにする
-3.  `Select Label [Q]`ボタンをクリックする
+3.  `Show label list editor [Q]`ボタンをクリックする
 4.  `Select all the cases of this type`ボタンをクリックする
 5.  Type を持つ DenotationEntity がすべて選択されること
 6.  Type に Attribute はあってもなくても選択されること
 7.  Block モードにする
-8.  `Select Label [Q]`ボタンをクリックする
+8.  `Show label list editor [Q]`ボタンをクリックする
 9.  `Select all the cases of this type`ボタンをクリックする
 10. Type を持つ BlockEntity がすべて選択されること
 11. Type に Attribute はあってもなくても選択されること
 12. Relation モードにする
-13. `Select Label [Q]`ボタンをクリックする
+13. `Show label list editor [Q]`ボタンをクリックする
 14. `Select all the cases of this type`ボタンをクリックする
 15. Type を持つ Relation がすべて選択されること
