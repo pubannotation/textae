@@ -61,20 +61,14 @@
 2.  URL 欄を空にする
 3.  保存ダイアログ上の Save ボタンが無効になること
 
-## コンフィグレーション保存
+## 保存ファイル名は、読み込んだコンフィグレーションのファイル名
 
 ### 背景
-
-1.  5.0.0 でコンフィグレーションの保存機能を追加しました
-
-### 保存ファイル名は、読み込んだコンフィグレーションのファイル名
-
-#### 背景
 
 1.  コンフィグレーション保存ダイアログの保存ファイルの初期値は、最後に読み込んだコンフィグレーションのファイル名です
 2.  6.1.4 で対応しました
 
-#### -- 手段 --
+### -- 手段 --
 
 1.  Editor0 を選択
 2.  `Show label list editor [Q]`ボタンをクリックする
@@ -83,6 +77,12 @@
 5.  `Show label list editor [Q]`ボタンをクリックする
 6.  コンフィグレーション保存ダイアログを開く
 7.  Local 欄に`1_config.json`が表示されていること
+
+## コンフィグレーション保存
+
+### 背景
+
+1.  5.0.0 でコンフィグレーションの保存機能を追加しました
 
 ### URL を指定して保存
 
@@ -191,36 +191,6 @@
 4.  右上に`Invalid configuration: '<span style='color:red'>Invalid color format</span>' is invalid color format.`と赤色のトースト表示がされること
 5.  アノテーション保存ダイアログを開く
 6.  URL 欄に`http://pubannotation.org/projects/DisGeNET/docs/sourcedb/PubMed/sourceid/10021369/annotations.json`が表示されていること
-
-## アノテーションファイルを読み込んだとき、ステータスバーの情報とエディター内部で保持する変更前のアノテーション情報を更新する
-
-### 背景
-
-1. 読み込んだアノテーションは、保存する際にエディターで変更しないプロパティを保持するために、変更前のアノテーション情報として保存しています
-2. 読み込んだアノテーションファイルとコンフィグレーションファイルの内容を併せて整合性チェックを行います
-3. チェックに引っかかった場合に、ステータスバーの情報を更新していました
-4. チェックに引っかかった場合に、変更前のアノテーション情報を更新していました
-5. チェックに引っかかった場合に、パレットを更新していました
-6. 6.4.29 で上記 3,4 の情報を更新しない対応をしました
-7. エディターの config 属性で、コンフィグレーションファイルの URL を指定していると、コンフィグレーションを含まないアノテーションを読み込んだときに、コンフィグレーションを URL から取得します
-8. 6.4.29 で、コンフィグレーションファイルを URL から取得するアノテーションのときも、上記 3,4 の情報を更新しなくしていました
-9. 6.4.149 で対応しました
-
-### 不正なフォーマットの アノテーションファイルを読み込んだ  ときにステータスバーの情報を更新しない
-
-1.  Editor0 を選択
-2.  `invalid_color_annotation.json` を読み込む
-3.  ステータスバーに表示される URL が`http://pubannotation.org/projects/DisGeNET/docs/sourcedb/PubMed/sourceid/10021369/annotations.json `から変わらないこと
-
-### config 属性を指定したエディターで config が含まれないアノテーションを読みこむ
-
-1. Editor1 を選択
-2. `i`キーを押してアノテーション読込ダイアログを開く
-3. ローカルファイルから`private.json`を読み込む
-4. ステータスバーに`private.json(local file)`が表示されること
-5. `u`キーを押してアノテーション保存ダイアログを開く
-6. `Click to see the json source in a new window.`リンクをクリック
-7. `text`の項目が`Specific T-cell `で始まること
 
 ## Term モードで Ctrl/Cmd を押して複数選択
 
@@ -428,42 +398,6 @@
 6.  `default`をチェックして`OK`をクリック
 7.  Undo する
 8.  `equivalentTo`が`default`になること
-
-## Selection Attribute 定義の Value が annotation 上で使われているときは、削除不可
-
-### 背景
-
-1.  5.2.0 から Entity パレットで Selection Attribute の Value が編集出来るようになりました。
-2.  Selection Attribute 定義の value が annotation 上で使われているときは、削除不可になります。
-3.  削除ボタンは見た目上無効になっているだけで、押せば動きました。
-4.  6.0.6 で対応しました。
-
-### -- 手段 --
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  `Show label list editor [Q]`ボタンをクリックする
-4.  `denote`タブを選択
-5.  `Add new value`ボタンをクリックする
-6.  `id`欄を入力する
-7.  `default`欄にチェックを入れる
-8.  `label`欄を入力する
-9.  `color`欄を入力する
-10. `OK`ボタンを押す
-11. パレットに追加した Value が表示されること
-12. 削除ボタンが有効であること
-13. Entity を選択肢、denote attribute を追加する
-14. Value が入力した値であること
-15. ラベルが入力した値であること
-16. 背景色が入力した値であること
-17. 追加した Value の`Remove this value.`ボタンが無効になること
-18. 実際に`Remove this value.`ボタンを押しても無反応であること
-19. denote attribute をもつ Entity を削除する
-20. 追加した Value の`Remove this value.`ボタンが有効になること
-21. 追加した Value の`Remove this value.`ボタンがクリックする
-22. 追加した Value が削除されること
-23. すべてもどす
-24. すべてやり直す
 
 ## 兄弟 Span を端を共有する親 Span にする
 
@@ -915,33 +849,6 @@
 9.  Attribute のない Entity を一つ選択する
 10. `5`キーを押す
 11. `Down the Rabbit Hole` Attribute が追加されること
-
-## 該当 Attribute を持たないアイテムを選択しているときに、パレットの Attribute 追加ボタンを有効にする
-
-### 背景
-
-1.  **1 つの Entity に Predicate が等しい Attribute をひとつまでしか持てない** 制約がありました
-2.  この制約を **1 つの Entity に Predicate と Object が等しい Attribute をひとつまでしか持てない** に緩めることにしました
-3.  パレットからは、1 つの Entity 上の Predicate が重複した Attribute の作成をサポートしません
-4.  6.4.56 で Attribute 追加ボタンを有効にする条件を、選択アイテムが「一つでも該当 Attribute を持つ」から「一つでも該当 Attribute を持たない」に変えました
-5.  6.4.57 で無効理由を title タグで記述します
-
-### -- 手段 --
-
-1. Editor1 を選択
-2. Term モードにする
-3. Attribute のない Entity を一つ選択する
-4. `q` キーを押してパレットを開く
-5. `denote` タブを選ぶ
-6. `add to`ボタンを押す
-7. `add to`ボタンが無効になること
-8. title が`All the selected items already have this attribute.`であること
-9. `remove from`ボタンを押す
-10. Attribute が削除されること
-11. `add to`ボタンを押す
-12. `add to`ボタンが無効になること
-13. Attribute のない Entity をもう一つ追加で選択する
-14. `add to`ボタンが有効になること
 
 ## パレットの Attribute タブの Attribute 情報フォーマット
 
@@ -1832,51 +1739,6 @@
 6.  文字を変更する
 7.  `Enter`キーを押す
 8.  DenotationEntity の id が変わること
-
-## カット&ペースト
-
-### 背景
-
-1.  6.0.0 でカット&ペースト機能を導入しました
-2.  6.0.3 でカットをキャンセルできるようにしました
-3.  6.0.0 から複数の Span を選択してペーストするとエラーが起きていました
-4.  6.1.12 で、対応しました
-5.  6.1.15 で、ペーストしたときに Span だけが残っていました
-6.  6.2.104 で、対応をしました
-7.  6.1.15 で、カットした Span を自分自身にペーストできるようになっていました
-8.  6.2.105 で、対応をしました
-
-### 自分自身にペーストできない
-
-1.  Term モードにする
-2.  Span を選択して`x`キーを押す
-3.  Entity とラベルが半透明になること
-4.  その Span を選択したまま、貼り付ける
-5.  何も起きないこと
-
-### カット&ペースト
-
-1.  Term モードにする
-2.  Span を選択して`x`キーを押す
-3.  Entity とラベルが半透明になること
-4.  他の Span を選択して貼り付ける
-5.  選択した Span の全ての Entity と Attribute が、対象 Span に張り付く
-6.  Relation も張り付く
-7.  元々あった Entity とラベルはなくなる
-
-### 複数 Span を選択してペーストできない
-
-1.  Span を選択して`x`キーを押す
-2.  Entity とラベルが半透明になること
-3.  複数の Span を選択して`v`キーを押して貼り付ける
-4.  何も起きないこと
-
-### カット状態のキャンセル
-
-1.  Span を選択して`x`キーを押す
-2.  Entity とラベルが半透明になること
-3.  同じ Span を選択したまま`x`キーを押す
-4.  Entity とラベルが半透明でなくなること
 
 ## DenotationEntity 選択時のコントロールバーの見た目の変化
 
@@ -3575,28 +3437,3 @@
 2.  multi_tracks.json を開く
 3.  高さが再計算されること
 4.  下側の隙間が狭いこと
-
-## パレットからのインスタンス選択
-
-### 背景
-
-1.  5.0.0 で Type の編集機能に、Type のインスタンスを選択する機能を追加しました
-2.  6.2.0 からブロック機能を追加
-
-### -- 手段 --
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  `Show label list editor [Q]`ボタンをクリックする
-4.  `Select all the cases of this type`ボタンをクリックする
-5.  Type を持つ DenotationEntity がすべて選択されること
-6.  Type に Attribute はあってもなくても選択されること
-7.  Block モードにする
-8.  `Show label list editor [Q]`ボタンをクリックする
-9.  `Select all the cases of this type`ボタンをクリックする
-10. Type を持つ BlockEntity がすべて選択されること
-11. Type に Attribute はあってもなくても選択されること
-12. Relation モードにする
-13. `Show label list editor [Q]`ボタンをクリックする
-14. `Select all the cases of this type`ボタンをクリックする
-15. Type を持つ Relation がすべて選択されること
