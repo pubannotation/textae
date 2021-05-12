@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.6.0](https://github.com/pubannotation/textae/compare/v7.5.1...v7.6.0) (2021-05-12)
+
+
+### Features
+
+* Added margin left to palette predicate ([8064664](https://github.com/pubannotation/textae/commit/8064664f0f392c889196feb2d154690c53d7534f))
+* Display an icon in the Attribute Type column of the Add Attribute Definition dialog ([eb7af8d](https://github.com/pubannotation/textae/commit/eb7af8d8f7ad22efb2e6bda9914dc84f0459b35f))
+* Make the Attribute Type field in the Add Attribute Definition dialog a radio button ([e00308e](https://github.com/pubannotation/textae/commit/e00308ebdc4573e93641c145c4dee2e50525b212))
+* Move the Edit and Delete Attribute Definitions buttons on the palette to the right of the attribute name ([cabcfae](https://github.com/pubannotation/textae/commit/cabcfae062add9277dd6f9aa7ae0052389d3f0f7))
+* Move the Palette's Add, Edit, and Delete Attributes buttons to the left of the Attributes tab ([a6a5cbf](https://github.com/pubannotation/textae/commit/a6a5cbfe7ff6c1ff4e81a08d17850c63ccbec86b))
+* Replace the position of the Edit and Delete Palette Attribute Definition buttons ([c7eb0a1](https://github.com/pubannotation/textae/commit/c7eb0a1983facfba00105697ddfc814578e0e581))
+* Turn the color input field in the Add Attribute Definition dialog into a color picker ([8d5238f](https://github.com/pubannotation/textae/commit/8d5238fe6dc3a43e19ea720bd15a5b3b8a7a44a2))
+* Turn the color input field in the Add Attribute Value dialog into a color picker ([dd571b6](https://github.com/pubannotation/textae/commit/dd571b6417d548539a62413c143f4caf539b6bb8))
+
+
+### Bug Fixes
+
+* When selecting an entity or relation from the palette, the currently selected entity or relation is deselected, but it still looks selected ([5b6fc3f](https://github.com/pubannotation/textae/commit/5b6fc3f3bdceebb26808553d6089fe1a93fc04b1))
+
 ### [7.5.1](https://github.com/pubannotation/textae/compare/v7.5.0...v7.5.1) (2021-05-07)
 
 
