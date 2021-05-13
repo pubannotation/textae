@@ -151,28 +151,6 @@
 11. `Uplaod`ボタンをクリック
 12. `Configuration differences`欄の`attribute types`の 1 番目の`pred`の変更前の値が`denote`でないこと
 
-## コンフィグレーション保存先 URL は、読み込んだコンフィグレーションの URL
-
-### 背景
-
-1. コンフィグレーション保存ダイアログの保存先 URL の初期値は、最後に読み込んだコンフィグレーションの URL です
-2. 読み込んだアノテーションファイルにコンフィグレーションが含まれず、textae の HTML 属性でコンフィグレーションの URL が指定されているときは、指定 URL からコンフィグレーションを読み込みます。このときは読み込んだ URL を保存していませんでした。
-3. コンフィグレーション読込ダイアログから、不正なコンフィグレーションを読み込んだときに、コンフィグレーションを適用しません。その URL を保存していました。
-4. 6.1.3 で対応しました
-
-### -- 手段 --
-
-1.  Editor1 を選択
-2.  アノテーション読込ダイアログを開く
-3.  `/dev/2_annotations.json`を読み込む
-4.  `Show label list editor [Q]`ボタンをクリックする
-5.  コンフィグレーション保存ダイアログを開く
-6.  URL 欄に`../../dev/1_config.json?aaa`が表示されていること
-7.  コンフィグレーション読込ダイアログを開く
-8.  URL 欄に`/dev/invalid_attributes_config.json`を入力して`open`ボタンをクリック
-9.  コンフィグレーション保存ダイアログを開く
-10. URL 欄に`../../dev/1_config.json?aaa`が表示されていること
-
 ## アノテーション保存先 URL は、読み込んだアノテーションの URL
 
 ### 背景
@@ -333,28 +311,6 @@
 6.  エンティティ`E1:a:b`の Attribute の値が変更されること
 7.  すべてもどす
 8.  すべてやり直す
-
-## Selection Attribute 定義の default でない Value を default に変更して UNDO する
-
-### 背景
-
-1.  5.2.0 から Entity パレットで Selection Attribute の Value が編集出来るようになりました。
-2.  default の Value から default プロパティを削除したとき、先頭の Value を default にします
-3.  default でない Value をデフォルトにするとき、既存の default Value から default プロパティを削除します
-4.  default でない Value をデフォルトにして UNDO したときは、default 出なくした既存の default Value を default に戻したいです
-5.  この処理が抜けていたため、既存の defalt Value でなく、先頭の Value が default になっていました
-6.  6.4.138 で対応しました
-
-### -- 手段 --
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  `Show label list editor [Q]`ボタンをクリックする
-4.  `denote`タブを選択
-5.  `Cell`の Edit Value ボタンをクリック
-6.  `default`をチェックして`OK`をクリック
-7.  Undo する
-8.  `equivalentTo`が`default`になること
 
 ## 兄弟 Span を端を共有する親 Span にする
 
@@ -590,17 +546,6 @@
 5.  パレットが閉じること
 6.  BlockSpan のすぐ上をクリックする
 7.  パレットが閉じること
-
-## BlockSpan のヒットエリアのタイトルに BlockSpan の ID を表示
-
-### 背景
-
-1. 6.4.62 で対応
-
-### -- 手段 --
-
-1.  Editor1 を選択
-2.  BlockSpan のヒットエリアのタイトルに Span の ID が入っていること
 
 ## Entity をホバーしたときの見た目
 
@@ -1201,32 +1146,6 @@
 5.  文字を変更する
 6.  `Esc`キーを押す
 7.  BlockEntity の id が変わらないこと
-
-## DenotationEntity 編集ダイアログを開く
-
-### Change Label[W]ボタン
-
-1.  Term モードにする
-2.  DenotationEntity を選択する
-3.  `Change Label[W]`ボタンを押す
-4.  編集ダイアログが開くこと
-
-### W キー
-
-1.  Term モードにする
-2.  DenotationEntity を選択する
-3.  `W`キーを押す
-4.  編集ダイアログが開くこと
-
-### コンテキストメニュー
-
-1.  Term モードにする
-2.  DenotationEntity を選択する
-3.  右クリックする
-4.  コンテキストメニューが開くこと
-5.  コンテキストメニューの
-6.  `Change Label[W]`ボタンを押す
-7.  編集ダイアログが開くこと
 
 ## ラベル編集時にオートコンプリートを表示して、ダイアログをクリックすると、次からオートコンプリートがダイアログの下に表示される
 
