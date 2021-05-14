@@ -163,6 +163,16 @@ export default class EntityModel {
     this.reflectEntityGapInTheHeight()
   }
 
+  remove() {
+    if (this.span.entities.length === 0) {
+      // Destroy a grid when all entities are remove.
+      this.span.destroyGridElement()
+    } else {
+      // Destroy whole of type DOM.
+      this.destroyElement()
+    }
+  }
+
   _renderElement() {
     return createSignboardHTMLElement(
       this,
