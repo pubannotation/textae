@@ -47,9 +47,18 @@ export default class Renderer {
       })
 
     editor.eventEmitter
-      .on('textae-event.type-definition.entity.change', (typeName) =>
-        updateEntityElements.updateEntityHtmlelement(typeName)
-      )
+      .on('textae-event.type-definition.entity.change', (typeName) => {
+        for (const entity of annotationData.entity.all) {
+          // If the type name ends in a wildcard, look for the DOMs to update with a forward match.
+          if (
+            entity.typeName === typeName ||
+            (typeName.lastIndexOf('*') === typeName.length - 1 &&
+              entity.typeName.indexOf(typeName.slice(0, -1) === 0))
+          ) {
+            entity.updateElement()
+          }
+        }
+      })
       .on('textae-event.type-definition.attribute.change', (pred) =>
         updateEntityElements.updateAttribute(pred)
       )
