@@ -22,7 +22,10 @@ export default class View {
       annotationData.span.arrangeBackgroundOfBlockSpanPosition()
       annotationData.span.arrangeBlockEntityPosition()
 
-      renderer.arrangeRelationPositionAll()
+      for (const relation of annotationData.relation.all) {
+        relation.updateElement()
+      }
+
       editor.eventEmitter.emit(
         'textae-event.annotation-position.position-update.end'
       )
