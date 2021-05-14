@@ -5,7 +5,7 @@ export default class AnnotationPosition {
     this._renderer = renderer
   }
 
-  async update() {
+  update() {
     this._editor.eventEmitter.emit(
       'textae-event.annotation-position.position-update.start'
     )
