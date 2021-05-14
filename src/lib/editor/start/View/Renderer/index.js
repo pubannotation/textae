@@ -1,5 +1,5 @@
 import EntityRenderer from './EntityRenderer'
-import SpanRenderer from './bindAnnotationDataEvents/SpanRenderer'
+import SpanRenderer from './SpanRenderer'
 import getAnnotationBox from '../../../getAnnotationBox'
 
 export default class Renderer {
