@@ -1,4 +1,4 @@
-export default class EntityRenderer {
+export default class UpdateEntityElements {
   constructor(annotationData) {
     this._annotationData = annotationData
   }

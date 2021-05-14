@@ -1,10 +1,10 @@
-import EntityRenderer from './EntityRenderer'
+import UpdateEntityElements from './UpdateEntityElements'
 import SpanRenderer from './SpanRenderer'
 import getAnnotationBox from '../../../getAnnotationBox'
 
 export default class Renderer {
   constructor(editor, annotationData) {
-    const entityRenderer = new EntityRenderer(annotationData)
+    const updateEntityElements = new UpdateEntityElements(annotationData)
     const spanRenderer = new SpanRenderer()
 
     editor.eventEmitter
@@ -48,13 +48,13 @@ export default class Renderer {
 
     editor.eventEmitter
       .on('textae-event.type-definition.entity.change', (typeName) =>
-        entityRenderer.updateEntityHtmlelement(typeName)
+        updateEntityElements.updateEntityHtmlelement(typeName)
       )
       .on('textae-event.type-definition.attribute.change', (pred) =>
-        entityRenderer.updateAttribute(pred)
+        updateEntityElements.updateAttribute(pred)
       )
       .on('textae-event.type-definition.attribute.move', (pred) =>
-        entityRenderer.updateAttribute(pred)
+        updateEntityElements.updateAttribute(pred)
       )
       .on('textae-event.type-definition.relation.change', (typeName) => {
         for (const relation of annotationData.relation.all) {
