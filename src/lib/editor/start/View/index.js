@@ -1,11 +1,12 @@
 import delegate from 'delegate'
+import debounce from 'debounce'
 import CursorChanger from '../../../util/CursorChanger'
 import AnnotationPosition from './AnnotationPosition'
 import bindClipBoardEvents from './bindClipBoardEvents'
 import bindAnnotaitonPositionEvents from './bindAnnotaitonPositionEvents'
 import Renderer from './Renderer'
-import bindAnnotationDataEvents from './bindAnnotationDataEvents'
 import getEntityHTMLelementFromChild from '../getEntityHTMLelementFromChild'
+import LineHeightAuto from './bindAnnotationDataEvents/LineHeightAuto'
 
 export default class View {
   constructor(editor, annotationData) {
@@ -19,11 +20,42 @@ export default class View {
 
     annotationData.entityGap.bind(() => this._applyEntityGap())
     bindClipBoardEvents(editor)
-    bindAnnotationDataEvents(
+
+    // Bind annotation data events
+    const lineHeightAuto = new LineHeightAuto(
       editor,
-      this._annotationPosition,
       this._annotationData.textBox
     )
+    const debouncedUpdatePosition = debounce(() => {
+      lineHeightAuto.updateLineHeight()
+      this._annotationPosition.update()
+    }, 100)
+
+    editor.eventEmitter
+      .on('textae-event.annotation-data.all.change', debouncedUpdatePosition)
+      .on('textae-event.annotation-data.entity.add', debouncedUpdatePosition)
+      .on('textae-event.annotation-data.entity.change', debouncedUpdatePosition)
+      .on('textae-event.annotation-data.entity.remove', debouncedUpdatePosition)
+      .on('textae-event.annotation-data.entity.move', debouncedUpdatePosition)
+      .on('textae-event.annotation-data.relation.add', debouncedUpdatePosition)
+      .on('textae-event.annotation-data.attribute.add', debouncedUpdatePosition)
+      .on(
+        'textae-event.annotation-data.attribute.change',
+        debouncedUpdatePosition
+      )
+      .on(
+        'textae-event.annotation-data.attribute.remove',
+        debouncedUpdatePosition
+      )
+      .on('textae-event.annotation-data.span.move', () => {
+        // Move grids and relations synchronously.
+        // If grid and relations move asynchronously,
+        // grid positions in cache may be deleted before render relation when moving span frequently.
+        // Position of relation depends on position of grid and position of grid is cached for perfermance.
+        // If position of grid is not cached, relation can not be rendered.
+        this._annotationPosition.update()
+      })
+
     bindAnnotaitonPositionEvents(editor, new CursorChanger(editor))
 
     // Highlight retaitons when related entity is heverd.
