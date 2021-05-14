@@ -3,10 +3,6 @@ export default class EntityRenderer {
     this._annotationData = annotationData
   }
 
-  remove(entity) {
-    entity.remove()
-  }
-
   updateEntityHtmlelement(typeName) {
     for (const entity of this._annotationData.entity.all) {
       // If the type name ends in a wildcard, look for the DOMs to update with a forward match.
