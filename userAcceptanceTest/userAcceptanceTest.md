@@ -1657,29 +1657,6 @@
 11. o を p の後ろにドロップする
 12. `o`タブが`p`タブの後ろに移動すること
 
-## 複数 Entity 選択時は、Entity 編集ダイアログに 、最後に選んだ Entity の Type と Attribute を表示すること
-
-### 背景
-
-1.  どの要素の Type を表示すればいいのかわからないので
-2.  5.0.0 で Attribute 編集を追加した際に、全部消してしまうと再入力が大変すぎるので、なるべく残すようにしました。
-
-### DenotationEntity
-
-1.  Term モードにする
-2.  複数 DenotationEntity を選択する
-3.  Type を編集する
-4.  Value 欄に最後に選んだ Entity の Type の Value が表示されること
-5.  すべての Attribute の Predicate が表示されること
-6.  Attribute の Predicate が重複した際は、最後に選んだ Entity の Value が表示されること
-
-### BlockEntity
-
-1.  Block モードにする
-2.  複数 BlockEntity を選択する
-3.  Type を編集する
-4.  Value 欄に最初の Type の Value が表示されること
-
 ## BlockEntity 編集ダイアログの編集確定
 
 ### 背景
@@ -1786,19 +1763,6 @@
 3.  `W`キーを押す
 4.  編集ダイアログが開くこと
 5.  選択した Relation の Type の id が表示されること
-
-### 複数 Relation 選択時はは元の文字列は表示されない
-
-#### 背景
-
-1.  どの要素の Type を表示すればいいのかわからないので
-
-#### -- 手段 --
-
-1.  Relation モードにする
-2.  複数 Relation を選択する
-3.  Type を編集する
-4.  空文字が表示されること
 
 ## Relation 編集ダイアログでラベルを持たない Relation を開く
 
@@ -3411,19 +3375,6 @@
 9.  DenotationEntity の Protein の id を変更する
 10. コンフィグレーション保存ダイアログを開く
 11. diff に Entity Protein の変更のみ表示されていること
-
-## 連続した BlockSpan の間に空行が挟まらない
-
-### 背景
-
-1.  6.2.0 で Block モードを追加しました
-2.  BlockSpan を div で表現しているため、div 間に改行が挟まれ、1 行余計に隙間が空いていました
-3.  6.2.114 で、BlockSpan に`display: inline-block`と`width: 100px`を指定して、改行しつつ、余計な空行は挟まらないようにしました
-
-### -- 手段 --
-
-1.  Editor1 を選択
-2.  `block1`と`block2`の間に隙間がないこと
 
 ## 別の annotatian を開いて高さが再計算されること
 
