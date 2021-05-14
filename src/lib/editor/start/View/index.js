@@ -1,7 +1,6 @@
 import delegate from 'delegate'
 import debounce from 'debounce'
 import CursorChanger from '../../../util/CursorChanger'
-import AnnotationPosition from './AnnotationPosition'
 import bindClipBoardEvents from './bindClipBoardEvents'
 import bindAnnotaitonPositionEvents from './bindAnnotaitonPositionEvents'
 import Renderer from './Renderer'
@@ -11,11 +10,24 @@ import LineHeightAuto from './LineHeightAuto'
 export default class View {
   constructor(editor, annotationData) {
     const renderer = new Renderer(editor, annotationData)
-    this._annotationPosition = new AnnotationPosition(
-      editor,
-      annotationData,
-      renderer
-    )
+    this._updateAnnotationPosition = function () {
+      editor.eventEmitter.emit(
+        'textae-event.annotation-position.position-update.start'
+      )
+
+      annotationData.span.arrangeDenotationEntityPosition()
+
+      // When you undo the deletion of a block span,
+      // if you move the background first, the grid will move to a better position.
+      annotationData.span.arrangeBackgroundOfBlockSpanPosition()
+      annotationData.span.arrangeBlockEntityPosition()
+
+      renderer.arrangeRelationPositionAll()
+      editor.eventEmitter.emit(
+        'textae-event.annotation-position.position-update.end'
+      )
+    }
+
     this._annotationData = annotationData
 
     annotationData.entityGap.bind(() => this._applyEntityGap())
@@ -28,7 +40,7 @@ export default class View {
     )
     const debouncedUpdatePosition = debounce(() => {
       lineHeightAuto.updateLineHeight()
-      this._annotationPosition.update()
+      this._updateAnnotationPosition()
     }, 100)
 
     editor.eventEmitter
@@ -53,7 +65,7 @@ export default class View {
         // grid positions in cache may be deleted before render relation when moving span frequently.
         // Position of relation depends on position of grid and position of grid is cached for perfermance.
         // If position of grid is not cached, relation can not be rendered.
-        this._annotationPosition.update()
+        this._updateAnnotationPosition()
       })
 
     bindAnnotaitonPositionEvents(editor, new CursorChanger(editor))
@@ -89,12 +101,12 @@ export default class View {
 
   updateDisplay() {
     this._annotationData.textBox.forceUpdate()
-    this._annotationPosition.update()
+    this._updateAnnotationPosition()
   }
 
   updateLineHeight() {
     this._annotationData.textBox.updateLineHeight()
-    this._annotationPosition.update()
+    this._updateAnnotationPosition()
   }
 
   _applyEntityGap() {
