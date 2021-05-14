@@ -9,7 +9,7 @@ import LineHeightAuto from './LineHeightAuto'
 
 export default class View {
   constructor(editor, annotationData) {
-    const renderer = new Renderer(editor, annotationData)
+    new Renderer(editor, annotationData)
     this._updateAnnotationPosition = function () {
       editor.eventEmitter.emit(
         'textae-event.annotation-position.position-update.start'
