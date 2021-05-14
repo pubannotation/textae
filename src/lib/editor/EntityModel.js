@@ -7,6 +7,8 @@ import getDisplayName from './getDisplayName'
 import getUri from './getUri'
 import toAnchorElement from './toAnchorElement'
 
+const cssClass = 'ui-to-be-cut'
+
 export default class EntityModel {
   constructor(
     editor,
@@ -128,6 +130,12 @@ export default class EntityModel {
       this._selected = false
 
       this.element.classList.remove(SELECTED)
+    }
+  }
+
+  startCut() {
+    if (this.element) {
+      this.element.classList.add(cssClass)
     }
   }
 
