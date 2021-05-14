@@ -1,5 +1,5 @@
 export default class SpanRenderer {
-  constructor(entityRenderer) {}
+  constructor() {}
 
   render(span) {
     // Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
