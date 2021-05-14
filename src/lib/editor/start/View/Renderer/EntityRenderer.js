@@ -3,10 +3,6 @@ export default class EntityRenderer {
     this._annotationData = annotationData
   }
 
-  render(entity) {
-    entity.renderAtTheGrid()
-  }
-
   remove(entity) {
     if (entity.span.entities.length === 0) {
       // Destroy a grid when all entities are remove.
