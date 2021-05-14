@@ -3,7 +3,6 @@ import bindAnnotationDataEvents from './bindAnnotationDataEvents'
 
 export default class Renderer {
   constructor(editor, annotationData) {
-    this._annotationData = annotationData
     const entityRenderer = new EntityRenderer(annotationData)
 
     bindAnnotationDataEvents(annotationData, editor, entityRenderer)
@@ -19,7 +18,7 @@ export default class Renderer {
         entityRenderer.updateAttribute(pred)
       )
       .on('textae-event.type-definition.relation.change', (typeName) => {
-        for (const relation of this._annotationData.relation.all) {
+        for (const relation of annotationData.relation.all) {
           // If the type name ends in a wildcard, look for the DOMs to update with a forward match.
           if (
             relation.typeName === typeName ||
@@ -30,7 +29,5 @@ export default class Renderer {
           }
         }
       })
-
-    this._annotationData = annotationData
   }
 }
