@@ -23,10 +23,4 @@ export default class UpdateEntityElements {
       entity.updateElement()
     }
   }
-
-  updateEntityHtmlelementAll() {
-    for (const entity of this._annotationData.entity.all) {
-      entity.updateElement()
-    }
-  }
 }
