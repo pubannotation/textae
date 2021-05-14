@@ -1,5 +1,5 @@
 export default class SpanRenderer {
-  constructor(editor, entityRenderer) {
+  constructor(entityRenderer) {
     this._entityRenderer = entityRenderer
   }
 

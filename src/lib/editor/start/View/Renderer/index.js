@@ -5,7 +5,7 @@ import getAnnotationBox from '../../../getAnnotationBox'
 export default class Renderer {
   constructor(editor, annotationData) {
     const entityRenderer = new EntityRenderer(annotationData)
-    const spanRenderer = new SpanRenderer(editor, entityRenderer)
+    const spanRenderer = new SpanRenderer(entityRenderer)
 
     editor.eventEmitter
       .on('textae-event.annotation-data.all.change', () => {
