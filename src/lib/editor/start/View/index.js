@@ -6,7 +6,7 @@ import bindClipBoardEvents from './bindClipBoardEvents'
 import bindAnnotaitonPositionEvents from './bindAnnotaitonPositionEvents'
 import Renderer from './Renderer'
 import getEntityHTMLelementFromChild from '../getEntityHTMLelementFromChild'
-import LineHeightAuto from './bindAnnotationDataEvents/LineHeightAuto'
+import LineHeightAuto from './LineHeightAuto'
 
 export default class View {
   constructor(editor, annotationData) {

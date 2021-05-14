@@ -1,5 +1,5 @@
 import debounce from 'debounce'
-import LineHeightAuto from './LineHeightAuto'
+import LineHeightAuto from '../LineHeightAuto'
 
 export default function (editor, annotationPosition, textBox) {
   const lineHeightAuto = new LineHeightAuto(editor, textBox)
