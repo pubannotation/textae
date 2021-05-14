@@ -7,6 +7,14 @@ export default class Renderer {
     const updateEntityElements = new UpdateEntityElements(annotationData)
     const spanRenderer = new SpanRenderer()
 
+    const updateAttribute = function (pred) {
+      for (const entity of annotationData.entity.all.filter((e) =>
+        e.typeValues.hasSpecificPredicateAttribute(pred)
+      )) {
+        entity.updateElement()
+      }
+    }
+
     editor.eventEmitter
       .on('textae-event.annotation-data.all.change', () => {
         getAnnotationBox(editor).innerHTML = ''
@@ -60,10 +68,10 @@ export default class Renderer {
         }
       })
       .on('textae-event.type-definition.attribute.change', (pred) =>
-        updateEntityElements.updateAttribute(pred)
+        updateAttribute(pred)
       )
       .on('textae-event.type-definition.attribute.move', (pred) =>
-        updateEntityElements.updateAttribute(pred)
+        updateAttribute(pred)
       )
       .on('textae-event.type-definition.relation.change', (typeName) => {
         for (const relation of annotationData.relation.all) {
