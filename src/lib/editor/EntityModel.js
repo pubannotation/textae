@@ -94,7 +94,7 @@ export default class EntityModel {
     }
   }
 
-  get element() {
+  get _element() {
     return document.querySelector(
       `#${makeEntityHTMLElementId(this._editor, this.id)}`
     )
@@ -129,26 +129,26 @@ export default class EntityModel {
     if (this._selected) {
       this._selected = false
 
-      this.element.classList.remove(SELECTED)
+      this._element.classList.remove(SELECTED)
     }
   }
 
   startCut() {
-    if (this.element) {
-      this.element.classList.add(cssClass)
+    if (this._element) {
+      this._element.classList.add(cssClass)
     }
   }
 
   cancelCut() {
-    if (this.element) {
-      this.element.classList.remove(cssClass)
+    if (this._element) {
+      this._element.classList.remove(cssClass)
     }
   }
 
   renderAtTheGrid() {
     // Don't delete child Span on span moves.
     // Check if a child span is already present so that it is not drawn twice.
-    if (this.element) {
+    if (this._element) {
       return
     }
 
@@ -174,7 +174,7 @@ export default class EntityModel {
 
   updateElement() {
     const element = this._renderElement()
-    this.element.replaceWith(element)
+    this._element.replaceWith(element)
 
     // Re-select a new entity element.
     if (this._selected) {
@@ -185,12 +185,12 @@ export default class EntityModel {
   }
 
   destroyElement() {
-    this.element.remove()
+    this._element.remove()
   }
 
   reflectEntityGapInTheHeight() {
     if (this.isDenotation) {
-      const entityElement = this.element
+      const entityElement = this._element
       if (entityElement) {
         entityElement.setAttribute(
           'style',
@@ -201,7 +201,7 @@ export default class EntityModel {
   }
 
   _selectElement() {
-    const el = this.element
+    const el = this._element
     el.classList.add(SELECTED)
 
     // The block span renders as a div HTML element.
