@@ -1,10 +1,8 @@
-import UpdateEntityElements from './UpdateEntityElements'
 import SpanRenderer from './SpanRenderer'
 import getAnnotationBox from '../../../getAnnotationBox'
 
 export default class Renderer {
   constructor(editor, annotationData) {
-    const updateEntityElements = new UpdateEntityElements(annotationData)
     const spanRenderer = new SpanRenderer()
 
     const updateAttribute = function (pred) {
