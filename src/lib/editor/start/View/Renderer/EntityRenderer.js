@@ -4,7 +4,7 @@ export default class EntityRenderer {
   }
 
   render(entity) {
-    entity.render()
+    entity.renderAtTheGrid()
   }
 
   remove(entity) {
