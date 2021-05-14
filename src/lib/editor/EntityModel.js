@@ -131,6 +131,24 @@ export default class EntityModel {
     }
   }
 
+  render() {
+    // Don't delete child Span on span moves.
+    // Check if a child span is already present so that it is not drawn twice.
+    if (this.element) {
+      return
+    }
+
+    // A span have one grid and a grid can have multi types and a type can have multi entities.
+    // A grid is only shown when at least one entity is owned by a correspond span.
+    const grid = this.span.gridElement || this.span.renderGridElement()
+
+    // Append a new entity to the type
+    const element = this.renderElement()
+    grid.insertAdjacentElement('beforeend', element)
+
+    this.reflectEntityGapInTheHeight()
+  }
+
   renderElement() {
     return createSignboardHTMLElement(
       this,
