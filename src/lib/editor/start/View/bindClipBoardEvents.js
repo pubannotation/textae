@@ -10,7 +10,7 @@ export default function (editor) {
 
     for (const entity of removed) {
       if (entity.element) {
-        entity.element.classList.remove(cssClass)
+        entity.cancelCut()
       }
     }
   })

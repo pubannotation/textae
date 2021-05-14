@@ -139,6 +139,12 @@ export default class EntityModel {
     }
   }
 
+  cancelCut() {
+    if (this.element) {
+      this.element.classList.remove(cssClass)
+    }
+  }
+
   renderAtTheGrid() {
     // Don't delete child Span on span moves.
     // Check if a child span is already present so that it is not drawn twice.
