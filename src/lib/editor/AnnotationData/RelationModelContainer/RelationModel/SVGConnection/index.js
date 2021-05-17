@@ -1,4 +1,4 @@
-import getAnnotationBox from '../../../../getAnnotationBox'
+import getAnnotationBox from '../../../getAnnotationBox'
 import Arrow from './Arrow/inedx'
 import Label from './Label'
 

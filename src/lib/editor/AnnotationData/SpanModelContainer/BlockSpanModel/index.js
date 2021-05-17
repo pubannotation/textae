@@ -5,7 +5,7 @@ import setPosition from './setPosition'
 import SpanModel from '../SpanModel'
 import round from '../round'
 import getGridHeight from '../getHeightIncludeDescendantGrids/getGridHeight'
-import getAnnotationBox from '../../../getAnnotationBox'
+import getAnnotationBox from '../../getAnnotationBox'
 
 // Leave a gap between the text and the block border.
 const gapBetweenText = 8
