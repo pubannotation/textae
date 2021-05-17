@@ -35,6 +35,13 @@ export default class AnnotationData {
       relationDefinitionContainer
     )
     this._entityGap = new EntityGap()
+    this._entityGap.bind(() => {
+      for (const entity of this.entity.denotations) {
+        entity.reflectEntityGapInTheHeight()
+      }
+      this._textBox.updateLineHeight()
+    })
+
     this.entity = new EntityModelContainer(
       editor,
       editor.eventEmitter,

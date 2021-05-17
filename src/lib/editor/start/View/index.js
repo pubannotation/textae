@@ -9,13 +9,7 @@ export default class View {
     this._editor = editor
     this._annotationData = annotationData
 
-    annotationData.entityGap.bind(() => {
-      for (const entity of annotationData.entity.denotations) {
-        entity.reflectEntityGapInTheHeight()
-      }
-      annotationData.textBox.updateLineHeight()
-      this._updateAnnotationPosition()
-    })
+    annotationData.entityGap.bind(() => this._updateAnnotationPosition())
 
     // Bind annotation data events
     const lineHeightAuto = new LineHeightAuto(
