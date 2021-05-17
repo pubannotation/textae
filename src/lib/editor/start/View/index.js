@@ -6,50 +6,6 @@ import LineHeightAuto from './LineHeightAuto'
 
 export default class View {
   constructor(editor, annotationData) {
-    editor.eventEmitter.on(
-      'textae-event.commander.attributes.change',
-      (attributes) => {
-        for (const subjectModel of attributes.reduce(
-          (prev, curr) => prev.add(curr.subjectModel),
-          new Set()
-        )) {
-          subjectModel.updateElement()
-        }
-      }
-    )
-
-    editor.eventEmitter
-      .on('textae-event.type-definition.entity.change', (typeName) => {
-        for (const entity of annotationData.entity.all) {
-          // If the type name ends in a wildcard, look for the DOMs to update with a forward match.
-          if (
-            entity.typeName === typeName ||
-            (typeName.lastIndexOf('*') === typeName.length - 1 &&
-              entity.typeName.indexOf(typeName.slice(0, -1) === 0))
-          ) {
-            entity.updateElement()
-          }
-        }
-      })
-      .on('textae-event.type-definition.attribute.change', (pred) =>
-        annotationData.entity.redrawEntitiesWithSpecifiedAttribute(pred)
-      )
-      .on('textae-event.type-definition.attribute.move', (pred) =>
-        annotationData.entity.redrawEntitiesWithSpecifiedAttribute(pred)
-      )
-      .on('textae-event.type-definition.relation.change', (typeName) => {
-        for (const relation of annotationData.relation.all) {
-          // If the type name ends in a wildcard, look for the DOMs to update with a forward match.
-          if (
-            relation.typeName === typeName ||
-            (typeName.lastIndexOf('*') === typeName.length - 1 &&
-              relation.typeName.indexOf(typeName.slice(0, -1) === 0))
-          ) {
-            relation.updateElement()
-          }
-        }
-      })
-
     this._updateAnnotationPosition = function () {
       const cursorChanger = new CursorChanger(editor)
 
@@ -72,20 +28,6 @@ export default class View {
     this._annotationData = annotationData
 
     annotationData.entityGap.bind(() => this._applyEntityGap())
-
-    // Bind clipBoard events.
-    editor.eventEmitter.on(
-      'textae-event.clip-board.change',
-      (added, removed) => {
-        for (const entity of added) {
-          entity.startCut()
-        }
-
-        for (const entity of removed) {
-          entity.cancelCut()
-        }
-      }
-    )
 
     // Bind annotation data events
     const lineHeightAuto = new LineHeightAuto(
@@ -120,6 +62,66 @@ export default class View {
         // Position of relation depends on position of grid and position of grid is cached for perfermance.
         // If position of grid is not cached, relation can not be rendered.
         this._updateAnnotationPosition()
+      })
+
+    // Bind clipBoard events.
+    editor.eventEmitter.on(
+      'textae-event.clip-board.change',
+      (added, removed) => {
+        for (const entity of added) {
+          entity.startCut()
+        }
+
+        for (const entity of removed) {
+          entity.cancelCut()
+        }
+      }
+    )
+
+    // Bind commander events.
+    editor.eventEmitter.on(
+      'textae-event.commander.attributes.change',
+      (attributes) => {
+        for (const subjectModel of attributes.reduce(
+          (prev, curr) => prev.add(curr.subjectModel),
+          new Set()
+        )) {
+          subjectModel.updateElement()
+        }
+      }
+    )
+
+    // Bind type-definition events.
+    editor.eventEmitter
+      .on('textae-event.type-definition.entity.change', (typeName) => {
+        for (const entity of annotationData.entity.all) {
+          // If the type name ends in a wildcard, look for the DOMs to update with a forward match.
+          if (
+            entity.typeName === typeName ||
+            (typeName.lastIndexOf('*') === typeName.length - 1 &&
+              entity.typeName.indexOf(typeName.slice(0, -1) === 0))
+          ) {
+            entity.updateElement()
+          }
+        }
+      })
+      .on('textae-event.type-definition.attribute.change', (pred) =>
+        annotationData.entity.redrawEntitiesWithSpecifiedAttribute(pred)
+      )
+      .on('textae-event.type-definition.attribute.move', (pred) =>
+        annotationData.entity.redrawEntitiesWithSpecifiedAttribute(pred)
+      )
+      .on('textae-event.type-definition.relation.change', (typeName) => {
+        for (const relation of annotationData.relation.all) {
+          // If the type name ends in a wildcard, look for the DOMs to update with a forward match.
+          if (
+            relation.typeName === typeName ||
+            (typeName.lastIndexOf('*') === typeName.length - 1 &&
+              relation.typeName.indexOf(typeName.slice(0, -1) === 0))
+          ) {
+            relation.updateElement()
+          }
+        }
       })
 
     // Highlight retaitons when related entity is heverd.
