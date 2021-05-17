@@ -92,7 +92,7 @@ export default class EntityModelContainer extends IdIssueContainer {
       entity.renderWithGrid()
     }
 
-    this._emit(`textae-event.annotation-data.entity.move`, entities)
+    this._emit(`textae-event.annotation-data.entity.move`)
   }
 
   getAllOfSpan(span) {
