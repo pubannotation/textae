@@ -207,6 +207,7 @@ export default class SpanModelContainer {
 
   _removeDenotation(denotationSpan) {
     this._denotations.delete(denotationSpan.id)
+    denotationSpan.erase()
     this._emitter.emit(
       `textae-event.annotation-data.span.remove`,
       denotationSpan
@@ -216,6 +217,7 @@ export default class SpanModelContainer {
 
   _removeBlock(blockSpan) {
     this._blocks.delete(blockSpan.id)
+    blockSpan.erase()
     this._emitter.emit(`textae-event.annotation-data.span.remove`, blockSpan)
     this._textBox.forceUpdate()
     return blockSpan
