@@ -9,7 +9,13 @@ export default class View {
     this._editor = editor
     this._annotationData = annotationData
 
-    annotationData.entityGap.bind(() => this._applyEntityGap())
+    annotationData.entityGap.bind(() => {
+      for (const entity of annotationData.entity.denotations) {
+        entity.reflectEntityGapInTheHeight()
+      }
+      annotationData.textBox.updateLineHeight()
+      this._updateAnnotationPosition()
+    })
 
     // Bind annotation data events
     const lineHeightAuto = new LineHeightAuto(
@@ -141,14 +147,6 @@ export default class View {
   }
 
   updateLineHeight() {
-    this._annotationData.textBox.updateLineHeight()
-    this._updateAnnotationPosition()
-  }
-
-  _applyEntityGap() {
-    for (const entity of this._annotationData.entity.denotations) {
-      entity.reflectEntityGapInTheHeight()
-    }
     this._annotationData.textBox.updateLineHeight()
     this._updateAnnotationPosition()
   }
