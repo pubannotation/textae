@@ -40,6 +40,9 @@ export default class AnnotationData {
         entity.reflectEntityGapInTheHeight()
       }
       this._textBox.updateLineHeight()
+      this._editor.eventEmitter.emit(
+        'textae-event.annotation-data.entity-gap.change'
+      )
     })
 
     this.entity = new EntityModelContainer(

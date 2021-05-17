@@ -9,8 +9,6 @@ export default class View {
     this._editor = editor
     this._annotationData = annotationData
 
-    annotationData.entityGap.bind(() => this._updateAnnotationPosition())
-
     // Bind annotation data events
     const lineHeightAuto = new LineHeightAuto(
       editor,
@@ -45,6 +43,9 @@ export default class View {
         // If position of grid is not cached, relation can not be rendered.
         this._updateAnnotationPosition()
       })
+      .on('textae-event.annotation-data.entity-gap.change', () =>
+        this._updateAnnotationPosition()
+      )
 
     // Bind clipBoard events.
     editor.eventEmitter.on(
