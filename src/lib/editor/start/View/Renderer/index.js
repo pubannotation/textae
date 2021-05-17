@@ -47,11 +47,11 @@ export default class Renderer {
         entity.renderAtTheGrid()
       })
       .on('textae-event.annotation-data.entity.remove', (entity) => {
-        entity.remove()
+        entity.erase()
       })
       .on('textae-event.annotation-data.entity.move', (entities) => {
         for (const entity of entities) {
-          entity.remove()
+          entity.erase()
           entity.renderAtTheGrid()
         }
       })

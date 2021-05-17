@@ -163,7 +163,7 @@ export default class EntityModel {
     this.reflectEntityGapInTheHeight()
   }
 
-  remove() {
+  erase() {
     if (this.span.entities.length === 0) {
       // Destroy a grid when all entities are remove.
       this.span.destroyGridElement()
