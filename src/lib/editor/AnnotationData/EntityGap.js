@@ -4,15 +4,19 @@ export default class EntityGap {
     // by changing mode showing or not showing instances.
     this._isGapShown = true
     this._numberOfGap = 2
+    this._callbacks = []
   }
 
   bind(callback) {
-    this._callback = callback
+    this._callbacks.push(callback)
   }
 
   set show(val) {
     this._isGapShown = val
-    this._callback(this.value)
+
+    for (const callback of this._callbacks) {
+      callback(this.value)
+    }
   }
 
   get show() {
@@ -26,6 +30,9 @@ export default class EntityGap {
   // The typeGap be able to be changed when mode showing instances.
   set value(val) {
     this._numberOfGap = val
-    this._callback(val)
+
+    for (const callback of this._callbacks) {
+      callback(val)
+    }
   }
 }
