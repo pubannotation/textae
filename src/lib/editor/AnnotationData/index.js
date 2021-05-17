@@ -15,6 +15,7 @@ import createTextBox from './createTextBox'
 import TypeDefinition from './TypeDefinition'
 import DefinitionContainer from './DefinitionContainer'
 import AttributeDefinitionContainer from './AttributeDefinitionContainer'
+import getAnnotationBox from '../getAnnotationBox'
 
 export default class AnnotationData {
   constructor(editor) {
@@ -94,6 +95,16 @@ export default class AnnotationData {
 
     clearAnnotationData(this)
     const { multitrack, hasError, rejects } = parseAnnotation(this, rawData)
+
+    // Redraw all annotations
+    getAnnotationBox(this._editor).innerHTML = ''
+    for (const span of this.span.topLevel) {
+      span.render()
+    }
+
+    for (const relation of this.relation.all) {
+      relation.renderElement()
+    }
 
     this._editor.eventEmitter.emit(
       'textae-event.annotation-data.all.change',

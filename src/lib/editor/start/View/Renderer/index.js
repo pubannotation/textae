@@ -1,18 +1,6 @@
-import getAnnotationBox from '../../../getAnnotationBox'
-
 export default class Renderer {
   constructor(editor, annotationData) {
     editor.eventEmitter
-      .on('textae-event.annotation-data.all.change', () => {
-        getAnnotationBox(editor).innerHTML = ''
-        for (const span of annotationData.span.topLevel) {
-          span.render()
-        }
-
-        for (const relation of annotationData.relation.all) {
-          relation.renderElement()
-        }
-      })
       .on('textae-event.annotation-data.span.add', (span) => span.render())
       .on('textae-event.annotation-data.span.remove', (span) => span.erase())
       .on('textae-event.annotation-data.entity.add', (entity) => {
