@@ -85,6 +85,17 @@ export default class SpanModel {
     return document.querySelector(`#${this.id}`)
   }
 
+  remove() {
+    if (this.hasStyle) {
+      const spanElement = this.element
+      spanElement.removeAttribute('tabindex')
+      spanElement.classList.remove('textae-editor__span')
+    } else {
+      this.destroyElement()
+    }
+    this.destroyGridElement()
+  }
+
   renderElement() {
     const element = dohtml.create(this._contentHTML)
     const targetRange = createRangeToSpan(this)

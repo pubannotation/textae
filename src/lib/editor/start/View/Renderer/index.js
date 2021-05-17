@@ -42,16 +42,7 @@ export default class Renderer {
         }
       })
       .on('textae-event.annotation-data.span.add', (span) => renderSpan(span))
-      .on('textae-event.annotation-data.span.remove', (span) => {
-        if (span.hasStyle) {
-          const spanElement = span.element
-          spanElement.removeAttribute('tabindex')
-          spanElement.classList.remove('textae-editor__span')
-        } else {
-          span.destroyElement()
-        }
-        span.destroyGridElement()
-      })
+      .on('textae-event.annotation-data.span.remove', (span) => span.remove())
       .on('textae-event.annotation-data.entity.add', (entity) => {
         entity.renderAtTheGrid()
       })
