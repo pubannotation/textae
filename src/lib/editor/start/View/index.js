@@ -2,7 +2,6 @@ import delegate from 'delegate'
 import debounce from 'debounce'
 import CursorChanger from '../../../util/CursorChanger'
 import bindClipBoardEvents from './bindClipBoardEvents'
-import bindAnnotaitonPositionEvents from './bindAnnotaitonPositionEvents'
 import getEntityHTMLelementFromChild from '../getEntityHTMLelementFromChild'
 import LineHeightAuto from './LineHeightAuto'
 
@@ -53,9 +52,9 @@ export default class View {
       })
 
     this._updateAnnotationPosition = function () {
-      editor.eventEmitter.emit(
-        'textae-event.annotation-position.position-update.start'
-      )
+      const cursorChanger = new CursorChanger(editor)
+
+      cursorChanger.startWait()
 
       annotationData.span.arrangeDenotationEntityPosition()
 
@@ -68,9 +67,7 @@ export default class View {
         relation.updateElement()
       }
 
-      editor.eventEmitter.emit(
-        'textae-event.annotation-position.position-update.end'
-      )
+      cursorChanger.endWait()
     }
 
     this._annotationData = annotationData
@@ -112,8 +109,6 @@ export default class View {
         // If position of grid is not cached, relation can not be rendered.
         this._updateAnnotationPosition()
       })
-
-    bindAnnotaitonPositionEvents(editor, new CursorChanger(editor))
 
     // Highlight retaitons when related entity is heverd.
     const dom = editor[0]
