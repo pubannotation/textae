@@ -2,14 +2,6 @@ import getAnnotationBox from '../../../getAnnotationBox'
 
 export default class Renderer {
   constructor(editor, annotationData) {
-    const redrawEntitiesWithSpecifiedAttribute = function (pred) {
-      for (const entity of annotationData.entity.all.filter((e) =>
-        e.typeValues.hasSpecificPredicateAttribute(pred)
-      )) {
-        entity.updateElement()
-      }
-    }
-
     editor.eventEmitter
       .on('textae-event.annotation-data.all.change', () => {
         getAnnotationBox(editor).innerHTML = ''
@@ -58,10 +50,10 @@ export default class Renderer {
         }
       })
       .on('textae-event.type-definition.attribute.change', (pred) =>
-        redrawEntitiesWithSpecifiedAttribute(pred)
+        annotationData.entity.redrawEntitiesWithSpecifiedAttribute(pred)
       )
       .on('textae-event.type-definition.attribute.move', (pred) =>
-        redrawEntitiesWithSpecifiedAttribute(pred)
+        annotationData.entity.redrawEntitiesWithSpecifiedAttribute(pred)
       )
       .on('textae-event.type-definition.relation.change', (typeName) => {
         for (const relation of annotationData.relation.all) {

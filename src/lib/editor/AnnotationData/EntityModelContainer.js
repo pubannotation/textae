@@ -94,6 +94,14 @@ export default class EntityModelContainer extends IdIssueContainer {
     return this.all.filter((entity) => entity.isBlock)
   }
 
+  redrawEntitiesWithSpecifiedAttribute(pred) {
+    for (const entity of this.all.filter((e) =>
+      e.typeValues.hasSpecificPredicateAttribute(pred)
+    )) {
+      entity.updateElement()
+    }
+  }
+
   _getSpan(type, denotation) {
     return this._spanModelContainer.get(this._getSpanId(type, denotation))
   }
