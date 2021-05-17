@@ -161,16 +161,7 @@ export default class AnnotationData {
 
     cursorChanger.startWait()
 
-    this.span.arrangeDenotationEntityPosition()
-
-    // When you undo the deletion of a block span,
-    // if you move the background first, the grid will move to a better position.
-    this.span.arrangeBackgroundOfBlockSpanPosition()
-    this.span.arrangeBlockEntityPosition()
-
-    for (const relation of this.relation.all) {
-      relation.updateElement()
-    }
+    this._rearrangeAllAnnotations()
 
     cursorChanger.endWait()
   }
@@ -185,6 +176,19 @@ export default class AnnotationData {
 
     for (const relation of this.relation.all) {
       relation.renderElement()
+    }
+  }
+
+  _rearrangeAllAnnotations() {
+    this.span.arrangeDenotationEntityPosition()
+
+    // When you undo the deletion of a block span,
+    // if you move the background first, the grid will move to a better position.
+    this.span.arrangeBackgroundOfBlockSpanPosition()
+    this.span.arrangeBlockEntityPosition()
+
+    for (const relation of this.relation.all) {
+      relation.updateElement()
     }
   }
 }
