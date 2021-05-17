@@ -22,16 +22,6 @@ export default class Renderer {
       )
     }
 
-    const removeSpan = function (span) {
-      if (span.hasStyle) {
-        const spanElement = span.element
-        spanElement.removeAttribute('tabindex')
-        spanElement.classList.remove('textae-editor__span')
-      } else {
-        span.destroyElement()
-      }
-    }
-
     const updateAttribute = function (pred) {
       for (const entity of annotationData.entity.all.filter((e) =>
         e.typeValues.hasSpecificPredicateAttribute(pred)
@@ -53,7 +43,13 @@ export default class Renderer {
       })
       .on('textae-event.annotation-data.span.add', (span) => renderSpan(span))
       .on('textae-event.annotation-data.span.remove', (span) => {
-        removeSpan(span)
+        if (span.hasStyle) {
+          const spanElement = span.element
+          spanElement.removeAttribute('tabindex')
+          spanElement.classList.remove('textae-editor__span')
+        } else {
+          span.destroyElement()
+        }
         span.destroyGridElement()
       })
       .on('textae-event.annotation-data.entity.add', (entity) => {
