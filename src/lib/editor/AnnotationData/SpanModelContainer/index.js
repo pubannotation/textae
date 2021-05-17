@@ -203,7 +203,6 @@ export default class SpanModelContainer {
     }
 
     span.render()
-    this._emitter.emit(`textae-event.annotation-data.span.add`, span)
   }
 
   _removeDenotation(denotationSpan) {
