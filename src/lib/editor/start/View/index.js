@@ -15,7 +15,7 @@ export default class View {
     )
     const debouncedUpdatePosition = debounce(() => {
       lineHeightAuto.updateLineHeight()
-      this._updateAnnotationPosition()
+      this._annotationData.updatePosition()
     }, 100)
 
     editor.eventEmitter
@@ -40,10 +40,10 @@ export default class View {
         // grid positions in cache may be deleted before render relation when moving span frequently.
         // Position of relation depends on position of grid and position of grid is cached for perfermance.
         // If position of grid is not cached, relation can not be rendered.
-        this._updateAnnotationPosition()
+        this._annotationData.updatePosition()
       })
       .on('textae-event.annotation-data.entity-gap.change', () =>
-        this._updateAnnotationPosition()
+        this._annotationData.updatePosition()
       )
 
     // Bind clipBoard events.
@@ -137,15 +137,11 @@ export default class View {
 
   updateDisplay() {
     this._annotationData.textBox.forceUpdate()
-    this._updateAnnotationPosition()
+    this._annotationData.updatePosition()
   }
 
   updateLineHeight() {
     this._annotationData.textBox.updateLineHeight()
-    this._updateAnnotationPosition()
-  }
-
-  _updateAnnotationPosition() {
     this._annotationData.updatePosition()
   }
 }
