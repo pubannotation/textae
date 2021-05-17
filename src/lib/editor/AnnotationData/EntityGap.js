@@ -1,10 +1,10 @@
 export default class EntityGap {
-  constructor() {
+  constructor(callback) {
     // The typeGap is changed from the Setting dialog or
     // by changing mode showing or not showing instances.
     this._isGapShown = true
     this._numberOfGap = 2
-    this._callbacks = []
+    this._callbacks = [callback]
   }
 
   bind(callback) {
