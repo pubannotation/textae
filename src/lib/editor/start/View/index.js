@@ -3,13 +3,55 @@ import debounce from 'debounce'
 import CursorChanger from '../../../util/CursorChanger'
 import bindClipBoardEvents from './bindClipBoardEvents'
 import bindAnnotaitonPositionEvents from './bindAnnotaitonPositionEvents'
-import Renderer from './Renderer'
 import getEntityHTMLelementFromChild from '../getEntityHTMLelementFromChild'
 import LineHeightAuto from './LineHeightAuto'
 
 export default class View {
   constructor(editor, annotationData) {
-    new Renderer(editor, annotationData)
+    editor.eventEmitter.on(
+      'textae-event.commander.attributes.change',
+      (attributes) => {
+        for (const subjectModel of attributes.reduce(
+          (prev, curr) => prev.add(curr.subjectModel),
+          new Set()
+        )) {
+          subjectModel.updateElement()
+        }
+      }
+    )
+
+    editor.eventEmitter
+      .on('textae-event.type-definition.entity.change', (typeName) => {
+        for (const entity of annotationData.entity.all) {
+          // If the type name ends in a wildcard, look for the DOMs to update with a forward match.
+          if (
+            entity.typeName === typeName ||
+            (typeName.lastIndexOf('*') === typeName.length - 1 &&
+              entity.typeName.indexOf(typeName.slice(0, -1) === 0))
+          ) {
+            entity.updateElement()
+          }
+        }
+      })
+      .on('textae-event.type-definition.attribute.change', (pred) =>
+        annotationData.entity.redrawEntitiesWithSpecifiedAttribute(pred)
+      )
+      .on('textae-event.type-definition.attribute.move', (pred) =>
+        annotationData.entity.redrawEntitiesWithSpecifiedAttribute(pred)
+      )
+      .on('textae-event.type-definition.relation.change', (typeName) => {
+        for (const relation of annotationData.relation.all) {
+          // If the type name ends in a wildcard, look for the DOMs to update with a forward match.
+          if (
+            relation.typeName === typeName ||
+            (typeName.lastIndexOf('*') === typeName.length - 1 &&
+              relation.typeName.indexOf(typeName.slice(0, -1) === 0))
+          ) {
+            relation.updateElement()
+          }
+        }
+      })
+
     this._updateAnnotationPosition = function () {
       editor.eventEmitter.emit(
         'textae-event.annotation-position.position-update.start'
