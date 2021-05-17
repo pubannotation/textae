@@ -143,7 +143,7 @@
 3. `Import`ボタンをクリック
 4. `/dev/1_config.json`を読み込む
 5. `Uplaod`ボタンをクリック
-6. `Configuration differences`欄の`attribute types`に、新しい Attirbute 定義が追加さえていないこと
+6. `Configuration differences`欄の`attribute types`に、新しい Attirbute 定義が追加されていないこと
 7. Editor1 を選択
 8. `i`キーを押してアノテーション読込ダイアログを開く
 9. ローカルファイルから`private.json`を読み込む
@@ -291,25 +291,6 @@
 1.  アノテーション読込ダイアログを表示
 2.  URL 欄に`http://localhost:8000/dev/target.txt`を入力し、`Open`ボタンを押して、サーバーから読み込む
 3.  右上に`http://localhost:8000/dev/target.txt is not a annotation file or its format is invalid.`と赤色のトースト表示がされること
-
-## 編集してからアノテーションを読み直す
-
-### 背景
-
-1. アノテーションを読み直すときにコマンドヒストリーを消します
-2. 6.4.130 で History にの保持するコマンドを最小単位を、ただ一つの CompositeCommand を持つようにしました
-3. このときコマンドヒストリーを消す際に使っている isExactly 関数を消しました
-4. 編集してコマンドヒストリーがある状態で、アノテーションを読み込むと、isExactly 関数がないためエラーがおきます
-5. 6.4.140 で対応しました
-
-### -- 手段 --
-
-1. Eidotr0 を選択
-2. Entity を作成する
-3. `i`キーを押してアノテーション読込ダイアログを開く
-4. `URL`の`Open`ボタンを押す
-5. エラーが起きないこと
-6. 作成した Entity が消えること
 
 ## Selection Attribute 定義の Value が唯一のときは、削除不可
 
@@ -704,33 +685,6 @@
 3.  エディターのブラウザの下端ギリギリ、右端ギリギリをクリックする
 4.  `Q`キーを押す
 5.  パレットがブラウザからはみ出ないこと
-
-## パレットのタイトルバー
-
-### 背景
-
-1. パレットは Esc キーまたは、パレット外の要素をクリックすることで閉じることができます
-2. 初めて使うユーザーには、パレットの閉じ方がわかりにくいです
-3. jQueury UI ダイアログと同等のタイトルバーを表示して、そこに閉じるボタンを配置します
-4. 6.4.108 で、対応しました
-
-### -- 手段 --
-
-1. Term モードにする
-2. `q` キーを押してパレットを開く
-3. タイトルバーがあること
-4. タイトルが`Entity configuration`であること
-5. 閉じるボタンをクリックして、パレットを閉じられること
-6. Block モードにする
-7. `q` キーを押してパレットを開く
-8. タイトルバーがあること
-9. タイトルが`Entity configuration`であること
-10. 閉じるボタンをクリックして、パレットを閉じられること
-11. Relation モードにする
-12. `q` キーを押してパレットを開く
-13. タイトルバーがあること
-14. タイトルが`Relation configuration`であること
-15. 閉じるボタンをクリックして、パレットを閉じられること
 
 ## 該当 Attribute のない Entity を選択しているときに、ショートカットキーから Attribute インスタンスを削除しようとしたら警告を表示する
 
@@ -1576,30 +1530,6 @@
 6.  `Remove`ボタンを押す
 7.  `OK`ボタンを押す
 8.  選択中の DenotationEntity の該当 predicate の Attribute が削除されること
-
-## Attribute 定義の順序変更
-
-### 背景
-
-1.  5.3.6 で、パレットの Attribute タブをドラッグアンドドロップして、Attribute 定義の順序を変更する機能を追加しました。
-2.  Attribute 定義の最大数を超えているときに、プラスタブを表示しません。
-3.  このとき同時に最後尾へのドロップができなくなっていました。
-4.  6.4.88 で対応しました。
-
-### -- 手順 --
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  `Q`キーを押してパレットを開く
-4.  `denote`タブを選択する
-5.  `denote`タブをドラッグして、`warning`タブの前の矢印の上に移動する、タブの左側に空間ができること
-6.  ドロップする
-7.  `denote`タブが、`warning`タブの前に移動すること
-8.  Z キーを押す
-9.  `denote`タブが先頭に戻ること
-10. a~p までの Attribute 定義を追加する
-11. o を p の後ろにドロップする
-12. `o`タブが`p`タブの後ろに移動すること
 
 ## DenotationEntity 編集ダイアログの編集確定
 
@@ -3247,25 +3177,6 @@
 
 1.  <http://pubannotation.org/projects/Genomics_Informatics/docs/sourcedb/@ewha-bio/sourceid/365/annotations.json> を読み込む
 2.  エラーが起きないこと
-
-## Relation の編集
-
-### 背景
-
-1.  6.0.0 で Modification を廃止しました。
-
-### 作る、変える、消す
-
-1.  Span を２つ作る
-2.  Relation モードにする
-3.  Relation を作る
-4.  作った Relation が選択される
-5.  Relation の Value を変更する
-6.  Relation の線が細くならないこと
-7.  作った Relation を消す
-8.  Entity を片方消す
-9.  Span が残っていたら Span を消す（Span の Entity がゼロ個になると、Span は自動的に削除されます）
-10. 全て戻す
 
 ## 別の annotatian を開いて高さが再計算されること
 
