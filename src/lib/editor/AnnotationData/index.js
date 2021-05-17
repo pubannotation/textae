@@ -152,6 +152,8 @@ export default class AnnotationData {
       span.render()
     }
 
+    this._textBox.updateLineHeight()
+
     for (const relation of this.relation.all) {
       relation.renderElement()
     }
