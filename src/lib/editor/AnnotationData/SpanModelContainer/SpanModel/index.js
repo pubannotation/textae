@@ -85,7 +85,7 @@ export default class SpanModel {
     return document.querySelector(`#${this.id}`)
   }
 
-  remove() {
+  erase() {
     if (this.hasStyle) {
       const spanElement = this.element
       spanElement.removeAttribute('tabindex')

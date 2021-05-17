@@ -42,7 +42,7 @@ export default class Renderer {
         }
       })
       .on('textae-event.annotation-data.span.add', (span) => renderSpan(span))
-      .on('textae-event.annotation-data.span.remove', (span) => span.remove())
+      .on('textae-event.annotation-data.span.remove', (span) => span.erase())
       .on('textae-event.annotation-data.entity.add', (entity) => {
         entity.renderAtTheGrid()
       })
