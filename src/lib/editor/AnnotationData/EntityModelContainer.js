@@ -88,7 +88,10 @@ export default class EntityModelContainer extends IdIssueContainer {
   moveEntities(span, entities) {
     for (const entity of entities) {
       entity.span = span
+      entity.erase()
+      entity.renderWithGrid()
     }
+
     this._emit(`textae-event.annotation-data.entity.move`, entities)
   }
 

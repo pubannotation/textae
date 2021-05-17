@@ -1,20 +1,16 @@
 export default class Renderer {
   constructor(editor, annotationData) {
-    editor.eventEmitter
-      .on('textae-event.annotation-data.entity.move', (entities) => {
-        for (const entity of entities) {
-          entity.erase()
-          entity.renderWithGrid()
-        }
-      })
-      .on('textae-event.commander.attributes.change', (attributes) => {
+    editor.eventEmitter.on(
+      'textae-event.commander.attributes.change',
+      (attributes) => {
         for (const subjectModel of attributes.reduce(
           (prev, curr) => prev.add(curr.subjectModel),
           new Set()
         )) {
           subjectModel.updateElement()
         }
-      })
+      }
+    )
 
     editor.eventEmitter
       .on('textae-event.type-definition.entity.change', (typeName) => {
