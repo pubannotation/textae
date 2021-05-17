@@ -52,21 +52,25 @@ export default class EntityModelContainer extends IdIssueContainer {
 
     // When redoing, the newValue is instance of the EntityModel already.
     if (newValue instanceof EntityModel) {
-      return super.add(newValue)
+      super.add(newValue)
+      newValue.renderWithGrid()
+      return newValue
     }
 
-    return super.add(
-      new EntityModel(
-        this._editor,
-        this._attributeModelContainer,
-        this._relationModelContainer,
-        this._entityGap,
-        this._parent.typeDefinition,
-        this._spanModelContainer.get(newValue.span),
-        newValue.typeName,
-        this._namespace
-      )
+    const newEntity = new EntityModel(
+      this._editor,
+      this._attributeModelContainer,
+      this._relationModelContainer,
+      this._entityGap,
+      this._parent.typeDefinition,
+      this._spanModelContainer.get(newValue.span),
+      newValue.typeName,
+      this._namespace
     )
+
+    super.add(newEntity)
+    newEntity.renderWithGrid()
+    return newEntity
   }
 
   changeType(id, newType) {
