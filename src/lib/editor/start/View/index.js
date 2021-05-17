@@ -1,7 +1,6 @@
 import delegate from 'delegate'
 import debounce from 'debounce'
 import CursorChanger from '../../../util/CursorChanger'
-import bindClipBoardEvents from './bindClipBoardEvents'
 import getEntityHTMLelementFromChild from '../getEntityHTMLelementFromChild'
 import LineHeightAuto from './LineHeightAuto'
 
@@ -73,7 +72,20 @@ export default class View {
     this._annotationData = annotationData
 
     annotationData.entityGap.bind(() => this._applyEntityGap())
-    bindClipBoardEvents(editor)
+
+    // Bind clipBoard events.
+    editor.eventEmitter.on(
+      'textae-event.clip-board.change',
+      (added, removed) => {
+        for (const entity of added) {
+          entity.startCut()
+        }
+
+        for (const entity of removed) {
+          entity.cancelCut()
+        }
+      }
+    )
 
     // Bind annotation data events
     const lineHeightAuto = new LineHeightAuto(
