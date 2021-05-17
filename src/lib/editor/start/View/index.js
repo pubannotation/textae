@@ -34,14 +34,7 @@ export default class View {
         'textae-event.annotation-data.attribute.remove',
         debouncedUpdatePosition
       )
-      .on('textae-event.annotation-data.span.move', () => {
-        // Move grids and relations synchronously.
-        // If grid and relations move asynchronously,
-        // grid positions in cache may be deleted before render relation when moving span frequently.
-        // Position of relation depends on position of grid and position of grid is cached for perfermance.
-        // If position of grid is not cached, relation can not be rendered.
-        this._annotationData.updatePosition()
-      })
+      .on('textae-event.annotation-data.span.move', debouncedUpdatePosition)
       .on('textae-event.annotation-data.entity-gap.change', () =>
         this._annotationData.updatePosition()
       )
