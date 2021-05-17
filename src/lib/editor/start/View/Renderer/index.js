@@ -1,9 +1,36 @@
-import SpanRenderer from './SpanRenderer'
 import getAnnotationBox from '../../../getAnnotationBox'
 
 export default class Renderer {
   constructor(editor, annotationData) {
-    const spanRenderer = new SpanRenderer()
+    const renderSpan = function (span) {
+      // Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
+      span.traverse((span) => {
+        if (span.element !== null) {
+          span.destroyElement()
+        }
+      })
+
+      span.traverse(
+        (span) => span.renderElement(),
+        (span) => {
+          // When the child spans contain bold style spans, the width of the parent span changes.
+          // Render the entity after the child span has been rendered.
+          for (const entity of span.entities) {
+            entity.renderAtTheGrid()
+          }
+        }
+      )
+    }
+
+    const removeSpan = function (span) {
+      if (span.hasStyle) {
+        const spanElement = span.element
+        spanElement.removeAttribute('tabindex')
+        spanElement.classList.remove('textae-editor__span')
+      } else {
+        span.destroyElement()
+      }
+    }
 
     const updateAttribute = function (pred) {
       for (const entity of annotationData.entity.all.filter((e) =>
@@ -17,18 +44,16 @@ export default class Renderer {
       .on('textae-event.annotation-data.all.change', () => {
         getAnnotationBox(editor).innerHTML = ''
         for (const span of annotationData.span.topLevel) {
-          spanRenderer.render(span)
+          renderSpan(span)
         }
 
         for (const relation of annotationData.relation.all) {
           relation.renderElement()
         }
       })
-      .on('textae-event.annotation-data.span.add', (span) =>
-        spanRenderer.render(span)
-      )
+      .on('textae-event.annotation-data.span.add', (span) => renderSpan(span))
       .on('textae-event.annotation-data.span.remove', (span) => {
-        spanRenderer.remove(span)
+        removeSpan(span)
         span.destroyGridElement()
       })
       .on('textae-event.annotation-data.entity.add', (entity) => {
