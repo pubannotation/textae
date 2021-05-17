@@ -202,6 +202,7 @@ export default class SpanModelContainer {
       oldSpan.passesAllEntitiesTo(span)
     }
 
+    span.render()
     this._emitter.emit(`textae-event.annotation-data.span.add`, span)
   }
 

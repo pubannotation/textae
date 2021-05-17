@@ -1,7 +1,6 @@
 export default class Renderer {
   constructor(editor, annotationData) {
     editor.eventEmitter
-      .on('textae-event.annotation-data.span.add', (span) => span.render())
       .on('textae-event.annotation-data.span.remove', (span) => span.erase())
       .on('textae-event.annotation-data.entity.add', (entity) => {
         entity.renderWithGrid()
