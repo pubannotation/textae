@@ -24,7 +24,7 @@ export default class Renderer {
       .on('textae-event.annotation-data.span.add', (span) => span.render())
       .on('textae-event.annotation-data.span.remove', (span) => span.erase())
       .on('textae-event.annotation-data.entity.add', (entity) => {
-        entity.renderAtTheGrid()
+        entity.renderWithGrid()
       })
       .on('textae-event.annotation-data.entity.remove', (entity) => {
         entity.erase()
@@ -32,7 +32,7 @@ export default class Renderer {
       .on('textae-event.annotation-data.entity.move', (entities) => {
         for (const entity of entities) {
           entity.erase()
-          entity.renderAtTheGrid()
+          entity.renderWithGrid()
         }
       })
       .on('textae-event.commander.attributes.change', (attributes) => {
