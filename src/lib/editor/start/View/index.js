@@ -1,6 +1,5 @@
 import delegate from 'delegate'
 import debounce from 'debounce'
-import CursorChanger from '../../../util/CursorChanger'
 import getEntityHTMLelementFromChild from '../getEntityHTMLelementFromChild'
 import LineHeightAuto from './LineHeightAuto'
 
@@ -147,21 +146,6 @@ export default class View {
   }
 
   _updateAnnotationPosition() {
-    const cursorChanger = new CursorChanger(this._editor)
-
-    cursorChanger.startWait()
-
-    this._annotationData.span.arrangeDenotationEntityPosition()
-
-    // When you undo the deletion of a block span,
-    // if you move the background first, the grid will move to a better position.
-    this._annotationData.span.arrangeBackgroundOfBlockSpanPosition()
-    this._annotationData.span.arrangeBlockEntityPosition()
-
-    for (const relation of this._annotationData.relation.all) {
-      relation.updateElement()
-    }
-
-    cursorChanger.endWait()
+    this._annotationData.updatePosition()
   }
 }

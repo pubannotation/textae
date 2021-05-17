@@ -16,6 +16,7 @@ import TypeDefinition from './TypeDefinition'
 import DefinitionContainer from './DefinitionContainer'
 import AttributeDefinitionContainer from './AttributeDefinitionContainer'
 import getAnnotationBox from './getAnnotationBox'
+import CursorChanger from '../../util/CursorChanger'
 
 export default class AnnotationData {
   constructor(editor) {
@@ -153,6 +154,25 @@ export default class AnnotationData {
 
   get typeDefinition() {
     return this._typeDefinition
+  }
+
+  updatePosition() {
+    const cursorChanger = new CursorChanger(this._editor)
+
+    cursorChanger.startWait()
+
+    this.span.arrangeDenotationEntityPosition()
+
+    // When you undo the deletion of a block span,
+    // if you move the background first, the grid will move to a better position.
+    this.span.arrangeBackgroundOfBlockSpanPosition()
+    this.span.arrangeBlockEntityPosition()
+
+    for (const relation of this.relation.all) {
+      relation.updateElement()
+    }
+
+    cursorChanger.endWait()
   }
 
   _redrawAllAnnotations() {
