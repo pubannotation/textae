@@ -6,25 +6,7 @@ import LineHeightAuto from './LineHeightAuto'
 
 export default class View {
   constructor(editor, annotationData) {
-    this._updateAnnotationPosition = function () {
-      const cursorChanger = new CursorChanger(editor)
-
-      cursorChanger.startWait()
-
-      annotationData.span.arrangeDenotationEntityPosition()
-
-      // When you undo the deletion of a block span,
-      // if you move the background first, the grid will move to a better position.
-      annotationData.span.arrangeBackgroundOfBlockSpanPosition()
-      annotationData.span.arrangeBlockEntityPosition()
-
-      for (const relation of annotationData.relation.all) {
-        relation.updateElement()
-      }
-
-      cursorChanger.endWait()
-    }
-
+    this._editor = editor
     this._annotationData = annotationData
 
     annotationData.entityGap.bind(() => this._applyEntityGap())
@@ -168,5 +150,24 @@ export default class View {
       entity.reflectEntityGapInTheHeight()
     }
     this.updateLineHeight()
+  }
+
+  _updateAnnotationPosition() {
+    const cursorChanger = new CursorChanger(this._editor)
+
+    cursorChanger.startWait()
+
+    this._annotationData.span.arrangeDenotationEntityPosition()
+
+    // When you undo the deletion of a block span,
+    // if you move the background first, the grid will move to a better position.
+    this._annotationData.span.arrangeBackgroundOfBlockSpanPosition()
+    this._annotationData.span.arrangeBlockEntityPosition()
+
+    for (const relation of this._annotationData.relation.all) {
+      relation.updateElement()
+    }
+
+    cursorChanger.endWait()
   }
 }
