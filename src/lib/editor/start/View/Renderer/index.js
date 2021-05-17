@@ -2,26 +2,6 @@ import getAnnotationBox from '../../../getAnnotationBox'
 
 export default class Renderer {
   constructor(editor, annotationData) {
-    const renderSpan = function (span) {
-      // Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
-      span.traverse((span) => {
-        if (span.element !== null) {
-          span.destroyElement()
-        }
-      })
-
-      span.traverse(
-        (span) => span.renderElement(),
-        (span) => {
-          // When the child spans contain bold style spans, the width of the parent span changes.
-          // Render the entity after the child span has been rendered.
-          for (const entity of span.entities) {
-            entity.renderAtTheGrid()
-          }
-        }
-      )
-    }
-
     const updateAttribute = function (pred) {
       for (const entity of annotationData.entity.all.filter((e) =>
         e.typeValues.hasSpecificPredicateAttribute(pred)
@@ -34,14 +14,14 @@ export default class Renderer {
       .on('textae-event.annotation-data.all.change', () => {
         getAnnotationBox(editor).innerHTML = ''
         for (const span of annotationData.span.topLevel) {
-          renderSpan(span)
+          span.render()
         }
 
         for (const relation of annotationData.relation.all) {
           relation.renderElement()
         }
       })
-      .on('textae-event.annotation-data.span.add', (span) => renderSpan(span))
+      .on('textae-event.annotation-data.span.add', (span) => span.render())
       .on('textae-event.annotation-data.span.remove', (span) => span.erase())
       .on('textae-event.annotation-data.entity.add', (entity) => {
         entity.renderAtTheGrid()
