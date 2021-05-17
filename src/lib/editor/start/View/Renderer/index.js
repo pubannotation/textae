@@ -1,9 +1,6 @@
 export default class Renderer {
   constructor(editor, annotationData) {
     editor.eventEmitter
-      .on('textae-event.annotation-data.entity.remove', (entity) => {
-        entity.erase()
-      })
       .on('textae-event.annotation-data.entity.move', (entities) => {
         for (const entity of entities) {
           entity.erase()

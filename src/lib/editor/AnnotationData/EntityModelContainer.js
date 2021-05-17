@@ -73,6 +73,12 @@ export default class EntityModelContainer extends IdIssueContainer {
     return newEntity
   }
 
+  remove(id) {
+    const instance = super.remove(id)
+    instance.erase()
+    return instance
+  }
+
   changeType(id, newType) {
     const entity = super.changeType(id, newType)
     entity.updateElement()
