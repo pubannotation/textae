@@ -36,7 +36,7 @@ export default class Arrow {
     this._jetties = []
   }
 
-  update(annotationBox, isBold) {
+  update(isBold) {
     const pathPoints = new PathPoints(
       this._relation.sourceEntity,
       this._relation.targetEntity,
