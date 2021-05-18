@@ -1,6 +1,6 @@
 import updatePath from './updatePath'
 import createSourceBollard from './createSourceBollard'
-import createTargetTriangle from './createTargetTriangle'
+import createTargetBollard from './createTargetBollard'
 import createPath from './createPath'
 import PathPoints from './PathPoints'
 import { NS } from '../NS'
@@ -15,7 +15,7 @@ export default class Arrow {
     this._container.appendChild(sourceTriangle)
     this._sourceTriangle = sourceTriangle
 
-    const targetTriangle = createTargetTriangle()
+    const targetTriangle = createTargetBollard()
     this._container.appendChild(targetTriangle)
     this._targetTriangle = targetTriangle
 
