@@ -103,25 +103,21 @@ export default class EntityModel {
 
   get center() {
     return (
-      this.clientRect.left +
-      this.clientRect.width / 2 -
+      this._clientRect.left +
+      this._clientRect.width / 2 -
       getAnnotationBox(this._editor).getBoundingClientRect().left
     )
   }
 
   get top() {
     return (
-      this.clientRect.top -
+      this._clientRect.top -
       getAnnotationBox(this._editor).getBoundingClientRect().top
     )
   }
 
   get width() {
-    return this.clientRect.width
-  }
-
-  get clientRect() {
-    return this._typeValuesElement.getBoundingClientRect()
+    return this._clientRect.width
   }
 
   get isDenotation() {
@@ -223,6 +219,10 @@ export default class EntityModel {
         )
       }
     }
+  }
+
+  get _clientRect() {
+    return this._typeValuesElement.getBoundingClientRect()
   }
 
   get _typeValuesElement() {
