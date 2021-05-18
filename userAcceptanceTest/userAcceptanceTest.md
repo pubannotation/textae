@@ -687,31 +687,6 @@
 4. `shift`キーを押しながら、`1`キーを押す
 5. `None of the selected items has this attribute.`がアラート表示されること
 
-## 該当 Attribute をひとつ持つアイテムだけを選択しているときに、パレットの Attribute 編集ボタンを有効にする
-
-### 背景
-
-1. 6.4.59 で、Attribute 編集ボタンを有効にする条件を、選択アイテムが「一つでも該当 Attribute を持つ」から「すべてが該当 Attribute をひとつだけ持つ」に変えました
-2. 6.4.60 で無効理由を title タグで記述します
-
-### -- 手段 --
-
-1. Editor1 を選択
-2. Term モードにする
-3. Attribute のない Entity を一つ選択する
-4. `q` キーを押してパレットを開く
-5. `free_text` タブを選ぶ
-6. `edit_ofject_of`ボタンが無効であること
-7. title が`Some selected items has zero or multi this attribute.`であること
-8. `add to`ボタンを押す
-9. `edit_ofject_of`ボタンが有効になること
-10. `E18`を追加選択する
-11. `edit_ofject_of`ボタンが無効になること
-12. `E18`だけを選択解除する
-13. `edit_ofject_of`ボタンが有効になること
-14. Attribute のない Entity を一つ追加選択する
-15. `edit_ofject_of`ボタンが無効になること
-
 ## Attribute のある Entity と Attribute のない Entity を同時に選択しているとき、その Attribute を編集するショートカットキーを押したら警告を表示する
 
 ### 背景
@@ -1380,25 +1355,6 @@
 4. `w`キーを押して Entity 編集ダイアログを開く
 5. `Value:`欄に`HTML`を入力する
 6. 候補に赤字の`Red color HTML label`ではなく、`<span style='color: red;'>Red color HTML label</span>...`が表示されること
-
-## Entity に HTML タグを含むラベルを設定したときにラベルの定義に HTML エスケープされた文字列が設定されないこと
-
-### 背景
-
-1. ラベルは編集ダイアログの HTML 要素に innerText を使って設定され、その値を取得するときに innerHTML を使っていたため、HTML タグを含むラベルを設定した際に、HTML エスケープされていました。
-2. 6.4.18 で対応しまた。
-
-### -- 手段 --
-
-1. Editor1 を選択
-2. Term モードにする
-3. Entity を選択する
-4. `w`キーを押して Entity 編集ダイアログを開く
-5. `Value:`欄に`HTML`を入力する
-6. 候補から`HTML tag label`を選択し、確定する
-7. `q`キーを押してパレットを開く
-8. `Save Configurations`ダイアログを開く
-9. `entity types`に`HTML tag label`の変更がないこと
 
 ## パレットから Flag Attribute の label と color を編集する
 
@@ -3126,18 +3082,3 @@
 1.  Editor1 を選択
 2.  改行をまたいでテキストを選択する
 3.  Span が作成できること
-
-## 長い文字列を含むアノテーションを開く
-
-### 背景
-
-1.  Google chrome と Safari は 65536 文字以上のテキストを複数の text node に分割します。
-2.  span の開始位置の offset が text node の範囲を越えることがあります。
-3.  text node の中に span をつくる場所が見つからずエラーになっていました。
-4.  6.0.4 で対応しました。
-
-### 手段
-
-1.  <http://pubannotation.org/projects/Genomics_Informatics/docs/sourcedb/@ewha-bio/sourceid/365/annotations.json> を読み込む
-2.  エラーが起きないこと
-
