@@ -1,7 +1,7 @@
 const DistanceToShift = 8
 const MinimumDistance = DistanceToShift * 3
 
-export default function (isBold, sourceEntity, targetEntity, annotationBox) {
+export default function (isBold, sourceEntity, targetEntity) {
   const sourceEndpoint = sourceEntity.clientRect
   const targetEndpoint = targetEntity.clientRect
 
