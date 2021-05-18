@@ -135,25 +135,25 @@ export default class Arrow {
 
     const sourceEndpoint =
       sourceEntity.typeValuesElement.getBoundingClientRect()
-    const sourceLine = createJetty(
+    const sourceJetty = createJetty(
       pathPoints.sourceX,
       pathPoints.sourceY,
       sourceEndpoint,
       annotationBox
     )
-    this._container.appendChild(sourceLine)
-    this._lines.push(sourceLine)
+    this._container.appendChild(sourceJetty)
+    this._lines.push(sourceJetty)
 
     const targetEndpoint =
       targetEntity.typeValuesElement.getBoundingClientRect()
-    const targetLine = createJetty(
+    const targetJetty = createJetty(
       pathPoints.targetX,
       pathPoints.targetY,
       targetEndpoint,
       annotationBox
     )
-    this._container.appendChild(targetLine)
-    this._lines.push(targetLine)
+    this._container.appendChild(targetJetty)
+    this._lines.push(targetJetty)
   }
 
   _destroyLines() {
