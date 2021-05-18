@@ -95,12 +95,6 @@ export default class EntityModel {
     }
   }
 
-  get _element() {
-    return document.querySelector(
-      `#${makeEntityHTMLElementId(this._editor, this.id)}`
-    )
-  }
-
   get center() {
     return (
       this._clientRect.left +
@@ -223,6 +217,12 @@ export default class EntityModel {
 
   get _clientRect() {
     return this._typeValuesElement.getBoundingClientRect()
+  }
+
+  get _element() {
+    return document.querySelector(
+      `#${makeEntityHTMLElementId(this._editor, this.id)}`
+    )
   }
 
   get _typeValuesElement() {
