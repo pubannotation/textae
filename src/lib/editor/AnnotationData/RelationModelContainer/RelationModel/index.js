@@ -76,14 +76,14 @@ export default class RelationModel {
   select() {
     if (!this._isSelected) {
       this._isSelected = true
-      this._connect.select()
+      this.updateElement()
     }
   }
 
   deselect() {
     if (this._isSelected) {
       this._isSelected = false
-      this._connect.deselect()
+      this.updateElement()
     }
   }
 
@@ -95,11 +95,11 @@ export default class RelationModel {
   // before the rendering of the relationship is complete.
   // You need to make sure that the relationship has been rendered.
   pointUp() {
-    this._connect.pointUpPath()
+    this._connect.pointUpPath(this._isSelected)
   }
 
   pointDown() {
-    this._connect.pointDownPath()
+    this._connect.pointDownPath(this._isSelected)
   }
 
   renderElement() {
@@ -117,15 +117,15 @@ export default class RelationModel {
         )
         event.stopPropagation()
       },
-      () => this._connect.pointUpPath(),
-      () => this._connect.pointDownPath()
+      () => this._connect.pointUpPath(this._isSelected),
+      () => this._connect.pointDownPath(this._isSelected)
     )
 
     this._connect = connection
   }
 
   updateElement() {
-    this._connect.redraw()
+    this._connect.redraw(this._isSelected)
   }
 
   destroyElement() {

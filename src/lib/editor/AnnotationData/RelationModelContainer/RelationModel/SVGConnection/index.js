@@ -30,46 +30,32 @@ export default class SVGConnection {
     this._label.destructor()
   }
 
-  select() {
-    if (!this._isSelected) {
-      this._isSelected = true
-      this.redraw()
-    }
-  }
-
-  deselect() {
-    if (this._isSelected) {
-      this._isSelected = false
-      this.redraw()
-    }
-  }
-
-  pointUpPath() {
+  pointUpPath(isSelected) {
     if (!this._isHovered) {
       this._isHovered = true
-      this.redraw()
+      this.redraw(isSelected)
     }
   }
 
-  pointDownPath() {
+  pointDownPath(isSelected) {
     if (this._isHovered) {
       this._isHovered = false
-      this.redraw()
+      this.redraw(isSelected)
     }
   }
 
-  redraw() {
+  redraw(isSelected) {
     const annotationBox = this._editor[0]
       .querySelector('.textae-editor__annotation-box')
       .getBoundingClientRect()
-    this._arrow.update(annotationBox, this._isSelected || this._isHovered)
+    this._arrow.update(annotationBox, isSelected || this._isHovered)
 
     this._label.redraw(
       this._arrow.left,
       this._arrow.top,
       this._arrow.width,
       this._relation,
-      this._isSelected,
+      isSelected,
       this._isHovered
     )
   }
