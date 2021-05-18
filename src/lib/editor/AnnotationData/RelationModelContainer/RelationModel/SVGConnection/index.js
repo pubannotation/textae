@@ -24,32 +24,32 @@ export default class SVGConnection {
   select() {
     if (!this._isSelected) {
       this._isSelected = true
-      this.recreate()
+      this.redraw()
     }
   }
 
   deselect() {
     if (this._isSelected) {
       this._isSelected = false
-      this.recreate()
+      this.redraw()
     }
   }
 
   pointUpPath() {
     if (!this._isHovered) {
       this._isHovered = true
-      this.recreate()
+      this.redraw()
     }
   }
 
   pointDownPath() {
     if (this._isHovered) {
       this._isHovered = false
-      this.recreate()
+      this.redraw()
     }
   }
 
-  recreate() {
+  redraw() {
     const annotationBox = this._editor[0]
       .querySelector('.textae-editor__annotation-box')
       .getBoundingClientRect()

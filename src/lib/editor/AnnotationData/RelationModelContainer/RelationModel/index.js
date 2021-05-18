@@ -116,7 +116,7 @@ export default class RelationModel {
   }
 
   updateElement() {
-    this._connect.recreate()
+    this._connect.redraw()
   }
 
   destroyElement() {
