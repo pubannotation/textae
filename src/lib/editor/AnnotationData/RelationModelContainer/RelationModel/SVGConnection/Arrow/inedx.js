@@ -66,9 +66,9 @@ export default class Arrow {
     )
 
     if (isBold) {
-      this._drawLines(pathPoints, annotationBox)
+      this._drawJetties(pathPoints, annotationBox)
     } else {
-      this._destroyLines()
+      this._destroyJetties()
     }
 
     this._pathPoints = pathPoints
@@ -80,7 +80,7 @@ export default class Arrow {
     this._container.removeChild(this._sourceTriangle)
     this._container.removeChild(this._targetTriangle)
 
-    this._destroyLines()
+    this._destroyJetties()
   }
 
   get top() {
@@ -130,7 +130,7 @@ export default class Arrow {
       })
   }
 
-  _drawLines(pathPoints, annotationBox) {
+  _drawJetties(pathPoints, annotationBox) {
     const { sourceEntity, targetEntity } = this._relation
 
     const sourceJetty = createJetty(
@@ -152,7 +152,7 @@ export default class Arrow {
     this._jetties.push(targetJetty)
   }
 
-  _destroyLines() {
+  _destroyJetties() {
     for (const line of this._jetties) {
       this._container.removeChild(line)
     }
