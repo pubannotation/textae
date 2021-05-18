@@ -2,7 +2,7 @@ import updatePath from './updatePath'
 import createSourceTriangle from './createSourceTriangle'
 import createTargetTriangle from './createTargetTriangle'
 import createSourceLine from './createSourceLine'
-import createTargetLine from './createTargetLine'
+import createTargetJetty from './createTargetJetty'
 import createPath from './createPath'
 import PathPoints from './PathPoints'
 import { NS } from '../NS'
@@ -146,7 +146,7 @@ export default class Arrow {
 
     const targetEndpoint =
       targetEntity.typeValuesElement.getBoundingClientRect()
-    const targetLine = createTargetLine(
+    const targetLine = createTargetJetty(
       pathPoints,
       targetEndpoint,
       annotationBox
