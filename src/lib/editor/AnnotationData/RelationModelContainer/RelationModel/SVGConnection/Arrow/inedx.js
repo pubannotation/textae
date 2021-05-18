@@ -1,11 +1,10 @@
 import updatePath from './updatePath'
 import createSourceTriangle from './createSourceTriangle'
 import createTargetTriangle from './createTargetTriangle'
-import createSourceJetty from './createSourceJetty'
-import createTargetJetty from './createTargetJetty'
 import createPath from './createPath'
 import PathPoints from './PathPoints'
 import { NS } from '../NS'
+import createJetty from './createJetty'
 
 export default class Arrow {
   constructor(container, relation, onClick, onMouseEnter, onMouseLeave) {
@@ -136,8 +135,9 @@ export default class Arrow {
 
     const sourceEndpoint =
       sourceEntity.typeValuesElement.getBoundingClientRect()
-    const sourceLine = createSourceJetty(
-      pathPoints,
+    const sourceLine = createJetty(
+      pathPoints.sourceX,
+      pathPoints.sourceY,
       sourceEndpoint,
       annotationBox
     )
@@ -146,8 +146,9 @@ export default class Arrow {
 
     const targetEndpoint =
       targetEntity.typeValuesElement.getBoundingClientRect()
-    const targetLine = createTargetJetty(
-      pathPoints,
+    const targetLine = createJetty(
+      pathPoints.targetX,
+      pathPoints.targetY,
       targetEndpoint,
       annotationBox
     )
