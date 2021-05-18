@@ -101,16 +101,7 @@ export default class EntityModel {
   }
 
   get clientRect() {
-    return this.typeValuesElement.getBoundingClientRect()
-  }
-
-  get typeValuesElement() {
-    return document.querySelector(
-      `#${makeEntityHTMLElementId(
-        this._editor,
-        this.id
-      )} .textae-editor__signboard__type-values`
-    )
+    return this._typeValuesElement.getBoundingClientRect()
   }
 
   get isDenotation() {
@@ -212,6 +203,15 @@ export default class EntityModel {
         )
       }
     }
+  }
+
+  get _typeValuesElement() {
+    return document.querySelector(
+      `#${makeEntityHTMLElementId(
+        this._editor,
+        this.id
+      )} .textae-editor__signboard__type-values`
+    )
   }
 
   _selectElement() {
