@@ -31,9 +31,9 @@ export default class Label {
     location.appendChild(signboard)
     container.appendChild(location)
 
-    signboard.addEventListener('click', onClick)
-    signboard.addEventListener('mouseenter', onMouseEnter)
-    signboard.addEventListener('mouseleave', onMouseLeave)
+    location.addEventListener('click', onClick)
+    location.addEventListener('mouseenter', onMouseEnter)
+    location.addEventListener('mouseleave', onMouseLeave)
     this._label = location
   }
 
