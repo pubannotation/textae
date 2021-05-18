@@ -15,10 +15,8 @@ export default function (isBold, sourceEntity, targetEntity, annotationBox) {
     targetEndpoint.width / 2 < MinimumDistance &&
     (!isBold || targetEntity.relations.length === 1)
 
-  const centerOfSource =
-    sourceEndpoint.left + sourceEndpoint.width / 2 - annotationBox.left
-  const centerOfTarget =
-    targetEndpoint.left + targetEndpoint.width / 2 - annotationBox.left
+  const centerOfSource = sourceEntity.center
+  const centerOfTarget = targetEntity.center
 
   // Shift only when the entity has enough width to shift the endpoint.
   const leftTarget = combineTargetEndpoints
