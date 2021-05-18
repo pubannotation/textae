@@ -8,11 +8,11 @@ export default function (isBold, sourceEntity, targetEntity) {
   // When the entity width is small and the endpoint is displayed in the center of the entity and the entity has only one endpoint,
   // hovering will not move the entity left or right.
   const combineSourceEndpoints =
-    sourceEndpoint.width / 2 < MinimumDistance &&
+    sourceEntity.width / 2 < MinimumDistance &&
     (!isBold || sourceEntity.relations.length === 1)
 
   const combineTargetEndpoints =
-    targetEndpoint.width / 2 < MinimumDistance &&
+    targetEntity.width / 2 < MinimumDistance &&
     (!isBold || targetEntity.relations.length === 1)
 
   const centerOfSource = sourceEntity.center
