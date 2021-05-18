@@ -60,8 +60,6 @@ export default class SVGConnection {
 
   // Private APIs
   _createArrow() {
-    const annotationBox = this._annotationBox.getBoundingClientRect()
-
     this._arrow = new Arrow(
       this._relationBox,
       this._relation,
@@ -69,6 +67,8 @@ export default class SVGConnection {
       this._onMouseEnter,
       this._onMouseLeave
     )
+
+    const annotationBox = this._annotationBox.getBoundingClientRect()
     this._arrow.update(annotationBox, false)
   }
 
