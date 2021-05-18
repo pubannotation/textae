@@ -55,8 +55,14 @@ export default class SVGConnection {
       .getBoundingClientRect()
     this._arrow.update(annotationBox, this._isSelected || this._isHovered)
 
-    this._label.destructor()
-    this._createLabel(this._isSelected, this._isHovered)
+    this._label.redraw(
+      this._arrow.left,
+      this._arrow.top,
+      this._arrow.width,
+      this._relation,
+      this._isSelected,
+      this._isHovered
+    )
   }
 
   // Private APIs
