@@ -2,14 +2,14 @@ import { NS } from '../NS'
 import { MarkerHeight } from './MarkerHeight'
 
 export default function ({ targetX, targetY }, entity, annotationBox) {
-  const targetLine = document.createElementNS(NS.SVG, 'polyline')
-  const centerOfTarget = entity.left + entity.width / 2 - annotationBox.left
-  targetLine.setAttribute(
+  const jetty = document.createElementNS(NS.SVG, 'polyline')
+  const centerOfEntity = entity.left + entity.width / 2 - annotationBox.left
+  jetty.setAttribute(
     'points',
-    `${targetX} ${targetY + MarkerHeight}, ${centerOfTarget} ${
+    `${targetX} ${targetY + MarkerHeight}, ${centerOfEntity} ${
       targetY + MarkerHeight
-    }, ${centerOfTarget} ${entity.top - annotationBox.top}`
+    }, ${centerOfEntity} ${entity.top - annotationBox.top}`
   )
 
-  return targetLine
+  return jetty
 }
