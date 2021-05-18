@@ -33,7 +33,7 @@ export default class Arrow {
     container.appendChild(aura)
     this._aura = aura
 
-    this._jettys = []
+    this._jetties = []
   }
 
   update(annotationBox, isBold) {
@@ -140,7 +140,7 @@ export default class Arrow {
       annotationBox
     )
     this._container.appendChild(sourceJetty)
-    this._jettys.push(sourceJetty)
+    this._jetties.push(sourceJetty)
 
     const targetJetty = createJetty(
       pathPoints.targetX,
@@ -149,13 +149,13 @@ export default class Arrow {
       annotationBox
     )
     this._container.appendChild(targetJetty)
-    this._jettys.push(targetJetty)
+    this._jetties.push(targetJetty)
   }
 
   _destroyLines() {
-    for (const line of this._jettys) {
+    for (const line of this._jetties) {
       this._container.removeChild(line)
     }
-    this._jettys = []
+    this._jetties = []
   }
 }
