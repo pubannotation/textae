@@ -3,11 +3,21 @@ import Arrow from './Arrow/inedx'
 import Label from './Label'
 
 export default class SVGConnection {
-  constructor(editor, relation, namespace, definitionContainer, onClick) {
+  constructor(
+    editor,
+    relation,
+    namespace,
+    definitionContainer,
+    onClick,
+    onMouseEnter,
+    onMouseLeave
+  ) {
     this._relation = relation
     this._namespace = namespace
     this._definitionContainer = definitionContainer
     this._onClick = onClick
+    this._onMouseEnter = onMouseEnter
+    this._onMouseLeave = onMouseLeave
     this._editor = editor
     this._relationBox = editor[0].querySelector('.textae-editor__relation-box')
     this._annotationBox = getAnnotationBox(editor)
