@@ -87,13 +87,6 @@ export default class RelationModel {
     }
   }
 
-  // Relationships are rendered asynchronously.
-  // You can create a relationship fast
-  // by holding down the control or command key
-  // and hitting the object entity continuously.
-  // When you do this, a mouse-out event may occur
-  // before the rendering of the relationship is complete.
-  // You need to make sure that the relationship has been rendered.
   pointUp() {
     this._connect.pointUpPath(this._isSelected)
   }
