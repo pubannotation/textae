@@ -109,6 +109,13 @@ export default class EntityModel {
     )
   }
 
+  get top() {
+    return (
+      this.clientRect.top -
+      getAnnotationBox(this._editor).getBoundingClientRect().top
+    )
+  }
+
   get clientRect() {
     return this._typeValuesElement.getBoundingClientRect()
   }
