@@ -136,8 +136,7 @@ export default class Arrow {
     const sourceJetty = createJetty(
       pathPoints.sourceX,
       pathPoints.sourceY,
-      sourceEntity,
-      annotationBox
+      sourceEntity
     )
     this._container.appendChild(sourceJetty)
     this._jetties.push(sourceJetty)
@@ -145,8 +144,7 @@ export default class Arrow {
     const targetJetty = createJetty(
       pathPoints.targetX,
       pathPoints.targetY,
-      targetEntity,
-      annotationBox
+      targetEntity
     )
     this._container.appendChild(targetJetty)
     this._jetties.push(targetJetty)

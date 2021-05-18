@@ -1,7 +1,7 @@
 import { NS } from '../NS'
 import { MarkerHeight } from './MarkerHeight'
 
-export default function (x, y, entity, annotationBox) {
+export default function (x, y, entity) {
   const jetty = document.createElementNS(NS.SVG, 'polyline')
 
   jetty.setAttribute(
