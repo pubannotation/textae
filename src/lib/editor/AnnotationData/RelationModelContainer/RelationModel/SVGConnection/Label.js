@@ -34,11 +34,11 @@ export default class Label {
     location.addEventListener('click', onClick)
     location.addEventListener('mouseenter', onMouseEnter)
     location.addEventListener('mouseleave', onMouseLeave)
-    this._label = location
+    this._location = location
   }
 
   destructor() {
-    this._container.removeChild(this._label)
+    this._container.removeChild(this._location)
   }
 
   get y() {
@@ -46,11 +46,11 @@ export default class Label {
   }
 
   get width() {
-    return this._label.getBBox().width
+    return this._location.getBBox().width
   }
 
   get height() {
-    return this._label.getBBox().height
+    return this._location.getBBox().height
   }
 
   _updatePosition(location, x, y, width, relation) {
