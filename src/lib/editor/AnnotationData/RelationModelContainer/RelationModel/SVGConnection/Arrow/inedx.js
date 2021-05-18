@@ -69,7 +69,8 @@ export default class Arrow {
       this._drawSourceJetty(pathPoints)
       this._drawTargetJetty(pathPoints)
     } else {
-      this._destroyJetties()
+      this._destroySourceJetty()
+      this._destroyTargetJetty()
     }
 
     this._pathPoints = pathPoints
@@ -81,7 +82,8 @@ export default class Arrow {
     this._container.removeChild(this._sourceBollard)
     this._container.removeChild(this._targetBollard)
 
-    this._destroyJetties()
+    this._destroySourceJetty()
+    this._destroyTargetJetty()
   }
 
   get top() {
@@ -153,12 +155,14 @@ export default class Arrow {
     this._targetJetty = targetJetty
   }
 
-  _destroyJetties() {
+  _destroySourceJetty() {
     if (this._sourceJetty) {
       this._container.removeChild(this._sourceJetty)
       this._sourceJetty = null
     }
+  }
 
+  _destroyTargetJetty() {
     if (this._targetJetty) {
       this._container.removeChild(this._targetJetty)
       this._targetJetty = null
