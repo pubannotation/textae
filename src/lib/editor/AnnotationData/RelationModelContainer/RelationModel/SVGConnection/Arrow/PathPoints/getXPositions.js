@@ -4,11 +4,11 @@ const MinimumDistance = DistanceToShift * 3
 export default function (sourceEntity, targetEntity, isBold) {
   // When the entity width is small and the endpoint is displayed in the center of the entity and the entity has only one endpoint,
   // hovering will not move the entity left or right.
-  const combineSourceEndpoints =
+  const foldUpSourceJetty =
     sourceEntity.width / 2 < MinimumDistance &&
     (!isBold || sourceEntity.relations.length === 1)
 
-  const combineTargetEndpoints =
+  const foldUpTargetJetty =
     targetEntity.width / 2 < MinimumDistance &&
     (!isBold || targetEntity.relations.length === 1)
 
@@ -16,16 +16,16 @@ export default function (sourceEntity, targetEntity, isBold) {
   const centerOfTarget = targetEntity.center
 
   // Shift only when the entity has enough width to shift the endpoint.
-  const leftTarget = combineTargetEndpoints
+  const leftTarget = foldUpTargetJetty
     ? centerOfTarget
     : centerOfTarget - DistanceToShift * 3
-  const leftSource = combineSourceEndpoints
+  const leftSource = foldUpSourceJetty
     ? centerOfSource
     : centerOfSource - DistanceToShift
-  const rightTarget = combineTargetEndpoints
+  const rightTarget = foldUpTargetJetty
     ? centerOfTarget
     : centerOfTarget + DistanceToShift
-  const rightSource = combineSourceEndpoints
+  const rightSource = foldUpSourceJetty
     ? centerOfSource
     : centerOfSource + DistanceToShift * 3
 
