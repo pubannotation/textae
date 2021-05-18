@@ -3,7 +3,7 @@ import getControlXs from './getControlXs'
 import getXPositions from './getXPositions'
 
 export default class PathPoints {
-  constructor(annotationBox, sourceEntity, targetEntity, isBold) {
+  constructor(sourceEntity, targetEntity, isBold) {
     const { source: sourceX, target: targetX } = getXPositions(
       isBold,
       sourceEntity,

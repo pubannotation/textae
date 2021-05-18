@@ -38,7 +38,6 @@ export default class Arrow {
 
   update(annotationBox, isBold) {
     const pathPoints = new PathPoints(
-      annotationBox,
       this._relation.sourceEntity,
       this._relation.targetEntity,
       isBold
