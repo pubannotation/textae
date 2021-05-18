@@ -66,7 +66,7 @@ export default class Arrow {
     )
 
     if (isBold) {
-      this._drawJetties(pathPoints, annotationBox)
+      this._drawJetties(pathPoints)
     } else {
       this._destroyJetties()
     }
@@ -130,7 +130,7 @@ export default class Arrow {
       })
   }
 
-  _drawJetties(pathPoints, annotationBox) {
+  _drawJetties(pathPoints) {
     const { sourceEntity, targetEntity } = this._relation
 
     const sourceJetty = createJetty(
