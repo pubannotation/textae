@@ -22,6 +22,7 @@ export default class RelationModel {
     this._obj = obj
     this._namespace = namespace
     this._definitionContainer = definitionContainer
+    this._selected = false
   }
 
   get id() {
@@ -73,11 +74,17 @@ export default class RelationModel {
   }
 
   select() {
-    this._connect.select()
+    if (!this._isSelected) {
+      this._isSelected = true
+      this._connect.select()
+    }
   }
 
   deselect() {
-    this._connect.deselect()
+    if (this._isSelected) {
+      this._isSelected = false
+      this._connect.deselect()
+    }
   }
 
   // Relationships are rendered asynchronously.
