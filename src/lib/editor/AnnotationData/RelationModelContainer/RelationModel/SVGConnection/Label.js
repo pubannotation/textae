@@ -16,13 +16,7 @@ export default class Label {
     this._container = container
 
     const location = document.createElement('div')
-
-    location.classList.add('textae-editor__relation__signboard-location')
-    location.style.width = `${width}px`
-    location.style.top = `${
-      y - 18 - relation.typeValues.attributes.length * 18
-    }px`
-    location.style.left = `${x}px`
+    this._updatePosition(location, x, y, width, relation)
 
     const signboard = createSignboardHTMLElement(
       relation,
@@ -57,5 +51,14 @@ export default class Label {
 
   get height() {
     return this._label.getBBox().height
+  }
+
+  _updatePosition(location, x, y, width, relation) {
+    location.classList.add('textae-editor__relation__signboard-location')
+    location.style.width = `${width}px`
+    location.style.top = `${
+      y - 18 - relation.typeValues.attributes.length * 18
+    }px`
+    location.style.left = `${x}px`
   }
 }
