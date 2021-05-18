@@ -10,18 +10,8 @@ export default class PathPoints {
       targetEntity,
       annotationBox
     )
-
-    const sourceY =
-      sourceEntity.clientRect.top -
-      annotationBox.top -
-      MarkerHeight -
-      (isBold ? 3 : 0)
-
-    const targetY =
-      targetEntity.clientRect.top -
-      annotationBox.top -
-      MarkerHeight -
-      (isBold ? 3 : 0)
+    const sourceY = sourceEntity.top - MarkerHeight - (isBold ? 3 : 0)
+    const targetY = targetEntity.top - MarkerHeight - (isBold ? 3 : 0)
 
     const { sourceControlX, targetControlX } = getControlXs(
       sourceX,
