@@ -591,21 +591,6 @@
 6.  BlockSpan のすぐ上をクリックする
 7.  パレットが閉じること
 
-## BlockSpan のヒットエリア
-
-### 背景
-
-1. Block モードでは、BlockSpan のヒットエリアに背景色が着いていました
-2. 6.4.63 で、Block モード以外のモードでも、背景色を薄くつける対応をしました
-
-### -- 手段 --
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  BlockSpan のヒットエリアに背景色があること
-4.  Block モードにする
-5.  BlockSpan のヒットエリアに背景色が濃くなること
-
 ## BlockSpan のヒットエリアのタイトルに BlockSpan の ID を表示
 
 ### 背景
@@ -1219,28 +1204,6 @@
 10. Block モードにする
 11. BlockEntity に Attribute を追加する
 12. 高さが調整されること
-
-## DenotationEntity 編集ダイアログの編集キャンセル
-
-### 閉じるボタン
-
-1.  Term モードにする
-2.  DenotationEntity を選択する
-3.  `W`キーを押す
-4.  編集ダイアログが開くこと
-5.  文字を変更する
-6.  `X`ボタンを押す
-7.  DenotationEntity の id が変わらないこと
-
-### Esc キー
-
-1.  Term モードにする
-2.  DenotationEntity を選択する
-3.  `W`キーを押す
-4.  編集ダイアログが開くこと
-5.  文字を変更する
-6.  `Esc`キーを押す
-7.  DenotationEntity の id が変わらないこと
 
 ## BlockEntity 編集ダイアログの編集キャンセル
 
@@ -3178,15 +3141,3 @@
 1.  <http://pubannotation.org/projects/Genomics_Informatics/docs/sourcedb/@ewha-bio/sourceid/365/annotations.json> を読み込む
 2.  エラーが起きないこと
 
-## 別の annotatian を開いて高さが再計算されること
-
-### 背景
-
-1.  annotation によって行数が変わるので高さを再計算しなくてはいけません。
-
-### -- 手段 --
-
-1.  1_annotations.json を開く
-2.  multi_tracks.json を開く
-3.  高さが再計算されること
-4.  下側の隙間が狭いこと
