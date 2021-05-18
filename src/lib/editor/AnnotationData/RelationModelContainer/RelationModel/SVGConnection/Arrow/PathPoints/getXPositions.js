@@ -2,9 +2,6 @@ const DistanceToShift = 8
 const MinimumDistance = DistanceToShift * 3
 
 export default function (isBold, sourceEntity, targetEntity) {
-  const sourceEndpoint = sourceEntity.clientRect
-  const targetEndpoint = targetEntity.clientRect
-
   // When the entity width is small and the endpoint is displayed in the center of the entity and the entity has only one endpoint,
   // hovering will not move the entity left or right.
   const combineSourceEndpoints =
