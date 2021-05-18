@@ -45,9 +45,7 @@ export default class SVGConnection {
   }
 
   redraw(isSelected) {
-    const annotationBox = this._editor[0]
-      .querySelector('.textae-editor__annotation-box')
-      .getBoundingClientRect()
+    const annotationBox = this._annotationBox.getBoundingClientRect()
     this._arrow.update(annotationBox, isSelected || this._isHovered)
 
     this._label.redraw(
@@ -62,9 +60,7 @@ export default class SVGConnection {
 
   // Private APIs
   _createArrow() {
-    const annotationBox = this._editor[0]
-      .querySelector('.textae-editor__annotation-box')
-      .getBoundingClientRect()
+    const annotationBox = this._annotationBox.getBoundingClientRect()
 
     this._arrow = new Arrow(
       this._relationBox,
