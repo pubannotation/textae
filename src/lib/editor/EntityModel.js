@@ -6,6 +6,7 @@ import typeGapUnitHeight from './typeGapUnitHeight'
 import getDisplayName from './getDisplayName'
 import getUri from './getUri'
 import toAnchorElement from './toAnchorElement'
+import getAnnotationBox from './AnnotationData/getAnnotationBox'
 
 const cssClass = 'ui-to-be-cut'
 
@@ -97,6 +98,14 @@ export default class EntityModel {
   get _element() {
     return document.querySelector(
       `#${makeEntityHTMLElementId(this._editor, this.id)}`
+    )
+  }
+
+  get center() {
+    return (
+      this.clientRect.left +
+      this.clientRect.width / 2 -
+      getAnnotationBox(this._editor).getBoundingClientRect().left
     )
   }
 
