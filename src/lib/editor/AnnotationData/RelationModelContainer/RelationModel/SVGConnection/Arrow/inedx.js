@@ -13,11 +13,11 @@ export default class Arrow {
 
     const sourceBollard = createSourceBollard()
     this._container.appendChild(sourceBollard)
-    this._sourceTriangle = sourceBollard
+    this._sourceBollard = sourceBollard
 
     const targetBollard = createTargetBollard()
     this._container.appendChild(targetBollard)
-    this._targetTriangle = targetBollard
+    this._targetBollard = targetBollard
 
     const path = createPath()
     container.appendChild(path)
@@ -47,20 +47,20 @@ export default class Arrow {
     updatePath(this._aura, pathPoints, this._relation.color, false)
     this._aura.children[0].textContent = this._relation.title
 
-    this._sourceTriangle.setAttribute(
+    this._sourceBollard.setAttribute(
       'style',
       `fill:${this._relation.sourceColor}`
     )
-    this._sourceTriangle.setAttribute(
+    this._sourceBollard.setAttribute(
       'transform',
       pathPoints.transformDefinitionsForSourceTriangle
     )
 
-    this._targetTriangle.setAttribute(
+    this._targetBollard.setAttribute(
       'style',
       `fill:${this._relation.targetColor}`
     )
-    this._targetTriangle.setAttribute(
+    this._targetBollard.setAttribute(
       'transform',
       pathPoints.transformDefinitionsForTargetTriangle
     )
@@ -77,8 +77,8 @@ export default class Arrow {
   destructor() {
     this._container.removeChild(this._path)
     this._container.removeChild(this._aura)
-    this._container.removeChild(this._sourceTriangle)
-    this._container.removeChild(this._targetTriangle)
+    this._container.removeChild(this._sourceBollard)
+    this._container.removeChild(this._targetBollard)
 
     this._destroyJetties()
   }
