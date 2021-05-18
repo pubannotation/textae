@@ -133,23 +133,19 @@ export default class Arrow {
   _drawLines(pathPoints, annotationBox) {
     const { sourceEntity, targetEntity } = this._relation
 
-    const sourceEndpoint =
-      sourceEntity.typeValuesElement.getBoundingClientRect()
     const sourceJetty = createJetty(
       pathPoints.sourceX,
       pathPoints.sourceY,
-      sourceEndpoint,
+      sourceEntity,
       annotationBox
     )
     this._container.appendChild(sourceJetty)
     this._jettys.push(sourceJetty)
 
-    const targetEndpoint =
-      targetEntity.typeValuesElement.getBoundingClientRect()
     const targetJetty = createJetty(
       pathPoints.targetX,
       pathPoints.targetY,
-      targetEndpoint,
+      targetEntity,
       annotationBox
     )
     this._container.appendChild(targetJetty)
