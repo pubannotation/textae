@@ -3,7 +3,7 @@ import Arrow from './Arrow/inedx'
 import Label from './Label'
 
 export default class SVGConnection {
-  constructor(relation, namespace, definitionContainer, onClick, editor) {
+  constructor(editor, relation, namespace, definitionContainer, onClick) {
     this._relation = relation
     this._namespace = namespace
     this._definitionContainer = definitionContainer

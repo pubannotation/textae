@@ -104,6 +104,7 @@ export default class RelationModel {
 
   renderElement() {
     const connection = new SVGConnection(
+      this._editor,
       this,
       this._namespace,
       this._definitionContainer,
@@ -115,8 +116,7 @@ export default class RelationModel {
           attribute
         )
         event.stopPropagation()
-      },
-      this._editor
+      }
     )
 
     this._connect = connection
