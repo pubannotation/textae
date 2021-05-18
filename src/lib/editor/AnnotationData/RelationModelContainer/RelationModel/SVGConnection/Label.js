@@ -37,6 +37,23 @@ export default class Label {
     this._location = location
   }
 
+  redraw(x, y, width, relation, isSelected, isHovered) {
+    this._updatePosition(this._location, x, y, width, relation)
+    this._location.replaceChild(
+      createSignboardHTMLElement(
+        relation,
+        'relation',
+        isSelected
+          ? 'ui-selected'
+          : isHovered
+          ? 'textae-editor__signboard--hover'
+          : null,
+        null
+      ),
+      this._location.firstChild
+    )
+  }
+
   destructor() {
     this._container.removeChild(this._location)
   }
