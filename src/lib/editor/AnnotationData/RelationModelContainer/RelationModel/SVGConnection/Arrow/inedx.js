@@ -153,8 +153,8 @@ export default class Arrow {
   }
 
   _destroyJetties() {
-    for (const line of this._jetties) {
-      this._container.removeChild(line)
+    for (const node of this._jetties) {
+      this._container.removeChild(node)
     }
     this._jetties = []
   }
