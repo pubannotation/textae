@@ -33,7 +33,7 @@ export default class Arrow {
     container.appendChild(aura)
     this._aura = aura
 
-    this._lines = []
+    this._jettys = []
   }
 
   update(annotationBox, isBold) {
@@ -142,7 +142,7 @@ export default class Arrow {
       annotationBox
     )
     this._container.appendChild(sourceJetty)
-    this._lines.push(sourceJetty)
+    this._jettys.push(sourceJetty)
 
     const targetEndpoint =
       targetEntity.typeValuesElement.getBoundingClientRect()
@@ -153,13 +153,13 @@ export default class Arrow {
       annotationBox
     )
     this._container.appendChild(targetJetty)
-    this._lines.push(targetJetty)
+    this._jettys.push(targetJetty)
   }
 
   _destroyLines() {
-    for (const line of this._lines) {
+    for (const line of this._jettys) {
       this._container.removeChild(line)
     }
-    this._lines = []
+    this._jettys = []
   }
 }
