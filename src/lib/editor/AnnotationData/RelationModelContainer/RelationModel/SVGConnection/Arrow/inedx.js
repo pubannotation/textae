@@ -11,13 +11,13 @@ export default class Arrow {
     this._container = container
     this._relation = relation
 
-    const sourceTriangle = createSourceBollard()
-    this._container.appendChild(sourceTriangle)
-    this._sourceTriangle = sourceTriangle
+    const sourceBollard = createSourceBollard()
+    this._container.appendChild(sourceBollard)
+    this._sourceTriangle = sourceBollard
 
-    const targetTriangle = createTargetBollard()
-    this._container.appendChild(targetTriangle)
-    this._targetTriangle = targetTriangle
+    const targetBollard = createTargetBollard()
+    this._container.appendChild(targetBollard)
+    this._targetTriangle = targetBollard
 
     const path = createPath()
     container.appendChild(path)
