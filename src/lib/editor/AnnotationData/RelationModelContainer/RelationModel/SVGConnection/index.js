@@ -35,14 +35,14 @@ export default class SVGConnection {
     }
   }
 
-  pointUp() {
+  pointUpPath() {
     if (!this._isHovered) {
       this._isHovered = true
       this.recreate()
     }
   }
 
-  pointDown() {
+  pointDownPath() {
     if (this._isHovered) {
       this._isHovered = false
       this.recreate()
@@ -69,8 +69,8 @@ export default class SVGConnection {
       this._relationBox,
       this._relation,
       this._onClick,
-      () => this.pointUp(),
-      () => this.pointDown()
+      () => this.pointUpPath(),
+      () => this.pointDownPath()
     )
     this._arrow.update(annotationBox, false)
   }
@@ -83,8 +83,8 @@ export default class SVGConnection {
       this._arrow.width,
       this._relation,
       this._onClick,
-      () => this.pointUp(),
-      () => this.pointDown(),
+      () => this.pointUpPath(),
+      () => this.pointDownPath(),
       isSelected,
       isHovered
     )

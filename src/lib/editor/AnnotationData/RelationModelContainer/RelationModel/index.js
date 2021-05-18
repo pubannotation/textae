@@ -88,11 +88,11 @@ export default class RelationModel {
   // before the rendering of the relationship is complete.
   // You need to make sure that the relationship has been rendered.
   pointUp() {
-    this._connect.pointUp()
+    this._connect.pointUpPath()
   }
 
   pointDown() {
-    this._connect.pointDown()
+    this._connect.pointDownPath()
   }
 
   renderElement() {
