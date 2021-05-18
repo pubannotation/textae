@@ -116,6 +116,10 @@ export default class EntityModel {
     )
   }
 
+  get width() {
+    return this.clientRect.width
+  }
+
   get clientRect() {
     return this._typeValuesElement.getBoundingClientRect()
   }
