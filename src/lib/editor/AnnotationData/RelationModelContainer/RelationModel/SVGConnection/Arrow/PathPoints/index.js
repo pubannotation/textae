@@ -5,9 +5,9 @@ import getXPositions from './getXPositions'
 export default class PathPoints {
   constructor(sourceEntity, targetEntity, isBold) {
     const { source: sourceX, target: targetX } = getXPositions(
-      isBold,
       sourceEntity,
-      targetEntity
+      targetEntity,
+      isBold
     )
     const sourceY = sourceEntity.top - MarkerHeight - (isBold ? 3 : 0)
     const targetY = targetEntity.top - MarkerHeight - (isBold ? 3 : 0)
