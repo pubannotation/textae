@@ -1,15 +1,14 @@
 import { NS } from '../NS'
 import { MarkerHeight } from './MarkerHeight'
 
-export default function ({ sourceX, sourceY }, sourceEndpoint, annotationBox) {
+export default function ({ sourceX, sourceY }, entity, annotationBox) {
   const sourceLine = document.createElementNS(NS.SVG, 'polyline')
-  const centerOfSource =
-    sourceEndpoint.left + sourceEndpoint.width / 2 - annotationBox.left
+  const centerOfSource = entity.left + entity.width / 2 - annotationBox.left
   sourceLine.setAttribute(
     'points',
     `${sourceX} ${sourceY + MarkerHeight}, ${centerOfSource} ${
       sourceY + MarkerHeight
-    }, ${centerOfSource} ${sourceEndpoint.top - annotationBox.top}`
+    }, ${centerOfSource} ${entity.top - annotationBox.top}`
   )
 
   return sourceLine
