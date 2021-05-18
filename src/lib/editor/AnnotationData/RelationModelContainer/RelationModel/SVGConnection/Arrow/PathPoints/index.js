@@ -7,6 +7,7 @@ export default class PathPoints {
     const { source: sourceX, target: targetX } = getXPositions(
       sourceEntity,
       targetEntity,
+      isBold,
       isBold
     )
     const sourceY = sourceEntity.top - MarkerHeight - (isBold ? 3 : 0)
