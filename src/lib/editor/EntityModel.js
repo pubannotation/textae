@@ -100,6 +100,10 @@ export default class EntityModel {
     )
   }
 
+  get clientRect() {
+    return this.typeValuesElement.getBoundingClientRect()
+  }
+
   get typeValuesElement() {
     return document.querySelector(
       `#${makeEntityHTMLElementId(
