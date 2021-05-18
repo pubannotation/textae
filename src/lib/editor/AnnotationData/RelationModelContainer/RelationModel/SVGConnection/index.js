@@ -45,7 +45,11 @@ export default class SVGConnection {
   }
 
   redraw(isSelected) {
-    this._arrow.update(isSelected || this._isHovered)
+    this._arrow.update(
+      isSelected || this._isHovered,
+      isSelected || this._isHovered,
+      isSelected || this._isHovered
+    )
     this._label.redraw(
       this._arrow.left,
       this._arrow.top,
@@ -65,7 +69,7 @@ export default class SVGConnection {
       this._onMouseEnter,
       this._onMouseLeave
     )
-    this._arrow.update(false)
+    this._arrow.update(false, false, false)
   }
 
   _createLabel(isSelected, isHovered) {
