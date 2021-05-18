@@ -40,6 +40,7 @@ export default class Arrow {
     const pathPoints = new PathPoints(
       this._relation.sourceEntity,
       this._relation.targetEntity,
+      isBold,
       isBold
     )
     updatePath(this._path, pathPoints, this._relation.color, isBold)

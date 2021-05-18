@@ -3,15 +3,22 @@ import getControlXs from './getControlXs'
 import getXPositions from './getXPositions'
 
 export default class PathPoints {
-  constructor(sourceEntity, targetEntity, isBold) {
+  constructor(
+    sourceEntity,
+    targetEntity,
+    alingSourceBollards,
+    alignTargetBollards
+  ) {
     const { source: sourceX, target: targetX } = getXPositions(
       sourceEntity,
       targetEntity,
-      isBold,
-      isBold
+      alingSourceBollards,
+      alignTargetBollards
     )
-    const sourceY = sourceEntity.top - MarkerHeight - (isBold ? 3 : 0)
-    const targetY = targetEntity.top - MarkerHeight - (isBold ? 3 : 0)
+    const sourceY =
+      sourceEntity.top - MarkerHeight - (alingSourceBollards ? 3 : 0)
+    const targetY =
+      targetEntity.top - MarkerHeight - (alingSourceBollards ? 3 : 0)
 
     const { sourceControlX, targetControlX } = getControlXs(
       sourceX,
@@ -24,7 +31,7 @@ export default class PathPoints {
       Math.min(sourceY, targetY) -
       Math.abs(targetX - sourceX) / 2 -
       20 +
-      (isBold ? 3 : 0)
+      (alingSourceBollards && alignTargetBollards ? 3 : 0)
 
     this.sourceY = sourceY
     this.targetY = targetY
