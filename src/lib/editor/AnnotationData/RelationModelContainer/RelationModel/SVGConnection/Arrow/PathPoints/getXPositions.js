@@ -6,25 +6,25 @@ export default function (sourceEntity, targetEntity, isBold) {
   // hovering will not move the entity left or right.
   const isSourceJettyDeployed =
     sourceEntity.width / 2 >= MinimumDistance ||
-    (isBold && sourceEntity.relations.length !== 1)
+    (isBold && sourceEntity.relations.length > 1)
 
-  const foldUpTargetJetty =
-    targetEntity.width / 2 < MinimumDistance &&
-    (!isBold || targetEntity.relations.length === 1)
+  const isTargetJettyDeployed =
+    targetEntity.width / 2 >= MinimumDistance ||
+    (isBold && targetEntity.relations.length > 1)
 
   const centerOfSource = sourceEntity.center
   const centerOfTarget = targetEntity.center
 
   // Shift only when the entity has enough width to shift the endpoint.
-  const leftTarget = foldUpTargetJetty
-    ? centerOfTarget
-    : centerOfTarget - DistanceToShift * 3
+  const leftTarget = isTargetJettyDeployed
+    ? centerOfTarget - DistanceToShift * 3
+    : centerOfTarget
   const leftSource = isSourceJettyDeployed
     ? centerOfSource - DistanceToShift
     : centerOfSource
-  const rightTarget = foldUpTargetJetty
-    ? centerOfTarget
-    : centerOfTarget + DistanceToShift
+  const rightTarget = isTargetJettyDeployed
+    ? centerOfTarget + DistanceToShift
+    : centerOfTarget
   const rightSource = isSourceJettyDeployed
     ? centerOfSource + DistanceToShift * 3
     : centerOfSource
