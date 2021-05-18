@@ -66,7 +66,8 @@ export default class Arrow {
     )
 
     if (isBold) {
-      this._drawJetties(pathPoints)
+      this._drawSourceJetty(pathPoints)
+      this._drawTargetJetty(pathPoints)
     } else {
       this._destroyJetties()
     }
@@ -128,11 +129,6 @@ export default class Arrow {
           Math.pow(t, 3) * targetY
         return Math.abs(labelY - this._path.getBBox().y) < 1
       })
-  }
-
-  _drawJetties(pathPoints) {
-    this._drawSourceJetty(pathPoints)
-    this._drawTargetJetty(pathPoints)
   }
 
   _drawSourceJetty(pathPoints) {
