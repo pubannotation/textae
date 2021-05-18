@@ -45,8 +45,10 @@ export default class SVGConnection {
   }
 
   redraw(isSelected) {
-    const annotationBox = this._annotationBox.getBoundingClientRect()
-    this._arrow.update(annotationBox, isSelected || this._isHovered)
+    this._arrow.update(
+      this._annotationBox.getBoundingClientRect(),
+      isSelected || this._isHovered
+    )
 
     this._label.redraw(
       this._arrow.left,
@@ -68,8 +70,7 @@ export default class SVGConnection {
       this._onMouseLeave
     )
 
-    const annotationBox = this._annotationBox.getBoundingClientRect()
-    this._arrow.update(annotationBox, false)
+    this._arrow.update(this._annotationBox.getBoundingClientRect(), false)
   }
 
   _createLabel(isSelected, isHovered) {
