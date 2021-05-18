@@ -116,7 +116,9 @@ export default class RelationModel {
           attribute
         )
         event.stopPropagation()
-      }
+      },
+      () => this._connect.pointUpPath(),
+      () => this._connect.pointDownPath()
     )
 
     this._connect = connection

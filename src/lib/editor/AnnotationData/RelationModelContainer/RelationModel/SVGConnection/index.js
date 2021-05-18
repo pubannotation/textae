@@ -84,8 +84,8 @@ export default class SVGConnection {
       this._relationBox,
       this._relation,
       this._onClick,
-      () => this.pointUpPath(),
-      () => this.pointDownPath()
+      this._onMouseEnter,
+      this._onMouseLeave
     )
     this._arrow.update(annotationBox, false)
   }
@@ -98,8 +98,8 @@ export default class SVGConnection {
       this._arrow.width,
       this._relation,
       this._onClick,
-      () => this.pointUpPath(),
-      () => this.pointDownPath(),
+      this._onMouseEnter,
+      this._onMouseLeave,
       isSelected,
       isHovered
     )
