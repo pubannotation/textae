@@ -36,12 +36,12 @@ export default class Arrow {
     this._targetJetty = null
   }
 
-  update(pointUpPath, alingSourceBollards, alignTargetBollards) {
+  update(pointUpPath, pointUpSourceBollards, pointUpTargetBollards) {
     const pathPoints = new PathPoints(
       this._relation.sourceEntity,
       this._relation.targetEntity,
-      alingSourceBollards,
-      alignTargetBollards
+      pointUpSourceBollards,
+      pointUpTargetBollards
     )
     updatePath(this._path, pathPoints, this._relation.color, pointUpPath)
     updatePath(this._aura, pathPoints, this._relation.color, false)
@@ -65,13 +65,13 @@ export default class Arrow {
       pathPoints.transformDefinitionsForTargetTriangle
     )
 
-    if (alingSourceBollards) {
+    if (pointUpSourceBollards) {
       this._drawSourceJetty(pathPoints)
     } else {
       this._destroySourceJetty()
     }
 
-    if (alignTargetBollards) {
+    if (pointUpTargetBollards) {
       this._drawTargetJetty(pathPoints)
     } else {
       this._destroyTargetJetty()
