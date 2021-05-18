@@ -131,8 +131,12 @@ export default class Arrow {
   }
 
   _drawJetties(pathPoints) {
-    const { sourceEntity, targetEntity } = this._relation
+    this._drawSourceJetty(pathPoints)
+    this._drawTargetJetty(pathPoints)
+  }
 
+  _drawSourceJetty(pathPoints) {
+    const { sourceEntity } = this._relation
     const sourceJetty = createJetty(
       pathPoints.sourceX,
       pathPoints.sourceY,
@@ -140,7 +144,10 @@ export default class Arrow {
     )
     this._container.appendChild(sourceJetty)
     this._jetties.push(sourceJetty)
+  }
 
+  _drawTargetJetty(pathPoints) {
+    const { targetEntity } = this._relation
     const targetJetty = createJetty(
       pathPoints.targetX,
       pathPoints.targetY,
