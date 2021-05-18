@@ -12,13 +12,13 @@ export default class PathPoints {
     )
 
     const sourceY =
-      sourceEntity.typeValuesElement.getBoundingClientRect().top -
+      sourceEntity.clientRect.top -
       annotationBox.top -
       MarkerHeight -
       (isBold ? 3 : 0)
 
     const targetY =
-      targetEntity.typeValuesElement.getBoundingClientRect().top -
+      targetEntity.clientRect.top -
       annotationBox.top -
       MarkerHeight -
       (isBold ? 3 : 0)
