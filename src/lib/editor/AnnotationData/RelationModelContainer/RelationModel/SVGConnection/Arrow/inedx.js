@@ -32,8 +32,8 @@ export default class Arrow {
     aura.appendChild(title)
     container.appendChild(aura)
     this._aura = aura
-
-    this._jetties = []
+    this._sourceJetty = null
+    this._targetJetty = null
   }
 
   update(isBold) {
@@ -139,7 +139,7 @@ export default class Arrow {
       sourceEntity
     )
     this._container.appendChild(sourceJetty)
-    this._jetties.push(sourceJetty)
+    this._sourceJetty = sourceJetty
   }
 
   _drawTargetJetty(pathPoints) {
@@ -150,13 +150,18 @@ export default class Arrow {
       targetEntity
     )
     this._container.appendChild(targetJetty)
-    this._jetties.push(targetJetty)
+    this._targetJetty = targetJetty
   }
 
   _destroyJetties() {
-    for (const node of this._jetties) {
-      this._container.removeChild(node)
+    if (this._sourceJetty) {
+      this._container.removeChild(this._sourceJetty)
+      this._sourceJetty = null
     }
-    this._jetties = []
+
+    if (this._targetJetty) {
+      this._container.removeChild(this._targetJetty)
+      this._targetJetty = null
+    }
   }
 }
