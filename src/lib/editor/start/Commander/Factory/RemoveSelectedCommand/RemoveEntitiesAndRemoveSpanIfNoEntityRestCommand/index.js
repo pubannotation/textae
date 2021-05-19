@@ -23,7 +23,7 @@ export default class RemoveEntitiesAndRemoveSpanIfNoEntityRestCommand extends Co
               new RemoveEntityAndAssociatesCommand(
                 editor,
                 annotationData,
-                entity.id
+                entity
               )
           )
         )
