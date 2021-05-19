@@ -289,4 +289,12 @@ export default class EntityModel {
       this._definitionContainerFor.getUri(this.typeName)
     )
   }
+
+  get _sourceRelations() {
+    return this._relationContaier.all.filter((r) => r.subj === this.id)
+  }
+
+  get _targetRelations() {
+    return this._relationContaier.all.filter((r) => r.obj === this.id)
+  }
 }
