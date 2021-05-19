@@ -125,7 +125,6 @@ export default class EntityModel {
   select() {
     if (!this._selected) {
       this._selected = true
-
       this._selectElement()
     }
   }
@@ -133,7 +132,6 @@ export default class EntityModel {
   deselect() {
     if (this._selected) {
       this._selected = false
-
       this._element.classList.remove(SELECTED)
     }
   }
