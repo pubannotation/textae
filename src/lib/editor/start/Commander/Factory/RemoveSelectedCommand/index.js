@@ -1,38 +1,98 @@
 import CompositeCommand from '../CompositeCommand'
-import RemoveSpanCommand from '../RemoveSpanCommand'
-import RemoveEntitiesAndRemoveSpanIfNoEntityRestCommand from './RemoveEntitiesAndRemoveSpanIfNoEntityRestCommand'
-import RemoveRelationAndAssociatesCommand from '../RemoveRelationAndAssociatesCommand'
+import { RemoveCommand } from '../commandTemplate'
 
 export default class RemoveSelectedCommand extends CompositeCommand {
   constructor(editor, annotationData, selectionModel) {
     super()
 
-    const selectedSpans = selectionModel.span.all.map((span) => span.id)
-
-    this._subCommands = [].concat(
-      selectionModel.relation.all.map(
-        (relation) =>
-          new RemoveRelationAndAssociatesCommand(
-            editor,
-            annotationData,
-            relation
-          )
-      ),
-      selectionModel.entity.some
-        ? [
-            new RemoveEntitiesAndRemoveSpanIfNoEntityRestCommand(
-              editor,
-              annotationData,
-              selectionModel
-            )
-          ]
-        : [],
-      selectedSpans.map(
-        (id) => new RemoveSpanCommand(editor, annotationData, id)
+    // Aggrigate seleceted targets
+    const targetSpans = new Set()
+    const targetEntities = new Set()
+    const targetRelations = new Set()
+    const targetAttributes = new Set()
+    for (const span of selectionModel.span.all) {
+      targetSpans.add(span)
+      for (const entity of span.entities) {
+        aggrigateTargetEntities(
+          targetEntities,
+          targetRelations,
+          targetAttributes,
+          entity
+        )
+      }
+    }
+    for (const entity of selectionModel.entity.all) {
+      aggrigateTargetEntities(
+        targetEntities,
+        targetRelations,
+        targetAttributes,
+        entity
       )
-    )
-    this._logMessage = `remove selected ${selectedSpans
-      .concat(selectionModel.entity.all.map((entity) => entity.id))
-      .concat(selectionModel.relation.all.map((relation) => relation.id))}`
+    }
+    for (const relation of selectionModel.relation.all) {
+      aggrigateTargetRelations(targetRelations, targetAttributes, relation)
+    }
+
+    // Aggrigate spans to lose all entities.
+    for (const span of annotationData.span.all) {
+      if (span.entities.every((e) => selectionModel.entity.all.includes(e))) {
+        if (!span.styleOnly) {
+          targetSpans.add(span)
+        }
+      }
+    }
+
+    this._subCommands = []
+    for (const attribute of targetAttributes) {
+      this._subCommands.push(
+        new RemoveCommand(editor, annotationData, 'attribute', attribute.id)
+      )
+    }
+    for (const relation of targetRelations) {
+      this._subCommands.push(
+        new RemoveCommand(editor, annotationData, 'relation', relation.id)
+      )
+    }
+    for (const entity of targetEntities) {
+      this._subCommands.push(
+        new RemoveCommand(editor, annotationData, 'entity', entity.id)
+      )
+    }
+    for (const span of targetSpans) {
+      this._subCommands.push(
+        new RemoveCommand(editor, annotationData, 'span', span.id)
+      )
+    }
+
+    this._logMessage = `remove selected ${[
+      ...targetSpans,
+      ...targetEntities,
+      ...targetRelations,
+      ...targetAttributes
+    ]
+      .map(({ id }) => id)
+      .join(' ,')}`
+  }
+}
+
+function aggrigateTargetEntities(
+  targetEntities,
+  targetRelations,
+  targetAttributes,
+  entity
+) {
+  targetEntities.add(entity)
+  for (const attribute of entity.typeValues.attributes) {
+    targetAttributes.add(attribute)
+  }
+  for (const relation of entity.relations) {
+    aggrigateTargetRelations(targetRelations, targetAttributes, relation)
+  }
+}
+
+function aggrigateTargetRelations(targetRelations, targetAttributes, relation) {
+  targetRelations.add(relation)
+  for (const attribute of relation.typeValues.attributes) {
+    targetAttributes.add(attribute)
   }
 }
