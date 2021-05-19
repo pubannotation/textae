@@ -22,7 +22,7 @@ export default class Label {
       relation,
       'relation',
       isSelected
-        ? 'ui-selected'
+        ? 'textae-editor__signboard--selected'
         : isHovered
         ? 'textae-editor__signboard--hover'
         : null,
@@ -44,7 +44,7 @@ export default class Label {
         relation,
         'relation',
         isSelected
-          ? 'ui-selected'
+          ? 'textae-editor__signboard--selected'
           : isHovered
           ? 'textae-editor__signboard--hover'
           : null,
