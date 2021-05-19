@@ -1,5 +1,6 @@
 import { RemoveCommand } from './commandTemplate'
 import CompositeCommand from './CompositeCommand'
+import RemoveRelationAndAssociatesCommand from './RemoveRelationAndAssociatesCommand'
 
 export default class RemoveEntityAndAssociatesCommand extends CompositeCommand {
   constructor(editor, annotationData, entity) {
@@ -12,7 +13,7 @@ export default class RemoveEntityAndAssociatesCommand extends CompositeCommand {
     )
     const removeRelation = entity.relations.map(
       (relation) =>
-        new RemoveCommand(editor, annotationData, 'relation', relation.id)
+        new RemoveRelationAndAssociatesCommand(editor, annotationData, relation)
     )
     const removeAttribute = entity.typeValues.attributes.map(
       (attribute) =>
