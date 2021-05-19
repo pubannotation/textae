@@ -24,7 +24,7 @@ export default class Label {
       isSelected
         ? 'textae-editor__signboard--selected'
         : isHovered
-        ? 'textae-editor__signboard--hover'
+        ? 'textae-editor__signboard--hovered'
         : null,
       null
     )
@@ -46,7 +46,7 @@ export default class Label {
         isSelected
           ? 'textae-editor__signboard--selected'
           : isHovered
-          ? 'textae-editor__signboard--hover'
+          ? 'textae-editor__signboard--hovered'
           : null,
         null
       ),
