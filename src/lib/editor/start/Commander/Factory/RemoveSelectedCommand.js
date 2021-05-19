@@ -1,5 +1,5 @@
-import CompositeCommand from '../CompositeCommand'
-import { RemoveCommand } from '../commandTemplate'
+import CompositeCommand from './CompositeCommand'
+import { RemoveCommand } from './commandTemplate'
 
 export default class RemoveSelectedCommand extends CompositeCommand {
   constructor(editor, annotationData, selectionModel) {
