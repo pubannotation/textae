@@ -1,6 +1,5 @@
 import TypeValues from './TypeValues'
 import { makeEntityHTMLElementId } from './idFactory'
-import SELECTED from './SELECTED'
 import createSignboardHTMLElement from './createSignboardHTMLElement'
 import typeGapUnitHeight from './typeGapUnitHeight'
 import getDisplayName from './getDisplayName'
@@ -8,6 +7,7 @@ import getUri from './getUri'
 import toAnchorElement from './toAnchorElement'
 import getAnnotationBox from './AnnotationData/getAnnotationBox'
 
+const CSS_CLASS_SELECTED = 'textae-editor__signboard--selected'
 const CSS_CLASS_CUTTING = 'textae-editor__signboard--cutting'
 
 export default class EntityModel {
@@ -132,7 +132,7 @@ export default class EntityModel {
   deselect() {
     if (this._selected) {
       this._selected = false
-      this._element.classList.remove(SELECTED)
+      this._element.classList.remove(CSS_CLASS_SELECTED)
     }
   }
 
@@ -234,7 +234,7 @@ export default class EntityModel {
 
   _selectElement() {
     const el = this._element
-    el.classList.add(SELECTED)
+    el.classList.add(CSS_CLASS_SELECTED)
 
     // The block span renders as a div HTML element.
     // Because the positioning of div HTML elements is slower than that of span HTML elements,
