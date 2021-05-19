@@ -2599,7 +2599,7 @@ a.ui-button:active,
 .textae-editor__signboard--hover {
   z-index: 3;
 }
-.textae-editor__signboard.ui-to-be-cut .textae-editor__signboard__type-values {
+.textae-editor__signboard--cutting .textae-editor__signboard__type-values {
   opacity: 0.5;
 }
 .textae-editor__mode--view-with-relation .textae-editor__signboard[data-entity-type='denotation'],
@@ -2638,15 +2638,17 @@ a.ui-button:active,
   cursor: pointer;
 }
 .textae-editor__mode--denotation-with-relation .textae-editor__signboard[data-entity-type='denotation']:hover .textae-editor__signboard__type-values,
-.textae-editor__mode--denotation-without-relation .textae-editor__signboard[data-entity-type='denotation']:hover .textae-editor__signboard__type-values {
+.textae-editor__mode--denotation-without-relation .textae-editor__signboard[data-entity-type='denotation']:hover .textae-editor__signboard__type-values,
+.textae-editor__mode--denotation-with-relation .textae-editor__signboard[data-entity-type='denotation'].textae-editor__signboard--hover .textae-editor__signboard__type-values,
+.textae-editor__mode--denotation-without-relation .textae-editor__signboard[data-entity-type='denotation'].textae-editor__signboard--hover .textae-editor__signboard__type-values {
   box-shadow: 1px 1px 10px #600;
 }
-.textae-editor__mode--denotation-with-relation .textae-editor__signboard[data-entity-type='denotation'].ui-selected,
-.textae-editor__mode--denotation-without-relation .textae-editor__signboard[data-entity-type='denotation'].ui-selected {
+.textae-editor__mode--denotation-with-relation .textae-editor__signboard[data-entity-type='denotation'].textae-editor__signboard--selected,
+.textae-editor__mode--denotation-without-relation .textae-editor__signboard[data-entity-type='denotation'].textae-editor__signboard--selected {
   z-index: 3;
 }
-.textae-editor__mode--denotation-with-relation .textae-editor__signboard[data-entity-type='denotation'].ui-selected .textae-editor__signboard__type-values,
-.textae-editor__mode--denotation-without-relation .textae-editor__signboard[data-entity-type='denotation'].ui-selected .textae-editor__signboard__type-values {
+.textae-editor__mode--denotation-with-relation .textae-editor__signboard[data-entity-type='denotation'].textae-editor__signboard--selected .textae-editor__signboard__type-values,
+.textae-editor__mode--denotation-without-relation .textae-editor__signboard[data-entity-type='denotation'].textae-editor__signboard--selected .textae-editor__signboard__type-values {
   box-shadow: 0 0 0 2pt red;
 }
 .textae-editor__mode--block-with-relation .textae-editor__signboard[data-entity-type='block'] .textae-editor__signboard__type-values,
@@ -2654,27 +2656,30 @@ a.ui-button:active,
   cursor: pointer;
 }
 .textae-editor__mode--block-with-relation .textae-editor__signboard[data-entity-type='block']:hover .textae-editor__signboard__type-values,
-.textae-editor__mode--block-without-relation .textae-editor__signboard[data-entity-type='block']:hover .textae-editor__signboard__type-values {
+.textae-editor__mode--block-without-relation .textae-editor__signboard[data-entity-type='block']:hover .textae-editor__signboard__type-values,
+.textae-editor__mode--block-with-relation .textae-editor__signboard[data-entity-type='block'].textae-editor__signboard--hover .textae-editor__signboard__type-values,
+.textae-editor__mode--block-without-relation .textae-editor__signboard[data-entity-type='block'].textae-editor__signboard--hover .textae-editor__signboard__type-values {
   box-shadow: 1px 1px 10px #600;
 }
-.textae-editor__mode--block-with-relation .textae-editor__signboard[data-entity-type='block'].ui-selected,
-.textae-editor__mode--block-without-relation .textae-editor__signboard[data-entity-type='block'].ui-selected {
+.textae-editor__mode--block-with-relation .textae-editor__signboard[data-entity-type='block'].textae-editor__signboard--selected,
+.textae-editor__mode--block-without-relation .textae-editor__signboard[data-entity-type='block'].textae-editor__signboard--selected {
   z-index: 3;
 }
-.textae-editor__mode--block-with-relation .textae-editor__signboard[data-entity-type='block'].ui-selected .textae-editor__signboard__type-values,
-.textae-editor__mode--block-without-relation .textae-editor__signboard[data-entity-type='block'].ui-selected .textae-editor__signboard__type-values {
+.textae-editor__mode--block-with-relation .textae-editor__signboard[data-entity-type='block'].textae-editor__signboard--selected .textae-editor__signboard__type-values,
+.textae-editor__mode--block-without-relation .textae-editor__signboard[data-entity-type='block'].textae-editor__signboard--selected .textae-editor__signboard__type-values {
   box-shadow: 0 0 0 2pt red;
 }
 .textae-editor__mode--relation .textae-editor__signboard .textae-editor__signboard__type-values {
   cursor: pointer;
 }
-.textae-editor__mode--relation .textae-editor__signboard:hover .textae-editor__signboard__type-values {
+.textae-editor__mode--relation .textae-editor__signboard:hover .textae-editor__signboard__type-values,
+.textae-editor__mode--relation .textae-editor__signboard.textae-editor__signboard--hover .textae-editor__signboard__type-values {
   box-shadow: 1px 1px 10px #600;
 }
-.textae-editor__mode--relation .textae-editor__signboard.ui-selected {
+.textae-editor__mode--relation .textae-editor__signboard.textae-editor__signboard--selected {
   z-index: 3;
 }
-.textae-editor__mode--relation .textae-editor__signboard.ui-selected .textae-editor__signboard__type-values {
+.textae-editor__mode--relation .textae-editor__signboard.textae-editor__signboard--selected .textae-editor__signboard__type-values {
   box-shadow: 0 0 0 2pt red;
 }
 .textae-editor__mode--denotation-with-relation .textae-editor__signboard__type-values,
@@ -2715,16 +2720,24 @@ a.ui-button:active,
   text-decoration: none;
 }
 .textae-editor__mode--view-without-relation .textae-editor__grid,
-.textae-editor__mode--denotation-without-relation .textae-editor__grid {
+.textae-editor__mode--denotation-without-relation .textae-editor__grid,
+.textae-editor__mode--block-without-relation .textae-editor__grid {
   border-style: none;
 }
 .textae-editor__mode--view-without-relation .textae-editor__signboard,
-.textae-editor__mode--denotation-without-relation .textae-editor__signboard {
+.textae-editor__mode--denotation-without-relation .textae-editor__signboard,
+.textae-editor__mode--block-without-relation .textae-editor__signboard {
   margin-bottom: 0;
   padding-top: 0;
 }
+.textae-editor__mode--view-without-relation .textae-editor__signboard[data-entity-type='relation'],
+.textae-editor__mode--denotation-without-relation .textae-editor__signboard[data-entity-type='relation'],
+.textae-editor__mode--block-without-relation .textae-editor__signboard[data-entity-type='relation'] {
+  visibility: hidden;
+}
 .textae-editor__mode--view-without-relation .textae-editor__signboard__type-label,
-.textae-editor__mode--denotation-without-relation .textae-editor__signboard__type-label {
+.textae-editor__mode--denotation-without-relation .textae-editor__signboard__type-label,
+.textae-editor__mode--block-without-relation .textae-editor__signboard__type-label {
   border-width: 1px 0 0 0;
 }
 .textae-editor__mode--block-with-relation .textae-editor__block-hit-area,

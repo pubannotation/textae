@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.7.0](https://github.com/pubannotation/textae/compare/v7.6.0...v7.7.0) (2021-05-19)
+
+
+### Features
+
+* Now that the rendering of the relations is synchronous, enable debounce when moving the span ([be6e4a1](https://github.com/pubannotation/textae/commit/be6e4a1f7f0c6d5a59e160dadc14bafac403af48))
+
+
+### Bug Fixes
+
+* Editor height is not recalculated when annotation files are loaded ([9ef8e7e](https://github.com/pubannotation/textae/commit/9ef8e7edf68021faa4ad0bf382da35b8afa97dea))
+* Entity style specification in block mode is missing ([428d237](https://github.com/pubannotation/textae/commit/428d237a64efc890cf1c4f8707f9976cb246d20a))
+* Labels of relations are displayed in simple mode ([c586a2f](https://github.com/pubannotation/textae/commit/c586a2f59a56ef8b5a5dd2e3d449916208273249))
+
 ## [7.6.0](https://github.com/pubannotation/textae/compare/v7.5.1...v7.6.0) (2021-05-12)
 
 
