@@ -4,21 +4,21 @@ import CompositeCommand from './CompositeCommand'
 export default class RemoveEntityAndAssociatesCommand extends CompositeCommand {
   constructor(editor, annotationData, id) {
     super()
-    const removeEentityCommand = (entity) =>
-      new RemoveCommand(editor, annotationData, 'entity', entity)
-    const removeEntity = removeEentityCommand(id)
-    const removeRelation = annotationData.entity
-      .get(id)
-      .relations.map(
-        (relation) =>
-          new RemoveCommand(editor, annotationData, 'relation', relation.id)
-      )
-    const removeAttribute = annotationData.entity
-      .get(id)
-      .typeValues.attributes.map(
-        (attribute) =>
-          new RemoveCommand(editor, annotationData, 'attribute', attribute.id)
-      )
+    const entity = annotationData.entity.get(id)
+    const removeEntity = new RemoveCommand(
+      editor,
+      annotationData,
+      'entity',
+      entity.id
+    )
+    const removeRelation = entity.relations.map(
+      (relation) =>
+        new RemoveCommand(editor, annotationData, 'relation', relation.id)
+    )
+    const removeAttribute = entity.typeValues.attributes.map(
+      (attribute) =>
+        new RemoveCommand(editor, annotationData, 'attribute', attribute.id)
+    )
 
     this._subCommands = removeRelation
       .concat(removeAttribute)
