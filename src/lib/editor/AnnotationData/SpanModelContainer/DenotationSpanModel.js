@@ -1,4 +1,4 @@
-import SELECTED from '../../SELECTED'
+import SELECTED from './SELECTED'
 import getHeightIncludeDescendantGrids from './getHeightIncludeDescendantGrids'
 import round from './round'
 import SpanModel from './SpanModel'

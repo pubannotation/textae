@@ -1,5 +1,5 @@
 import { makeBlockSpanHTMLElementId } from '../../../idFactory'
-import SELECTED from '../../../SELECTED'
+import SELECTED from '../SELECTED'
 import renderBackground from './renderBackground'
 import setPosition from './setPosition'
 import SpanModel from '../SpanModel'
