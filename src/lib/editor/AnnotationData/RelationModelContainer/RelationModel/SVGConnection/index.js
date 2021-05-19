@@ -38,10 +38,8 @@ export default class SVGConnection {
   }
 
   pointDownPath(isSelected) {
-    if (this._isHovered) {
-      this._isHovered = false
-      this.redraw(isSelected)
-    }
+    this._isHovered = false
+    this.redraw(isSelected)
   }
 
   redraw(isSelected) {
