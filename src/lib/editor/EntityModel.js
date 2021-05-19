@@ -8,7 +8,7 @@ import getUri from './getUri'
 import toAnchorElement from './toAnchorElement'
 import getAnnotationBox from './AnnotationData/getAnnotationBox'
 
-const cssClass = 'ui-to-be-cut'
+const CSS_CLASS_CUTTING = 'textae-editor__signboard--cutting'
 
 export default class EntityModel {
   constructor(
@@ -138,13 +138,13 @@ export default class EntityModel {
 
   startCut() {
     if (this._element) {
-      this._element.classList.add(cssClass)
+      this._element.classList.add(CSS_CLASS_CUTTING)
     }
   }
 
   cancelCut() {
     if (this._element) {
-      this._element.classList.remove(cssClass)
+      this._element.classList.remove(CSS_CLASS_CUTTING)
     }
   }
 
