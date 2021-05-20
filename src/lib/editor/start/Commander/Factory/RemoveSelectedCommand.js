@@ -71,7 +71,7 @@ export default class RemoveSelectedCommand extends CompositeCommand {
       ...targetAttributes
     ]
       .map(({ id }) => id)
-      .join(' ,')}`
+      .join(', ')}`
   }
 }
 
