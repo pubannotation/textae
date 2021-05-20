@@ -1,15 +1,10 @@
 import { NS } from '../NS'
-import { MarkerHeight } from './MarkerHeight'
+import moveJetty from './moveJetty'
 
 export default function (x, y, entity) {
   const jetty = document.createElementNS(NS.SVG, 'polyline')
 
-  jetty.setAttribute(
-    'points',
-    `${x} ${y + MarkerHeight}, ${entity.center} ${y + MarkerHeight}, ${
-      entity.center
-    } ${entity.top}`
-  )
+  moveJetty(jetty, x, y, entity)
 
   return jetty
 }
