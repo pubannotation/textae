@@ -160,18 +160,24 @@ export default class Arrow {
   }
 
   _drawTargetJetty(pathPoints) {
-    if (this._targetJetty) {
-      this._destroyTargetJetty()
-    }
-
     const { targetEntity } = this._relation
-    const targetJetty = createJetty(
-      pathPoints.targetX,
-      pathPoints.targetY,
-      targetEntity
-    )
-    this._container.appendChild(targetJetty)
-    this._targetJetty = targetJetty
+
+    if (this._targetJetty) {
+      moveJetty(
+        this._targetJetty,
+        pathPoints.targetX,
+        pathPoints.targetY,
+        targetEntity
+      )
+    } else {
+      const targetJetty = createJetty(
+        pathPoints.targetX,
+        pathPoints.targetY,
+        targetEntity
+      )
+      this._container.appendChild(targetJetty)
+      this._targetJetty = targetJetty
+    }
   }
 
   _destroySourceJetty() {
