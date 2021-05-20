@@ -192,12 +192,18 @@ export default class EntityModel {
   }
 
   _renderElement() {
-    return createSignboardHTMLElement(
+    const element = createSignboardHTMLElement(
       this,
       this.isDenotation ? 'denotation' : 'block',
       null,
       makeEntityHTMLElementId(this._editor, this.id)
     )
+
+    // Highlight retaitons when related entity is heverd.
+    element.addEventListener('mouseenter', () => this.pointUpRelations())
+    element.addEventListener('mouseleave', () => this.pointDownRelations())
+
+    return element
   }
 
   updateElement() {

@@ -1,6 +1,4 @@
-import delegate from 'delegate'
 import debounce from 'debounce'
-import getEntityHTMLelementFromChild from '../getEntityHTMLelementFromChild'
 import LineHeightAuto from './LineHeightAuto'
 
 export default class View {
@@ -98,39 +96,6 @@ export default class View {
           }
         }
       })
-
-    // Highlight retaitons when related entity is heverd.
-    const dom = editor[0]
-    delegate(
-      dom,
-      '.textae-editor__signboard__type-values',
-      'mouseover',
-      ({ target }) => {
-        const entityElement = getEntityHTMLelementFromChild(target)
-        if (
-          entityElement.dataset.entityType === 'denotation' ||
-          entityElement.dataset.entityType === 'block'
-        ) {
-          const entityId = entityElement.dataset.id
-          annotationData.entity.get(entityId).pointUpRelations()
-        }
-      }
-    )
-    delegate(
-      dom,
-      '.textae-editor__signboard__type-values',
-      'mouseout',
-      ({ target }) => {
-        const entityElement = getEntityHTMLelementFromChild(target)
-        if (
-          entityElement.dataset.entityType === 'denotation' ||
-          entityElement.dataset.entityType === 'block'
-        ) {
-          const entityId = entityElement.dataset.id
-          annotationData.entity.get(entityId).pointDownRelations()
-        }
-      }
-    )
   }
 
   updateDisplay() {
