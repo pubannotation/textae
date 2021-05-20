@@ -138,6 +138,10 @@ export default class Arrow {
   }
 
   _drawSourceJetty(pathPoints) {
+    if (this._sourceJetty) {
+      this._destroySourceJetty()
+    }
+
     const { sourceEntity } = this._relation
     const sourceJetty = createJetty(
       pathPoints.sourceX,
@@ -149,6 +153,10 @@ export default class Arrow {
   }
 
   _drawTargetJetty(pathPoints) {
+    if (this._targetJetty) {
+      this._destroyTargetJetty()
+    }
+
     const { targetEntity } = this._relation
     const targetJetty = createJetty(
       pathPoints.targetX,
