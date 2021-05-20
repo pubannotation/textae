@@ -105,8 +105,8 @@ export default class View {
       dom,
       '.textae-editor__signboard__type-values',
       'mouseover',
-      (e) => {
-        const entityElement = getEntityHTMLelementFromChild(e.target)
+      ({ target }) => {
+        const entityElement = getEntityHTMLelementFromChild(target)
         if (
           entityElement.dataset.entityType === 'denotation' ||
           entityElement.dataset.entityType === 'block'
@@ -116,16 +116,21 @@ export default class View {
         }
       }
     )
-    delegate(dom, '.textae-editor__signboard__type-values', 'mouseout', (e) => {
-      const entityElement = getEntityHTMLelementFromChild(e.target)
-      if (
-        entityElement.dataset.entityType === 'denotation' ||
-        entityElement.dataset.entityType === 'block'
-      ) {
-        const entityId = entityElement.dataset.id
-        annotationData.entity.get(entityId).pointDownRelations()
+    delegate(
+      dom,
+      '.textae-editor__signboard__type-values',
+      'mouseout',
+      ({ target }) => {
+        const entityElement = getEntityHTMLelementFromChild(target)
+        if (
+          entityElement.dataset.entityType === 'denotation' ||
+          entityElement.dataset.entityType === 'block'
+        ) {
+          const entityId = entityElement.dataset.id
+          annotationData.entity.get(entityId).pointDownRelations()
+        }
       }
-    })
+    )
   }
 
   updateDisplay() {
