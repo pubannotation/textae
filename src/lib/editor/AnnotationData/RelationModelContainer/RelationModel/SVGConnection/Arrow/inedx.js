@@ -5,6 +5,7 @@ import createPath from './createPath'
 import PathPoints from './PathPoints'
 import { NS } from '../NS'
 import createJetty from './createJetty'
+import moveJetty from './moveJetty'
 
 export default class Arrow {
   constructor(container, relation, onClick, onMouseEnter, onMouseLeave) {
@@ -138,18 +139,24 @@ export default class Arrow {
   }
 
   _drawSourceJetty(pathPoints) {
-    if (this._sourceJetty) {
-      this._destroySourceJetty()
-    }
-
     const { sourceEntity } = this._relation
-    const sourceJetty = createJetty(
-      pathPoints.sourceX,
-      pathPoints.sourceY,
-      sourceEntity
-    )
-    this._container.appendChild(sourceJetty)
-    this._sourceJetty = sourceJetty
+
+    if (this._sourceJetty) {
+      moveJetty(
+        this._sourceJetty,
+        pathPoints.sourceX,
+        pathPoints.sourceY,
+        sourceEntity
+      )
+    } else {
+      const sourceJetty = createJetty(
+        pathPoints.sourceX,
+        pathPoints.sourceY,
+        sourceEntity
+      )
+      this._container.appendChild(sourceJetty)
+      this._sourceJetty = sourceJetty
+    }
   }
 
   _drawTargetJetty(pathPoints) {
