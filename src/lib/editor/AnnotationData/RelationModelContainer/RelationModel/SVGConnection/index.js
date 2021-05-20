@@ -23,6 +23,7 @@ export default class SVGConnection {
     this._annotationBox = getAnnotationBox(editor)
     this._createArrow()
     this._createLabel(false, false)
+    this._isHovered = false
   }
 
   destroy() {
