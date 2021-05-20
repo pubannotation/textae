@@ -62,8 +62,6 @@ export default class AttributeModelContainer extends IdIssueContainer {
 
     instance.subjectModel.updateElement()
 
-    super._emit('textae-event.annotation-data.attribute.remove', instance)
-
     return instance
   }
 
