@@ -1088,20 +1088,6 @@
 5.  Entity を削除する
 6.  line-height が 14px になること
 
-## line-height 変更
-
-### 背景
-
-1.  4.1.8 で text−box の下の隙間を小さくした
-2.  4.1.16 の開発中にモジュール読み込み構文の修正漏れでエラーを起こしていました。
-
-### -- 手段 --
-
-1.  Seting ダイアログを開く
-2.  line-height を変更する
-3.  高さが再計算されること
-4.  下側の隙間が狭いこと
-
 ## 行の高さ調整ボタン
 
 ### 背景
@@ -2893,30 +2879,3 @@
 6.  `Color`欄を変更する
 7.  `OK`ボタンを押す
 8.  既存の Relation の色が変わること
-
-## namespace
-
-### 背景
-
-1.  4.1.11 から`annotations.json`に namespace を書けるようになりました。
-2.  prefix が`_base`だと http で始まらない全ての Type に反映されます
-3.  uri で指定した値と Type が結合して、uri になります
-4.  prefix が`_http`以外は prefix と一致した部分が置きかわります
-5.  5.0.5 で selection attribute と string attribute にも namespace を適用しました。
-6.  6.1.13 で、`annotations.json`上の namespace を一つしか読み込めなくなっていました。6.2.5 で修正しました。
-
-### -- 手段 --
-
-1.  View モードで`prefix.json`を開く
-2.  最初の DenotationSpan の Type が pubannotation.org へのリンクになっていること
-3.  最初の DenotationSpan の Attribute が pubannotation.org へのリンクになっていること
-4.  第二の DenotationSpan の Type が「google で protein を検索した結果画面」へのリンクになっていること
-5.  第二の DenotationSpan の Attribute が「google で protein を検索した結果画面」へのリンクになっていること
-6.  第三の DenotationSpan の Type が abc.com へのリンクになっていること
-7.  第三の DenotationSpan の Attribute が abc.com へのリンクになっていること
-
-### namespace を更新しない
-
-1.  アノテーション保存ダイアログを開く
-2.  ソースを表示する
-3.  namespace に id を追加していないこと
