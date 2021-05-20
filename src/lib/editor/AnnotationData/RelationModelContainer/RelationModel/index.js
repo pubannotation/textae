@@ -22,7 +22,7 @@ export default class RelationModel {
     this._obj = obj
     this._namespace = namespace
     this._definitionContainer = definitionContainer
-    this._selected = false
+    this._isSelected = false
   }
 
   get id() {
