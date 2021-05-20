@@ -48,14 +48,9 @@ class RemoveCommand extends AnnotationCommand {
   }
 
   execute() {
-    // Update model
     this.oloModel = this._annotationData[this._modelType].remove(this._id)
 
-    if (this.oloModel) {
-      commandLog(`remove a ${this._modelType}: `, this.oloModel)
-    } else {
-      commandLog(`already removed ${this._modelType}: `, this._id)
-    }
+    commandLog(`remove a ${this._modelType}: ${this._id}`)
   }
 
   revert() {
