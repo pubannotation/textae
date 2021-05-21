@@ -68,6 +68,10 @@ export default class AttributeModel {
     return this.pred === pred && String(this._obj) === obj
   }
 
+  erase() {
+    this.subjectModel.updateElement()
+  }
+
   get _title() {
     return `[${this.id}] pred: ${this.pred}, value: ${this._obj}`
   }
