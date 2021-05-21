@@ -119,12 +119,12 @@ export default class SpanModelContainer {
   remove(id) {
     const blockSpan = this._blocks.get(id)
     if (blockSpan) {
-      return this._removeBlock(blockSpan)
+      this._removeBlock(blockSpan)
     }
 
     const denotationSpan = this._denotations.get(id)
     if (denotationSpan) {
-      return this._removeDenotation(denotationSpan)
+      this._removeDenotation(denotationSpan)
     }
   }
 
