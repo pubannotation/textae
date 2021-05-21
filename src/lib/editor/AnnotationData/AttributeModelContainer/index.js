@@ -61,8 +61,6 @@ export default class AttributeModelContainer extends IdIssueContainer {
     console.assert(instance, `There are no attribute ${id} to delete!`)
 
     instance.subjectModel.updateElement()
-
-    return instance
   }
 
   getSameDefinitionsAttributes(pred) {

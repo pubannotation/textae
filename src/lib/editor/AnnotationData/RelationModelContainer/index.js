@@ -53,7 +53,6 @@ export default class RelationModelContainer extends IdIssueContainer {
   remove(id) {
     const relation = super.remove(id)
     relation.destroyElement()
-    return relation
   }
 
   clear() {

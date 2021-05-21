@@ -76,7 +76,6 @@ export default class EntityModelContainer extends IdIssueContainer {
   remove(id) {
     const instance = super.remove(id)
     instance.erase()
-    return instance
   }
 
   changeType(id, newType) {
