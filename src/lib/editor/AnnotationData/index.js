@@ -175,7 +175,7 @@ export default class AnnotationData {
     this._textBox.updateLineHeight()
 
     for (const relation of this.relation.all) {
-      relation.renderElement()
+      relation.render()
     }
   }
 

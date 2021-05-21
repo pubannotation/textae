@@ -40,7 +40,7 @@ export default class RelationModelContainer extends IdIssueContainer {
             this._namespace,
             this._definitionContainer
           )
-    newValue.renderElement()
+    newValue.render()
     return super.add(newValue)
   }
 
