@@ -129,7 +129,7 @@ export default class RelationModel {
     this._connect.redraw(this._isSelected)
   }
 
-  destroyElement() {
+  erase() {
     this._connect.destroy()
     this._connect = undefined
   }
