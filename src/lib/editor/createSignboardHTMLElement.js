@@ -29,8 +29,8 @@ export default function (model, entityType, cssClass, HTMLId) {
   const typeValues = element.querySelector(
     '.textae-editor__signboard__type-values'
   )
-  for (const { contentHTML } of model.typeValues.attributes) {
-    typeValues.append(dohtml.create(contentHTML))
+  for (const { HTMLElement } of model.typeValues.attributes) {
+    typeValues.append(HTMLElement)
   }
 
   return element

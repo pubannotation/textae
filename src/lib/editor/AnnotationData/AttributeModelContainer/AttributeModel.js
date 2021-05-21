@@ -1,3 +1,4 @@
+import dohtml from 'dohtml'
 import getDisplayName from '../../getDisplayName'
 import getUri from '../../getUri'
 import hexToRGBA from '../../hexToRGBA'
@@ -39,6 +40,10 @@ export default class AttributeModel {
       this._entityContainer.get(this.subj) ||
       this._relationContaier.get(this.subj)
     )
+  }
+
+  get HTMLElement() {
+    return dohtml.create(this.contentHTML)
   }
 
   get contentHTML() {
