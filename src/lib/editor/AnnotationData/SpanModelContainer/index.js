@@ -212,7 +212,6 @@ export default class SpanModelContainer {
       `textae-event.annotation-data.span.remove`,
       denotationSpan
     )
-    return denotationSpan
   }
 
   _removeBlock(blockSpan) {
@@ -220,7 +219,6 @@ export default class SpanModelContainer {
     blockSpan.erase()
     this._emitter.emit(`textae-event.annotation-data.span.remove`, blockSpan)
     this._textBox.forceUpdate()
-    return blockSpan
   }
 
   isBoundaryCrossingWithOtherSpans(begin, end) {
