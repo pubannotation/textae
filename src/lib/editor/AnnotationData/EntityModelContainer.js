@@ -53,7 +53,7 @@ export default class EntityModelContainer extends IdIssueContainer {
     // When redoing, the newValue is instance of the EntityModel already.
     if (newValue instanceof EntityModel) {
       super.add(newValue)
-      newValue.renderWithGrid()
+      newValue.render()
       return newValue
     }
 
@@ -69,7 +69,7 @@ export default class EntityModelContainer extends IdIssueContainer {
     )
 
     super.add(newEntity)
-    newEntity.renderWithGrid()
+    newEntity.render()
     return newEntity
   }
 
@@ -88,7 +88,7 @@ export default class EntityModelContainer extends IdIssueContainer {
     for (const entity of entities) {
       entity.span = span
       entity.erase()
-      entity.renderWithGrid()
+      entity.render()
     }
 
     this._emit(`textae-event.annotation-data.entity.move`)

@@ -99,7 +99,7 @@ export default class SpanModel {
         // When the child spans contain bold style spans, the width of the parent span changes.
         // Render the entity after the child span has been rendered.
         for (const entity of span.entities) {
-          entity.renderWithGrid()
+          entity.render()
         }
       }
     )
