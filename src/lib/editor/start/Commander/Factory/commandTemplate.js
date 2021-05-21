@@ -44,22 +44,22 @@ class RemoveCommand extends AnnotationCommand {
     this._editor = editor
     this._annotationData = annotationData
     this._modelType = modelType
-    this._id = model.id
+    this._model = model
   }
 
   execute() {
-    this.oloModel = this._annotationData[this._modelType].remove(this._id)
+    this._annotationData[this._modelType].remove(this._model.id)
 
-    commandLog(`remove a ${this._modelType}: ${this._id}`)
+    commandLog(`remove a ${this._modelType}: ${this._model.id}`)
   }
 
   revert() {
-    if (this.oloModel) {
+    if (this._model) {
       return new CreateCommand(
         this._editor,
         this._annotationData,
         this._modelType,
-        this.oloModel
+        this._model
       )
     } else {
       // Do not revert unless an object was removed.
