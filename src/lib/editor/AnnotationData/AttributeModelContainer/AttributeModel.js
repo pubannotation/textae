@@ -43,10 +43,25 @@ export default class AttributeModel {
   }
 
   get HTMLElement() {
-    return dohtml.create(this.contentHTML)
+    return dohtml.create(this._contentHTML)
   }
 
-  get contentHTML() {
+  equalsTo(pred, obj) {
+    // If the attribute is a numeric type,
+    // then the type of obj is numeric.
+    // Cast obj to a string to compare.
+    return this.pred === pred && String(this._obj) === obj
+  }
+
+  render() {
+    this.subjectModel.updateElement()
+  }
+
+  erase() {
+    this.subjectModel.updateElement()
+  }
+
+  get _contentHTML() {
     return `
       <div
         class="textae-editor__signboard__attribute"
@@ -64,21 +79,6 @@ export default class AttributeModel {
         </span>
       </div>
       `
-  }
-
-  equalsTo(pred, obj) {
-    // If the attribute is a numeric type,
-    // then the type of obj is numeric.
-    // Cast obj to a string to compare.
-    return this.pred === pred && String(this._obj) === obj
-  }
-
-  render() {
-    this.subjectModel.updateElement()
-  }
-
-  erase() {
-    this.subjectModel.updateElement()
   }
 
   get _title() {
