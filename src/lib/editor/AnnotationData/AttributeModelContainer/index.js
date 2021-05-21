@@ -34,7 +34,7 @@ export default class AttributeModelContainer extends IdIssueContainer {
 
     super.add(newValue)
 
-    newValue.subjectModel.updateElement()
+    newValue.render()
 
     return newValue
   }
