@@ -2,30 +2,24 @@ import commandLog from './commandLog'
 import AnnotationCommand from './AnnotationCommand'
 
 class CreateCommand extends AnnotationCommand {
-  constructor(
-    editor,
-    annotationData,
-    modelType,
-    newModel,
-    selectionModel = null
-  ) {
+  constructor(editor, annotationData, modelType, model, selectionModel = null) {
     super()
     this._editor = editor
     this._annotationData = annotationData
     this._modelType = modelType
-    this._newModel = newModel
+    this._model = model
     this._selectionModel = selectionModel
   }
 
   execute() {
-    this._newModel = this._annotationData[this._modelType].add(this._newModel)
+    this._model = this._annotationData[this._modelType].add(this._model)
 
     if (this._selectionModel) {
-      this._selectionModel.add(this._modelType, this._newModel.id)
+      this._selectionModel.add(this._modelType, this._model.id)
     }
-    commandLog(`create a new ${this._modelType}: ${this._newModel.id}`)
+    commandLog(`create a new ${this._modelType}: ${this._model.id}`)
 
-    return this._newModel
+    return this._model
   }
 
   revert() {
@@ -33,7 +27,7 @@ class CreateCommand extends AnnotationCommand {
       this._editor,
       this._annotationData,
       this._modelType,
-      this._newModel
+      this._model
     )
   }
 }
