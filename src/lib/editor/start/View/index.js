@@ -52,6 +52,10 @@ export default class View {
     )
 
     // Bind commander events.
+    // When you have an entity with multiple attributes whose pred is the same,
+    // if you redraw the HTML element of the entity every time you update the attributes,
+    // you need to consider the mixed state of the attributes after the update and before the update.
+    // Redraw all the Entities that were affected at the end of the command.
     editor.eventEmitter.on(
       'textae-event.commander.attributes.change',
       (attributes) => {
