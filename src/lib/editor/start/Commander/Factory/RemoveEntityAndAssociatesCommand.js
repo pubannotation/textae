@@ -9,7 +9,7 @@ export default class RemoveEntityAndAssociatesCommand extends CompositeCommand {
       editor,
       annotationData,
       'entity',
-      entity.id
+      entity
     )
     const removeRelation = entity.relations.map(
       (relation) =>
@@ -17,7 +17,7 @@ export default class RemoveEntityAndAssociatesCommand extends CompositeCommand {
     )
     const removeAttribute = entity.typeValues.attributes.map(
       (attribute) =>
-        new RemoveCommand(editor, annotationData, 'attribute', attribute.id)
+        new RemoveCommand(editor, annotationData, 'attribute', attribute)
     )
 
     this._subCommands = removeRelation

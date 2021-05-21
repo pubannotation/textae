@@ -23,12 +23,7 @@ export default function (elements, attributes, annotationData, editor) {
           }
         } else {
           changeAttributeCommnads.push(
-            new RemoveCommand(
-              editor,
-              annotationData,
-              'attribute',
-              oldAttribute.id
-            )
+            new RemoveCommand(editor, annotationData, 'attribute', oldAttribute)
           )
         }
       }

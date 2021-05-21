@@ -12,7 +12,7 @@ export default class RemoveSpanCommand extends CompositeCommand {
         new RemoveEntityAndAssociatesCommand(editor, annotationData, entity)
     )
 
-    const removeSpan = new RemoveCommand(editor, annotationData, 'span', id)
+    const removeSpan = new RemoveCommand(editor, annotationData, 'span', span)
 
     this._subCommands = removeEntities.concat(removeSpan)
     this._logMessage = `remove a span ${id}`
