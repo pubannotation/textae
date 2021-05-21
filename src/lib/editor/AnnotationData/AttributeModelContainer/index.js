@@ -50,8 +50,6 @@ export default class AttributeModelContainer extends IdIssueContainer {
       model.obj = newObj
     }
 
-    super._emit(`textae-event.annotation-data.attribute.change`, model)
-
     return model
   }
 
