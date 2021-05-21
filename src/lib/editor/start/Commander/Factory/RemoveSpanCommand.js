@@ -6,12 +6,11 @@ export default class RemoveSpanCommand extends CompositeCommand {
   constructor(editor, annotationData, id) {
     super()
 
-    const removeEntities = annotationData.span
-      .get(id)
-      .entities.map(
-        (entity) =>
-          new RemoveEntityAndAssociatesCommand(editor, annotationData, entity)
-      )
+    const span = annotationData.span.get(id)
+    const removeEntities = span.entities.map(
+      (entity) =>
+        new RemoveEntityAndAssociatesCommand(editor, annotationData, entity)
+    )
 
     const removeSpan = new RemoveCommand(editor, annotationData, 'span', id)
 
