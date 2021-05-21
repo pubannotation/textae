@@ -47,19 +47,12 @@ class RemoveCommand extends AnnotationCommand {
   }
 
   revert() {
-    if (this._model) {
-      return new CreateCommand(
-        this._editor,
-        this._annotationData,
-        this._modelType,
-        this._model
-      )
-    } else {
-      // Do not revert unless an object was removed.
-      return {
-        execute: () => {}
-      }
-    }
+    return new CreateCommand(
+      this._editor,
+      this._annotationData,
+      this._modelType,
+      this._model
+    )
   }
 }
 
