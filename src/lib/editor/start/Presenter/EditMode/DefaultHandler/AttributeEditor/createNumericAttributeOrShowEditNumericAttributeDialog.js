@@ -1,5 +1,5 @@
 import alertifyjs from 'alertifyjs'
-import openEditStringAttributeDialog from '../../openEditStringAttributeDialog'
+import openEditNumericAttributeDialog from '../../../openEditNumericAttributeDialog'
 
 export default function (selectionModelItems, attrDef, commander) {
   const attribute = selectionModelItems.findSelectedAttributeWithSamePredicate(
@@ -11,11 +11,11 @@ export default function (selectionModelItems, attrDef, commander) {
       selectionModelItems.onlySelectedWithJustOneAttributeOf(attrDef.pred)
 
     if (isOnlyEntityWithJsutOneSamePredSelected) {
-      openEditStringAttributeDialog(
+      openEditNumericAttributeDialog(
         selectionModelItems,
+        attrDef,
         attribute,
-        commander,
-        attrDef
+        commander
       )
     } else {
       alertifyjs.warning(
