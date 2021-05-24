@@ -33,8 +33,14 @@ export default class SVGConnection {
 
   pointUpPath(isSelected) {
     if (!this._isHovered) {
+      this._arrow.update(
+        isSelected || true,
+        isSelected || true,
+        isSelected || true
+      )
+      this._redrawLabel(isSelected)
+
       this._isHovered = true
-      this.redraw(isSelected)
     }
   }
 
