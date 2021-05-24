@@ -83,18 +83,6 @@ export default class EntityModel {
     )
   }
 
-  pointUpRelations() {
-    for (const relation of this.relations) {
-      relation.pointUp()
-    }
-  }
-
-  pointDownRelations() {
-    for (const relation of this.relations) {
-      relation.pointDown()
-    }
-  }
-
   get center() {
     return (
       this._clientRect.left +
@@ -204,8 +192,8 @@ export default class EntityModel {
     )
 
     // Highlight retaitons when related entity is hoverd.
-    element.addEventListener('mouseenter', () => this.pointUpRelations())
-    element.addEventListener('mouseleave', () => this.pointDownRelations())
+    element.addEventListener('mouseenter', () => this._pointUpRelations())
+    element.addEventListener('mouseleave', () => this._pointDownRelations())
 
     return element
   }
@@ -306,5 +294,17 @@ export default class EntityModel {
 
   get _relationsWhereThisIsTarget() {
     return this._relationContaier.all.filter((r) => r.obj === this.id)
+  }
+
+  _pointUpRelations() {
+    for (const relation of this.relations) {
+      relation.pointUp()
+    }
+  }
+
+  _pointDownRelations() {
+    for (const relation of this.relations) {
+      relation.pointDown()
+    }
   }
 }
