@@ -131,21 +131,7 @@ export default class RelationModel {
         event.stopPropagation()
       },
       () => this._pointUpSelfAndEntities(),
-      () => {
-        const relations = new Set()
-
-        for (const r of this.sourceEntity.relations) {
-          relations.add(r)
-        }
-
-        for (const r of this.targetEntity.relations) {
-          relations.add(r)
-        }
-
-        for (const r of relations) {
-          r.pointDown()
-        }
-      }
+      () => this._pointDownSelfAndEntities()
     )
 
     this._connect = connection
@@ -253,6 +239,22 @@ export default class RelationModel {
 
     for (const r of targetRelations) {
       r.pointUpTargetBollards()
+    }
+  }
+
+  _pointDownSelfAndEntities() {
+    const relations = new Set()
+
+    for (const r of this.sourceEntity.relations) {
+      relations.add(r)
+    }
+
+    for (const r of this.targetEntity.relations) {
+      relations.add(r)
+    }
+
+    for (const r of relations) {
+      r.pointDown()
     }
   }
 }
