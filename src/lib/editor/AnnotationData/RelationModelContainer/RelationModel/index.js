@@ -130,74 +130,7 @@ export default class RelationModel {
         )
         event.stopPropagation()
       },
-      () => {
-        {
-          this._connect.pointUpPath(this._isSelected)
-          const bothRelations = new Set()
-          const sourceRelations = new Set()
-          const targetRelations = new Set()
-
-          for (const r of this.sourceEntity.relationsWhereThisIsSource) {
-            if (r === this) {
-              continue
-            }
-
-            if (r.targetEntity == this.targetEntity) {
-              bothRelations.add(r)
-            } else {
-              sourceRelations.add(r)
-            }
-          }
-
-          for (const r of this.sourceEntity.relationsWhereThisIsTarget) {
-            if (r === this) {
-              continue
-            }
-
-            if (r.sourceEntity == this.targetEntity) {
-              bothRelations.add(r)
-            } else {
-              targetRelations.add(r)
-            }
-          }
-
-          for (const r of this.targetEntity.relationsWhereThisIsSource) {
-            if (r === this) {
-              continue
-            }
-
-            if (r.targetEntity == this.sourceEntity) {
-              bothRelations.add(r)
-            } else {
-              sourceRelations.add(r)
-            }
-          }
-
-          for (const r of this.targetEntity.relationsWhereThisIsTarget) {
-            if (r === this) {
-              continue
-            }
-
-            if (r.sourceEntity == this.sourceEntity) {
-              bothRelations.add(r)
-            } else {
-              targetRelations.add(r)
-            }
-          }
-
-          for (const r of bothRelations) {
-            r.pointUpSourceBollardsAndTargetBollards()
-          }
-
-          for (const r of sourceRelations) {
-            r.pointUpSourceBollards()
-          }
-
-          for (const r of targetRelations) {
-            r.pointUpTargetBollards()
-          }
-        }
-      },
+      () => this._pointUpSelfAndEntities(),
       () => {
         const relations = new Set()
 
@@ -253,5 +186,73 @@ export default class RelationModel {
       this.typeName,
       this._definitionContainer.getUri(this.typeName)
     )
+  }
+
+  _pointUpSelfAndEntities() {
+    this._connect.pointUpPath(this._isSelected)
+
+    const bothRelations = new Set()
+    const sourceRelations = new Set()
+    const targetRelations = new Set()
+
+    for (const r of this.sourceEntity.relationsWhereThisIsSource) {
+      if (r === this) {
+        continue
+      }
+
+      if (r.targetEntity == this.targetEntity) {
+        bothRelations.add(r)
+      } else {
+        sourceRelations.add(r)
+      }
+    }
+
+    for (const r of this.sourceEntity.relationsWhereThisIsTarget) {
+      if (r === this) {
+        continue
+      }
+
+      if (r.sourceEntity == this.targetEntity) {
+        bothRelations.add(r)
+      } else {
+        targetRelations.add(r)
+      }
+    }
+
+    for (const r of this.targetEntity.relationsWhereThisIsSource) {
+      if (r === this) {
+        continue
+      }
+
+      if (r.targetEntity == this.sourceEntity) {
+        bothRelations.add(r)
+      } else {
+        sourceRelations.add(r)
+      }
+    }
+
+    for (const r of this.targetEntity.relationsWhereThisIsTarget) {
+      if (r === this) {
+        continue
+      }
+
+      if (r.sourceEntity == this.sourceEntity) {
+        bothRelations.add(r)
+      } else {
+        targetRelations.add(r)
+      }
+    }
+
+    for (const r of bothRelations) {
+      r.pointUpSourceBollardsAndTargetBollards()
+    }
+
+    for (const r of sourceRelations) {
+      r.pointUpSourceBollards()
+    }
+
+    for (const r of targetRelations) {
+      r.pointUpTargetBollards()
+    }
   }
 }
