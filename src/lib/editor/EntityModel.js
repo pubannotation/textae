@@ -7,7 +7,6 @@ import getUri from './getUri'
 import toAnchorElement from './toAnchorElement'
 import getAnnotationBox from './AnnotationData/getAnnotationBox'
 
-const CSS_CLASS_HOVERED = 'textae-editor__signboard--hovered'
 const CSS_CLASS_SELECTED = 'textae-editor__signboard--selected'
 const CSS_CLASS_CUTTING = 'textae-editor__signboard--cutting'
 
@@ -124,16 +123,17 @@ export default class EntityModel {
   }
 
   pointUp() {
-    if (!this._hovered) {
-      this._hovered = true
-      this._element.classList.add(CSS_CLASS_HOVERED)
+    for (const relation of this._relationsWhereThisIsSource) {
+      relation.pointUpSourceBollards()
+    }
+    for (const relation of this._relationsWhereThisIsTarget) {
+      relation.pointUpTargetBollards()
     }
   }
 
   pointDown() {
-    if (this._hovered) {
-      this._hovered = false
-      this._element.classList.remove(CSS_CLASS_HOVERED)
+    for (const relation of this.relations) {
+      relation.pointDown()
     }
   }
 
