@@ -14,7 +14,7 @@ export default class AttributeEditor {
     this._annotationData = annotationData
     this._selectionModelItems = selectionModelItems
     this._pallet = pallet
-    this._typeDefinition = typeDefinition
+    this._typeDefinition = annotationData.typeDefinition
   }
 
   addOrEditAt(number) {
