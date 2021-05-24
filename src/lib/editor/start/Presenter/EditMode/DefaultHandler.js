@@ -1,8 +1,9 @@
 export default class DefaultHandler {
-  constructor(annotationType, definitionContainer, commander) {
+  constructor(annotationType, definitionContainer, commander, attributeEditor) {
     this._annotationType = annotationType
     this._definitionContainer = definitionContainer
     this._commander = commander
+    this._attributeEditor = attributeEditor
   }
 
   selectAll(typeName) {
@@ -55,6 +56,14 @@ export default class DefaultHandler {
   }
 
   relationClicked() {}
+
+  manipulateAttribute(number, shiftKey) {
+    if (shiftKey) {
+      this._attributeEditor.deleteAt(number)
+    } else {
+      this._attributeEditor.addOrEditAt(number)
+    }
+  }
 
   _labelChanged({ typeName, label, attributes = [] }) {
     const commands = this._commander.factory.changeItemTypeCommand(

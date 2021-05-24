@@ -11,12 +11,11 @@ export default class EditBlockHandler extends DefaultHandler {
     selectionModel,
     attributeEditor
   ) {
-    super('entity', definitionContainer, commander)
+    super('entity', definitionContainer, commander, attributeEditor)
 
     this._editor = editor
     this._selectionModel = selectionModel
     this._annotationData = annotationData
-    this._attributeEditor = attributeEditor
   }
 
   changeInstance(autocompletionWs) {
@@ -30,14 +29,6 @@ export default class EditBlockHandler extends DefaultHandler {
       )
         .open()
         .then((values) => this._labelChanged(values))
-    }
-  }
-
-  manipulateAttribute(number, shiftKey) {
-    if (shiftKey) {
-      this._attributeEditor.deleteAt(number)
-    } else {
-      this._attributeEditor.addOrEditAt(number)
     }
   }
 }

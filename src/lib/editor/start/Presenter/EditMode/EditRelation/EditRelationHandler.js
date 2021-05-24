@@ -11,7 +11,7 @@ export default class EditRelationHandler extends DefaultHandler {
     selectionModel,
     attributeEditor
   ) {
-    super('relation', definitionContainer, commander)
+    super('relation', definitionContainer, commander, attributeEditor)
 
     this._editor = editor
     this._annotationData = annotationData
@@ -38,14 +38,6 @@ export default class EditRelationHandler extends DefaultHandler {
       this._selectionModel.relation.add(relation.id)
     } else {
       this._selectionModel.selectRelation(relation.id)
-    }
-  }
-
-  manipulateAttribute(number, shiftKey) {
-    if (shiftKey) {
-      this._attributeEditor.deleteAt(number)
-    } else {
-      this._attributeEditor.addOrEditAt(number)
     }
   }
 
