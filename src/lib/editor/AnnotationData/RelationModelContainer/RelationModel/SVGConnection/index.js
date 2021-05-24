@@ -70,6 +70,14 @@ export default class SVGConnection {
     )
   }
 
+  pointUpSourceBollardsAndTargetBollards(isSelected) {
+    this._arrow.update(
+      isSelected || false,
+      isSelected || true,
+      isSelected || true
+    )
+  }
+
   pointDownPath(isSelected) {
     this._isHovered = false
     this.redraw(isSelected)
