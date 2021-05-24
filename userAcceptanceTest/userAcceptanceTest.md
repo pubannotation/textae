@@ -340,23 +340,6 @@
 5.  選択した Span をもう片方の Span の反対側の端と同じ範囲まで広げる（テキストとテキストの行間の空白領域で mouse up すること）
 6.  親子 Span になること
 
-## 兄弟 Span を親 Span にする
-
-### 背景
-
-1.  5.2.1, 5.2.2 で並んだ兄弟 Span の片方を伸ばすして、端を共有する親子 Span にする操作を便利にしました
-2.  以前は、一度両側がはみ出た大きな親 Span にしてから、はみ出た部分を縮める操作が必要でした
-3.  5.2.1 で、親にしたい Span を選択して、伸ばして子にしたい Span の上で mouse up して、端を共有する親 Span にできるようになりました
-4.  5.2.2 で、親にしたい Span を選択して、伸ばして子にしたい Span の上にブラウザのセレクションが有る状態で、テキスト間の空白領域で mouse up して、端を共有する親 Span にできるようになりました
-
-### -- 手段 --
-
-1.  Term モードにする
-2.  Span を作る
-3.  兄弟になる Span を作る
-4.  片方の Span をもう片方の Span を覆う範囲に広げる
-5.  親子 Span になること
-
 ## パレットの Attribute タブの定義削除ボタン
 
 1. `delete attribute`というラベルを表示したボタンでした
@@ -800,43 +783,6 @@
 1.  Term モードにする
 2.  Entity を選択する
 3.  Entity のラベルのボーダーが赤色になること
-
-## モードに応じてパレットに表示する Type を変更
-
-### Term モード
-
-1.  Term モードにする
-2.  パレットを開く
-3.  DenotationEntity の Type が表示されること
-
-### Term-Simple モード
-
-1.  Term-Simple モードにする
-2.  パレットを開く
-3.  DenotationEntity の Type が表示されること
-
-### Block モード
-
-1.  Block モードにする
-2.  パレットを開く
-3.  BlockEntity の Type が表示されること
-
-### Block-Simple モード
-
-1.  Block-Simple モードにする
-2.  パレットを開く
-3.  BlockEntity の Type が表示されること
-
-### Relation モード
-
-1.  Relation モードにする
-2.  パレットを開く
-3.  Relation の Type が表示されること
-
-### View モード
-
-1.  View モードにする
-2.  パレットが開けないこと
 
 ## パレットの表示項目
 
@@ -1752,22 +1698,6 @@
 3.  `invalid_attributes_config.json`を読み込む
 4.  右上に`Invalid configuration: The attribute type whose predicate is 'category' misses a mandatory property, 'default'.`と赤色のトースト表示がされること
 
-## 不正なフォーマットの color を含む型定義を読み込んだらエラーを alertify.js で表示
-
-### 背景
-
-1. Entity, Block, Relation, Attribute の Type 定義に`color`があります。
-2. 内部的には JSONScheme を使って`color`のフォーマットをチェックしていますが、不正なフォーマットであっても読み込んでいます。
-3. `color`の表示は、HTML エスケープしていないため、`color`に HTML タグを含む Type を定義すると、Entity, Block, Relation, Attribute, パレットに任意の HTML タグを挿入することが可能です。
-4. 6.4.27 で不正なフォーマットの color を含む型定義を読み込んだらエラーにする対応をしました。
-
-### -- 手段 --
-
-1.  アノテーション読込ダイアログを表示
-2.  URL 欄に`invalid_color_annotation.json`を入力
-3.  `Open`ボタンをクリック
-4.  右上に`Invalid configuration: '<span style='color:red'>Invalid color format</span>' is invalid color format.`と赤色のトースト表示がされること
-
 ## パスに日本語を含む URL から annotations ファイルを読み込んだときにステータスバーにデコードした URL を表示する
 
 ### 背景
@@ -2676,18 +2606,3 @@
 1.  Editor7 を選択
 2.  Editor 中に`Currently, the document is empty. Use the "import" button or press the key "i" to open a document with annotation.`が表示されること
 3.  エディタを選択するとコントロールバーが表示されること
-
-## inline で連続した空白を含む annotation を開けること
-
-### 背景
-
-1.  inline の annotation の text に、連続した空白が含まれていた場合、埋め込んだ時点で、１つの空白にまとめられていた
-2.  annotation の texte に、連続した空白が含まれていた場合、Editor 上に表示する文字列ので、１つの空白にまとめられていた
-3.  `textae-editor`クラスと、`textae-editor__body__text-box__paragraph-margin`クラスに、`white-space: pre`スタイルを指定が必要
-4.  v4.5.7 で対応
-
-### -- 手段 --
-
-1.  editor9 を選択
-2.  `stomach`の Span がズレていないこと
-
