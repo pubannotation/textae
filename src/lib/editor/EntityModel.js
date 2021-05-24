@@ -199,7 +199,7 @@ export default class EntityModel {
       makeEntityHTMLElementId(this._editor, this.id)
     )
 
-    // Highlight retaitons when related entity is heverd.
+    // Highlight retaitons when related entity is hoverd.
     element.addEventListener('mouseenter', () => this.pointUpRelations())
     element.addEventListener('mouseleave', () => this.pointDownRelations())
 
