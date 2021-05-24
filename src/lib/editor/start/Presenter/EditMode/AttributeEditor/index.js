@@ -3,13 +3,7 @@ import createNumericAttributeOrShowEditNumericAttributeDialog from './createNume
 import createStringAttributeOrShowEditStringAttributeDialog from './createStringAttributeOrShowEditStringAttributeDialog'
 
 export default class AttributeEditor {
-  constructor(
-    commander,
-    annotationData,
-    selectionModelItems,
-    pallet,
-    typeDefinition
-  ) {
+  constructor(commander, annotationData, selectionModelItems, pallet) {
     this._commander = commander
     this._annotationData = annotationData
     this._selectionModelItems = selectionModelItems
