@@ -8,13 +8,15 @@ export default class EditRelationHandler extends DefaultHandler {
     definitionContainer,
     commander,
     annotationData,
-    selectionModel
+    selectionModel,
+    attributeEditor
   ) {
     super('relation', definitionContainer, commander)
 
     this._editor = editor
     this._annotationData = annotationData
     this._selectionModel = selectionModel
+    this._attributeEditor = attributeEditor
   }
 
   changeInstance(autocompletionWs) {
@@ -39,7 +41,13 @@ export default class EditRelationHandler extends DefaultHandler {
     }
   }
 
-  manipulateAttribute() {}
+  manipulateAttribute(number, shiftKey) {
+    if (shiftKey) {
+      this._attributeEditor.deleteAt(number)
+    } else {
+      this._attributeEditor.addOrEditAt(number)
+    }
+  }
 
   _getSelectedType() {
     const relation = this._selectionModel.relation.single
