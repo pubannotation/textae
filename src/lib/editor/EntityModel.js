@@ -79,9 +79,7 @@ export default class EntityModel {
   }
 
   get relations() {
-    return this._relationContaier.all.filter(
-      (r) => r.obj === this.id || r.subj === this.id
-    )
+    return this._sourceRelations.concat(this._targetRelations)
   }
 
   pointUpRelations() {
