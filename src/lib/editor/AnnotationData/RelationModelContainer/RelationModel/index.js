@@ -118,8 +118,18 @@ export default class RelationModel {
         )
         event.stopPropagation()
       },
-      () => this.pointUp(),
-      () => this.pointDown()
+      () => {
+        {
+          this._connect.pointUpPath(this._isSelected)
+          this.sourceEntity.pointUp(this)
+          this.targetEntity.pointUp(this)
+        }
+      },
+      () => {
+        this._connect.pointDownPath(this._isSelected)
+        this.sourceEntity.pointDown()
+        this.targetEntity.pointDown()
+      }
     )
 
     this._connect = connection
