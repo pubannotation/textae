@@ -79,7 +79,9 @@ export default class EntityModel {
   }
 
   get relations() {
-    return this._sourceRelations.concat(this._targetRelations)
+    return this._relationsWhereThisIsSource.concat(
+      this._relationsWhereThisIsTarget
+    )
   }
 
   pointUpRelations() {
@@ -294,11 +296,11 @@ export default class EntityModel {
     )
   }
 
-  get _sourceRelations() {
+  get _relationsWhereThisIsSource() {
     return this._relationContaier.all.filter((r) => r.subj === this.id)
   }
 
-  get _targetRelations() {
+  get _relationsWhereThisIsTarget() {
     return this._relationContaier.all.filter((r) => r.obj === this.id)
   }
 }
