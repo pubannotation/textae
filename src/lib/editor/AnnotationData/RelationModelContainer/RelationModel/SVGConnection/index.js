@@ -90,8 +90,14 @@ export default class SVGConnection {
   }
 
   pointDownPath(isSelected) {
+    this._arrow.update(
+      isSelected || false,
+      isSelected || false,
+      isSelected || false
+    )
+    this._redrawLabel(isSelected)
+
     this._isHovered = false
-    this.redraw(isSelected)
   }
 
   redraw(isSelected) {
