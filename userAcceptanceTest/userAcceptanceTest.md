@@ -1339,36 +1339,6 @@
 7.  `OK`ボタンを押す
 8.  選択中の DenotationEntity の該当 predicate の Attribute が削除されること
 
-## DenotationEntity 編集ダイアログの編集確定
-
-### 背景
-
-1. 6.4.90 で、Entity 編集ダイアログに表示する Attribute の pred と一緒にショートカットキーを表示するようにしました
-2. 6.4.90 で、ショートカットキーを表示した際、編集後の保存用の pred と表示用の pred を分けていなかったため、編集ダイアログを開いて閉じるだけで、エラーが起きていました
-3. 6.4.92 で、対応しました
-
-### OK ボタン
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  Attribute のある、DenotationEntity を選択する
-4.  `W`キーを押す
-5.  編集ダイアログが開くこと
-6.  文字を変更する
-7.  `OK`ボタンを押す
-8.  DenotationEntity の id が変わること
-
-### Enter キー
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  Attribute のある、DenotationEntity を選択する
-4.  `W`キーを押す
-5.  編集ダイアログが開くこと
-6.  文字を変更する
-7.  `Enter`キーを押す
-8.  DenotationEntity の id が変わること
-
 ## DenotationEntity 選択時のコントロールバーの見た目の変化
 
 ### 背景
@@ -2721,35 +2691,3 @@
 1.  editor9 を選択
 2.  `stomach`の Span がズレていないこと
 
-## アノテーション保存時にメッセージを alertify.js で表示
-
-### 背景
-
-1.  ステータスバーにメッセージを表示していました。
-2.  Editor が大きいと隠れていた
-3.  トーストを使って表示します
-
-### -- 手段 --
-
-1.  annotation を保存する
-2.  右上に`annotation saved`と緑色のトースト表示がされること
-3.  サーバを落とす
-4.  サーバに annotation を保存する
-5.  右上に`could not save`と赤色のトースト表示がされること
-
-## shift を押して Span を選択
-
-### コピー
-
-1.  Term モードにする
-2.  shift で複数の Span をえらぶ
-3.  コピーする
-4.  貼り付けする
-5.  選択してる Span の全ての Entity がコピーされること
-
-### 削除
-
-1.  Term モードにする
-2.  shift で複数の Span をえらぶ
-3.  削除する
-4.  選択してる Span が全て削除されること
