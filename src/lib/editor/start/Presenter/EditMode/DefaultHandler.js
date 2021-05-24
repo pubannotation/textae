@@ -1,9 +1,23 @@
+import AttributeEditor from './AttributeEditor'
+
 export default class DefaultHandler {
-  constructor(annotationType, definitionContainer, commander, attributeEditor) {
+  constructor(
+    annotationType,
+    definitionContainer,
+    commander,
+    annotationData,
+    selectionModelItems,
+    pallet
+  ) {
     this._annotationType = annotationType
     this._definitionContainer = definitionContainer
     this._commander = commander
-    this._attributeEditor = attributeEditor
+    this._attributeEditor = new AttributeEditor(
+      commander,
+      annotationData,
+      selectionModelItems,
+      pallet
+    )
   }
 
   selectAll(typeName) {

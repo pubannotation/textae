@@ -1,7 +1,6 @@
 import DefaultHandler from '../DefaultHandler'
 import EditEntityDialog from '../../../../../component/EditEntityDialog'
 import mergedTypeValuesOf from '../mergedTypeValuesOf'
-import AttributeEditor from '../AttributeEditor'
 
 export default class EditRelationHandler extends DefaultHandler {
   constructor(
@@ -16,12 +15,9 @@ export default class EditRelationHandler extends DefaultHandler {
       'relation',
       definitionContainer,
       commander,
-      new AttributeEditor(
-        commander,
-        annotationData,
-        selectionModel.relation,
-        relationPallet
-      )
+      annotationData,
+      selectionModel.relation,
+      relationPallet
     )
 
     this._editor = editor
