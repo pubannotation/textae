@@ -78,8 +78,8 @@ export default class EntityModel {
   }
 
   get relations() {
-    return this._relationsWhereThisIsSource.concat(
-      this._relationsWhereThisIsTarget
+    return this.relationsWhereThisIsSource.concat(
+      this.relationsWhereThisIsTarget
     )
   }
 
@@ -111,12 +111,12 @@ export default class EntityModel {
   }
 
   pointUp(eventTarget) {
-    for (const relation of this._relationsWhereThisIsSource) {
+    for (const relation of this.relationsWhereThisIsSource) {
       if (relation !== eventTarget) {
         relation.pointUpSourceBollards()
       }
     }
-    for (const relation of this._relationsWhereThisIsTarget) {
+    for (const relation of this.relationsWhereThisIsTarget) {
       if (relation !== eventTarget) {
         relation.pointUpTargetBollards()
       }
@@ -288,19 +288,19 @@ export default class EntityModel {
     )
   }
 
-  get _relationsWhereThisIsSource() {
+  get relationsWhereThisIsSource() {
     return this._relationContaier.all.filter((r) => r.subj === this.id)
   }
 
-  get _relationsWhereThisIsTarget() {
+  get relationsWhereThisIsTarget() {
     return this._relationContaier.all.filter((r) => r.obj === this.id)
   }
 
   _pointUpRelations() {
-    for (const relation of this._relationsWhereThisIsSource) {
+    for (const relation of this.relationsWhereThisIsSource) {
       relation.pointUpPathAndSourceBollards()
     }
-    for (const relation of this._relationsWhereThisIsTarget) {
+    for (const relation of this.relationsWhereThisIsTarget) {
       relation.pointUpPathAndTargetBollards()
     }
   }
