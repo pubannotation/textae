@@ -4,7 +4,6 @@ import MouseEventHandler from './MouseEventHandler'
 import Edit from '../Edit'
 import EditBlockHandler from './EditBlockHandler'
 import EntityAndAttributePallet from '../../../../../component/EntityAndAttributePallet'
-import AttributeEditor from '../AttributeEditor'
 
 export default class EditBlock extends Edit {
   constructor(
@@ -27,20 +26,13 @@ export default class EditBlock extends Edit {
       'Entity configuration'
     )
 
-    const attributeEditor = new AttributeEditor(
-      commander,
-      annotationData,
-      selectionModel.entity,
-      blockPallet
-    )
-
     const handler = new EditBlockHandler(
       editor,
       annotationData.typeDefinition.block,
       commander,
       annotationData,
       selectionModel,
-      attributeEditor
+      blockPallet
     )
 
     const spanEditor = new SpanEditor(
