@@ -16,7 +16,6 @@ export default class EditRelationHandler extends DefaultHandler {
     this._editor = editor
     this._annotationData = annotationData
     this._selectionModel = selectionModel
-    this._attributeEditor = attributeEditor
   }
 
   changeInstance(autocompletionWs) {
