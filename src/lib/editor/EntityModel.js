@@ -110,12 +110,6 @@ export default class EntityModel {
     return this._span.isBlock
   }
 
-  pointDown() {
-    for (const relation of this.relations) {
-      relation.pointDown()
-    }
-  }
-
   select() {
     if (!this._selected) {
       this._selected = true
