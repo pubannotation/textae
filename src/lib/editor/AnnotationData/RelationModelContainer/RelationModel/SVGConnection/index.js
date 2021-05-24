@@ -38,6 +38,22 @@ export default class SVGConnection {
     }
   }
 
+  pointUpPathAndSourceBollards(isSelected) {
+    this._arrow.update(
+      isSelected || true,
+      isSelected || true,
+      isSelected || false
+    )
+  }
+
+  pointUpPathAndTargetBollards(isSelected) {
+    this._arrow.update(
+      isSelected || true,
+      isSelected || false,
+      isSelected || true
+    )
+  }
+
   pointUpSourceBollards(isSelected) {
     this._arrow.update(
       isSelected || false,

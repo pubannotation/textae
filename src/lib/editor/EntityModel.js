@@ -297,8 +297,11 @@ export default class EntityModel {
   }
 
   _pointUpRelations() {
-    for (const relation of this.relations) {
-      relation.pointUp()
+    for (const relation of this._relationsWhereThisIsSource) {
+      relation.pointUpPathAndSourceBollards()
+    }
+    for (const relation of this._relationsWhereThisIsTarget) {
+      relation.pointUpPathAndTargetBollards()
     }
   }
 
