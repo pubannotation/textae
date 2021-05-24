@@ -64,7 +64,7 @@ export default class AttributeEditor {
         break
       case 'string':
         createStringAttributeOrShowEditStringAttributeDialog(
-          this._selectionModel,
+          this._selectionModel.entity,
           attrDef,
           this._commander
         )

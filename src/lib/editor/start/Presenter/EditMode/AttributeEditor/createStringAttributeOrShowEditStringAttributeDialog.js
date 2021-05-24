@@ -1,17 +1,18 @@
 import alertifyjs from 'alertifyjs'
 import openEditStringAttributeDialog from '../../openEditStringAttributeDialog'
 
-export default function (selectionModel, attrDef, commander) {
-  const attribute =
-    selectionModel.entity.findSelectedAttributeWithSamePredicate(attrDef.pred)
+export default function (selectionModelItems, attrDef, commander) {
+  const attribute = selectionModelItems.findSelectedAttributeWithSamePredicate(
+    attrDef.pred
+  )
 
   if (attribute) {
     const isOnlyEntityWithJsutOneSamePredSelected =
-      selectionModel.entity.onlySelectedWithJustOneAttributeOf(attrDef.pred)
+      selectionModelItems.onlySelectedWithJustOneAttributeOf(attrDef.pred)
 
     if (isOnlyEntityWithJsutOneSamePredSelected) {
       openEditStringAttributeDialog(
-        selectionModel.entity,
+        selectionModelItems,
         attribute,
         commander,
         attrDef
@@ -23,7 +24,7 @@ export default function (selectionModel, attrDef, commander) {
     }
   } else {
     const command = commander.factory.createAttributeToItemsCommand(
-      selectionModel.entity.all,
+      selectionModelItems.all,
       attrDef
     )
     commander.invoke(command)
