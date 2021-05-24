@@ -18,7 +18,7 @@ export default class PathPoints {
     const sourceY =
       sourceEntity.top - MarkerHeight - (alingSourceBollards ? 3 : 0)
     const targetY =
-      targetEntity.top - MarkerHeight - (alingSourceBollards ? 3 : 0)
+      targetEntity.top - MarkerHeight - (alignTargetBollards ? 3 : 0)
 
     const { sourceControlX, targetControlX } = getControlXs(
       sourceX,
