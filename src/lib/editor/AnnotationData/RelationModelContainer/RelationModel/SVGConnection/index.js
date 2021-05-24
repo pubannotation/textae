@@ -44,14 +44,7 @@ export default class SVGConnection {
       isSelected || true,
       isSelected || false
     )
-    this._label.redraw(
-      this._arrow.left,
-      this._arrow.top,
-      this._arrow.width,
-      this._relation,
-      isSelected,
-      this._isHovered
-    )
+    this._redrawLabel(isSelected)
   }
 
   pointUpPathAndTargetBollards(isSelected) {
@@ -60,14 +53,7 @@ export default class SVGConnection {
       isSelected || false,
       isSelected || true
     )
-    this._label.redraw(
-      this._arrow.left,
-      this._arrow.top,
-      this._arrow.width,
-      this._relation,
-      isSelected,
-      this._isHovered
-    )
+    this._redrawLabel(isSelected)
   }
 
   pointUpSourceBollards(isSelected) {
@@ -76,14 +62,7 @@ export default class SVGConnection {
       isSelected || true,
       isSelected || false
     )
-    this._label.redraw(
-      this._arrow.left,
-      this._arrow.top,
-      this._arrow.width,
-      this._relation,
-      isSelected,
-      this._isHovered
-    )
+    this._redrawLabel(isSelected)
   }
 
   pointUpTargetBollards(isSelected) {
@@ -92,14 +71,7 @@ export default class SVGConnection {
       isSelected || false,
       isSelected || true
     )
-    this._label.redraw(
-      this._arrow.left,
-      this._arrow.top,
-      this._arrow.width,
-      this._relation,
-      isSelected,
-      this._isHovered
-    )
+    this._redrawLabel(isSelected)
   }
 
   pointUpSourceBollardsAndTargetBollards(isSelected) {
@@ -108,14 +80,7 @@ export default class SVGConnection {
       isSelected || true,
       isSelected || true
     )
-    this._label.redraw(
-      this._arrow.left,
-      this._arrow.top,
-      this._arrow.width,
-      this._relation,
-      isSelected,
-      this._isHovered
-    )
+    this._redrawLabel(isSelected)
   }
 
   pointDownPath(isSelected) {
@@ -129,14 +94,7 @@ export default class SVGConnection {
       isSelected || this._isHovered,
       isSelected || this._isHovered
     )
-    this._label.redraw(
-      this._arrow.left,
-      this._arrow.top,
-      this._arrow.width,
-      this._relation,
-      isSelected,
-      this._isHovered
-    )
+    this._redrawLabel(isSelected)
   }
 
   // Private APIs
@@ -163,6 +121,17 @@ export default class SVGConnection {
       this._onMouseLeave,
       isSelected,
       isHovered
+    )
+  }
+
+  _redrawLabel(isSelected) {
+    this._label.redraw(
+      this._arrow.left,
+      this._arrow.top,
+      this._arrow.width,
+      this._relation,
+      isSelected,
+      this._isHovered
     )
   }
 }
