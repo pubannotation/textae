@@ -30,7 +30,7 @@ export default class EditBlock extends Edit {
     const attributeEditor = new AttributeEditor(
       commander,
       annotationData,
-      selectionModel,
+      selectionModel.entity,
       blockPallet,
       annotationData.typeDefinition
     )
