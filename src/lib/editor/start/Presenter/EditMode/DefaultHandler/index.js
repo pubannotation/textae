@@ -1,4 +1,4 @@
-import AttributeEditor from './AttributeEditor'
+import AttributeEditor from '../AttributeEditor'
 
 export default class DefaultHandler {
   constructor(
