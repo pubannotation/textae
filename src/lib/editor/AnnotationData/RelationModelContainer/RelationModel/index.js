@@ -199,9 +199,19 @@ export default class RelationModel {
         }
       },
       () => {
-        this._connect.pointDownPath(this._isSelected)
-        this.sourceEntity.pointDown()
-        this.targetEntity.pointDown()
+        const relations = new Set()
+
+        for (const r of this.sourceEntity.relations) {
+          relations.add(r)
+        }
+
+        for (const r of this.targetEntity.relations) {
+          relations.add(r)
+        }
+
+        for (const r of relations) {
+          r.pointDown()
+        }
       }
     )
 
