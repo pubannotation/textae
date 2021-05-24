@@ -44,6 +44,14 @@ export default class SVGConnection {
       isSelected || true,
       isSelected || false
     )
+    this._label.redraw(
+      this._arrow.left,
+      this._arrow.top,
+      this._arrow.width,
+      this._relation,
+      isSelected,
+      this._isHovered
+    )
   }
 
   pointUpPathAndTargetBollards(isSelected) {
@@ -51,6 +59,14 @@ export default class SVGConnection {
       isSelected || true,
       isSelected || false,
       isSelected || true
+    )
+    this._label.redraw(
+      this._arrow.left,
+      this._arrow.top,
+      this._arrow.width,
+      this._relation,
+      isSelected,
+      this._isHovered
     )
   }
 
@@ -60,6 +76,14 @@ export default class SVGConnection {
       isSelected || true,
       isSelected || false
     )
+    this._label.redraw(
+      this._arrow.left,
+      this._arrow.top,
+      this._arrow.width,
+      this._relation,
+      isSelected,
+      this._isHovered
+    )
   }
 
   pointUpTargetBollards(isSelected) {
@@ -68,6 +92,14 @@ export default class SVGConnection {
       isSelected || false,
       isSelected || true
     )
+    this._label.redraw(
+      this._arrow.left,
+      this._arrow.top,
+      this._arrow.width,
+      this._relation,
+      isSelected,
+      this._isHovered
+    )
   }
 
   pointUpSourceBollardsAndTargetBollards(isSelected) {
@@ -75,6 +107,14 @@ export default class SVGConnection {
       isSelected || false,
       isSelected || true,
       isSelected || true
+    )
+    this._label.redraw(
+      this._arrow.left,
+      this._arrow.top,
+      this._arrow.width,
+      this._relation,
+      isSelected,
+      this._isHovered
     )
   }
 
