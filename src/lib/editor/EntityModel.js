@@ -110,19 +110,6 @@ export default class EntityModel {
     return this._span.isBlock
   }
 
-  pointUp(eventTarget) {
-    for (const relation of this.relationsWhereThisIsSource) {
-      if (relation !== eventTarget) {
-        relation.pointUpSourceBollards()
-      }
-    }
-    for (const relation of this.relationsWhereThisIsTarget) {
-      if (relation !== eventTarget) {
-        relation.pointUpTargetBollards()
-      }
-    }
-  }
-
   pointDown() {
     for (const relation of this.relations) {
       relation.pointDown()
