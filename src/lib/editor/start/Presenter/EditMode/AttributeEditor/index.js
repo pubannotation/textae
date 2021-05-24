@@ -7,13 +7,13 @@ export default class AttributeEditor {
     commander,
     annotationData,
     selectionModelItems,
-    entityPallet,
+    pallet,
     typeDefinition
   ) {
     this._commander = commander
     this._annotationData = annotationData
     this._selectionModelItems = selectionModelItems
-    this._pallet = entityPallet
+    this._pallet = pallet
     this._typeDefinition = typeDefinition
   }
 
