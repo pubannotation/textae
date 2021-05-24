@@ -12,7 +12,7 @@ export default class AttributeEditor {
   ) {
     this._commander = commander
     this._annotationData = annotationData
-    this._selectionModel = selectionModel
+    this._selectionModelItems = selectionModel.entity
     this._pallet = entityPallet
     this._typeDefinition = typeDefinition
   }
@@ -31,14 +31,14 @@ export default class AttributeEditor {
       case 'flag':
         this._commander.invoke(
           this._commander.factory.toggleFlagAttributeToItemsCommand(
-            this._selectionModel.entity.all,
+            this._selectionModelItems.all,
             attrDef
           )
         )
         break
       case 'numeric':
         createNumericAttributeOrShowEditNumericAttributeDialog(
-          this._selectionModel.entity,
+          this._selectionModelItems,
           attrDef,
           this._commander
         )
@@ -46,7 +46,7 @@ export default class AttributeEditor {
       case 'selection':
         {
           if (
-            this._selectionModel.entity.findSelectedAttributeWithSamePredicate(
+            this._selectionModelItems.findSelectedAttributeWithSamePredicate(
               attrDef.pred
             )
           ) {
@@ -55,7 +55,7 @@ export default class AttributeEditor {
           } else {
             const command =
               this._commander.factory.createAttributeToItemsCommand(
-                this._selectionModel.entity.all,
+                this._selectionModelItems.all,
                 attrDef
               )
             this._commander.invoke(command)
@@ -64,7 +64,7 @@ export default class AttributeEditor {
         break
       case 'string':
         createStringAttributeOrShowEditStringAttributeDialog(
-          this._selectionModel.entity,
+          this._selectionModelItems,
           attrDef,
           this._commander
         )
@@ -77,10 +77,10 @@ export default class AttributeEditor {
   deleteAt(number) {
     const attrDef = this._typeDefinition.attribute.getAttributeAt(number)
 
-    if (this._selectionModel.entity.selectedWithAttributeOf(attrDef.pred)) {
+    if (this._selectionModelItems.selectedWithAttributeOf(attrDef.pred)) {
       const command =
         this._commander.factory.removeAttributesFromItemsByPredCommand(
-          this._selectionModel.entity.all,
+          this._selectionModelItems.all,
           attrDef
         )
       this._commander.invoke(command)
