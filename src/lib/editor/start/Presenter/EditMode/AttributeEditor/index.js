@@ -38,7 +38,7 @@ export default class AttributeEditor {
         break
       case 'numeric':
         createNumericAttributeOrShowEditNumericAttributeDialog(
-          this._selectionModel,
+          this._selectionModel.entity,
           attrDef,
           this._commander
         )
