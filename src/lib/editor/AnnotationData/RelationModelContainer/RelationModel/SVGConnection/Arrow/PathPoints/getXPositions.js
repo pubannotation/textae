@@ -11,11 +11,11 @@ export default function (
   // hovering will not move the entity left or right.
   const isSourceJettyDeployed =
     sourceEntity.width / 2 >= MinimumDistance ||
-    (sourceEntity.relations.length > 1 && alingSourceBollards)
+    (sourceEntity.hasMultipleEndpoints && alingSourceBollards)
 
   const isTargetJettyDeployed =
     targetEntity.width / 2 >= MinimumDistance ||
-    (targetEntity.relations.length > 1 && alignTargetBollards)
+    (targetEntity.hasMultipleEndpoints && alignTargetBollards)
 
   const centerOfSource = sourceEntity.center
   const centerOfTarget = targetEntity.center
