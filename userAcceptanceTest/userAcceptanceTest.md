@@ -1253,38 +1253,6 @@
 4. `w`キーを押して Entity 編集ダイアログを開く
 5. `Label:`カラムに、赤字の`Red color HTML label`ではなく、`<span style='color: red;'>Red color HTML label</span>`が表示されること
 
-## 編集ダイアログから Attribute インスタンスを削除する
-
-### 背景
-
-1.  5.0.0 で Attribute を導入した際に、Attribute の削除ができませんでした。
-2.  編集後の Attribute と同じ Attribute を編集前の Attribute から探してきて、すべて見つかったときには変更なしとしてモデルの更新をスキップしていました。
-3.  Attribute を減らしたときに変更があることを検知できませんでした。
-4.  5.0.2 で修正
-5.  6.2.0 からブロック機能を追加
-
-### 編集ダイアログから BlockEntity の Attribute インスタンスを削除する
-
-1.  Term モードにする
-2.  BlockEntity を選択する
-3.  1 キーを押す
-4.  Attribute が追加されること
-5.  W キーを押す
-6.  `Remove`ボタンを押す
-7.  `OK`ボタンを押す
-8.  選択中の BlockEntity の該当 predicate の Attribute が削除されること
-
-### 編集ダイアログから DenotationEntity の Attribute インスタンスを削除する
-
-1.  Term モードにする
-2.  DenotationEntity を選択する
-3.  1 キーを押す
-4.  Attribute が追加されること
-5.  W キーを押す
-6.  `Remove`ボタンを押す
-7.  `OK`ボタンを押す
-8.  選択中の DenotationEntity の該当 predicate の Attribute が削除されること
-
 ## DenotationEntity 選択時のコントロールバーの見た目の変化
 
 ### 背景
@@ -1591,7 +1559,7 @@
 4.  5.2.0 で、Attribute のショートカットキー T を廃止しました
 5.  5.2.3 で編集ダイアログの編集機能は廃止され、パレットを開くボタンに代わりました
 6.  6.2.71 で Block モードでパレットが開けるようになりました
-7.  6.2.79 で で Block モードで、ショートカットキー 1~9 で Attribute の追加ができるようになりました
+7.  6.2.79 で Block モードで、ショートカットキー 1~9 で Attribute の追加ができるようになりました
 8.  6.4.1 で、Annotation ファイルの読込時 Validation での Attribute のチェックを緩め、 1 つの Entity に Predicate と Object が等しい Attribute が複数ついているかのチェックに変更しました
 9.  重複した Attribute を持つ Entity から Attribute を を削除すると、指定した Predicate の Attribute は一つずつ削除され、その順番は制御できません
 10. 6.4.36 から、選択中の Entity から、指定 Predicate の Attribute をすべて削除します
@@ -2592,17 +2560,3 @@
 1.  editor9 を選択
 2.  `stomach ache`を Span にする
 3.  単語の間の連続した空白がまとまらないこと
-
-## annotation なし
-
-### 背景
-
-1.  開発中は annotation なしで開きません。エラーの見落としが多いです。
-2.  `4.4.0`から、annotation がない時はデフォルト文字列を表示します。
-3.  `4.5.0`から、html 属性で`mode="edit"`をつけない場合は View モードになり、View モードの場合はコントロールバーを表示しなくしました。
-
-### Edit モード
-
-1.  Editor7 を選択
-2.  Editor 中に`Currently, the document is empty. Use the "import" button or press the key "i" to open a document with annotation.`が表示されること
-3.  エディタを選択するとコントロールバーが表示されること
