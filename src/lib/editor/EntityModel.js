@@ -91,6 +91,39 @@ export default class EntityModel {
     return this._relationContaier.all.filter((r) => r.obj === this.id)
   }
 
+  get hasMultipleEndpoints() {
+    const relations = new Map()
+    relations.set('whereThisIsSourceAndTargetIsOnTheLeft', new Set())
+    relations.set('whereThisIsSourceAndTargetIsOnTheRight', new Set())
+    relations.set('whereThisIsSourceAndTargetIsUpOrDown', new Set())
+
+    for (const r of this.relationsWhereThisIsSource) {
+      if (r.targetEntity.center < this.center) {
+        relations.get('whereThisIsSourceAndTargetIsOnTheLeft').add(r)
+      } else if (this.center < r.targetEntity.center) {
+        relations.get('whereThisIsSourceAndTargetIsOnTheRight').add(r)
+      } else {
+        relations.get('whereThisIsSourceAndTargetIsUpOrDown').add(r)
+      }
+    }
+
+    relations.set('whereThisIsTargetAndSourceIsOnTheLeft', new Set())
+    relations.set('whereThisIsTargetAndSourceIsOnTheRight', new Set())
+    relations.set('whereThisIsTargetAndSourceIsUpOrDown', new Set())
+
+    for (const r of this.relationsWhereThisIsTarget) {
+      if (r.sourceEntity.center < this.center) {
+        relations.get('whereThisIsTargetAndSourceIsOnTheLeft').add(r)
+      } else if (this.center < r.targetEntity.center) {
+        relations.get('whereThisIsTargetAndSourceIsOnTheRight').add(r)
+      } else {
+        relations.get('whereThisIsTargetAndSourceIsUpOrDown').add(r)
+      }
+    }
+
+    return [...relations.values()].filter((s) => s.size).length > 1
+  }
+
   get center() {
     return (
       this._clientRect.left +
