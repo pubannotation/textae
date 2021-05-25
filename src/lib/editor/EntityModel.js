@@ -83,6 +83,14 @@ export default class EntityModel {
     )
   }
 
+  get relationsWhereThisIsSource() {
+    return this._relationContaier.all.filter((r) => r.subj === this.id)
+  }
+
+  get relationsWhereThisIsTarget() {
+    return this._relationContaier.all.filter((r) => r.obj === this.id)
+  }
+
   get center() {
     return (
       this._clientRect.left +
@@ -164,21 +172,6 @@ export default class EntityModel {
     }
   }
 
-  _renderElement() {
-    const element = createSignboardHTMLElement(
-      this,
-      this.isDenotation ? 'denotation' : 'block',
-      null,
-      makeEntityHTMLElementId(this._editor, this.id)
-    )
-
-    // Highlight retaitons when related entity is hoverd.
-    element.addEventListener('mouseenter', () => this._pointUpRelations())
-    element.addEventListener('mouseleave', () => this._pointDownRelations())
-
-    return element
-  }
-
   updateElement() {
     const element = this._renderElement()
     this._element.replaceWith(element)
@@ -205,6 +198,21 @@ export default class EntityModel {
         )
       }
     }
+  }
+
+  _renderElement() {
+    const element = createSignboardHTMLElement(
+      this,
+      this.isDenotation ? 'denotation' : 'block',
+      null,
+      makeEntityHTMLElementId(this._editor, this.id)
+    )
+
+    // Highlight retaitons when related entity is hoverd.
+    element.addEventListener('mouseenter', () => this._pointUpRelations())
+    element.addEventListener('mouseleave', () => this._pointDownRelations())
+
+    return element
   }
 
   get _clientRect() {
@@ -267,14 +275,6 @@ export default class EntityModel {
       this.typeName,
       this._definitionContainerFor.getUri(this.typeName)
     )
-  }
-
-  get relationsWhereThisIsSource() {
-    return this._relationContaier.all.filter((r) => r.subj === this.id)
-  }
-
-  get relationsWhereThisIsTarget() {
-    return this._relationContaier.all.filter((r) => r.obj === this.id)
   }
 
   _pointUpRelations() {
