@@ -203,22 +203,6 @@
 4.  Label を編集する
 5.  `Value`欄に Relation の pred の文字列が表示されること
 
-## 行の高さを変更して annotation を読み直すと行が再計算されること
-
-### 背景
-
-1.  ファイルを読み直したときに行の高さを再計算していませんでした
-2.  4.4.3 で再計算することにしました
-
-### -- 手段 --
-
-1.  Setting ダイアログで行の高さを変更する
-2.  行の高さが変わること
-3.  Grid の位置が変わること
-4.  アノテーション読込ダイアログを表示
-5.  URL から別のアノテーションを読み込む
-6.  行の高さが再計算されること
-
 ## Editor の自動選択
 
 ### 背景
@@ -418,31 +402,6 @@
 1.  Relation を選択する
 2.  Relation を削除する
 3.  選択解除されること
-
-## SelectionAttribute 定義にデフォルトの value を追加して、UNDO したときにデフォルト値が二つに増えない
-
-### 背景
-
-1.  5.2.0 から Entity パレットで Selection Attribute の Value が編集出来るようになりました
-2.  デフォルトの Value を削除するときに、先頭の Value をデフォルトにします
-3.  追加したデフォルトの Value を UNDO するとき、追加前にデフォルトだった Value をデフォルトにします
-4.  デフォルトの value を追加して UNDO すると、デフォルトの Value を削除するときの処理と、追加したデフォルトの Value を UNDO するときの処理が両方動いて、デフォルト値が二つになります
-5.  6.4.131 で対応しました
-
-### -- 手段 --
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  `q`キーを押してパレットを開く
-4.  `denote`タブを選択
-5.  `Add new value`ボタンをクリックする
-6.  `id`を入力
-7.  `default`にチェックを入れる
-8.  `OK`ボタンを押す
-9.  パレットに 4 つ目の value が追加されること
-10. 追加された value だけに、ラジオボタンがついていること
-11. UNDO する
-12. `equivalentTo`だけに、ラジオボタンがついていること
 
 ## Lock Edit Config 有効時のパレットの表示項目
 
@@ -913,23 +872,6 @@
 4.  最大 500px まで選べること
 5.  設定した値に応じて行の高さが変わること
 6.  行の高さに合わせて Grid が移動すること
-
-## スタイルで行の高さを指定できること
-
-### 背景
-
-1.  4.1.14 で行の高さをスタイルで上書きできるようになりました
-2.  6.0.0 で padding-top と height が設定されなくなりました
-3.  6.1.45 で対応
-
-### -- 手段 --
-
-1.  Editor2 を選択する
-2.  `.textae-editor__body__text-box`の line-height が`14px`であること
-3.  `.textae-editor__body__text-box`の padding-top が`7px`であること
-4.  `.textae-editor__body__text-box`の height が`48px`であること
-5.  Setting ダイアログを開く
-6.  Line Height の値が 14 であること
 
 ## アノテーションが無いときに行の高さが 41px になること
 
@@ -1680,19 +1622,6 @@
 12. `q`を押してパレットを開く
 13. テーブルヘッダーの一番右のカラムにプラスボタンが表示されていること
 
-## ステータスバーの表示非表示
-
-### 背景
-
-1.  4.1.6 でステータスバーのデフォルト非表示になりました
-2.  status_bar オプションで切り替えます
-3.  値は on と off の２つです
-
-### -- 手段 --
-
-1.  属性の status_bar に on を指定するとステータスバーが表示されること（editor1）
-2.  属性の status_bar を指定しないとステータスバーが表示されないこと（editor2）
-
 ## BlockSpan をつくったときにドキュメントの最上部までスクロールしない
 
 ### 背景
@@ -2388,40 +2317,3 @@
 ### TextAE
 
 1.  TextAE をクリックすると新しいタブで`http://textae.pubannotation.org/`が開くこと
-
-## Entity パレットのタイトルを折り返さない
-
-### 背景
-
-1.  Attribute 定義がたくさんあるとき、EntityPallet のタイトルが折り返していました。
-2.  6.3.12 でタイトルに最低幅を設定しました。
-
-### -- 手段 --
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  `Q`キーを押して、EntityPallet を開く
-4.  左上のタイトル`Entity Configuration`が折り返さないこと
-
-## ブロックを伸ばす
-
-### 背景
-
-1.  6.3.9 で対応
-2.  6.3.10 で、DenotationSpan と StyleSpan 上でのマウスアップに対応
-
-### -- 手段 --
-
-1.  Editor1 を選択
-2.  Block モードにする
-3.  DenotationSpan と StyleSpan を含む BlockSpan を作成する
-4.  BlockSpan 中のテキストから、BlockSpan 外の DenotationSpan 中のテキストを選択
-5.  BlockSpan が伸びること
-6.  BlockSpan 中のテキストから、BlockSpan 外の StyleSpan 中のテキストを選択
-7.  BlockSpan が伸びること
-8.  BlockSpan 中のテキストから、BlockSpan 外のテキストを選択
-9.  BlockSpan が伸びること
-10. BlockSpan 中の DenotationSpan 中のテキストから、BlockSpan 外のテキストを選択
-11. BlockSpan が伸びること
-12. BlockSpan 中の StyleSpan 中のテキストから、BlockSpan 外のテキストを選択
-13. BlockSpan が伸びること
