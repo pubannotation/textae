@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.8.0](https://github.com/pubannotation/textae/compare/v7.7.0...v7.8.0) (2021-05-26)
+
+
+### Features
+
+* Add left and right padding to the labels of the relations ([c23c5ec](https://github.com/pubannotation/textae/commit/c23c5ecc2231b980f9f874a63161e75966d8fb26))
+* Add or remove attributes in relation mode from shortcut keys ([5ff1e51](https://github.com/pubannotation/textae/commit/5ff1e51650b296558e0890f62afae904097886bf))
+* Adjust the position of the label when emphasizing the bollards of the relation ([9c29a05](https://github.com/pubannotation/textae/commit/9c29a054028e4678eeebc6970458e8b7bb7e34b1))
+* Disable mouse events in unlabeled areas of the signboard ([7bfcab9](https://github.com/pubannotation/textae/commit/7bfcab92ca01a415acf8ddeb461ec2668eca17bf))
+* Display the label of the hovered relation in the foreground ([51b234e](https://github.com/pubannotation/textae/commit/51b234ef739c8c77bb93174ec5a9f558bf12a11e))
+* Emphasize all bollards in the same relation on both ends as the hovered relation ([118b54c](https://github.com/pubannotation/textae/commit/118b54cb4ef04ef44681474a8f8521fe988a8f75))
+* Highlight the bollards of the source and target entities when hovering over a relation ([0f8e104](https://github.com/pubannotation/textae/commit/0f8e104fa660cab6d0d9dcc53525ed91dc25597e))
+* If an entity has only one endpoint, it will not set up jetties ([0949747](https://github.com/pubannotation/textae/commit/0949747c3e18c5a4b088e0c01e8c1715cdb7fd72))
+* Stop highlighting the bollards on the other side of the entity's relation when hovering over the entity ([649bb08](https://github.com/pubannotation/textae/commit/649bb085a23c4f966c5200c84ac538f1a8761933))
+
+
+### Bug Fixes
+
+* Attached attributes are not removed when deleting a relation ([d5f404f](https://github.com/pubannotation/textae/commit/d5f404f2c086eadd3e86a6602c25d02d98152c8e))
+* Deleting a block entity will cause an error ([8d473aa](https://github.com/pubannotation/textae/commit/8d473aaf1c78e859c9ca56ccc2a795a8c6a4b9fa))
+* Entity boundaries of selected relations do not turn red ([1ed23e7](https://github.com/pubannotation/textae/commit/1ed23e76490eb0ad8da5ec2aeb1277033bf8b370))
+* Selecting and deleting a span and an entity at the same time will cause an error ([6d08918](https://github.com/pubannotation/textae/commit/6d08918cbf4707aa7299b94a2fabc2aadd66830f))
+* Selecting and deleting a span and an relation at the same time will cause an error ([6629dbc](https://github.com/pubannotation/textae/commit/6629dbcb5493f570ef9de91e922d2c65f539afbc))
+* When I select an entity, mouse over it, and then delete the attribute from the shortcut key, the jetty of the relation remains ([1bebf49](https://github.com/pubannotation/textae/commit/1bebf498ea19e1bbd65858f03c06f49e87211182))
+
 ## [7.7.0](https://github.com/pubannotation/textae/compare/v7.6.0...v7.7.0) (2021-05-19)
 
 
