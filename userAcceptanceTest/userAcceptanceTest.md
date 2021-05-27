@@ -184,39 +184,6 @@
 3.  Ctrl を押しながら新しく作った Relation のラベルをクリック
 4.  両方の Relation が選択されること
 
-## Entity と Relation を同時に選択した時の Label 編集は Relation の Label を表示
-
-### 背景
-
-1.  SelectionModel は id だけを保持しています
-2.  id は外部（anntation.js）から指定されることがあります
-3.  id だけでは何を選択しているかわかりません
-4.  SelectionModel は Entity と Relation に分かれています
-5.  編集モードに応じて参照する SelectionModel を切り替えます
-6.  6.2.25 から SelectionModel でアノテーションモデルインスタスへの参照を保持するようになりました
-
-### -- 手段 --
-
-1.  Relation モードにする
-2.  Entity を選択する
-3.  Ctrl を押しながら Relation を選択する
-4.  Label を編集する
-5.  `Value`欄に Relation の pred の文字列が表示されること
-
-## Editor の自動選択
-
-### 背景
-
-1.  1 画面に複数のエディタを組み込めるように、エディタの選択は外部スクリプトで行っています
-2.  5.2.4 までは setTimeout を使って、選択時間を遅らせて自動選択していました
-3.  textae の focus イベントリスナーは load イベントでバインドしています
-4.  html の読み込みに時間がかかった場合、textae 側が listen する前に、外部スクリプトが focus し自動選択に失敗していました
-5.  5.2.5 で、外部スクリプトを load イベントで実行することで確実にエディタが自動選択されるようになりました
-
-### -- 手段 --
-
-1.  Editor0 が自動選択されること
-
 ## URL からアノテーション読込
 
 ### URL が指定されていなければ Open ボタンを押せない
@@ -1812,23 +1779,6 @@
 2.  Editor1 の行の高さ自動調整が有効であること
 3.  Editor2 の行の高さ自動調整が無効であること
 
-## config で Entity の Type に label 属性を定義
-
-### 背景
-
-1.  4.3.0 から config に Entity の Type に label を定義できるようになりました
-
-### -- 手段 --
-
-1.  Edtor1 を選択
-2.  Term モードにする
-3.  Entity を選択する
-4.  `w`キーを押して、Type を`http://www.yahoo.co.jp`に変更します
-5.  Type の表示が`Regulation`になること
-6.  V アイコンを押して View モードに切り替える
-7.  Type のラベルがリンクになること
-8.  リンクをクリックすると`http://www.yahoo.co.jp`が開くこと
-
 ## config の autocompletion_ws 属性
 
 ### 背景
@@ -2271,49 +2221,3 @@
     5.  BlockSpan 外の StyleSpan 中のテキストから、BlockSpan 中のテキスト
     6.  BlockSpan 外のテキストから、BlockSpan 中の DenotationSpan 中のテキスト
     7.  BlockSpan 外のテキストから、BlockSpan 中の StyleSpan 中のテキスト
-
-## コントロールバー
-
-### control 属性
-
-#### 背景
-
-1.  4.5.0 から html 上の control 属性でコントロールバーを表示・非表示を設定できるようになりました
-
-#### -- 手段 --
-
-1.  control 属性が`visible`の Editor は選択しなくてもコントロールバーが表示されていること（editor2）
-2.  control 属性が`hidden`の Editor を選択してもコントロールバーが表示されないこと（editor3）
-
-### Editor 毎に表示
-
-#### 背景
-
-1.  4.4.3 まで複数 Editor があってもコントロールバーを一つ表示していました
-2.  4.5.0 からコントロールバーは Editor 毎に表示します
-
-#### -- 手段 --
-
-1.  各 Editor の最上部にコントロールバーが表示されないこと
-2.  編集可能な Editor を選択する（editor1）
-3.  Editor の上部にコントロールバーが表示されること
-4.  View モードにする
-5.  コントロールバーが表示されたままであること
-
-### Editor の幅に合わせて折り返し
-
-#### 背景
-
-1.  コントロールバーは Editor の幅に合わせて、折り返してアイコンを表示します
-2.  コントロールバーの高さが固定であったため、2 段目以降はにアイコンだけが表示されていました
-3.  4.5.1 からコンロトールバーの高さも調整します
-
-#### -- 手段 --
-
-1.  ウインドウの幅をコントロールバーより短くする
-2.  アイコンが 2 段以上に折り返されて表示されること
-3.  アイコンの高さに合わせて、コントロールバーの高さが伸びること
-
-### TextAE
-
-1.  TextAE をクリックすると新しいタブで`http://textae.pubannotation.org/`が開くこと
