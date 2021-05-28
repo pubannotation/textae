@@ -1,7 +1,7 @@
 import PushButtons from './PushButtons'
 import EnableState from './EnableState'
 import DelimiterDetectAdjuster from './DelimiterDetectAdjuster'
-import BlankSkipAdjuster from '../editor/start/Presenter/EditMode/EditDenotation/SpanEditor/BlankSkipAdjuster'
+import BlankSkipAdjuster from './BlankSkipAdjuster'
 
 export default class ButtonController {
   constructor(editor, selectionModel, clipBoard) {
