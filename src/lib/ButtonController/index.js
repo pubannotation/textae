@@ -1,6 +1,6 @@
 import PushButtons from './PushButtons'
 import EnableState from './EnableState'
-import DelimiterDetectAdjuster from '../editor/start/Presenter/EditMode/DelimiterDetectAdjuster'
+import DelimiterDetectAdjuster from './DelimiterDetectAdjuster'
 import BlankSkipAdjuster from '../editor/start/Presenter/EditMode/EditDenotation/SpanEditor/BlankSkipAdjuster'
 
 export default class ButtonController {
