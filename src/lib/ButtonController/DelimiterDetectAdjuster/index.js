@@ -1,5 +1,5 @@
 import skipBlank from '../../editor/start/Presenter/EditMode/skipBlank'
-import SpanAdjuster from '../../editor/start/Presenter/EditMode/SpanAdjuster'
+import SpanAdjuster from '../SpanAdjuster'
 import backToDelimiter from './backToDelimiter'
 import skipToDelimiter from './skipToDelimiter'
 import isNotWord from './isNotWord'

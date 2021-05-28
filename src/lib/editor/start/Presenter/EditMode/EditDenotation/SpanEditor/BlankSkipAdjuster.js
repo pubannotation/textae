@@ -1,5 +1,5 @@
 import skipBlank from '../../skipBlank'
-import SpanAdjuster from '../../SpanAdjuster'
+import SpanAdjuster from '../../../../../../ButtonController/SpanAdjuster'
 
 export default class BlankSkipAdjuster extends SpanAdjuster {
   backFromBegin(str, position, spanConfig) {
