@@ -1,4 +1,4 @@
-import skipBlank from '../editor/start/Presenter/EditMode/skipBlank'
+import skipBlank from './skipBlank'
 import SpanAdjuster from './SpanAdjuster'
 
 export default class BlankSkipAdjuster extends SpanAdjuster {
