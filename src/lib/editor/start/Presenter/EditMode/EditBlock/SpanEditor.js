@@ -1,11 +1,9 @@
 import clearTextSelection from '../clearTextSelection'
-import DelimiterDetectAdjuster from '../DelimiterDetectAdjuster'
 import hasCharacters from '../hasCharacters'
 import getNewSpan from '../getNewSpan'
 import expandSpan from '../expandSpan'
 import shrinkSpan from '../EditDenotation/SpanEditor/shrinkSpan'
 import PositionsOnAnnotation from '../PositionsOnAnnotation'
-import BlankSkipAdjuster from '../EditDenotation/SpanEditor/BlankSkipAdjuster'
 
 export default class SpanEditor {
   constructor(
@@ -128,7 +126,7 @@ export default class SpanEditor {
       this._selectionModel.removeAll()
       const { begin, end } = getNewSpan(
         this._annotationData,
-        this._spanAdjuster,
+        this._buttonController.spanAdjuster,
         selectionWrapper,
         this._spanConfig
       )
@@ -160,7 +158,7 @@ export default class SpanEditor {
     expandSpan(
       this._selectionModel,
       this._annotationData,
-      this._spanAdjuster,
+      this._buttonController.spanAdjuster,
       spanId,
       selectionWrapper,
       this._spanConfig,
@@ -182,7 +180,7 @@ export default class SpanEditor {
       this._annotationData,
       this._selectionModel,
       this._commander,
-      this._spanAdjuster,
+      this._buttonController.spanAdjuster,
       spanId,
       selectionWrapper,
       this._spanConfig,
@@ -194,11 +192,5 @@ export default class SpanEditor {
     )
 
     clearTextSelection()
-  }
-
-  get _spanAdjuster() {
-    return this._buttonController.valueOf('boundary-detection')
-      ? new DelimiterDetectAdjuster()
-      : new BlankSkipAdjuster()
   }
 }

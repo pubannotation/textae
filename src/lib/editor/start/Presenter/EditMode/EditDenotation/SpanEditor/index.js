@@ -1,7 +1,5 @@
 import clearTextSelection from '../../clearTextSelection'
 import PositionsOnAnnotation from '../../PositionsOnAnnotation'
-import DelimiterDetectAdjuster from '../../DelimiterDetectAdjuster'
-import BlankSkipAdjuster from './BlankSkipAdjuster'
 import create from './create'
 import shrinkSpan from './shrinkSpan'
 import getExpandTargetSpan from './getExpandTargetSpan'
@@ -346,7 +344,7 @@ export default class SpanEditor {
       create(
         this._annotationData,
         this._commander,
-        this._spanAdjuster,
+        this._buttonController.spanAdjuster,
         this._isReplicateAuto,
         selectionWrapper,
         this._spanConfig,
@@ -361,7 +359,7 @@ export default class SpanEditor {
       expandSpan(
         this._selectionModel,
         this._annotationData,
-        this._spanAdjuster,
+        this._buttonController.spanAdjuster,
         spanId,
         selectionWrapper,
         this._spanConfig,
@@ -410,7 +408,7 @@ export default class SpanEditor {
       this._annotationData,
       this._selectionModel,
       this._commander,
-      this._spanAdjuster,
+      this._buttonController.spanAdjuster,
       spanId,
       selectionWrapper,
       this._spanConfig,
@@ -426,11 +424,5 @@ export default class SpanEditor {
 
   get _isReplicateAuto() {
     return this._buttonController.valueOf('replicate-auto')
-  }
-
-  get _spanAdjuster() {
-    return this._buttonController.valueOf('boundary-detection')
-      ? new DelimiterDetectAdjuster()
-      : new BlankSkipAdjuster()
   }
 }
