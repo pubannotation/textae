@@ -65,7 +65,7 @@ export default class EditEntityDialog extends PromiseDialog {
             break
           case 'selection':
             new SelectionAttributePallet(editor)
-              .show(attrDef, zIndex)
+              .show(attrDef, zIndex, e.target)
               .then((newObj) => {
                 attributes[e.target.dataset.index].obj = newObj
                 this._updateDisplay(
