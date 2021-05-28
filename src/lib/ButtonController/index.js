@@ -1,5 +1,7 @@
 import PushButtons from './PushButtons'
 import EnableState from './EnableState'
+import DelimiterDetectAdjuster from '../editor/start/Presenter/EditMode/DelimiterDetectAdjuster'
+import BlankSkipAdjuster from '../editor/start/Presenter/EditMode/EditDenotation/SpanEditor/BlankSkipAdjuster'
 
 export default class ButtonController {
   constructor(editor, selectionModel, clipBoard) {
@@ -31,6 +33,12 @@ export default class ButtonController {
 
   toggle(buttonName) {
     return this._getPushButton(buttonName).toggle()
+  }
+
+  get spanAdjuster() {
+    return this.valueOf('boundary-detection')
+      ? new DelimiterDetectAdjuster()
+      : new BlankSkipAdjuster()
   }
 
   _getPushButton(buttonName) {
