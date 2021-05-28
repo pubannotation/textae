@@ -1,4 +1,4 @@
-import skipCharacters from '../../editor/start/Presenter/EditMode/skipCharacters'
+import skipCharacters from '../skipCharacters'
 import getPrev from './getPrev'
 
 export default function (str, position, isWordEdge) {
