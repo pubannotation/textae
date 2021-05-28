@@ -5,6 +5,7 @@ import getNewSpan from '../getNewSpan'
 import expandSpan from '../expandSpan'
 import shrinkSpan from '../EditDenotation/SpanEditor/shrinkSpan'
 import PositionsOnAnnotation from '../PositionsOnAnnotation'
+import BlankSkipAdjuster from '../EditDenotation/SpanEditor/BlankSkipAdjuster'
 
 export default class SpanEditor {
   constructor(
@@ -193,5 +194,11 @@ export default class SpanEditor {
     )
 
     clearTextSelection()
+  }
+
+  get _spanAdjuster() {
+    return this._buttonController.valueOf('boundary-detection')
+      ? new DelimiterDetectAdjuster()
+      : new BlankSkipAdjuster()
   }
 }
