@@ -128,7 +128,7 @@ export default class SpanEditor {
       this._selectionModel.removeAll()
       const { begin, end } = getNewSpan(
         this._annotationData,
-        new DelimiterDetectAdjuster(),
+        this._spanAdjuster,
         selectionWrapper,
         this._spanConfig
       )
@@ -160,7 +160,7 @@ export default class SpanEditor {
     expandSpan(
       this._selectionModel,
       this._annotationData,
-      new DelimiterDetectAdjuster(),
+      this._spanAdjuster,
       spanId,
       selectionWrapper,
       this._spanConfig,
@@ -182,7 +182,7 @@ export default class SpanEditor {
       this._annotationData,
       this._selectionModel,
       this._commander,
-      new DelimiterDetectAdjuster(),
+      this._spanAdjuster,
       spanId,
       selectionWrapper,
       this._spanConfig,
