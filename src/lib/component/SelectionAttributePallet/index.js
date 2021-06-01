@@ -12,7 +12,7 @@ export default class SelectionAttributePallet extends Pallet {
     )
   }
 
-  show(attrDef, zIndex, opener) {
+  show(attrDef, zIndex = 90, opener = null) {
     this._editor[0].appendChild(this._veil)
     this._editor[0].appendChild(this.el)
     this._veil.style['z-index'] = zIndex + 1
@@ -49,7 +49,9 @@ export default class SelectionAttributePallet extends Pallet {
 
     // Focus on the button used to open the palette
     // so that the Entity Edit dialog can be closed with the Esc key.
-    this._opener.focus()
+    if (this._opner) {
+      this._opener.focus()
+    }
   }
 
   get _content() {
