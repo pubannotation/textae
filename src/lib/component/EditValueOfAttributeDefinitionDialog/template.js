@@ -18,7 +18,7 @@ export default function (context) {
       <input value="${rangeOrIdOrPattern || ''}">
     </div>
     ${inputDefault(showDefault, defaultValue)}
-    <div class="textae-editor__add-value-to-attribute-dialog__label">
+    <div class="textae-editor__add-value-to-attribute-dialog__label textae-editor__promise-daialog__observable-element">
       <label>label:</label><br>
       <input value="${label || ''}">
     </div>
