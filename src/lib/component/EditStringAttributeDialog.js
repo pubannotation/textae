@@ -12,7 +12,7 @@ function template(context) {
       class="textae-editor__edit-value-and-pred-dialog--predicate" 
       value="${pred}" disabled="disabled">
   </div>
-  <div class="textae-editor__edit-value-and-pred-dialog__input-box ui-front">
+  <div class="textae-editor__edit-value-and-pred-dialog__input-box ui-front textae-editor__promise-daialog__observable-element">
     <label class="textae-editor__edit-value-and-pred-dialog--label">Object:</label><span></span><br>
     <input 
       class="textae-editor__edit-value-and-pred-dialog--value textae-editor__edit-value-and-pred-dialog--value" 
