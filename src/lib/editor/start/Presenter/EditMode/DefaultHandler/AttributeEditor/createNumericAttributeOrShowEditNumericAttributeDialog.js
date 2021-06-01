@@ -15,7 +15,8 @@ export default function (selectionModelItems, attrDef, commander) {
         selectionModelItems,
         attrDef,
         attribute,
-        commander
+        commander,
+        true
       )
     } else {
       alertifyjs.warning(

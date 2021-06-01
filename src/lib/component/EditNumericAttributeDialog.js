@@ -1,7 +1,7 @@
 import PromiseDialog from './PromiseDialog'
 
 function template(context) {
-  const { pred, min, max, step, value } = context
+  const { pred, min, max, step, value, deletable } = context
   return `
 <div class="textae-editor__edit-value-and-pred-dialog__container">
   <div class="textae-editor__edit-value-and-pred-dialog__input-box">
@@ -21,11 +21,22 @@ function template(context) {
       step="${step}" 
       value="${value}">
   </div>
+  ${
+    deletable
+      ? `
+      <button
+        type="button" 
+        class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__remove__value" 
+        >
+      </button>
+      `
+      : ''
+  }
 </div>`
 }
 
 export default class EditNumericAttributeDialog extends PromiseDialog {
-  constructor(attrDef, attribute) {
+  constructor(attrDef, attribute, deletable) {
     super(
       'Please edit number',
       template({
@@ -33,7 +44,8 @@ export default class EditNumericAttributeDialog extends PromiseDialog {
         value: attribute.obj,
         min: attrDef.min,
         max: attrDef.max,
-        step: attrDef.step
+        step: attrDef.step,
+        deletable
       }),
       {},
       () => {
@@ -43,7 +55,10 @@ export default class EditNumericAttributeDialog extends PromiseDialog {
 
         // Numeric attribute obj value type must be Number type.
         return { newObj: input.value }
-      }
+      },
+      deletable
+        ? '.textae-editor__edit-type-dialog__attribute__remove__value'
+        : null
     )
   }
 }
