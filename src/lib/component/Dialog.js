@@ -17,7 +17,6 @@ export default class Dialog {
 
     if (buttonLabel) {
       option = {
-        ...option,
         ...{
           buttons: [
             {
@@ -25,7 +24,8 @@ export default class Dialog {
               click: () => this.close()
             }
           ]
-        }
+        },
+        ...option
       }
     }
 
