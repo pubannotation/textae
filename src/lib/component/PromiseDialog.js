@@ -6,7 +6,7 @@ export default class PromiseDialog extends Dialog {
     super(title, contentHtml, 'OK', option)
 
     this._promise = new Promise((resolve) => {
-      const onClick = () => {
+      const onOKButtonClick = () => {
         const results = getResultsFunc()
         if (results) {
           resolve(results)
@@ -15,7 +15,7 @@ export default class PromiseDialog extends Dialog {
       }
 
       // Overwrite the button handler.
-      this._option.buttons[0].click = onClick
+      this._option.buttons[0].click = onOKButtonClick
 
       delegate(
         super.el,
@@ -23,7 +23,7 @@ export default class PromiseDialog extends Dialog {
         'keyup',
         (e) => {
           if (e.keyCode === 13) {
-            onClick()
+            onOKButtonClick()
           }
         }
       )
