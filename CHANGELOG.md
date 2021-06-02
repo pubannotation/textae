@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.9.0](https://github.com/pubannotation/textae/compare/v7.8.0...v7.9.0) (2021-06-02)
+
+
+### Features
+
+* Allow deletion when editing numeric attributes from shortcut keys ([295d0b8](https://github.com/pubannotation/textae/commit/295d0b8cbb12e254248d9660261110845fca9c8a))
+* Boundary detection can be stopped in block mode ([2eef982](https://github.com/pubannotation/textae/commit/2eef98231bf7086f2f61217098acfc6c41888535))
+* Close the SelectionAttributePallet with the Esc key ([16aa2bc](https://github.com/pubannotation/textae/commit/16aa2bc3ebfbd327055a41ab33562cb7d7f2573f))
+* When Enter is pressed in the label field of EditStringAttributeDialog, the behavior is the same as pressing the OK button ([0762238](https://github.com/pubannotation/textae/commit/07622384a3449dfd2db7039afb33ec29cad0a7d4))
+* When Enter is pressed in the label field of EditValueOfAttributeDefinitionDialog, the behavior is the same as pressing the OK button ([176e906](https://github.com/pubannotation/textae/commit/176e9067194220a124d373e7fd1eb8e554cc965a))
+
 ## [7.8.0](https://github.com/pubannotation/textae/compare/v7.7.0...v7.8.0) (2021-05-26)
 
 
