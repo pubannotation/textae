@@ -2,7 +2,6 @@ import AttributeEditor from './AttributeEditor'
 
 export default class DefaultHandler {
   constructor(
-    editor,
     annotationType,
     definitionContainer,
     commander,

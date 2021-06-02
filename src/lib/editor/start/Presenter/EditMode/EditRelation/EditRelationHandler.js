@@ -13,7 +13,6 @@ export default class EditRelationHandler extends DefaultHandler {
     relationPallet
   ) {
     super(
-      editor,
       'relation',
       definitionContainer,
       commander,
