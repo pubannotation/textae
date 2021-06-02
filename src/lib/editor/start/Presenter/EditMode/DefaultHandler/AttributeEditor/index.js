@@ -42,28 +42,16 @@ export default class AttributeEditor {
           if (this._selectionModelItems.selectedWithAttributeOf(attrDef.pred)) {
             this._pallet.show(attrDef).then((newObj) => {
               if (
-                this._selectionModelItems.selectedWithAttributeOf(attrDef.pred)
+                this._selectionModelItems.isDupulicatedPredAttrributeSelected(
+                  attrDef.pred
+                )
               ) {
-                if (
-                  this._selectionModelItems.isDupulicatedPredAttrributeSelected(
-                    attrDef.pred
-                  )
-                ) {
-                  alertifyjs.warning(
-                    'An item among the selected has this attribute multiple times.'
-                  )
-                } else {
-                  const command =
-                    this._commander.factory.changeAttributesOfItemsCommand(
-                      this._selectionModelItems.all,
-                      attrDef,
-                      newObj
-                    )
-                  this._commander.invoke(command)
-                }
+                alertifyjs.warning(
+                  'An item among the selected has this attribute multiple times.'
+                )
               } else {
                 const command =
-                  this._commander.factory.createAttributeToItemsCommand(
+                  this._commander.factory.changeAttributesOfItemsCommand(
                     this._selectionModelItems.all,
                     attrDef,
                     newObj
