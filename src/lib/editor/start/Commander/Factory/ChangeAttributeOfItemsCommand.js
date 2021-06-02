@@ -1,6 +1,6 @@
 import CompositeCommand from './CompositeCommand'
 import ChangeAttributeCommand from './ChangeAttributeCommand'
-import AddValueToAttributeDefinitionCommand from './AddValueToAttributeDefinitionCommand'
+import getAddValueToAttributeDefinitionCommand from './ChangeTypeNameAndAttributeOfSelectedItemsCommand/getAddValueToAttributeDefinitionCommand'
 
 export default class ChangeAttributeOfItemsCommand extends CompositeCommand {
   constructor(
@@ -42,17 +42,16 @@ export default class ChangeAttributeOfItemsCommand extends CompositeCommand {
     // if the label of the acquired value is not registered in the attribute definition pattern,
     // it will be additionally registered.
     const addValueForLabelToStirngAttributeDefinitionCommands = []
-    if (
-      newLabel &&
-      attrDef.valueType === 'string' &&
-      !attrDef.values.some((v) => v.pattern === newObj)
-    ) {
-      addValueForLabelToStirngAttributeDefinitionCommands.push(
-        new AddValueToAttributeDefinitionCommand(definitionContainer, attrDef, {
-          pattern: newObj,
-          label: newLabel
-        })
+    if (newLabel) {
+      const commnad = getAddValueToAttributeDefinitionCommand(
+        definitionContainer,
+        attrDef,
+        newObj,
+        newLabel
       )
+      if (commnad) {
+        addValueForLabelToStirngAttributeDefinitionCommands.push(commnad)
+      }
     }
 
     this._subCommands = this._subCommands.concat(
