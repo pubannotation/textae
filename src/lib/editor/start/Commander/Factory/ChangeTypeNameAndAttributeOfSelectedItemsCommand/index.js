@@ -1,6 +1,7 @@
 import CompositeCommand from '../CompositeCommand'
 import ChangeAnnotationCommand from '../ChangeAnnotationCommand'
 import getChangeAttributeCommands from './getChangeAttributeCommands'
+import AddValueToAttributeDefinitionCommand from '../AddValueToAttributeDefinitionCommand'
 
 export default class ChangeTypeNameAndAttributeOfSelectedItemsCommand extends CompositeCommand {
   constructor(
@@ -38,7 +39,34 @@ export default class ChangeTypeNameAndAttributeOfSelectedItemsCommand extends Co
       editor
     )
 
-    this._subCommands = changeTypeCommands.concat(changeAttributeCommnads)
+    // When the value of the string attribute is acquired by auto-complete,
+    // if the label of the acquired value is not registered in the attribute definition pattern,
+    // it will be additionally registered.
+    const addValueForLabelToStirngAttributeDefinitionCommands = []
+    for (const { pred, obj, label } of attributes) {
+      const definitionContainer = annotationData.typeDefinition.attribute
+      const attrDef = definitionContainer.get(pred)
+      if (
+        label &&
+        attrDef.valueType === 'string' &&
+        !attrDef.values.some((v) => v.pattern === obj)
+      ) {
+        addValueForLabelToStirngAttributeDefinitionCommands.push(
+          new AddValueToAttributeDefinitionCommand(
+            definitionContainer,
+            attrDef,
+            {
+              pattern: obj,
+              label
+            }
+          )
+        )
+      }
+    }
+
+    this._subCommands = changeTypeCommands
+      .concat(changeAttributeCommnads)
+      .concat(addValueForLabelToStirngAttributeDefinitionCommands)
     this._logMessage = `set type ${typeName}${
       attributes.length > 0
         ? ` and attributes ${JSON.stringify(attributes)}`

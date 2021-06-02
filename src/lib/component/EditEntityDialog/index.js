@@ -82,8 +82,12 @@ export default class EditEntityDialog extends PromiseDialog {
               attrDef
             )
               .open()
-              .then(({ newObj }) => {
+              .then(({ newObj, newLabel }) => {
                 attributes[e.target.dataset.index].obj = newObj
+                attributes[e.target.dataset.index].label = newLabel
+
+                console.log(attributes, newLabel)
+
                 this._updateDisplay(
                   typeName,
                   attributes,

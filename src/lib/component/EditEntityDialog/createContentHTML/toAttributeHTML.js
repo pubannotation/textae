@@ -8,7 +8,7 @@ export default function (
   const previousAttribute = attributeInstances[index - 1]
   const previousPredicate = previousAttribute && previousAttribute.pred
   const definitionIndex = attributeContainer.getIndexOf(pred)
-  const label = attributeContainer.getLabel(pred, obj) || ''
+  const label = attribute.label || attributeContainer.getLabel(pred, obj) || ''
   const { valueType } = attributeContainer.get(pred)
   const editDisabled = valueType === 'flag'
 
