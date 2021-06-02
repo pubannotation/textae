@@ -57,6 +57,10 @@ export default class RelationModel {
     return this._obj
   }
 
+  get attributes() {
+    return this._attributeContainer.getAttributesFor(this._id)
+  }
+
   get sourceEntity() {
     return this._entityContainer.get(this.subj)
   }

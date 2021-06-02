@@ -83,6 +83,10 @@ export default class EntityModel {
     )
   }
 
+  get attributes() {
+    return this._attributeContainer.getAttributesFor(this._id)
+  }
+
   get relationsWhereThisIsSource() {
     return this._relationContaier.all.filter((r) => r.subj === this.id)
   }
