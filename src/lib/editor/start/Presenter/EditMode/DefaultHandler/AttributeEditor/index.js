@@ -39,11 +39,7 @@ export default class AttributeEditor {
         break
       case 'selection':
         {
-          if (
-            this._selectionModelItems.findSelectedAttributeWithSamePredicate(
-              attrDef.pred
-            )
-          ) {
+          if (this._selectionModelItems.selectedWithAttributeOf(attrDef.pred)) {
             this._pallet.show(attrDef).then((newObj) => {
               if (
                 this._selectionModelItems.selectedWithAttributeOf(attrDef.pred)
