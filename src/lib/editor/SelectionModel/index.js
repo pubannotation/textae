@@ -1,4 +1,4 @@
-import EntityContainer from './EntityContainer'
+import SelectedElementsWithAttributes from './SelectedElementsWithAttributes'
 import SelectedElements from './SelectedElements'
 
 export default class SelectionModel {
@@ -6,8 +6,12 @@ export default class SelectionModel {
     this._annotationData = annotationData
 
     this.span = new SelectedElements(eventEmitter, 'span', annotationData)
-    this.entity = new EntityContainer(eventEmitter, 'entity', annotationData)
-    this.relation = new EntityContainer(
+    this.entity = new SelectedElementsWithAttributes(
+      eventEmitter,
+      'entity',
+      annotationData
+    )
+    this.relation = new SelectedElementsWithAttributes(
       eventEmitter,
       'relation',
       annotationData
