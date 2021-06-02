@@ -6,7 +6,7 @@ export default function (selectionModelEntity, attribute, commander, attrDef) {
     .then(({ newObj, newLabel }) => {
       if (newObj) {
         commander.invoke(
-          commander.factory.changeAttributesOfItemsWithSamePred(
+          commander.factory.changeAttributesOfItemsCommand(
             selectionModelEntity.all,
             attrDef,
             newObj,

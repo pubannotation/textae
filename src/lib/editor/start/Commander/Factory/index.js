@@ -51,12 +51,7 @@ export default class Factory {
     )
   }
 
-  changeAttributesOfItemsWithSamePred(
-    items,
-    attributeDefinition,
-    newObj,
-    newLabel
-  ) {
+  changeAttributesOfItemsCommand(items, attributeDefinition, newObj, newLabel) {
     return new ChangeAttributeOfItemsCommand(
       this._editor,
       this._annotationData,

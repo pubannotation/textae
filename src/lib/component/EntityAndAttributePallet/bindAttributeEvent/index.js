@@ -64,7 +64,7 @@ export default function (pallet, el, commander, selectionModelEntity) {
             'An item among the selected has this attribute multiple times.'
           )
         } else {
-          const command = commander.factory.changeAttributesOfItemsWithSamePred(
+          const command = commander.factory.changeAttributesOfItemsCommand(
             selectionModelEntity.all,
             pallet.attrDef,
             e.target.dataset.id
