@@ -73,9 +73,7 @@ export default class Label {
   _updatePosition(location, x, y, width, relation) {
     location.classList.add('textae-editor__relation__signboard-location')
     location.style.width = `${width}px`
-    location.style.top = `${
-      y - 18 - relation.typeValues.attributes.length * 18
-    }px`
+    location.style.top = `${y - 18 - relation.attributes.length * 18}px`
     location.style.left = `${x}px`
   }
 }

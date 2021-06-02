@@ -10,7 +10,7 @@ export default class RemoveRelationAndAssociatesCommand extends CompositeCommand
       'relation',
       relation.id
     )
-    const removeAttribute = relation.typeValues.attributes.map(
+    const removeAttribute = relation.attributes.map(
       (attribute) =>
         new RemoveCommand(editor, annotationData, 'attribute', attribute)
     )

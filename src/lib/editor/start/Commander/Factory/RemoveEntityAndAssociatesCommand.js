@@ -15,7 +15,7 @@ export default class RemoveEntityAndAssociatesCommand extends CompositeCommand {
       (relation) =>
         new RemoveRelationAndAssociatesCommand(editor, annotationData, relation)
     )
-    const removeAttribute = entity.typeValues.attributes.map(
+    const removeAttribute = entity.attributes.map(
       (attribute) =>
         new RemoveCommand(editor, annotationData, 'attribute', attribute)
     )

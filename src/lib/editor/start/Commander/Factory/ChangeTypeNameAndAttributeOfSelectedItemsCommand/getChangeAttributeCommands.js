@@ -6,7 +6,7 @@ export default function (elements, attributes, annotationData, editor) {
 
   for (const element of elements) {
     if (element.typeValues) {
-      for (const oldAttribute of element.typeValues.attributes) {
+      for (const oldAttribute of element.attributes) {
         const newAttribute = attributes.find((a) =>
           oldAttribute.equalsTo(a.pred, a.obj)
         )
@@ -31,7 +31,7 @@ export default function (elements, attributes, annotationData, editor) {
 
     for (const newAttribute of attributes) {
       if (
-        !element.typeValues.attributes.some((a) =>
+        !element.attributes.some((a) =>
           a.equalsTo(newAttribute.pred, newAttribute.obj)
         )
       ) {

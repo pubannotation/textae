@@ -82,7 +82,7 @@ function aggrigateTargetEntities(
   entity
 ) {
   targetEntities.add(entity)
-  for (const attribute of entity.typeValues.attributes) {
+  for (const attribute of entity.attributes) {
     targetAttributes.add(attribute)
   }
   for (const relation of entity.relations) {
@@ -92,7 +92,7 @@ function aggrigateTargetEntities(
 
 function aggrigateTargetRelations(targetRelations, targetAttributes, relation) {
   targetRelations.add(relation)
-  for (const attribute of relation.typeValues.attributes) {
+  for (const attribute of relation.attributes) {
     targetAttributes.add(attribute)
   }
 }
