@@ -1,4 +1,4 @@
-import SelectedElementsWithAttributes from './SelectedElementsWithAttributes'
+import SelectedItemsWithAttributes from './SelectedItemsWithAttributes'
 import SelectedItems from './SelectedItems'
 
 export default class SelectionModel {
@@ -6,12 +6,12 @@ export default class SelectionModel {
     this._annotationData = annotationData
 
     this.span = new SelectedItems(eventEmitter, 'span', annotationData)
-    this.entity = new SelectedElementsWithAttributes(
+    this.entity = new SelectedItemsWithAttributes(
       eventEmitter,
       'entity',
       annotationData
     )
-    this.relation = new SelectedElementsWithAttributes(
+    this.relation = new SelectedItemsWithAttributes(
       eventEmitter,
       'relation',
       annotationData
