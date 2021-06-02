@@ -16,14 +16,6 @@ export default class EditDenotation extends Edit {
     originalData,
     autocompletionWs
   ) {
-    const spanEditor = new SpanEditor(
-      editor,
-      annotationData,
-      selectionModel,
-      commander,
-      buttonController,
-      spanConfig
-    )
     const denotationPallet = new EntityAndAttributePallet(
       editor,
       originalData,
@@ -32,6 +24,15 @@ export default class EditDenotation extends Edit {
       selectionModel.entity,
       commander,
       'Entity configuration'
+    )
+
+    const spanEditor = new SpanEditor(
+      editor,
+      annotationData,
+      selectionModel,
+      commander,
+      buttonController,
+      spanConfig
     )
 
     const handler = new EditDenotationHandler(
