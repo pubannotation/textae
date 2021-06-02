@@ -12,6 +12,7 @@ export default class EditBlockHandler extends DefaultHandler {
     blockPallet
   ) {
     super(
+      editor,
       'entity',
       definitionContainer,
       commander,

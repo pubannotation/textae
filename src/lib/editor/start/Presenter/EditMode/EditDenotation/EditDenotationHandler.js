@@ -12,6 +12,7 @@ export default class EditDenotationHandler extends DefaultHandler {
     denotationPallet
   ) {
     super(
+      editor,
       'entity',
       definitionContainer,
       commander,

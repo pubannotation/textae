@@ -1,7 +1,9 @@
+import SelectionAttributePallet from '../../../../../component/SelectionAttributePallet'
 import AttributeEditor from './AttributeEditor'
 
 export default class DefaultHandler {
   constructor(
+    editor,
     annotationType,
     definitionContainer,
     commander,
@@ -16,7 +18,7 @@ export default class DefaultHandler {
       commander,
       annotationData,
       selectionModelItems,
-      pallet
+      new SelectionAttributePallet(editor)
     )
   }
 
