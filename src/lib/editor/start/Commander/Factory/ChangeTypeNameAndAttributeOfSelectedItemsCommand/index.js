@@ -46,21 +46,16 @@ export default class ChangeTypeNameAndAttributeOfSelectedItemsCommand extends Co
     for (const { pred, obj, label } of attributes) {
       const definitionContainer = annotationData.typeDefinition.attribute
       const attrDef = definitionContainer.get(pred)
-      if (
-        label &&
-        attrDef.valueType === 'string' &&
-        !attrDef.values.some((v) => v.pattern === obj)
-      ) {
-        addValueForLabelToStirngAttributeDefinitionCommands.push(
-          new AddValueToAttributeDefinitionCommand(
-            definitionContainer,
-            attrDef,
-            {
-              pattern: obj,
-              label
-            }
-          )
+      if (label) {
+        const commnad = getAddValueToAttributeDefinitionCommand(
+          definitionContainer,
+          attrDef,
+          obj,
+          label
         )
+        if (commnad) {
+          addValueForLabelToStirngAttributeDefinitionCommands.push(commnad)
+        }
       }
     }
 
@@ -72,5 +67,27 @@ export default class ChangeTypeNameAndAttributeOfSelectedItemsCommand extends Co
         ? ` and attributes ${JSON.stringify(attributes)}`
         : ``
     } to ${annotationType} items ${itemsWithChange.map((i) => i.id)}`
+  }
+}
+
+function getAddValueToAttributeDefinitionCommand(
+  definitionContainer,
+  attrDef,
+  obj,
+  label
+) {
+  if (
+    label &&
+    attrDef.valueType === 'string' &&
+    !attrDef.values.some((v) => v.pattern === obj)
+  ) {
+    return new AddValueToAttributeDefinitionCommand(
+      definitionContainer,
+      attrDef,
+      {
+        pattern: obj,
+        label
+      }
+    )
   }
 }
