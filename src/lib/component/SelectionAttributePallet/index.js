@@ -30,6 +30,8 @@ export default class SelectionAttributePallet extends Pallet {
       }
     })
 
+    this._show = true
+
     return new Promise((resolve) => {
       delegate(
         this._el,
@@ -44,8 +46,12 @@ export default class SelectionAttributePallet extends Pallet {
   }
 
   hide() {
-    this._editor[0].removeChild(this._veil)
-    this._editor[0].removeChild(this.el)
+    if (this._show) {
+      this._editor[0].removeChild(this._veil)
+      this._editor[0].removeChild(this.el)
+
+      this._show = false
+    }
 
     // Focus on the button used to open the palette
     // so that the Entity Edit dialog can be closed with the Esc key.
