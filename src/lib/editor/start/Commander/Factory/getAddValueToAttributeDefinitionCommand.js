@@ -1,4 +1,4 @@
-import AddValueToAttributeDefinitionCommand from '../AddValueToAttributeDefinitionCommand'
+import AddValueToAttributeDefinitionCommand from './AddValueToAttributeDefinitionCommand'
 
 export default function (definitionContainer, attrDef, obj, label) {
   // When the value of the string attribute is acquired by auto-complete,

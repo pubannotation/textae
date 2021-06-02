@@ -1,6 +1,6 @@
 import CompositeCommand from './CompositeCommand'
 import ChangeAttributeCommand from './ChangeAttributeCommand'
-import getAddValueToAttributeDefinitionCommand from './ChangeTypeNameAndAttributeOfSelectedItemsCommand/getAddValueToAttributeDefinitionCommand'
+import getAddValueToAttributeDefinitionCommand from './getAddValueToAttributeDefinitionCommand'
 
 export default class ChangeAttributeOfItemsCommand extends CompositeCommand {
   constructor(
