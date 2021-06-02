@@ -9,8 +9,7 @@ export default class EditRelationHandler extends DefaultHandler {
     definitionContainer,
     commander,
     annotationData,
-    selectionModel,
-    relationPallet
+    selectionModel
   ) {
     super(
       'relation',
