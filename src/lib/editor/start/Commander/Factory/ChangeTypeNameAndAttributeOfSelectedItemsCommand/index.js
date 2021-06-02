@@ -1,7 +1,7 @@
 import CompositeCommand from '../CompositeCommand'
 import ChangeAnnotationCommand from '../ChangeAnnotationCommand'
 import getChangeAttributeCommands from './getChangeAttributeCommands'
-import AddValueToAttributeDefinitionCommand from '../AddValueToAttributeDefinitionCommand'
+import getAddValueToAttributeDefinitionCommand from './getAddValueToAttributeDefinitionCommand'
 
 export default class ChangeTypeNameAndAttributeOfSelectedItemsCommand extends CompositeCommand {
   constructor(
@@ -67,27 +67,5 @@ export default class ChangeTypeNameAndAttributeOfSelectedItemsCommand extends Co
         ? ` and attributes ${JSON.stringify(attributes)}`
         : ``
     } to ${annotationType} items ${itemsWithChange.map((i) => i.id)}`
-  }
-}
-
-function getAddValueToAttributeDefinitionCommand(
-  definitionContainer,
-  attrDef,
-  obj,
-  label
-) {
-  if (
-    label &&
-    attrDef.valueType === 'string' &&
-    !attrDef.values.some((v) => v.pattern === obj)
-  ) {
-    return new AddValueToAttributeDefinitionCommand(
-      definitionContainer,
-      attrDef,
-      {
-        pattern: obj,
-        label
-      }
-    )
   }
 }
