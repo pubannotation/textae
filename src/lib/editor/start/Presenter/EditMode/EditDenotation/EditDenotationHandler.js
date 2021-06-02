@@ -35,7 +35,7 @@ export default class EditDenotationHandler extends DefaultHandler {
         mergedTypeValuesOf(this._selectionModel.entity.all)
       )
         .open()
-        .then((values) => this._labelChanged(values))
+        .then((values) => this._typeValuesChanged(values))
     }
   }
 }

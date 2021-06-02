@@ -35,7 +35,7 @@ export default class EditRelationHandler extends DefaultHandler {
         mergedTypeValuesOf(this._selectionModel.relation.all)
       )
         .open()
-        .then((values) => this._labelChanged(values))
+        .then((values) => this._typeValuesChanged(values))
     }
   }
 
