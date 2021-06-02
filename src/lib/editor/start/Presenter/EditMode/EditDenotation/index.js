@@ -39,8 +39,7 @@ export default class EditDenotation extends Edit {
       annotationData.typeDefinition.denotation,
       commander,
       annotationData,
-      selectionModel,
-      denotationPallet
+      selectionModel
     )
 
     super(

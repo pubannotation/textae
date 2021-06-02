@@ -9,8 +9,7 @@ export default class EditDenotationHandler extends DefaultHandler {
     definitionContainer,
     commander,
     annotationData,
-    selectionModel,
-    denotationPallet
+    selectionModel
   ) {
     super(
       'entity',
