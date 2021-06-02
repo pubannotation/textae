@@ -1,6 +1,7 @@
 import EditEntityDialog from '../../../../../component/EditEntityDialog'
 import mergedTypeValuesOf from '../mergedTypeValuesOf'
 import DefaultHandler from '../DefaultHandler'
+import SelectionAttributePallet from '../../../../../component/SelectionAttributePallet'
 
 export default class EditBlockHandler extends DefaultHandler {
   constructor(
@@ -18,7 +19,7 @@ export default class EditBlockHandler extends DefaultHandler {
       commander,
       annotationData,
       selectionModel.entity,
-      blockPallet
+      new SelectionAttributePallet(editor)
     )
 
     this._editor = editor
