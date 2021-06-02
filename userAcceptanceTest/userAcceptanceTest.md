@@ -582,38 +582,6 @@
 6.  `add to`ボタンを押す
 7.  Attribute が追加されること
 
-## Selection Attribute をショートカットキーからパレットを開いて編集
-
-### 背景
-
-1.  5.0.0 で、Attribute を追加するためにのショートカットキー T を追加しました
-2.  5.0.2 で、1~5 のキーで選択中の Entity へ、Attribute を追加、shift と同時押しで削除するようにしました
-3.  5.0.5 で、Attribute のショートカットキーを 1~9 までに増やしました
-4.  5.2.0 で、Attribute のショートカットキー T を廃止しました
-5.  6.2.71 で Block モードでパレットが開けるようになりました
-6.  6.2.79 で で Block モードで、ショートカットキー 1~9 で Attribute の追加ができるようになりました
-7.  **1 つの Entity に Predicate が等しい Attribute をひとつまでしか持てない** 制約がありました
-8.  この制約を **1 つの Entity に Predicate と Object が等しい Attribute をひとつまでしか持てない** に緩めることにしました
-9.  ショートカットキー操作では、1 つの Entity 上の Predicate が重複した Attribute の作成をサポートしません
-
-### DenotationEntity
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  Attribute を持たない DenotationEntity を選択する
-4.  `1` キーを押す、Attribute を追加されること
-5.  `1` キーをもう一度押すと、Value 選択用のパレットが表示されること
-6.  パレットの Value を押すと、選択中の DenotationEntity の該当 predicate の Attribute の Value が変更できること
-
-### BlockEntity
-
-1.  Editor1 を選択
-2.  Block モードにする
-3.  Attribute を持たない BlockEntity を選択する
-4.  `1` キーを押す、Attribute を追加されること
-5.  `1` キーをもう一度押すと、Value 選択用のパレットが表示されること
-6.  パレットの Value を押すと、選択中の BlockEntity の該当 predicate の Attribute の Value が変更できること
-
 ## Annotation ファイルの読み込み時に 1 つの Entity に Predicate と Object が等しい Attribute が複数ついているかチェックする
 
 ### 背景
@@ -1047,23 +1015,6 @@
 10. Value の値が`http://dbpedia.org/ontology/parent`になること
 11. `OK`ボタンを押す
 12. Relation のラベルが`parent`になること
-
-## ラベルの定義に HTML タグが含まれているとき、HTML エスケープした文字列をオートコンプリートの候補として表示すること
-
-### 背景
-
-1. オートコンプリートの候補には Type 定義の`id`と`label`を表示しています。
-2. HTML エスケープしていないため、`label`に HTML タグを含む Type を定義すると、オートコンプリートの候補に任意の HTML タグを挿入することが可能です。
-3. 6.4.24 で対応しました。
-
-### -- 手段 --
-
-1. Editor1 を選択
-2. Term モードにする
-3. Entity を選択する
-4. `w`キーを押して Entity 編集ダイアログを開く
-5. `Value:`欄に`HTML`を入力する
-6. 候補に赤字の`Red color HTML label`ではなく、`<span style='color: red;'>Red color HTML label</span>...`が表示されること
 
 ## パレットから Flag Attribute の label と color を編集する
 
@@ -2165,22 +2116,6 @@
 4.  Term モードにする
 5.  BlockSpan 中のテキスト上で mousedown して、StypleSpan 上で mouseup する
 6.  エラーが起きないこと
-
-## 既存の要素を消す
-
-### メイン
-
-1.  Relation モードにする
-2.  Relation を消す
-3.  Entity を消す
-4.  Term モードにする
-5.  Span を消す
-6.  Relation のある Span を消す
-7.  Relation のある Entity を消す
-8.  全て戻す
-9.  選択されないこと
-10. やり直す
-11. 全て戻してからやり直すのを 4 回繰り返す
 
 ## ブロックを縮める
 
