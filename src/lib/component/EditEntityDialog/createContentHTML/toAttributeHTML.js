@@ -42,7 +42,11 @@ export default function (
   <td>
     <span class="textae-editor__edit-type-dialog__attribute__value__value">${obj}</span>
   </td>
-  <td>${label}</td>
+  <td>
+    <span class="textae-editor__edit-type-dialog__attribute__label__value">
+      ${label}
+    </span>
+  </td>
   <td>
     <button
       type="button"

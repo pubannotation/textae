@@ -17,6 +17,9 @@ export default function (content) {
       ).dataset.pred,
       obj: attr.querySelector(
         '.textae-editor__edit-type-dialog__attribute__value__value'
+      ).innerText,
+      label: attr.querySelector(
+        '.textae-editor__edit-type-dialog__attribute__label__value'
       ).innerText
     })
   }
