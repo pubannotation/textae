@@ -5,14 +5,16 @@ import TypeValues from '../../../TypeValues'
 export default function (entities) {
   const { typeName } = entities[entities.length - 1]
 
-  const attributes = []
-  for (const { typeValues } of entities) {
-    for (const attribute of typeValues.attributes) {
-      if (!attributes.some((a) => a.equalsTo(attribute.pred, attribute.obj))) {
-        attributes.push(attribute)
+  const mergedAttributes = []
+  for (const { attributes } of entities) {
+    for (const attribute of attributes) {
+      if (
+        !mergedAttributes.some((a) => a.equalsTo(attribute.pred, attribute.obj))
+      ) {
+        mergedAttributes.push(attribute)
       }
     }
   }
 
-  return new TypeValues(typeName, attributes)
+  return new TypeValues(typeName, mergedAttributes)
 }
