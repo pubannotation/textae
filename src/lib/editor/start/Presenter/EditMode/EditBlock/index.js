@@ -31,8 +31,7 @@ export default class EditBlock extends Edit {
       annotationData.typeDefinition.block,
       commander,
       annotationData,
-      selectionModel,
-      blockPallet
+      selectionModel
     )
 
     const spanEditor = new SpanEditor(

@@ -9,8 +9,7 @@ export default class EditBlockHandler extends DefaultHandler {
     definitionContainer,
     commander,
     annotationData,
-    selectionModel,
-    blockPallet
+    selectionModel
   ) {
     super(
       'entity',
