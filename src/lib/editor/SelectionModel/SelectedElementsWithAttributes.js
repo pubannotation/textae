@@ -1,6 +1,6 @@
-import SelectedElements from './SelectedElements'
+import SelectedItems from './SelectedItems'
 
-export default class SelectedElementsWithAttributes extends SelectedElements {
+export default class SelectedElementsWithAttributes extends SelectedItems {
   selectedWithAttributeOf(pred) {
     return this.all.some((element) =>
       element.attributes.some((attribute) => attribute.pred === pred)

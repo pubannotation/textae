@@ -1,4 +1,4 @@
-export default class SelectedElements {
+export default class SelectedItems {
   constructor(emitter, kindName, annotationData) {
     this._emitter = emitter
     this._kindName = kindName
