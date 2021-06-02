@@ -16,6 +16,15 @@ export default class EditBlock extends Edit {
     originalData,
     autocompletionWs
   ) {
+    const spanEditor = new SpanEditor(
+      editor,
+      annotationData,
+      spanConfig,
+      commander,
+      buttonController,
+      selectionModel
+    )
+
     const blockPallet = new EntityAndAttributePallet(
       editor,
       originalData,
@@ -31,15 +40,6 @@ export default class EditBlock extends Edit {
       annotationData.typeDefinition.block,
       commander,
       annotationData,
-      selectionModel
-    )
-
-    const spanEditor = new SpanEditor(
-      editor,
-      annotationData,
-      spanConfig,
-      commander,
-      buttonController,
       selectionModel
     )
 
