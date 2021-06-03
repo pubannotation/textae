@@ -2,13 +2,7 @@ import delegate from 'delegate'
 import Dialog from './Dialog'
 
 export default class PromiseDialog extends Dialog {
-  constructor(
-    title,
-    contentHtml,
-    option,
-    getResultsFunc,
-    deleteButtonSelector
-  ) {
+  constructor(title, contentHtml, option, getResultsFunc, bind) {
     super(title, contentHtml, 'OK', option)
 
     this._promise = new Promise((resolve) => {
@@ -34,11 +28,8 @@ export default class PromiseDialog extends Dialog {
         }
       )
 
-      if (deleteButtonSelector) {
-        delegate(super.el, deleteButtonSelector, 'click', () => {
-          super.close()
-          resolve({ newObj: null })
-        })
+      if (bind) {
+        bind(this, resolve)
       }
     })
   }

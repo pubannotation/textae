@@ -1,3 +1,4 @@
+import delegate from 'delegate'
 import PromiseDialog from './PromiseDialog'
 
 function template(context) {
@@ -57,7 +58,17 @@ export default class EditNumericAttributeDialog extends PromiseDialog {
         return { newObj: input.value }
       },
       deletable
-        ? '.textae-editor__edit-type-dialog__attribute__remove__value'
+        ? (dialog, resolve) => {
+            delegate(
+              dialog.el,
+              '.textae-editor__edit-type-dialog__attribute__remove__value',
+              'click',
+              () => {
+                dialog.close()
+                resolve({ newObj: null })
+              }
+            )
+          }
         : null
     )
   }
