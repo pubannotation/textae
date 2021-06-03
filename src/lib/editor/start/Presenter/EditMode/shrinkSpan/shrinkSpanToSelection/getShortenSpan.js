@@ -1,4 +1,4 @@
-import PositionsOnAnnotation from '../../../../PositionsOnAnnotation'
+import PositionsOnAnnotation from '../../PositionsOnAnnotation'
 
 export default function (
   annotationData,

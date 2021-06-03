@@ -2,7 +2,7 @@ import clearTextSelection from '../clearTextSelection'
 import hasCharacters from '../hasCharacters'
 import getNewSpan from '../getNewSpan'
 import expandSpan from '../expandSpan'
-import shrinkSpan from '../EditDenotation/SpanEditor/shrinkSpan'
+import shrinkSpan from '../shrinkSpan'
 import PositionsOnAnnotation from '../PositionsOnAnnotation'
 
 export default class SpanEditor {

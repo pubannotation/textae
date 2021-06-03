@@ -1,4 +1,4 @@
-import getRightSpanElement from '../../../../../../getRightSpanElement'
+import getRightSpanElement from '../../../../getRightSpanElement'
 import shrinkSpanToSelection from './shrinkSpanToSelection'
 
 export default function (

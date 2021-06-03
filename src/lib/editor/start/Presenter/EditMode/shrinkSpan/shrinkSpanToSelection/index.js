@@ -1,4 +1,4 @@
-import clearTextSelectionAndAlert from '../../../../clearTextSelectionAndAlert'
+import clearTextSelectionAndAlert from '../../clearTextSelectionAndAlert'
 import getShortenSpan from './getShortenSpan'
 
 export default function (
