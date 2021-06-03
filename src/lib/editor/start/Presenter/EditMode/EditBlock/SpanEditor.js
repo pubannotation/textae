@@ -89,7 +89,12 @@ export default class SpanEditor {
         selectionWrapper.isParentOfFocusNodeDenotationSpan ||
         selectionWrapper.isParentOfFocusNodeStyleSpan
       ) {
-        this._expand(selectionWrapper)
+        if (selectionWrapper.ancestorBlockSpanOfFocusNode) {
+          this._shrink(selectionWrapper)
+        } else {
+          this._expand(selectionWrapper)
+        }
+
         return
       }
 
