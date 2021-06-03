@@ -38,6 +38,18 @@ function template(context) {
 
 export default class EditNumericAttributeDialog extends PromiseDialog {
   constructor(attrDef, attribute, deletable) {
+    const bind = (dialog, resolve) => {
+      delegate(
+        dialog.el,
+        '.textae-editor__edit-type-dialog__attribute__remove__value',
+        'click',
+        () => {
+          dialog.close()
+          resolve({ newObj: null })
+        }
+      )
+    }
+
     super(
       'Please edit number',
       template({
@@ -57,19 +69,7 @@ export default class EditNumericAttributeDialog extends PromiseDialog {
         // Numeric attribute obj value type must be Number type.
         return { newObj: input.value }
       },
-      deletable
-        ? (dialog, resolve) => {
-            delegate(
-              dialog.el,
-              '.textae-editor__edit-type-dialog__attribute__remove__value',
-              'click',
-              () => {
-                dialog.close()
-                resolve({ newObj: null })
-              }
-            )
-          }
-        : null
+      deletable ? bind : null
     )
   }
 }
