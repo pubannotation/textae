@@ -12,12 +12,12 @@ export default class AttributeEditor {
     this._commander = commander
     this._annotationData = annotationData
     this._selectionModelItems = selectionModelItems
-    this._pallet = selectionAttributePallet
+    this._selectionAttributePallet = selectionAttributePallet
     this._typeDefinition = annotationData.typeDefinition
   }
 
   addOrEditAt(number) {
-    this._pallet.hide()
+    this._selectionAttributePallet.hide()
 
     const attrDef = this._typeDefinition.attribute.getAttributeAt(number)
 
@@ -45,7 +45,7 @@ export default class AttributeEditor {
       case 'selection':
         {
           if (this._selectionModelItems.selectedWithAttributeOf(attrDef.pred)) {
-            this._pallet.show(attrDef).then((newObj) => {
+            this._selectionAttributePallet.show(attrDef).then((newObj) => {
               if (
                 this._selectionModelItems.isDupulicatedPredAttrributeSelected(
                   attrDef.pred
