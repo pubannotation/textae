@@ -45,7 +45,7 @@ export default function (
   } else if (centerOfTarget < centerOfSource) {
     return {
       source: leftSource,
-      target: leftSource < rightTarget ? rightTarget : leftTarget
+      target: leftSource < rightTarget ? leftTarget : rightTarget
     }
   }
 
