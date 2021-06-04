@@ -5,11 +5,12 @@ export default function (
   attrDef,
   attribute,
   commander,
-  deletable
+  deletable,
+  pallet
 ) {
-  new EditNumericAttributeDialog(attrDef, attribute, deletable)
+  new EditNumericAttributeDialog(attrDef, attribute, deletable, pallet)
     .open()
-    .then(({ newObj }) => {
+    .then(({ newObj, openPallet }) => {
       const command = newObj
         ? commander.factory.changeAttributesOfItemsCommand(
             selectionModelEntity.all,

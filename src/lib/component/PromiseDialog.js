@@ -15,7 +15,8 @@ export default class PromiseDialog extends Dialog {
       }
 
       // Overwrite the button handler.
-      this._option.buttons[0].click = onOKButtonClick
+      this._option.buttons[this._option.buttons.length - 1].click =
+        onOKButtonClick
 
       delegate(
         super.el,

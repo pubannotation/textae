@@ -1,7 +1,7 @@
 import alertifyjs from 'alertifyjs'
 import openEditNumericAttributeDialog from '../../../openEditNumericAttributeDialog'
 
-export default function (selectionModelItems, attrDef, commander) {
+export default function (selectionModelItems, attrDef, commander, pallet) {
   const attribute = selectionModelItems.findSelectedAttributeWithSamePredicate(
     attrDef.pred
   )
@@ -16,7 +16,8 @@ export default function (selectionModelItems, attrDef, commander) {
         attrDef,
         attribute,
         commander,
-        true
+        true,
+        pallet
       )
     } else {
       alertifyjs.warning(

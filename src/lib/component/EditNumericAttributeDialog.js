@@ -37,7 +37,7 @@ function template(context) {
 }
 
 export default class EditNumericAttributeDialog extends PromiseDialog {
-  constructor(attrDef, attribute, deletable) {
+  constructor(attrDef, attribute, deletable, pallet) {
     const bind = (dialog, resolve) => {
       delegate(
         dialog.el,
@@ -50,6 +50,23 @@ export default class EditNumericAttributeDialog extends PromiseDialog {
       )
     }
 
+    const buttons = [
+      {
+        text: 'OK',
+        click: () => this.close()
+      }
+    ]
+
+    if (pallet) {
+      buttons.unshift({
+        text: 'Show label list editor',
+        click: () => {
+          this.close()
+          pallet.show()
+        }
+      })
+    }
+
     super(
       'Please edit number',
       template({
@@ -60,7 +77,7 @@ export default class EditNumericAttributeDialog extends PromiseDialog {
         step: attrDef.step,
         deletable
       }),
-      {},
+      { buttons },
       () => {
         const input = super.el.querySelector(
           '.textae-editor__edit-value-and-pred-dialog--value'
