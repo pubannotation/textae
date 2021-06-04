@@ -566,22 +566,6 @@
 22. `error` タブを選ぶ
 23. `Attribute [flag] icon] "error"` が表示されること
 
-## BlockEntity にパレットから Attribute を追加
-
-### 背景
-
-1.  6.2.71 で Block モードでパレットが開けるようになりました
-
-### -- 手段 --
-
-1.  Editor1 を選択
-2.  Block モードにする
-3.  Attribute を持たない BlockEntity を選択する
-4.  パレットを開く
-5.  denote タブを選択する
-6.  `add to`ボタンを押す
-7.  Attribute が追加されること
-
 ## Annotation ファイルの読み込み時に 1 つの Entity に Predicate と Object が等しい Attribute が複数ついているかチェックする
 
 ### 背景
@@ -942,79 +926,6 @@
 6.  `par`を入力
 7.  候補に`parent@http://dbpedia.org/ontology/parent`が表示されること
 8.  ダイアログに横スクロールバー表示されないこと
-
-## オートコンプリートの候補がダイアログの下に隠れないこと
-
-### 背景
-
-1.  4.3.0 でオートコンプリート導入。候補を config と source server(オートコンプリートの問い合わせ先サーバー。HTML 上の autocompletion_ws 属性で設定します)から検索します
-2.  4.5.5 で jQuery UI を textae.js に同梱した時、オートコンプリートの候補が選択できなくなりました。jQuery UI の core 部分と jQuery UI のオートコンプリート機能のバージョン不一致で、オートコンプリートの候補を選択したときにエラーが起きた。4.5.6 で対応
-3.  5.0.0 で type の編集機能を追加した際に、オートコンプリートで検索結果のラベルを`Value:`の右に、id を Value 欄に表示するように変更しました
-4.  5.0.0 で Relation のラベルも Entity と同様の短縮表示しました
-5.  5.0.5 でオートコンプリートの候補がダイアログの裏に隠れるバグを修正した際に、同時に、候補の末尾の文字が見切れない用に右寄せにしました
-6.  5.0.5 で Attribute のない Entity を編集するときに、オートコンプリートの候補の 2 つ目以降が見切れていました。5.2.6 でダイアログの高さに最小値を設定しました
-7.  6.2.0 からブロック機能を追加
-8.  6.4.21 で Type 定義編集ダイアログに適用しました
-
-### Type 定義編集ダイアログ
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  `q`を押してパレットを表示する
-4.  `Edit this type`ボタンをクリックする
-5.  既存の id を消す
-6.  `pro`を入力
-7.  候補に`production@http://dbpedia.org/ontology/production`が右寄せで表示されること
-8.  既存の label を消す
-9.  `pro`を入力
-10. 候補に`productionCompany@http://dbpedia.org/ontology/productionCompany`が右寄せで表示されること
-
-### DenotationEntity 編集ダイアログ
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  Attribute のない DenotationEntity を選択する
-4.  `Change Label[W]`ボタンを押す
-5.  既存の id を消す
-6.  `pro`を入力
-7.  候補に`production@http://dbpedia.org/ontology/production`が右寄せで表示されること
-8.  候補に`productionCompany@http://dbpedia.org/ontology/productionCompany`が右寄せで表示されること
-9.  2 つ目以降の候補が隠れないこと
-10. `production@http://dbpedia.org/ontology/production`を選択する
-11. Value の右に`production`が表示されること
-12. Value の値が`http://dbpedia.org/ontology/production`になること
-13. `OK`ボタンを押す
-14. DenotationEntity のラベルが`production`になること
-
-### BlocknEntity 編集ダイアログ
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  BlocknEntity を選択する
-4.  `Change Label[W]`ボタンを押す
-5.  既存の id を消す
-6.  `par`を入力
-7.  候補に`parent@http://dbpedia.org/ontology/parent`が右寄せで表示されること
-8.  `parent@http://dbpedia.org/ontology/parent`を選択する
-9.  Value の右に`parent`が表示されること
-10. Value の値が`http://dbpedia.org/ontology/parent`になること
-11. `OK`ボタンを押す
-12. BlocknEntity のラベルが`parent`になること
-
-### Relation 編集ダイアログ
-
-1.  Editor1 を選択
-2.  Relation モードにする
-3.  Relation を選択する
-4.  `Change Label[W]`ボタンを押す
-5.  既存の id を消す
-6.  `par`を入力
-7.  候補に`parent@http://dbpedia.org/ontology/parent`が右寄せで表示されること
-8.  `parent@http://dbpedia.org/ontology/parent`を選択する
-9.  Value の右に`parent`が表示されること
-10. Value の値が`http://dbpedia.org/ontology/parent`になること
-11. `OK`ボタンを押す
-12. Relation のラベルが`parent`になること
 
 ## パレットから Flag Attribute の label と color を編集する
 
@@ -2084,22 +1995,6 @@
 2.  Term モードにする
 3.  DenotationSpan 上で mousedown して、StypleSpan 上で mouseup する
 4.  エラーが起きないこと
-
-## Term モードでテキスト上で mousedown して StyleSpan 上で mouseup してエラーが起きない
-
-### 背景
-
-1.  6.2.43 で発生
-2.  6.3.19 で対応
-
-### -- 手段 --
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  テキスト上で mousedown して、右方向の、StypleSpan 上で mouseup する
-4.  エラーが起きないこと
-5.  テキスト上で mousedown して、左方向の、StypleSpan 上で mouseup する
-6.  エラーが起きないこと
 
 ## Term モードで BlockSpan 上で mousedown して StyleSpan 上で mouseup してエラーが起きない
 
