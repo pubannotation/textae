@@ -17,7 +17,7 @@ export default function (
     ['redo', () => commander.redo()],
     ['replicate', () => presenter.event.replicate()],
     ['entity', () => presenter.event.createEntity()],
-    ['change-label', () => presenter.event.changeLabel()],
+    ['change-label', () => presenter.event.editTypeValues()],
     ['pallet', () => presenter.event.showPallet()],
     ['delete', () => presenter.event.removeSelectedElements()],
     ['copy', () => presenter.event.copyEntities()],

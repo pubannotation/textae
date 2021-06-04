@@ -67,8 +67,8 @@ export default class EventMap {
     this._clipBoard.pasteEntities()
   }
 
-  changeLabel() {
-    this._editMode.changeLabel()
+  editTypeValues() {
+    this._editMode.editTypeValues()
   }
 
   manipulateAttribute(number, shiftKey) {

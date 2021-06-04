@@ -21,7 +21,7 @@ export default function (commander, presenter, persistenceInterface) {
     ['r', () => presenter.event.replicate()],
     ['u', () => persistenceInterface.uploadAnnotation()],
     ['v', () => presenter.event.pasteEntities()],
-    ['w', () => presenter.event.changeLabel()],
+    ['w', () => presenter.event.editTypeValues()],
     ['x', () => presenter.event.cutEntities()],
     ['y', () => commander.redo()],
     ['z', () => commander.undo()],
