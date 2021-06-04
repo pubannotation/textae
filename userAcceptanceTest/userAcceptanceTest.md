@@ -390,33 +390,6 @@
 10. `Delete this predicate.`ボタンが無効であること
 11. `Edit this predicate.`ボタンが無効であること
 
-## Body クリックでパレットが閉じる
-
-### 背景
-
-1.  6.1.30 で Body クリックで text-box クリックイベントを分けたときに、text-box クリックイベントをわけました。
-2.  Body クリックイベントは、コントロールバーの右の領域で発火し、その他の行間では text-box クリックイベントが発火します。
-3.  text-box クリックイベントにパレットを閉じる処理を移動しなかったため、パレットが閉じなくなりまし t。
-4.  6.1.60 で Body クリックイベントと text-box クリックイベントの両方でパレットを閉じるようにしました。
-
-### -- 手段 --
-
-### Term モード
-
-1.  Term モードにする
-2.  `Show label list editor [Q]`ボタンをクリックする
-3.  パレットが開くこと
-4.  行間をクリックする
-5.  パレットが閉じること
-
-### Relation モード
-
-1.  Relation モードにする
-2.  `Show label list editor [Q]`ボタンをクリックする
-3.  パレットが開くこと
-4.  行間をクリックする
-5.  パレットが閉じること
-
 ## Block モードで、Body クリックでパレットが閉じる
 
 ### 背景
@@ -791,21 +764,6 @@
 4.  最大 500px まで選べること
 5.  設定した値に応じて行の高さが変わること
 6.  行の高さに合わせて Grid が移動すること
-
-## アノテーションが無いときに行の高さが 41px になること
-
-### 背景
-
-1.  5.0.0 でアノテーションが無いときに行の高さがなくなっていました
-2.  5.2.4 で対応しました
-
-### -- 手段 --
-
-1.  Editor7 を選択する
-2.  `.textae-editor__body__text-box`の line-height が`41px`であること
-3.  `.textae-editor__body__text-box`の padding-top が`20.5px`であること
-4.  Setting ダイアログを開く
-5.  Line Height の値が 41 であること
 
 ## Attribute 定義追加ダイアログで flag attribute の label と color を設定する
 
@@ -1640,89 +1598,6 @@
 1.  Editor0 の行の高さ自動調整が無効であること
 2.  Editor1 の行の高さ自動調整が有効であること
 3.  Editor2 の行の高さ自動調整が無効であること
-
-## config の autocompletion_ws 属性
-
-### 背景
-
-1.  5.2.0 で config でオートコンプリートの URL を指定できるようになりました
-2.  6.2.0 からブロック機能を追加
-
-### -- 手段 --
-
-#### config の autocompletion_ws 属性で URL を指定すると、オートコンプリートの候補を指定 URL から取得する
-
-##### Type のラベル変更
-
-1.  Editor2 を選択
-2.  Span を作成する
-3.  `Change Label[W]`ボタンを押す
-4.  既存の id を消す
-5.  `SPA`を入力
-6.  候補に`http://www.amazon.com/Learning-SPARQL-Bob-DuCharme/dp/1449371434/ref=sr_1_1?ie=UTF8&qid=1452147643&sr=8-1&keywords=sparql`が右寄せで表示されること
-
-##### DenotationEntity の Type 定義の追加
-
-1.  Editor2 を選択
-2.  Term モードにする
-3.  `Show label list editor [Q]`ボタンをクリックする
-4.  `Add new type`ボタンをクリックする
-5.  `Id`欄に`SPA`を入力する
-6.  候補に`http://www.amazon.com/Learning-SPARQL-Bob-DuCharme/dp/1449371434/ref=sr_1_1?ie=UTF8&qid=1452147643&sr=8-1&keywords=sparql`が右寄せで表示されること
-
-##### DenotationEntity の Type 定義の変更
-
-1.  Editor2 を選択
-2.  Term モードにする
-3.  `Show label list editor [Q]`ボタンをクリックする
-4.  `Edit this type`ボタンをクリックする
-5.  `Id`欄に`Lig`を入力する
-6.  候補に`http://www.yahoo.co.jp`が右寄せで表示されること
-
-##### BlockEntity の Type 定義の追加
-
-1.  Editor2 を選択
-2.  Block モードにする
-3.  `Show label list editor [Q]`ボタンをクリックする
-4.  `Add new type`ボタンをクリックする
-5.  `Id`欄に`SPA`を入力する
-6.  候補に`http://www.amazon.com/Learning-SPARQL-Bob-DuCharme/dp/1449371434/ref=sr_1_1?ie=UTF8&qid=1452147643&sr=8-1&keywords=sparql`が右寄せで表示されること
-
-##### BlockEntity の Type 定義の変更
-
-1.  Editor2 を選択
-2.  Block モードにする
-3.  `Show label list editor [Q]`ボタンをクリックする
-4.  `Edit this type`ボタンをクリックする
-5.  `Id`欄に`Lig`を入力する
-6.  候補に`http://www.yahoo.co.jp`が右寄せで表示されること
-
-##### Relation の Type 定義の追加
-
-1.  Editor2 を選択
-2.  Relation モードにする
-3.  `Show label list editor [Q]`ボタンをクリックする
-4.  `Add new type`ボタンをクリックする
-5.  `Id`欄に`SPA`を入力する
-6.  候補に`http://www.amazon.com/Learning-SPARQL-Bob-DuCharme/dp/1449371434/ref=sr_1_1?ie=UTF8&qid=1452147643&sr=8-1&keywords=sparql`が右寄せで表示されること
-
-##### Relation の Type 定義の変更
-
-1.  Editor2 を選択
-2.  Relation モードにする
-3.  `Show label list editor [Q]`ボタンをクリックする
-4.  `Edit this type`ボタンをクリックする
-5.  `Id`欄に`Lig`を入力する
-6.  候補に`http://www.yahoo.co.jp`が右寄せで表示されること
-
-#### html の autocompletion_ws 属性は config の autocompletion_ws 属性にまさる
-
-1.  Editor1
-2.  Entity を選択する
-3.  `Change Label[W]`ボタンを押す
-4.  既存の id を消す
-5.  `par`を入力
-6.  候補に`parent@http://dbpedia.org/ontology/parent`が右寄せで表示されること
 
 ## DenotationSpan が親で StyleSpan が子のとき、さらにその親 DenotationSpan があるとき、StyleSpan 上で mousedown して、DenotationSpan 上で mouseup する
 
