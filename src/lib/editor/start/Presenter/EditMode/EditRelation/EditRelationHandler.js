@@ -8,7 +8,8 @@ export default class EditRelationHandler extends DefaultHandler {
     definitionContainer,
     commander,
     annotationData,
-    selectionModel
+    selectionModel,
+    typeValuesPallet
   ) {
     super(
       editor,
@@ -16,7 +17,8 @@ export default class EditRelationHandler extends DefaultHandler {
       definitionContainer,
       commander,
       annotationData,
-      selectionModel.relation
+      selectionModel.relation,
+      typeValuesPallet
     )
 
     this._editor = editor

@@ -8,7 +8,8 @@ export default class EditBlockHandler extends DefaultHandler {
     definitionContainer,
     commander,
     annotationData,
-    selectionModel
+    selectionModel,
+    typeValuesPallet
   ) {
     super(
       editor,
@@ -16,7 +17,8 @@ export default class EditBlockHandler extends DefaultHandler {
       definitionContainer,
       commander,
       annotationData,
-      selectionModel.entity
+      selectionModel.entity,
+      typeValuesPallet
     )
 
     this._editor = editor

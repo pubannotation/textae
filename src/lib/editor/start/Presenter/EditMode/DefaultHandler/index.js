@@ -8,7 +8,8 @@ export default class DefaultHandler {
     definitionContainer,
     commander,
     annotationData,
-    selectionModelItems
+    selectionModelItems,
+    typeValuesPallet
   ) {
     this._annotationType = annotationType
     this._definitionContainer = definitionContainer
@@ -17,7 +18,8 @@ export default class DefaultHandler {
       commander,
       annotationData,
       selectionModelItems,
-      new SelectionAttributePallet(editor)
+      new SelectionAttributePallet(editor),
+      typeValuesPallet
     )
   }
 

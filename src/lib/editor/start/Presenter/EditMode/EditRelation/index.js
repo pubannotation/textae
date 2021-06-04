@@ -28,7 +28,8 @@ export default class EditRelation extends Edit {
       annotationData.typeDefinition.relation,
       commander,
       annotationData,
-      selectionModel
+      selectionModel,
+      relationPallet
     )
 
     super(

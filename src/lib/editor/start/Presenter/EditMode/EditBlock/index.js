@@ -40,7 +40,8 @@ export default class EditBlock extends Edit {
       annotationData.typeDefinition.block,
       commander,
       annotationData,
-      selectionModel
+      selectionModel,
+      blockPallet
     )
 
     super(

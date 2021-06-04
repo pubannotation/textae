@@ -7,13 +7,15 @@ export default class AttributeEditor {
     commander,
     annotationData,
     selectionModelItems,
-    selectionAttributePallet
+    selectionAttributePallet,
+    typeValuesPallet
   ) {
     this._commander = commander
     this._annotationData = annotationData
     this._selectionModelItems = selectionModelItems
     this._selectionAttributePallet = selectionAttributePallet
     this._typeDefinition = annotationData.typeDefinition
+    this._typeValuesPallet = typeValuesPallet
   }
 
   addOrEditAt(number) {
