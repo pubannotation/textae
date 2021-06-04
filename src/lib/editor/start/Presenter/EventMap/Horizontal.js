@@ -5,6 +5,7 @@ export default class Horizontal {
   }
 
   left(shiftKey) {
+    console.log('left')
     const nextSpan = this._searchLeft('.textae-editor__span')
     if (nextSpan) {
       if (shiftKey) {
@@ -18,6 +19,7 @@ export default class Horizontal {
     const nextEntity = this._searchLeft(
       '.textae-editor__grid .textae-editor__signboard'
     )
+    console.log('nextEntity', nextEntity)
     if (nextEntity) {
       if (shiftKey) {
         this._selectionModel.entity.add(nextEntity.dataset.id)
@@ -52,8 +54,10 @@ export default class Horizontal {
 
   _searchLeft(selector) {
     const elements = this._editor[0].querySelectorAll(selector)
-    const firstSelectedIndex = [...elements].findIndex((el) =>
-      el.classList.contains('ui-selected')
+    const firstSelectedIndex = [...elements].findIndex(
+      (el) =>
+        el.classList.contains('ui-selected') ||
+        el.classList.contains('textae-editor__signboard--selected')
     )
 
     if (firstSelectedIndex > 0) {
@@ -65,7 +69,11 @@ export default class Horizontal {
     const elements = this._editor[0].querySelectorAll(selector)
     const lastSelectedIndex = [...elements]
       .reverse()
-      .findIndex((el) => el.classList.contains('ui-selected'))
+      .findIndex(
+        (el) =>
+          el.classList.contains('ui-selected') ||
+          el.classList.contains('textae-editor__signboard--selected')
+      )
 
     if (elements.length - lastSelectedIndex > 0) {
       return elements[elements.length - lastSelectedIndex]

@@ -100,9 +100,13 @@ export default class EventMap {
   }
 
   selectLeft(shiftKey) {
+    console.log('hi')
     if (this._editMode.isTypeValuesPalletShown) {
+      console.log('hi1 ')
       this._editMode.selectLeftAttributeTab()
     } else {
+      console.log('hi2')
+
       this._horizontal.left(shiftKey)
     }
   }

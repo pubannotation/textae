@@ -15,7 +15,7 @@ export default class Vertical {
 
   down() {
     const selectedEntityHtmlelement = this._editor[0].querySelector(
-      '.textae-editor__signboard.ui-selected'
+      '.textae-editor__signboard--selected'
     )
 
     if (selectedEntityHtmlelement) {
