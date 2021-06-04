@@ -3,7 +3,7 @@ import bindMouseEvents from './bindMouseEvents'
 import MouseEventHandler from './MouseEventHandler'
 import Edit from '../Edit'
 import EditBlockHandler from './EditBlockHandler'
-import EntityAndAttributePallet from '../../../../../component/EntityAndAttributePallet'
+import TypeValuesPallet from '../../../../../component/TypeValuesPallet'
 
 export default class EditBlock extends Edit {
   constructor(
@@ -25,7 +25,7 @@ export default class EditBlock extends Edit {
       selectionModel
     )
 
-    const blockPallet = new EntityAndAttributePallet(
+    const blockPallet = new TypeValuesPallet(
       editor,
       originalData,
       annotationData,

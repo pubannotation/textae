@@ -4,7 +4,7 @@ import bindAttributeEvent from './bindAttributeEvent'
 import createContentHtml from './createContentHtml'
 import enableDrag from './enableDrag'
 
-export default class EntityAndAttributePallet extends Pallet {
+export default class TypeValuesPallet extends Pallet {
   constructor(
     editor,
     originalData,

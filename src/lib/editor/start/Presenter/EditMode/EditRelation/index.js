@@ -2,7 +2,7 @@ import EditRelationHandler from './EditRelationHandler'
 import bindMouseEvents from './bindMouseEvents'
 import MouseEventHandler from './MouseEventHandler'
 import Edit from '../Edit'
-import EntityAndAttributePallet from '../../../../../component/EntityAndAttributePallet'
+import TypeValuesPallet from '../../../../../component/TypeValuesPallet'
 
 export default class EditRelation extends Edit {
   constructor(
@@ -13,7 +13,7 @@ export default class EditRelation extends Edit {
     originalData,
     autocompletionWs
   ) {
-    const relationPallet = new EntityAndAttributePallet(
+    const relationPallet = new TypeValuesPallet(
       editor,
       originalData,
       annotationData,

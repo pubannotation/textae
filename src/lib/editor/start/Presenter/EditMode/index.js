@@ -164,7 +164,7 @@ export default class EditMode {
     this._selectionModel.removeAll()
   }
 
-  get isEntityAndAttributePalletShown() {
+  get isTypeValuesPalletShown() {
     return (
       this._editDenotation.pallet.visibly ||
       this._editBlock.pallet.visibly ||

@@ -3,7 +3,7 @@ import MouseEventHandler from './MouseEventHandler'
 import SpanEditor from './SpanEditor'
 import Edit from '../Edit'
 import bindMouseEvents from './bindMouseEvents'
-import EntityAndAttributePallet from '../../../../../component/EntityAndAttributePallet'
+import TypeValuesPallet from '../../../../../component/TypeValuesPallet'
 
 export default class EditDenotation extends Edit {
   constructor(
@@ -16,7 +16,7 @@ export default class EditDenotation extends Edit {
     originalData,
     autocompletionWs
   ) {
-    const denotationPallet = new EntityAndAttributePallet(
+    const denotationPallet = new TypeValuesPallet(
       editor,
       originalData,
       annotationData,
