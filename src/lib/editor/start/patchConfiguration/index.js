@@ -12,5 +12,14 @@ export default function (annotation, config) {
     annotation.attributes
   ).configuration
 
+  if (annotation.tracks) {
+    for (const track of annotation.tracks) {
+      config['attribute types'] = new AttributeConfigurationGenerator(
+        config['attribute types'],
+        track.attributes
+      ).configuration
+    }
+  }
+
   return config
 }
