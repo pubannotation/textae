@@ -22,14 +22,31 @@ function template(context) {
 }
 
 export default class EditStringAttributeDialog extends PromiseDialog {
-  constructor(attribute, attrDef) {
+  constructor(attribute, attrDef, pallet) {
+    const buttons = [
+      {
+        text: 'OK',
+        click: () => this.close()
+      }
+    ]
+
+    if (pallet) {
+      buttons.unshift({
+        text: 'Show label list editor',
+        click: () => {
+          this.close()
+          pallet.show()
+        }
+      })
+    }
+
     super(
       'Please edit string',
       template({
         pred: attribute.pred,
         value: attribute.obj
       }),
-      { height: 250 },
+      { height: 250, buttons },
       () => {
         const input = super.el.querySelector(
           '.textae-editor__edit-value-and-pred-dialog--value'

@@ -1,7 +1,13 @@
 import EditStringAttributeDialog from '../../../component/EditStringAttributeDialog'
 
-export default function (selectionModelEntity, attribute, commander, attrDef) {
-  new EditStringAttributeDialog(attribute, attrDef)
+export default function (
+  selectionModelEntity,
+  attribute,
+  commander,
+  attrDef,
+  pallet
+) {
+  new EditStringAttributeDialog(attribute, attrDef, pallet)
     .open()
     .then(({ newObj, newLabel }) => {
       if (newObj) {

@@ -81,7 +81,8 @@ export default class AttributeEditor {
         createStringAttributeOrShowEditStringAttributeDialog(
           this._selectionModelItems,
           attrDef,
-          this._commander
+          this._commander,
+          this._typeValuesPallet
         )
         break
       default:
