@@ -7,7 +7,7 @@ import SelectionAttributePallet from '../SelectionAttributePallet'
 import EditNumericAttributeDialog from '../EditNumericAttributeDialog'
 import EditStringAttributeDialog from '../EditStringAttributeDialog'
 
-export default class EditEntityDialog extends PromiseDialog {
+export default class EditTypeValuesDialog extends PromiseDialog {
   constructor(
     editor,
     entityContainer,

@@ -1,5 +1,5 @@
 import DefaultHandler from '../DefaultHandler'
-import EditEntityDialog from '../../../../../component/EditEntityDialog'
+import EditTypeValuesDialog from '../../../../../component/EditTypeValuesDialog'
 import mergedTypeValuesOf from '../mergedTypeValuesOf'
 
 export default class EditRelationHandler extends DefaultHandler {
@@ -28,7 +28,7 @@ export default class EditRelationHandler extends DefaultHandler {
 
   editTypeValues(autocompletionWs) {
     if (this._selectionModel.relation.some) {
-      new EditEntityDialog(
+      new EditTypeValuesDialog(
         this._editor,
         this._definitionContainer,
         this._annotationData.typeDefinition.attribute,

@@ -1,4 +1,4 @@
-import EditEntityDialog from '../../../../../component/EditEntityDialog'
+import EditTypeValuesDialog from '../../../../../component/EditTypeValuesDialog'
 import mergedTypeValuesOf from '../mergedTypeValuesOf'
 import DefaultHandler from '../DefaultHandler'
 
@@ -28,7 +28,7 @@ export default class EditBlockHandler extends DefaultHandler {
 
   editTypeValues(autocompletionWs) {
     if (this._selectionModel.entity.some) {
-      new EditEntityDialog(
+      new EditTypeValuesDialog(
         this._editor,
         this._definitionContainer,
         this._annotationData.typeDefinition.attribute,
