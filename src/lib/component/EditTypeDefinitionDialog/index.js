@@ -29,7 +29,7 @@ export default class EditTypeDefinitionDialog extends TypeDefinitionDialog {
     }
 
     super(
-      'Please edit the type',
+      'Edit type',
       beforeChange,
       definitionContainer,
       autocompletionWs,
