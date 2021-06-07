@@ -8,7 +8,7 @@ const componentClassName = `textae-editor__create-attribute-definition-dialog`
 export default class CreateAttributeDefinitionDialog extends PromiseDialog {
   constructor() {
     super(
-      'Please enter new attribute definition',
+      'New attribute',
       template(componentClassName, { valueType: 'flag' }),
       {},
       () => {
