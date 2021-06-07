@@ -13,7 +13,7 @@ export default class ViewHandler {
   }
 
   // Dummy funtion for shotcut key 'w'.
-  changeInstance() {}
+  editTypeValues() {}
 
   // Dummy funtion for shotcut key '1' ~ '9'.
   manipulateAttribute() {}

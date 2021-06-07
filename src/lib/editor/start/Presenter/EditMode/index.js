@@ -145,7 +145,7 @@ export default class EditMode {
   }
 
   editTypeValues() {
-    this._getHandler().changeInstance(
+    this._getHandler().editTypeValues(
       this._autocompletionWsFromParams ||
         this._annotationData.typeDefinition.autocompletionWs
     )

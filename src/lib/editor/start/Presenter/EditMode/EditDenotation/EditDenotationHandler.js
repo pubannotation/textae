@@ -26,7 +26,7 @@ export default class EditDenotationHandler extends DefaultHandler {
     this._selectionModel = selectionModel
   }
 
-  changeInstance(autocompletionWs) {
+  editTypeValues(autocompletionWs) {
     if (this._selectionModel.entity.some) {
       new EditEntityDialog(
         this._editor,
