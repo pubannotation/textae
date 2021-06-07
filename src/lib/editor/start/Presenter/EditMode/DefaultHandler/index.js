@@ -83,7 +83,7 @@ export default class DefaultHandler {
   }
 
   _typeValuesChanged({ typeName, label, attributes = [] }) {
-    const commands = this._commander.factory.changeItemTypeCommand(
+    const commands = this._commander.factory.changeTypeValuesCommand(
       label,
       typeName,
       this._definitionContainer,

@@ -63,7 +63,7 @@ export default class Factory {
     )
   }
 
-  changeItemTypeCommand(label, value, definitionContainer, attributes) {
+  changeTypeValuesCommand(label, value, definitionContainer, attributes) {
     return new ChangeItemTypeCommand(
       this._editor,
       this._annotationData,
