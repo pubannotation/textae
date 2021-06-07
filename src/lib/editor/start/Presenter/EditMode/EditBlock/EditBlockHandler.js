@@ -1,5 +1,4 @@
 import EditTypeValuesDialog from '../../../../../component/EditTypeValuesDialog'
-import mergedTypeValuesOf from '../mergedTypeValuesOf'
 import DefaultHandler from '../DefaultHandler'
 
 export default class EditBlockHandler extends DefaultHandler {
@@ -35,7 +34,7 @@ export default class EditBlockHandler extends DefaultHandler {
         this._definitionContainer,
         this._annotationData.typeDefinition.attribute,
         this._getAutocompletionWs(),
-        mergedTypeValuesOf(this._selectionModel.entity.all)
+        this._selectionModel.entity.all
       )
         .open()
         .then((values) => this._typeValuesChanged(values))

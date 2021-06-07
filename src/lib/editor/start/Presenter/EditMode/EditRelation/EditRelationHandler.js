@@ -1,6 +1,5 @@
 import DefaultHandler from '../DefaultHandler'
 import EditTypeValuesDialog from '../../../../../component/EditTypeValuesDialog'
-import mergedTypeValuesOf from '../mergedTypeValuesOf'
 
 export default class EditRelationHandler extends DefaultHandler {
   constructor(
@@ -35,7 +34,7 @@ export default class EditRelationHandler extends DefaultHandler {
         this._definitionContainer,
         this._annotationData.typeDefinition.attribute,
         this._getAutocompletionWs(),
-        mergedTypeValuesOf(this._selectionModel.relation.all)
+        this._selectionModel.relation.all
       )
         .open()
         .then((values) => this._typeValuesChanged(values))

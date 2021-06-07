@@ -6,6 +6,7 @@ import createContentHTML from './createContentHTML'
 import SelectionAttributePallet from '../SelectionAttributePallet'
 import EditNumericAttributeDialog from '../EditNumericAttributeDialog'
 import EditStringAttributeDialog from '../EditStringAttributeDialog'
+import mergedTypeValuesOf from '../../editor/start/Presenter/EditMode/mergedTypeValuesOf'
 
 export default class EditTypeValuesDialog extends PromiseDialog {
   constructor(
@@ -13,9 +14,9 @@ export default class EditTypeValuesDialog extends PromiseDialog {
     entityContainer,
     attributeContainer,
     autocompletionWs,
-    typeValues
+    selectedItems
   ) {
-    const { typeName, attributes } = typeValues
+    const { typeName, attributes } = mergedTypeValuesOf(selectedItems)
     const contentHtml = createContentHTML(
       typeName,
       attributes,
