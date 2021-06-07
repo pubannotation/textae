@@ -22,13 +22,23 @@ function template(context) {
 }
 
 export default class EditStringAttributeDialog extends PromiseDialog {
-  constructor(attribute, attrDef, pallet) {
+  constructor(attribute, attrDef, editTypeValues, pallet) {
     const buttons = [
       {
         text: 'OK',
         click: () => this.close()
       }
     ]
+
+    if (editTypeValues) {
+      buttons.unshift({
+        text: 'Change label',
+        click: () => {
+          this.close()
+          editTypeValues()
+        }
+      })
+    }
 
     if (pallet) {
       buttons.unshift({

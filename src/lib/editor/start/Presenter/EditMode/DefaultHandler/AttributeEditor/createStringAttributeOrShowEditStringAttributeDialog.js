@@ -1,7 +1,13 @@
 import alertifyjs from 'alertifyjs'
 import openEditStringAttributeDialog from '../../../openEditStringAttributeDialog'
 
-export default function (selectionModelItems, attrDef, commander, pallet) {
+export default function (
+  selectionModelItems,
+  attrDef,
+  commander,
+  editTypeValues,
+  pallet
+) {
   const attribute = selectionModelItems.findSelectedAttributeWithSamePredicate(
     attrDef.pred
   )
@@ -16,6 +22,7 @@ export default function (selectionModelItems, attrDef, commander, pallet) {
         attribute,
         commander,
         attrDef,
+        editTypeValues,
         pallet
       )
     } else {

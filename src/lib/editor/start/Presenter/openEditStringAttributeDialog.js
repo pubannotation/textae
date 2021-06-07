@@ -5,9 +5,10 @@ export default function (
   attribute,
   commander,
   attrDef,
+  editTypeValues,
   pallet
 ) {
-  new EditStringAttributeDialog(attribute, attrDef, pallet)
+  new EditStringAttributeDialog(attribute, attrDef, editTypeValues, pallet)
     .open()
     .then(({ newObj, newLabel }) => {
       if (newObj) {

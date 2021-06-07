@@ -85,6 +85,7 @@ export default class AttributeEditor {
           this._selectionModelItems,
           attrDef,
           this._commander,
+          this._editTypeValues,
           this._typeValuesPallet
         )
         break
