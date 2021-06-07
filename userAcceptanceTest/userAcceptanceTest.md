@@ -184,27 +184,6 @@
 3.  Ctrl を押しながら新しく作った Relation のラベルをクリック
 4.  両方の Relation が選択されること
 
-## URL からアノテーション読込
-
-### URL が指定されていなければ Open ボタンを押せない
-
-1.  アノテーション読込ダイアログを開く
-2.  URL 欄が空の時は`Open`ボタンは無効
-3.  Local のファイルが選択されていない時は`Open`ボタンは無効
-
-### 存在しないアノテーションを読み込む
-
-#### 背景
-
-1.  読み込み失敗時のメッセージが素っ気なかった
-2.  4.1.12 から優しくなりました
-
-#### -- 手段 --
-
-1.  存在しないファイルを読み込む
-2.  赤いトーストが表示されること
-3.  `Could not load the file from the location you specified.:`が表示されること
-
 ## URL からはテキストファイルのアノテーションは読み込めない
 
 ### 背景
@@ -389,24 +368,6 @@
 9.  `denote` タブを選ぶ
 10. `Delete this predicate.`ボタンが無効であること
 11. `Edit this predicate.`ボタンが無効であること
-
-## Block モードで、Body クリックでパレットが閉じる
-
-### 背景
-
-1.  6.2.75 で Block モードに対応しました
-2.  BlockSpan のクリックイベントにパレットを閉じる処理がぬけていました
-3.  6.4.61 で対応
-
-### -- 手段 --
-
-1.  Block モードにする
-2.  `Show label list editor [Q]`ボタンをクリックする
-3.  パレットが開くこと
-4.  行間をクリックする
-5.  パレットが閉じること
-6.  BlockSpan のすぐ上をクリックする
-7.  パレットが閉じること
 
 ## Entity をホバーしたときの見た目
 
@@ -764,27 +725,6 @@
 4.  最大 500px まで選べること
 5.  設定した値に応じて行の高さが変わること
 6.  行の高さに合わせて Grid が移動すること
-
-## Attribute 定義追加ダイアログで flag attribute の label と color を設定する
-
-### 背景
-
-1. Attribute 定義追加ダイアログを開いたときは Attribute type に`flag`が選択されています
-2. flag attribute は label と color を持ちますが、label と color の入力欄が表示されません
-3. 6.4.95 で Attribute type を一度別の値に変更して、`flag`に戻すと表示されるようになりました
-4. 6.4.99 で Attribute 定義追加ダイアログを開いたときに、label と color の入力欄欄を表示します
-5. label と color は入力欄を表示するだけで、作成した flag attribute の定義には反映していませんでした
-6. 6.4.103 で対応しました
-
-### -- 手段 --
-
-1. Term モードにする
-2. `q`キーを押してパレットを開く
-3. Attribute 定義追加タブをクリック
-4. Attribute 定義追加ダイアログが開くこと
-5. Attribute 定義追加ダイアログに label 欄と color 欄があること
-6. `pred`, `label`, `color`を入力して`OK`ボタンをおす
-7. 作成した flag attribute の定義に`pred`, `label`, `color`が反映されていること
 
 ## 行の高さ自動調整
 
@@ -1150,28 +1090,6 @@
 6.  `par`を入力
 7.  候補に`parent@http://dbpedia.org/ontology/parent`が表示されること
 8.  ダイアログに横スクロールバー表示されないこと
-
-## パレットから Selection Attribute の Value を連続的に変更できる
-
-### 背景
-
-1. jQueryUI Draggable Widget を使ってパレットをドラッグアンドドロップで移動できるようにしています
-2. パレットでラベルをクリックして Entity と Relation のタイプを変えるとき、セレクション Attribute の Value を変えることができます
-3. このときに、マウスダウンからマウスアップまでの間に、マウスを少しでも動かすとドラッグアンドドロップになり、ラベルがクリックできません
-4. 特に、マウスカーソルを移動しながら、ラベルをクリックしようとするときに上記現象が起きやすく、マウスカーソルの移動をいったん止めないと、確実なラベルクリックができません
-5. 6.4.33 で、マウスダウンしながら 10 ピクセル以上移動しなければ、パレットを移動できなくしました
-
-### -- 手段 --
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  DenotationEntity を選択する
-4.  パレットを開く
-5.  denote タブを選択する
-6.  マウスカーソルを移動しながらテーブル上の selection attribute label を次々と変更する
-7.  選択した DenotationEntity の Attribute がクリックに応じて変更されること
-8.  selection attribute label をマウスダウンしたまま、カーソルを移動する
-9.  パレットを移動できること
 
 ## パレットからは重複した Selection Attribute をもつ Entity の Obcjet を変更できない
 
@@ -1830,29 +1748,3 @@
 5.  親 DenotationSpan を選択解除する
 6.  親 DenotationSpan 上で mousedown し、DenotationSpan 内の StyleSpan 上で mouseup する
 7.  アラートが表示され、DenotationSpan が縮まらないこと
-
-## StyleSpan 上で mouseup して、Span を伸ばす
-
-### 背景
-
-1.  6.1.38 で親子 DenotationSpan の子 DenotationSpan で mousedown して、親 DenotationSpan 内の StyleSpan 上で mouseup すると、親 span がちぢむ現象に対応
-
-### Span 上で mousedown して、StyleSpan 上で mouseup して、Span を伸ばす
-
-#### `Boundary Detection` 有効
-
-1.  Editor1 を選択
-2.  `Boundary Detection`ボタンを押下状態にする
-3.  StyleSpan の隣に DenotationSpan を作成する
-4.  上の StyleSpan と DenotationSpan 両方を含む親 DenotationSpan を作る
-5.  DenotationSpan 上で mousedown し、StyleSpan 上で mouseup して、DenotationSpan を伸ばす
-6.  DenotationSpan が伸びること
-
-#### `Boundary Detection` 無効
-
-1.  Editor1 を選択
-2.  `Boundary Detection`ボタンを押下状態にする
-3.  StyleSpan の隣に DenotationSpan を作成する
-4.  上の StyleSpan と DenotationSpan 両方を含む親 DenotationSpan を作る
-5.  DenotationSpan 上で mousedown し、StyleSpan 上で mouseup して、DenotationSpan を伸ばす
-6.  アラートが表示され、Span が伸びないこと
