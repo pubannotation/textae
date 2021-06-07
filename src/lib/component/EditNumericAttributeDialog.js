@@ -37,7 +37,7 @@ function template(context) {
 }
 
 export default class EditNumericAttributeDialog extends PromiseDialog {
-  constructor(attrDef, attribute, deletable, pallet) {
+  constructor(attrDef, attribute, deletable, editTypeValues, pallet) {
     const bind = (dialog, resolve) => {
       delegate(
         dialog.el,
@@ -56,6 +56,16 @@ export default class EditNumericAttributeDialog extends PromiseDialog {
         click: () => this.close()
       }
     ]
+
+    if (editTypeValues) {
+      buttons.unshift({
+        text: 'Change label',
+        click: () => {
+          this.close()
+          editTypeValues()
+        }
+      })
+    }
 
     if (pallet) {
       buttons.unshift({

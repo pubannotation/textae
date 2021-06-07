@@ -6,9 +6,16 @@ export default function (
   attribute,
   commander,
   deletable,
+  editTypeValues,
   pallet
 ) {
-  new EditNumericAttributeDialog(attrDef, attribute, deletable, pallet)
+  new EditNumericAttributeDialog(
+    attrDef,
+    attribute,
+    deletable,
+    editTypeValues,
+    pallet
+  )
     .open()
     .then(({ newObj }) => {
       const command = newObj
