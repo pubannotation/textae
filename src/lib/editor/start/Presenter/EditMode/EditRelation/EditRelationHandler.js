@@ -28,7 +28,7 @@ export default class EditRelationHandler extends DefaultHandler {
     this._getAutocompletionWs = getAutocompletionWs
   }
 
-  editTypeValues(autocompletionWs) {
+  editTypeValues() {
     if (this._selectionModel.relation.some) {
       new EditTypeValuesDialog(
         this._editor,

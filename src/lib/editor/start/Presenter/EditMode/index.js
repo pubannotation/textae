@@ -145,10 +145,7 @@ export default class EditMode {
   }
 
   editTypeValues() {
-    this._getHandler().editTypeValues(
-      this._autocompletionWsFromParams ||
-        this._annotationData.typeDefinition.autocompletionWs
-    )
+    this._getHandler().editTypeValues()
   }
 
   manipulateAttribute(number, shiftKey) {
