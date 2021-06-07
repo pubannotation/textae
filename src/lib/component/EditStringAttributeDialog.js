@@ -51,7 +51,7 @@ export default class EditStringAttributeDialog extends PromiseDialog {
     }
 
     super(
-      'Please edit string',
+      'String attribute',
       template({
         pred: attribute.pred,
         value: attribute.obj
