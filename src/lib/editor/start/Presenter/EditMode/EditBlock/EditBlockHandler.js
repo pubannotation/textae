@@ -9,7 +9,8 @@ export default class EditBlockHandler extends DefaultHandler {
     commander,
     annotationData,
     selectionModel,
-    typeValuesPallet
+    typeValuesPallet,
+    getAutocompletionWs
   ) {
     super(
       editor,

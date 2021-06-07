@@ -35,17 +35,18 @@ export default class EditBlock extends Edit {
       'Entity configuration'
     )
 
+    const getAutocompletionWs = () =>
+      autocompletionWs || annotationData.typeDefinition.autocompletionWs
+
     const handler = new EditBlockHandler(
       editor,
       annotationData.typeDefinition.block,
       commander,
       annotationData,
       selectionModel,
-      blockPallet
+      blockPallet,
+      getAutocompletionWs
     )
-
-    const getAutocompletionWs = () =>
-      autocompletionWs || annotationData.typeDefinition.autocompletionWs
 
     super(
       editor,
