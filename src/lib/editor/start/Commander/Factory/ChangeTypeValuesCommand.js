@@ -2,7 +2,7 @@ import CompositeCommand from './CompositeCommand'
 import ChangeTypeNameAndAttributeOfSelectedItemsCommand from './ChangeTypeNameAndAttributeOfSelectedItemsCommand'
 import createChangeConfigCommand from './createChangeConfigCommand'
 
-export default class ChangeItemTypeCommand extends CompositeCommand {
+export default class ChangeTypeValuesCommand extends CompositeCommand {
   constructor(
     editor,
     annotationData,

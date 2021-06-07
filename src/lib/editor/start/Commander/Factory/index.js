@@ -2,7 +2,7 @@ import { CreateCommand } from './commandTemplate'
 import AddValueToAttributeDefinitionCommand from './AddValueToAttributeDefinitionCommand'
 import ChangeAttributeDefinitionAndRefectInstancesCommand from './ChangeAttributeDefinitionAndRefectInstancesCommand'
 import ChangeAttributeOfItemsCommand from './ChangeAttributeOfItemsCommand'
-import ChangeItemTypeCommand from './ChangeItemTypeCommand'
+import ChangeTypeValuesCommand from './ChangeTypeValuesCommand'
 import ChangeTypeDefinitionAndRefectInstancesCommand from './ChangeTypeDefinitionAndRefectInstancesCommand'
 import ChangeTypeOfSelectedItemsCommand from './ChangeTypeOfSelectedItemsCommand'
 import ChangeValueOfAttributeDefinitionAndObjectOfAttributeCommand from './ChangeValueOfAttributeDefinitionAndObjectOfAttributeCommand'
@@ -64,7 +64,7 @@ export default class Factory {
   }
 
   changeTypeValuesCommand(label, value, definitionContainer, attributes) {
-    return new ChangeItemTypeCommand(
+    return new ChangeTypeValuesCommand(
       this._editor,
       this._annotationData,
       this._selectionModel,
