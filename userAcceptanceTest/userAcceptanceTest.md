@@ -1856,33 +1856,3 @@
 4.  上の StyleSpan と DenotationSpan 両方を含む親 DenotationSpan を作る
 5.  DenotationSpan 上で mousedown し、StyleSpan 上で mouseup して、DenotationSpan を伸ばす
 6.  アラートが表示され、Span が伸びないこと
-
-## Term モードで DenotationSpan 上で mousedown して StyleSpan 上で mouseup してエラーが起きない
-
-### 背景
-
-1.  6.2.43 で発生
-2.  6.3.20 で対応
-
-### -- 手段 --
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  DenotationSpan 上で mousedown して、StypleSpan 上で mouseup する
-4.  エラーが起きないこと
-
-## Term モードで BlockSpan 上で mousedown して StyleSpan 上で mouseup してエラーが起きない
-
-### 背景
-
-1.  6.2.0 で関数名を Typo して発生
-2.  6.3.18 で対応
-
-### -- 手段 --
-
-1.  Editor1 を選択
-2.  Block モードにする
-3.  StyleSpan の隣に BlockSpan を作成する
-4.  Term モードにする
-5.  BlockSpan 中のテキスト上で mousedown して、StypleSpan 上で mouseup する
-6.  エラーが起きないこと
