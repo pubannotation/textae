@@ -44,6 +44,9 @@ export default class EditBlock extends Edit {
       blockPallet
     )
 
+    const getAutocompletionWs = () =>
+      autocompletionWs || annotationData.typeDefinition.autocompletionWs
+
     super(
       editor,
       bindMouseEvents,
@@ -57,7 +60,7 @@ export default class EditBlock extends Edit {
       handler,
       blockPallet,
       commander,
-      () => autocompletionWs || annotationData.typeDefinition.autocompletionWs,
+      getAutocompletionWs,
       annotationData.typeDefinition.block
     )
   }
