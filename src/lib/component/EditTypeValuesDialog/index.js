@@ -6,7 +6,7 @@ import createContentHTML from './createContentHTML'
 import SelectionAttributePallet from '../SelectionAttributePallet'
 import EditNumericAttributeDialog from '../EditNumericAttributeDialog'
 import EditStringAttributeDialog from '../EditStringAttributeDialog'
-import mergedTypeValuesOf from '../../editor/start/Presenter/EditMode/mergedTypeValuesOf'
+import mergedTypeValuesOf from './mergedTypeValuesOf'
 
 export default class EditTypeValuesDialog extends PromiseDialog {
   constructor(
