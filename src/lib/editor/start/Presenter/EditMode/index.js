@@ -63,7 +63,6 @@ export default class EditMode {
       () => (this._listeners = this._editRelation.init())
     )
 
-    this._autocompletionWsFromParams = autocompletionWs
     this._selectionModel = selectionModel
 
     editor.eventEmitter.on(
