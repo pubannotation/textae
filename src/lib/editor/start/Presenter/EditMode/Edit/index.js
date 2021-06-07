@@ -25,14 +25,6 @@ export default class Edit {
       definitionContainer
     )
 
-    editor.eventEmitter
-      .on('textae-event.editor.unselect', () => pallet.hide()) // Close pallet when selecting other editor.
-      .on('textae-event.history.change', () => pallet.updateDisplay()) // Update save config button when changing history and savigng configuration.
-      .on('textae-event.data-access-object.configuration.save', () =>
-        pallet.updateDisplay()
-      )
-      .on(`textae-event.type-definition.lock`, () => pallet.updateDisplay())
-
     editor[0].appendChild(pallet.el)
   }
 
