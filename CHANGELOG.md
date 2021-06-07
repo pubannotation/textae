@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.10.0](https://github.com/pubannotation/textae/compare/v7.9.0...v7.10.0) (2021-06-07)
+
+
+### Features
+
+* Added Open Palette button to the Edit Numerical Attributes dialog ([fa58f36](https://github.com/pubannotation/textae/commit/fa58f36a094d0bd54d54ba055e51368e3fa7ec27))
+* Added Open Palette button to the Edit String Attributes dialog ([bba6e3c](https://github.com/pubannotation/textae/commit/bba6e3c05ee87905b0e7ef2dda16d663dbe8eb91))
+* Generate attribute definitions from the attributes in the annotation track ([c9f1ee9](https://github.com/pubannotation/textae/commit/c9f1ee90bf9fa821e88d90a58229a437642a4d53))
+* Open the SelectionAttributePallet instead of the Palette from shortcut keys ([42232f1](https://github.com/pubannotation/textae/commit/42232f11898cd68cdec95d9e972f8a724b1321ac))
+* Set the label of the string attribute completed by autocomplete from the Edit Entity dialog ([335001e](https://github.com/pubannotation/textae/commit/335001ec1bf6e9a880c16a43f5b054577230f448))
+
+
+### Bug Fixes
+
+* Changing the selection with the cursor keys while selecting an Entity is not working ([0ec5d84](https://github.com/pubannotation/textae/commit/0ec5d84571aadedd692d9e42627717e65c7b9b99))
+* If you mouse down on a block span and mouse up on a denotation span in the block span, it will shrink from the other side ([04619ec](https://github.com/pubannotation/textae/commit/04619ec1eb4a75066ecbea6b06b74d5d44663eff))
+* Leftward relations enter the target endpoint on the left side of the target entity ([4b3fd2d](https://github.com/pubannotation/textae/commit/4b3fd2d4a6db45a8b1528934af012bbb2760d233))
+
 ## [7.9.0](https://github.com/pubannotation/textae/compare/v7.8.0...v7.9.0) (2021-06-02)
 
 
