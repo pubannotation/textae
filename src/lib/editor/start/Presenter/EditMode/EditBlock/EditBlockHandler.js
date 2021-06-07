@@ -25,6 +25,7 @@ export default class EditBlockHandler extends DefaultHandler {
     this._editor = editor
     this._selectionModel = selectionModel
     this._annotationData = annotationData
+    this._getAutocompletionWs = getAutocompletionWs
   }
 
   editTypeValues(autocompletionWs) {
@@ -33,7 +34,7 @@ export default class EditBlockHandler extends DefaultHandler {
         this._editor,
         this._definitionContainer,
         this._annotationData.typeDefinition.attribute,
-        autocompletionWs,
+        this._getAutocompletionWs(),
         mergedTypeValuesOf(this._selectionModel.entity.all)
       )
         .open()
