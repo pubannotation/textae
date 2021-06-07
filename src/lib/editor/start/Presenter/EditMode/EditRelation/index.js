@@ -32,6 +32,9 @@ export default class EditRelation extends Edit {
       relationPallet
     )
 
+    const getAutocompletionWs = () =>
+      autocompletionWs || annotationData.typeDefinition.autocompletionWs
+
     super(
       editor,
       bindMouseEvents,
@@ -45,7 +48,7 @@ export default class EditRelation extends Edit {
       handler,
       relationPallet,
       commander,
-      () => autocompletionWs || annotationData.typeDefinition.autocompletionWs,
+      getAutocompletionWs,
       annotationData.typeDefinition.relation
     )
   }
