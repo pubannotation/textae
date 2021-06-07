@@ -24,7 +24,7 @@ export default class CreateTypeDefinitionDialog extends TypeDefinitionDialog {
     }
 
     super(
-      'Please create a new type',
+      'New type',
       {
         id: null,
         label: '',
