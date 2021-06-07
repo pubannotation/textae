@@ -35,17 +35,18 @@ export default class EditDenotation extends Edit {
       spanConfig
     )
 
+    const getAutocompletionWs = () =>
+      autocompletionWs || annotationData.typeDefinition.autocompletionWs
+
     const handler = new EditDenotationHandler(
       editor,
       annotationData.typeDefinition.denotation,
       commander,
       annotationData,
       selectionModel,
-      denotationPallet
+      denotationPallet,
+      getAutocompletionWs
     )
-
-    const getAutocompletionWs = () =>
-      autocompletionWs || annotationData.typeDefinition.autocompletionWs
 
     super(
       editor,
