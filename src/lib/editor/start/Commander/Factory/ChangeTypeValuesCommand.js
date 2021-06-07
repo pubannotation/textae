@@ -27,7 +27,7 @@ export default class ChangeTypeValuesCommand extends CompositeCommand {
       )
     }
 
-    const changeInstanceCommand =
+    const changeItemsCommand =
       new ChangeTypeNameAndAttributeOfSelectedItemsCommand(
         editor,
         annotationData,
@@ -36,8 +36,8 @@ export default class ChangeTypeValuesCommand extends CompositeCommand {
         value,
         attributes
       )
-    if (!changeInstanceCommand.isEmpty) {
-      commands.push(changeInstanceCommand)
+    if (!changeItemsCommand.isEmpty) {
+      commands.push(changeItemsCommand)
     }
 
     this._subCommands = commands
