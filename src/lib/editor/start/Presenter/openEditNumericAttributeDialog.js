@@ -10,7 +10,7 @@ export default function (
 ) {
   new EditNumericAttributeDialog(attrDef, attribute, deletable, pallet)
     .open()
-    .then(({ newObj, openPallet }) => {
+    .then(({ newObj }) => {
       const command = newObj
         ? commander.factory.changeAttributesOfItemsCommand(
             selectionModelEntity.all,
