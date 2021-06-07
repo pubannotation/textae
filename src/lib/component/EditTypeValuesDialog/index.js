@@ -11,6 +11,7 @@ import mergedTypeValuesOf from './mergedTypeValuesOf'
 export default class EditTypeValuesDialog extends PromiseDialog {
   constructor(
     editor,
+    annotationType,
     entityContainer,
     attributeContainer,
     autocompletionWs,

@@ -31,6 +31,7 @@ export default class EditBlockHandler extends DefaultHandler {
     if (this._selectionModel.entity.some) {
       new EditTypeValuesDialog(
         this._editor,
+        'Block',
         this._definitionContainer,
         this._annotationData.typeDefinition.attribute,
         this._getAutocompletionWs(),
