@@ -19,6 +19,7 @@ export default class DefaultHandler {
       annotationData,
       selectionModelItems,
       new SelectionAttributePallet(editor),
+      () => this.editTypeValues(),
       typeValuesPallet
     )
   }

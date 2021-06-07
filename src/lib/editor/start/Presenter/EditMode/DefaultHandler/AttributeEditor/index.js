@@ -8,6 +8,7 @@ export default class AttributeEditor {
     annotationData,
     selectionModelItems,
     selectionAttributePallet,
+    editTypeValues,
     typeValuesPallet
   ) {
     this._commander = commander
