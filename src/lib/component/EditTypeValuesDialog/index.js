@@ -26,7 +26,9 @@ export default class EditTypeValuesDialog extends PromiseDialog {
     )
 
     super(
-      'Please edit type and attributes',
+      `${annotationType} [${selectedItems
+        .map(({ id }) => id)
+        .join(',')}] Properties`,
       contentHtml,
       {
         minHeight: 300,
