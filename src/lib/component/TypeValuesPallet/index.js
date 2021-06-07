@@ -58,7 +58,7 @@ export default class TypeValuesPallet extends Pallet {
     editor.eventEmitter
       .on('textae-event.editor.unselect', () => this.hide()) // Close pallet when selecting other editor.
       .on('textae-event.history.change', () => this.updateDisplay()) // Update save config button when changing history and savigng configuration.
-      .on('textae-event.data-access-object.configuration.save', () =>
+      .on('textae-event.orginal-data.configuration.reset', () =>
         this.updateDisplay()
       )
       .on(`textae-event.type-definition.lock`, () => this.updateDisplay())
@@ -115,6 +115,11 @@ export default class TypeValuesPallet extends Pallet {
   }
 
   get _content() {
+    console.log(
+      '_content',
+      this._originalData.configuration,
+      this._annotationData.typeDefinition.config
+    )
     return createContentHtml(
       this._definitionContainer.pallet,
       diff(this._originalData.configuration, {
