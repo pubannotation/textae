@@ -78,7 +78,7 @@ export default class EditNumericAttributeDialog extends PromiseDialog {
     }
 
     super(
-      'Please edit number',
+      'Numeric attibute',
       template({
         pred: attribute.pred,
         value: attribute.obj,
