@@ -30,56 +30,63 @@ export default class EditValueOfAttributeDefinitionDialog extends PromiseDialog 
         throw new Error(`${valueType} is Uknown Attribute`)
     }
 
-    super('Please enter new values', template(bindingObject), {}, () => {
-      const rangeOrIdOrPattern = getInputElementValue(
-        super.el,
-        '.textae-editor__add-value-to-attribute-dialog__range_or_id_or_pattern'
-      )
+    super(
+      Object.keys(value).length
+        ? 'Edit attribute values'
+        : 'New attribute value',
+      template(bindingObject),
+      {},
+      () => {
+        const rangeOrIdOrPattern = getInputElementValue(
+          super.el,
+          '.textae-editor__add-value-to-attribute-dialog__range_or_id_or_pattern'
+        )
 
-      const label = getInputElementValue(
-        super.el,
-        '.textae-editor__add-value-to-attribute-dialog__label'
-      )
+        const label = getInputElementValue(
+          super.el,
+          '.textae-editor__add-value-to-attribute-dialog__label'
+        )
 
-      const color = getInputElementValue(
-        super.el,
-        '.textae-editor__add-value-to-attribute-dialog__color'
-      )
+        const color = getInputElementValue(
+          super.el,
+          '.textae-editor__add-value-to-attribute-dialog__color'
+        )
 
-      // Set a key only when there is a value.
-      const ret = {}
-      if (label) {
-        ret.label = label
+        // Set a key only when there is a value.
+        const ret = {}
+        if (label) {
+          ret.label = label
+        }
+        if (color) {
+          ret.color = color
+        }
+
+        switch (valueType) {
+          case 'numeric':
+            ret.range = rangeOrIdOrPattern
+            break
+          case 'selection':
+            ret.id = rangeOrIdOrPattern
+
+            if (
+              super.el.querySelector(
+                '.textae-editor__add-value-to-attribute-dialog__default input'
+              ).checked
+            ) {
+              ret.default = true
+            }
+
+            break
+          case 'string':
+            ret.pattern = rangeOrIdOrPattern
+            break
+          default:
+          // A value type is checked already.
+        }
+
+        return ret
       }
-      if (color) {
-        ret.color = color
-      }
-
-      switch (valueType) {
-        case 'numeric':
-          ret.range = rangeOrIdOrPattern
-          break
-        case 'selection':
-          ret.id = rangeOrIdOrPattern
-
-          if (
-            super.el.querySelector(
-              '.textae-editor__add-value-to-attribute-dialog__default input'
-            ).checked
-          ) {
-            ret.default = true
-          }
-
-          break
-        case 'string':
-          ret.pattern = rangeOrIdOrPattern
-          break
-        default:
-        // A value type is checked already.
-      }
-
-      return ret
-    })
+    )
 
     // validation range
     if (valueType === 'numeric') {
