@@ -43,6 +43,26 @@
   font-weight: bold;
 }
 
+.ui-widget-overlay.textae-editor__load-dialog__overlay-dropzone--maximized {
+  background-color: #eee;
+  background-image: none;
+  opacity: 0.8;
+  padding: 10px;
+
+  &::before {
+    border: 3px dashed;
+    border-radius: 10px;
+    content: 'Drop here';
+    display: block;
+    font-size: 10em;
+    height: calc(100% - 40px);
+    line-height: 3em;
+    position: absolute;
+    text-align: center;
+    width: calc(100% - 40px);
+  }
+}
+
 /* dialog */
 .textae-editor {
   &__dialog--expanded {

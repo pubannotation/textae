@@ -1,10 +1,12 @@
 import delegate from 'delegate'
-import Dialog from './Dialog'
-import enableHTMLelment from './enableHTMLElement'
+import Dialog from '../Dialog'
+import enableHTMLelment from '../enableHTMLElement'
 import Dropzone from 'dropzone'
 import CodeMirror from 'codemirror'
 import 'codemirror/mode/javascript/javascript.js'
-import isJSON from '../editor/start/PersistenceInterface/isJSON'
+import isJSON from '../../editor/start/PersistenceInterface/isJSON'
+import maximizeOverlay from './maximizeOverlay'
+import revertMaximizeOverlay from './revertMaximizeOverlay'
 
 function template(context) {
   const { url } = context
@@ -153,9 +155,19 @@ export default class LoadDialog extends Dialog {
         clickable: false
       }
     )
-    overlayDropzone.on('addedfile', (file) => {
-      this._showFilePreview(file)
-    })
+    let zIndexOfOverlayDropzone = 0
+    overlayDropzone
+      .on(
+        'dragenter',
+        () => (zIndexOfOverlayDropzone = maximizeOverlay(overlayDropzone))
+      )
+      .on('dragleave', () =>
+        revertMaximizeOverlay(overlayDropzone, zIndexOfOverlayDropzone)
+      )
+      .on('addedfile', (file) => {
+        revertMaximizeOverlay(overlayDropzone, zIndexOfOverlayDropzone)
+        this._showFilePreview(file)
+      })
 
     const dialogDropzone = new Dropzone(
       '.textae-editor__load-dialog__dropzone',
