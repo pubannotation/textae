@@ -1091,30 +1091,6 @@
 7.  候補に`parent@http://dbpedia.org/ontology/parent`が表示されること
 8.  ダイアログに横スクロールバー表示されないこと
 
-## パレットからは重複した Selection Attribute をもつ Entity の Obcjet を変更できない
-
-### 背景
-
-1.  6.4.1 で、Annotation ファイルの読込時 Validation での Attribute のチェックを緩め、 1 つの Entity に Predicate と Object が等しい Attribute が複数ついているかのチェックに変更しました
-2.  重複した Selection Attribute を持つ Entity の Selection Attribute の Object をパレットから変更できるようになりました
-3.  Denotation 編集モードと Block 編集モードでパレットが分かれています
-4.  二つのパレットは Selection Attribute のラベル選択時に、同じイベントを発火します
-5.  Obcjet 変更処理を上記イベントにバインドしていたため、一回の Selection Attribute のラベル選択で、二回 Obcjet 変更を実行していました
-6.  パレットから、重複した Selection Attribute を持つ Entity の Selection Attribute の Object を変更すると、ちょうど二つの Attribute の Obcjet が変更されていました
-7.  6.4.34 で Selection Attribute の Obcjet 変更処理を、パレットのイベントに直接バインドして、一回だけ実行するようにしました
-8.  6.4.35 で重複した Selection Attribute を持つ Entity の パレットからの Selection Attribute の Obcjet 変更を禁止しました
-
-### -- 手段 --
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  DenotationEntity `E1:a:b` を選択する
-4.  `q` キーを押してパレットを開く
-5.  denote タブを選ぶ
-6.  パレットの Value ラベルをクリックする
-7.  `An item among the selected has this attribute multiple times.`がトースト表示されること
-8.  `E1:a:b` の`denote` Attribute の Object が変更されないこと
-
 ## ショートカットで Attribute インスタンスを削除する
 
 ### 背景
@@ -1326,24 +1302,6 @@
 11. Relation モードにする
 12. `q`を押してパレットを開く
 13. テーブルヘッダーの一番右のカラムにプラスボタンが表示されていること
-
-## BlockSpan をつくったときにドキュメントの最上部までスクロールしない
-
-### 背景
-
-1.  6.2.0 からブロック機能を追加
-2.  BlockSpan を作ったとき、同時に BlockEntity を作成し両者を選択します
-3.  エンティティを選択する際に、ラベルにフォーカスをあてて、選択しているエンティティをブラウザの表示領域にスクロールインします
-4.  BlockEntity を作成する際、位置の基準となる Div の位置がブラウザ上で確定するするのが遅いため、一瞬ドキュメントの最上部に配置されます
-5.  このときフォーカスするとブラウザがドキュメントの最上部までスクロールします
-6.  6.2.49 で、BlockEntity を選択する際に、位置が確定していなければ、確定後にフォーカスする処理をいれ、対応しました
-
-### -- 手段 --
-
-1.  Editor4 を選択
-2.  Block モードにする
-3.  BlockSpan を追加する
-4.  ブラウザがドキュメントの最上部までスクロールしないこと
 
 ## 上下キーで Span と Entity の選択を切り替える
 
@@ -1698,53 +1656,3 @@
 1.  DenotationSpanSpan を選択する
 2.  DenotationSpanSpan になっている単語全体を選択する
 3.  DenotationSpanSpan が削除されること
-
-## StyleSpan 上で mouseup して、DenotationSpan を縮める
-
-### 背景
-
-1.  6.1.36 からテキスト上で mousedown に対応
-2.  6.1.37 から DenotationSpan 上で mousedown に対応
-3.  6.1.38 で親子 DenotationSpan の子 DenotationSpan で mousedown して、親 DenotationSpan 内の StyleSpan 上で mouseup すると、親 span がちぢむ現象に対応
-4.  6.1.55 で、縮めたときに、意図せずに新しい Span ができる現象に対応
-
-### テキスト上で mousedown して、StyleSpan 上で mouseup して、Span を縮める
-
-#### `Boundary Detection` 有効
-
-1.  Editor1 を選択
-2.  `Boundary Detection`ボタンを押下状態にする
-3.  StyleSpan を含む DenotationSpan を作成する
-4.  DenotationSpan の外側のテキスト上で mousedown し、DenotationSpan 内の StyleSpan 上で mouseup する
-5.  DenotationSpan が縮まること
-6.  新しい DenotationSpan ができないこと
-
-#### `Boundary Detection` 無効
-
-1.  Editor1 を選択
-2.  `Boundary Detection`ボタンを押上状態にする
-3.  StyleSpan を含む DenotationSpan を作成する
-4.  DenotationSpan の外側のテキスト上で mousedown し、DenotationSpan 内の StyleSpan 上で mouseup する
-5.  アラートが表示され、Span が縮まらないこと
-
-### DenotationSpan 上で mousedown して、StyleSpan 上で mouseup して、Span を縮める
-
-#### `Boundary Detection` 有効
-
-1.  Editor1 を選択
-2.  `Boundary Detection`ボタンを押下状態にする
-3.  StyleSpan を含む DenotationSpan を作成する
-4.  上の DenotationSpan に親 DenotationSpan を作る
-5.  親 DenotationSpan を選択解除する
-6.  親 DenotationSpan 上で mousedown し、DenotationSpan 内の StyleSpan 上で mouseup する
-7.  DenotationSpan が縮まること
-
-#### `Boundary Detection` 無効
-
-1.  Editor1 を選択
-2.  `Boundary Detection`ボタンを押上状態にする
-3.  StyleSpan を含む DenotationSpan を作成する
-4.  上の DenotationSpan に親 DenotationSpan を作る
-5.  親 DenotationSpan を選択解除する
-6.  親 DenotationSpan 上で mousedown し、DenotationSpan 内の StyleSpan 上で mouseup する
-7.  アラートが表示され、DenotationSpan が縮まらないこと
