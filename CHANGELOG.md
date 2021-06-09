@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.11.0](https://github.com/pubannotation/textae/compare/v7.10.0...v7.11.0) (2021-06-09)
+
+
+### Features
+
+* Added change label button to the Edit Numerical Attributes dialog ([24c0fd0](https://github.com/pubannotation/textae/commit/24c0fd03632bc7e10dc51761c78a32ff8293a70d))
+* Added change label button to the Edit String Attributes dialog ([0617cdf](https://github.com/pubannotation/textae/commit/0617cdfc92271f071a8c24427e92858d3fa1a6c5))
+* Change the title of the CreateAttributeDefinitionDialog ([ef566dd](https://github.com/pubannotation/textae/commit/ef566ddee4b460b9ec66d732041d1495ff2dcb79))
+* Change the title of the CreateTypeDefinitionDialog ([964cb4a](https://github.com/pubannotation/textae/commit/964cb4a8f51a308f2aca19f4b4995a186015d163))
+* Change the title of the EditAttributeDefinitionDialog ([435ec22](https://github.com/pubannotation/textae/commit/435ec22ef59056849f8185b0300cd72d286bc0e2))
+* Change the title of the EditNumericAttributeDialog ([cbc8769](https://github.com/pubannotation/textae/commit/cbc87690fa23d4931242648adda9b81c8191501e))
+* Change the title of the EditStringAttributeDialog ([1e3b80b](https://github.com/pubannotation/textae/commit/1e3b80bd9499a7776026656a5632f1ac339cc974))
+* Change the title of the EditTypeDefinitionDialog ([b77e5eb](https://github.com/pubannotation/textae/commit/b77e5ebddabb3a4d6773e00d4ed55404db4374b6))
+* Change the title of the EditTypeValuesDialog ([28ad874](https://github.com/pubannotation/textae/commit/28ad874c8e0406ceed9ef70e545e879cd5c2abc9))
+* Change the title of the EditValueOfAttributeDefinitionDialog ([2f126ef](https://github.com/pubannotation/textae/commit/2f126ef37603cf4724fade141bc3f98a9ec51dfc))
+* Change the title of the SelectionAttributePallet ([738cbea](https://github.com/pubannotation/textae/commit/738cbeac72909efc234fc9d0cb5b3c8ee0905f50))
+* Maximize dropzone ([21ef235](https://github.com/pubannotation/textae/commit/21ef23525f065b1335409bee40a3dd5890074981))
+
+
+### Bug Fixes
+
+* The star on the Save button in the TypeValues palette does not disappear after saving the configuration ([3e09239](https://github.com/pubannotation/textae/commit/3e0923903477b09553c53f9cb3faa4ec4378b2b3))
+
 ## [7.10.0](https://github.com/pubannotation/textae/compare/v7.9.0...v7.10.0) (2021-06-07)
 
 
