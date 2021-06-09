@@ -71,6 +71,9 @@
     ],
     "*.less": [
       "prettier --write"
+    ],
+    "userAcceptanceTest/**/*.md": [
+      "prettier --write"
     ]
   },
   "main": "src/development.html",
