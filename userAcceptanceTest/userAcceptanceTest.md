@@ -623,18 +623,6 @@
 11. Relation インスタンス がある Type の全選択ボタンが有効であること
 12. Relation インスタンス がない Type の削除ボタンが有効であること
 
-## パレットのスクロールバー
-
-### 背景
-
-1.  パレットに、スクロールが必要ない場合も、横スクロールバーが表示されていました
-2.  6.4.75 で横スクロールバーの常時表示をやめました
-
-### -- 手段 --
-
-1.  パレットを開く
-2.  パレットの下部に横スクロールバーが表示されないこと
-
 ## パレットはドラッグできる
 
 1.  Term モードにする
@@ -1148,42 +1136,6 @@
 5.  denote タブを選ぶ
 6.  パレットの`Remove from selected entity`ボタンを押すと、`E1:a:b` の該当 predicate のすべての Attribute が削除されること
 
-## Type 定義編集ダイアログに横スクロールバーが表示されないこと
-
-### label 欄のオートコンプリートの候補を表示したとき
-
-#### 背景
-
-1.  6.4.23 で対応しました。
-
-#### --- 手段 ---
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  `q`を押してパレットを表示する
-4.  `Edit this type`ボタンをクリックする
-5.  既存の label を消す
-6.  `pro`を入力
-7.  候補に`production@http://dbpedia.org/ontology/production`が右寄せで表示されること
-8.  ダイアログに横スクロールバー表示されないこと
-
-### Id 欄のオートコンプリートの候補を表示したとき
-
-#### 背景
-
-1.  6.4.22 で対応しました。
-
-#### --- 手段 ---
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  `q`を押してパレットを表示する
-4.  `Edit this type`ボタンをクリックする
-5.  既存の id を消す
-6.  `pro`を入力
-7.  候補に`production@http://dbpedia.org/ontology/production`が右寄せで表示されること
-8.  ダイアログに横スクロールバー表示されないこと
-
 ## ラベルの定義に HTML タグが含まれているとき、HTML エスケープした文字列を Entity のラベルとして表示すること
 
 ### 背景
@@ -1568,36 +1520,3 @@
 4.  選択を解除する
 5.  StyleSpan 上で mousedown して、親 DenotationSpan 上で mouseup する
 6.  親 DenotationSpan が縮む
-
-## StyleSpan 上で mousedown して、StypleSpan 上で mouseup して DenotationSpan をつくる
-
-### 背景
-
-1.  6.1.58 で StyleSpan 上で mousedown して、StypleSpan 上で mouseup したときに DenotationSpan を作れるようにしました。
-2.  6.1.59 で DenotationSpan を作れない場合に、テキストの選択を解除するようにしました。
-
-### テキスト上の StyleSpan と StyleSpan
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  既存の Span を消してテキスト上に 2 つの StyleSpan を並べる
-4.  StyleSpan 上で mousedown して、StypleSpan 上で mouseup する
-5.  DenotationSpan が作成されること
-
-### 一つの DenotationSpan 上の StyleSpan と StyleSpan
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  既存の DenotationSpan をいい感じに編集して、一つの DenotationSpan の上に 2 つの StyleSpan を並べる
-4.  StyleSpan 上で mousedown して、StypleSpan 上で mouseup する
-5.  DenotationSpan が作成されること
-
-### 片方が DenotationSpan 上の StyleSpan と StyleSpan
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  既存の DenotationSpan をいい感じに編集して、一つを DenotationSpan の上の StyleSpan、一つをテキスト上の StyleSpan にする
-4.  StyleSpan 上で mousedown して、StypleSpan 上で mouseup する
-5.  DenotationSpan が作成されないこと
-6.  テキストの選択が解除されること
-
