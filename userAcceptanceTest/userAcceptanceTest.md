@@ -1496,27 +1496,3 @@
 4.  2 つ上の親を選択
 5.  StyleSpan 上で mousedown して、2 つ上の親 Span 上で mouseup する
 6.  2 つ上の親 Span が縮む
-
-## StyleSpan が親で DenotationSpan が子のとき、さらにその親 DenotationSpan があるとき、StyleSpan 上で mousedown して、DenotationSpan 上で mouseup する
-
-### 背景
-
-1.  6.1.56 で対応
-
-### 子 DenotationSpan で mouseup すると
-
-1.  Editor1 を選択
-2.  StyleSpan を親に持つ DenotationSpan を作る
-3.  さらに親 DenotationSpan を作る
-4.  選択を解除する
-5.  StyleSpan 上で mousedown して、子 DenotationSpan 上で mouseup する
-6.  子 DenotationSpan が縮む
-
-### 親 DenotationSpan で mouseup すると
-
-1.  Editor1 を選択
-2.  StyleSpan を親に持つ DenotationSpan を作る
-3.  さらに親 DenotationSpan を作る
-4.  選択を解除する
-5.  StyleSpan 上で mousedown して、親 DenotationSpan 上で mouseup する
-6.  親 DenotationSpan が縮む
