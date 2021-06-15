@@ -128,7 +128,7 @@ export default class EditMode {
   }
 
   showPallet() {
-    this._getEdit().pallet.show()
+    this._currentEdit.pallet.show()
   }
 
   editTypeValues() {
@@ -157,18 +157,18 @@ export default class EditMode {
   }
 
   selectLeftAttributeTab() {
-    this._getEdit().pallet.selectLeftTab()
+    this._currentEdit.pallet.selectLeftTab()
   }
 
   selectRightAttributeTab() {
-    this._getEdit().pallet.selectRightTab()
+    this._currentEdit.pallet.selectRightTab()
   }
 
   _getHandler() {
-    return this._getEdit().handler
+    return this._currentEdit.handler
   }
 
-  _getEdit() {
+  get _currentEdit() {
     switch (this._stateMachine.currentState) {
       case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
       case MODE.EDIT_DENOTATION_WITH_RELATION:
