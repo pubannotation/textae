@@ -128,19 +128,7 @@ export default class EditMode {
   }
 
   showPallet() {
-    switch (this._stateMachine.currentState) {
-      case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
-      case MODE.EDIT_DENOTATION_WITH_RELATION:
-        this._editDenotation.pallet.show()
-        break
-      case MODE.EDIT_BLOCK_WITHOUT_RELATION:
-      case MODE.EDIT_BLOCK_WITH_RELATION:
-        this._editBlock.pallet.show()
-        break
-      case MODE.EDIT_RELATION:
-        this._editRelation.pallet.show()
-        break
-    }
+    this._getEdit().pallet.show()
   }
 
   editTypeValues() {
@@ -169,49 +157,36 @@ export default class EditMode {
   }
 
   selectLeftAttributeTab() {
-    switch (this._stateMachine.currentState) {
-      case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
-      case MODE.EDIT_DENOTATION_WITH_RELATION:
-        this._editDenotation.pallet.selectLeftTab()
-        break
-      case MODE.EDIT_BLOCK_WITHOUT_RELATION:
-      case MODE.EDIT_BLOCK_WITH_RELATION:
-        this._editBlock.pallet.selectLeftTab()
-        break
-      case MODE.EDIT_RELATION:
-        this._editRelation.pallet.selectLeftTab()
-        break
-    }
+    this._getEdit().pallet.selectLeftTab()
   }
 
   selectRightAttributeTab() {
-    switch (this._stateMachine.currentState) {
-      case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
-      case MODE.EDIT_DENOTATION_WITH_RELATION:
-        this._editDenotation.pallet.selectRightTab()
-        break
-      case MODE.EDIT_BLOCK_WITHOUT_RELATION:
-      case MODE.EDIT_BLOCK_WITH_RELATION:
-        this._editBlock.pallet.selectRightTab()
-        break
-      case MODE.EDIT_RELATION:
-        this._editRelation.pallet.selectRightTab()
-        break
-    }
+    this._getEdit().pallet.selectRightTab()
   }
 
   _getHandler() {
+    return this._getEdit().handler
+  }
+
+  _getEdit() {
     switch (this._stateMachine.currentState) {
       case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
       case MODE.EDIT_DENOTATION_WITH_RELATION:
-        return this._editDenotation.handler
+        return this._editDenotation
       case MODE.EDIT_BLOCK_WITHOUT_RELATION:
       case MODE.EDIT_BLOCK_WITH_RELATION:
-        return this._editBlock.handler
+        return this._editBlock
       case MODE.EDIT_RELATION:
-        return this._editRelation.handler
+        return this._editRelation
       default:
-        return this._viewHandler
+        return {
+          handler: this._viewHandler,
+          pallet: {
+            show() {},
+            selectLeftTab() {},
+            selectRightTab() {}
+          }
+        }
     }
   }
 
