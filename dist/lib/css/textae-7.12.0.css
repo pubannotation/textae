@@ -35,7 +35,6 @@
 }
 .textae-control__view-button {
   background: url('./images/btn_view_16.png');
-  background-size: cover;
 }
 .textae-control__term-button {
   background: url('./images/btn_term_16.png');
@@ -75,6 +74,9 @@
 }
 .textae-control__boundary-detection-button {
   background: url('./images/btn_boundary_detection_16.png');
+}
+.textae-control__span-button {
+  background: url('./images/btn_span_16.png');
 }
 .textae-control__entity-button {
   background: url('./images/btn_denote_16.png');
@@ -119,7 +121,8 @@
   visibility: hidden !important;
 }
 /* control bar */
-.textae-control-bar {
+.textae-control-bar,
+.textae-touch-bar {
   background: linear-gradient(to right, #bbbbee, #ffffff);
   border-left: 5px solid #558;
   border-radius: 15px;
@@ -128,28 +131,48 @@
   display: flex;
   flex-wrap: wrap;
   margin-left: 2px;
-  max-width: 763px;
+  max-width: 788px;
   padding: 0 20px 5px 10px;
   position: sticky;
   top: 0;
   z-index: 8;
   /*== Elements inside the textae_control ==*/
 }
-.textae-control-bar .textae-control__title {
+.textae-control-bar .textae-control__title,
+.textae-touch-bar .textae-control__title {
+  display: block;
+}
+.textae-control-bar .textae-control__separator,
+.textae-touch-bar .textae-control__separator {
+  display: block;
+  border: 2px solid #aad;
+}
+.textae-control-bar .textae-control__icon,
+.textae-touch-bar .textae-control__icon {
   display: block;
 }
 .textae-control-bar .textae-control__separator {
-  display: block;
   height: 16px;
-  border: 2px solid #aad;
 }
 .textae-control-bar .textae-control__icon {
-  display: block;
   width: 16px;
   height: 16px;
 }
+.textae-touch-bar .textae-control__title {
+  line-height: 48px;
+}
+.textae-touch-bar .textae-control__separator {
+  height: 32px;
+}
+.textae-touch-bar .textae-control__icon {
+  background-size: cover;
+  height: 32px;
+  margin: 8px 8px;
+  width: 32px;
+}
 /* context menu */
-.textae-context-menu {
+.textae-context-menu,
+.textae-android-context-menu {
   display: none;
   position: absolute;
   padding: 10px;
@@ -159,35 +182,48 @@
   background-color: white;
   z-index: 7;
 }
-.textae-context-menu--show {
+.textae-context-menu--show,
+.textae-android-context-menu--show {
   display: block;
 }
-.textae-context-menu--hide {
+.textae-context-menu--hide,
+.textae-android-context-menu--hide {
   display: none;
 }
-.textae-context-menu > p {
-  line-height: 1.5em;
-}
 .textae-context-menu > p:not(.textae-control__title):not(.textae-control__icon--disabled):focus,
+.textae-android-context-menu > p:not(.textae-control__title):not(.textae-control__icon--disabled):focus,
 .textae-context-menu > p:not(.textae-control__title):not(.textae-control__icon--disabled):active,
-.textae-context-menu > p:not(.textae-control__title):not(.textae-control__icon--disabled):hover {
+.textae-android-context-menu > p:not(.textae-control__title):not(.textae-control__icon--disabled):active,
+.textae-context-menu > p:not(.textae-control__title):not(.textae-control__icon--disabled):hover,
+.textae-android-context-menu > p:not(.textae-control__title):not(.textae-control__icon--disabled):hover {
   background-color: #c4c4f0;
   color: white;
 }
-.textae-context-menu .textae-control__icon {
+.textae-context-menu .textae-control__icon,
+.textae-android-context-menu .textae-control__icon {
   margin-top: 0;
   padding-left: 20px;
   background-size: 16px;
   background-repeat: no-repeat;
   background-position: left center;
 }
-.textae-context-menu .textae-control__separator {
+.textae-context-menu .textae-control__separator,
+.textae-android-context-menu .textae-control__separator {
   border: 1px solid #aad;
 }
 .textae-context-menu > :nth-last-of-type(1),
+.textae-android-context-menu > :nth-last-of-type(1),
 .textae-context-menu > :nth-last-of-type(2),
-.textae-context-menu > :nth-last-of-type(3) {
+.textae-android-context-menu > :nth-last-of-type(2),
+.textae-context-menu > :nth-last-of-type(3),
+.textae-android-context-menu > :nth-last-of-type(3) {
   display: none;
+}
+.textae-context-menu > p {
+  line-height: 1.5em;
+}
+.textae-android-context-menu > p {
+  line-height: 3em;
 }
 .ui-widget-overlay.textae-editor__load-dialog__overlay-dropzone--maximized {
   background-color: #eee;

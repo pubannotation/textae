@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.12.0](https://github.com/pubannotation/textae/compare/v7.11.0...v7.12.0) (2021-06-16)
+
+
+### Features
+
+* Create a span with a touch device ([fc8a561](https://github.com/pubannotation/textae/commit/fc8a561fc3badeb1bdc486bf8c037a87f35bcb7d))
+* Increase the icon size of the control bar for touch devices ([33cbe62](https://github.com/pubannotation/textae/commit/33cbe62168369aa9fc3bc8297903b0f503b50015))
+* Set the viewport to prevent shrinking on mobile devices ([e4c2034](https://github.com/pubannotation/textae/commit/e4c2034599c384b04b5b250d8d7228fb704fc007))
+* Set touch-device-specific styles for the control bar and context menu ([f9ef1ce](https://github.com/pubannotation/textae/commit/f9ef1cecfb05b38b7e600599e962093bdf02475a))
+* Widen the gap between items in the context menu for touch devices ([e727bff](https://github.com/pubannotation/textae/commit/e727bff58f39eb643bb2d7bf6943a0d3e07d3536))
+
 ## [7.11.0](https://github.com/pubannotation/textae/compare/v7.10.0...v7.11.0) (2021-06-09)
 
 
