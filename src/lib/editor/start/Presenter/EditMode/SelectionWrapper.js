@@ -2,6 +2,7 @@ import isNodeDenotationSpan from './isNodeDenotationSpan'
 import isNodeTextBox from './isNodeTextBox'
 import isNodeStyleSpan from './isNodeStyleSpan'
 import isNodeBlockSpan from './isNodeBlockSpan'
+import PositionsOnAnnotation from './PositionsOnAnnotation'
 
 export default class SelectionWrapper {
   constructor() {
@@ -91,5 +92,9 @@ export default class SelectionWrapper {
 
   get parentOfFocusNode() {
     return this.selection.focusNode.parentElement
+  }
+
+  getPositionsOnAnnotation(spanModelContainer) {
+    return new PositionsOnAnnotation(spanModelContainer, this)
   }
 }
