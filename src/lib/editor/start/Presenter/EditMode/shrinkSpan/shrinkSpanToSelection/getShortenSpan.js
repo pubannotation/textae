@@ -5,9 +5,8 @@ export default function (
   spanConfig,
   spanId
 ) {
-  const { anchor, focus } = selectionWrapper.getPositionsOnAnnotation()
-
   const span = annotationData.span.get(spanId)
+  const { anchor, focus } = selectionWrapper.getPositionsOnAnnotation()
 
   if (anchor < focus) {
     // shorten the left boundary
