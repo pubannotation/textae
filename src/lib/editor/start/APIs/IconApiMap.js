@@ -6,7 +6,6 @@ export default function (
   buttonController
 ) {
   const map = new Map([
-    ['span', () => presenter.event.createSpan()],
     ['view', () => presenter.event.toViewMode()],
     ['term', () => presenter.event.toTermMode()],
     ['block', () => presenter.event.toBlockMode()],
@@ -17,6 +16,7 @@ export default function (
     ['undo', () => commander.undo()],
     ['redo', () => commander.redo()],
     ['replicate', () => presenter.event.replicate()],
+    ['span', () => presenter.event.createSpan()],
     ['entity', () => presenter.event.createEntity()],
     ['change-label', () => presenter.event.editTypeValues()],
     ['pallet', () => presenter.event.showPallet()],
