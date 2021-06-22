@@ -1,3 +1,5 @@
+import isTouchDevice from '../control/isTouchDevice'
+
 export const buttonConfig = [
   [
     {
@@ -82,11 +84,7 @@ export const buttonConfig = [
       push: true
     }
   ],
-  'ontouchstart' in window ||
-  navigator.maxTouchPoints > 0 ||
-  navigator.msMaxTouchPoints > 0
-    ? [{ type: 'span', title: 'Create span' }]
-    : null,
+  isTouchDevice() ? [{ type: 'span', title: 'Create span' }] : null,
   [
     {
       type: 'entity',
