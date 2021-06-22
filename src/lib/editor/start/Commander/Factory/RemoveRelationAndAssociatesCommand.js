@@ -8,7 +8,7 @@ export default class RemoveRelationAndAssociatesCommand extends CompositeCommand
       editor,
       annotationData,
       'relation',
-      relation.id
+      relation
     )
     const removeAttribute = relation.attributes.map(
       (attribute) =>
