@@ -12,13 +12,14 @@ export default function (
 ) {
   selectionModel.removeAll()
 
-  const { begin, end } = getExpandedSpan(
-    annotationData,
-    spanAdjuster,
-    spanId,
-    selectionWrapper,
-    spanConfig
-  )
+  const { begin, end } = annotationData.span
+    .get(spanId)
+    .getExpandedSpan(
+      spanAdjuster,
+      selectionWrapper,
+      annotationData.sourceDoc,
+      spanConfig
+    )
 
   // The span cross exists spans.
   if (annotationData.span.isBoundaryCrossingWithOtherSpans(begin, end)) {
