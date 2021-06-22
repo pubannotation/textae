@@ -1,4 +1,3 @@
-import getExpandedSpan from './getExpandedSpan'
 import clearTextSelectionAndAlert from '../clearTextSelectionAndAlert'
 
 export default function (
