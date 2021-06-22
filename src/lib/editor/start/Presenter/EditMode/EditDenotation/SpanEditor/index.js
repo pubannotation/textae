@@ -1,7 +1,7 @@
 import clearTextSelection from '../../clearTextSelection'
 import create from './create'
 import shrinkSpan from '../../shrinkSpan'
-import getExpandTargetSpan from './getExpandTargetSpan'
+import getExpandTargetSpanFromAnchorNode from './getExpandTargetSpanFromAnchorNode'
 import expandSpan from '../../expandSpan'
 import hasCharacters from '../../hasCharacters'
 import getIsDelimiterFunc from '../../../getIsDelimiterFunc'
@@ -126,7 +126,10 @@ export default class SpanEditor {
   }
 
   _anchorNodeInDenotationSpanFocusNodeInTextBox(selectionWrapper) {
-    const spanId = getExpandTargetSpan(this._selectionModel, selectionWrapper)
+    const spanId = getExpandTargetSpanFromAnchorNode(
+      this._selectionModel,
+      selectionWrapper
+    )
     this._expand(selectionWrapper, spanId)
   }
 
@@ -177,7 +180,7 @@ export default class SpanEditor {
       if (this._isFocusInSelectedSpan(selectionWrapper)) {
         this._shrinkSelectedSpan(selectionWrapper)
       } else {
-        const spanId = getExpandTargetSpan(
+        const spanId = getExpandTargetSpanFromAnchorNode(
           this._selectionModel,
           selectionWrapper
         )
@@ -201,7 +204,10 @@ export default class SpanEditor {
   }
 
   _anchorNodeInDenotationSpanFocusNodeInBlockSpan(selectionWrapper) {
-    const spanId = getExpandTargetSpan(this._selectionModel, selectionWrapper)
+    const spanId = getExpandTargetSpanFromAnchorNode(
+      this._selectionModel,
+      selectionWrapper
+    )
     this._expand(selectionWrapper, spanId)
   }
 
