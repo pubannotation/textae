@@ -1,5 +1,4 @@
 import clearTextSelection from '../../clearTextSelection'
-import PositionsOnAnnotation from '../../PositionsOnAnnotation'
 import create from './create'
 import shrinkSpan from '../../shrinkSpan'
 import getExpandTargetSpan from './getExpandTargetSpan'
@@ -137,9 +136,8 @@ export default class SpanEditor {
       const parentSpan = this._annotationData.span.get(
         selectionWrapper.parentOfAnchorNode.id
       )
-      const positionsOnAnnotation = new PositionsOnAnnotation(
-        this._annotationData.span,
-        selectionWrapper
+      const positionsOnAnnotation = selectionWrapper.getPositionsOnAnnotation(
+        this._annotationData.span
       )
 
       // Shrink the span
@@ -286,9 +284,8 @@ export default class SpanEditor {
     if (selectionWrapper.isAnchorOneDownUnderFocus) {
       // If the anchor position coincides with the begin or end of the denotation span,
       // the denotation span will be shrunk.
-      const { anchor } = new PositionsOnAnnotation(
-        this._annotationData.span,
-        selectionWrapper
+      const { anchor } = selectionWrapper.getPositionsOnAnnotation(
+        this._annotationData.span
       )
       const denotationSpanOnFocus = this._annotationData.span.get(
         selectionWrapper.parentOfFocusNode.id
@@ -327,9 +324,8 @@ export default class SpanEditor {
       return false
     }
 
-    const { focus } = new PositionsOnAnnotation(
-      this._annotationData.span,
-      selectionWrapper
+    const { focus } = selectionWrapper.getPositionsOnAnnotation(
+      this._annotationData.span
     )
     return span.begin < focus && focus < span.end
   }
