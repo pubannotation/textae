@@ -139,14 +139,11 @@ export default class SpanEditor {
       const parentSpan = this._annotationData.span.get(
         selectionWrapper.parentOfAnchorNode.id
       )
-      const positionsOnAnnotation = selectionWrapper.positionsOnAnnotation
+      const { anchor } = selectionWrapper.positionsOnAnnotation
 
       // Shrink the span
       // if the anchor position is the same as the begin or end of the parent span.
-      if (
-        positionsOnAnnotation.anchor === parentSpan.begin ||
-        positionsOnAnnotation.anchor === parentSpan.end
-      ) {
+      if (anchor === parentSpan.begin || anchor === parentSpan.end) {
         // The start or end of the selected region is at the same position
         // as the start or end of the parent span.
         // Shrink the span at the front or back end of the text.
