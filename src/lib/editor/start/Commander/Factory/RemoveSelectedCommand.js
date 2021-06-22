@@ -1,5 +1,7 @@
 import CompositeCommand from './CompositeCommand'
 import { RemoveCommand } from './commandTemplate'
+import aggrigateTargetEntities from './aggrigateTargetEntities'
+import aggrigateTargetRelations from './aggrigateTargetRelations'
 
 export default class RemoveSelectedCommand extends CompositeCommand {
   constructor(editor, annotationData, selectionModel) {
@@ -72,27 +74,5 @@ export default class RemoveSelectedCommand extends CompositeCommand {
     ]
       .map(({ id }) => id)
       .join(', ')}`
-  }
-}
-
-function aggrigateTargetEntities(
-  targetEntities,
-  targetRelations,
-  targetAttributes,
-  entity
-) {
-  targetEntities.add(entity)
-  for (const attribute of entity.attributes) {
-    targetAttributes.add(attribute)
-  }
-  for (const relation of entity.relations) {
-    aggrigateTargetRelations(targetRelations, targetAttributes, relation)
-  }
-}
-
-function aggrigateTargetRelations(targetRelations, targetAttributes, relation) {
-  targetRelations.add(relation)
-  for (const attribute of relation.attributes) {
-    targetAttributes.add(attribute)
   }
 }
