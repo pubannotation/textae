@@ -5,8 +5,9 @@ import isNodeBlockSpan from './isNodeBlockSpan'
 import PositionsOnAnnotation from './PositionsOnAnnotation'
 
 export default class SelectionWrapper {
-  constructor() {
+  constructor(spanModelContainer) {
     this.selection = window.getSelection()
+    this._spanModelContainer = spanModelContainer
   }
 
   get isParentOfAnchorNodeTextBox() {
@@ -95,6 +96,6 @@ export default class SelectionWrapper {
   }
 
   getPositionsOnAnnotation(spanModelContainer) {
-    return new PositionsOnAnnotation(spanModelContainer, this)
+    return new PositionsOnAnnotation(this._spanModelContainer, this)
   }
 }

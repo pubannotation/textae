@@ -23,7 +23,7 @@ export default class MouseEventHandler {
     const selection = window.getSelection()
 
     if (selection.type === 'Range') {
-      this._spanEditor.editFor(new SelectionWrapper())
+      this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
       event.stopPropagation()
     } else {
       this._selectionModel.removeAll()
@@ -48,7 +48,7 @@ export default class MouseEventHandler {
     }
 
     if (selection.type === 'Range') {
-      this._spanEditor.editFor(new SelectionWrapper())
+      this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
     }
   }
 
@@ -67,7 +67,7 @@ export default class MouseEventHandler {
     }
 
     if (selection.type === 'Range') {
-      this._spanEditor.editFor(new SelectionWrapper())
+      this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
     }
   }
 
@@ -91,7 +91,7 @@ export default class MouseEventHandler {
     }
 
     if (selection.type === 'Range') {
-      this._spanEditor.editFor(new SelectionWrapper())
+      this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
     }
   }
 

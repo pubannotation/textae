@@ -26,7 +26,7 @@ export default class MouseEventHandler {
     }
 
     if (selection.type === 'Range') {
-      this._spanEditor.editFor(new SelectionWrapper())
+      this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
       e.stopPropagation()
     }
   }
@@ -41,7 +41,7 @@ export default class MouseEventHandler {
     }
 
     if (selection.type === 'Range') {
-      this._spanEditor.editFor(new SelectionWrapper())
+      this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
     }
   }
 
@@ -74,7 +74,7 @@ export default class MouseEventHandler {
     }
 
     if (selection.type === 'Range') {
-      this._spanEditor.editFor(new SelectionWrapper())
+      this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
       e.stopPropagation()
     }
   }
@@ -86,7 +86,7 @@ export default class MouseEventHandler {
     }
 
     if (selection.type === 'Range') {
-      this._spanEditor.editFor(new SelectionWrapper())
+      this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
       e.stopPropagation()
     }
   }
