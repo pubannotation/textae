@@ -2,18 +2,18 @@ export default function (
   annotationData,
   spanAdjuster,
   spanId,
-  anchorPosition,
-  focusPosition,
+  anchor,
+  focus,
   spanConfig
 ) {
   const span = annotationData.span.get(spanId)
 
-  if (anchorPosition > focusPosition) {
+  if (anchor > focus) {
     // expand to the left
     return {
       begin: spanAdjuster.backFromBegin(
         annotationData.sourceDoc,
-        focusPosition,
+        focus,
         spanConfig
       ),
       end: span.end
@@ -25,7 +25,7 @@ export default function (
       end:
         spanAdjuster.forwardFromEnd(
           annotationData.sourceDoc,
-          focusPosition - 1,
+          focus - 1,
           spanConfig
         ) + 1
     }
