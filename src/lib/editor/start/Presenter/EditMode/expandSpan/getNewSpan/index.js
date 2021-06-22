@@ -7,9 +7,7 @@ export default function getNewSpan(
   selectionWrapper,
   spanConfig
 ) {
-  const positionsOnAnnotation = selectionWrapper.getPositionsOnAnnotation(
-    annotationData.span
-  )
+  const positionsOnAnnotation = selectionWrapper.getPositionsOnAnnotation()
 
   return getNewExpandSpan(
     annotationData,

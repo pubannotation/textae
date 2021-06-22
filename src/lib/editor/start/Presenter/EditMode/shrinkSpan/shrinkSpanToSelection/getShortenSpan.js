@@ -5,9 +5,7 @@ export default function (
   spanConfig,
   spanId
 ) {
-  const { anchor, focus } = selectionWrapper.getPositionsOnAnnotation(
-    annotationData.span
-  )
+  const { anchor, focus } = selectionWrapper.getPositionsOnAnnotation()
 
   const span = annotationData.span.get(spanId)
 
