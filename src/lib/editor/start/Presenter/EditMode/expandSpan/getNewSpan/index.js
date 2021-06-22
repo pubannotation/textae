@@ -1,5 +1,3 @@
-import getNewExpandSpan from './getNewExpandSpan'
-
 export default function getNewSpan(
   annotationData,
   spanAdjuster,
@@ -7,14 +5,29 @@ export default function getNewSpan(
   selectionWrapper,
   spanConfig
 ) {
-  const positionsOnAnnotation = selectionWrapper.getPositionsOnAnnotation()
+  const span = annotationData.span.get(spanId)
+  const { anchor, focus } = selectionWrapper.getPositionsOnAnnotation()
 
-  return getNewExpandSpan(
-    annotationData,
-    spanAdjuster,
-    spanId,
-    positionsOnAnnotation.anchor,
-    positionsOnAnnotation.focus,
-    spanConfig
-  )
+  if (anchor < focus) {
+    // expand to the right
+    return {
+      begin: span.begin,
+      end:
+        spanAdjuster.forwardFromEnd(
+          annotationData.sourceDoc,
+          focus - 1,
+          spanConfig
+        ) + 1
+    }
+  } else {
+    // expand to the left
+    return {
+      begin: spanAdjuster.backFromBegin(
+        annotationData.sourceDoc,
+        focus,
+        spanConfig
+      ),
+      end: span.end
+    }
+  }
 }
