@@ -4,14 +4,14 @@ class Config {
   // Map of buttons to display the control bar and context menu.
   get mapForControl() {
     return {
-      buttonGroup: buttonConfig.map((list) => ({
+      buttonGroup: buttonConfig.map(({ list }) => ({
         list: list.map((button) => ({ type: button.type, title: button.title }))
       }))
     }
   }
 
   get _buttons() {
-    return buttonConfig.flat()
+    return buttonConfig.map(({ list }) => list).flat()
   }
 
   _getEnabelButtonsWhenSelecting(denotationType) {
