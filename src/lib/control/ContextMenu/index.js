@@ -20,7 +20,7 @@ function template(context) {
 
 export default class ContextMenu extends Control {
   constructor(editor) {
-    super(editor, template(buttonConfig.mapForControl))
+    super(editor, template(buttonConfig.contextMenu))
   }
 
   show(positionTop, positionLeft) {

@@ -21,7 +21,7 @@ function template(context) {
 // The control is a control bar in an editor.
 export default class ControlBar extends Control {
   constructor(editor) {
-    super(editor, template(buttonConfig.mapForControl))
+    super(editor, template(buttonConfig.controlBar))
   }
 
   transitWriteButtonImage(transitButtons) {

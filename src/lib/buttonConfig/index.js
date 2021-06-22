@@ -2,8 +2,28 @@ import isTouchDevice from '../control/isTouchDevice'
 import { buttonConfig } from './buttonConfig'
 
 class Config {
-  // Map of buttons to display the control bar and context menu.
-  get mapForControl() {
+  // Buttons to display on the control bar.
+  get controlBar() {
+    return {
+      buttonGroup: buttonConfig
+        .filter((group) => {
+          if (isTouchDevice()) {
+            return true
+          } else {
+            return group.usage !== 'touch device'
+          }
+        })
+        .map(({ list }) => ({
+          list: list.map((button) => ({
+            type: button.type,
+            title: button.title
+          }))
+        }))
+    }
+  }
+
+  // Buttons to display on the context menu.
+  get contextMenu() {
     return {
       buttonGroup: buttonConfig
         .filter((group) => {
