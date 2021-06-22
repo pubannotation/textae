@@ -185,22 +185,12 @@ export default class SpanModel {
 
     if (anchor < focus) {
       // shorten the left boundary
-      if (this.end === focus)
-        return {
-          begin: this.end,
-          end: this.end
-        }
       return {
         begin: spanAdjuster.forwardFromBegin(sourceDoc, focus, spanConfig),
         end: this.end
       }
     } else {
       // shorten the right boundary
-      if (this.begin === focus)
-        return {
-          begin: this.begin,
-          end: this.begin
-        }
       return {
         begin: this.begin,
         end: spanAdjuster.backFromEnd(sourceDoc, focus - 1, spanConfig) + 1
