@@ -51,6 +51,7 @@ export default class RelationModelContainer extends IdIssueContainer {
   }
 
   remove(id) {
+    console.assert(id, 'id is necessary!')
     const relation = super.remove(id)
     relation.erase()
   }
