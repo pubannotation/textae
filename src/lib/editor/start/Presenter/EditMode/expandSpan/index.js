@@ -1,4 +1,4 @@
-import getNewSpan from './getNewSpan'
+import getExpandedSpan from './getExpandedSpan'
 import clearTextSelectionAndAlert from '../clearTextSelectionAndAlert'
 
 export default function (
@@ -12,7 +12,7 @@ export default function (
 ) {
   selectionModel.removeAll()
 
-  const { begin, end } = getNewSpan(
+  const { begin, end } = getExpandedSpan(
     annotationData,
     spanAdjuster,
     spanId,
