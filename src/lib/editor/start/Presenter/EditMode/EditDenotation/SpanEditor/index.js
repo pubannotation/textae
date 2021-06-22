@@ -327,13 +327,11 @@ export default class SpanEditor {
       return false
     }
 
-    const positionsOnAnnotation = new PositionsOnAnnotation(
+    const { focus } = new PositionsOnAnnotation(
       this._annotationData.span,
       selectionWrapper
-    ).focus
-    return (
-      span.begin < positionsOnAnnotation && positionsOnAnnotation < span.end
     )
+    return span.begin < focus && focus < span.end
   }
 
   _create(selectionWrapper) {
