@@ -8,17 +8,7 @@ export default function (
 ) {
   const span = annotationData.span.get(spanId)
 
-  if (anchor > focus) {
-    // expand to the left
-    return {
-      begin: spanAdjuster.backFromBegin(
-        annotationData.sourceDoc,
-        focus,
-        spanConfig
-      ),
-      end: span.end
-    }
-  } else {
+  if (anchor < focus) {
     // expand to the right
     return {
       begin: span.begin,
@@ -28,6 +18,16 @@ export default function (
           focus - 1,
           spanConfig
         ) + 1
+    }
+  } else {
+    // expand to the left
+    return {
+      begin: spanAdjuster.backFromBegin(
+        annotationData.sourceDoc,
+        focus,
+        spanConfig
+      ),
+      end: span.end
     }
   }
 }
