@@ -1,5 +1,4 @@
 import clearTextSelectionAndAlert from '../../clearTextSelectionAndAlert'
-import getShortenSpan from './getShortenSpan'
 
 export default function (
   annotationData,
@@ -10,13 +9,14 @@ export default function (
   spanConfig,
   moveHandler
 ) {
-  const { begin, end } = getShortenSpan(
-    annotationData,
-    spanAdjuster,
-    selectionWrapper,
-    spanConfig,
-    spanId
-  )
+  const { begin, end } = annotationData.span
+    .get(spanId)
+    .getShortenSpan(
+      spanAdjuster,
+      selectionWrapper,
+      annotationData.sourceDoc,
+      spanConfig
+    )
 
   // The span cross exists spans.
   if (annotationData.span.isBoundaryCrossingWithOtherSpans(begin, end)) {
