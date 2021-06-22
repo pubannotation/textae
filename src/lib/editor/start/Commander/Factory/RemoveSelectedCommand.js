@@ -1,6 +1,6 @@
 import CompositeCommand from './CompositeCommand'
 import { RemoveCommand } from './commandTemplate'
-import aggrigateTargetEntities from './aggrigateTargetEntities'
+import aggregateTargetEntities from './aggregateTargetEntities'
 import aggregateTargetRelations from './aggregateTargetRelations'
 
 export default class RemoveSelectedCommand extends CompositeCommand {
@@ -15,7 +15,7 @@ export default class RemoveSelectedCommand extends CompositeCommand {
     for (const span of selectionModel.span.all) {
       targetSpans.add(span)
       for (const entity of span.entities) {
-        aggrigateTargetEntities(
+        aggregateTargetEntities(
           targetEntities,
           targetRelations,
           targetAttributes,
@@ -24,7 +24,7 @@ export default class RemoveSelectedCommand extends CompositeCommand {
       }
     }
     for (const entity of selectionModel.entity.all) {
-      aggrigateTargetEntities(
+      aggregateTargetEntities(
         targetEntities,
         targetRelations,
         targetAttributes,
