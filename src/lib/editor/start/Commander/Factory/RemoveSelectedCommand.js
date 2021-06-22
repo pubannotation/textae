@@ -7,7 +7,7 @@ export default class RemoveSelectedCommand extends CompositeCommand {
   constructor(editor, annotationData, selectionModel) {
     super()
 
-    // Aggrigate seleceted targets
+    // Aggregate seleceted targets
     const targetSpans = new Set()
     const targetEntities = new Set()
     const targetRelations = new Set()
@@ -35,7 +35,7 @@ export default class RemoveSelectedCommand extends CompositeCommand {
       aggregateTargetRelations(targetRelations, targetAttributes, relation)
     }
 
-    // Aggrigate spans to lose all entities.
+    // Aggregate spans to lose all entities.
     for (const span of annotationData.span.all) {
       if (span.entities.every((e) => selectionModel.entity.all.includes(e))) {
         if (!span.styleOnly) {
