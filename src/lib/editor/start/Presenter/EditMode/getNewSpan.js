@@ -1,5 +1,4 @@
 import OrderedPositions from './OrderedPositions'
-import PositionsOnAnnotation from './PositionsOnAnnotation'
 
 export default function (
   annotationData,
@@ -7,9 +6,8 @@ export default function (
   selectionWrapper,
   spanConfig
 ) {
-  const positionsOnAnnotation = new PositionsOnAnnotation(
-    annotationData.span,
-    selectionWrapper
+  const positionsOnAnnotation = selectionWrapper.getPositionsOnAnnotation(
+    annotationData.span
   )
   const orderedPositions = new OrderedPositions(positionsOnAnnotation)
 
