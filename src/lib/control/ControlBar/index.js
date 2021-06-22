@@ -2,6 +2,7 @@ import Control from '../Control'
 import isTouchDevice from '../isTouchDevice'
 import toButtonGroup from './toButtonGroup'
 import transitWriteButtonImage from './transitWriteButtonImage'
+import buttonConfig from '../../buttonConfig'
 
 function template(context) {
   const { buttonGroup } = context
@@ -20,7 +21,7 @@ function template(context) {
 // The control is a control bar in an editor.
 export default class ControlBar extends Control {
   constructor(editor) {
-    super(template, editor)
+    super(editor, template(buttonConfig.mapForControl))
   }
 
   transitWriteButtonImage(transitButtons) {
