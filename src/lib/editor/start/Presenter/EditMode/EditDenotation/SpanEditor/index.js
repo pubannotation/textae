@@ -5,6 +5,8 @@ import getExpandTargetSpanFromAnchorNode from './getExpandTargetSpanFromAnchorNo
 import expandSpan from '../../expandSpan'
 import hasCharacters from '../../hasCharacters'
 import getIsDelimiterFunc from '../../../getIsDelimiterFunc'
+import SelectionWrapper from '../../SelectionWrapper'
+import getExpandTargetSpanFromFocusNode from './getExpandTargetSpanFromFocusNode'
 
 export default class SpanEditor {
   constructor(
@@ -97,6 +99,43 @@ export default class SpanEditor {
         this._anchorNodeInStyleSpanFocusNodeInStyleSpan(selectionWrapper)
         return
       }
+    }
+  }
+
+  expandForTouchDevice() {
+    const selectionWrapper = new SelectionWrapper(this._annotationData.span)
+    const spanId =
+      getExpandTargetSpanFromAnchorNode(
+        this._selectionModel,
+        selectionWrapper
+      ) ||
+      getExpandTargetSpanFromFocusNode(this._selectionModel, selectionWrapper)
+
+    if (spanId) {
+      const { begin, end } = this._annotationData.span
+        .get(spanId)
+        .getExpandedSpan(
+          this._buttonController.spanAdjuster,
+          selectionWrapper,
+          this._annotationData.sourceDoc,
+          this._spanConfig
+        )
+
+      // The span cross exists spans.
+      if (
+        this._annotationData.span.isBoundaryCrossingWithOtherSpans(begin, end)
+      ) {
+        return
+      }
+
+      // A span cannot be expanded a span to the same as an existing span.
+      if (this._annotationData.span.hasDenotationSpan(begin, end)) {
+        return
+      }
+
+      this._commander.invoke(
+        this._commander.factory.moveDenotationSpanCommand(spanId, begin, end)
+      )
     }
   }
 

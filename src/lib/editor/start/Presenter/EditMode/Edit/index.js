@@ -40,6 +40,7 @@ export default class Edit {
     return this._pallet
   }
 
-  // A dummy funcition
+  // Dummy funcitions
   createSpan() {}
+  expandSpan() {}
 }

@@ -33,6 +33,10 @@ export default class EventMap {
     this._editMode.createSpan(e)
   }
 
+  expandSpan(e) {
+    this._editMode.expandSpan(e)
+  }
+
   copyEntities() {
     this._clipBoard.copyEntities()
   }

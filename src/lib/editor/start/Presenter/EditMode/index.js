@@ -106,6 +106,10 @@ export default class EditMode {
     this._currentEdit.createSpan()
   }
 
+  expandSpan() {
+    this._currentEdit.expandSpan()
+  }
+
   pushView() {
     this._stateMachine.pushView()
   }

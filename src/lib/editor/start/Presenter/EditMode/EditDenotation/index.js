@@ -67,10 +67,15 @@ export default class EditDenotation extends Edit {
       annotationData.typeDefinition.denotation
     )
 
+    this._spanEdtior = spanEditor
     this._mouseEventHandler = mouseEventHandler
   }
 
   createSpan() {
     this._mouseEventHandler.textBoxClicked({ stopPropagation() {} })
+  }
+
+  expandSpan() {
+    this._spanEdtior.expandForTouchDevice()
   }
 }
