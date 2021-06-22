@@ -105,7 +105,6 @@ export default class EnableState {
     span,
     pallet
   ) {
-    this._states['span'] = true
     this._states['simple'] = simple
     this._states['replicate-auto'] = replicateAuto
     this._states['boundary-detection'] = boundaryDetection
