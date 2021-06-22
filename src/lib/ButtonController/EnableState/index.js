@@ -110,7 +110,7 @@ export default class EnableState {
     this._states['boundary-detection'] = boundaryDetection
     this._states['line-height'] = lineHeight
     this._states['line-height-auto'] = lineHeightAuto
-    this._states['span'] = span
+    this._states['create-span'] = span
     this._states['pallet'] = pallet
   }
 }

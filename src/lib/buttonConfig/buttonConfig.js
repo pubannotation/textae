@@ -84,7 +84,7 @@ export const buttonConfig = [
       push: true
     }
   ],
-  isTouchDevice() ? [{ type: 'span', title: 'Create span' }] : null,
+  isTouchDevice() ? [{ type: 'create-span', title: 'Create span' }] : null,
   [
     {
       type: 'entity',

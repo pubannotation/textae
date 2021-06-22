@@ -16,7 +16,7 @@ export default function (
     ['undo', () => commander.undo()],
     ['redo', () => commander.redo()],
     ['replicate', () => presenter.event.replicate()],
-    ['span', () => presenter.event.createSpan()],
+    ['create-span', () => presenter.event.createSpan()],
     ['entity', () => presenter.event.createEntity()],
     ['change-label', () => presenter.event.editTypeValues()],
     ['pallet', () => presenter.event.showPallet()],
