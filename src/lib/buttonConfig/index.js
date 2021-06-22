@@ -6,11 +6,11 @@ class Config {
   get controlBar() {
     return {
       buttonGroup: buttonConfig
-        .filter((group) => {
+        .filter(({ usage }) => {
           if (isTouchDevice()) {
             return true
           } else {
-            return group.usage !== 'touch device'
+            return usage !== 'touch device'
           }
         })
         .map(({ list }) => ({
@@ -26,11 +26,11 @@ class Config {
   get contextMenu() {
     return {
       buttonGroup: buttonConfig
-        .filter((group) => {
+        .filter(({ usage }) => {
           if (isTouchDevice()) {
             return true
           } else {
-            return group.usage !== 'touch device'
+            return usage !== 'touch device'
           }
         })
         .map(({ list }) => ({
