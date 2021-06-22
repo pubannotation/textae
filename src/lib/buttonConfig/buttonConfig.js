@@ -1,5 +1,3 @@
-import isTouchDevice from '../control/isTouchDevice'
-
 export const buttonConfig = [
   {
     list: [
@@ -95,14 +93,13 @@ export const buttonConfig = [
       }
     ]
   },
-  isTouchDevice()
-    ? {
-        list: [
-          { type: 'create-span', title: 'Create span' },
-          { type: 'expand-span', title: 'Expand span' }
-        ]
-      }
-    : { list: null },
+  {
+    usage: 'touch device',
+    list: [
+      { type: 'create-span', title: 'Create span' },
+      { type: 'expand-span', title: 'Expand span' }
+    ]
+  },
   {
     list: [
       {
@@ -185,4 +182,4 @@ export const buttonConfig = [
       }
     ]
   }
-].filter((e) => e.list)
+]
