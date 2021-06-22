@@ -1,4 +1,4 @@
-import aggrigateTargetRelations from './aggrigateTargetRelations'
+import aggregateTargetRelations from './aggregateTargetRelations'
 
 export default function (
   targetEntities,
@@ -11,6 +11,6 @@ export default function (
     targetAttributes.add(attribute)
   }
   for (const relation of entity.relations) {
-    aggrigateTargetRelations(targetRelations, targetAttributes, relation)
+    aggregateTargetRelations(targetRelations, targetAttributes, relation)
   }
 }

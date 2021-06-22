@@ -1,7 +1,7 @@
 import CompositeCommand from './CompositeCommand'
 import { RemoveCommand } from './commandTemplate'
 import aggrigateTargetEntities from './aggrigateTargetEntities'
-import aggrigateTargetRelations from './aggrigateTargetRelations'
+import aggregateTargetRelations from './aggregateTargetRelations'
 
 export default class RemoveSelectedCommand extends CompositeCommand {
   constructor(editor, annotationData, selectionModel) {
@@ -32,7 +32,7 @@ export default class RemoveSelectedCommand extends CompositeCommand {
       )
     }
     for (const relation of selectionModel.relation.all) {
-      aggrigateTargetRelations(targetRelations, targetAttributes, relation)
+      aggregateTargetRelations(targetRelations, targetAttributes, relation)
     }
 
     // Aggrigate spans to lose all entities.
