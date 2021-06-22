@@ -181,7 +181,7 @@ export default class SpanModel {
   }
 
   getShortenSpan(spanAdjuster, selectionWrapper, sourceDoc, spanConfig) {
-    const { anchor, focus } = selectionWrapper.getPositionsOnAnnotation()
+    const { anchor, focus } = selectionWrapper.positionsOnAnnotation
 
     if (anchor < focus) {
       // shorten the left boundary
@@ -199,7 +199,7 @@ export default class SpanModel {
   }
 
   getExpandedSpan(spanAdjuster, selectionWrapper, sourceDoc, spanConfig) {
-    const { anchor, focus } = selectionWrapper.getPositionsOnAnnotation()
+    const { anchor, focus } = selectionWrapper.positionsOnAnnotation
 
     if (anchor < focus) {
       // expand to the right

@@ -95,7 +95,7 @@ export default class SelectionWrapper {
     return this.selection.focusNode.parentElement
   }
 
-  getPositionsOnAnnotation() {
+  get positionsOnAnnotation() {
     return new PositionsOnAnnotation(this._spanModelContainer, this)
   }
 }

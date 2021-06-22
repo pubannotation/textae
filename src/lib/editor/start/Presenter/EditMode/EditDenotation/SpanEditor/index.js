@@ -136,7 +136,7 @@ export default class SpanEditor {
       const parentSpan = this._annotationData.span.get(
         selectionWrapper.parentOfAnchorNode.id
       )
-      const positionsOnAnnotation = selectionWrapper.getPositionsOnAnnotation()
+      const positionsOnAnnotation = selectionWrapper.positionsOnAnnotation
 
       // Shrink the span
       // if the anchor position is the same as the begin or end of the parent span.
@@ -282,7 +282,7 @@ export default class SpanEditor {
     if (selectionWrapper.isAnchorOneDownUnderFocus) {
       // If the anchor position coincides with the begin or end of the denotation span,
       // the denotation span will be shrunk.
-      const { anchor } = selectionWrapper.getPositionsOnAnnotation()
+      const { anchor } = selectionWrapper.positionsOnAnnotation
       const denotationSpanOnFocus = this._annotationData.span.get(
         selectionWrapper.parentOfFocusNode.id
       )
@@ -320,7 +320,7 @@ export default class SpanEditor {
       return false
     }
 
-    const { focus } = selectionWrapper.getPositionsOnAnnotation()
+    const { focus } = selectionWrapper.positionsOnAnnotation
     return span.begin < focus && focus < span.end
   }
 
