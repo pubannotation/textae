@@ -1,4 +1,4 @@
-export default function getNewSpan(
+export default function (
   annotationData,
   spanAdjuster,
   spanId,
