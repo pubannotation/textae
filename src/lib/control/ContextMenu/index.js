@@ -10,9 +10,6 @@ function template(context) {
 <div class="textae-control ${
     isTouchDevice() ? 'textae-android-context-menu' : 'textae-context-menu'
   }">
-  <p class="textae-control__title">
-    <a href="http://textae.pubannotation.org/" target="_blank">TextAE</a>
-  </p>
   ${buttonGroup.map(toMenuGroup()).join('\n')}
 </div>
 `
