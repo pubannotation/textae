@@ -1,7 +1,7 @@
 import Control from '../Control'
 import isTouchDevice from '../isTouchDevice'
-import toMenuGroup from './toMenuGroup'
 import buttonConfig from '../../buttonConfig'
+import toMenuItem from './toMenuGroup/toMenuItem'
 
 // Make a group of buttons that is headed by the separator.
 function template(context) {
@@ -10,7 +10,14 @@ function template(context) {
 <div class="textae-control ${
     isTouchDevice() ? 'textae-android-context-menu' : 'textae-context-menu'
   }">
-  ${buttonGroup.map(toMenuGroup()).join('\n')}
+  ${buttonGroup
+    .map(
+      ({ list }) => `
+        <p class="textae-control__separator"></p>
+        ${list.map(toMenuItem()).join('\n')}
+      `
+    )
+    .join('\n')}
 </div>
 `
 }
