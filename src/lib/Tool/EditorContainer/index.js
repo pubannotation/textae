@@ -6,15 +6,15 @@ const helpDialog = new HelpDialog()
 
 export default class EditorContainer {
   constructor() {
-    this._editorList = []
+    this._editors = []
     this._selected = null
   }
 
   push(editor) {
     Object.assign(editor, {
-      editorId: getNewId(this._editorList)
+      editorId: getNewId(this._editors)
     })
-    this._editorList.push(editor)
+    this._editors.push(editor)
 
     editor[0].addEventListener('keyup', (e) => keyInputHandler(this, e))
   }
@@ -24,7 +24,7 @@ export default class EditorContainer {
   }
 
   set selected(editor) {
-    for (const editor of this._editorList) {
+    for (const editor of this._editors) {
       // Do not deselect the selected editor.
       // Otherwise, it will be deselected once when you reselect the currently selected editor and close the palette.
       if (editor !== editor) {
@@ -44,11 +44,11 @@ export default class EditorContainer {
   }
 
   redraw() {
-    this._editorList.forEach((e) => e.api.redraw())
+    this._editors.forEach((e) => e.api.redraw())
   }
 
   findByHTMLelement(dom) {
-    return this._editorList.filter((e) => e[0] === dom)[0]
+    return this._editors.filter((e) => e[0] === dom)[0]
   }
 
   openHelpDialog() {
