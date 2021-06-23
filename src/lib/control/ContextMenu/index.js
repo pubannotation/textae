@@ -1,7 +1,7 @@
 import Control from '../Control'
 import isTouchDevice from '../isTouchDevice'
 import buttonConfig from '../../buttonConfig'
-import toMenuItem from './toMenuGroup/toMenuItem'
+import toMenuItem from './toMenuItem'
 
 // Make a group of buttons that is headed by the separator.
 function template(context) {
