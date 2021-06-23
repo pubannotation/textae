@@ -29,7 +29,7 @@ class Config {
         .filter(({ usage }) => usage !== 'control bar')
         .filter(({ usage }) => {
           if (isTouchDevice()) {
-            return true
+            return usage === 'touch device'
           } else {
             return usage !== 'touch device'
           }
