@@ -8,7 +8,7 @@ const helpDialog = new HelpDialog()
 export default class EditorContainer {
   constructor() {
     this.editorList = []
-    this.selectedEditor = null
+    this._selected = null
   }
 
   push(editor) {
@@ -21,18 +21,18 @@ export default class EditorContainer {
   }
 
   get selected() {
-    return this.selectedEditor
+    return this._selected
   }
 
   set selected(editor) {
     switchActiveClass(this.editorList, editor)
-    this.selectedEditor = editor
+    this._selected = editor
   }
 
   unselect(editor) {
-    if (this.selectedEditor === editor) {
+    if (this._selected === editor) {
       editor.api.unselect()
-      this.selectedEditor = null
+      this._selected = null
     }
   }
 
