@@ -11,13 +11,8 @@ function template(context) {
     isTouchDevice() ? 'textae-android-context-menu' : 'textae-context-menu'
   }">
   ${buttonGroup
-    .map(
-      ({ list }) => `
-        <p class="textae-control__separator"></p>
-        ${list.map(toMenuItem()).join('\n')}
-      `
-    )
-    .join('\n')}
+    .map(({ list }) => `${list.map(toMenuItem()).join('\n')}`)
+    .join('<p class="textae-control__separator"></p>\n')}
 </div>
 `
 }
