@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.13.0](https://github.com/pubannotation/textae/compare/v7.12.0...v7.13.0) (2021-06-23)
+
+
+### Features
+
+* Added a group of icons for span operations to the toolbar ([5b7ea22](https://github.com/pubannotation/textae/commit/5b7ea225c58e229990711967c575b5c8e176e943))
+* The span can be extended with touch devices ([af9c269](https://github.com/pubannotation/textae/commit/af9c269044c40a1ae8bd09b8668cc018e61207ed))
+
+
+### Bug Fixes
+
+* Shrinking and deleting a span with relations will cause an error ([8475135](https://github.com/pubannotation/textae/commit/8475135f3598479d857c4a7fd58e81064d357317))
+* The length of the control bar is too long when viewed in a PC browser ([7a6e223](https://github.com/pubannotation/textae/commit/7a6e223ad64cdf696b09d3c78c99db077a07191f))
+* Toolbar flows when scrolling in Android chrome ([fb00f9f](https://github.com/pubannotation/textae/commit/fb00f9f415ce5ea2890e946ac2f23d4b7257da83))
+
 ## [7.12.0](https://github.com/pubannotation/textae/compare/v7.11.0...v7.12.0) (2021-06-16)
 
 
