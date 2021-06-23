@@ -1,6 +1,5 @@
 import HelpDialog from '../../component/HelpDialog'
 import getNewId from './getNewId'
-import switchActiveClass from './switchActiveClass'
 import keyInputHandler from './keyInputHandler'
 
 const helpDialog = new HelpDialog()
@@ -25,7 +24,15 @@ export default class EditorContainer {
   }
 
   set selected(editor) {
-    switchActiveClass(this._editorList, editor)
+    for (const editor of this._editorList) {
+      // Do not deselect the selected editor.
+      // Otherwise, it will be deselected once when you reselect the currently selected editor and close the palette.
+      if (editor !== editor) {
+        editor.api.unselect()
+      }
+    }
+    editor.api.select()
+
     this._selected = editor
   }
 
