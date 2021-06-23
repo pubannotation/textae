@@ -7,15 +7,15 @@ const helpDialog = new HelpDialog()
 
 export default class EditorContainer {
   constructor() {
-    this.editorList = []
+    this._editorList = []
     this._selected = null
   }
 
   push(editor) {
     Object.assign(editor, {
-      editorId: getNewId(this.editorList)
+      editorId: getNewId(this._editorList)
     })
-    this.editorList.push(editor)
+    this._editorList.push(editor)
 
     editor[0].addEventListener('keyup', (e) => keyInputHandler(this, e))
   }
@@ -25,7 +25,7 @@ export default class EditorContainer {
   }
 
   set selected(editor) {
-    switchActiveClass(this.editorList, editor)
+    switchActiveClass(this._editorList, editor)
     this._selected = editor
   }
 
@@ -37,11 +37,11 @@ export default class EditorContainer {
   }
 
   redraw() {
-    this.editorList.forEach((e) => e.api.redraw())
+    this._editorList.forEach((e) => e.api.redraw())
   }
 
   findByHTMLelement(dom) {
-    return this.editorList.filter((e) => e[0] === dom)[0]
+    return this._editorList.filter((e) => e[0] === dom)[0]
   }
 
   openHelpDialog() {
