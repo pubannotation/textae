@@ -167,6 +167,7 @@ export const buttonConfig = [
     ]
   },
   {
+    usage: 'control bar',
     list: [
       {
         type: 'setting',
@@ -175,6 +176,7 @@ export const buttonConfig = [
     ]
   },
   {
+    usage: 'control bar',
     list: [
       {
         type: 'help',

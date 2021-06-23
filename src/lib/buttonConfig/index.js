@@ -26,6 +26,7 @@ class Config {
   get contextMenu() {
     return {
       buttonGroup: buttonConfig
+        .filter(({ usage }) => usage !== 'control bar')
         .filter(({ usage }) => {
           if (isTouchDevice()) {
             return true
