@@ -15,10 +15,17 @@ export default function (el, editor) {
   }
 
   for (const button of el.querySelectorAll('.textae-control__icon')) {
-    if (button.dataset.buttonType === 'help') {
-      button.addEventListener('click', () => helpDialog.open())
-    } else {
-      button.addEventListener('mousedown', eventHandler)
+    switch (button.dataset.buttonType) {
+      case 'help':
+        button.addEventListener('click', () => helpDialog.open())
+        break
+      case 'create-span':
+      case 'expand-span':
+        // Monitor the mousedown event to get the currently selected text.
+        button.addEventListener('mousedown', eventHandler)
+        break
+      default:
+        button.addEventListener('click', eventHandler)
     }
   }
 }
