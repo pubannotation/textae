@@ -115,11 +115,6 @@ export default class TypeValuesPallet extends Pallet {
   }
 
   get _content() {
-    console.log(
-      '_content',
-      this._originalData.configuration,
-      this._annotationData.typeDefinition.config
-    )
     return createContentHtml(
       this._definitionContainer.pallet,
       diff(this._originalData.configuration, {
