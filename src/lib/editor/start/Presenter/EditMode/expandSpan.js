@@ -11,9 +11,10 @@ export default function (
 ) {
   selectionModel.removeAll()
 
+  console.log(annotationData.span.get(spanId))
   const { begin, end } = annotationData.span
     .get(spanId)
-    .getExpandedSpan(
+    .getExpandedSpanFromAnchorNode(
       spanAdjuster,
       selectionWrapper,
       annotationData.sourceDoc,

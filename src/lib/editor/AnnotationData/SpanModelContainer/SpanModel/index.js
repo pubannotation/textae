@@ -198,7 +198,12 @@ export default class SpanModel {
     }
   }
 
-  getExpandedSpan(spanAdjuster, selectionWrapper, sourceDoc, spanConfig) {
+  getExpandedSpanFromAnchorNode(
+    spanAdjuster,
+    selectionWrapper,
+    sourceDoc,
+    spanConfig
+  ) {
     const { anchor, focus } = selectionWrapper.positionsOnAnnotation
 
     if (anchor < focus) {
