@@ -127,6 +127,10 @@ export default class SpanEditor {
 
   _getExpandedSpan() {
     const selectionWrapper = new SelectionWrapper(this._annotationData.span)
+
+    // When you select text by mouse operation,
+    // the anchor node of the selected string is always inside the span to be extended,
+    // and the focus node is outside.
     const spanId =
       getExpandTargetSpanFromAnchorNode(
         this._selectionModel,
