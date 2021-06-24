@@ -107,6 +107,8 @@ export default class SpanEditor {
     if (expandedSpan) {
       const { spanId, begin, end } = expandedSpan
 
+      console.log(expandedSpan)
+
       // The span cross exists spans.
       if (
         this._annotationData.span.isBoundaryCrossingWithOtherSpans(begin, end)
@@ -131,12 +133,10 @@ export default class SpanEditor {
     // When you select text by mouse operation,
     // the anchor node of the selected string is always inside the span to be extended,
     // and the focus node is outside.
-    const spanIdFromAnchor =
-      getExpandTargetSpanFromAnchorNode(
-        this._selectionModel,
-        selectionWrapper
-      ) ||
-      getExpandTargetSpanFromFocusNode(this._selectionModel, selectionWrapper)
+    const spanIdFromAnchor = getExpandTargetSpanFromAnchorNode(
+      this._selectionModel,
+      selectionWrapper
+    )
 
     if (spanIdFromAnchor) {
       return {
@@ -144,6 +144,27 @@ export default class SpanEditor {
         ...this._annotationData.span
           .get(spanIdFromAnchor)
           .getExpandedSpanFromAnchorNode(
+            this._buttonController.spanAdjuster,
+            selectionWrapper,
+            this._annotationData.sourceDoc,
+            this._spanConfig
+          )
+      }
+    }
+
+    // On touch devices, the focus node of the selected string may be inside the span to be extended,
+    // and the anchor node may be outside.
+    const spanIdFromFocus = getExpandTargetSpanFromFocusNode(
+      this._selectionModel,
+      selectionWrapper
+    )
+
+    if (spanIdFromFocus) {
+      return {
+        spanId: spanIdFromFocus,
+        ...this._annotationData.span
+          .get(spanIdFromFocus)
+          .getExpandedSpanFromFocusNode(
             this._buttonController.spanAdjuster,
             selectionWrapper,
             this._annotationData.sourceDoc,
