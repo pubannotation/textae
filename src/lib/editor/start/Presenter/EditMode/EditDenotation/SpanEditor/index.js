@@ -103,23 +103,9 @@ export default class SpanEditor {
   }
 
   expandForTouchDevice() {
-    const selectionWrapper = new SelectionWrapper(this._annotationData.span)
-    const spanId =
-      getExpandTargetSpanFromAnchorNode(
-        this._selectionModel,
-        selectionWrapper
-      ) ||
-      getExpandTargetSpanFromFocusNode(this._selectionModel, selectionWrapper)
-
-    if (spanId) {
-      const { begin, end } = this._annotationData.span
-        .get(spanId)
-        .getExpandedSpan(
-          this._buttonController.spanAdjuster,
-          selectionWrapper,
-          this._annotationData.sourceDoc,
-          this._spanConfig
-        )
+    const expandedSpan = this._getExpandedSpan()
+    if (expandedSpan) {
+      const { spanId, begin, end } = expandedSpan
 
       // The span cross exists spans.
       if (
@@ -136,6 +122,30 @@ export default class SpanEditor {
       this._commander.invoke(
         this._commander.factory.moveDenotationSpanCommand(spanId, begin, end)
       )
+    }
+  }
+
+  _getExpandedSpan() {
+    const selectionWrapper = new SelectionWrapper(this._annotationData.span)
+    const spanId =
+      getExpandTargetSpanFromAnchorNode(
+        this._selectionModel,
+        selectionWrapper
+      ) ||
+      getExpandTargetSpanFromFocusNode(this._selectionModel, selectionWrapper)
+
+    if (spanId) {
+      return {
+        spanId,
+        ...this._annotationData.span
+          .get(spanId)
+          .getExpandedSpan(
+            this._buttonController.spanAdjuster,
+            selectionWrapper,
+            this._annotationData.sourceDoc,
+            this._spanConfig
+          )
+      }
     }
   }
 
