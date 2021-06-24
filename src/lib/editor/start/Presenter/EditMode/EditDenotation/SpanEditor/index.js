@@ -131,18 +131,18 @@ export default class SpanEditor {
     // When you select text by mouse operation,
     // the anchor node of the selected string is always inside the span to be extended,
     // and the focus node is outside.
-    const spanId =
+    const spanIdFromAnchor =
       getExpandTargetSpanFromAnchorNode(
         this._selectionModel,
         selectionWrapper
       ) ||
       getExpandTargetSpanFromFocusNode(this._selectionModel, selectionWrapper)
 
-    if (spanId) {
+    if (spanIdFromAnchor) {
       return {
-        spanId,
+        spanId: spanIdFromAnchor,
         ...this._annotationData.span
-          .get(spanId)
+          .get(spanIdFromAnchor)
           .getExpandedSpanFromAnchorNode(
             this._buttonController.spanAdjuster,
             selectionWrapper,
