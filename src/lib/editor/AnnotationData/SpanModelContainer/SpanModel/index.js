@@ -220,4 +220,27 @@ export default class SpanModel {
       }
     }
   }
+
+  getExpandedSpanFromFocusNode(
+    spanAdjuster,
+    selectionWrapper,
+    sourceDoc,
+    spanConfig
+  ) {
+    const { anchor, focus } = selectionWrapper.positionsOnAnnotation
+
+    if (focus < anchor) {
+      // expand to the right
+      return {
+        begin: this.begin,
+        end: spanAdjuster.forwardFromEnd(sourceDoc, anchor - 1, spanConfig) + 1
+      }
+    } else {
+      // expand to the left
+      return {
+        begin: spanAdjuster.backFromBegin(sourceDoc, anchor, spanConfig),
+        end: this.end
+      }
+    }
+  }
 }
