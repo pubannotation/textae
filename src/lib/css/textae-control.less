@@ -3,7 +3,7 @@
   white-space: normal;
 
   /*== Elements inside the textae_control ==*/
-  &__title {
+  &-title {
     margin: 2px 10px 0 0;
     font-family: 'Helvetica Neue', Arial;
     font-weight: 600;
@@ -17,11 +17,11 @@
     }
   }
 
-  &__separator {
+  &-separator {
     margin: 6px 2px 0 2px;
   }
 
-  &__icon {
+  &-icon {
     cursor: pointer;
     margin: 6px 4px 0 4px;
 
@@ -38,31 +38,31 @@
     }
   }
 
-  &__view-button {
+  &-view-button {
     background: url('./images/btn_view_16.png');
   }
 
-  &__term-button {
+  &-term-button {
     background: url('./images/btn_term_16.png');
   }
 
-  &__block-button {
+  &-block-button {
     background: url('./images/btn_block_16.png');
   }
 
-  &__relation-button {
+  &-relation-button {
     background: url('./images/btn_relation_16.png');
   }
 
-  &__simple-button {
+  &-simple-button {
     background: url('./images/btn_simple_16.png');
   }
 
-  &__read-button {
+  &-read-button {
     background: url('./images/btn_read_16.png');
   }
 
-  &__write-button {
+  &-write-button {
     background: url('./images/btn_write_16.png');
 
     &--transit {
@@ -70,79 +70,79 @@
     }
   }
 
-  &__write-auto-button {
+  &-write-auto-button {
     background: url('./images/btn_write_auto_16.png');
   }
 
-  &__undo-button {
+  &-undo-button {
     background: url('./images/btn_undo_16.png');
   }
 
-  &__redo-button {
+  &-redo-button {
     background: url('./images/btn_redo_16.png');
   }
 
-  &__replicate-button {
+  &-replicate-button {
     background: url('./images/btn_replicate_16.png');
   }
 
-  &__replicate-auto-button {
+  &-replicate-auto-button {
     background: url('./images/btn_replicate_auto_16.png');
   }
 
-  &__boundary-detection-button {
+  &-boundary-detection-button {
     background: url('./images/btn_boundary_detection_16.png');
   }
 
-  &__create-span-button {
+  &-create-span-button {
     background: url('./images/btn_create_span_16.png');
   }
 
-  &__expand-span-button {
+  &-expand-span-button {
     background: url('./images/btn_expand_span_16.png');
   }
 
-  &__entity-button {
+  &-entity-button {
     background: url('./images/btn_denote_16.png');
   }
 
-  &__pallet-button {
+  &-pallet-button {
     background: url('./images/btn_pallet_16.png');
   }
 
-  &__change-label-button {
+  &-change-label-button {
     background: url('./images/btn_change_label_16.png');
   }
 
-  &__delete-button {
+  &-delete-button {
     background: url('./images/btn_delete_16.png');
   }
 
-  &__copy-button {
+  &-copy-button {
     background: url('./images/btn_copy_16.png');
   }
 
-  &__cut-button {
+  &-cut-button {
     background: url('./images/btn_cut_16.png');
   }
 
-  &__paste-button {
+  &-paste-button {
     background: url('./images/btn_paste_16.png');
   }
 
-  &__help-button {
+  &-help-button {
     background: url('./images/btn_help_16.png');
   }
 
-  &__setting-button {
+  &-setting-button {
     background: url('./images/btn_setting_16.png');
   }
 
-  &__line-height-button {
+  &-line-height-button {
     background: url('./images/btn_line_height_16.png');
   }
 
-  &__line-height-auto-button {
+  &-line-height-auto-button {
     background: url('./images/btn_line_height_auto_16.png');
   }
 }
@@ -182,27 +182,27 @@
   z-index: 8;
 
   /*== Elements inside the textae_control ==*/
-  .textae-control__title {
+  .textae-control-title {
     display: block;
   }
 
-  .textae-control__separator {
+  .textae-control-separator {
     display: block;
     border: 2px solid #aad;
   }
 
-  .textae-control__icon {
+  .textae-control-icon {
     display: block;
   }
 }
 .textae-control-bar {
   max-width: 763px;
 
-  .textae-control__separator {
+  .textae-control-separator {
     height: 16px;
   }
 
-  .textae-control__icon {
+  .textae-control-icon {
     width: 16px;
     height: 16px;
   }
@@ -210,15 +210,15 @@
 .textae-touch-bar {
   max-width: 752px;
 
-  .textae-control__title {
+  .textae-control-title {
     line-height: 48px;
   }
 
-  .textae-control__separator {
+  .textae-control-separator {
     height: 32px;
   }
 
-  .textae-control__icon {
+  .textae-control-icon {
     background-size: cover;
     height: 32px;
     margin: 8px 8px;
@@ -246,7 +246,7 @@
   }
 
   > p {
-    &:not(.textae-control__title):not(.textae-control__icon--disabled) {
+    &:not(.textae-control-title):not(.textae-control -icon--disabled) {
       &:focus,
       &:active,
       &:hover {
@@ -256,7 +256,7 @@
     }
   }
 
-  .textae-control__icon {
+  .textae-control-icon {
     margin-top: 0;
     padding-left: 20px;
     background-size: 16px;
@@ -264,7 +264,7 @@
     background-position: left center;
   }
 
-  .textae-control__separator {
+  .textae-control-separator {
     border: 1px solid #aad;
   }
 }

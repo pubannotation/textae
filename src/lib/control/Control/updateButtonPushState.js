@@ -1,5 +1,5 @@
 export default function (el, buttonType, isPushed) {
-  const button = el.querySelector(`.textae-control__${buttonType}-button`)
+  const button = el.querySelector(`.textae-control-${buttonType}-button`)
 
   // Touch devices limit the number of buttons displayed in the context menu
   // due to the limited screen area.
@@ -8,8 +8,8 @@ export default function (el, buttonType, isPushed) {
   }
 
   if (isPushed) {
-    button.classList.add('textae-control__icon--pushed')
+    button.classList.add('textae-control-icon--pushed')
   } else {
-    button.classList.remove('textae-control__icon--pushed')
+    button.classList.remove('textae-control-icon--pushed')
   }
 }

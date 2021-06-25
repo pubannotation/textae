@@ -10,7 +10,7 @@ function template(context) {
 <div class="textae-control ${
     isTouchDevice() ? 'textae-touch-bar' : 'textae-control-bar'
   }">
-  <span class="textae-control__title">
+  <span class="textae-control-title">
     <a href="http://textae.pubannotation.org/" target="_blank">TextAE</a>
   </span>
   ${buttonGroup.map(toButtonGroup()).join('\n')}

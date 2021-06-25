@@ -12,7 +12,7 @@ function template(context) {
   }">
   ${buttonGroup
     .map(({ list }) => list.map(toMenuItem()).join(''))
-    .join('<p class="textae-control__separator"></p>\n')}
+    .join('<p class="textae-control-separator"></p>\n')}
 </div>
 `
 }

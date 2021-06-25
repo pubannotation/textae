@@ -6,7 +6,7 @@ export default function (el, editor) {
   // Bind eventhandler
   const eventHandler = (e) => {
     // Ignore disabled button's events.
-    if (e.currentTarget.classList.contains('textae-control__icon--disabled')) {
+    if (e.currentTarget.classList.contains('textae-control-icon--disabled')) {
       return
     }
 
@@ -14,7 +14,7 @@ export default function (el, editor) {
     editor.api.handleButtonClick(buttonType)
   }
 
-  for (const button of el.querySelectorAll('.textae-control__icon')) {
+  for (const button of el.querySelectorAll('.textae-control-icon')) {
     switch (button.dataset.buttonType) {
       case 'help':
         button.addEventListener('click', () => helpDialog.open())
