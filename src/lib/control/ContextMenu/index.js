@@ -31,6 +31,17 @@ export default class ContextMenu extends Control {
     super.el.classList.add('textae-context-menu--show')
   }
 
+  showAbove(positionTop, positionLeft) {
+    super.el.classList.remove('textae-context-menu--hide')
+    super.el.classList.add('textae-context-menu--show')
+
+    const { height } = this.el.getBoundingClientRect()
+    super.el.setAttribute(
+      'style',
+      `top: ${positionTop - height}px; left: ${positionLeft}px`
+    )
+  }
+
   hide() {
     if (this._isOpen) {
       super.el.classList.remove('textae-context-menu--show')

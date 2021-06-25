@@ -1,3 +1,5 @@
+import isTouchDevice from '../control/isTouchDevice'
+
 export default function (editor, contextMenu) {
   // add context menu
   editor[0].appendChild(contextMenu.el)
@@ -44,11 +46,25 @@ export default function (editor, contextMenu) {
 
       // Prevent show browser default context menu
       e.preventDefault()
+      const selection = window.getSelection()
 
-      // The context menu is `position:absolute` in the editor.
-      // I want the coordinates where you right-click with the mouse, starting from the upper left of the editor.
-      // So the Y coordinate is pageY minus the editor's offsetTop.
-      contextMenu.show(e.pageY - editor[0].offsetTop, e.pageX)
+      if (isTouchDevice() && selection.rangeCount === 1) {
+        const rectOfSelection = selection.getRangeAt(0).getBoundingClientRect()
+        const rectOfTextBox = editor[0]
+          .querySelector('.textae-editor__text-box')
+          .getBoundingClientRect()
+
+        contextMenu.showAbove(
+          rectOfSelection.y - editor[0].getBoundingClientRect().y,
+          rectOfSelection.x - rectOfTextBox.x
+        )
+      } else {
+        // The context menu is `position:absolute` in the editor.
+        // I want the coordinates where you right-click with the mouse,
+        // starting from the upper left of the editor.
+        // So the Y coordinate is pageY minus the editor's offsetTop.
+        contextMenu.show(e.pageY - editor[0].offsetTop, e.pageX)
+      }
     }
   })
 }
