@@ -173,9 +173,6 @@
   border-radius: 15px;
   border-right: 5px solid #558;
   box-shadow: 6px 6px 6px 6px rgba(0, 0, 0, 0.4);
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-evenly;
   margin-left: 2px;
   padding: 0 20px 5px 10px;
   position: sticky;
@@ -224,6 +221,43 @@
     height: 32px;
     margin: 8px 8px;
     width: 32px;
+  }
+}
+
+// Show the hamburger menu button and collapse the toolbar on narrow devices.
+.textae-control-humburger-menu-button {
+  background-color: transparent;
+  border-color: rgba(0, 0, 0, 0.5);
+  border-radius: 0.25em;
+  color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  height: 32px;
+  margin-top: 10px;
+  padding: 2px 0;
+  width: 32px;
+}
+.textae-control-summary {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  @media screen and (min-width: 769px) {
+    display: none;
+  }
+}
+.textae-control-details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  @media screen and (max-width: 768px) {
+    display: none;
+    &--force-show {
+      display: flex;
+
+      > :nth-of-type(1),
+      > :nth-of-type(2) {
+        display: none;
+      }
+    }
   }
 }
 

@@ -28,4 +28,16 @@ export default function (el, editor) {
         button.addEventListener('click', eventHandler)
     }
   }
+
+  const hamburgerMenuButton = el.querySelector(
+    '.textae-control-humburger-menu-button'
+  )
+  if (hamburgerMenuButton) {
+    hamburgerMenuButton.addEventListener('click', (e) =>
+      e.target
+        .closest('.textae-control')
+        .querySelector('.textae-control-details')
+        .classList.toggle('textae-control-details--force-show')
+    )
+  }
 }
