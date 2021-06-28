@@ -6,7 +6,7 @@ export default function (
   selectionWrapper,
   spanConfig
 ) {
-  const positionsOnAnnotation = selectionWrapper.positionsOnAnnotation
+  const { positionsOnAnnotation } = selectionWrapper
   const orderedPositions = new OrderedPositions(positionsOnAnnotation)
 
   return {
