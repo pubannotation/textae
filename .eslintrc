@@ -1,14 +1,14 @@
 {
   "rules": {
     "no-unused-vars": "off",
-    "one-var": ["warn", "never"],
-    "no-var": "warn",
-    "prefer-const": "warn",
-    "object-shorthand": ["warn", "always"],
-    "prefer-arrow-callback": "warn",
-    "prefer-destructuring": ["warn", {"object": true, "array": false}],
-    "prefer-object-spread": "warn",
-    "prefer-template": "warn",
+    "one-var": ["error", "never"],
+    "no-var": "error",
+    "prefer-const": "error",
+    "object-shorthand": ["error", "always"],
+    "prefer-arrow-callback": "error",
+    "prefer-destructuring": ["error", {"object": true, "array": false}],
+    "prefer-object-spread": "error",
+    "prefer-template": "error",
     "import/no-unresolved": "error",
     "unused-imports/no-unused-imports": "error"
   },
