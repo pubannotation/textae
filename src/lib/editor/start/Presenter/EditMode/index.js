@@ -154,7 +154,9 @@ export default class EditMode {
             show() {},
             selectLeftTab() {},
             selectRightTab() {}
-          }
+          },
+          editTypeValues() {},
+          manipulateAttribute() {}
         }
     }
   }

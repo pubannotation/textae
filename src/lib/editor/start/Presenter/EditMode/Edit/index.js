@@ -1,3 +1,4 @@
+import forwardMethods from '../../forwardMethods'
 import bindPalletEvents from './bindPalletEvents'
 
 export default class Edit {
@@ -26,6 +27,11 @@ export default class Edit {
     )
 
     editor[0].appendChild(pallet.el)
+
+    forwardMethods(this, () => handler, [
+      'editTypeValues',
+      'manipulateAttribute'
+    ])
   }
 
   init() {
