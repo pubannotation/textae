@@ -4,6 +4,13 @@ import replicateHandler from './replicateHandler'
 import Horizontal from './Horizontal'
 import Vertical from './Vertical'
 
+function forwardMethods(self, getTarget, methods) {
+  for (const method of methods) {
+    const target = getTarget()
+    self[method] = () => target[method].call(target, arguments)
+  }
+}
+
 export default class EventMap {
   constructor(
     editor,
@@ -27,10 +34,8 @@ export default class EventMap {
     this._editMode = editMode
     this._horizontal = new Horizontal(editor, selectionModel)
     this._vertical = new Vertical(editor, selectionModel)
-  }
 
-  createSpan() {
-    this._editMode.createSpan()
+    forwardMethods(this, () => this._editMode, ['createSpan'])
   }
 
   expandSpan() {
