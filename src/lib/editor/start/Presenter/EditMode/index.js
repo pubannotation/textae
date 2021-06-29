@@ -3,7 +3,7 @@ import StateMachine from './StateMachine'
 import EditDenotation from './EditDenotation'
 import EditBlock from './EditBlock'
 import EditRelation from './EditRelation'
-import isSimple from '../isSimple'
+import isSimple from './isSimple'
 
 export default class EditMode {
   constructor(

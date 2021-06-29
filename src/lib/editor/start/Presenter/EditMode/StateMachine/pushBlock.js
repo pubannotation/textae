@@ -1,5 +1,5 @@
 import { MODE } from '../../../../../MODE'
-import isSimple from '../../isSimple'
+import isSimple from '../isSimple'
 
 export default function (stateMachine, annotationData) {
   switch (stateMachine.currentState) {

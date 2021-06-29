@@ -1,4 +1,4 @@
-import isSimple from '../../isSimple'
+import isSimple from '../isSimple'
 import { MODE } from '../../../../../MODE'
 
 export default function (stateMachine, annotationData) {
