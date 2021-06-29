@@ -114,7 +114,7 @@ export default class EditMode {
     this._stateMachine.toViewMode()
   }
 
-  pushTerm() {
+  toTermMode() {
     this._stateMachine.pushTerm(this._annotationData)
   }
 

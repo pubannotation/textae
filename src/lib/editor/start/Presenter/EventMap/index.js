@@ -131,7 +131,7 @@ export default class EventMap {
   }
 
   toTermMode() {
-    this._editMode.pushTerm()
+    this._editMode.toTermMode()
   }
 
   toBlockMode() {
