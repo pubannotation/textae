@@ -129,7 +129,7 @@ export default class StateMachine {
     toggleSimple(this)
   }
 
-  changeByShortcut() {
+  changeModeByShortcut() {
     changeByShortcut(this)
   }
 }

@@ -131,8 +131,8 @@ export default class EditMode {
   }
 
   // For key input of F or M.
-  changeByShortcut() {
-    this._stateMachine.changeByShortcut()
+  changeModeByShortcut() {
+    this._stateMachine.changeModeByShortcut()
   }
 
   showPallet() {

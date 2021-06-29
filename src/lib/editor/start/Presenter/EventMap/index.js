@@ -125,8 +125,8 @@ export default class EventMap {
     }
   }
 
-  changeMode() {
-    this._editMode.changeByShortcut()
+  changeModeByShortcut() {
+    this._editMode.changeModeByShortcut()
   }
 
   toViewMode() {
