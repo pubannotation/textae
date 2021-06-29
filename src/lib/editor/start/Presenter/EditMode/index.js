@@ -4,6 +4,7 @@ import EditDenotation from './EditDenotation'
 import EditBlock from './EditBlock'
 import EditRelation from './EditRelation'
 import ViewHandler from './ViewHandler'
+import isSimple from '../isSimple'
 
 export default class EditMode {
   constructor(
@@ -61,6 +62,7 @@ export default class EditMode {
       () => (this._listeners = this._editRelation.init())
     )
 
+    this._annotationData = annotationData
     this._selectionModel = selectionModel
 
     editor.eventEmitter.on(
@@ -83,6 +85,13 @@ export default class EditMode {
   }
 
   // For an intiation transition on an annotations data loaded.
+  forView() {
+    if (isSimple(this._annotationData)) {
+      this.toViewWithoutRelation()
+    } else {
+      this.toViewWithRelation()
+    }
+  }
   toEditDenotationWithoutRelation() {
     this.stateMachine.setState(MODE.EDIT_DENOTATION_WITHOUT_RELATION)
   }
