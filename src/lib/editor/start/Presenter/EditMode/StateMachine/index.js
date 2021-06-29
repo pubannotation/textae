@@ -133,7 +133,7 @@ export default class StateMachine {
     pushBlock(this, this._annotationData)
   }
 
-  toggleSimple() {
+  toggleSimpleMode() {
     toggleSimple(this)
   }
 

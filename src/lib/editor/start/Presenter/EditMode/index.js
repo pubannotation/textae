@@ -117,7 +117,7 @@ export default class EditMode {
   }
 
   toggleSimpleMode() {
-    this._stateMachine.toggleSimple()
+    this._stateMachine.toggleSimpleMode()
   }
 
   // For key input of F or M.
