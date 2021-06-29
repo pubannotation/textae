@@ -41,7 +41,8 @@ export default class EventMap {
       'showPallet',
       'editTypeValues',
       'manipulateAttribute',
-      'toggleSimpleMode'
+      'toggleSimpleMode',
+      'changeModeByShortcut'
     ])
     forwardMethods(this, () => this._clipBoard, [
       'copyEntities',
@@ -123,10 +124,6 @@ export default class EventMap {
     if (this._editMode.isEditDenotation) {
       this._vertical.down()
     }
-  }
-
-  changeModeByShortcut() {
-    this._editMode.changeModeByShortcut()
   }
 
   toViewMode() {
