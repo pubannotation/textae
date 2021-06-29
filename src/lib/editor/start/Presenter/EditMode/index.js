@@ -107,11 +107,11 @@ export default class EditMode {
 
   // For buttan actions.
   toTermMode() {
-    this._stateMachine.pushTerm(this._annotationData)
+    this._stateMachine.pushTerm()
   }
 
   toBlockMode() {
-    this._stateMachine.pushBlock(this._annotationData)
+    this._stateMachine.pushBlock()
   }
 
   toRelationMode() {

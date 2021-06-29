@@ -125,11 +125,11 @@ export default class StateMachine {
     pushView(this)
   }
 
-  pushTerm(annotationData) {
+  pushTerm() {
     pushTerm(this, this._annotationData)
   }
 
-  pushBlock(annotationData) {
+  pushBlock() {
     pushBlock(this, this._annotationData)
   }
 
