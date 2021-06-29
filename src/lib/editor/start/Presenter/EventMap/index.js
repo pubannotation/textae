@@ -127,7 +127,7 @@ export default class EventMap {
   }
 
   toViewMode() {
-    this._editMode.pushView()
+    this._editMode.toViewMode()
   }
 
   toTermMode() {

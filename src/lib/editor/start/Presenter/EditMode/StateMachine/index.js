@@ -113,7 +113,7 @@ export default class StateMachine {
     this._m.setState(state)
   }
 
-  pushView() {
+  toViewMode() {
     pushView(this)
   }
 

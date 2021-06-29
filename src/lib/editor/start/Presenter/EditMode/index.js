@@ -110,8 +110,8 @@ export default class EditMode {
     this._currentEdit.expandSpan()
   }
 
-  pushView() {
-    this._stateMachine.pushView()
+  toViewMode() {
+    this._stateMachine.toViewMode()
   }
 
   pushTerm() {
