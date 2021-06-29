@@ -40,9 +40,10 @@ export default class EventMap {
       'changeModeByShortcut',
       'toViewMode',
       'toTermMode',
-      'toBlockMode'
+      'toBlockMode',
+      'toRelationMode'
     ])
-    forwardMethods(this, () => this._editMode, ['showPallet', 'toRelationMode'])
+    forwardMethods(this, () => this._editMode, ['showPallet'])
     forwardMethods(this, () => this._clipBoard, [
       'copyEntities',
       'cutEntities',

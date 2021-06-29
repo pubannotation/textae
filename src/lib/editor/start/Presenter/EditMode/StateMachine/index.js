@@ -133,6 +133,10 @@ export default class StateMachine {
     pushBlock(this, this._annotationData)
   }
 
+  toRelationMode() {
+    this.setState(MODE.EDIT_RELATION)
+  }
+
   toggleSimpleMode() {
     toggleSimple(this)
   }

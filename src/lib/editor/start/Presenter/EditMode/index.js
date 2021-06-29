@@ -100,10 +100,6 @@ export default class EditMode {
   }
 
   // For buttan actions.
-  toRelationMode() {
-    this.stateMachine.setState(MODE.EDIT_RELATION)
-  }
-
   showPallet() {
     this.currentEdit.pallet.show()
   }
