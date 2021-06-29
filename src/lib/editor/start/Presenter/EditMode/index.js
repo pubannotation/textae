@@ -76,7 +76,13 @@ export default class EditMode {
     )
 
     forwardMethods(this, () => this._currentEdit, ['createSpan', 'expandSpan'])
-    forwardMethods(this, () => this._stateMachine, ['toViewMode'])
+    forwardMethods(this, () => this._stateMachine, [
+      'toViewMode',
+      'toTermMode',
+      'toBlockMode',
+      'toggleSimpleMode',
+      'changeModeByShortcut'
+    ])
   }
 
   get isEditDenotation() {
@@ -104,25 +110,8 @@ export default class EditMode {
   }
 
   // For buttan actions.
-  toTermMode() {
-    this._stateMachine.toTermMode()
-  }
-
-  toBlockMode() {
-    this._stateMachine.toBlockMode()
-  }
-
   toRelationMode() {
     this._stateMachine.setState(MODE.EDIT_RELATION)
-  }
-
-  toggleSimpleMode() {
-    this._stateMachine.toggleSimpleMode()
-  }
-
-  // For key input of F or M.
-  changeModeByShortcut() {
-    this._stateMachine.changeModeByShortcut()
   }
 
   showPallet() {
