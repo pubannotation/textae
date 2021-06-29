@@ -75,7 +75,6 @@ export default class EditMode {
       annotationData.typeDefinition.relation
     )
 
-    forwardMethods(this, () => this._currentEdit, ['createSpan', 'expandSpan'])
     forwardMethods(this, () => this._stateMachine, [
       'toViewMode',
       'toTermMode',
@@ -119,7 +118,7 @@ export default class EditMode {
   }
 
   showPallet() {
-    this._currentEdit.pallet.show()
+    this.currentEdit.pallet.show()
   }
 
   cancelSelect() {
@@ -140,18 +139,18 @@ export default class EditMode {
   }
 
   selectLeftAttributeTab() {
-    this._currentEdit.pallet.selectLeftTab()
+    this.currentEdit.pallet.selectLeftTab()
   }
 
   selectRightAttributeTab() {
-    this._currentEdit.pallet.selectRightTab()
+    this.currentEdit.pallet.selectRightTab()
   }
 
   get _currentHandler() {
-    return this._currentEdit.handler
+    return this.currentEdit.handler
   }
 
-  get _currentEdit() {
+  get currentEdit() {
     switch (this._stateMachine.currentState) {
       case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
       case MODE.EDIT_DENOTATION_WITH_RELATION:
