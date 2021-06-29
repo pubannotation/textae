@@ -33,15 +33,17 @@ export default class EventMap {
       'createSpan',
       'expandSpan'
     ])
-    forwardMethods(this, () => this._editMode, [
-      'showPallet',
-      'editTypeValues',
-      'manipulateAttribute',
+    forwardMethods(this, () => this._editMode.stateMachine, [
       'toggleSimpleMode',
       'changeModeByShortcut',
       'toViewMode',
       'toTermMode',
-      'toBlockMode',
+      'toBlockMode'
+    ])
+    forwardMethods(this, () => this._editMode, [
+      'showPallet',
+      'editTypeValues',
+      'manipulateAttribute',
       'toRelationMode'
     ])
     forwardMethods(this, () => this._clipBoard, [

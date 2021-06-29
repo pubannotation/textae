@@ -50,7 +50,7 @@ export default class EditMode {
 
     this._listeners = []
 
-    this._stateMachine = new StateMachine(
+    this.stateMachine = new StateMachine(
       editor,
       annotationData,
       () => {
@@ -75,13 +75,6 @@ export default class EditMode {
       annotationData.typeDefinition.relation
     )
 
-    forwardMethods(this, () => this._stateMachine, [
-      'toViewMode',
-      'toTermMode',
-      'toBlockMode',
-      'toggleSimpleMode',
-      'changeModeByShortcut'
-    ])
     forwardMethods(this, () => this._currentHandler, [
       'editTypeValues',
       'manipulateAttribute'
@@ -90,31 +83,31 @@ export default class EditMode {
 
   get isEditDenotation() {
     return (
-      this._stateMachine.currentState === MODE.EDIT_DENOTATION_WITH_RELATION ||
-      this._stateMachine.currentState === MODE.EDIT_DENOTATION_WITHOUT_RELATION
+      this.stateMachine.currentState === MODE.EDIT_DENOTATION_WITH_RELATION ||
+      this.stateMachine.currentState === MODE.EDIT_DENOTATION_WITHOUT_RELATION
     )
   }
 
   // For an intiation transition on an annotations data loaded.
   toEditDenotationWithoutRelation() {
-    this._stateMachine.setState(MODE.EDIT_DENOTATION_WITHOUT_RELATION)
+    this.stateMachine.setState(MODE.EDIT_DENOTATION_WITHOUT_RELATION)
   }
 
   toEditDenotationWithRelation() {
-    this._stateMachine.setState(MODE.EDIT_DENOTATION_WITH_RELATION)
+    this.stateMachine.setState(MODE.EDIT_DENOTATION_WITH_RELATION)
   }
 
   toViewWithoutRelation() {
-    this._stateMachine.setState(MODE.VIEW_WITHOUT_RELATION)
+    this.stateMachine.setState(MODE.VIEW_WITHOUT_RELATION)
   }
 
   toViewWithRelation() {
-    this._stateMachine.setState(MODE.VIEW_WITH_RELATION)
+    this.stateMachine.setState(MODE.VIEW_WITH_RELATION)
   }
 
   // For buttan actions.
   toRelationMode() {
-    this._stateMachine.setState(MODE.EDIT_RELATION)
+    this.stateMachine.setState(MODE.EDIT_RELATION)
   }
 
   showPallet() {
@@ -151,7 +144,7 @@ export default class EditMode {
   }
 
   get currentEdit() {
-    switch (this._stateMachine.currentState) {
+    switch (this.stateMachine.currentState) {
       case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
       case MODE.EDIT_DENOTATION_WITH_RELATION:
         return this._editDenotation
