@@ -29,14 +29,12 @@ export default class EventMap {
     this._horizontal = new Horizontal(editor, selectionModel)
     this._vertical = new Vertical(editor, selectionModel)
 
-    forwardMethods(this, () => this._editMode.currentEdit.pallet, [
-      'showPallet',
-      'selectLeftAttributeTab',
-      'selectRightAttributeTab'
-    ])
     forwardMethods(this, () => this._editMode.currentEdit, [
       'createSpan',
       'expandSpan',
+      'showPallet',
+      'selectLeftAttributeTab',
+      'selectRightAttributeTab',
       'editTypeValues',
       'manipulateAttribute'
     ])

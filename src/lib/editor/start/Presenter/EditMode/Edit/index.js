@@ -32,6 +32,11 @@ export default class Edit {
       'editTypeValues',
       'manipulateAttribute'
     ])
+    forwardMethods(this, () => pallet, [
+      'showPallet',
+      'selectLeftAttributeTab',
+      'selectRightAttributeTab'
+    ])
   }
 
   init() {

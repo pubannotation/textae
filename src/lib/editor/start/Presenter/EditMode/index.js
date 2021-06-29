@@ -141,11 +141,9 @@ export default class EditMode {
       default:
         return {
           handler: this._viewHandler,
-          pallet: {
-            showPallet() {},
-            selectLeftAttributeTab() {},
-            selectRightAttributeTab() {}
-          },
+          showPallet() {},
+          selectLeftAttributeTab() {},
+          selectRightAttributeTab() {},
           editTypeValues() {},
           manipulateAttribute() {}
         }
