@@ -126,7 +126,7 @@ export default class EditMode {
     this._stateMachine.setState(MODE.EDIT_RELATION)
   }
 
-  toggleSimple() {
+  toggleSimpleMode() {
     this._stateMachine.toggleSimple()
   }
 

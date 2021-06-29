@@ -40,7 +40,8 @@ export default class EventMap {
       'expandSpan',
       'showPallet',
       'editTypeValues',
-      'manipulateAttribute'
+      'manipulateAttribute',
+      'toggleSimpleMode'
     ])
     forwardMethods(this, () => this._clipBoard, [
       'copyEntities',
@@ -121,10 +122,6 @@ export default class EventMap {
     if (this._editMode.isEditDenotation) {
       this._vertical.down()
     }
-  }
-
-  toggleSimpleMode() {
-    this._editMode.toggleSimple()
   }
 
   toggleButton(name) {
