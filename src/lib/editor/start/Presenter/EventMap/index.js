@@ -3,13 +3,7 @@ import createEntityHandler from './createEntityHandler'
 import replicateHandler from './replicateHandler'
 import Horizontal from './Horizontal'
 import Vertical from './Vertical'
-
-function forwardMethods(self, getTarget, methods) {
-  for (const method of methods) {
-    const target = getTarget()
-    self[method] = (...args) => target[method].apply(target, args)
-  }
-}
+import forwardMethods from './forwardMethods'
 
 export default class EventMap {
   constructor(
