@@ -78,6 +78,7 @@ export default class EditMode {
     )
 
     forwardMethods(this, () => this._currentEdit, ['createSpan', 'expandSpan'])
+    forwardMethods(this, () => this._stateMachine, ['toViewMode'])
   }
 
   get isEditDenotation() {
@@ -105,10 +106,6 @@ export default class EditMode {
   }
 
   // For buttan actions.
-  toViewMode() {
-    this._stateMachine.toViewMode()
-  }
-
   toTermMode() {
     this._stateMachine.pushTerm(this._annotationData)
   }
