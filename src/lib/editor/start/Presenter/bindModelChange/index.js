@@ -1,4 +1,4 @@
-import showLoadNoticeForEditableMode from './showLoadNoticeForEditableMode'
+import alertifyjs from 'alertifyjs'
 
 export default function (editor, editMode, mode) {
   editor.eventEmitter.on(
@@ -7,7 +7,11 @@ export default function (editor, editMode, mode) {
       if (mode !== 'edit') {
         editMode.forView()
       } else {
-        showLoadNoticeForEditableMode(multitrack)
+        if (multitrack) {
+          alertifyjs.success(
+            'track annotations have been merged to root annotations.'
+          )
+        }
         editMode.forEditable()
       }
     }
