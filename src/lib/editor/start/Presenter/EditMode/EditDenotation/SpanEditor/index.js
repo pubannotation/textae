@@ -107,8 +107,6 @@ export default class SpanEditor {
     if (expandedSpan) {
       const { spanId, begin, end } = expandedSpan
 
-      console.log(expandedSpan)
-
       // The span cross exists spans.
       if (
         this._annotationData.span.isBoundaryCrossingWithOtherSpans(begin, end)
