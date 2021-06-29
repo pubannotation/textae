@@ -83,6 +83,10 @@ export default class EditMode {
       'toggleSimpleMode',
       'changeModeByShortcut'
     ])
+    forwardMethods(this, () => this._currentHandler, [
+      'editTypeValues',
+      'manipulateAttribute'
+    ])
   }
 
   get isEditDenotation() {
@@ -116,14 +120,6 @@ export default class EditMode {
 
   showPallet() {
     this._currentEdit.pallet.show()
-  }
-
-  editTypeValues() {
-    this._currentHandler.editTypeValues()
-  }
-
-  manipulateAttribute(number, shiftKey) {
-    this._currentHandler.manipulateAttribute(number, shiftKey)
   }
 
   cancelSelect() {
