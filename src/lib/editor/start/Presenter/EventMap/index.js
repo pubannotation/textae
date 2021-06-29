@@ -35,7 +35,12 @@ export default class EventMap {
     this._horizontal = new Horizontal(editor, selectionModel)
     this._vertical = new Vertical(editor, selectionModel)
 
-    forwardMethods(this, () => this._editMode, ['createSpan', 'expandSpan'])
+    forwardMethods(this, () => this._editMode, [
+      'createSpan',
+      'expandSpan',
+      'showPallet',
+      'editTypeValues'
+    ])
     forwardMethods(this, () => this._clipBoard, [
       'copyEntities',
       'cutEntities',
@@ -56,10 +61,6 @@ export default class EventMap {
     createEntityHandler(this._commander, this._annotationData.typeDefinition)
   }
 
-  showPallet() {
-    this._editMode.showPallet()
-  }
-
   replicate() {
     replicateHandler(
       this._commander,
@@ -67,10 +68,6 @@ export default class EventMap {
       this._spanConfig,
       this._selectionModel.span.single
     )
-  }
-
-  editTypeValues() {
-    this._editMode.editTypeValues()
   }
 
   manipulateAttribute(number, shiftKey) {
