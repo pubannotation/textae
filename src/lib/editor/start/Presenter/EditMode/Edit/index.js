@@ -30,7 +30,8 @@ export default class Edit {
 
     forwardMethods(this, () => handler, [
       'editTypeValues',
-      'manipulateAttribute'
+      'manipulateAttribute',
+      'relationClicked'
     ])
     forwardMethods(this, () => pallet, [
       'showPallet',

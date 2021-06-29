@@ -68,7 +68,7 @@ export default class EditMode {
     editor.eventEmitter.on(
       'textae-event.editor.relation.click',
       (event, relation, attribute) =>
-        this.currentEdit.handler.relationClicked(event, relation, attribute)
+        this.currentEdit.relationClicked(event, relation, attribute)
     )
 
     this._viewHandler = new ViewHandler(
@@ -138,12 +138,18 @@ export default class EditMode {
         return this._editRelation
       default:
         return {
-          handler: this._viewHandler,
           showPallet() {},
           selectLeftAttributeTab() {},
           selectRightAttributeTab() {},
           editTypeValues() {},
-          manipulateAttribute() {}
+          manipulateAttribute() {},
+          relationClicked(_, relation, attribute) {
+            const { href } = attribute || relation
+
+            if (href) {
+              window.open(href, '_blank')
+            }
+          }
         }
     }
   }
