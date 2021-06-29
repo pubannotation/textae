@@ -47,7 +47,7 @@ export default class AnnotationAutoSaver {
 
   _disabled() {
     if (this._buttonController.valueOf('write-auto')) {
-      this._buttonController.toggle('write-auto')
+      this._buttonController.toggleButton('write-auto')
     }
   }
 }

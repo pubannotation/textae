@@ -125,7 +125,7 @@ export default class EventMap {
   }
 
   toggleButton(name) {
-    this._buttonController.toggle(name)
+    this._buttonController.toggleButton(name)
   }
 
   changeMode() {

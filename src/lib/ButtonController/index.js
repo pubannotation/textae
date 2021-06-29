@@ -31,7 +31,7 @@ export default class ButtonController {
     this._getPushButton(buttonName).value(false)
   }
 
-  toggle(buttonName) {
+  toggleButton(buttonName) {
     return this._getPushButton(buttonName).toggle()
   }
 
