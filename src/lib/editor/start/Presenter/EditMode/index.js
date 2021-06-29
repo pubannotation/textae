@@ -118,7 +118,7 @@ export default class EditMode {
     this._stateMachine.pushTerm(this._annotationData)
   }
 
-  pushBlock() {
+  toBlockMode() {
     this._stateMachine.pushBlock(this._annotationData)
   }
 

@@ -135,7 +135,7 @@ export default class EventMap {
   }
 
   toBlockMode() {
-    this._editMode.pushBlock()
+    this._editMode.toBlockMode()
   }
 
   toRelationMode() {
