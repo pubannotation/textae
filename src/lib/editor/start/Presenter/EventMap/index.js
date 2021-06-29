@@ -29,12 +29,12 @@ export default class EventMap {
     this._vertical = new Vertical(editor, selectionModel)
   }
 
-  createSpan(e) {
-    this._editMode.createSpan(e)
+  createSpan() {
+    this._editMode.createSpan()
   }
 
-  expandSpan(e) {
-    this._editMode.expandSpan(e)
+  expandSpan() {
+    this._editMode.expandSpan()
   }
 
   copyEntities() {
