@@ -100,7 +100,7 @@ export default class EventMap {
 
   selectLeft(shiftKey) {
     if (this._editMode.isTypeValuesPalletShown) {
-      this._editMode.selectLeftAttributeTab()
+      this._editMode.currentEdit.pallet.selectLeftAttributeTab()
     } else {
       this._horizontal.left(shiftKey)
     }
@@ -108,7 +108,7 @@ export default class EventMap {
 
   selectRight(shiftKey) {
     if (this._editMode.isTypeValuesPalletShown) {
-      this._editMode.selectRightAttributeTab()
+      this._editMode.currentEdit.pallet.selectRightAttributeTab()
     } else {
       this._horizontal.right(shiftKey)
     }
