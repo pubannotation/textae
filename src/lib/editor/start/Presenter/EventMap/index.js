@@ -139,6 +139,6 @@ export default class EventMap {
   }
 
   toRelationMode() {
-    this._editMode.pushRelation()
+    this._editMode.toRelationMode()
   }
 }

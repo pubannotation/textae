@@ -122,7 +122,7 @@ export default class EditMode {
     this._stateMachine.pushBlock(this._annotationData)
   }
 
-  pushRelation() {
+  toRelationMode() {
     this._stateMachine.setState(MODE.EDIT_RELATION)
   }
 
