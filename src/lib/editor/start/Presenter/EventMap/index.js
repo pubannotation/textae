@@ -35,11 +35,7 @@ export default class EventMap {
     this._horizontal = new Horizontal(editor, selectionModel)
     this._vertical = new Vertical(editor, selectionModel)
 
-    forwardMethods(this, () => this._editMode, ['createSpan'])
-  }
-
-  expandSpan() {
-    this._editMode.expandSpan()
+    forwardMethods(this, () => this._editMode, ['createSpan', 'expandSpan'])
   }
 
   copyEntities() {
