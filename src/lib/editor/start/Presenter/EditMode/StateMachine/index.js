@@ -110,6 +110,7 @@ export default class StateMachine {
     bindTransition(m, transition)
 
     this._m = m
+    this._annotationData = annotationData
   }
 
   get currentState() {
@@ -125,11 +126,11 @@ export default class StateMachine {
   }
 
   pushTerm(annotationData) {
-    pushTerm(this, annotationData)
+    pushTerm(this, this._annotationData)
   }
 
   pushBlock(annotationData) {
-    pushBlock(this, annotationData)
+    pushBlock(this, this._annotationData)
   }
 
   toggleSimple() {
