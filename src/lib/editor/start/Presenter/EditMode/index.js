@@ -105,7 +105,7 @@ export default class EditMode {
 
   // For buttan actions.
   toTermMode() {
-    this._stateMachine.pushTerm()
+    this._stateMachine.toTermMode()
   }
 
   toBlockMode() {

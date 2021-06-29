@@ -125,7 +125,7 @@ export default class StateMachine {
     pushView(this)
   }
 
-  pushTerm() {
+  toTermMode() {
     pushTerm(this, this._annotationData)
   }
 
