@@ -40,12 +40,11 @@ export default class EventMap {
       'toTermMode',
       'toBlockMode'
     ])
-    forwardMethods(this, () => this._editMode, [
-      'showPallet',
+    forwardMethods(this, () => this._editMode.currentHandler, [
       'editTypeValues',
-      'manipulateAttribute',
-      'toRelationMode'
+      'manipulateAttribute'
     ])
+    forwardMethods(this, () => this._editMode, ['showPallet', 'toRelationMode'])
     forwardMethods(this, () => this._clipBoard, [
       'copyEntities',
       'cutEntities',

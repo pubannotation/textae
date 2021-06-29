@@ -4,7 +4,6 @@ import EditDenotation from './EditDenotation'
 import EditBlock from './EditBlock'
 import EditRelation from './EditRelation'
 import ViewHandler from './ViewHandler'
-import forwardMethods from '../forwardMethods'
 
 export default class EditMode {
   constructor(
@@ -67,18 +66,13 @@ export default class EditMode {
     editor.eventEmitter.on(
       'textae-event.editor.relation.click',
       (event, relation, attribute) =>
-        this._currentHandler.relationClicked(event, relation, attribute)
+        this.currentHandler.relationClicked(event, relation, attribute)
     )
 
     this._viewHandler = new ViewHandler(
       annotationData.namespace,
       annotationData.typeDefinition.relation
     )
-
-    forwardMethods(this, () => this._currentHandler, [
-      'editTypeValues',
-      'manipulateAttribute'
-    ])
   }
 
   get isEditDenotation() {
@@ -139,7 +133,7 @@ export default class EditMode {
     this.currentEdit.pallet.selectRightTab()
   }
 
-  get _currentHandler() {
+  get currentHandler() {
     return this.currentEdit.handler
   }
 
