@@ -80,7 +80,7 @@ export default class TypeValuesPallet extends Pallet {
     this.updateDisplay()
   }
 
-  selectLeftTab() {
+  selectLeftAttributeTab() {
     // Ignore when type is seleceted.
     if (this._selectedPred) {
       // Select type when the first attribute selected.

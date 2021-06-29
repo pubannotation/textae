@@ -122,7 +122,7 @@ export default class EditMode {
   }
 
   selectLeftAttributeTab() {
-    this.currentEdit.pallet.selectLeftTab()
+    this.currentEdit.pallet.selectLeftAttributeTab()
   }
 
   selectRightAttributeTab() {
@@ -148,7 +148,7 @@ export default class EditMode {
           handler: this._viewHandler,
           pallet: {
             show() {},
-            selectLeftTab() {},
+            selectLeftAttributeTab() {},
             selectRightTab() {}
           },
           editTypeValues() {},
