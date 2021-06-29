@@ -54,7 +54,7 @@ export default class EditMode {
 
     this._stateMachine = new StateMachine(
       editor,
-      annotationData.entityGap,
+      annotationData,
       () => {
         this.cancelSelect()
         this._unbindAllMouseEventhandler()
