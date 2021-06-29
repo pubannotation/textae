@@ -17,8 +17,6 @@ export default class EditMode {
     originalData,
     autocompletionWs
   ) {
-    this._annotationData = annotationData
-
     this._editDenotation = new EditDenotation(
       editor,
       annotationData,
