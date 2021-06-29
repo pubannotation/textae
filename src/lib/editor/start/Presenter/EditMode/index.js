@@ -92,6 +92,13 @@ export default class EditMode {
       this.toViewWithRelation()
     }
   }
+  forEditable() {
+    if (isSimple(this._annotationData)) {
+      this.toEditDenotationWithoutRelation()
+    } else {
+      this.toEditDenotationWithRelation()
+    }
+  }
   toEditDenotationWithoutRelation() {
     this.stateMachine.setState(MODE.EDIT_DENOTATION_WITHOUT_RELATION)
   }
