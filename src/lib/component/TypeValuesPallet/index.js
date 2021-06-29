@@ -92,7 +92,7 @@ export default class TypeValuesPallet extends Pallet {
     }
   }
 
-  selectRightTab() {
+  selectRightAttributeTab() {
     if (this._selectedPred) {
       // Ignore when the last attribute is selected.
       if (this._selectedIndex === this._attributes.length - 1) {
