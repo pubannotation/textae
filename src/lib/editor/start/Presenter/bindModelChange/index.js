@@ -1,5 +1,4 @@
 import showLoadNoticeForEditableMode from './showLoadNoticeForEditableMode'
-import forEditable from './forEditable'
 
 export default function (editor, editMode, mode) {
   editor.eventEmitter.on(
@@ -9,7 +8,7 @@ export default function (editor, editMode, mode) {
         editMode.forView()
       } else {
         showLoadNoticeForEditableMode(multitrack)
-        forEditable(editMode, annotationData)
+        editMode.forEditable()
       }
     }
   )
