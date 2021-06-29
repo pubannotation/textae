@@ -36,14 +36,11 @@ export default class EventMap {
     this._vertical = new Vertical(editor, selectionModel)
 
     forwardMethods(this, () => this._editMode, ['createSpan', 'expandSpan'])
-  }
-
-  copyEntities() {
-    this._clipBoard.copyEntities()
-  }
-
-  cutEntities() {
-    this._clipBoard.cutEntities()
+    forwardMethods(this, () => this._clipBoard, [
+      'copyEntities',
+      'cutEntities',
+      'pasteEntities'
+    ])
   }
 
   removeSelectedElements() {
@@ -70,10 +67,6 @@ export default class EventMap {
       this._spanConfig,
       this._selectionModel.span.single
     )
-  }
-
-  pasteEntities() {
-    this._clipBoard.pasteEntities()
   }
 
   editTypeValues() {
