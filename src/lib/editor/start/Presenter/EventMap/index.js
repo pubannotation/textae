@@ -42,7 +42,11 @@ export default class EventMap {
       'editTypeValues',
       'manipulateAttribute',
       'toggleSimpleMode',
-      'changeModeByShortcut'
+      'changeModeByShortcut',
+      'toViewMode',
+      'toTermMode',
+      'toBlockMode',
+      'toRelationMode'
     ])
     forwardMethods(this, () => this._clipBoard, [
       'copyEntities',
@@ -124,21 +128,5 @@ export default class EventMap {
     if (this._editMode.isEditDenotation) {
       this._vertical.down()
     }
-  }
-
-  toViewMode() {
-    this._editMode.toViewMode()
-  }
-
-  toTermMode() {
-    this._editMode.toTermMode()
-  }
-
-  toBlockMode() {
-    this._editMode.toBlockMode()
-  }
-
-  toRelationMode() {
-    this._editMode.toRelationMode()
   }
 }
