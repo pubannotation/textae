@@ -1,4 +1,3 @@
-import forView from './forView'
 import showLoadNoticeForEditableMode from './showLoadNoticeForEditableMode'
 import forEditable from './forEditable'
 
@@ -7,7 +6,7 @@ export default function (editor, editMode, mode) {
     'textae-event.annotation-data.all.change',
     (annotationData, multitrack) => {
       if (mode !== 'edit') {
-        forView(editMode, annotationData)
+        editMode.forView()
       } else {
         showLoadNoticeForEditableMode(multitrack)
         forEditable(editMode, annotationData)
