@@ -68,7 +68,7 @@ export default class EditMode {
     editor.eventEmitter.on(
       'textae-event.editor.relation.click',
       (event, relation, attribute) =>
-        this.currentHandler.relationClicked(event, relation, attribute)
+        this.currentEdit.handler.relationClicked(event, relation, attribute)
     )
 
     this._viewHandler = new ViewHandler(
@@ -124,10 +124,6 @@ export default class EditMode {
 
   selectRightAttributeTab() {
     this.currentEdit.pallet.selectRightAttributeTab()
-  }
-
-  get currentHandler() {
-    return this.currentEdit.handler
   }
 
   get currentEdit() {
