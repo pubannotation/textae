@@ -3,7 +3,7 @@ import createEntityHandler from './createEntityHandler'
 import replicateHandler from './replicateHandler'
 import Horizontal from './Horizontal'
 import Vertical from './Vertical'
-import forwardMethods from './forwardMethods'
+import forwardMethods from '../forwardMethods'
 
 export default class EventMap {
   constructor(
