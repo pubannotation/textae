@@ -3,7 +3,6 @@ import StateMachine from './StateMachine'
 import EditDenotation from './EditDenotation'
 import EditBlock from './EditBlock'
 import EditRelation from './EditRelation'
-import ViewHandler from './ViewHandler'
 import isSimple from '../isSimple'
 
 export default class EditMode {
@@ -69,11 +68,6 @@ export default class EditMode {
       'textae-event.editor.relation.click',
       (event, relation, attribute) =>
         this.currentEdit.relationClicked(event, relation, attribute)
-    )
-
-    this._viewHandler = new ViewHandler(
-      annotationData.namespace,
-      annotationData.typeDefinition.relation
     )
   }
 
