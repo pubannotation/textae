@@ -5,7 +5,9 @@ export default function (element, source) {
   const annotation = new Map()
 
   // Read Html text and clear it.
-  const inlineAnnotation = element.innerText
+  // Use textContent instead of innerText,
+  // to read consecutive whitespace in inline annotations without collapsing.
+  const inlineAnnotation = element.textContent
   element.innerHTML = ''
   if (inlineAnnotation) {
     annotation.set('inlineAnnotation', inlineAnnotation)
