@@ -7,7 +7,7 @@ import Vertical from './Vertical'
 function forwardMethods(self, getTarget, methods) {
   for (const method of methods) {
     const target = getTarget()
-    self[method] = () => target[method].call(target, arguments)
+    self[method] = (...args) => target[method].apply(target, args)
   }
 }
 
@@ -39,7 +39,8 @@ export default class EventMap {
       'createSpan',
       'expandSpan',
       'showPallet',
-      'editTypeValues'
+      'editTypeValues',
+      'manipulateAttribute'
     ])
     forwardMethods(this, () => this._clipBoard, [
       'copyEntities',
@@ -68,10 +69,6 @@ export default class EventMap {
       this._spanConfig,
       this._selectionModel.span.single
     )
-  }
-
-  manipulateAttribute(number, shiftKey) {
-    this._editMode.manipulateAttribute(number, shiftKey)
   }
 
   cancelSelect() {
