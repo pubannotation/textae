@@ -4,6 +4,7 @@ import EditDenotation from './EditDenotation'
 import EditBlock from './EditBlock'
 import EditRelation from './EditRelation'
 import ViewHandler from './ViewHandler'
+import forwardMethods from '../forwardMethods'
 
 export default class EditMode {
   constructor(
@@ -75,6 +76,8 @@ export default class EditMode {
       annotationData.namespace,
       annotationData.typeDefinition.relation
     )
+
+    forwardMethods(this, () => this._currentEdit, ['createSpan', 'expandSpan'])
   }
 
   get isEditDenotation() {
@@ -102,14 +105,6 @@ export default class EditMode {
   }
 
   // For buttan actions.
-  createSpan() {
-    this._currentEdit.createSpan()
-  }
-
-  expandSpan() {
-    this._currentEdit.expandSpan()
-  }
-
   toViewMode() {
     this._stateMachine.toViewMode()
   }
