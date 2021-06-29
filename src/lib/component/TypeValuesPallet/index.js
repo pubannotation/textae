@@ -69,6 +69,10 @@ export default class TypeValuesPallet extends Pallet {
     enableDrag(this._el, this)
   }
 
+  showPallet() {
+    this.show()
+  }
+
   show() {
     this._selectedPred = null
     super.show()

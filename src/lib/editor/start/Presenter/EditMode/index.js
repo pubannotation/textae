@@ -99,11 +99,6 @@ export default class EditMode {
     this.stateMachine.setState(MODE.VIEW_WITH_RELATION)
   }
 
-  // For buttan actions.
-  showPallet() {
-    this.currentEdit.pallet.show()
-  }
-
   cancelSelect() {
     // Close all pallets.
     this._editDenotation.pallet.hide()
@@ -147,7 +142,7 @@ export default class EditMode {
         return {
           handler: this._viewHandler,
           pallet: {
-            show() {},
+            showPallet() {},
             selectLeftAttributeTab() {},
             selectRightAttributeTab() {}
           },

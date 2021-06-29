@@ -29,6 +29,11 @@ export default class EventMap {
     this._horizontal = new Horizontal(editor, selectionModel)
     this._vertical = new Vertical(editor, selectionModel)
 
+    forwardMethods(this, () => this._editMode.currentEdit.pallet, [
+      'showPallet',
+      'selectLeftAttributeTab',
+      'selectRightAttributeTab'
+    ])
     forwardMethods(this, () => this._editMode.currentEdit, [
       'createSpan',
       'expandSpan',
@@ -43,7 +48,6 @@ export default class EventMap {
       'toBlockMode',
       'toRelationMode'
     ])
-    forwardMethods(this, () => this._editMode, ['showPallet'])
     forwardMethods(this, () => this._clipBoard, [
       'copyEntities',
       'cutEntities',
@@ -100,7 +104,7 @@ export default class EventMap {
 
   selectLeft(shiftKey) {
     if (this._editMode.isTypeValuesPalletShown) {
-      this._editMode.currentEdit.pallet.selectLeftAttributeTab()
+      this.selectLeftAttributeTab()
     } else {
       this._horizontal.left(shiftKey)
     }
@@ -108,7 +112,7 @@ export default class EventMap {
 
   selectRight(shiftKey) {
     if (this._editMode.isTypeValuesPalletShown) {
-      this._editMode.currentEdit.pallet.selectRightAttributeTab()
+      this.selectRightAttributeTab()
     } else {
       this._horizontal.right(shiftKey)
     }
