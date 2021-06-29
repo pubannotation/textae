@@ -1125,7 +1125,7 @@
 3.  BlockEntity `B1` を選択する
 4.  `q` キーを押してパレットを開く
 5.  denote タブを選ぶ
-6.  パレットの`Remove from selected entity`ボタンを押すと、`B1` の該当 predicate のすべての Attribute が削除されること
+6.  パレットの`remove from`ボタンを押すと、`B1` の該当 predicate のすべての Attribute が削除されること
 
 ### パレットから DenotationEntity の Attribute インスタンスを削除する
 
@@ -1134,36 +1134,4 @@
 3.  DenotationEntity `E1:a:b` を選択する
 4.  `q` キーを押してパレットを開く
 5.  denote タブを選ぶ
-6.  パレットの`Remove from selected entity`ボタンを押すと、`E1:a:b` の該当 predicate のすべての Attribute が削除されること
-
-## ラベルの定義に HTML タグが含まれているとき、HTML エスケープした文字列を Entity のラベルとして表示すること
-
-### 背景
-
-1. Entity のラベルには Type 定義の`label`を表示しています。
-2. HTML エスケープしていないため、`label`に HTML タグを含む Type を定義すると、Entity のラベルに任意の HTML タグを挿入することが可能です。
-3. 6.4.25 で対応しました。
-
-### -- 手段 --
-
-1. Editor1 を選択
-2. DenotationEntity `E31` のラベルが赤字の`Red color HTML label`ではなく、`<span style='color: red;'>Red color HTML label</span>`であること
-3. BlockEntity `B1` のラベルが赤字の`Red color HTML label`ではなく、`<span style='color: red;'>Red color HTML label</span>`であること
-
-## ラベルの定義に HTML タグが含まれているとき、パレットに HTML エスケープした文字列を Entity のラベルとして表示すること
-
-### 背景
-
-1. Entity のラベルには Type 定義の`label`を表示しています。
-2. HTML エスケープしていないため、`label`に HTML タグを含む Type を定義すると、パレット上のラベルに任意の HTML タグを挿入することが可能です。
-3. 6.4.26 で対応しました。
-
-### -- 手段 --
-
-1. Editor1 を選択
-2. Term モードにする
-3. `q`を押してパレットを開く
-4. `HTML tag label` のラベルが赤字の`Red color HTML label`ではなく、`<span style='color: red;'>Red color HTML label</span>`であること
-5. Block モードにする
-6. `q`を押してパレットを開く
-7. `HTML tag label` のラベルが赤字の`Red color HTML label`ではなく、`<span style='color: red;'>Red color HTML label</span>`であること
+6.  パレットの`remove from`ボタンを押すと、`E1:a:b` の該当 predicate のすべての Attribute が削除されること
