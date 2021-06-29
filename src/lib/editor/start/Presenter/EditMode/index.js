@@ -109,7 +109,7 @@ export default class EditMode {
   }
 
   toBlockMode() {
-    this._stateMachine.pushBlock()
+    this._stateMachine.toBlockMode()
   }
 
   toRelationMode() {

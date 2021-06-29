@@ -129,7 +129,7 @@ export default class StateMachine {
     pushTerm(this, this._annotationData)
   }
 
-  pushBlock() {
+  toBlockMode() {
     pushBlock(this, this._annotationData)
   }
 
