@@ -48,6 +48,7 @@ export default class EventMap {
       'cutEntities',
       'pasteEntities'
     ])
+    forwardMethods(this, () => this._buttonController, ['toggleButton'])
   }
 
   removeSelectedElements() {
@@ -122,10 +123,6 @@ export default class EventMap {
     if (this._editMode.isEditDenotation) {
       this._vertical.down()
     }
-  }
-
-  toggleButton(name) {
-    this._buttonController.toggleButton(name)
   }
 
   changeMode() {
