@@ -11,10 +11,4 @@ export default class ViewHandler {
       window.open(href, '_blank')
     }
   }
-
-  // Dummy funtion for shotcut key 'w'.
-  editTypeValues() {}
-
-  // Dummy funtion for shotcut key '1' ~ '9'.
-  manipulateAttribute() {}
 }
