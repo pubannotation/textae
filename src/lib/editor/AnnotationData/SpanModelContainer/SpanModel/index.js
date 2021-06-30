@@ -180,7 +180,12 @@ export default class SpanModel {
     )
   }
 
-  getShortenSpan(spanAdjuster, selectionWrapper, sourceDoc, spanConfig) {
+  getShotenInAnchorNodeToFocusNodeDirection(
+    spanAdjuster,
+    selectionWrapper,
+    sourceDoc,
+    spanConfig
+  ) {
     const { anchor, focus } = selectionWrapper.positionsOnAnnotation
 
     if (anchor < focus) {
