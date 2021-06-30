@@ -4,7 +4,7 @@
   white-space: normal;
   /*== Elements inside the textae_control ==*/
 }
-.textae-control__title {
+.textae-control-title {
   margin: 2px 10px 0 0;
   font-family: 'Helvetica Neue', Arial;
   font-weight: 600;
@@ -13,105 +13,105 @@
   line-height: normal;
   width: 65px;
 }
-.textae-control__title a {
+.textae-control-title a {
   text-decoration: none;
 }
-.textae-control__separator {
+.textae-control-separator {
   margin: 6px 2px 0 2px;
 }
-.textae-control__icon {
+.textae-control-icon {
   cursor: pointer;
   margin: 6px 4px 0 4px;
 }
-.textae-control__icon--disabled {
+.textae-control-icon--disabled {
   cursor: auto;
   opacity: 0.3;
 }
-.textae-control__icon--pushed {
+.textae-control-icon--pushed {
   cursor: auto;
   -moz-box-shadow: inset 1px 1px 3px #000;
   -webkit-box-shadow: inset 1px 1px 3px #000;
   box-shadow: inset 1px 1px 3px #000;
 }
-.textae-control__view-button {
+.textae-control-view-button {
   background: url('./images/btn_view_16.png');
 }
-.textae-control__term-button {
+.textae-control-term-button {
   background: url('./images/btn_term_16.png');
 }
-.textae-control__block-button {
+.textae-control-block-button {
   background: url('./images/btn_block_16.png');
 }
-.textae-control__relation-button {
+.textae-control-relation-button {
   background: url('./images/btn_relation_16.png');
 }
-.textae-control__simple-button {
+.textae-control-simple-button {
   background: url('./images/btn_simple_16.png');
 }
-.textae-control__read-button {
+.textae-control-read-button {
   background: url('./images/btn_read_16.png');
 }
-.textae-control__write-button {
+.textae-control-write-button {
   background: url('./images/btn_write_16.png');
 }
-.textae-control__write-button--transit {
+.textae-control-write-button--transit {
   background: url('./images/btn_write_modified_16.png');
 }
-.textae-control__write-auto-button {
+.textae-control-write-auto-button {
   background: url('./images/btn_write_auto_16.png');
 }
-.textae-control__undo-button {
+.textae-control-undo-button {
   background: url('./images/btn_undo_16.png');
 }
-.textae-control__redo-button {
+.textae-control-redo-button {
   background: url('./images/btn_redo_16.png');
 }
-.textae-control__replicate-button {
+.textae-control-replicate-button {
   background: url('./images/btn_replicate_16.png');
 }
-.textae-control__replicate-auto-button {
+.textae-control-replicate-auto-button {
   background: url('./images/btn_replicate_auto_16.png');
 }
-.textae-control__boundary-detection-button {
+.textae-control-boundary-detection-button {
   background: url('./images/btn_boundary_detection_16.png');
 }
-.textae-control__create-span-button {
+.textae-control-create-span-button {
   background: url('./images/btn_create_span_16.png');
 }
-.textae-control__expand-span-button {
+.textae-control-expand-span-button {
   background: url('./images/btn_expand_span_16.png');
 }
-.textae-control__entity-button {
+.textae-control-entity-button {
   background: url('./images/btn_denote_16.png');
 }
-.textae-control__pallet-button {
+.textae-control-pallet-button {
   background: url('./images/btn_pallet_16.png');
 }
-.textae-control__change-label-button {
+.textae-control-change-label-button {
   background: url('./images/btn_change_label_16.png');
 }
-.textae-control__delete-button {
+.textae-control-delete-button {
   background: url('./images/btn_delete_16.png');
 }
-.textae-control__copy-button {
+.textae-control-copy-button {
   background: url('./images/btn_copy_16.png');
 }
-.textae-control__cut-button {
+.textae-control-cut-button {
   background: url('./images/btn_cut_16.png');
 }
-.textae-control__paste-button {
+.textae-control-paste-button {
   background: url('./images/btn_paste_16.png');
 }
-.textae-control__help-button {
+.textae-control-help-button {
   background: url('./images/btn_help_16.png');
 }
-.textae-control__setting-button {
+.textae-control-setting-button {
   background: url('./images/btn_setting_16.png');
 }
-.textae-control__line-height-button {
+.textae-control-line-height-button {
   background: url('./images/btn_line_height_16.png');
 }
-.textae-control__line-height-auto-button {
+.textae-control-line-height-auto-button {
   background: url('./images/btn_line_height_auto_16.png');
 }
 [mode='edit'].textae-editor--active .textae-control {
@@ -131,8 +131,6 @@
   border-radius: 15px;
   border-right: 5px solid #558;
   box-shadow: 6px 6px 6px 6px rgba(0, 0, 0, 0.4);
-  display: flex;
-  flex-wrap: wrap;
   margin-left: 2px;
   padding: 0 20px 5px 10px;
   position: sticky;
@@ -140,40 +138,81 @@
   z-index: 8;
   /*== Elements inside the textae_control ==*/
 }
-.textae-control-bar .textae-control__title,
-.textae-touch-bar .textae-control__title {
+.textae-control-bar .textae-control-title,
+.textae-touch-bar .textae-control-title {
   display: block;
 }
-.textae-control-bar .textae-control__separator,
-.textae-touch-bar .textae-control__separator {
+.textae-control-bar .textae-control-separator,
+.textae-touch-bar .textae-control-separator {
   display: block;
   border: 2px solid #aad;
 }
-.textae-control-bar .textae-control__icon,
-.textae-touch-bar .textae-control__icon {
+.textae-control-bar .textae-control-icon,
+.textae-touch-bar .textae-control-icon {
   display: block;
 }
 .textae-control-bar {
   max-width: 763px;
 }
-.textae-control-bar .textae-control__separator {
+.textae-control-bar .textae-control-separator {
   height: 16px;
 }
-.textae-control-bar .textae-control__icon {
+.textae-control-bar .textae-control-icon {
+  height: 16px;
   width: 16px;
-  height: 16px;
 }
-.textae-touch-bar .textae-control__title {
+.textae-touch-bar {
+  max-width: 752px;
+}
+.textae-touch-bar .textae-control-title {
   line-height: 48px;
 }
-.textae-touch-bar .textae-control__separator {
+.textae-touch-bar .textae-control-separator {
   height: 32px;
 }
-.textae-touch-bar .textae-control__icon {
+.textae-touch-bar .textae-control-icon {
   background-size: cover;
   height: 32px;
   margin: 8px 8px;
   width: 32px;
+}
+.textae-control-humburger-menu-button {
+  background-color: transparent;
+  border-color: rgba(0, 0, 0, 0.5);
+  border-radius: 0.25em;
+  color: rgba(0, 0, 0, 0.5);
+  cursor: pointer;
+  height: 32px;
+  margin-top: 10px;
+  padding: 2px 0;
+  width: 32px;
+}
+.textae-control-summary {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+@media screen and (min-width: 769px) {
+  .textae-control-summary {
+    display: none;
+  }
+}
+.textae-control-details {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+}
+@media screen and (max-width: 768px) {
+  .textae-control-details {
+    display: none;
+  }
+  .textae-control-details--force-show {
+    display: flex;
+  }
+  .textae-control-details--force-show > :nth-of-type(1),
+  .textae-control-details--force-show > :nth-of-type(2) {
+    display: none;
+  }
 }
 /* context menu */
 .textae-context-menu,
@@ -183,7 +222,6 @@
   padding: 10px;
   border: solid 1px gray;
   box-shadow: 2px 2px 1px 1px rgba(0, 0, 0, 0.4);
-  width: 292px;
   background-color: white;
   z-index: 7;
 }
@@ -195,34 +233,26 @@
 .textae-android-context-menu--hide {
   display: none;
 }
-.textae-context-menu > p:not(.textae-control__title):not(.textae-control__icon--disabled):focus,
-.textae-android-context-menu > p:not(.textae-control__title):not(.textae-control__icon--disabled):focus,
-.textae-context-menu > p:not(.textae-control__title):not(.textae-control__icon--disabled):active,
-.textae-android-context-menu > p:not(.textae-control__title):not(.textae-control__icon--disabled):active,
-.textae-context-menu > p:not(.textae-control__title):not(.textae-control__icon--disabled):hover,
-.textae-android-context-menu > p:not(.textae-control__title):not(.textae-control__icon--disabled):hover {
+.textae-context-menu > p:not(.textae-control-title):not(.textae-control -icon--disabled):focus,
+.textae-android-context-menu > p:not(.textae-control-title):not(.textae-control -icon--disabled):focus,
+.textae-context-menu > p:not(.textae-control-title):not(.textae-control -icon--disabled):active,
+.textae-android-context-menu > p:not(.textae-control-title):not(.textae-control -icon--disabled):active,
+.textae-context-menu > p:not(.textae-control-title):not(.textae-control -icon--disabled):hover,
+.textae-android-context-menu > p:not(.textae-control-title):not(.textae-control -icon--disabled):hover {
   background-color: #c4c4f0;
   color: white;
 }
-.textae-context-menu .textae-control__icon,
-.textae-android-context-menu .textae-control__icon {
+.textae-context-menu .textae-control-icon,
+.textae-android-context-menu .textae-control-icon {
   margin-top: 0;
   padding-left: 20px;
   background-size: 16px;
   background-repeat: no-repeat;
   background-position: left center;
 }
-.textae-context-menu .textae-control__separator,
-.textae-android-context-menu .textae-control__separator {
+.textae-context-menu .textae-control-separator,
+.textae-android-context-menu .textae-control-separator {
   border: 1px solid #aad;
-}
-.textae-context-menu > :nth-last-of-type(1),
-.textae-android-context-menu > :nth-last-of-type(1),
-.textae-context-menu > :nth-last-of-type(2),
-.textae-android-context-menu > :nth-last-of-type(2),
-.textae-context-menu > :nth-last-of-type(3),
-.textae-android-context-menu > :nth-last-of-type(3) {
-  display: none;
 }
 .textae-context-menu > p {
   line-height: 1.5em;
@@ -2406,7 +2436,6 @@ a.ui-button:active,
   position: relative;
   padding: 2px 0;
   border: 1px solid black;
-  white-space: pre;
   /* active editer color */
   /* relation */
 }

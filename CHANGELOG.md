@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.14.0](https://github.com/pubannotation/textae/compare/v7.13.0...v7.14.0) (2021-06-30)
+
+
+### Features
+
+* Context menu separators should only appear between button groups ([3d3b2bf](https://github.com/pubannotation/textae/commit/3d3b2bfeae0c9175ba1726374fb0d7539cffd9fc))
+* Delete link to the homepage from context menu for touch device ([b745bfa](https://github.com/pubannotation/textae/commit/b745bfa3963e64ec892cb1649bfee6b8f93a6dff))
+* Evenly distribute the icons on the toolbar ([e5c6bff](https://github.com/pubannotation/textae/commit/e5c6bff2a1daf8edb60a0fe0f5d26c7596781ba0))
+* On touch devices, display the context menu above the selection string ([76223d1](https://github.com/pubannotation/textae/commit/76223d1b98403094297eb6fc9c90e04c98bcf240))
+* Set maximum width for toolbars for touch devices ([13c28c0](https://github.com/pubannotation/textae/commit/13c28c0c3bf4afce698967219f71587cdb619dcf))
+* Show only span editing icons in the context menu for touch devices ([cc89c40](https://github.com/pubannotation/textae/commit/cc89c403b39570deaaef81dbb205dc4e3ca31858))
+* Show the hamburger menu button and collapse the toolbar on narrow devices ([765c6f3](https://github.com/pubannotation/textae/commit/765c6f3f158ccb285959d14c7f58849019a0568e))
+
+
+### Bug Fixes
+
+* In the Chrome browser, when opening a palette from the toolbar, if the palette is displayed under the mouse pointer, the click event of the editor will fire and the palette will close when the mouse button is released ([a54a110](https://github.com/pubannotation/textae/commit/a54a1101883f8f6065a4a2c43e4e948beb9d2510))
+* When I adjust the position of the end of the selected string within the span and click the expand span button, the span is not expanded. ([8744a81](https://github.com/pubannotation/textae/commit/8744a8116783b0a66a61acc819149cfda32e0c57))
+
 ## [7.13.0](https://github.com/pubannotation/textae/compare/v7.12.0...v7.13.0) (2021-06-23)
 
 
