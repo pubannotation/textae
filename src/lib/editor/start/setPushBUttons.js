@@ -5,10 +5,10 @@ export default function (configuration, buttonController) {
     buttonController.release('write-auto')
   }
 
-  if (configuration.autolineheight === true) {
-    buttonController.push('line-height-auto')
-  } else {
+  if (configuration.autolineheight === false) {
     buttonController.release('line-height-auto')
+  } else {
+    buttonController.push('line-height-auto')
   }
 
   if (configuration.boundarydetection === false) {

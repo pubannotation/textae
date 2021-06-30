@@ -2,7 +2,7 @@
   "config": {
     "autocompletion_ws": "aabc/dev/autocomplete?order=desc",
     "autosave": true,
-    "autolineheight": true,
+    "autolineheight": false,
     "boundarydetection": true,
     "entity types": [
       {
