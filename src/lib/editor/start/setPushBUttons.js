@@ -11,9 +11,9 @@ export default function (configuration, buttonController) {
     buttonController.release('line-height-auto')
   }
 
-  if (configuration.boundarydetection === true) {
-    buttonController.push('boundary-detection')
-  } else {
+  if (configuration.boundarydetection === false) {
     buttonController.release('boundary-detection')
+  } else {
+    buttonController.push('boundary-detection')
   }
 }
