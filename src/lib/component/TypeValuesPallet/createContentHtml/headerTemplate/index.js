@@ -55,7 +55,7 @@ export default function (context) {
           addAttribute
             ? `
             <p class="textae-editor__type-pallet__attribute textae-editor__type-pallet__create-predicate">
-              <span class="textae-editor__type-pallet__create-predicate__button" title="Add new attribute"></span>
+              <span class="textae-editor__type-pallet__create-predicate__button" title="Add a new attribute"></span>
             </p>
             `
             : ''
