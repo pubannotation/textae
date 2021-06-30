@@ -14,7 +14,7 @@ export default function (
   console.log(annotationData.span.get(spanId))
   const { begin, end } = annotationData.span
     .get(spanId)
-    .getExpandedSpanFromAnchorNode(
+    .getExpandedInAnchorNodeToFocusNodeDirection(
       spanAdjuster,
       selectionWrapper,
       annotationData.sourceDoc,

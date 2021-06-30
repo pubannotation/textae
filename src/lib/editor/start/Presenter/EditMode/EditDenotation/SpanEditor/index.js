@@ -141,7 +141,7 @@ export default class SpanEditor {
         spanId: spanIdFromAnchor,
         ...this._annotationData.span
           .get(spanIdFromAnchor)
-          .getExpandedSpanFromAnchorNode(
+          .getExpandedInAnchorNodeToFocusNodeDirection(
             this._buttonController.spanAdjuster,
             selectionWrapper,
             this._annotationData.sourceDoc,

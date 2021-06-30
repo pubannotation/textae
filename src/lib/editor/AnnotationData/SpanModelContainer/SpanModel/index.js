@@ -198,7 +198,7 @@ export default class SpanModel {
     }
   }
 
-  getExpandedSpanFromAnchorNode(
+  getExpandedInAnchorNodeToFocusNodeDirection(
     spanAdjuster,
     selectionWrapper,
     sourceDoc,
