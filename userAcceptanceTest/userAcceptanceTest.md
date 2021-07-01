@@ -1064,25 +1064,3 @@
 4.  `Protein`の`Edit this type`ボタンをクリックする
 5.  `Id`を変更して、`OK`ボタンをクリックする
 6.  パレット上の`Proetin`のデフォルトマークが消えないこと
-
-## autocompletion_ws 属性
-
-### autocompletion_ws 属性で URL を指定すると、オートコンプリートの候補を指定 URL から取得する
-
-1.  <http://localhost:8000/dist/demo/bionlp-st-ge/demo-multi.html> を開く
-2.  一つ目の Editor を選択する
-3.  Entity を選択する
-4.  `Change Label[W]`ボタンを押す
-5.  既存の Value を消す
-6.  `Lig`を入力
-7.  候補に`Light stuff@http://www.yahoo.co.jp`が表示されること
-
-### autocompletion_ws 属性が指定されていなくても、config からオートコンプリートの候補を取得
-
-1.  <http://localhost:8000/dist/demo/bionlp-st-ge/demo-multi.html> を開く
-2.  二つ目の Editor を選択する
-3.  Entity を選択する
-4.  `Change Label[W]`ボタンを押す
-5.  既存の Value を消す
-6.  `pro`を入力
-7.  候補に`production company@http://dbpedia.org/ontology/productionCompany`が表示されること
