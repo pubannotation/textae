@@ -189,8 +189,12 @@ export default class SpanEditor {
     // There is a Span between the StyleSpan and the text.
     // Shrink Span when mousedown on the text or a span and mouseup on the styleSpan.
     if (selectionWrapper.ancestorDenotationSpanOfFocusNode) {
-      const spanId = selectionWrapper.ancestorDenotationSpanOfFocusNode.id
-      this._shrink(selectionWrapper, spanId)
+      if (this._isFocusInSelectedSpan(selectionWrapper)) {
+        this._shrinkSelectedSpan(selectionWrapper)
+      } else {
+        const spanId = selectionWrapper.ancestorDenotationSpanOfFocusNode.id
+        this._shrink(selectionWrapper, spanId)
+      }
       return
     }
 
