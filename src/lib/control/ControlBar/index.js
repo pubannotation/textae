@@ -3,6 +3,7 @@ import isTouchDevice from '../isTouchDevice'
 import toButtonGroup from './toButtonGroup'
 import transitWriteButtonImage from './transitWriteButtonImage'
 import buttonConfig from '../../buttonConfig'
+import Sticky from 'sticky-js'
 
 function template(context) {
   const { buttonGroup } = context
@@ -34,6 +35,29 @@ function template(context) {
 export default class ControlBar extends Control {
   constructor(editor) {
     super(editor, template(buttonConfig.controlBar))
+
+    // If you use position: sticky,
+    // the height of the toolbar will affect the Y coordinate of the textae-body
+    // when the browser is not scrolling.
+    // When the height of the toolbar is changed using the hamburger menu button,
+    // the position of the textae-body will be raised or lowered.
+    // When the browser is scrolling,
+    // the position of the textae-body is not affected by the height of the toolbar,
+    // so changing the height of the toolbar
+    // will not raise or lower the position of the textae-body.
+    // I would like to unify the behavior of the textae-body position
+    // when scrolling with the browser and when not scrolling.
+    // When displaying the hamburger menu button,
+    // specify position: absolute for the toolbar
+    // to exclude the toolbar from the calculation of the Y coordinate of the textae-body.
+    // Instead, we will use JavaScript to adjust the position of the toolbar
+    // as the browser scrolls.
+    if (
+      isTouchDevice() &&
+      Math.max(document.documentElement.clientWidth, window.innerWidth) < 768
+    ) {
+      new Sticky('.textae-touch-bar', { stickyContainer: '.textae-editor' })
+    }
   }
 
   transitWriteButtonImage(transitButtons) {
