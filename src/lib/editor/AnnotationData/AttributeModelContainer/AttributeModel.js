@@ -68,9 +68,12 @@ export default class AttributeModel {
         title="${this._title}"
         data-pred="${this.pred}"
         data-obj="${this.obj}"
-        ${`style="background-color: ${hexToRGBA(this._color, 0.8)};"`}
+        ${`style="background-color: ${hexToRGBA(this._color, 0.4)};"`}
         >
-        <span class="textae-editor__signboard__attribute-label">
+        <span
+          class="textae-editor__signboard__attribute-label"
+          ${`style="background-color: ${hexToRGBA(this._color, 0.6)};"`}
+          >
           ${toAnchorElement(this._displayName, this._href)}
         </span>
       </div>

@@ -13,11 +13,12 @@ export default function (model, entityType, cssClass, HTMLId) {
   >
   <div
     class="textae-editor__signboard__type-values"
-    style="background-color: ${hexToRGBA(model.color, 0.8)};"
+    style="background-color: ${hexToRGBA(model.color, 0.4)};"
     >
     <div
       class="textae-editor__signboard__type-label"
       tabindex="0"
+      style="background-color: ${hexToRGBA(model.color, 0.6)};"
       >
       ${model.anchorHTML}
     </div>
