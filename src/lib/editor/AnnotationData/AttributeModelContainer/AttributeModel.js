@@ -68,11 +68,7 @@ export default class AttributeModel {
         title="${this._title}"
         data-pred="${this.pred}"
         data-obj="${this.obj}"
-        ${
-          this._color
-            ? `style="background-color: ${hexToRGBA(this._color, 0.8)};"`
-            : ''
-        }
+        ${`style="background-color: ${hexToRGBA(this._color, 0.8)};"`}
         >
         <span class="textae-editor__signboard__attribute-label">
           ${toAnchorElement(this._displayName, this._href)}
@@ -101,6 +97,9 @@ export default class AttributeModel {
   }
 
   get _color() {
-    return this._definitionContainer.getColor(this.pred, this._obj)
+    return (
+      this._definitionContainer.getColor(this.pred, this._obj) ||
+      this.subjectModel.color
+    )
   }
 }
