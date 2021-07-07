@@ -164,6 +164,12 @@
 .textae-touch-bar {
   max-width: 752px;
 }
+@media screen and (max-width: 768px) {
+  .textae-touch-bar {
+    position: absolute;
+    width: 100%;
+  }
+}
 .textae-touch-bar .textae-control-title {
   line-height: 48px;
 }

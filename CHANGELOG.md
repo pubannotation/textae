@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.15.0](https://github.com/pubannotation/textae/compare/v7.14.0...v7.15.0) (2021-07-07)
+
+
+### Features
+
+* Do not change the Y-coordinate of the text when changing the toolbar height using the hamburger menu button ([314f03e](https://github.com/pubannotation/textae/commit/314f03e491dfcf89ee8f919cfe0cea31e99ec160))
+* Enable the automatic line height adjustment feature by default ([3d825ce](https://github.com/pubannotation/textae/commit/3d825ce2f832ef078bed0b5b9551df91c718404e))
+* Enable the boundary detection function by default ([4c3eaa5](https://github.com/pubannotation/textae/commit/4c3eaa561bb39e94974fc999960741e1077481f0))
+* Fix the title statement of the add attribute tab of the TypeValuesPallet ([28407e7](https://github.com/pubannotation/textae/commit/28407e7c222e38c1786ffa1508aa0a9304245e39))
+* Fixed the wording of the label for the number of selected items when the attribute tab is displayed in the TypeValue palette ([639b52d](https://github.com/pubannotation/textae/commit/639b52d30b37cee340c63e28e56739f042174e5b))
+
+
+### Bug Fixes
+
+* When you mouse down on the DenotationSpan and mouse up on the style span to shrink the DenotationSpan, ignore the span to be selected and shrink the DenotationSpan of the nearest ancestor of the style span ([9fab90f](https://github.com/pubannotation/textae/commit/9fab90fa449d881c6e98824dccf46c5bd951c164))
+* When you mouse down on the text and mouse up on the style span to shrink the DenotationSpan, ignore the span to be selected and shrink the DenotationSpan of the nearest ancestor of the style span ([975be79](https://github.com/pubannotation/textae/commit/975be7937ccf879f477de86c3d73b4398e491913))
+
 ## [7.14.0](https://github.com/pubannotation/textae/compare/v7.13.0...v7.14.0) (2021-06-30)
 
 
