@@ -73,8 +73,6 @@
     &[data-entity-type='denotation'],
     &[data-entity-type='block'] {
       &:hover {
-        z-index: 3;
-
         .textae-editor__signboard__type-values {
           overflow: visible;
         }
@@ -112,6 +110,9 @@
     .textae-editor__signboard[data-entity-type='denotation'],
     .textae-editor__signboard[data-entity-type='block'] {
       z-index: 2;
+      &:hover {
+        z-index: 3;
+      }
     }
   }
 
