@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.16.0](https://github.com/pubannotation/textae/compare/v7.15.0...v7.16.0) (2021-07-08)
+
+
+### Features
+
+* Expand the background as well as the text of the label when the Entity is hovered ([825b186](https://github.com/pubannotation/textae/commit/825b18672453f9f8601d50c87541066305985f04))
+* Make the background color of Entity labels white ([b11768d](https://github.com/pubannotation/textae/commit/b11768d642970331279bfe45de0522877d1b1853))
+* Save the annotation to the specified URL when you press Enter in the URL field of the Save Annotation dialog ([1fa6f43](https://github.com/pubannotation/textae/commit/1fa6f439e9418edbe605d99c77451cb2a7eaf154))
+
+
+### Bug Fixes
+
+* Hovered Entity's signboard does not appear in the foreground ([9c7ab9d](https://github.com/pubannotation/textae/commit/9c7ab9d55b62d6e8ff2ee63bb9431f2ac3991fc3))
+* Hovering over a relationship between Entities in the same row will bend it significantly ([cd0023c](https://github.com/pubannotation/textae/commit/cd0023c7193b112fef0e2fce742baa525ab201b4))
+
 ## [7.15.0](https://github.com/pubannotation/textae/compare/v7.14.0...v7.15.0) (2021-07-07)
 
 
