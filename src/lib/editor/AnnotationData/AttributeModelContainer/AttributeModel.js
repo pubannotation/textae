@@ -72,7 +72,7 @@ export default class AttributeModel {
         >
         <span
           class="textae-editor__signboard__attribute-label"
-          ${`style="background-color: ${hexToRGBA(this._color, 0.6)};"`}
+          ${`style="background-color: ${hexToRGBA('#FFFFFF', 0.6)};"`}
           >
           ${toAnchorElement(this._displayName, this._href)}
         </span>
