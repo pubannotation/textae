@@ -9,6 +9,12 @@ export default function (editor, element, data, closeDialog, saveAnnotation) {
   })
 
   // Save to the URL.
+  delegate(element, '[type="text"].url', 'keyup', (e) => {
+    if (e.keyCode === 13) {
+      saveAnnotation(e.target.value)
+      closeDialog()
+    }
+  })
   delegate(element, '[type="button"].url', 'click', (e) => {
     saveAnnotation(e.target.previousElementSibling.value)
     closeDialog()
