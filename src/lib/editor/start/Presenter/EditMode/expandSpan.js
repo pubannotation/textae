@@ -11,7 +11,6 @@ export default function (
 ) {
   selectionModel.removeAll()
 
-  console.log(annotationData.span.get(spanId))
   const { begin, end } = annotationData.span
     .get(spanId)
     .getExpandedInAnchorNodeToFocusNodeDirection(
