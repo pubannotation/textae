@@ -188,17 +188,25 @@ export default class SpanEditor {
   _anchorNodeInTextBoxFocusNodeInStyleSpan(selectionWrapper) {
     // There is a Span between the StyleSpan and the text.
     // Shrink Span when mousedown on the text or a span and mouseup on the styleSpan.
-    if (selectionWrapper.ancestorDenotationSpanOfFocusNode) {
-      if (this._isFocusInSelectedSpan(selectionWrapper)) {
-        this._shrink(selectionWrapper, this._selectionModel.span.singleId)
-      } else {
-        const spanId = selectionWrapper.ancestorDenotationSpanOfFocusNode.id
-        this._shrink(selectionWrapper, spanId)
-      }
+    const targetSpan = this._getShrinkableTarget(selectionWrapper)
+    if (targetSpan) {
+      this._shrink(selectionWrapper, targetSpan.id)
       return
     }
 
     this._create(selectionWrapper)
+  }
+
+  _getShrinkableTarget(selectionWrapper) {
+    const targetSpan = this._isFocusInSelectedSpan(selectionWrapper)
+      ? this._selectionModel.span.single.element
+      : selectionWrapper.ancestorDenotationSpanOfFocusNode
+
+    if (targetSpan) {
+      if (selectionWrapper.parentOfAnchorNode.contains(targetSpan)) {
+        return targetSpan
+      }
+    }
   }
 
   _anchorNodeInDenotationSpanFocusNodeInTextBox(selectionWrapper) {
