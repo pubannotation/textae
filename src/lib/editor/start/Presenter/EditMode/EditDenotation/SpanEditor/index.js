@@ -7,6 +7,8 @@ import hasCharacters from '../../hasCharacters'
 import getIsDelimiterFunc from '../../../getIsDelimiterFunc'
 import SelectionWrapper from '../../SelectionWrapper'
 import getExpandTargetSpanFromFocusNode from './getExpandTargetSpanFromFocusNode'
+import isNodeStyleSpan from '../../isNodeStyleSpan'
+import isNodeDenotationSpan from '../../isNodeDenotationSpan'
 
 export default class SpanEditor {
   constructor(
@@ -338,34 +340,10 @@ export default class SpanEditor {
   }
 
   _anchorNodeInStyleSpanFocusNodeInDenotationSpan(selectionWrapper) {
-    if (this._isFocusInSelectedSpan(selectionWrapper)) {
-      this._shrink(selectionWrapper, this._selectionModel.span.singleId)
+    const shrinkTargetSpan = this._getShrinkableTarget(selectionWrapper)
+    if (shrinkTargetSpan) {
+      this._shrink(selectionWrapper, shrinkTargetSpan.id)
       return
-    }
-
-    // When you mouse down on a parent style span and mouse up on the child span,
-    // you shrink the child span.
-    if (selectionWrapper.isFocusOneDownUnderAnchor) {
-      this._shrink(selectionWrapper, selectionWrapper.parentOfFocusNode.id)
-      return
-    }
-
-    // If the child's style span and the end of the parent's denotation span coincide,
-    // the mouse-down event will be fired on the child's style span.
-    if (selectionWrapper.isAnchorOneDownUnderFocus) {
-      // If the anchor position coincides with the begin or end of the denotation span,
-      // the denotation span will be shrunk.
-      const { anchor } = selectionWrapper.positionsOnAnnotation
-      const denotationSpanOnFocus = this._annotationData.span.get(
-        selectionWrapper.parentOfFocusNode.id
-      )
-      if (
-        anchor === denotationSpanOnFocus.begin ||
-        anchor === denotationSpanOnFocus.end
-      ) {
-        this._shrink(selectionWrapper, selectionWrapper.parentOfFocusNode.id)
-        return
-      }
     }
 
     // When an anchor node has an ancestral span and the focus node is its sibling,
@@ -391,9 +369,18 @@ export default class SpanEditor {
     if (targetSpanElement) {
       const { anchor } = selectionWrapper.positionsOnAnnotation
 
+      // Skip style only span
+      let { parentOfAnchorNode } = selectionWrapper
+      while (
+        isNodeStyleSpan(parentOfAnchorNode) &&
+        !isNodeDenotationSpan(parentOfAnchorNode)
+      ) {
+        parentOfAnchorNode = parentOfAnchorNode.parentElement
+      }
+
       const { begin, end } = this._annotationData.span.get(targetSpanElement.id)
       if (
-        selectionWrapper.parentOfAnchorNode.contains(targetSpanElement) ||
+        parentOfAnchorNode.contains(targetSpanElement) ||
         anchor === begin ||
         anchor === end
       ) {
