@@ -27,6 +27,11 @@ export default function (
     return
   }
 
+  // There is a BlockSpan that is a child.
+  if (annotationData.span.hasBlockSpanBetween(begin, end)) {
+    return
+  }
+
   const command = createCommand(
     commander,
     { begin, end },
