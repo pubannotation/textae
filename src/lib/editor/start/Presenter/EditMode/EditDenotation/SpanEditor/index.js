@@ -203,18 +203,6 @@ export default class SpanEditor {
     this._create(selectionWrapper)
   }
 
-  _getShrinkableTarget(selectionWrapper) {
-    const targetSpan = this._isFocusInSelectedSpan(selectionWrapper)
-      ? this._selectionModel.span.single.element
-      : selectionWrapper.ancestorDenotationSpanOfFocusNode
-
-    if (targetSpan) {
-      if (selectionWrapper.parentOfAnchorNode.contains(targetSpan)) {
-        return targetSpan
-      }
-    }
-  }
-
   _anchorNodeInDenotationSpanFocusNodeInTextBox(selectionWrapper) {
     const spanId = getExpandTargetSpanFromAnchorNode(
       this._selectionModel,
@@ -393,6 +381,18 @@ export default class SpanEditor {
     }
 
     clearTextSelection()
+  }
+
+  _getShrinkableTarget(selectionWrapper) {
+    const targetSpan = this._isFocusInSelectedSpan(selectionWrapper)
+      ? this._selectionModel.span.single.element
+      : selectionWrapper.ancestorDenotationSpanOfFocusNode
+
+    if (targetSpan) {
+      if (selectionWrapper.parentOfAnchorNode.contains(targetSpan)) {
+        return targetSpan
+      }
+    }
   }
 
   _anchorNodeInStyleSpanFocusNodeInBlockSpan() {
