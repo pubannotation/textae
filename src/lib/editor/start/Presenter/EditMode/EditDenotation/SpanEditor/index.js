@@ -190,7 +190,7 @@ export default class SpanEditor {
     // Shrink Span when mousedown on the text or a span and mouseup on the styleSpan.
     if (selectionWrapper.ancestorDenotationSpanOfFocusNode) {
       if (this._isFocusInSelectedSpan(selectionWrapper)) {
-        this._shrinkSelectedSpan(selectionWrapper)
+        this._shrink(selectionWrapper, this._selectionModel.span.singleId)
       } else {
         const spanId = selectionWrapper.ancestorDenotationSpanOfFocusNode.id
         this._shrink(selectionWrapper, spanId)
@@ -224,7 +224,7 @@ export default class SpanEditor {
         // as the start or end of the parent span.
         // Shrink the span at the front or back end of the text.
         if (this._isFocusInSelectedSpan(selectionWrapper)) {
-          this._shrinkSelectedSpan(selectionWrapper)
+          this._shrink(selectionWrapper, this._selectionModel.span.singleId)
         } else {
           this._shrink(selectionWrapper, parentSpan.id)
         }
@@ -251,7 +251,7 @@ export default class SpanEditor {
       )
     ) {
       if (this._isFocusInSelectedSpan(selectionWrapper)) {
-        this._shrinkSelectedSpan(selectionWrapper)
+        this._shrink(selectionWrapper, this._selectionModel.span.singleId)
       } else {
         const spanId = getExpandTargetSpanFromAnchorNode(
           this._selectionModel,
@@ -298,7 +298,7 @@ export default class SpanEditor {
     // Shrink Span when mousedown on the text or a span and mouseup on the styleSpan.
     if (selectionWrapper.ancestorDenotationSpanOfFocusNode) {
       if (this._isFocusInSelectedSpan(selectionWrapper)) {
-        this._shrinkSelectedSpan(selectionWrapper)
+        this._shrink(selectionWrapper, this._selectionModel.span.singleId)
       } else {
         const spanId = selectionWrapper.ancestorDenotationSpanOfFocusNode.id
         this._shrink(selectionWrapper, spanId)
@@ -337,7 +337,7 @@ export default class SpanEditor {
 
   _anchorNodeInStyleSpanFocusNodeInDenotationSpan(selectionWrapper) {
     if (this._isFocusInSelectedSpan(selectionWrapper)) {
-      this._shrinkSelectedSpan(selectionWrapper)
+      this._shrink(selectionWrapper, this._selectionModel.span.singleId)
       return
     }
 
@@ -457,7 +457,7 @@ export default class SpanEditor {
       // 1. Select an inner span.
       // 2. Begin Drug from out of an outside span to the selected span.
       // Shrink the selected span.
-      this._shrinkSelectedSpan(selectionWrapper)
+      this._shrink(selectionWrapper, this._selectionModel.span.singleId)
     } else if (selectionWrapper.isFocusOneDownUnderAnchor) {
       // To shrink the span , belows are needed:
       // 1. The anchorNode out of the span and in the parent of the span.
@@ -467,10 +467,6 @@ export default class SpanEditor {
 
     // When the mouse-up span is the grandchild or below the mouse-down span or text
     clearTextSelection()
-  }
-
-  _shrinkSelectedSpan(selectionWrapper) {
-    this._shrink(selectionWrapper, this._selectionModel.span.singleId)
   }
 
   _shrink(selectionWrapper, spanId) {
