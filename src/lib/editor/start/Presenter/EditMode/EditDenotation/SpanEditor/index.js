@@ -411,14 +411,10 @@ export default class SpanEditor {
   }
 
   _isFocusInSelectedSpan(selectionWrapper) {
-    const span = this._selectionModel.span.single
-
-    if (!span) {
-      return false
-    }
-
-    const { focus } = selectionWrapper.positionsOnAnnotation
-    return span.begin < focus && focus < span.end
+    return isPositionBetweenSpan(
+      this._selectionModel.span.single,
+      selectionWrapper.positionsOnAnnotation.focus
+    )
   }
 
   _create(selectionWrapper) {
@@ -506,4 +502,12 @@ export default class SpanEditor {
   get _isReplicateAuto() {
     return this._buttonController.valueOf('replicate-auto')
   }
+}
+
+function isPositionBetweenSpan(span, position) {
+  if (!span) {
+    return false
+  }
+
+  return span.begin < position && position < span.end
 }
