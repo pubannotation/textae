@@ -384,13 +384,20 @@ export default class SpanEditor {
   }
 
   _getShrinkableTarget(selectionWrapper) {
-    const targetSpan = this._isFocusInSelectedSpan(selectionWrapper)
+    const targetSpanElement = this._isFocusInSelectedSpan(selectionWrapper)
       ? this._selectionModel.span.single.element
       : selectionWrapper.ancestorDenotationSpanOfFocusNode
 
-    if (targetSpan) {
-      if (selectionWrapper.parentOfAnchorNode.contains(targetSpan)) {
-        return targetSpan
+    if (targetSpanElement) {
+      const { anchor } = selectionWrapper.positionsOnAnnotation
+
+      const { begin, end } = this._annotationData.span.get(targetSpanElement.id)
+      if (
+        selectionWrapper.parentOfAnchorNode.contains(targetSpanElement) ||
+        anchor === begin ||
+        anchor === end
+      ) {
+        return targetSpanElement
       }
     }
   }
