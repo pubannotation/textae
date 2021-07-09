@@ -360,7 +360,7 @@ export default class SpanEditor {
     if (
       selectionWrapper.ancestorDenotationSpanOfAnchorNode &&
       selectionWrapper.ancestorDenotationSpanOfAnchorNode.parentElement ===
-        selectionWrapper.parentOfFocusNode
+        selectionWrapper.parentOfFocusNode.parentElement
     ) {
       const spanId = selectionWrapper.ancestorDenotationSpanOfAnchorNode.id
       this._expand(selectionWrapper, spanId)
