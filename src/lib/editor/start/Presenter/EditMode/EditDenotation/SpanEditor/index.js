@@ -355,18 +355,6 @@ export default class SpanEditor {
       return
     }
 
-    // When an anchor node has an ancestral span and the focus node is its sibling,
-    // expand the ancestral span.
-    if (
-      selectionWrapper.ancestorDenotationSpanOfAnchorNode &&
-      selectionWrapper.ancestorDenotationSpanOfAnchorNode.parentElement ===
-        selectionWrapper.parentOfFocusNode.parentElement
-    ) {
-      const spanId = selectionWrapper.ancestorDenotationSpanOfAnchorNode.id
-      this._expand(selectionWrapper, spanId)
-      return
-    }
-
     // When you mouse down on a parent style span and mouse up on the child span,
     // you shrink the child span.
     if (selectionWrapper.isFocusOneDownUnderAnchor) {
@@ -390,6 +378,18 @@ export default class SpanEditor {
         this._shrink(selectionWrapper, selectionWrapper.parentOfFocusNode.id)
         return
       }
+    }
+
+    // When an anchor node has an ancestral span and the focus node is its sibling,
+    // expand the ancestral span.
+    if (
+      selectionWrapper.ancestorDenotationSpanOfAnchorNode &&
+      selectionWrapper.ancestorDenotationSpanOfAnchorNode.parentElement ===
+        selectionWrapper.parentOfFocusNode.parentElement
+    ) {
+      const spanId = selectionWrapper.ancestorDenotationSpanOfAnchorNode.id
+      this._expand(selectionWrapper, spanId)
+      return
     }
 
     clearTextSelection()
