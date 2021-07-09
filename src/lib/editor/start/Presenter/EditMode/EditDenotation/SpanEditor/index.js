@@ -178,7 +178,13 @@ export default class SpanEditor {
   }
 
   _anchorNodeInTextBoxFocusNodeInDenotationSpan(selectionWrapper) {
-    this._shrinkSelectSpanOrOneUpFocusParentDenotationSpan(selectionWrapper)
+    const targetSpan = this._getShrinkableTarget(selectionWrapper)
+    if (targetSpan) {
+      this._shrink(selectionWrapper, targetSpan.id)
+      return
+    }
+
+    clearTextSelection()
   }
 
   _anchorNodeInTextBoxFocusNodeInBlockSpan() {
