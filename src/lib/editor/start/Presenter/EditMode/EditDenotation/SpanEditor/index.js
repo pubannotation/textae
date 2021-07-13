@@ -356,6 +356,8 @@ export default class SpanEditor {
       }
     }
 
+    // If the parent of the anchor node is a descendant of the focus node,
+    // and the focus node is selected, shrink the focus node.
     if (
       selectionWrapper.parentOfAnchorNode.closest(
         `#${selectionWrapper.parentOfFocusNode.id}`
