@@ -226,13 +226,9 @@ export default class SpanEditor {
       return
     }
 
-    // The anchor node is in the parent span and the focus node is in the child span.
-    if (
-      selectionWrapper.parentOfFocusNode.closest(
-        `#${selectionWrapper.parentOfAnchorNode.id}`
-      )
-    ) {
-      this._shrinkSelectSpanOrOneUpFocusParentDenotationSpan(selectionWrapper)
+    const shrinkTargetSpan = this._getShrinkableTarget(selectionWrapper)
+    if (shrinkTargetSpan) {
+      this._shrink(selectionWrapper, shrinkTargetSpan.id)
       return
     }
 
