@@ -365,6 +365,16 @@ export default class SpanEditor {
         return targetSpanElement
       }
     }
+
+    if (
+      selectionWrapper.parentOfAnchorNode.closest(
+        `#${selectionWrapper.parentOfFocusNode.id}`
+      )
+    ) {
+      if (this._isFocusInSelectedSpan(selectionWrapper)) {
+        return this._selectionModel.span.single.element
+      }
+    }
   }
 
   _anchorNodeInStyleSpanFocusNodeInBlockSpan() {
