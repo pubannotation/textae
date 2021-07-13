@@ -373,7 +373,8 @@ export default class SpanEditor {
 
       const { begin, end } = this._annotationData.span.get(targetSpanElement.id)
       if (
-        parentOfAnchorNode.contains(targetSpanElement) ||
+        (parentOfAnchorNode !== targetSpanElement &&
+          parentOfAnchorNode.contains(targetSpanElement)) ||
         anchor === begin ||
         anchor === end
       ) {
