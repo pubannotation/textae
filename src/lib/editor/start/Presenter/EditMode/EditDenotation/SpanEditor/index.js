@@ -238,16 +238,12 @@ export default class SpanEditor {
         `#${selectionWrapper.parentOfFocusNode.id}`
       )
     ) {
-      if (this._isFocusInSelectedSpan(selectionWrapper)) {
-        this._shrink(selectionWrapper, this._selectionModel.span.singleId)
-      } else {
-        const spanId = getExpandTargetSpanFromAnchorNode(
-          this._selectionModel,
-          selectionWrapper
-        )
+      const spanId = getExpandTargetSpanFromAnchorNode(
+        this._selectionModel,
+        selectionWrapper
+      )
 
-        this._expand(selectionWrapper, spanId)
-      }
+      this._expand(selectionWrapper, spanId)
 
       return
     }
