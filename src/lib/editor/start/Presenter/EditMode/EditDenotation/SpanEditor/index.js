@@ -284,7 +284,13 @@ export default class SpanEditor {
   }
 
   _anchorNodeInBlockSpanFocusNodeInDenotationSpan(selectionWrapper) {
-    this._shrinkSelectSpanOrOneUpFocusParentDenotationSpan(selectionWrapper)
+    const shrinkTargetSpan = this._getShrinkableTarget(selectionWrapper)
+    if (shrinkTargetSpan) {
+      this._shrink(selectionWrapper, shrinkTargetSpan.id)
+      return
+    }
+
+    clearTextSelection()
   }
 
   _anchorNodeInBlockSpanFocusNodeInBlockSpan(selectionWrapper) {
