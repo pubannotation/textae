@@ -341,7 +341,10 @@ export default class SpanEditor {
   }
 
   _getShrinkableTarget(selectionWrapper) {
-    const targetSpanElement = this._isFocusInSelectedSpan(selectionWrapper)
+    const targetSpanElement = isPositionBetweenSpan(
+      this._selectionModel.span.single,
+      selectionWrapper.positionsOnAnnotation.focus
+    )
       ? this._selectionModel.span.single.element
       : selectionWrapper.ancestorDenotationSpanOfFocusNode
 
@@ -375,7 +378,12 @@ export default class SpanEditor {
         `#${selectionWrapper.parentOfFocusNode.id}`
       )
     ) {
-      if (this._isFocusInSelectedSpan(selectionWrapper)) {
+      if (
+        isPositionBetweenSpan(
+          this._selectionModel.span.single,
+          selectionWrapper.positionsOnAnnotation.focus
+        )
+      ) {
         return this._selectionModel.span.single.element
       }
     }
@@ -394,13 +402,6 @@ export default class SpanEditor {
     }
 
     clearTextSelection()
-  }
-
-  _isFocusInSelectedSpan(selectionWrapper) {
-    return isPositionBetweenSpan(
-      this._selectionModel.span.single,
-      selectionWrapper.positionsOnAnnotation.focus
-    )
   }
 
   _create(selectionWrapper) {
