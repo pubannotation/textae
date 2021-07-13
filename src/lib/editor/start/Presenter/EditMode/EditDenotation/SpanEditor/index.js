@@ -211,7 +211,9 @@ export default class SpanEditor {
       this._selectionModel,
       selectionWrapper
     )
-    this._expand(selectionWrapper, spanId)
+    if (spanId) {
+      this._expand(selectionWrapper, spanId)
+    }
   }
 
   _anchorNodeInDenotationSpanFocusNodeInDenotationSpan(selectionWrapper) {
@@ -238,7 +240,9 @@ export default class SpanEditor {
         selectionWrapper
       )
 
-      this._expand(selectionWrapper, spanId)
+      if (spanId) {
+        this._expand(selectionWrapper, spanId)
+      }
 
       return
     }
@@ -247,7 +251,9 @@ export default class SpanEditor {
     if (selectionWrapper.isParentsParentOfAnchorNodeAndFocusedNodeSame) {
       const spanId = selectionWrapper.parentOfAnchorNode.id
 
-      this._expand(selectionWrapper, spanId)
+      if (spanId) {
+        this._expand(selectionWrapper, spanId)
+      }
       return
     }
 
@@ -260,7 +266,9 @@ export default class SpanEditor {
       this._selectionModel,
       selectionWrapper
     )
-    this._expand(selectionWrapper, spanId)
+    if (spanId) {
+      this._expand(selectionWrapper, spanId)
+    }
   }
 
   _anchorNodeInDenotationSpanFocusNodeInStyleSpan(selectionWrapper) {
@@ -269,7 +277,9 @@ export default class SpanEditor {
     if (selectionWrapper.isParentsParentOfAnchorNodeAndFocusedNodeSame) {
       const spanId = selectionWrapper.parentOfAnchorNode.id
 
-      this._expand(selectionWrapper, spanId)
+      if (spanId) {
+        this._expand(selectionWrapper, spanId)
+      }
       return
     }
 
@@ -312,7 +322,10 @@ export default class SpanEditor {
     // If the anchor node is a style span but has a parent span, extend the parent span.
     if (selectionWrapper.ancestorDenotationSpanOfAnchorNode) {
       const spanId = selectionWrapper.ancestorDenotationSpanOfAnchorNode.id
-      this._expand(selectionWrapper, spanId)
+
+      if (spanId) {
+        this._expand(selectionWrapper, spanId)
+      }
       return
     }
 
@@ -334,7 +347,10 @@ export default class SpanEditor {
         selectionWrapper.parentOfFocusNode.parentElement
     ) {
       const spanId = selectionWrapper.ancestorDenotationSpanOfAnchorNode.id
-      this._expand(selectionWrapper, spanId)
+
+      if (spanId) {
+        this._expand(selectionWrapper, spanId)
+      }
       return
     }
 
@@ -424,25 +440,19 @@ export default class SpanEditor {
   }
 
   _expand(selectionWrapper, spanId) {
-    if (spanId) {
-      expandSpan(
-        this._selectionModel,
-        this._annotationData,
-        this._buttonController.spanAdjuster,
-        spanId,
-        selectionWrapper,
-        this._spanConfig,
-        (begin, end) => {
-          this._commander.invoke(
-            this._commander.factory.moveDenotationSpanCommand(
-              spanId,
-              begin,
-              end
-            )
-          )
-        }
-      )
-    }
+    expandSpan(
+      this._selectionModel,
+      this._annotationData,
+      this._buttonController.spanAdjuster,
+      spanId,
+      selectionWrapper,
+      this._spanConfig,
+      (begin, end) => {
+        this._commander.invoke(
+          this._commander.factory.moveDenotationSpanCommand(spanId, begin, end)
+        )
+      }
+    )
 
     clearTextSelection()
   }
