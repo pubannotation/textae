@@ -181,7 +181,7 @@ export default class SpanEditor {
   }
 
   _anchorNodeInTextBoxFocusNodeInDenotationSpan(selectionWrapper) {
-    const targetSpan = this._getShrinkableTarget(selectionWrapper)
+    const targetSpan = this._getShrinkableTargetElement(selectionWrapper)
     if (targetSpan) {
       this._shrink(selectionWrapper, targetSpan.id)
       return
@@ -197,7 +197,7 @@ export default class SpanEditor {
   _anchorNodeInTextBoxFocusNodeInStyleSpan(selectionWrapper) {
     // There is a Span between the StyleSpan and the text.
     // Shrink Span when mousedown on the text or a span and mouseup on the styleSpan.
-    const targetSpan = this._getShrinkableTarget(selectionWrapper)
+    const targetSpan = this._getShrinkableTargetElement(selectionWrapper)
     if (targetSpan) {
       this._shrink(selectionWrapper, targetSpan.id)
       return
@@ -215,7 +215,7 @@ export default class SpanEditor {
   }
 
   _anchorNodeInDenotationSpanFocusNodeInDenotationSpan(selectionWrapper) {
-    const shrinkTargetSpan = this._getShrinkableTarget(selectionWrapper)
+    const shrinkTargetSpan = this._getShrinkableTargetElement(selectionWrapper)
     if (shrinkTargetSpan) {
       this._shrink(selectionWrapper, shrinkTargetSpan.id)
       return
@@ -273,7 +273,7 @@ export default class SpanEditor {
       return
     }
 
-    const shrinkTargetSpan = this._getShrinkableTarget(selectionWrapper)
+    const shrinkTargetSpan = this._getShrinkableTargetElement(selectionWrapper)
     if (shrinkTargetSpan) {
       this._shrink(selectionWrapper, shrinkTargetSpan.id)
       return
@@ -285,7 +285,7 @@ export default class SpanEditor {
   }
 
   _anchorNodeInBlockSpanFocusNodeInDenotationSpan(selectionWrapper) {
-    const shrinkTargetSpan = this._getShrinkableTarget(selectionWrapper)
+    const shrinkTargetSpan = this._getShrinkableTargetElement(selectionWrapper)
     if (shrinkTargetSpan) {
       this._shrink(selectionWrapper, shrinkTargetSpan.id)
       return
@@ -299,7 +299,7 @@ export default class SpanEditor {
   }
 
   _anchorNodeInBlockSpanFocusNodeInStyleSpan(selectionWrapper) {
-    const shrinkTargetSpan = this._getShrinkableTarget(selectionWrapper)
+    const shrinkTargetSpan = this._getShrinkableTargetElement(selectionWrapper)
     if (shrinkTargetSpan) {
       this._shrink(selectionWrapper, shrinkTargetSpan.id)
       return
@@ -320,7 +320,7 @@ export default class SpanEditor {
   }
 
   _anchorNodeInStyleSpanFocusNodeInDenotationSpan(selectionWrapper) {
-    const shrinkTargetSpan = this._getShrinkableTarget(selectionWrapper)
+    const shrinkTargetSpan = this._getShrinkableTargetElement(selectionWrapper)
     if (shrinkTargetSpan) {
       this._shrink(selectionWrapper, shrinkTargetSpan.id)
       return
@@ -341,7 +341,7 @@ export default class SpanEditor {
     clearTextSelection()
   }
 
-  _getShrinkableTarget(selectionWrapper) {
+  _getShrinkableTargetElement(selectionWrapper) {
     const targetSpanElement = isPositionBetweenSpan(
       this._selectionModel.span.single,
       selectionWrapper.positionsOnAnnotation.focus
