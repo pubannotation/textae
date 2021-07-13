@@ -216,25 +216,13 @@ export default class SpanEditor {
   _anchorNodeInDenotationSpanFocusNodeInDenotationSpan(selectionWrapper) {
     // The anchor node and the focus node are in the same span.
     if (selectionWrapper.isParentOfBothNodesSame) {
-      const parentSpan = this._annotationData.span.get(
-        selectionWrapper.parentOfAnchorNode.id
-      )
-      const { anchor } = selectionWrapper.positionsOnAnnotation
-
-      // Shrink the span
-      // if the anchor position is the same as the begin or end of the parent span.
-      if (anchor === parentSpan.begin || anchor === parentSpan.end) {
-        // The start or end of the selected region is at the same position
-        // as the start or end of the parent span.
-        // Shrink the span at the front or back end of the text.
-        if (this._isFocusInSelectedSpan(selectionWrapper)) {
-          this._shrink(selectionWrapper, this._selectionModel.span.singleId)
-        } else {
-          this._shrink(selectionWrapper, parentSpan.id)
-        }
-      } else {
-        this._create(selectionWrapper)
+      const shrinkTargetSpan = this._getShrinkableTarget(selectionWrapper)
+      if (shrinkTargetSpan) {
+        this._shrink(selectionWrapper, shrinkTargetSpan.id)
+        return
       }
+
+      this._create(selectionWrapper)
       return
     }
 
