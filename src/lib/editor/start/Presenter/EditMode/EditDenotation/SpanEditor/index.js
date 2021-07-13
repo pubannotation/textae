@@ -9,6 +9,7 @@ import SelectionWrapper from '../../SelectionWrapper'
 import getExpandTargetSpanFromFocusNode from './getExpandTargetSpanFromFocusNode'
 import isNodeStyleSpan from '../../isNodeStyleSpan'
 import isNodeDenotationSpan from '../../isNodeDenotationSpan'
+import isPositionBetweenSpan from './isPositionBetweenSpan'
 
 export default class SpanEditor {
   constructor(
@@ -469,12 +470,4 @@ export default class SpanEditor {
   get _isReplicateAuto() {
     return this._buttonController.valueOf('replicate-auto')
   }
-}
-
-function isPositionBetweenSpan(span, position) {
-  if (!span) {
-    return false
-  }
-
-  return span.begin < position && position < span.end
 }
