@@ -214,21 +214,15 @@ export default class SpanEditor {
   }
 
   _anchorNodeInDenotationSpanFocusNodeInDenotationSpan(selectionWrapper) {
-    // The anchor node and the focus node are in the same span.
-    if (selectionWrapper.isParentOfBothNodesSame) {
-      const shrinkTargetSpan = this._getShrinkableTarget(selectionWrapper)
-      if (shrinkTargetSpan) {
-        this._shrink(selectionWrapper, shrinkTargetSpan.id)
-        return
-      }
-
-      this._create(selectionWrapper)
-      return
-    }
-
     const shrinkTargetSpan = this._getShrinkableTarget(selectionWrapper)
     if (shrinkTargetSpan) {
       this._shrink(selectionWrapper, shrinkTargetSpan.id)
+      return
+    }
+
+    // The anchor node and the focus node are in the same span.
+    if (selectionWrapper.isParentOfBothNodesSame) {
+      this._create(selectionWrapper)
       return
     }
 
