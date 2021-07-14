@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.17.0](https://github.com/pubannotation/textae/compare/v7.16.0...v7.17.0) (2021-07-14)
+
+
+### Features
+
+* When mousing down on text and mousing up on DenotationSpan, shrink the span closest to the moused-up node ([2f4cc0d](https://github.com/pubannotation/textae/commit/2f4cc0d933a47e28128eaf2871f8990fc98b8e3a))
+* Within a block span, shrink a DenotationSpan when mouse down on text and mouse up on a style span within the DenotationSpan. ([e44c480](https://github.com/pubannotation/textae/commit/e44c4806407a7cf586cf07e08f1cd42bacb2ab8d))
+* You cannot create a DenotationSpan that is the parent of a BlockSpan ([b090aea](https://github.com/pubannotation/textae/commit/b090aea6ed8eab8702887c40c72384899ce0e8e1))
+
+
+### Bug Fixes
+
+* When mousing down on a DenotationSpan child's style span and mousing up on the parent's DenotationSpan, the direction of shrinking is reversed ([ca2a6ee](https://github.com/pubannotation/textae/commit/ca2a6ee1839a36057ea08a4adb40f9baa51177ec))
+* When mousing down on a style span within one of the sibling spans and mousing up on the other sibling span, the first sibling span is not expanded ([65c1049](https://github.com/pubannotation/textae/commit/65c104999e392ade28a07d338d32997e22133f23))
+
 ## [7.16.0](https://github.com/pubannotation/textae/compare/v7.15.0...v7.16.0) (2021-07-08)
 
 
