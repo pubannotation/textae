@@ -217,6 +217,29 @@ export default class SpanEditor {
   }
 
   _anchorNodeInDenotationSpanFocusNodeInDenotationSpan(selectionWrapper) {
+    const { anchor } = selectionWrapper.positionsOnAnnotation
+    const { begin, end } = this._annotationData.span.get(
+      selectionWrapper.parentOfAnchorNode.id
+    )
+    if (anchor === begin || anchor === end) {
+      // Shrink the span of the ends.
+      if (selectionWrapper.isParentOfBothNodesSame) {
+        this._shrink(selectionWrapper, selectionWrapper.parentOfAnchorNode.id)
+        return
+      }
+
+      // Shrink the parent of the parent-child span at the end.
+      if (
+        selectionWrapper.parentOfAnchorNode.closest(
+          `#${selectionWrapper.parentOfFocusNode.id}`
+        )
+      ) {
+        this._shrink(selectionWrapper, selectionWrapper.parentOfFocusNode.id)
+
+        return
+      }
+    }
+
     // The anchor node and the focus node are in the same span.
     if (selectionWrapper.isParentOfBothNodesSame) {
       this._create(selectionWrapper)
