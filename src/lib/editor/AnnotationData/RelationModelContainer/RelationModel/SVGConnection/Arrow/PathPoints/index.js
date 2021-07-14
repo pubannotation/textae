@@ -24,7 +24,9 @@ export default class PathPoints {
       sourceX,
       sourceY,
       targetX,
-      targetY
+      targetY,
+      sourceEntity.bottom,
+      targetEntity.bottom
     )
 
     const controlY =
