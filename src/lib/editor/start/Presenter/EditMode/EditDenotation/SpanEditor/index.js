@@ -223,7 +223,6 @@ export default class SpanEditor {
       return
     }
 
-    // The anchor node is in the child span and the focus node is in the parent span.
     if (
       selectionWrapper.parentOfAnchorNode.closest(
         `#${selectionWrapper.parentOfFocusNode.id}`
