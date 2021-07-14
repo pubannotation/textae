@@ -4,6 +4,10 @@ export default function (sourceX, sourceY, targetX, targetY) {
     return { sourceControlX: sourceX, targetControlX: targetX }
   }
 
+  return bentSignificantly(sourceX, sourceY, targetX, targetY)
+}
+
+function bentSignificantly(sourceX, sourceY, targetX, targetY) {
   if (sourceY < targetY) {
     return {
       sourceControlX: sourceX,
