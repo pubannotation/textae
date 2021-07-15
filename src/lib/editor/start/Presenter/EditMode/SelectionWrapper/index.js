@@ -53,6 +53,10 @@ export default class SelectionWrapper {
     )
   }
 
+  get isAnchorNodeParentIsDescendantOfFocusNodeParent() {
+    return this.parentOfAnchorNode.closest(`#${this.parentOfFocusNode.id}`)
+  }
+
   get isAnchorNodeParentIsDescendantOfSelectedSpan() {
     return this.parentOfAnchorNode.closest('.ui-selected')
   }
