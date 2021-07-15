@@ -216,7 +216,7 @@ export default class SpanEditor {
     }
   }
 
-  _anchorNodeInDenotationSpanFocusNodeInDenotationSpan(selectionWrapper) {
+  _getShrinkableEndSpanID(selectionWrapper) {
     const { anchor } = selectionWrapper.positionsOnAnnotation
     const { begin, end } = this._annotationData.span.get(
       selectionWrapper.parentOfAnchorNode.id
@@ -224,15 +224,21 @@ export default class SpanEditor {
     if (anchor === begin || anchor === end) {
       // Shrink the span of the ends.
       if (selectionWrapper.isParentOfBothNodesSame) {
-        this._shrink(selectionWrapper, selectionWrapper.parentOfAnchorNode.id)
-        return
+        return selectionWrapper.parentOfAnchorNode.id
       }
 
       // Shrink the parent of the parent-child span at the end.
       if (selectionWrapper.isAnchorNodeParentIsDescendantOfFocusNodeParent) {
-        this._shrink(selectionWrapper, selectionWrapper.parentOfFocusNode.id)
-        return
+        return selectionWrapper.parentOfFocusNode.id
       }
+    }
+  }
+
+  _anchorNodeInDenotationSpanFocusNodeInDenotationSpan(selectionWrapper) {
+    const shrinkableEndSpanID = this._getShrinkableEndSpanID(selectionWrapper)
+    if (shrinkableEndSpanID) {
+      this._shrink(selectionWrapper, shrinkableEndSpanID)
+      return
     }
 
     // The anchor node and the focus node are in the same span.
