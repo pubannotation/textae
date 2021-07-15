@@ -416,8 +416,6 @@ export default class SpanEditor {
       : selectionWrapper.ancestorDenotationSpanOfFocusNode
 
     if (targetSpanElement) {
-      const { anchor } = selectionWrapper.positionsOnAnnotation
-
       // Skip style only span
       let { parentOfAnchorNode } = selectionWrapper
       while (
@@ -427,12 +425,9 @@ export default class SpanEditor {
         parentOfAnchorNode = parentOfAnchorNode.parentElement
       }
 
-      const { begin, end } = this._annotationData.span.get(targetSpanElement.id)
       if (
-        (parentOfAnchorNode !== targetSpanElement &&
-          parentOfAnchorNode.contains(targetSpanElement)) ||
-        anchor === begin ||
-        anchor === end
+        parentOfAnchorNode !== targetSpanElement &&
+        parentOfAnchorNode.contains(targetSpanElement)
       ) {
         return targetSpanElement.id
       }
