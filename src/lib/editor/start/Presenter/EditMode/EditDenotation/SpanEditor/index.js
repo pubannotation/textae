@@ -350,6 +350,21 @@ export default class SpanEditor {
     clearTextSelection()
   }
 
+  _anchorNodeInStyleSpanFocusNodeInBlockSpan() {
+    clearTextSelection()
+  }
+
+  _anchorNodeInStyleSpanFocusNodeInStyleSpan(selectionWrapper) {
+    if (
+      selectionWrapper.isParentOfBothNodesSame ||
+      selectionWrapper.isParentsParentOfAnchorNodeAndFocusedNodeSame
+    ) {
+      this._create(selectionWrapper)
+    }
+
+    clearTextSelection()
+  }
+
   _getShrinkableEndSpanID(selectionWrapper) {
     const { anchor } = selectionWrapper.positionsOnAnnotation
     const { begin, end } = this._annotationData.span.get(
@@ -366,21 +381,6 @@ export default class SpanEditor {
         return selectionWrapper.parentOfFocusNode.id
       }
     }
-  }
-
-  _anchorNodeInStyleSpanFocusNodeInBlockSpan() {
-    clearTextSelection()
-  }
-
-  _anchorNodeInStyleSpanFocusNodeInStyleSpan(selectionWrapper) {
-    if (
-      selectionWrapper.isParentOfBothNodesSame ||
-      selectionWrapper.isParentsParentOfAnchorNodeAndFocusedNodeSame
-    ) {
-      this._create(selectionWrapper)
-    }
-
-    clearTextSelection()
   }
 
   _getShrinkableSpanID(selectionWrapper) {
