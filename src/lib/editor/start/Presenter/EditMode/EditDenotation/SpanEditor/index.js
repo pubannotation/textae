@@ -368,6 +368,21 @@ export default class SpanEditor {
     }
   }
 
+  _anchorNodeInStyleSpanFocusNodeInBlockSpan() {
+    clearTextSelection()
+  }
+
+  _anchorNodeInStyleSpanFocusNodeInStyleSpan(selectionWrapper) {
+    if (
+      selectionWrapper.isParentOfBothNodesSame ||
+      selectionWrapper.isParentsParentOfAnchorNodeAndFocusedNodeSame
+    ) {
+      this._create(selectionWrapper)
+    }
+
+    clearTextSelection()
+  }
+
   _getShrinkableSpanID(selectionWrapper) {
     const targetSpanElement = isPositionBetweenSpan(
       this._selectionModel.span.single,
@@ -411,21 +426,6 @@ export default class SpanEditor {
         return this._selectionModel.span.single.element.id
       }
     }
-  }
-
-  _anchorNodeInStyleSpanFocusNodeInBlockSpan() {
-    clearTextSelection()
-  }
-
-  _anchorNodeInStyleSpanFocusNodeInStyleSpan(selectionWrapper) {
-    if (
-      selectionWrapper.isParentOfBothNodesSame ||
-      selectionWrapper.isParentsParentOfAnchorNodeAndFocusedNodeSame
-    ) {
-      this._create(selectionWrapper)
-    }
-
-    clearTextSelection()
   }
 
   _create(selectionWrapper) {
