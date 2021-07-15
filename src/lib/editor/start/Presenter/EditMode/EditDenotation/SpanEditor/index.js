@@ -181,9 +181,9 @@ export default class SpanEditor {
   }
 
   _anchorNodeInTextBoxFocusNodeInDenotationSpan(selectionWrapper) {
-    const targetSpan = this._getShrinkableTargetElement(selectionWrapper)
-    if (targetSpan) {
-      this._shrink(selectionWrapper, targetSpan.id)
+    const targetSpanID = this._getShrinkableSpanID(selectionWrapper)
+    if (targetSpanID) {
+      this._shrink(selectionWrapper, targetSpanID)
       return
     }
 
@@ -197,9 +197,9 @@ export default class SpanEditor {
   _anchorNodeInTextBoxFocusNodeInStyleSpan(selectionWrapper) {
     // There is a Span between the StyleSpan and the text.
     // Shrink Span when mousedown on the text or a span and mouseup on the styleSpan.
-    const targetSpan = this._getShrinkableTargetElement(selectionWrapper)
-    if (targetSpan) {
-      this._shrink(selectionWrapper, targetSpan.id)
+    const targetSpanID = this._getShrinkableSpanID(selectionWrapper)
+    if (targetSpanID) {
+      this._shrink(selectionWrapper, targetSpanID)
       return
     }
 
@@ -252,9 +252,9 @@ export default class SpanEditor {
       return
     }
 
-    const shrinkTargetSpan = this._getShrinkableTargetElement(selectionWrapper)
-    if (shrinkTargetSpan) {
-      this._shrink(selectionWrapper, shrinkTargetSpan.id)
+    const shrinkTargetSpanID = this._getShrinkableSpanID(selectionWrapper)
+    if (shrinkTargetSpanID) {
+      this._shrink(selectionWrapper, shrinkTargetSpanID)
       return
     }
 
@@ -294,9 +294,9 @@ export default class SpanEditor {
       return
     }
 
-    const shrinkTargetSpan = this._getShrinkableTargetElement(selectionWrapper)
-    if (shrinkTargetSpan) {
-      this._shrink(selectionWrapper, shrinkTargetSpan.id)
+    const shrinkTargetSpanID = this._getShrinkableSpanID(selectionWrapper)
+    if (shrinkTargetSpanID) {
+      this._shrink(selectionWrapper, shrinkTargetSpanID)
       return
     }
   }
@@ -306,9 +306,9 @@ export default class SpanEditor {
   }
 
   _anchorNodeInBlockSpanFocusNodeInDenotationSpan(selectionWrapper) {
-    const shrinkTargetSpan = this._getShrinkableTargetElement(selectionWrapper)
-    if (shrinkTargetSpan) {
-      this._shrink(selectionWrapper, shrinkTargetSpan.id)
+    const shrinkTargetSpanID = this._getShrinkableSpanID(selectionWrapper)
+    if (shrinkTargetSpanID) {
+      this._shrink(selectionWrapper, shrinkTargetSpanID)
       return
     }
 
@@ -320,9 +320,9 @@ export default class SpanEditor {
   }
 
   _anchorNodeInBlockSpanFocusNodeInStyleSpan(selectionWrapper) {
-    const shrinkTargetSpan = this._getShrinkableTargetElement(selectionWrapper)
-    if (shrinkTargetSpan) {
-      this._shrink(selectionWrapper, shrinkTargetSpan.id)
+    const shrinkTargetSpanID = this._getShrinkableSpanID(selectionWrapper)
+    if (shrinkTargetSpanID) {
+      this._shrink(selectionWrapper, shrinkTargetSpanID)
       return
     }
 
@@ -344,9 +344,9 @@ export default class SpanEditor {
   }
 
   _anchorNodeInStyleSpanFocusNodeInDenotationSpan(selectionWrapper) {
-    const shrinkTargetSpan = this._getShrinkableTargetElement(selectionWrapper)
-    if (shrinkTargetSpan) {
-      this._shrink(selectionWrapper, shrinkTargetSpan.id)
+    const shrinkTargetSpanID = this._getShrinkableSpanID(selectionWrapper)
+    if (shrinkTargetSpanID) {
+      this._shrink(selectionWrapper, shrinkTargetSpanID)
       return
     }
 
@@ -368,7 +368,7 @@ export default class SpanEditor {
     clearTextSelection()
   }
 
-  _getShrinkableTargetElement(selectionWrapper) {
+  _getShrinkableSpanID(selectionWrapper) {
     const targetSpanElement = isPositionBetweenSpan(
       this._selectionModel.span.single,
       selectionWrapper.positionsOnAnnotation.focus
@@ -395,7 +395,7 @@ export default class SpanEditor {
         anchor === begin ||
         anchor === end
       ) {
-        return targetSpanElement
+        return targetSpanElement.id
       }
     }
 
@@ -408,7 +408,7 @@ export default class SpanEditor {
           selectionWrapper.positionsOnAnnotation.focus
         )
       ) {
-        return this._selectionModel.span.single.element
+        return this._selectionModel.span.single.element.id
       }
     }
   }
