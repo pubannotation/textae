@@ -265,6 +265,12 @@ export default class SpanEditor {
   }
 
   _anchorNodeInDenotationSpanFocusNodeInStyleSpan(selectionWrapper) {
+    const shrinkTargetEndSpanID = this._getShrinkableEndSpanID(selectionWrapper)
+    if (shrinkTargetEndSpanID) {
+      this._shrink(selectionWrapper, shrinkTargetEndSpanID)
+      return
+    }
+
     // Mousedown on the child Span of a parent and child Span,
     // and then mouseup on the StyleSpan in the parent Span.
     if (selectionWrapper.isParentsParentOfAnchorNodeAndFocusedNodeSame) {
