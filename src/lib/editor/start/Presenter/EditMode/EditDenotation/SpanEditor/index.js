@@ -216,24 +216,6 @@ export default class SpanEditor {
     }
   }
 
-  _getShrinkableEndSpanID(selectionWrapper) {
-    const { anchor } = selectionWrapper.positionsOnAnnotation
-    const { begin, end } = this._annotationData.span.get(
-      selectionWrapper.parentOfAnchorNode.id
-    )
-    if (anchor === begin || anchor === end) {
-      // Shrink the span of the ends.
-      if (selectionWrapper.isParentOfBothNodesSame) {
-        return selectionWrapper.parentOfAnchorNode.id
-      }
-
-      // Shrink the parent of the parent-child span at the end.
-      if (selectionWrapper.isAnchorNodeParentIsDescendantOfFocusNodeParent) {
-        return selectionWrapper.parentOfFocusNode.id
-      }
-    }
-  }
-
   _anchorNodeInDenotationSpanFocusNodeInDenotationSpan(selectionWrapper) {
     const shrinkableEndSpanID = this._getShrinkableEndSpanID(selectionWrapper)
     if (shrinkableEndSpanID) {
@@ -366,6 +348,24 @@ export default class SpanEditor {
     }
 
     clearTextSelection()
+  }
+
+  _getShrinkableEndSpanID(selectionWrapper) {
+    const { anchor } = selectionWrapper.positionsOnAnnotation
+    const { begin, end } = this._annotationData.span.get(
+      selectionWrapper.parentOfAnchorNode.id
+    )
+    if (anchor === begin || anchor === end) {
+      // Shrink the span of the ends.
+      if (selectionWrapper.isParentOfBothNodesSame) {
+        return selectionWrapper.parentOfAnchorNode.id
+      }
+
+      // Shrink the parent of the parent-child span at the end.
+      if (selectionWrapper.isAnchorNodeParentIsDescendantOfFocusNodeParent) {
+        return selectionWrapper.parentOfFocusNode.id
+      }
+    }
   }
 
   _getShrinkableSpanID(selectionWrapper) {
