@@ -229,11 +229,7 @@ export default class SpanEditor {
       }
 
       // Shrink the parent of the parent-child span at the end.
-      if (
-        selectionWrapper.parentOfAnchorNode.closest(
-          `#${selectionWrapper.parentOfFocusNode.id}`
-        )
-      ) {
+      if (selectionWrapper.isAnchorNodeParentIsDescendantOfFocusNodeParent) {
         this._shrink(selectionWrapper, selectionWrapper.parentOfFocusNode.id)
 
         return
@@ -246,11 +242,7 @@ export default class SpanEditor {
       return
     }
 
-    if (
-      selectionWrapper.parentOfAnchorNode.closest(
-        `#${selectionWrapper.parentOfFocusNode.id}`
-      )
-    ) {
+    if (selectionWrapper.isAnchorNodeParentIsDescendantOfFocusNodeParent) {
       this._expand(selectionWrapper, selectionWrapper.parentOfAnchorNode.id)
       return
     }
@@ -404,11 +396,7 @@ export default class SpanEditor {
 
     // If the parent of the anchor node is a descendant of the focus node,
     // and the focus node is selected, shrink the focus node.
-    if (
-      selectionWrapper.parentOfAnchorNode.closest(
-        `#${selectionWrapper.parentOfFocusNode.id}`
-      )
-    ) {
+    if (selectionWrapper.isAnchorNodeParentIsDescendantOfFocusNodeParent) {
       if (
         isPositionBetweenSpan(
           this._selectionModel.span.single,
