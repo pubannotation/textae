@@ -355,6 +355,12 @@ export default class SpanEditor {
   }
 
   _anchorNodeInStyleSpanFocusNodeInStyleSpan(selectionWrapper) {
+    const shrinkTargetSpanID = this._getShrinkableEndSpanID(selectionWrapper)
+    if (shrinkTargetSpanID) {
+      this._shrink(selectionWrapper, shrinkTargetSpanID)
+      return
+    }
+
     if (
       selectionWrapper.isParentOfBothNodesSame ||
       selectionWrapper.isParentsParentOfAnchorNodeAndFocusedNodeSame
@@ -373,12 +379,18 @@ export default class SpanEditor {
     if (anchor === begin || anchor === end) {
       // Shrink the span of the ends.
       if (selectionWrapper.isParentOfBothNodesSame) {
-        return selectionWrapper.parentOfAnchorNode.id
+        // Skip style only span.
+        return selectionWrapper.ancestorDenotationSpanOfAnchorNode.id
       }
 
       // Shrink the parent of the parent-child span at the end.
-      if (selectionWrapper.isAnchorNodeParentIsDescendantOfFocusNodeParent) {
-        return selectionWrapper.parentOfFocusNode.id
+      // Skip style only span.
+      if (
+        selectionWrapper.parentOfAnchorNode.closest(
+          `#${selectionWrapper.ancestorDenotationSpanOfFocusNode.id}`
+        )
+      ) {
+        return selectionWrapper.ancestorDenotationSpanOfFocusNode.id
       }
     }
   }
