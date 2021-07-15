@@ -231,7 +231,6 @@ export default class SpanEditor {
       // Shrink the parent of the parent-child span at the end.
       if (selectionWrapper.isAnchorNodeParentIsDescendantOfFocusNodeParent) {
         this._shrink(selectionWrapper, selectionWrapper.parentOfFocusNode.id)
-
         return
       }
     }
