@@ -326,6 +326,12 @@ export default class SpanEditor {
   }
 
   _anchorNodeInStyleSpanFocusNodeInDenotationSpan(selectionWrapper) {
+    const shrinkTargetEndSpanID = this._getShrinkableEndSpanID(selectionWrapper)
+    if (shrinkTargetEndSpanID) {
+      this._shrink(selectionWrapper, shrinkTargetEndSpanID)
+      return
+    }
+
     const shrinkTargetSpanID = this._getShrinkableSpanID(selectionWrapper)
     if (shrinkTargetSpanID) {
       this._shrink(selectionWrapper, shrinkTargetSpanID)
