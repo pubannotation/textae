@@ -422,12 +422,7 @@ export default class SpanEditor {
   }
 
   _getShrinkableSpanID(selectionWrapper) {
-    const targetSpanElement = isPositionBetweenSpan(
-      this._selectionModel.span.single,
-      selectionWrapper.positionsOnAnnotation.focus
-    )
-      ? this._selectionModel.span.single.element
-      : selectionWrapper.ancestorDenotationSpanOfFocusNode
+    const targetSpanElement = selectionWrapper.ancestorDenotationSpanOfFocusNode
 
     if (targetSpanElement) {
       if (
