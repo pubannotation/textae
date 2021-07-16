@@ -209,43 +209,6 @@
 3.  Ctrl を押しながら新しく作った Relation のラベルをクリック
 4.  両方の Relation が選択されること
 
-## URL からはテキストファイルのアノテーションは読み込めない
-
-### 背景
-
-1.  読み込み失敗時のメッセージが素っ気なかった
-2.  4.1.12 から優しくなりました
-3.  6.4.127 で不正なアノテーションを読み込んだ際に、不正なコンフィグレーションを読み込んだときのメッセージも表示されるようになりました
-4.  6.4.142 で対応しました
-5.  5.0.0 でローカルファイルからのテストファイル読み込み機能を追加しました。
-
-### -- 手段 --
-
-1.  アノテーション読込ダイアログを表示
-2.  URL 欄に`http://localhost:8000/dev/target.txt`を入力し、`Open`ボタンを押して、サーバーから読み込む
-3.  右上に`http://localhost:8000/dev/target.txt is not a annotation file or its format is invalid.`と赤色のトースト表示がされること
-
-## Selection Attribute 定義の Value が唯一のときは、削除不可
-
-### 背景
-
-1.  Selection Attribute の Value をすべて消そうとするとエラーが起きます
-2.  6.1.57 で対応しました。
-
-### -- 手段 --
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  `Show label list editor [Q]`ボタンをクリックする
-4.  `selection`タブを選択
-5.  `default`の`Remove this value.`ボタンが無効なこと
-6.  `Add new value`ボタンをクリックする
-7.  `id`欄を入力する
-8.  `OK`ボタンを押す
-9.  `default`の`Remove this value.`ボタンが有効になること
-10. 追加した Value の`Remove this value.`ボタンがクリックする
-11. `default`の`Remove this value.`ボタンが無効になること
-
 ## Selection Attribute 定義の Value の id 変更
 
 ### 背景
@@ -373,26 +336,6 @@
 1.  Relation を選択する
 2.  Relation を削除する
 3.  選択解除されること
-
-## Lock Edit Config 有効時のパレットの表示項目
-
-### 背景
-
-1.  6.4.52 で `Lock Edit Config`有効時に、Attribute タブの、定義削除ボタン、定義編集ボタンを無効にしました。
-
-### -- 手段 --
-
-1.  Editor1 を選択
-2.  Term モードにする
-3.  設定ダイアログをひらく`Lock Edit Config`にチェックを入れる
-4.  パレットを開く
-5.  全選択ボタンが表示されないこと
-6.  編集ボタンが表示されないこと
-7.  削除ボタンが表示されないこと
-8.  Attirbute 追加タブが表示されないこと
-9.  `denote` タブを選ぶ
-10. `Delete this predicate.`ボタンが無効であること
-11. `Edit this predicate.`ボタンが無効であること
 
 ## Entity をホバーしたときの見た目
 
@@ -662,35 +605,3 @@
 3.  パレットがボタンの近くに開くこと
 4.  `Q`キーを押す
 5.  パレットがマウスカーソルの近くに開くこと
-
-## TypeGap
-
-### TypeGap のデフォルト値
-
-1.  Setting ダイアログを開く
-2.  Simple モードが 0（変更不可）
-3.  Term モードが 2
-4.  Block モードが 2
-5.  Relation モードが 2
-
-### TypeGap を変更したら LineHeight を自動計算する
-
-1.  TypeGap を変更したら LineHeight を自動計算する
-2.  Setting Dialog の LineHeight の値が更新されること
-3.  Grid が正しい位置に表示されること
-
-### 一回 Simple モードにしてから元のモードに戻したときに TypeGap の値が保存されている
-
-#### 背景
-
-1.  TypeGap の値を保存しなくなっていた。
-2.  4.1.8 で修正
-
-#### -- 手段 --
-
-1.  Relation モードにする
-2.  TypeGap を 3 にする
-3.  Simple モードにする
-4.  TypeGap が 0 になること
-5.  Relation モードにする
-6.  TypeGap が 3 になること
