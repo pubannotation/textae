@@ -269,6 +269,14 @@ export default class SpanEditor {
       return
     }
 
+    if (
+      selectionWrapper.parentOfAnchorNode ===
+      selectionWrapper.ancestorDenotationSpanOfFocusNode
+    ) {
+      this._create(selectionWrapper)
+      return
+    }
+
     // Mousedown on the child Span of a parent and child Span,
     // and then mouseup on the StyleSpan in the parent Span.
     if (selectionWrapper.isParentsParentOfAnchorNodeAndFocusedNodeSame) {
