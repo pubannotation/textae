@@ -7,8 +7,6 @@ import hasCharacters from '../../hasCharacters'
 import getIsDelimiterFunc from '../../../getIsDelimiterFunc'
 import SelectionWrapper from '../../SelectionWrapper'
 import getExpandTargetSpanFromFocusNode from './getExpandTargetSpanFromFocusNode'
-import isNodeStyleSpan from '../../isNodeStyleSpan'
-import isNodeDenotationSpan from '../../isNodeDenotationSpan'
 import isPositionBetweenSpan from './isPositionBetweenSpan'
 
 export default class SpanEditor {
@@ -416,18 +414,12 @@ export default class SpanEditor {
       : selectionWrapper.ancestorDenotationSpanOfFocusNode
 
     if (targetSpanElement) {
-      // Skip style only span
-      let { parentOfAnchorNode } = selectionWrapper
-      while (
-        isNodeStyleSpan(parentOfAnchorNode) &&
-        !isNodeDenotationSpan(parentOfAnchorNode)
-      ) {
-        parentOfAnchorNode = parentOfAnchorNode.parentElement
-      }
-
       if (
-        parentOfAnchorNode !== targetSpanElement &&
-        parentOfAnchorNode.contains(targetSpanElement)
+        selectionWrapper.ancestorDenotationSpanOfAnchorNode !==
+          targetSpanElement &&
+        selectionWrapper.ancestorDenotationSpanOfAnchorNode.contains(
+          targetSpanElement
+        )
       ) {
         return targetSpanElement.id
       }
