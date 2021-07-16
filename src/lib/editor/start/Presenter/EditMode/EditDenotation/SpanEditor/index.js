@@ -344,6 +344,14 @@ export default class SpanEditor {
       return
     }
 
+    if (
+      selectionWrapper.ancestorDenotationSpanOfAnchorNode ===
+      selectionWrapper.parentOfFocusNode
+    ) {
+      this._create(selectionWrapper)
+      return
+    }
+
     const shrinkTargetSpanID = this._getShrinkableSpanID(selectionWrapper)
     if (shrinkTargetSpanID) {
       this._shrink(selectionWrapper, shrinkTargetSpanID)
