@@ -433,9 +433,10 @@ export default class SpanEditor {
       if (
         selectionWrapper.ancestorDenotationSpanOfAnchorNode !==
           targetSpanElement &&
-        selectionWrapper.ancestorDenotationSpanOfAnchorNode.contains(
-          targetSpanElement
-        )
+        (!selectionWrapper.ancestorDenotationSpanOfAnchorNode ||
+          selectionWrapper.ancestorDenotationSpanOfAnchorNode.contains(
+            targetSpanElement
+          ))
       ) {
         return targetSpanElement.id
       }
