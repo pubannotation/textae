@@ -57,14 +57,6 @@ export default class SelectionWrapper {
     return this.parentOfAnchorNode.closest(`#${this.parentOfFocusNode.id}`)
   }
 
-  get isAnchorNodeParentIsDescendantOfSelectedSpan() {
-    return this.parentOfAnchorNode.closest('.ui-selected')
-  }
-
-  get isFocusNodeParentIsDescendantOfSelectedSpan() {
-    return this.parentOfAnchorNode.closest('.ui-selected')
-  }
-
   get ancestorDenotationSpanOfAnchorNode() {
     return this.parentOfAnchorNode.closest('.textae-editor__span')
   }
