@@ -132,10 +132,7 @@ export default class SpanEditor {
     // When you select text by mouse operation,
     // the anchor node of the selected string is always inside the span to be extended,
     // and the focus node is outside.
-    const spanIdFromAnchor = getExpandTargetSpanFromAnchorNode(
-      this._selectionModel,
-      selectionWrapper
-    )
+    const spanIdFromAnchor = getExpandTargetSpanFromAnchorNode(selectionWrapper)
 
     if (spanIdFromAnchor) {
       return {
@@ -153,10 +150,7 @@ export default class SpanEditor {
 
     // On touch devices, the focus node of the selected string may be inside the span to be extended,
     // and the anchor node may be outside.
-    const spanIdFromFocus = getExpandTargetSpanFromFocusNode(
-      this._selectionModel,
-      selectionWrapper
-    )
+    const spanIdFromFocus = getExpandTargetSpanFromFocusNode(selectionWrapper)
 
     if (spanIdFromFocus) {
       return {
@@ -205,10 +199,7 @@ export default class SpanEditor {
   }
 
   _anchorNodeInDenotationSpanFocusNodeInTextBox(selectionWrapper) {
-    const spanId = getExpandTargetSpanFromAnchorNode(
-      this._selectionModel,
-      selectionWrapper
-    )
+    const spanId = getExpandTargetSpanFromAnchorNode(selectionWrapper)
     if (spanId) {
       this._expand(selectionWrapper, spanId)
     }
@@ -253,10 +244,7 @@ export default class SpanEditor {
   }
 
   _anchorNodeInDenotationSpanFocusNodeInBlockSpan(selectionWrapper) {
-    const spanId = getExpandTargetSpanFromAnchorNode(
-      this._selectionModel,
-      selectionWrapper
-    )
+    const spanId = getExpandTargetSpanFromAnchorNode(selectionWrapper)
     if (spanId) {
       this._expand(selectionWrapper, spanId)
     }

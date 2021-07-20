@@ -1,7 +1,5 @@
-export default function (selectionModel, selectionWrapper) {
-  if (selectionWrapper.isFocusNodeParentIsDescendantOfSelectedSpan) {
-    return selectionModel.span.singleId
-  } else if (
+export default function (selectionWrapper) {
+  if (
     selectionWrapper.parentOfAnchorNode.contains(
       selectionWrapper.parentOfFocusNode
     )
