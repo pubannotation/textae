@@ -65,10 +65,6 @@ export default class SelectionWrapper {
     return this.parentOfAnchorNode.closest('.ui-selected')
   }
 
-  get isFocusOneDownUnderAnchor() {
-    return this.parentOfAnchorNode === this.parentOfFocusNode.parentElement
-  }
-
   get ancestorDenotationSpanOfAnchorNode() {
     return this.parentOfAnchorNode.closest('.textae-editor__span')
   }
@@ -89,10 +85,6 @@ export default class SelectionWrapper {
     return (
       this.ancestorBlockSpanOfAnchorNode === this.ancestorBlockSpanOfFocusNode
     )
-  }
-
-  get isAnchorOneDownUnderFocus() {
-    return this.parentOfAnchorNode.parentElement === this.parentOfFocusNode
   }
 
   get parentOfAnchorNode() {

@@ -8,7 +8,11 @@ export default function (selectionModel, selectionWrapper) {
     // 3. Begin Drug from an inner span to out of an outside span.
     // Expand the selected span.
     return selectionModel.span.singleId
-  } else if (selectionWrapper.isAnchorOneDownUnderFocus) {
+  } else if (
+    selectionWrapper.parentOfFocusNode.contains(
+      selectionWrapper.parentOfAnchorNode
+    )
+  ) {
     // To expand the span , belows are needed:
     // 1. The anchorNode is in the span.
     // 2. The foucusNode is out of the span and in the parent of the span.
