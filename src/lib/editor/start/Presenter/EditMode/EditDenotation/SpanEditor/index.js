@@ -169,6 +169,51 @@ export default class SpanEditor {
     }
   }
 
+  _getShrinkedSpanForTouchDevice() {
+    const selectionWrapper = new SelectionWrapper(this._annotationData.span)
+
+    // When you select text by mouse operation,
+    // the anchor node of the selected string is always inside the span to be extended,
+    // and the focus node is outside.
+    if (
+      selectionWrapper.parentOfFocusNode.contains(
+        selectionWrapper.parentOfAnchorNode
+      )
+    ) {
+      return {
+        spanId: selectionWrapper.parentOfAnchorNode.id,
+        ...this._annotationData.span
+          .get(selectionWrapper.parentOfAnchorNode.id)
+          .getShortenInFocusNodeToAnchorNodeDirection(
+            this._buttonController.spanAdjuster,
+            selectionWrapper,
+            this._annotationData.sourceDoc,
+            this._spanConfig
+          )
+      }
+    }
+
+    // On touch devices, the focus node of the selected string may be inside the span to be extended,
+    // and the anchor node may be outside.
+    if (
+      selectionWrapper.parentOfAnchorNode.contains(
+        selectionWrapper.parentOfFocusNode
+      )
+    ) {
+      return {
+        spanId: selectionWrapper.parentOfFocusNode.id,
+        ...this._annotationData.span
+          .get(selectionWrapper.parentOfFocusNode.id)
+          .getShortenInAnchorNodeToFocusNodeDirection(
+            this._buttonController.spanAdjuster,
+            selectionWrapper,
+            this._annotationData.sourceDoc,
+            this._spanConfig
+          )
+      }
+    }
+  }
+
   _anchorNodeInTextBoxFocusNodeInTextBox(selectionWrapper) {
     // The parent of the focusNode is the text.
     this._create(selectionWrapper)
