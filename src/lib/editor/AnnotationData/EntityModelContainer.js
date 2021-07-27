@@ -1,6 +1,6 @@
 import EntityModel from '../EntityModel'
 import {
-  makeDenotationSpanHTMLElementId,
+  makeDenotationSpanHTMLElementID,
   makeBlockSpanHTMLElementId
 } from '../idFactory'
 import IdIssueContainer from './IdIssueContainer'
@@ -121,7 +121,7 @@ export default class EntityModelContainer extends IdIssueContainer {
   _getSpanId(type, denotation) {
     switch (type) {
       case 'denotation':
-        return makeDenotationSpanHTMLElementId(
+        return makeDenotationSpanHTMLElementID(
           this._editor,
           denotation.span.begin,
           denotation.span.end

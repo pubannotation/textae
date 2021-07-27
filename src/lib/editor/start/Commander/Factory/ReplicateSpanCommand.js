@@ -1,6 +1,6 @@
 import CreateSpanAndTypesCommand from './CreateSpanAndTypesCommand'
 import CompositeCommand from './CompositeCommand'
-import { makeDenotationSpanHTMLElementId } from '../../../idFactory'
+import { makeDenotationSpanHTMLElementID } from '../../../idFactory'
 
 export default class ReplicateSpanCommand extends CompositeCommand {
   constructor(
@@ -16,7 +16,7 @@ export default class ReplicateSpanCommand extends CompositeCommand {
     this._subCommands = annotationData
       .getReplicationRanges(span, isDelimiterFunc)
       .map(({ begin, end }) => {
-        const spanId = makeDenotationSpanHTMLElementId(editor, begin, end)
+        const spanId = makeDenotationSpanHTMLElementID(editor, begin, end)
 
         return new CreateSpanAndTypesCommand(
           editor,
@@ -28,7 +28,7 @@ export default class ReplicateSpanCommand extends CompositeCommand {
           typeValeusList
         )
       })
-    this._logMessage = `replicate a span ${makeDenotationSpanHTMLElementId(
+    this._logMessage = `replicate a span ${makeDenotationSpanHTMLElementID(
       editor,
       span.begin,
       span.end

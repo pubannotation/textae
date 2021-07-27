@@ -2,7 +2,7 @@ import updateSpanTree from './updateSpanTree'
 import spanComparator from './spanComparator'
 import {
   makeBlockSpanHTMLElementId,
-  makeDenotationSpanHTMLElementId
+  makeDenotationSpanHTMLElementID
 } from '../../idFactory'
 import DenotationSpanModel from './DenotationSpanModel'
 import StyleSpanModel from './StyleSpanModel'
@@ -71,7 +71,7 @@ export default class SpanModelContainer {
   }
 
   hasDenotationSpan(begin, end) {
-    const spanID = makeDenotationSpanHTMLElementId(this._editor, begin, end)
+    const spanID = makeDenotationSpanHTMLElementID(this._editor, begin, end)
     return this._denotations.has(spanID)
   }
 
@@ -146,7 +146,7 @@ export default class SpanModelContainer {
 
   moveDenotationSpan(id, begin, end) {
     console.assert(
-      id !== makeDenotationSpanHTMLElementId(this._editor, begin, end),
+      id !== makeDenotationSpanHTMLElementID(this._editor, begin, end),
       `Do not need move span:  ${id} ${begin} ${end}`
     )
 

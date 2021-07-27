@@ -1,5 +1,5 @@
 import dohtml from 'dohtml'
-import { makeDenotationSpanHTMLElementId } from '../../../idFactory'
+import { makeDenotationSpanHTMLElementID } from '../../../idFactory'
 import createGridHtml from './createGridHtml'
 import getBigBrotherSpan from './getBigBrotherSpan'
 import updateGridPosition from './updateGridPosition'
@@ -18,7 +18,7 @@ export default class SpanModel {
   }
 
   get id() {
-    return makeDenotationSpanHTMLElementId(this._editor, this._begin, this._end)
+    return makeDenotationSpanHTMLElementID(this._editor, this._begin, this._end)
   }
 
   get begin() {
