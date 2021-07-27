@@ -1,5 +1,4 @@
 import TypeValues from './TypeValues'
-import { makeEntityHTMLElementID } from './idFactory'
 import createSignboardHTMLElement from './createSignboardHTMLElement'
 import typeGapUnitHeight from './typeGapUnitHeight'
 import getDisplayName from './getDisplayName'
@@ -275,7 +274,7 @@ export default class EntityModel {
   }
 
   get _entityHTMLElementID() {
-    return makeEntityHTMLElementID(this._editor, this.id)
+    return `${this._editor.editorId}__E${this.id.replace(/[:¥.]/g, '')}`
   }
 
   _selectElement() {
