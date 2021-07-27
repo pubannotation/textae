@@ -104,6 +104,12 @@ export default class SpanModelContainer {
     }
   }
 
+  getDenotationSpan(spanId) {
+    if (this._denotations.has(spanId)) {
+      return this._denotations.get(spanId)
+    }
+  }
+
   rangeDenotationSpan(firstId, secondId) {
     return rangeFrom(this._denotations, firstId, secondId)
   }

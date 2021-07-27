@@ -399,25 +399,31 @@ export default class SpanEditor {
   }
 
   _getShrinkableEndSpanID(selectionWrapper) {
-    const { anchor } = selectionWrapper.positionsOnAnnotation
-    const { begin, end } = this._annotationData.span.get(
-      selectionWrapper.parentOfAnchorNode.id
-    )
-    if (anchor === begin || anchor === end) {
-      // Shrink the span of the ends.
-      if (selectionWrapper.isParentOfBothNodesSame) {
-        // Skip style only span.
-        return selectionWrapper.ancestorDenotationSpanOfAnchorNode.id
-      }
+    if (selectionWrapper.ancestorDenotationSpanOfAnchorNode) {
+      const { anchor } = selectionWrapper.positionsOnAnnotation
 
-      // Shrink the parent of the parent-child span at the end.
-      // Skip style only span.
-      if (
-        selectionWrapper.parentOfAnchorNode.closest(
-          `#${selectionWrapper.ancestorDenotationSpanOfFocusNode.id}`
-        )
-      ) {
-        return selectionWrapper.ancestorDenotationSpanOfFocusNode.id
+      const { begin, end } = this._annotationData.span.getDenotationSpan(
+        selectionWrapper.ancestorDenotationSpanOfAnchorNode.id
+      )
+      if (anchor === begin || anchor === end) {
+        // Shrink the span of the ends.
+        if (
+          selectionWrapper.ancestorDenotationSpanOfAnchorNode ===
+          selectionWrapper.ancestorDenotationSpanOfFocusNode
+        ) {
+          return selectionWrapper.ancestorDenotationSpanOfAnchorNode.id
+        }
+
+        // Shrink the parent of the parent-child span at the end.
+        if (
+          selectionWrapper.ancestorDenotationSpanOfAnchorNode !==
+            selectionWrapper.ancestorDenotationSpanOfFocusNode &&
+          selectionWrapper.ancestorDenotationSpanOfFocusNode.contains(
+            selectionWrapper.ancestorDenotationSpanOfAnchorNode
+          )
+        ) {
+          return selectionWrapper.ancestorDenotationSpanOfFocusNode.id
+        }
       }
     }
   }
