@@ -32,6 +32,7 @@ export default class EventMap {
     forwardMethods(this, () => this._editMode.currentEdit, [
       'createSpan',
       'expandSpan',
+      'shrinkSpan',
       'showPallet',
       'selectLeftAttributeTab',
       'selectRightAttributeTab',
