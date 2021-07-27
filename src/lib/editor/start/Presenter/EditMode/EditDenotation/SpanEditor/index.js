@@ -217,29 +217,13 @@ export default class SpanEditor {
       return
     }
 
-    if (selectionWrapper.isAnchorNodeParentIsDescendantOfFocusNodeParent) {
-      this._expand(selectionWrapper, selectionWrapper.parentOfAnchorNode.id)
-      return
-    }
-
     const shrinkTargetSpanID = this._getShrinkableSpanID(selectionWrapper)
     if (shrinkTargetSpanID) {
       this._shrink(selectionWrapper, shrinkTargetSpanID)
       return
     }
 
-    // Make the sibling Span the parent Span that shares the end.
-    if (selectionWrapper.isParentsParentOfAnchorNodeAndFocusedNodeSame) {
-      const spanID = selectionWrapper.parentOfAnchorNode.id
-
-      if (spanID) {
-        this._expand(selectionWrapper, spanID)
-      }
-      return
-    }
-
-    // When you mouse down in one span and mouse up in another span
-    clearTextSelection()
+    this._expand(selectionWrapper, selectionWrapper.parentOfAnchorNode.id)
   }
 
   _anchorNodeInDenotationSpanFocusNodeInBlockSpan(selectionWrapper) {
