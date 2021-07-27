@@ -110,8 +110,8 @@ export default class SpanModelContainer {
     }
   }
 
-  rangeDenotationSpan(firstID, secondId) {
-    return rangeFrom(this._denotations, firstID, secondId)
+  rangeDenotationSpan(firstID, secondID) {
+    return rangeFrom(this._denotations, firstID, secondID)
   }
 
   rangeBlockSpan(firstId, secondId) {
