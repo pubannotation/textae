@@ -71,8 +71,8 @@ export default class SpanModelContainer {
   }
 
   hasDenotationSpan(begin, end) {
-    const spanId = makeDenotationSpanHTMLElementId(this._editor, begin, end)
-    return this._denotations.has(spanId)
+    const spanID = makeDenotationSpanHTMLElementId(this._editor, begin, end)
+    return this._denotations.has(spanID)
   }
 
   hasBlockSpanBetween(begin, end) {
