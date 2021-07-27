@@ -112,6 +112,7 @@ export default class EnableState {
     this._states['line-height-auto'] = lineHeightAuto
     this._states['create-span'] = span
     this._states['expand-span'] = span
+    this._states['shrink-span'] = span
     this._states['pallet'] = pallet
   }
 }

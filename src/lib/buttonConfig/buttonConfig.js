@@ -97,7 +97,8 @@ export const buttonConfig = [
     usage: 'touch device',
     list: [
       { type: 'create-span', title: 'Create span' },
-      { type: 'expand-span', title: 'Expand span' }
+      { type: 'expand-span', title: 'Expand span' },
+      { type: 'shrink-span', title: 'Shrink span' }
     ]
   },
   {

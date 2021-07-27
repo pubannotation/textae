@@ -21,6 +21,7 @@ export default function (el, editor) {
         break
       case 'create-span':
       case 'expand-span':
+      case 'shrink-span':
         // Monitor the mousedown event to get the currently selected text.
         button.addEventListener('mousedown', eventHandler)
         break

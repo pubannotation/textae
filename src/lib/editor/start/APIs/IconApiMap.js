@@ -18,6 +18,7 @@ export default function (
     ['replicate', () => presenter.event.replicate()],
     ['create-span', () => presenter.event.createSpan()],
     ['expand-span', () => presenter.event.expandSpan()],
+    ['shrink-span', () => presenter.event.shrinkSpan()],
     ['entity', () => presenter.event.createEntity()],
     ['change-label', () => presenter.event.editTypeValues()],
     ['pallet', () => presenter.event.showPallet()],
