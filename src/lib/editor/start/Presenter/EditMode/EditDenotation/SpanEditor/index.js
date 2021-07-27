@@ -364,7 +364,13 @@ export default class SpanEditor {
     clearTextSelection()
   }
 
-  _anchorNodeInStyleSpanFocusNodeInBlockSpan() {
+  _anchorNodeInStyleSpanFocusNodeInBlockSpan(selectionWrapper) {
+    const expandTargetSpanID = this._getExpandableSpanID(selectionWrapper)
+    if (expandTargetSpanID) {
+      this._expand(selectionWrapper, expandTargetSpanID)
+      return
+    }
+
     clearTextSelection()
   }
 
