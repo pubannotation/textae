@@ -5,7 +5,6 @@ import expandSpan from '../../expandSpan'
 import hasCharacters from '../../hasCharacters'
 import getIsDelimiterFunc from '../../../getIsDelimiterFunc'
 import SelectionWrapper from '../../SelectionWrapper'
-import getExpandTargetSpanFromFocusNode from './getExpandTargetSpanFromFocusNode'
 import isPositionBetweenSpan from './isPositionBetweenSpan'
 
 export default class SpanEditor {
@@ -151,13 +150,15 @@ export default class SpanEditor {
 
     // On touch devices, the focus node of the selected string may be inside the span to be extended,
     // and the anchor node may be outside.
-    const spanIdFromFocus = getExpandTargetSpanFromFocusNode(selectionWrapper)
-
-    if (spanIdFromFocus) {
+    if (
+      selectionWrapper.parentOfAnchorNode.contains(
+        selectionWrapper.parentOfFocusNode
+      )
+    ) {
       return {
-        spanId: spanIdFromFocus,
+        spanId: selectionWrapper.parentOfFocusNode.id,
         ...this._annotationData.span
-          .get(spanIdFromFocus)
+          .get(selectionWrapper.parentOfFocusNode.id)
           .getExpandedInFocusNodeToAnchorNodeDirection(
             this._buttonController.spanAdjuster,
             selectionWrapper,
