@@ -6,7 +6,3 @@ export function makeDenotationSpanHTMLElementID(editor, begin, end) {
 export function makeBlockSpanHTMLElementID(editor, begin, end) {
   return `${editor.editorId}__B${begin}_${end}`
 }
-
-export function makeEntityHTMLElementID(editor, id) {
-  return `${editor.editorId}__E${id.replace(/[:¥.]/g, '')}`
-}
