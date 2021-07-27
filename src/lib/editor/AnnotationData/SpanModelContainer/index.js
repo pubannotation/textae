@@ -1,7 +1,7 @@
 import updateSpanTree from './updateSpanTree'
 import spanComparator from './spanComparator'
 import {
-  makeBlockSpanHTMLElementId,
+  makeBlockSpanHTMLElementID,
   makeDenotationSpanHTMLElementID
 } from '../../idFactory'
 import DenotationSpanModel from './DenotationSpanModel'
@@ -172,7 +172,7 @@ export default class SpanModelContainer {
 
   moveBlockSpan(id, begin, end) {
     console.assert(
-      id !== makeBlockSpanHTMLElementId(this._editor, begin, end),
+      id !== makeBlockSpanHTMLElementID(this._editor, begin, end),
       `Do not need move span:  ${id} ${begin} ${end}`
     )
 

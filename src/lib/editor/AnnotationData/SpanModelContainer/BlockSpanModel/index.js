@@ -1,4 +1,4 @@
-import { makeBlockSpanHTMLElementId } from '../../../idFactory'
+import { makeBlockSpanHTMLElementID } from '../../../idFactory'
 import SELECTED from '../SELECTED'
 import renderBackground from './renderBackground'
 import setPosition from './setPosition'
@@ -31,7 +31,7 @@ export default class BlockSpanModel extends SpanModel {
   }
 
   get id() {
-    return makeBlockSpanHTMLElementId(this._editor, this._begin, this._end)
+    return makeBlockSpanHTMLElementID(this._editor, this._begin, this._end)
   }
 
   select() {

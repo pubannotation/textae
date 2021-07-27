@@ -1,7 +1,7 @@
 import EntityModel from '../EntityModel'
 import {
   makeDenotationSpanHTMLElementID,
-  makeBlockSpanHTMLElementId
+  makeBlockSpanHTMLElementID
 } from '../idFactory'
 import IdIssueContainer from './IdIssueContainer'
 
@@ -127,7 +127,7 @@ export default class EntityModelContainer extends IdIssueContainer {
           denotation.span.end
         )
       case 'block':
-        return makeBlockSpanHTMLElementId(
+        return makeBlockSpanHTMLElementID(
           this._editor,
           denotation.span.begin,
           denotation.span.end
