@@ -371,7 +371,7 @@ export default class SpanEditor {
       return
     }
 
-    clearTextSelection()
+    this._create(selectionWrapper)
   }
 
   _anchorNodeInStyleSpanFocusNodeInStyleSpan(selectionWrapper) {
