@@ -199,9 +199,9 @@ export default class SpanEditor {
   }
 
   _anchorNodeInDenotationSpanFocusNodeInTextBox(selectionWrapper) {
-    const spanId = getExpandTargetSpanFromAnchorNode(selectionWrapper)
-    if (spanId) {
-      this._expand(selectionWrapper, spanId)
+    const spanID = getExpandTargetSpanFromAnchorNode(selectionWrapper)
+    if (spanID) {
+      this._expand(selectionWrapper, spanID)
     }
   }
 
