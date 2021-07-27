@@ -223,6 +223,12 @@ export default class SpanEditor {
       return
     }
 
+    // Mouse down on the child DenotationSpan
+    // and mouse up on the sibling DenotationSpan of the parent DenotationSpan
+    // to expand the the child DenotationSpan.
+    // The condition for this is that the ancestor of the anchor node
+    // and the ancestor of the focus node are the same.
+    // Since this is always true, it will always expand when it is neither create nor shrink.
     this._expand(selectionWrapper, selectionWrapper.parentOfAnchorNode.id)
   }
 
