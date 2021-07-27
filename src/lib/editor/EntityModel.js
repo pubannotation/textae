@@ -1,5 +1,5 @@
 import TypeValues from './TypeValues'
-import { makeEntityHTMLElementId } from './idFactory'
+import { makeEntityHTMLElementID } from './idFactory'
 import createSignboardHTMLElement from './createSignboardHTMLElement'
 import typeGapUnitHeight from './typeGapUnitHeight'
 import getDisplayName from './getDisplayName'
@@ -250,7 +250,7 @@ export default class EntityModel {
       this,
       this.isDenotation ? 'denotation' : 'block',
       null,
-      makeEntityHTMLElementId(this._editor, this.id)
+      makeEntityHTMLElementID(this._editor, this.id)
     )
 
     // Highlight retaitons when related entity is hoverd.
@@ -266,13 +266,13 @@ export default class EntityModel {
 
   get _element() {
     return document.querySelector(
-      `#${makeEntityHTMLElementId(this._editor, this.id)}`
+      `#${makeEntityHTMLElementID(this._editor, this.id)}`
     )
   }
 
   get _typeValuesElement() {
     return document.querySelector(
-      `#${makeEntityHTMLElementId(
+      `#${makeEntityHTMLElementID(
         this._editor,
         this.id
       )} .textae-editor__signboard__type-values`

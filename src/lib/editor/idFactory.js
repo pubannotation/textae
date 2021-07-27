@@ -8,6 +8,6 @@ export function makeBlockSpanHTMLElementID(editor, begin, end) {
 }
 
 // Exclude : and . from a dom id to use for ID selector.
-export function makeEntityHTMLElementId(editor, id) {
+export function makeEntityHTMLElementID(editor, id) {
   return `${editor.editorId}__E${id.replace(/[:¥.]/g, '')}`
 }
