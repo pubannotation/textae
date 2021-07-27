@@ -1,7 +1,6 @@
 import clearTextSelection from '../../clearTextSelection'
 import create from './create'
 import shrinkSpan from '../../shrinkSpan'
-import getExpandTargetSpanFromAnchorNode from './getExpandTargetSpanFromAnchorNode'
 import expandSpan from '../../expandSpan'
 import hasCharacters from '../../hasCharacters'
 import getIsDelimiterFunc from '../../../getIsDelimiterFunc'
@@ -132,13 +131,15 @@ export default class SpanEditor {
     // When you select text by mouse operation,
     // the anchor node of the selected string is always inside the span to be extended,
     // and the focus node is outside.
-    const spanIdFromAnchor = getExpandTargetSpanFromAnchorNode(selectionWrapper)
-
-    if (spanIdFromAnchor) {
+    if (
+      selectionWrapper.parentOfFocusNode.contains(
+        selectionWrapper.parentOfAnchorNode
+      )
+    ) {
       return {
-        spanId: spanIdFromAnchor,
+        spanId: selectionWrapper.parentOfAnchorNode.id,
         ...this._annotationData.span
-          .get(spanIdFromAnchor)
+          .get(selectionWrapper.parentOfAnchorNode.id)
           .getExpandedInAnchorNodeToFocusNodeDirection(
             this._buttonController.spanAdjuster,
             selectionWrapper,
