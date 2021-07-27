@@ -144,6 +144,7 @@ export default class SpanEditor {
 
       const doesExists = this._annotationData.span.hasDenotationSpan(begin, end)
 
+      console.log(begin, end, doesExists)
       if (begin < end && !doesExists) {
         this._commander.invoke(
           this._commander.factory.moveDenotationSpanCommand(spanId, begin, end)
@@ -219,7 +220,7 @@ export default class SpanEditor {
         spanId: selectionWrapper.parentOfAnchorNode.id,
         ...this._annotationData.span
           .get(selectionWrapper.parentOfAnchorNode.id)
-          .getShortenInFocusNodeToAnchorNodeDirection(
+          .getShotenInFocusNodeToAnchorNodeDirection(
             this._buttonController.spanAdjuster,
             selectionWrapper,
             this._annotationData.sourceDoc,
@@ -239,7 +240,7 @@ export default class SpanEditor {
         spanId: selectionWrapper.parentOfFocusNode.id,
         ...this._annotationData.span
           .get(selectionWrapper.parentOfFocusNode.id)
-          .getShortenInAnchorNodeToFocusNodeDirection(
+          .getShotenInAnchorNodeToFocusNodeDirection(
             this._buttonController.spanAdjuster,
             selectionWrapper,
             this._annotationData.sourceDoc,
