@@ -104,7 +104,7 @@ export default class SpanEditor {
   }
 
   expandForTouchDevice() {
-    const expandedSpan = this._getExpandedSpan()
+    const expandedSpan = this._getExpandedSpanForTouchDevice()
     if (expandedSpan) {
       const { spanId, begin, end } = expandedSpan
 
@@ -126,7 +126,7 @@ export default class SpanEditor {
     }
   }
 
-  _getExpandedSpan() {
+  _getExpandedSpanForTouchDevice() {
     const selectionWrapper = new SelectionWrapper(this._annotationData.span)
 
     // When you select text by mouse operation,
