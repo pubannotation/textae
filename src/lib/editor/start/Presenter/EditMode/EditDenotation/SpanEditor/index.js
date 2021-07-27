@@ -446,18 +446,21 @@ export default class SpanEditor {
   }
 
   _getExpandableSpanID(selectionWrapper) {
+    const targetSpanElement =
+      selectionWrapper.ancestorDenotationSpanOfAnchorNode
+
     if (
-      selectionWrapper.ancestorDenotationSpanOfAnchorNode &&
+      targetSpanElement &&
       selectionWrapper.ancestorDenotationSpanOfFocusNode &&
-      selectionWrapper.ancestorDenotationSpanOfAnchorNode !==
+      targetSpanElement !==
         selectionWrapper.ancestorDenotationSpanOfFocusNode &&
-      (selectionWrapper.ancestorDenotationSpanOfAnchorNode.parentElement ===
+      (targetSpanElement.parentElement ===
         selectionWrapper.ancestorDenotationSpanOfFocusNode.parentElement ||
         selectionWrapper.ancestorDenotationSpanOfFocusNode.contains(
-          selectionWrapper.ancestorDenotationSpanOfAnchorNode
+          targetSpanElement
         ))
     ) {
-      return selectionWrapper.ancestorDenotationSpanOfAnchorNode.id
+      return targetSpanElement.id
     }
   }
 
