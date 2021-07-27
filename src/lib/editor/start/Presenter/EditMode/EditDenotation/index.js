@@ -78,4 +78,8 @@ export default class EditDenotation extends Edit {
   expandSpan() {
     this._spanEdtior.expandForTouchDevice()
   }
+
+  shrinkSpan() {
+    this._spanEdtior.shrinkForTouchDevice()
+  }
 }
