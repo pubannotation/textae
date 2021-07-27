@@ -382,22 +382,9 @@ export default class SpanEditor {
       this._create(selectionWrapper)
     }
 
-    if (
-      selectionWrapper.ancestorDenotationSpanOfAnchorNode &&
-      selectionWrapper.ancestorDenotationSpanOfFocusNode &&
-      selectionWrapper.ancestorDenotationSpanOfAnchorNode !==
-        selectionWrapper.ancestorDenotationSpanOfFocusNode &&
-      (selectionWrapper.ancestorDenotationSpanOfAnchorNode.parentElement ===
-        selectionWrapper.parentOfFocusNode.parentElement ||
-        selectionWrapper.ancestorDenotationSpanOfAnchorNode.contains(
-          selectionWrapper.ancestorDenotationSpanOfAnchorNode
-        ))
-    ) {
-      const spanId = selectionWrapper.ancestorDenotationSpanOfAnchorNode.id
-
-      if (spanId) {
-        this._expand(selectionWrapper, spanId)
-      }
+    const expandTargetSpanID = this._getExpandableSpanID(selectionWrapper)
+    if (expandTargetSpanID) {
+      this._expand(selectionWrapper, expandTargetSpanID)
       return
     }
 
@@ -455,6 +442,22 @@ export default class SpanEditor {
       ) {
         return this._selectionModel.span.single.element.id
       }
+    }
+  }
+
+  _getExpandableSpanID(selectionWrapper) {
+    if (
+      selectionWrapper.ancestorDenotationSpanOfAnchorNode &&
+      selectionWrapper.ancestorDenotationSpanOfFocusNode &&
+      selectionWrapper.ancestorDenotationSpanOfAnchorNode !==
+        selectionWrapper.ancestorDenotationSpanOfFocusNode &&
+      (selectionWrapper.ancestorDenotationSpanOfAnchorNode.parentElement ===
+        selectionWrapper.parentOfFocusNode.parentElement ||
+        selectionWrapper.ancestorDenotationSpanOfAnchorNode.contains(
+          selectionWrapper.ancestorDenotationSpanOfAnchorNode
+        ))
+    ) {
+      return selectionWrapper.ancestorDenotationSpanOfAnchorNode.id
     }
   }
 
