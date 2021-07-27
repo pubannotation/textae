@@ -96,9 +96,9 @@ export default class SpanModelContainer {
     }
   }
 
-  getStyle(spanId) {
-    if (this._styles.has(spanId)) {
-      return this._styles.get(spanId).styles
+  getStyle(spanID) {
+    if (this._styles.has(spanID)) {
+      return this._styles.get(spanID).styles
     } else {
       return new Set()
     }
