@@ -314,10 +314,10 @@ export default class SpanEditor {
   _anchorNodeInStyleSpanFocusNodeInTextBox(selectionWrapper) {
     // If the anchor node is a style span but has a parent span, extend the parent span.
     if (selectionWrapper.ancestorDenotationSpanOfAnchorNode) {
-      const spanId = selectionWrapper.ancestorDenotationSpanOfAnchorNode.id
+      const spanID = selectionWrapper.ancestorDenotationSpanOfAnchorNode.id
 
-      if (spanId) {
-        this._expand(selectionWrapper, spanId)
+      if (spanID) {
+        this._expand(selectionWrapper, spanID)
       }
       return
     }
