@@ -6,6 +6,8 @@ import hasCharacters from '../../hasCharacters'
 import getIsDelimiterFunc from '../../../getIsDelimiterFunc'
 import SelectionWrapper from '../../SelectionWrapper'
 import isPositionBetweenSpan from './isPositionBetweenSpan'
+import getRightSpanElement from '../../../../../getRightSpanElement'
+import clearTextSelectionAndAlert from '../../clearTextSelectionAndAlert'
 
 export default class SpanEditor {
   constructor(
@@ -121,6 +123,39 @@ export default class SpanEditor {
       this._commander.invoke(
         this._commander.factory.moveDenotationSpanCommand(spanId, begin, end)
       )
+    }
+  }
+
+  shrinkForTouchDevice() {
+    const shrinkedSpan = this._getShrinkedSpanForTouchDevice()
+    if (shrinkedSpan) {
+      const { spanId, begin, end } = shrinkedSpan
+      const nextSpan = getRightSpanElement(this._editor, spanId)
+
+      // The span cross exists spans.
+      if (
+        this._annotationData.span.isBoundaryCrossingWithOtherSpans(begin, end)
+      ) {
+        clearTextSelectionAndAlert(
+          'A span cannot be shrinked to make a boundary crossing.'
+        )
+        return
+      }
+
+      const doesExists = this._annotationData.span.hasDenotationSpan(begin, end)
+
+      if (begin < end && !doesExists) {
+        this._commander.invoke(
+          this._commander.factory.moveDenotationSpanCommand(spanId, begin, end)
+        )
+      } else {
+        this._commander.invoke(
+          this._commander.factory.removeSpanCommand(spanId)
+        )
+        if (nextSpan) {
+          this._selectionModel.selectSpan(nextSpan.id)
+        }
+      }
     }
   }
 
