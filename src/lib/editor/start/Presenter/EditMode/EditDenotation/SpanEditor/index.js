@@ -346,18 +346,9 @@ export default class SpanEditor {
       return
     }
 
-    // When an anchor node has an ancestral span and the focus node is its sibling,
-    // expand the ancestral span.
-    if (
-      selectionWrapper.ancestorDenotationSpanOfAnchorNode &&
-      selectionWrapper.ancestorDenotationSpanOfAnchorNode.parentElement ===
-        selectionWrapper.parentOfFocusNode.parentElement
-    ) {
-      const spanID = selectionWrapper.ancestorDenotationSpanOfAnchorNode.id
-
-      if (spanID) {
-        this._expand(selectionWrapper, spanID)
-      }
+    const expandTargetSpanID = this._getExpandableSpanID(selectionWrapper)
+    if (expandTargetSpanID) {
+      this._expand(selectionWrapper, expandTargetSpanID)
       return
     }
 
