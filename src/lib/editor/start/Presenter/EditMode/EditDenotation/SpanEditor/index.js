@@ -220,7 +220,7 @@ export default class SpanEditor {
         spanId: selectionWrapper.parentOfAnchorNode.id,
         ...this._annotationData.span
           .get(selectionWrapper.parentOfAnchorNode.id)
-          .getShotenInFocusNodeToAnchorNodeDirection(
+          .getShortenInFocusNodeToAnchorNodeDirection(
             this._buttonController.spanAdjuster,
             selectionWrapper,
             this._annotationData.sourceDoc,
