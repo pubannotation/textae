@@ -114,8 +114,8 @@ export default class SpanModelContainer {
     return rangeFrom(this._denotations, firstID, secondID)
   }
 
-  rangeBlockSpan(firstId, secondId) {
-    return rangeFrom(this._blocks, firstId, secondId)
+  rangeBlockSpan(firstID, secondId) {
+    return rangeFrom(this._blocks, firstID, secondId)
   }
 
   get topLevel() {
