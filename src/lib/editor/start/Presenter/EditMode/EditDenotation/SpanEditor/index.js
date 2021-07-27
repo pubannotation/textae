@@ -380,6 +380,7 @@ export default class SpanEditor {
       selectionWrapper.isParentsParentOfAnchorNodeAndFocusedNodeSame
     ) {
       this._create(selectionWrapper)
+      return
     }
 
     const expandTargetSpanID = this._getExpandableSpanID(selectionWrapper)
