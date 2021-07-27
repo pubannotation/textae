@@ -449,18 +449,19 @@ export default class SpanEditor {
     const targetSpanElement =
       selectionWrapper.ancestorDenotationSpanOfAnchorNode
 
-    if (
-      targetSpanElement &&
-      selectionWrapper.ancestorDenotationSpanOfFocusNode &&
-      targetSpanElement !==
+    if (targetSpanElement) {
+      if (
         selectionWrapper.ancestorDenotationSpanOfFocusNode &&
-      (targetSpanElement.parentElement ===
-        selectionWrapper.ancestorDenotationSpanOfFocusNode.parentElement ||
-        selectionWrapper.ancestorDenotationSpanOfFocusNode.contains(
-          targetSpanElement
-        ))
-    ) {
-      return targetSpanElement.id
+        targetSpanElement !==
+          selectionWrapper.ancestorDenotationSpanOfFocusNode &&
+        (targetSpanElement.parentElement ===
+          selectionWrapper.ancestorDenotationSpanOfFocusNode.parentElement ||
+          selectionWrapper.ancestorDenotationSpanOfFocusNode.contains(
+            targetSpanElement
+          ))
+      ) {
+        return targetSpanElement.id
+      }
     }
   }
 
