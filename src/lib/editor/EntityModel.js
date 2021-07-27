@@ -273,6 +273,7 @@ export default class EntityModel {
     )
   }
 
+  // Exclude : and . from a dom id to use for ID selector.
   get _entityHTMLElementID() {
     return `${this._editor.editorId}__E${this.id.replace(/[:¥.]/g, '')}`
   }
