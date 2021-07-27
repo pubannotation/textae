@@ -382,6 +382,25 @@ export default class SpanEditor {
       this._create(selectionWrapper)
     }
 
+    if (
+      selectionWrapper.ancestorDenotationSpanOfAnchorNode &&
+      selectionWrapper.ancestorDenotationSpanOfFocusNode &&
+      selectionWrapper.ancestorDenotationSpanOfAnchorNode !==
+        selectionWrapper.ancestorDenotationSpanOfFocusNode &&
+      (selectionWrapper.ancestorDenotationSpanOfAnchorNode.parentElement ===
+        selectionWrapper.parentOfFocusNode.parentElement ||
+        selectionWrapper.ancestorDenotationSpanOfAnchorNode.contains(
+          selectionWrapper.ancestorDenotationSpanOfAnchorNode
+        ))
+    ) {
+      const spanId = selectionWrapper.ancestorDenotationSpanOfAnchorNode.id
+
+      if (spanId) {
+        this._expand(selectionWrapper, spanId)
+      }
+      return
+    }
+
     clearTextSelection()
   }
 
