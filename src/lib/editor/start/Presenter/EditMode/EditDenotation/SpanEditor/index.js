@@ -228,10 +228,10 @@ export default class SpanEditor {
 
     // Make the sibling Span the parent Span that shares the end.
     if (selectionWrapper.isParentsParentOfAnchorNodeAndFocusedNodeSame) {
-      const spanId = selectionWrapper.parentOfAnchorNode.id
+      const spanID = selectionWrapper.parentOfAnchorNode.id
 
-      if (spanId) {
-        this._expand(selectionWrapper, spanId)
+      if (spanID) {
+        this._expand(selectionWrapper, spanID)
       }
       return
     }
