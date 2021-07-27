@@ -452,7 +452,7 @@ export default class SpanEditor {
       selectionWrapper.ancestorDenotationSpanOfAnchorNode !==
         selectionWrapper.ancestorDenotationSpanOfFocusNode &&
       (selectionWrapper.ancestorDenotationSpanOfAnchorNode.parentElement ===
-        selectionWrapper.parentOfFocusNode.parentElement ||
+        selectionWrapper.ancestorDenotationSpanOfFocusNode.parentElement ||
         selectionWrapper.ancestorDenotationSpanOfFocusNode.contains(
           selectionWrapper.ancestorDenotationSpanOfAnchorNode
         ))
