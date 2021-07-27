@@ -85,14 +85,14 @@ export default class SpanModelContainer {
     return false
   }
 
-  get(spanId) {
-    if (this._denotations.has(spanId)) {
-      return this._denotations.get(spanId)
-    } else if (this._blocks.has(spanId)) {
-      return this._blocks.get(spanId)
+  get(spanID) {
+    if (this._denotations.has(spanID)) {
+      return this._denotations.get(spanID)
+    } else if (this._blocks.has(spanID)) {
+      return this._blocks.get(spanID)
     } else {
       // Returns a typesetting only.
-      return this._styles.get(spanId)
+      return this._styles.get(spanID)
     }
   }
 
