@@ -273,10 +273,10 @@ export default class SpanEditor {
     // Mousedown on the child Span of a parent and child Span,
     // and then mouseup on the StyleSpan in the parent Span.
     if (selectionWrapper.isParentsParentOfAnchorNodeAndFocusedNodeSame) {
-      const spanId = selectionWrapper.parentOfAnchorNode.id
+      const spanID = selectionWrapper.parentOfAnchorNode.id
 
-      if (spanId) {
-        this._expand(selectionWrapper, spanId)
+      if (spanID) {
+        this._expand(selectionWrapper, spanID)
       }
       return
     }
