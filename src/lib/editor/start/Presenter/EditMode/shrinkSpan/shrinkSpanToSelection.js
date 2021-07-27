@@ -11,7 +11,7 @@ export default function (
 ) {
   const { begin, end } = annotationData.span
     .get(spanId)
-    .getShotenInAnchorNodeToFocusNodeDirection(
+    .getShotrenInAnchorNodeToFocusNodeDirection(
       spanAdjuster,
       selectionWrapper,
       annotationData.sourceDoc,

@@ -180,7 +180,7 @@ export default class SpanModel {
     )
   }
 
-  getShotenInAnchorNodeToFocusNodeDirection(
+  getShotrenInAnchorNodeToFocusNodeDirection(
     spanAdjuster,
     selectionWrapper,
     sourceDoc,
