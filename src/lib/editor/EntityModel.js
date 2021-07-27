@@ -250,7 +250,7 @@ export default class EntityModel {
       this,
       this.isDenotation ? 'denotation' : 'block',
       null,
-      makeEntityHTMLElementID(this._editor, this.id)
+      this._entityHTMLElementID
     )
 
     // Highlight retaitons when related entity is hoverd.
@@ -265,18 +265,17 @@ export default class EntityModel {
   }
 
   get _element() {
-    return document.querySelector(
-      `#${makeEntityHTMLElementID(this._editor, this.id)}`
-    )
+    return document.querySelector(`#${this._entityHTMLElementID}`)
   }
 
   get _typeValuesElement() {
     return document.querySelector(
-      `#${makeEntityHTMLElementID(
-        this._editor,
-        this.id
-      )} .textae-editor__signboard__type-values`
+      `#${this._entityHTMLElementID} .textae-editor__signboard__type-values`
     )
+  }
+
+  get _entityHTMLElementID() {
+    return makeEntityHTMLElementID(this._editor, this.id)
   }
 
   _selectElement() {
