@@ -104,9 +104,9 @@ export default class SpanModelContainer {
     }
   }
 
-  getDenotationSpan(spanId) {
-    if (this._denotations.has(spanId)) {
-      return this._denotations.get(spanId)
+  getDenotationSpan(spanID) {
+    if (this._denotations.has(spanID)) {
+      return this._denotations.get(spanID)
     }
   }
 
