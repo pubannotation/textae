@@ -203,6 +203,29 @@ export default class SpanModel {
     }
   }
 
+  getShotenInFocusNodeToAnchorNodeDirection(
+    spanAdjuster,
+    selectionWrapper,
+    sourceDoc,
+    spanConfig
+  ) {
+    const { anchor, focus } = selectionWrapper.positionsOnAnnotation
+
+    if (focus < anchor) {
+      // shorten the left boundary
+      return {
+        begin: spanAdjuster.forwardFromBegin(sourceDoc, focus, spanConfig),
+        end: this.end
+      }
+    } else {
+      // shorten the right boundary
+      return {
+        begin: this.begin,
+        end: spanAdjuster.backFromEnd(sourceDoc, focus - 1, spanConfig) + 1
+      }
+    }
+  }
+
   getExpandedInAnchorNodeToFocusNodeDirection(
     spanAdjuster,
     selectionWrapper,
