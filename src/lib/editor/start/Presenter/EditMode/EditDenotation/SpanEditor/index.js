@@ -241,10 +241,16 @@ export default class SpanEditor {
   }
 
   _anchorNodeInDenotationSpanFocusNodeInBlockSpan(selectionWrapper) {
-    const spanID = getExpandTargetSpanFromAnchorNode(selectionWrapper)
-    if (spanID) {
-      this._expand(selectionWrapper, spanID)
+    if (
+      selectionWrapper.parentOfFocusNode.contains(
+        selectionWrapper.parentOfAnchorNode
+      )
+    ) {
+      this._expand(selectionWrapper, selectionWrapper.parentOfAnchorNode.id)
+      return
     }
+
+    clearTextSelection()
   }
 
   _anchorNodeInDenotationSpanFocusNodeInStyleSpan(selectionWrapper) {
