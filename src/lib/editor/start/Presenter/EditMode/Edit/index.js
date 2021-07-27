@@ -55,4 +55,5 @@ export default class Edit {
   // Dummy funcitions
   createSpan() {}
   expandSpan() {}
+  shrinkSpan() {}
 }
