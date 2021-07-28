@@ -15,6 +15,7 @@ export default function (value, entityContainer) {
       <td>
         <span class="textae-editor__edit-type-dialog__type__label__value">${label}</span>
       </td>
+      <td></td>
     </tr>
   `
 }
