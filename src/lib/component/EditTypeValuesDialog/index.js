@@ -31,7 +31,7 @@ export default class EditTypeValuesDialog extends PromiseDialog {
         .join(',')}] Properties`,
       contentHtml,
       {
-        width: 800
+        maxWidth: 800
       },
       () => getValues(super.el)
     )

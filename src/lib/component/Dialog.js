@@ -49,7 +49,15 @@ export default class Dialog {
         height: 'auto',
         modal: true,
         resizable: false,
-        width: 550
+        width: 'calc(100% - 10px)',
+        create: (event) => {
+          // The maxWidth option of the jQuery UI dialog is not working.
+          // See: https://stackoverflow.com/a/20218692/1276969
+          $(event.target.parentElement).css(
+            'maxWidth',
+            `${this._option.maxWidth || 550}px`
+          )
+        }
       },
       ...this._option
     })

@@ -61,7 +61,7 @@ export default class ValidationDialog extends Dialog {
       .join('\n')
 
     super('The following erroneous annotations ignored', contentHtml, null, {
-      width: 900
+      maxWidth: 900
     })
   }
 }

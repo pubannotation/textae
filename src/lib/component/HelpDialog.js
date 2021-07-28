@@ -8,7 +8,7 @@ export default class HelpDialog extends Dialog {
       null,
       {
         height: 313,
-        width: 523
+        maxWidth: 523
       }
     )
   }

@@ -55,7 +55,7 @@ export default class SaveConfigurationDialog extends Dialog {
       }),
       'Cancel',
       {
-        width: 550
+        maxWidth: 550
       }
     )
 
