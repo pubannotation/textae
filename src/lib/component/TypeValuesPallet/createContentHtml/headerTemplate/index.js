@@ -16,7 +16,7 @@ export default function (context) {
       attributes[attributes.length - 1].pred)
 
   return `
-<div style="display: flex; justify-content: space-between;">
+<div class="textae-editor__type-pallet__header-first-row" style="display: flex; justify-content: space-between;">
   <div class="textae-editor__type-pallet__information">
     <span class="textae-editor__type-pallet__lock-icon" style="display: ${
       isLock ? 'inline-block' : 'none'
@@ -40,7 +40,7 @@ export default function (context) {
     }" title="Upload"></span>
   </div>
 </div>
-<div style="display: flex;">
+<div class="textae-editor__type-pallet__header-second-row" style="display: flex;">
   <p class="textae-editor__type-pallet__attribute ${
     selectedPred ? '' : 'textae-editor__type-pallet__attribute--selected'
   }" data-attribute="">
