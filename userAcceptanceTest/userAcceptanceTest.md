@@ -209,27 +209,6 @@
 3.  Ctrl を押しながら新しく作った Relation のラベルをクリック
 4.  両方の Relation が選択されること
 
-## Selection Attribute 定義の Value の id 変更
-
-### 背景
-
-1.  5.2.0 から Entity パレットで Selection Attribute の Value が編集出来るようになりました。
-2.  Selection Attribute 定義の value の id を変更したときに、annotation 上の Attribute の obj の値を更新していなかったため、Attribute 定義と annotation 上の Attribute の情報が乖離するバグがありました。
-3.  6.0.6 で対応しました。
-4.  6.2.66 で ChangeAttributeCommand のプロパティ名を変更時の修正もれでエラーがおきました。
-5.  6.2.72 で対応しました
-
-### -- 手段 --
-
-1.  Editor1 を選択
-2.  パレットを開く
-3.  `denote`タブを選択
-4.  `Cell`の Edit Value ボタンをクリック
-5.  `id`を変更して`OK`をクリック
-6.  エンティティ`E1:a:b`の Attribute の値が変更されること
-7.  すべてもどす
-8.  すべてやり直す
-
 ## 兄弟 Span を端を共有する親 Span にする
 
 ### 背景
@@ -257,24 +236,6 @@
 4.  片方の Span を選択する
 5.  選択した Span をもう片方の Span の反対側の端と同じ範囲まで広げる（テキストとテキストの行間の空白領域で mouse up すること）
 6.  親子 Span になること
-
-## パレットで SelectionAttribute タブを表示したあと、保存する configuration に indelible プロパティが追加されないこと
-
-### 背景
-
-1. パレットの Predicate 削除ボタンを有効にするかどうかの情報を Attribute 定義情報の indelible プロパティに書き込んでいました
-2. 6.4.127 で、パレットを表示するときに使用する Attribute 定義情報をコピーでなくしました
-3. 保存する cofiguration にも indelible プロパティが反映されるようになりました
-4. 6.4.134 で、Attribute 定義情報の indelible プロパティを使うのをやめました
-
-### -- 手段 --
-
-1. Editor1 を選択
-2. Term モードにする
-3. `q`キーを押してパレットを開く
-4. `denoto`タブを開く
-5. `Uplaod`ボタンをクリック
-6. `Configuration differences`欄に`indelible:true`が表示されないこと
 
 ## 選択中に削除すると右の要素を選択する
 
