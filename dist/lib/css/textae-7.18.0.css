@@ -81,6 +81,9 @@
 .textae-control-expand-span-button {
   background: url('./images/btn_expand_span_16.png');
 }
+.textae-control-shrink-span-button {
+  background: url('./images/btn_shrink_span_16.png');
+}
 .textae-control-entity-button {
   background: url('./images/btn_denote_16.png');
 }

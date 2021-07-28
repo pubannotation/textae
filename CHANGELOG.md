@@ -2,6 +2,39 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.18.0](https://github.com/pubannotation/textae/compare/v7.17.0...v7.18.0) (2021-07-28)
+
+
+### Features
+
+*  Create a span when you mouse down on DenotationSpan and mouse up on StyleSpan ([0adc5cf](https://github.com/pubannotation/textae/commit/0adc5cfcf1d874940221fd0137c1267a82673ee4))
+*  Create a span when you mouse down on StyleSpan and mouse up on DenotationSpan ([b1d522b](https://github.com/pubannotation/textae/commit/b1d522bab7a44886959b862b9d9e43dc194cf93e))
+* Create DenotationSpan when mouse down on style span and mouse up on block span ([1196491](https://github.com/pubannotation/textae/commit/1196491d50ef42e078e62bd646a6154fcbf94abb))
+* Enable to shrink spans in touch devices ([e73a8a2](https://github.com/pubannotation/textae/commit/e73a8a2d55adfcd38c354a9fbc372287e3244ed7))
+* Find and shrink DenotationSpan when mousing down from the end of the style span and mousing up in the style span ([e34239d](https://github.com/pubannotation/textae/commit/e34239d4a93798ed048802ba76dcb73f911601fd))
+* If the ancestor of an anchor node is a denotation span when moused down on a style span and moused up on a block span, it will be expanded ([46eff95](https://github.com/pubannotation/textae/commit/46eff9533cf5c5471c3723d00d2d3d02fce41b62))
+* If the ancestor of an anchor node is a denotation span when moused down on a style span and moused up on a style span, it will be expanded ([b46a3f7](https://github.com/pubannotation/textae/commit/b46a3f71bf1d3ff5785ede8e5420a35471842d30))
+* Mouse down on the child DenotationSpan and zoom in when mouse up on the sibling DenotationSpan of the parent DenotationSpan ([742b016](https://github.com/pubannotation/textae/commit/742b0169bc90844093e7ee46e11e88f6280ae275))
+* Stop prioritizing the selected Span as the target for expansion ([565b3d5](https://github.com/pubannotation/textae/commit/565b3d5af6f1d95cf654cce3a4b61c21af541d9b))
+* When mousing down with denotation span and mousing up with denotation span, if the parent element of the focus node is an ancestor of the parent element of the anchor node, always extend the denotation span of the focus node's parent ([6e724be](https://github.com/pubannotation/textae/commit/6e724be3fc4b498bbbdb727eb4fa0919f7c3c07f))
+* When the parent element of the anchor node and the parent element of the focus node have a parent-child relationship of two or more levels, the parent element of the anchor node, DenotationSpan, is also extended ([72dbeb7](https://github.com/pubannotation/textae/commit/72dbeb7ce269f3d1eb68cbb1852bb1c9cc92ce48))
+* When there is a difference in the number of attributes of adjacent Entities in the same row, the relationship will not be bent significantly ([fb5167d](https://github.com/pubannotation/textae/commit/fb5167dc95f220160cb4725fa3fa908d1f275b78))
+
+
+### Bug Fixes
+
+* Error occurs when trying to create a new DenotationSpan by selecting from the end of the style span ([67e4b4f](https://github.com/pubannotation/textae/commit/67e4b4f994f1355d530b6cee954806bbf09ee116))
+* Error occurs when trying to create a new DenotationSpan in a style span ([96399d8](https://github.com/pubannotation/textae/commit/96399d82399ea27a1d82ff0abe84714338480a9b))
+* Find and shrink DenotationSpan when mouse down from the edge of DenotationSpan and mouse up in StyleSpan ([756371a](https://github.com/pubannotation/textae/commit/756371a1386e14338e21a5dd6df5fa41933356df))
+* Fix getting expandable span logic ([1853b97](https://github.com/pubannotation/textae/commit/1853b970666e8e30dc7d3422d799f85780848fa7))
+* Fix getting expandable span logic ([a0f94d1](https://github.com/pubannotation/textae/commit/a0f94d1a0036fe4fd12a1a59560efd8ff4fa3ff0))
+* Fix incorrect logic in the getShotenInFocusNodeToAnchorNodeDirection method ([8d08be7](https://github.com/pubannotation/textae/commit/8d08be7c87be91d48226f7355fc8b3632d26cfc0))
+* Fix incorrect method names ([4b7ee39](https://github.com/pubannotation/textae/commit/4b7ee39a24d1f6af895c31b4c9218a1e31ccf195))
+* Mousing down on the text and mousing up on the denotation span causes an error ([a5706a9](https://github.com/pubannotation/textae/commit/a5706a9b718fe5250526dea361f48110bb82ecb9))
+* Shrink the span of the ends ([6cb4534](https://github.com/pubannotation/textae/commit/6cb4534244be7a3588413888155d3d7f6e2e4091))
+* When mousing down on a style span in a child DenotationSpan and mousing up on the parent DenotationSpan, the child DenotationSpan is not expanded ([e182731](https://github.com/pubannotation/textae/commit/e182731e11784179346e116d9c2710bf81f8a19f))
+* When mousing down with DenotationSpan and mousing up with StyleSpan, the span may not expand ([9011503](https://github.com/pubannotation/textae/commit/90115030669109a7dd82b83644c9c11f24017aa0))
+
 ## [7.17.0](https://github.com/pubannotation/textae/compare/v7.16.0...v7.17.0) (2021-07-14)
 
 
