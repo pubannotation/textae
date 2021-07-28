@@ -9,7 +9,7 @@ export default function (componentClassName, label, color) {
     <div class="${componentClassName}__row">
       <div class="${componentClassName}__color">
         <label>Color:</label><br>
-        <input type="color" value="${color || ''}">
+        <input type="color" value="${color || '#000000'}">
       </div>
     </div>
   `
