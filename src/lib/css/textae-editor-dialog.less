@@ -222,9 +222,15 @@
 
   &__edit-type-dialog {
     &__table {
+      border-collapse: collapse;
+      border-spacing: 0px;
+      border-style: solid;
+      border-width: 1px;
       table-layout: fixed;
-      width: 746px;
+      width: calc(100% - 2px);
       th {
+        border-style: solid;
+        border-width: 1px;
         &:nth-child(1) {
           width: 20px;
         }
@@ -242,23 +248,35 @@
         }
       }
       td {
+        border-style: solid;
+        border-width: 1px;
         word-break: break-all;
-        &:nth-child(2) {
+        &:nth-child(1) {
+          text-align: center;
+        }
+        &:nth-child(3) {
           input {
-            width: calc(100% - 7px);
+            width: calc(100% - 8px);
           }
+        }
+        &:nth-child(5) {
+          text-align: center;
         }
       }
     }
 
-    &__shortcut-key {
-      border-style: solid;
-      border-width: 1px;
-      box-shadow: 1px 1px 1px #aaa;
-      text-align: center;
+    &__type {
+      &__predicate__value,
+      &__label__value {
+        margin-left: 4px;
+      }
     }
-
     &__attribute {
+      &__predicate__value,
+      &__value__value,
+      &__label__value {
+        margin-left: 4px;
+      }
       &__predicate__value {
         .attributeIcons();
       }
