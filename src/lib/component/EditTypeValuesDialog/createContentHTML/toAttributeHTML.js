@@ -9,7 +9,6 @@ export default function (
   const previousPredicate = previousAttribute && previousAttribute.pred
   const definitionIndex = attributeContainer.getIndexOf(pred)
   const { valueType } = attributeContainer.get(pred)
-  const editDisabled = valueType === 'flag'
   const label =
     valueType === 'string'
       ? attribute.label || attributeContainer.getLabel(pred, obj) || ''
@@ -57,7 +56,7 @@ export default function (
       type="button"
       class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__edit__value" data-pred="${pred}"
       data-index="${index}"
-      ${editDisabled ? 'disabled="disabled"' : ''}>
+      ${valueType === 'flag' ? 'disabled="disabled"' : ''}>
     </button>
     <button
       type="button" 
