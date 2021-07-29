@@ -9,12 +9,6 @@ export default function (
   const previousPredicate = previousAttribute && previousAttribute.pred
   const definitionIndex = attributeContainer.getIndexOf(pred)
   const { valueType } = attributeContainer.get(pred)
-  const label =
-    valueType === 'string'
-      ? attribute.label || attributeContainer.getLabel(pred, obj) || ''
-      : valueType === 'selection'
-      ? attributeContainer.getLabel(pred, obj) || ''
-      : ''
 
   return `
 <tr class="textae-editor__edit-type-dialog__attribute">
@@ -48,7 +42,7 @@ export default function (
   </td>
   <td>
     <span class="textae-editor__edit-type-dialog__attribute__label__value">
-      ${label}
+      ${getLabelOf(attribute, attributeContainer)}
     </span>
   </td>
   <td>
@@ -65,4 +59,19 @@ export default function (
     </button>
   </td>
 </tr>`
+}
+
+function getLabelOf(attribute, attributeContainer) {
+  const { pred, obj } = attribute
+  const { valueType } = attributeContainer.get(pred)
+
+  if (valueType === 'string') {
+    return attribute.label || attributeContainer.getLabel(pred, obj) || ''
+  }
+
+  if (valueType === 'selection') {
+    return attributeContainer.getLabel(pred, obj) || ''
+  }
+
+  return ''
 }
