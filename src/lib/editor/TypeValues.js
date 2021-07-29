@@ -29,10 +29,19 @@ export default class TypeValues {
       return false
     }
 
-    return (
-      newAttributes.filter((a) =>
-        this.attributes.some((b) => b.equalsTo(a.pred, a.obj))
-      ).length == this.attributes.length
-    )
+    const clone = [...newAttributes]
+    for (const attribute of this.attributes) {
+      const index = clone.findIndex(
+        (a) => a.pred === attribute.pred && a.obj === String(attribute.obj)
+      )
+      if (index === -1) {
+        return false
+      }
+      clone.splice(index, 1)
+    }
+
+    if (clone.length === 0) {
+      return true
+    }
   }
 }
