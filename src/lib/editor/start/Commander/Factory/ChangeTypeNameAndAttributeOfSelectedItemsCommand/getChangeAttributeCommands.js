@@ -1,10 +1,10 @@
 import { RemoveCommand, CreateCommand } from '../commandTemplate'
 import ChangeAttributeCommand from '../ChangeAttributeCommand'
 
-export default function (elements, attributes, annotationData, editor) {
+export default function (items, attributes, annotationData, editor) {
   const changeAttributeCommnads = []
 
-  for (const element of elements) {
+  for (const element of items) {
     if (element.typeValues) {
       for (const oldAttribute of element.attributes) {
         const newAttribute = attributes.find((a) =>
