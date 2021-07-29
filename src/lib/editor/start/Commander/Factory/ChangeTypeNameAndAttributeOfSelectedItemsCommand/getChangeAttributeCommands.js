@@ -4,9 +4,9 @@ import ChangeAttributeCommand from '../ChangeAttributeCommand'
 export default function (items, attributes, annotationData, editor) {
   const changeAttributeCommnads = []
 
-  for (const element of items) {
-    if (element.typeValues) {
-      for (const oldAttribute of element.attributes) {
+  for (const item of items) {
+    if (item.typeValues) {
+      for (const oldAttribute of item.attributes) {
         const newAttribute = attributes.find((a) =>
           oldAttribute.equalsTo(a.pred, a.obj)
         )
@@ -31,13 +31,13 @@ export default function (items, attributes, annotationData, editor) {
 
     for (const newAttribute of attributes) {
       if (
-        !element.attributes.some((a) =>
+        !item.attributes.some((a) =>
           a.equalsTo(newAttribute.pred, newAttribute.obj)
         )
       ) {
         changeAttributeCommnads.push(
           new CreateCommand(editor, annotationData, 'attribute', {
-            subj: element.id,
+            subj: item.id,
             pred: newAttribute.pred,
             obj: newAttribute.obj
           })
