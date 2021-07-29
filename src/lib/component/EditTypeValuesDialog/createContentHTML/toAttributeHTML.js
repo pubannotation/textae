@@ -8,9 +8,14 @@ export default function (
   const previousAttribute = attributeInstances[index - 1]
   const previousPredicate = previousAttribute && previousAttribute.pred
   const definitionIndex = attributeContainer.getIndexOf(pred)
-  const label = attribute.label || attributeContainer.getLabel(pred, obj) || ''
   const { valueType } = attributeContainer.get(pred)
   const editDisabled = valueType === 'flag'
+  const label =
+    valueType === 'string'
+      ? attribute.label || attributeContainer.getLabel(pred, obj) || ''
+      : valueType === 'selection'
+      ? attributeContainer.getLabel(pred, obj) || ''
+      : ''
 
   return `
 <tr class="textae-editor__edit-type-dialog__attribute">
