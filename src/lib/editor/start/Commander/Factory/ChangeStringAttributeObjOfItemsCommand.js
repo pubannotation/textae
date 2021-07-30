@@ -39,16 +39,14 @@ export default class ChangeStringAttributeObjOfItemsCommand extends CompositeCom
     }
 
     const addValueForLabelToStirngAttributeDefinitionCommands = []
-    if (newLabel) {
-      const commnad = getAddPatternToStringAttributeDefinitionCommand(
-        definitionContainer,
-        attrDef,
-        newObj,
-        newLabel
-      )
-      if (commnad) {
-        addValueForLabelToStirngAttributeDefinitionCommands.push(commnad)
-      }
+    const commnad = getAddPatternToStringAttributeDefinitionCommand(
+      definitionContainer,
+      attrDef,
+      newObj,
+      newLabel
+    )
+    if (commnad) {
+      addValueForLabelToStirngAttributeDefinitionCommands.push(commnad)
     }
 
     this._subCommands = this._subCommands.concat(

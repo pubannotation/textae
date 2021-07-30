@@ -43,16 +43,14 @@ export default class ChangeTypeNameAndAttributeOfSelectedItemsCommand extends Co
     for (const { pred, obj, label } of attributes) {
       const definitionContainer = annotationData.typeDefinition.attribute
       const attrDef = definitionContainer.get(pred)
-      if (label !== definitionContainer.getLabel(pred, obj)) {
-        const commnad = getAddPatternToStringAttributeDefinitionCommand(
-          definitionContainer,
-          attrDef,
-          obj,
-          label
-        )
-        if (commnad) {
-          addValueForLabelToStirngAttributeDefinitionCommands.push(commnad)
-        }
+      const commnad = getAddPatternToStringAttributeDefinitionCommand(
+        definitionContainer,
+        attrDef,
+        obj,
+        label
+      )
+      if (commnad) {
+        addValueForLabelToStirngAttributeDefinitionCommands.push(commnad)
       }
     }
 

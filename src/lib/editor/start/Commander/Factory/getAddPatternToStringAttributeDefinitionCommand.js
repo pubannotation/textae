@@ -5,9 +5,10 @@ export default function (definitionContainer, attrDef, obj, label) {
   // if the label of the acquired value is not registered in the attribute definition pattern,
   // it will be additionally registered.
   if (
-    label &&
     attrDef.valueType === 'string' &&
-    !attrDef.values.some((v) => v.pattern === obj)
+    label &&
+    !attrDef.values.some((v) => v.pattern === obj) &&
+    label !== attrDef.getLabel(obj)
   ) {
     return new AddValueToAttributeDefinitionCommand(
       definitionContainer,
