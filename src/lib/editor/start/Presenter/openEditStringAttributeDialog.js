@@ -13,7 +13,7 @@ export default function (
     .then(({ newObj, newLabel }) => {
       if (newObj) {
         commander.invoke(
-          commander.factory.changeAttributesOfItemsCommand(
+          commander.factory.changeAttributeObjOfItemsCommand(
             selectionModelEntity.all,
             attrDef,
             newObj,

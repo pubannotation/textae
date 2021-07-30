@@ -62,7 +62,7 @@ export default class AttributeEditor {
                 )
               } else {
                 const command =
-                  this._commander.factory.changeAttributesOfItemsCommand(
+                  this._commander.factory.changeAttributeObjOfItemsCommand(
                     this._selectionModelItems.all,
                     attrDef,
                     newObj

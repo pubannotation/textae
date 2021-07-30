@@ -19,7 +19,7 @@ export default function (
     .open()
     .then(({ newObj }) => {
       const command = newObj
-        ? commander.factory.changeAttributesOfItemsCommand(
+        ? commander.factory.changeAttributeObjOfItemsCommand(
             selectionModelEntity.all,
             attrDef,
             newObj
