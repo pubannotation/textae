@@ -1,17 +1,8 @@
 import CompositeCommand from './CompositeCommand'
 import ChangeAttributeCommand from './ChangeAttributeCommand'
-import getAddValueToAttributeDefinitionCommand from './getAddValueToAttributeDefinitionCommand'
 
 export default class ChangeAttributeObjOfItemsCommand extends CompositeCommand {
-  constructor(
-    editor,
-    annotationData,
-    definitionContainer,
-    items,
-    attrDef,
-    newObj,
-    newLabel = null
-  ) {
+  constructor(editor, annotationData, items, attrDef, newObj) {
     super()
 
     const effectedAttributes = []
@@ -38,22 +29,6 @@ export default class ChangeAttributeObjOfItemsCommand extends CompositeCommand {
         )
     }
 
-    const addValueForLabelToStirngAttributeDefinitionCommands = []
-    if (newLabel) {
-      const commnad = getAddValueToAttributeDefinitionCommand(
-        definitionContainer,
-        attrDef,
-        newObj,
-        newLabel
-      )
-      if (commnad) {
-        addValueForLabelToStirngAttributeDefinitionCommands.push(commnad)
-      }
-    }
-
-    this._subCommands = this._subCommands.concat(
-      addValueForLabelToStirngAttributeDefinitionCommands
-    )
     this._logMessage = `update obj ${newObj} to attributes: ${effectedAttributes
       .map((attribute) => attribute.id)
       .join(',')}`
