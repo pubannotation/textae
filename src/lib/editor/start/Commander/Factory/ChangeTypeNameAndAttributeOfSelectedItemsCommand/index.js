@@ -20,7 +20,7 @@ export default class ChangeTypeNameAndAttributeOfSelectedItemsCommand extends Co
     )
 
     // Change type of items.
-    const changeTypeCommands = itemsWithChange.map(
+    this._subCommands = itemsWithChange.map(
       (item) =>
         new ChangeAnnotationCommand(
           editor,
@@ -32,14 +32,15 @@ export default class ChangeTypeNameAndAttributeOfSelectedItemsCommand extends Co
     )
 
     // Change attributes
-    const changeAttributeCommnads = getChangeAttributeCommands(
-      itemsWithChange,
-      attributes,
-      annotationData,
-      editor
+    this._subCommands = this._subCommands.concat(
+      getChangeAttributeCommands(
+        itemsWithChange,
+        attributes,
+        annotationData,
+        editor
+      )
     )
 
-    const addValueForLabelToStirngAttributeDefinitionCommands = []
     for (const { pred, obj, label } of attributes) {
       const definitionContainer = annotationData.typeDefinition.attribute
       const attrDef = definitionContainer.get(pred)
@@ -50,13 +51,10 @@ export default class ChangeTypeNameAndAttributeOfSelectedItemsCommand extends Co
         label
       )
       if (commnad) {
-        addValueForLabelToStirngAttributeDefinitionCommands.push(commnad)
+        this._subCommands.push(commnad)
       }
     }
 
-    this._subCommands = changeTypeCommands
-      .concat(changeAttributeCommnads)
-      .concat(addValueForLabelToStirngAttributeDefinitionCommands)
     this._logMessage = `set type ${typeName}${
       attributes.length > 0
         ? ` and attributes ${JSON.stringify(attributes)}`
