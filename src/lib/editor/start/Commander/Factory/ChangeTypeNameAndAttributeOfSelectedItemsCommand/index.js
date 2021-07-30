@@ -1,7 +1,7 @@
 import CompositeCommand from '../CompositeCommand'
 import ChangeAnnotationCommand from '../ChangeAnnotationCommand'
 import getChangeAttributeCommands from './getChangeAttributeCommands'
-import getAddValueToAttributeDefinitionCommand from '../getAddValueToAttributeDefinitionCommand'
+import getAddPatternToStringAttributeDefinitionCommand from '../getAddPatternToStringAttributeDefinitionCommand'
 
 export default class ChangeTypeNameAndAttributeOfSelectedItemsCommand extends CompositeCommand {
   constructor(
@@ -44,7 +44,7 @@ export default class ChangeTypeNameAndAttributeOfSelectedItemsCommand extends Co
       const definitionContainer = annotationData.typeDefinition.attribute
       const attrDef = definitionContainer.get(pred)
       if (label !== definitionContainer.getLabel(pred, obj)) {
-        const commnad = getAddValueToAttributeDefinitionCommand(
+        const commnad = getAddPatternToStringAttributeDefinitionCommand(
           definitionContainer,
           attrDef,
           obj,

@@ -1,6 +1,6 @@
 import CompositeCommand from './CompositeCommand'
 import ChangeAttributeCommand from './ChangeAttributeCommand'
-import getAddValueToAttributeDefinitionCommand from './getAddValueToAttributeDefinitionCommand'
+import getAddPatternToStringAttributeDefinitionCommand from './getAddPatternToStringAttributeDefinitionCommand'
 
 export default class ChangeStringAttributeObjOfItemsCommand extends CompositeCommand {
   constructor(
@@ -40,7 +40,7 @@ export default class ChangeStringAttributeObjOfItemsCommand extends CompositeCom
 
     const addValueForLabelToStirngAttributeDefinitionCommands = []
     if (newLabel) {
-      const commnad = getAddValueToAttributeDefinitionCommand(
+      const commnad = getAddPatternToStringAttributeDefinitionCommand(
         definitionContainer,
         attrDef,
         newObj,
