@@ -2,7 +2,7 @@ import CompositeCommand from './CompositeCommand'
 import ChangeAttributeCommand from './ChangeAttributeCommand'
 import getAddValueToAttributeDefinitionCommand from './getAddValueToAttributeDefinitionCommand'
 
-export default class ChangeAttributeOfItemsCommand extends CompositeCommand {
+export default class ChangeAttributeObjOfItemsCommand extends CompositeCommand {
   constructor(
     editor,
     annotationData,
