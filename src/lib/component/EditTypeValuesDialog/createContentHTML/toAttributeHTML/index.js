@@ -40,7 +40,12 @@ export default function (
     </span>
   </td>
   <td>
-    <span class="textae-editor__edit-type-dialog__attribute__value__value" data-value="${obj}">${obj}</span>
+    <span
+      class="textae-editor__edit-type-dialog__attribute__value__value"
+      data-obj="${obj}"
+      >
+      ${obj}
+    </span>
   </td>
 </tr>
 <tr>
