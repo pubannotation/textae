@@ -28,7 +28,7 @@ export default function (
         </td>
         `
   }
-  <td>
+  <td rowspan="2">
     <span
       class="textae-editor__edit-type-dialog__attribute__predicate__value ${
         pred === previousPredicate
@@ -45,7 +45,7 @@ export default function (
       data-obj="${obj}"
       data-label="${getLabelOf(attribute, attributeContainer)}"
       >
-      ${obj}
+      ${getLabelOf(attribute, attributeContainer) || obj}
     </span>
   </td>
 </tr>
@@ -63,11 +63,6 @@ export default function (
       class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__remove__value" 
       data-index="${index}">
     </button>
-  </td>
-  <td>
-    <span class="textae-editor__edit-type-dialog__attribute__label__value">
-      ${getLabelOf(attribute, attributeContainer)}
-    </span>
   </td>
 </tr>
 `
