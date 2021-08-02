@@ -43,6 +43,7 @@ export default function (
     <span
       class="textae-editor__edit-type-dialog__attribute__value__value"
       data-obj="${obj}"
+      data-label="${getLabelOf(attribute, attributeContainer)}"
       >
       ${obj}
     </span>

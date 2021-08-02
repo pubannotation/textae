@@ -17,10 +17,10 @@ export default function (content) {
       ).dataset.pred,
       obj: attr.querySelector(
         '.textae-editor__edit-type-dialog__attribute__value__value'
-      ).dataset.value,
-      label: attr.nextElementSibling.querySelector(
-        '.textae-editor__edit-type-dialog__attribute__label__value'
-      ).innerText
+      ).dataset.obj,
+      label: attr.querySelector(
+        '.textae-editor__edit-type-dialog__attribute__value__value'
+      ).dataset.label
     })
   }
 
