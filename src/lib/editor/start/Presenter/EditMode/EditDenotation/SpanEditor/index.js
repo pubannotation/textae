@@ -143,8 +143,6 @@ export default class SpanEditor {
       }
 
       const doesExists = this._annotationData.span.hasDenotationSpan(begin, end)
-
-      console.log(begin, end, doesExists)
       if (begin < end && !doesExists) {
         this._commander.invoke(
           this._commander.factory.moveDenotationSpanCommand(spanId, begin, end)
