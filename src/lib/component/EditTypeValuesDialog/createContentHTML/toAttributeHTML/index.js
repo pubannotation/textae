@@ -16,8 +16,8 @@ export default function (
 <tr class="textae-editor__edit-type-dialog__attribute">
   ${
     pred === previousPredicate
-      ? `<td></td>`
-      : `<td>
+      ? `<td class="shortcut-key" rowspan="2"></td>`
+      : `<td class="shortcut-key" rowspan="2">
           ${
             definitionIndex < 9
               ? `<span class="textae-editor__edit-type-dialog__shortcut-key" title="Shotcut key for this predicate">${
@@ -42,11 +42,8 @@ export default function (
   <td>
     <span class="textae-editor__edit-type-dialog__attribute__value__value">${obj}</span>
   </td>
-  <td>
-    <span class="textae-editor__edit-type-dialog__attribute__label__value">
-      ${getLabelOf(attribute, attributeContainer)}
-    </span>
-  </td>
+</tr>
+<tr>
   <td>
     <button
       type="button"
@@ -60,5 +57,11 @@ export default function (
       data-index="${index}">
     </button>
   </td>
-</tr>`
+  <td>
+    <span class="textae-editor__edit-type-dialog__attribute__label__value">
+      ${getLabelOf(attribute, attributeContainer)}
+    </span>
+  </td>
+</tr>
+`
 }

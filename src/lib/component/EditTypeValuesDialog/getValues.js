@@ -18,7 +18,7 @@ export default function (content) {
       obj: attr.querySelector(
         '.textae-editor__edit-type-dialog__attribute__value__value'
       ).innerText,
-      label: attr.querySelector(
+      label: attr.nextElementSibling.querySelector(
         '.textae-editor__edit-type-dialog__attribute__label__value'
       ).innerText
     })

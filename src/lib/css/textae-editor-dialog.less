@@ -234,33 +234,29 @@
         &:nth-child(1) {
           width: 20px;
         }
-        &:nth-child(2) {
-          width: 148px;
-        }
-        &:nth-child(3) {
-          width: 275px;
-        }
-        &:nth-child(4) {
-          width: 162px;
-        }
-        &:nth-child(5) {
-          width: 119px;
-        }
+      }
+      tr:nth-child(odd) {
+        border-top-style: solid;
+        border-width: 1px;
+      }
+      tr:nth-child(even) {
+        border-bottom-style: solid;
+        border-width: 1px;
       }
       td {
-        border-style: solid;
+        border-top-style: dashed;
+        border-right-style: solid;
+        border-bottom-style: dashed;
+        border-left-style: solid;
         border-width: 1px;
         word-break: break-all;
-        &:nth-child(1) {
+        &.shortcut-key {
           text-align: center;
         }
         &:nth-child(3) {
           input {
             width: calc(100% - 8px);
           }
-        }
-        &:nth-child(5) {
-          text-align: center;
         }
       }
     }

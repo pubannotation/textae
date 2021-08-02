@@ -8,15 +8,13 @@ export default function (
   attributeContainer
 ) {
   return `
-    <div style="overflow-y: auto; max-height: 25em; overflow-x: hidden;">
+    <div style="overflow-y: auto; max-height: 36em; overflow-x: hidden;">
       <table class="textae-editor__edit-type-dialog__table">
         <thead>
           <tr>
             <th></th>
             <th>Predicate</th>
-            <th>Value</th>
-            <th>Label</th>
-            <th></th>
+            <th>Value/Label</th>
           </tr>
         </thead>
         <tbody>
