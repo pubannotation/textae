@@ -66,10 +66,11 @@ export default class DenotationSpanModel extends SpanModel {
     el.classList.add(SELECTED)
 
     // Set focus to the span element in order to scroll the browser to the position of the element.
-    // Focus an element in next tick to prevent body click event in the Android browser.
-    setTimeout(() => {
-      el.focus()
-    }, 0)
+    // Focusing the span with the mouseup event on the context menu
+    // will trigger the textae-editor click event in the Chrome browser on Android.
+    // This will trigger the body click event, which will deselect the span.
+    // To prevent this, we will focus the span in the next event loop cycle.
+    setTimeout(() => el.focus(), 0)
   }
 
   deselect() {
