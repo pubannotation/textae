@@ -315,41 +315,6 @@
         width: calc(100% - 15px);
       }
     }
-
-    &__set-default {
-      &__input {
-        // cannot set some styles if -prefix-appearance is enabled.
-        -webkit-appearance: none;
-        -moz-appearance: none;
-        display: inline-block;
-        vertical-align: middle;
-        width: 18px;
-        height: 18px;
-        border: 2px solid darkgray;
-        border-radius: 50%;
-        background: radial-gradient(
-          ellipse at center,
-          rgb(220, 220, 220) 0%,
-          rgb(230, 230, 230) 50%,
-          rgb(220, 220, 220) 100%
-        );
-        cursor: pointer;
-
-        &:checked {
-          background: radial-gradient(
-            ellipse at center,
-            black 0%,
-            #dcdcdc 50%,
-            #dcdcdc 100%
-          );
-        }
-
-        &:disabled {
-          opacity: 0.5;
-          cursor: auto;
-        }
-      }
-    }
   }
 
   &__setting-dialog {
