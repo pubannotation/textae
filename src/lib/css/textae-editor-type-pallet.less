@@ -236,8 +236,6 @@
   &__table-button {
     border-radius: 4px;
     display: inline-block;
-    width: 24px;
-    height: 22px;
 
     // For Firefox, Make the button look like Google chrome.
     border-width: 1px;
@@ -246,6 +244,12 @@
 
     // For Safari, Make the button look like Google chrome.
     background-color: #eee;
+
+    line-height: 1.5;
+    text-align: center;
+    vertical-align: middle;
+    padding: 0.1rem 0.4rem;
+    margin: 0.1rem 0.05rem;
 
     &:before {
       font-size: 1.2em;
@@ -270,8 +274,6 @@
   &__select-all {
     &:before {
       .fontAwesomeIcon('\f046');
-      left: -2px;
-      top: 1px;
     }
   }
 
@@ -279,16 +281,12 @@
   &__edit-value {
     &:before {
       .fontAwesomeIcon('\f040');
-      left: -1px;
-      top: -1px;
     }
   }
 
   &__edit-predicate {
     &:before {
       .fontAwesomeIcon('\f040');
-      left: -1px;
-      top: -1px;
     }
   }
 
@@ -297,8 +295,6 @@
   &__delete-predicate {
     &:before {
       .fontAwesomeIcon('\f1f8');
-      left: -1px;
-      top: 0px;
     }
   }
 
