@@ -5,7 +5,6 @@ export default class Horizontal {
   }
 
   left(shiftKey) {
-    console.log('left')
     const nextSpan = this._searchLeft('.textae-editor__span')
     if (nextSpan) {
       if (shiftKey) {
@@ -19,7 +18,6 @@ export default class Horizontal {
     const nextEntity = this._searchLeft(
       '.textae-editor__grid .textae-editor__signboard'
     )
-    console.log('nextEntity', nextEntity)
     if (nextEntity) {
       if (shiftKey) {
         this._selectionModel.entity.add(nextEntity.dataset.id)

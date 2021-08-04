@@ -15,6 +15,5 @@ export default function (
     post(url, data, beforeSend, successHandler, failHandler, finishHandler)
 
   beforeSend()
-  console.log('PATCH data', data)
   requestAjax('patch', url, data, successHandler, retryByPost, finishHandler)
 }
