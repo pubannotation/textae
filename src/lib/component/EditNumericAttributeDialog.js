@@ -6,30 +6,34 @@ function template(context) {
   return `
 <div class="textae-editor__edit-value-and-pred-dialog__container">
   <div class="textae-editor__edit-value-and-pred-dialog__input-box">
-    <label>Predicate:</label><br>
+    <label>Predicate</label>
     <input 
       class="textae-editor__edit-value-and-pred-dialog--predicate" 
       value="${pred}" 
       disabled="disabled">
   </div>
   <div class="textae-editor__edit-value-and-pred-dialog__input-box ui-front">
-    <label class="textae-editor__edit-value-and-pred-dialog--label">Object:</label><br>
-    <input 
-      class="textae-editor__edit-value-and-pred-dialog--value textae-editor__promise-daialog__observable-element" 
-      type="number" 
-      min="${min}" 
-      max="${max}" 
-      step="${step}" 
-      value="${value}">
+    <label class="textae-editor__edit-value-and-pred-dialog--label">
+      <input 
+        class="textae-editor__edit-value-and-pred-dialog--value textae-editor__promise-daialog__observable-element" 
+        type="number" 
+        min="${min}" 
+        max="${max}" 
+        step="${step}" 
+        value="${value}">
+      Object
+    </label>
   </div>
   ${
     deletable
       ? `
-      <button
-        type="button" 
-        class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__remove__value" 
-        >
-      </button>
+      <div class="textae-editor__edit-value-and-pred-dialog__input-box">
+        <button
+          type="button" 
+          class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__remove__value" 
+          >
+        </button>
+      </div>
       `
       : ''
   }

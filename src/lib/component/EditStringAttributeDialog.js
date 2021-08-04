@@ -7,16 +7,22 @@ function template(context) {
   return `
 <div class="textae-editor__edit-value-and-pred-dialog__container">
   <div class="textae-editor__edit-value-and-pred-dialog__input-box">
-    <label>Predicate:</label><br>
+    <label>Predicate</label>
     <input 
       class="textae-editor__edit-value-and-pred-dialog--predicate" 
       value="${pred}" disabled="disabled">
   </div>
   <div class="textae-editor__edit-value-and-pred-dialog__input-box ui-front textae-editor__promise-daialog__observable-element">
-    <label class="textae-editor__edit-value-and-pred-dialog--label">Object:</label><span></span><br>
-    <input 
+    <label class="textae-editor__edit-value-and-pred-dialog--label">Object</label>
+    <input
       class="textae-editor__edit-value-and-pred-dialog--value textae-editor__edit-value-and-pred-dialog--value" 
       value="${value}">
+  </div>
+  <div class="textae-editor__edit-value-and-pred-dialog__input-box">
+    <label>Label</label>
+    <input 
+      class="textae-editor__edit-value-and-pred-dialog__label" 
+      value="" disabled="disabled">
   </div>
 </div>`
 }
@@ -56,7 +62,7 @@ export default class EditStringAttributeDialog extends PromiseDialog {
         pred: attribute.pred,
         value: attribute.obj
       }),
-      { height: 250, buttons },
+      { buttons },
       () => {
         const input = super.el.querySelector(
           '.textae-editor__edit-value-and-pred-dialog--value'
@@ -64,7 +70,9 @@ export default class EditStringAttributeDialog extends PromiseDialog {
 
         return {
           newObj: input.value,
-          newLabel: super.el.querySelector('span').innerText
+          newLabel: super.el.querySelector(
+            '.textae-editor__edit-value-and-pred-dialog__label'
+          ).value
         }
       }
     )
@@ -73,7 +81,9 @@ export default class EditStringAttributeDialog extends PromiseDialog {
       super.el.querySelector(
         '.textae-editor__edit-value-and-pred-dialog--value'
       ),
-      super.el.querySelector('span'),
+      super.el.querySelector(
+        '.textae-editor__edit-value-and-pred-dialog__label'
+      ),
       attrDef.autocompletionWs,
       () => []
     )

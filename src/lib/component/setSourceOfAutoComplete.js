@@ -13,7 +13,11 @@ export default function (
   $(inputElement).autocomplete({
     source: (request, response) => {
       if (labelSpan) {
-        labelSpan.innerText = ''
+        if (labelSpan instanceof HTMLInputElement) {
+          labelSpan.value = ''
+        } else {
+          labelSpan.innerText = ''
+        }
       }
 
       searchTerm(
@@ -27,8 +31,13 @@ export default function (
     select: (_, { item }) => {
       inputElement.value = item.id
 
+      console.log(123)
       if (labelSpan) {
-        labelSpan.innerText = item.label
+        if (labelSpan instanceof HTMLInputElement) {
+          labelSpan.value = item.label
+        } else {
+          labelSpan.innerText = item.label
+        }
       }
 
       return false
