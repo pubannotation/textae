@@ -9,11 +9,10 @@ function template(context) {
   <div class="textae-editor__edit-value-and-pred-dialog__input-box">
     <label>Predicate</label>
     <input 
-      class="textae-editor__edit-value-and-pred-dialog--predicate" 
       value="${pred}" disabled="disabled">
   </div>
   <div class="textae-editor__edit-value-and-pred-dialog__input-box ui-front textae-editor__promise-daialog__observable-element">
-    <label class="textae-editor__edit-value-and-pred-dialog--label">Object</label>
+    <label>Object</label>
     <input
       class="textae-editor__edit-value-and-pred-dialog--value textae-editor__edit-value-and-pred-dialog--value" 
       value="${value}">
