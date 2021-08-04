@@ -15,67 +15,6 @@
 3.  Entity と Entity を同時に複数選択する
 4.  Span と Entity を同時に複数選択する
 
-## 選択中に削除すると右の要素を選択する
-
-### 背景
-
-1.  6.1.1 で一つの denotation を一つのエンティティに表示することしました。
-
-### Span
-
-1.  Span を選択する
-2.  Span を削除する
-3.  右の Span が選択されること
-
-### Entity
-
-1.  Entity を選択する
-2.  Entity を削除する
-3.  右の Entity が選択されること
-
-### Span を縮めて消した時に、次の Span を選択
-
-#### 背景
-
-1.  4.4.1 で対応
-2.  ボタンか`d`キーで Span を削除した時は、右の Span を選択していたが、Span を縮めて削除した時は選択していなかった
-
-#### Boundary Detection 有効時
-
-##### Span の耳をひっぱて縮める
-
-1.  Term モードにする
-2.  `Boundary Detection`ボタンを押下状態にする
-3.  Span を選択せずに右から縮めて Span を消す
-4.  右の Span が選択されること
-5.  Span を選択せずに左から縮めて Span を消す
-6.  右の Span が選択されること
-7.  Span を選択して右から縮めて Span を消す
-8.  右の Span が選択されること
-9.  Span を選択して左から縮めて Span を消す
-10. 右の Span が選択されること
-
-#### Boundary Detection 無効時
-
-##### Span の耳をひっぱて縮める
-
-1.  Term モードにする
-2.  `Boundary Detection`ボタンを押上状態にする
-3.  Span を選択せずに右から縮めて Span を消す
-4.  右の Span が選択されること
-5.  Span を選択せずに左から縮めて Span を消す
-6.  右の Span が選択されること
-7.  Span を選択して右から縮めて Span を消す
-8.  右の Span が選択されること
-9.  Span を選択して左から縮めて Span を消す
-10. 右の Span が選択されること
-
-### Relation は選択解除
-
-1.  Relation を選択する
-2.  Relation を削除する
-3.  選択解除されること
-
 ## Ctrl/Cmd を押しながら、新しく作った Relation をラベルを使って複数選択
 
 1.  新規に Relation を作る

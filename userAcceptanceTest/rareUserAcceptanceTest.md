@@ -1,5 +1,33 @@
 # 極めて稀にやるテスト
 
+## Span を縮めて消した時に、次の Span を選択
+
+### Boundary Detection 有効時
+
+1.  Term モードにする
+2.  `Boundary Detection`ボタンを押下状態にする
+3.  Span を選択せずに右から縮めて Span を消す
+4.  右の Span が選択されること
+5.  Span を選択せずに左から縮めて Span を消す
+6.  右の Span が選択されること
+7.  Span を選択して右から縮めて Span を消す
+8.  右の Span が選択されること
+9.  Span を選択して左から縮めて Span を消す
+10. 右の Span が選択されること
+
+### Boundary Detection 無効時
+
+1.  Term モードにする
+2.  `Boundary Detection`ボタンを押上状態にする
+3.  Span を選択せずに右から縮めて Span を消す
+4.  右の Span が選択されること
+5.  Span を選択せずに左から縮めて Span を消す
+6.  右の Span が選択されること
+7.  Span を選択して右から縮めて Span を消す
+8.  右の Span が選択されること
+9.  Span を選択して左から縮めて Span を消す
+10. 右の Span が選択されること
+
 ## パレットで SelectionAttribute タブを表示したあと、保存する configuration に indelible プロパティが追加されないこと
 
 ### 背景
