@@ -452,35 +452,49 @@
   width: 50%;
 }
 .textae-editor__edit-type-dialog__table {
+  border-collapse: collapse;
+  border-spacing: 0px;
+  border-style: solid;
+  border-width: 1px;
   table-layout: fixed;
-  width: 746px;
+  width: calc(100% - 2px);
+}
+.textae-editor__edit-type-dialog__table th {
+  border-style: solid;
+  border-width: 1px;
 }
 .textae-editor__edit-type-dialog__table th:nth-child(1) {
   width: 20px;
 }
-.textae-editor__edit-type-dialog__table th:nth-child(2) {
-  width: 148px;
+.textae-editor__edit-type-dialog__table tr:nth-child(odd) {
+  border-top-style: solid;
+  border-width: 1px;
 }
-.textae-editor__edit-type-dialog__table th:nth-child(3) {
-  width: 275px;
-}
-.textae-editor__edit-type-dialog__table th:nth-child(4) {
-  width: 162px;
-}
-.textae-editor__edit-type-dialog__table th:nth-child(5) {
-  width: 119px;
+.textae-editor__edit-type-dialog__table tr:nth-child(even) {
+  border-bottom-style: solid;
+  border-width: 1px;
 }
 .textae-editor__edit-type-dialog__table td {
+  border-top-style: dashed;
+  border-right-style: solid;
+  border-bottom-style: dashed;
+  border-left-style: solid;
+  border-width: 1px;
   word-break: break-all;
 }
-.textae-editor__edit-type-dialog__table td:nth-child(2) input {
-  width: calc(100% - 7px);
-}
-.textae-editor__edit-type-dialog__shortcut-key {
-  border-style: solid;
-  border-width: 1px;
-  box-shadow: 1px 1px 1px #aaa;
+.textae-editor__edit-type-dialog__table td.shortcut-key {
   text-align: center;
+}
+.textae-editor__edit-type-dialog__table td:nth-child(3) input {
+  width: calc(100% - 8px);
+}
+.textae-editor__edit-type-dialog__type__predicate__value,
+.textae-editor__edit-type-dialog__type__label__value {
+  margin-left: 4px;
+}
+.textae-editor__edit-type-dialog__attribute__predicate__value,
+.textae-editor__edit-type-dialog__attribute__value__value {
+  margin-left: 4px;
 }
 .textae-editor__edit-type-dialog__attribute__predicate__value--flag:before {
   position: relative;
@@ -801,6 +815,14 @@
   overflow-x: auto;
   overflow-y: auto;
 }
+.textae-editor__type-pallet__header-first-row {
+  display: flex;
+  justify-content: space-between;
+}
+.textae-editor__type-pallet__header-second-row {
+  display: flex;
+  padding-left: 1px;
+}
 .textae-editor__type-pallet--entity {
   background-color: rgba(200, 255, 255, 0.9);
 }
@@ -810,8 +832,7 @@
 .textae-editor__type-pallet__information {
   font-size: 1.4em;
   margin-bottom: -3px;
-  margin-right: 10px;
-  min-width: 205px;
+  margin-top: 4px;
 }
 .textae-editor__type-pallet__information__selected-entity-label {
   font-size: small;
@@ -1087,7 +1108,6 @@
   font-size: 2em;
   padding: 0 10px 20px 10px;
   position: absolute;
-  top: 14px;
   transform: translateX(-19px);
 }
 /* FONT PATH

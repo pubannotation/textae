@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.19.0](https://github.com/pubannotation/textae/compare/v7.18.0...v7.19.0) (2021-08-04)
+
+
+### Features
+
+* Display a border on the table in the Edit Type Value dialog ([a027aea](https://github.com/pubannotation/textae/commit/a027aeaf6d0add77caf243abd74d39fefa6a4150))
+* Display label of numeric attribute in the Edit Type Value dialog ([1ab3dd6](https://github.com/pubannotation/textae/commit/1ab3dd6b1264c6e63f670d1247d677b22deb8da1))
+* Either the value of the attribute or the label will be displayed. Move the button to the right column ([1202c30](https://github.com/pubannotation/textae/commit/1202c3057802406ec8bded659366509f5c30be8d))
+* Make the header of the type value palette two lines ([77ef8d6](https://github.com/pubannotation/textae/commit/77ef8d60349b12617154024888ceb37b8ecf7c71))
+* Make the table in the Edit Type Value dialog a two-column table ([735fdf3](https://github.com/pubannotation/textae/commit/735fdf3100a46165f7b12e84fabac9d7f6e23669))
+* Responsive Dialogs ([2edd543](https://github.com/pubannotation/textae/commit/2edd5432c073edda791a256e7b57360ebc545ecd))
+
+
+### Bug Fixes
+
+* A value is added to the attribute definition even though the label of the stirng attribute has not been changed in the Edit Type Value dialog ([3cd8cf0](https://github.com/pubannotation/textae/commit/3cd8cf0c5c9b6acc8d9f7308afa22f9997cdf4ba))
+* Missing cells in the type row of the Edit Type Value dialog ([8447f3a](https://github.com/pubannotation/textae/commit/8447f3a85d7900e2c98e48bab504e4fff4a0d76f))
+* Selecting text and pressing the expand span button causes an error ([6ccad17](https://github.com/pubannotation/textae/commit/6ccad1711b7ec059aa7637a01c8e2d3ea3572d2d))
+* Selecting text and pressing the shrink span button causes an error ([7476c47](https://github.com/pubannotation/textae/commit/7476c479aec62406d7f78bc451a65556e64464b1))
+* The label on the Edit Type Value dialog does not disappear when the Selection attribute obj is changed from one with a label to one without a label ([da961f7](https://github.com/pubannotation/textae/commit/da961f73813b2f9c6e79dfa1a91343d4f1ce1e43))
+* The leftmost border of the tabs in the Type Value palette is hidden ([533c5c9](https://github.com/pubannotation/textae/commit/533c5c9686601a33d5ce29eaeea45254fdfa9630))
+* The right neighboring span may not be selected when the span is shrunk and erased by touch operation ([5a8d5ca](https://github.com/pubannotation/textae/commit/5a8d5ca8c9ac98a6f224b5bd5d54d47133559ac8))
+* When changing an existing Attribute to a duplicate Attribute, it is ignored when no other changes are made ([1a23f0c](https://github.com/pubannotation/textae/commit/1a23f0cd5157badc8ad33908d04f4660135c2da4))
+
 ## [7.18.0](https://github.com/pubannotation/textae/compare/v7.17.0...v7.18.0) (2021-07-28)
 
 
