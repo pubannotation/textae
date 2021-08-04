@@ -161,6 +161,15 @@ export default class SpanEditor {
   _getExpandedSpanForTouchDevice() {
     const selectionWrapper = new SelectionWrapper(this._annotationData.span)
 
+    // When there is no denotation span in ancestors of anchor node and focus node,
+    // a span to expand does not exist.
+    if (
+      selectionWrapper.ancestorDenotationSpanOfAnchorNode == null &&
+      selectionWrapper.ancestorDenotationSpanOfFocusNode == null
+    ) {
+      return null
+    }
+
     // When you select text by mouse operation,
     // the anchor node of the selected string is always inside the span to be extended,
     // and the focus node is outside.
