@@ -43,6 +43,23 @@
   font-weight: bold;
 }
 
+.form() {
+  &__container {
+    display: flex;
+    flex-direction: column;
+
+    & > div {
+      margin-bottom: 16px;
+    }
+  }
+
+  &__row {
+    display: flex;
+    flex-direction: column;
+    width: calc(100% - 7px);
+  }
+}
+
 .ui-widget-overlay.textae-editor__load-dialog__overlay-dropzone--maximized {
   background-color: #eee;
   background-image: none;
@@ -205,20 +222,7 @@
   }
 
   &__edit-value-and-pred-dialog {
-    &__container {
-      display: flex;
-      flex-direction: column;
-
-      & > div {
-        margin-bottom: 16px;
-      }
-    }
-
-    &__row {
-      display: flex;
-      flex-direction: column;
-      width: calc(100% - 7px);
-    }
+    .form();
   }
 
   &__edit-type-dialog {
@@ -293,25 +297,11 @@
   }
 
   &__edit-type-definition-dialog {
-    &__container {
-      display: flex;
-      flex-direction: column;
-
-      & > div {
-        margin-bottom: 16px;
-      }
-    }
+    .form();
 
     &__row {
-      display: flex;
-      flex-direction: column;
-
       &:first-child {
         z-index: 101;
-      }
-
-      input {
-        width: calc(100% - 15px);
       }
     }
   }
@@ -390,18 +380,7 @@
 
   &__create-attribute-definition-dialog,
   &__edit-attribute-definition-dialog {
-    &__container {
-      display: flex;
-      flex-direction: column;
-
-      & > div {
-        margin-bottom: 16px;
-      }
-    }
-    &__row {
-      display: flex;
-      flex-direction: column;
-    }
+    .form();
 
     &__value-type-row {
       display: flex;
