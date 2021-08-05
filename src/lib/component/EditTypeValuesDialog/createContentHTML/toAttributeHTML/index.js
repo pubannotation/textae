@@ -60,7 +60,7 @@ export default function (
     </button>
     <button
       type="button" 
-      class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__remove__value" 
+      class="ui-button ui-corner-all textae-editor__edit-type-dialog__remove-attribute" 
       data-index="${index}">
     </button>
   </td>

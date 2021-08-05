@@ -105,7 +105,7 @@ export default class EditTypeValuesDialog extends PromiseDialog {
     // Observe remove an attribute button.
     delegate(
       super.el,
-      '.textae-editor__edit-type-dialog__attribute__remove__value',
+      '.textae-editor__edit-type-dialog__remove-attribute',
       'click',
       (e) => {
         const { index } = e.target.dataset
