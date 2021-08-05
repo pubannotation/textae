@@ -146,7 +146,7 @@ export default class EditTypeValuesDialog extends PromiseDialog {
       '.textae-editor__edit-type-dialog__type-name'
     )
     const typeLabelElement = super.el.querySelector(
-      '.textae-editor__edit-type-dialog__type__label__value'
+      '.textae-editor__edit-type-dialog__type-label'
     )
     setSourceOfAutoComplete(
       typeNameElement,

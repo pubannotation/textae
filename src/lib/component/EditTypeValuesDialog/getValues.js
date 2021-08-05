@@ -4,7 +4,7 @@ export default function (content) {
   ).value
 
   const label = content.querySelector(
-    '.textae-editor__edit-type-dialog__type__label__value'
+    '.textae-editor__edit-type-dialog__type-label'
   ).innerText
 
   const attributes = []
