@@ -299,10 +299,9 @@
   &__edit-type-definition-dialog {
     .form();
 
-    &__row {
-      &:first-child {
-        z-index: 101;
-      }
+    // Display autocomplete candidates for ID field above the label field.
+    &__row:first-child {
+      z-index: 101;
     }
   }
 
