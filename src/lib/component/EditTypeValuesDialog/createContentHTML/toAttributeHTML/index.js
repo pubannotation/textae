@@ -41,7 +41,7 @@ export default function (
   </td>
   <td>
     <span
-      class="textae-editor__edit-type-dialog__attribute__value__value"
+      class="textae-editor__edit-type-dialog__attribute-value"
       data-obj="${obj}"
       data-label="${getLabelOf(attribute, attributeContainer)}"
       >

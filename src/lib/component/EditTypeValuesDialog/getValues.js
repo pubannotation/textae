@@ -16,10 +16,10 @@ export default function (content) {
         '.textae-editor__edit-type-dialog__attribute-predicate'
       ).dataset.pred,
       obj: attr.querySelector(
-        '.textae-editor__edit-type-dialog__attribute__value__value'
+        '.textae-editor__edit-type-dialog__attribute-value'
       ).dataset.obj,
       label: attr.querySelector(
-        '.textae-editor__edit-type-dialog__attribute__value__value'
+        '.textae-editor__edit-type-dialog__attribute-value'
       ).dataset.label
     })
   }
