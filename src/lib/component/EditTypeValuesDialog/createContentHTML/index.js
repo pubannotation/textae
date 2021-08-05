@@ -35,7 +35,7 @@ export default function (
           ({ pred, valueType }) =>
             `<button
               type="button" 
-              class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__add textae-editor__edit-type-dialog__attribute__add--${valueType}"
+              class="ui-button ui-corner-all textae-editor__edit-type-dialog__add-attribute textae-editor__edit-type-dialog__add-attribute--${valueType}"
               data-pred="${pred}"
               ${
                 attributes.some(

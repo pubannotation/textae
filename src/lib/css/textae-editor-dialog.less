@@ -276,15 +276,14 @@
       &-predicate {
         .attributeIcons();
       }
-
-      &__add {
-        .attributeIcons();
-        &[disabled='disabled'] {
-          opacity: 0.1;
-        }
-      }
     }
 
+    &__add-attribute {
+      .attributeIcons();
+      &[disabled='disabled'] {
+        opacity: 0.1;
+      }
+    }
     &__edit-attribute:before {
       .fontAwesomeIcon('\f040');
     }
