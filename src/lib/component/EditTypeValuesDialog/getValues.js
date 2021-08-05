@@ -1,6 +1,6 @@
 export default function (content) {
   const typeName = content.querySelector(
-    '.textae-editor__edit-type-dialog__type__value__value'
+    '.textae-editor__edit-type-dialog__type-name'
   ).value
 
   const label = content.querySelector(
