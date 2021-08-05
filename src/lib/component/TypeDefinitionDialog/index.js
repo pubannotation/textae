@@ -5,13 +5,13 @@ function template(context) {
   const { id, label, color, isDefault } = context
   return `
 <div class="textae-editor__edit-type-definition-dialog__container">
-  <div class="textae-editor__edit-type-definition-dialog__input-box ui-front">
+  <div class="textae-editor__edit-type-definition-dialog__row ui-front">
     <label>Id</label>
     <input
       class="textae-editor__edit-type-definition-dialog--id textae-editor__promise-daialog__observable-element" 
       value=${id || ''}>
   </div>
-  <div class="textae-editor__edit-type-definition-dialog__input-box ui-front">
+  <div class="textae-editor__edit-type-definition-dialog__row ui-front">
     <label>Label<span></span></label>
     <input value="${label}">
   </div>

@@ -5,13 +5,13 @@ function template(context) {
   const { pred, min, max, step, value, deletable } = context
   return `
 <div class="textae-editor__edit-value-and-pred-dialog__container">
-  <div class="textae-editor__edit-value-and-pred-dialog__input-box">
+  <div class="textae-editor__edit-value-and-pred-dialog__row">
     <label>Predicate</label>
     <input 
       value="${pred}" 
       disabled="disabled">
   </div>
-  <div class="textae-editor__edit-value-and-pred-dialog__input-box ui-front">
+  <div class="textae-editor__edit-value-and-pred-dialog__row ui-front">
     <label>
       <input 
         class="textae-editor__edit-value-and-pred-dialog__value textae-editor__promise-daialog__observable-element" 
@@ -26,7 +26,7 @@ function template(context) {
   ${
     deletable
       ? `
-      <div class="textae-editor__edit-value-and-pred-dialog__input-box">
+      <div class="textae-editor__edit-value-and-pred-dialog__row">
         <button
           type="button" 
           class="ui-button ui-corner-all textae-editor__edit-type-dialog__attribute__remove__value" 
