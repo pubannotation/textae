@@ -1,16 +1,20 @@
 export default function (componentClassName, label, color) {
   return `
     <div class="${componentClassName}__row">
-      <div class="${componentClassName}__label">
-        <label>Label:</label><br>
-        <input type="text" value="${label || ''}">
-      </div>
+      <label>Label</label>
+      <input
+        type="text"
+        value="${label || ''}"
+        class="${componentClassName}__label"
+      >
     </div>
     <div class="${componentClassName}__row">
-      <div class="${componentClassName}__color">
-        <label>Color:</label><br>
-        <input type="color" value="${color || '#000000'}">
-      </div>
+      <label>Color</label>
+      <input
+        type="color"
+        value="${color || '#000000'}"
+        class="${componentClassName}__color"
+      >
     </div>
   `
 }

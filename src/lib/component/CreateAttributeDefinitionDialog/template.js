@@ -6,7 +6,7 @@ export default function (componentClassName, context) {
   return `
 <div class="${componentClassName}__container">
   <div class="${componentClassName}__row">
-    <label>Attribute type:</label>
+    <label>Attribute type</label>
     <div class="${componentClassName}__value-type-row">
       <label>
         <input

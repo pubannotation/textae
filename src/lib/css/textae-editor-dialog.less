@@ -396,7 +396,21 @@
     }
   }
 
-  &__create-attribute-definition-dialog {
+  &__create-attribute-definition-dialog,
+  &__edit-attribute-definition-dialog {
+    &__container {
+      display: flex;
+      flex-direction: column;
+
+      & > div {
+        margin-bottom: 16px;
+      }
+    }
+    &__row {
+      display: flex;
+      flex-direction: column;
+    }
+
     &__value-type-row {
       display: flex;
       justify-content: space-between;
@@ -404,52 +418,6 @@
 
     &__value-type {
       .attributeIcons();
-    }
-  }
-  // edit-attribute-defintion-dialog__pred
-  &__edit-attribute-definition-dialog {
-    &__container {
-      flex-direction: column;
-      display: flex;
-    }
-
-    &__row {
-      display: flex;
-      flex-direction: row;
-      justify-content: start;
-    }
-
-    &__pred {
-      input {
-        width: 199px;
-      }
-    }
-
-    &__default-value {
-      padding-left: 50px;
-      input {
-        width: 246px;
-      }
-    }
-
-    &__min {
-      input {
-        width: 50px;
-      }
-    }
-
-    &__max {
-      input {
-        margin-left: 18px;
-        width: 50px;
-      }
-    }
-
-    &__step {
-      input {
-        margin-left: 18px;
-        width: 50px;
-      }
     }
   }
 }

@@ -20,12 +20,13 @@ export default function (componentClassName, context) {
 
   return `
     <div class="${componentClassName}__row">
-      <div class="${componentClassName}__pred textae-editor__promise-daialog__observable-element">
-        <label>Predicate:</label><br>
-        <input value="${pred || ''}">
-      </div>
-      ${showDefault ? `${inputDefault(componentClassName, defaultValue)}` : ''}
+      <label>Predicate</label>
+      <input
+        value="${pred || ''}"
+        class="${componentClassName}__pred textae-editor__promise-daialog__observable-element"
+      >
     </div>
+    ${showDefault ? `${inputDefault(componentClassName, defaultValue)}` : ''}
     ${
       showLabelAndColor
         ? `${inputLabelAndColor(componentClassName, label, color)}`
