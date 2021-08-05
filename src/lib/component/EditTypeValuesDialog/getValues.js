@@ -13,7 +13,7 @@ export default function (content) {
   )) {
     attributes.push({
       pred: attr.querySelector(
-        '.textae-editor__edit-type-dialog__attribute__predicate__value'
+        '.textae-editor__edit-type-dialog__attribute-predicate'
       ).dataset.pred,
       obj: attr.querySelector(
         '.textae-editor__edit-type-dialog__attribute__value__value'

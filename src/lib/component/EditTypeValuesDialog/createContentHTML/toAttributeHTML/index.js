@@ -30,10 +30,10 @@ export default function (
   }
   <td rowspan="2">
     <span
-      class="textae-editor__edit-type-dialog__attribute__predicate__value ${
+      class="textae-editor__edit-type-dialog__attribute-predicate ${
         pred === previousPredicate
           ? ''
-          : `textae-editor__edit-type-dialog__attribute__predicate__value--${valueType}`
+          : `textae-editor__edit-type-dialog__attribute-predicate--${valueType}`
       }"
       data-pred="${pred}">
       ${pred === previousPredicate ? '' : pred}
