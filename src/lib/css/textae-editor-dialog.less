@@ -254,6 +254,12 @@
         &.shortcut-key {
           text-align: center;
         }
+        &:nth-child(2),
+        &:nth-child(3) {
+          span {
+            margin-left: 4px;
+          }
+        }
         &:nth-child(3) {
           input {
             width: calc(100% - 8px);
@@ -262,20 +268,8 @@
       }
     }
 
-    &__type {
-      &-predicate,
-      &-label {
-        margin-left: 4px;
-      }
-    }
-    &__attribute {
-      &-predicate,
-      &-value {
-        margin-left: 4px;
-      }
-      &-predicate {
-        .attributeIcons();
-      }
+    &__attribute-predicate {
+      .attributeIcons();
     }
 
     &__add-attribute {
