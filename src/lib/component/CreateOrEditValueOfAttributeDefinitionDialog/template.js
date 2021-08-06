@@ -11,28 +11,28 @@ export default function (context) {
   } = context
 
   return `
-<div class="textae-editor__add-value-to-attribute-dialog__container">
-  <div class="textae-editor__add-value-to-attribute-dialog__row">
+<div class="textae-editor__create-or-edit-value-of-attribute-definition-dialog__container">
+  <div class="textae-editor__create-or-edit-value-of-attribute-definition-dialog__row">
     <label>${labelForRangeOrIdOrPattern}</label>
     <input
       value="${rangeOrIdOrPattern || ''}"
-      class="textae-editor__add-value-to-attribute-dialog__range_or_id_or_pattern textae-editor__promise-daialog__observable-element"
+      class="textae-editor__create-or-edit-value-of-attribute-definition-dialog__range_or_id_or_pattern textae-editor__promise-daialog__observable-element"
     >
   </div>
   ${inputDefault(showDefault, defaultValue)}
-  <div class="textae-editor__add-value-to-attribute-dialog__row">
+  <div class="textae-editor__create-or-edit-value-of-attribute-definition-dialog__row">
     <label>label</label>
     <input
       value="${label || ''}"
-      class="textae-editor__add-value-to-attribute-dialog__label textae-editor__promise-daialog__observable-element"
+      class="textae-editor__create-or-edit-value-of-attribute-definition-dialog__label textae-editor__promise-daialog__observable-element"
     >
   </div>
-  <div class="textae-editor__add-value-to-attribute-dialog__row">
+  <div class="textae-editor__create-or-edit-value-of-attribute-definition-dialog__row">
     <label>
       <input
         type="color"
         value="${color || ''}"
-        class="textae-editor__add-value-to-attribute-dialog__color"
+        class="textae-editor__create-or-edit-value-of-attribute-definition-dialog__color"
       >
       color
     </label>

@@ -39,17 +39,17 @@ export default class EditValueOfAttributeDefinitionDialog extends PromiseDialog 
       () => {
         const rangeOrIdOrPattern = getInputElementValue(
           super.el,
-          '.textae-editor__add-value-to-attribute-dialog__range_or_id_or_pattern'
+          '.textae-editor__create-or-edit-value-of-attribute-definition-dialog__range_or_id_or_pattern'
         )
 
         const label = getInputElementValue(
           super.el,
-          '.textae-editor__add-value-to-attribute-dialog__label'
+          '.textae-editor__create-or-edit-value-of-attribute-definition-dialog__label'
         )
 
         const color = getInputElementValue(
           super.el,
-          '.textae-editor__add-value-to-attribute-dialog__color'
+          '.textae-editor__create-or-edit-value-of-attribute-definition-dialog__color'
         )
 
         // Set a key only when there is a value.
@@ -70,7 +70,7 @@ export default class EditValueOfAttributeDefinitionDialog extends PromiseDialog 
 
             if (
               super.el.querySelector(
-                '.textae-editor__add-value-to-attribute-dialog__default input'
+                '.textae-editor__create-or-edit-value-of-attribute-definition-dialog__default input'
               ).checked
             ) {
               ret.default = true
@@ -92,7 +92,7 @@ export default class EditValueOfAttributeDefinitionDialog extends PromiseDialog 
     if (valueType === 'numeric') {
       super.el
         .querySelector(
-          '.textae-editor__add-value-to-attribute-dialog__range_or_id_or_pattern'
+          '.textae-editor__create-or-edit-value-of-attribute-definition-dialog__range_or_id_or_pattern'
         )
         .addEventListener('input', (e) => {
           const { value } = e.target
@@ -109,7 +109,7 @@ export default class EditValueOfAttributeDefinitionDialog extends PromiseDialog 
     if (valueType === 'string') {
       super.el
         .querySelector(
-          '.textae-editor__add-value-to-attribute-dialog__range_or_id_or_pattern'
+          '.textae-editor__create-or-edit-value-of-attribute-definition-dialog__range_or_id_or_pattern'
         )
         .addEventListener('input', (e) => {
           const { value } = e.target
@@ -124,7 +124,9 @@ export default class EditValueOfAttributeDefinitionDialog extends PromiseDialog 
 
     // validation color
     super.el
-      .querySelector('.textae-editor__add-value-to-attribute-dialog__color')
+      .querySelector(
+        '.textae-editor__create-or-edit-value-of-attribute-definition-dialog__color'
+      )
       .addEventListener('input', (e) => {
         const { value } = e.target
         enableHTMLElement(
