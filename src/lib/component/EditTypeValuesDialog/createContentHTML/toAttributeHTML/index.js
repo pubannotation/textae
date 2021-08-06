@@ -13,14 +13,14 @@ export default function (
   const { valueType } = attributeContainer.get(pred)
 
   return `
-<tr class="textae-editor__edit-type-dialog__attribute">
+<tr class="textae-editor__edit-type-values-dialog__attribute">
   ${
     pred === previousPredicate
       ? `<td class="shortcut-key" rowspan="2"></td>`
       : `<td class="shortcut-key" rowspan="2">
           ${
             definitionIndex < 9
-              ? `<span class="textae-editor__edit-type-dialog__shortcut-key" title="Shotcut key for this predicate">${
+              ? `<span class="textae-editor__edit-type-values-dialog__shortcut-key" title="Shotcut key for this predicate">${
                   definitionIndex + 1
                 }</span>`
               : ''
@@ -30,10 +30,10 @@ export default function (
   }
   <td rowspan="2">
     <span
-      class="textae-editor__edit-type-dialog__attribute-predicate ${
+      class="textae-editor__edit-type-values-dialog__attribute-predicate ${
         pred === previousPredicate
           ? ''
-          : `textae-editor__edit-type-dialog__attribute-predicate--${valueType}`
+          : `textae-editor__edit-type-values-dialog__attribute-predicate--${valueType}`
       }"
       data-pred="${pred}">
       ${pred === previousPredicate ? '' : pred}
@@ -41,7 +41,7 @@ export default function (
   </td>
   <td>
     <span
-      class="textae-editor__edit-type-dialog__attribute-value"
+      class="textae-editor__edit-type-values-dialog__attribute-value"
       data-obj="${obj}"
       data-label="${getLabelOf(attribute, attributeContainer)}"
       >
@@ -53,14 +53,14 @@ export default function (
   <td>
     <button
       type="button"
-      class="ui-button ui-corner-all textae-editor__edit-type-dialog__edit-attribute"
+      class="ui-button ui-corner-all textae-editor__edit-type-values-dialog__edit-attribute"
       data-pred="${pred}"
       data-index="${index}"
       ${valueType === 'flag' ? 'disabled="disabled"' : ''}>
     </button>
     <button
       type="button" 
-      class="ui-button ui-corner-all textae-editor__edit-type-dialog__remove-attribute" 
+      class="ui-button ui-corner-all textae-editor__edit-type-values-dialog__remove-attribute" 
       data-index="${index}">
     </button>
   </td>

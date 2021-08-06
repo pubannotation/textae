@@ -9,7 +9,7 @@ export default function (
 ) {
   return `
     <div style="overflow-y: auto; max-height: 36em; overflow-x: hidden;">
-      <table class="textae-editor__edit-type-dialog__table">
+      <table class="textae-editor__edit-type-values-dialog__table">
         <thead>
           <tr>
             <th></th>
@@ -29,13 +29,13 @@ export default function (
     </div>
     <fieldset>
       <legend>Available Predicates:</legend>
-      <div class="textae-editor__edit-type-dialog__add-attribute-buttons">
+      <div class="textae-editor__edit-type-values-dialog__add-attribute-buttons">
       ${attributeContainer.attributes
         .map(
           ({ pred, valueType }) =>
             `<button
               type="button" 
-              class="ui-button ui-corner-all textae-editor__edit-type-dialog__add-attribute textae-editor__edit-type-dialog__add-attribute--${valueType}"
+              class="ui-button ui-corner-all textae-editor__edit-type-values-dialog__add-attribute textae-editor__edit-type-values-dialog__add-attribute--${valueType}"
               data-pred="${pred}"
               ${
                 attributes.some(

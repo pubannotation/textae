@@ -7,16 +7,16 @@ export default function (value, entityContainer) {
     <tr>
       <td rowspan="2"></td>
       <td>
-        <span class="textae-editor__edit-type-dialog__type-predicate">type</span>
+        <span class="textae-editor__edit-type-values-dialog__type-predicate">type</span>
       </td>
       <td class="ui-front">
-        <input class="textae-editor__edit-type-dialog__type-name textae-editor__promise-daialog__observable-element" value="${value}">
+        <input class="textae-editor__edit-type-values-dialog__type-name textae-editor__promise-daialog__observable-element" value="${value}">
       </td>
     </tr>
     <tr>
       <td></td>
       <td>
-        <span class="textae-editor__edit-type-dialog__type-label">${label}</span>
+        <span class="textae-editor__edit-type-values-dialog__type-label">${label}</span>
       </td>
     </tr>
   `

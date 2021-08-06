@@ -39,7 +39,7 @@ export default class EditTypeValuesDialog extends PromiseDialog {
     // Observe edit an attribute button.
     delegate(
       super.el,
-      '.textae-editor__edit-type-dialog__edit-attribute',
+      '.textae-editor__edit-type-values-dialog__edit-attribute',
       'click',
       (e) => {
         const { pred } = e.target.dataset
@@ -105,7 +105,7 @@ export default class EditTypeValuesDialog extends PromiseDialog {
     // Observe remove an attribute button.
     delegate(
       super.el,
-      '.textae-editor__edit-type-dialog__remove-attribute',
+      '.textae-editor__edit-type-values-dialog__remove-attribute',
       'click',
       (e) => {
         const { index } = e.target.dataset
@@ -123,7 +123,7 @@ export default class EditTypeValuesDialog extends PromiseDialog {
     // Observe add an attribute button.
     delegate(
       super.el,
-      '.textae-editor__edit-type-dialog__add-attribute',
+      '.textae-editor__edit-type-values-dialog__add-attribute',
       'click',
       (e) => {
         const { pred } = e.target.dataset
@@ -143,10 +143,10 @@ export default class EditTypeValuesDialog extends PromiseDialog {
 
     // Setup autocomplete
     const typeNameElement = super.el.querySelector(
-      '.textae-editor__edit-type-dialog__type-name'
+      '.textae-editor__edit-type-values-dialog__type-name'
     )
     const typeLabelElement = super.el.querySelector(
-      '.textae-editor__edit-type-dialog__type-label'
+      '.textae-editor__edit-type-values-dialog__type-label'
     )
     setSourceOfAutoComplete(
       typeNameElement,
