@@ -4,17 +4,17 @@ import PromiseDialog from './PromiseDialog'
 function template(context) {
   const { pred, min, max, step, value, deletable } = context
   return `
-<div class="textae-editor__edit-value-and-pred-dialog__container">
-  <div class="textae-editor__edit-value-and-pred-dialog__row">
+<div class="textae-editor__edit-numeric-attribute-dialog__container">
+  <div class="textae-editor__edit-numeric-attribute-dialog__row">
     <label>Predicate</label>
     <input 
       value="${pred}" 
       disabled="disabled">
   </div>
-  <div class="textae-editor__edit-value-and-pred-dialog__row ui-front">
+  <div class="textae-editor__edit-numeric-attribute-dialog__row ui-front">
     <label>
       <input 
-        class="textae-editor__edit-value-and-pred-dialog__value textae-editor__promise-daialog__observable-element" 
+        class="textae-editor__edit-numeric-attribute-dialog__value textae-editor__promise-daialog__observable-element" 
         type="number" 
         min="${min}" 
         max="${max}" 
@@ -26,10 +26,10 @@ function template(context) {
   ${
     deletable
       ? `
-      <div class="textae-editor__edit-value-and-pred-dialog__row">
+      <div class="textae-editor__edit-numeric-attribute-dialog__row">
         <button
           type="button" 
-          class="ui-button ui-corner-all textae-editor__edit-value-and-pred-dialog__remove-attribute" 
+          class="ui-button ui-corner-all textae-editor__edit-numeric-attribute-dialog__remove-attribute" 
           >
         </button>
       </div>
@@ -44,7 +44,7 @@ export default class EditNumericAttributeDialog extends PromiseDialog {
     const bind = (dialog, resolve) => {
       delegate(
         dialog.el,
-        '.textae-editor__edit-value-and-pred-dialog__remove-attribute',
+        '.textae-editor__edit-numeric-attribute-dialog__remove-attribute',
         'click',
         () => {
           dialog.close()
@@ -93,7 +93,7 @@ export default class EditNumericAttributeDialog extends PromiseDialog {
       { buttons },
       () => {
         const input = super.el.querySelector(
-          '.textae-editor__edit-value-and-pred-dialog__value'
+          '.textae-editor__edit-numeric-attribute-dialog__value'
         )
 
         // Numeric attribute obj value type must be Number type.
