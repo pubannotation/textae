@@ -182,32 +182,6 @@
     .form();
   }
 
-  &__dialog--expanded {
-    width: calc(100% - 50px) !important;
-    max-width: calc(100% - 50px) !important;
-    min-height: calc(100% - 50px);
-    position: fixed !important;
-    overflow-y: scroll !important;
-    top: 25px !important;
-    left: 25px !important;
-    .textae-editor__load-dialog__row {
-      display: flex;
-      align-items: baseline;
-      .textae-editor__load-dialog__dz-file-preview {
-        margin-right: 16px;
-      }
-    }
-    .textae-editor__load-dialog__file-name,
-    .textae-editor__load-dialog__dz-file-preview,
-    .textae-editor__load-dialog__dropzone {
-      width: 89%;
-      margin-right: 8px;
-    }
-    .edit {
-      display: none;
-    }
-  }
-
   &__load-dialog {
     .common();
     .save_load();
@@ -270,6 +244,32 @@
         input {
           margin: 3px 0;
         }
+      }
+    }
+
+    &--expanded {
+      width: calc(100% - 50px) !important;
+      max-width: calc(100% - 50px) !important;
+      min-height: calc(100% - 50px);
+      position: fixed !important;
+      overflow-y: scroll !important;
+      top: 25px !important;
+      left: 25px !important;
+      .textae-editor__load-dialog__row {
+        display: flex;
+        align-items: baseline;
+        .textae-editor__load-dialog__dz-file-preview {
+          margin-right: 16px;
+        }
+      }
+      .textae-editor__load-dialog__file-name,
+      .textae-editor__load-dialog__dz-file-preview,
+      .textae-editor__load-dialog__dropzone {
+        width: 89%;
+        margin-right: 8px;
+      }
+      .edit {
+        display: none;
       }
     }
   }
