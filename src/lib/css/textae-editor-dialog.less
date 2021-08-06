@@ -183,22 +183,14 @@
   }
 
   &__load-dialog {
-    .common();
-    .save_load();
-
-    &__file-name {
-      .file();
-      width: 65%;
-    }
+    .form();
 
     &__dropzone {
       border: 3px dashed;
       border-radius: 10px;
       cursor: pointer;
       height: 40px;
-      margin: 10px 0 10px 64px;
       transition-duration: 0.3s;
-      width: 65%;
       &:hover {
         box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.4);
         transform: scale(1.05);
@@ -228,52 +220,20 @@
     }
 
     &__textarea {
-      width: 65%;
       height: 60px;
-      margin-left: 8px;
-    }
-
-    &__row.json {
-      display: flex;
-      margin-bottom: 4px;
-      .button-container {
-        display: inline-flex;
-        flex-direction: column;
-        justify-content: center;
-        margin-left: 8px;
-        input {
-          margin: 3px 0;
-        }
-      }
     }
 
     &--expanded {
       left: 25px !important;
-      max-width: calc(100% - 50px) !important;
-      min-height: calc(100% - 50px);
+      max-width: calc(100% - 64px) !important;
+      height: calc(100% - 50px) !important;
       overflow-y: scroll !important;
       position: fixed !important;
       top: 25px !important;
-      width: calc(100% - 50px) !important;
+      width: calc(100% - 64px) !important;
 
       .edit {
         display: none;
-      }
-
-      .textae-editor__load-dialog__row {
-        display: flex;
-        align-items: baseline;
-      }
-
-      .textae-editor__load-dialog__dz-file-preview {
-        margin-right: 16px;
-        width: 89%;
-      }
-
-      .textae-editor__load-dialog__file-name,
-      .textae-editor__load-dialog__dropzone {
-        margin-right: 8px;
-        width: 89%;
       }
     }
   }

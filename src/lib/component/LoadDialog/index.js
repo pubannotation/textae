@@ -12,7 +12,7 @@ function template(context) {
   const { url } = context
 
   return `
-<div>
+<div class="textae-editor__load-dialog__container">
   <div class="textae-editor__load-dialog__row">
     <label class="textae-editor__load-dialog__label">
       URL
@@ -38,21 +38,19 @@ function template(context) {
       class="local"
       disabled="disabled"
       value="Open">
+    <form class="dropzone textae-editor__load-dialog__dropzone">
+      <div class="dz-message">
+        Drop a file here or click to select
+      </div>
+    </form>
   </div>
-  <form class="dropzone textae-editor__load-dialog__dropzone">
-    <div class="dz-message">
-      Drop a file here or click to select
-    </div>
-  </form>
   <div class="textae-editor__load-dialog__row json">
     <label class="textae-editor__load-dialog__label">
       JSON
     </label>
     <textarea class="textae-editor__load-dialog__textarea"></textarea>
-    <div class="button-container">
-      <input type="button" value="Edit" class="edit" disabled="disabled">
-      <input type="button" value="Open" class="instant" disabled="disabled">
-    </div>
+    <input type="button" value="Edit" class="edit" disabled="disabled">
+    <input type="button" value="Open" class="instant" disabled="disabled">
   </div>
 </div>`
 }
@@ -217,7 +215,7 @@ export default class LoadDialog extends Dialog {
       value: textarea.value
     })
     const dialogHeight = super.el.closest('.textae-editor__dialog').clientHeight
-    JSONEditor.setSize('90%', dialogHeight * 0.6)
+    JSONEditor.setSize('auto', dialogHeight * 0.6)
     JSONEditor.on('change', (cm) => {
       textarea.value = cm.getValue()
     })
