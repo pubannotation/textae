@@ -30,6 +30,11 @@ function template(context) {
     <label class="textae-editor__load-dialog__label">
       Local
     </label>
+    <form class="dropzone textae-editor__load-dialog__dropzone">
+      <div class="dz-message">
+        Drop a file here or click to select
+      </div>
+    </form>
     <div class="textae-editor__load-dialog__dz-file-preview">
       <div class="dz-filename"><span data-dz-name>No file selected</span></div>
     </div>
@@ -38,11 +43,6 @@ function template(context) {
       class="local"
       disabled="disabled"
       value="Open">
-    <form class="dropzone textae-editor__load-dialog__dropzone">
-      <div class="dz-message">
-        Drop a file here or click to select
-      </div>
-    </form>
   </div>
   <div class="textae-editor__load-dialog__row json">
     <label class="textae-editor__load-dialog__label">
