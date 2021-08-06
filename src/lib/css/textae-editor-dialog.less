@@ -82,6 +82,106 @@
 
 /* dialog */
 .textae-editor {
+  &__create-attribute-definition-dialog,
+  &__edit-attribute-definition-dialog {
+    .form();
+
+    &__value-type-row {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    &__value-type {
+      .attributeIcons();
+    }
+  }
+
+  &__create-or-edit-value-of-attribute-definition-dialog {
+    .form();
+  }
+
+  &__edit-numeric-attribute-dialog {
+    .form();
+    &__remove-attribute:before {
+      .fontAwesomeIcon('\f1f8');
+    }
+  }
+
+  &__edit-type-values-dialog {
+    &__table {
+      border-collapse: collapse;
+      border-spacing: 0px;
+      border-style: solid;
+      border-width: 1px;
+      table-layout: fixed;
+      width: calc(100% - 2px);
+      th {
+        border-style: solid;
+        border-width: 1px;
+        &:nth-child(1) {
+          width: 20px;
+        }
+      }
+      tr:nth-child(odd) {
+        border-top-style: solid;
+        border-width: 1px;
+      }
+      tr:nth-child(even) {
+        border-bottom-style: solid;
+        border-width: 1px;
+      }
+      td {
+        border-top-style: dashed;
+        border-right-style: solid;
+        border-bottom-style: dashed;
+        border-left-style: solid;
+        border-width: 1px;
+        word-break: break-all;
+        &.shortcut-key {
+          text-align: center;
+        }
+        &:nth-child(2),
+        &:nth-child(3) {
+          span {
+            margin-left: 4px;
+          }
+        }
+        &:nth-child(3) {
+          input {
+            width: calc(100% - 8px);
+          }
+        }
+      }
+    }
+
+    &__attribute-predicate {
+      .attributeIcons();
+    }
+
+    &__add-attribute {
+      .attributeIcons();
+      &[disabled='disabled'] {
+        opacity: 0.1;
+      }
+    }
+    &__edit-attribute:before {
+      .fontAwesomeIcon('\f040');
+    }
+    &__remove-attribute:before {
+      .fontAwesomeIcon('\f1f8');
+    }
+
+    &__add-attribute-buttons {
+      line-height: 2.3em;
+      max-height: 4.7em;
+      overflow-y: auto;
+    }
+  }
+
+  &__edit-string-attribute-dialog {
+    .form();
+  }
+
   &__dialog--expanded {
     width: calc(100% - 50px) !important;
     min-height: calc(100% - 50px);
@@ -221,101 +321,6 @@
     }
   }
 
-  &__create-or-edit-value-of-attribute-definition-dialog {
-    .form();
-  }
-
-  &__edit-numeric-attribute-dialog {
-    .form();
-    &__remove-attribute:before {
-      .fontAwesomeIcon('\f1f8');
-    }
-  }
-
-  &__edit-string-attribute-dialog {
-    .form();
-  }
-
-  &__edit-type-values-dialog {
-    &__table {
-      border-collapse: collapse;
-      border-spacing: 0px;
-      border-style: solid;
-      border-width: 1px;
-      table-layout: fixed;
-      width: calc(100% - 2px);
-      th {
-        border-style: solid;
-        border-width: 1px;
-        &:nth-child(1) {
-          width: 20px;
-        }
-      }
-      tr:nth-child(odd) {
-        border-top-style: solid;
-        border-width: 1px;
-      }
-      tr:nth-child(even) {
-        border-bottom-style: solid;
-        border-width: 1px;
-      }
-      td {
-        border-top-style: dashed;
-        border-right-style: solid;
-        border-bottom-style: dashed;
-        border-left-style: solid;
-        border-width: 1px;
-        word-break: break-all;
-        &.shortcut-key {
-          text-align: center;
-        }
-        &:nth-child(2),
-        &:nth-child(3) {
-          span {
-            margin-left: 4px;
-          }
-        }
-        &:nth-child(3) {
-          input {
-            width: calc(100% - 8px);
-          }
-        }
-      }
-    }
-
-    &__attribute-predicate {
-      .attributeIcons();
-    }
-
-    &__add-attribute {
-      .attributeIcons();
-      &[disabled='disabled'] {
-        opacity: 0.1;
-      }
-    }
-    &__edit-attribute:before {
-      .fontAwesomeIcon('\f040');
-    }
-    &__remove-attribute:before {
-      .fontAwesomeIcon('\f1f8');
-    }
-
-    &__add-attribute-buttons {
-      line-height: 2.3em;
-      max-height: 4.7em;
-      overflow-y: auto;
-    }
-  }
-
-  &__type-definition-dialog {
-    .form();
-
-    // Display autocomplete candidates for ID field above the label field.
-    &__row:first-child {
-      z-index: 101;
-    }
-  }
-
   &__setting-dialog {
     .common();
 
@@ -334,6 +339,15 @@
     &__lock-config {
       vertical-align: middle;
       cursor: pointer;
+    }
+  }
+
+  &__type-definition-dialog {
+    .form();
+
+    // Display autocomplete candidates for ID field above the label field.
+    &__row:first-child {
+      z-index: 101;
     }
   }
 
@@ -385,20 +399,6 @@
           color: red;
         }
       }
-    }
-  }
-
-  &__create-attribute-definition-dialog,
-  &__edit-attribute-definition-dialog {
-    .form();
-
-    &__value-type-row {
-      display: flex;
-      justify-content: space-between;
-    }
-
-    &__value-type {
-      .attributeIcons();
     }
   }
 }
