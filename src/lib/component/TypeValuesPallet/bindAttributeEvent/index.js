@@ -2,7 +2,7 @@ import delegate from 'delegate'
 import alertifyjs from 'alertifyjs'
 import CreateAttributeDefinitionDialog from '../../CreateAttributeDefinitionDialog'
 import EditAttributeDefinitionDialog from '../../EditAttributeDefinitionDialog'
-import EditValueOfAttributeDefinitionDialog from '../../EditValueOfAttributeDefinitionDialog'
+import CreateOrEditValueOfAttributeDefinitionDialog from '../../CreateOrEditValueOfAttributeDefinitionDialog'
 import enableAttributeTabDrag from './enableAttributeTabDrag'
 import enableAttributeTabDrop from './enableAttributeTabDrop'
 import openEditNumericAttributeDialog from '../../../editor/start/Presenter/openEditNumericAttributeDialog'
@@ -87,7 +87,7 @@ export default function (pallet, el, commander, selectionModelEntity) {
     '.textae-editor__type-pallet__add-attribute-value-button',
     'click',
     () =>
-      new EditValueOfAttributeDefinitionDialog(pallet.attrDef.valueType)
+      new CreateOrEditValueOfAttributeDefinitionDialog(pallet.attrDef.valueType)
         .open()
         .then((value) => {
           if (value.range || value.id || value.pattern) {
@@ -103,7 +103,10 @@ export default function (pallet, el, commander, selectionModelEntity) {
 
   delegate(el, '.textae-editor__type-pallet__edit-value', 'click', (e) => {
     const oldValue = pallet.attrDef.values[e.target.dataset.index]
-    new EditValueOfAttributeDefinitionDialog(pallet.attrDef.valueType, oldValue)
+    new CreateOrEditValueOfAttributeDefinitionDialog(
+      pallet.attrDef.valueType,
+      oldValue
+    )
       .open()
       .then((newValue) => {
         if (newValue.range || newValue.id || newValue.pattern) {
