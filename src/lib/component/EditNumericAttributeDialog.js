@@ -29,7 +29,7 @@ function template(context) {
       <div class="textae-editor__edit-value-and-pred-dialog__row">
         <button
           type="button" 
-          class="ui-button ui-corner-all textae-editor__edit-type-dialog__remove-attribute" 
+          class="ui-button ui-corner-all textae-editor__edit-value-and-pred-dialog__remove-attribute" 
           >
         </button>
       </div>
@@ -44,7 +44,7 @@ export default class EditNumericAttributeDialog extends PromiseDialog {
     const bind = (dialog, resolve) => {
       delegate(
         dialog.el,
-        '.textae-editor__edit-type-dialog__remove-attribute',
+        '.textae-editor__edit-value-and-pred-dialog__remove-attribute',
         'click',
         () => {
           dialog.close()
