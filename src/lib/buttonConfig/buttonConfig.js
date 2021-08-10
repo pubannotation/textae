@@ -1,6 +1,9 @@
 export const buttonConfig = [
   {
-    usage: [],
+    usage: {
+      'keyboard device': ['control bar', 'context menu'],
+      'touce device': ['control bar']
+    },
     list: [
       {
         type: 'read',
@@ -18,7 +21,10 @@ export const buttonConfig = [
     ]
   },
   {
-    usage: [],
+    usage: {
+      'keyboard device': ['control bar', 'context menu'],
+      'touce device': ['control bar']
+    },
     list: [
       {
         type: 'view',
@@ -43,7 +49,10 @@ export const buttonConfig = [
     ]
   },
   {
-    usage: [],
+    usage: {
+      'keyboard device': ['control bar', 'context menu'],
+      'touce device': ['control bar']
+    },
     list: [
       {
         type: 'simple',
@@ -62,7 +71,10 @@ export const buttonConfig = [
     ]
   },
   {
-    usage: [],
+    usage: {
+      'keyboard device': ['control bar', 'context menu'],
+      'touce device': ['control bar']
+    },
     list: [
       {
         type: 'undo',
@@ -75,7 +87,10 @@ export const buttonConfig = [
     ]
   },
   {
-    usage: [],
+    usage: {
+      'keyboard device': ['control bar', 'context menu'],
+      'touce device': ['control bar']
+    },
     list: [
       {
         type: 'replicate',
@@ -99,7 +114,10 @@ export const buttonConfig = [
     ]
   },
   {
-    usage: ['touch device'],
+    usage: {
+      'keyboard device': [],
+      'touce device': ['control bar', 'context menu']
+    },
     list: [
       { type: 'create-span', title: 'Create span' },
       { type: 'expand-span', title: 'Expand span' },
@@ -107,7 +125,10 @@ export const buttonConfig = [
     ]
   },
   {
-    usage: [],
+    usage: {
+      'keyboard device': ['control bar', 'context menu'],
+      'touce device': ['control bar']
+    },
     list: [
       {
         type: 'entity',
@@ -132,7 +153,10 @@ export const buttonConfig = [
     ]
   },
   {
-    usage: [],
+    usage: {
+      'keyboard device': ['control bar', 'context menu'],
+      'touce device': ['control bar']
+    },
     list: [
       {
         type: 'delete',
@@ -175,7 +199,10 @@ export const buttonConfig = [
     ]
   },
   {
-    usage: ['control bar'],
+    usage: {
+      'keyboard device': ['control bar'],
+      'touce device': ['control bar']
+    },
     list: [
       {
         type: 'setting',
@@ -184,7 +211,10 @@ export const buttonConfig = [
     ]
   },
   {
-    usage: ['control bar'],
+    usage: {
+      'keyboard device': ['control bar'],
+      'touce device': ['control bar']
+    },
     list: [
       {
         type: 'help',
