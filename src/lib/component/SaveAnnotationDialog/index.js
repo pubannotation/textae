@@ -7,7 +7,7 @@ function template(context) {
   return `
 <div class="textae-editor__save-dialog__container">
   <div class="textae-editor__save-dialog__row">
-    <label class="textae-editor__save-dialog__label">URL</label>
+    <label>URL</label>
     <input 
       type="text"
       value="${url}"
@@ -19,7 +19,7 @@ function template(context) {
       value="Save">
   </div>
   <div class="textae-editor__save-dialog__row">
-    <label class="textae-editor__save-dialog__label">Local</label>
+    <label>Local</label>
     <input
       type="text"
       value="${filename}"
