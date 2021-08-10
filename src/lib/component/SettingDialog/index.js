@@ -13,9 +13,9 @@ function template(context) {
   } = context
 
   return `
-<div class="textae-editor__setting-dialog">
-  <div>
-    <label class="textae-editor__setting-dialog__label">Type Gap</label>
+<div class="textae-editor__setting-dialog__container">
+  <div class="textae-editor__setting-dialog__row">
+    <label>Type Gap</label>
     <input 
       type="number" 
       class="textae-editor__setting-dialog__type-gap type-gap" 
@@ -24,32 +24,33 @@ function template(context) {
       max="5" 
       value="${typeGap}" ${typeGapDisabled ? `disabled="disabled"` : ''}>
   </div>
-  <div>
-    <label class="textae-editor__setting-dialog__label">Line Height</label>
+  <div class="textae-editor__setting-dialog__row">
+    <label>Line Height(px)</label>
     <input 
       type="number" class="textae-editor__setting-dialog__line-height line-height" 
       step="1" 
       min="50" 
       max="500" 
-      value="${lineHeight}">px
+      value="${lineHeight}">
   </div>
-  <div>
-    <label class="textae-editor__setting-dialog__label">Lock Edit Config</label>
-    <input 
-      type="checkbox" 
-      class="textae-editor__setting-dialog__lock-config lock-config"
-      ${typeDefinitionLocked ? `checked="checked"` : ''}>
+  <div class="textae-editor__setting-dialog__row">
+    <label>
+      <input 
+        type="checkbox" 
+        class="textae-editor__setting-dialog__lock-config lock-config"
+        ${typeDefinitionLocked ? `checked="checked"` : ''}>
+      Lock Edit Config
+    </label>
   </div>
-  <div>
-    <label class="textae-editor__setting-dialog__label">Reset Hidden Message Boxes</label>
+  <div class="textae-editor__setting-dialog__row">
+    <label>Reset Hidden Message Boxes</label>
     <input 
       type="button" 
       class="textae-editor__setting-dialog__reset-hidden-message-boxes reset-hidden-message-boxes" 
       value="Reset">
   </div>
-  <div>
-    <label class="textae-editor__setting-dialog__label">Version</label>
-    ${version}
+  <div class="textae-editor__setting-dialog__row">
+    <label>Version ${version}</label>
   </div>
 </div>
 `
