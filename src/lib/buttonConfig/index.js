@@ -10,7 +10,7 @@ class Config {
           if (isTouchDevice()) {
             return true
           } else {
-            return usage !== 'touch device'
+            return !usage.includes('touch device')
           }
         })
         .map(({ list }) => ({
@@ -26,12 +26,12 @@ class Config {
   get contextMenu() {
     return {
       buttonGroup: buttonConfig
-        .filter(({ usage }) => usage !== 'control bar')
+        .filter(({ usage }) => !usage.includes('control bar'))
         .filter(({ usage }) => {
           if (isTouchDevice()) {
-            return usage === 'touch device'
+            return usage.includes('touch device')
           } else {
-            return usage !== 'touch device'
+            return !usage.includes('touch device')
           }
         })
         .map(({ list }) => ({

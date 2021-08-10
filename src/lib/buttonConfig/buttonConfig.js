@@ -1,5 +1,6 @@
 export const buttonConfig = [
   {
+    usage: [],
     list: [
       {
         type: 'read',
@@ -17,6 +18,7 @@ export const buttonConfig = [
     ]
   },
   {
+    usage: [],
     list: [
       {
         type: 'view',
@@ -41,6 +43,7 @@ export const buttonConfig = [
     ]
   },
   {
+    usage: [],
     list: [
       {
         type: 'simple',
@@ -59,6 +62,7 @@ export const buttonConfig = [
     ]
   },
   {
+    usage: [],
     list: [
       {
         type: 'undo',
@@ -71,6 +75,7 @@ export const buttonConfig = [
     ]
   },
   {
+    usage: [],
     list: [
       {
         type: 'replicate',
@@ -94,7 +99,7 @@ export const buttonConfig = [
     ]
   },
   {
-    usage: 'touch device',
+    usage: ['touch device'],
     list: [
       { type: 'create-span', title: 'Create span' },
       { type: 'expand-span', title: 'Expand span' },
@@ -102,6 +107,7 @@ export const buttonConfig = [
     ]
   },
   {
+    usage: [],
     list: [
       {
         type: 'entity',
@@ -126,6 +132,7 @@ export const buttonConfig = [
     ]
   },
   {
+    usage: [],
     list: [
       {
         type: 'delete',
@@ -168,7 +175,7 @@ export const buttonConfig = [
     ]
   },
   {
-    usage: 'control bar',
+    usage: ['control bar'],
     list: [
       {
         type: 'setting',
@@ -177,7 +184,7 @@ export const buttonConfig = [
     ]
   },
   {
-    usage: 'control bar',
+    usage: ['control bar'],
     list: [
       {
         type: 'help',
