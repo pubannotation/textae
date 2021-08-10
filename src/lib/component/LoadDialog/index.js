@@ -194,8 +194,8 @@ export default class LoadDialog extends Dialog {
 
   _showFilePreview(file) {
     super.el
-      .querySelector('.textae-editor__load-dialog__dz-file-preview > div')
-      .remove()
+      .querySelector('.textae-editor__load-dialog__dz-file-preview')
+      .firstElementChild.remove()
     this.dropedFile = file
     super.el
       .querySelector('.textae-editor__load-dialog__dz-file-preview > div')
