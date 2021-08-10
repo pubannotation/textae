@@ -20,10 +20,10 @@ function template(context) {
     <input 
       type="text" 
       value="${url}" 
-      class="textae-editor__load-dialog__file-name url">
+      class="textae-editor__load-dialog__url-text">
     <input 
       type="button" 
-      class="url"
+      class="textae-editor__load-dialog__url-button"
       ${url ? `` : `disabled="disabled"`}
       value="Open">
   </div>
@@ -71,9 +71,14 @@ export default class LoadDialog extends Dialog {
     super(title, template({ url }), 'Cancel')
 
     // Disabled the button to load from the URL when no URL.
-    delegate(super.el, '[type="text"].url', 'input', (e) => {
-      enableHTMLelment(e.target.nextElementSibling, e.target.value)
-    })
+    delegate(
+      super.el,
+      '.textae-editor__load-dialog__url-text',
+      'input',
+      (e) => {
+        enableHTMLelment(e.target.nextElementSibling, e.target.value)
+      }
+    )
 
     delegate(
       super.el,
@@ -95,12 +100,17 @@ export default class LoadDialog extends Dialog {
       !hasChange || window.confirm(CONFIRM_DISCARD_CHANGE_MESSAGE)
 
     // Load from the URL.
-    delegate(super.el, '[type="button"].url', 'click', (e) => {
-      if (isUserConfirm()) {
-        loadFromServer(e.target.previousElementSibling.value)
+    delegate(
+      super.el,
+      '.textae-editor__load-dialog__url-button',
+      'click',
+      (e) => {
+        if (isUserConfirm()) {
+          loadFromServer(e.target.previousElementSibling.value)
+        }
+        super.close()
       }
-      super.close()
-    })
+    )
 
     // Load from a file.
     delegate(super.el, '[type="button"].local', 'click', () => {
