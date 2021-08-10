@@ -15,6 +15,12 @@ export default function (
   })
 
   // Save to the URL.
+  delegate(element, '.textae-editor__save-dialog__url-text', 'keyup', (e) => {
+    if (e.keyCode === 13) {
+      saveConfiguration(e.target.value)
+      closeDialog()
+    }
+  })
   delegate(element, '.textae-editor__save-dialog__url-button', 'click', (e) => {
     saveConfiguration(e.target.previousElementSibling.value)
     closeDialog()
