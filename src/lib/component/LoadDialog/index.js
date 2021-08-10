@@ -190,8 +190,6 @@ export default class LoadDialog extends Dialog {
     dialogDropzone.on('addedfile', (file) => {
       this._showFilePreview(file)
     })
-
-    this._preventDropOutsideDropzone()
   }
 
   _showFilePreview(file) {
@@ -206,17 +204,6 @@ export default class LoadDialog extends Dialog {
       super.el.querySelector('.textae-editor__load-dialog__local-button'),
       true
     )
-  }
-
-  _preventDropOutsideDropzone() {
-    const dialog = super.el.closest('.textae-editor__dialog')
-    dialog.addEventListener('dragover', (ev) => {
-      ev.preventDefault()
-    })
-    dialog.addEventListener('drop', (ev) => {
-      ev.preventDefault()
-      ev.stopPropagation()
-    })
   }
 
   _expandDialog() {
