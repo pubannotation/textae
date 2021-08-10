@@ -119,7 +119,7 @@ export default class LoadDialog extends Dialog {
       'click',
       () => {
         if (isUserConfirm()) {
-          readFromFile(this.dropedFile)
+          readFromFile(this._droppedFile)
         }
 
         super.close()
@@ -204,7 +204,7 @@ export default class LoadDialog extends Dialog {
       .setAttribute('title', file.name)
 
     // Enables the button to open the file.
-    this.dropedFile = file
+    this._droppedFile = file
     enableHTMLelment(
       super.el.querySelector('.textae-editor__load-dialog__local-button'),
       true
