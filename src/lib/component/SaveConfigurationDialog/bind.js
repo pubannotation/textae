@@ -6,7 +6,7 @@ export default function (
   editor,
   element,
   editedData,
-  dialogClose,
+  closeDialog,
   saveConfiguration
 ) {
   // Disabled the button to save to the URL when no URL.
@@ -17,7 +17,7 @@ export default function (
   // Save to the URL.
   delegate(element, '.textae-editor__save-dialog__url-button', 'click', (e) => {
     saveConfiguration(e.target.previousElementSibling.value)
-    dialogClose()
+    closeDialog()
   })
 
   // Download as a JSON file.
@@ -34,7 +34,7 @@ export default function (
         'textae-event.save-configuration-dialog.download.click',
         editedData
       )
-      dialogClose()
+      closeDialog()
     }
   )
 }
