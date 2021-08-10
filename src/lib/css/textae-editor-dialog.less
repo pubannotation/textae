@@ -262,10 +262,13 @@
 
     &__diff-title {
       .diff-info {
-        display: inline-block;
-        margin-left: 5px;
-        padding: 0 5px;
-        font-size: 0.8em;
+        &--add,
+        &--remove {
+          display: inline-block;
+          margin-left: 5px;
+          padding: 0 5px;
+          font-size: 0.8em;
+        }
 
         &--add {
           background-color: #bbffbb;
