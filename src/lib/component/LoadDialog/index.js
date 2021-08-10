@@ -23,7 +23,8 @@ function template(context) {
       class="textae-editor__load-dialog__file-name url">
     <input 
       type="button" 
-      class="url" ${url ? `` : `disabled="disabled"`} 
+      class="url"
+      ${url ? `` : `disabled="disabled"`}
       value="Open">
   </div>
   <div class="textae-editor__load-dialog__row">
