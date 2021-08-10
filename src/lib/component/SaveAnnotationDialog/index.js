@@ -5,7 +5,7 @@ function template(context) {
   const { url, filename } = context
 
   return `
-<div>
+<div class="textae-editor__save-dialog__container">
   <div class="textae-editor__save-dialog__row">
     <label class="textae-editor__save-dialog__label">URL</label>
     <input 
@@ -27,7 +27,6 @@ function template(context) {
     <a class="download" href="#">Download</a>
   </div>
   <div class="textae-editor__save-dialog__row">
-    <label class="textae-editor__save-dialog__label"></label>
     <a class="viewsource" href="#">Click to see the json source in a new window.</a>
   </div>
 </div>

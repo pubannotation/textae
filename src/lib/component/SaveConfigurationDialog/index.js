@@ -7,7 +7,7 @@ function template(context) {
   const { url, filename, diff } = context
 
   return `
-<div>
+<div class="textae-editor__save-dialog__container">
   <div class="textae-editor__save-dialog__row">
     <label class="textae-editor__save-dialog__label">URL</label>
     <input 
@@ -27,13 +27,13 @@ function template(context) {
     <a class="download" href="#">Download</a>
   </div>
   <div class="textae-editor__save-dialog__row">
-    <p class="textae-editor__save-dialog__diff-title">
+    <div class="textae-editor__save-dialog__diff-title">
       Configuration differences
       <span class="diff-info diff-info--add">added</span>
       <span class="diff-info diff-info--remove">removed</span>
-    </p>
+    </div>
+    <div class="textae-editor__save-dialog__diff-viewer">${diff}</div>
   </div>
-  <div class="textae-editor__save-dialog__diff-viewer">${diff}</div>
 </div>
 `
 }

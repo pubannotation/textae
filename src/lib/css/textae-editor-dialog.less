@@ -59,7 +59,8 @@
     width: calc(100% - 7px);
 
     input[type='button'],
-    button {
+    button,
+    a {
       background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50%
         repeat-x;
       border: 1px solid #ccc;
@@ -259,27 +260,9 @@
   }
 
   &__save-dialog {
-    .common();
-    .save_load();
-
-    &__config-title {
-      .config-title();
-    }
-
-    &__server-file-name,
-    &__server-file-name--config {
-      .file();
-    }
-
-    &__local-file-name,
-    &__local-file-name--config {
-      .file();
-    }
+    .form();
 
     &__diff-title {
-      margin: 10px 0 0 9px;
-      font-size: 0.8em;
-
       .diff-info {
         display: inline-block;
         margin-left: 5px;
@@ -299,7 +282,6 @@
 
     &__diff-viewer {
       overflow-x: scroll;
-      margin: 0 10px;
       padding: 10px 0;
       border: solid 1px lightgray;
       border-radius: 4px;
