@@ -260,25 +260,21 @@
   &__save-dialog {
     .form();
 
-    &__diff-title {
-      .diff-info {
-        &--add,
-        &--remove {
-          display: inline-block;
-          margin-left: 5px;
-          padding: 0 5px;
-          font-size: 0.8em;
-        }
+    &__diff-info--add,
+    &__diff-info--remove {
+      display: inline-block;
+      margin-left: 5px;
+      padding: 0 5px;
+      font-size: 0.8em;
+    }
 
-        &--add {
-          background-color: #bbffbb;
-        }
+    &__diff-info--add {
+      background-color: #bbffbb;
+    }
 
-        &--remove {
-          background-color: #ffbbbb;
-          text-decoration: line-through;
-        }
-      }
+    &__diff-info--remove {
+      background-color: #ffbbbb;
+      text-decoration: line-through;
     }
 
     &__diff-viewer {
