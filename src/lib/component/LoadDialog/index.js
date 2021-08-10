@@ -41,7 +41,7 @@ function template(context) {
     </div>
     <input 
       type="button" 
-      class="local"
+      class="textae-editor__load-dialog__local-button"
       disabled="disabled"
       value="Open">
   </div>
@@ -113,13 +113,18 @@ export default class LoadDialog extends Dialog {
     )
 
     // Load from a file.
-    delegate(super.el, '[type="button"].local', 'click', () => {
-      if (isUserConfirm()) {
-        readFromFile(this.dropedFile)
-      }
+    delegate(
+      super.el,
+      '.textae-editor__load-dialog__local-button',
+      'click',
+      () => {
+        if (isUserConfirm()) {
+          readFromFile(this.dropedFile)
+        }
 
-      super.close()
-    })
+        super.close()
+      }
+    )
 
     // Load from a textarea
     delegate(super.el, '[type="button"].instant', 'click', () => {
@@ -197,7 +202,10 @@ export default class LoadDialog extends Dialog {
     super.el
       .querySelector('.textae-editor__load-dialog__dz-file-preview > div')
       .setAttribute('title', this.dropedFile.name)
-    enableHTMLelment(super.el.querySelector('[type="button"].local'), true)
+    enableHTMLelment(
+      super.el.querySelector('.textae-editor__load-dialog__local-button'),
+      true
+    )
   }
 
   _preventDropOutsideDropzone() {
