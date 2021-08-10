@@ -24,7 +24,7 @@ function template(context) {
       type="text"
       value="${filename}"
       >
-    <a class="download" href="#">Download</a>
+    <a class="textae-editor__save-dialog__download-link" href="#">Download</a>
   </div>
   <div class="textae-editor__save-dialog__row">
     <a class="viewsource" href="#">Click to see the json source in a new window.</a>

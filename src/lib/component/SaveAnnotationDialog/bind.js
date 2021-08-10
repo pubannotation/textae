@@ -21,16 +21,21 @@ export default function (editor, element, data, closeDialog, saveAnnotation) {
   })
 
   // Download as a JSON file.
-  delegate(element, 'a.download', 'click', (e) => {
-    const aTag = e.target
-    const downloadPath = createDownloadPath(data)
-    aTag.setAttribute('href', downloadPath)
-    aTag.setAttribute('download', aTag.previousElementSibling.value)
-    editor.eventEmitter.emit(
-      'textae-event.save-annotation-dialog.download.click'
-    )
-    closeDialog()
-  })
+  delegate(
+    element,
+    '.textae-editor__save-dialog__download-link',
+    'click',
+    (e) => {
+      const aTag = e.target
+      const downloadPath = createDownloadPath(data)
+      aTag.setAttribute('href', downloadPath)
+      aTag.setAttribute('download', aTag.previousElementSibling.value)
+      editor.eventEmitter.emit(
+        'textae-event.save-annotation-dialog.download.click'
+      )
+      closeDialog()
+    }
+  )
 
   delegate(element, 'a.viewsource', 'click', () => {
     window.open(createDownloadPath(data), '_blank')
