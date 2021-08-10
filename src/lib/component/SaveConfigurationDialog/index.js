@@ -15,7 +15,7 @@ function template(context) {
       class="textae-editor__save-dialog__url-text">
     <input 
       type="button" 
-      class="url"
+      class="textae-editor__save-dialog__url-button"
       ${url ? '' : `disabled="disabled"`}
       value="Save">
   </div>

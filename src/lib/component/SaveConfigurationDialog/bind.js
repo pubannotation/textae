@@ -15,7 +15,7 @@ export default function (
   })
 
   // Save to the URL.
-  delegate(element, '[type="button"].url', 'click', (e) => {
+  delegate(element, '.textae-editor__save-dialog__url-button', 'click', (e) => {
     saveConfiguration(e.target.previousElementSibling.value)
     dialogClose()
   })
