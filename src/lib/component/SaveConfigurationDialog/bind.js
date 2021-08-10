@@ -10,7 +10,7 @@ export default function (
   saveConfiguration
 ) {
   // Disabled the button to save to the URL when no URL.
-  delegate(element, '[type="text"].url', 'input', (e) => {
+  delegate(element, '.textae-editor__save-dialog__url-text', 'input', (e) => {
     enableHTMLElement(e.target.nextElementSibling, e.target.value)
   })
 
