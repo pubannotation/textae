@@ -21,15 +21,20 @@ export default function (
   })
 
   // Download as a JSON file.
-  delegate(element, 'a.download', 'click', (e) => {
-    const aTag = e.target
-    const downloadPath = createDownloadPath(editedData)
-    aTag.setAttribute('href', downloadPath)
-    aTag.setAttribute('download', aTag.previousElementSibling.value)
-    editor.eventEmitter.emit(
-      'textae-event.save-configuration-dialog.download.click',
-      editedData
-    )
-    dialogClose()
-  })
+  delegate(
+    element,
+    '.textae-editor__save-dialog__download-link',
+    'click',
+    (e) => {
+      const aTag = e.target
+      const downloadPath = createDownloadPath(editedData)
+      aTag.setAttribute('href', downloadPath)
+      aTag.setAttribute('download', aTag.previousElementSibling.value)
+      editor.eventEmitter.emit(
+        'textae-event.save-configuration-dialog.download.click',
+        editedData
+      )
+      dialogClose()
+    }
+  )
 }

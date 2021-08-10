@@ -24,7 +24,7 @@ function template(context) {
     <input
       type="text" value="${filename}" 
       >
-    <a class="download" href="#">Download</a>
+    <a class="textae-editor__save-dialog__download-link" href="#">Download</a>
   </div>
   <div class="textae-editor__save-dialog__row">
     <div class="textae-editor__save-dialog__diff-title">
