@@ -14,7 +14,7 @@ function template(context) {
   return `
 <div class="textae-editor__load-dialog__container">
   <div class="textae-editor__load-dialog__row">
-    <label class="textae-editor__load-dialog__label">
+    <label>
       URL
     </label>
     <input 
@@ -28,7 +28,7 @@ function template(context) {
       value="Open">
   </div>
   <div class="textae-editor__load-dialog__row">
-    <label class="textae-editor__load-dialog__label">
+    <label>
       Local
     </label>
     <form class="dropzone textae-editor__load-dialog__dropzone">
@@ -46,7 +46,7 @@ function template(context) {
       value="Open">
   </div>
   <div class="textae-editor__load-dialog__row json">
-    <label class="textae-editor__load-dialog__label">
+    <label>
       JSON
     </label>
     <textarea class="textae-editor__load-dialog__textarea"></textarea>
