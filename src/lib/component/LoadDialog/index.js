@@ -193,13 +193,18 @@ export default class LoadDialog extends Dialog {
   }
 
   _showFilePreview(file) {
+    // Remove the previous file name.
     super.el
       .querySelector('.textae-editor__load-dialog__dz-file-preview')
       .firstElementChild.remove()
+
+    // Add file name to title attrribute to show tooltip.
     this.dropedFile = file
     super.el
       .querySelector('.textae-editor__load-dialog__dz-file-preview > div')
       .setAttribute('title', this.dropedFile.name)
+
+    // Enables the button to open the file.
     enableHTMLelment(
       super.el.querySelector('.textae-editor__load-dialog__local-button'),
       true
