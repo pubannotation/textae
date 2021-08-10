@@ -30,7 +30,7 @@ function template(context) {
     <div class="textae-editor__save-dialog__diff-title">
       Configuration differences
       <span class="textae-editor__save-dialog__diff-add-legend">added</span>
-      <span class="textae-editor__save-dialog__diff-info--remove">removed</span>
+      <span class="textae-editor__save-dialog__diff-remove-legend">removed</span>
     </div>
     <div class="textae-editor__save-dialog__diff-viewer">${diff}</div>
   </div>
