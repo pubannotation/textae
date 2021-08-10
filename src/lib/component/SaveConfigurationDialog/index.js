@@ -21,9 +21,9 @@ function template(context) {
   </div>
   <div class="textae-editor__save-dialog__row">
     <label>Local</label>
-    <input 
+    <input
       type="text" value="${filename}" 
-      class="textae-editor__save-dialog__local-file-name local">
+      >
     <a class="download" href="#">Download</a>
   </div>
   <div class="textae-editor__save-dialog__row">
