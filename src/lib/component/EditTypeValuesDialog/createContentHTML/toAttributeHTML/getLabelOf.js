@@ -10,12 +10,10 @@ export default function (attribute, attributeContainer) {
       return attribute.label || attributeContainer.getLabel(pred, obj) || ''
     case 'selection':
     case 'numeric':
-      // In the case of Selection or Numeric attributes,
+    case 'flag':
+      // In the case of Selection or Numeric or flag attributes,
       // we want to refer only to the label of the attribute definition.
       return attributeContainer.getLabel(pred, obj) || ''
-    case 'flag':
-      // No label for numric attributes or for flag attributes.
-      return ''
     default:
       throw `unknown attribute type: ${valueType}`
   }
