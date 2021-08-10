@@ -212,8 +212,9 @@ export default class LoadDialog extends Dialog {
   }
 
   _expandDialog() {
-    const dialog = super.el.closest('.textae-editor__dialog')
-    dialog.classList.add('textae-editor__load-dialog--expanded')
+    super.el
+      .closest('.textae-editor__dialog')
+      .classList.add('textae-editor__load-dialog--expanded')
   }
 
   _createJSONEditor(textarea) {
