@@ -15,7 +15,7 @@ export default function (editor, element, data, closeDialog, saveAnnotation) {
       closeDialog()
     }
   })
-  delegate(element, '[type="button"].url', 'click', (e) => {
+  delegate(element, '.textae-editor__save-dialog__url-button', 'click', (e) => {
     saveAnnotation(e.target.previousElementSibling.value)
     closeDialog()
   })
