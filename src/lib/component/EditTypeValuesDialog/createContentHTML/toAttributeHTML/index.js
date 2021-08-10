@@ -53,14 +53,14 @@ export default function (
   <td>
     <button
       type="button"
-      class="ui-button ui-corner-all textae-editor__edit-type-values-dialog__edit-attribute"
+      class="textae-editor__edit-type-values-dialog__edit-attribute"
       data-pred="${pred}"
       data-index="${index}"
       ${valueType === 'flag' ? 'disabled="disabled"' : ''}>
     </button>
     <button
       type="button" 
-      class="ui-button ui-corner-all textae-editor__edit-type-values-dialog__remove-attribute" 
+      class="textae-editor__edit-type-values-dialog__remove-attribute" 
       data-index="${index}">
     </button>
   </td>

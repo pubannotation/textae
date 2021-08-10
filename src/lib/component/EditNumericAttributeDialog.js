@@ -29,7 +29,7 @@ function template(context) {
       <div class="textae-editor__edit-numeric-attribute-dialog__row">
         <button
           type="button" 
-          class="ui-button ui-corner-all textae-editor__edit-numeric-attribute-dialog__remove-attribute" 
+          class="textae-editor__edit-numeric-attribute-dialog__remove-attribute" 
           >
         </button>
       </div>
