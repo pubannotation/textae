@@ -33,7 +33,7 @@
     "@typescript-eslint/parser": ">=4.29.1",
     "clean-css-cli": ">=5.3.3",
     "connect": ">=3.7.0",
-    "cpx2": ">=3.0.0",
+    "cpx2": ">=3.0.1",
     "eslint": ">=7.32.0",
     "eslint-config-prettier": ">=8.3.0",
     "eslint-plugin-import": ">=2.23.4",
