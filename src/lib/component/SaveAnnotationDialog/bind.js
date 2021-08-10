@@ -4,12 +4,12 @@ import enableHTMLElement from '../enableHTMLElement'
 
 export default function (editor, element, data, closeDialog, saveAnnotation) {
   // Disabled the button to save to the URL when no URL.
-  delegate(element, '[type="text"].url', 'input', (e) => {
+  delegate(element, '.textae-editor__save-dialog__url-text', 'input', (e) => {
     enableHTMLElement(e.target.nextElementSibling, e.target.value)
   })
 
   // Save to the URL.
-  delegate(element, '[type="text"].url', 'keyup', (e) => {
+  delegate(element, '.textae-editor__save-dialog__url-text', 'keyup', (e) => {
     if (e.keyCode === 13) {
       saveAnnotation(e.target.value)
       closeDialog()

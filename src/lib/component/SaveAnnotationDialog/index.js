@@ -11,7 +11,7 @@ function template(context) {
     <input 
       type="text"
       value="${url}"
-      class="textae-editor__save-dialog__server-file-name url">
+      class="textae-editor__save-dialog__url-text">
     <input 
       type="button"
       class="url"
