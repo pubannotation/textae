@@ -37,11 +37,16 @@ export default function (editor, element, data, closeDialog, saveAnnotation) {
     }
   )
 
-  delegate(element, 'a.viewsource', 'click', () => {
-    window.open(createDownloadPath(data), '_blank')
-    editor.eventEmitter.emit(
-      'textae-event.save-annotation-dialog.viewsource.click'
-    )
-    closeDialog()
-  })
+  delegate(
+    element,
+    '.textae-editor__save-dialog__viewsource-link',
+    'click',
+    () => {
+      window.open(createDownloadPath(data), '_blank')
+      editor.eventEmitter.emit(
+        'textae-event.save-annotation-dialog.viewsource.click'
+      )
+      closeDialog()
+    }
+  )
 }
