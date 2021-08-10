@@ -213,7 +213,7 @@ export const buttonConfig = [
   {
     usage: {
       'keyboard device': ['control bar'],
-      'touce device': ['control bar']
+      'touce device': []
     },
     list: [
       {
