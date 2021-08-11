@@ -46,7 +46,7 @@ function template(context) {
     <label>Reset Hidden Message Boxes</label>
     <input 
       type="button" 
-      class="textae-editor__setting-dialog__reset-hidden-message-boxes reset-hidden-message-boxes" 
+      class="textae-editor__setting-dialog__reset-hidden-message-boxes-text" 
       value="Reset">
   </div>
   <div class="textae-editor__setting-dialog__row">
