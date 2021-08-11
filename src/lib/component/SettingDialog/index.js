@@ -50,7 +50,7 @@ function template(context) {
 }
 
 export default class SettingDialog extends Dialog {
-  constructor(editor, typeDefinition, entityGap, textBox) {
+  constructor(typeDefinition, entityGap, textBox) {
     const contentHtml = template({
       typeGapDisabled: !entityGap.show,
       typeGap: entityGap.value,
