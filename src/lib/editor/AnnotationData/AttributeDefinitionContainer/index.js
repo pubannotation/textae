@@ -1,4 +1,4 @@
-import arrayMove from 'array-move'
+import { arrayMoveImmutable } from 'array-move'
 import createAttributeDefinition from './createAttributeDefinition'
 
 export default class AttributeDefinitionContainer {
@@ -88,7 +88,10 @@ export default class AttributeDefinitionContainer {
 
   move(oldIndex, newIndex) {
     this._definedTypes = new Map(
-      arrayMove(this.attributes, oldIndex, newIndex).map((a) => [a.pred, a])
+      arrayMoveImmutable(this.attributes, oldIndex, newIndex).map((a) => [
+        a.pred,
+        a
+      ])
     )
 
     // -1 points to the end of the array.
