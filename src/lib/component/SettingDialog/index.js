@@ -37,7 +37,7 @@ function template(context) {
     <label>
       <input 
         type="checkbox" 
-        class="textae-editor__setting-dialog__lock-config lock-config"
+        class="textae-editor__setting-dialog__lock-config-text"
         ${typeDefinitionLocked ? `checked="checked"` : ''}>
       Lock Edit Config
     </label>
