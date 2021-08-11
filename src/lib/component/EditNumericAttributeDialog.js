@@ -12,16 +12,14 @@ function template(context) {
       disabled="disabled">
   </div>
   <div class="textae-editor__edit-numeric-attribute-dialog__row ui-front">
-    <label>
-      <input 
-        class="textae-editor__edit-numeric-attribute-dialog__value textae-editor__promise-daialog__observable-element" 
-        type="number" 
-        min="${min}" 
-        max="${max}" 
-        step="${step}" 
-        value="${value}">
-      Object
-    </label>
+    <label>Object</label>
+    <input 
+      class="textae-editor__edit-numeric-attribute-dialog__value textae-editor__promise-daialog__observable-element" 
+      type="number" 
+      min="${min}" 
+      max="${max}" 
+      step="${step}" 
+      value="${value}">
   </div>
   ${
     deletable
