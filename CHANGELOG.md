@@ -2,6 +2,37 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.20.0](https://github.com/pubannotation/textae/compare/v7.19.0...v7.20.0) (2021-08-11)
+
+
+### Features
+
+* Change to a vertical form in the Create and Edit Attribute Definition dialog to make it easier to use on mobile devices ([a15cc63](https://github.com/pubannotation/textae/commit/a15cc638cdc24dd9f4e1a077d328ed2101a21f56))
+* Change to a vertical form in the Edit Numeric and String Attribute dialog to make it easier to use on mobile devices ([c3d9437](https://github.com/pubannotation/textae/commit/c3d9437e49d3817bf06e655c63251ef281714d1c))
+* Change to a vertical form in the Edit Value of Attribute Definition dialog to make it easier to use on mobile devices ([40b8b19](https://github.com/pubannotation/textae/commit/40b8b191de3e8086dfffc00af4818ea88de47111))
+* Change to a vertical form in the Load dialog to make it easier to use on mobile devices ([21c2310](https://github.com/pubannotation/textae/commit/21c2310c3cc6e2462495183185f55b094800491b))
+* Change to a vertical form in the Save Annotation and Configuration dialog to make it easier to use on mobile devices ([1d993f8](https://github.com/pubannotation/textae/commit/1d993f853f03b54a790014de2258a3991d5dac09))
+* Change to a vertical form in the Settig dialog to make it easier to use on mobile devices ([a7da6ac](https://github.com/pubannotation/textae/commit/a7da6ac8350ec69e7bb2404ee5b2d28d61af3f9d))
+* Change to a vertical form in the Type Definition dialog to make it easier to use on mobile devices ([7772764](https://github.com/pubannotation/textae/commit/7772764c2106018950c42b1d5a53001ac8b379ba))
+* Do not show keyboard shortcut help for touch devices ([17ed4a0](https://github.com/pubannotation/textae/commit/17ed4a096b867891e499996ad9066c8899f0fabe))
+* In the Save Configuration dialog, press Enter to save ([dae77bf](https://github.com/pubannotation/textae/commit/dae77bf8826f3de37d9eaa8154456d2d24ca7b5e))
+* Unify the style of dialog buttons with jQuery UI ([b9bdb93](https://github.com/pubannotation/textae/commit/b9bdb9367e4862973fd16a2f90386a9a88cec61b))
+* Wrap the type palette labels to fit the window width ([c2d9d68](https://github.com/pubannotation/textae/commit/c2d9d680e625ae62bfa5fc79c3ccb942bd341399))
+
+
+### Bug Fixes
+
+* Button style in the pallet ([c0b6067](https://github.com/pubannotation/textae/commit/c0b6067a7b18634c6381911b55e40beb5fb9cae7))
+* Dependency to the terser-webpack-plugin ([98f507a](https://github.com/pubannotation/textae/commit/98f507ab59af88a10deb62519e9fa51810344d1d))
+* Layout of input elements to select local files ([89eb672](https://github.com/pubannotation/textae/commit/89eb6720d5ca18d8212d8b20e5b4200a2863a301))
+* Limit the width of the extended Load dialog ([c483932](https://github.com/pubannotation/textae/commit/c483932036c8b4e26168474e086a60a8572c7811))
+* The default checkbox in the Type Definition dialog looks like a radio button ([c96a6d0](https://github.com/pubannotation/textae/commit/c96a6d03637e5856d1dc19c696e79f03dffbc367))
+* The label of the flag attribute is not displayed in the Edit Type Values dialog ([e9c7600](https://github.com/pubannotation/textae/commit/e9c76007364e85a89f84de53487c094ebe5fb6a4))
+* Webpack version specification format ([b1ec8a5](https://github.com/pubannotation/textae/commit/b1ec8a5d5a00d8fbe0ae39d01c902e24108775ab))
+* Width of the candidates of auto completion in the Edit Type Values dialog ([2c2f406](https://github.com/pubannotation/textae/commit/2c2f406a58837b2bc2e5ec9cb7f4107dd22c1b75))
+* Width of the candidates of the auto-completion in the Edit String Attribute dialog ([353687c](https://github.com/pubannotation/textae/commit/353687c1613660e22bfe1fac899178c50b0906aa))
+* Width of the candidates of the auto-completion in the Edit Type Definition dialog ([bcd2665](https://github.com/pubannotation/textae/commit/bcd266527605b43734c41338705da08b58d1fde5))
+
 ## [7.19.0](https://github.com/pubannotation/textae/compare/v7.18.0...v7.19.0) (2021-08-04)
 
 
