@@ -5,7 +5,7 @@ import redrawAllEditor from './redrawAllEditor'
 export default function (content, textBox) {
   delgate(
     content,
-    '.line-height',
+    '.textae-editor__setting-dialog__line-height-text',
     'change',
     debounce300((e) => {
       textBox.lineHeight = e.target.value

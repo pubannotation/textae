@@ -27,7 +27,7 @@ function template(context) {
   <div class="textae-editor__setting-dialog__row">
     <label>Line Height(px)</label>
     <input 
-      type="number" class="textae-editor__setting-dialog__line-height line-height" 
+      type="number" class="textae-editor__setting-dialog__line-height-text" 
       step="1" 
       min="50" 
       max="500" 
