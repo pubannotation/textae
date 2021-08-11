@@ -43,13 +43,6 @@ function template(context) {
     </label>
   </div>
   <div class="textae-editor__setting-dialog__row">
-    <label>Reset Hidden Message Boxes</label>
-    <input 
-      type="button" 
-      class="textae-editor__setting-dialog__reset-hidden-message-boxes-text" 
-      value="Reset">
-  </div>
-  <div class="textae-editor__setting-dialog__row">
     <label>Version ${version}</label>
   </div>
 </div>
@@ -69,7 +62,7 @@ export default class SettingDialog extends Dialog {
     super('Setting', contentHtml, 'OK')
 
     // Reflects configuration changes in real time.
-    reflectImmediately(super.el, editor, entityGap, typeDefinition, textBox)
+    reflectImmediately(super.el, entityGap, typeDefinition, textBox)
 
     // Observe enter key press
     delegate(super.el, `.textae-editor__dialog`, 'keyup', (e) => {
