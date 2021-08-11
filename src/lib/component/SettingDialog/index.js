@@ -18,7 +18,7 @@ function template(context) {
     <label>Type Gap</label>
     <input 
       type="number" 
-      class="textae-editor__setting-dialog__type-gap type-gap" 
+      class="textae-editor__setting-dialog__type-gap-text" 
       step="1" 
       min="0" 
       max="5" 
