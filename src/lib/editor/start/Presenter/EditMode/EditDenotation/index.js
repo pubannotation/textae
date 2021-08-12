@@ -72,7 +72,7 @@ export default class EditDenotation extends Edit {
   }
 
   createSpan() {
-    this._mouseEventHandler.textBoxClicked({ stopPropagation() {} })
+    this._mouseEventHandler.textBoxClicked()
   }
 
   expandSpan() {

@@ -17,7 +17,7 @@ export default class MouseEventHandler {
     this._selectionModel.removeAll()
   }
 
-  textBoxClicked(event) {
+  textBoxClicked(event = { stopPropagation() {} }) {
     this._pallet.hide()
 
     const selection = window.getSelection()
