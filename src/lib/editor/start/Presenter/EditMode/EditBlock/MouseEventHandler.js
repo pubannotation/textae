@@ -17,7 +17,7 @@ export default class MouseEventHandler {
     this._selectionModel.removeAll()
   }
 
-  textBoxClicked(e) {
+  textBoxClicked() {
     const selection = window.getSelection()
 
     if (selection.type === 'Caret') {
@@ -27,7 +27,6 @@ export default class MouseEventHandler {
 
     if (selection.type === 'Range') {
       this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
-      e.stopPropagation()
     }
   }
 

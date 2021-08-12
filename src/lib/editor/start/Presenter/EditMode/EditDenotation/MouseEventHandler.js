@@ -17,14 +17,13 @@ export default class MouseEventHandler {
     this._selectionModel.removeAll()
   }
 
-  textBoxClicked(event = { stopPropagation() {} }) {
+  textBoxClicked() {
     this._pallet.hide()
 
     const selection = window.getSelection()
 
     if (selection.type === 'Range') {
       this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
-      event.stopPropagation()
     } else {
       this._selectionModel.removeAll()
     }

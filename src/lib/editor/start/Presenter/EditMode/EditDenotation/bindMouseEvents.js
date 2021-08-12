@@ -18,7 +18,7 @@ export default function (editor, mouseEventHandler) {
         e.target.classList.contains('textae-editor__text-box') &&
         !afterSpanMouseUpEventFlag
       ) {
-        mouseEventHandler.textBoxClicked(e)
+        mouseEventHandler.textBoxClicked()
       }
     })
   )
