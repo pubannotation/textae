@@ -125,30 +125,13 @@ export default class SpanEditor {
       hasCharacters(this._annotationData, this._spanConfig, selectionWrapper)
     ) {
       this._selectionModel.removeAll()
-      const { begin, end } = getNewSpan(
+      create(
         this._annotationData,
+        this._commander,
         this._buttonController.spanAdjuster,
         selectionWrapper,
         this._spanConfig
       )
-
-      // The span cross exists spans.
-      if (
-        this._annotationData.span.isBoundaryCrossingWithOtherSpans(begin, end)
-      ) {
-        return
-      }
-
-      if (this._annotationData.span.doesParentSpanExits(begin, end)) {
-        return
-      }
-
-      const command = this._commander.factory.createBlockSpanCommand({
-        begin,
-        end
-      })
-
-      this._commander.invoke(command)
     }
     clearTextSelection()
   }
@@ -194,4 +177,35 @@ export default class SpanEditor {
 
     clearTextSelection()
   }
+}
+
+function create(
+  annotationData,
+  commander,
+  spanAdjuster,
+  selectionWrapper,
+  spanConfig
+) {
+  const { begin, end } = getNewSpan(
+    annotationData,
+    spanAdjuster,
+    selectionWrapper,
+    spanConfig
+  )
+
+  // The span cross exists spans.
+  if (annotationData.span.isBoundaryCrossingWithOtherSpans(begin, end)) {
+    return
+  }
+
+  if (annotationData.span.doesParentSpanExits(begin, end)) {
+    return
+  }
+
+  const command = commander.factory.createBlockSpanCommand({
+    begin,
+    end
+  })
+
+  commander.invoke(command)
 }
