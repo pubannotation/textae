@@ -1,4 +1,5 @@
 import getNewSpan from '../getNewSpan'
+import validateNewBlockSpan from './validateNewBlockSpan'
 
 export default function (
   annotationData,
@@ -14,24 +15,12 @@ export default function (
     spanConfig
   )
 
-  // The span cross exists spans.
-  if (annotationData.span.isBoundaryCrossingWithOtherSpans(begin, end)) {
-    return
+  if (validateNewBlockSpan(annotationData, begin, end)) {
+    const command = commander.factory.createBlockSpanCommand({
+      begin,
+      end
+    })
+
+    commander.invoke(command)
   }
-
-  if (annotationData.span.doesParentOrSameSpanExist(begin, end)) {
-    return
-  }
-
-  // There is a BlockSpan that is a child.
-  if (annotationData.span.hasBlockSpanBetween(begin, end)) {
-    return
-  }
-
-  const command = commander.factory.createBlockSpanCommand({
-    begin,
-    end
-  })
-
-  commander.invoke(command)
 }
