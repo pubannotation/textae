@@ -1,3 +1,4 @@
+import alertifyjs from 'alertifyjs'
 import createCommand from './createCommand'
 import getNewSpan from '../../../getNewSpan'
 
@@ -19,6 +20,7 @@ export default function (
 
   // The span cross exists spans.
   if (annotationData.span.isBoundaryCrossingWithOtherSpans(begin, end)) {
+    alertifyjs.warning('A span cannot be modifyed to make a boundary crossing.')
     return
   }
 
