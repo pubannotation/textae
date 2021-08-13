@@ -1,3 +1,4 @@
+import alertifyjs from 'alertifyjs'
 import getIsDelimiterFunc from '../getIsDelimiterFunc'
 
 export default function (commander, buttonController, spanConfig, span) {
@@ -12,6 +13,8 @@ export default function (commander, buttonController, spanConfig, span) {
       )
     )
   } else {
-    alert('You can replicate span annotation when there is only span selected.')
+    alertifyjs.warning(
+      'You can replicate span annotation when there is only span selected.'
+    )
   }
 }
