@@ -36,7 +36,7 @@ export default class SpanModelContainer {
       return this._addDenotation(newValue)
     } else if (newValue.isBlock) {
       console.assert(
-        !this.doesParentSpanExits(newValue.begin, newValue.end),
+        !this.doesParentOrSameSpanExist(newValue.begin, newValue.end),
         `There are some parent spans of {begin: ${newValue.begin}, end: ${newValue.end}}.`
       )
 
@@ -238,7 +238,7 @@ export default class SpanModelContainer {
     return isBoundaryCrossingWithOtherSpans(this.all, begin, end)
   }
 
-  doesParentSpanExits(begin, end) {
+  doesParentOrSameSpanExist(begin, end) {
     const isParent = (span) => span.begin <= begin && end <= span.end
 
     return (

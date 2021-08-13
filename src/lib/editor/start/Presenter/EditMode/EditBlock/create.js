@@ -19,7 +19,7 @@ export default function (
     return
   }
 
-  if (annotationData.span.doesParentSpanExits(begin, end)) {
+  if (annotationData.span.doesParentOrSameSpanExist(begin, end)) {
     return
   }
 
