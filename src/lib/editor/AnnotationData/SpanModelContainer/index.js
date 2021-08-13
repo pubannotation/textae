@@ -239,7 +239,7 @@ export default class SpanModelContainer {
   }
 
   doesParentSpanExits(begin, end) {
-    const isParent = (span) => span.begin < begin && end < span.end
+    const isParent = (span) => span.begin <= begin && end <= span.end
 
     return (
       [...this._denotations.values()].some(isParent) ||
