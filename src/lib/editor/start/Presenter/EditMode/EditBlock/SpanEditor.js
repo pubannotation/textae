@@ -1,8 +1,8 @@
 import clearTextSelection from '../clearTextSelection'
 import hasCharacters from '../hasCharacters'
-import getNewSpan from '../getNewSpan'
 import expandSpan from '../expandSpan'
 import shrinkSpan from '../shrinkSpan'
+import create from './create'
 
 export default class SpanEditor {
   constructor(
@@ -177,35 +177,4 @@ export default class SpanEditor {
 
     clearTextSelection()
   }
-}
-
-function create(
-  annotationData,
-  commander,
-  spanAdjuster,
-  selectionWrapper,
-  spanConfig
-) {
-  const { begin, end } = getNewSpan(
-    annotationData,
-    spanAdjuster,
-    selectionWrapper,
-    spanConfig
-  )
-
-  // The span cross exists spans.
-  if (annotationData.span.isBoundaryCrossingWithOtherSpans(begin, end)) {
-    return
-  }
-
-  if (annotationData.span.doesParentSpanExits(begin, end)) {
-    return
-  }
-
-  const command = commander.factory.createBlockSpanCommand({
-    begin,
-    end
-  })
-
-  commander.invoke(command)
 }
