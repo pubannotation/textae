@@ -1,4 +1,4 @@
-import alertifyjs from 'alertifyjs'
+import validateNewSpan from './EditDenotation/SpanEditor/validateNewSpan'
 
 export default function (
   selectionModel,
@@ -20,16 +20,7 @@ export default function (
       spanConfig
     )
 
-  // The span cross exists spans.
-  if (annotationData.span.isBoundaryCrossingWithOtherSpans(begin, end)) {
-    alertifyjs.warning('A span cannot be expanded to make a boundary crossing.')
-    return
+  if (validateNewSpan(annotationData, begin, end)) {
+    okHandler(begin, end)
   }
-
-  // A span cannot be expanded a span to the same as an existing span.
-  if (annotationData.span.hasDenotationSpan(begin, end)) {
-    return
-  }
-
-  okHandler(begin, end)
 }
