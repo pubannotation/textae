@@ -1,4 +1,4 @@
-import clearTextSelectionAndAlert from './clearTextSelectionAndAlert'
+import alertifyjs from 'alertifyjs'
 
 export default function (
   selectionModel,
@@ -22,9 +22,7 @@ export default function (
 
   // The span cross exists spans.
   if (annotationData.span.isBoundaryCrossingWithOtherSpans(begin, end)) {
-    clearTextSelectionAndAlert(
-      'A span cannot be expanded to make a boundary crossing.'
-    )
+    alertifyjs.warning('A span cannot be expanded to make a boundary crossing.')
     return
   }
 

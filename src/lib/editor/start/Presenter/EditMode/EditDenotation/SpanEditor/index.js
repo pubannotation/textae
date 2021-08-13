@@ -1,3 +1,4 @@
+import alertifyjs from 'alertifyjs'
 import clearTextSelection from '../../clearTextSelection'
 import create from './create'
 import shrinkSpan from '../../shrinkSpan'
@@ -7,7 +8,6 @@ import getIsDelimiterFunc from '../../../getIsDelimiterFunc'
 import SelectionWrapper from '../../SelectionWrapper'
 import isPositionBetweenSpan from './isPositionBetweenSpan'
 import getRightSpanElement from '../../../../../getRightSpanElement'
-import clearTextSelectionAndAlert from '../../clearTextSelectionAndAlert'
 
 export default class SpanEditor {
   constructor(
@@ -136,7 +136,7 @@ export default class SpanEditor {
       if (
         this._annotationData.span.isBoundaryCrossingWithOtherSpans(begin, end)
       ) {
-        clearTextSelectionAndAlert(
+        alertifyjs.warning(
           'A span cannot be shrinked to make a boundary crossing.'
         )
         return
