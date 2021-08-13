@@ -49,6 +49,10 @@ export default class SpanModelContainer {
       )
       return this._addBlock(blockSpan)
     } else {
+      console.assert(
+        !this.hasDenotationSpan(newValue.begin, newValue.end),
+        'There is already a span.'
+      )
       const denotationSpan = new DenotationSpanModel(
         this._editor,
         newValue.begin,
