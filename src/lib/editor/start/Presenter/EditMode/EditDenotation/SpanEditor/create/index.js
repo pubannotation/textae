@@ -1,6 +1,6 @@
 import createCommand from './createCommand'
 import getNewSpan from '../../../getNewSpan'
-import validateNewSpan from '../validateNewSpan'
+import validateNewDennotationSpan from '../validateNewDennotationSpan'
 
 export default function (
   annotationData,
@@ -18,7 +18,7 @@ export default function (
     spanConfig
   )
 
-  if (validateNewSpan(annotationData, begin, end)) {
+  if (validateNewDennotationSpan(annotationData, begin, end)) {
     const command = createCommand(
       commander,
       { begin, end },

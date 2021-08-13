@@ -1,4 +1,4 @@
-import validateNewSpan from './EditDenotation/SpanEditor/validateNewSpan'
+import validateNewDennotationSpan from './EditDenotation/SpanEditor/validateNewDennotationSpan'
 
 export default function (
   selectionModel,
@@ -20,7 +20,7 @@ export default function (
       spanConfig
     )
 
-  if (validateNewSpan(annotationData, begin, end)) {
+  if (validateNewDennotationSpan(annotationData, begin, end)) {
     okHandler(begin, end)
   }
 }
