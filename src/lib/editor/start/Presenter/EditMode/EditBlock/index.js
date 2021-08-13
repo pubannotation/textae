@@ -64,9 +64,15 @@ export default class EditBlock extends Edit {
       getAutocompletionWs,
       annotationData.typeDefinition.block
     )
+
+    this._spanEdtior = spanEditor
   }
 
   createSpan() {
     this._mouseEventHandler.textBoxClicked()
+  }
+
+  expandSpan() {
+    this._spanEdtior.expandForTouchDevice()
   }
 }

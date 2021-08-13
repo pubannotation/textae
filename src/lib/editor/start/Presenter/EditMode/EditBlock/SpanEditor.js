@@ -3,6 +3,8 @@ import hasCharacters from '../hasCharacters'
 import expandSpan from '../expandSpan'
 import shrinkSpan from '../shrinkSpan'
 import create from './create'
+import SelectionWrapper from '../SelectionWrapper'
+import validateNewBlockSpan from './validateNewBlockSpan'
 
 export default class SpanEditor {
   constructor(
@@ -120,6 +122,19 @@ export default class SpanEditor {
     clearTextSelection()
   }
 
+  expandForTouchDevice() {
+    const expandedSpan = this._getExpandedSpanForTouchDevice()
+    if (expandedSpan) {
+      const { spanId, begin, end } = expandedSpan
+
+      if (validateNewBlockSpan(this._annotationData, begin, end, spanId)) {
+        this._commander.invoke(
+          this._commander.factory.moveBlockSpanCommand(spanId, begin, end)
+        )
+      }
+    }
+  }
+
   _create(selectionWrapper) {
     if (
       hasCharacters(this._annotationData, this._spanConfig, selectionWrapper)
@@ -176,5 +191,59 @@ export default class SpanEditor {
     )
 
     clearTextSelection()
+  }
+
+  _getExpandedSpanForTouchDevice() {
+    const selectionWrapper = new SelectionWrapper(this._annotationData.span)
+
+    // When there is no denotation span in ancestors of anchor node and focus node,
+    // a span to expand does not exist.
+    if (
+      selectionWrapper.ancestorBlockSpanOfAnchorNode == null &&
+      selectionWrapper.ancestorBlockSpanOfFocusNode == null
+    ) {
+      return null
+    }
+
+    // When you select text by mouse operation,
+    // the anchor node of the selected string is always inside the span to be extended,
+    // and the focus node is outside.
+    if (
+      selectionWrapper.parentOfFocusNode.contains(
+        selectionWrapper.parentOfAnchorNode
+      )
+    ) {
+      return {
+        spanId: selectionWrapper.parentOfAnchorNode.id,
+        ...this._annotationData.span
+          .get(selectionWrapper.parentOfAnchorNode.id)
+          .getExpandedInAnchorNodeToFocusNodeDirection(
+            this._buttonController.spanAdjuster,
+            selectionWrapper,
+            this._annotationData.sourceDoc,
+            this._spanConfig
+          )
+      }
+    }
+
+    // On touch devices, the focus node of the selected string may be inside the span to be extended,
+    // and the anchor node may be outside.
+    if (
+      selectionWrapper.parentOfAnchorNode.contains(
+        selectionWrapper.parentOfFocusNode
+      )
+    ) {
+      return {
+        spanId: selectionWrapper.parentOfFocusNode.id,
+        ...this._annotationData.span
+          .get(selectionWrapper.parentOfFocusNode.id)
+          .getExpandedInFocusNodeToAnchorNodeDirection(
+            this._buttonController.spanAdjuster,
+            selectionWrapper,
+            this._annotationData.sourceDoc,
+            this._spanConfig
+          )
+      }
+    }
   }
 }

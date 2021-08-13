@@ -79,9 +79,14 @@ export default class SpanModelContainer {
     return this._denotations.has(spanID)
   }
 
-  hasBlockSpanBetween(begin, end) {
+  hasBlockSpanBetween(begin, end, option = {}) {
     for (const blockSpan of this._blocks.values()) {
-      if (begin <= blockSpan.begin && blockSpan.end <= end) {
+      if (
+        begin <= blockSpan.begin &&
+        blockSpan.end <= end &&
+        option &&
+        blockSpan.id !== option.excluded
+      ) {
         return true
       }
     }
