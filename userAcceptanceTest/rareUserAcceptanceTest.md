@@ -1,5 +1,16 @@
 # 極めて稀にやるテスト
 
+## inline annotation を読み込んだときにコントロールが初期化されること
+
+1.  Editor5 を選択する
+2.  コントロールバーのアイコンが有効になる
+    1.  View Mode
+    2.  Term Edit Mode
+    3.  Relation Edit Mode
+    4.  Simple View
+    5.  Setting
+    6.  Adjust LineHeight
+
 ## Span を縮めて消した時に、次の Span を選択
 
 ### Boundary Detection 有効時
