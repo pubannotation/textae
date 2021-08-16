@@ -1,3 +1,4 @@
+import alertifyjs from 'alertifyjs'
 import clearTextSelection from '../clearTextSelection'
 import hasCharacters from '../hasCharacters'
 import expandSpan from '../expandSpan'
@@ -5,6 +6,7 @@ import shrinkSpan from '../shrinkSpan'
 import create from './create'
 import SelectionWrapper from '../SelectionWrapper'
 import validateNewBlockSpan from './validateNewBlockSpan'
+import getRightSpanElement from '../../../../getRightSpanElement'
 
 export default class SpanEditor {
   constructor(
@@ -135,6 +137,43 @@ export default class SpanEditor {
     }
   }
 
+  shrinkForTouchDevice() {
+    const shrinkedSpan = this._getShrinkedSpanForTouchDevice()
+    if (shrinkedSpan) {
+      const { spanId, begin, end } = shrinkedSpan
+      const nextSpan = getRightSpanElement(this._editor, spanId)
+
+      // The span cross exists spans.
+      if (
+        this._annotationData.span.isBoundaryCrossingWithOtherSpans(begin, end)
+      ) {
+        alertifyjs.warning(
+          'A span cannot be modifyed to make a boundary crossing.'
+        )
+        return
+      }
+
+      // There is parant span.
+      if (this._annotationData.span.hasParentOf(begin, end)) {
+        return
+      }
+
+      const doesExists = this._annotationData.span.hasBlockSpan(begin, end)
+      if (begin < end && !doesExists) {
+        this._commander.invoke(
+          this._commander.factory.moveBlockSpanCommand(spanId, begin, end)
+        )
+      } else {
+        this._commander.invoke(
+          this._commander.factory.removeSpanCommand(spanId)
+        )
+        if (nextSpan) {
+          this._selectionModel.selectSpan(nextSpan.id)
+        }
+      }
+    }
+  }
+
   _create(selectionWrapper) {
     if (
       hasCharacters(this._annotationData, this._spanConfig, selectionWrapper)
@@ -238,6 +277,60 @@ export default class SpanEditor {
         ...this._annotationData.span
           .get(selectionWrapper.parentOfFocusNode.id)
           .getExpandedInFocusNodeToAnchorNodeDirection(
+            this._buttonController.spanAdjuster,
+            selectionWrapper,
+            this._annotationData.sourceDoc,
+            this._spanConfig
+          )
+      }
+    }
+  }
+
+  _getShrinkedSpanForTouchDevice() {
+    const selectionWrapper = new SelectionWrapper(this._annotationData.span)
+
+    // When there is no denotation span in ancestors of anchor node and focus node,
+    // a span to shrink does not exist.
+    if (
+      selectionWrapper.ancestorBlockSpanOfAnchorNode == null &&
+      selectionWrapper.ancestorBlockSpanOfFocusNode == null
+    ) {
+      return null
+    }
+
+    // When you select text by mouse operation,
+    // the anchor node of the selected string is always inside the span to be extended,
+    // and the focus node is outside.
+    if (
+      selectionWrapper.parentOfFocusNode.contains(
+        selectionWrapper.parentOfAnchorNode
+      )
+    ) {
+      return {
+        spanId: selectionWrapper.parentOfAnchorNode.id,
+        ...this._annotationData.span
+          .get(selectionWrapper.parentOfAnchorNode.id)
+          .getShortenInFocusNodeToAnchorNodeDirection(
+            this._buttonController.spanAdjuster,
+            selectionWrapper,
+            this._annotationData.sourceDoc,
+            this._spanConfig
+          )
+      }
+    }
+
+    // On touch devices, the focus node of the selected string may be inside the span to be extended,
+    // and the anchor node may be outside.
+    if (
+      selectionWrapper.parentOfAnchorNode.contains(
+        selectionWrapper.parentOfFocusNode
+      )
+    ) {
+      return {
+        spanId: selectionWrapper.parentOfFocusNode.id,
+        ...this._annotationData.span
+          .get(selectionWrapper.parentOfFocusNode.id)
+          .getShotrenInAnchorNodeToFocusNodeDirection(
             this._buttonController.spanAdjuster,
             selectionWrapper,
             this._annotationData.sourceDoc,

@@ -75,4 +75,8 @@ export default class EditBlock extends Edit {
   expandSpan() {
     this._spanEdtior.expandForTouchDevice()
   }
+
+  shrinkSpan() {
+    this._spanEdtior.shrinkForTouchDevice()
+  }
 }

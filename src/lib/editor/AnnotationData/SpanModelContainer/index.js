@@ -79,6 +79,11 @@ export default class SpanModelContainer {
     return this._denotations.has(spanID)
   }
 
+  hasBlockSpan(begin, end) {
+    const spanID = makeBlockSpanHTMLElementID(this._editor, begin, end)
+    return this._blocks.has(spanID)
+  }
+
   hasBlockSpanBetween(begin, end, option = {}) {
     for (const blockSpan of this._blocks.values()) {
       if (
@@ -87,6 +92,16 @@ export default class SpanModelContainer {
         option &&
         blockSpan.id !== option.excluded
       ) {
+        return true
+      }
+    }
+
+    return false
+  }
+
+  hasParentOf(begin, end) {
+    for (const parent of this.all) {
+      if (parent.begin <= begin && end <= parent.end) {
         return true
       }
     }
