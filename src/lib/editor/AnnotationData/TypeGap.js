@@ -1,4 +1,4 @@
-export default class EntityGap {
+export default class TypeGap {
   constructor(callback) {
     // The typeGap is changed from the Setting dialog or
     // by changing mode showing or not showing instances.
