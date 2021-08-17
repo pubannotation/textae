@@ -50,10 +50,10 @@ function template(context) {
 }
 
 export default class SettingDialog extends Dialog {
-  constructor(typeDefinition, entityGap, textBox) {
+  constructor(typeDefinition, typeGap, textBox) {
     const contentHtml = template({
-      typeGapDisabled: !entityGap.show,
-      typeGap: entityGap.value,
+      typeGapDisabled: !typeGap.show,
+      typeGap: typeGap.value,
       lineHeight: textBox.lineHeight,
       typeDefinitionLocked: typeDefinition.isLock,
       version: packageJson.version
@@ -62,7 +62,7 @@ export default class SettingDialog extends Dialog {
     super('Setting', contentHtml, 'OK')
 
     // Reflects configuration changes in real time.
-    reflectImmediately(super.el, entityGap, typeDefinition, textBox)
+    reflectImmediately(super.el, typeGap, typeDefinition, textBox)
 
     // Observe enter key press
     delegate(super.el, `.textae-editor__dialog`, 'keyup', (e) => {
