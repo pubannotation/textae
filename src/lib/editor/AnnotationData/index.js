@@ -136,7 +136,7 @@ export default class AnnotationData {
     )
   }
 
-  get entityGap() {
+  get typeGap() {
     return this._typeGap
   }
 

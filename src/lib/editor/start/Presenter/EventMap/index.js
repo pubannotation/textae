@@ -86,7 +86,7 @@ export default class EventMap {
   showSettingDialog() {
     new SettingDialog(
       this._annotationData.typeDefinition,
-      this._annotationData.entityGap,
+      this._annotationData.typeGap,
       this._annotationData.textBox
     ).open()
   }

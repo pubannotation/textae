@@ -101,7 +101,7 @@ export default class StateMachine {
 
     const transition = new Transition(
       editor,
-      annotationData.entityGap,
+      annotationData.typeGap,
       noEdit,
       editEntity,
       editBlock,
