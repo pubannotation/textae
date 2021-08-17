@@ -6,7 +6,7 @@ import {
 import IdIssueContainer from './IdIssueContainer'
 
 export default class EntityModelContainer extends IdIssueContainer {
-  constructor(editor, emitter, parent, entityGap, namespace) {
+  constructor(editor, emitter, parent, typeGap, namespace) {
     super(emitter, 'entity', 'T')
 
     this._editor = editor
@@ -15,7 +15,7 @@ export default class EntityModelContainer extends IdIssueContainer {
     // the entity model retrieves other containers dynamically.
     this._parent = parent
 
-    this._entityGap = entityGap
+    this._entityGap = typeGap
     this._namespace = namespace
   }
 
