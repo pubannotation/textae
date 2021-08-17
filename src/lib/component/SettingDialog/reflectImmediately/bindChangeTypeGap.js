@@ -8,7 +8,9 @@ export default function (content, entityGap, textBox) {
     'change',
     debounce300((e) => {
       entityGap.value = Number(e.target.value)
-      content.querySelector('.line-height').value = textBox.lineHeight
+      content.querySelector(
+        '.textae-editor__setting-dialog__line-height-text'
+      ).value = textBox.lineHeight
     })
   )
 }
