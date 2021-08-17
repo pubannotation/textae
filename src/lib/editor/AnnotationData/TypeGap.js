@@ -8,8 +8,10 @@ export default class TypeGap {
   }
 
   set show(val) {
-    this._isGapShown = val
-    this._callback(this.value)
+    if (this._isGapShown !== val) {
+      this._isGapShown = val
+      this._callback(this.value)
+    }
   }
 
   get show() {
@@ -22,7 +24,9 @@ export default class TypeGap {
 
   // The typeGap be able to be changed when mode showing instances.
   set value(val) {
-    this._numberOfGap = val
-    this._callback(val)
+    if (this._numberOfGap !== val) {
+      this._numberOfGap = val
+      this._callback(val)
+    }
   }
 }
