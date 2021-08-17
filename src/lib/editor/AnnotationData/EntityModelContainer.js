@@ -15,7 +15,7 @@ export default class EntityModelContainer extends IdIssueContainer {
     // the entity model retrieves other containers dynamically.
     this._parent = parent
 
-    this._entityGap = typeGap
+    this._typeGap = typeGap
     this._namespace = namespace
   }
 
@@ -37,7 +37,7 @@ export default class EntityModelContainer extends IdIssueContainer {
       this._editor,
       this._attributeModelContainer,
       this._relationModelContainer,
-      this._entityGap,
+      this._typeGap,
       this._parent.typeDefinition,
       this._getSpan(type, denotation),
       denotation.obj,
@@ -61,7 +61,7 @@ export default class EntityModelContainer extends IdIssueContainer {
       this._editor,
       this._attributeModelContainer,
       this._relationModelContainer,
-      this._entityGap,
+      this._typeGap,
       this._parent.typeDefinition,
       this._spanModelContainer.get(newValue.span),
       newValue.typeName,
