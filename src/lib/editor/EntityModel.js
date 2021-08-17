@@ -203,7 +203,7 @@ export default class EntityModel {
     const element = this._renderElement()
     grid.insertAdjacentElement('beforeend', element)
 
-    this.reflectEntityGapInTheHeight()
+    this.reflectTypeGapInTheHeight()
   }
 
   erase() {
@@ -225,14 +225,14 @@ export default class EntityModel {
       this._selectElement()
     }
 
-    this.reflectEntityGapInTheHeight()
+    this.reflectTypeGapInTheHeight()
   }
 
   destroyElement() {
     this._element.remove()
   }
 
-  reflectEntityGapInTheHeight() {
+  reflectTypeGapInTheHeight() {
     if (this.isDenotation) {
       const entityElement = this._element
       if (entityElement) {

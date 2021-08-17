@@ -37,7 +37,7 @@ export default class AnnotationData {
     )
     this._entityGap = new EntityGap(() => {
       for (const entity of this.entity.denotations) {
-        entity.reflectEntityGapInTheHeight()
+        entity.reflectTypeGapInTheHeight()
       }
       this._textBox.updateLineHeight()
       this._editor.eventEmitter.emit(
