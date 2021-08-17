@@ -27,7 +27,7 @@ export default class EntityModel {
     this._id = id
     this._attributeContainer = attributeContainer
     this._relationContaier = relationContaier
-    this._entityGap = typeGap
+    this._typeGap = typeGap
     this._typeDefinition = typeDefinition
     this._namespace = namespace
   }
@@ -238,7 +238,7 @@ export default class EntityModel {
       if (entityElement) {
         entityElement.setAttribute(
           'style',
-          `padding-top: ${typeGapUnitHeight * this._entityGap.value}px;`
+          `padding-top: ${typeGapUnitHeight * this._typeGap.value}px;`
         )
       }
     }
