@@ -35,7 +35,7 @@ export default class AnnotationData {
       this.namespace,
       relationDefinitionContainer
     )
-    this._entityGap = new TypeGap(() => {
+    this._typeGap = new TypeGap(() => {
       for (const entity of this.entity.denotations) {
         entity.reflectTypeGapInTheHeight()
       }
@@ -49,7 +49,7 @@ export default class AnnotationData {
       editor,
       editor.eventEmitter,
       this,
-      this._entityGap,
+      this._typeGap,
       this.namespace
     )
 
@@ -71,7 +71,7 @@ export default class AnnotationData {
       editor.eventEmitter,
       this.entity,
       this._textBox,
-      this._entityGap
+      this._typeGap
     )
     this._editor = editor
 
@@ -137,7 +137,7 @@ export default class AnnotationData {
   }
 
   get entityGap() {
-    return this._entityGap
+    return this._typeGap
   }
 
   get textBox() {
