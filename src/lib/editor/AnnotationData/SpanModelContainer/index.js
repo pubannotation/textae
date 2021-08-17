@@ -12,12 +12,12 @@ import rangeFrom from './rangeFrom'
 import getCurrentMaxHeight from './getCurrentMaxHeight'
 
 export default class SpanModelContainer {
-  constructor(editor, emitter, entityContainer, textBox, entityGap) {
+  constructor(editor, emitter, entityContainer, textBox, typeGap) {
     this._editor = editor
     this._emitter = emitter
     this._entityContainer = entityContainer
     this._textBox = textBox
-    this.typeGap = entityGap
+    this.typeGap = typeGap
 
     this._denotations = new Map()
     this._blocks = new Map()
