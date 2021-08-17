@@ -17,7 +17,7 @@ export default class SpanModelContainer {
     this._emitter = emitter
     this._entityContainer = entityContainer
     this._textBox = textBox
-    this._entityGap = entityGap
+    this.typeGap = entityGap
 
     this._denotations = new Map()
     this._blocks = new Map()
@@ -377,7 +377,7 @@ export default class SpanModelContainer {
     ])
 
     if (spans.length) {
-      return getCurrentMaxHeight(spans, this._entityGap.value)
+      return getCurrentMaxHeight(spans, this.typeGap.value)
     } else {
       return null
     }

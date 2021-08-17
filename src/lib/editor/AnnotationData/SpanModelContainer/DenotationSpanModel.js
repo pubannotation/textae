@@ -110,7 +110,7 @@ export default class DenotationSpanModel extends SpanModel {
         top -
           getHeightIncludeDescendantGrids(
             this,
-            this._spanModelContainer._entityGap.value
+            this._spanModelContainer.typeGap.value
           )
       ),
       left: round(left)
