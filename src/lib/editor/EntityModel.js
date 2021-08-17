@@ -14,7 +14,7 @@ export default class EntityModel {
     editor,
     attributeContainer,
     relationContaier,
-    entityGap,
+    typeGap,
     typeDefinition,
     span,
     typeName,
@@ -27,7 +27,7 @@ export default class EntityModel {
     this._id = id
     this._attributeContainer = attributeContainer
     this._relationContaier = relationContaier
-    this._entityGap = entityGap
+    this._entityGap = typeGap
     this._typeDefinition = typeDefinition
     this._namespace = namespace
   }
