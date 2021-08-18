@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.21.0](https://github.com/pubannotation/textae/compare/v7.20.0...v7.21.0) (2021-08-18)
+
+
+### Features
+
+* Deselects the currently selected text when a BlockSpan cannot be created ([71ba99b](https://github.com/pubannotation/textae/commit/71ba99b3c399562ae0fb52602706a448b72ec4c6))
+* Don't reset the row height when changing modes ([f30876b](https://github.com/pubannotation/textae/commit/f30876b33cc53c6b9b899fa8100cbe4d4344b172))
+* Expand Block spans ([fcb7be2](https://github.com/pubannotation/textae/commit/fcb7be2ca1c9e59571037482e8228e1470cec240))
+* Prohibit expanding DenotationSpan to make it a parent of BlockSpan ([e789849](https://github.com/pubannotation/textae/commit/e7898491e92718ab383a899efd9ae08289671e92))
+* Show alert message when creating a boundary crossing span is failed ([e024d7e](https://github.com/pubannotation/textae/commit/e024d7ef5fb6eb4341e3b3edfa59d4c3b64fc949))
+* Show alert message when creating a boundary crossing span is failed ([31cad86](https://github.com/pubannotation/textae/commit/31cad867b535f36a3133ab25a803b203fbedec36))
+* Show message by alertify instead of the window.alert ([47bdac2](https://github.com/pubannotation/textae/commit/47bdac29e97a72d3871aff4416beb72cc66f8aa0))
+* Show message by alertify instead of the window.alert ([cb5bddb](https://github.com/pubannotation/textae/commit/cb5bddbe7223b02a63ad596f51ddaf36dcd828a7))
+* Shrink Block spans ([4233959](https://github.com/pubannotation/textae/commit/4233959326bab4f417953a615f5119cc95016d07))
+
+
+### Bug Fixes
+
+* BlockSpan's parent BlockSpan can be created ([28df43f](https://github.com/pubannotation/textae/commit/28df43f5dc327d0f9ea249a748e5f1710c371c0b))
+* Button style in the Edit Type Values dialog ([7fd551e](https://github.com/pubannotation/textae/commit/7fd551e251c6d50906d5c98a4535b5d8af4f0384))
+* Changing the Type Gap causes an error ([046a543](https://github.com/pubannotation/textae/commit/046a5434472313ea44e6dc4189a5cc1e8297308c))
+* Error occurs when replicating Span with attributes ([7100c8f](https://github.com/pubannotation/textae/commit/7100c8fe89da6819b9e4c4be59f9920ddcc2cc14))
+* Layout of the object input in the Edit Numeric Attribute dialog ([582a26e](https://github.com/pubannotation/textae/commit/582a26e6bc17d19acedf5ca13162d4867e91ab2f))
+* The Reset Hidden Message Boxes is not used already ([1a1e04b](https://github.com/pubannotation/textae/commit/1a1e04b57359871d2134c379cf4c0ad206cb8eca))
+* When each of them share an end, a BlockSpan can be created for the children of the DenotationSpan ([61163bf](https://github.com/pubannotation/textae/commit/61163bff902db87830dc068c33a2cb2e9eae108b))
+* When you mouse-leave from a label in a relation, that label will be displayed in the forefront ([550d9ca](https://github.com/pubannotation/textae/commit/550d9ca1c0846e9b32c0a800c6c294850ce9ed68))
+
 ## [7.20.0](https://github.com/pubannotation/textae/compare/v7.19.0...v7.20.0) (2021-08-11)
 
 

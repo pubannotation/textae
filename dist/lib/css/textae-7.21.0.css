@@ -3006,6 +3006,27 @@ ul.jsondiffpatch-textdiff {
   border-bottom-style: solid;
   border-width: 1px;
 }
+.textae-editor__edit-type-values-dialog__table tr:nth-child(even) button {
+  background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  color: #1c94c4;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: bold;
+  line-height: normal;
+  overflow: visible;
+  padding: 0.4em 1em;
+  position: relative;
+  vertical-align: middle;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+}
+.textae-editor__edit-type-values-dialog__table tr:nth-child(even) button:disabled {
+  background-color: #ccc;
+  color: #999;
+}
 .textae-editor__edit-type-values-dialog__table td {
   border-top-style: dashed;
   border-right-style: solid;
@@ -3091,6 +3112,27 @@ ul.jsondiffpatch-textdiff {
   line-height: 2.3em;
   max-height: 4.7em;
   overflow-y: auto;
+}
+.textae-editor__edit-type-values-dialog__add-attribute-buttons button {
+  background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  color: #1c94c4;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: bold;
+  line-height: normal;
+  overflow: visible;
+  padding: 0.4em 1em;
+  position: relative;
+  vertical-align: middle;
+  text-align: center;
+  text-decoration: none;
+  user-select: none;
+}
+.textae-editor__edit-type-values-dialog__add-attribute-buttons button:disabled {
+  background-color: #ccc;
+  color: #999;
 }
 .textae-editor__edit-string-attribute-dialog__container {
   display: flex;
@@ -3295,9 +3337,6 @@ ul.jsondiffpatch-textdiff {
 .textae-editor__setting-dialog__row a:disabled {
   background-color: #ccc;
   color: #999;
-}
-.textae-editor__setting-dialog__type-gap[disabled='disabled'] {
-  background-color: #999;
 }
 .textae-editor__type-definition-dialog__container {
   display: flex;
