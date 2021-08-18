@@ -57,13 +57,13 @@ export default class AttributeModel {
     this.subjectModel.updateElement()
   }
 
-  clarifyLabel(parentElement) {
+  clarifyLabelIn(parentElement) {
     parentElement.querySelector(
       `[data-pred="${this.pred}"][data-obj="${this.obj}"] .textae-editor__signboard__attribute-label`
     ).style.backgroundColor = hexToRGBA(this._color, 1)
   }
 
-  declarifyLabel(parentElement) {
+  declarifyLabelIn(parentElement) {
     parentElement.querySelector(
       `[data-pred="${this.pred}"][data-obj="${this.obj}"] .textae-editor__signboard__attribute-label`
     ).style.backgroundColor = getLabelBackgroundColor()

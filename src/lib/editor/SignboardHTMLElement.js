@@ -18,7 +18,7 @@ export default class SignboardHTMLElement {
     ).style.backgroundColor = hexToRGBA(this._model.color, 1)
 
     for (const a of this._model.attributes) {
-      a.clarifyLabel(this.element)
+      a.clarifyLabelIn(this.element)
     }
   }
 
@@ -28,7 +28,7 @@ export default class SignboardHTMLElement {
     ).style.backgroundColor = getLabelBackgroundColor()
 
     for (const a of this._model.attributes) {
-      a.declarifyLabel(this.element)
+      a.declarifyLabelIn(this.element)
     }
   }
 
