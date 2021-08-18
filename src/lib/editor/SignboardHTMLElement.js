@@ -37,5 +37,26 @@ export default class SignboardHTMLElement {
     }
 
     this.element = element
+    this._model = model
+  }
+
+  clarifyLabel() {
+    this.element.querySelector(
+      '.textae-editor__signboard__type-label'
+    ).style.backgroundColor = hexToRGBA(this._model.color, 1)
+
+    for (const a of this._model.attributes) {
+      a.clarifyLabel(this.element)
+    }
+  }
+
+  declarifyLabel() {
+    this.element.querySelector(
+      '.textae-editor__signboard__type-label'
+    ).style.backgroundColor = getLabelBackgroundColor()
+
+    for (const a of this._model.attributes) {
+      a.declarifyLabel(this.element)
+    }
   }
 }

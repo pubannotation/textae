@@ -245,16 +245,23 @@ export default class EntityModel {
   }
 
   _renderElement() {
-    const { element } = new SignboardHTMLElement(
+    const s = new SignboardHTMLElement(
       this,
       this.isDenotation ? 'denotation' : 'block',
       null,
       this._entityHTMLElementID
     )
+    const { element } = s
 
     // Highlight retaitons when related entity is hoverd.
-    element.addEventListener('mouseenter', () => this._pointUpRelations())
-    element.addEventListener('mouseleave', () => this._pointDownRelations())
+    element.addEventListener('mouseenter', () => {
+      s.clarifyLabel()
+      this._pointUpRelations()
+    })
+    element.addEventListener('mouseleave', () => {
+      s.declarifyLabel()
+      this._pointDownRelations()
+    })
 
     return element
   }
