@@ -1,5 +1,6 @@
 const DistanceToShift = 8
-const MinimumDistance = DistanceToShift * 3
+// Leave a gap half the width of the triangle so that the triangle does not intersect the vertical line.
+const MinimumDistance = DistanceToShift * 3 + 4
 
 export default function (
   sourceEntity,
