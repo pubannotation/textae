@@ -6,13 +6,6 @@ export default class SignboardHTMLElement {
   constructor(model, entityType, cssClass, HTMLId) {
     this._model = model
     this._element = dohtml.create(this._getHtml(cssClass, HTMLId, entityType))
-
-    const typeValues = this._element.querySelector(
-      '.textae-editor__signboard__type-values'
-    )
-    for (const { HTMLElement } of model.attributes) {
-      typeValues.append(HTMLElement)
-    }
   }
 
   get element() {
@@ -60,6 +53,7 @@ export default class SignboardHTMLElement {
         >
         ${this._model.anchorHTML}
       </div>
+      ${this._model.attributes.map((a) => a.contentHTML).join('')}
     </div>
   </div>
   `

@@ -1,4 +1,3 @@
-import dohtml from 'dohtml'
 import getDisplayName from '../../getDisplayName'
 import getLabelBackgroundColor from '../../getLabelBackgroundColor'
 import getUri from '../../getUri'
@@ -43,10 +42,6 @@ export default class AttributeModel {
     )
   }
 
-  get HTMLElement() {
-    return dohtml.create(this._contentHTML)
-  }
-
   equalsTo(pred, obj) {
     // If the attribute is a numeric type,
     // then the type of obj is numeric.
@@ -74,7 +69,7 @@ export default class AttributeModel {
     ).style.backgroundColor = getLabelBackgroundColor()
   }
 
-  get _contentHTML() {
+  get contentHTML() {
     return `
       <div
         class="textae-editor__signboard__attribute"
