@@ -1,5 +1,6 @@
 import dohtml from 'dohtml'
 import getDisplayName from '../../getDisplayName'
+import getLabelBackgroundColor from '../../getLabelBackgroundColor'
 import getUri from '../../getUri'
 import hexToRGBA from '../../hexToRGBA'
 import toAnchorElement from '../../toAnchorElement'
@@ -72,7 +73,7 @@ export default class AttributeModel {
         >
         <span
           class="textae-editor__signboard__attribute-label"
-          ${`style="background-color: ${hexToRGBA('#FFFFFF', 0.6)};"`}
+          ${`style="background-color: ${getLabelBackgroundColor()};"`}
           >
           ${toAnchorElement(this._displayName, this._href)}
         </span>

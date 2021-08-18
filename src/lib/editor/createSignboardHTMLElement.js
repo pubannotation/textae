@@ -1,4 +1,5 @@
 import dohtml from 'dohtml'
+import getLabelBackgroundColor from './getLabelBackgroundColor'
 import hexToRGBA from './hexToRGBA'
 
 export default function (model, entityType, cssClass, HTMLId) {
@@ -18,7 +19,7 @@ export default function (model, entityType, cssClass, HTMLId) {
     <div
       class="textae-editor__signboard__type-label"
       tabindex="0"
-      style="background-color: ${hexToRGBA('#FFFFFF', 0.6)};"
+      style="background-color: ${getLabelBackgroundColor()};"
       >
       ${model.anchorHTML}
     </div>
