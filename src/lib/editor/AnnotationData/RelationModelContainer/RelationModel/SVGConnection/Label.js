@@ -1,4 +1,4 @@
-import createSignboardHTMLElement from '../../../../createSignboardHTMLElement'
+import SignboardHTMLElement from '../../../../SignboardHTMLElement'
 
 export default class Label {
   constructor(
@@ -18,7 +18,7 @@ export default class Label {
     const location = document.createElement('div')
     this._updatePosition(location, x, y, width, relation)
 
-    const signboard = createSignboardHTMLElement(
+    const signboard = new SignboardHTMLElement(
       relation,
       'relation',
       isSelected
@@ -40,7 +40,7 @@ export default class Label {
   redraw(x, y, width, relation, isSelected, isHovered) {
     this._updatePosition(this._location, x, y, width, relation)
     this._location.replaceChild(
-      createSignboardHTMLElement(
+      new SignboardHTMLElement(
         relation,
         'relation',
         isSelected

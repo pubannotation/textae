@@ -1,5 +1,5 @@
 import TypeValues from './TypeValues'
-import createSignboardHTMLElement from './createSignboardHTMLElement'
+import SignboardHTMLElement from './SignboardHTMLElement'
 import typeGapUnitHeight from './typeGapUnitHeight'
 import getDisplayName from './getDisplayName'
 import getUri from './getUri'
@@ -245,7 +245,7 @@ export default class EntityModel {
   }
 
   _renderElement() {
-    const element = createSignboardHTMLElement(
+    const element = new SignboardHTMLElement(
       this,
       this.isDenotation ? 'denotation' : 'block',
       null,
