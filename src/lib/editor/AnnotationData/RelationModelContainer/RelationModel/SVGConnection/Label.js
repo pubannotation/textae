@@ -18,7 +18,7 @@ export default class Label {
     const location = document.createElement('div')
     this._updatePosition(location, x, y, width, relation)
 
-    const signboard = new SignboardHTMLElement(
+    const { element } = new SignboardHTMLElement(
       relation,
       'relation',
       isSelected
@@ -28,7 +28,7 @@ export default class Label {
         : null,
       null
     )
-    location.appendChild(signboard)
+    location.appendChild(element)
     container.appendChild(location)
 
     location.addEventListener('click', onClick)
@@ -49,7 +49,7 @@ export default class Label {
           ? 'textae-editor__signboard--hovered'
           : null,
         null
-      ),
+      ).element,
       this._location.firstChild
     )
   }

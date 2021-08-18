@@ -36,6 +36,6 @@ export default class SignboardHTMLElement {
       typeValues.append(HTMLElement)
     }
 
-    return element
+    this.element = element
   }
 }

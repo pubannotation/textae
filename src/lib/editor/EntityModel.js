@@ -245,7 +245,7 @@ export default class EntityModel {
   }
 
   _renderElement() {
-    const element = new SignboardHTMLElement(
+    const { element } = new SignboardHTMLElement(
       this,
       this.isDenotation ? 'denotation' : 'block',
       null,
