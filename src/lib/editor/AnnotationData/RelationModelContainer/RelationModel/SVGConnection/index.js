@@ -38,9 +38,9 @@ export default class SVGConnection {
         isSelected || true,
         isSelected || true
       )
-      this._redrawLabel(isSelected)
 
       this._isHovered = true
+      this._redrawLabel(isSelected)
     }
   }
 
@@ -95,9 +95,9 @@ export default class SVGConnection {
       isSelected || false,
       isSelected || false
     )
-    this._redrawLabel(isSelected)
 
     this._isHovered = false
+    this._redrawLabel(isSelected)
   }
 
   redraw(isSelected) {
