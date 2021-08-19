@@ -1,18 +1,13 @@
-file = File.open(__FILE__).to_a
+script = File.read(__FILE__).split("__END__\n").first
+value = DATA.gets
 
-data = DATA.to_a
-data << data.shift
-warn data.last
+puts value
 
-File.open(__FILE__, 'w') do |f|
-  file.each do
-    break if _1 == "__END__\n"
-    f.write _1
-  end
-  f.write "__END__\n"
-  data.each do
-    f.write _1
-  end
+File.open(__FILE__, 'w') do 
+  _1.write script
+  _1.write "__END__\n"
+  _1.write DATA.read
+  _1.write value
 end
 
 __END__
