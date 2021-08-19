@@ -37,11 +37,7 @@ export default class SVGConnection {
 
   pointUpPath(isSelected) {
     if (!this._isHovered) {
-      this._arrow.update(
-        isSelected || true,
-        isSelected || true,
-        isSelected || true
-      )
+      this._arrow.update(true, true, true)
 
       this._isHovered = true
       this._redrawLabel(isSelected)
@@ -49,47 +45,27 @@ export default class SVGConnection {
   }
 
   pointUpPathAndSourceBollards(isSelected) {
-    this._arrow.update(
-      isSelected || true,
-      isSelected || true,
-      isSelected || false
-    )
+    this._arrow.update(true, true, isSelected || false)
     this._redrawLabel(isSelected)
   }
 
   pointUpPathAndTargetBollards(isSelected) {
-    this._arrow.update(
-      isSelected || true,
-      isSelected || false,
-      isSelected || true
-    )
+    this._arrow.update(true, isSelected || false, true)
     this._redrawLabel(isSelected)
   }
 
   pointUpSourceBollards(isSelected) {
-    this._arrow.update(
-      isSelected || false,
-      isSelected || true,
-      isSelected || false
-    )
+    this._arrow.update(isSelected || false, true, isSelected || false)
     this._redrawLabel(isSelected)
   }
 
   pointUpTargetBollards(isSelected) {
-    this._arrow.update(
-      isSelected || false,
-      isSelected || false,
-      isSelected || true
-    )
+    this._arrow.update(isSelected || false, isSelected || false, true)
     this._redrawLabel(isSelected)
   }
 
   pointUpSourceBollardsAndTargetBollards(isSelected) {
-    this._arrow.update(
-      isSelected || false,
-      isSelected || true,
-      isSelected || true
-    )
+    this._arrow.update(isSelected || false, true, true)
     this._redrawLabel(isSelected)
   }
 
