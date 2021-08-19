@@ -12,6 +12,12 @@ export default class SignboardHTMLElement {
     return this._element
   }
 
+  updateCSSClass(className) {
+    this.element.className = ''
+    this.element.classList.add('textae-editor__signboard')
+    this.element.classList.add(className)
+  }
+
   clarifyLabel() {
     this.element.querySelector(
       '.textae-editor__signboard__type-label'
