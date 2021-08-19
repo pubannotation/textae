@@ -44,7 +44,7 @@ export default class EditRelationHandler extends DefaultHandler {
 
   relationClicked(event, relation) {
     if (event.ctrlKey || event.metaKey) {
-      this._selectionModel.relation.add(relation.id)
+      this._selectionModel.relation.toggle(relation.id)
     } else {
       this._selectionModel.selectRelation(relation.id)
     }
