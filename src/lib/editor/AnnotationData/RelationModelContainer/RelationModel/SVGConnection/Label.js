@@ -18,7 +18,7 @@ export default class Label {
     const location = document.createElement('div')
     this._updatePosition(location, x, y, width, relation)
 
-    const { element } = new SignboardHTMLElement(
+    this._signboard = new SignboardHTMLElement(
       relation,
       'relation',
       isSelected
@@ -28,7 +28,7 @@ export default class Label {
         : null,
       null
     )
-    location.appendChild(element)
+    location.appendChild(this._signboard.element)
     container.appendChild(location)
 
     location.addEventListener('click', onClick)
@@ -39,18 +39,12 @@ export default class Label {
 
   redraw(x, y, width, relation, isSelected, isHovered) {
     this._updatePosition(this._location, x, y, width, relation)
-    this._location.replaceChild(
-      new SignboardHTMLElement(
-        relation,
-        'relation',
-        isSelected
-          ? 'textae-editor__signboard--selected'
-          : isHovered
-          ? 'textae-editor__signboard--hovered'
-          : null,
-        null
-      ).element,
-      this._location.firstChild
+    this._signboard.updateCSSClass(
+      isSelected
+        ? 'textae-editor__signboard--selected'
+        : isHovered
+        ? 'textae-editor__signboard--hovered'
+        : null
     )
   }
 
