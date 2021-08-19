@@ -23,6 +23,10 @@ export default class SVGConnection {
     this._annotationBox = getAnnotationBox(editor)
     this._createArrow()
     this._createLabel(false, false)
+
+    // When you click on a relation to deselect it, the display of the relation will be in hover.
+    // When you click on the body and deselect the relation, the display of the relation becomes non-hover.
+    // To make this distinction, the hover state is retained.
     this._isHovered = false
   }
 
