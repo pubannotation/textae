@@ -96,7 +96,7 @@ export default class RelationModel {
   }
 
   pointUpPathAndTargetBollards() {
-    this._connect.pointUpPathAndTargetBollards(this.isSelected)
+    this._connect.pointUpPathAndTargetBollards()
   }
 
   pointUpSourceBollards() {
