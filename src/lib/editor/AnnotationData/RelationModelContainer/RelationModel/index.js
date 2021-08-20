@@ -22,7 +22,7 @@ export default class RelationModel {
     this._obj = obj
     this._namespace = namespace
     this._definitionContainer = definitionContainer
-    this._isSelected = false
+    this.isSelected = false
   }
 
   get id() {
@@ -78,41 +78,41 @@ export default class RelationModel {
   }
 
   select() {
-    if (!this._isSelected) {
-      this._isSelected = true
+    if (!this.isSelected) {
+      this.isSelected = true
       this.updateElement()
     }
   }
 
   deselect() {
-    if (this._isSelected) {
-      this._isSelected = false
+    if (this.isSelected) {
+      this.isSelected = false
       this.updateElement()
     }
   }
 
   pointUpPathAndSourceBollards() {
-    this._connect.pointUpPathAndSourceBollards(this._isSelected)
+    this._connect.pointUpPathAndSourceBollards(this.isSelected)
   }
 
   pointUpPathAndTargetBollards() {
-    this._connect.pointUpPathAndTargetBollards(this._isSelected)
+    this._connect.pointUpPathAndTargetBollards(this.isSelected)
   }
 
   pointUpSourceBollards() {
-    this._connect.pointUpSourceBollards(this._isSelected)
+    this._connect.pointUpSourceBollards(this.isSelected)
   }
 
   pointUpTargetBollards() {
-    this._connect.pointUpTargetBollards(this._isSelected)
+    this._connect.pointUpTargetBollards(this.isSelected)
   }
 
   pointUpSourceBollardsAndTargetBollards() {
-    this._connect.pointUpSourceBollardsAndTargetBollards(this._isSelected)
+    this._connect.pointUpSourceBollardsAndTargetBollards(this.isSelected)
   }
 
   pointDown() {
-    this._connect.pointDownPath(this._isSelected)
+    this._connect.pointDownPath(this.isSelected)
   }
 
   render() {
@@ -138,7 +138,7 @@ export default class RelationModel {
   }
 
   updateElement() {
-    this._connect.redraw(this._isSelected)
+    this._connect.redraw(this.isSelected)
   }
 
   erase() {
@@ -175,7 +175,7 @@ export default class RelationModel {
   }
 
   _pointUpSelfAndEntities() {
-    this._connect.pointUpPath(this._isSelected)
+    this._connect.pointUpPath(this.isSelected)
 
     const bothRelations = new Set()
     const sourceRelations = new Set()
