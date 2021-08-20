@@ -39,39 +39,39 @@ export default class SVGConnection {
     this._arrow.update(true, true, true)
 
     this._isHovered = true
-    this._redrawLabel(isSelected)
+    this._redrawLabel(isSelected, this._isHovered)
   }
 
   pointUpPathAndSourceBollards(isSelected) {
     this._arrow.update(true, true, isSelected)
-    this._redrawLabel(isSelected)
+    this._redrawLabel(isSelected, this._isHovered)
   }
 
   pointUpPathAndTargetBollards(isSelected) {
     this._arrow.update(true, isSelected, true)
-    this._redrawLabel(isSelected)
+    this._redrawLabel(isSelected, this._isHovered)
   }
 
   pointUpSourceBollards(isSelected) {
     this._arrow.update(isSelected, true, isSelected)
-    this._redrawLabel(isSelected)
+    this._redrawLabel(isSelected, this._isHovered)
   }
 
   pointUpTargetBollards(isSelected) {
     this._arrow.update(isSelected, isSelected, true)
-    this._redrawLabel(isSelected)
+    this._redrawLabel(isSelected, this._isHovered)
   }
 
   pointUpSourceBollardsAndTargetBollards(isSelected) {
     this._arrow.update(isSelected, true, true)
-    this._redrawLabel(isSelected)
+    this._redrawLabel(isSelected, this._isHovered)
   }
 
   pointDownPath(isSelected) {
     this._arrow.update(isSelected, isSelected, isSelected)
 
     this._isHovered = false
-    this._redrawLabel(isSelected)
+    this._redrawLabel(isSelected, this._isHovered)
   }
 
   redraw(isSelected) {
@@ -80,7 +80,7 @@ export default class SVGConnection {
       isSelected || this._isHovered,
       isSelected || this._isHovered
     )
-    this._redrawLabel(isSelected)
+    this._redrawLabel(isSelected, this._isHovered)
   }
 
   // Private APIs
@@ -110,14 +110,14 @@ export default class SVGConnection {
     )
   }
 
-  _redrawLabel(isSelected) {
+  _redrawLabel(isSelected, isHovered) {
     this._label.redraw(
       this._arrow.left,
       this._arrow.top,
       this._arrow.width,
       this._relation,
       isSelected,
-      this._isHovered
+      isHovered
     )
   }
 }
