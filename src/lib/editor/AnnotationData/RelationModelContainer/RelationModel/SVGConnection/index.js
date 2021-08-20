@@ -97,7 +97,7 @@ export default class SVGConnection {
     )
   }
 
-  redraw() {
+  updateValue() {
     this._arrow.update(
       this._relation.isSelected || this._isHovered,
       this._relation.isSelected || this._isHovered,
