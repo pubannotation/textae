@@ -48,7 +48,7 @@ export default class Label {
     )
   }
 
-  redraw(x, y, width, relation) {
+  updateValue(x, y, width, relation) {
     this._updatePosition(this._location, x, y, width, relation)
     this._signboard.updateLabel()
   }

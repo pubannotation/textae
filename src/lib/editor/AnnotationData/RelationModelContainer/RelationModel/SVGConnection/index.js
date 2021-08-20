@@ -89,7 +89,7 @@ export default class SVGConnection {
       this._relation.isSelected || this._isHovered
     )
 
-    this._label.redraw(
+    this._label.updateValue(
       this._arrow.left,
       this._arrow.top,
       this._arrow.width,
