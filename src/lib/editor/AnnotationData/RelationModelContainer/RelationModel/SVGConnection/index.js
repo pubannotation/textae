@@ -66,8 +66,8 @@ export default class SVGConnection {
     this._redrawLabel(this._isHovered)
   }
 
-  pointUpSourceBollardsAndTargetBollards(isSelected) {
-    this._arrow.update(isSelected, true, true)
+  pointUpSourceBollardsAndTargetBollards() {
+    this._arrow.update(this._relation.isSelected, true, true)
     this._redrawLabel(this._isHovered)
   }
 
