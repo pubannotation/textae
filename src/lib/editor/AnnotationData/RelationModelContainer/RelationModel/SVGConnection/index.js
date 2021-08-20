@@ -116,7 +116,6 @@ export default class SVGConnection {
       this._arrow.top,
       this._arrow.width,
       this._relation,
-      isSelected,
       isHovered
     )
   }

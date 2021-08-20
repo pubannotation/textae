@@ -37,7 +37,7 @@ export default class Label {
     this._location = location
   }
 
-  redraw(x, y, width, relation, isSelected, isHovered) {
+  redraw(x, y, width, relation, isHovered) {
     this._updatePosition(this._location, x, y, width, relation)
     this._signboard.updateCSSClass(
       relation.isSelected
