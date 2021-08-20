@@ -18,6 +18,26 @@ export default class SignboardHTMLElement {
     this.element.classList.add(className)
   }
 
+  updateLabel() {
+    const typeValues = this.element.querySelector(
+      '.textae-editor__signboard__type-values'
+    )
+    typeValues.style.backgroundColor = hexToRGBA(this._model.color, 0.4)
+    typeValues.querySelector(
+      '.textae-editor__signboard__type-label'
+    ).innerHTML = this._model.anchorHTML
+
+    // Re-create all attributes.
+    for (const attributeElement of typeValues.querySelectorAll(
+      '.textae-editor__signboard__attribute'
+    )) {
+      attributeElement.remove()
+    }
+    for (const a of this._model.attributes) {
+      typeValues.insertAdjacentHTML('beforeend', a.contentHTML)
+    }
+  }
+
   clarifyLabel() {
     this.element.querySelector(
       '.textae-editor__signboard__type-label'

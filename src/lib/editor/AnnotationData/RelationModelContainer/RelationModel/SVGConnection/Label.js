@@ -46,6 +46,7 @@ export default class Label {
         ? 'textae-editor__signboard--hovered'
         : null
     )
+    this._signboard.updateLabel()
   }
 
   destructor() {
