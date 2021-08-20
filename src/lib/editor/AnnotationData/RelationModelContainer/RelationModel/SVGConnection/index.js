@@ -82,11 +82,11 @@ export default class SVGConnection {
     this._redrawLabel(this._isHovered)
   }
 
-  redraw(isSelected) {
+  redraw() {
     this._arrow.update(
-      isSelected || this._isHovered,
-      isSelected || this._isHovered,
-      isSelected || this._isHovered
+      this._relation.isSelected || this._isHovered,
+      this._relation.isSelected || this._isHovered,
+      this._relation.isSelected || this._isHovered
     )
     this._redrawLabel(this._isHovered)
   }

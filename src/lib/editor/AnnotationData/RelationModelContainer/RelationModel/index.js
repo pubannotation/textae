@@ -138,7 +138,7 @@ export default class RelationModel {
   }
 
   updateElement() {
-    this._connect.redraw(this.isSelected)
+    this._connect.redraw()
   }
 
   erase() {
