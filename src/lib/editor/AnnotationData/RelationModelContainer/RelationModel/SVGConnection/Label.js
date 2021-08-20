@@ -53,6 +53,10 @@ export default class Label {
     this._signboard.updateLabel()
   }
 
+  updatePosition(x, y, width, relation) {
+    this._updatePosition(this._location, x, y, width, relation)
+  }
+
   destructor() {
     this._container.removeChild(this._location)
   }

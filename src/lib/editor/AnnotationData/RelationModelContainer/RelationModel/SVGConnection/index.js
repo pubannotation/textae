@@ -82,6 +82,21 @@ export default class SVGConnection {
     this._updateLabelAppearance(this._isHovered)
   }
 
+  updatePosition() {
+    this._arrow.update(
+      this._relation.isSelected || this._isHovered,
+      this._relation.isSelected || this._isHovered,
+      this._relation.isSelected || this._isHovered
+    )
+
+    this._label.updatePosition(
+      this._arrow.left,
+      this._arrow.top,
+      this._arrow.width,
+      this._relation
+    )
+  }
+
   redraw() {
     this._arrow.update(
       this._relation.isSelected || this._isHovered,
