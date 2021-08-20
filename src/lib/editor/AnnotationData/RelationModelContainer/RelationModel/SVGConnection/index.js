@@ -18,7 +18,7 @@ export default class SVGConnection {
     this._definitionContainer = definitionContainer
     this._onClick = onClick
     this._onMouseEnter = () => {
-      this.pointUpPath()
+      this._pointUpPath()
       onMouseEnter()
     }
     this._onMouseLeave = onMouseLeave
@@ -36,13 +36,6 @@ export default class SVGConnection {
   destroy() {
     this._arrow.destructor()
     this._label.destructor()
-  }
-
-  pointUpPath() {
-    this._arrow.update(true, true, true)
-
-    this._isHovered = true
-    this._redrawLabel(this._isHovered)
   }
 
   pointUpPathAndSourceBollards(isSelected) {
@@ -111,6 +104,13 @@ export default class SVGConnection {
       isSelected,
       isHovered
     )
+  }
+
+  _pointUpPath() {
+    this._arrow.update(true, true, true)
+
+    this._isHovered = true
+    this._redrawLabel(this._isHovered)
   }
 
   _redrawLabel(isHovered) {
