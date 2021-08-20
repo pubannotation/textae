@@ -112,6 +112,10 @@ export default class SVGConnection {
     )
   }
 
+  updateLabelAppearance() {
+    this._updateLabelAppearance(this._isHovered)
+  }
+
   // Private APIs
   _createArrow() {
     this._arrow = new Arrow(

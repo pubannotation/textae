@@ -80,14 +80,14 @@ export default class RelationModel {
   select() {
     if (!this.isSelected) {
       this.isSelected = true
-      this.updateElement()
+      this._connect.updateLabelAppearance()
     }
   }
 
   deselect() {
     if (this.isSelected) {
       this.isSelected = false
-      this.updateElement()
+      this._connect.updateLabelAppearance()
     }
   }
 
