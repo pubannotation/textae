@@ -40,12 +40,12 @@ export default class SVGConnection {
 
   pointUpPathAndSourceBollards() {
     this._arrow.update(true, true, this._relation.isSelected)
-    this._redrawLabel(this._isHovered)
+    this._updateLabelAppearance(this._isHovered)
   }
 
   pointUpPathAndTargetBollards() {
     this._arrow.update(true, this._relation.isSelected, true)
-    this._redrawLabel(this._isHovered)
+    this._updateLabelAppearance(this._isHovered)
   }
 
   pointUpSourceBollards() {
@@ -54,7 +54,7 @@ export default class SVGConnection {
       true,
       this._relation.isSelected
     )
-    this._redrawLabel(this._isHovered)
+    this._updateLabelAppearance(this._isHovered)
   }
 
   pointUpTargetBollards() {
@@ -63,12 +63,12 @@ export default class SVGConnection {
       this._relation.isSelected,
       true
     )
-    this._redrawLabel(this._isHovered)
+    this._updateLabelAppearance(this._isHovered)
   }
 
   pointUpSourceBollardsAndTargetBollards() {
     this._arrow.update(this._relation.isSelected, true, true)
-    this._redrawLabel(this._isHovered)
+    this._updateLabelAppearance(this._isHovered)
   }
 
   pointDownPath() {
@@ -79,7 +79,7 @@ export default class SVGConnection {
     )
 
     this._isHovered = false
-    this._redrawLabel(this._isHovered)
+    this._updateLabelAppearance(this._isHovered)
   }
 
   redraw() {
@@ -128,10 +128,10 @@ export default class SVGConnection {
     this._arrow.update(true, true, true)
 
     this._isHovered = true
-    this._redrawLabel(this._isHovered)
+    this._updateLabelAppearance(this._isHovered)
   }
 
-  _redrawLabel(isHovered) {
+  _updateLabelAppearance(isHovered) {
     this._label.updateAppearanceState(
       this._arrow.left,
       this._arrow.top,
