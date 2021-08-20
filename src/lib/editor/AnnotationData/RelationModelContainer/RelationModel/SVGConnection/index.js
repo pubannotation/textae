@@ -36,12 +36,10 @@ export default class SVGConnection {
   }
 
   pointUpPath(isSelected) {
-    if (!this._isHovered) {
-      this._arrow.update(true, true, true)
+    this._arrow.update(true, true, true)
 
-      this._isHovered = true
-      this._redrawLabel(isSelected)
-    }
+    this._isHovered = true
+    this._redrawLabel(isSelected)
   }
 
   pointUpPathAndSourceBollards(isSelected) {
