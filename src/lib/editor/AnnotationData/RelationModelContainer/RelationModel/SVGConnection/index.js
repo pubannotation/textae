@@ -17,7 +17,10 @@ export default class SVGConnection {
     this._namespace = namespace
     this._definitionContainer = definitionContainer
     this._onClick = onClick
-    this._onMouseEnter = onMouseEnter
+    this._onMouseEnter = () => {
+      this.pointUpPath()
+      onMouseEnter()
+    }
     this._onMouseLeave = onMouseLeave
     this._relationBox = editor[0].querySelector('.textae-editor__relation-box')
     this._annotationBox = getAnnotationBox(editor)

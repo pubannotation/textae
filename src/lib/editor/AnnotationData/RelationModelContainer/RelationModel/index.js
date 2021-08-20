@@ -175,8 +175,6 @@ export default class RelationModel {
   }
 
   _pointUpSelfAndEntities() {
-    this._connect.pointUpPath()
-
     const bothRelations = new Set()
     const sourceRelations = new Set()
     const targetRelations = new Set()
