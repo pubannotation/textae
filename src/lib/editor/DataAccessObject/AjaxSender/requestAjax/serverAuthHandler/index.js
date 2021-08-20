@@ -16,6 +16,8 @@ export default function (ajaxResponse, errorHandler, retryHandler) {
         }
       }, 1000)
       return
+    } else {
+      console.log('Cannot open pop-up window.')
     }
   }
 
