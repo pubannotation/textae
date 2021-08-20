@@ -88,7 +88,13 @@ export default class SVGConnection {
       this._relation.isSelected || this._isHovered,
       this._relation.isSelected || this._isHovered
     )
-    this._redrawLabel(this._isHovered)
+
+    this._label.redraw(
+      this._arrow.left,
+      this._arrow.top,
+      this._arrow.width,
+      this._relation
+    )
   }
 
   // Private APIs
@@ -126,7 +132,7 @@ export default class SVGConnection {
   }
 
   _redrawLabel(isHovered) {
-    this._label.redraw(
+    this._label.updateAppearanceState(
       this._arrow.left,
       this._arrow.top,
       this._arrow.width,

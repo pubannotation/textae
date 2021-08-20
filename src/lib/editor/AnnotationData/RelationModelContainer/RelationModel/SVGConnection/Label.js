@@ -37,7 +37,7 @@ export default class Label {
     this._location = location
   }
 
-  redraw(x, y, width, relation, isHovered) {
+  updateAppearanceState(x, y, width, relation, isHovered) {
     this._updatePosition(this._location, x, y, width, relation)
     this._signboard.updateCSSClass(
       relation.isSelected
@@ -46,6 +46,10 @@ export default class Label {
         ? 'textae-editor__signboard--hovered'
         : null
     )
+  }
+
+  redraw(x, y, width, relation) {
+    this._updatePosition(this._location, x, y, width, relation)
     this._signboard.updateLabel()
   }
 
