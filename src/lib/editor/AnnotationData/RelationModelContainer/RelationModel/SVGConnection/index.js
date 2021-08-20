@@ -35,7 +35,7 @@ export default class SVGConnection {
     this._label.destructor()
   }
 
-  pointUpPath(isSelected) {
+  pointUpPath() {
     this._arrow.update(true, true, true)
 
     this._isHovered = true
