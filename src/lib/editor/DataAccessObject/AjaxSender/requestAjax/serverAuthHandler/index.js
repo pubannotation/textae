@@ -1,8 +1,8 @@
-import isSeverAuthRequired from './isSeverAuthRequired'
+import isServerAuthRequired from './isServerAuthRequired'
 import openPopUp from './openPopUp'
 
 export default function (ajaxResponse, errorHandler, retryHandler) {
-  const location = isSeverAuthRequired(ajaxResponse)
+  const location = isServerAuthRequired(ajaxResponse)
 
   if (location) {
     const window = openPopUp(location)
