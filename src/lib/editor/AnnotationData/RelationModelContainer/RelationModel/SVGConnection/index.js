@@ -38,8 +38,8 @@ export default class SVGConnection {
     this._label.destructor()
   }
 
-  pointUpPathAndSourceBollards(isSelected) {
-    this._arrow.update(true, true, isSelected)
+  pointUpPathAndSourceBollards() {
+    this._arrow.update(true, true, this._relation.isSelected)
     this._redrawLabel(this._isHovered)
   }
 
