@@ -71,8 +71,12 @@ export default class SVGConnection {
     this._redrawLabel(this._isHovered)
   }
 
-  pointDownPath(isSelected) {
-    this._arrow.update(isSelected, isSelected, isSelected)
+  pointDownPath() {
+    this._arrow.update(
+      this._relation.isSelected,
+      this._relation.isSelected,
+      this._relation.isSelected
+    )
 
     this._isHovered = false
     this._redrawLabel(this._isHovered)

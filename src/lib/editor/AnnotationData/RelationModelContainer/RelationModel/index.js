@@ -112,7 +112,7 @@ export default class RelationModel {
   }
 
   pointDown() {
-    this._connect.pointDownPath(this.isSelected)
+    this._connect.pointDownPath()
   }
 
   render() {
