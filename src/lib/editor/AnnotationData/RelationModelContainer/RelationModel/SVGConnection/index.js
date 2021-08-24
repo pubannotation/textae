@@ -138,7 +138,7 @@ export default class SVGConnection {
     )
   }
 
-  _pointUpPath() {
+  pointUpPath() {
     this._arrow.update(true, true, true)
 
     this._isHovered = true

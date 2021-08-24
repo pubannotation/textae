@@ -131,7 +131,7 @@ export default class RelationModel {
         event.stopPropagation()
       },
       () => {
-        this._connect._pointUpPath()
+        this._connect.pointUpPath()
         this._pointUpSelfAndEntities()
       },
       () => this._pointDownSelfAndEntities()
