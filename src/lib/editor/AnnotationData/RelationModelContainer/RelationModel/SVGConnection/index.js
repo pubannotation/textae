@@ -137,9 +137,7 @@ export default class SVGConnection {
       this._relation,
       this._onClick,
       this._onMouseEnter,
-      this._onMouseLeave,
-      false,
-      false
+      this._onMouseLeave
     )
   }
 

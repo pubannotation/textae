@@ -9,25 +9,14 @@ export default class Label {
     relation,
     onClick,
     onMouseEnter,
-    onMouseLeave,
-    isSelected,
-    isHovered
+    onMouseLeave
   ) {
     this._container = container
 
     const location = document.createElement('div')
     this._updatePosition(location, x, y, width, relation)
 
-    this._signboard = new SignboardHTMLElement(
-      relation,
-      'relation',
-      isSelected
-        ? 'textae-editor__signboard--selected'
-        : isHovered
-        ? 'textae-editor__signboard--hovered'
-        : null,
-      null
-    )
+    this._signboard = new SignboardHTMLElement(relation, 'relation', null, null)
     location.appendChild(this._signboard.element)
     container.appendChild(location)
 
