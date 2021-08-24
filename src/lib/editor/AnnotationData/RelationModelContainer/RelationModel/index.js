@@ -126,6 +126,7 @@ export default class RelationModel {
 
   pointDown() {
     this._isHovered = false
+    this._connect.updateLabelAppearance()
     this._connect.pointDownPath()
   }
 

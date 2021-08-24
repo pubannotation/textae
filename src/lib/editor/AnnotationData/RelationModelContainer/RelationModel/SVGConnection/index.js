@@ -73,8 +73,6 @@ export default class SVGConnection {
       this._relation.isSelected,
       this._relation.isSelected
     )
-
-    this._updateLabelAppearance()
   }
 
   updatePosition() {
