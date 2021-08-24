@@ -112,10 +112,6 @@ export default class RelationModel {
     this._connect.pointUpPathAndTargetBollards()
   }
 
-  pointUpSourceBollardsAndTargetBollards() {
-    this._connect.pointUpSourceBollardsAndTargetBollards()
-  }
-
   pointDown() {
     this._isHovered = false
     this._connect.updateLabelAppearance()
@@ -243,7 +239,7 @@ export default class RelationModel {
     }
 
     for (const r of bothRelations) {
-      r.pointUpSourceBollardsAndTargetBollards()
+      r._connect.pointUpSourceBollardsAndTargetBollards()
     }
 
     for (const r of sourceRelations) {
