@@ -18,7 +18,6 @@ export default class SVGConnection {
     this._definitionContainer = definitionContainer
     this._onClick = onClick
     this._onMouseEnter = () => {
-      this._pointUpPath()
       onMouseEnter()
     }
     this._onMouseLeave = onMouseLeave
