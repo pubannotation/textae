@@ -163,15 +163,15 @@ export default class EntityModel {
   }
 
   select() {
-    if (!this.selected) {
-      this.selected = true
+    if (!this._isSelected) {
+      this._isSelected = true
       this._selectElement()
     }
   }
 
   deselect() {
-    if (this.selected) {
-      this.selected = false
+    if (this._isSelected) {
+      this._isSelected = false
       this._element.classList.remove(CSS_CLASS_SELECTED)
     }
   }
@@ -221,7 +221,7 @@ export default class EntityModel {
     this._element.replaceWith(element)
 
     // Re-select a new entity element.
-    if (this.selected) {
+    if (this._isSelected) {
       this._selectElement()
     }
 
