@@ -145,12 +145,7 @@ export default class RelationModel {
         )
         event.stopPropagation()
       },
-      () => {
-        this._isHovered = true
-        this._connect.updateLabelAppearance()
-        this._connect.pointUpPath()
-        this._pointUpSelfAndEntities()
-      },
+      () => this._pointUpSelfAndEntities(),
       () => this._pointDownSelfAndEntities()
     )
 
@@ -199,6 +194,10 @@ export default class RelationModel {
   }
 
   _pointUpSelfAndEntities() {
+    this._isHovered = true
+    this._connect.updateLabelAppearance()
+    this._connect.pointUpPath()
+
     const bothRelations = new Set()
     const sourceRelations = new Set()
     const targetRelations = new Set()
