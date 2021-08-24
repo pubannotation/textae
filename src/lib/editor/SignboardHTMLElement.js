@@ -3,9 +3,9 @@ import getLabelBackgroundColor from './getLabelBackgroundColor'
 import hexToRGBA from './hexToRGBA'
 
 export default class SignboardHTMLElement {
-  constructor(model, entityType, cssClass, HTMLId) {
+  constructor(model, entityType, HTMLId) {
     this._model = model
-    this._element = dohtml.create(this._getHtml(cssClass, HTMLId, entityType))
+    this._element = dohtml.create(this._getHtml(null, HTMLId, entityType))
   }
 
   get element() {

@@ -16,7 +16,7 @@ export default class Label {
     const location = document.createElement('div')
     this._updatePosition(location, x, y, width, relation)
 
-    this._signboard = new SignboardHTMLElement(relation, 'relation', null, null)
+    this._signboard = new SignboardHTMLElement(relation, 'relation', null)
     location.appendChild(this._signboard.element)
     container.appendChild(location)
 

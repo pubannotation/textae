@@ -248,7 +248,6 @@ export default class EntityModel {
     const s = new SignboardHTMLElement(
       this,
       this.isDenotation ? 'denotation' : 'block',
-      null,
       this._entityHTMLElementID
     )
     const { element } = s
