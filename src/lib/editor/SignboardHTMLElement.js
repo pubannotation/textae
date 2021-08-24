@@ -5,7 +5,7 @@ import hexToRGBA from './hexToRGBA'
 export default class SignboardHTMLElement {
   constructor(model, entityType, HTMLId) {
     this._model = model
-    this._element = dohtml.create(this._getHtml(null, HTMLId, entityType))
+    this._element = dohtml.create(this._getHtml(HTMLId, entityType))
   }
 
   get element() {
@@ -59,10 +59,10 @@ export default class SignboardHTMLElement {
   }
 
   // A Type element has an entity_pane elment that has a label and will have entities.
-  _getHtml(cssClass, HTMLId, entityType) {
+  _getHtml(HTMLId, entityType) {
     return `
   <div
-    class="textae-editor__signboard ${cssClass ? cssClass : ''}"
+    class="textae-editor__signboard"
     ${HTMLId ? `id="${HTMLId}"` : ''}
     title="${this._model.title}"
     data-entity-type="${entityType}"
