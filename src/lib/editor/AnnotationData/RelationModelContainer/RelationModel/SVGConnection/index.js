@@ -23,11 +23,6 @@ export default class SVGConnection {
     this._annotationBox = getAnnotationBox(editor)
     this._createArrow()
     this._createLabel()
-
-    // When you click on a relation to deselect it, the display of the relation will be in hover.
-    // When you click on the body and deselect the relation, the display of the relation becomes non-hover.
-    // To make this distinction, the hover state is retained.
-    this._isHovered = false
   }
 
   destroy() {
@@ -86,9 +81,9 @@ export default class SVGConnection {
 
   updatePosition() {
     this._arrow.update(
-      this._relation.isSelected || this._isHovered,
-      this._relation.isSelected || this._isHovered,
-      this._relation.isSelected || this._isHovered
+      this._relation.isSelected || this._relation.isHovered,
+      this._relation.isSelected || this._relation.isHovered,
+      this._relation.isSelected || this._relation.isHovered
     )
 
     this._label.updatePosition(
@@ -101,9 +96,9 @@ export default class SVGConnection {
 
   updateValue() {
     this._arrow.update(
-      this._relation.isSelected || this._isHovered,
-      this._relation.isSelected || this._isHovered,
-      this._relation.isSelected || this._isHovered
+      this._relation.isSelected || this._relation.isHovered,
+      this._relation.isSelected || this._relation.isHovered,
+      this._relation.isSelected || this._relation.isHovered
     )
 
     this._label.updateValue(
@@ -149,7 +144,7 @@ export default class SVGConnection {
       this._arrow.top,
       this._arrow.width,
       this._relation,
-      this._isHovered
+      this._relation.isHovered
     )
   }
 }

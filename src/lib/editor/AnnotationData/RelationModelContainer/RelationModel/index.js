@@ -23,6 +23,11 @@ export default class RelationModel {
     this._namespace = namespace
     this._definitionContainer = definitionContainer
     this.isSelected = false
+
+    // When you click on a relation to deselect it, the display of the relation will be in hover.
+    // When you click on the body and deselect the relation, the display of the relation becomes non-hover.
+    // To make this distinction, the hover state is retained.
+    this.isHovered = false
   }
 
   get id() {
@@ -112,7 +117,7 @@ export default class RelationModel {
   }
 
   pointDown() {
-    this._connect._isHovered = false
+    this.isHovered = false
     this._connect.pointDownPath()
   }
 
@@ -132,7 +137,7 @@ export default class RelationModel {
         event.stopPropagation()
       },
       () => {
-        this._connect._isHovered = true
+        this.isHovered = true
         this._connect.pointUpPath()
         this._pointUpSelfAndEntities()
       },
