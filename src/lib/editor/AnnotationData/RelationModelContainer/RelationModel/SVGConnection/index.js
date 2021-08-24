@@ -71,7 +71,6 @@ export default class SVGConnection {
   pointUpPath() {
     this._arrow.update(true, true, true)
 
-    this._isHovered = true
     this._updateLabelAppearance()
   }
 
@@ -82,7 +81,6 @@ export default class SVGConnection {
       this._relation.isSelected
     )
 
-    this._isHovered = false
     this._updateLabelAppearance()
   }
 

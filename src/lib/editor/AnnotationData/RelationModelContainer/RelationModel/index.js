@@ -112,6 +112,7 @@ export default class RelationModel {
   }
 
   pointDown() {
+    this._connect._isHovered = false
     this._connect.pointDownPath()
   }
 
@@ -131,6 +132,7 @@ export default class RelationModel {
         event.stopPropagation()
       },
       () => {
+        this._connect._isHovered = true
         this._connect.pointUpPath()
         this._pointUpSelfAndEntities()
       },
