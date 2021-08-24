@@ -68,6 +68,13 @@ export default class SVGConnection {
     this._updateLabelAppearance()
   }
 
+  pointUpPath() {
+    this._arrow.update(true, true, true)
+
+    this._isHovered = true
+    this._updateLabelAppearance()
+  }
+
   pointDownPath() {
     this._arrow.update(
       this._relation.isSelected,
@@ -136,13 +143,6 @@ export default class SVGConnection {
       this._onMouseEnter,
       this._onMouseLeave
     )
-  }
-
-  pointUpPath() {
-    this._arrow.update(true, true, true)
-
-    this._isHovered = true
-    this._updateLabelAppearance()
   }
 
   _updateLabelAppearance() {
