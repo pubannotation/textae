@@ -146,6 +146,7 @@ export default class RelationModel {
       },
       () => {
         this._isHovered = true
+        this._connect.updateLabelAppearance()
         this._connect.pointUpPath()
         this._pointUpSelfAndEntities()
       },
