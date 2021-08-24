@@ -112,10 +112,6 @@ export default class RelationModel {
     this._connect.pointUpPathAndTargetBollards()
   }
 
-  pointUpSourceBollards() {
-    this._connect.pointUpSourceBollards()
-  }
-
   pointUpTargetBollards() {
     this._connect.pointUpTargetBollards()
   }
@@ -255,7 +251,7 @@ export default class RelationModel {
     }
 
     for (const r of sourceRelations) {
-      r.pointUpSourceBollards()
+      r._connect.pointUpSourceBollards()
     }
 
     for (const r of targetRelations) {
