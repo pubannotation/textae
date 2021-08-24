@@ -25,7 +25,7 @@ export default class SVGConnection {
     this._relationBox = editor[0].querySelector('.textae-editor__relation-box')
     this._annotationBox = getAnnotationBox(editor)
     this._createArrow()
-    this._createLabel(false, false)
+    this._createLabel()
 
     // When you click on a relation to deselect it, the display of the relation will be in hover.
     // When you click on the body and deselect the relation, the display of the relation becomes non-hover.
@@ -128,7 +128,7 @@ export default class SVGConnection {
     this._arrow.update(false, false, false)
   }
 
-  _createLabel(isSelected, isHovered) {
+  _createLabel() {
     this._label = new Label(
       this._annotationBox,
       this._arrow.left,
@@ -138,8 +138,8 @@ export default class SVGConnection {
       this._onClick,
       this._onMouseEnter,
       this._onMouseLeave,
-      isSelected,
-      isHovered
+      false,
+      false
     )
   }
 
