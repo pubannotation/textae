@@ -15,7 +15,6 @@ export default class Label {
 
     const location = document.createElement('div')
     location.classList.add('textae-editor__relation__signboard-location')
-    this._updatePosition(location, x, y, width, relation)
 
     this._signboard = new SignboardHTMLElement(relation, 'relation', null)
     location.appendChild(this._signboard.element)

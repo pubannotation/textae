@@ -132,6 +132,12 @@ export default class SVGConnection {
       this._onMouseEnter,
       this._onMouseLeave
     )
+    this._label.updatePosition(
+      this._arrow.left,
+      this._arrow.top,
+      this._arrow.width,
+      this._relation
+    )
   }
 
   _updateLabelAppearance() {
