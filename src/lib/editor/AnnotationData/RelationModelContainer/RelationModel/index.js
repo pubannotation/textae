@@ -252,6 +252,9 @@ export default class RelationModel {
   }
 
   _pointDownSelfAndEntities() {
+    this._isHovered = false
+    this._connect.updateLabelAppearance()
+
     const relations = new Set()
 
     for (const r of this.sourceEntity.relations) {
@@ -263,8 +266,6 @@ export default class RelationModel {
     }
 
     for (const r of relations) {
-      r._isHovered = false
-      r._connect.updateLabelAppearance()
       r._connect.pointDownPath()
     }
   }
