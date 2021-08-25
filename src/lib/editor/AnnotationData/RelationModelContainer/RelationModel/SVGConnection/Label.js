@@ -1,16 +1,7 @@
 import SignboardHTMLElement from '../../../../SignboardHTMLElement'
 
 export default class Label {
-  constructor(
-    container,
-    x,
-    y,
-    width,
-    relation,
-    onClick,
-    onMouseEnter,
-    onMouseLeave
-  ) {
+  constructor(container, relation, onClick, onMouseEnter, onMouseLeave) {
     this._container = container
 
     const location = document.createElement('div')

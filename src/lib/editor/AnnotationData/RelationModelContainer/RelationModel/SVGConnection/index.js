@@ -124,9 +124,6 @@ export default class SVGConnection {
   _createLabel() {
     this._label = new Label(
       this._annotationBox,
-      this._arrow.left,
-      this._arrow.top,
-      this._arrow.width,
       this._relation,
       this._onClick,
       this._onMouseEnter,
