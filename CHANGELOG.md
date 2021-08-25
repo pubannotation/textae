@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.22.0](https://github.com/pubannotation/textae/compare/v7.21.0...v7.22.0) (2021-08-25)
+
+
+### Features
+
+* Deselect a relation by holding down the control key and clicking on the relation ([33ac537](https://github.com/pubannotation/textae/commit/33ac537a9fbdf4b08981fe630625c10e98f57773))
+* Highlight the relations of the selected Entity ([71c40a6](https://github.com/pubannotation/textae/commit/71c40a6a2624f09048b70a023196f31a3cb9955d))
+* Set the transparency of the label's background color to 0 when the Entity's label is hovered ([a9ce228](https://github.com/pubannotation/textae/commit/a9ce2289e717d3cef9c1376841557d0f71839307))
+
+
+### Bug Fixes
+
+* Changing Relation labels is not reflected in the appearance ([7645101](https://github.com/pubannotation/textae/commit/76451016fafac31dad163dfdf1a2ee959db4b9fd))
+* Labels do not update their appearance when the relationship selection changes ([9ce9f76](https://github.com/pubannotation/textae/commit/9ce9f7683d92526a40a5e7747ff06fcec01041ff))
+* Lines and labels are misaligned when hovering over a relation ([867fe2c](https://github.com/pubannotation/textae/commit/867fe2c9789b54a588bb23ef28caacf352e6fb83))
+* Relation labels do not revert to their original positions when Entity mouse-leaves ([61cc19e](https://github.com/pubannotation/textae/commit/61cc19e3300dbbf1b340f79f2c7010506ad9ad0f))
+* Relation remains highlighted when moving the mouse from below to outside of the relation label ([2195264](https://github.com/pubannotation/textae/commit/21952644013e4415dfba6c96156085c0f80eac45))
+* The triangle of Relation intersects with the vertical line of Entity ([26cbd45](https://github.com/pubannotation/textae/commit/26cbd4568a6efb1990fda54332fee8a18ca7aaa1))
+
 ## [7.21.0](https://github.com/pubannotation/textae/compare/v7.20.0...v7.21.0) (2021-08-18)
 
 
