@@ -132,10 +132,6 @@ export default class RelationModel {
     }
   }
 
-  pointDown() {
-    this._connect.pointDownPath()
-  }
-
   render() {
     const connection = new SVGConnection(
       this._editor,
