@@ -1,11 +1,13 @@
+import dohtml from 'dohtml'
 import SignboardHTMLElement from '../../../../SignboardHTMLElement'
 
 export default class Label {
   constructor(container, relation, onClick, onMouseEnter, onMouseLeave) {
     this._container = container
 
-    const location = document.createElement('div')
-    location.classList.add('textae-editor__relation__signboard-location')
+    const location = dohtml.create(
+      `<div class="textae-editor__relation__signboard-location"></div>`
+    )
 
     this._signboard = new SignboardHTMLElement(relation, 'relation', null)
     location.appendChild(this._signboard.element)
