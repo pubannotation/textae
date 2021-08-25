@@ -14,6 +14,7 @@ export default class Label {
     this._container = container
 
     const location = document.createElement('div')
+    location.classList.add('textae-editor__relation__signboard-location')
     this._updatePosition(location, x, y, width, relation)
 
     this._signboard = new SignboardHTMLElement(relation, 'relation', null)
@@ -63,7 +64,6 @@ export default class Label {
   }
 
   _updatePosition(location, x, y, width, relation) {
-    location.classList.add('textae-editor__relation__signboard-location')
     location.style.width = `${width}px`
     location.style.top = `${y - 18 - relation.attributes.length * 18}px`
     location.style.left = `${x}px`
