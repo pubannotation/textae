@@ -263,7 +263,9 @@ export default class RelationModel {
     }
 
     for (const r of relations) {
-      r.pointDown()
+      r._isHovered = false
+      r._connect.updateLabelAppearance()
+      r._connect.pointDownPath()
     }
   }
 }
