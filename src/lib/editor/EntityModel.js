@@ -162,10 +162,15 @@ export default class EntityModel {
     return this._span.isBlock
   }
 
+  get isSelected() {
+    return this._isSelected
+  }
+
   select() {
     if (!this._isSelected) {
       this._isSelected = true
       this._selectElement()
+      this._updateRelationHighlighting()
     }
   }
 
@@ -173,6 +178,7 @@ export default class EntityModel {
     if (this._isSelected) {
       this._isSelected = false
       this._element.classList.remove(CSS_CLASS_SELECTED)
+      this._updateRelationHighlighting()
     }
   }
 
@@ -259,7 +265,7 @@ export default class EntityModel {
     })
     element.addEventListener('mouseleave', () => {
       s.declarifyLabel()
-      this._pointDownRelations()
+      this._updateRelationHighlighting()
     })
 
     return element
@@ -339,6 +345,12 @@ export default class EntityModel {
   _pointDownRelations() {
     for (const relation of this.relations) {
       relation.pointDown()
+    }
+  }
+
+  _updateRelationHighlighting() {
+    for (const relation of this.relations) {
+      relation.updateHighlighting()
     }
   }
 }

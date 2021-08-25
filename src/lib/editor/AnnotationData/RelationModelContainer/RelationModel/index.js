@@ -104,12 +104,32 @@ export default class RelationModel {
     }
   }
 
+  updateHighlighting() {
+    if (this.sourceEntity.isSelected && this.targetEntity.isSelected) {
+      this._connect.pointUpPath()
+    } else if (this.sourceEntity.isSelected) {
+      this._connect.pointUpPathAndSourceBollards()
+    } else if (this.targetEntity.isSelected) {
+      this._connect.pointUpPathAndTargetBollards()
+    } else {
+      this._connect.pointDownPath()
+    }
+  }
+
   pointUpPathAndSourceBollards() {
-    this._connect.pointUpPathAndSourceBollards()
+    if (this.targetEntity.isSelected) {
+      this._connect.pointUpPath()
+    } else {
+      this._connect.pointUpPathAndSourceBollards()
+    }
   }
 
   pointUpPathAndTargetBollards() {
-    this._connect.pointUpPathAndTargetBollards()
+    if (this.sourceEntity.isSelected) {
+      this._connect.pointUpPath()
+    } else {
+      this._connect.pointUpPathAndTargetBollards()
+    }
   }
 
   pointDown() {
@@ -262,7 +282,7 @@ export default class RelationModel {
     }
 
     for (const r of relations) {
-      r._connect.pointDownPath()
+      r.updateHighlighting()
     }
   }
 }
