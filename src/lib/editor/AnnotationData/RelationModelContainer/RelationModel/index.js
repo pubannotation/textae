@@ -115,7 +115,6 @@ export default class RelationModel {
   pointDown() {
     this._isHovered = false
     this._connect.pointDownPath()
-    this._connect.updateLabelAppearance()
   }
 
   render() {
@@ -266,7 +265,6 @@ export default class RelationModel {
 
     for (const r of relations) {
       r._connect.pointDownPath()
-      r._connect.updateLabelAppearance()
     }
   }
 }
