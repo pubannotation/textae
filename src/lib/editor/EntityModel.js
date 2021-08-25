@@ -342,12 +342,6 @@ export default class EntityModel {
     }
   }
 
-  _pointDownRelations() {
-    for (const relation of this.relations) {
-      relation.pointDown()
-    }
-  }
-
   _updateRelationHighlighting() {
     for (const relation of this.relations) {
       relation.updateHighlighting()
