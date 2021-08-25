@@ -183,7 +183,6 @@ export default class RelationModel {
   _pointUpSelfAndEntities() {
     this._isHovered = true
     this._connect.pointUpPath()
-    this._connect.updateLabelAppearance()
 
     const bothRelations = new Set()
     const sourceRelations = new Set()

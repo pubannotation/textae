@@ -65,6 +65,7 @@ export default class SVGConnection {
 
   pointUpPath() {
     this._arrow.update(true, true, true)
+    this._updateLabelAppearance()
   }
 
   pointDownPath() {
