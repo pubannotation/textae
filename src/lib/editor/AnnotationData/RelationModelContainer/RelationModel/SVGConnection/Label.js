@@ -4,19 +4,17 @@ import SignboardHTMLElement from '../../../../SignboardHTMLElement'
 export default class Label {
   constructor(container, relation, onClick, onMouseEnter, onMouseLeave) {
     this._container = container
-
-    const location = dohtml.create(
+    this._location = dohtml.create(
       `<div class="textae-editor__relation__signboard-location"></div>`
     )
-
     this._signboard = new SignboardHTMLElement(relation, 'relation', null)
-    location.appendChild(this._signboard.element)
-    container.appendChild(location)
 
-    location.addEventListener('click', onClick)
-    location.addEventListener('mouseenter', onMouseEnter)
-    location.addEventListener('mouseleave', onMouseLeave)
-    this._location = location
+    this._location.appendChild(this._signboard.element)
+    this._location.addEventListener('click', onClick)
+    this._location.addEventListener('mouseenter', onMouseEnter)
+    this._location.addEventListener('mouseleave', onMouseLeave)
+
+    this._container.appendChild(this._location)
   }
 
   updateAppearanceState(x, y, width, relation, isHovered) {
