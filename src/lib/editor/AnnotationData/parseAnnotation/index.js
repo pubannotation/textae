@@ -3,21 +3,7 @@ import importNamespace from './importNamespace'
 import parseTracks from './parseTracks'
 
 export default function (annotationData, rowData) {
-  // The boundraries of elements in the typesetings and
-  // the denotations and blocks cannot cross each other.
-  // The same is true when across the tracks.
-  let spans = []
-  spans = spans
-    .concat(rowData.typesettings || [])
-    .concat(rowData.denotations || [])
-    .concat(rowData.blocks || [])
-
-  for (const track of rowData.tracks || []) {
-    spans = spans
-      .concat(track.typesettings || [])
-      .concat(track.denotations || [])
-      .concat(track.blocks || [])
-  }
+  const spans = getAllSpansOf(rowData)
 
   const [multitrack, multitrackRejects] = parseTracks(
     annotationData.span,
@@ -48,4 +34,24 @@ export default function (annotationData, rowData) {
     hasError,
     rejects
   }
+}
+
+function getAllSpansOf(rowData) {
+  // The boundraries of elements in the typesetings and
+  // the denotations and blocks cannot cross each other.
+  // The same is true when across the tracks.
+  let spans = []
+  spans = spans
+    .concat(rowData.typesettings || [])
+    .concat(rowData.denotations || [])
+    .concat(rowData.blocks || [])
+
+  for (const track of rowData.tracks || []) {
+    spans = spans
+      .concat(track.typesettings || [])
+      .concat(track.denotations || [])
+      .concat(track.blocks || [])
+  }
+
+  return spans
 }
