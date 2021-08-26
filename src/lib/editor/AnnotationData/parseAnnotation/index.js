@@ -3,6 +3,9 @@ import importNamespace from './importNamespace'
 import parseTracks from './parseTracks'
 
 export default function (annotationData, rowData) {
+  // The boundraries of elements in the typesetings and
+  // the denotations and blocks cannot cross each other.
+  // The same is true when across the tracks.
   let spans = []
   spans = spans
     .concat(rowData.typesettings || [])
