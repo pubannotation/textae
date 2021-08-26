@@ -4,6 +4,7 @@ import parseTracks from './parseTracks'
 
 export default function (annotationData, rowData) {
   const { span, entity, attribute, relation } = annotationData
+  const { text } = rowData
   const spans = getAllSpansOf(rowData)
 
   const [multitrack, multitrackRejects] = parseTracks(
@@ -11,7 +12,7 @@ export default function (annotationData, rowData) {
     entity,
     attribute,
     relation,
-    rowData.text,
+    text,
     spans,
     rowData
   )
@@ -20,7 +21,7 @@ export default function (annotationData, rowData) {
     entity,
     attribute,
     relation,
-    rowData.text,
+    text,
     spans,
     rowData
   )
