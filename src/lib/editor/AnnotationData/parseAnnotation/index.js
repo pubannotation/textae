@@ -38,15 +38,17 @@ export default function (annotationData, rowData) {
   }
 }
 
+// The boundraries of elements in the typesetings and
+// the denotations and blocks cannot cross each other.
+// The same is true when across the tracks.
 function getAllSpansOf(rowData) {
-  // The boundraries of elements in the typesetings and
-  // the denotations and blocks cannot cross each other.
-  // The same is true when across the tracks.
+  const { typesettings, denotations, blocks } = rowData
+
   let spans = []
   spans = spans
-    .concat(rowData.typesettings || [])
-    .concat(rowData.denotations || [])
-    .concat(rowData.blocks || [])
+    .concat(typesettings || [])
+    .concat(denotations || [])
+    .concat(blocks || [])
 
   for (const track of rowData.tracks || []) {
     spans = spans
