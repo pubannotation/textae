@@ -7,7 +7,7 @@ export default class ErrorMap {
     this._map.set(key, value)
   }
 
-  get(key) {
+  getErrors(key) {
     return this._map.has(key) ? this._map.get(key)[0] : []
   }
 
@@ -21,5 +21,8 @@ export default class ErrorMap {
 }
 
 export function collectErrors(name, errorMaps) {
-  return errorMaps.reduce((acc, errorMap) => acc.concat(errorMap.get(name)), [])
+  return errorMaps.reduce(
+    (acc, errorMap) => acc.concat(errorMap.getErrors(name)),
+    []
+  )
 }

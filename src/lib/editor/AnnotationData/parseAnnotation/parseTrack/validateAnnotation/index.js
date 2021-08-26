@@ -53,13 +53,13 @@ export default function (text, rowData) {
       block
     },
     reject: {
-      wrongRangeDenotations: errorDenotations.get('hasLength'),
-      outOfTextDenotations: errorDenotations.get('inText'),
-      wrongRangeBlocks: errorBlocks.get('hasLength'),
-      outOfTextBlocks: errorBlocks.get('inText'),
-      duplicatedRangeBlocks: errorBlocks.get('uniqueRange'),
-      wrongRangeTypesettings: errorTypeSettings.get('hasLength'),
-      outOfTextTypesettings: errorTypeSettings.get('inText'),
+      wrongRangeDenotations: errorDenotations.getErrors('hasLength'),
+      outOfTextDenotations: errorDenotations.getErrors('inText'),
+      wrongRangeBlocks: errorBlocks.getErrors('hasLength'),
+      outOfTextBlocks: errorBlocks.getErrors('inText'),
+      duplicatedRangeBlocks: errorBlocks.getErrors('uniqueRange'),
+      wrongRangeTypesettings: errorTypeSettings.getErrors('hasLength'),
+      outOfTextTypesettings: errorTypeSettings.getErrors('inText'),
       duplicatedIDs: collectErrors('uniqueID', [errorDenotations, errorBlocks]),
       boundaryCrossingSpans: collectErrors('isNotCrossing', [
         errorTypeSettings,
@@ -67,11 +67,11 @@ export default function (text, rowData) {
         errorBlocks
       ]),
       referencedEntitiesDoNotExist: transformToReferencedEntitiesError(
-        errorAttributes.get('subject'),
-        errorRelations.get('object'),
-        errorRelations.get('subject')
+        errorAttributes.getErrors('subject'),
+        errorRelations.getErrors('object'),
+        errorRelations.getErrors('subject')
       ),
-      duplicatedAttributes: errorAttributes.get('unique'),
+      duplicatedAttributes: errorAttributes.getErrors('unique'),
       hasError:
         errorDenotations.size ||
         errorBlocks.size ||
