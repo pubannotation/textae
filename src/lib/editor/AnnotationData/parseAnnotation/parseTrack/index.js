@@ -11,8 +11,8 @@ export default function (
   attributeContainer,
   relationContainer,
   text,
-  rowData,
   spans,
+  rowData,
   trackNumber = ''
 ) {
   const result = validateAnnotation(text, rowData, spans)

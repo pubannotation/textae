@@ -31,8 +31,8 @@ export default function (annotationData, rowData) {
     annotationData.attribute,
     annotationData.relation,
     rowData.text,
-    rowData,
-    spans
+    spans,
+    rowData
   )
   annotationReject.name = 'Root annotations.'
   importNamespace(annotationData.namespace, rowData.namespaces || [])

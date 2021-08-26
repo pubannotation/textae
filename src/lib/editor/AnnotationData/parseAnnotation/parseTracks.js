@@ -21,8 +21,8 @@ export default function (
       attributeContainer,
       relationContainer,
       text,
-      track,
       spans,
+      track,
       trackNumber
     )
     reject.name = `Track ${number} annotations.`
