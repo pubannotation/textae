@@ -5,7 +5,7 @@ export default class ChainValidation {
   constructor(
     candidates,
     sourcePropertyName,
-    name = 'root',
+    name = '',
     predicate = () => true,
     prevValidation
   ) {
