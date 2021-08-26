@@ -6,10 +6,10 @@ import translateRelation from './translateRelation'
 import convertBeginAndEndToInteger from './convertBeginAndEndToInteger'
 
 export default function (
-  span,
-  entity,
-  attribute,
-  relation,
+  spanContainer,
+  entityContainer,
+  attributeContainer,
+  relationContainer,
   text,
   rowData,
   spans,
@@ -18,26 +18,26 @@ export default function (
   const result = validateAnnotation(text, rowData, spans)
 
   importSource(
-    [span, entity],
+    [spanContainer, entityContainer],
     (src) => translateSpan(src, trackNumber),
     result.accept.denotation,
     'denotation'
   )
 
   importSource(
-    [attribute],
+    [attributeContainer],
     (src) => translateAttribute(src, trackNumber),
     result.accept.attribute
   )
 
   importSource(
-    [relation],
+    [relationContainer],
     (src) => translateRelation(src, trackNumber),
     result.accept.relation
   )
 
   importSource(
-    [span],
+    [spanContainer],
     (src) => {
       return { ...src, span: convertBeginAndEndToInteger(src.span) }
     },
@@ -46,7 +46,7 @@ export default function (
   )
 
   importSource(
-    [span, entity],
+    [spanContainer, entityContainer],
     (src) => translateSpan(src, trackNumber),
     result.accept.block,
     'block'
