@@ -50,11 +50,11 @@ function getAllSpansOf(rowData) {
     .concat(denotations || [])
     .concat(blocks || [])
 
-  for (const track of rowData.tracks || []) {
+  for (const { typesettings, denotations, blocks } of rowData.tracks || []) {
     spans = spans
-      .concat(track.typesettings || [])
-      .concat(track.denotations || [])
-      .concat(track.blocks || [])
+      .concat(typesettings || [])
+      .concat(denotations || [])
+      .concat(blocks || [])
   }
 
   return spans
