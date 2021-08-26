@@ -22,8 +22,8 @@ export default function (annotationData, rowData) {
     annotationData.attribute,
     annotationData.relation,
     rowData.text,
-    rowData,
-    spans
+    spans,
+    rowData
   )
   const annotationReject = parseTrack(
     annotationData.span,

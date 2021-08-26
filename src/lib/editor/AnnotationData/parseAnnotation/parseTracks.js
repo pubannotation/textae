@@ -6,8 +6,8 @@ export default function (
   attributeContainer,
   relationContainer,
   text,
-  rowData,
-  spans
+  spans,
+  rowData
 ) {
   if (!rowData.tracks) return [false, []]
   const { tracks } = rowData
