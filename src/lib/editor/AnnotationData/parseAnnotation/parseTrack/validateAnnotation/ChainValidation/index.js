@@ -12,8 +12,8 @@ export default class ChainValidation {
     this._candidates = candidates || []
     this._name = name
     this._predicate = predicate
-    ;(this._prevValidation = prevValidation),
-      (this._sourcePropertyName = sourcePropertyName)
+    this._prevValidation = prevValidation
+    this._sourcePropertyName = sourcePropertyName
   }
 
   and(name, predicate) {
