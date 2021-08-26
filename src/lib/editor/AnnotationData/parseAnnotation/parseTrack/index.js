@@ -15,7 +15,7 @@ export default function (
   rowData,
   trackNumber = ''
 ) {
-  const result = validateAnnotation(text, rowData, spans)
+  const result = validateAnnotation(text, spans, rowData)
 
   importSource(
     [spanContainer, entityContainer],

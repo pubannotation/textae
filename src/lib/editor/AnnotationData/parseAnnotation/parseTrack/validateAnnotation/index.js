@@ -7,7 +7,7 @@ import validateBlock from './validateBlock'
 import debugLogCrossing from './debugLogCrossing'
 import { collectErrors } from './ErrorMap'
 
-export default function (text, rowData, spans) {
+export default function (text, spans, rowData) {
   // Typesets and denotations are both drawn with a span tag,
   // so the boundaries cannot be crossed.
   // The boundary of a typesetting and denotation is crossed or not.
