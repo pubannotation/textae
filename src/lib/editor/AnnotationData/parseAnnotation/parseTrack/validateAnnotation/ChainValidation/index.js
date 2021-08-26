@@ -63,6 +63,8 @@ export default class ChainValidation {
       .map((n) => setSourceProperty(n, this._sourcePropertyName))
   }
 
+  // Returns the elements affectting to the validation to debug.
+  // For example, the Span of the cross-boundary partner.
   _getInhibitors(candidates) {
     const inhibitors = new Map()
 
