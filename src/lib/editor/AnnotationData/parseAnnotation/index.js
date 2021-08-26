@@ -3,22 +3,23 @@ import importNamespace from './importNamespace'
 import parseTracks from './parseTracks'
 
 export default function (annotationData, rowData) {
+  const { span, entity, attribute, relation } = annotationData
   const spans = getAllSpansOf(rowData)
 
   const [multitrack, multitrackRejects] = parseTracks(
-    annotationData.span,
-    annotationData.entity,
-    annotationData.attribute,
-    annotationData.relation,
+    span,
+    entity,
+    attribute,
+    relation,
     rowData.text,
     spans,
     rowData
   )
   const annotationReject = parseTrack(
-    annotationData.span,
-    annotationData.entity,
-    annotationData.attribute,
-    annotationData.relation,
+    span,
+    entity,
+    attribute,
+    relation,
     rowData.text,
     spans,
     rowData
