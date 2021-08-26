@@ -12,9 +12,10 @@ export default function (
   relation,
   text,
   rowData,
+  spans,
   trackNumber = ''
 ) {
-  const result = validateAnnotation(text, rowData)
+  const result = validateAnnotation(text, rowData, spans)
 
   importSource(
     [span, entity],

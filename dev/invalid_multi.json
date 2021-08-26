@@ -467,10 +467,26 @@
             "end": 15
           },
           "obj": "no id"
+        },
+        {
+          "span": {
+            "begin": 19,
+            "end": 40
+          },
+          "obj": "Protein"
         }
       ]
     },
     {
+      "denotations": [
+        {
+          "span": {
+            "begin": 30,
+            "end": 47
+          },
+          "obj": "Protein"
+        }
+      ],
       "relations": [
         {
           "pred": "locatedAt",

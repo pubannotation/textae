@@ -1,6 +1,14 @@
 import parseTrack from './parseTrack'
 
-export default function (span, entity, attribute, relation, text, rowData) {
+export default function (
+  span,
+  entity,
+  attribute,
+  relation,
+  text,
+  rowData,
+  spans
+) {
   if (!rowData.tracks) return [false, []]
   const { tracks } = rowData
   delete rowData.tracks
@@ -14,6 +22,7 @@ export default function (span, entity, attribute, relation, text, rowData) {
       relation,
       text,
       track,
+      spans,
       trackNumber
     )
     reject.name = `Track ${number} annotations.`
