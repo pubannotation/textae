@@ -59,9 +59,7 @@ export default function (text, rowData) {
       duplicatedRangeBlocks: errorBlocks.get('uniqueRange'),
       wrongRangeTypesettings: errorTypeSettings.get('hasLength'),
       outOfTextTypesettings: errorTypeSettings.get('inText'),
-      duplicatedIDs: errorDenotations
-        .get('uniqueID')
-        .concat(errorBlocks.get('uniqueID')),
+      duplicatedIDs: collectErrors('uniqueID', [errorDenotations, errorBlocks]),
       boundaryCrossingSpans: errorTypeSettings
         .get('isNotCrossing')
         .concat(errorDenotations.get('isNotCrossing'))
@@ -80,4 +78,8 @@ export default function (text, rowData) {
         errorTypeSettings.size
     }
   }
+}
+
+function collectErrors(name, errorMaps) {
+  return errorMaps.reduce((acc, errorMap) => acc.concat(errorMap.get(name)), [])
 }
