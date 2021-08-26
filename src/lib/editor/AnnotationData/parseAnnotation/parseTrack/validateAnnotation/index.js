@@ -5,7 +5,7 @@ import transformToReferencedEntitiesError from './transformToReferencedEntitiesE
 import validateDenotation from './validateDenotation'
 import validateBlock from './validateBlock'
 import debugLogCrossing from './debugLogCrossing'
-import { collectErrors } from './ChainValidation/ErrorMap'
+import { collectErrors } from './ErrorMap'
 
 export default function (text, rowData) {
   // Typesets and denotations are both drawn with a span tag,
