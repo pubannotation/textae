@@ -1,10 +1,10 @@
 import parseTrack from './parseTrack'
 
 export default function (
-  span,
-  entity,
-  attribute,
-  relation,
+  spanContainer,
+  entityContainer,
+  attributeContainer,
+  relationContainer,
   text,
   rowData,
   spans
@@ -16,10 +16,10 @@ export default function (
     const number = i + 1
     const trackNumber = `track${number}_`
     const reject = parseTrack(
-      span,
-      entity,
-      attribute,
-      relation,
+      spanContainer,
+      entityContainer,
+      attributeContainer,
+      relationContainer,
       text,
       track,
       spans,
