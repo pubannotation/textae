@@ -60,10 +60,11 @@ export default function (text, rowData) {
       wrongRangeTypesettings: errorTypeSettings.get('hasLength'),
       outOfTextTypesettings: errorTypeSettings.get('inText'),
       duplicatedIDs: collectErrors('uniqueID', [errorDenotations, errorBlocks]),
-      boundaryCrossingSpans: errorTypeSettings
-        .get('isNotCrossing')
-        .concat(errorDenotations.get('isNotCrossing'))
-        .concat(errorBlocks.get('isNotCrossing')),
+      boundaryCrossingSpans: collectErrors('isNotCrossing', [
+        errorTypeSettings,
+        errorDenotations,
+        errorBlocks
+      ]),
       referencedEntitiesDoNotExist: transformToReferencedEntitiesError(
         errorAttributes.get('subject'),
         errorRelations.get('object'),
