@@ -1,8 +1,10 @@
+import setSourceProperty from '../setSourceProperty'
 import ErrorMap from './ErrorMap'
 
 export default class ChainValidation {
   constructor(
     candidates,
+    sourcePropertyName,
     name = 'root',
     predicate = () => true,
     prevValidation
@@ -10,11 +12,18 @@ export default class ChainValidation {
     this._candidates = candidates || []
     this._name = name
     this._predicate = predicate
-    this._prevValidation = prevValidation
+    ;(this._prevValidation = prevValidation),
+      (this._sourcePropertyName = sourcePropertyName)
   }
 
   and(name, predicate) {
-    return new ChainValidation(this._candidates, name, predicate, this)
+    return new ChainValidation(
+      this._candidates,
+      this._sourcePropertyName,
+      name,
+      predicate,
+      this
+    )
   }
 
   validateAll() {
@@ -49,7 +58,9 @@ export default class ChainValidation {
   }
 
   _getRejects(candidates) {
-    return candidates.filter((c) => !this._test(c))
+    return candidates
+      .filter((c) => !this._test(c))
+      .map((n) => setSourceProperty(n, this._sourcePropertyName))
   }
 
   _getInhibitors(candidates) {

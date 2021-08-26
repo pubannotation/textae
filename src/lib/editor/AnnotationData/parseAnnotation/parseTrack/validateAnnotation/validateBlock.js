@@ -2,7 +2,7 @@ import getSpanValidation from './getSpanValidation'
 import isIDUnique from './isIDUnique'
 
 export default function (text, blocks, spans) {
-  return getSpanValidation(blocks, text, spans)
+  return getSpanValidation(blocks, text, spans, 'blocks')
     .and('uniqueID', (n) => isIDUnique(spans, n))
     .and(
       'uniqueRange',

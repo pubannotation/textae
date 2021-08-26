@@ -4,7 +4,6 @@ import validateRelation from './validateRelation'
 import transformToReferencedEntitiesError from './transformToReferencedEntitiesError'
 import validateDenotation from './validateDenotation'
 import validateBlock from './validateBlock'
-import setSourceProperty from './setSourceProperty'
 import debugLogCrossing from './debugLogCrossing'
 
 export default function (text, rowData) {
@@ -62,23 +61,11 @@ export default function (text, rowData) {
       outOfTextTypesettings: errorTypeSettings.get('inText'),
       duplicatedIDs: errorDenotations
         .get('uniqueID')
-        .map((n) => setSourceProperty(n, 'denotations'))
-        .concat(
-          errorBlocks.get('uniqueID').map((n) => setSourceProperty(n, 'blocks'))
-        ),
+        .concat(errorBlocks.get('uniqueID')),
       boundaryCrossingSpans: errorTypeSettings
         .get('isNotCrossing')
-        .map((n) => setSourceProperty(n, 'typesettings'))
-        .concat(
-          errorDenotations
-            .get('isNotCrossing')
-            .map((n) => setSourceProperty(n, 'denotations'))
-        )
-        .concat(
-          errorBlocks
-            .get('isNotCrossing')
-            .map((n) => setSourceProperty(n, 'blocks'))
-        ),
+        .concat(errorDenotations.get('isNotCrossing'))
+        .concat(errorBlocks.get('isNotCrossing')),
       referencedEntitiesDoNotExist: transformToReferencedEntitiesError(
         errorAttributes.get('subject'),
         errorRelations.get('object'),
