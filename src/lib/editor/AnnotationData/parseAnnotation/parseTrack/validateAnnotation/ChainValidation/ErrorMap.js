@@ -19,3 +19,7 @@ export default class ErrorMap {
     return this._map.size
   }
 }
+
+export function collectErrors(name, errorMaps) {
+  return errorMaps.reduce((acc, errorMap) => acc.concat(errorMap.get(name)), [])
+}
