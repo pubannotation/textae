@@ -3,8 +3,8 @@ export default class ErrorMap {
     this._map = new Map()
   }
 
-  set(key, value) {
-    this._map.set(key, value)
+  set(key, errors, inhibitors) {
+    this._map.set(key, [errors, inhibitors])
   }
 
   getErrors(key) {

@@ -44,10 +44,11 @@ export default class ChainValidation {
 
   _validate(qualifieds, candidates, errorMap) {
     if (this._getRejects(candidates).length > 0) {
-      errorMap.set(this._name, [
+      errorMap.set(
+        this._name,
         this._getRejects(candidates),
         this._getInhibitors(candidates)
-      ])
+      )
     }
 
     return this._getAccepts(qualifieds)
