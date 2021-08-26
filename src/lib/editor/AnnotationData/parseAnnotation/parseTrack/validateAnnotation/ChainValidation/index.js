@@ -1,4 +1,4 @@
-import setSourceProperty from '../setSourceProperty'
+import setSourceProperty from './setSourceProperty'
 import ErrorMap from './ErrorMap'
 
 export default class ChainValidation {
