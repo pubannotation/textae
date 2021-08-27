@@ -28,7 +28,10 @@ export default function (
       </table>
     </div>
     <fieldset>
-      <legend>Available Predicates:</legend>
+      <legend>
+        <span class="textae-editor__edit-type-values-dialog__open-pallet"></span>
+        Available Predicates:
+      </legend>
       <div class="textae-editor__edit-type-values-dialog__add-attribute-buttons">
       ${attributeContainer.attributes
         .map(

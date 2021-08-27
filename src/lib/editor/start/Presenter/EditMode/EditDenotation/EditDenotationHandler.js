@@ -25,6 +25,7 @@ export default class EditDenotationHandler extends DefaultHandler {
     this._annotationData = annotationData
     this._selectionModel = selectionModel
     this._getAutocompletionWs = getAutocompletionWs
+    this._typeValuesPallet = typeValuesPallet
   }
 
   editTypeValues() {
@@ -35,7 +36,8 @@ export default class EditDenotationHandler extends DefaultHandler {
         this._definitionContainer,
         this._annotationData.typeDefinition.attribute,
         this._getAutocompletionWs(),
-        this._selectionModel.entity.all
+        this._selectionModel.entity.all,
+        this._typeValuesPallet
       )
         .open()
         .then((values) => this._typeValuesChanged(values))

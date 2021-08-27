@@ -15,7 +15,8 @@ export default class EditTypeValuesDialog extends PromiseDialog {
     entityContainer,
     attributeContainer,
     autocompletionWs,
-    selectedItems
+    selectedItems,
+    typeValuesPallet
   ) {
     const { typeName, attributes } = mergedTypeValuesOf(selectedItems)
     const contentHtml = createContentHTML(
@@ -117,6 +118,17 @@ export default class EditTypeValuesDialog extends PromiseDialog {
           attributeContainer,
           entityContainer
         )
+      }
+    )
+
+    // Observe open pallet button.
+    delegate(
+      super.el,
+      '.textae-editor__edit-type-values-dialog__open-pallet',
+      'click',
+      () => {
+        super.close()
+        typeValuesPallet.show()
       }
     )
 
