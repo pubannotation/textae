@@ -35,7 +35,9 @@ export default function (
           ? ''
           : `textae-editor__edit-type-values-dialog__attribute-predicate--${valueType}`
       }"
-      data-pred="${pred}">
+      data-pred="${pred}"
+      title="${valueType} type"
+      >
       ${pred === previousPredicate ? '' : pred}
     </span>
   </td>
