@@ -253,6 +253,16 @@ export default class EntityModel {
     }
   }
 
+  clarifyLabel() {
+    this._signboard.clarifyLabel()
+  }
+
+  declarifyLabel() {
+    if (!this._isHovered) {
+      this._signboard.declarifyLabel()
+    }
+  }
+
   _renderElement() {
     this._signboard = new SignboardHTMLElement(
       this,
