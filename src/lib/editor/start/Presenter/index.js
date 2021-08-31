@@ -1,10 +1,11 @@
+import alertifyjs from 'alertifyjs'
 import EditMode from './EditMode'
 import bindModelChange from './bindModelChange'
 import Horizontal from './Horizontal'
 import Vertical from './EventMap/Vertical'
 import forwardMethods from './forwardMethods'
-import replicateHandler from './EventMap/replicateHandler'
 import SettingDialog from '../../../component/SettingDialog'
+import getIsDelimiterFunc from './getIsDelimiterFunc'
 
 export default class Presenter {
   constructor(
@@ -92,12 +93,24 @@ export default class Presenter {
   }
 
   replicate() {
-    replicateHandler(
-      this._commander,
+    const isDelimiterFunc = getIsDelimiterFunc(
       this._buttonController,
-      this._spanConfig,
-      this._selectionModel.span.single
+      this._spanConfig
     )
+
+    if (this._selectionModel.span.single) {
+      this._commander.invoke(
+        this._commander.factory.replicateSpanCommand(
+          this._selectionModel.span.single,
+          this._selectionModel.span.single.entities.map((e) => e.typeValues),
+          isDelimiterFunc
+        )
+      )
+    } else {
+      alertifyjs.warning(
+        'You can replicate span annotation when there is only span selected.'
+      )
+    }
   }
 
   cancelSelect() {
