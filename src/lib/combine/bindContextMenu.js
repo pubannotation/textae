@@ -1,8 +1,6 @@
 import isTouchDevice from '../isTouchDevice'
 
 export default function (editor, contextMenu) {
-  // add context menu
-  editor[0].appendChild(contextMenu.el)
   editor.eventEmitter
     .on('textae-event.control.button.push', (data) =>
       contextMenu.updateButtonPushState(data.buttonName, data.state)
