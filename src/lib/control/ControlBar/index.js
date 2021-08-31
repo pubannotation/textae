@@ -4,7 +4,6 @@ import toButtonGroup from './toButtonGroup'
 import transitWriteButtonImage from './transitWriteButtonImage'
 import buttonConfig from '../../buttonConfig'
 import Sticky from 'sticky-js'
-import bindToEditorEvents from './bindToEditorEvents'
 
 function template(context) {
   const { buttonGroup } = context
@@ -60,7 +59,16 @@ export default class ControlBar extends Control {
       new Sticky('.textae-touch-bar', { stickyContainer: '.textae-editor' })
     }
 
-    bindToEditorEvents(editor, this)
+    editor.eventEmitter
+      .on('textae-event.control.button.push', (data) =>
+        this.updateButtonPushState(data.buttonName, data.state)
+      )
+      .on('textae-event.control.buttons.change', (enableButtons) =>
+        this.updateAllButtonEnableState(enableButtons)
+      )
+      .on('textae-event.control.writeButton.transit', (isTrasit) =>
+        this.transitWriteButtonImage(isTrasit)
+      )
   }
 
   transitWriteButtonImage(transitButtons) {
