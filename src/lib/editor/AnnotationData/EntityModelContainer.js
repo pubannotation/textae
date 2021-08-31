@@ -114,6 +114,18 @@ export default class EntityModelContainer extends IdIssueContainer {
     }
   }
 
+  clarifyLabelOfAll() {
+    for (const entity of this.all) {
+      entity.clarifyLabel()
+    }
+  }
+
+  declarifyLabelOfAll() {
+    for (const entity of this.all) {
+      entity.declarifyLabel()
+    }
+  }
+
   _getSpan(type, denotation) {
     return this._spanModelContainer.get(this._getSpanId(type, denotation))
   }
