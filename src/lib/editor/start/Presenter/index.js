@@ -5,6 +5,7 @@ import Vertical from './Vertical'
 import forwardMethods from './forwardMethods'
 import SettingDialog from '../../../component/SettingDialog'
 import getIsDelimiterFunc from './getIsDelimiterFunc'
+import { MODE } from '../../../MODE'
 
 export default class Presenter {
   constructor(
@@ -31,9 +32,8 @@ export default class Presenter {
       autocompletionWs
     )
 
-    editor.eventEmitter.on(
-      'textae-event.annotation-data.all.change',
-      (_, multitrack) => {
+    editor.eventEmitter
+      .on('textae-event.annotation-data.all.change', (_, multitrack) => {
         if (mode !== 'edit') {
           editMode.forView()
         } else {
@@ -44,8 +44,17 @@ export default class Presenter {
           }
           editMode.forEditable()
         }
-      }
-    )
+      })
+      .on('textae-event.edit-mode.transition', (mode) => {
+        switch (mode) {
+          case MODE.VIEW_WITHOUT_RELATION:
+          case MODE.VIEW_WITH_RELATION:
+            annotationData.entity.clarifyLabelOfAll()
+            break
+          default:
+            annotationData.entity.declarifyLabelOfAll()
+        }
+      })
 
     this._editor = editor
     this._commander = commander

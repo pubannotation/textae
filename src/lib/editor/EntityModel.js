@@ -33,6 +33,8 @@ export default class EntityModel {
 
     this._isSelected = false
     this._isHovered = false
+    // When in view mode, the mousleave event will not declarify labels.
+    this._isLabelClarified = false
   }
 
   get id() {
@@ -255,12 +257,14 @@ export default class EntityModel {
 
   clarifyLabel() {
     this._signboard.clarifyLabel()
+    this._isLabelClarified = true
   }
 
   declarifyLabel() {
     if (!this._isHovered) {
       this._signboard.declarifyLabel()
     }
+    this._isLabelClarified = false
   }
 
   _renderElement() {
@@ -278,7 +282,9 @@ export default class EntityModel {
       this._isHovered = true
     })
     element.addEventListener('mouseleave', () => {
-      this._signboard.declarifyLabel()
+      if (!this._isLabelClarified) {
+        this._signboard.declarifyLabel()
+      }
       this._updateRelationHighlighting()
       this._isHovered = false
     })
