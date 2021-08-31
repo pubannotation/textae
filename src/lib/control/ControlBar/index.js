@@ -4,7 +4,7 @@ import toButtonGroup from './toButtonGroup'
 import transitWriteButtonImage from './transitWriteButtonImage'
 import buttonConfig from '../../buttonConfig'
 import Sticky from 'sticky-js'
-import bindControlBar from '../../combine/bindControlBar'
+import bindControlBar from './bindControlBar'
 
 function template(context) {
   const { buttonGroup } = context
