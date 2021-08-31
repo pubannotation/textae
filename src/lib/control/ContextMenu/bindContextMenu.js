@@ -1,4 +1,4 @@
-import isTouchDevice from '../isTouchDevice'
+import isTouchDevice from '../../isTouchDevice'
 
 export default function (editor, contextMenu) {
   // Close ContextMenu when another editor is clicked
