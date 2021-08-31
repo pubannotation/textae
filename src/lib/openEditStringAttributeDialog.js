@@ -1,4 +1,4 @@
-import EditStringAttributeDialog from '../../../component/EditStringAttributeDialog'
+import EditStringAttributeDialog from './component/EditStringAttributeDialog'
 
 export default function (
   selectionModelEntity,

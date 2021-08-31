@@ -6,7 +6,7 @@ import CreateOrEditValueOfAttributeDefinitionDialog from '../../CreateOrEditValu
 import enableAttributeTabDrag from './enableAttributeTabDrag'
 import enableAttributeTabDrop from './enableAttributeTabDrop'
 import openEditNumericAttributeDialog from '../../../openEditNumericAttributeDialog'
-import openEditStringAttributeDialog from '../../../editor/start/Presenter/openEditStringAttributeDialog'
+import openEditStringAttributeDialog from '../../../openEditStringAttributeDialog'
 
 export default function (pallet, el, commander, selectionModelEntity) {
   enableAttributeTabDrag(el)
