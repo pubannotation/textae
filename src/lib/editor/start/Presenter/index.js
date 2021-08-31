@@ -3,7 +3,6 @@ import bindModelChange from './bindModelChange'
 import Horizontal from './EventMap/Horizontal'
 import Vertical from './EventMap/Vertical'
 import forwardMethods from './forwardMethods'
-import createEntityHandler from './createEntityHandler'
 import replicateHandler from './EventMap/replicateHandler'
 import SettingDialog from '../../../component/SettingDialog'
 
@@ -82,7 +81,14 @@ export default class Presenter {
   }
 
   createEntity() {
-    createEntityHandler(this._commander, this._annotationData.typeDefinition)
+    const command =
+      this._commander.factory.createDefaultTypeEntityToSelectedSpansCommand(
+        this._annotationData.typeDefinition.denotation.defaultType
+      )
+
+    if (!command.isEmpty) {
+      this._commander.invoke(command)
+    }
   }
 
   replicate() {
