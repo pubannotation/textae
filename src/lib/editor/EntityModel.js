@@ -32,6 +32,7 @@ export default class EntityModel {
     this._namespace = namespace
 
     this._isSelected = false
+    this._isHovered = false
   }
 
   get id() {
@@ -264,10 +265,12 @@ export default class EntityModel {
     element.addEventListener('mouseenter', () => {
       s.clarifyLabel()
       this._pointUpRelations()
+      this._isHovered = true
     })
     element.addEventListener('mouseleave', () => {
       s.declarifyLabel()
       this._updateRelationHighlighting()
+      this._isHovered = false
     })
 
     return element
