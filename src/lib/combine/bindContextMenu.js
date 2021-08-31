@@ -1,15 +1,6 @@
 import isTouchDevice from '../isTouchDevice'
 
 export default function (editor, contextMenu) {
-  editor.eventEmitter
-    .on('textae-event.control.button.push', (data) =>
-      contextMenu.updateButtonPushState(data.buttonName, data.state)
-    )
-    .on('textae-event.control.buttons.change', (enableButtons) =>
-      contextMenu.updateAllButtonEnableState(enableButtons)
-    )
-    .on('textae-event.editor.key.input', () => contextMenu.hide())
-
   // Close ContextMenu when another editor is clicked
   window.addEventListener('click', (e) => {
     // In Firefox, the right button of mouse fires a 'click' event.

@@ -20,6 +20,15 @@ function template(context) {
 export default class ContextMenu extends Control {
   constructor(editor) {
     super(editor, template(buttonConfig.contextMenu))
+
+    editor.eventEmitter
+      .on('textae-event.control.button.push', (data) =>
+        this.updateButtonPushState(data.buttonName, data.state)
+      )
+      .on('textae-event.control.buttons.change', (enableButtons) =>
+        this.updateAllButtonEnableState(enableButtons)
+      )
+      .on('textae-event.editor.key.input', () => this.hide())
   }
 
   show(positionTop, positionLeft) {
