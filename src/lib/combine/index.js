@@ -1,6 +1,9 @@
 import bindContextMenu from './bindContextMenu'
 
 export default function (editor, controlBar, contextMenu) {
+  // add control bar
+  editor[0].insertBefore(controlBar.el, editor[0].childNodes[0])
+
   bindContextMenu(editor, contextMenu)
 
   // Although there are two event sources, there is only one event consumer,
