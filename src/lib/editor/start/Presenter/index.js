@@ -3,7 +3,7 @@ import bindModelChange from './bindModelChange'
 import Horizontal from './EventMap/Horizontal'
 import Vertical from './EventMap/Vertical'
 import forwardMethods from './forwardMethods'
-import createEntityHandler from './EventMap/createEntityHandler'
+import createEntityHandler from './createEntityHandler'
 import replicateHandler from './EventMap/replicateHandler'
 import SettingDialog from '../../../component/SettingDialog'
 
