@@ -18,5 +18,9 @@ module.exports = merge(common, {
         extractComments: false
       })
     ]
+  },
+  performance: {
+    maxEntrypointSize: 991232,
+    maxAssetSize: 991232
   }
 })
