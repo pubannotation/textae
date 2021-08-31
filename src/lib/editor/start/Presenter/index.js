@@ -1,6 +1,6 @@
 import EditMode from './EditMode'
 import bindModelChange from './bindModelChange'
-import Horizontal from './EventMap/Horizontal'
+import Horizontal from './Horizontal'
 import Vertical from './EventMap/Vertical'
 import forwardMethods from './forwardMethods'
 import replicateHandler from './EventMap/replicateHandler'
