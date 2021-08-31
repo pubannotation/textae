@@ -1,6 +1,5 @@
 import alertifyjs from 'alertifyjs'
 import EditMode from './EditMode'
-import bindModelChange from './bindModelChange'
 import Horizontal from './Horizontal'
 import Vertical from './Vertical'
 import forwardMethods from './forwardMethods'
@@ -32,7 +31,21 @@ export default class Presenter {
       autocompletionWs
     )
 
-    bindModelChange(editor, editMode, mode)
+    editor.eventEmitter.on(
+      'textae-event.annotation-data.all.change',
+      (_, multitrack) => {
+        if (mode !== 'edit') {
+          editMode.forView()
+        } else {
+          if (multitrack) {
+            alertifyjs.success(
+              'track annotations have been merged to root annotations.'
+            )
+          }
+          editMode.forEditable()
+        }
+      }
+    )
 
     this._editor = editor
     this._commander = commander
