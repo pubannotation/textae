@@ -2,7 +2,7 @@ import Control from '../Control'
 import isTouchDevice from '../../isTouchDevice'
 import buttonConfig from '../../buttonConfig'
 import toMenuItem from './toMenuItem'
-import bindContextMenu from './bindContextMenu'
+import bindToWindowEvents from './bindToWindowEvents'
 
 // Make a group of buttons that is headed by the separator.
 function template(context) {
@@ -31,7 +31,7 @@ export default class ContextMenu extends Control {
       )
       .on('textae-event.editor.key.input', () => this.hide())
 
-    bindContextMenu(editor, this)
+    bindToWindowEvents(editor, this)
   }
 
   show(positionTop, positionLeft) {
