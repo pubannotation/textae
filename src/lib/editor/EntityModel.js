@@ -30,6 +30,8 @@ export default class EntityModel {
     this._typeGap = typeGap
     this._typeDefinition = typeDefinition
     this._namespace = namespace
+
+    this._isSelected = false
   }
 
   get id() {
