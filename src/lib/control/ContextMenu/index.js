@@ -1,5 +1,5 @@
 import Control from '../Control'
-import isTouchDevice from '../isTouchDevice'
+import isTouchDevice from '../../isTouchDevice'
 import buttonConfig from '../../buttonConfig'
 import toMenuItem from './toMenuItem'
 

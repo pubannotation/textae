@@ -1,4 +1,4 @@
-import isTouchDevice from '../control/isTouchDevice'
+import isTouchDevice from '../isTouchDevice'
 
 export default function (editor, contextMenu) {
   // add context menu

@@ -1,4 +1,4 @@
-import isTouchDevice from '../control/isTouchDevice'
+import isTouchDevice from '../isTouchDevice'
 import { buttonConfig } from './buttonConfig'
 
 class Config {

@@ -1,5 +1,5 @@
 import Control from '../Control'
-import isTouchDevice from '../isTouchDevice'
+import isTouchDevice from '../../isTouchDevice'
 import toButtonGroup from './toButtonGroup'
 import transitWriteButtonImage from './transitWriteButtonImage'
 import buttonConfig from '../../buttonConfig'
