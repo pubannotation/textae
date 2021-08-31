@@ -1,4 +1,4 @@
-import EditNumericAttributeDialog from '../../../component/EditNumericAttributeDialog'
+import EditNumericAttributeDialog from './component/EditNumericAttributeDialog'
 
 export default function (
   selectionModelEntity,
