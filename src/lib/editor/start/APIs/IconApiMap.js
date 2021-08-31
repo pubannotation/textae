@@ -6,34 +6,34 @@ export default function (
   buttonController
 ) {
   const map = new Map([
-    ['view', () => presenter.event.toViewMode()],
-    ['term', () => presenter.event.toTermMode()],
-    ['block', () => presenter.event.toBlockMode()],
-    ['relation', () => presenter.event.toRelationMode()],
-    ['simple', () => presenter.event.toggleSimpleMode()],
+    ['view', () => presenter.toViewMode()],
+    ['term', () => presenter.toTermMode()],
+    ['block', () => presenter.toBlockMode()],
+    ['relation', () => presenter.toRelationMode()],
+    ['simple', () => presenter.toggleSimpleMode()],
     ['read', () => persistenceInterface.importAnnotation()],
     ['write', () => persistenceInterface.uploadAnnotation()],
     ['undo', () => commander.undo()],
     ['redo', () => commander.redo()],
-    ['replicate', () => presenter.event.replicate()],
-    ['create-span', () => presenter.event.createSpan()],
-    ['expand-span', () => presenter.event.expandSpan()],
-    ['shrink-span', () => presenter.event.shrinkSpan()],
-    ['entity', () => presenter.event.createEntity()],
-    ['change-label', () => presenter.event.editTypeValues()],
-    ['pallet', () => presenter.event.showPallet()],
-    ['delete', () => presenter.event.removeSelectedElements()],
-    ['copy', () => presenter.event.copyEntities()],
-    ['cut', () => presenter.event.cutEntities()],
-    ['paste', () => presenter.event.pasteEntities()],
-    ['setting', () => presenter.event.showSettingDialog()],
+    ['replicate', () => presenter.replicate()],
+    ['create-span', () => presenter.createSpan()],
+    ['expand-span', () => presenter.expandSpan()],
+    ['shrink-span', () => presenter.shrinkSpan()],
+    ['entity', () => presenter.createEntity()],
+    ['change-label', () => presenter.editTypeValues()],
+    ['pallet', () => presenter.showPallet()],
+    ['delete', () => presenter.removeSelectedElements()],
+    ['copy', () => presenter.copyEntities()],
+    ['cut', () => presenter.cutEntities()],
+    ['paste', () => presenter.pasteEntities()],
+    ['setting', () => presenter.showSettingDialog()],
     ['line-height', () => view.updateLineHeight()]
   ])
 
   // Set handler for push buttons.
   for (const buttonName of buttonController.pushButtonNames) {
     if (!map.has(buttonName)) {
-      map.set(buttonName, () => presenter.event.toggleButton(buttonName))
+      map.set(buttonName, () => presenter.toggleButton(buttonName))
     }
   }
 

@@ -54,12 +54,12 @@ export default class APIs {
   }
 
   select() {
-    this._presenter.event.select()
+    this._presenter.select()
     this._isSelected = true
   }
 
   unselect() {
-    this._presenter.event.unselect()
+    this._presenter.unselect()
     this._isSelected = false
   }
 }
