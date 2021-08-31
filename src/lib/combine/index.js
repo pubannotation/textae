@@ -1,8 +1,6 @@
-import bindControlBar from './bindControlBar'
 import bindContextMenu from './bindContextMenu'
 
 export default function (editor, controlBar, contextMenu) {
-  bindControlBar(editor, controlBar)
   bindContextMenu(editor, contextMenu)
 
   // Although there are two event sources, there is only one event consumer,
