@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.23.0](https://github.com/pubannotation/textae/compare/v7.22.0...v7.23.0) (2021-09-01)
+
+
+### Features
+
+* Clarify label of entities in the View Mode ([bbb0f1d](https://github.com/pubannotation/textae/commit/bbb0f1d93d7f4ff370f0982d429259db2e6af477))
+* Open the pallet from the EditTypeValues dialog ([4d2b41c](https://github.com/pubannotation/textae/commit/4d2b41cd0856214a468ea447024b56fafd38236f))
+* Reloading when trying to scroll further when you are at the top on an Android device. Show a confirmation dialog to prevent this. ([e5edc6f](https://github.com/pubannotation/textae/commit/e5edc6f9414ee125560f385407e0b101969fcc25))
+* Show tooltip on the attribute type icons in the EditTypeValues dialog ([87a00cb](https://github.com/pubannotation/textae/commit/87a00cb874d70a3e67d1a6cc6b658cede46cb686))
+* Stop making disable buttons trasparent ([e81489d](https://github.com/pubannotation/textae/commit/e81489d1c5228bfe14b44206469217d1d8638e4a))
+
+
+### Bug Fixes
+
+* An error occurs when reading annotations with spans that cross the boundary across tracks ([fff84ec](https://github.com/pubannotation/textae/commit/fff84ecc8206a488914f32eaad2980d76cf37d39))
+* Width of highlighted relation ([d4eb941](https://github.com/pubannotation/textae/commit/d4eb941df15b5ca30e4fdc6eea38c95751b14e35))
+
 ## [7.22.0](https://github.com/pubannotation/textae/compare/v7.21.0...v7.22.0) (2021-08-25)
 
 

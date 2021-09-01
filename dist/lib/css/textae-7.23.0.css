@@ -3093,9 +3093,6 @@ ul.jsondiffpatch-textdiff {
   font-family: FontAwesome;
   content: '\f27a';
 }
-.textae-editor__edit-type-values-dialog__add-attribute[disabled='disabled'] {
-  opacity: 0.1;
-}
 .textae-editor__edit-type-values-dialog__edit-attribute:before {
   position: relative;
   display: inline-block;
@@ -3107,6 +3104,14 @@ ul.jsondiffpatch-textdiff {
   display: inline-block;
   font-family: FontAwesome;
   content: '\f1f8';
+}
+.textae-editor__edit-type-values-dialog__open-pallet {
+  background: url(./images/btn_pallet_16.png);
+  cursor: pointer;
+  display: inline-block;
+  height: 16px;
+  margin-left: 6px;
+  width: 16px;
 }
 .textae-editor__edit-type-values-dialog__add-attribute-buttons {
   line-height: 2.3em;
@@ -3418,9 +3423,6 @@ ul.jsondiffpatch-textdiff {
 }
 .textae-editor__valiondate-dialog__content table td.alert {
   color: red;
-}
-.ui-dialog-buttonpane button[disabled='disabled'] {
-  opacity: 0.1;
 }
 .textae-editor__dialog {
   /* To show candidates of the autocomplete, overwrite a style of the jQuery-ui dialog */
@@ -3917,7 +3919,7 @@ ul.jsondiffpatch-textdiff {
 }
 .textae-editor__relation--isBold {
   stroke-opacity: 1;
-  stroke-width: 2;
+  stroke-width: 4;
 }
 .textae-editor__relation-label--isBold {
   font-weight: bold;
