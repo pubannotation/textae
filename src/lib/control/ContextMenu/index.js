@@ -35,27 +35,22 @@ export default class ContextMenu extends Control {
   }
 
   show(positionTop, positionLeft) {
+    this._show()
+
     super.el.setAttribute(
       'style',
       `top: ${positionTop}px; left: ${positionLeft}px`
     )
-    super.el.classList.remove('textae-context-menu--hide')
-    super.el.classList.add('textae-context-menu--show')
-
-    this._setButtons()
   }
 
   showAbove(positionTop, positionLeft) {
-    super.el.classList.remove('textae-context-menu--hide')
-    super.el.classList.add('textae-context-menu--show')
+    this._show()
 
     const { height } = this.el.getBoundingClientRect()
     super.el.setAttribute(
       'style',
       `top: ${positionTop - height}px; left: ${positionLeft}px`
     )
-
-    this._setButtons()
   }
 
   hide() {
@@ -69,9 +64,12 @@ export default class ContextMenu extends Control {
     return super.el.classList.contains('textae-context-menu--show')
   }
 
-  _setButtons() {
+  _show() {
     super.el.replaceChildren(
       ...dohtml.create(template(buttonConfig.contextMenu.buttonGroup)).children
     )
+
+    super.el.classList.remove('textae-context-menu--hide')
+    super.el.classList.add('textae-context-menu--show')
   }
 }
