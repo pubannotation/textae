@@ -5,8 +5,7 @@ import toMenuItem from './toMenuItem'
 import bindToWindowEvents from './bindToWindowEvents'
 
 // Make a group of buttons that is headed by the separator.
-function template(context) {
-  const { buttonGroup } = context
+function template(buttonGroup) {
   return `
 <div class="textae-control ${
     isTouchDevice() ? 'textae-android-context-menu' : 'textae-context-menu'
@@ -20,7 +19,7 @@ function template(context) {
 
 export default class ContextMenu extends Control {
   constructor(editor) {
-    super(editor, template(buttonConfig.contextMenu))
+    super(editor, template(buttonConfig.contextMenu.buttonGroup))
 
     editor.eventEmitter
       .on('textae-event.control.button.push', (data) =>
