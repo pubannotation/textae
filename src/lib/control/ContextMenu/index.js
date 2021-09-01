@@ -19,7 +19,8 @@ function template(buttonGroup) {
 
 export default class ContextMenu extends Control {
   constructor(editor) {
-    super(editor, template(buttonConfig.contextMenu.buttonGroup))
+    const { buttonGroup } = buttonConfig.contextMenu
+    super(editor, template(buttonGroup))
 
     editor.eventEmitter
       .on('textae-event.control.button.push', (data) =>
