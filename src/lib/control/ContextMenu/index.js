@@ -1,3 +1,4 @@
+import dohtml from 'dohtml'
 import Control from '../Control'
 import isTouchDevice from '../../isTouchDevice'
 import buttonConfig from '../../buttonConfig'
@@ -19,8 +20,7 @@ function template(buttonGroup) {
 
 export default class ContextMenu extends Control {
   constructor(editor) {
-    const { buttonGroup } = buttonConfig.contextMenu
-    super(editor, template(buttonGroup))
+    super(editor, template([]))
 
     editor.eventEmitter
       .on('textae-event.control.button.push', (data) =>
@@ -41,6 +41,8 @@ export default class ContextMenu extends Control {
     )
     super.el.classList.remove('textae-context-menu--hide')
     super.el.classList.add('textae-context-menu--show')
+
+    this._setButtons()
   }
 
   showAbove(positionTop, positionLeft) {
@@ -52,6 +54,8 @@ export default class ContextMenu extends Control {
       'style',
       `top: ${positionTop - height}px; left: ${positionLeft}px`
     )
+
+    this._setButtons()
   }
 
   hide() {
@@ -63,5 +67,11 @@ export default class ContextMenu extends Control {
 
   get _isOpen() {
     return super.el.classList.contains('textae-context-menu--show')
+  }
+
+  _setButtons() {
+    super.el.replaceChildren(
+      ...dohtml.create(template(buttonConfig.contextMenu.buttonGroup)).children
+    )
   }
 }

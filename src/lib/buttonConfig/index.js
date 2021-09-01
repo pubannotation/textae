@@ -25,20 +25,22 @@ class Config {
   // Buttons to display on the context menu.
   get contextMenu() {
     return {
-      buttonGroup: buttonConfig
-        .filter(({ usage }) => {
-          if (isTouchDevice()) {
-            return usage['touce device'].includes('context menu')
-          } else {
-            return usage['keyboard device'].includes('context menu')
-          }
-        })
-        .map(({ list }) => ({
-          list: list.map((button) => ({
-            type: button.type,
-            title: button.title
+      get buttonGroup() {
+        return buttonConfig
+          .filter(({ usage }) => {
+            if (isTouchDevice()) {
+              return usage['touce device'].includes('context menu')
+            } else {
+              return usage['keyboard device'].includes('context menu')
+            }
+          })
+          .map(({ list }) => ({
+            list: list.map((button) => ({
+              type: button.type,
+              title: button.title
+            }))
           }))
-        }))
+      }
     }
   }
 
