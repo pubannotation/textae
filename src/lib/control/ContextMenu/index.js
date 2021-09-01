@@ -34,7 +34,7 @@ export default class ContextMenu extends Control {
     bindToWindowEvents(editor, this)
   }
 
-  show(positionTop, positionLeft) {
+  showLowerRight(positionTop, positionLeft) {
     this._show()
 
     super.el.setAttribute(

@@ -52,7 +52,7 @@ export default function (editor, contextMenu) {
         // I want the coordinates where you right-click with the mouse,
         // starting from the upper left of the editor.
         // So the Y coordinate is pageY minus the editor's offsetTop.
-        contextMenu.show(e.pageY - editor[0].offsetTop, e.pageX)
+        contextMenu.showLowerRight(e.pageY - editor[0].offsetTop, e.pageX)
       }
     }
   })
