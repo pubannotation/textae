@@ -45,6 +45,4 @@ export default function ($this) {
       )
     }
   }
-
-  return $this
 }
