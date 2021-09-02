@@ -33,7 +33,7 @@ export default function () {
 
   // public funcitons of editor
   this.api = {
-    start: (editor) =>
+    start(editor) {
       start(
         editor,
         dataAccessObject,
@@ -43,6 +43,7 @@ export default function () {
         annotationWatcher,
         params
       )
+    }
   }
 
   return this
