@@ -39,7 +39,7 @@ export default function (
     selectionModel
   )
   const buttonController = new ButtonController(
-    editor,
+    editor.eventEmitter,
     selectionModel,
     clipBoard
   )

@@ -4,14 +4,10 @@ import DelimiterDetectAdjuster from './DelimiterDetectAdjuster'
 import BlankSkipAdjuster from './BlankSkipAdjuster'
 
 export default class ButtonController {
-  constructor(editor, selectionModel, clipBoard) {
-    this._enableState = new EnableState(
-      editor.eventEmitter,
-      selectionModel,
-      clipBoard
-    )
+  constructor(eventEmitter, selectionModel, clipBoard) {
+    this._enableState = new EnableState(eventEmitter, selectionModel, clipBoard)
     // Save state of push control buttons.
-    this._pushButtons = new PushButtons(editor.eventEmitter)
+    this._pushButtons = new PushButtons(eventEmitter)
   }
 
   propagate() {
