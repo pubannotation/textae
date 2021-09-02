@@ -1,5 +1,5 @@
-export default function (editor, button) {
-  editor.eventEmitter
+export default function (eventEmitter, button) {
+  eventEmitter
     .on('textae-event.history.change', (history) => {
       // change button state
       button.enable('undo', history.hasAnythingToUndo)

@@ -3,10 +3,10 @@ import { MODE } from '../../MODE'
 import bindEvents from './bindEvents'
 
 export default class EnableState {
-  constructor(editor, selectionModel, clipBoard) {
+  constructor(eventEmitter, selectionModel, clipBoard) {
     // Save enable/disable state of contorol buttons.
     this._states = {}
-    this._editor = editor
+    this._eventEmitter = eventEmitter
     this._selectionModel = selectionModel
     this._clipBoard = clipBoard
 
@@ -18,14 +18,11 @@ export default class EnableState {
     this.enable('simple', true)
     this.enable('setting', true)
 
-    bindEvents(editor, this)
+    bindEvents(eventEmitter, this)
   }
 
   propagate() {
-    this._editor.eventEmitter.emit(
-      'textae-event.control.buttons.change',
-      this._states
-    )
+    this._eventEmitter.emit('textae-event.control.buttons.change', this._states)
   }
 
   enable(button, enable) {
