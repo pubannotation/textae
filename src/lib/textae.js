@@ -10,13 +10,13 @@ const tool = new Tool()
 export default function () {
   for (const self of document.querySelectorAll('.textae-editor')) {
     // Create an editor
-    const e = $(self)
-    editor.call(e)
+    const $e = $(self)
+    editor.call($e)
     // Register an editor
-    tool.registerEditor(e)
+    tool.registerEditor($e)
     // Start an editor
-    e.api.start(e)
+    $e.api.start($e)
     // Combine a controle to an editor
-    combine(e, new ControlBar(e), new ContextMenu(e))
+    combine($e, new ControlBar($e), new ContextMenu($e))
   }
 }
