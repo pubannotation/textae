@@ -1,15 +1,13 @@
-import changeCursor from './changeCursor'
-
 export default class CursorChanger {
   constructor(editor) {
     this._editor = editor
   }
 
   startWait() {
-    changeCursor(this._editor, 'add')
+    this._editor[0].classList.add('textae-editor--wait')
   }
 
   endWait() {
-    changeCursor(this._editor, 'remove')
+    this._editor[0].classList.remove('textae-editor--wait')
   }
 }
