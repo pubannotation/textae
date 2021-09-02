@@ -1,4 +1,3 @@
-import CursorChanger from '../../util/CursorChanger'
 import AjaxSender from './AjaxSender'
 import bind from './bind'
 import get from './get'
@@ -15,14 +14,13 @@ export default class DataAccessObject {
       annotation: '',
       config: ''
     }
-    this._cursorChanger = new CursorChanger(editor)
     this._ajaxSender = new AjaxSender(
-      () => this._cursorChanger.startWait(),
+      () => editor.startWait(),
       () =>
         this._editor.eventEmitter.emit(
           'textae-event.data-access-object.save.error'
         ),
-      () => this._cursorChanger.endWait()
+      () => editor.endWait()
     )
 
     bind(editor, this._ajaxSender)
@@ -77,7 +75,7 @@ export default class DataAccessObject {
           'textae-event.data-access-object.annotation.load.error',
           url
         ),
-      this._cursorChanger
+      this._editor
     )
   }
 
@@ -100,7 +98,7 @@ export default class DataAccessObject {
           'textae-event.data-access-object.configuration.load.error',
           url
         ),
-      this._cursorChanger
+      this._editor
     )
   }
 

@@ -1,17 +1,17 @@
 import ajaxAccessor from '../../util/ajaxAccessor'
 
-export default function (url, done, errorHandler, cursorChanger) {
-  cursorChanger.startWait()
+export default function (url, done, errorHandler, editor) {
+  editor.startWait()
 
   ajaxAccessor(
     url,
     (data) => {
       done(data)
-      cursorChanger.endWait()
+      editor.endWait()
     },
     () => {
       errorHandler()
-      cursorChanger.endWait()
+      editor.endWait()
     }
   )
 }
