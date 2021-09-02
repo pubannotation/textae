@@ -11,7 +11,7 @@ export default class ButtonController {
       clipBoard
     )
     // Save state of push control buttons.
-    this._pushButtons = new PushButtons(editor)
+    this._pushButtons = new PushButtons(editor.eventEmitter)
   }
 
   propagate() {

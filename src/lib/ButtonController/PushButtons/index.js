@@ -3,14 +3,14 @@ import { MODE } from '../../MODE'
 import Button from './Button'
 
 export default class PushButtons {
-  constructor(editor) {
+  constructor(eventEmitter) {
     this._buttonMap = buttonConfig.pushButtons.reduce((map, buttonName) => {
-      map.set(buttonName, new Button(editor.eventEmitter, buttonName))
+      map.set(buttonName, new Button(eventEmitter, buttonName))
       return map
     }, new Map())
 
     // Bind an event.
-    editor.eventEmitter.on('textae-event.edit-mode.transition', (mode) =>
+    eventEmitter.on('textae-event.edit-mode.transition', (mode) =>
       this._setMode(mode)
     )
 
