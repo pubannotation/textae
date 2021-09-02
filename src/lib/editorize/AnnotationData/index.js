@@ -16,7 +16,6 @@ import TypeDefinition from './TypeDefinition'
 import DefinitionContainer from './DefinitionContainer'
 import AttributeDefinitionContainer from './AttributeDefinitionContainer'
 import getAnnotationBox from './getAnnotationBox'
-import CursorChanger from '../../util/CursorChanger'
 
 export default class AnnotationData {
   constructor(editor) {
@@ -157,9 +156,7 @@ export default class AnnotationData {
   }
 
   updatePosition() {
-    const cursorChanger = new CursorChanger(this._editor)
-
-    cursorChanger.startWait()
+    this._editor.startWait()
     // jQuery Ui dialogs are not in the editor.
     for (const dialog of document.querySelectorAll('.ui-dialog')) {
       dialog.classList.add('textae-editor--wait')
@@ -170,7 +167,7 @@ export default class AnnotationData {
 
     this._rearrangeAllAnnotations()
 
-    cursorChanger.endWait()
+    this._editor.endWait()
     for (const dialog of document.querySelectorAll('.ui-dialog')) {
       dialog.classList.remove('textae-editor--wait')
     }
