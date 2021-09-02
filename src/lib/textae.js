@@ -15,7 +15,7 @@ export default function () {
     // Register an editor
     tool.registerEditor($e)
     // Start an editor
-    $e.api.start($e)
+    $e.start($e)
     // Combine a controle to an editor
     combine($e, new ControlBar($e), new ContextMenu($e))
   }

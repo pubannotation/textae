@@ -32,7 +32,7 @@ export default function ($this) {
   observeModelChange($this, history)
 
   // public funcitons of editor
-  $this.api = {
+  Object.assign($this, {
     start(editor) {
       start(
         editor,
@@ -44,5 +44,5 @@ export default function ($this) {
         params
       )
     }
-  }
+  })
 }
