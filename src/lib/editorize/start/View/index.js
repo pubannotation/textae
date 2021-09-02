@@ -8,7 +8,7 @@ export default class View {
 
     // Bind annotation data events
     const lineHeightAuto = new LineHeightAuto(
-      editor,
+      editor.eventEmitter,
       this._annotationData.textBox
     )
     const debouncedUpdatePosition = debounce(() => {
