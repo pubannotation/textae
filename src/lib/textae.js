@@ -11,7 +11,7 @@ export default function () {
   for (const self of document.querySelectorAll('.textae-editor')) {
     // Create an editor
     const $e = $(self)
-    editor.call($e)
+    editor($e)
     // Register an editor
     tool.registerEditor($e)
     // Start an editor

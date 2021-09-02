@@ -11,28 +11,28 @@ import observeDataSave from './observeDataSave'
 import observeModelChange from './observeModelChange'
 import getParams from './getParams'
 
-export default function () {
+export default function ($this) {
   // Set the eventEmitter to communicate with the tool and a control.
-  this.eventEmitter = new EventEmitter()
+  $this.eventEmitter = new EventEmitter()
 
-  const params = getParams(this[0])
-  const annotationData = new AnnotationData(this)
+  const params = getParams($this[0])
+  const annotationData = new AnnotationData($this)
 
   // A contaier of selection state.
-  const selectionModel = new SelectionModel(this.eventEmitter, annotationData)
+  const selectionModel = new SelectionModel($this.eventEmitter, annotationData)
 
-  const history = new History(this.eventEmitter)
-  const dataAccessObject = new DataAccessObject(this)
+  const history = new History($this.eventEmitter)
+  const dataAccessObject = new DataAccessObject($this)
 
-  const annotationWatcher = new AnnotationWatcher(this)
+  const annotationWatcher = new AnnotationWatcher($this)
   annotationWatcher.bind((val) =>
-    this.eventEmitter.emit('textae-event.control.writeButton.transit', val)
+    $this.eventEmitter.emit('textae-event.control.writeButton.transit', val)
   )
-  observeDataSave(this, history)
-  observeModelChange(this, history)
+  observeDataSave($this, history)
+  observeModelChange($this, history)
 
   // public funcitons of editor
-  this.api = {
+  $this.api = {
     start(editor) {
       start(
         editor,
@@ -46,5 +46,5 @@ export default function () {
     }
   }
 
-  return this
+  return $this
 }
