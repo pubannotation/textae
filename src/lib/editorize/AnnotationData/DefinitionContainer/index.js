@@ -6,6 +6,7 @@ import DefinedTypeContainer from './DefinedTypeContainer'
 export default class DefinitionContainer {
   constructor(editor, annotationType, getAllInstanceFunc, defaultColor) {
     this._editor = editor
+    this._eventEmitter = editor.eventEmitter
     this._annotationType = annotationType
     this._definedTypes = null
     this._getAllInstanceFunc = getAllInstanceFunc
@@ -47,7 +48,7 @@ export default class DefinitionContainer {
 
   replace(id, newType) {
     this._definedTypes.replace(id, newType)
-    this._editor.eventEmitter.emit(
+    this._eventEmitter.emit(
       `textae-event.type-definition.${this._annotationType}.change`,
       newType.id
     )
