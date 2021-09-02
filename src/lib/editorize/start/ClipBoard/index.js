@@ -4,7 +4,7 @@ import getSelectedEntities from './getSelectedEntities'
 
 export default class ClipBoard {
   constructor(editor, commander, selectionModel) {
-    this._editor = editor
+    this._eventEmitter = editor.eventEmitter
     this._commander = commander
     this._selectionModel = selectionModel
 
@@ -86,7 +86,7 @@ export default class ClipBoard {
     const oldItems = this._cuttingItems.filter((i) => !newItems.has(i))
     this._items = [...newItems]
 
-    this._editor.eventEmitter.emit(
+    this._eventEmitter.emit(
       'textae-event.clip-board.change',
       this._cuttingItems,
       oldItems
