@@ -4,8 +4,8 @@ import formatForPallet from './formatForPallet'
 import DefinedTypeContainer from './DefinedTypeContainer'
 
 export default class DefinitionContainer {
-  constructor(editor, annotationType, getAllInstanceFunc, defaultColor) {
-    this._eventEmitter = editor.eventEmitter
+  constructor(eventEmitter, annotationType, getAllInstanceFunc, defaultColor) {
+    this._eventEmitter = eventEmitter
     this._annotationType = annotationType
     this._definedTypes = null
     this._getAllInstanceFunc = getAllInstanceFunc

@@ -23,7 +23,7 @@ export default class AnnotationData {
     this._sourceDoc = ''
     this.namespace = new ModelContainer(editor.eventEmitter, 'namespace')
     const relationDefinitionContainer = new DefinitionContainer(
-      editor,
+      editor.eventEmitter,
       'relation',
       () => this.relation.all,
       '#00CC66'
@@ -76,13 +76,13 @@ export default class AnnotationData {
     this._editor = editor
 
     const denotationDefinitionContainer = new DefinitionContainer(
-      editor,
+      editor.eventEmitter,
       'entity',
       () => this.entity.denotations,
       '#77DDDD'
     )
     const blockDefinitionContainer = new DefinitionContainer(
-      editor,
+      editor.eventEmitter,
       'entity',
       () => this.entity.blocks,
       '#77DDDD'
