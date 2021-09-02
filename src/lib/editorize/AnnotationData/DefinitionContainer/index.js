@@ -5,7 +5,6 @@ import DefinedTypeContainer from './DefinedTypeContainer'
 
 export default class DefinitionContainer {
   constructor(editor, annotationType, getAllInstanceFunc, defaultColor) {
-    this._editor = editor
     this._eventEmitter = editor.eventEmitter
     this._annotationType = annotationType
     this._definedTypes = null
