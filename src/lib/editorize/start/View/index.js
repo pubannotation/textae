@@ -2,13 +2,12 @@ import debounce from 'debounce'
 import LineHeightAuto from './LineHeightAuto'
 
 export default class View {
-  constructor(editor, annotationData) {
-    this._editor = editor
+  constructor(eventEmitter, annotationData) {
     this._annotationData = annotationData
 
     // Bind annotation data events
     const lineHeightAuto = new LineHeightAuto(
-      editor.eventEmitter,
+      eventEmitter,
       this._annotationData.textBox
     )
     const debouncedUpdatePosition = debounce(() => {
@@ -16,7 +15,7 @@ export default class View {
       this._annotationData.updatePosition()
     }, 100)
 
-    editor.eventEmitter
+    eventEmitter
       .on('textae-event.annotation-data.all.change', debouncedUpdatePosition)
       .on('textae-event.annotation-data.entity.add', debouncedUpdatePosition)
       .on('textae-event.annotation-data.entity.change', debouncedUpdatePosition)
@@ -38,25 +37,22 @@ export default class View {
       )
 
     // Bind clipBoard events.
-    editor.eventEmitter.on(
-      'textae-event.clip-board.change',
-      (added, removed) => {
-        for (const entity of added) {
-          entity.startCut()
-        }
-
-        for (const entity of removed) {
-          entity.cancelCut()
-        }
+    eventEmitter.on('textae-event.clip-board.change', (added, removed) => {
+      for (const entity of added) {
+        entity.startCut()
       }
-    )
+
+      for (const entity of removed) {
+        entity.cancelCut()
+      }
+    })
 
     // Bind commander events.
     // When you have an entity with multiple attributes whose pred is the same,
     // if you redraw the HTML element of the entity every time you update the attributes,
     // you need to consider the mixed state of the attributes after the update and before the update.
     // Redraw all the Entities that were affected at the end of the command.
-    editor.eventEmitter.on(
+    eventEmitter.on(
       'textae-event.commander.attributes.change',
       (attributes) => {
         for (const subjectModel of attributes.reduce(
@@ -69,7 +65,7 @@ export default class View {
     )
 
     // Bind type-definition events.
-    editor.eventEmitter
+    eventEmitter
       .on('textae-event.type-definition.entity.change', (typeName) => {
         for (const entity of annotationData.entity.all) {
           // If the type name ends in a wildcard, look for the DOMs to update with a forward match.
