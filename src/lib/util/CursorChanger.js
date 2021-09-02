@@ -4,10 +4,10 @@ export default class CursorChanger {
   }
 
   startWait() {
-    this._editor[0].classList.add('textae-editor--wait')
+    this._editor.startWait()
   }
 
   endWait() {
-    this._editor[0].classList.remove('textae-editor--wait')
+    this._editor.endWait()
   }
 }

@@ -43,6 +43,12 @@ export default function ($this) {
         annotationWatcher,
         params
       )
+    },
+    startWait() {
+      $this[0].classList.add('textae-editor--wait')
+    },
+    endWait() {
+      $this[0].classList.remove('textae-editor--wait')
     }
   })
 }
