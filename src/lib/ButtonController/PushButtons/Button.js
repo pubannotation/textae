@@ -1,7 +1,7 @@
 // Button state is true when the button is pushed.
 export default class Button {
-  constructor(editor, buttonName) {
-    this._editor = editor
+  constructor(eventEmitter, buttonName) {
+    this._eventEmitter = eventEmitter
     this.name = buttonName
     this.state = false
   }
@@ -24,7 +24,7 @@ export default class Button {
 
   // Propagate button state to the tool.
   propagate() {
-    this._editor.eventEmitter.emit('textae-event.control.button.push', {
+    this._eventEmitter.emit('textae-event.control.button.push', {
       buttonName: this.name,
       state: this.state
     })
