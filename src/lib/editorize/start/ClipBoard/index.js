@@ -3,8 +3,8 @@ import EntityModel from '../../EntityModel'
 import getSelectedEntities from './getSelectedEntities'
 
 export default class ClipBoard {
-  constructor(editor, commander, selectionModel) {
-    this._eventEmitter = editor.eventEmitter
+  constructor(eventEmitter, commander, selectionModel) {
+    this._eventEmitter = eventEmitter
     this._commander = commander
     this._selectionModel = selectionModel
 
@@ -13,7 +13,7 @@ export default class ClipBoard {
     // Use one list.
     this._items = []
 
-    editor.eventEmitter
+    eventEmitter
       .on('textae-event.annotation-data.entity.remove', (entity) => {
         if (this.hasCuttingItem) {
           this._updateItems(new Set(this._items.filter((e) => e != entity)))

@@ -33,7 +33,11 @@ export default function (
     selectionModel,
     history
   )
-  const clipBoard = new ClipBoard(editor, commander, selectionModel)
+  const clipBoard = new ClipBoard(
+    editor.eventEmitter,
+    commander,
+    selectionModel
+  )
   const buttonController = new ButtonController(
     editor,
     selectionModel,
