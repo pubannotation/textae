@@ -4,6 +4,13 @@ import isTouchDevice from '../../isTouchDevice'
 import buttonConfig from '../../buttonConfig'
 import bindToWindowEvents from './bindToWindowEvents'
 
+function toContextMenuItem({ type, title, classList }) {
+  return `<p 
+    class="${classList.join(' ')}"  
+    data-button-type="${type}">${title}
+  </p>`
+}
+
 // Make a group of buttons that is headed by the separator.
 function template(context) {
   return `
@@ -11,17 +18,7 @@ function template(context) {
     isTouchDevice() ? 'textae-android-context-menu' : 'textae-context-menu'
   }">
   ${context
-    .map((list) =>
-      list
-        .map(
-          ({ type, title, classList }) =>
-            `<p 
-              class="${classList.join(' ')}"  
-              data-button-type="${type}">${title}
-            </p>`
-        )
-        .join('')
-    )
+    .map((list) => list.map(toContextMenuItem).join(''))
     .join('<p class="textae-control-separator"></p>\n')}
 </div>
 `
