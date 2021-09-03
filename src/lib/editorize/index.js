@@ -11,8 +11,6 @@ import { EventEmitter } from 'events'
 import observeDataSave from './observeDataSave'
 import observeModelChange from './observeModelChange'
 import getParams from './getParams'
-import ControlBar from './control/ControlBar'
-import ContextMenu from './control/ContextMenu'
 
 export default function (element) {
   const $this = $(element)
@@ -56,11 +54,6 @@ export default function (element) {
       $this[0].classList.remove('textae-editor--wait')
     }
   })
-
-  // add control bar
-  $this[0].insertBefore(new ControlBar($this).el, $this[0].childNodes[0])
-  // add context menu
-  $this[0].appendChild(new ContextMenu($this).el)
 
   return $this
 }

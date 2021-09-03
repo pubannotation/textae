@@ -14,6 +14,8 @@ import ButtonController from './ButtonController'
 import ClipBoard from './ClipBoard'
 import AnnotationAutoSaver from './AnnotationAutoSaver'
 import observe from './observe'
+import ControlBar from '../control/ControlBar'
+import ContextMenu from '../control/ContextMenu'
 
 export default function (
   editor,
@@ -150,6 +152,11 @@ export default function (
   editor.eventEmitter.on('textae-event.control.button.click', (event) =>
     editor.api.handleButtonClick(event)
   )
+
+  // add control bar
+  editor[0].insertBefore(new ControlBar(editor).el, editor[0].childNodes[0])
+  // add context menu
+  editor[0].appendChild(new ContextMenu(editor).el)
 
   editor.api.updateButtons()
 }
