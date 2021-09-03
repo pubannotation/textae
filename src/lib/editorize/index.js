@@ -11,8 +11,8 @@ import { EventEmitter } from 'events'
 import observeDataSave from './observeDataSave'
 import observeModelChange from './observeModelChange'
 import getParams from './getParams'
-import ControlBar from '../control/ControlBar'
-import ContextMenu from '../control/ContextMenu'
+import ControlBar from './control/ControlBar'
+import ContextMenu from './control/ContextMenu'
 
 export default function (element) {
   const $this = $(element)
