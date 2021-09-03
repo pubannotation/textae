@@ -6,21 +6,37 @@ import bindToWindowEvents from './bindToWindowEvents'
 
 // Make a group of buttons that is headed by the separator.
 function template(buttonGroup, pushButtons, enableButtons, transitButtons) {
+  const context = buttonGroup.map(({ list }) => {
+    const ret = []
+    for (const { type, title } of list) {
+      const classList = ['textae-control-icon', `textae-control-${type}-button`]
+      if (pushButtons[type]) {
+        classList.push('textae-control-icon--pushed')
+      }
+      if (!enableButtons[type]) {
+        classList.push('textae-control-icon--disabled')
+      }
+      if (transitButtons[type]) {
+        classList.push('textae-control-icon--transit')
+      }
+
+      ret.push({ type, title, classList })
+    }
+
+    return ret
+  })
+
   return `
 <div class="textae-control ${
     isTouchDevice() ? 'textae-android-context-menu' : 'textae-context-menu'
   }">
-  ${buttonGroup
-    .map(({ list }) =>
+  ${context
+    .map((list) =>
       list
         .map(
-          ({ type, title }) =>
+          ({ type, title, classList }) =>
             `<p 
-              class="textae-control-icon textae-control-${type}-button${
-              pushButtons[type] ? ' textae-control-icon--pushed' : ''
-            }${enableButtons[type] ? '' : ' textae-control-icon--disabled'}${
-              transitButtons[type] ? ' textae-control-icon--transit' : ''
-            }"  
+              class="${classList.join(' ')}"  
               data-button-type="${type}">${title}
             </p>`
         )
