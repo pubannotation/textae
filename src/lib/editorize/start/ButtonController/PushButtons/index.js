@@ -1,5 +1,5 @@
-import buttonConfig from '../../buttonConfig'
-import { MODE } from '../../MODE'
+import buttonConfig from '../../../../buttonConfig'
+import { MODE } from '../../../../MODE'
 import Button from './Button'
 
 export default class PushButtons {
