@@ -1,4 +1,4 @@
-import isTouchDevice from '../isTouchDevice'
+import isTouchDevice from '../../isTouchDevice'
 import { config } from './config'
 
 class Config {

@@ -1,7 +1,7 @@
 import Control from '../Control'
 import isTouchDevice from '../../../isTouchDevice'
 import toButtonGroup from './toButtonGroup'
-import buttonConfig from '../../../buttonConfig'
+import buttonConfig from '../../buttonConfig'
 import Sticky from 'sticky-js'
 
 function template(context) {

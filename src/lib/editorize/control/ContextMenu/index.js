@@ -1,6 +1,6 @@
 import dohtml from 'dohtml'
 import Control from '../Control'
-import buttonConfig from '../../../buttonConfig'
+import buttonConfig from '../../buttonConfig'
 import bindToWindowEvents from './bindToWindowEvents'
 import template from './template'
 

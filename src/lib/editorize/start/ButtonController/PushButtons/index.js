@@ -1,4 +1,4 @@
-import buttonConfig from '../../../../buttonConfig'
+import buttonConfig from '../../../buttonConfig'
 import { MODE } from '../../../../MODE'
 import Button from './Button'
 
