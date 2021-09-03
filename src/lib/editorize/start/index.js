@@ -158,5 +158,7 @@ export default function (
   // add context menu
   editor[0].appendChild(new ContextMenu(editor).el)
 
-  editor.api.updateButtons()
+  // To trigger button state update events on init.
+  // Because an inline annotation is readed before a binding the control.
+  buttonController.propagate()
 }

@@ -47,12 +47,6 @@ export default class APIs {
     this._view.updateDisplay()
   }
 
-  // To trigger button state update events on init.
-  // Because an inline annotation is readed before a binding the control.
-  updateButtons() {
-    this._buttonController.propagate()
-  }
-
   select() {
     this._presenter.select()
     this._isSelected = true
