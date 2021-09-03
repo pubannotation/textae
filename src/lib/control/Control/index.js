@@ -1,6 +1,6 @@
 import dohtml from 'dohtml'
 import bindEventHandler from './bindEventHandler'
-import updateButtons from './updateAllButtonEnableState/updateButtons'
+import updateButtons from './updateButtons'
 import updateButtonPushState from './updateButtonPushState'
 
 // The control is a control bar in an editor.
