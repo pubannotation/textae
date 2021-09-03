@@ -18,11 +18,7 @@ function template(buttonGroup, pushButtons, enableButtons) {
             `<p 
               class="textae-control-icon textae-control-${type}-button${
               pushButtons[type] ? ' textae-control-icon--pushed' : ''
-            }${
-              enableButtons[type]
-                ? ' textae-control-icon--'
-                : ' textae-control-icon--disabled'
-            }" 
+            }${enableButtons[type] ? '' : ' textae-control-icon--disabled'}" 
               data-button-type="${type}">${title}
             </p>`
         )
