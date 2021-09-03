@@ -2,7 +2,6 @@ import dohtml from 'dohtml'
 import Control from '../Control'
 import isTouchDevice from '../../isTouchDevice'
 import buttonConfig from '../../buttonConfig'
-import toMenuItem from './toMenuItem'
 import bindToWindowEvents from './bindToWindowEvents'
 
 // Make a group of buttons that is headed by the separator.
@@ -14,8 +13,18 @@ function template(buttonGroup, pushButtons, enableButtons) {
   ${buttonGroup
     .map(({ list }) =>
       list
-        .map(({ type, title }) =>
-          toMenuItem(type, title, pushButtons[type], enableButtons[type])
+        .map(
+          ({ type, title }) =>
+            `<p 
+              class="textae-control-icon textae-control-${type}-button${
+              pushButtons[type] ? ' textae-control-icon--pushed' : ''
+            }${
+              enableButtons[type]
+                ? ' textae-control-icon--'
+                : ' textae-control-icon--disabled'
+            }" 
+              data-button-type="${type}">${title}
+            </p>`
         )
         .join('')
     )
