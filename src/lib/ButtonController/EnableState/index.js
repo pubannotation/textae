@@ -5,7 +5,7 @@ import bindEvents from './bindEvents'
 export default class EnableState {
   constructor(eventEmitter, selectionModel, clipBoard) {
     // Save enable/disable state of contorol buttons.
-    this._states = {}
+    this._states = new Map()
     this._eventEmitter = eventEmitter
     this._selectionModel = selectionModel
     this._clipBoard = clipBoard
@@ -25,14 +25,11 @@ export default class EnableState {
   }
 
   propagate() {
-    this._eventEmitter.emit(
-      'textae-event.control.buttons.change',
-      new Map(Object.entries(this._states))
-    )
+    this._eventEmitter.emit('textae-event.control.buttons.change', this._states)
   }
 
   enable(button, enable) {
-    this._states[button] = enable
+    this._states.set(button, enable)
     this.propagate()
   }
 
@@ -108,14 +105,14 @@ export default class EnableState {
     span,
     pallet
   ) {
-    this._states['simple'] = simple
-    this._states['replicate-auto'] = replicateAuto
-    this._states['boundary-detection'] = boundaryDetection
-    this._states['line-height'] = lineHeight
-    this._states['line-height-auto'] = lineHeightAuto
-    this._states['create-span'] = span
-    this._states['expand-span'] = span
-    this._states['shrink-span'] = span
-    this._states['pallet'] = pallet
+    this._states.set('simple', simple)
+    this._states.set('replicate-auto', replicateAuto)
+    this._states.set('boundary-detection', boundaryDetection)
+    this._states.set('line-height', lineHeight)
+    this._states.set('line-height-auto', lineHeightAuto)
+    this._states.set('create-span', span)
+    this._states.set('expand-span', span)
+    this._states.set('shrink-span', span)
+    this._states.set('pallet', pallet)
   }
 }
