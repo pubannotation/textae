@@ -1,7 +1,6 @@
 import Control from '../Control'
 import isTouchDevice from '../../isTouchDevice'
 import toButtonGroup from './toButtonGroup'
-import transitWriteButtonImage from './transitWriteButtonImage'
 import buttonConfig from '../../buttonConfig'
 import Sticky from 'sticky-js'
 
@@ -66,13 +65,15 @@ export default class ControlBar extends Control {
       .on('textae-event.control.buttons.change', (enableButtons) =>
         this.updateAllButtonEnableState(enableButtons)
       )
-      .on('textae-event.control.writeButton.transit', (isTrasit) =>
-        this.transitWriteButtonImage(isTrasit)
-      )
-  }
+      .on('textae-event.control.writeButton.transit', (isTransit) => {
+        const button = super.el.querySelector('.textae-control-write-button')
 
-  transitWriteButtonImage(transitButtons) {
-    transitWriteButtonImage(super.el, transitButtons)
+        if (isTransit === true) {
+          button.classList.add(`textae-control-write-button--transit`)
+        } else {
+          button.classList.remove(`textae-control-write-button--transit`)
+        }
+      })
   }
 
   updateButtonPushState(buttonType, isPushed) {
