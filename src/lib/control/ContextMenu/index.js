@@ -5,7 +5,7 @@ import buttonConfig from '../../buttonConfig'
 import bindToWindowEvents from './bindToWindowEvents'
 
 // Make a group of buttons that is headed by the separator.
-function template(buttonGroup, pushButtons, enableButtons) {
+function template(buttonGroup, pushButtons, enableButtons, transitButtons) {
   return `
 <div class="textae-control ${
     isTouchDevice() ? 'textae-android-context-menu' : 'textae-context-menu'
@@ -18,7 +18,9 @@ function template(buttonGroup, pushButtons, enableButtons) {
             `<p 
               class="textae-control-icon textae-control-${type}-button${
               pushButtons[type] ? ' textae-control-icon--pushed' : ''
-            }${enableButtons[type] ? '' : ' textae-control-icon--disabled'}" 
+            }${enableButtons[type] ? '' : ' textae-control-icon--disabled'}${
+              transitButtons[type] ? ' textae-control-icon--transit' : ''
+            }"  
               data-button-type="${type}">${title}
             </p>`
         )
@@ -35,6 +37,7 @@ export default class ContextMenu extends Control {
 
     this._enableButtons = {}
     this._pushButtons = {}
+    this._transitButtons = {}
 
     editor.eventEmitter
       .on(
@@ -44,6 +47,10 @@ export default class ContextMenu extends Control {
       .on('textae-event.control.buttons.change', (enableButtons) =>
         Object.assign(this._enableButtons, enableButtons)
       )
+      .on('textae-event.control.writeButton.transit', (isTransit) => {
+        this._transitButtons['write'] = isTransit
+      })
+
       .on('textae-event.editor.key.input', () => this.hide())
 
     bindToWindowEvents(editor, this)
@@ -87,7 +94,8 @@ export default class ContextMenu extends Control {
         template(
           buttonConfig.contextMenu.buttonGroup,
           this._pushButtons,
-          this._enableButtons
+          this._enableButtons,
+          this._transitButtons
         )
       ).children
     )
