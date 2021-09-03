@@ -4,6 +4,7 @@ import toButtonGroup from './toButtonGroup'
 import transitWriteButtonImage from './transitWriteButtonImage'
 import buttonConfig from '../../buttonConfig'
 import Sticky from 'sticky-js'
+import updateButtonPushState from '../Control/updateButtonPushState'
 
 function template(context) {
   const { buttonGroup } = context
@@ -73,5 +74,9 @@ export default class ControlBar extends Control {
 
   transitWriteButtonImage(transitButtons) {
     transitWriteButtonImage(super.el, transitButtons)
+  }
+
+  updateButtonPushState(buttonType, isPushed) {
+    updateButtonPushState(this._el, buttonType, isPushed)
   }
 }
