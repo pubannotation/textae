@@ -1,4 +1,4 @@
-export const buttonConfig = [
+export const config = [
   {
     usage: {
       'keyboard device': ['control bar', 'context menu'],

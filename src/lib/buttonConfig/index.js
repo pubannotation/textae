@@ -1,11 +1,11 @@
 import isTouchDevice from '../isTouchDevice'
-import { buttonConfig } from './buttonConfig'
+import { config } from './config'
 
 class Config {
   // Buttons to display on the control bar.
   get controlBar() {
     return {
-      buttonGroup: buttonConfig
+      buttonGroup: config
         .filter(({ usage }) => {
           if (isTouchDevice()) {
             return usage['touce device'].includes('control bar')
@@ -26,7 +26,7 @@ class Config {
   get contextMenu() {
     return {
       get buttonGroup() {
-        return buttonConfig
+        return config
           .filter(({ usage }) => {
             if (isTouchDevice()) {
               return usage['touce device'].includes('context menu')
@@ -45,7 +45,7 @@ class Config {
   }
 
   get _buttons() {
-    return buttonConfig.map(({ list }) => list).flat()
+    return config.map(({ list }) => list).flat()
   }
 
   _getEnabelButtonsWhenSelecting(denotationType) {
