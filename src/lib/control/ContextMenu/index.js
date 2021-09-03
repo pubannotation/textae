@@ -5,27 +5,7 @@ import buttonConfig from '../../buttonConfig'
 import bindToWindowEvents from './bindToWindowEvents'
 
 // Make a group of buttons that is headed by the separator.
-function template(buttonGroup, pushButtons, enableButtons, transitButtons) {
-  const context = buttonGroup.map(({ list }) => {
-    const ret = []
-    for (const { type, title } of list) {
-      const classList = ['textae-control-icon', `textae-control-${type}-button`]
-      if (pushButtons[type]) {
-        classList.push('textae-control-icon--pushed')
-      }
-      if (!enableButtons[type]) {
-        classList.push('textae-control-icon--disabled')
-      }
-      if (transitButtons[type]) {
-        classList.push('textae-control-icon--transit')
-      }
-
-      ret.push({ type, title, classList })
-    }
-
-    return ret
-  })
-
+function template(context) {
   return `
 <div class="textae-control ${
     isTouchDevice() ? 'textae-android-context-menu' : 'textae-context-menu'
@@ -105,16 +85,30 @@ export default class ContextMenu extends Control {
   }
 
   _show() {
-    super.el.replaceChildren(
-      ...dohtml.create(
-        template(
-          buttonConfig.contextMenu.buttonGroup,
-          this._pushButtons,
-          this._enableButtons,
-          this._transitButtons
-        )
-      ).children
-    )
+    const context = buttonConfig.contextMenu.buttonGroup.map(({ list }) => {
+      const ret = []
+      for (const { type, title } of list) {
+        const classList = [
+          'textae-control-icon',
+          `textae-control-${type}-button`
+        ]
+        if (this._pushButtons[type]) {
+          classList.push('textae-control-icon--pushed')
+        }
+        if (!this._enableButtons[type]) {
+          classList.push('textae-control-icon--disabled')
+        }
+        if (this._transitButtons[type]) {
+          classList.push('textae-control-icon--transit')
+        }
+
+        ret.push({ type, title, classList })
+      }
+
+      return ret
+    })
+
+    super.el.replaceChildren(...dohtml.create(template(context)).children)
 
     super.el.classList.remove('textae-context-menu--hide')
     super.el.classList.add('textae-context-menu--show')
