@@ -1,4 +1,4 @@
-import isTouchDevice from '../../../../isTouchDevice'
+import isTouchDevice from '../../../isTouchDevice'
 import toContextMenuItem from './toContextMenuItem'
 
 // Make a group of buttons that is headed by the separator.

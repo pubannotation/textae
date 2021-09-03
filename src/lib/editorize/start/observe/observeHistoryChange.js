@@ -1,4 +1,4 @@
-import isTouchDevice from '../../../isTouchDevice'
+import isTouchDevice from '../../isTouchDevice'
 
 export default function (editor) {
   editor.eventEmitter.on('textae-event.history.change', (history) => {

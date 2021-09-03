@@ -2,7 +2,7 @@ import SELECTED from './SELECTED'
 import getHeightIncludeDescendantGrids from './getHeightIncludeDescendantGrids'
 import round from './round'
 import SpanModel from './SpanModel'
-import isTouchDevice from '../../../isTouchDevice'
+import isTouchDevice from '../../isTouchDevice'
 
 const TEXT_HEIGHT = 23
 const MARGIN_TOP = 30
