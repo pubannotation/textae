@@ -1,7 +1,5 @@
 import $ from 'jquery'
 import Tool from './Tool'
-import ControlBar from './control/ControlBar'
-import ContextMenu from './control/ContextMenu'
 import editorize from './editorize'
 import combine from './combine'
 
@@ -17,6 +15,6 @@ export default function () {
     // Start an editor
     $e.start($e)
     // Combine a controle to an editor
-    combine($e, new ControlBar($e), new ContextMenu($e))
+    combine($e)
   }
 }

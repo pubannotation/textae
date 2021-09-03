@@ -10,6 +10,8 @@ import { EventEmitter } from 'events'
 import observeDataSave from './observeDataSave'
 import observeModelChange from './observeModelChange'
 import getParams from './getParams'
+import ControlBar from '../control/ControlBar'
+import ContextMenu from '../control/ContextMenu'
 
 export default function ($this) {
   // Set the eventEmitter to communicate with the tool and a control.
@@ -51,4 +53,9 @@ export default function ($this) {
       $this[0].classList.remove('textae-editor--wait')
     }
   })
+
+  // add control bar
+  $this[0].insertBefore(new ControlBar($this).el, $this[0].childNodes[0])
+  // add context menu
+  $this[0].appendChild(new ContextMenu($this).el)
 }
