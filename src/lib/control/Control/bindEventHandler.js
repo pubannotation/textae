@@ -5,10 +5,27 @@ const helpDialog = new HelpDialog()
 
 export default function (el, editor) {
   // Bind eventhandler
-  delegate(el, '.textae-control-icon', 'click', (e) => {
-    const { target } = e
-    const { buttonType } = e.target.dataset
-    switch (target.dataset.buttonType) {
+  delegate(el, '.textae-control-icon', 'mousedown', ({ target }) => {
+    const { buttonType } = target.dataset
+    switch (buttonType) {
+      case 'create-span':
+      case 'expand-span':
+      case 'shrink-span':
+        // Monitor the mousedown event to get the currently selected text.
+        editor.api.handleButtonClick(buttonType)
+        break
+      default:
+    }
+  })
+
+  delegate(el, '.textae-control-icon', 'click', ({ target }) => {
+    // Ignore disabled button's events.
+    if (target.classList.contains('textae-control-icon--disabled')) {
+      return
+    }
+
+    const { buttonType } = target.dataset
+    switch (buttonType) {
       case 'help':
         helpDialog.open()
         break
@@ -18,31 +35,7 @@ export default function (el, editor) {
         // Monitor the mousedown event to get the currently selected text.
         break
       default:
-        // Ignore disabled button's events.
-        if (e.target.classList.contains('textae-control-icon--disabled')) {
-          return
-        }
         editor.api.handleButtonClick(buttonType)
-    }
-  })
-
-  delegate(el, '.textae-control-icon', 'mousedown', (e) => {
-    const { target } = e
-    const { buttonType } = e.target.dataset
-    switch (target.dataset.buttonType) {
-      case 'help':
-        break
-      case 'create-span':
-      case 'expand-span':
-      case 'shrink-span':
-        // Monitor the mousedown event to get the currently selected text.
-        // Ignore disabled button's events.
-        if (e.target.classList.contains('textae-control-icon--disabled')) {
-          return
-        }
-        editor.api.handleButtonClick(buttonType)
-        break
-      default:
     }
   })
 
