@@ -4,7 +4,6 @@ import toButtonGroup from './toButtonGroup'
 import transitWriteButtonImage from './transitWriteButtonImage'
 import buttonConfig from '../../buttonConfig'
 import Sticky from 'sticky-js'
-import updateButtonPushState from './updateButtonPushState'
 
 function template(context) {
   const { buttonGroup } = context
@@ -77,6 +76,14 @@ export default class ControlBar extends Control {
   }
 
   updateButtonPushState(buttonType, isPushed) {
-    updateButtonPushState(this._el, buttonType, isPushed)
+    const button = this._el.querySelector(
+      `.textae-control-${buttonType}-button`
+    )
+
+    if (isPushed) {
+      button.classList.add('textae-control-icon--pushed')
+    } else {
+      button.classList.remove('textae-control-icon--pushed')
+    }
   }
 }
