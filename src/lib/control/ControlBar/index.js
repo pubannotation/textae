@@ -86,4 +86,16 @@ export default class ControlBar extends Control {
       button.classList.remove('textae-control-icon--pushed')
     }
   }
+
+  updateAllButtonEnableState(enableButtons) {
+    for (const button of this._el.querySelectorAll('.textae-control-icon')) {
+      const { buttonType } = button.dataset
+
+      if (enableButtons[buttonType] === true) {
+        button.classList.remove('textae-control-icon--disabled')
+      } else {
+        button.classList.add('textae-control-icon--disabled')
+      }
+    }
+  }
 }

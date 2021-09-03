@@ -1,6 +1,5 @@
 import dohtml from 'dohtml'
 import bindEventHandler from './bindEventHandler'
-import updateButtons from './updateButtons'
 
 // The control is a control bar in an editor.
 export default class Control {
@@ -13,9 +12,5 @@ export default class Control {
 
   get el() {
     return this._el
-  }
-
-  updateAllButtonEnableState(enableButtons) {
-    updateButtons(this._el, enableButtons)
   }
 }
