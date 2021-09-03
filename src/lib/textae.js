@@ -13,13 +13,5 @@ export default function () {
     tool.registerEditor($e)
     // Start an editor
     $e.start($e)
-
-    // Although there are two event sources, there is only one event consumer,
-    // so only one event handler can be bound to an event.
-    $e.eventEmitter.on('textae-event.control.button.click', (event) =>
-      $e.api.handleButtonClick(event)
-    )
-
-    $e.api.updateButtons()
   }
 }
