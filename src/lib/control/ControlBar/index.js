@@ -60,39 +60,31 @@ export default class ControlBar extends Control {
 
     editor.eventEmitter
       .on('textae-event.control.button.push', ({ buttonName, state }) => {
-        const button = this._getButton(buttonName)
-
-        if (state) {
-          button.classList.add('textae-control-icon--pushed')
-        } else {
-          button.classList.remove('textae-control-icon--pushed')
-        }
+        this._updateButton(buttonName, 'pushed', state)
       })
       .on('textae-event.control.buttons.change', (enableButtons) => {
         for (const [buttonName, state] of Object.entries(enableButtons)) {
-          const button = this._getButton(buttonName)
-
-          if (button) {
-            if (state) {
-              button.classList.remove('textae-control-icon--disabled')
-            } else {
-              button.classList.add('textae-control-icon--disabled')
-            }
-          }
+          this._updateButton(buttonName, 'disabled', !state)
         }
       })
       .on('textae-event.control.writeButton.transit', (isTransit) => {
-        const button = this._getButton('write')
-
-        if (isTransit) {
-          button.classList.add(`textae-control-icon--transit`)
-        } else {
-          button.classList.remove(`textae-control-icon--transit`)
-        }
+        this._updateButton('write', 'transit', isTransit)
       })
   }
 
   _getButton(buttonName) {
     return this._el.querySelector(`.textae-control-${buttonName}-button`)
+  }
+
+  _updateButton(buttonName, stateName, state) {
+    const button = this._getButton(buttonName)
+
+    if (button) {
+      if (state) {
+        button.classList.add(`textae-control-icon--${stateName}`)
+      } else {
+        button.classList.remove(`textae-control-icon--${stateName}`)
+      }
+    }
   }
 }
