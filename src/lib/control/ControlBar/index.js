@@ -85,9 +85,9 @@ export default class ControlBar extends Control {
         const button = this._getButton('write')
 
         if (isTransit) {
-          button.classList.add(`textae-control-write-button--transit`)
+          button.classList.add(`textae-control-icon--transit`)
         } else {
-          button.classList.remove(`textae-control-write-button--transit`)
+          button.classList.remove(`textae-control-icon--transit`)
         }
       })
   }
