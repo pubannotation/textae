@@ -1,7 +1,6 @@
 import $ from 'jquery'
 import Tool from './Tool'
 import editorize from './editorize'
-import combine from './combine'
 
 const tool = new Tool()
 
@@ -14,7 +13,13 @@ export default function () {
     tool.registerEditor($e)
     // Start an editor
     $e.start($e)
-    // Combine a controle to an editor
-    combine($e)
+
+    // Although there are two event sources, there is only one event consumer,
+    // so only one event handler can be bound to an event.
+    $e.eventEmitter.on('textae-event.control.button.click', (event) =>
+      $e.api.handleButtonClick(event)
+    )
+
+    $e.api.updateButtons()
   }
 }
