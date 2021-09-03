@@ -31,7 +31,7 @@ export default class ContextMenu extends Control {
   constructor(editor) {
     super(editor, template([]))
 
-    this._enableButtons = {}
+    this._enableButtons = new Map()
     this._pushButtons = {}
     this._transitButtons = {}
 
@@ -40,8 +40,9 @@ export default class ContextMenu extends Control {
         'textae-event.control.button.push',
         (data) => (this._pushButtons[data.buttonName] = data.state)
       )
-      .on('textae-event.control.buttons.change', (enableButtons) =>
-        Object.assign(this._enableButtons, enableButtons)
+      .on(
+        'textae-event.control.buttons.change',
+        (enableButtons) => (this._enableButtons = enableButtons)
       )
       .on('textae-event.control.writeButton.transit', (isTransit) => {
         this._transitButtons['write'] = isTransit
@@ -95,7 +96,7 @@ export default class ContextMenu extends Control {
         if (this._pushButtons[type]) {
           classList.push('textae-control-icon--pushed')
         }
-        if (!this._enableButtons[type]) {
+        if (!this._enableButtons.get(type)) {
           classList.push('textae-control-icon--disabled')
         }
         if (this._transitButtons[type]) {

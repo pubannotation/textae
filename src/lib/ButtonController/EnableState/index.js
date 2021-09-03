@@ -25,7 +25,10 @@ export default class EnableState {
   }
 
   propagate() {
-    this._eventEmitter.emit('textae-event.control.buttons.change', this._states)
+    this._eventEmitter.emit(
+      'textae-event.control.buttons.change',
+      new Map(Object.entries(this._states))
+    )
   }
 
   enable(button, enable) {
