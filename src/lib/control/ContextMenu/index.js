@@ -6,13 +6,19 @@ import toMenuItem from './toMenuItem'
 import bindToWindowEvents from './bindToWindowEvents'
 
 // Make a group of buttons that is headed by the separator.
-function template(buttonGroup) {
+function template(buttonGroup, pushButtons, enableButtons) {
   return `
 <div class="textae-control ${
     isTouchDevice() ? 'textae-android-context-menu' : 'textae-context-menu'
   }">
   ${buttonGroup
-    .map(({ list }) => list.map(toMenuItem).join(''))
+    .map(({ list }) =>
+      list
+        .map(({ type, title }) =>
+          toMenuItem(type, title, pushButtons[type], enableButtons[type])
+        )
+        .join('')
+    )
     .join('<p class="textae-control-separator"></p>\n')}
 </div>
 `
@@ -22,12 +28,16 @@ export default class ContextMenu extends Control {
   constructor(editor) {
     super(editor, template([]))
 
+    this._enableButtons = { read: true, write: true }
+    this._pushButtons = {}
+
     editor.eventEmitter
-      .on('textae-event.control.button.push', (data) =>
-        this.updateButtonPushState(data.buttonName, data.state)
+      .on(
+        'textae-event.control.button.push',
+        (data) => (this._pushButtons[data.buttonName] = data.state)
       )
       .on('textae-event.control.buttons.change', (enableButtons) =>
-        this.updateAllButtonEnableState(enableButtons)
+        Object.assign(this._enableButtons, enableButtons)
       )
       .on('textae-event.editor.key.input', () => this.hide())
 
@@ -68,7 +78,13 @@ export default class ContextMenu extends Control {
 
   _show() {
     super.el.replaceChildren(
-      ...dohtml.create(template(buttonConfig.contextMenu.buttonGroup)).children
+      ...dohtml.create(
+        template(
+          buttonConfig.contextMenu.buttonGroup,
+          this._pushButtons,
+          this._enableButtons
+        )
+      ).children
     )
 
     super.el.classList.remove('textae-context-menu--hide')
