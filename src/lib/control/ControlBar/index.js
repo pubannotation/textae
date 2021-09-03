@@ -72,12 +72,10 @@ export default class ControlBar extends Control {
       })
   }
 
-  _getButton(buttonName) {
-    return this._el.querySelector(`.textae-control-${buttonName}-button`)
-  }
-
   _updateButton(buttonName, stateName, state) {
-    const button = this._getButton(buttonName)
+    const button = this._el.querySelector(
+      `.textae-control-${buttonName}-button`
+    )
 
     if (button) {
       if (state) {
