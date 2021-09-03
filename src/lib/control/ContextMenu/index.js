@@ -4,6 +4,7 @@ import isTouchDevice from '../../isTouchDevice'
 import buttonConfig from '../../buttonConfig'
 import toMenuItem from './toMenuItem'
 import bindToWindowEvents from './bindToWindowEvents'
+import bindEventHandler from '../Control/bindEventHandler'
 
 // Make a group of buttons that is headed by the separator.
 function template(buttonGroup) {
@@ -32,6 +33,8 @@ export default class ContextMenu extends Control {
       .on('textae-event.editor.key.input', () => this.hide())
 
     bindToWindowEvents(editor, this)
+
+    this._editor = editor
   }
 
   showLowerRight(positionTop, positionLeft) {
@@ -68,6 +71,7 @@ export default class ContextMenu extends Control {
     super.el.replaceChildren(
       ...dohtml.create(template(buttonConfig.contextMenu.buttonGroup)).children
     )
+    bindEventHandler(super.el, this._editor)
 
     super.el.classList.remove('textae-context-menu--hide')
     super.el.classList.add('textae-context-menu--show')
