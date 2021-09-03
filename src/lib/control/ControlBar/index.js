@@ -60,9 +60,7 @@ export default class ControlBar extends Control {
 
     editor.eventEmitter
       .on('textae-event.control.button.push', ({ buttonName, state }) => {
-        const button = this._el.querySelector(
-          `.textae-control-${buttonName}-button`
-        )
+        const button = this._getButton(buttonName)
 
         if (state) {
           button.classList.add('textae-control-icon--pushed')
@@ -72,9 +70,7 @@ export default class ControlBar extends Control {
       })
       .on('textae-event.control.buttons.change', (enableButtons) => {
         for (const [buttonName, state] of Object.entries(enableButtons)) {
-          const button = this._el.querySelector(
-            `.textae-control-${buttonName}-button`
-          )
+          const button = this._getButton(buttonName)
 
           if (button) {
             if (state) {
@@ -86,7 +82,7 @@ export default class ControlBar extends Control {
         }
       })
       .on('textae-event.control.writeButton.transit', (isTransit) => {
-        const button = super.el.querySelector('.textae-control-write-button')
+        const button = this._getButton('write')
 
         if (isTransit) {
           button.classList.add(`textae-control-write-button--transit`)
@@ -94,5 +90,9 @@ export default class ControlBar extends Control {
           button.classList.remove(`textae-control-write-button--transit`)
         }
       })
+  }
+
+  _getButton(buttonName) {
+    return this._el.querySelector(`.textae-control-${buttonName}-button`)
   }
 }
