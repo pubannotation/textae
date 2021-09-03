@@ -70,9 +70,19 @@ export default class ControlBar extends Control {
           button.classList.remove('textae-control-icon--pushed')
         }
       })
-      .on('textae-event.control.buttons.change', (enableButtons) =>
-        this.updateAllButtonEnableState(enableButtons)
-      )
+      .on('textae-event.control.buttons.change', (enableButtons) => {
+        for (const button of this._el.querySelectorAll(
+          '.textae-control-icon'
+        )) {
+          const { buttonType } = button.dataset
+
+          if (enableButtons[buttonType] === true) {
+            button.classList.remove('textae-control-icon--disabled')
+          } else {
+            button.classList.add('textae-control-icon--disabled')
+          }
+        }
+      })
       .on('textae-event.control.writeButton.transit', (isTransit) => {
         const button = super.el.querySelector('.textae-control-write-button')
 
@@ -82,17 +92,5 @@ export default class ControlBar extends Control {
           button.classList.remove(`textae-control-write-button--transit`)
         }
       })
-  }
-
-  updateAllButtonEnableState(enableButtons) {
-    for (const button of this._el.querySelectorAll('.textae-control-icon')) {
-      const { buttonType } = button.dataset
-
-      if (enableButtons[buttonType] === true) {
-        button.classList.remove('textae-control-icon--disabled')
-      } else {
-        button.classList.add('textae-control-icon--disabled')
-      }
-    }
   }
 }
