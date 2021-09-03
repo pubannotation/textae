@@ -11,12 +11,15 @@ export default class EnableState {
     this._clipBoard = clipBoard
 
     // Enable always enabled buttons.
+    this.enable('read', true)
+    this.enable('write', true)
     this.enable('view', true)
     this.enable('term', true)
     this.enable('block', true)
     this.enable('relation', true)
     this.enable('simple', true)
     this.enable('setting', true)
+    this.enable('help', true)
 
     bindEvents(eventEmitter, this)
   }

@@ -28,7 +28,7 @@ export default class ContextMenu extends Control {
   constructor(editor) {
     super(editor, template([]))
 
-    this._enableButtons = { read: true, write: true }
+    this._enableButtons = {}
     this._pushButtons = {}
 
     editor.eventEmitter
