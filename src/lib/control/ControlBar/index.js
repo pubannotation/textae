@@ -4,7 +4,7 @@ import toButtonGroup from './toButtonGroup'
 import transitWriteButtonImage from './transitWriteButtonImage'
 import buttonConfig from '../../buttonConfig'
 import Sticky from 'sticky-js'
-import updateButtonPushState from '../Control/updateButtonPushState'
+import updateButtonPushState from './updateButtonPushState'
 
 function template(context) {
   const { buttonGroup } = context
