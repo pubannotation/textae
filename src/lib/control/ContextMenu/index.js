@@ -32,20 +32,19 @@ export default class ContextMenu extends Control {
     super(editor, template([]))
 
     this._enableButtons = new Map()
-    this._pushButtons = {}
-    this._transitButtons = {}
+    this._pushButtons = new Map()
+    this._transitButtons = new Map()
 
     editor.eventEmitter
-      .on(
-        'textae-event.control.button.push',
-        (data) => (this._pushButtons[data.buttonName] = data.state)
+      .on('textae-event.control.button.push', (data) =>
+        this._pushButtons.set(data.buttonName, data.state)
       )
       .on(
         'textae-event.control.buttons.change',
         (enableButtons) => (this._enableButtons = enableButtons)
       )
       .on('textae-event.control.writeButton.transit', (isTransit) => {
-        this._transitButtons['write'] = isTransit
+        this._transitButtons.set('write', isTransit)
       })
 
       .on('textae-event.editor.key.input', () => this.hide())
@@ -93,13 +92,13 @@ export default class ContextMenu extends Control {
           'textae-control-icon',
           `textae-control-${type}-button`
         ]
-        if (this._pushButtons[type]) {
+        if (this._pushButtons.get(type)) {
           classList.push('textae-control-icon--pushed')
         }
         if (!this._enableButtons.get(type)) {
           classList.push('textae-control-icon--disabled')
         }
-        if (this._transitButtons[type]) {
+        if (this._transitButtons.get(type)) {
           classList.push('textae-control-icon--transit')
         }
 
