@@ -21,12 +21,12 @@ export default class APIs {
     this._view = view
     this._buttonController = buttonController
     this._presenter = presenter
-    this._isSelected = false
+    this._isActive = false
   }
 
   handleKeyInput(event) {
     // Keyup events occurs without selected editor, When editor is focused before initializing.
-    if (this._isSelected) {
+    if (this._isActive) {
       // The value of the key property when pressing a key while holding down the Shift key depends on the keyboard layout.
       // For example, on a US keyboard, the shift + 1 keystroke is “!”.
       // When shift and number key are pressed, the input value is taken from the keyCode property.
@@ -47,13 +47,13 @@ export default class APIs {
     this._view.updateDisplay()
   }
 
-  select() {
+  active() {
     this._presenter.select()
-    this._isSelected = true
+    this._isActive = true
   }
 
-  unselect() {
+  deactive() {
     this._presenter.unselect()
-    this._isSelected = false
+    this._isActive = false
   }
 }
