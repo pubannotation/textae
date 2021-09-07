@@ -6,6 +6,10 @@ export default class Button {
     this._isPushed = false
   }
 
+  get name() {
+    return this._name
+  }
+
   get isPushed() {
     return this._isPushed
   }
@@ -23,10 +27,7 @@ export default class Button {
   // Propagate button state to the tool.
   propagate() {
     if (this._eventEmitter) {
-      this._eventEmitter.emit('textae-event.control.button.push', {
-        name: this._name,
-        isPushed: this._isPushed
-      })
+      this._eventEmitter.emit('textae-event.control.button.push', this)
     }
   }
 }
