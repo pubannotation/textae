@@ -75,13 +75,12 @@ export default class ControlBar extends Control {
   }
 
   _updateButton(buttonName, stateName) {
-    const state = this._buttonController.getState(buttonName, stateName)
     const button = this._el.querySelector(
       `.textae-control-${buttonName}-button`
     )
 
     if (button) {
-      if (state) {
+      if (this._buttonController.getState(buttonName, stateName)) {
         button.classList.add(`textae-control-icon--${stateName}`)
       } else {
         button.classList.remove(`textae-control-icon--${stateName}`)
