@@ -32,8 +32,10 @@ function template(context) {
 
 // The control is a control bar in an editor.
 export default class ControlBar extends Control {
-  constructor(editor) {
+  constructor(editor, buttonController) {
     super(editor, template(buttonConfig.controlBar))
+
+    this._buttonController = buttonController
 
     // If you use position: sticky,
     // the height of the toolbar will affect the Y coordinate of the textae-body
@@ -72,7 +74,8 @@ export default class ControlBar extends Control {
       })
   }
 
-  _updateButton(buttonName, stateName, state) {
+  _updateButton(buttonName, stateName) {
+    const state = this._buttonController.getState(buttonName, stateName)
     const button = this._el.querySelector(
       `.textae-control-${buttonName}-button`
     )

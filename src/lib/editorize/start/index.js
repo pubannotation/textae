@@ -155,7 +155,10 @@ export default function (
   )
 
   // add control bar
-  editor[0].insertBefore(new ControlBar(editor).el, editor[0].childNodes[0])
+  editor[0].insertBefore(
+    new ControlBar(editor, buttonController).el,
+    editor[0].childNodes[0]
+  )
   // add context menu
   editor[0].appendChild(new ContextMenu(editor, buttonController).el)
 

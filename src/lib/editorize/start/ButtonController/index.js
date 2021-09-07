@@ -60,4 +60,17 @@ export default class ButtonController {
       return ret
     })
   }
+
+  getState(name, state) {
+    switch (state) {
+      case 'pushed':
+        return this._pushButtons.get(name).isPushed
+      case 'disabled':
+        return !this._enableState.get(name)
+      case 'transit':
+        return name === 'write' && this._annotationWatcher.hasChange
+      default:
+        new Error('Unknown state')
+    }
+  }
 }
