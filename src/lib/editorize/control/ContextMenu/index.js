@@ -3,7 +3,7 @@ import isTouchDevice from '../../isTouchDevice'
 import classify from '../classify'
 import Control from '../Control'
 import bindToWindowEvents from './bindToWindowEvents'
-import toContextMenuItem from './template/toContextMenuItem'
+import toContextMenuItem from './toContextMenuItem'
 
 export default class ContextMenu extends Control {
   constructor(editor, buttonController) {
