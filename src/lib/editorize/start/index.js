@@ -43,7 +43,8 @@ export default function (
   const buttonController = new ButtonController(
     editor.eventEmitter,
     selectionModel,
-    clipBoard
+    clipBoard,
+    annotationWatcher
   )
   const view = new View(editor.eventEmitter, annotationData)
   const statusBar = getStatusBar(editor, params.get('status_bar'))

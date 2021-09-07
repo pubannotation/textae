@@ -5,7 +5,7 @@ import BlankSkipAdjuster from './BlankSkipAdjuster'
 import buttonConfig from '../../buttonConfig'
 
 export default class ButtonController {
-  constructor(eventEmitter, selectionModel, clipBoard) {
+  constructor(eventEmitter, selectionModel, clipBoard, annotationWatcher) {
     this._enableState = new EnableState(eventEmitter, selectionModel, clipBoard)
     // Save state of push control buttons.
     this._pushButtons = new PushButtons(eventEmitter)
@@ -14,6 +14,7 @@ export default class ButtonController {
     eventEmitter.on('textae-event.control.writeButton.transit', (isTransit) => {
       this._writeButtonTransitState = isTransit
     })
+    this._annotationWatcher = annotationWatcher
   }
 
   propagate() {
@@ -56,7 +57,7 @@ export default class ButtonController {
           title,
           pushed: this._pushButtons.get(type).isPushed,
           disabled: !this._enableState.get(type),
-          trasit: type === 'write' && this._writeButtonTransitState
+          trasit: type === 'write' && this._annotationWatcher.hasChange
         })
       }
 
