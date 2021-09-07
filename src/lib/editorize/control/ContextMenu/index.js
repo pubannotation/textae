@@ -1,4 +1,5 @@
 import dohtml from 'dohtml'
+import isTouchDevice from '../../isTouchDevice'
 import classify from '../classify'
 import Control from '../Control'
 import bindToWindowEvents from './bindToWindowEvents'
@@ -6,7 +7,12 @@ import template from './template'
 
 export default class ContextMenu extends Control {
   constructor(editor, buttonController) {
-    super(editor, template([]))
+    super(
+      editor,
+      `<div class="textae-control ${
+        isTouchDevice() ? 'textae-android-context-menu' : 'textae-context-menu'
+      }"></div>`
+    )
 
     editor.eventEmitter.on('textae-event.editor.key.input', () => this.hide())
 
