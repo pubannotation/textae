@@ -3,22 +3,22 @@ import { MODE } from '../../../MODE'
 
 export default class EnableState {
   constructor(eventEmitter, selectionModel, clipBoard) {
-    // Save enable/disable state of contorol buttons.
-    this._states = new Map()
+    // Enable always enabled buttons.
+    this._states = new Map([
+      ['read', true],
+      ['write', true],
+      ['view', true],
+      ['term', true],
+      ['block', true],
+      ['relation', true],
+      ['simple', true],
+      ['setting', true],
+      ['help', true]
+    ])
+
     this._eventEmitter = eventEmitter
     this._selectionModel = selectionModel
     this._clipBoard = clipBoard
-
-    // Enable always enabled buttons.
-    this.enable('read', true)
-    this.enable('write', true)
-    this.enable('view', true)
-    this.enable('term', true)
-    this.enable('block', true)
-    this.enable('relation', true)
-    this.enable('simple', true)
-    this.enable('setting', true)
-    this.enable('help', true)
 
     eventEmitter
       .on('textae-event.history.change', (history) => {
