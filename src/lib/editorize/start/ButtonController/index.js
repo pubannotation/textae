@@ -5,22 +5,10 @@ import BlankSkipAdjuster from './BlankSkipAdjuster'
 import buttonConfig from '../../buttonConfig'
 
 class ContextMenuButton {
-  constructor(eventEmitter) {
-    this._enableButtons = new Map()
-    this._pushButtons = new Map()
-    this._transitButtons = new Map()
-
-    eventEmitter
-      .on('textae-event.control.button.push', (data) =>
-        this._pushButtons.set(data.buttonName, data.state)
-      )
-      .on(
-        'textae-event.control.buttons.change',
-        (enableButtons) => (this._enableButtons = enableButtons)
-      )
-      .on('textae-event.control.writeButton.transit', (isTransit) => {
-        this._transitButtons.set('write', isTransit)
-      })
+  constructor(pushButtonState, enableButtonState, transitButtonState) {
+    this._pushButtonsState = pushButtonState
+    this._enableButtonsState = enableButtonState
+    this._transitButtonsState = transitButtonState
   }
 
   get state() {
@@ -30,9 +18,9 @@ class ContextMenuButton {
         ret.push({
           type,
           title,
-          pushed: this._pushButtons.get(type),
-          disabled: !this._enableButtons.get(type),
-          trasit: this._transitButtons.get(type)
+          pushed: this._pushButtonsState.get(type),
+          disabled: !this._enableButtonsState.get(type),
+          trasit: this._transitButtonsState.get(type)
         })
       }
 
@@ -46,7 +34,22 @@ export default class ButtonController {
     this._enableState = new EnableState(eventEmitter, selectionModel, clipBoard)
     // Save state of push control buttons.
     this._pushButtons = new PushButtons(eventEmitter)
-    this._contextMenuButton = new ContextMenuButton(eventEmitter)
+
+    this._enableButtonsState = new Map()
+    this._pushButtonsState = new Map()
+    this._transitButtonsState = new Map()
+
+    eventEmitter
+      .on('textae-event.control.button.push', (data) =>
+        this._pushButtonsState.set(data.buttonName, data.state)
+      )
+      .on(
+        'textae-event.control.buttons.change',
+        (enableButtons) => (this._enableButtonsState = enableButtons)
+      )
+      .on('textae-event.control.writeButton.transit', (isTransit) => {
+        this._transitButtonsState.set('write', isTransit)
+      })
   }
 
   propagate() {
@@ -81,7 +84,11 @@ export default class ButtonController {
   }
 
   get contextMenuButton() {
-    return this._contextMenuButton.state
+    return new ContextMenuButton(
+      this._pushButtonsState,
+      this._enableButtonsState,
+      this._transitButtonsState
+    ).state
   }
 
   _getPushButton(buttonName) {
