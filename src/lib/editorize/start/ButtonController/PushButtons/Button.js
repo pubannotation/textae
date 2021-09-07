@@ -15,15 +15,15 @@ export default class Button {
 
   set isPushed(value) {
     this._isPushed = value
-    this.propagate()
+    this._propagate()
   }
 
   toggle() {
     this._isPushed = !this._isPushed
-    this.propagate()
+    this._propagate()
   }
 
-  propagate() {
+  _propagate() {
     if (this._eventEmitter) {
       this._eventEmitter.emit('textae-event.control.button.push', this)
     }
