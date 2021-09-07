@@ -32,11 +32,11 @@ export default class AnnotationAutoSaver {
           Boolean(saveToParameter || dataSource.id)
         )
       )
-      .on('textae-event.control.button.push', ({ buttonName, isPushed }) => {
+      .on('textae-event.control.button.push', ({ name, isPushed }) => {
         // If there is something to save when the 'write-auto' button is pushed,
         // it will be saved immediately.
         if (
-          buttonName === 'write-auto' &&
+          name === 'write-auto' &&
           isPushed === true &&
           annotationWatcher.hasChange
         ) {

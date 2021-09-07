@@ -24,7 +24,7 @@ export default class Button {
   propagate() {
     if (this._eventEmitter) {
       this._eventEmitter.emit('textae-event.control.button.push', {
-        buttonName: this._name,
+        name: this._name,
         isPushed: this._isPushed
       })
     }
