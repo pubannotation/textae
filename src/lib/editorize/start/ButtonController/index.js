@@ -4,31 +4,6 @@ import DelimiterDetectAdjuster from './DelimiterDetectAdjuster'
 import BlankSkipAdjuster from './BlankSkipAdjuster'
 import buttonConfig from '../../buttonConfig'
 
-class ContextMenuButton {
-  constructor(pushButtonState, enableButtonState, transitButtonState) {
-    this._pushButtonsState = pushButtonState
-    this._enableButtonsState = enableButtonState
-    this._transitButtonsState = transitButtonState
-  }
-
-  get state() {
-    return buttonConfig.contextMenu.buttonGroup.map(({ list }) => {
-      const ret = []
-      for (const { type, title } of list) {
-        ret.push({
-          type,
-          title,
-          pushed: this._pushButtonsState.get(type),
-          disabled: !this._enableButtonsState.get(type),
-          trasit: this._transitButtonsState.get(type)
-        })
-      }
-
-      return ret
-    })
-  }
-}
-
 export default class ButtonController {
   constructor(eventEmitter, selectionModel, clipBoard) {
     this._enableState = new EnableState(eventEmitter, selectionModel, clipBoard)
@@ -84,11 +59,20 @@ export default class ButtonController {
   }
 
   get contextMenuButton() {
-    return new ContextMenuButton(
-      this._pushButtonsState,
-      this._enableButtonsState,
-      this._transitButtonsState
-    ).state
+    return buttonConfig.contextMenu.buttonGroup.map(({ list }) => {
+      const ret = []
+      for (const { type, title } of list) {
+        ret.push({
+          type,
+          title,
+          pushed: this._pushButtonsState.get(type),
+          disabled: !this._enableButtonsState.get(type),
+          trasit: this._transitButtonsState.get(type)
+        })
+      }
+
+      return ret
+    })
   }
 
   _getPushButton(buttonName) {
