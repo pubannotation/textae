@@ -7,6 +7,13 @@ import PositionsOnAnnotation from './PositionsOnAnnotation'
 export default class SelectionWrapper {
   constructor(spanModelContainer) {
     this.selection = window.getSelection()
+
+    console.assert(
+      this.parentOfAnchorNode.closest('.textae-editor__text-box') ===
+        this.parentOfFocusNode.closest('.textae-editor__text-box'),
+      'Text selection across editors is disabled'
+    )
+
     this._spanModelContainer = spanModelContainer
   }
 
