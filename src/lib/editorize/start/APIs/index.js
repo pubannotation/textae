@@ -48,12 +48,12 @@ export default class APIs {
   }
 
   active() {
-    this._presenter.select()
+    this._presenter.active()
     this._isActive = true
   }
 
   deactive() {
-    this._presenter.unselect()
+    this._presenter.deactive()
     this._isActive = false
   }
 }

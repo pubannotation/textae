@@ -149,11 +149,11 @@ export default class Presenter {
     ).open()
   }
 
-  select() {
+  active() {
     this._editor[0].classList.add('textae-editor--active')
   }
 
-  unselect() {
+  deactive() {
     this._editor[0].classList.remove('textae-editor--active')
     this._editor.eventEmitter.emit('textae-event.editor.unselect')
   }
