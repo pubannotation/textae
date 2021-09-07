@@ -1,5 +1,5 @@
-import buttonConfig from '../../../buttonConfig'
-import { MODE } from '../../../../MODE'
+import buttonConfig from '../../buttonConfig'
+import { MODE } from '../../../MODE'
 
 export default class EnableState {
   constructor(eventEmitter, selectionModel, clipBoard) {
