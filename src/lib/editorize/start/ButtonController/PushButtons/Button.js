@@ -6,11 +6,11 @@ export default class Button {
     this._isPushed = false
   }
 
-  get pushed() {
+  get isPushed() {
     return this._isPushed
   }
 
-  set pushed(value) {
+  set isPushed(value) {
     this._isPushed = value
     this.propagate()
   }

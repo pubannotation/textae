@@ -27,15 +27,15 @@ export default class ButtonController {
   }
 
   isPushed(buttonName) {
-    return this._pushButtons.get(buttonName).pushed
+    return this._pushButtons.get(buttonName).isPushed
   }
 
   push(buttonName) {
-    this._pushButtons.get(buttonName).pushed = true
+    this._pushButtons.get(buttonName).isPushed = true
   }
 
   release(buttonName) {
-    this._pushButtons.get(buttonName).pushed = false
+    this._pushButtons.get(buttonName).isPushed = false
   }
 
   toggleButton(buttonName) {
@@ -55,7 +55,7 @@ export default class ButtonController {
         ret.push({
           type,
           title,
-          pushed: this._pushButtons.get(type).pushed,
+          pushed: this._pushButtons.get(type).isPushed,
           disabled: !this._enableState.get(type),
           trasit: this._transitButtonsState.get(type)
         })

@@ -61,10 +61,10 @@ export default class PushButtons {
   }
 
   _updateModeButtons(view, term, block, relation, simple) {
-    this._buttons.get('view').pushed = view
-    this._buttons.get('term').pushed = term
-    this._buttons.get('block').pushed = block
-    this._buttons.get('relation').pushed = relation
-    this._buttons.get('simple').pushed = simple
+    this._buttons.get('view').isPushed = view
+    this._buttons.get('term').isPushed = term
+    this._buttons.get('block').isPushed = block
+    this._buttons.get('relation').isPushed = relation
+    this._buttons.get('simple').isPushed = simple
   }
 }
