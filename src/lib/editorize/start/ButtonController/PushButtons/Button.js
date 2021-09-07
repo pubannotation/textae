@@ -6,15 +6,13 @@ export default class Button {
     this._state = false
   }
 
-  value(newValue) {
-    if (newValue !== undefined) {
-      this._state = newValue
-      this.propagate()
-    } else {
-      return this._state
-    }
+  get value() {
+    return this._state
+  }
 
-    return null
+  set value(value) {
+    this._state = value
+    this.propagate()
   }
 
   toggle() {

@@ -15,12 +15,12 @@ export default class PushButtons {
     )
 
     // default pushed;
-    this._buttonMap.get('boundary-detection').value(true)
+    this._buttonMap.get('boundary-detection').value = true
   }
 
   get(buttonName) {
     return (
-      this._buttonMap.get(buttonName) && this._buttonMap.get(buttonName).value()
+      this._buttonMap.get(buttonName) && this._buttonMap.get(buttonName).value
     )
   }
 
@@ -67,10 +67,10 @@ export default class PushButtons {
   }
 
   _updateModeButtons(view, term, block, relation, simple) {
-    this._buttonMap.get('view').value(view)
-    this._buttonMap.get('term').value(term)
-    this._buttonMap.get('block').value(block)
-    this._buttonMap.get('relation').value(relation)
-    this._buttonMap.get('simple').value(simple)
+    this._buttonMap.get('view').value = view
+    this._buttonMap.get('term').value = term
+    this._buttonMap.get('block').value = block
+    this._buttonMap.get('relation').value = relation
+    this._buttonMap.get('simple').value = simple
   }
 }
