@@ -101,6 +101,7 @@ export default class RelationModel {
     if (this._isSelected) {
       this._isSelected = false
       this._connect.updateLabelAppearance()
+      this.updateHighlighting()
     }
   }
 
