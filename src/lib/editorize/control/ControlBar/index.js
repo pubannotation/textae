@@ -2,6 +2,7 @@ import Control from '../Control'
 import isTouchDevice from '../../isTouchDevice'
 import toButtonGroup from './toButtonGroup'
 import Sticky from 'sticky-js'
+import classify from '../classify'
 
 function template(context) {
   return `
@@ -26,28 +27,6 @@ function template(context) {
   </div>
 </div>
 `
-}
-
-function classify(buttonGroup) {
-  return buttonGroup.map((list) => {
-    const ret = []
-    for (const { type, title, pushed, disabled, transit } of list) {
-      const classList = ['textae-control-icon', `textae-control-${type}-button`]
-      if (pushed) {
-        classList.push('textae-control-icon--pushed')
-      }
-      if (disabled) {
-        classList.push('textae-control-icon--disabled')
-      }
-      if (transit) {
-        classList.push('textae-control-icon--transit')
-      }
-
-      ret.push({ type, title, classList })
-    }
-
-    return ret
-  })
 }
 
 // The control is a control bar in an editor.

@@ -1,4 +1,5 @@
 import dohtml from 'dohtml'
+import classify from '../classify'
 import Control from '../Control'
 import bindToWindowEvents from './bindToWindowEvents'
 import template from './template'
@@ -46,28 +47,7 @@ export default class ContextMenu extends Control {
   }
 
   _show() {
-    const context = this._buttonController.contextMenuButton.map((list) => {
-      const ret = []
-      for (const { type, title, pushed, disabled, transit } of list) {
-        const classList = [
-          'textae-control-icon',
-          `textae-control-${type}-button`
-        ]
-        if (pushed) {
-          classList.push('textae-control-icon--pushed')
-        }
-        if (disabled) {
-          classList.push('textae-control-icon--disabled')
-        }
-        if (transit) {
-          classList.push('textae-control-icon--transit')
-        }
-
-        ret.push({ type, title, classList })
-      }
-
-      return ret
-    })
+    const context = classify(this._buttonController.contextMenuButton)
 
     super.el.replaceChildren(...dohtml.create(template(context)).children)
 
