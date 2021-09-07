@@ -5,7 +5,7 @@ import Button from './Button'
 export default class PushButtons {
   constructor(eventEmitter) {
     this._buttons = buttonConfig.pushButtons.reduce((map, buttonName) => {
-      map.set(buttonName, new Button(eventEmitter, buttonName))
+      map.set(buttonName, new Button(buttonName, eventEmitter))
       return map
     }, new Map())
 
@@ -25,9 +25,7 @@ export default class PushButtons {
   }
 
   get(name) {
-    return this._buttons.has(name)
-      ? this._buttons.get(name)
-      : new Button(null, name)
+    return this._buttons.has(name) ? this._buttons.get(name) : new Button(name)
   }
 
   get names() {
