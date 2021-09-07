@@ -32,12 +32,12 @@ export default class AnnotationAutoSaver {
           Boolean(saveToParameter || dataSource.id)
         )
       )
-      .on('textae-event.control.button.push', ({ buttonName, state }) => {
+      .on('textae-event.control.button.push', ({ buttonName, isPushed }) => {
         // If there is something to save when the 'write-auto' button is pushed,
         // it will be saved immediately.
         if (
           buttonName === 'write-auto' &&
-          state === true &&
+          isPushed === true &&
           annotationWatcher.hasChange
         ) {
           persistenceInterface.saveAnnotation()

@@ -5,9 +5,9 @@ export default class LineHeightAuto {
 
     eventEmitter.on(
       'textae-event.control.button.push',
-      ({ buttonName, state }) => {
+      ({ buttonName, isPushed }) => {
         if (buttonName === 'line-height-auto') {
-          this._enable = state
+          this._enable = isPushed
         }
       }
     )
