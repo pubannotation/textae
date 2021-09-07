@@ -4,7 +4,7 @@ import Button from './Button'
 
 export default class PushButtons {
   constructor(eventEmitter) {
-    this._buttonMap = buttonConfig.pushButtons.reduce((map, buttonName) => {
+    this._buttons = buttonConfig.pushButtons.reduce((map, buttonName) => {
       map.set(buttonName, new Button(eventEmitter, buttonName))
       return map
     }, new Map())
@@ -15,27 +15,25 @@ export default class PushButtons {
     )
 
     // default pushed;
-    this._buttonMap.get('boundary-detection').value = true
+    this._buttons.get('boundary-detection').value = true
   }
 
   get(buttonName) {
-    return (
-      this._buttonMap.get(buttonName) && this._buttonMap.get(buttonName).value
-    )
+    return this._buttons.get(buttonName) && this._buttons.get(buttonName).value
   }
 
   propagate() {
-    for (const button of this._buttonMap.values()) {
+    for (const button of this._buttons.values()) {
       button.propagate()
     }
   }
 
   getButton(name) {
-    return this._buttonMap.get(name)
+    return this._buttons.get(name)
   }
 
   get names() {
-    return this._buttonMap.keys()
+    return this._buttons.keys()
   }
 
   _setMode(mode) {
@@ -67,10 +65,10 @@ export default class PushButtons {
   }
 
   _updateModeButtons(view, term, block, relation, simple) {
-    this._buttonMap.get('view').value = view
-    this._buttonMap.get('term').value = term
-    this._buttonMap.get('block').value = block
-    this._buttonMap.get('relation').value = relation
-    this._buttonMap.get('simple').value = simple
+    this._buttons.get('view').value = view
+    this._buttons.get('term').value = term
+    this._buttons.get('block').value = block
+    this._buttons.get('relation').value = relation
+    this._buttons.get('simple').value = simple
   }
 }
