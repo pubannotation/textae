@@ -19,7 +19,7 @@ export default class PushButtons {
   }
 
   get(buttonName) {
-    return this._buttons.get(buttonName) && this._buttons.get(buttonName).pushed
+    return this._buttons.has(buttonName) && this._buttons.get(buttonName).pushed
   }
 
   propagate() {
