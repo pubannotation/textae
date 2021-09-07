@@ -27,19 +27,19 @@ export default class ButtonController {
   }
 
   isPushed(buttonName) {
-    return this._pushButtons.getButton(buttonName).pushed
+    return this._pushButtons.get(buttonName).pushed
   }
 
   push(buttonName) {
-    this._pushButtons.getButton(buttonName).pushed = true
+    this._pushButtons.get(buttonName).pushed = true
   }
 
   release(buttonName) {
-    this._pushButtons.getButton(buttonName).pushed = false
+    this._pushButtons.get(buttonName).pushed = false
   }
 
   toggleButton(buttonName) {
-    return this._pushButtons.getButton(buttonName).toggle()
+    return this._pushButtons.get(buttonName).toggle()
   }
 
   get spanAdjuster() {
@@ -55,7 +55,7 @@ export default class ButtonController {
         ret.push({
           type,
           title,
-          pushed: this._pushButtons.getButton(type).pushed,
+          pushed: this._pushButtons.get(type).pushed,
           disabled: !this._enableState.get(type),
           trasit: this._transitButtonsState.get(type)
         })

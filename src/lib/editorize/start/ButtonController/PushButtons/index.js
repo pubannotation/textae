@@ -24,7 +24,7 @@ export default class PushButtons {
     }
   }
 
-  getButton(name) {
+  get(name) {
     return this._buttons.has(name)
       ? this._buttons.get(name)
       : new Button(null, name)
