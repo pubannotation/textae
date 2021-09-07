@@ -10,17 +10,12 @@ export default class ButtonController {
     // Save state of push control buttons.
     this._pushButtons = new PushButtons(eventEmitter)
 
-    this._enableButtonsState = new Map()
     this._pushButtonsState = new Map()
     this._transitButtonsState = new Map()
 
     eventEmitter
       .on('textae-event.control.button.push', (data) =>
         this._pushButtonsState.set(data.buttonName, data.state)
-      )
-      .on(
-        'textae-event.control.buttons.change',
-        (enableButtons) => (this._enableButtonsState = enableButtons)
       )
       .on('textae-event.control.writeButton.transit', (isTransit) => {
         this._transitButtonsState.set('write', isTransit)
@@ -66,7 +61,7 @@ export default class ButtonController {
           type,
           title,
           pushed: this._pushButtonsState.get(type),
-          disabled: !this._enableButtonsState.get(type),
+          disabled: !this._enableState.get(type),
           trasit: this._transitButtonsState.get(type)
         })
       }

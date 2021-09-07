@@ -38,6 +38,10 @@ export default class EnableState {
       )
   }
 
+  get(button) {
+    return this._states.get(button)
+  }
+
   propagate() {
     this._eventEmitter.emit('textae-event.control.buttons.change', this._states)
   }
