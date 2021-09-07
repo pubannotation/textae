@@ -2,6 +2,7 @@ import clearTextSelection from '../clearTextSelection'
 import SelectionWrapper from '../SelectionWrapper'
 import getEntityHTMLelementFromChild from '../../../getEntityHTMLelementFromChild'
 import selectSpan from '../selectSpan'
+import isRangeInTextBox from '../isRangeInTextBox'
 
 export default class MouseEventHandler {
   constructor(editor, annotationData, selectionModel, pallet, spanEditor) {
@@ -22,7 +23,7 @@ export default class MouseEventHandler {
 
     const selection = window.getSelection()
 
-    if (selection.type === 'Range') {
+    if (isRangeInTextBox(selection, this._editor)) {
       this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
     } else {
       this._selectionModel.removeAll()
@@ -46,7 +47,7 @@ export default class MouseEventHandler {
       this._selectSpan(event, event.target.id)
     }
 
-    if (selection.type === 'Range') {
+    if (isRangeInTextBox(selection, this._editor)) {
       this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
     }
   }
@@ -65,7 +66,7 @@ export default class MouseEventHandler {
       this._selectionModel.removeAll()
     }
 
-    if (selection.type === 'Range') {
+    if (isRangeInTextBox(selection, this._editor)) {
       this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
     }
   }
@@ -89,7 +90,7 @@ export default class MouseEventHandler {
       }
     }
 
-    if (selection.type === 'Range') {
+    if (isRangeInTextBox(selection, this._editor)) {
       this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
     }
   }
