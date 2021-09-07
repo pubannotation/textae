@@ -31,15 +31,15 @@ export default class ButtonController {
   }
 
   push(buttonName) {
-    this._getPushButton(buttonName).pushed = true
+    this._pushButtons.getButton(buttonName).pushed = true
   }
 
   release(buttonName) {
-    this._getPushButton(buttonName).pushed = false
+    this._pushButtons.getButton(buttonName).pushed = false
   }
 
   toggleButton(buttonName) {
-    return this._getPushButton(buttonName).toggle()
+    return this._pushButtons.getButton(buttonName).toggle()
   }
 
   get spanAdjuster() {
@@ -63,9 +63,5 @@ export default class ButtonController {
 
       return ret
     })
-  }
-
-  _getPushButton(buttonName) {
-    return this._pushButtons.getButton(buttonName)
   }
 }
