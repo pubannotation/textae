@@ -74,6 +74,7 @@ export default class ControlBar extends Control {
       })
 
     // Init button's state.
+    // Because an inline annotation is readed before a binding the control.
     for (const { list } of buttonConfig.controlBar.buttonGroup) {
       for (const { type } of list) {
         this._updateButton(type, 'pushed')
