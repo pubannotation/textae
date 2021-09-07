@@ -1,7 +1,7 @@
 // Button state is true when the button is pushed.
 export default class Button {
-  constructor(buttonName, eventEmitter = null) {
-    this._name = buttonName
+  constructor(name, eventEmitter = null) {
+    this._name = name
     this._eventEmitter = eventEmitter
     this._state = false
   }
