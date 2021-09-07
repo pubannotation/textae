@@ -3,20 +3,20 @@ export default class Button {
   constructor(name, eventEmitter = null) {
     this._name = name
     this._eventEmitter = eventEmitter
-    this._state = false
+    this._isPushed = false
   }
 
   get pushed() {
-    return this._state
+    return this._isPushed
   }
 
   set pushed(value) {
-    this._state = value
+    this._isPushed = value
     this.propagate()
   }
 
   toggle() {
-    this._state = !this._state
+    this._isPushed = !this._isPushed
     this.propagate()
   }
 
@@ -25,7 +25,7 @@ export default class Button {
     if (this._eventEmitter) {
       this._eventEmitter.emit('textae-event.control.button.push', {
         buttonName: this._name,
-        state: this._state
+        state: this._isPushed
       })
     }
   }
