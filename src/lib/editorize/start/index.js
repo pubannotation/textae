@@ -156,7 +156,7 @@ export default function (
   // add control bar
   editor[0].insertBefore(new ControlBar(editor).el, editor[0].childNodes[0])
   // add context menu
-  editor[0].appendChild(new ContextMenu(editor).el)
+  editor[0].appendChild(new ContextMenu(editor, buttonController).el)
 
   // To trigger button state update events on init.
   // Because an inline annotation is readed before a binding the control.

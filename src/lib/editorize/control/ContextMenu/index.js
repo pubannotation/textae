@@ -1,11 +1,10 @@
 import dohtml from 'dohtml'
 import Control from '../Control'
-import buttonConfig from '../../buttonConfig'
 import bindToWindowEvents from './bindToWindowEvents'
 import template from './template'
 
 export default class ContextMenu extends Control {
-  constructor(editor) {
+  constructor(editor, buttonController) {
     super(editor, template([]))
 
     this._enableButtons = new Map()
@@ -29,6 +28,7 @@ export default class ContextMenu extends Control {
     bindToWindowEvents(editor, this)
 
     this._editor = editor
+    this._buttonController = buttonController
   }
 
   showLowerRight(positionTop, positionLeft) {
@@ -62,20 +62,20 @@ export default class ContextMenu extends Control {
   }
 
   _show() {
-    const context = buttonConfig.contextMenu.buttonGroup.map(({ list }) => {
+    const context = this._buttonController.contextMenuButton.map((list) => {
       const ret = []
-      for (const { type, title } of list) {
+      for (const { type, title, pushed, disabled, transit } of list) {
         const classList = [
           'textae-control-icon',
           `textae-control-${type}-button`
         ]
-        if (this._pushButtons.get(type)) {
+        if (pushed) {
           classList.push('textae-control-icon--pushed')
         }
-        if (!this._enableButtons.get(type)) {
+        if (disabled) {
           classList.push('textae-control-icon--disabled')
         }
-        if (this._transitButtons.get(type)) {
+        if (transit) {
           classList.push('textae-control-icon--transit')
         }
 
