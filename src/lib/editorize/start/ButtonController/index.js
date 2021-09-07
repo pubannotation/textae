@@ -10,10 +10,6 @@ export default class ButtonController {
     // Save state of push control buttons.
     this._pushButtons = new PushButtons(eventEmitter)
 
-    this._writeButtonTransitState = false
-    eventEmitter.on('textae-event.control.writeButton.transit', (isTransit) => {
-      this._writeButtonTransitState = isTransit
-    })
     this._annotationWatcher = annotationWatcher
   }
 
