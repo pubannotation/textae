@@ -615,6 +615,6 @@ export default class SpanEditor {
   }
 
   get _isReplicateAuto() {
-    return this._buttonController.valueOf('replicate-auto')
+    return this._buttonController.isPushed('replicate-auto')
   }
 }

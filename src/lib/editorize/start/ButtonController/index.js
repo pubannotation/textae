@@ -26,7 +26,7 @@ export default class ButtonController {
     return this._pushButtons.names
   }
 
-  valueOf(buttonName) {
+  isPushed(buttonName) {
     return this._pushButtons.get(buttonName)
   }
 
@@ -43,7 +43,7 @@ export default class ButtonController {
   }
 
   get spanAdjuster() {
-    return this.valueOf('boundary-detection')
+    return this.isPushed('boundary-detection')
       ? new DelimiterDetectAdjuster()
       : new BlankSkipAdjuster()
   }

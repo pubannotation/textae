@@ -16,7 +16,7 @@ export default class AnnotationAutoSaver {
     )
 
     annotationWatcher.bind((val) => {
-      if (val && buttonController.valueOf('write-auto')) {
+      if (val && buttonController.isPushed('write-auto')) {
         debounceSaveAnnotation()
       }
     })
@@ -46,7 +46,7 @@ export default class AnnotationAutoSaver {
   }
 
   _disabled() {
-    if (this._buttonController.valueOf('write-auto')) {
+    if (this._buttonController.isPushed('write-auto')) {
       this._buttonController.toggleButton('write-auto')
     }
   }
