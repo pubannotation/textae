@@ -51,9 +51,9 @@ export default class ButtonController {
         ret.push({
           type,
           title,
-          pushed: this._pushButtons.get(type).isPushed,
-          disabled: !this._enableState.get(type),
-          trasit: type === 'write' && this._annotationWatcher.hasChange
+          pushed: this.getState(type, 'pushed'),
+          disabled: this.getState(type, 'disabled'),
+          trasit: this.getState(type, 'trasit')
         })
       }
 
