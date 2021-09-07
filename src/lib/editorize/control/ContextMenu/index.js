@@ -3,7 +3,7 @@ import isTouchDevice from '../../isTouchDevice'
 import classify from '../classify'
 import Control from '../Control'
 import bindToWindowEvents from './bindToWindowEvents'
-import template from './template'
+import toContextMenuItem from './template/toContextMenuItem'
 
 export default class ContextMenu extends Control {
   constructor(editor, buttonController) {
@@ -54,7 +54,14 @@ export default class ContextMenu extends Control {
 
   _show() {
     const context = classify(this._buttonController.contextMenuButton)
-    super.el.replaceChildren(...dohtml.create(template(context)).children)
+    const html = `
+    <div">
+      ${context
+        .map((list) => list.map(toContextMenuItem).join(''))
+        .join('<p class="textae-control-separator"></p>\n')}
+    </div>
+    `
+    super.el.replaceChildren(...dohtml.create(html).children)
     super.el.classList.remove('textae-context-menu--hide')
     super.el.classList.add('textae-context-menu--show')
   }
