@@ -13,11 +13,6 @@ export default class ButtonController {
     this._annotationWatcher = annotationWatcher
   }
 
-  propagate() {
-    this._enableState.propagate()
-    this._pushButtons.propagate()
-  }
-
   get pushButtonNames() {
     return this._pushButtons.names
   }

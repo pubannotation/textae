@@ -161,6 +161,4 @@ export default function (
   )
   // add context menu
   editor[0].appendChild(new ContextMenu(editor, buttonController).el)
-
-  // buttonController.propagate()
 }
