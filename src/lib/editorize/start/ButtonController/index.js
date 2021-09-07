@@ -60,6 +60,10 @@ export default class ButtonController {
     return buttonConfig.contextMenu.buttonGroup.map(({ list }) => {
       const ret = []
       for (const { type, title } of list) {
+        if (this.getState(type, 'disabled')) {
+          continue
+        }
+
         ret.push({
           type,
           title,
