@@ -28,36 +28,32 @@ function template(context) {
 `
 }
 
+function classify(buttonGroup) {
+  return buttonGroup.map((list) => {
+    const ret = []
+    for (const { type, title, pushed, disabled, transit } of list) {
+      const classList = ['textae-control-icon', `textae-control-${type}-button`]
+      if (pushed) {
+        classList.push('textae-control-icon--pushed')
+      }
+      if (disabled) {
+        classList.push('textae-control-icon--disabled')
+      }
+      if (transit) {
+        classList.push('textae-control-icon--transit')
+      }
+
+      ret.push({ type, title, classList })
+    }
+
+    return ret
+  })
+}
+
 // The control is a control bar in an editor.
 export default class ControlBar extends Control {
   constructor(editor, buttonController) {
-    super(
-      editor,
-      template(
-        buttonController.controlBarButton.map((list) => {
-          const ret = []
-          for (const { type, title, pushed, disabled, transit } of list) {
-            const classList = [
-              'textae-control-icon',
-              `textae-control-${type}-button`
-            ]
-            if (pushed) {
-              classList.push('textae-control-icon--pushed')
-            }
-            if (disabled) {
-              classList.push('textae-control-icon--disabled')
-            }
-            if (transit) {
-              classList.push('textae-control-icon--transit')
-            }
-
-            ret.push({ type, title, classList })
-          }
-
-          return ret
-        })
-      )
-    )
+    super(editor, template(classify(buttonController.controlBarButton)))
 
     this._buttonController = buttonController
 
