@@ -1,6 +1,5 @@
 import buttonConfig from '../../../buttonConfig'
 import { MODE } from '../../../../MODE'
-import bindEvents from './bindEvents'
 
 export default class EnableState {
   constructor(eventEmitter, selectionModel, clipBoard) {
@@ -21,7 +20,22 @@ export default class EnableState {
     this.enable('setting', true)
     this.enable('help', true)
 
-    bindEvents(eventEmitter, this)
+    eventEmitter
+      .on('textae-event.history.change', (history) => {
+        // change button state
+        this.enable('undo', history.hasAnythingToUndo)
+        this.enable('redo', history.hasAnythingToRedo)
+      })
+      .on('textae-event.selection.span.change', () => this.updateBySpan())
+      .on('textae-event.selection.relation.change', () =>
+        this.updateByRelation()
+      )
+      .on('textae-event.selection.entity.change', () => this.updateByEntity())
+      .on('textae-event.edit-mode.transition', (mode) => this.setForMode(mode))
+      .on('textae-event.clip-board.change', () => this.updateByClipboard)
+      .on('textae-event.annotation-auto-saver.enable', (enable) =>
+        this.enable('write-auto', enable)
+      )
   }
 
   propagate() {
