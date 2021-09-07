@@ -65,8 +65,8 @@ export default class ControlBar extends Control {
         this._updateButton(name, 'pushed')
       })
       .on('textae-event.control.buttons.change', (enableButtons) => {
-        for (const buttonName of enableButtons.keys()) {
-          this._updateButton(buttonName, 'disabled')
+        for (const name of enableButtons.keys()) {
+          this._updateButton(name, 'disabled')
         }
       })
       .on('textae-event.control.writeButton.transit', () => {
