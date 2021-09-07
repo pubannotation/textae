@@ -42,7 +42,7 @@ export default class EnableState {
     return this._states.get(button)
   }
 
-  propagate() {
+  _propagate() {
     this._eventEmitter.emit(
       'textae-event.control.buttons.change',
       this._states.keys()
@@ -51,22 +51,22 @@ export default class EnableState {
 
   enable(button, enable) {
     this._states.set(button, enable)
-    this.propagate()
+    this._propagate()
   }
 
   updateBySpan() {
     this._updateButtons(buttonConfig.spanButtons)
-    this.propagate()
+    this._propagate()
   }
 
   updateByEntity() {
     this._updateButtons(buttonConfig.entityButtons)
-    this.propagate()
+    this._propagate()
   }
 
   updateByRelation() {
     this._updateButtons(buttonConfig.relationButtons)
-    this.propagate()
+    this._propagate()
   }
 
   _updateButtons(buttons) {
@@ -114,7 +114,7 @@ export default class EnableState {
       default:
         throw `unknown edit mode!${mode}`
     }
-    this.propagate()
+    this._propagate()
   }
 
   _updateButtonsForMode(
