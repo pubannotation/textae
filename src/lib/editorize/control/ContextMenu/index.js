@@ -48,9 +48,7 @@ export default class ContextMenu extends Control {
 
   _show() {
     const context = classify(this._buttonController.contextMenuButton)
-
     super.el.replaceChildren(...dohtml.create(template(context)).children)
-
     super.el.classList.remove('textae-context-menu--hide')
     super.el.classList.add('textae-context-menu--show')
   }
