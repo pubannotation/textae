@@ -10,7 +10,7 @@ export default function (editor, mouseEventHandler) {
   // In relation mode does not manipulate the child elements in the text box.
   listeners.push(
     delegate(editor[0], '.textae-editor__text-box', 'click', () =>
-      mouseEventHandler.textBoxClicked()
+      mouseEventHandler.bodyClicked()
     )
   )
 

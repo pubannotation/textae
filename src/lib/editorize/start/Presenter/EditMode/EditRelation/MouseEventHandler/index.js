@@ -14,11 +14,6 @@ export default class MouseEventHandler {
     this._selectionModel.removeAll()
   }
 
-  textBoxClicked() {
-    this._pallet.hide()
-    this._selectionModel.removeAll()
-  }
-
   signboardClicked() {
     this._editor.focus()
   }
