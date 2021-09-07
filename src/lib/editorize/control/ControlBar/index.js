@@ -72,6 +72,15 @@ export default class ControlBar extends Control {
       .on('textae-event.control.writeButton.transit', () => {
         this._updateButton('write', 'transit')
       })
+
+    // Init button's state.
+    for (const { list } of buttonConfig.controlBar.buttonGroup) {
+      for (const { type } of list) {
+        this._updateButton(type, 'pushed')
+        this._updateButton(type, 'disabled')
+      }
+    }
+    this._updateButton('write', 'transit')
   }
 
   _updateButton(buttonName, stateName) {

@@ -164,5 +164,5 @@ export default function (
 
   // To trigger button state update events on init.
   // Because an inline annotation is readed before a binding the control.
-  buttonController.propagate()
+  // buttonController.propagate()
 }
