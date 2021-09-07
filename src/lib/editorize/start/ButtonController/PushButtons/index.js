@@ -18,10 +18,6 @@ export default class PushButtons {
     this._buttons.get('boundary-detection').pushued = true
   }
 
-  get(buttonName) {
-    return this._buttons.has(buttonName) && this._buttons.get(buttonName).pushed
-  }
-
   propagate() {
     for (const button of this._buttons.values()) {
       button.propagate()
@@ -29,7 +25,9 @@ export default class PushButtons {
   }
 
   getButton(name) {
-    return this._buttons.get(name)
+    return this._buttons.has(name)
+      ? this._buttons.get(name)
+      : new Button(null, name)
   }
 
   get names() {

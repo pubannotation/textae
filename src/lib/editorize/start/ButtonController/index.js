@@ -27,7 +27,7 @@ export default class ButtonController {
   }
 
   isPushed(buttonName) {
-    return this._pushButtons.get(buttonName)
+    return this._pushButtons.getButton(buttonName).pushed
   }
 
   push(buttonName) {
@@ -55,7 +55,7 @@ export default class ButtonController {
         ret.push({
           type,
           title,
-          pushed: this._pushButtons.get(type),
+          pushed: this._pushButtons.getButton(type).pushed,
           disabled: !this._enableState.get(type),
           trasit: this._transitButtonsState.get(type)
         })
