@@ -27,15 +27,15 @@ export default class ButtonController {
   }
 
   valueOf(buttonName) {
-    return this._getPushButton(buttonName).value
+    return this._getPushButton(buttonName).pushed
   }
 
   push(buttonName) {
-    this._getPushButton(buttonName).value = true
+    this._getPushButton(buttonName).pushed = true
   }
 
   release(buttonName) {
-    this._getPushButton(buttonName).value = false
+    this._getPushButton(buttonName).pushed = false
   }
 
   toggleButton(buttonName) {
