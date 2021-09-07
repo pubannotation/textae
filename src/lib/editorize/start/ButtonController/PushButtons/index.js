@@ -18,6 +18,12 @@ export default class PushButtons {
     this._buttonMap.get('boundary-detection').value(true)
   }
 
+  get(buttonName) {
+    return (
+      this._buttonMap.get(buttonName) && this._buttonMap.get(buttonName).value()
+    )
+  }
+
   propagate() {
     for (const button of this._buttonMap.values()) {
       button.propagate()
