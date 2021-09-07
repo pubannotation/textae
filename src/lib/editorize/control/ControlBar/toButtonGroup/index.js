@@ -1,7 +1,7 @@
 import toButtonIcon from './toButtonIcon'
 
 export default function () {
-  return ({ list }) => `
+  return (list) => `
   <span class="textae-control-separator"></span>
   ${list.map(toButtonIcon).join('\n')}
   `

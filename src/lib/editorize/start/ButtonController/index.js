@@ -39,6 +39,23 @@ export default class ButtonController {
       : new BlankSkipAdjuster()
   }
 
+  get controlBarButton() {
+    return buttonConfig.controlBar.buttonGroup.map(({ list }) => {
+      const ret = []
+      for (const { type, title } of list) {
+        ret.push({
+          type,
+          title,
+          pushed: this.getState(type, 'pushed'),
+          disabled: this.getState(type, 'disabled'),
+          trasit: this.getState(type, 'trasit')
+        })
+      }
+
+      return ret
+    })
+  }
+
   get contextMenuButton() {
     return buttonConfig.contextMenu.buttonGroup.map(({ list }) => {
       const ret = []

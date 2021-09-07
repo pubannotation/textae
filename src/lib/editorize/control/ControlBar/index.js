@@ -1,11 +1,9 @@
 import Control from '../Control'
 import isTouchDevice from '../../isTouchDevice'
 import toButtonGroup from './toButtonGroup'
-import buttonConfig from '../../buttonConfig'
 import Sticky from 'sticky-js'
 
 function template(context) {
-  const { buttonGroup } = context
   return `
 <div class="textae-control ${
     isTouchDevice() ? 'textae-touch-bar' : 'textae-control-bar'
@@ -24,7 +22,7 @@ function template(context) {
     <span class="textae-control-title">
       <a href="http://textae.pubannotation.org/" target="_blank">TextAE</a>
     </span>
-    ${buttonGroup.map(toButtonGroup()).join('\n')}
+    ${context.map(toButtonGroup()).join('\n')}
   </div>
 </div>
 `
@@ -33,7 +31,33 @@ function template(context) {
 // The control is a control bar in an editor.
 export default class ControlBar extends Control {
   constructor(editor, buttonController) {
-    super(editor, template(buttonConfig.controlBar))
+    super(
+      editor,
+      template(
+        buttonController.controlBarButton.map((list) => {
+          const ret = []
+          for (const { type, title, pushed, disabled, transit } of list) {
+            const classList = [
+              'textae-control-icon',
+              `textae-control-${type}-button`
+            ]
+            if (pushed) {
+              classList.push('textae-control-icon--pushed')
+            }
+            if (disabled) {
+              classList.push('textae-control-icon--disabled')
+            }
+            if (transit) {
+              classList.push('textae-control-icon--transit')
+            }
+
+            ret.push({ type, title, classList })
+          }
+
+          return ret
+        })
+      )
+    )
 
     this._buttonController = buttonController
 
@@ -72,16 +96,6 @@ export default class ControlBar extends Control {
       .on('textae-event.control.writeButton.transit', () => {
         this._updateButton('write', 'transit')
       })
-
-    // Init button's state.
-    // Because an inline annotation is readed before a binding the control.
-    for (const { list } of buttonConfig.controlBar.buttonGroup) {
-      for (const { type } of list) {
-        this._updateButton(type, 'pushed')
-        this._updateButton(type, 'disabled')
-      }
-    }
-    this._updateButton('write', 'transit')
   }
 
   _updateButton(buttonName, stateName) {
