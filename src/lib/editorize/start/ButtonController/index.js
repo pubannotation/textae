@@ -27,7 +27,7 @@ export default class ButtonController {
   }
 
   valueOf(buttonName) {
-    return this._getPushButton(buttonName).pushed
+    return this._pushButtons.get(buttonName)
   }
 
   push(buttonName) {
