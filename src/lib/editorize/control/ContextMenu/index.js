@@ -7,23 +7,7 @@ export default class ContextMenu extends Control {
   constructor(editor, buttonController) {
     super(editor, template([]))
 
-    this._enableButtons = new Map()
-    this._pushButtons = new Map()
-    this._transitButtons = new Map()
-
-    editor.eventEmitter
-      .on('textae-event.control.button.push', (data) =>
-        this._pushButtons.set(data.buttonName, data.state)
-      )
-      .on(
-        'textae-event.control.buttons.change',
-        (enableButtons) => (this._enableButtons = enableButtons)
-      )
-      .on('textae-event.control.writeButton.transit', (isTransit) => {
-        this._transitButtons.set('write', isTransit)
-      })
-
-      .on('textae-event.editor.key.input', () => this.hide())
+    editor.eventEmitter.on('textae-event.editor.key.input', () => this.hide())
 
     bindToWindowEvents(editor, this)
 
