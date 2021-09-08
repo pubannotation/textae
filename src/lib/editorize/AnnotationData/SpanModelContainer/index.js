@@ -160,12 +160,16 @@ export default class SpanModelContainer {
     const blockSpan = this._blocks.get(id)
     if (blockSpan) {
       this._removeBlock(blockSpan)
+      return
     }
 
     const denotationSpan = this._denotations.get(id)
     if (denotationSpan) {
       this._removeDenotation(denotationSpan)
+      return
     }
+
+    console.assert(false, `There is no target for remove for ${id}!`)
   }
 
   moveDenotationSpan(id, begin, end) {
