@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.24.0](https://github.com/pubannotation/textae/compare/v7.23.0...v7.24.0) (2021-09-08)
+
+
+### Features
+
+* Dynamically switch the buttons displayed in the context menu ([fba40d9](https://github.com/pubannotation/textae/commit/fba40d95f8b4ae44b981b72b6336b36340141a53))
+* Make sure the range is in the text box ([cf0fae8](https://github.com/pubannotation/textae/commit/cf0fae8a0015c7a52281b668840328e007fcf36a))
+* Show enable buttons only in the context menu ([67aac0d](https://github.com/pubannotation/textae/commit/67aac0da193d791284c26dee82ef9e2a9e797e6f))
+* Show transit status in context menu ([3b72245](https://github.com/pubannotation/textae/commit/3b72245af250a9c7ef3ce4a7ab88904172ef5706))
+
+
+### Bug Fixes
+
+* Context menu button presses and enable/disable statuses are not reflected in the appearance ([b4cfd80](https://github.com/pubannotation/textae/commit/b4cfd8060a39838933ef6f98d53d350004c00aa7))
+* Context menu buttons do not work ([d1a3cc6](https://github.com/pubannotation/textae/commit/d1a3cc64f36eaf355e236b427f7eabd6712e0c3f))
+* Deselected relations are not thinned ([c7092df](https://github.com/pubannotation/textae/commit/c7092df8c49cbf493fb308a24cb93e5ddec26629))
+* Give classes that are not needed ([759f78d](https://github.com/pubannotation/textae/commit/759f78dbc94166e19121b902e41776aef13abfda))
+
 ## [7.23.0](https://github.com/pubannotation/textae/compare/v7.22.0...v7.23.0) (2021-09-01)
 
 
