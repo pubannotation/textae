@@ -19,13 +19,11 @@ export default class Label {
 
   updateAppearanceState(x, y, width, relation, isHovered) {
     this._updatePosition(this._location, x, y, width, relation)
-    this._signboard.updateCSSClass(
-      relation.isSelected
-        ? 'textae-editor__signboard--selected'
-        : isHovered
-        ? 'textae-editor__signboard--hovered'
-        : null
-    )
+    this._signboard.CSSClass = relation.isSelected
+      ? 'textae-editor__signboard--selected'
+      : isHovered
+      ? 'textae-editor__signboard--hovered'
+      : null
   }
 
   updateValue(x, y, width, relation) {

@@ -12,7 +12,7 @@ export default class SignboardHTMLElement {
     return this._element
   }
 
-  updateCSSClass(className) {
+  set CSSClass(className) {
     this.element.className = ''
     this.element.classList.add('textae-editor__signboard')
     this.element.classList.add(className)
