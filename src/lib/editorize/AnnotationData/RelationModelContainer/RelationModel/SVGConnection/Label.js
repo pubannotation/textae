@@ -18,7 +18,7 @@ export default class Label {
   }
 
   updateAppearanceState(x, y, width, relation, isHovered) {
-    this._updatePosition(this._location, x, y, width, relation)
+    this._updatePosition(x, y, width, relation)
     this._signboard.CSSClass = relation.isSelected
       ? 'textae-editor__signboard--selected'
       : isHovered
@@ -27,12 +27,12 @@ export default class Label {
   }
 
   updateValue(x, y, width, relation) {
-    this._updatePosition(this._location, x, y, width, relation)
+    this._updatePosition(x, y, width, relation)
     this._signboard.updateLabel()
   }
 
   updatePosition(x, y, width, relation) {
-    this._updatePosition(this._location, x, y, width, relation)
+    this._updatePosition(x, y, width, relation)
   }
 
   destructor() {
@@ -51,9 +51,9 @@ export default class Label {
     return this._location.getBBox().height
   }
 
-  _updatePosition(location, x, y, width, relation) {
-    location.style.width = `${width}px`
-    location.style.top = `${y - 18 - relation.attributes.length * 18}px`
-    location.style.left = `${x}px`
+  _updatePosition(x, y, width, relation) {
+    this._location.style.width = `${width}px`
+    this._location.style.top = `${y - 18 - relation.attributes.length * 18}px`
+    this._location.style.left = `${x}px`
   }
 }
