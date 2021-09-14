@@ -52,8 +52,8 @@ export default class Label {
   _updatePosition() {
     this._location.style.width = `${this._arrow.width}px`
     this._location.style.top = `${
-      this._arrow.y - 18 - this._relation.attributes.length * 18
+      this._arrow.top - 18 - this._relation.attributes.length * 18
     }px`
-    this._location.style.left = `${this._arrow.x}px`
+    this._location.style.left = `${this._arrow.left}px`
   }
 }
