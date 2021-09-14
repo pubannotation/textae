@@ -106,6 +106,6 @@ export default class SVGConnection {
 
   // Private APIs
   _updateLabelAppearance() {
-    this._label.appearanceState = this._relation.isHovered
+    this._label.updateAppearanceState()
   }
 }
