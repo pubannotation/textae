@@ -4,21 +4,22 @@ import SignboardHTMLElement from '../../../../SignboardHTMLElement'
 export default class Label {
   constructor(container, relation, onClick, onMouseEnter, onMouseLeave) {
     this._container = container
+    this._relation = relation
+
     this._location = dohtml.create(
       `<div class="textae-editor__relation__signboard-location"></div>`
     )
     this._signboard = new SignboardHTMLElement(relation, 'relation', null)
-
     this._location.appendChild(this._signboard.element)
+    this._container.appendChild(this._location)
+
     this._location.addEventListener('click', onClick)
     this._location.addEventListener('mouseenter', onMouseEnter)
     this._location.addEventListener('mouseleave', onMouseLeave)
-
-    this._container.appendChild(this._location)
   }
 
   updateAppearanceState(x, y, width, relation, isHovered) {
-    this._updatePosition(x, y, width, relation)
+    this._updatePosition(x, y, width)
     this._signboard.CSSClass = relation.isSelected
       ? 'textae-editor__signboard--selected'
       : isHovered
@@ -27,12 +28,12 @@ export default class Label {
   }
 
   updateValue(x, y, width, relation) {
-    this._updatePosition(x, y, width, relation)
+    this._updatePosition(x, y, width)
     this._signboard.updateLabel()
   }
 
   updatePosition(x, y, width, relation) {
-    this._updatePosition(x, y, width, relation)
+    this._updatePosition(x, y, width)
   }
 
   destructor() {
@@ -51,9 +52,11 @@ export default class Label {
     return this._location.getBBox().height
   }
 
-  _updatePosition(x, y, width, relation) {
+  _updatePosition(x, y, width) {
     this._location.style.width = `${width}px`
-    this._location.style.top = `${y - 18 - relation.attributes.length * 18}px`
+    this._location.style.top = `${
+      y - 18 - this._relation.attributes.length * 18
+    }px`
     this._location.style.left = `${x}px`
   }
 }
