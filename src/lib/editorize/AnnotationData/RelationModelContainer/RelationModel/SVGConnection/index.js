@@ -45,12 +45,12 @@ export default class SVGConnection {
 
   pointUpPathAndSourceBollards() {
     this._arrow.update(true, true, this._relation.isSelected)
-    this._updateLabelAppearance()
+    this._label.updateAppearanceState()
   }
 
   pointUpPathAndTargetBollards() {
     this._arrow.update(true, this._relation.isSelected, true)
-    this._updateLabelAppearance()
+    this._label.updateAppearanceState()
   }
 
   pointUpSourceBollards() {
@@ -59,7 +59,7 @@ export default class SVGConnection {
       true,
       this._relation.isSelected
     )
-    this._updateLabelAppearance()
+    this._label.updateAppearanceState()
   }
 
   pointUpTargetBollards() {
@@ -68,17 +68,17 @@ export default class SVGConnection {
       this._relation.isSelected,
       true
     )
-    this._updateLabelAppearance()
+    this._label.updateAppearanceState()
   }
 
   pointUpSourceBollardsAndTargetBollards() {
     this._arrow.update(this._relation.isSelected, true, true)
-    this._updateLabelAppearance()
+    this._label.updateAppearanceState()
   }
 
   pointUpPath() {
     this._arrow.update(true, true, true)
-    this._updateLabelAppearance()
+    this._label.updateAppearanceState()
   }
 
   pointDownPath() {
@@ -87,7 +87,7 @@ export default class SVGConnection {
       this._relation.isSelected,
       this._relation.isSelected
     )
-    this._updateLabelAppearance()
+    this._label.updateAppearanceState()
   }
 
   updateValue() {
@@ -101,11 +101,6 @@ export default class SVGConnection {
   }
 
   updateLabelAppearance() {
-    this._updateLabelAppearance()
-  }
-
-  // Private APIs
-  _updateLabelAppearance() {
     this._label.updateAppearanceState()
   }
 }
