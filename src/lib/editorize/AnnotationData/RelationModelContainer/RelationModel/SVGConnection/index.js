@@ -21,8 +21,28 @@ export default class SVGConnection {
     this._onMouseLeave = onMouseLeave
     this._relationBox = editor[0].querySelector('.textae-editor__relation-box')
     this._annotationBox = getAnnotationBox(editor)
-    this._arrow = this._createArrow()
-    this._label = this._createLabel(this._arrow)
+
+    this._arrow = new Arrow(
+      this._relationBox,
+      this._relation,
+      this._onClick,
+      this._onMouseEnter,
+      this._onMouseLeave
+    )
+    this._arrow.update(false, false, false)
+
+    this._label = new Label(
+      this._annotationBox,
+      this._relation,
+      this._onClick,
+      this._onMouseEnter,
+      this._onMouseLeave
+    )
+    this._label.updatePosition(
+      this._arrow.left,
+      this._arrow.top,
+      this._arrow.width
+    )
   }
 
   destroy() {
@@ -96,30 +116,6 @@ export default class SVGConnection {
   }
 
   // Private APIs
-  _createArrow() {
-    const arrow = new Arrow(
-      this._relationBox,
-      this._relation,
-      this._onClick,
-      this._onMouseEnter,
-      this._onMouseLeave
-    )
-    arrow.update(false, false, false)
-    return arrow
-  }
-
-  _createLabel(arrow) {
-    const label = new Label(
-      this._annotationBox,
-      this._relation,
-      this._onClick,
-      this._onMouseEnter,
-      this._onMouseLeave
-    )
-    label.updatePosition(arrow.left, arrow.top, arrow.width)
-    return label
-  }
-
   _updateLabelAppearance() {
     this._label.updateAppearanceState(
       this._arrow.left,
