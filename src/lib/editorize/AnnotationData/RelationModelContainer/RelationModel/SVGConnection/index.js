@@ -100,7 +100,7 @@ export default class SVGConnection {
     this._label.updateValue()
   }
 
-  updateLabelAppearance() {
+  updateHighlighting() {
     this._label.updateHighlighting()
   }
 }

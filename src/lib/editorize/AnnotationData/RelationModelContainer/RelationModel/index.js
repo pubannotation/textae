@@ -93,14 +93,14 @@ export default class RelationModel {
   select() {
     if (!this._isSelected) {
       this._isSelected = true
-      this._connect.updateLabelAppearance()
+      this._connect.updateHighlighting()
     }
   }
 
   deselect() {
     if (this._isSelected) {
       this._isSelected = false
-      this._connect.updateLabelAppearance()
+      this._connect.updateHighlighting()
       this.updateHighlighting()
     }
   }
