@@ -34,6 +34,7 @@ export default class SVGConnection {
     this._label = new Label(
       this._annotationBox,
       this._relation,
+      this._arrow,
       this._onClick,
       this._onMouseEnter,
       this._onMouseLeave

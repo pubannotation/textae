@@ -2,9 +2,10 @@ import dohtml from 'dohtml'
 import SignboardHTMLElement from '../../../../SignboardHTMLElement'
 
 export default class Label {
-  constructor(container, relation, onClick, onMouseEnter, onMouseLeave) {
+  constructor(container, relation, arrow, onClick, onMouseEnter, onMouseLeave) {
     this._container = container
     this._relation = relation
+    this._arrow = arrow
 
     this._location = dohtml.create(
       `<div class="textae-editor__relation__signboard-location"></div>`
