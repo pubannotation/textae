@@ -35,6 +35,8 @@ export default class Arrow {
     this._aura = aura
     this._sourceJetty = null
     this._targetJetty = null
+
+    this.update(false, false, false)
   }
 
   update(pointUpPath, pointUpSourceBollards, pointUpTargetBollards) {
