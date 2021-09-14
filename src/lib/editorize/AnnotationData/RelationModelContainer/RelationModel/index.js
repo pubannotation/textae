@@ -105,6 +105,32 @@ export default class RelationModel {
     }
   }
 
+  render() {
+    const connection = new SVGConnection(
+      this._editor,
+      this,
+      this._namespace,
+      this._definitionContainer,
+      (event, attribute) => {
+        this._editor.eventEmitter.emit(
+          'textae-event.editor.relation.click',
+          event,
+          this,
+          attribute
+        )
+        event.stopPropagation()
+      },
+      () => this._pointUpSelfAndEntities(),
+      () => this._pointDownSelfAndEntities()
+    )
+
+    this._connect = connection
+  }
+
+  updateElement() {
+    this._connect.updateValue()
+  }
+
   updateHighlighting() {
     if (this.sourceEntity.isSelected && this.targetEntity.isSelected) {
       this._connect.pointUpPath()
@@ -131,32 +157,6 @@ export default class RelationModel {
     } else {
       this._connect.pointUpPathAndTargetBollards()
     }
-  }
-
-  render() {
-    const connection = new SVGConnection(
-      this._editor,
-      this,
-      this._namespace,
-      this._definitionContainer,
-      (event, attribute) => {
-        this._editor.eventEmitter.emit(
-          'textae-event.editor.relation.click',
-          event,
-          this,
-          attribute
-        )
-        event.stopPropagation()
-      },
-      () => this._pointUpSelfAndEntities(),
-      () => this._pointDownSelfAndEntities()
-    )
-
-    this._connect = connection
-  }
-
-  updateElement() {
-    this._connect.updateValue()
   }
 
   erase() {
