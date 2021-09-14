@@ -87,8 +87,7 @@ export default class SVGConnection {
     this._label.updateValue(
       this._arrow.left,
       this._arrow.top,
-      this._arrow.width,
-      this._relation
+      this._arrow.width
     )
   }
 
@@ -119,8 +118,7 @@ export default class SVGConnection {
     this._label.updatePosition(
       this._arrow.left,
       this._arrow.top,
-      this._arrow.width,
-      this._relation
+      this._arrow.width
     )
   }
 

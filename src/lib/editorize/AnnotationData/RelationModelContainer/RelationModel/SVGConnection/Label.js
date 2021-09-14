@@ -27,12 +27,12 @@ export default class Label {
       : null
   }
 
-  updateValue(x, y, width, relation) {
+  updateValue(x, y, width) {
     this._updatePosition(x, y, width)
     this._signboard.updateLabel()
   }
 
-  updatePosition(x, y, width, relation) {
+  updatePosition(x, y, width) {
     this._updatePosition(x, y, width)
   }
 
