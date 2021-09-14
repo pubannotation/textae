@@ -22,7 +22,7 @@ export default class SVGConnection {
     this._relationBox = editor[0].querySelector('.textae-editor__relation-box')
     this._annotationBox = getAnnotationBox(editor)
     this._arrow = this._createArrow()
-    this._createLabel()
+    this._createLabel(this._arrow)
   }
 
   destroy() {
@@ -108,7 +108,7 @@ export default class SVGConnection {
     return arrow
   }
 
-  _createLabel() {
+  _createLabel(arrow) {
     this._label = new Label(
       this._annotationBox,
       this._relation,
@@ -116,11 +116,7 @@ export default class SVGConnection {
       this._onMouseEnter,
       this._onMouseLeave
     )
-    this._label.updatePosition(
-      this._arrow.left,
-      this._arrow.top,
-      this._arrow.width
-    )
+    this._label.updatePosition(arrow.left, arrow.top, arrow.width)
   }
 
   _updateLabelAppearance() {
