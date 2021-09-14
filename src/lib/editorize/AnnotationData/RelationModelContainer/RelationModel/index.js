@@ -159,10 +159,6 @@ export default class RelationModel {
     this._connect.updateValue()
   }
 
-  updatePosition() {
-    this._connect.updatePosition()
-  }
-
   erase() {
     this._connect.destroy()
     this._connect = undefined
