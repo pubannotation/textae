@@ -198,7 +198,7 @@ export default class AnnotationData {
     this.span.arrangeBlockEntityPosition()
 
     for (const relation of this.relation.all) {
-      relation.updatePosition()
+      relation.updateHighlighting()
     }
   }
 }
