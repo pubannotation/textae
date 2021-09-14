@@ -97,11 +97,7 @@ export default class SVGConnection {
       this._relation.isSelected || this._relation.isHovered
     )
 
-    this._label.updateValue(
-      this._arrow.left,
-      this._arrow.top,
-      this._arrow.width
-    )
+    this._label.updateValue()
   }
 
   updateLabelAppearance() {
@@ -110,11 +106,6 @@ export default class SVGConnection {
 
   // Private APIs
   _updateLabelAppearance() {
-    this._label.updateAppearanceState(
-      this._arrow.left,
-      this._arrow.top,
-      this._arrow.width,
-      this._relation.isHovered
-    )
+    this._label.updateAppearanceState(this._relation.isHovered)
   }
 }

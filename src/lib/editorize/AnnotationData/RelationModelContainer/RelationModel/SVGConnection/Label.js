@@ -19,7 +19,7 @@ export default class Label {
     this._location.addEventListener('mouseleave', onMouseLeave)
   }
 
-  updateAppearanceState(x, y, width, isHovered) {
+  updateAppearanceState(isHovered) {
     this._updatePosition()
     this._signboard.CSSClass = this._relation.isSelected
       ? 'textae-editor__signboard--selected'
@@ -28,7 +28,7 @@ export default class Label {
       : null
   }
 
-  updateValue(x, y, width) {
+  updateValue() {
     this._updatePosition()
     this._signboard.updateLabel()
   }
