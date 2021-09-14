@@ -17,6 +17,8 @@ export default class Label {
     this._location.addEventListener('click', onClick)
     this._location.addEventListener('mouseenter', onMouseEnter)
     this._location.addEventListener('mouseleave', onMouseLeave)
+
+    this._updatePosition(this._arrow.x, this._arrow.y, this._arrow.width)
   }
 
   updateAppearanceState(x, y, width, isHovered) {
