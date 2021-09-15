@@ -1,13 +1,19 @@
 import isTouchDevice from '../isTouchDevice'
 import { config } from './config'
 
+function isResolusionLessThanIPadPro() {
+  // The resolution is based on the resolution of the iPad Pro
+  // when it is in landscape orientation.
+  return window.screen.width <= 1366
+}
+
 class Config {
   // Buttons to display on the control bar.
   get controlBar() {
     return {
       buttonGroup: config
         .filter(({ usage }) => {
-          if (isTouchDevice()) {
+          if (isTouchDevice() && isResolusionLessThanIPadPro()) {
             return usage['touce device'].includes('control bar')
           } else {
             return usage['keyboard device'].includes('control bar')
