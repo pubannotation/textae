@@ -178,7 +178,7 @@ export default class SpanEditor {
         selectionWrapper.parentOfAnchorNode
       )
     ) {
-      const spanID = selectionWrapper.parentOfAnchorNode.id
+      const spanID = selectionWrapper.ancestorDenotationSpanOfAnchorNode.id
 
       return {
         spanID,
@@ -200,7 +200,7 @@ export default class SpanEditor {
         selectionWrapper.parentOfFocusNode
       )
     ) {
-      const spanID = selectionWrapper.parentOfFocusNode.id
+      const spanID = selectionWrapper.ancestorDenotationSpanOfFocusNode.id
 
       return {
         spanID,
