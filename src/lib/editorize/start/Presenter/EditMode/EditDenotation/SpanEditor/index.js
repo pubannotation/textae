@@ -232,10 +232,12 @@ export default class SpanEditor {
         selectionWrapper.parentOfAnchorNode
       )
     ) {
+      const spanId = selectionWrapper.ancestorDenotationSpanOfAnchorNode.id
+
       return {
-        spanId: selectionWrapper.ancestorDenotationSpanOfAnchorNode.id,
+        spanId,
         ...this._annotationData.span
-          .get(selectionWrapper.ancestorDenotationSpanOfAnchorNode.id)
+          .get(spanId)
           .getShortenInFocusNodeToAnchorNodeDirection(
             this._buttonController.spanAdjuster,
             selectionWrapper,
@@ -252,10 +254,12 @@ export default class SpanEditor {
         selectionWrapper.parentOfFocusNode
       )
     ) {
+      const spanId = selectionWrapper.ancestorDenotationSpanOfFocusNode.id
+
       return {
-        spanId: selectionWrapper.ancestorDenotationSpanOfFocusNode.id,
+        spanId,
         ...this._annotationData.span
-          .get(selectionWrapper.ancestorDenotationSpanOfFocusNode.id)
+          .get(spanId)
           .getShotrenInAnchorNodeToFocusNodeDirection(
             this._buttonController.spanAdjuster,
             selectionWrapper,
