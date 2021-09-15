@@ -179,6 +179,8 @@ export default class SpanModelContainer {
     )
 
     const oldSpan = this._denotations.get(id)
+    console.assert(oldSpan, `There is no target for move for ${id}!`)
+
     this._removeDenotation(oldSpan)
 
     const newOne = new DenotationSpanModel(
