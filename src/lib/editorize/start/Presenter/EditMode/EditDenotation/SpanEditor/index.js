@@ -106,7 +106,7 @@ export default class SpanEditor {
   expandForTouchDevice() {
     const expandedSpan = this._getExpandedSpanForTouchDevice()
     if (expandedSpan) {
-      const { spanId, begin, end } = expandedSpan
+      const { spanID, begin, end } = expandedSpan
 
       // The span cross exists spans.
       if (
@@ -121,7 +121,7 @@ export default class SpanEditor {
       }
 
       this._commander.invoke(
-        this._commander.factory.moveDenotationSpanCommand(spanId, begin, end)
+        this._commander.factory.moveDenotationSpanCommand(spanID, begin, end)
       )
     }
   }
@@ -179,7 +179,7 @@ export default class SpanEditor {
       )
     ) {
       return {
-        spanId: selectionWrapper.parentOfAnchorNode.id,
+        spanID: selectionWrapper.parentOfAnchorNode.id,
         ...this._annotationData.span
           .get(selectionWrapper.parentOfAnchorNode.id)
           .getExpandedInAnchorNodeToFocusNodeDirection(
@@ -199,7 +199,7 @@ export default class SpanEditor {
       )
     ) {
       return {
-        spanId: selectionWrapper.parentOfFocusNode.id,
+        spanID: selectionWrapper.parentOfFocusNode.id,
         ...this._annotationData.span
           .get(selectionWrapper.parentOfFocusNode.id)
           .getExpandedInFocusNodeToAnchorNodeDirection(
