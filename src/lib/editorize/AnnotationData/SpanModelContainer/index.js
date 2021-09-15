@@ -99,8 +99,12 @@ export default class SpanModelContainer {
     return false
   }
 
-  hasParentOf(begin, end) {
+  hasParentOf(begin, end, spanID) {
     for (const parent of this.all) {
+      if (parent.id === spanID) {
+        continue
+      }
+
       if (parent.begin <= begin && end <= parent.end) {
         return true
       }

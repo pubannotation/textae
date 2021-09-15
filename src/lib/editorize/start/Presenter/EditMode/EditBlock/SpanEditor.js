@@ -154,7 +154,7 @@ export default class SpanEditor {
       }
 
       // There is parant span.
-      if (this._annotationData.span.hasParentOf(begin, end)) {
+      if (this._annotationData.span.hasParentOf(begin, end, spanId)) {
         return
       }
 
