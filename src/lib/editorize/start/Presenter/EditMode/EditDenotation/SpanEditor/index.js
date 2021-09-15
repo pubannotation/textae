@@ -580,17 +580,17 @@ export default class SpanEditor {
     clearTextSelection()
   }
 
-  _expand(selectionWrapper, spanId) {
+  _expand(selectionWrapper, spanID) {
     expandSpan(
       this._selectionModel,
       this._annotationData,
       this._buttonController.spanAdjuster,
-      spanId,
+      spanID,
       selectionWrapper,
       this._spanConfig,
       (begin, end) => {
         this._commander.invoke(
-          this._commander.factory.moveDenotationSpanCommand(spanId, begin, end)
+          this._commander.factory.moveDenotationSpanCommand(spanID, begin, end)
         )
       }
     )
@@ -598,19 +598,19 @@ export default class SpanEditor {
     clearTextSelection()
   }
 
-  _shrink(selectionWrapper, spanId) {
+  _shrink(selectionWrapper, spanID) {
     shrinkSpan(
       this._editor,
       this._annotationData,
       this._selectionModel,
       this._commander,
       this._buttonController.spanAdjuster,
-      spanId,
+      spanID,
       selectionWrapper,
       this._spanConfig,
       (begin, end) => {
         this._commander.invoke(
-          this._commander.factory.moveDenotationSpanCommand(spanId, begin, end)
+          this._commander.factory.moveDenotationSpanCommand(spanID, begin, end)
         )
       }
     )
