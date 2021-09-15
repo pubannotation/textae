@@ -129,8 +129,8 @@ export default class SpanEditor {
   shrinkForTouchDevice() {
     const shrinkedSpan = this._getShrinkedSpanForTouchDevice()
     if (shrinkedSpan) {
-      const { spanId, begin, end } = shrinkedSpan
-      const nextSpan = getRightSpanElement(this._editor, spanId)
+      const { spanID, begin, end } = shrinkedSpan
+      const nextSpan = getRightSpanElement(this._editor, spanID)
 
       // The span cross exists spans.
       if (
@@ -145,11 +145,11 @@ export default class SpanEditor {
       const doesExists = this._annotationData.span.hasDenotationSpan(begin, end)
       if (begin < end && !doesExists) {
         this._commander.invoke(
-          this._commander.factory.moveDenotationSpanCommand(spanId, begin, end)
+          this._commander.factory.moveDenotationSpanCommand(spanID, begin, end)
         )
       } else {
         this._commander.invoke(
-          this._commander.factory.removeSpanCommand(spanId)
+          this._commander.factory.removeSpanCommand(spanID)
         )
         if (nextSpan) {
           this._selectionModel.selectSpan(nextSpan.id)
@@ -232,12 +232,12 @@ export default class SpanEditor {
         selectionWrapper.parentOfAnchorNode
       )
     ) {
-      const spanId = selectionWrapper.ancestorDenotationSpanOfAnchorNode.id
+      const spanID = selectionWrapper.ancestorDenotationSpanOfAnchorNode.id
 
       return {
-        spanId,
+        spanID,
         ...this._annotationData.span
-          .get(spanId)
+          .get(spanID)
           .getShortenInFocusNodeToAnchorNodeDirection(
             this._buttonController.spanAdjuster,
             selectionWrapper,
@@ -254,12 +254,12 @@ export default class SpanEditor {
         selectionWrapper.parentOfFocusNode
       )
     ) {
-      const spanId = selectionWrapper.ancestorDenotationSpanOfFocusNode.id
+      const spanID = selectionWrapper.ancestorDenotationSpanOfFocusNode.id
 
       return {
-        spanId,
+        spanID,
         ...this._annotationData.span
-          .get(spanId)
+          .get(spanID)
           .getShotrenInAnchorNodeToFocusNodeDirection(
             this._buttonController.spanAdjuster,
             selectionWrapper,
