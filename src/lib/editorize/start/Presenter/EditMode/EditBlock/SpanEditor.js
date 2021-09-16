@@ -303,6 +303,14 @@ export default class SpanEditor {
       return null
     }
 
+    // On mobile devices,
+    // do not shrink the block span when the selected text fits into one block span.
+    if (
+      selectionWrapper.parentOfAnchorNode === selectionWrapper.parentOfFocusNode
+    ) {
+      return null
+    }
+
     // When you select text by mouse operation,
     // the anchor node of the selected string is always inside the span to be extended,
     // and the focus node is outside.
