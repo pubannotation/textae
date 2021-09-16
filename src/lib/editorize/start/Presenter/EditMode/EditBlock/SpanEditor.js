@@ -141,6 +141,7 @@ export default class SpanEditor {
     const shrinkedSpan = this._getShrinkedSpanForTouchDevice()
     if (shrinkedSpan) {
       const { spanID, begin, end } = shrinkedSpan
+      console.log(spanID, begin, end)
       const nextSpan = getRightSpanElement(this._editor, spanID)
 
       // The span cross exists spans.
@@ -310,10 +311,12 @@ export default class SpanEditor {
         selectionWrapper.parentOfAnchorNode
       )
     ) {
+      const spanID = selectionWrapper.parentOfAnchorNode.id
+
       return {
-        spanID: selectionWrapper.parentOfAnchorNode.id,
+        spanID,
         ...this._annotationData.span
-          .get(selectionWrapper.parentOfAnchorNode.id)
+          .get(spanID)
           .getShortenInFocusNodeToAnchorNodeDirection(
             this._buttonController.spanAdjuster,
             selectionWrapper,
@@ -330,10 +333,12 @@ export default class SpanEditor {
         selectionWrapper.parentOfFocusNode
       )
     ) {
+      const spanID = selectionWrapper.parentOfFocusNode.id
+
       return {
-        spanId: selectionWrapper.parentOfFocusNode.id,
+        spanID,
         ...this._annotationData.span
-          .get(selectionWrapper.parentOfFocusNode.id)
+          .get(spanID)
           .getShotrenInAnchorNodeToFocusNodeDirection(
             this._buttonController.spanAdjuster,
             selectionWrapper,
