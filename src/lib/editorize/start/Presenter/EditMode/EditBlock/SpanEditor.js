@@ -140,8 +140,8 @@ export default class SpanEditor {
   shrinkForTouchDevice() {
     const shrinkedSpan = this._getShrinkedSpanForTouchDevice()
     if (shrinkedSpan) {
-      const { spanId, begin, end } = shrinkedSpan
-      const nextSpan = getRightSpanElement(this._editor, spanId)
+      const { spanID, begin, end } = shrinkedSpan
+      const nextSpan = getRightSpanElement(this._editor, spanID)
 
       // The span cross exists spans.
       if (
@@ -154,18 +154,18 @@ export default class SpanEditor {
       }
 
       // There is parant span.
-      if (this._annotationData.span.hasParentOf(begin, end, spanId)) {
+      if (this._annotationData.span.hasParentOf(begin, end, spanID)) {
         return
       }
 
       const doesExists = this._annotationData.span.hasBlockSpan(begin, end)
       if (begin < end && !doesExists) {
         this._commander.invoke(
-          this._commander.factory.moveBlockSpanCommand(spanId, begin, end)
+          this._commander.factory.moveBlockSpanCommand(spanID, begin, end)
         )
       } else {
         this._commander.invoke(
-          this._commander.factory.removeSpanCommand(spanId)
+          this._commander.factory.removeSpanCommand(spanID)
         )
         if (nextSpan) {
           this._selectionModel.selectSpan(nextSpan.id)
@@ -311,7 +311,7 @@ export default class SpanEditor {
       )
     ) {
       return {
-        spanId: selectionWrapper.parentOfAnchorNode.id,
+        spanID: selectionWrapper.parentOfAnchorNode.id,
         ...this._annotationData.span
           .get(selectionWrapper.parentOfAnchorNode.id)
           .getShortenInFocusNodeToAnchorNodeDirection(
