@@ -192,18 +192,18 @@ export default class SpanEditor {
   }
 
   _expand(selectionWrapper) {
-    const spanId = selectionWrapper.ancestorBlockSpanOfAnchorNode.id
+    const spanID = selectionWrapper.ancestorBlockSpanOfAnchorNode.id
 
     expandSpan(
       this._selectionModel,
       this._annotationData,
       this._buttonController.spanAdjuster,
-      spanId,
+      spanID,
       selectionWrapper,
       this._spanConfig,
       (begin, end) => {
         this._commander.invoke(
-          this._commander.factory.moveBlockSpanCommand(spanId, begin, end)
+          this._commander.factory.moveBlockSpanCommand(spanID, begin, end)
         )
       }
     )
