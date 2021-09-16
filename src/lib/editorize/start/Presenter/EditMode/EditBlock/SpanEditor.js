@@ -212,7 +212,7 @@ export default class SpanEditor {
   }
 
   _shrink(selectionWrapper) {
-    const spanId = selectionWrapper.ancestorBlockSpanOfFocusNode.id
+    const spanID = selectionWrapper.ancestorBlockSpanOfFocusNode.id
 
     shrinkSpan(
       this._editor,
@@ -220,12 +220,12 @@ export default class SpanEditor {
       this._selectionModel,
       this._commander,
       this._buttonController.spanAdjuster,
-      spanId,
+      spanID,
       selectionWrapper,
       this._spanConfig,
       (begin, end) => {
         this._commander.invoke(
-          this._commander.factory.moveBlockSpanCommand(spanId, begin, end)
+          this._commander.factory.moveBlockSpanCommand(spanID, begin, end)
         )
       }
     )
