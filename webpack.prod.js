@@ -20,7 +20,7 @@ module.exports = merge(common, {
     ]
   },
   performance: {
-    maxEntrypointSize: 991232,
-    maxAssetSize: 991232
+    maxEntrypointSize: 992396,
+    maxAssetSize: 992396
   }
 })
