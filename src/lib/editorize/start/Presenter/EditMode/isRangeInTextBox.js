@@ -1,11 +1,7 @@
-export default function (selection, editor) {
+export default function (selection, textBoxHTMLElement) {
   return (
     selection.type === 'Range' &&
-    editor[0]
-      .querySelector('.textae-editor__text-box')
-      .contains(selection.anchorNode) &&
-    editor[0]
-      .querySelector('.textae-editor__text-box')
-      .contains(selection.focusNode)
+    textBoxHTMLElement.contains(selection.anchorNode) &&
+    textBoxHTMLElement.contains(selection.focusNode)
   )
 }

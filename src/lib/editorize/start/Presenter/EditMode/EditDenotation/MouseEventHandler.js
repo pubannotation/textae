@@ -23,7 +23,12 @@ export default class MouseEventHandler {
 
     const selection = window.getSelection()
 
-    if (isRangeInTextBox(selection, this._editor)) {
+    if (
+      isRangeInTextBox(
+        selection,
+        this._editor[0].querySelector('.textae-editor__text-box')
+      )
+    ) {
       this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
     } else {
       this._selectionModel.removeAll()
@@ -47,7 +52,12 @@ export default class MouseEventHandler {
       this._selectSpan(event, event.target.id)
     }
 
-    if (isRangeInTextBox(selection, this._editor)) {
+    if (
+      isRangeInTextBox(
+        selection,
+        this._editor[0].querySelector('.textae-editor__text-box')
+      )
+    ) {
       this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
     }
   }
@@ -66,7 +76,12 @@ export default class MouseEventHandler {
       this._selectionModel.removeAll()
     }
 
-    if (isRangeInTextBox(selection, this._editor)) {
+    if (
+      isRangeInTextBox(
+        selection,
+        this._editor[0].querySelector('.textae-editor__text-box')
+      )
+    ) {
       this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
     }
   }
@@ -90,7 +105,12 @@ export default class MouseEventHandler {
       }
     }
 
-    if (isRangeInTextBox(selection, this._editor)) {
+    if (
+      isRangeInTextBox(
+        selection,
+        this._editor[0].querySelector('.textae-editor__text-box')
+      )
+    ) {
       this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
     }
   }
