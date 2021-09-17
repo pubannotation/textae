@@ -23,10 +23,10 @@ export default function (
 
   // Shift only when the entity has enough width to shift the endpoint.
   const leftTarget = isTargetJettyDeployed
-    ? centerOfTarget - DistanceToShift * 3
+    ? centerOfTarget - DistanceToShift
     : centerOfTarget
   const leftSource = isSourceJettyDeployed
-    ? centerOfSource - DistanceToShift
+    ? centerOfSource - DistanceToShift * 3
     : centerOfSource
   const rightTarget = isTargetJettyDeployed
     ? centerOfTarget + DistanceToShift
