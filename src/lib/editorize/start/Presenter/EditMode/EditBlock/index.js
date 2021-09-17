@@ -52,7 +52,7 @@ export default class EditBlock extends Edit {
       editor,
       bindMouseEvents,
       new MouseEventHandler(
-        editor,
+        editor[0],
         annotationData,
         selectionModel,
         spanEditor,

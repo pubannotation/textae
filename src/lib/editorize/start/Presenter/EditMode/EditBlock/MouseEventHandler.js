@@ -5,8 +5,14 @@ import selectSpan from '../selectSpan'
 import isRangeInTextBox from '../isRangeInTextBox'
 
 export default class MouseEventHandler {
-  constructor(editor, annotationData, selectionModel, spanEditor, pallet) {
-    this._editor = editor
+  constructor(
+    editorHTMLElement,
+    annotationData,
+    selectionModel,
+    spanEditor,
+    pallet
+  ) {
+    this._editorHTMLElement = editorHTMLElement
     this._annotationData = annotationData
     this._selectionModel = selectionModel
     this._spanEditor = spanEditor
@@ -29,7 +35,7 @@ export default class MouseEventHandler {
     if (
       isRangeInTextBox(
         selection,
-        this._editor[0].querySelector('.textae-editor__text-box')
+        this._editorHTMLElement.querySelector('.textae-editor__text-box')
       )
     ) {
       this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
@@ -48,7 +54,7 @@ export default class MouseEventHandler {
     if (
       isRangeInTextBox(
         selection,
-        this._editor[0].querySelector('.textae-editor__text-box')
+        this._editorHTMLElement.querySelector('.textae-editor__text-box')
       )
     ) {
       this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
@@ -86,7 +92,7 @@ export default class MouseEventHandler {
     if (
       isRangeInTextBox(
         selection,
-        this._editor[0].querySelector('.textae-editor__text-box')
+        this._editorHTMLElement.querySelector('.textae-editor__text-box')
       )
     ) {
       this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
@@ -103,7 +109,7 @@ export default class MouseEventHandler {
     if (
       isRangeInTextBox(
         selection,
-        this._editor[0].querySelector('.textae-editor__text-box')
+        this._editorHTMLElement.querySelector('.textae-editor__text-box')
       )
     ) {
       this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
@@ -112,7 +118,7 @@ export default class MouseEventHandler {
   }
 
   signboardClicked() {
-    this._editor[0].focus()
+    this._editorHTMLElement.focus()
   }
 
   typeValuesClicked(e) {
