@@ -25,7 +25,7 @@ export default class Pallet {
     // 2. preventDefault changes default operations other than focus. Difficult to investigate impact range
     // 3. Operations that focus on a specific DOM element will work in any browser
     // 4. Refocusing on a focused DOM element has no side effects
-    delegate(this._el, '[type="button"]', 'click', () => editor.focus())
+    delegate(this._el, '[type="button"]', 'click', () => editor[0].focus())
 
     delegate(
       this._el,

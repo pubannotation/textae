@@ -116,7 +116,7 @@ export default class MouseEventHandler {
   }
 
   signboardClicked() {
-    this._editor.focus()
+    this._editor[0].focus()
   }
 
   typeValuesClicked(e) {

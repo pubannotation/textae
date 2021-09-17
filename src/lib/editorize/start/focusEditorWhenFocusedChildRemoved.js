@@ -17,7 +17,7 @@ export default function (editor) {
           mutation.removedNodes[0].classList.contains('textae-editor__type')
         ) {
           if (document.activeElement.tagName === 'BODY') {
-            editor.focus()
+            editor[0].focus()
           }
         }
       }
