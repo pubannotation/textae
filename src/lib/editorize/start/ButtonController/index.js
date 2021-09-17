@@ -3,6 +3,7 @@ import EnableState from './EnableState'
 import DelimiterDetectAdjuster from './DelimiterDetectAdjuster'
 import BlankSkipAdjuster from './BlankSkipAdjuster'
 import buttonConfig from '../../buttonConfig'
+import isTouchDevice from '../../isTouchDevice'
 
 export default class ButtonController {
   constructor(eventEmitter, selectionModel, clipBoard, annotationWatcher) {
@@ -60,7 +61,7 @@ export default class ButtonController {
     return buttonConfig.contextMenu.buttonGroup.map(({ list }) => {
       const ret = []
       for (const { type, title } of list) {
-        if (this.getState(type, 'disabled')) {
+        if (!isTouchDevice() && this.getState(type, 'disabled')) {
           continue
         }
 
