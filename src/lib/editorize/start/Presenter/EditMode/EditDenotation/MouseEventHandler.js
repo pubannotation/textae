@@ -9,7 +9,7 @@ export default class MouseEventHandler {
     this._annotationData = annotationData
     this._selectionModel = selectionModel
     this._spanEditor = spanEditor
-    this._editor = editor
+    this._editorHTMLElement = editor[0]
     this._pallet = pallet
   }
 
@@ -26,7 +26,7 @@ export default class MouseEventHandler {
     if (
       isRangeInTextBox(
         selection,
-        this._editor[0].querySelector('.textae-editor__text-box')
+        this._editorHTMLElement.querySelector('.textae-editor__text-box')
       )
     ) {
       this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
@@ -55,7 +55,7 @@ export default class MouseEventHandler {
     if (
       isRangeInTextBox(
         selection,
-        this._editor[0].querySelector('.textae-editor__text-box')
+        this._editorHTMLElement.querySelector('.textae-editor__text-box')
       )
     ) {
       this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
@@ -79,7 +79,7 @@ export default class MouseEventHandler {
     if (
       isRangeInTextBox(
         selection,
-        this._editor[0].querySelector('.textae-editor__text-box')
+        this._editorHTMLElement.querySelector('.textae-editor__text-box')
       )
     ) {
       this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
@@ -108,7 +108,7 @@ export default class MouseEventHandler {
     if (
       isRangeInTextBox(
         selection,
-        this._editor[0].querySelector('.textae-editor__text-box')
+        this._editorHTMLElement.querySelector('.textae-editor__text-box')
       )
     ) {
       this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
@@ -116,7 +116,7 @@ export default class MouseEventHandler {
   }
 
   signboardClicked() {
-    this._editor[0].focus()
+    this._editorHTMLElement.focus()
   }
 
   typeValuesClicked(e) {
