@@ -49,7 +49,7 @@ export default class EditDenotation extends Edit {
     )
 
     const mouseEventHandler = new MouseEventHandler(
-      editor,
+      editor[0],
       annotationData,
       selectionModel,
       denotationPallet,

@@ -5,11 +5,17 @@ import selectSpan from '../selectSpan'
 import isRangeInTextBox from '../isRangeInTextBox'
 
 export default class MouseEventHandler {
-  constructor(editor, annotationData, selectionModel, pallet, spanEditor) {
+  constructor(
+    editorHTMLElement,
+    annotationData,
+    selectionModel,
+    pallet,
+    spanEditor
+  ) {
     this._annotationData = annotationData
     this._selectionModel = selectionModel
     this._spanEditor = spanEditor
-    this._editorHTMLElement = editor[0]
+    this._editorHTMLElement = editorHTMLElement
     this._pallet = pallet
   }
 
