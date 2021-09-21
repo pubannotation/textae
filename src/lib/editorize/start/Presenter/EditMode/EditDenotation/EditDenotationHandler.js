@@ -3,7 +3,7 @@ import DefaultHandler from '../DefaultHandler'
 
 export default class EditDenotationHandler extends DefaultHandler {
   constructor(
-    editor,
+    editorHTMLElement,
     definitionContainer,
     commander,
     annotationData,
@@ -12,7 +12,7 @@ export default class EditDenotationHandler extends DefaultHandler {
     getAutocompletionWs
   ) {
     super(
-      editor[0],
+      editorHTMLElement,
       'entity',
       definitionContainer,
       commander,
@@ -21,7 +21,7 @@ export default class EditDenotationHandler extends DefaultHandler {
       typeValuesPallet
     )
 
-    this._editor = editor
+    this._editorHTMLelement = editorHTMLElement
     this._annotationData = annotationData
     this._selectionModel = selectionModel
     this._getAutocompletionWs = getAutocompletionWs
@@ -31,7 +31,7 @@ export default class EditDenotationHandler extends DefaultHandler {
   editTypeValues() {
     if (this._selectionModel.entity.some) {
       new EditTypeValuesDialog(
-        this._editor[0],
+        this._editorHTMLelement,
         'Entity',
         this._definitionContainer,
         this._annotationData.typeDefinition.attribute,

@@ -40,7 +40,7 @@ export default class EditDenotation extends Edit {
       autocompletionWs || annotationData.typeDefinition.autocompletionWs
 
     const handler = new EditDenotationHandler(
-      editor,
+      editor[0],
       annotationData.typeDefinition.denotation,
       commander,
       annotationData,
