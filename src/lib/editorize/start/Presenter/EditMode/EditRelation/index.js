@@ -14,7 +14,8 @@ export default class EditRelation extends Edit {
     autocompletionWs
   ) {
     const relationPallet = new TypeValuesPallet(
-      editor,
+      editor[0],
+      editor.eventEmitter,
       originalData,
       annotationData,
       annotationData.typeDefinition.relation,

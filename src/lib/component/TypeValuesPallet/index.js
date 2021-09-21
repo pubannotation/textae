@@ -7,7 +7,8 @@ import enableDrag from './enableDrag'
 
 export default class TypeValuesPallet extends Pallet {
   constructor(
-    editor,
+    editorHTMLElement,
+    eventEmitter,
     originalData,
     annotationData,
     definitionContainer,
@@ -15,9 +16,9 @@ export default class TypeValuesPallet extends Pallet {
     commander,
     title
   ) {
-    super(editor[0], 'entity', title)
+    super(editorHTMLElement, 'entity', title)
 
-    this._eventEmitter = editor.eventEmitter
+    this._eventEmitter = eventEmitter
     this._originalData = originalData
     this._annotationData = annotationData
     this._definitionContainer = definitionContainer
@@ -27,19 +28,19 @@ export default class TypeValuesPallet extends Pallet {
       this._el,
       `.textae-editor__type-pallet__read-button`,
       'click',
-      () => editor.eventEmitter.emit('textae-event.pallet.read-button.click')
+      () => eventEmitter.emit('textae-event.pallet.read-button.click')
     )
 
     delegate(
       this._el,
       '.textae-editor__type-pallet__write-button',
       'click',
-      () => editor.eventEmitter.emit('textae-event.pallet.write-button.click')
+      () => eventEmitter.emit('textae-event.pallet.write-button.click')
     )
 
     bindAttributeEvent(this, this._el, commander, selectionModelEntity)
 
-    editor.eventEmitter
+    eventEmitter
       .on('textae-event.type-definition.attribute.create', (pred) => {
         // Reload pallet when reverting deleted attribute.
         this.showAttribute(pred)
@@ -57,7 +58,7 @@ export default class TypeValuesPallet extends Pallet {
       })
 
     // Reload when instance addition / deletion is undo / redo.
-    editor.eventEmitter
+    eventEmitter
       .on('textae-event.annotation-data.attribute.add', () =>
         this.updateDisplay()
       )
@@ -66,11 +67,11 @@ export default class TypeValuesPallet extends Pallet {
       )
 
     // Update selected entity label
-    editor.eventEmitter.on('textae-event.selection.entity.change', () =>
+    eventEmitter.on('textae-event.selection.entity.change', () =>
       this.updateDisplay()
     )
 
-    editor.eventEmitter
+    eventEmitter
       .on('textae-event.editor.unselect', () => this.hide()) // Close pallet when selecting other editor.
       .on('textae-event.history.change', () => this.updateDisplay()) // Update save config button when changing history and savigng configuration.
       .on('textae-event.orginal-data.configuration.reset', () =>

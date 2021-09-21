@@ -17,7 +17,8 @@ export default class EditDenotation extends Edit {
     autocompletionWs
   ) {
     const denotationPallet = new TypeValuesPallet(
-      editor,
+      editor[0],
+      editor.eventEmitter,
       originalData,
       annotationData,
       annotationData.typeDefinition.denotation,

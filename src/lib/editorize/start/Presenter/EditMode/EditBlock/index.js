@@ -26,7 +26,8 @@ export default class EditBlock extends Edit {
     )
 
     const blockPallet = new TypeValuesPallet(
-      editor,
+      editor[0],
+      editor.eventEmitter,
       originalData,
       annotationData,
       annotationData.typeDefinition.block,
