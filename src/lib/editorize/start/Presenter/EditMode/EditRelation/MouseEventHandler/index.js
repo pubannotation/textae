@@ -1,8 +1,14 @@
 import typeValuesClicked from './typeValuesClicked'
 
 export default class MouseEventHandler {
-  constructor(editor, selectionModel, commander, typeDefinition, pallet) {
-    this._editor = editor
+  constructor(
+    editorHTMLElement,
+    selectionModel,
+    commander,
+    typeDefinition,
+    pallet
+  ) {
+    this._editorHTMLElement = editorHTMLElement
     this._selectionModel = selectionModel
     this._commander = commander
     this._typeDefinition = typeDefinition
@@ -15,7 +21,7 @@ export default class MouseEventHandler {
   }
 
   signboardClicked() {
-    this._editor[0].focus()
+    this._editorHTMLElement.focus()
   }
 
   typeValuesClicked(e) {

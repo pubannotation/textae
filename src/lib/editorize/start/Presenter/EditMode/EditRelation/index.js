@@ -41,7 +41,7 @@ export default class EditRelation extends Edit {
       editor[0],
       bindMouseEvents,
       new MouseEventHandler(
-        editor,
+        editor[0],
         selectionModel,
         commander,
         annotationData.typeDefinition,
