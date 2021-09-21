@@ -4,7 +4,7 @@ import ChangeAttributeCommand from '../ChangeAttributeCommand'
 
 export default class ChangeAttributeDefinitionAndRefectInstancesCommand extends CompositeCommand {
   constructor(
-    editor,
+    eventEmitter,
     annotationData,
     definitionContainer,
     attrDef,
@@ -37,7 +37,7 @@ export default class ChangeAttributeDefinitionAndRefectInstancesCommand extends 
       })
 
       this._afterInvoke = () => {
-        editor.eventEmitter.emit(
+        eventEmitter.emit(
           'textae-event.commander.attributes.change',
           sameDefinitionAttributes
         )
