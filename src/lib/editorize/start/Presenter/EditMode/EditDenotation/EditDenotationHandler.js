@@ -31,7 +31,7 @@ export default class EditDenotationHandler extends DefaultHandler {
   editTypeValues() {
     if (this._selectionModel.entity.some) {
       new EditTypeValuesDialog(
-        this._editor,
+        this._editor[0],
         'Entity',
         this._definitionContainer,
         this._annotationData.typeDefinition.attribute,

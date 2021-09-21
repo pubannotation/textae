@@ -10,7 +10,7 @@ import mergedTypeValuesOf from './mergedTypeValuesOf'
 
 export default class EditTypeValuesDialog extends PromiseDialog {
   constructor(
-    editor,
+    editorHTMLElement,
     annotationType,
     entityContainer,
     attributeContainer,
@@ -68,7 +68,7 @@ export default class EditTypeValuesDialog extends PromiseDialog {
               })
             break
           case 'selection':
-            new SelectionAttributePallet(editor[0])
+            new SelectionAttributePallet(editorHTMLElement)
               .show(attrDef, zIndex, e.target)
               .then((newObj) => {
                 attributes[e.target.dataset.index].obj = newObj

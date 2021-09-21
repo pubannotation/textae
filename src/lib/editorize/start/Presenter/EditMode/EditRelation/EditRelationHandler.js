@@ -31,7 +31,7 @@ export default class EditRelationHandler extends DefaultHandler {
   editTypeValues() {
     if (this._selectionModel.relation.some) {
       new EditTypeValuesDialog(
-        this._editor,
+        this._editor[0],
         'Relation',
         this._definitionContainer,
         this._annotationData.typeDefinition.attribute,
