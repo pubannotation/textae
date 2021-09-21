@@ -3,7 +3,7 @@ import bindPalletEvents from './bindPalletEvents'
 
 export default class Edit {
   constructor(
-    editor,
+    editorHTMLElement,
     bindMouseEvents,
     mouseEventHandler,
     handler,
@@ -12,7 +12,7 @@ export default class Edit {
     getAutocompletionWs,
     definitionContainer
   ) {
-    this._editor = editor
+    this._editorHTMLElement = editorHTMLElement
     this._bindMouseEvents = bindMouseEvents
     this._mouseEventHandler = mouseEventHandler
     this._handler = handler
@@ -26,7 +26,7 @@ export default class Edit {
       definitionContainer
     )
 
-    editor[0].appendChild(pallet.el)
+    editorHTMLElement.appendChild(pallet.el)
 
     forwardMethods(this, () => handler, [
       'editTypeValues',
@@ -41,7 +41,10 @@ export default class Edit {
   }
 
   init() {
-    return this._bindMouseEvents(this._editor[0], this._mouseEventHandler)
+    return this._bindMouseEvents(
+      this._editorHTMLElement,
+      this._mouseEventHandler
+    )
   }
 
   get handler() {

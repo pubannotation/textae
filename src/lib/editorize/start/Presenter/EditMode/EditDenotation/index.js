@@ -57,7 +57,7 @@ export default class EditDenotation extends Edit {
     )
 
     super(
-      editor,
+      editor[0],
       bindMouseEvents,
       mouseEventHandler,
       handler,

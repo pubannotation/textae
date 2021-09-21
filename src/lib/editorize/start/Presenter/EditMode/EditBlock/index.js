@@ -49,7 +49,7 @@ export default class EditBlock extends Edit {
     )
 
     super(
-      editor,
+      editor[0],
       bindMouseEvents,
       new MouseEventHandler(
         editor[0],
