@@ -149,12 +149,6 @@ export default function (
   // Set position of toast messages.
   alertifyjs.set('notifier', 'position', 'top-right')
 
-  // Although there are two event sources, there is only one event consumer,
-  // so only one event handler can be bound to an event.
-  editor.eventEmitter.on('textae-event.control.button.click', (event) =>
-    editor.instanceMethods.handleButtonClick(event)
-  )
-
   // add control bar
   editor[0].insertBefore(
     new ControlBar(editor, buttonController).el,
