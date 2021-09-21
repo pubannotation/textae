@@ -12,7 +12,6 @@ export default class SVGConnection {
     onMouseEnter,
     onMouseLeave
   ) {
-    this._editor = editor
     this._relation = relation
     this._namespace = namespace
     this._definitionContainer = definitionContainer
