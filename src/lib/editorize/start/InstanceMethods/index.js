@@ -39,7 +39,9 @@ export default class InstanceMethods {
           ? String.fromCharCode(event.keyCode)
           : event.key
 
-      handle(this._keyEventMap, key, event.shiftKey)
+      if (this._keyEventMap.has(key)) {
+        this._keyEventMap.get(key)(event.shiftKey)
+      }
     }
   }
 
