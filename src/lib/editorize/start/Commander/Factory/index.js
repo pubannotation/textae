@@ -139,7 +139,6 @@ export default class Factory {
 
   createAttributeToItemsCommand(items, attributeDefinition, obj = null) {
     return new CreateAttributeToItemsCommand(
-      this._editor,
       this._annotationData,
       items,
       attributeDefinition,
