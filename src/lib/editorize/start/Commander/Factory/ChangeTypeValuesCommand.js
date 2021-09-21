@@ -20,7 +20,6 @@ export default class ChangeTypeValuesCommand extends CompositeCommand {
         createChangeConfigCommand(
           definitionContainer,
           value,
-          editor,
           annotationData,
           new Map([['label', label]])
         )

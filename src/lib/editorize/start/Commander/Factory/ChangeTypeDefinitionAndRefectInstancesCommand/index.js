@@ -18,7 +18,6 @@ export default class ChangeTypeDefinitionAndRefectInstancesCommand extends Compo
       createChangeConfigCommand(
         definitionContainer,
         id,
-        editor,
         annotationData,
         changedProperties
       )

@@ -4,7 +4,6 @@ import CreateTypeDefinitionCommand from './CreateTypeDefinitionCommand'
 export default function (
   definitionContainer,
   id,
-  editor,
   annotationData,
   changedProperties
 ) {
