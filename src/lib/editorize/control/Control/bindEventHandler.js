@@ -6,6 +6,11 @@ const helpDialog = new HelpDialog()
 export default function (el, editor) {
   // Bind eventhandler
   delegate(el, '.textae-control-icon', 'mousedown', ({ target }) => {
+    // Ignore disabled button's events.
+    if (target.classList.contains('textae-control-icon--disabled')) {
+      return
+    }
+
     const { buttonType } = target.dataset
     switch (buttonType) {
       case 'create-span':
