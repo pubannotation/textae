@@ -3,7 +3,7 @@ import RemoveEntityAndAssociatesCommand from './RemoveEntityAndAssociatesCommand
 import CompositeCommand from './CompositeCommand'
 
 export default class RemoveSpanCommand extends CompositeCommand {
-  constructor(editor, annotationData, id) {
+  constructor(annotationData, id) {
     super()
 
     const span = annotationData.span.get(id)
