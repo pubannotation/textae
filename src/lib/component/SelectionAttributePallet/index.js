@@ -13,8 +13,8 @@ export default class SelectionAttributePallet extends Pallet {
   }
 
   show(attrDef, zIndex = 90, opener = null) {
-    this._editor[0].appendChild(this._veil)
-    this._editor[0].appendChild(this.el)
+    this._editorHTMLElement.appendChild(this._veil)
+    this._editorHTMLElement.appendChild(this.el)
     this._veil.style['z-index'] = zIndex + 1
     this._el.style['z-index'] = zIndex + 1
     this._attributeDefinition = attrDef
@@ -47,8 +47,8 @@ export default class SelectionAttributePallet extends Pallet {
 
   hide() {
     if (this._show) {
-      this._editor[0].removeChild(this._veil)
-      this._editor[0].removeChild(this.el)
+      this._editorHTMLElement.removeChild(this._veil)
+      this._editorHTMLElement.removeChild(this.el)
 
       this._show = false
     }

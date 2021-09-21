@@ -7,7 +7,7 @@ import setHeightWithin from './setHeightWithin'
 
 export default class Pallet {
   constructor(editor, annotationType, title) {
-    this._editor = editor
+    this._editorHTMLElement = editor[0]
     this._title = title
     this._el = createPalletElement(annotationType)
 
@@ -103,25 +103,28 @@ export default class Pallet {
     } else {
       // Pull left the pallet when the pallet protrudes from right of the editor.
       this._el.style.left = `${
-        this._editor[0].offsetLeft + this._maxWidth - this._el.offsetWidth - 2
+        this._editorHTMLElement.offsetLeft +
+        this._maxWidth -
+        this._el.offsetWidth -
+        2
       }px`
     }
 
     if (this._el.offsetHeight + clientY <= this._maxHeight) {
-      const top = pageY - this._editor[0].offsetTop
+      const top = pageY - this._editorHTMLElement.offsetTop
       this._el.style.top = `${top}px`
     } else {
       // Pull up the pallet when the pallet protrudes from bottom of the window.
       const top =
         pageY -
-        this._editor[0].offsetTop -
+        this._editorHTMLElement.offsetTop -
         (this._el.offsetHeight + clientY - this._maxHeight)
       this._el.style.top = `${top}px`
     }
   }
 
   get _maxWidth() {
-    return this._editor[0].offsetWidth
+    return this._editorHTMLElement.offsetWidth
   }
 
   get _maxHeight() {
