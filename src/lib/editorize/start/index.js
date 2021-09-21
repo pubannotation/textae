@@ -116,7 +116,7 @@ export default function (
     annotationWatcher
   )
 
-  editor.api = new APIs(
+  editor.instanceMethods = new APIs(
     commander,
     presenter,
     persistenceInterface,
@@ -152,7 +152,7 @@ export default function (
   // Although there are two event sources, there is only one event consumer,
   // so only one event handler can be bound to an event.
   editor.eventEmitter.on('textae-event.control.button.click', (event) =>
-    editor.api.handleButtonClick(event)
+    editor.instanceMethods.handleButtonClick(event)
   )
 
   // add control bar

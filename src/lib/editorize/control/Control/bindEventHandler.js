@@ -12,7 +12,7 @@ export default function (el, editor) {
       case 'expand-span':
       case 'shrink-span':
         // Monitor the mousedown event to get the currently selected text.
-        editor.api.handleButtonClick(buttonType)
+        editor.instanceMethods.handleButtonClick(buttonType)
         break
       default:
     }
@@ -35,7 +35,7 @@ export default function (el, editor) {
         // Monitor the mousedown event to get the currently selected text.
         break
       default:
-        editor.api.handleButtonClick(buttonType)
+        editor.instanceMethods.handleButtonClick(buttonType)
     }
   })
 

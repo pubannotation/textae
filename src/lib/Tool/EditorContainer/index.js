@@ -28,23 +28,23 @@ export default class EditorContainer {
       // Do not deselect the selected editor.
       // Otherwise, it will be deselected once when you reselect the currently selected editor and close the palette.
       if (editor !== editor) {
-        editor.api.deactive()
+        editor.instanceMethods.deactive()
       }
     }
-    editor.api.active()
+    editor.instanceMethods.active()
 
     this._selected = editor
   }
 
   unselect(editor) {
     if (this._selected === editor) {
-      editor.api.deactive()
+      editor.instanceMethods.deactive()
       this._selected = null
     }
   }
 
   redraw() {
-    this._editors.forEach((e) => e.api.redraw())
+    this._editors.forEach((e) => e.instanceMethods.redraw())
   }
 
   findByHTMLelement(dom) {
