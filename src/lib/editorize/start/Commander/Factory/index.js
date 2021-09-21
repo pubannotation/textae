@@ -262,11 +262,7 @@ export default class Factory {
   }
 
   removeSelectedComand() {
-    return new RemoveSelectedCommand(
-      this._editor,
-      this._annotationData,
-      this._selectionModel
-    )
+    return new RemoveSelectedCommand(this._annotationData, this._selectionModel)
   }
 
   removeTypeDefinitionCommand(definitionContainer, removeType) {

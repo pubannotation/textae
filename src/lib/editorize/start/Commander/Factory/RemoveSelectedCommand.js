@@ -4,7 +4,7 @@ import aggregateTargetEntities from './aggregateTargetEntities'
 import aggregateTargetRelations from './aggregateTargetRelations'
 
 export default class RemoveSelectedCommand extends CompositeCommand {
-  constructor(editor, annotationData, selectionModel) {
+  constructor(annotationData, selectionModel) {
     super()
 
     // Aggregate seleceted targets
