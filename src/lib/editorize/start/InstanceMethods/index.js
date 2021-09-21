@@ -26,9 +26,7 @@ export default class InstanceMethods {
   }
 
   handleButtonClick(key) {
-    if (this._iconEventMap.has(key)) {
-      this._iconEventMap.get(key)()
-    }
+    this._iconEventMap.handle(key)
   }
 
   redraw() {

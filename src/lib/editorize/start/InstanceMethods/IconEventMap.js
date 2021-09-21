@@ -1,4 +1,4 @@
-export default class IconEventMap extends Map {
+export default class IconEventMap {
   constructor(
     commander,
     presenter,
@@ -6,7 +6,7 @@ export default class IconEventMap extends Map {
     view,
     buttonController
   ) {
-    super([
+    this._map = new Map([
       ['view', () => presenter.toViewMode()],
       ['term', () => presenter.toTermMode()],
       ['block', () => presenter.toBlockMode()],
@@ -33,9 +33,15 @@ export default class IconEventMap extends Map {
 
     // Set handler for push buttons.
     for (const buttonName of buttonController.pushButtonNames) {
-      if (!super.has(buttonName)) {
-        super.set(buttonName, () => presenter.toggleButton(buttonName))
+      if (!this._map.has(buttonName)) {
+        this._map.set(buttonName, () => presenter.toggleButton(buttonName))
       }
+    }
+  }
+
+  handle(key) {
+    if (this._map.has(key)) {
+      this._map.get(key)()
     }
   }
 }
