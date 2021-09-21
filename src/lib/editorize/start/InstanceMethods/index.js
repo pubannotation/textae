@@ -2,7 +2,7 @@ import handle from './handle'
 import KeyApiMap from './KeyApiMap'
 import IconApiMap from './IconApiMap'
 
-export default class APIs {
+export default class InstanceMethods {
   constructor(
     commander,
     presenter,

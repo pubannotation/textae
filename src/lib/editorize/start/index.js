@@ -4,7 +4,7 @@ import Commander from './Commander'
 import View from './View'
 import Presenter from './Presenter'
 import PersistenceInterface from './PersistenceInterface'
-import APIs from './APIs'
+import InstanceMethods from './InstanceMethods'
 import focusEditorWhenFocusedChildRemoved from './focusEditorWhenFocusedChildRemoved'
 import getStatusBar from './getStatusBar'
 import initAnnotation from './initAnnotation'
@@ -116,7 +116,7 @@ export default function (
     annotationWatcher
   )
 
-  editor.instanceMethods = new APIs(
+  editor.instanceMethods = new InstanceMethods(
     commander,
     presenter,
     persistenceInterface,
