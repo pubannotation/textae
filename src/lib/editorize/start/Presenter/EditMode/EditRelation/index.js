@@ -28,7 +28,7 @@ export default class EditRelation extends Edit {
       autocompletionWs || annotationData.typeDefinition.autocompletionWs
 
     const handler = new EditRelationHandler(
-      editor,
+      editor[0],
       annotationData.typeDefinition.relation,
       commander,
       annotationData,

@@ -3,7 +3,7 @@ import EditTypeValuesDialog from '../../../../../component/EditTypeValuesDialog'
 
 export default class EditRelationHandler extends DefaultHandler {
   constructor(
-    editor,
+    editorHTMLElement,
     definitionContainer,
     commander,
     annotationData,
@@ -12,7 +12,7 @@ export default class EditRelationHandler extends DefaultHandler {
     getAutocompletionWs
   ) {
     super(
-      editor[0],
+      editorHTMLElement,
       'relation',
       definitionContainer,
       commander,
@@ -21,7 +21,7 @@ export default class EditRelationHandler extends DefaultHandler {
       typeValuesPallet
     )
 
-    this._editor = editor
+    this._editorHTMLElement = editorHTMLElement
     this._annotationData = annotationData
     this._selectionModel = selectionModel
     this._getAutocompletionWs = getAutocompletionWs
@@ -31,7 +31,7 @@ export default class EditRelationHandler extends DefaultHandler {
   editTypeValues() {
     if (this._selectionModel.relation.some) {
       new EditTypeValuesDialog(
-        this._editor[0],
+        this._editorHTMLElement,
         'Relation',
         this._definitionContainer,
         this._annotationData.typeDefinition.attribute,
