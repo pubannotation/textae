@@ -70,7 +70,7 @@ export default class EditValueOfAttributeDefinitionDialog extends PromiseDialog 
 
             if (
               super.el.querySelector(
-                '.textae-editor__create-or-edit-value-of-attribute-definition-dialog__default input'
+                'input.textae-editor__create-or-edit-value-of-attribute-definition-dialog__default'
               ).checked
             ) {
               ret.default = true
