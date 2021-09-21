@@ -236,7 +236,7 @@ export default class Factory {
 
   replicateSpanCommand(span, typeValuesList, isDelimiterFunc) {
     return new ReplicateSpanCommand(
-      this._editor,
+      this._editor.editorId,
       this._annotationData,
       this._selectionModel,
       span,

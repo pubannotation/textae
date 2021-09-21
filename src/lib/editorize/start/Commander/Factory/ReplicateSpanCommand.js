@@ -4,7 +4,7 @@ import { makeDenotationSpanHTMLElementID } from '../../../idFactory'
 
 export default class ReplicateSpanCommand extends CompositeCommand {
   constructor(
-    editor,
+    editorID,
     annotationData,
     selectionModel,
     span,
@@ -16,11 +16,7 @@ export default class ReplicateSpanCommand extends CompositeCommand {
     this._subCommands = annotationData
       .getReplicationRanges(span, isDelimiterFunc)
       .map(({ begin, end }) => {
-        const spanId = makeDenotationSpanHTMLElementID(
-          editor.editorId,
-          begin,
-          end
-        )
+        const spanId = makeDenotationSpanHTMLElementID(editorID, begin, end)
 
         return new CreateSpanAndTypesCommand(
           annotationData,
@@ -32,7 +28,7 @@ export default class ReplicateSpanCommand extends CompositeCommand {
         )
       })
     this._logMessage = `replicate a span ${makeDenotationSpanHTMLElementID(
-      editor.editorId,
+      editorID,
       span.begin,
       span.end
     )}`

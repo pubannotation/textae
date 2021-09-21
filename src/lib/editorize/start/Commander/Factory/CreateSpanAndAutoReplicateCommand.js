@@ -41,7 +41,7 @@ export default class CreateSpanAndAutoReplicateCommand extends CompositeCommand 
     if (isReplicateAuto && newSpan.end - newSpan.begin <= BLOCK_THRESHOLD) {
       this._subCommands.push(
         new ReplicateSpanCommand(
-          editor,
+          editor.editorId,
           annotationData,
           selectionModel,
           {
