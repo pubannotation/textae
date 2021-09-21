@@ -2,9 +2,8 @@ import commandLog from './commandLog'
 import AnnotationCommand from './AnnotationCommand'
 
 export default class ChangeAnnotationCommand extends AnnotationCommand {
-  constructor(editor, annotationData, annotationType, id, newType) {
+  constructor(annotationData, annotationType, id, newType) {
     super()
-    this._editor = editor
     this._annotationData = annotationData
     this._annotationType = annotationType
     this._id = id
@@ -29,7 +28,6 @@ export default class ChangeAnnotationCommand extends AnnotationCommand {
 
   revert() {
     return new ChangeAnnotationCommand(
-      this._editor,
       this._annotationData,
       this._annotationType,
       this._id,

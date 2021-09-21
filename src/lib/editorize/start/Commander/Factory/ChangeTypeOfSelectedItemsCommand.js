@@ -18,7 +18,6 @@ export default class ChangeTypeOfSelectedItemsCommand extends CompositeCommand {
     this._subCommands = itemsWithChange.map(
       (item) =>
         new ChangeAnnotationCommand(
-          editor,
           annotationData,
           annotationType,
           item.id,

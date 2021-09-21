@@ -23,7 +23,6 @@ export default class ChangeTypeNameAndAttributeOfSelectedItemsCommand extends Co
     this._subCommands = itemsWithChange.map(
       (item) =>
         new ChangeAnnotationCommand(
-          editor,
           annotationData,
           annotationType,
           item.id,

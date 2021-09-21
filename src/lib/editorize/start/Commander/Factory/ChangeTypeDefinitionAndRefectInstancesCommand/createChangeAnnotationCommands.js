@@ -11,7 +11,6 @@ export default function (
     .filter((model) => model.typeName === oldTypeName)
     .map((model) => {
       return new ChangeAnnotationCommand(
-        editor,
         annotationData,
         annotationType,
         model.id,
