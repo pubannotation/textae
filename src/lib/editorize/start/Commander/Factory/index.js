@@ -249,7 +249,6 @@ export default class Factory {
 
   removeAttributesFromItemsByPredCommand(items, attributeDefinition) {
     return new RemoveAttributesFromItemsByPredCommand(
-      this._editor,
       this._annotationData,
       items,
       attributeDefinition
