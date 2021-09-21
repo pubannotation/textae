@@ -224,7 +224,6 @@ export default class Factory {
 
   moveEntitiesToSelectedSpansCommand(entities) {
     return new MoveEntitiesToSelectedSpansCommand(
-      this._editor,
       this._annotationData,
       this._selectionModel,
       entities

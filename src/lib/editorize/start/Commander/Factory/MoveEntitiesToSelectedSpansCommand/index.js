@@ -4,7 +4,7 @@ import { RemoveCommand } from '../commandTemplate'
 import MoveEntitiesToSpanCommand from './MoveEntitiesToSpanCommand'
 
 export default class MoveEntitiesToSelectedSpansCommand extends CompositeCommand {
-  constructor(editor, annotationData, selectionModel, entities) {
+  constructor(annotationData, selectionModel, entities) {
     console.assert(
       selectionModel.span.single,
       'There must be one span to be pasted.'
