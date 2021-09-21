@@ -69,7 +69,7 @@ export default class Factory {
     newLabel
   ) {
     return new ChangeStringAttributeObjOfItemsCommand(
-      this._editor,
+      this._editor.eventEmitter,
       this._annotationData,
       this._annotationData.typeDefinition.attribute,
       items,

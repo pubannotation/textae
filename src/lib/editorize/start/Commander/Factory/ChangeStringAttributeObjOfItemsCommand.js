@@ -4,7 +4,7 @@ import getAddPatternToStringAttributeDefinitionCommand from './getAddPatternToSt
 
 export default class ChangeStringAttributeObjOfItemsCommand extends CompositeCommand {
   constructor(
-    editor,
+    eventEmitter,
     annotationData,
     definitionContainer,
     items,
@@ -32,7 +32,7 @@ export default class ChangeStringAttributeObjOfItemsCommand extends CompositeCom
 
     if (effectedAttributes.length) {
       this._afterInvoke = () =>
-        editor.eventEmitter.emit(
+        eventEmitter.emit(
           'textae-event.commander.attributes.change',
           effectedAttributes
         )
