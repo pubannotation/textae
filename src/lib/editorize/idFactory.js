@@ -3,6 +3,6 @@ export function makeDenotationSpanHTMLElementID(editor, begin, end) {
   return `${editor.editorId}__S${begin}_${end}`
 }
 
-export function makeBlockSpanHTMLElementID(editorId, begin, end) {
-  return `${editorId}__B${begin}_${end}`
+export function makeBlockSpanHTMLElementID(editorID, begin, end) {
+  return `${editorID}__B${begin}_${end}`
 }
