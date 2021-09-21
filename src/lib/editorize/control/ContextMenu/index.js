@@ -14,8 +14,6 @@ export default class ContextMenu extends Control {
       }"></div>`
     )
 
-    editor.eventEmitter.on('textae-event.editor.key.input', () => this.hide())
-
     bindToWindowEvents(editor, this)
 
     this._editor = editor
