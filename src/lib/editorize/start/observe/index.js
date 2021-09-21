@@ -2,7 +2,6 @@ import debounce from 'debounce'
 import alertifyjs from 'alertifyjs'
 import delegate from 'delegate'
 import isTouchDevice from '../../isTouchDevice'
-import observeKey from './observeKey'
 import warningIfBeginEndOfSpanAreNotInteger from '../warningIfBeginEndOfSpanAreNotInteger'
 import validateConfigurationAndAlert from '../validateConfigurationAndAlert'
 import setAnnotationAndConfiguration from '../setAnnotationAndConfiguration'
@@ -157,7 +156,10 @@ export default function (
     e.preventDefault()
   )
 
-  observeKey(editor)
+  editor[0].addEventListener('keyup', (event) => {
+    editor.eventEmitter.emit('textae-event.editor.key.input')
+    editor.instanceMethods.handleKeyInput(event)
+  })
 
   document.addEventListener(
     'selectionchange',
