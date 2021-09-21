@@ -1,4 +1,3 @@
-import handle from './handle'
 import IconEventMap from './IconEventMap'
 
 export default class InstanceMethods {
@@ -27,7 +26,9 @@ export default class InstanceMethods {
   }
 
   handleButtonClick(key) {
-    handle(this._iconEventMap, key, {})
+    if (this._iconEventMap.has(key)) {
+      this._iconEventMap.get(key)()
+    }
   }
 
   redraw() {
