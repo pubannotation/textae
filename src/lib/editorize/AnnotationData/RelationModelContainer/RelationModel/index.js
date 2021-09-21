@@ -13,7 +13,8 @@ export default class RelationModel {
     namespace,
     definitionContainer
   ) {
-    this._editor = editor
+    this._editorHTMLElement = editor[0]
+    this._eventEmitter = editor.eventEmitter
     this._entityContainer = entityContainer
     this._attributeContainer = attributeContainer
     this._id = id
@@ -107,12 +108,12 @@ export default class RelationModel {
 
   render() {
     const connection = new SVGConnection(
-      this._editor[0],
+      this._editorHTMLElement,
       this,
       this._namespace,
       this._definitionContainer,
       (event, attribute) => {
-        this._editor.eventEmitter.emit(
+        this._eventEmitter.emit(
           'textae-event.editor.relation.click',
           event,
           this,
