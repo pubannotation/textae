@@ -1,6 +1,6 @@
 import debounce from 'debounce'
+import isTouchDevice from '../../isTouchDevice'
 import observeMouse from './observeMouse'
-import observeHistoryChange from './observeHistoryChange'
 import observeKey from './observeKey'
 import observeDataAccessObject from './observeDataAccessObject'
 
@@ -18,7 +18,14 @@ export default function (
     history.resetConfiguration()
   )
 
-  observeHistoryChange(editor)
+  editor.eventEmitter.on('textae-event.history.change', (history) => {
+    // change leaveMessage show
+    // Reloading when trying to scroll further when you are at the top on an Android device.
+    // Show a confirmation dialog to prevent this.
+    window.onbeforeunload =
+      isTouchDevice() || history.hasAnythingToSaveAnnotation ? () => true : null
+  })
+
   observeDataAccessObject(
     editor,
     spanConfig,
