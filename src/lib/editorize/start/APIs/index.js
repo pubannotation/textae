@@ -56,4 +56,10 @@ export default class APIs {
     this._presenter.deactive()
     this._isActive = false
   }
+
+  applyTextSelection() {
+    if (this._isActive) {
+      this._buttonController.applyTextSelection()
+    }
+  }
 }
