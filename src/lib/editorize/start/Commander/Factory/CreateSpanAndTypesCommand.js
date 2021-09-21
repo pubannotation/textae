@@ -4,7 +4,6 @@ import CreateEntityAndAttributesCommand from './CreateEntityAndAttributesCommand
 
 export default class CreateSpanAndTypesCommand extends CompositeCommand {
   constructor(
-    editor,
     annotationData,
     selectionModel,
     spanId,

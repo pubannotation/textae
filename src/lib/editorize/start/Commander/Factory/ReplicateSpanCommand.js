@@ -23,7 +23,6 @@ export default class ReplicateSpanCommand extends CompositeCommand {
         )
 
         return new CreateSpanAndTypesCommand(
-          editor,
           annotationData,
           selectionModel,
           spanId,

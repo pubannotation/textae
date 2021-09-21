@@ -28,7 +28,6 @@ export default class CreateSpanAndAutoReplicateCommand extends CompositeCommand 
 
     this._subCommands = [
       new CreateSpanAndTypesCommand(
-        editor,
         annotationData,
         selectionModel,
         spanID,
