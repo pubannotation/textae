@@ -148,7 +148,7 @@ export default class SpanModel {
   }
 
   renderGridElement() {
-    const rightGrid = getRightGrid(this._editor, this.id)
+    const rightGrid = getRightGrid(this._editor[0], this.id)
     if (rightGrid) {
       // insert before the right grid.
       rightGrid.insertAdjacentElement('beforebegin', this._createGridElement())
