@@ -140,7 +140,7 @@ export default class EntityModelContainer extends IdIssueContainer {
         )
       case 'block':
         return makeBlockSpanHTMLElementID(
-          this._editor,
+          this._editor.editorId,
           denotation.span.begin,
           denotation.span.end
         )

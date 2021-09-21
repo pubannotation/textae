@@ -31,7 +31,11 @@ export default class BlockSpanModel extends SpanModel {
   }
 
   get id() {
-    return makeBlockSpanHTMLElementID(this._editor, this._begin, this._end)
+    return makeBlockSpanHTMLElementID(
+      this._editor.editorId,
+      this._begin,
+      this._end
+    )
   }
 
   select() {

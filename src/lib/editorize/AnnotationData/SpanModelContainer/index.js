@@ -80,7 +80,7 @@ export default class SpanModelContainer {
   }
 
   hasBlockSpan(begin, end) {
-    const spanID = makeBlockSpanHTMLElementID(this._editor, begin, end)
+    const spanID = makeBlockSpanHTMLElementID(this._editor.editorId, begin, end)
     return this._blocks.has(spanID)
   }
 
@@ -206,7 +206,7 @@ export default class SpanModelContainer {
 
   moveBlockSpan(id, begin, end) {
     console.assert(
-      id !== makeBlockSpanHTMLElementID(this._editor, begin, end),
+      id !== makeBlockSpanHTMLElementID(this._editor.editorId, begin, end),
       `Do not need move span:  ${id} ${begin} ${end}`
     )
 
