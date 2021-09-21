@@ -119,9 +119,7 @@ export default function (
   )
 
   editor.instanceMethods = new InstanceMethods(
-    commander,
     presenter,
-    persistenceInterface,
     buttonController,
     view
   )

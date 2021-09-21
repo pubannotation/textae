@@ -1,11 +1,5 @@
 export default class InstanceMethods {
-  constructor(
-    commander,
-    presenter,
-    persistenceInterface,
-    buttonController,
-    view
-  ) {
+  constructor(presenter, buttonController, view) {
     this._view = view
     this._buttonController = buttonController
     this._presenter = presenter
