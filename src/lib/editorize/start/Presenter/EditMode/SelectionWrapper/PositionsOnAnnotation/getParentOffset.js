@@ -1,4 +1,4 @@
-import isNodeTextBox from '../../isNodeTextBox'
+import isNodeTextBox from '../isNodeTextBox'
 import isNodeDenotationSpan from '../isNodeDenotationSpan'
 import isNodeStyleSpan from '../isNodeStyleSpan'
 import isNodeBlockSpan from '../isNodeBlockSpan'

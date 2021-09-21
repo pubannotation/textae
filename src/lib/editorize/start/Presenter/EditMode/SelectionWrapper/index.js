@@ -1,5 +1,5 @@
 import isNodeDenotationSpan from './isNodeDenotationSpan'
-import isNodeTextBox from '../isNodeTextBox'
+import isNodeTextBox from './isNodeTextBox'
 import isNodeStyleSpan from './isNodeStyleSpan'
 import isNodeBlockSpan from './isNodeBlockSpan'
 import PositionsOnAnnotation from './PositionsOnAnnotation'
