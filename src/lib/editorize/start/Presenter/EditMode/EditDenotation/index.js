@@ -7,7 +7,8 @@ import TypeValuesPallet from '../../../../../component/TypeValuesPallet'
 
 export default class EditDenotation extends Edit {
   constructor(
-    editor,
+    editorHTMLElement,
+    eventEmitter,
     annotationData,
     selectionModel,
     commander,
@@ -17,8 +18,8 @@ export default class EditDenotation extends Edit {
     autocompletionWs
   ) {
     const denotationPallet = new TypeValuesPallet(
-      editor[0],
-      editor.eventEmitter,
+      editorHTMLElement,
+      eventEmitter,
       originalData,
       annotationData,
       annotationData.typeDefinition.denotation,
@@ -28,7 +29,7 @@ export default class EditDenotation extends Edit {
     )
 
     const spanEditor = new SpanEditor(
-      editor[0],
+      editorHTMLElement,
       annotationData,
       selectionModel,
       commander,
@@ -40,7 +41,7 @@ export default class EditDenotation extends Edit {
       autocompletionWs || annotationData.typeDefinition.autocompletionWs
 
     const handler = new EditDenotationHandler(
-      editor[0],
+      editorHTMLElement,
       annotationData.typeDefinition.denotation,
       commander,
       annotationData,
@@ -50,7 +51,7 @@ export default class EditDenotation extends Edit {
     )
 
     const mouseEventHandler = new MouseEventHandler(
-      editor[0],
+      editorHTMLElement,
       annotationData,
       selectionModel,
       denotationPallet,
@@ -58,7 +59,7 @@ export default class EditDenotation extends Edit {
     )
 
     super(
-      editor[0],
+      editorHTMLElement,
       bindMouseEvents,
       mouseEventHandler,
       handler,
