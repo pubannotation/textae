@@ -27,7 +27,7 @@ export default class EditDenotation extends Edit {
     )
 
     const spanEditor = new SpanEditor(
-      editor,
+      editor[0],
       annotationData,
       selectionModel,
       commander,

@@ -11,14 +11,14 @@ import getRightSpanElement from '../../../../../getRightSpanElement'
 
 export default class SpanEditor {
   constructor(
-    editor,
+    editorHTMLElemnt,
     annotationData,
     selectionModel,
     commander,
     buttonController,
     spanConfig
   ) {
-    this._editorHTMLElement = editor[0]
+    this._editorHTMLElement = editorHTMLElemnt
     this._annotationData = annotationData
     this._selectionModel = selectionModel
     this._commander = commander
