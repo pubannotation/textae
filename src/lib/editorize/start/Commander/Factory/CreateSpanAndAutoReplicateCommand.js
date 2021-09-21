@@ -8,7 +8,7 @@ const BLOCK_THRESHOLD = 100
 
 export default class CreateSpanAndAutoReplicateCommand extends CompositeCommand {
   constructor(
-    editor,
+    editorID,
     annotationData,
     selectionModel,
     newSpan,
@@ -21,7 +21,7 @@ export default class CreateSpanAndAutoReplicateCommand extends CompositeCommand 
     const typeValuesList = [new TypeValues(defaultType)]
 
     const spanID = makeDenotationSpanHTMLElementID(
-      editor.editorId,
+      editorID,
       newSpan.begin,
       newSpan.end
     )
@@ -41,7 +41,7 @@ export default class CreateSpanAndAutoReplicateCommand extends CompositeCommand 
     if (isReplicateAuto && newSpan.end - newSpan.begin <= BLOCK_THRESHOLD) {
       this._subCommands.push(
         new ReplicateSpanCommand(
-          editor.editorId,
+          editorID,
           annotationData,
           selectionModel,
           {

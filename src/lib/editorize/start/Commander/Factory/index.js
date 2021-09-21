@@ -175,7 +175,7 @@ export default class Factory {
 
   createSpanAndAutoReplicateCommand(newSpan, isReplicateAuto, isDelimiterFunc) {
     return new CreateSpanAndAutoReplicateCommand(
-      this._editor,
+      this._editor.editorId,
       this._annotationData,
       this._selectionModel,
       newSpan,
