@@ -155,10 +155,11 @@ export default function (
     editor[0].childNodes[0]
   )
   // add context menu
-  editor[0].appendChild(new ContextMenu(editor, buttonController).el)
+  const contextMenu = new ContextMenu(editor, buttonController)
+  editor[0].appendChild(contextMenu.el)
 
   editor[0].addEventListener('keyup', (event) => {
-    editor.eventEmitter.emit('textae-event.editor.key.input')
+    contextMenu.hide()
     editor.instanceMethods.handleKeyInput(event)
   })
 }
