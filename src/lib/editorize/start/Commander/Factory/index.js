@@ -147,7 +147,7 @@ export default class Factory {
 
   createBlockSpanCommand(newSpan) {
     return new CreateBlockSpanCommand(
-      this._editor,
+      this._editor.editorId,
       this._annotationData,
       this._selectionModel,
       newSpan.begin,
