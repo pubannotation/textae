@@ -10,8 +10,12 @@ export default class InstanceMethods {
     buttonController,
     view
   ) {
-    this._keyApiMap = new KeyApiMap(commander, presenter, persistenceInterface)
-    this._iconApiMap = new IconApiMap(
+    this._keyEventMap = new KeyApiMap(
+      commander,
+      presenter,
+      persistenceInterface
+    )
+    this._iconEventMap = new IconApiMap(
       commander,
       presenter,
       persistenceInterface,
@@ -35,12 +39,12 @@ export default class InstanceMethods {
           ? String.fromCharCode(event.keyCode)
           : event.key
 
-      handle(this._keyApiMap, key, event.shiftKey)
+      handle(this._keyEventMap, key, event.shiftKey)
     }
   }
 
   handleButtonClick(key) {
-    handle(this._iconApiMap, key, {})
+    handle(this._iconEventMap, key, {})
   }
 
   redraw() {
