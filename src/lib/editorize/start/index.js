@@ -16,7 +16,7 @@ import AnnotationAutoSaver from './AnnotationAutoSaver'
 import observe from './observe'
 import ControlBar from '../control/ControlBar'
 import ContextMenu from '../control/ContextMenu'
-import KeyEventMap from './InstanceMethods/KeyEventMap'
+import KeyEventMap from './KeyEventMap'
 import IconEventMap from './IconEventMap'
 
 export default function (
