@@ -4,7 +4,6 @@ import applyChangedProperties from './applyChangedProperties'
 
 export default class ChangeTypeDefinitionCommand extends ConfigurationCommand {
   constructor(
-    editor,
     annotationData,
     definitionContainer,
     id,
@@ -12,7 +11,6 @@ export default class ChangeTypeDefinitionCommand extends ConfigurationCommand {
     newDefaultTypeId
   ) {
     super()
-    this._editor = editor
     this._annotationData = annotationData
     this._definitionContainer = definitionContainer
     this._id = id
@@ -48,7 +46,6 @@ export default class ChangeTypeDefinitionCommand extends ConfigurationCommand {
 
   revert() {
     return new ChangeTypeDefinitionCommand(
-      this._editor,
       this._annotationData,
       this._definitionContainer,
       this.revertId,

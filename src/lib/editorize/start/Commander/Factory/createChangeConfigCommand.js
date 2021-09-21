@@ -12,7 +12,6 @@ export default function (
   // so modified type may not be in the typeDefinition.
   if (definitionContainer.has(id)) {
     return new ChangeTypeDefinitionCommand(
-      editor,
       annotationData,
       definitionContainer,
       id,
