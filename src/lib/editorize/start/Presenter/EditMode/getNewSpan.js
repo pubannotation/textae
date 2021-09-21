@@ -1,4 +1,4 @@
-import OrderedPositions from './OrderedPositions'
+import OrderedPositions from '../../OrderedPositions'
 
 export default function (
   annotationData,
