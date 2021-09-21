@@ -178,7 +178,7 @@ export default class SpanModelContainer {
 
   moveDenotationSpan(id, begin, end) {
     console.assert(
-      id !== makeDenotationSpanHTMLElementID(this._editor, begin, end),
+      id !== makeDenotationSpanHTMLElementID(this._editor.editorId, begin, end),
       `Do not need move span:  ${id} ${begin} ${end}`
     )
 

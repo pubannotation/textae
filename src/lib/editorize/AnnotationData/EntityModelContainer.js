@@ -134,7 +134,7 @@ export default class EntityModelContainer extends IdIssueContainer {
     switch (type) {
       case 'denotation':
         return makeDenotationSpanHTMLElementID(
-          this._editor,
+          this._editor.editorId,
           denotation.span.begin,
           denotation.span.end
         )

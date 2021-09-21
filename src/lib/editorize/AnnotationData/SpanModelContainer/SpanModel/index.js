@@ -18,7 +18,11 @@ export default class SpanModel {
   }
 
   get id() {
-    return makeDenotationSpanHTMLElementID(this._editor, this._begin, this._end)
+    return makeDenotationSpanHTMLElementID(
+      this._editor.editorId,
+      this._begin,
+      this._end
+    )
   }
 
   get begin() {
