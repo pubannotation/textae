@@ -39,7 +39,8 @@ export default class EditMode {
     )
 
     this._editRelation = new EditRelation(
-      editor,
+      editor[0],
+      editor.eventEmitter,
       annotationData,
       selectionModel,
       commander,

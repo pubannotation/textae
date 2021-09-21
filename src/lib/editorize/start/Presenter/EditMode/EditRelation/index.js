@@ -6,7 +6,8 @@ import TypeValuesPallet from '../../../../../component/TypeValuesPallet'
 
 export default class EditRelation extends Edit {
   constructor(
-    editor,
+    editorHTMLElement,
+    eventEmitter,
     annotationData,
     selectionModel,
     commander,
@@ -14,8 +15,8 @@ export default class EditRelation extends Edit {
     autocompletionWs
   ) {
     const relationPallet = new TypeValuesPallet(
-      editor[0],
-      editor.eventEmitter,
+      editorHTMLElement,
+      eventEmitter,
       originalData,
       annotationData,
       annotationData.typeDefinition.relation,
@@ -28,7 +29,7 @@ export default class EditRelation extends Edit {
       autocompletionWs || annotationData.typeDefinition.autocompletionWs
 
     const handler = new EditRelationHandler(
-      editor[0],
+      editorHTMLElement,
       annotationData.typeDefinition.relation,
       commander,
       annotationData,
@@ -38,10 +39,10 @@ export default class EditRelation extends Edit {
     )
 
     super(
-      editor[0],
+      editorHTMLElement,
       bindMouseEvents,
       new MouseEventHandler(
-        editor[0],
+        editorHTMLElement,
         selectionModel,
         commander,
         annotationData.typeDefinition,
