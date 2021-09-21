@@ -6,7 +6,6 @@ export default class CreateAttributeToItemsCommand extends CompositeCommand {
     super()
 
     this._subCommands = getCreateAttributeToItemsCommands(
-      editor,
       annotationData,
       items,
       attributeDefinition.pred,

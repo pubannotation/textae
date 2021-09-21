@@ -7,7 +7,6 @@ export default class ToggleFlagAttributeToItemsCommand extends CompositeCommand 
     super()
 
     this._subCommands = getCreateAttributeToItemsCommands(
-      editor,
       annotationData,
       items,
       attributeDefinition.pred,
