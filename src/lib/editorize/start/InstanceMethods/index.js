@@ -1,5 +1,5 @@
 import handle from './handle'
-import KeyApiMap from './KeyApiMap'
+import KeyEventMap from './KeyEventMap'
 import IconApiMap from './IconApiMap'
 
 export default class InstanceMethods {
@@ -10,7 +10,7 @@ export default class InstanceMethods {
     buttonController,
     view
   ) {
-    this._keyEventMap = new KeyApiMap(
+    this._keyEventMap = new KeyEventMap(
       commander,
       presenter,
       persistenceInterface
