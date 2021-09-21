@@ -20,7 +20,7 @@ export default class SVGConnection {
     this._onMouseEnter = onMouseEnter
     this._onMouseLeave = onMouseLeave
     this._relationBox = editor[0].querySelector('.textae-editor__relation-box')
-    this._annotationBox = getAnnotationBox(editor)
+    this._annotationBox = getAnnotationBox(editor[0])
     this._arrow = new Arrow(
       this._relationBox,
       this._relation,

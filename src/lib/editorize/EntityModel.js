@@ -136,21 +136,21 @@ export default class EntityModel {
     return (
       this._clientRect.left +
       this._clientRect.width / 2 -
-      getAnnotationBox(this._editor).getBoundingClientRect().left
+      getAnnotationBox(this._editor[0]).getBoundingClientRect().left
     )
   }
 
   get top() {
     return (
       this._clientRect.top -
-      getAnnotationBox(this._editor).getBoundingClientRect().top
+      getAnnotationBox(this._editor[0]).getBoundingClientRect().top
     )
   }
 
   get bottom() {
     return (
       this._clientRect.top -
-      getAnnotationBox(this._editor).getBoundingClientRect().top +
+      getAnnotationBox(this._editor[0]).getBoundingClientRect().top +
       this._clientRect.height
     )
   }

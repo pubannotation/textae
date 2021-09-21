@@ -76,7 +76,7 @@ export default class BlockSpanModel extends SpanModel {
 
     // Place the background in the annotation box
     // to shift the background up by half a line from the block span area.
-    const annotationBox = getAnnotationBox(this._editor)
+    const annotationBox = getAnnotationBox(this._editor[0])
     renderBackground(annotationBox, this._backgroundId)
   }
 

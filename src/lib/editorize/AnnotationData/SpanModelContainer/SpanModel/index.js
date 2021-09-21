@@ -155,7 +155,7 @@ export default class SpanModel {
       return rightGrid.previousElementSibling
     } else {
       // append to the annotation area.
-      const container = getAnnotationBox(this._editor)
+      const container = getAnnotationBox(this._editor[0])
       container.insertAdjacentElement('beforeend', this._createGridElement())
       return container.lastElementChild
     }

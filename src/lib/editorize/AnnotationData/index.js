@@ -177,7 +177,7 @@ export default class AnnotationData {
   }
 
   _redrawAllAnnotations() {
-    getAnnotationBox(this._editor).innerHTML = ''
+    getAnnotationBox(this._editor[0]).innerHTML = ''
     for (const span of this.span.topLevel) {
       span.render()
     }
