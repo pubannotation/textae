@@ -30,7 +30,6 @@ export default class ChangeTypeDefinitionAndRefectInstancesCommand extends Compo
         annotationData,
         annotationType,
         id,
-        editor,
         changedProperties.get('id')
       )
     }

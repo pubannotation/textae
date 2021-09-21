@@ -4,7 +4,6 @@ export default function (
   annotationData,
   annotationType,
   oldTypeName,
-  editor,
   newTypeName
 ) {
   return annotationData[annotationType].all
