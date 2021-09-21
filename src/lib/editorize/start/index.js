@@ -17,7 +17,7 @@ import observe from './observe'
 import ControlBar from '../control/ControlBar'
 import ContextMenu from '../control/ContextMenu'
 import KeyEventMap from './InstanceMethods/KeyEventMap'
-import IconEventMap from './InstanceMethods/IconEventMap'
+import IconEventMap from './IconEventMap'
 
 export default function (
   editor,
