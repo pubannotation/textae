@@ -1,5 +1,4 @@
 import handle from './handle'
-import KeyEventMap from './KeyEventMap'
 import IconEventMap from './IconEventMap'
 
 export default class InstanceMethods {
@@ -10,11 +9,6 @@ export default class InstanceMethods {
     buttonController,
     view
   ) {
-    this._keyEventMap = new KeyEventMap(
-      commander,
-      presenter,
-      persistenceInterface
-    )
     this._iconEventMap = new IconEventMap(
       commander,
       presenter,
@@ -30,10 +24,6 @@ export default class InstanceMethods {
 
   get isActive() {
     return this._isActive
-  }
-
-  handleKeyInput(event) {
-    this._keyEventMap.handle(this._isActive, event)
   }
 
   handleButtonClick(key) {
