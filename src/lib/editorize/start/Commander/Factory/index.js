@@ -29,7 +29,8 @@ import ToggleFlagAttributeToItemsCommand from './ToggleFlagAttributeToItemsComma
 
 export default class Factory {
   constructor(editor, annotationData, selectionModel) {
-    this._editor = editor
+    this._editorID = editor.editorId
+    this._eventEmitter = editor.eventEmitter
     this._annotationData = annotationData
     this._selectionModel = selectionModel
   }
@@ -44,7 +45,7 @@ export default class Factory {
 
   changeAttributeDefinitionCommand(attributeDefinition, changedProperties) {
     return new ChangeAttributeDefinitionAndRefectInstancesCommand(
-      this._editor.eventEmitter,
+      this._eventEmitter,
       this._annotationData,
       this._annotationData.typeDefinition.attribute,
       attributeDefinition,
@@ -54,7 +55,7 @@ export default class Factory {
 
   changeAttributeObjOfItemsCommand(items, attributeDefinition, newObj) {
     return new ChangeAttributeObjOfItemsCommand(
-      this._editor.eventEmitter,
+      this._eventEmitter,
       this._annotationData,
       items,
       attributeDefinition,
@@ -69,7 +70,7 @@ export default class Factory {
     newLabel
   ) {
     return new ChangeStringAttributeObjOfItemsCommand(
-      this._editor.eventEmitter,
+      this._eventEmitter,
       this._annotationData,
       this._annotationData.typeDefinition.attribute,
       items,
@@ -120,7 +121,7 @@ export default class Factory {
     value
   ) {
     return new ChangeValueOfAttributeDefinitionAndObjectOfAttributeCommand(
-      this._editor.eventEmitter,
+      this._eventEmitter,
       this._annotationData,
       this._annotationData.typeDefinition.attribute,
       attributeDefinition,
@@ -147,7 +148,7 @@ export default class Factory {
 
   createBlockSpanCommand(newSpan) {
     return new CreateBlockSpanCommand(
-      this._editor.editorId,
+      this._editorID,
       this._annotationData,
       this._selectionModel,
       newSpan.begin,
@@ -175,7 +176,7 @@ export default class Factory {
 
   createSpanAndAutoReplicateCommand(newSpan, isReplicateAuto, isDelimiterFunc) {
     return new CreateSpanAndAutoReplicateCommand(
-      this._editor.editorId,
+      this._editorID,
       this._annotationData,
       this._selectionModel,
       newSpan,
@@ -235,7 +236,7 @@ export default class Factory {
 
   replicateSpanCommand(span, typeValuesList, isDelimiterFunc) {
     return new ReplicateSpanCommand(
-      this._editor.editorId,
+      this._editorID,
       this._annotationData,
       this._selectionModel,
       span,
