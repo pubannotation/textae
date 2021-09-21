@@ -130,7 +130,6 @@ export default function (
     annotationData,
     spanConfig,
     params,
-    statusBar,
     originalData,
     dataAccessObject,
     buttonController
