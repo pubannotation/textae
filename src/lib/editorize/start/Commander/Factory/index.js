@@ -81,7 +81,6 @@ export default class Factory {
 
   changeTypeValuesCommand(label, value, definitionContainer, attributes) {
     return new ChangeTypeValuesCommand(
-      this._editor,
       this._annotationData,
       this._selectionModel,
       label,

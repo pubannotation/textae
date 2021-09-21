@@ -4,7 +4,6 @@ import createChangeConfigCommand from './createChangeConfigCommand'
 
 export default class ChangeTypeValuesCommand extends CompositeCommand {
   constructor(
-    editor,
     annotationData,
     selectionModel,
     label,
