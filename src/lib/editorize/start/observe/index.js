@@ -156,11 +156,6 @@ export default function (
     e.preventDefault()
   )
 
-  editor[0].addEventListener('keyup', (event) => {
-    editor.eventEmitter.emit('textae-event.editor.key.input')
-    editor.instanceMethods.handleKeyInput(event)
-  })
-
   document.addEventListener(
     'selectionchange',
     debounce(() => editor.instanceMethods.applyTextSelection(), 100)
