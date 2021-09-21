@@ -41,7 +41,7 @@ export default class Edit {
   }
 
   init() {
-    return this._bindMouseEvents(this._editor, this._mouseEventHandler)
+    return this._bindMouseEvents(this._editor[0], this._mouseEventHandler)
   }
 
   get handler() {

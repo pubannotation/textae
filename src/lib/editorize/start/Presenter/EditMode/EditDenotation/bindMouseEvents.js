@@ -3,7 +3,7 @@ import delegate from 'delegate'
 // For support context menu.
 // Mouse up event occurs when either left or right button is clicked.
 // Change mouse events to monitor from mouseup to click since v5.0.0.
-export default function (editor, mouseEventHandler) {
+export default function (editorHTMLElement, mouseEventHandler) {
   const listeners = []
 
   // In Friefox, the text box click event fires when you shrink and erase a span.
@@ -13,7 +13,7 @@ export default function (editor, mouseEventHandler) {
   let afterSpanMouseUpEventFlag = false
 
   listeners.push(
-    delegate(editor[0], '.textae-editor__text-box', 'click', (e) => {
+    delegate(editorHTMLElement, '.textae-editor__text-box', 'click', (e) => {
       if (
         e.target.classList.contains('textae-editor__text-box') &&
         !afterSpanMouseUpEventFlag
@@ -26,7 +26,7 @@ export default function (editor, mouseEventHandler) {
   // When extending span, the behavior depends on whether span is selected or not;
   // you must not deselect span before editing it.
   listeners.push(
-    delegate(editor[0], '.textae-editor', 'click', (e) => {
+    delegate(editorHTMLElement, '.textae-editor', 'click', (e) => {
       // The delegate also fires events for child elements of the selector.
       // Ignores events that occur in child elements.
       // Otherwise, you cannot select child elements.
@@ -37,14 +37,14 @@ export default function (editor, mouseEventHandler) {
   )
 
   listeners.push(
-    delegate(editor[0], '.textae-editor__signboard', 'mousedown', () =>
+    delegate(editorHTMLElement, '.textae-editor__signboard', 'mousedown', () =>
       mouseEventHandler.signboardClicked()
     )
   )
 
   listeners.push(
     delegate(
-      editor[0],
+      editorHTMLElement,
       '.textae-editor__signboard__type-values',
       'click',
       (e) => mouseEventHandler.typeValuesClicked(e)
@@ -53,7 +53,7 @@ export default function (editor, mouseEventHandler) {
 
   // To shrink a span listen the mouseup event.
   listeners.push(
-    delegate(editor[0], '.textae-editor__span', 'mouseup', (e) => {
+    delegate(editorHTMLElement, '.textae-editor__span', 'mouseup', (e) => {
       if (e.target.classList.contains('textae-editor__span')) {
         mouseEventHandler.denotationSpanClicked(e)
         afterSpanMouseUpEventFlag = true
@@ -67,7 +67,7 @@ export default function (editor, mouseEventHandler) {
   )
 
   listeners.push(
-    delegate(editor[0], '.textae-editor__block', 'mouseup', (e) => {
+    delegate(editorHTMLElement, '.textae-editor__block', 'mouseup', (e) => {
       if (e.target.classList.contains('textae-editor__block')) {
         mouseEventHandler.blockSpanClicked(e)
       }
@@ -75,7 +75,7 @@ export default function (editor, mouseEventHandler) {
   )
 
   listeners.push(
-    delegate(editor[0], '.textae-editor__style', 'mouseup', (e) => {
+    delegate(editorHTMLElement, '.textae-editor__style', 'mouseup', (e) => {
       if (e.target.classList.contains('textae-editor__style')) {
         mouseEventHandler.styleSpanClicked(e)
       }
