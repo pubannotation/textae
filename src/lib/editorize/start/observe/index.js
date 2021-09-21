@@ -18,19 +18,19 @@ export default function (
   dataAccessObject,
   buttonController
 ) {
-  editor.eventEmitter.on('textae-event.type-definition.reset', () =>
-    history.resetConfiguration()
-  )
-
-  editor.eventEmitter.on('textae-event.history.change', (history) => {
-    // change leaveMessage show
-    // Reloading when trying to scroll further when you are at the top on an Android device.
-    // Show a confirmation dialog to prevent this.
-    window.onbeforeunload =
-      isTouchDevice() || history.hasAnythingToSaveAnnotation ? () => true : null
-  })
-
   editor.eventEmitter
+    .on('textae-event.type-definition.reset', () =>
+      history.resetConfiguration()
+    )
+    .on('textae-event.history.change', (history) => {
+      // change leaveMessage show
+      // Reloading when trying to scroll further when you are at the top on an Android device.
+      // Show a confirmation dialog to prevent this.
+      window.onbeforeunload =
+        isTouchDevice() || history.hasAnythingToSaveAnnotation
+          ? () => true
+          : null
+    })
     .on(
       'textae-event.data-access-object.annotation.load.success',
       (dataSource) => {
