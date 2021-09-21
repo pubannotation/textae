@@ -2,7 +2,7 @@ import CompositeCommand from './CompositeCommand'
 import { CreateCommand } from './commandTemplate'
 
 export default class CreateDefaultTypeEntityToSelectedSpansCommand extends CompositeCommand {
-  constructor(editor, annotationData, selectionModel, typeName) {
+  constructor(annotationData, selectionModel, typeName) {
     super()
 
     const selectedSpans = selectionModel.span.all

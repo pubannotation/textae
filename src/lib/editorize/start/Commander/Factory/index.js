@@ -158,7 +158,6 @@ export default class Factory {
 
   createDefaultTypeEntityToSelectedSpansCommand(typeName) {
     return new CreateDefaultTypeEntityToSelectedSpansCommand(
-      this._editor,
       this._annotationData,
       this._selectionModel,
       typeName
