@@ -31,8 +31,12 @@ function template(context) {
 
 // The control is a control bar in an editor.
 export default class ControlBar extends Control {
-  constructor(editor, buttonController) {
-    super(editor, template(classify(buttonController.controlBarButton)))
+  constructor(editor, buttonController, iconEventMap) {
+    super(
+      editor,
+      template(classify(buttonController.controlBarButton)),
+      iconEventMap
+    )
 
     this._buttonController = buttonController
 

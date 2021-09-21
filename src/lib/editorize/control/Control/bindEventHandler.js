@@ -3,7 +3,7 @@ import HelpDialog from '../../../component/HelpDialog'
 
 const helpDialog = new HelpDialog()
 
-export default function (el, editor) {
+export default function (el, editor, iconEventMap) {
   // Bind eventhandler
   delegate(el, '.textae-control-icon', 'mousedown', ({ target }) => {
     // Ignore disabled button's events.
@@ -17,7 +17,7 @@ export default function (el, editor) {
       case 'expand-span':
       case 'shrink-span':
         // Monitor the mousedown event to get the currently selected text.
-        editor.instanceMethods.handleButtonClick(buttonType)
+        iconEventMap.handle(buttonType)
         break
       default:
     }
@@ -40,7 +40,7 @@ export default function (el, editor) {
         // Monitor the mousedown event to get the currently selected text.
         break
       default:
-        editor.instanceMethods.handleButtonClick(buttonType)
+        iconEventMap.handle(buttonType)
     }
   })
 

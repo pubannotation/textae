@@ -17,6 +17,7 @@ import observe from './observe'
 import ControlBar from '../control/ControlBar'
 import ContextMenu from '../control/ContextMenu'
 import KeyEventMap from './InstanceMethods/KeyEventMap'
+import IconEventMap from './InstanceMethods/IconEventMap'
 
 export default function (
   editor,
@@ -150,13 +151,21 @@ export default function (
   // Set position of toast messages.
   alertifyjs.set('notifier', 'position', 'top-right')
 
+  const iconEventMap = new IconEventMap(
+    commander,
+    presenter,
+    persistenceInterface,
+    view,
+    buttonController
+  )
+
   // add control bar
   editor[0].insertBefore(
-    new ControlBar(editor, buttonController).el,
+    new ControlBar(editor, buttonController, iconEventMap).el,
     editor[0].childNodes[0]
   )
   // add context menu
-  const contextMenu = new ContextMenu(editor, buttonController)
+  const contextMenu = new ContextMenu(editor, buttonController, iconEventMap)
   editor[0].appendChild(contextMenu.el)
 
   const keyEventMap = new KeyEventMap(
