@@ -4,7 +4,7 @@ import ChangeValueOfAttributeDefinitionCommand from './ChangeValueOfAttributeDef
 
 export default class ChangeValueOfAttributeDefinitionAndObjectOfAttributeCommand extends CompositeCommand {
   constructor(
-    editor,
+    eventEmitter,
     annotationData,
     definitionContainer,
     attrDef,
@@ -38,7 +38,7 @@ export default class ChangeValueOfAttributeDefinitionAndObjectOfAttributeCommand
 
       this._subCommands = this._subCommands.concat(changeAnnotationCommands)
       this._afterInvoke = () =>
-        editor.eventEmitter.emit(
+        eventEmitter.emit(
           'textae-event.commander.attributes.change',
           sameAttributes
         )
