@@ -2,13 +2,7 @@ import CompositeCommand from './CompositeCommand'
 import ChangeAnnotationCommand from './ChangeAnnotationCommand'
 
 export default class ChangeTypeOfSelectedItemsCommand extends CompositeCommand {
-  constructor(
-    editor,
-    annotationData,
-    selectionModel,
-    annotationType,
-    typeName
-  ) {
+  constructor(annotationData, selectionModel, annotationType, typeName) {
     super()
 
     const itemsWithChange = selectionModel[annotationType].all.filter(

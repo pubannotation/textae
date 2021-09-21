@@ -107,7 +107,6 @@ export default class Factory {
 
   changeTypeOfSelectedItemsCommand(annotationType, newType) {
     return new ChangeTypeOfSelectedItemsCommand(
-      this._editor,
       this._annotationData,
       this._selectionModel,
       annotationType,
