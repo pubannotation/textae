@@ -12,7 +12,7 @@ export default class Pallet {
     this._el = createPalletElement(annotationType)
 
     // let the pallet draggable.
-    enableJqueryDraggable(this._el, editor)
+    enableJqueryDraggable(this._el, editor[0])
 
     // bugfix: Shortcut keys do not work after operating palette buttons.
     //

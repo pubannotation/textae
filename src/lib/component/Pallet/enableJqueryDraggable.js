@@ -1,9 +1,9 @@
 import $ from 'jquery'
 import 'jquery-ui/ui/widgets/draggable'
 
-export default function (element, editor) {
+export default function (element, editorHTMLElement) {
   $(element).draggable({
-    containment: editor[0],
+    containment: editorHTMLElement,
     distance: 10
   })
 }
