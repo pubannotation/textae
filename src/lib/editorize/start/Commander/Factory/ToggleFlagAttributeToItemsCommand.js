@@ -3,7 +3,7 @@ import getCreateAttributeToItemsCommands from './getCreateAttributeToItemsComman
 import getRemoveAttributesByPredCommands from './getRemoveAttributesByPredCommands'
 
 export default class ToggleFlagAttributeToItemsCommand extends CompositeCommand {
-  constructor(editor, annotationData, items, attributeDefinition) {
+  constructor(annotationData, items, attributeDefinition) {
     super()
 
     this._subCommands = getCreateAttributeToItemsCommands(

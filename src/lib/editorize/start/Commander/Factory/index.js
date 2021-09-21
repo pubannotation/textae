@@ -279,7 +279,6 @@ export default class Factory {
 
   toggleFlagAttributeToItemsCommand(items, attributeDefinition) {
     return new ToggleFlagAttributeToItemsCommand(
-      this._editor,
       this._annotationData,
       items,
       attributeDefinition
