@@ -32,12 +32,7 @@ export default class ChangeTypeNameAndAttributeOfSelectedItemsCommand extends Co
 
     // Change attributes
     this._subCommands = this._subCommands.concat(
-      getChangeAttributeCommands(
-        itemsWithChange,
-        attributes,
-        annotationData,
-        editor
-      )
+      getChangeAttributeCommands(itemsWithChange, attributes, annotationData)
     )
 
     for (const { pred, obj, label } of attributes) {

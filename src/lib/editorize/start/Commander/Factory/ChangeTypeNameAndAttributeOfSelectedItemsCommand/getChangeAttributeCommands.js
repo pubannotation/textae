@@ -1,7 +1,7 @@
 import { RemoveCommand, CreateCommand } from '../commandTemplate'
 import ChangeAttributeCommand from '../ChangeAttributeCommand'
 
-export default function (items, attributes, annotationData, editor) {
+export default function (items, attributes, annotationData) {
   const changeAttributeCommnads = []
 
   for (const item of items) {
