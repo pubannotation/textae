@@ -5,7 +5,6 @@ import getAddPatternToStringAttributeDefinitionCommand from '../getAddPatternToS
 
 export default class ChangeTypeNameAndAttributeOfSelectedItemsCommand extends CompositeCommand {
   constructor(
-    editor,
     annotationData,
     selectionModel,
     annotationType,

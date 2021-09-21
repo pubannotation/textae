@@ -28,7 +28,6 @@ export default class ChangeTypeValuesCommand extends CompositeCommand {
 
     const changeItemsCommand =
       new ChangeTypeNameAndAttributeOfSelectedItemsCommand(
-        editor,
         annotationData,
         selectionModel,
         definitionContainer.annotationType,
