@@ -20,7 +20,7 @@ export default class CreateSpanAndAutoReplicateCommand extends CompositeCommand 
 
     const typeValuesList = [new TypeValues(defaultType)]
 
-    const spanId = makeDenotationSpanHTMLElementID(
+    const spanID = makeDenotationSpanHTMLElementID(
       editor.editorId,
       newSpan.begin,
       newSpan.end
@@ -31,7 +31,7 @@ export default class CreateSpanAndAutoReplicateCommand extends CompositeCommand 
         editor,
         annotationData,
         selectionModel,
-        spanId,
+        spanID,
         newSpan.begin,
         newSpan.end,
         typeValuesList
