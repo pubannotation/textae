@@ -17,7 +17,7 @@ export default class EditBlock extends Edit {
     autocompletionWs
   ) {
     const spanEditor = new SpanEditor(
-      editor,
+      editor[0],
       annotationData,
       spanConfig,
       commander,

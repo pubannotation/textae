@@ -10,14 +10,14 @@ import getRightSpanElement from '../../../../getRightSpanElement'
 
 export default class SpanEditor {
   constructor(
-    editor,
+    editorHTMLElement,
     annotationData,
     spanConfig,
     commander,
     buttonController,
     selectionModel
   ) {
-    this._editor = editor
+    this._editorHTMLElement = editorHTMLElement
     this._annotationData = annotationData
     this._spanConfig = spanConfig
     this._commander = commander
@@ -141,7 +141,7 @@ export default class SpanEditor {
     const shrinkedSpan = this._getShrinkedSpanForTouchDevice()
     if (shrinkedSpan) {
       const { spanID, begin, end } = shrinkedSpan
-      const nextSpan = getRightSpanElement(this._editor[0], spanID)
+      const nextSpan = getRightSpanElement(this._editorHTMLElement, spanID)
 
       // The span cross exists spans.
       if (
@@ -214,7 +214,7 @@ export default class SpanEditor {
     const spanID = selectionWrapper.ancestorBlockSpanOfFocusNode.id
 
     shrinkSpan(
-      this._editor[0],
+      this._editorHTMLElement,
       this._annotationData,
       this._selectionModel,
       this._commander,
