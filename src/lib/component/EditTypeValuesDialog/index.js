@@ -68,7 +68,7 @@ export default class EditTypeValuesDialog extends PromiseDialog {
               })
             break
           case 'selection':
-            new SelectionAttributePallet(editor)
+            new SelectionAttributePallet(editor[0])
               .show(attrDef, zIndex, e.target)
               .then((newObj) => {
                 attributes[e.target.dataset.index].obj = newObj
