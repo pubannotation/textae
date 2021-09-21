@@ -2,7 +2,6 @@ import debounce from 'debounce'
 import observeMouse from './observeMouse'
 import observeHistoryChange from './observeHistoryChange'
 import observeKey from './observeKey'
-import observeTypeDefilinition from './observeTypeDefilinition'
 import observeDataAccessObject from './observeDataAccessObject'
 
 export default function (
@@ -15,7 +14,10 @@ export default function (
   dataAccessObject,
   buttonController
 ) {
-  observeTypeDefilinition(editor, history)
+  editor.eventEmitter.on('textae-event.type-definition.reset', () =>
+    history.resetConfiguration()
+  )
+
   observeHistoryChange(editor)
   observeDataAccessObject(
     editor,
