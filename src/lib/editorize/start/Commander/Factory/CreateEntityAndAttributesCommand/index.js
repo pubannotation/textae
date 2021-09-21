@@ -27,12 +27,7 @@ export default class CreateEntityAndAttributesCommand extends CompositeCommand {
       attributes.map(
         ({ obj, pred }) =>
           // Only one entity was created.
-          new CreateAttributeToTheLatestEntityCommand(
-            editor,
-            annotationData,
-            obj,
-            pred
-          )
+          new CreateAttributeToTheLatestEntityCommand(annotationData, obj, pred)
       )
     )
 
