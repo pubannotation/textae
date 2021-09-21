@@ -9,7 +9,6 @@ export default class CreateBlockCommand extends CompositeCommand {
 
     const spanId = makeBlockSpanHTMLElementID(editor, begin, end)
     const createSpanCommand = new CreateCommand(
-      editor,
       annotationData,
       'span',
       {

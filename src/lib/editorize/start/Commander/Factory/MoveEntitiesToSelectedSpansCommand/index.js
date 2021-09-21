@@ -30,7 +30,7 @@ export default class MoveEntitiesToSelectedSpansCommand extends CompositeCommand
       }, new Set())
       .values()) {
       if (areAllEntiesOfSpan(span, entities)) {
-        commands.push(new RemoveCommand(editor, annotationData, 'span', span))
+        commands.push(new RemoveCommand(annotationData, 'span', span))
       }
     }
 

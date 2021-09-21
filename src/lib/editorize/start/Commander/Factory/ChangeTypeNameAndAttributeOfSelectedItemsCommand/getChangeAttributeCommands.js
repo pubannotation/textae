@@ -23,7 +23,7 @@ export default function (items, attributes, annotationData, editor) {
           }
         } else {
           changeAttributeCommnads.push(
-            new RemoveCommand(editor, annotationData, 'attribute', oldAttribute)
+            new RemoveCommand(annotationData, 'attribute', oldAttribute)
           )
         }
       }
@@ -36,7 +36,7 @@ export default function (items, attributes, annotationData, editor) {
         )
       ) {
         changeAttributeCommnads.push(
-          new CreateCommand(editor, annotationData, 'attribute', {
+          new CreateCommand(annotationData, 'attribute', {
             subj: item.id,
             pred: newAttribute.pred,
             obj: newAttribute.obj

@@ -2,9 +2,8 @@ import commandLog from './commandLog'
 import AnnotationCommand from './AnnotationCommand'
 
 class CreateCommand extends AnnotationCommand {
-  constructor(editor, annotationData, modelType, model, selectionModel = null) {
+  constructor(annotationData, modelType, model, selectionModel = null) {
     super()
-    this._editor = editor
     this._annotationData = annotationData
     this._modelType = modelType
     this._model = model
@@ -22,19 +21,13 @@ class CreateCommand extends AnnotationCommand {
   }
 
   revert() {
-    return new RemoveCommand(
-      this._editor,
-      this._annotationData,
-      this._modelType,
-      this._model
-    )
+    return new RemoveCommand(this._annotationData, this._modelType, this._model)
   }
 }
 
 class RemoveCommand extends AnnotationCommand {
-  constructor(editor, annotationData, modelType, model) {
+  constructor(annotationData, modelType, model) {
     super()
-    this._editor = editor
     this._annotationData = annotationData
     this._modelType = modelType
     this._model = model
@@ -47,12 +40,7 @@ class RemoveCommand extends AnnotationCommand {
   }
 
   revert() {
-    return new CreateCommand(
-      this._editor,
-      this._annotationData,
-      this._modelType,
-      this._model
-    )
+    return new CreateCommand(this._annotationData, this._modelType, this._model)
   }
 }
 

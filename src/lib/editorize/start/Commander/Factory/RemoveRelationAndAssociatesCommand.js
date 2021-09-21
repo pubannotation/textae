@@ -5,14 +5,12 @@ export default class RemoveRelationAndAssociatesCommand extends CompositeCommand
   constructor(editor, annotationData, relation) {
     super()
     const removeRelation = new RemoveCommand(
-      editor,
       annotationData,
       'relation',
       relation
     )
     const removeAttribute = relation.attributes.map(
-      (attribute) =>
-        new RemoveCommand(editor, annotationData, 'attribute', attribute)
+      (attribute) => new RemoveCommand(annotationData, 'attribute', attribute)
     )
 
     this._subCommands = removeAttribute.concat(removeRelation)

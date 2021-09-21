@@ -15,7 +15,6 @@ export default class CreateEntityAndAttributesCommand extends CompositeCommand {
 
     this._subCommands = [
       new CreateCommand(
-        editor,
         annotationData,
         'entity',
         {

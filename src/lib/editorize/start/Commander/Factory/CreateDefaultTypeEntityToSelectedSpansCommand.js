@@ -11,7 +11,6 @@ export default class CreateDefaultTypeEntityToSelectedSpansCommand extends Compo
     this._subCommands = selectedSpans.map(
       (span) =>
         new CreateCommand(
-          editor,
           annotationData,
           'entity',
           {

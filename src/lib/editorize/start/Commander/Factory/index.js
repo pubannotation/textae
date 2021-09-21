@@ -171,7 +171,6 @@ export default class Factory {
 
   createRelationCommand(relation) {
     return new CreateCommand(
-      this._editor,
       this._annotationData,
       'relation',
       relation,

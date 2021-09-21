@@ -2,7 +2,7 @@ import { CreateCommand } from '../commandTemplate'
 
 export default class CreateAttributeToTheLatestEntityCommand extends CreateCommand {
   constructor(editor, annotationData, obj, pred) {
-    super(editor, annotationData, 'attribute', {
+    super(annotationData, 'attribute', {
       obj,
       pred
     })

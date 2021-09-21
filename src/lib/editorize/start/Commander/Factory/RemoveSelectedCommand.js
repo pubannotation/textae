@@ -47,23 +47,21 @@ export default class RemoveSelectedCommand extends CompositeCommand {
     this._subCommands = []
     for (const attribute of targetAttributes) {
       this._subCommands.push(
-        new RemoveCommand(editor, annotationData, 'attribute', attribute)
+        new RemoveCommand(annotationData, 'attribute', attribute)
       )
     }
     for (const relation of targetRelations) {
       this._subCommands.push(
-        new RemoveCommand(editor, annotationData, 'relation', relation)
+        new RemoveCommand(annotationData, 'relation', relation)
       )
     }
     for (const entity of targetEntities) {
       this._subCommands.push(
-        new RemoveCommand(editor, annotationData, 'entity', entity)
+        new RemoveCommand(annotationData, 'entity', entity)
       )
     }
     for (const span of targetSpans) {
-      this._subCommands.push(
-        new RemoveCommand(editor, annotationData, 'span', span)
-      )
+      this._subCommands.push(new RemoveCommand(annotationData, 'span', span))
     }
 
     this._logMessage = `remove selected ${[

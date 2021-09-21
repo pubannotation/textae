@@ -16,7 +16,6 @@ export default class CreateSpanAndTypesCommand extends CompositeCommand {
 
     this._subCommands = [
       new CreateCommand(
-        editor,
         annotationData,
         'span',
         {
