@@ -28,9 +28,9 @@ import RemoveValueFromAttributeDefinitionCommand from './RemoveValueFromAttribut
 import ToggleFlagAttributeToItemsCommand from './ToggleFlagAttributeToItemsCommand'
 
 export default class Factory {
-  constructor(editor, annotationData, selectionModel) {
-    this._editorID = editor.editorId
-    this._eventEmitter = editor.eventEmitter
+  constructor(editorID, eventEmitter, annotationData, selectionModel) {
+    this._editorID = editorID
+    this._eventEmitter = eventEmitter
     this._annotationData = annotationData
     this._selectionModel = selectionModel
   }

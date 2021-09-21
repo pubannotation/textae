@@ -52,7 +52,8 @@ export default class Commander {
 
   get factory() {
     return new Factory(
-      this._editor,
+      this._editor.editorId,
+      this._editor.eventEmitter,
       this._annotationData,
       this._selectionModel,
       this._annotationData.typeDefinition
