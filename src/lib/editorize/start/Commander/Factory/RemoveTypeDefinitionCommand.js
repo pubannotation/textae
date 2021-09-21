@@ -3,9 +3,8 @@ import CreateTypeDefinitionCommand from './CreateTypeDefinitionCommand'
 import ConfigurationCommand from './ConfigurationCommand'
 
 export default class RemoveTypeDefinitionCommand extends ConfigurationCommand {
-  constructor(editor, definitionContainer, removeType, revertDefaultTypeId) {
+  constructor(definitionContainer, removeType, revertDefaultTypeId) {
     super()
-    this._editor = editor
     this._definitionContainer = definitionContainer
     this._removeType = removeType
     this._revertDefaultTypeId = revertDefaultTypeId
@@ -34,7 +33,6 @@ export default class RemoveTypeDefinitionCommand extends ConfigurationCommand {
 
   revert() {
     return new CreateTypeDefinitionCommand(
-      this._editor,
       this._definitionContainer,
       this._removeType
     )

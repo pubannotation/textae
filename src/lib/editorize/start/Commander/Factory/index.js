@@ -192,11 +192,7 @@ export default class Factory {
   }
 
   createTypeDefinitionCommand(definitionContainer, newType) {
-    return new CreateTypeDefinitionCommand(
-      this._editor,
-      definitionContainer,
-      newType
-    )
+    return new CreateTypeDefinitionCommand(definitionContainer, newType)
   }
 
   deleteAttributeDefinitionCommand(attributeDefinition) {
@@ -278,11 +274,7 @@ export default class Factory {
   }
 
   removeTypeDefinitionCommand(definitionContainer, removeType) {
-    return new RemoveTypeDefinitionCommand(
-      this._editor,
-      definitionContainer,
-      removeType
-    )
+    return new RemoveTypeDefinitionCommand(definitionContainer, removeType)
   }
 
   removeValueFromAttributeDefinitionCommand(attributeDefinition, index) {
