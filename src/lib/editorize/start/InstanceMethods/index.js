@@ -1,6 +1,6 @@
 import handle from './handle'
 import KeyEventMap from './KeyEventMap'
-import IconApiMap from './IconApiMap'
+import IconEventMap from './IconEventMap'
 
 export default class InstanceMethods {
   constructor(
@@ -15,7 +15,7 @@ export default class InstanceMethods {
       presenter,
       persistenceInterface
     )
-    this._iconEventMap = new IconApiMap(
+    this._iconEventMap = new IconEventMap(
       commander,
       presenter,
       persistenceInterface,
