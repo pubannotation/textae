@@ -2,7 +2,7 @@ import CompositeCommand from './CompositeCommand'
 import CreateEntityAndAttributesCommand from './CreateEntityAndAttributesCommand'
 
 export default class PasteTypesToSelectedSpansCommand extends CompositeCommand {
-  constructor(editor, annotationData, selectionModel, typeValuesList) {
+  constructor(annotationData, selectionModel, typeValuesList) {
     super()
 
     const selecteedSpans = selectionModel.span.all.map((span) => span.id)

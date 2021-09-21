@@ -227,7 +227,6 @@ export default class Factory {
 
   pasteTypesToSelectedSpansCommand(typeValuesList) {
     return new PasteTypesToSelectedSpansCommand(
-      this._editor,
       this._annotationData,
       this._selectionModel,
       typeValuesList
