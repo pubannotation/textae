@@ -1,6 +1,6 @@
-export default class KeyEventMap extends Map {
+export default class KeyEventMap {
   constructor(commander, presenter, persistenceInterface) {
-    super([
+    this._map = new Map([
       ['1', (shiftKey) => presenter.manipulateAttribute(1, shiftKey)],
       ['2', (shiftKey) => presenter.manipulateAttribute(2, shiftKey)],
       ['3', (shiftKey) => presenter.manipulateAttribute(3, shiftKey)],
@@ -34,5 +34,22 @@ export default class KeyEventMap extends Map {
       ['Delete', () => presenter.removeSelectedElements()],
       ['Escape', () => presenter.cancelSelect()]
     ])
+  }
+
+  handle(isActive, event) {
+    // Keyup events occurs without selected editor, When editor is focused before initializing.
+    if (isActive) {
+      // The value of the key property when pressing a key while holding down the Shift key depends on the keyboard layout.
+      // For example, on a US keyboard, the shift + 1 keystroke is “!”.
+      // When shift and number key are pressed, the input value is taken from the keyCode property.
+      const key =
+        event.shiftKey && 48 <= event.keyCode && event.keyCode <= 57
+          ? String.fromCharCode(event.keyCode)
+          : event.key
+
+      if (this._map.has(key)) {
+        this._map.get(key)(event.shiftKey)
+      }
+    }
   }
 }
