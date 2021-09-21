@@ -142,7 +142,7 @@ export default class SpanEditor {
     if (shrinkedSpan) {
       const { spanID, begin, end } = shrinkedSpan
       console.log(spanID, begin, end)
-      const nextSpan = getRightSpanElement(this._editor, spanID)
+      const nextSpan = getRightSpanElement(this._editor[0], spanID)
 
       // The span cross exists spans.
       if (

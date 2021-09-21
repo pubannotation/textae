@@ -130,7 +130,7 @@ export default class SpanEditor {
     const shrinkedSpan = this._getShrinkedSpanForTouchDevice()
     if (shrinkedSpan) {
       const { spanID, begin, end } = shrinkedSpan
-      const nextSpan = getRightSpanElement(this._editor, spanID)
+      const nextSpan = getRightSpanElement(this._editor[0], spanID)
 
       // The span cross exists spans.
       if (

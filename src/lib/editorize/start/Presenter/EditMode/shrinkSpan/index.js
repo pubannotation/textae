@@ -16,7 +16,7 @@ export default function (
     selectionModel.removeAll()
 
     // Get the next span before removing the old span.
-    const nextSpan = getRightSpanElement(editor, spanId)
+    const nextSpan = getRightSpanElement(editor[0], spanId)
     const removed = shrinkSpanToSelection(
       annotationData,
       commander,
