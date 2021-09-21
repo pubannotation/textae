@@ -3,7 +3,7 @@ import AttributeEditor from './AttributeEditor'
 
 export default class DefaultHandler {
   constructor(
-    editor,
+    editorHTMLElement,
     annotationType,
     definitionContainer,
     commander,
@@ -18,7 +18,7 @@ export default class DefaultHandler {
       commander,
       annotationData,
       selectionModelItems,
-      new SelectionAttributePallet(editor[0]),
+      new SelectionAttributePallet(editorHTMLElement),
       () => this.editTypeValues(),
       typeValuesPallet
     )

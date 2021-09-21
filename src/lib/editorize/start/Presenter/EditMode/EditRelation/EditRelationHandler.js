@@ -12,7 +12,7 @@ export default class EditRelationHandler extends DefaultHandler {
     getAutocompletionWs
   ) {
     super(
-      editor,
+      editor[0],
       'relation',
       definitionContainer,
       commander,

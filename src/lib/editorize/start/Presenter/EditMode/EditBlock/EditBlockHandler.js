@@ -12,7 +12,7 @@ export default class EditBlockHandler extends DefaultHandler {
     getAutocompletionWs
   ) {
     super(
-      editor,
+      editor[0],
       'entity',
       definitionContainer,
       commander,
