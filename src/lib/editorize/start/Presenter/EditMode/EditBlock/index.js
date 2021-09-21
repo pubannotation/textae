@@ -7,7 +7,8 @@ import TypeValuesPallet from '../../../../../component/TypeValuesPallet'
 
 export default class EditBlock extends Edit {
   constructor(
-    editor,
+    editorHTMLElement,
+    eventEmitter,
     annotationData,
     selectionModel,
     spanConfig,
@@ -17,7 +18,7 @@ export default class EditBlock extends Edit {
     autocompletionWs
   ) {
     const spanEditor = new SpanEditor(
-      editor[0],
+      editorHTMLElement,
       annotationData,
       spanConfig,
       commander,
@@ -26,8 +27,8 @@ export default class EditBlock extends Edit {
     )
 
     const blockPallet = new TypeValuesPallet(
-      editor[0],
-      editor.eventEmitter,
+      editorHTMLElement,
+      eventEmitter,
       originalData,
       annotationData,
       annotationData.typeDefinition.block,
@@ -40,7 +41,7 @@ export default class EditBlock extends Edit {
       autocompletionWs || annotationData.typeDefinition.autocompletionWs
 
     const handler = new EditBlockHandler(
-      editor[0],
+      editorHTMLElement,
       annotationData.typeDefinition.block,
       commander,
       annotationData,
@@ -50,10 +51,10 @@ export default class EditBlock extends Edit {
     )
 
     super(
-      editor[0],
+      editorHTMLElement,
       bindMouseEvents,
       new MouseEventHandler(
-        editor[0],
+        editorHTMLElement,
         annotationData,
         selectionModel,
         spanEditor,

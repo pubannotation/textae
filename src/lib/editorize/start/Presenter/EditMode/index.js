@@ -29,7 +29,8 @@ export default class EditMode {
     )
 
     this._editBlock = new EditBlock(
-      editor,
+      editor[0],
+      editor.eventEmitter,
       annotationData,
       selectionModel,
       spanConfig,
