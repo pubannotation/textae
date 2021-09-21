@@ -97,7 +97,6 @@ export default class Factory {
     changedProperties
   ) {
     return new ChangeTypeDefinitionAndRefectInstancesCommand(
-      this._editor,
       this._annotationData,
       definitionContainer,
       annotationType,

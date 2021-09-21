@@ -4,7 +4,6 @@ import createChangeAnnotationCommands from './createChangeAnnotationCommands'
 
 export default class ChangeTypeDefinitionAndRefectInstancesCommand extends CompositeCommand {
   constructor(
-    editor,
     annotationData,
     definitionContainer,
     annotationType,
