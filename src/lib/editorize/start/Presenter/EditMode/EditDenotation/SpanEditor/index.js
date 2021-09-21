@@ -18,7 +18,7 @@ export default class SpanEditor {
     buttonController,
     spanConfig
   ) {
-    this._editor = editor
+    this._editorHTMLElement = editor[0]
     this._annotationData = annotationData
     this._selectionModel = selectionModel
     this._commander = commander
@@ -130,7 +130,7 @@ export default class SpanEditor {
     const shrinkedSpan = this._getShrinkedSpanForTouchDevice()
     if (shrinkedSpan) {
       const { spanID, begin, end } = shrinkedSpan
-      const nextSpan = getRightSpanElement(this._editor[0], spanID)
+      const nextSpan = getRightSpanElement(this._editorHTMLElement, spanID)
 
       // The span cross exists spans.
       if (
@@ -612,7 +612,7 @@ export default class SpanEditor {
 
   _shrink(selectionWrapper, spanID) {
     shrinkSpan(
-      this._editor[0],
+      this._editorHTMLElement,
       this._annotationData,
       this._selectionModel,
       this._commander,
