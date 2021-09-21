@@ -1,4 +1,5 @@
 import { diff } from 'jsondiffpatch'
+import delegate from 'delegate'
 import Pallet from '../Pallet'
 import bindAttributeEvent from './bindAttributeEvent'
 import createContentHtml from './createContentHtml'
@@ -21,6 +22,20 @@ export default class TypeValuesPallet extends Pallet {
     this._annotationData = annotationData
     this._definitionContainer = definitionContainer
     this._selectionModelItems = selectionModelEntity
+
+    delegate(
+      this._el,
+      `.textae-editor__type-pallet__read-button`,
+      'click',
+      () => editor.eventEmitter.emit('textae-event.pallet.read-button.click')
+    )
+
+    delegate(
+      this._el,
+      '.textae-editor__type-pallet__write-button',
+      'click',
+      () => editor.eventEmitter.emit('textae-event.pallet.write-button.click')
+    )
 
     bindAttributeEvent(this, this._el, commander, selectionModelEntity)
 
