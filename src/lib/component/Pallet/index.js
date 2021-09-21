@@ -6,13 +6,13 @@ import setWidthWithin from './setWidthWithin'
 import setHeightWithin from './setHeightWithin'
 
 export default class Pallet {
-  constructor(editor, annotationType, title) {
-    this._editorHTMLElement = editor[0]
+  constructor(editorHTMLElement, annotationType, title) {
+    this._editorHTMLElement = editorHTMLElement
     this._title = title
     this._el = createPalletElement(annotationType)
 
     // let the pallet draggable.
-    enableJqueryDraggable(this._el, editor[0])
+    enableJqueryDraggable(this._el, editorHTMLElement)
 
     // bugfix: Shortcut keys do not work after operating palette buttons.
     //
@@ -25,7 +25,9 @@ export default class Pallet {
     // 2. preventDefault changes default operations other than focus. Difficult to investigate impact range
     // 3. Operations that focus on a specific DOM element will work in any browser
     // 4. Refocusing on a focused DOM element has no side effects
-    delegate(this._el, '[type="button"]', 'click', () => editor[0].focus())
+    delegate(this._el, '[type="button"]', 'click', () =>
+      editorHTMLElement.focus()
+    )
 
     delegate(
       this._el,

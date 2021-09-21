@@ -15,7 +15,7 @@ export default class TypeValuesPallet extends Pallet {
     commander,
     title
   ) {
-    super(editor, 'entity', title)
+    super(editor[0], 'entity', title)
 
     this._eventEmitter = editor.eventEmitter
     this._originalData = originalData
