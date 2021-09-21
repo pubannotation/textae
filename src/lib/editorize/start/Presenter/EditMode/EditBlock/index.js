@@ -40,7 +40,7 @@ export default class EditBlock extends Edit {
       autocompletionWs || annotationData.typeDefinition.autocompletionWs
 
     const handler = new EditBlockHandler(
-      editor,
+      editor[0],
       annotationData.typeDefinition.block,
       commander,
       annotationData,
