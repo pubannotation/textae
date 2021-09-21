@@ -28,6 +28,10 @@ export default class InstanceMethods {
     this._isActive = false
   }
 
+  get isActive() {
+    return this._isActive
+  }
+
   handleKeyInput(event) {
     this._keyEventMap.handle(this._isActive, event)
   }

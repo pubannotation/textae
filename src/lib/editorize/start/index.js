@@ -16,6 +16,7 @@ import AnnotationAutoSaver from './AnnotationAutoSaver'
 import observe from './observe'
 import ControlBar from '../control/ControlBar'
 import ContextMenu from '../control/ContextMenu'
+import KeyEventMap from './InstanceMethods/KeyEventMap'
 
 export default function (
   editor,
@@ -158,8 +159,13 @@ export default function (
   const contextMenu = new ContextMenu(editor, buttonController)
   editor[0].appendChild(contextMenu.el)
 
+  const keyEventMap = new KeyEventMap(
+    commander,
+    presenter,
+    persistenceInterface
+  )
   editor[0].addEventListener('keyup', (event) => {
     contextMenu.hide()
-    editor.instanceMethods.handleKeyInput(event)
+    keyEventMap.handle(editor.instanceMethods.isActive, event)
   })
 }
