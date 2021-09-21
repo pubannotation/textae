@@ -215,7 +215,7 @@ export default class SpanEditor {
     const spanID = selectionWrapper.ancestorBlockSpanOfFocusNode.id
 
     shrinkSpan(
-      this._editor,
+      this._editor[0],
       this._annotationData,
       this._selectionModel,
       this._commander,
