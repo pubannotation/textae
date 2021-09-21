@@ -4,7 +4,7 @@ import hasCharacters from '../hasCharacters'
 import expandSpan from '../expandSpan'
 import shrinkSpan from '../shrinkSpan'
 import create from './create'
-import SelectionWrapper from '../SelectionWrapper'
+import SelectionWrapper from '../../../SelectionWrapper'
 import validateNewBlockSpan from './validateNewBlockSpan'
 import getRightSpanElement from '../../../../getRightSpanElement'
 

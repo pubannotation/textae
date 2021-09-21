@@ -5,7 +5,7 @@ import shrinkSpan from '../../shrinkSpan'
 import expandSpan from '../../expandSpan'
 import hasCharacters from '../../hasCharacters'
 import getIsDelimiterFunc from '../../../getIsDelimiterFunc'
-import SelectionWrapper from '../../SelectionWrapper'
+import SelectionWrapper from '../../../../SelectionWrapper'
 import isPositionBetweenSpan from './isPositionBetweenSpan'
 import getRightSpanElement from '../../../../../getRightSpanElement'
 
