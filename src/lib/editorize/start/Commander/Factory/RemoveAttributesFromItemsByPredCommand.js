@@ -6,7 +6,6 @@ export default class RemoveAttributesFromItemsByPredCommand extends CompositeCom
     super()
 
     const removeAttributeCommands = getRemoveAttributesByPredCommands(
-      editor,
       annotationData,
       items,
       attributeDefinition.pred

@@ -16,7 +16,6 @@ export default class ToggleFlagAttributeToItemsCommand extends CompositeCommand 
 
     // Toggle exisitng flag type attributes
     const removeAttributeCommands = getRemoveAttributesByPredCommands(
-      editor,
       annotationData,
       items,
       attributeDefinition.pred
