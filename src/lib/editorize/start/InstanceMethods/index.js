@@ -1,5 +1,3 @@
-import IconEventMap from './IconEventMap'
-
 export default class InstanceMethods {
   constructor(
     commander,
@@ -8,13 +6,6 @@ export default class InstanceMethods {
     buttonController,
     view
   ) {
-    this._iconEventMap = new IconEventMap(
-      commander,
-      presenter,
-      persistenceInterface,
-      view,
-      buttonController
-    )
     this._view = view
     this._buttonController = buttonController
     this._presenter = presenter
@@ -23,10 +14,6 @@ export default class InstanceMethods {
 
   get isActive() {
     return this._isActive
-  }
-
-  handleButtonClick(key) {
-    this._iconEventMap.handle(key)
   }
 
   redraw() {
