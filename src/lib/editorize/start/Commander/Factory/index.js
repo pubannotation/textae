@@ -54,7 +54,7 @@ export default class Factory {
 
   changeAttributeObjOfItemsCommand(items, attributeDefinition, newObj) {
     return new ChangeAttributeObjOfItemsCommand(
-      this._editor,
+      this._editor.eventEmitter,
       this._annotationData,
       items,
       attributeDefinition,

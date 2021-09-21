@@ -2,7 +2,7 @@ import CompositeCommand from './CompositeCommand'
 import ChangeAttributeCommand from './ChangeAttributeCommand'
 
 export default class ChangeAttributeObjOfItemsCommand extends CompositeCommand {
-  constructor(editor, annotationData, items, attrDef, newObj) {
+  constructor(eventEmitter, annotationData, items, attrDef, newObj) {
     super()
 
     const effectedAttributes = []
@@ -23,7 +23,7 @@ export default class ChangeAttributeObjOfItemsCommand extends CompositeCommand {
 
     if (effectedAttributes.length) {
       this._afterInvoke = () =>
-        editor.eventEmitter.emit(
+        eventEmitter.emit(
           'textae-event.commander.attributes.change',
           effectedAttributes
         )
