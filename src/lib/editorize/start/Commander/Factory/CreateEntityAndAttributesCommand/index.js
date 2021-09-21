@@ -3,14 +3,7 @@ import CompositeCommand from '../CompositeCommand'
 import CreateAttributeToTheLatestEntityCommand from './CreateAttributeToTheLatestEntityCommand'
 
 export default class CreateEntityAndAttributesCommand extends CompositeCommand {
-  constructor(
-    editor,
-    annotationData,
-    selectionModel,
-    span,
-    typeName,
-    attributes
-  ) {
+  constructor(annotationData, selectionModel, span, typeName, attributes) {
     super()
 
     this._subCommands = [

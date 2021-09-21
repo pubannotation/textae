@@ -11,7 +11,6 @@ export default class PasteTypesToSelectedSpansCommand extends CompositeCommand {
         typeValuesList.map(
           (typeValues) =>
             new CreateEntityAndAttributesCommand(
-              editor,
               annotationData,
               selectionModel,
               span,

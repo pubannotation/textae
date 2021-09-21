@@ -28,7 +28,6 @@ export default class CreateSpanAndTypesCommand extends CompositeCommand {
       typeValuesList.map(
         (typeValues) =>
           new CreateEntityAndAttributesCommand(
-            editor,
             annotationData,
             selectionModel,
             spanId,
