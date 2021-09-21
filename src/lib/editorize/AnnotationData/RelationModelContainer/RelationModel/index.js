@@ -107,7 +107,7 @@ export default class RelationModel {
 
   render() {
     const connection = new SVGConnection(
-      this._editor,
+      this._editor[0],
       this,
       this._namespace,
       this._definitionContainer,
