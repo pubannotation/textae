@@ -8,7 +8,6 @@ import toContextMenuItem from './toContextMenuItem'
 export default class ContextMenu extends Control {
   constructor(editor, buttonController, iconEventMap) {
     super(
-      editor,
       `<div class="textae-control ${
         isTouchDevice() ? 'textae-android-context-menu' : 'textae-context-menu'
       }"></div>`,

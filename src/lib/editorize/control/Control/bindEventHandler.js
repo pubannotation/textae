@@ -3,7 +3,7 @@ import HelpDialog from '../../../component/HelpDialog'
 
 const helpDialog = new HelpDialog()
 
-export default function (el, editor, iconEventMap) {
+export default function (el, iconEventMap) {
   // Bind eventhandler
   delegate(el, '.textae-control-icon', 'mousedown', ({ target }) => {
     // Ignore disabled button's events.
