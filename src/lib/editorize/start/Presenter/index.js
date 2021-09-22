@@ -185,4 +185,8 @@ export default class Presenter {
       this._vertical.down()
     }
   }
+
+  applyTextSelection() {
+    this._editMode.currentEdit.applyTextSelection()
+  }
 }

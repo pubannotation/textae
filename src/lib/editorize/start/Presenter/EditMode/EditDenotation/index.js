@@ -71,6 +71,7 @@ export default class EditDenotation extends Edit {
 
     this._spanEdtior = spanEditor
     this._mouseEventHandler = mouseEventHandler
+    this._buttonController = buttonController
   }
 
   createSpan() {
@@ -83,5 +84,9 @@ export default class EditDenotation extends Edit {
 
   shrinkSpan() {
     this._spanEdtior.shrinkForTouchDevice()
+  }
+
+  applyTextSelection() {
+    this._buttonController.applyTextSelection()
   }
 }

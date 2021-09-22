@@ -47,7 +47,8 @@ export default class EditMode {
       selectionModel,
       commander,
       originalData,
-      autocompletionWs
+      autocompletionWs,
+      buttonController
     )
 
     this._listeners = []

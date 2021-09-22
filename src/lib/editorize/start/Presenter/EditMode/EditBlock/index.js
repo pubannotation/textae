@@ -68,6 +68,7 @@ export default class EditBlock extends Edit {
     )
 
     this._spanEdtior = spanEditor
+    this._buttonController = buttonController
   }
 
   createSpan() {
@@ -80,5 +81,9 @@ export default class EditBlock extends Edit {
 
   shrinkSpan() {
     this._spanEdtior.shrinkForTouchDevice()
+  }
+
+  applyTextSelection() {
+    this._buttonController.applyTextSelection()
   }
 }

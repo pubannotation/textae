@@ -12,7 +12,8 @@ export default class EditRelation extends Edit {
     selectionModel,
     commander,
     originalData,
-    autocompletionWs
+    autocompletionWs,
+    buttonController
   ) {
     const relationPallet = new TypeValuesPallet(
       editorHTMLElement,
@@ -54,5 +55,11 @@ export default class EditRelation extends Edit {
       getAutocompletionWs,
       annotationData.typeDefinition.relation
     )
+
+    this._buttonController = buttonController
+  }
+
+  applyTextSelection() {
+    this._buttonController.applyTextSelection()
   }
 }
