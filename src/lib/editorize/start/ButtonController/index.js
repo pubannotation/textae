@@ -104,6 +104,14 @@ export default class ButtonController {
     }
   }
 
+  updateManipulateSpanButtons(enableToCreate, enableToExpand, enableToShrink) {
+    this._enableState.updateManipulateSpanButtons(
+      enableToCreate,
+      enableToExpand,
+      enableToShrink
+    )
+  }
+
   applyTextSelection() {
     this._enableState.applyTextSelection()
   }

@@ -60,6 +60,6 @@ export default class EditRelation extends Edit {
   }
 
   applyTextSelection() {
-    this._buttonController.applyTextSelection()
+    this._buttonController.updateManipulateSpanButtons(false, false, false)
   }
 }

@@ -26,7 +26,7 @@ export default class InstanceMethods {
 
   applyTextSelection() {
     if (this._isActive) {
-      this._buttonController.applyTextSelection()
+      this._presenter.applyTextSelection()
     }
   }
 }
