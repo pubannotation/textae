@@ -151,7 +151,8 @@ export default class EditMode {
             if (href) {
               window.open(href, '_blank')
             }
-          }
+          },
+          applyTextSelection() {}
         }
     }
   }
