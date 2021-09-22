@@ -128,6 +128,13 @@ export default class EnableState {
     this._propagate()
   }
 
+  updateManipulateSpanButtons(enableToCreate, enableToExpand, enableToShrink) {
+    this._states.set('create-span', enableToCreate)
+    this._states.set('expand-span', enableToExpand)
+    this._states.set('shrink-span', enableToShrink)
+    this._propagate()
+  }
+
   applyTextSelection() {
     if (isRangeInTextBox(window.getSelection(), this._textBox)) {
       const { begin, end } = new OrderedPositions(
@@ -135,13 +142,13 @@ export default class EnableState {
       )
       const isSelectionTextCrossingAnySpan =
         this._spanModelContainer.isBoundaryCrossingWithOtherSpans(begin, end)
-      this._states.set('create-span', !isSelectionTextCrossingAnySpan)
-      this._states.set('expand-span', isSelectionTextCrossingAnySpan)
-      this._states.set('shrink-span', isSelectionTextCrossingAnySpan)
+      this.updateManipulateSpanButtons(
+        !isSelectionTextCrossingAnySpan,
+        isSelectionTextCrossingAnySpan,
+        isSelectionTextCrossingAnySpan
+      )
     } else {
-      this._states.set('create-span', false)
-      this._states.set('expand-span', false)
-      this._states.set('shrink-span', false)
+      this.updateManipulateSpanButtons(false, false, false)
     }
     this._propagate()
   }
