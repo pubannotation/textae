@@ -52,7 +52,7 @@ export default class EditMode {
 
     this._listeners = []
 
-    this.stateMachine = new StateMachine(
+    this._stateMachine = new StateMachine(
       editor,
       annotationData,
       () => {
@@ -74,27 +74,31 @@ export default class EditMode {
     )
   }
 
+  get stateMachine() {
+    return this._stateMachine
+  }
+
   get isEditDenotation() {
     return (
-      this.stateMachine.currentState === MODE.EDIT_DENOTATION_WITH_RELATION ||
-      this.stateMachine.currentState === MODE.EDIT_DENOTATION_WITHOUT_RELATION
+      this._stateMachine.currentState === MODE.EDIT_DENOTATION_WITH_RELATION ||
+      this._stateMachine.currentState === MODE.EDIT_DENOTATION_WITHOUT_RELATION
     )
   }
 
   // For an intiation transition on an annotations data loaded.
   forView() {
     if (isSimple(this._annotationData)) {
-      this.stateMachine.setState(MODE.VIEW_WITHOUT_RELATION)
+      this._stateMachine.setState(MODE.VIEW_WITHOUT_RELATION)
     } else {
-      this.stateMachine.setState(MODE.VIEW_WITH_RELATION)
+      this._stateMachine.setState(MODE.VIEW_WITH_RELATION)
     }
   }
 
   forEditable() {
     if (isSimple(this._annotationData)) {
-      this.stateMachine.setState(MODE.EDIT_DENOTATION_WITHOUT_RELATION)
+      this._stateMachine.setState(MODE.EDIT_DENOTATION_WITHOUT_RELATION)
     } else {
-      this.stateMachine.setState(MODE.EDIT_DENOTATION_WITH_RELATION)
+      this._stateMachine.setState(MODE.EDIT_DENOTATION_WITH_RELATION)
     }
   }
 
@@ -124,7 +128,7 @@ export default class EditMode {
   }
 
   get currentEdit() {
-    switch (this.stateMachine.currentState) {
+    switch (this._stateMachine.currentState) {
       case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
       case MODE.EDIT_DENOTATION_WITH_RELATION:
         return this._editDenotation
