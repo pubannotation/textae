@@ -2,6 +2,31 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.25.0](https://github.com/pubannotation/textae/compare/v7.24.0...v7.25.0) (2021-09-22)
+
+
+### Features
+
+* Change the order of the arrows in the relations going in and out of the entity to up, down, down, up ([d2bc7fe](https://github.com/pubannotation/textae/commit/d2bc7fea4e78c0b69e9ded11dd29350d6ae80f5c))
+* Enable/disable status of context menu buttons depending on the selected text ([1372a05](https://github.com/pubannotation/textae/commit/1372a05127d1f731a5a3da23bcea5dd85ecf3dd3))
+* For touch devices, show disabled button in context menu ([c6a2a8f](https://github.com/pubannotation/textae/commit/c6a2a8fc4e9f37b5ece1fa0391de898798e0bd24))
+* In relation mode, span operation buttons in context menu are always disabled ([fe0aafa](https://github.com/pubannotation/textae/commit/fe0aafaec9d267e470178e68a0d46dc80c2538ab))
+* Make an error when there is no span to delete ([c992583](https://github.com/pubannotation/textae/commit/c992583a289d3515a39607f0a98fb9a8d290539a))
+* Make the disabled button in the context menu stop working when it is pressed ([07fab7f](https://github.com/pubannotation/textae/commit/07fab7fd1094af990a9e6e8da40abfb751461101))
+* On mobile devices, do not shrink the block span when the selected text fits into one block span ([f1025d4](https://github.com/pubannotation/textae/commit/f1025d4c0e0b861f783aade300f7c477553fe4e6))
+* On mobile devices, do not shrink the denotation span when the selected text fits into one denotation span ([341bf47](https://github.com/pubannotation/textae/commit/341bf470e489edd59f49356b74ae80ab11519a51))
+* Stop showing icons for mobile devices on PCs with touch devices such as Surface ([c09f358](https://github.com/pubannotation/textae/commit/c09f3586c97094d7f3c791d911f764775ed62c9f))
+
+
+### Bug Fixes
+
+* Changing the value of an attribute definition will cause an error ([ff71559](https://github.com/pubannotation/textae/commit/ff71559d1d485bff0adfdac961d8b056ae14ff32))
+* Checking whether the block span after shrinking becomes a child span includes itself before shrinking. The block span cannot be shrunk. ([784b5e5](https://github.com/pubannotation/textae/commit/784b5e59a21bb54ec4dad63432bc3b020c909935))
+* Max assets size ([31b5f19](https://github.com/pubannotation/textae/commit/31b5f196b72bbf734a2e8cbd9d6fb8f851435a0f))
+* On a mobile device, when there is a style span on top of a denotation span, the extension operation selects the style span as the operation target ([3468552](https://github.com/pubannotation/textae/commit/3468552fa4cc1ed740800aedd58401e136430a8f))
+* When there is a style span on top of the denotation span, the style span is mistakenly targeted when shrinking the denotation span on mobile devices ([d80aeae](https://github.com/pubannotation/textae/commit/d80aeaee65b3559e65e76b9954ba752282f4ddea))
+* When you select an entity, the relation is highlighted. However, when the window is resized, the relationship highlighting disappears even though the entity selection has not changed ([10ffba9](https://github.com/pubannotation/textae/commit/10ffba9a7cd3da90ac619d178c18514365ac3d1b))
+
 ## [7.24.0](https://github.com/pubannotation/textae/compare/v7.23.0...v7.24.0) (2021-09-08)
 
 
