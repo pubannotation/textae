@@ -6,21 +6,8 @@ import buttonConfig from '../../buttonConfig'
 import isTouchDevice from '../../isTouchDevice'
 
 export default class ButtonController {
-  constructor(
-    eventEmitter,
-    selectionModel,
-    clipBoard,
-    annotationWatcher,
-    textBox,
-    SpanModelContainer
-  ) {
-    this._enableState = new EnableState(
-      eventEmitter,
-      selectionModel,
-      clipBoard,
-      textBox,
-      SpanModelContainer
-    )
+  constructor(eventEmitter, selectionModel, clipBoard, annotationWatcher) {
+    this._enableState = new EnableState(eventEmitter, selectionModel, clipBoard)
     // Save state of push control buttons.
     this._pushButtons = new PushButtons(eventEmitter)
 
@@ -110,9 +97,5 @@ export default class ButtonController {
       enableToExpand,
       enableToShrink
     )
-  }
-
-  applyTextSelection() {
-    this._enableState.applyTextSelection()
   }
 }

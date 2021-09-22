@@ -46,9 +46,7 @@ export default function (
     editor.eventEmitter,
     selectionModel,
     clipBoard,
-    annotationWatcher,
-    editor[0].querySelector('.textae-editor__text-box'),
-    annotationData.span
+    annotationWatcher
   )
   const view = new View(editor.eventEmitter, annotationData)
   const statusBar = getStatusBar(editor, params.get('status_bar'))

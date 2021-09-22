@@ -4,6 +4,9 @@ import SpanEditor from './SpanEditor'
 import Edit from '../Edit'
 import bindMouseEvents from './bindMouseEvents'
 import TypeValuesPallet from '../../../../../component/TypeValuesPallet'
+import isRangeInTextBox from '../../../isRangeInTextBox'
+import OrderedPositions from '../../../OrderedPositions'
+import SelectionWrapper from '../../../SelectionWrapper'
 
 export default class EditDenotation extends Edit {
   constructor(
@@ -72,6 +75,8 @@ export default class EditDenotation extends Edit {
     this._spanEdtior = spanEditor
     this._mouseEventHandler = mouseEventHandler
     this._buttonController = buttonController
+    this._textBox = editorHTMLElement.querySelector('.textae-editor__text-box')
+    this._spanModelContainer = annotationData.span
   }
 
   createSpan() {
@@ -87,6 +92,19 @@ export default class EditDenotation extends Edit {
   }
 
   applyTextSelection() {
-    this._buttonController.applyTextSelection()
+    if (isRangeInTextBox(window.getSelection(), this._textBox)) {
+      const { begin, end } = new OrderedPositions(
+        new SelectionWrapper(this._spanModelContainer).positionsOnAnnotation
+      )
+      const isSelectionTextCrossingAnySpan =
+        this._spanModelContainer.isBoundaryCrossingWithOtherSpans(begin, end)
+      this._buttonController.updateManipulateSpanButtons(
+        !isSelectionTextCrossingAnySpan,
+        isSelectionTextCrossingAnySpan,
+        isSelectionTextCrossingAnySpan
+      )
+    } else {
+      this._buttonController.updateManipulateSpanButtons(false, false, false)
+    }
   }
 }

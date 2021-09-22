@@ -1,17 +1,8 @@
 import buttonConfig from '../../buttonConfig'
 import { MODE } from '../../../MODE'
-import SelectionWrapper from '../SelectionWrapper'
-import OrderedPositions from '../OrderedPositions'
-import isRangeInTextBox from '../isRangeInTextBox'
 
 export default class EnableState {
-  constructor(
-    eventEmitter,
-    selectionModel,
-    clipBoard,
-    textBox,
-    spanModelContainer
-  ) {
+  constructor(eventEmitter, selectionModel, clipBoard) {
     // Enable always enabled buttons.
     this._states = new Map([
       ['read', true],
@@ -28,8 +19,6 @@ export default class EnableState {
     this._eventEmitter = eventEmitter
     this._selectionModel = selectionModel
     this._clipBoard = clipBoard
-    this._textBox = textBox
-    this._spanModelContainer = spanModelContainer
 
     eventEmitter
       .on('textae-event.history.change', (history) => {
@@ -132,24 +121,6 @@ export default class EnableState {
     this._states.set('create-span', enableToCreate)
     this._states.set('expand-span', enableToExpand)
     this._states.set('shrink-span', enableToShrink)
-    this._propagate()
-  }
-
-  applyTextSelection() {
-    if (isRangeInTextBox(window.getSelection(), this._textBox)) {
-      const { begin, end } = new OrderedPositions(
-        new SelectionWrapper(this._spanModelContainer).positionsOnAnnotation
-      )
-      const isSelectionTextCrossingAnySpan =
-        this._spanModelContainer.isBoundaryCrossingWithOtherSpans(begin, end)
-      this.updateManipulateSpanButtons(
-        !isSelectionTextCrossingAnySpan,
-        isSelectionTextCrossingAnySpan,
-        isSelectionTextCrossingAnySpan
-      )
-    } else {
-      this.updateManipulateSpanButtons(false, false, false)
-    }
     this._propagate()
   }
 
