@@ -4,9 +4,9 @@ import MouseEventHandler from './MouseEventHandler'
 import Edit from '../Edit'
 import EditBlockHandler from './EditBlockHandler'
 import TypeValuesPallet from '../../../../../component/TypeValuesPallet'
-import isRangeInTextBox from '../../../isRangeInTextBox'
-import OrderedPositions from '../../../OrderedPositions'
-import SelectionWrapper from '../../../SelectionWrapper'
+import isRangeInTextBox from '../isRangeInTextBox'
+import OrderedPositions from '../OrderedPositions'
+import SelectionWrapper from '../SelectionWrapper'
 
 export default class EditBlock extends Edit {
   constructor(

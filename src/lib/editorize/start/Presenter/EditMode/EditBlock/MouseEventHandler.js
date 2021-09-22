@@ -1,8 +1,8 @@
 import clearTextSelection from '../clearTextSelection'
-import SelectionWrapper from '../../../SelectionWrapper'
+import SelectionWrapper from '../SelectionWrapper'
 import getEntityHTMLelementFromChild from '../../../getEntityHTMLelementFromChild'
 import selectSpan from '../selectSpan'
-import isRangeInTextBox from '../../../isRangeInTextBox'
+import isRangeInTextBox from '../isRangeInTextBox'
 
 export default class MouseEventHandler {
   constructor(

@@ -4,9 +4,9 @@ import SpanEditor from './SpanEditor'
 import Edit from '../Edit'
 import bindMouseEvents from './bindMouseEvents'
 import TypeValuesPallet from '../../../../../component/TypeValuesPallet'
-import isRangeInTextBox from '../../../isRangeInTextBox'
-import OrderedPositions from '../../../OrderedPositions'
-import SelectionWrapper from '../../../SelectionWrapper'
+import isRangeInTextBox from '../isRangeInTextBox'
+import OrderedPositions from '../OrderedPositions'
+import SelectionWrapper from '../SelectionWrapper'
 
 export default class EditDenotation extends Edit {
   constructor(

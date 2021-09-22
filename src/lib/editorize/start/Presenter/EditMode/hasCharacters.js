@@ -1,4 +1,4 @@
-import OrderedPositions from '../../OrderedPositions'
+import OrderedPositions from './OrderedPositions'
 
 // A span cannot be created include nonEdgeCharacters only.
 export default function (annotationData, spanConfig, selectionWrapper) {
