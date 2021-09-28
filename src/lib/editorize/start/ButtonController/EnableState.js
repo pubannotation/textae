@@ -30,7 +30,7 @@ export default class EnableState {
       .on('textae-event.selection.relation.change', () => this._updateButtons())
       .on('textae-event.selection.entity.change', () => this._updateButtons())
       .on('textae-event.edit-mode.transition', (mode) => this.setForMode(mode))
-      .on('textae-event.clip-board.change', () => this.updateByClipboard())
+      .on('textae-event.clip-board.change', () => this._updateByClipboard())
       .on('textae-event.annotation-auto-saver.enable', (enable) =>
         this.enable('write-auto', enable)
       )
@@ -65,7 +65,7 @@ export default class EnableState {
     this._propagate()
   }
 
-  updateByClipboard() {
+  _updateByClipboard() {
     this.enable(
       'paste',
       buttonConfig.pasteButton.enableWhenSelecting(
