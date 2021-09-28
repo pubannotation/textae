@@ -56,17 +56,14 @@ export default class EnableState {
 
   updateBySpan() {
     this._updateButtons()
-    this._propagate()
   }
 
   updateByEntity() {
     this._updateButtons()
-    this._propagate()
   }
 
   updateByRelation() {
     this._updateButtons()
-    this._propagate()
   }
 
   _updateButtons() {
@@ -74,6 +71,7 @@ export default class EnableState {
       const enabled = predicate(this._selectionModel, this._clipBoard)
       this.enable(name, enabled)
     }
+    this._propagate()
   }
 
   updateByClipboard() {
