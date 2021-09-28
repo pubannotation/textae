@@ -56,9 +56,7 @@ class Config {
 
   _getEnabelButtonsWhenSelecting(denotationType) {
     return this._buttons
-      .filter(
-        (b) => b.enableWhenSelecting && b.enableWhenSelecting[denotationType]
-      )
+      .filter((b) => b.enableWhenSelecting)
       .map((b) => ({
         name: b.type,
         predicate: (selectionModel, clipboard) =>
