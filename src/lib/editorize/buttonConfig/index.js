@@ -60,7 +60,7 @@ class Config {
       .map((b) => ({
         name: b.type,
         predicate: (selectionModel, clipboard) =>
-          Object.values(b.enableWhenSelecting).reduce(
+          b.enableWhenSelecting.reduce(
             (result, predicate) =>
               result || predicate(selectionModel, clipboard),
             false
