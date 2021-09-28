@@ -57,8 +57,10 @@ export default class EnableState {
       type,
       enableWhenSelecting
     } of buttonConfig.enabelButtonsWhenSelecting) {
-      const enabled = enableWhenSelecting(this._selectionModel, this._clipBoard)
-      this.enable(type, enabled)
+      this.enable(
+        type,
+        enableWhenSelecting(this._selectionModel, this._clipBoard)
+      )
     }
     this._propagate()
   }
