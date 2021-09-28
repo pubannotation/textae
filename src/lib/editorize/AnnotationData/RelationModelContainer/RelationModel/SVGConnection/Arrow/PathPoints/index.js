@@ -1,6 +1,5 @@
-import { MarkerHeight } from '../MarkerHeight'
 import getControlXs from './getControlXs'
-import getXPositions from './getXPositions'
+import getSourceAndTarget from './getSourceAndTarget'
 
 export default class PathPoints {
   constructor(
@@ -9,34 +8,30 @@ export default class PathPoints {
     alignSourceBollards,
     alignTargetBollards
   ) {
-    const [source, target] = getXPositions(
+    const [source, target] = getSourceAndTarget(
       sourceEntity,
       targetEntity,
       alignSourceBollards,
       alignTargetBollards
     )
-    const sourceY =
-      sourceEntity.top - MarkerHeight - (alignSourceBollards ? 3 : 0)
-    const targetY =
-      targetEntity.top - MarkerHeight - (alignTargetBollards ? 3 : 0)
 
     const { sourceControlX, targetControlX } = getControlXs(
       source.x,
-      sourceY,
+      source.y,
       target.x,
-      targetY,
+      target.y,
       sourceEntity.bottom,
       targetEntity.bottom
     )
 
     const controlY =
-      Math.min(sourceY, targetY) -
+      Math.min(source.y, target.y) -
       Math.abs(target.x - source.x) / 2 -
       20 +
       (alignSourceBollards && alignTargetBollards ? 3 : 0)
 
-    this.sourceY = sourceY
-    this.targetY = targetY
+    this.sourceY = source.y
+    this.targetY = target.y
     this.controlY = controlY
     this.sourceX = source.x
     this.targetX = target.x
