@@ -41,18 +41,26 @@ export default function (
   if (centerOfSource < centerOfTarget) {
     return [
       {
-        x: rightSource
+        x: rightSource,
+        anchor: 'right'
       },
       {
-        x: rightSource < leftTarget ? leftTarget : rightTarget
+        x: rightSource < leftTarget ? leftTarget : rightTarget,
+        anchro: rightSource < leftTarget ? 'left' : 'right'
       }
     ]
   } else if (centerOfTarget < centerOfSource) {
     return [
-      { x: leftSource },
-      { x: leftSource < rightTarget ? leftTarget : rightTarget }
+      { x: leftSource, anchor: 'left' },
+      {
+        x: leftSource < rightTarget ? leftTarget : rightTarget,
+        anchor: leftSource < rightTarget ? 'left' : 'right'
+      }
     ]
   }
 
-  return [{ x: centerOfSource }, { x: centerOfTarget }]
+  return [
+    { x: centerOfSource, anchor: 'center' },
+    { x: centerOfTarget, anchor: 'center' }
+  ]
 }
