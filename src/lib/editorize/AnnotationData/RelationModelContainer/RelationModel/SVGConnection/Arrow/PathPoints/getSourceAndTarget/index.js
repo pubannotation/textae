@@ -1,7 +1,7 @@
 import { MarkerHeight } from '../../MarkerHeight'
 import getXPositions from './getXPositions'
 
-export default function getSourceAndTarget(
+export default function (
   sourceEntity,
   targetEntity,
   alignSourceBollards,
