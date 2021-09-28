@@ -55,17 +55,17 @@ export default class EnableState {
   }
 
   updateBySpan() {
-    this._updateButtons(buttonConfig.spanButtons)
+    this._updateButtons(buttonConfig.enabelButtonsWhenSelecting)
     this._propagate()
   }
 
   updateByEntity() {
-    this._updateButtons(buttonConfig.entityButtons)
+    this._updateButtons(buttonConfig.enabelButtonsWhenSelecting)
     this._propagate()
   }
 
   updateByRelation() {
-    this._updateButtons(buttonConfig.relationButtons)
+    this._updateButtons(buttonConfig.enabelButtonsWhenSelecting)
     this._propagate()
   }
 
