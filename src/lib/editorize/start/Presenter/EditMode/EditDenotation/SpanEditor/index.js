@@ -103,6 +103,14 @@ export default class SpanEditor {
     }
   }
 
+  cerateSpanForTouchDevice() {
+    const selectionWrapper = new SelectionWrapper(this._annotationData.span)
+
+    if (selectionWrapper.isParentOfBothNodesSame) {
+      this._create(selectionWrapper)
+    }
+  }
+
   expandForTouchDevice() {
     const expandedSpan = this._getExpandedSpanForTouchDevice()
     if (expandedSpan) {

@@ -80,7 +80,7 @@ export default class EditDenotation extends Edit {
   }
 
   createSpan() {
-    this._mouseEventHandler.textBoxClicked()
+    this._spanEdtior.cerateSpanForTouchDevice()
   }
 
   expandSpan() {
