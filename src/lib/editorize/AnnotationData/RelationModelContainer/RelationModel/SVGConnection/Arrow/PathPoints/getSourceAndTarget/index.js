@@ -1,4 +1,5 @@
 import { MarkerHeight } from '../../MarkerHeight'
+import determineAnchorPositions from './determineAnchorPositions'
 import getXPositions from './getXPositions'
 
 export default function (
@@ -12,13 +13,19 @@ export default function (
   const targetY =
     targetEntity.top - MarkerHeight - (alignTargetBollards ? 3 : 0)
 
-  const [source, target] = getXPositions(
+  const anchorPostions = determineAnchorPositions(
     sourceEntity,
     targetEntity,
     alignSourceBollards,
-    alignTargetBollards,
+    alignTargetBollards
+  )
+
+  const [source, target] = getXPositions(
+    sourceEntity,
+    targetEntity,
     sourceY,
-    targetY
+    targetY,
+    anchorPostions
   )
 
   return [

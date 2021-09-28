@@ -1,5 +1,3 @@
-import determineAnchorPositions from './determineAnchorPositions'
-
 export const DistanceToShift = 8
 // Leave a gap half the width of the triangle so that the triangle does not intersect the vertical line.
 export const MinimumDistance = DistanceToShift * 3 + 4
@@ -7,18 +5,11 @@ export const MinimumDistance = DistanceToShift * 3 + 4
 export default function (
   sourceEntity,
   targetEntity,
-  alignSourceBollards,
-  alignTargetBollards,
   sourceY,
-  targetY
+  targetY,
+  anchorPostions
 ) {
-  const { leftTarget, leftSource, rightTarget, rightSource } =
-    determineAnchorPositions(
-      sourceEntity,
-      targetEntity,
-      alignSourceBollards,
-      alignTargetBollards
-    )
+  const { leftTarget, leftSource, rightTarget, rightSource } = anchorPostions
   const centerOfSource = sourceEntity.center
   const centerOfTarget = targetEntity.center
 
