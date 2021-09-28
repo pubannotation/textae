@@ -61,7 +61,12 @@ class Config {
       )
       .map((b) => ({
         name: b.type,
-        predicate: b.enableWhenSelecting[denotationType]
+        predicate: (selectionModel, clipboard) =>
+          Object.values(b.enableWhenSelecting).reduce(
+            (result, predicate) =>
+              result || predicate(selectionModel, clipboard),
+            false
+          )
       }))
   }
 
