@@ -54,7 +54,7 @@ class Config {
     return config.map(({ list }) => list).flat()
   }
 
-  _getEnabelButtonsWhenSelecting(denotationType) {
+  _getEnabelButtonsWhenSelecting() {
     return this._buttons
       .filter((b) => b.enableWhenSelecting)
       .map((b) => ({
@@ -69,15 +69,15 @@ class Config {
   }
 
   get spanButtons() {
-    return this._getEnabelButtonsWhenSelecting('span')
+    return this._getEnabelButtonsWhenSelecting()
   }
 
   get entityButtons() {
-    return this._getEnabelButtonsWhenSelecting('entity')
+    return this._getEnabelButtonsWhenSelecting()
   }
 
   get relationButtons() {
-    return this._getEnabelButtonsWhenSelecting('relation')
+    return this._getEnabelButtonsWhenSelecting()
   }
 
   get pushButtons() {
