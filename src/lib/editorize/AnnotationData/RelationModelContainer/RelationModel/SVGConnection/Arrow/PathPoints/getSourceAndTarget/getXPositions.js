@@ -6,7 +6,9 @@ export default function (
   sourceEntity,
   targetEntity,
   alignSourceBollards,
-  alignTargetBollards
+  alignTargetBollards,
+  sourceY,
+  targetY
 ) {
   // When the entity width is small and the endpoint is displayed in the center of the entity and the entity has only one endpoint,
   // hovering will not move the entity left or right.
@@ -42,27 +44,58 @@ export default function (
     ]
   }
 
-  // When the left and right positions of the entities are close
-  // and the left and right positions of the endpoints are opposite to the left and right positions of the entities,
-  //  move the endpoints to the source side.
-  if (centerOfSource < centerOfTarget) {
-    return [
-      {
-        x: rightSource,
-        anchor: 'right'
-      },
-      {
-        x: rightSource < leftTarget ? leftTarget : rightTarget,
-        anchro: rightSource < leftTarget ? 'left' : 'right'
-      }
-    ]
-  } else if (centerOfTarget < centerOfSource) {
-    return [
-      { x: leftSource, anchor: 'left' },
-      {
-        x: leftSource < rightTarget ? leftTarget : rightTarget,
-        anchor: leftSource < rightTarget ? 'left' : 'right'
-      }
-    ]
+  if (sourceY < targetY) {
+    const source =
+      centerOfSource < centerOfTarget
+        ? {
+            x: rightSource,
+            anchor: 'right'
+          }
+        : {
+            x: leftSource,
+            anchor: 'left'
+          }
+    const target = {
+      x: source.x < centerOfTarget ? leftTarget : rightTarget,
+      anchro: source.x < centerOfTarget ? 'left' : 'right'
+    }
+
+    return [source, target]
+  } else if (sourceY > targetY) {
+    const target =
+      centerOfSource < centerOfTarget
+        ? {
+            x: leftTarget,
+            anchor: 'left'
+          }
+        : { x: rightTarget, anchor: 'right' }
+    const source = {
+      x: target.x < centerOfSource ? leftSource : rightSource,
+      anchr: target.x < centerOfSource ? 'left' : 'right'
+    }
+    return [source, target]
+  } else {
+    // When the source and target entities have the same height
+    // Prevent source and target X coordinates from being swapped.
+    if (centerOfSource < centerOfTarget) {
+      return [
+        {
+          x: rightSource,
+          anchor: 'right'
+        },
+        {
+          x: rightSource < leftTarget ? leftTarget : rightTarget,
+          anchro: rightSource < leftTarget ? 'left' : 'right'
+        }
+      ]
+    } else if (centerOfTarget < centerOfSource) {
+      return [
+        { x: leftSource, anchor: 'left' },
+        {
+          x: leftSource < rightTarget ? leftTarget : rightTarget,
+          anchor: leftSource < rightTarget ? 'left' : 'right'
+        }
+      ]
+    }
   }
 }

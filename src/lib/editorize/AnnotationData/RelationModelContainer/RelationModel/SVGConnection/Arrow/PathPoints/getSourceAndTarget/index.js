@@ -16,7 +16,9 @@ export default function (
     sourceEntity,
     targetEntity,
     alignSourceBollards,
-    alignTargetBollards
+    alignTargetBollards,
+    sourceY,
+    targetY
   )
 
   return [
