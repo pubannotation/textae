@@ -67,17 +67,16 @@ export default function (
         }
       ]
     } else if (centerOfTarget < centerOfSource) {
+      const targetAnchor =
+        anchorPositions.source.left < anchorPositions.target.right
+          ? 'left'
+          : 'right'
+
       return [
-        { x: anchorPositions.source.left, anchor: 'left' },
+        { anchor: 'left', x: anchorPositions.source.left },
         {
-          x:
-            anchorPositions.source.left < anchorPositions.target.right
-              ? anchorPositions.target.left
-              : anchorPositions.target.right,
-          anchor:
-            anchorPositions.source.left < anchorPositions.target.right
-              ? 'left'
-              : 'right'
+          anchor: targetAnchor,
+          x: anchorPositions.target[targetAnchor]
         }
       ]
     }
