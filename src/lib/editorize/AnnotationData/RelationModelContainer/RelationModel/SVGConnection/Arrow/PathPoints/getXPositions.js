@@ -5,14 +5,14 @@ const MinimumDistance = DistanceToShift * 3 + 4
 export default function (
   sourceEntity,
   targetEntity,
-  alingSourceBollards,
+  alignSourceBollards,
   alignTargetBollards
 ) {
   // When the entity width is small and the endpoint is displayed in the center of the entity and the entity has only one endpoint,
   // hovering will not move the entity left or right.
   const isSourceJettyDeployed =
     sourceEntity.width / 2 >= MinimumDistance ||
-    (sourceEntity.hasMultipleEndpoints && alingSourceBollards)
+    (sourceEntity.hasMultipleEndpoints && alignSourceBollards)
 
   const isTargetJettyDeployed =
     targetEntity.width / 2 >= MinimumDistance ||
