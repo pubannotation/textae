@@ -26,11 +26,9 @@ export default class EnableState {
         this.enable('undo', history.hasAnythingToUndo)
         this.enable('redo', history.hasAnythingToRedo)
       })
-      .on('textae-event.selection.span.change', () => this.updateBySpan())
-      .on('textae-event.selection.relation.change', () =>
-        this.updateByRelation()
-      )
-      .on('textae-event.selection.entity.change', () => this.updateByEntity())
+      .on('textae-event.selection.span.change', () => this._updateButtons())
+      .on('textae-event.selection.relation.change', () => this._updateButtons())
+      .on('textae-event.selection.entity.change', () => this._updateButtons())
       .on('textae-event.edit-mode.transition', (mode) => this.setForMode(mode))
       .on('textae-event.clip-board.change', () => this.updateByClipboard)
       .on('textae-event.annotation-auto-saver.enable', (enable) =>
@@ -52,18 +50,6 @@ export default class EnableState {
   enable(button, enable) {
     this._states.set(button, enable)
     this._propagate()
-  }
-
-  updateBySpan() {
-    this._updateButtons()
-  }
-
-  updateByEntity() {
-    this._updateButtons()
-  }
-
-  updateByRelation() {
-    this._updateButtons()
   }
 
   _updateButtons() {
