@@ -13,7 +13,7 @@ export default function (
   const targetY =
     targetEntity.top - MarkerHeight - (alignTargetBollards ? 3 : 0)
 
-  const anchorPostions = determineAnchorPositions(
+  const anchorPositions = determineAnchorPositions(
     sourceEntity,
     targetEntity,
     alignSourceBollards,
@@ -25,7 +25,7 @@ export default function (
     targetEntity,
     sourceY,
     targetY,
-    anchorPostions
+    anchorPositions
   )
 
   return [
