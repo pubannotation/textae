@@ -35,6 +35,13 @@ export default function (
     ? centerOfSource + DistanceToShift * 3
     : centerOfSource
 
+  if (centerOfSource === centerOfTarget) {
+    return [
+      { x: centerOfSource, anchor: 'center' },
+      { x: centerOfTarget, anchor: 'center' }
+    ]
+  }
+
   // When the left and right positions of the entities are close
   // and the left and right positions of the endpoints are opposite to the left and right positions of the entities,
   //  move the endpoints to the source side.
@@ -58,9 +65,4 @@ export default function (
       }
     ]
   }
-
-  return [
-    { x: centerOfSource, anchor: 'center' },
-    { x: centerOfTarget, anchor: 'center' }
-  ]
 }
