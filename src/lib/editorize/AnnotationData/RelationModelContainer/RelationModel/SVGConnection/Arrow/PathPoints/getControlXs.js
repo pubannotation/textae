@@ -1,3 +1,5 @@
+import bentSignificantly from './bentSignificantly'
+
 // When the source endpoint and target endpoint are close, bent the relationship significantly.
 export default function (
   source,
@@ -13,18 +15,4 @@ export default function (
   }
 
   return bentSignificantly(source, target)
-}
-
-function bentSignificantly(source, target) {
-  if (source.y < target.y) {
-    return {
-      sourceControlX: source.x,
-      targetControlX: target.x + (source.x <= target.x + 16 ? 150 : -150)
-    }
-  } else {
-    return {
-      sourceControlX: source.x + (source.x <= target.x + 16 ? 150 : -150),
-      targetControlX: target.x
-    }
-  }
 }
