@@ -22,28 +22,28 @@ export default function (
   if (sourceY < targetY) {
     const sourceAnchor = centerOfSource < centerOfTarget ? 'right' : 'left'
     const source = {
-      x: anchorPositions.source[sourceAnchor],
-      anchor: sourceAnchor
+      anchor: sourceAnchor,
+      x: anchorPositions.source[sourceAnchor]
     }
 
     const targetAnchor = source.x < centerOfTarget ? 'left' : 'right'
     const target = {
-      x: anchorPositions.target[targetAnchor],
-      anchor: targetAnchor
+      anchor: targetAnchor,
+      x: anchorPositions.target[targetAnchor]
     }
 
     return [source, target]
   } else if (sourceY > targetY) {
     const targetAnchor = centerOfSource < centerOfTarget ? 'left' : 'right'
     const target = {
-      x: anchorPositions.target[targetAnchor],
-      anchor: targetAnchor
+      anchor: targetAnchor,
+      x: anchorPositions.target[targetAnchor]
     }
 
     const sourceAnchor = target.x < centerOfSource ? 'left' : 'right'
     const source = {
-      x: anchorPositions.source[sourceAnchor],
-      anchr: sourceAnchor
+      anchr: sourceAnchor,
+      x: anchorPositions.source[sourceAnchor]
     }
 
     return [source, target]
