@@ -1,20 +1,18 @@
 // When the source endpoint and target endpoint are close, bent the relationship significantly.
 export default function (
-  sourceX,
-  sourceY,
-  targetX,
-  targetY,
+  source,
+  target,
   sourceEntityBottom,
   targetEntityBottom
 ) {
   if (
     Math.abs(sourceEntityBottom - targetEntityBottom) < 12 ||
-    42 < Math.abs(targetX - sourceX)
+    42 < Math.abs(target.x - source.x)
   ) {
-    return { sourceControlX: sourceX, targetControlX: targetX }
+    return { sourceControlX: source.x, targetControlX: target.x }
   }
 
-  return bentSignificantly(sourceX, sourceY, targetX, targetY)
+  return bentSignificantly(source.x, source.y, target.x, target.y)
 }
 
 function bentSignificantly(sourceX, sourceY, targetX, targetY) {
