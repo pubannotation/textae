@@ -54,7 +54,7 @@ class Config {
     return config.map(({ list }) => list).flat()
   }
 
-  getEnabelButtonsWhenSelecting() {
+  get enabelButtonsWhenSelecting() {
     return this._buttons
       .filter((b) => b.enableWhenSelecting)
       .map((b) => ({
@@ -64,15 +64,15 @@ class Config {
   }
 
   get spanButtons() {
-    return this.getEnabelButtonsWhenSelecting()
+    return this.enabelButtonsWhenSelecting
   }
 
   get entityButtons() {
-    return this.getEnabelButtonsWhenSelecting()
+    return this.enabelButtonsWhenSelecting
   }
 
   get relationButtons() {
-    return this.getEnabelButtonsWhenSelecting()
+    return this.enabelButtonsWhenSelecting
   }
 
   get pushButtons() {
