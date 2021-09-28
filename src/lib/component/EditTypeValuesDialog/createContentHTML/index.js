@@ -41,6 +41,7 @@ export default function (
               type="button" 
               class="textae-editor__edit-type-values-dialog__add-attribute textae-editor__edit-type-values-dialog__add-attribute--${valueType}"
               data-pred="${pred}"
+              title="${valueType} type"
               ${
                 attributes.some(
                   (i) =>
