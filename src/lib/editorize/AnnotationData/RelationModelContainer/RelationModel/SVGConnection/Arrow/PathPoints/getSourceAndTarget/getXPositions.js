@@ -20,40 +20,32 @@ export default function (
   }
 
   if (sourceY < targetY) {
-    const source =
-      centerOfSource < centerOfTarget
-        ? {
-            x: anchorPositions.source.right,
-            anchor: 'right'
-          }
-        : {
-            x: anchorPositions.source.left,
-            anchor: 'left'
-          }
+    const sourceAnchor = centerOfSource < centerOfTarget ? 'right' : 'left'
+    const source = {
+      x: anchorPositions.source[sourceAnchor],
+      anchor: sourceAnchor
+    }
+
+    const targetAnchor = source.x < centerOfTarget ? 'left' : 'right'
     const target = {
-      x:
-        source.x < centerOfTarget
-          ? anchorPositions.target.left
-          : anchorPositions.target.right,
-      anchro: source.x < centerOfTarget ? 'left' : 'right'
+      x: anchorPositions.target[targetAnchor],
+      anchor: targetAnchor
     }
 
     return [source, target]
   } else if (sourceY > targetY) {
-    const target =
-      centerOfSource < centerOfTarget
-        ? {
-            x: anchorPositions.target.left,
-            anchor: 'left'
-          }
-        : { x: anchorPositions.target.right, anchor: 'right' }
-    const source = {
-      x:
-        target.x < centerOfSource
-          ? anchorPositions.source.left
-          : anchorPositions.source.right,
-      anchr: target.x < centerOfSource ? 'left' : 'right'
+    const targetAnchor = centerOfSource < centerOfTarget ? 'left' : 'right'
+    const target = {
+      x: anchorPositions.target[targetAnchor],
+      anchor: targetAnchor
     }
+
+    const sourceAnchor = target.x < centerOfSource ? 'left' : 'right'
+    const source = {
+      x: anchorPositions.source[sourceAnchor],
+      anchr: sourceAnchor
+    }
+
     return [source, target]
   } else {
     // When the source and target entities have the same height
