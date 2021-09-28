@@ -50,8 +50,8 @@ class Config {
     }
   }
 
-  get copyButton() {
-    return this.enabelButtonsWhenSelecting.find(({ name }) => name === 'copy')
+  get pasteButton() {
+    return this._buttons.find(({ type }) => type === 'paste')
   }
 
   get enabelButtonsWhenSelecting() {
