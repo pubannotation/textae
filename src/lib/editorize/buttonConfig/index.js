@@ -54,10 +54,6 @@ class Config {
     return this.enabelButtonsWhenSelecting.find(({ name }) => name === 'copy')
   }
 
-  get _buttons() {
-    return config.map(({ list }) => list).flat()
-  }
-
   get enabelButtonsWhenSelecting() {
     return this._buttons
       .filter((b) => b.enableWhenSelecting)
@@ -69,6 +65,10 @@ class Config {
 
   get pushButtons() {
     return this._buttons.filter((b) => b.push).map((b) => b.type)
+  }
+
+  get _buttons() {
+    return config.map(({ list }) => list).flat()
   }
 }
 
