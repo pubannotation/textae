@@ -93,13 +93,15 @@ export default class EditDenotation extends Edit {
 
   applyTextSelection() {
     if (isRangeInTextBox(window.getSelection(), this._textBox)) {
+      const selectionWrapper = new SelectionWrapper(this._spanModelContainer)
       const { begin, end } = new OrderedPositions(
-        new SelectionWrapper(this._spanModelContainer).positionsOnAnnotation
+        selectionWrapper.positionsOnAnnotation
       )
       const isSelectionTextCrossingAnySpan =
         this._spanModelContainer.isBoundaryCrossingWithOtherSpans(begin, end)
+
       this._buttonController.updateManipulateSpanButtons(
-        !isSelectionTextCrossingAnySpan,
+        selectionWrapper.isParentOfBothNodesSame,
         isSelectionTextCrossingAnySpan,
         isSelectionTextCrossingAnySpan
       )
