@@ -1,4 +1,4 @@
-import { MinimumDistance, DistanceToShift } from './getXPositions'
+import { MinimumDistance, DistanceToShift } from './determineXPositions'
 
 export default function (
   sourceEntity,
