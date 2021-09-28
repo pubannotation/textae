@@ -40,39 +40,9 @@ export default class EnableState {
     return this._states.get(button)
   }
 
-  _propagate() {
-    this._eventEmitter.emit(
-      'textae-event.control.buttons.change',
-      this._states.keys()
-    )
-  }
-
   enable(button, enable) {
     this._states.set(button, enable)
     this._propagate()
-  }
-
-  _updateButtons() {
-    for (const {
-      type,
-      enableWhenSelecting
-    } of buttonConfig.enabelButtonsWhenSelecting) {
-      this.enable(
-        type,
-        enableWhenSelecting(this._selectionModel, this._clipBoard)
-      )
-    }
-    this._propagate()
-  }
-
-  _updateByClipboard() {
-    this.enable(
-      'paste',
-      buttonConfig.pasteButton.enableWhenSelecting(
-        this._selectionModel,
-        this._clipBoard
-      )
-    )
   }
 
   setForMode(mode) {
@@ -111,6 +81,36 @@ export default class EnableState {
     this._states.set('expand-span', enableToExpand)
     this._states.set('shrink-span', enableToShrink)
     this._propagate()
+  }
+
+  _updateButtons() {
+    for (const {
+      type,
+      enableWhenSelecting
+    } of buttonConfig.enabelButtonsWhenSelecting) {
+      this.enable(
+        type,
+        enableWhenSelecting(this._selectionModel, this._clipBoard)
+      )
+    }
+    this._propagate()
+  }
+
+  _updateByClipboard() {
+    this.enable(
+      'paste',
+      buttonConfig.pasteButton.enableWhenSelecting(
+        this._selectionModel,
+        this._clipBoard
+      )
+    )
+  }
+
+  _propagate() {
+    this._eventEmitter.emit(
+      'textae-event.control.buttons.change',
+      this._states.keys()
+    )
   }
 
   _updateButtonsForMode(
