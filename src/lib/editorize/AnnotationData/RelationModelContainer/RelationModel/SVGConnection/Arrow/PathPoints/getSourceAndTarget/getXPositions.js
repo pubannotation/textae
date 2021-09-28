@@ -1,6 +1,8 @@
-const DistanceToShift = 8
+import determineAnchorPositions from './determineAnchorPositions'
+
+export const DistanceToShift = 8
 // Leave a gap half the width of the triangle so that the triangle does not intersect the vertical line.
-const MinimumDistance = DistanceToShift * 3 + 4
+export const MinimumDistance = DistanceToShift * 3 + 4
 
 export default function (
   sourceEntity,
@@ -10,32 +12,15 @@ export default function (
   sourceY,
   targetY
 ) {
-  // When the entity width is small and the endpoint is displayed in the center of the entity and the entity has only one endpoint,
-  // hovering will not move the entity left or right.
-  const isSourceJettyDeployed =
-    sourceEntity.width / 2 >= MinimumDistance ||
-    (sourceEntity.hasMultipleEndpoints && alignSourceBollards)
-
-  const isTargetJettyDeployed =
-    targetEntity.width / 2 >= MinimumDistance ||
-    (targetEntity.hasMultipleEndpoints && alignTargetBollards)
-
+  const { leftTarget, leftSource, rightTarget, rightSource } =
+    determineAnchorPositions(
+      sourceEntity,
+      targetEntity,
+      alignSourceBollards,
+      alignTargetBollards
+    )
   const centerOfSource = sourceEntity.center
   const centerOfTarget = targetEntity.center
-
-  // Shift only when the entity has enough width to shift the endpoint.
-  const leftTarget = isTargetJettyDeployed
-    ? centerOfTarget - DistanceToShift
-    : centerOfTarget
-  const leftSource = isSourceJettyDeployed
-    ? centerOfSource - DistanceToShift * 3
-    : centerOfSource
-  const rightTarget = isTargetJettyDeployed
-    ? centerOfTarget + DistanceToShift
-    : centerOfTarget
-  const rightSource = isSourceJettyDeployed
-    ? centerOfSource + DistanceToShift * 3
-    : centerOfSource
 
   if (centerOfSource === centerOfTarget) {
     return [
