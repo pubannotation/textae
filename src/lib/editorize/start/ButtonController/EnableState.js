@@ -45,37 +45,6 @@ export default class EnableState {
     this._propagate()
   }
 
-  _setForMode(mode) {
-    switch (mode) {
-      case MODE.VIEW_WITHOUT_RELATION:
-      case MODE.VIEW_WITH_RELATION:
-        this._updateButtonsForMode(
-          true,
-          false,
-          false,
-          false,
-          false,
-          false,
-          false
-        )
-        break
-      case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
-      case MODE.EDIT_DENOTATION_WITH_RELATION:
-        this._updateButtonsForMode(true, true, true, true, true, true, true)
-        break
-      case MODE.EDIT_BLOCK_WITHOUT_RELATION:
-      case MODE.EDIT_BLOCK_WITH_RELATION:
-        this._updateButtonsForMode(true, false, true, true, true, true, true)
-        break
-      case MODE.EDIT_RELATION:
-        this._updateButtonsForMode(false, false, false, true, true, false, true)
-        break
-      default:
-        throw `unknown edit mode!${mode}`
-    }
-    this._propagate()
-  }
-
   updateManipulateSpanButtons(enableToCreate, enableToExpand, enableToShrink) {
     this._states.set('create-span', enableToCreate)
     this._states.set('expand-span', enableToExpand)
@@ -111,6 +80,37 @@ export default class EnableState {
       'textae-event.control.buttons.change',
       this._states.keys()
     )
+  }
+
+  _setForMode(mode) {
+    switch (mode) {
+      case MODE.VIEW_WITHOUT_RELATION:
+      case MODE.VIEW_WITH_RELATION:
+        this._updateButtonsForMode(
+          true,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        )
+        break
+      case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
+      case MODE.EDIT_DENOTATION_WITH_RELATION:
+        this._updateButtonsForMode(true, true, true, true, true, true, true)
+        break
+      case MODE.EDIT_BLOCK_WITHOUT_RELATION:
+      case MODE.EDIT_BLOCK_WITH_RELATION:
+        this._updateButtonsForMode(true, false, true, true, true, true, true)
+        break
+      case MODE.EDIT_RELATION:
+        this._updateButtonsForMode(false, false, false, true, true, false, true)
+        break
+      default:
+        throw `unknown edit mode!${mode}`
+    }
+    this._propagate()
   }
 
   _updateButtonsForMode(
