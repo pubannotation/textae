@@ -48,7 +48,7 @@ export default function (
                     String(i.obj) ===
                       String(attributeContainer.get(pred).default)
                 )
-                  ? `disabled="disabled" title="There is an attribute with a default value."`
+                  ? `disabled="disabled" title="This predicate is already used with its default value."`
                   : ''
               }> ${pred}</button>`
         )
