@@ -53,9 +53,12 @@ export default class EnableState {
   }
 
   _updateButtons() {
-    for (const { name, predicate } of buttonConfig.enabelButtonsWhenSelecting) {
-      const enabled = predicate(this._selectionModel, this._clipBoard)
-      this.enable(name, enabled)
+    for (const {
+      type,
+      enableWhenSelecting
+    } of buttonConfig.enabelButtonsWhenSelecting) {
+      const enabled = enableWhenSelecting(this._selectionModel, this._clipBoard)
+      this.enable(type, enabled)
     }
     this._propagate()
   }
@@ -65,7 +68,7 @@ export default class EnableState {
   }
 
   get _enablePaste() {
-    return buttonConfig.copyButton.predicate(
+    return buttonConfig.copyButton.enableWhenSelecting(
       this._selectionModel,
       this._clipBoard
     )

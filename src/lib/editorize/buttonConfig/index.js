@@ -55,12 +55,7 @@ class Config {
   }
 
   get enabelButtonsWhenSelecting() {
-    return this._buttons
-      .filter((b) => b.enableWhenSelecting)
-      .map((b) => ({
-        name: b.type,
-        predicate: b.enableWhenSelecting
-      }))
+    return this._buttons.filter((b) => b.enableWhenSelecting)
   }
 
   get pushButtons() {
