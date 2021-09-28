@@ -50,6 +50,10 @@ class Config {
     }
   }
 
+  get copyButton() {
+    return this.enabelButtonsWhenSelecting.find(({ name }) => name === 'copy')
+  }
+
   get _buttons() {
     return config.map(({ list }) => list).flat()
   }

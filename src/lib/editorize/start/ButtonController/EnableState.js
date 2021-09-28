@@ -81,9 +81,10 @@ export default class EnableState {
   }
 
   get _enablePaste() {
-    return buttonConfig.enabelButtonsWhenSelecting
-      .find(({ name }) => name === 'copy')
-      .predicate(this._selectionModel, this._clipBoard)
+    return buttonConfig.copyButton.predicate(
+      this._selectionModel,
+      this._clipBoard
+    )
   }
 
   setForMode(mode) {
