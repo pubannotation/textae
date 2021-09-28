@@ -55,22 +55,22 @@ export default class EnableState {
   }
 
   updateBySpan() {
-    this._updateButtons(buttonConfig.enabelButtonsWhenSelecting)
+    this._updateButtons()
     this._propagate()
   }
 
   updateByEntity() {
-    this._updateButtons(buttonConfig.enabelButtonsWhenSelecting)
+    this._updateButtons()
     this._propagate()
   }
 
   updateByRelation() {
-    this._updateButtons(buttonConfig.enabelButtonsWhenSelecting)
+    this._updateButtons()
     this._propagate()
   }
 
-  _updateButtons(buttons) {
-    for (const { name, predicate } of buttons) {
+  _updateButtons() {
+    for (const { name, predicate } of buttonConfig.enabelButtonsWhenSelecting) {
       const enabled = predicate(this._selectionModel, this._clipBoard)
       this.enable(name, enabled)
     }
