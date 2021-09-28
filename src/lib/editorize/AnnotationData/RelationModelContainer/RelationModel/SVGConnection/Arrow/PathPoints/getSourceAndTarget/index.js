@@ -1,4 +1,4 @@
-import { MarkerHeight } from '../MarkerHeight'
+import { MarkerHeight } from '../../MarkerHeight'
 import getXPositions from './getXPositions'
 
 export default function getSourceAndTarget(
