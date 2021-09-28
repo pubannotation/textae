@@ -63,18 +63,6 @@ class Config {
       }))
   }
 
-  get spanButtons() {
-    return this.enabelButtonsWhenSelecting
-  }
-
-  get entityButtons() {
-    return this.enabelButtonsWhenSelecting
-  }
-
-  get relationButtons() {
-    return this.enabelButtonsWhenSelecting
-  }
-
   get pushButtons() {
     return this._buttons.filter((b) => b.push).map((b) => b.type)
   }
