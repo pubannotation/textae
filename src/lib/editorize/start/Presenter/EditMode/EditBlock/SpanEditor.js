@@ -124,6 +124,14 @@ export default class SpanEditor {
     clearTextSelection()
   }
 
+  cerateSpanForTouchDevice() {
+    const selectionWrapper = new SelectionWrapper(this._annotationData.span)
+
+    if (selectionWrapper.isParentOfBothNodesTextBox) {
+      this._create(selectionWrapper)
+    }
+  }
+
   expandForTouchDevice() {
     const expandedSpan = this._getExpandedSpanForTouchDevice()
     if (expandedSpan) {

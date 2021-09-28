@@ -77,7 +77,7 @@ export default class EditBlock extends Edit {
   }
 
   createSpan() {
-    this._mouseEventHandler.textBoxClicked()
+    this._spanEdtior.cerateSpanForTouchDevice()
   }
 
   expandSpan() {
@@ -90,13 +90,15 @@ export default class EditBlock extends Edit {
 
   applyTextSelection() {
     if (isRangeInTextBox(window.getSelection(), this._textBox)) {
+      const selectionWrapper = new SelectionWrapper(this._spanModelContainer)
       const { begin, end } = new OrderedPositions(
-        new SelectionWrapper(this._spanModelContainer).positionsOnAnnotation
+        selectionWrapper.positionsOnAnnotation
       )
       const isSelectionTextCrossingAnySpan =
         this._spanModelContainer.isBoundaryCrossingWithOtherSpans(begin, end)
+
       this._buttonController.updateManipulateSpanButtons(
-        !isSelectionTextCrossingAnySpan,
+        selectionWrapper.isParentOfBothNodesTextBox,
         isSelectionTextCrossingAnySpan,
         isSelectionTextCrossingAnySpan
       )

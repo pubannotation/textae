@@ -53,6 +53,10 @@ export default class SelectionWrapper {
     return this.parentOfAnchorNode === this.parentOfFocusNode
   }
 
+  get isParentOfBothNodesTextBox() {
+    return this.isParentOfAnchorNodeTextBox && this.isParentOfFocusNodeTextBox
+  }
+
   get isParentsParentOfAnchorNodeAndFocusedNodeSame() {
     return (
       this.parentOfAnchorNode.parentElement ===
