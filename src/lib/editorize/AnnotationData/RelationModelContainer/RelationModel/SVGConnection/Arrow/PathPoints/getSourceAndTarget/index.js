@@ -20,13 +20,7 @@ export default function (
     alignTargetBollards
   )
 
-  const [source, target] = getXPositions(
-    sourceEntity,
-    targetEntity,
-    sourceY,
-    targetY,
-    anchorPositions
-  )
+  const [source, target] = getXPositions(sourceY, targetY, anchorPositions)
 
   return [
     { y: sourceY, ...source },
