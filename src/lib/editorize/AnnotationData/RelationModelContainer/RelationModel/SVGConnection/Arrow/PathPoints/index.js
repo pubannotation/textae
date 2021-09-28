@@ -9,7 +9,7 @@ export default class PathPoints {
     alignSourceBollards,
     alignTargetBollards
   ) {
-    const { source: sourceX, target: targetX } = getXPositions(
+    const [source, target] = getXPositions(
       sourceEntity,
       targetEntity,
       alignSourceBollards,
@@ -21,9 +21,9 @@ export default class PathPoints {
       targetEntity.top - MarkerHeight - (alignTargetBollards ? 3 : 0)
 
     const { sourceControlX, targetControlX } = getControlXs(
-      sourceX,
+      source.x,
       sourceY,
-      targetX,
+      target.x,
       targetY,
       sourceEntity.bottom,
       targetEntity.bottom
@@ -31,15 +31,15 @@ export default class PathPoints {
 
     const controlY =
       Math.min(sourceY, targetY) -
-      Math.abs(targetX - sourceX) / 2 -
+      Math.abs(target.x - source.x) / 2 -
       20 +
       (alignSourceBollards && alignTargetBollards ? 3 : 0)
 
     this.sourceY = sourceY
     this.targetY = targetY
     this.controlY = controlY
-    this.sourceX = sourceX
-    this.targetX = targetX
+    this.sourceX = source.x
+    this.targetX = target.x
     this.sourceControlX = sourceControlX
     this.targetControlX = targetControlX
   }

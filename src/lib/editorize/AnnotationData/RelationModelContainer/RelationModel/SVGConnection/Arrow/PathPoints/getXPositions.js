@@ -39,16 +39,20 @@ export default function (
   // and the left and right positions of the endpoints are opposite to the left and right positions of the entities,
   //  move the endpoints to the source side.
   if (centerOfSource < centerOfTarget) {
-    return {
-      source: rightSource,
-      target: rightSource < leftTarget ? leftTarget : rightTarget
-    }
+    return [
+      {
+        x: rightSource
+      },
+      {
+        x: rightSource < leftTarget ? leftTarget : rightTarget
+      }
+    ]
   } else if (centerOfTarget < centerOfSource) {
-    return {
-      source: leftSource,
-      target: leftSource < rightTarget ? leftTarget : rightTarget
-    }
+    return [
+      { x: leftSource },
+      { x: leftSource < rightTarget ? leftTarget : rightTarget }
+    ]
   }
 
-  return { source: centerOfSource, target: centerOfTarget }
+  return [{ x: centerOfSource }, { x: centerOfTarget }]
 }
