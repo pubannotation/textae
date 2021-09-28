@@ -51,20 +51,19 @@ export default function (
     // When the source and target entities have the same height
     // Prevent source and target X coordinates from being swapped.
     if (centerOfSource < centerOfTarget) {
+      const targetAnchor =
+        anchorPositions.source.right < anchorPositions.target.left
+          ? 'left'
+          : 'right'
+
       return [
         {
-          x: anchorPositions.source.right,
-          anchor: 'right'
+          anchor: 'right',
+          x: anchorPositions.source.right
         },
         {
-          x:
-            anchorPositions.source.right < anchorPositions.target.left
-              ? anchorPositions.target.left
-              : anchorPositions.target.right,
-          anchro:
-            anchorPositions.source.right < anchorPositions.target.left
-              ? 'left'
-              : 'right'
+          anchor: targetAnchor,
+          x: anchorPositions.target[targetAnchor]
         }
       ]
     } else if (centerOfTarget < centerOfSource) {
