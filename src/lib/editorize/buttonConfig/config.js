@@ -134,8 +134,7 @@ export const config = [
           selectionModel.span.contains((s) => s.isDenotation)
       },
       {
-        type: 'pallet',
-        title: 'Show label list editor [Q]'
+        type: 'pallet'
       },
       {
         type: 'change-label',

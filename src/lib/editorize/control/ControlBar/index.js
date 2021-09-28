@@ -3,6 +3,7 @@ import isTouchDevice from '../../isTouchDevice'
 import toButtonGroup from './toButtonGroup'
 import Sticky from 'sticky-js'
 import classify from '../classify'
+import { MODE } from '../../../MODE'
 
 function template(context) {
   return `
@@ -70,6 +71,23 @@ export default class ControlBar extends Control {
       })
       .on('textae-event.control.writeButton.transit', () => {
         this._updateButton('write', 'transit')
+      })
+      .on('textae-event.edit-mode.transition', (mode) => {
+        const button = this._el.querySelector(`.textae-control-pallet-button`)
+
+        switch (mode) {
+          case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
+          case MODE.EDIT_DENOTATION_WITH_RELATION:
+          case MODE.EDIT_BLOCK_WITHOUT_RELATION:
+          case MODE.EDIT_BLOCK_WITH_RELATION:
+            button.title = 'Entity Configuration'
+            break
+          case MODE.EDIT_RELATION:
+            button.title = 'Relation Configuration'
+            break
+          default:
+            button.title = ''
+        }
       })
   }
 
