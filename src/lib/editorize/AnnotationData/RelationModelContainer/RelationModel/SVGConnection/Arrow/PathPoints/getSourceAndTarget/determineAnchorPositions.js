@@ -32,5 +32,8 @@ export default function (
     ? centerOfSource + DistanceToShift * 3
     : centerOfSource
 
-  return { leftTarget, leftSource, rightTarget, rightSource }
+  return {
+    source: { left: leftSource, right: rightSource },
+    target: { left: leftTarget, right: rightTarget }
+  }
 }

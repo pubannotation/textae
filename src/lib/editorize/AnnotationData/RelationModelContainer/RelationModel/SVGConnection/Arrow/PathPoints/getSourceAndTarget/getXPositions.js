@@ -7,9 +7,8 @@ export default function (
   targetEntity,
   sourceY,
   targetY,
-  anchorPostions
+  anchorPositions
 ) {
-  const { leftTarget, leftSource, rightTarget, rightSource } = anchorPostions
   const centerOfSource = sourceEntity.center
   const centerOfTarget = targetEntity.center
 
@@ -24,15 +23,18 @@ export default function (
     const source =
       centerOfSource < centerOfTarget
         ? {
-            x: rightSource,
+            x: anchorPositions.source.right,
             anchor: 'right'
           }
         : {
-            x: leftSource,
+            x: anchorPositions.source.left,
             anchor: 'left'
           }
     const target = {
-      x: source.x < centerOfTarget ? leftTarget : rightTarget,
+      x:
+        source.x < centerOfTarget
+          ? anchorPositions.target.left
+          : anchorPositions.target.right,
       anchro: source.x < centerOfTarget ? 'left' : 'right'
     }
 
@@ -41,12 +43,15 @@ export default function (
     const target =
       centerOfSource < centerOfTarget
         ? {
-            x: leftTarget,
+            x: anchorPositions.target.left,
             anchor: 'left'
           }
-        : { x: rightTarget, anchor: 'right' }
+        : { x: anchorPositions.target.right, anchor: 'right' }
     const source = {
-      x: target.x < centerOfSource ? leftSource : rightSource,
+      x:
+        target.x < centerOfSource
+          ? anchorPositions.source.left
+          : anchorPositions.source.right,
       anchr: target.x < centerOfSource ? 'left' : 'right'
     }
     return [source, target]
@@ -56,20 +61,32 @@ export default function (
     if (centerOfSource < centerOfTarget) {
       return [
         {
-          x: rightSource,
+          x: anchorPositions.source.right,
           anchor: 'right'
         },
         {
-          x: rightSource < leftTarget ? leftTarget : rightTarget,
-          anchro: rightSource < leftTarget ? 'left' : 'right'
+          x:
+            anchorPositions.source.right < anchorPositions.target.left
+              ? anchorPositions.target.left
+              : anchorPositions.target.right,
+          anchro:
+            anchorPositions.source.right < anchorPositions.target.left
+              ? 'left'
+              : 'right'
         }
       ]
     } else if (centerOfTarget < centerOfSource) {
       return [
-        { x: leftSource, anchor: 'left' },
+        { x: anchorPositions.source.left, anchor: 'left' },
         {
-          x: leftSource < rightTarget ? leftTarget : rightTarget,
-          anchor: leftSource < rightTarget ? 'left' : 'right'
+          x:
+            anchorPositions.source.left < anchorPositions.target.right
+              ? anchorPositions.target.left
+              : anchorPositions.target.right,
+          anchor:
+            anchorPositions.source.left < anchorPositions.target.right
+              ? 'left'
+              : 'right'
         }
       ]
     }
