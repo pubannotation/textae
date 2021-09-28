@@ -5,7 +5,8 @@ export default function (
   typeName,
   attributes,
   entityContainer,
-  attributeContainer
+  attributeContainer,
+  palletName
 ) {
   return `
     <div style="overflow-y: auto; max-height: 36em; overflow-x: hidden;">
@@ -29,7 +30,7 @@ export default function (
     </div>
     <fieldset>
       <legend>
-        <span class="textae-editor__edit-type-values-dialog__open-pallet"></span>
+        <span class="textae-editor__edit-type-values-dialog__open-pallet" title="${palletName} Configuration"></span>
         Available Predicates:
       </legend>
       <div class="textae-editor__edit-type-values-dialog__add-attribute-buttons">

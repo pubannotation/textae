@@ -33,6 +33,7 @@ export default class EditDenotationHandler extends DefaultHandler {
       new EditTypeValuesDialog(
         this._editorHTMLelement,
         'Entity',
+        'Entity',
         this._definitionContainer,
         this._annotationData.typeDefinition.attribute,
         this._getAutocompletionWs(),

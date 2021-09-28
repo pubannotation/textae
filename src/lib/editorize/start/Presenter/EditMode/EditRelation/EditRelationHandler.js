@@ -33,6 +33,7 @@ export default class EditRelationHandler extends DefaultHandler {
       new EditTypeValuesDialog(
         this._editorHTMLElement,
         'Relation',
+        'Relation',
         this._definitionContainer,
         this._annotationData.typeDefinition.attribute,
         this._getAutocompletionWs(),

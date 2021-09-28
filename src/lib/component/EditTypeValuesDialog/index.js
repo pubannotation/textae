@@ -12,6 +12,7 @@ export default class EditTypeValuesDialog extends PromiseDialog {
   constructor(
     editorHTMLElement,
     annotationType,
+    palletName,
     entityContainer,
     attributeContainer,
     autocompletionWs,
@@ -23,7 +24,8 @@ export default class EditTypeValuesDialog extends PromiseDialog {
       typeName,
       attributes,
       entityContainer,
-      attributeContainer
+      attributeContainer,
+      palletName
     )
 
     super(
