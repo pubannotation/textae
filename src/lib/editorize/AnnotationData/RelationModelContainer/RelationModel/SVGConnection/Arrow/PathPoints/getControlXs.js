@@ -12,19 +12,19 @@ export default function (
     return { sourceControlX: source.x, targetControlX: target.x }
   }
 
-  return bentSignificantly(source.x, source.y, target.x, target.y)
+  return bentSignificantly(source, target)
 }
 
-function bentSignificantly(sourceX, sourceY, targetX, targetY) {
-  if (sourceY < targetY) {
+function bentSignificantly(source, target) {
+  if (source.y < target.y) {
     return {
-      sourceControlX: sourceX,
-      targetControlX: targetX + (sourceX <= targetX + 16 ? 150 : -150)
+      sourceControlX: source.x,
+      targetControlX: target.x + (source.x <= target.xF + 16 ? 150 : -150)
     }
   } else {
     return {
-      sourceControlX: sourceX + (sourceX <= targetX + 16 ? 150 : -150),
-      targetControlX: targetX
+      sourceControlX: source.x + (source.x <= target.xF + 16 ? 150 : -150),
+      targetControlX: target.xF
     }
   }
 }
