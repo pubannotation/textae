@@ -33,7 +33,7 @@ export default function (
     : centerOfSource
 
   return {
-    source: { left: leftSource, right: rightSource },
-    target: { left: leftTarget, right: rightTarget }
+    source: { left: leftSource, right: rightSource, center: centerOfSource },
+    target: { left: leftTarget, right: rightTarget, center: centerOfTarget }
   }
 }
