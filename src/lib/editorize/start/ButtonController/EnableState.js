@@ -66,13 +66,12 @@ export default class EnableState {
   }
 
   updateByClipboard() {
-    this.enable('paste', this._enablePaste)
-  }
-
-  get _enablePaste() {
-    return buttonConfig.copyButton.enableWhenSelecting(
-      this._selectionModel,
-      this._clipBoard
+    this.enable(
+      'paste',
+      buttonConfig.copyButton.enableWhenSelecting(
+        this._selectionModel,
+        this._clipBoard
+      )
     )
   }
 
