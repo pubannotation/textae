@@ -95,11 +95,8 @@ export const config = [
       {
         type: 'replicate',
         title: 'Replicate span annotation [R]',
-        enableWhenSelecting: [
-          (selectionModel) =>
-            selectionModel.span.single &&
-            selectionModel.span.single.isDenotation
-        ]
+        enableWhenSelecting: (selectionModel) =>
+          selectionModel.span.single && selectionModel.span.single.isDenotation
       },
       {
         type: 'replicate-auto',
@@ -133,10 +130,8 @@ export const config = [
       {
         type: 'entity',
         title: 'New entity [E]',
-        enableWhenSelecting: [
-          (selectionModel) =>
-            selectionModel.span.contains((s) => s.isDenotation)
-        ]
+        enableWhenSelecting: (selectionModel) =>
+          selectionModel.span.contains((s) => s.isDenotation)
       },
       {
         type: 'pallet',
@@ -145,10 +140,8 @@ export const config = [
       {
         type: 'change-label',
         title: 'Change label [W]',
-        enableWhenSelecting: [
-          (selectionModel) => selectionModel.entity.some,
-          (selectionModel) => selectionModel.relation.some
-        ]
+        enableWhenSelecting: (selectionModel) =>
+          selectionModel.entity.some || selectionModel.relation.some
       }
     ]
   },
@@ -161,40 +154,31 @@ export const config = [
       {
         type: 'delete',
         title: 'Delete [D]',
-        enableWhenSelecting: [
-          (selectionModel) => selectionModel.span.some,
-          (selectionModel) => selectionModel.entity.some,
-          (selectionModel) => selectionModel.relation.some
-        ]
+        enableWhenSelecting: (selectionModel) =>
+          selectionModel.span.some ||
+          selectionModel.entity.some ||
+          selectionModel.relation.some
       },
       {
         type: 'copy',
         title: 'Copy [C]',
-        enableWhenSelecting: [
-          (selectionModel) =>
-            selectionModel.span.contains((s) => s.isDenotation),
-          (selectionModel) =>
-            selectionModel.entity.contains((e) => e.isDenotation)
-        ]
+        enableWhenSelecting: (selectionModel) =>
+          selectionModel.span.contains((s) => s.isDenotation) ||
+          selectionModel.entity.contains((e) => e.isDenotation)
       },
       {
         type: 'cut',
         title: 'Cut [X]',
-        enableWhenSelecting: [
-          (selectionModel) =>
-            selectionModel.span.contains((s) => s.isDenotation),
-          (selectionModel) =>
-            selectionModel.entity.contains((e) => e.isDenotation)
-        ]
+        enableWhenSelecting: (selectionModel) =>
+          selectionModel.span.contains((s) => s.isDenotation) ||
+          selectionModel.entity.contains((e) => e.isDenotation)
       },
       {
         type: 'paste',
         title: 'Paste [V]',
-        enableWhenSelecting: [
-          (selectionModel, clipBoard) =>
-            (clipBoard.hasCopyingItem && selectionModel.span.some) ||
-            (clipBoard.hasCuttingItem && Boolean(selectionModel.span.single))
-        ]
+        enableWhenSelecting: (selectionModel, clipBoard) =>
+          (clipBoard.hasCopyingItem && selectionModel.span.some) ||
+          (clipBoard.hasCuttingItem && Boolean(selectionModel.span.single))
       }
     ]
   },

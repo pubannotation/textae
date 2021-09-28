@@ -59,12 +59,7 @@ class Config {
       .filter((b) => b.enableWhenSelecting)
       .map((b) => ({
         name: b.type,
-        predicate: (selectionModel, clipboard) =>
-          b.enableWhenSelecting.reduce(
-            (result, predicate) =>
-              result || predicate(selectionModel, clipboard),
-            false
-          )
+        predicate: b.enableWhenSelecting
       }))
   }
 
