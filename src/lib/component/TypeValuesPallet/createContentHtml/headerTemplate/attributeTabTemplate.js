@@ -1,7 +1,8 @@
 export default function ({ pred }, index, array, selectedPred) {
   // Moving an attribute to before or after the current position does not change the position.
   const droppable =
-    pred !== selectedPred && index > 1 && array[index - 1].pred !== selectedPred
+    pred !== selectedPred &&
+    (array[index - 1] ? array[index - 1].pred !== selectedPred : true)
 
   return `
     ${
