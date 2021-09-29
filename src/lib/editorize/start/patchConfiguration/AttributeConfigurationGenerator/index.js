@@ -1,4 +1,4 @@
-import fillInferDefinitionFormAnnotation from './fillInferDefinitionFormAnnotation'
+import fillInferDefinitionFromAnnotation from './fillInferDefinitionFromAnnotation'
 import fillDefaultValueOfSelectionAttributes from './fillDefaultValueOfSelectionAttributes'
 import fillMandatoryValueOfNumericAttributes from './fillMandatoryValueOfNumericAttributes'
 import fillDefaultValueOfStringAttributes from './fillDefaultValueOfStringAttributes'
@@ -10,7 +10,7 @@ export default class AttributeConfigurationGenerator {
   }
 
   get configuration() {
-    let newConfig = fillInferDefinitionFormAnnotation(
+    let newConfig = fillInferDefinitionFromAnnotation(
       this._config,
       this._annotations
     )
