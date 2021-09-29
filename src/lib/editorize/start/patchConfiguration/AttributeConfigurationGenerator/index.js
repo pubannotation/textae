@@ -14,10 +14,13 @@ export default class AttributeConfigurationGenerator {
       this._config,
       this._annotations
     )
-
     newConfig = fillMandatoryValueOfNumericAttributes(newConfig)
     newConfig = fillDefaultValueOfStringAttributes(newConfig)
+    newConfig = fillDefaultValueOfSelectionAttributes(
+      newConfig,
+      this._annotations
+    )
 
-    return fillDefaultValueOfSelectionAttributes(newConfig, this._annotations)
+    return newConfig
   }
 }
