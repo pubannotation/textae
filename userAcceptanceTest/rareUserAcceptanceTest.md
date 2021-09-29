@@ -1,5 +1,20 @@
 # 極めて稀にやるテスト
 
+## 必須プロパティのない Attributes 定義をふくむ Annotation ファイルを読み込んだらエラーを alertify.js で表示
+
+### 背景
+
+1.  5.3.3 から、config 中の Attribute 定義に必須プロパティが無いときに、アラートに pred とプロパティ名を表示します。
+2.  7.26.0 で、Attribute 定義の必須プロパティを埋める機能を追加しました。このテストは実行不能です。
+
+### -- 手段 --
+
+1.  アノテーション読込ダイアログを表示
+2.  URL 欄に`invalid_attributes_annotation.json`を入力
+3.  `Open`ボタンをクリック
+4.  赤いトーストが表示されること
+5.  右上に`Invalid configuration: The attribute type whose predicate is 'rate' misses a mandatory property, 'default'.`と赤色のトースト表示がされること
+
 ## 同じ組合せの Entity 間の Relation の向きが違うときに、端点を左右にずらす
 
 ### 背景
