@@ -41,7 +41,6 @@ export default function (
               type="button" 
               class="textae-editor__edit-type-values-dialog__add-attribute textae-editor__edit-type-values-dialog__add-attribute--${valueType}"
               data-pred="${pred}"
-              title="${valueType} type"
               ${
                 attributes.some(
                   (i) =>
@@ -50,7 +49,7 @@ export default function (
                       String(attributeContainer.get(pred).default)
                 )
                   ? `disabled="disabled" title="This predicate is already used with its default value."`
-                  : ''
+                  : `title="${valueType} type"`
               }> ${pred}</button>`
         )
         .join(' ')}
