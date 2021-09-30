@@ -10,6 +10,14 @@ export default class SelectionAttributePallet extends Pallet {
     this._veil = dohtml.create(
       `<div style="position: fixed; right: 0; top: 0; bottom:0; left: 0; background-color: rgba(0, 0, 10, 0.3);"></div>`
     )
+
+    // Close the SelectionAttributePallet with the Esc key.
+    this._el.addEventListener('keydown', (event) => {
+      if (event.code === 'Escape') {
+        event.preventDefault()
+        this.hide()
+      }
+    })
   }
 
   show(attrDef, zIndex = 90, opener = null) {
@@ -20,15 +28,10 @@ export default class SelectionAttributePallet extends Pallet {
     this._attributeDefinition = attrDef
     super.show()
 
-    // Close the SelectionAttributePallet with the Esc key.
-    this._opener = opener
+    // Focus on the close button to listen keydown events.
+    // Store focusing element to revert focus when closeed.
     this._el.querySelector('.textae-editor__pallet__close-button').focus()
-    this._el.addEventListener('keydown', (event) => {
-      if (event.code === 'Escape') {
-        event.preventDefault()
-        this.hide()
-      }
-    })
+    this._opener = opener
 
     this._show = true
 
