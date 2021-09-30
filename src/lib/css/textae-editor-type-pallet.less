@@ -35,14 +35,6 @@
     padding: 0.4em 1em;
     position: relative;
 
-    span {
-      margin: 0.1em 0;
-      white-space: nowrap;
-      width: 90%;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
     .ui-dialog-titlebar-close {
       position: absolute;
       right: 0.3em;
@@ -52,6 +44,14 @@
       padding: 1px;
       height: 20px;
     }
+  }
+
+  &__title-string {
+    margin: 0.1em 0;
+    white-space: nowrap;
+    width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   &__content {

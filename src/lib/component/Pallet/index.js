@@ -63,7 +63,7 @@ export default class Pallet {
     this._el.innerHTML = `
       <div class="textae-editor__type-pallet__container">
         <div class="textae-editor__type-pallet__title-bar ui-widget-header ui-corner-all">
-          <span>${this._title}</span>
+          <span class="textae-editor__type-pallet__title-string">${this._title}</span>
           <button 
             type="button"
             class="textae-editor__type-pallet__close-button ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close"
