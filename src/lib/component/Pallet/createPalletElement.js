@@ -4,7 +4,7 @@ export default function (annotationType) {
   // Add ui-dialog class to prohibit the entity edit dialog from taking the focus.
   const html = `
     <div 
-      class="textae-editor__type-pallet textae-editor__type-pallet--${annotationType} ui-dialog"
+      class="textae-editor__type-pallet ui-dialog"
       style="display: none;"
       >
     </div>`
