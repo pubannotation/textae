@@ -1,5 +1,6 @@
 import dohtml from 'dohtml'
 import $ from 'jquery'
+import 'jquery-ui/ui/widget'
 import 'jquery-ui/ui/widgets/dialog'
 
 export default class Dialog {

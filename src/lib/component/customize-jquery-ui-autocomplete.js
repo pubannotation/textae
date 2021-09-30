@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import 'jquery-ui/ui/widget'
 import 'jquery-ui/ui/widgets/autocomplete'
 import eskape from 'eskape'
 
