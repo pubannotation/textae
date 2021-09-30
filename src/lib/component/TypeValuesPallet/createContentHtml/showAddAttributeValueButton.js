@@ -3,6 +3,6 @@ export default function (isLock) {
     ? ''
     : `
               <th>
-                <span class="textae-editor__type-pallet__add-attribute-value-button" title="Add new value"></span>
+                <span class="textae-editor__pallet__add-attribute-value-button" title="Add new value"></span>
               </th>`
 }

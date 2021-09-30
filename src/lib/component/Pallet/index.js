@@ -29,11 +29,8 @@ export default class Pallet {
       editorHTMLElement.focus()
     )
 
-    delegate(
-      this._el,
-      '.textae-editor__type-pallet__close-button',
-      'click',
-      () => this.hide()
+    delegate(this._el, '.textae-editor__pallet__close-button', 'click', () =>
+      this.hide()
     )
   }
 
@@ -61,24 +58,24 @@ export default class Pallet {
     // After updating the palette, the click event reaches the body.
     // At that time, if the target of the event is the palette, you can see that it is an event for textae-editor.
     this._el.innerHTML = `
-      <div class="textae-editor__type-pallet__container">
-        <div class="textae-editor__type-pallet__title-bar ui-widget-header ui-corner-all">
-          <span class="textae-editor__type-pallet__title-string">${this._title}</span>
+      <div class="textae-editor__pallet__container">
+        <div class="textae-editor__pallet__title-bar ui-widget-header ui-corner-all">
+          <span class="textae-editor__pallet__title-string">${this._title}</span>
           <button 
             type="button"
-            class="textae-editor__type-pallet__close-button ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close"
+            class="textae-editor__pallet__close-button ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close"
             title="Close">
             <span class="ui-button-icon ui-icon ui-icon-closethick"></span>
             <span class="ui-button-icon-space"> </span>Close
           </button>
         </div>
-        <div class="textae-editor__type-pallet__content">${this._content}</div>
+        <div class="textae-editor__pallet__content">${this._content}</div>
       </div>
     `
 
     setWidthWithin(this._el, this._maxWidth)
     setHeightWithin(
-      this._el.querySelector('.textae-editor__type-pallet__container'),
+      this._el.querySelector('.textae-editor__pallet__container'),
       this._maxHeight
     )
   }

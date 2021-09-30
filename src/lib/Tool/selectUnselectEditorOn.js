@@ -39,7 +39,7 @@ export default function (editors) {
     }
 
     // Ignore clicks on the pallet.
-    if (e.target.closest('.textae-editor__type-pallet__content') !== null) {
+    if (e.target.closest('.textae-editor__pallet__content') !== null) {
       return
     }
 

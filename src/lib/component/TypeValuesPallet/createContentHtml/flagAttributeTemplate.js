@@ -7,7 +7,7 @@ export default function (context) {
   return `
   ${headerTemplate(context)}
   <div>
-    <div class="textae-editor__type-pallet__predicate">
+    <div class="textae-editor__pallet__predicate">
       ${predicateControllerTemplate(context)}
       label: "${label || ''}"
       color: "${color || ''}"

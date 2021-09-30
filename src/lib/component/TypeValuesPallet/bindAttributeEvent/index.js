@@ -12,11 +12,11 @@ export default function (pallet, el, commander, selectionModelEntity) {
   enableAttributeTabDrag(el)
   enableAttributeTabDrop(el, commander)
 
-  delegate(el, '.textae-editor__type-pallet__attribute', 'click', (e) => {
+  delegate(el, '.textae-editor__pallet__attribute', 'click', (e) => {
     pallet.showAttribute(e.target.dataset['attribute'])
   })
 
-  delegate(el, '.textae-editor__type-pallet__create-predicate', 'click', () =>
+  delegate(el, '.textae-editor__pallet__create-predicate', 'click', () =>
     new CreateAttributeDefinitionDialog().open().then((attrDef) => {
       // Predicate is necessary and Ignore without predicate.
       if (attrDef.pred) {
@@ -27,7 +27,7 @@ export default function (pallet, el, commander, selectionModelEntity) {
     })
   )
 
-  delegate(el, '.textae-editor__type-pallet__edit-predicate', 'click', () =>
+  delegate(el, '.textae-editor__pallet__edit-predicate', 'click', () =>
     new EditAttributeDefinitionDialog(pallet.attrDef)
       .open()
       .then((changedProperties) => {
@@ -43,7 +43,7 @@ export default function (pallet, el, commander, selectionModelEntity) {
       })
   )
 
-  delegate(el, '.textae-editor__type-pallet__delete-predicate', 'click', () =>
+  delegate(el, '.textae-editor__pallet__delete-predicate', 'click', () =>
     commander.invoke(
       commander.factory.deleteAttributeDefinitionCommand(pallet.attrDef)
     )
@@ -51,7 +51,7 @@ export default function (pallet, el, commander, selectionModelEntity) {
 
   delegate(
     el,
-    '.textae-editor__type-pallet__selection-attribute-label',
+    '.textae-editor__pallet__selection-attribute-label',
     'click',
     (e) => {
       if (selectionModelEntity.selectedWithAttributeOf(pallet.attrDef.pred)) {
@@ -84,7 +84,7 @@ export default function (pallet, el, commander, selectionModelEntity) {
 
   delegate(
     el,
-    '.textae-editor__type-pallet__add-attribute-value-button',
+    '.textae-editor__pallet__add-attribute-value-button',
     'click',
     () =>
       new CreateOrEditValueOfAttributeDefinitionDialog(pallet.attrDef.valueType)
@@ -101,7 +101,7 @@ export default function (pallet, el, commander, selectionModelEntity) {
         })
   )
 
-  delegate(el, '.textae-editor__type-pallet__edit-value', 'click', (e) => {
+  delegate(el, '.textae-editor__pallet__edit-value', 'click', (e) => {
     const oldValue = pallet.attrDef.values[e.target.dataset.index]
     new CreateOrEditValueOfAttributeDefinitionDialog(
       pallet.attrDef.valueType,
@@ -133,7 +133,7 @@ export default function (pallet, el, commander, selectionModelEntity) {
       })
   })
 
-  delegate(el, '.textae-editor__type-pallet__remove-value', 'click', (e) =>
+  delegate(el, '.textae-editor__pallet__remove-value', 'click', (e) =>
     commander.invoke(
       commander.factory.removeValueFromAttributeDefinitionCommand(
         pallet.attrDef,
@@ -142,7 +142,7 @@ export default function (pallet, el, commander, selectionModelEntity) {
     )
   )
 
-  delegate(el, '.textae-editor__type-pallet__add-attribute', 'click', () =>
+  delegate(el, '.textae-editor__pallet__add-attribute', 'click', () =>
     commander.invoke(
       commander.factory.createAttributeToItemsCommand(
         selectionModelEntity.all,
@@ -151,7 +151,7 @@ export default function (pallet, el, commander, selectionModelEntity) {
     )
   )
 
-  delegate(el, '.textae-editor__type-pallet__edit-object', 'click', () => {
+  delegate(el, '.textae-editor__pallet__edit-object', 'click', () => {
     const attribute =
       selectionModelEntity.findSelectedAttributeWithSamePredicate(
         pallet.attrDef.pred
@@ -181,7 +181,7 @@ export default function (pallet, el, commander, selectionModelEntity) {
     }
   })
 
-  delegate(el, '.textae-editor__type-pallet__remove-attribute', 'click', () =>
+  delegate(el, '.textae-editor__pallet__remove-attribute', 'click', () =>
     commander.invoke(
       commander.factory.removeAttributesFromItemsByPredCommand(
         selectionModelEntity.all,

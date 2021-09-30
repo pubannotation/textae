@@ -16,9 +16,9 @@ export default function (context) {
       attributes[attributes.length - 1].pred)
 
   return `
-<div class="textae-editor__type-pallet__header-first-row">
-  <div class="textae-editor__type-pallet__information">
-    <span class="textae-editor__type-pallet__lock-icon" style="display: ${
+<div class="textae-editor__pallet__header-first-row">
+  <div class="textae-editor__pallet__information">
+    <span class="textae-editor__pallet__lock-icon" style="display: ${
       isLock ? 'inline-block' : 'none'
     };">locked</span>
     ${
@@ -31,18 +31,18 @@ export default function (context) {
           `
         : ``
     }
-    <span class="textae-editor__type-pallet__selected-entity-label">${selectedEntityLabel}</span>
+    <span class="textae-editor__pallet__selected-entity-label">${selectedEntityLabel}</span>
   </div>
-  <div class="textae-editor__type-pallet__buttons">
-    <span class="textae-editor__type-pallet__button textae-editor__type-pallet__read-button" title="Import"></span>
-    <span class="textae-editor__type-pallet__button textae-editor__type-pallet__write-button ${
-      hasDiff ? 'textae-editor__type-pallet__write-button--transit' : ''
+  <div class="textae-editor__pallet__buttons">
+    <span class="textae-editor__pallet__button textae-editor__pallet__read-button" title="Import"></span>
+    <span class="textae-editor__pallet__button textae-editor__pallet__write-button ${
+      hasDiff ? 'textae-editor__pallet__write-button--transit' : ''
     }" title="Upload"></span>
   </div>
 </div>
-<div class="textae-editor__type-pallet__header-second-row">
-  <p class="textae-editor__type-pallet__attribute ${
-    selectedPred ? '' : 'textae-editor__type-pallet__attribute--selected'
+<div class="textae-editor__pallet__header-second-row">
+  <p class="textae-editor__pallet__attribute ${
+    selectedPred ? '' : 'textae-editor__pallet__attribute--selected'
   }" data-attribute="">
     Type
   </p>
@@ -58,13 +58,13 @@ export default function (context) {
         ${
           lastAttributeSelected
             ? ''
-            : '<span class="textae-editor__type-pallet__drop-target" data-index="-1"></span>'
+            : '<span class="textae-editor__pallet__drop-target" data-index="-1"></span>'
         }
         ${
           addAttribute
             ? `
-            <p class="textae-editor__type-pallet__attribute textae-editor__type-pallet__create-predicate">
-              <span class="textae-editor__type-pallet__create-predicate__button" title="Add a new attribute"></span>
+            <p class="textae-editor__pallet__attribute textae-editor__pallet__create-predicate">
+              <span class="textae-editor__pallet__create-predicate__button" title="Add a new attribute"></span>
             </p>
             `
             : ''

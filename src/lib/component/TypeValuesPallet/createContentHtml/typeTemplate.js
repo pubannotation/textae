@@ -16,7 +16,7 @@ export default function (context) {
           ${
             isLock
               ? ''
-              : '<span class="textae-editor__type-pallet__add-button" title="Add new type"></span>'
+              : '<span class="textae-editor__pallet__add-button" title="Add new type"></span>'
           }
         </th>
       </tr>
@@ -33,35 +33,33 @@ export default function (context) {
                   useNumber
                 }) => {
                   return `
-      <tr class="textae-editor__type-pallet__row" style="background-color: ${color};">
-        <td class="textae-editor__type-pallet__label" data-id="${id}">
+      <tr class="textae-editor__pallet__row" style="background-color: ${color};">
+        <td class="textae-editor__pallet__label" data-id="${id}">
           <span title=${id}>
             ${id}
           </span>
           ${
             uri
-              ? `<a href="${uri}" target="_blank"><span class="textae-editor__type-pallet__link"></span></a>`
+              ? `<a href="${uri}" target="_blank"><span class="textae-editor__pallet__link"></span></a>`
               : ``
           }
           ${
             defaultType
-              ? '<span class="textae-editor__type-pallet__default-icon" title="This type is set as a default type."></span>'
+              ? '<span class="textae-editor__pallet__default-icon" title="This type is set as a default type."></span>'
               : ''
           }
         </td>
-        <td class="textae-editor__type-pallet__short-label">
+        <td class="textae-editor__pallet__short-label">
           ${escape(label)}
         </td>
-        <td class="textae-editor__type-pallet__use-number">
+        <td class="textae-editor__pallet__use-number">
           ${useNumber ? useNumber : 0}
         </td>
-        <td class="textae-editor__type-pallet__table-buttons">
+        <td class="textae-editor__pallet__table-buttons">
           <button
             type="button"
-            class="textae-editor__type-pallet__table-button textae-editor__type-pallet__select-all${
-              useNumber
-                ? ''
-                : ' textae-editor__type-pallet__table-button--disabled'
+            class="textae-editor__pallet__table-button textae-editor__pallet__select-all${
+              useNumber ? '' : ' textae-editor__pallet__table-button--disabled'
             }"
             title="Select all the cases of this type."
             data-id="${id}"
@@ -73,17 +71,15 @@ export default function (context) {
               : `
           <button
             type="button"
-            class="textae-editor__type-pallet__table-button textae-editor__type-pallet__edit-type"
+            class="textae-editor__pallet__table-button textae-editor__pallet__edit-type"
             title="Edit this type." data-id="${id}"
             data-color="${color}"
             data-is-default="${defaultType}">
           </button>
           <button 
             type="button"
-            class="textae-editor__type-pallet__table-button textae-editor__type-pallet__remove${
-              useNumber
-                ? ' textae-editor__type-pallet__table-button--disabled'
-                : ''
+            class="textae-editor__pallet__table-button textae-editor__pallet__remove${
+              useNumber ? ' textae-editor__pallet__table-button--disabled' : ''
             }"
             title="${
               useNumber
@@ -101,8 +97,8 @@ export default function (context) {
               )
               .join('\n')
           : `
-      <tr class="textae-editor__type-pallet__row">
-        <td class="textae-editor__type-pallet__no-config" colspan="4">There is no Entity definition.</td>
+      <tr class="textae-editor__pallet__row">
+        <td class="textae-editor__pallet__no-config" colspan="4">There is no Entity definition.</td>
       </tr>
       `
       }

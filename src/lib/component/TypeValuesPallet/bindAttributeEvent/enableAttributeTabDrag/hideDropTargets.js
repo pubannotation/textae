@@ -1,5 +1,5 @@
 export default function (e) {
   e.target
-    .closest('.textae-editor__type-pallet__content')
-    .classList.remove('textae-editor__type-pallet__content--dragging')
+    .closest('.textae-editor__pallet__content')
+    .classList.remove('textae-editor__pallet__content--dragging')
 }

@@ -10,7 +10,7 @@ export default function (context) {
   return `
   ${headerTemplate(context)}
   <div>
-    <div class="textae-editor__type-pallet__predicate">
+    <div class="textae-editor__pallet__predicate">
       ${predicateControllerTemplate(context)}
       default: ${defaultValue}
     </div>
@@ -27,14 +27,14 @@ export default function (context) {
           .map(
             ({ color = ' ', pattern = '', label = '', indelible }, index) => {
               return `
-        <tr class="textae-editor__type-pallet__row" style="background-color: ${color};">
-          <td class="textae-editor__type-pallet__attribute-label">
+        <tr class="textae-editor__pallet__row" style="background-color: ${color};">
+          <td class="textae-editor__pallet__attribute-label">
             ${pattern}
           </td>
-          <td class="textae-editor__type-pallet__short-label">
+          <td class="textae-editor__pallet__short-label">
             ${label}
           </td>
-          <td class="textae-editor__type-pallet__short-label">
+          <td class="textae-editor__pallet__short-label">
             ${color}
           </td>
           ${valueButtonsTemplate(isLock, index, indelible)}

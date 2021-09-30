@@ -7,13 +7,13 @@ export default function ({ pred }, index, array, selectedPred) {
   return `
     ${
       droppable
-        ? `<span class="textae-editor__type-pallet__drop-target" data-index="${index}"></span>`
+        ? `<span class="textae-editor__pallet__drop-target" data-index="${index}"></span>`
         : ''
     }
     <p 
-      class="textae-editor__type-pallet__attribute${
+      class="textae-editor__pallet__attribute${
         pred === selectedPred
-          ? ' textae-editor__type-pallet__attribute--selected'
+          ? ' textae-editor__pallet__attribute--selected'
           : ''
       }"
       data-attribute="${pred}"

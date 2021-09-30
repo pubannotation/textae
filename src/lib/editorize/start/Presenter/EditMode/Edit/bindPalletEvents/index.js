@@ -10,62 +10,45 @@ export default function (
   getAutocompletionWs,
   definitionContainer
 ) {
-  delegate(
-    pallet.el,
-    `.textae-editor__type-pallet__add-button`,
-    'click',
-    () => {
-      new CreateTypeDefinitionDialog(definitionContainer, getAutocompletionWs())
-        .open()
-        .then(({ newType }) =>
-          commander.invoke(handler.addTypeDefinition(newType))
-        )
-    }
-  )
+  delegate(pallet.el, `.textae-editor__pallet__add-button`, 'click', () => {
+    new CreateTypeDefinitionDialog(definitionContainer, getAutocompletionWs())
+      .open()
+      .then(({ newType }) =>
+        commander.invoke(handler.addTypeDefinition(newType))
+      )
+  })
 
-  delegate(pallet.el, '.textae-editor__type-pallet__label', 'click', (e) =>
+  delegate(pallet.el, '.textae-editor__pallet__label', 'click', (e) =>
     commander.invoke(
       handler.changeTypeOfSelectedElement(e.delegateTarget.dataset.id)
     )
   )
 
-  delegate(
-    pallet.el,
-    '.textae-editor__type-pallet__select-all',
-    'click',
-    (e) => {
-      if (!checkButtonEnable(e.target)) {
-        return
-      }
-
-      handler.selectAll(e.delegateTarget.dataset.id)
+  delegate(pallet.el, '.textae-editor__pallet__select-all', 'click', (e) => {
+    if (!checkButtonEnable(e.target)) {
+      return
     }
-  )
 
-  delegate(
-    pallet.el,
-    '.textae-editor__type-pallet__edit-type',
-    'click',
-    (e) => {
-      new EditTypeDefinitionDialog(
-        definitionContainer,
-        e.target.dataset.id,
-        e.target.dataset.color.toLowerCase(),
-        e.target.dataset.isDefault === 'true',
-        getAutocompletionWs()
-      )
-        .open()
-        .then(({ id, changedProperties }) => {
-          if (changedProperties.size) {
-            commander.invoke(
-              handler.changeTypeDefinition(id, changedProperties)
-            )
-          }
-        })
-    }
-  )
+    handler.selectAll(e.delegateTarget.dataset.id)
+  })
 
-  delegate(pallet.el, '.textae-editor__type-pallet__remove', 'click', (e) => {
+  delegate(pallet.el, '.textae-editor__pallet__edit-type', 'click', (e) => {
+    new EditTypeDefinitionDialog(
+      definitionContainer,
+      e.target.dataset.id,
+      e.target.dataset.color.toLowerCase(),
+      e.target.dataset.isDefault === 'true',
+      getAutocompletionWs()
+    )
+      .open()
+      .then(({ id, changedProperties }) => {
+        if (changedProperties.size) {
+          commander.invoke(handler.changeTypeDefinition(id, changedProperties))
+        }
+      })
+  })
+
+  delegate(pallet.el, '.textae-editor__pallet__remove', 'click', (e) => {
     if (!checkButtonEnable(e.target)) {
       return
     }

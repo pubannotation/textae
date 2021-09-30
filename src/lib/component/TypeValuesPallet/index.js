@@ -24,18 +24,12 @@ export default class TypeValuesPallet extends Pallet {
     this._definitionContainer = definitionContainer
     this._selectionModelItems = selectionModelEntity
 
-    delegate(
-      this._el,
-      `.textae-editor__type-pallet__read-button`,
-      'click',
-      () => eventEmitter.emit('textae-event.pallet.read-button.click')
+    delegate(this._el, `.textae-editor__pallet__read-button`, 'click', () =>
+      eventEmitter.emit('textae-event.pallet.read-button.click')
     )
 
-    delegate(
-      this._el,
-      '.textae-editor__type-pallet__write-button',
-      'click',
-      () => eventEmitter.emit('textae-event.pallet.write-button.click')
+    delegate(this._el, '.textae-editor__pallet__write-button', 'click', () =>
+      eventEmitter.emit('textae-event.pallet.write-button.click')
     )
 
     bindAttributeEvent(this, this._el, commander, selectionModelEntity)

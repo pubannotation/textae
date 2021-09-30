@@ -9,7 +9,7 @@ export default function (context) {
     <div>
       Attribute
       <span
-        class="textae-editor__type-pallet__predicate__value-type textae-editor__type-pallet__predicate__value-type--${valueType}"
+        class="textae-editor__pallet__predicate__value-type textae-editor__pallet__predicate__value-type--${valueType}"
         title="${valueType} type">
       </span>
       "${pred}"

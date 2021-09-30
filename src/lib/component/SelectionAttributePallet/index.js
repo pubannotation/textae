@@ -22,7 +22,7 @@ export default class SelectionAttributePallet extends Pallet {
 
     // Close the SelectionAttributePallet with the Esc key.
     this._opener = opener
-    this._el.querySelector('.textae-editor__type-pallet__close-button').focus()
+    this._el.querySelector('.textae-editor__pallet__close-button').focus()
     this._el.addEventListener('keydown', (event) => {
       if (event.code === 'Escape') {
         event.preventDefault()
@@ -35,7 +35,7 @@ export default class SelectionAttributePallet extends Pallet {
     return new Promise((resolve) => {
       delegate(
         this._el,
-        '.textae-editor__type-pallet__selection-attribute-label',
+        '.textae-editor__pallet__selection-attribute-label',
         'click',
         (e) => {
           this.hide()
