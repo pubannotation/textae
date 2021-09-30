@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.26.0](https://github.com/pubannotation/textae/compare/v7.25.0...v7.26.0) (2021-09-30)
+
+
+### Features
+
+* Added a tooltip to the Add Attribute button in the Edit TypeValue dialog ([6253e64](https://github.com/pubannotation/textae/commit/6253e64140a260d1a43e7768088324ebfcea1cd0))
+* Added tooltips to the palette icons in the TypeValue Edit dialog ([419ba18](https://github.com/pubannotation/textae/commit/419ba18bed51bd4cba5e2adbd457a043e30961fc))
+* Automatically set the required parameters for numeric attribute definitions ([66e70c3](https://github.com/pubannotation/textae/commit/66e70c3675c849180ea460128971cbca50fdc5b5))
+* Automatically set the required parameters for string attribute definitions ([41c662e](https://github.com/pubannotation/textae/commit/41c662ef2e285099a6c2aa8235e3ec66be2e6026))
+* Change the tooltip of the palette button on the control bar to match the editing mode ([4dbe515](https://github.com/pubannotation/textae/commit/4dbe5152b62e7a3a6d357acfd331f68ffc845530))
+* Compare the anchor of the upper entity with the center of the lower entity to decide which of the left and right anchors of the lower entity to use ([4d3eb66](https://github.com/pubannotation/textae/commit/4d3eb66987e23cbfbc269e80a6a44f74ce8cf2a8))
+* Decide whether to bend to the left or right depending on the anchor position of the entity above when making large bends in the relation ([6810456](https://github.com/pubannotation/textae/commit/68104563ff0d283fc2f46c7ba5a187fbcb5bb572))
+* Fixed wording in tooltips when attributes cannot be added from the Edit TypeValue dialog ([a449ae3](https://github.com/pubannotation/textae/commit/a449ae3170dd868eb9fdd39238bb39eeee8bb9e7))
+
+
+### Bug Fixes
+
+* Can't drag and drop tabs in the palette to be the first and second attributes ([365047f](https://github.com/pubannotation/textae/commit/365047f22f73b31327309c38a02f0174a4488d51))
+* If you try to create a child span that shares an end with an existing span on a touch device, the existing span will be deleted ([451966c](https://github.com/pubannotation/textae/commit/451966c18e606ddaf549efc8a260bcc888bfff6c))
+* On touch devices, the Create Span button is now enabled when selecting text in a block span in block mode ([43a417e](https://github.com/pubannotation/textae/commit/43a417eae740763117ccf9da44a90d39427dd4ae))
+* Paste button is not disabled when cut and paste is completed ([a5af44f](https://github.com/pubannotation/textae/commit/a5af44f03669427a1c228a7ddac0a97cd75ed68f))
+* When switching to view mode, there is no applyTextSelection method and an error occurs ([2b8cc51](https://github.com/pubannotation/textae/commit/2b8cc5184d434ed15e8a493c09ad232db5d64e19))
+* When you create a relation, it is automatically selected, but the edit and delete buttons are not enabled ([247e81d](https://github.com/pubannotation/textae/commit/247e81d8a87fb9e972c535995593db7486ea2dcf))
+
 ## [7.25.0](https://github.com/pubannotation/textae/compare/v7.24.0...v7.25.0) (2021-09-22)
 
 
