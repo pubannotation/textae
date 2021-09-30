@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.26.1](https://github.com/pubannotation/textae/compare/v7.26.0...v7.26.1) (2021-09-30)
+
+
+### Bug Fixes
+
+* Display an attribute type in the tool tip of the add attribute button in the edit type values dialog when it is disabled ([82d3e61](https://github.com/pubannotation/textae/commit/82d3e6147ccec2ab0b44e8cd32a87fee18f7e1f6))
+
 ## [7.26.0](https://github.com/pubannotation/textae/compare/v7.25.0...v7.26.0) (2021-09-30)
 
 
