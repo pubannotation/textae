@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.26.2](https://github.com/pubannotation/textae/compare/v7.26.1...v7.26.2) (2021-09-30)
+
+
+### Bug Fixes
+
+* More event handlers to bind each time the selection attribute palette is opened ([1b8ce70](https://github.com/pubannotation/textae/commit/1b8ce7026e628854d03272441675eb5737a09e29))
+
 ### [7.26.1](https://github.com/pubannotation/textae/compare/v7.26.0...v7.26.1) (2021-09-30)
 
 
