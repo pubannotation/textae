@@ -1,0 +1,2 @@
+esbuildはAMDの依存関係を解決しません。
+jQueryUIはAMDモジュールです。
