@@ -1,6 +1,6 @@
 import dohtml from 'dohtml'
 
-export default function (annotationType) {
+export default function () {
   // Add ui-dialog class to prohibit the entity edit dialog from taking the focus.
   const html = `
     <div 

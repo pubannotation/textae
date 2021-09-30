@@ -6,10 +6,10 @@ import setWidthWithin from './setWidthWithin'
 import setHeightWithin from './setHeightWithin'
 
 export default class Pallet {
-  constructor(editorHTMLElement, annotationType, title) {
+  constructor(editorHTMLElement, title) {
     this._editorHTMLElement = editorHTMLElement
     this._title = title
-    this._el = createPalletElement(annotationType)
+    this._el = createPalletElement()
 
     // let the pallet draggable.
     enableJqueryDraggable(this._el, editorHTMLElement)
