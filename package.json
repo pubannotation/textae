@@ -36,7 +36,7 @@
     "cpx2": "4.0.0",
     "eslint": "7.32.0",
     "eslint-config-prettier": "8.3.0",
-    "eslint-plugin-import": "2.24.2",
+    "eslint-plugin-import": "2.25.2",
     "eslint-plugin-unused-imports": "1.1.5",
     "husky": "7.0.2",
     "less": "4.1.1",
