@@ -39,7 +39,7 @@
     "eslint-plugin-import": "2.25.2",
     "eslint-plugin-unused-imports": "1.1.5",
     "husky": "7.0.4",
-    "less": "4.1.1",
+    "less": "4.1.2",
     "less-watch-compiler": "1.16.3",
     "lint-staged": "11.1.2",
     "mkdirp": "1.0.4",
