@@ -6,6 +6,7 @@ import validateDenotation from './validateDenotation'
 import validateBlock from './validateBlock'
 import debugLogCrossing from './debugLogCrossing'
 import { collectErrors } from './ErrorMap'
+import getAllSpansIn from '../../getAllSpansIn'
 
 export default function (text, spanOfAllTracks, rowData) {
   const [typeSetting, errorTypeSettings] = validateTypeSettings(
@@ -14,10 +15,7 @@ export default function (text, spanOfAllTracks, rowData) {
     spanOfAllTracks
   )
 
-  const { typesettings, denotations, blocks } = rowData
-  const spansInTrack = (typesettings || [])
-    .concat(denotations || [])
-    .concat(blocks || [])
+  const spansInTrack = getAllSpansIn(rowData)
 
   const [denotation, errorDenotations] = validateDenotation(
     text,

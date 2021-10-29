@@ -1,5 +1,8 @@
 // The boundraries of elements in the typesetings and
 // the denotations and blocks cannot cross each other.
+
+import getAllSpansIn from './getAllSpansIn'
+
 // The same is true when across the tracks.
 export default function (rowData) {
   let spans = getAllSpansIn(rowData)
@@ -11,9 +14,4 @@ export default function (rowData) {
   }
 
   return spans
-}
-
-function getAllSpansIn(track) {
-  const { typesettings, denotations, blocks } = track
-  return (typesettings || []).concat(denotations || []).concat(blocks || [])
 }
