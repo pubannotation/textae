@@ -17,10 +17,11 @@ export default function (text, spans, rowData) {
   const [denotation, errorDenotations] = validateDenotation(
     text,
     rowData.denotations,
+    spans,
     spans
   )
 
-  const [block, errorBlocks] = validateBlock(text, rowData.blocks, spans)
+  const [block, errorBlocks] = validateBlock(text, rowData.blocks, spans, spans)
 
   const [relation, errorRelations] = validateRelation(
     denotation.concat(block),
