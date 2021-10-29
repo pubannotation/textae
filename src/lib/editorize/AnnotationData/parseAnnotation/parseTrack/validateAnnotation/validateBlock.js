@@ -1,9 +1,9 @@
 import getSpanValidation from './getSpanValidation'
 import isIDUnique from './isIDUnique'
 
-export default function (text, blocks, spanOfAllTracks, spans) {
+export default function (text, blocks, spanOfAllTracks, spansInTrack) {
   return getSpanValidation(blocks, text, spanOfAllTracks, 'blocks')
-    .and('uniqueID', (n) => isIDUnique(spans, n))
+    .and('uniqueID', (n) => isIDUnique(spansInTrack, n))
     .and(
       'uniqueRange',
       ({ span }) =>
