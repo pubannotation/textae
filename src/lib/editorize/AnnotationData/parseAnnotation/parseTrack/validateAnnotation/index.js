@@ -7,21 +7,31 @@ import validateBlock from './validateBlock'
 import debugLogCrossing from './debugLogCrossing'
 import { collectErrors } from './ErrorMap'
 
-export default function (text, spans, rowData) {
+export default function (text, spanOfAllTracks, rowData) {
   const [typeSetting, errorTypeSettings] = validateTypeSettings(
     text,
     rowData.typesettings,
-    spans
+    spanOfAllTracks
   )
+
+  const { typesettings, denotations, blocks } = rowData
+  const spansInTrack = (typesettings || [])
+    .concat(denotations || [])
+    .concat(blocks || [])
 
   const [denotation, errorDenotations] = validateDenotation(
     text,
     rowData.denotations,
-    spans,
-    spans
+    spanOfAllTracks,
+    spansInTrack
   )
 
-  const [block, errorBlocks] = validateBlock(text, rowData.blocks, spans, spans)
+  const [block, errorBlocks] = validateBlock(
+    text,
+    rowData.blocks,
+    spanOfAllTracks,
+    spansInTrack
+  )
 
   const [relation, errorRelations] = validateRelation(
     denotation.concat(block),
