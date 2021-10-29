@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.26.3](https://github.com/pubannotation/textae/compare/v7.26.2...v7.26.3) (2021-10-29)
+
+
+### Bug Fixes
+
+* Validation error when IDs are duplicated in different tracks ([6cc68b6](https://github.com/pubannotation/textae/commit/6cc68b6126f67a0e9f5829122c85e49d01d75f07))
+
 ### [7.26.2](https://github.com/pubannotation/textae/compare/v7.26.1...v7.26.2) (2021-09-30)
 
 
