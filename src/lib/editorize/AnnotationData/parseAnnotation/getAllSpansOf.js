@@ -2,22 +2,18 @@
 // the denotations and blocks cannot cross each other.
 // The same is true when across the tracks.
 export default function (rowData) {
-  const { typesettings, denotations, blocks } = rowData
-
-  let spans = []
-  spans = spans
-    .concat(typesettings || [])
-    .concat(denotations || [])
-    .concat(blocks || [])
+  let spans = getAllSpansIn(rowData)
 
   if (rowData.tracks) {
-    for (const { typesettings, denotations, blocks } of rowData.tracks) {
-      spans = spans
-        .concat(typesettings || [])
-        .concat(denotations || [])
-        .concat(blocks || [])
+    for (const track of rowData.tracks) {
+      spans = spans.concat(getAllSpansIn(track))
     }
   }
 
   return spans
+}
+
+function getAllSpansIn(track) {
+  const { typesettings, denotations, blocks } = track
+  return (typesettings || []).concat(denotations || []).concat(blocks || [])
 }
