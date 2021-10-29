@@ -474,6 +474,14 @@
             "end": 40
           },
           "obj": "Protein"
+        },
+        {
+          "id": "T1",
+          "span": {
+            "begin": 449,
+            "end": 452
+          },
+          "obj": "Regulation"
         }
       ]
     },
@@ -485,6 +493,14 @@
             "end": 47
           },
           "obj": "Protein"
+        },
+        {
+          "id": "T1",
+          "span": {
+            "begin": 478,
+            "end": 481
+          },
+          "obj": "Sentence"
         }
       ],
       "relations": [
