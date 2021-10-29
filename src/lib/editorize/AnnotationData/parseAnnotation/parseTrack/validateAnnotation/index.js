@@ -8,37 +8,37 @@ import debugLogCrossing from './debugLogCrossing'
 import { collectErrors } from './ErrorMap'
 import getAllSpansIn from '../../getAllSpansIn'
 
-export default function (text, spanOfAllTracks, rowData) {
+export default function (text, spanOfAllTracks, track) {
   const [typeSetting, errorTypeSettings] = validateTypeSettings(
     text,
-    rowData.typesettings,
+    track.typesettings,
     spanOfAllTracks
   )
 
-  const spansInTrack = getAllSpansIn(rowData)
+  const spansInTrack = getAllSpansIn(track)
 
   const [denotation, errorDenotations] = validateDenotation(
     text,
-    rowData.denotations,
+    track.denotations,
     spanOfAllTracks,
     spansInTrack
   )
 
   const [block, errorBlocks] = validateBlock(
     text,
-    rowData.blocks,
+    track.blocks,
     spanOfAllTracks,
     spansInTrack
   )
 
   const [relation, errorRelations] = validateRelation(
     denotation.concat(block),
-    rowData.relations
+    track.relations
   )
 
   const [attribute, errorAttributes] = validateAttribute(
     denotation.concat(block).concat(relation),
-    rowData.attributes
+    track.attributes
   )
 
   debugLogCrossing('TypeSettings', errorTypeSettings)
