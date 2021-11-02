@@ -55,7 +55,6 @@ export default class ContextMenu extends Control {
     const html = `
     <div">
       ${context
-        .filter((list) => list.length)
         .map((list) => list.map(toContextMenuItem).join(''))
         .join('<p class="textae-control-separator"></p>\n')}
     </div>

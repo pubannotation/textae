@@ -58,24 +58,26 @@ export default class ButtonController {
   }
 
   get contextMenuButton() {
-    return buttonConfig.contextMenu.buttonGroup.map(({ list }) => {
-      const ret = []
-      for (const { type, title } of list) {
-        if (!isTouchDevice() && this.getState(type, 'disabled')) {
-          continue
+    return buttonConfig.contextMenu.buttonGroup
+      .map(({ list }) => {
+        const ret = []
+        for (const { type, title } of list) {
+          if (!isTouchDevice() && this.getState(type, 'disabled')) {
+            continue
+          }
+
+          ret.push({
+            type,
+            title,
+            pushed: this.getState(type, 'pushed'),
+            disabled: this.getState(type, 'disabled'),
+            trasit: this.getState(type, 'trasit')
+          })
         }
 
-        ret.push({
-          type,
-          title,
-          pushed: this.getState(type, 'pushed'),
-          disabled: this.getState(type, 'disabled'),
-          trasit: this.getState(type, 'trasit')
-        })
-      }
-
-      return ret
-    })
+        return ret
+      })
+      .filter((list) => list.length)
   }
 
   getState(name, state) {
