@@ -107,7 +107,15 @@
 
   &__mode--view-with-relation,
   &__mode--view-without-relation {
-    .textae-editor__signboard[data-entity-type='denotation'],
+    .textae-editor__text-box {
+      pointer-events: none;
+    }
+    .textae-editor__signboard[data-entity-type='denotation'] {
+      z-index: 0;
+      &:hover {
+        z-index: 3;
+      }
+    }
     .textae-editor__signboard[data-entity-type='block'] {
       z-index: 2;
       &:hover {
