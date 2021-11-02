@@ -15,7 +15,9 @@ export default class SignboardHTMLElement {
   set CSSClass(className) {
     this.element.className = ''
     this.element.classList.add('textae-editor__signboard')
-    this.element.classList.add(className)
+    if (className) {
+      this.element.classList.add(className)
+    }
   }
 
   updateLabel() {
