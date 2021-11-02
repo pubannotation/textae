@@ -41,7 +41,7 @@ export default class ButtonController {
   }
 
   get controlBarButton() {
-    return buttonConfig.controlBar.buttonGroup.map(({ list }) => {
+    return buttonConfig.controlBar.map(({ list }) => {
       const ret = []
       for (const { type, title } of list) {
         ret.push({
@@ -58,7 +58,7 @@ export default class ButtonController {
   }
 
   get contextMenuButton() {
-    return buttonConfig.contextMenu.buttonGroup
+    return buttonConfig.contextMenu
       .map(({ list }) => {
         const ret = []
         for (const { type, title } of list) {
