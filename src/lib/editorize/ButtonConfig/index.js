@@ -32,7 +32,7 @@ export default class ButtonConfig {
             title = ''
         }
 
-        this._titleOfPalletButton = title
+        this._buttons.find(({ type }) => type === 'pallet').title = title
         eventEmitter.emit(
           'textae-event.control.palletButton.changeTitle',
           title
@@ -91,9 +91,5 @@ export default class ButtonConfig {
 
   get _buttons() {
     return this._config.map(({ list }) => list).flat()
-  }
-
-  set _titleOfPalletButton(value) {
-    this._buttons.find(({ type }) => type === 'pallet').title = value
   }
 }
