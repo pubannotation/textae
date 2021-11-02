@@ -7,7 +7,7 @@ function isResolusionLessThanIPadPro() {
   return window.screen.width <= 1366
 }
 
-class Config {
+export default class ButtonConfig {
   // Buttons to display on the control bar.
   get controlBar() {
     return config
@@ -60,5 +60,3 @@ class Config {
     return config.map(({ list }) => list).flat()
   }
 }
-
-export default new Config()

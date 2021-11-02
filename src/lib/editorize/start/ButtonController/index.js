@@ -2,7 +2,7 @@ import PushButtons from './PushButtons'
 import EnableState from './EnableState'
 import DelimiterDetectAdjuster from './DelimiterDetectAdjuster'
 import BlankSkipAdjuster from './BlankSkipAdjuster'
-import buttonConfig from '../../buttonConfig'
+import ButtonConfig from '../../ButtonConfig'
 import isTouchDevice from '../../isTouchDevice'
 
 export default class ButtonController {
@@ -41,7 +41,7 @@ export default class ButtonController {
   }
 
   get controlBarButton() {
-    return buttonConfig.controlBar.map(({ list }) => {
+    return new ButtonConfig().controlBar.map(({ list }) => {
       const ret = []
       for (const { type, title } of list) {
         ret.push({
@@ -58,7 +58,7 @@ export default class ButtonController {
   }
 
   get contextMenuButton() {
-    return buttonConfig.contextMenu
+    return new ButtonConfig().contextMenu
       .map(({ list }) => {
         const ret = []
         for (const { type, title } of list) {
