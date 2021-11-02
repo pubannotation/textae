@@ -12,6 +12,8 @@ export default class ButtonController {
     this._pushButtons = new PushButtons(eventEmitter)
 
     this._annotationWatcher = annotationWatcher
+
+    this._buttonConfig = new ButtonConfig(eventEmitter)
   }
 
   get pushButtonNames() {
@@ -58,7 +60,7 @@ export default class ButtonController {
   }
 
   get contextMenuButton() {
-    return new ButtonConfig().contextMenu
+    return this._buttonConfig.contextMenu
       .map(({ list }) => {
         const ret = []
         for (const { type, title } of list) {

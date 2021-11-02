@@ -1,5 +1,7 @@
 import isTouchDevice from '../isTouchDevice'
 import { config } from './config'
+import deepcopy from 'deepcopy'
+import { MODE } from '../../MODE'
 
 function isResolusionLessThanIPadPro() {
   // The resolution is based on the resolution of the iPad Pro
@@ -8,9 +10,33 @@ function isResolusionLessThanIPadPro() {
 }
 
 export default class ButtonConfig {
+  constructor(eventEmitter) {
+    // Copy it to keep the state for each editor.
+    this._config = deepcopy(config)
+
+    // Change the title of the palette button to match the edit mode.
+    if (eventEmitter) {
+      eventEmitter.on('textae-event.edit-mode.transition', (mode) => {
+        switch (mode) {
+          case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
+          case MODE.EDIT_DENOTATION_WITH_RELATION:
+          case MODE.EDIT_BLOCK_WITHOUT_RELATION:
+          case MODE.EDIT_BLOCK_WITH_RELATION:
+            this._titleOfPalletButton = 'Entity Configuration'
+            break
+          case MODE.EDIT_RELATION:
+            this._titleOfPalletButton = 'Relation Configuration'
+            break
+          default:
+            this._titleOfPalletButton = ''
+        }
+      })
+    }
+  }
+
   // Buttons to display on the control bar.
   get controlBar() {
-    return config
+    return this._config
       .filter(({ usage }) => {
         if (isTouchDevice() && isResolusionLessThanIPadPro()) {
           return usage['touce device'].includes('control bar')
@@ -28,7 +54,7 @@ export default class ButtonConfig {
 
   // Buttons to display on the context menu.
   get contextMenu() {
-    return config
+    return this._config
       .filter(({ usage }) => {
         if (isTouchDevice()) {
           return usage['touce device'].includes('context menu')
@@ -57,6 +83,10 @@ export default class ButtonConfig {
   }
 
   get _buttons() {
-    return config.map(({ list }) => list).flat()
+    return this._config.map(({ list }) => list).flat()
+  }
+
+  set _titleOfPalletButton(value) {
+    this._buttons.find(({ type }) => type === 'pallet').title = value
   }
 }
