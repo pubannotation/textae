@@ -4020,6 +4020,10 @@ ul.jsondiffpatch-textdiff {
   border-radius: 1px;
   border-bottom-style: dashed;
   border-bottom-color: white;
+  border-left-color: gray;
+  border-left-style: dashed;
+  border-right-color: gray;
+  border-right-style: dashed;
   display: inline-block;
   padding: 0 4px;
 }
@@ -4038,6 +4042,10 @@ ul.jsondiffpatch-textdiff {
   border-radius: 1px;
   border-bottom-style: dashed;
   border-bottom-color: white;
+  border-left-color: gray;
+  border-left-style: dashed;
+  border-right-color: gray;
+  border-right-style: dashed;
   display: inline-block;
   padding: 0 4px;
 }
@@ -4050,28 +4058,44 @@ ul.jsondiffpatch-textdiff {
 .textae-editor__signboard--cutting .textae-editor__signboard__type-values {
   opacity: 0.5;
 }
+.textae-editor__mode--view-with-relation .textae-editor__text-box,
+.textae-editor__mode--view-without-relation .textae-editor__text-box {
+  pointer-events: none;
+}
 .textae-editor__mode--view-with-relation .textae-editor__signboard[data-entity-type='denotation'],
-.textae-editor__mode--view-without-relation .textae-editor__signboard[data-entity-type='denotation'],
+.textae-editor__mode--view-without-relation .textae-editor__signboard[data-entity-type='denotation'] {
+  z-index: 0;
+}
+.textae-editor__mode--view-with-relation .textae-editor__signboard[data-entity-type='denotation']:hover,
+.textae-editor__mode--view-without-relation .textae-editor__signboard[data-entity-type='denotation']:hover {
+  z-index: 3;
+}
+.textae-editor__mode--view-with-relation .textae-editor__signboard[data-entity-type='block'],
+.textae-editor__mode--view-without-relation .textae-editor__signboard[data-entity-type='block'] {
+  z-index: 2;
+}
+.textae-editor__mode--view-with-relation .textae-editor__signboard[data-entity-type='block']:hover,
+.textae-editor__mode--view-without-relation .textae-editor__signboard[data-entity-type='block']:hover {
+  z-index: 3;
+}
+.textae-editor__mode--view-with-relation .textae-editor__signboard[data-entity-type='relation'],
+.textae-editor__mode--view-without-relation .textae-editor__signboard[data-entity-type='relation'] {
+  z-index: 0;
+}
 .textae-editor__mode--denotation-with-relation .textae-editor__signboard[data-entity-type='denotation'],
 .textae-editor__mode--denotation-without-relation .textae-editor__signboard[data-entity-type='denotation'],
 .textae-editor__mode--block-with-relation .textae-editor__signboard[data-entity-type='denotation'],
 .textae-editor__mode--block-without-relation .textae-editor__signboard[data-entity-type='denotation'],
-.textae-editor__mode--view-with-relation .textae-editor__signboard[data-entity-type='block'],
-.textae-editor__mode--view-without-relation .textae-editor__signboard[data-entity-type='block'],
 .textae-editor__mode--denotation-with-relation .textae-editor__signboard[data-entity-type='block'],
 .textae-editor__mode--denotation-without-relation .textae-editor__signboard[data-entity-type='block'],
 .textae-editor__mode--block-with-relation .textae-editor__signboard[data-entity-type='block'],
 .textae-editor__mode--block-without-relation .textae-editor__signboard[data-entity-type='block'] {
   z-index: 2;
 }
-.textae-editor__mode--view-with-relation .textae-editor__signboard[data-entity-type='denotation']:hover,
-.textae-editor__mode--view-without-relation .textae-editor__signboard[data-entity-type='denotation']:hover,
 .textae-editor__mode--denotation-with-relation .textae-editor__signboard[data-entity-type='denotation']:hover,
 .textae-editor__mode--denotation-without-relation .textae-editor__signboard[data-entity-type='denotation']:hover,
 .textae-editor__mode--block-with-relation .textae-editor__signboard[data-entity-type='denotation']:hover,
 .textae-editor__mode--block-without-relation .textae-editor__signboard[data-entity-type='denotation']:hover,
-.textae-editor__mode--view-with-relation .textae-editor__signboard[data-entity-type='block']:hover,
-.textae-editor__mode--view-without-relation .textae-editor__signboard[data-entity-type='block']:hover,
 .textae-editor__mode--denotation-with-relation .textae-editor__signboard[data-entity-type='block']:hover,
 .textae-editor__mode--denotation-without-relation .textae-editor__signboard[data-entity-type='block']:hover,
 .textae-editor__mode--block-with-relation .textae-editor__signboard[data-entity-type='block']:hover,
@@ -4092,6 +4116,10 @@ ul.jsondiffpatch-textdiff {
   border-radius: 1px;
   border-bottom-style: dashed;
   border-bottom-color: white;
+  border-left-color: gray;
+  border-left-style: dashed;
+  border-right-color: gray;
+  border-right-style: dashed;
   display: inline-block;
   padding: 0 4px;
 }

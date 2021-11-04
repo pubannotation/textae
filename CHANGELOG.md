@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.27.0](https://github.com/pubannotation/textae/compare/v7.26.3...v7.27.0) (2021-11-04)
+
+
+### Features
+
+* In view mode, the labels of the relations are displayed behind the text ([68deb13](https://github.com/pubannotation/textae/commit/68deb132e5ede57c176beb745e9c3df7d1265088))
+* Show left and right borders in view mode to make it easier to distinguish labels of adjacent entities ([704e03e](https://github.com/pubannotation/textae/commit/704e03e086898e5528af77265abbacb1d05fa924))
+* To avoid hiding the relationship of neighboring entities with the entity's label, show the entity's label behind the relationship ([8ae78c5](https://github.com/pubannotation/textae/commit/8ae78c5a12b1955d54fa47254e4fd44e49cb4dbf))
+
+
+### Bug Fixes
+
+* Extra borders are displayed in the context menu ([e156fa9](https://github.com/pubannotation/textae/commit/e156fa9166afd3e54965e099a797bff00e0d2fb1))
+* The title of the palette button in the context menu is broken ([d2ce32f](https://github.com/pubannotation/textae/commit/d2ce32f43d5af190cf0222f2de5805d34563c164))
+
 ### [7.26.3](https://github.com/pubannotation/textae/compare/v7.26.2...v7.26.3) (2021-10-29)
 
 
