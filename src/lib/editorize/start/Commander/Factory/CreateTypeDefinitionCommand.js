@@ -10,11 +10,8 @@ export default class CreateTypeDefinitionCommand extends ConfigurationCommand {
   }
 
   execute() {
-    // manage default type
-    if (this._newType.default) {
-      // remember the current default, because revert command will not understand what type was it.
-      this._revertDefaultTypeId = this._definitionContainer.defaultType
-    }
+    // For UNDO, remember the default value before running this command.
+    this._revertDefaultTypeId = this._definitionContainer._defaultType
 
     this._definitionContainer.addDefinedType(this._newType)
 

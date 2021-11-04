@@ -114,8 +114,8 @@ export default class DefinitionContainer {
     return getDefaultTypeAutomatically(this._getAllInstanceFunc())
   }
 
+  // The default value can be removed.
   set defaultType(id) {
-    console.assert(id, 'id is necessary!')
     this._defaultType = id
   }
 
