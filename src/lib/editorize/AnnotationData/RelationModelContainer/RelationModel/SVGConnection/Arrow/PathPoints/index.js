@@ -24,7 +24,7 @@ export default class PathPoints {
 
     const controlY =
       Math.min(source.y, target.y) -
-      Math.abs(target.x - source.x) / 2 -
+      Math.abs(target.x - source.x) / 4 -
       20 +
       (alignSourceBollards && alignTargetBollards ? 3 : 0)
 
