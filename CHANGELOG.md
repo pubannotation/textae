@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.28.0](https://github.com/pubannotation/textae/compare/v7.27.0...v7.28.0) (2021-11-05)
+
+
+### Features
+
+* In view mode, make relation labels translucent to make overlapping text easier to read ([a9e2209](https://github.com/pubannotation/textae/commit/a9e2209e1997d53a154afde240e8302053a4f8c0))
+* Reduce the height of the relation by about half ([4cc016b](https://github.com/pubannotation/textae/commit/4cc016bca98b22f1b6dd85c67b78060dc06b29e0))
+
+
+### Bug Fixes
+
+* When there is no type definition, but there are instances, the default is to automatically calculate from the most instances. In this case, if you define a default type and UNDO, the default type will be set even though there is no type definition. ([79a13c4](https://github.com/pubannotation/textae/commit/79a13c44e8ffe81151ff19a9bc81bc7139cced54))
+
 ## [7.27.0](https://github.com/pubannotation/textae/compare/v7.26.3...v7.27.0) (2021-11-04)
 
 

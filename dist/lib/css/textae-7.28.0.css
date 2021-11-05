@@ -4081,6 +4081,12 @@ ul.jsondiffpatch-textdiff {
 .textae-editor__mode--view-with-relation .textae-editor__signboard[data-entity-type='relation'],
 .textae-editor__mode--view-without-relation .textae-editor__signboard[data-entity-type='relation'] {
   z-index: 0;
+  opacity: 0.5;
+}
+.textae-editor__mode--view-with-relation .textae-editor__signboard[data-entity-type='relation']:hover,
+.textae-editor__mode--view-without-relation .textae-editor__signboard[data-entity-type='relation']:hover {
+  z-index: 3;
+  opacity: 1;
 }
 .textae-editor__mode--denotation-with-relation .textae-editor__signboard[data-entity-type='denotation'],
 .textae-editor__mode--denotation-without-relation .textae-editor__signboard[data-entity-type='denotation'],
