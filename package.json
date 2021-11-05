@@ -108,7 +108,7 @@
     "dist:less": "lessc 'src/lib/css/textae.less' src/lib/css/$npm_package_name-$npm_package_version.css",
     "dist:lint": "npx prettier --check 'src/lib/**/*.js' 'src/lib/css/*.less' && eslint src/lib",
     "dist:replace:version": "replace-in-file /{{version}}/g $npm_package_version dist/editor.html,dist/demo/**/*.html --isRegex",
-    "postinstall": "husky install",
+    "postinstall": "husky install && cpx -C 'node_modules/font-awesome/fonts/**' src/lib/fonts",
     "release": "standard-version -a",
     "watch": "npm-run-all -p dev:watch dev:watch-less dev:server dev:open"
   },
