@@ -1,3 +1,4 @@
+import { diff } from 'jsondiffpatch'
 import PushButtons from './PushButtons'
 import EnableState from './EnableState'
 import DelimiterDetectAdjuster from './DelimiterDetectAdjuster'
@@ -6,7 +7,14 @@ import ButtonConfig from '../../ButtonConfig'
 import isTouchDevice from '../../isTouchDevice'
 
 export default class ButtonController {
-  constructor(eventEmitter, selectionModel, clipBoard, annotationWatcher) {
+  constructor(
+    eventEmitter,
+    selectionModel,
+    clipBoard,
+    annotationWatcher,
+    originalData,
+    typeDefinition
+  ) {
     this._enableState = new EnableState(eventEmitter, selectionModel, clipBoard)
     // Save state of push control buttons.
     this._pushButtons = new PushButtons(eventEmitter)
@@ -14,6 +22,10 @@ export default class ButtonController {
     this._annotationWatcher = annotationWatcher
 
     this._buttonConfig = new ButtonConfig(eventEmitter)
+
+    this._originalData = originalData
+
+    this._typeDefinition = typeDefinition
   }
 
   get pushButtonNames() {
@@ -101,5 +113,12 @@ export default class ButtonController {
       enableToExpand,
       enableToShrink
     )
+  }
+
+  get diffOfConfiguration() {
+    return diff(this._originalData.configuration, {
+      ...this._originalData.configuration,
+      ...this._typeDefinition.config
+    })
   }
 }

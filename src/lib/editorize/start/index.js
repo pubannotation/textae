@@ -49,7 +49,9 @@ export default function (
     editor.eventEmitter,
     selectionModel,
     clipBoard,
-    annotationWatcher
+    annotationWatcher,
+    originalData,
+    annotationData.typeDefinition
   )
   const presenter = new Presenter(
     editor,
