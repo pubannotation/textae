@@ -17,7 +17,18 @@ export default class View {
 
     eventEmitter
       .on('textae-event.annotation-data.all.change', debouncedUpdatePosition)
-      .on('textae-event.annotation-data.entity.add', debouncedUpdatePosition)
+      .on('textae-event.annotation-data.entity.add', () =>
+        // If you delay the recalculation of the line height
+        // when you create a new span and add entities,
+        // the span will move after the scrolling by the span focus.
+        // This may cause the span to move out of the display area.
+        // Calculate the line height with as little delay as possible
+        // and after rendering the entities.
+        requestAnimationFrame(() => {
+          lineHeightAuto.updateLineHeight()
+          this._annotationData.updatePosition()
+        })
+      )
       .on('textae-event.annotation-data.entity.change', debouncedUpdatePosition)
       .on('textae-event.annotation-data.entity.remove', debouncedUpdatePosition)
       .on('textae-event.annotation-data.entity.move', debouncedUpdatePosition)
