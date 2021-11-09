@@ -17,7 +17,6 @@ export default class Presenter {
     clipBoard,
     buttonController,
     view,
-    originalData,
     autocompletionWs,
     mode
   ) {

@@ -62,7 +62,6 @@ export default function (
     clipBoard,
     buttonController,
     view,
-    originalData,
     params.get('autocompletion_ws'),
     params.get('mode')
   )
