@@ -42,15 +42,15 @@ export default function (
     commander,
     selectionModel
   )
+  const view = new View(editor.eventEmitter, annotationData)
+  const statusBar = getStatusBar(editor, params.get('status_bar'))
+  const originalData = new OriginalData(editor, dataAccessObject, statusBar)
   const buttonController = new ButtonController(
     editor.eventEmitter,
     selectionModel,
     clipBoard,
     annotationWatcher
   )
-  const view = new View(editor.eventEmitter, annotationData)
-  const statusBar = getStatusBar(editor, params.get('status_bar'))
-  const originalData = new OriginalData(editor, dataAccessObject, statusBar)
   const presenter = new Presenter(
     editor,
     annotationData,
