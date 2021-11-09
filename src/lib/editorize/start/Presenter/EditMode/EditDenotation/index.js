@@ -17,7 +17,6 @@ export default class EditDenotation extends Edit {
     commander,
     buttonController,
     spanConfig,
-    originalData,
     autocompletionWs
   ) {
     const denotationPallet = new TypeValuesPallet(

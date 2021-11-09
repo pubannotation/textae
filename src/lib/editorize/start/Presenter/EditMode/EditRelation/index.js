@@ -11,7 +11,6 @@ export default class EditRelation extends Edit {
     annotationData,
     selectionModel,
     commander,
-    originalData,
     autocompletionWs,
     buttonController
   ) {

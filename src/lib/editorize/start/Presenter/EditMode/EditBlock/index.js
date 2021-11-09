@@ -17,7 +17,6 @@ export default class EditBlock extends Edit {
     spanConfig,
     commander,
     buttonController,
-    originalData,
     autocompletionWs
   ) {
     const spanEditor = new SpanEditor(

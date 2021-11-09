@@ -24,7 +24,6 @@ export default class EditMode {
       commander,
       buttonController,
       spanConfig,
-      originalData,
       autocompletionWs
     )
 
@@ -36,7 +35,6 @@ export default class EditMode {
       spanConfig,
       commander,
       buttonController,
-      originalData,
       autocompletionWs
     )
 
@@ -46,7 +44,6 @@ export default class EditMode {
       annotationData,
       selectionModel,
       commander,
-      originalData,
       autocompletionWs,
       buttonController
     )
