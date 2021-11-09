@@ -1,4 +1,3 @@
-import { diff } from 'jsondiffpatch'
 import delegate from 'delegate'
 import Pallet from '../Pallet'
 import bindAttributeEvent from './bindAttributeEvent'
@@ -9,20 +8,20 @@ export default class TypeValuesPallet extends Pallet {
   constructor(
     editorHTMLElement,
     eventEmitter,
-    originalData,
     annotationData,
     definitionContainer,
     selectionModelEntity,
     commander,
-    title
+    title,
+    buttonController
   ) {
     super(editorHTMLElement, title)
 
     this._eventEmitter = eventEmitter
-    this._originalData = originalData
     this._annotationData = annotationData
     this._definitionContainer = definitionContainer
     this._selectionModelItems = selectionModelEntity
+    this._buttonController = buttonController
 
     delegate(this._el, `.textae-editor__pallet__read-button`, 'click', () =>
       eventEmitter.emit('textae-event.pallet.read-button.click')
@@ -131,10 +130,7 @@ export default class TypeValuesPallet extends Pallet {
   get _content() {
     return createContentHtml(
       this._definitionContainer.pallet,
-      diff(this._originalData.configuration, {
-        ...this._originalData.configuration,
-        ...this._annotationData.typeDefinition.config
-      }),
+      this._buttonController.diffOfConfiguration,
       this._selectedPred,
       this._selectionModelItems,
       this._annotationData.typeDefinition.attribute,

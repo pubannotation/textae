@@ -23,12 +23,12 @@ export default class EditDenotation extends Edit {
     const denotationPallet = new TypeValuesPallet(
       editorHTMLElement,
       eventEmitter,
-      originalData,
       annotationData,
       annotationData.typeDefinition.denotation,
       selectionModel.entity,
       commander,
-      'Entity configuration'
+      'Entity configuration',
+      buttonController
     )
 
     const spanEditor = new SpanEditor(

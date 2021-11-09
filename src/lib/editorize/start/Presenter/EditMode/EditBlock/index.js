@@ -32,12 +32,12 @@ export default class EditBlock extends Edit {
     const blockPallet = new TypeValuesPallet(
       editorHTMLElement,
       eventEmitter,
-      originalData,
       annotationData,
       annotationData.typeDefinition.block,
       selectionModel.entity,
       commander,
-      'Entity configuration'
+      'Entity configuration',
+      buttonController
     )
 
     const getAutocompletionWs = () =>
