@@ -13,7 +13,6 @@ export default class EditMode {
     spanConfig,
     commander,
     buttonController,
-    originalData,
     autocompletionWs
   ) {
     this._editDenotation = new EditDenotation(

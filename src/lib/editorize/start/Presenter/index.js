@@ -28,7 +28,6 @@ export default class Presenter {
       spanConfig,
       commander,
       buttonController,
-      originalData,
       autocompletionWs
     )
 
