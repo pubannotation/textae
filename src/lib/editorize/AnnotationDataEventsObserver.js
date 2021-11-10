@@ -11,13 +11,7 @@ export default class AnnotationDataEventsObserver {
     // So even if no changes at the editor, there is something to save to the server.
     this._loadedAnnotationIsModified = false
 
-    const updateState = () => {
-      this._observable.set(
-        this._loadedAnnotationIsModified ||
-          this._history.hasAnythingToSaveAnnotation
-      )
-    }
-    eventEmitter.on('textae-event.history.change', updateState)
+    eventEmitter.on('textae-event.history.change', () => this._updateState())
 
     eventEmitter.on('textae-event.data-access-object.annotation.save', () => {
       this._observable.set(false)
@@ -47,5 +41,12 @@ export default class AnnotationDataEventsObserver {
 
   get hasChange() {
     return this._observable()
+  }
+
+  _updateState() {
+    this._observable.set(
+      this._loadedAnnotationIsModified ||
+        this._history.hasAnythingToSaveAnnotation
+    )
   }
 }
