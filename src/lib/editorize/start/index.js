@@ -46,9 +46,6 @@ export default function (
   const statusBar = getStatusBar(editor, params.get('status_bar'))
   const originalData = new OriginalData(editor, dataAccessObject, statusBar)
   const annotationDataEventsObserver = new AnnotationDataEventsObserver(editor)
-  annotationDataEventsObserver.bind((val) =>
-    editor.eventEmitter.emit('textae-event.control.writeButton.transit', val)
-  )
   const buttonController = new ButtonController(
     editor.eventEmitter,
     selectionModel,
