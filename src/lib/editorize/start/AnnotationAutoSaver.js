@@ -15,12 +15,6 @@ export default class AnnotationAutoSaver {
       5000
     )
 
-    annotationDataEventsObserver.bind((val) => {
-      if (val && buttonController.isPushed('write-auto')) {
-        debounceSaveAnnotation()
-      }
-    })
-
     editor.eventEmitter
       .on('textae-event.data-access-object.annotation.load.success', () =>
         this._disabled()
@@ -41,6 +35,11 @@ export default class AnnotationAutoSaver {
           annotationDataEventsObserver.hasChange
         ) {
           persistenceInterface.saveAnnotation()
+        }
+      })
+      .on('textae-event.annotation-data.events-observer.change', (val) => {
+        if (val && buttonController.isPushed('write-auto')) {
+          debounceSaveAnnotation()
         }
       })
   }

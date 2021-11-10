@@ -38,7 +38,8 @@ export default class AnnotationDataEventsObserver {
 
     this._observable(() =>
       editor.eventEmitter.emit(
-        'textae-event.annotation-data.events-observer.change'
+        'textae-event.annotation-data.events-observer.change',
+        this._observable()
       )
     )
   }
