@@ -18,6 +18,7 @@ import ControlBar from '../control/ControlBar'
 import ContextMenu from '../control/ContextMenu'
 import KeyEventMap from './KeyEventMap'
 import IconEventMap from './IconEventMap'
+import AnnotationDataEventsObserver from '../AnnotationDataEventsObserver'
 
 export default function (
   editor,
@@ -25,7 +26,6 @@ export default function (
   history,
   annotationData,
   selectionModel,
-  annotationDataEventsObserver,
   params
 ) {
   const spanConfig = new SpanConfig()
@@ -45,6 +45,10 @@ export default function (
   const view = new View(editor.eventEmitter, annotationData)
   const statusBar = getStatusBar(editor, params.get('status_bar'))
   const originalData = new OriginalData(editor, dataAccessObject, statusBar)
+  const annotationDataEventsObserver = new AnnotationDataEventsObserver(editor)
+  annotationDataEventsObserver.bind((val) =>
+    editor.eventEmitter.emit('textae-event.control.writeButton.transit', val)
+  )
   const buttonController = new ButtonController(
     editor.eventEmitter,
     selectionModel,
