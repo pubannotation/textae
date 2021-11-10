@@ -113,7 +113,7 @@ export default function (
   )
 
   new AnnotationAutoSaver(
-    editor,
+    editor.eventEmitter,
     buttonController,
     persistenceInterface,
     params.get('annotation').get('save_to'),

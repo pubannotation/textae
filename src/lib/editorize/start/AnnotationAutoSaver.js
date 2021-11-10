@@ -2,7 +2,7 @@ import debounce from 'debounce'
 
 export default class AnnotationAutoSaver {
   constructor(
-    editor,
+    eventEmitter,
     buttonController,
     persistenceInterface,
     saveToParameter,
@@ -15,13 +15,13 @@ export default class AnnotationAutoSaver {
       5000
     )
 
-    editor.eventEmitter
+    eventEmitter
       .on('textae-event.data-access-object.annotation.load.success', () =>
         this._disabled()
       )
       .on('textae-event.data-access-object.save.error', () => this._disabled())
       .on('textae-event.data-access-object.annotation.url.set', (dataSource) =>
-        editor.eventEmitter.emit(
+        eventEmitter.emit(
           'textae-event.annotation-auto-saver.enable',
           Boolean(saveToParameter || dataSource.id)
         )
