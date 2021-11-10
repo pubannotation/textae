@@ -71,7 +71,7 @@ export default class ControlBar extends Control {
       .on('textae-event.annotation-data.events-observer.change', () => {
         this._updateButton('write', 'transit')
       })
-      .on('textae-event.control.palletButton.changeTitle', (title) => {
+      .on('textae-event.control.pallet-button.change-title', (title) => {
         const button = this._el.querySelector(`.textae-control-pallet-button`)
         button.title = title
       })
