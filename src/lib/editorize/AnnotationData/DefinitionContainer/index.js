@@ -117,6 +117,10 @@ export default class DefinitionContainer {
   // The default value can be removed.
   set defaultType(id) {
     this._defaultType = id
+    this._eventEmitter.emit(
+      `textae-event.type-definition.${this._annotationType}.change-default`,
+      id
+    )
   }
 
   get defaultColor() {
@@ -152,7 +156,7 @@ export default class DefinitionContainer {
 
   delete(id, defaultType) {
     this._definedTypes.delete(id)
-    this.defaultType = defaultType
+    this._defaultType = defaultType
     this._eventEmitter.emit(
       `textae-event.type-definition.${this._annotationType}.delete`,
       id
