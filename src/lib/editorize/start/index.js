@@ -46,7 +46,8 @@ export default function (
   const statusBar = getStatusBar(editor, params.get('status_bar'))
   const originalData = new OriginalData(editor, dataAccessObject, statusBar)
   const annotationDataEventsObserver = new AnnotationDataEventsObserver(
-    editor.eventEmitter
+    editor.eventEmitter,
+    history
   )
   const buttonController = new ButtonController(
     editor.eventEmitter,

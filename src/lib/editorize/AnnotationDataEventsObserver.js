@@ -2,7 +2,8 @@
 import Observable from 'observ'
 
 export default class AnnotationDataEventsObserver {
-  constructor(eventEmitter) {
+  constructor(eventEmitter, history) {
+    this._history = history
     this._observable = new Observable(false)
 
     // Fix loading annotation automatically when loading multitrack or broken annotation.
@@ -10,11 +11,12 @@ export default class AnnotationDataEventsObserver {
     // So even if no changes at the editor, there is something to save to the server.
     let loadedAnnotationIsModified = false
 
-    eventEmitter.on('textae-event.history.change', (history) => {
+    const updateState = () => {
       this._observable.set(
-        loadedAnnotationIsModified || history.hasAnythingToSaveAnnotation
+        loadedAnnotationIsModified || this._history.hasAnythingToSaveAnnotation
       )
-    })
+    }
+    eventEmitter.on('textae-event.history.change', updateState)
 
     eventEmitter.on('textae-event.data-access-object.annotation.save', () => {
       this._observable.set(false)
