@@ -6,7 +6,7 @@ export default class AnnotationAutoSaver {
     buttonController,
     persistenceInterface,
     saveToParameter,
-    annotationWatcher
+    annotationDataEventsObserver
   ) {
     this._buttonController = buttonController
 
@@ -15,7 +15,7 @@ export default class AnnotationAutoSaver {
       5000
     )
 
-    annotationWatcher.bind((val) => {
+    annotationDataEventsObserver.bind((val) => {
       if (val && buttonController.isPushed('write-auto')) {
         debounceSaveAnnotation()
       }
@@ -38,7 +38,7 @@ export default class AnnotationAutoSaver {
         if (
           name === 'write-auto' &&
           isPushed === true &&
-          annotationWatcher.hasChange
+          annotationDataEventsObserver.hasChange
         ) {
           persistenceInterface.saveAnnotation()
         }

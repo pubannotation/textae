@@ -11,7 +11,7 @@ export default class ButtonController {
     eventEmitter,
     selectionModel,
     clipBoard,
-    annotationWatcher,
+    annotationDataEventsObserver,
     originalData,
     typeDefinition
   ) {
@@ -19,7 +19,7 @@ export default class ButtonController {
     // Save state of push control buttons.
     this._pushButtons = new PushButtons(eventEmitter)
 
-    this._annotationWatcher = annotationWatcher
+    this._annotationDataEventsObserver = annotationDataEventsObserver
 
     this._buttonConfig = new ButtonConfig(eventEmitter)
 
@@ -101,7 +101,7 @@ export default class ButtonController {
       case 'disabled':
         return !this._enableState.get(name)
       case 'transit':
-        return name === 'write' && this._annotationWatcher.hasChange
+        return name === 'write' && this._annotationDataEventsObserver.hasChange
       default:
         new Error('Unknown state')
     }

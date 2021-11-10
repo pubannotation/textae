@@ -1,7 +1,7 @@
 // Maintainance a state of which the save button is able to be push.
 import Observable from 'observ'
 
-export default class AnnotationWatcher {
+export default class AnnotationDataEventsObserver {
   constructor(editor) {
     this._observable = new Observable(false)
 

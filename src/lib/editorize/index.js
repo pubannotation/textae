@@ -5,7 +5,7 @@ import AnnotationData from './AnnotationData'
 import SelectionModel from './SelectionModel'
 // The history of command that providing undo and redo.
 import History from './History'
-import AnnotationWatcher from './AnnotationWatcher'
+import AnnotationDataEventsObserver from './AnnotationDataEventsObserver'
 import start from './start'
 import { EventEmitter } from 'events'
 import observeDataSave from './observeDataSave'
@@ -27,8 +27,8 @@ export default function (element) {
   const history = new History($this.eventEmitter)
   const dataAccessObject = new DataAccessObject($this)
 
-  const annotationWatcher = new AnnotationWatcher($this)
-  annotationWatcher.bind((val) =>
+  const annotationDataEventsObserver = new AnnotationDataEventsObserver($this)
+  annotationDataEventsObserver.bind((val) =>
     $this.eventEmitter.emit('textae-event.control.writeButton.transit', val)
   )
   observeDataSave($this, history)
@@ -43,7 +43,7 @@ export default function (element) {
         history,
         annotationData,
         selectionModel,
-        annotationWatcher,
+        annotationDataEventsObserver,
         params
       )
     },

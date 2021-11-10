@@ -25,7 +25,7 @@ export default function (
   history,
   annotationData,
   selectionModel,
-  annotationWatcher,
+  annotationDataEventsObserver,
   params
 ) {
   const spanConfig = new SpanConfig()
@@ -49,7 +49,7 @@ export default function (
     editor.eventEmitter,
     selectionModel,
     clipBoard,
-    annotationWatcher,
+    annotationDataEventsObserver,
     originalData,
     annotationData.typeDefinition
   )
@@ -114,7 +114,7 @@ export default function (
     buttonController,
     persistenceInterface,
     params.get('annotation').get('save_to'),
-    annotationWatcher
+    annotationDataEventsObserver
   )
 
   editor.instanceMethods = new InstanceMethods(
