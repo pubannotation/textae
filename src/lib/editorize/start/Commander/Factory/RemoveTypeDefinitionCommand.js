@@ -14,8 +14,7 @@ export default class RemoveTypeDefinitionCommand extends ConfigurationCommand {
     const { id } = this._removeType
     const oldType = this._definitionContainer.get(id)
 
-    this._definitionContainer.delete(id)
-    this._definitionContainer.defaultType = this._revertDefaultTypeId
+    this._definitionContainer.delete(id, this._revertDefaultTypeId)
 
     if (oldType) {
       this._removeType = oldType
