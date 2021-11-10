@@ -29,9 +29,10 @@ export default class AnnotationDataEventsObserver {
         if (multitrack || hasError) {
           this._observable.set(true)
           loadedAnnotationIsModified = true
+        } else {
+          this._observable.set(false)
+          loadedAnnotationIsModified = false
         }
-
-        this._observable.set(false)
       }
     )
 
