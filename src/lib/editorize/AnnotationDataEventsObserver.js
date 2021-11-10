@@ -11,25 +11,24 @@ export default class AnnotationDataEventsObserver {
     // So even if no changes at the editor, there is something to save to the server.
     this._loadedAnnotationIsModified = false
 
-    eventEmitter.on('textae-event.history.change', () => this._updateState())
-
-    eventEmitter.on('textae-event.data-access-object.annotation.save', () => {
-      this._observable.set(false)
-      this._loadedAnnotationIsModified = false
-    })
-
-    eventEmitter.on(
-      'textae-event.annotation-data.all.change',
-      (_, multitrack, hasError) => {
-        if (multitrack || hasError) {
-          this._observable.set(true)
-          this._loadedAnnotationIsModified = true
-        } else {
-          this._observable.set(false)
-          this._loadedAnnotationIsModified = false
+    eventEmitter
+      .on('textae-event.history.change', () => this._updateState())
+      .on('textae-event.data-access-object.annotation.save', () => {
+        this._observable.set(false)
+        this._loadedAnnotationIsModified = false
+      })
+      .on(
+        'textae-event.annotation-data.all.change',
+        (_, multitrack, hasError) => {
+          if (multitrack || hasError) {
+            this._observable.set(true)
+            this._loadedAnnotationIsModified = true
+          } else {
+            this._observable.set(false)
+            this._loadedAnnotationIsModified = false
+          }
         }
-      }
-    )
+      )
 
     this._observable(() =>
       eventEmitter.emit(
