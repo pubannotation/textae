@@ -152,5 +152,9 @@ export default class DefinitionContainer {
 
   delete(id) {
     this._definedTypes.delete(id)
+    this._eventEmitter.emit(
+      `textae-event.type-definition.${this._annotationType}.delete`,
+      id
+    )
   }
 }
