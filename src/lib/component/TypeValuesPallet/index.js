@@ -51,13 +51,9 @@ export default class TypeValuesPallet extends Pallet {
       })
 
     // Reload when instance addition / deletion is undo / redo.
-    eventEmitter
-      .on('textae-event.annotation-data.attribute.add', () =>
-        this.updateDisplay()
-      )
-      .on('textae-event.annotation-data.attribute.remove', () =>
-        this.updateDisplay()
-      )
+    eventEmitter.on('textae-event.annotation-data.events-observer.change', () =>
+      this.updateDisplay()
+    )
 
     // Update selected entity label
     eventEmitter.on('textae-event.selection.entity.change', () =>
@@ -66,7 +62,6 @@ export default class TypeValuesPallet extends Pallet {
 
     eventEmitter
       .on('textae-event.editor.unselect', () => this.hide()) // Close pallet when selecting other editor.
-      .on('textae-event.history.change', () => this.updateDisplay()) // Update save config button when changing history and savigng configuration.
       .on('textae-event.orginal-data.configuration.reset', () =>
         this.updateDisplay()
       )
