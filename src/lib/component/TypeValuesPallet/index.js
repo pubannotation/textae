@@ -72,9 +72,15 @@ export default class TypeValuesPallet extends Pallet {
       )
       .on(`textae-event.type-definition.lock`, () => this.updateDisplay())
 
-    // Update the palette when undoing add entity and relation definition.
+    // Update the palette when undoing and redoing add entity and relation definition.
     eventEmitter
+      .on('textae-event.type-definition.entity.change', () =>
+        this.updateDisplay()
+      )
       .on('textae-event.type-definition.entity.delete', () =>
+        this.updateDisplay()
+      )
+      .on('textae-event.type-definition.relation.change', () =>
         this.updateDisplay()
       )
       .on('textae-event.type-definition.relation.delete', () =>
