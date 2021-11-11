@@ -3139,6 +3139,48 @@ ul.jsondiffpatch-textdiff {
   background-color: #ccc;
   color: #999;
 }
+.textae-editor__edit-type-values-dialog__add-attribute-buttons button::after {
+  background-color: #1c94c4;
+  border-radius: 50%;
+  color: #fff;
+  display: block;
+  font-weight: normal;
+  left: 1px;
+  padding-left: 3px;
+  padding-right: 3px;
+  position: absolute;
+  top: 8px;
+}
+.textae-editor__edit-type-values-dialog__add-attribute-buttons button:disabled::after {
+  background-color: #999;
+}
+.textae-editor__edit-type-values-dialog__add-attribute-buttons button:nth-child(1)::after {
+  content: '1';
+}
+.textae-editor__edit-type-values-dialog__add-attribute-buttons button:nth-child(2)::after {
+  content: '2';
+}
+.textae-editor__edit-type-values-dialog__add-attribute-buttons button:nth-child(3)::after {
+  content: '3';
+}
+.textae-editor__edit-type-values-dialog__add-attribute-buttons button:nth-child(4)::after {
+  content: '4';
+}
+.textae-editor__edit-type-values-dialog__add-attribute-buttons button:nth-child(5)::after {
+  content: '5';
+}
+.textae-editor__edit-type-values-dialog__add-attribute-buttons button:nth-child(6)::after {
+  content: '6';
+}
+.textae-editor__edit-type-values-dialog__add-attribute-buttons button:nth-child(7)::after {
+  content: '7';
+}
+.textae-editor__edit-type-values-dialog__add-attribute-buttons button:nth-child(8)::after {
+  content: '8';
+}
+.textae-editor__edit-type-values-dialog__add-attribute-buttons button:nth-child(9)::after {
+  content: '9';
+}
 .textae-editor__edit-string-attribute-dialog__container {
   display: flex;
   flex-direction: column;

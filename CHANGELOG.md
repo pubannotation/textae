@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.29.0](https://github.com/pubannotation/textae/compare/v7.28.0...v7.29.0) (2021-11-11)
+
+
+### Features
+
+* Don't scroll out the span when you create a new span and recalculate the line height ([b50e8b7](https://github.com/pubannotation/textae/commit/b50e8b725c086f6e7d8c230108b77a6657471fb2))
+* Don't scroll out the span when you delete a new span and recalculate the line height ([395d2da](https://github.com/pubannotation/textae/commit/395d2da62db9bc3656e36123750c571bce96e6d4))
+* Show shortcut key number of attributes in the edit type values dialog ([4088efc](https://github.com/pubannotation/textae/commit/4088efc4777ef315c19ec203f2cd55f36cbe6a3a))
+
+
+### Bug Fixes
+
+* Palette does not update when redoing entity and relationship definition additions that include default type changes ([49bd056](https://github.com/pubannotation/textae/commit/49bd0561f3473494692daa2233a1e0fd1fc5e6bb))
+* Palette does not update when undoing add entity and relationship definitions that contain default type changes ([830e94a](https://github.com/pubannotation/textae/commit/830e94a3fa1f0005113c3b83974a5b13cc86fb52))
+* Palette does not update when undoing or redoing default type changes for entity and relationship definitions ([5fcd51d](https://github.com/pubannotation/textae/commit/5fcd51d3a3ee89b613c56ab71978a5d28e714e5b))
+* Palette is not updated when redoing add entity and relation definition ([859795e](https://github.com/pubannotation/textae/commit/859795e24a05598f0c60eb7ac97e63ba728bb4dc))
+* Palette is not updated when undoing add entity definition ([69eb40f](https://github.com/pubannotation/textae/commit/69eb40fee723e8e52cd093ddc5c8b8091bbb4d47))
+* Palette is not updated when undoing add relation definition ([3f96fa1](https://github.com/pubannotation/textae/commit/3f96fa1262b77197336ea15df082613ac5e204e0))
+* Save button does not show a star when loading an annotation file with errors ([4afbc15](https://github.com/pubannotation/textae/commit/4afbc15acb4250a0aaf2ec1bf9614dbf48e7b35a))
+
 ## [7.28.0](https://github.com/pubannotation/textae/compare/v7.27.0...v7.28.0) (2021-11-05)
 
 
