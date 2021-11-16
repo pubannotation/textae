@@ -47,11 +47,14 @@ export default class StringAttributeDefinition extends AttributeDefinition {
   }
 
   get JSON() {
-    return Object.assign(super.JSON, {
-      'value type': 'string',
-      autocompletion_ws: this.autocompletionWs,
-      default: this.default,
-      values: super._valuesClone
-    })
+    return {
+      ...super.JSON,
+      ...{
+        'value type': 'string',
+        autocompletion_ws: this.autocompletionWs,
+        default: this.default,
+        values: super._valuesClone
+      }
+    }
   }
 }
