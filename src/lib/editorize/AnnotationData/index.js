@@ -116,7 +116,7 @@ export default class AnnotationData {
     )
   }
 
-  toJson() {
+  get JSON() {
     return {
       denotations: toDenotations(this),
       attributes: toAttributes(this),

@@ -100,7 +100,7 @@ export default function (
         // If only the configuration is read, the annotation is null.
         const annotation =
           (loadedAnnotation && loadedAnnotation.data) ||
-          Object.assign(originalData.annotation, annotationData.toJson())
+          Object.assign(originalData.annotation, annotationData.JSON)
 
         const validConfig = validateConfigurationAndAlert(
           annotation,
