@@ -45,9 +45,12 @@ export default class SelectionAttributeDefinition extends AttributeDefinition {
   }
 
   get JSON() {
-    return Object.assign(super.JSON, {
-      'value type': 'selection',
-      values: super._valuesClone
-    })
+    return {
+      ...super.JSON,
+      ...{
+        'value type': 'selection',
+        values: super._valuesClone
+      }
+    }
   }
 }
