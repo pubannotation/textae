@@ -98,9 +98,10 @@ export default function (
         // and a configuration is loaded from a taxtae attribute value,
         // both the loaded configuration and the annotation are passed.
         // If only the configuration is read, the annotation is null.
-        const annotation =
-          (loadedAnnotation && loadedAnnotation.data) ||
-          Object.assign(originalData.annotation, annotationData.JSON)
+        const annotation = (loadedAnnotation && loadedAnnotation.data) || {
+          ...originalData.annotation,
+          ...annotationData.JSON
+        }
 
         const validConfig = validateConfigurationAndAlert(
           annotation,
