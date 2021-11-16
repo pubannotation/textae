@@ -1,7 +1,6 @@
 import LoadDialog from '../../../component/LoadDialog'
 import SaveAnnotationDialog from '../../../component/SaveAnnotationDialog'
 import SaveConfigurationDialog from '../../../component/SaveConfigurationDialog'
-import mergeAnnotation from './mergeAnnotation'
 import readAnnotationFile from './readAnnotationFile'
 import readConfigurationFile from './readConfigurationFile'
 import DataSource from '../../DataSource'
@@ -124,10 +123,12 @@ export default class PersistenceInterface {
   }
 
   get _editedAnnotation() {
-    return mergeAnnotation(
+    return Object.assign(
       this._getOriginalAnnotation(),
-      this._annotationData,
-      this._annotationData.typeDefinition.config
+      this._annotationData.JSON,
+      {
+        config: this._annotationData.typeDefinition.config
+      }
     )
   }
 }
