@@ -123,12 +123,12 @@ export default class PersistenceInterface {
   }
 
   get _editedAnnotation() {
-    return Object.assign(
-      this._getOriginalAnnotation(),
-      this._annotationData.JSON,
-      {
+    return {
+      ...this._getOriginalAnnotation(),
+      ...this._annotationData.JSON,
+      ...{
         config: this._annotationData.typeDefinition.config
       }
-    )
+    }
   }
 }
