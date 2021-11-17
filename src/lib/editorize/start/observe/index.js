@@ -21,14 +21,11 @@ export default function (
     .on('textae-event.type-definition.reset', () =>
       history.resetConfiguration()
     )
-    .on('textae-event.history.change', (history) => {
+    .on('textae-event.annotation-data.events-observer.change', (hasChange) => {
       // change leaveMessage show
       // Reloading when trying to scroll further when you are at the top on an Android device.
       // Show a confirmation dialog to prevent this.
-      window.onbeforeunload =
-        isTouchDevice() || history.hasAnythingToSaveAnnotation
-          ? () => true
-          : null
+      window.onbeforeunload = isTouchDevice() || hasChange ? () => true : null
     })
     .on(
       'textae-event.data-access-object.annotation.load.success',
