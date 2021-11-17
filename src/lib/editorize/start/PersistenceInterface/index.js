@@ -14,7 +14,8 @@ export default class PersistenceInterface {
     annotationData,
     getOriginalAnnotation,
     getOriginalConfig,
-    saveToParameter
+    saveToParameter,
+    buttonController
   ) {
     this._editor = editor
     this._dataAccessObject = dataAccessObject
@@ -23,6 +24,7 @@ export default class PersistenceInterface {
     this._getOriginalAnnotation = getOriginalAnnotation
     this._getOriginalConfig = getOriginalConfig
     this._saveToParameter = saveToParameter
+    this._buttonController = buttonController
 
     // Store the filename of the annotation and configuration.
     this._filenameOfLastRead = {
@@ -101,7 +103,7 @@ export default class PersistenceInterface {
           )
         }
       },
-      this._annotationDataEventsObserver.hasAnythingToSaveConfiguration
+      this._buttonController.diffOfConfiguration
     ).open()
   }
 
