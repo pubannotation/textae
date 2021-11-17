@@ -10,20 +10,20 @@ export default class PersistenceInterface {
   constructor(
     editor,
     dataAccessObject,
-    annotationDataEventsObserver,
     annotationData,
     getOriginalAnnotation,
     getOriginalConfig,
     saveToParameter,
+    annotationDataEventsObserver,
     buttonController
   ) {
     this._editor = editor
     this._dataAccessObject = dataAccessObject
-    this._annotationDataEventsObserver = annotationDataEventsObserver
     this._annotationData = annotationData
     this._getOriginalAnnotation = getOriginalAnnotation
     this._getOriginalConfig = getOriginalConfig
     this._saveToParameter = saveToParameter
+    this._annotationDataEventsObserver = annotationDataEventsObserver
     this._buttonController = buttonController
 
     // Store the filename of the annotation and configuration.

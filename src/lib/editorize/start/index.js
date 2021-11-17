@@ -113,11 +113,11 @@ export default function (
   const persistenceInterface = new PersistenceInterface(
     editor,
     dataAccessObject,
-    annotationDataEventsObserver,
     annotationData,
     () => originalData.annotation,
     () => originalData.configuration,
     params.get('annotation').get('save_to'),
+    annotationDataEventsObserver,
     buttonController
   )
 
