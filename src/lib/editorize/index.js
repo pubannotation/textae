@@ -1,5 +1,6 @@
 import $ from 'jquery'
 import alertifyjs from 'alertifyjs'
+import delegate from 'delegate'
 import DataAccessObject from './DataAccessObject'
 // model manages data objects.
 import AnnotationData from './AnnotationData'
@@ -75,6 +76,20 @@ export default function (element) {
       // Show a confirmation dialog to prevent this.
       window.onbeforeunload = isTouchDevice() || hasChange ? () => true : null
     })
+
+  const dom = $this[0]
+
+  // Prevent a selection text with shift keies.
+  dom.addEventListener('mousedown', (e) => {
+    if (e.shiftKey) {
+      e.preventDefault()
+    }
+  })
+
+  // Prevent a selection of an entity by the double-click.
+  delegate(dom, '.textae-editor__signboard', 'mousedown', (e) =>
+    e.preventDefault()
+  )
 
   // public funcitons of editor
   Object.assign($this, {

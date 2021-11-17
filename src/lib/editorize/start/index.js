@@ -1,5 +1,4 @@
 import alertifyjs from 'alertifyjs'
-import delegate from 'delegate'
 import debounce from 'debounce'
 import SpanConfig from './SpanConfig'
 import Commander from './Commander'
@@ -223,20 +222,6 @@ export default function (
     .on('textae-event.data-access-object.configuration.save', (editedData) => {
       originalData.configuration = new DataSource(null, null, editedData)
     })
-
-  const dom = editor[0]
-
-  // Prevent a selection text with shift keies.
-  dom.addEventListener('mousedown', (e) => {
-    if (e.shiftKey) {
-      e.preventDefault()
-    }
-  })
-
-  // Prevent a selection of an entity by the double-click.
-  delegate(dom, '.textae-editor__signboard', 'mousedown', (e) =>
-    e.preventDefault()
-  )
 
   document.addEventListener(
     'selectionchange',
