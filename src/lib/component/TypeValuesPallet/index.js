@@ -75,6 +75,9 @@ export default class TypeValuesPallet extends Pallet {
       .on('textae-event.type-definition.entity.delete', () =>
         this.updateDisplay()
       )
+      .on('textae-event.type-definition.entity.change-default', () =>
+        this.updateDisplay()
+      )
       .on('textae-event.type-definition.relation.change', () =>
         this.updateDisplay()
       )
