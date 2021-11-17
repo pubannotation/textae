@@ -107,7 +107,7 @@ export default function (
   const persistenceInterface = new PersistenceInterface(
     editor,
     dataAccessObject,
-    history,
+    annotationDataEventsObserver,
     annotationData,
     () => originalData.annotation,
     () => originalData.configuration,

@@ -10,7 +10,7 @@ export default class PersistenceInterface {
   constructor(
     editor,
     dataAccessObject,
-    history,
+    annotationDataEventsObserver,
     annotationData,
     getOriginalAnnotation,
     getOriginalConfig,
@@ -18,7 +18,7 @@ export default class PersistenceInterface {
   ) {
     this._editor = editor
     this._dataAccessObject = dataAccessObject
-    this._history = history
+    this._annotationDataEventsObserver = annotationDataEventsObserver
     this._annotationData = annotationData
     this._getOriginalAnnotation = getOriginalAnnotation
     this._getOriginalConfig = getOriginalConfig
@@ -57,7 +57,7 @@ export default class PersistenceInterface {
           new DataSource('instant', null)
         )
       },
-      this._history.hasAnythingToSaveAnnotation
+      this._annotationDataEventsObserver.hasChange
     ).open()
   }
 
@@ -101,7 +101,7 @@ export default class PersistenceInterface {
           )
         }
       },
-      this._history.hasAnythingToSaveConfiguration
+      this._annotationDataEventsObserver.hasAnythingToSaveConfiguration
     ).open()
   }
 
