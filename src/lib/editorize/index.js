@@ -8,8 +8,8 @@ import History from './History'
 import start from './start'
 import { EventEmitter } from 'events'
 import observeDataSave from './observeDataSave'
-import observeModelChange from './observeModelChange'
 import getParams from './getParams'
+import ValidationDialog from '../component/ValidationDialog'
 
 export default function (element) {
   const $this = $(element)
@@ -27,7 +27,14 @@ export default function (element) {
   const dataAccessObject = new DataAccessObject($this)
 
   observeDataSave($this, history)
-  observeModelChange($this, history)
+  $this.eventEmitter.on(
+    'textae-event.annotation-data.all.change',
+    (_, __, hasError, reject) => {
+      if (hasError) {
+        new ValidationDialog(reject).open()
+      }
+    }
+  )
 
   // public funcitons of editor
   Object.assign($this, {
