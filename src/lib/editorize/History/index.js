@@ -5,7 +5,7 @@ export default class History {
     this._eventEmitter = eventEmitter
 
     eventEmitter.on('textae-event.type-definition.reset', () =>
-      this.resetConfiguration()
+      this._resetConfiguration()
     )
   }
 
@@ -38,7 +38,7 @@ export default class History {
     return prev
   }
 
-  resetConfiguration() {
+  _resetConfiguration() {
     this._removeConfigurationOperationsFromHistory()
     this._trigger()
   }
