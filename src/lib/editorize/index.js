@@ -43,6 +43,14 @@ export default function (element) {
       )
     )
     .on(
+      'textae-event.data-access-object.annotation.format.error',
+      ({ displayName }) =>
+        alertifyjs.error(
+          `${displayName} is not a annotation file or its format is invalid.`
+        )
+    )
+
+    .on(
       'textae-event.annotation-data.all.change',
       (_, __, hasError, reject) => {
         if (hasError) {
