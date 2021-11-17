@@ -1,9 +1,11 @@
 // Maintainance a state of which the save button is able to be push.
 import Observable from 'observ'
+import diffOfAnnotation from './diffOfAnnotation'
 
 export default class AnnotationDataEventsObserver {
-  constructor(eventEmitter, history) {
-    this._history = history
+  constructor(eventEmitter, originalData, annotationData) {
+    this._originalData = originalData
+    this._annotationData = annotationData
     this._observable = new Observable(false)
 
     // Fix loading annotation automatically when loading multitrack or broken annotation.
@@ -12,7 +14,6 @@ export default class AnnotationDataEventsObserver {
     this._loadedAnnotationIsModified = false
 
     eventEmitter
-      .on('textae-event.history.change', () => this._updateState())
       .on('textae-event.data-access-object.annotation.save', () => {
         this._observable.set(false)
         this._loadedAnnotationIsModified = false
@@ -28,6 +29,26 @@ export default class AnnotationDataEventsObserver {
             this._loadedAnnotationIsModified = false
           }
         }
+      )
+      .on('textae-event.annotation-data.span.add', () => this._updateState())
+      .on('textae-event.annotation-data.span.change', () => this._updateState())
+      .on('textae-event.annotation-data.span.remove', () => this._updateState())
+      .on('textae-event.annotation-data.span.move', () => this._updateState())
+      .on('textae-event.annotation-data.entity.add', () => this._updateState())
+      .on('textae-event.annotation-data.entity.change', () =>
+        this._updateState()
+      )
+      .on('textae-event.annotation-data.entity.remove', () =>
+        this._updateState()
+      )
+      .on('textae-event.annotation-data.relation.add', () =>
+        this._updateState()
+      )
+      .on('textae-event.annotation-data.relation.change', () =>
+        this._updateState()
+      )
+      .on('textae-event.annotation-data.relation.remove', () =>
+        this._updateState()
       )
 
     this._observable(() =>
@@ -45,7 +66,7 @@ export default class AnnotationDataEventsObserver {
   _updateState() {
     this._observable.set(
       this._loadedAnnotationIsModified ||
-        this._history.hasAnythingToSaveAnnotation
+        diffOfAnnotation(this._originalData, this._annotationData)
     )
   }
 }

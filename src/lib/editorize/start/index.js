@@ -47,7 +47,8 @@ export default function (
   const originalData = new OriginalData(editor, dataAccessObject, statusBar)
   const annotationDataEventsObserver = new AnnotationDataEventsObserver(
     editor.eventEmitter,
-    history
+    originalData,
+    annotationData
   )
   const buttonController = new ButtonController(
     editor.eventEmitter,
