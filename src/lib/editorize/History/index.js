@@ -11,6 +11,12 @@ export default class History {
       .on('textae-event.annotation-data.all.change', () =>
         this._resetAllHistories()
       )
+      .on('textae-event.data-access-object.annotation.save', () => {
+        this.annotatioSaved()
+      })
+      .on('textae-event.data-access-object.configuration.save', () => {
+        this.configurationSaved()
+      })
   }
 
   push(command) {
