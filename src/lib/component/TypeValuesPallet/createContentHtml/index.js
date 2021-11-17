@@ -27,6 +27,18 @@ export default function (
 
   const attrDef = attributes.find((a) => a.pred === selectedPred)
 
+  // When you re-read the configuration,
+  // you may not find the attribute definition.
+  if (!attrDef) {
+    return typeTemplate({
+      isLock,
+      attributes,
+      hasDiff,
+      types,
+      selectionModelItems
+    })
+  }
+
   const values = {
     isLock,
     attributes,
