@@ -60,16 +60,6 @@ export default class History {
     return this._pointer < this._histories.length - 1
   }
 
-  _getPrevPrevCommandIndexOf(kind) {
-    const prevIndex = this._getPrevKindCommand(kind)
-    // may be zero
-    if (prevIndex !== undefined) {
-      return prevIndex
-    } else {
-      return -1
-    }
-  }
-
   _getPrevKindCommand(kind) {
     for (let i = this._pointer - 1; i >= 0; i--) {
       if (this._histories[i].kind.has(kind)) {
