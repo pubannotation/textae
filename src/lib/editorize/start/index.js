@@ -222,6 +222,12 @@ export default function (
     .on('textae-event.data-access-object.configuration.save', (editedData) => {
       originalData.configuration = new DataSource(null, null, editedData)
     })
+    .on('textae-event.pallet.read-button.click', () =>
+      persistenceInterface.importConfiguration()
+    )
+    .on('textae-event.pallet.write-button.click', () =>
+      persistenceInterface.uploadConfiguration()
+    )
 
   document.addEventListener(
     'selectionchange',
@@ -230,14 +236,6 @@ export default function (
   document.addEventListener('contextmenu', () =>
     editor.instanceMethods.applyTextSelection()
   )
-
-  editor.eventEmitter
-    .on('textae-event.pallet.read-button.click', () =>
-      persistenceInterface.importConfiguration()
-    )
-    .on('textae-event.pallet.write-button.click', () =>
-      persistenceInterface.uploadConfiguration()
-    )
 
   // Add tabIndex to listen to keyboard events.
   editor[0].tabIndex = -1
