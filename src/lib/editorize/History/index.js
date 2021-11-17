@@ -4,9 +4,13 @@ export default class History {
     this._resetHistory()
     this._eventEmitter = eventEmitter
 
-    eventEmitter.on('textae-event.type-definition.reset', () =>
-      this._resetConfiguration()
-    )
+    eventEmitter
+      .on('textae-event.type-definition.reset', () =>
+        this._resetConfiguration()
+      )
+      .on('textae-event.annotation-data.all.change', () =>
+        this.resetAllHistories()
+      )
   }
 
   push(command) {
