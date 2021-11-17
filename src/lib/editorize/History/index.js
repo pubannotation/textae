@@ -12,10 +12,10 @@ export default class History {
         this._resetAllHistories()
       )
       .on('textae-event.data-access-object.annotation.save', () => {
-        this.annotatioSaved()
+        this._annotatioSaved()
       })
       .on('textae-event.data-access-object.configuration.save', () => {
-        this.configurationSaved()
+        this._configurationSaved()
       })
   }
 
@@ -58,11 +58,11 @@ export default class History {
     this._trigger()
   }
 
-  annotatioSaved() {
+  _annotatioSaved() {
     this._trigger()
   }
 
-  configurationSaved() {
+  _configurationSaved() {
     this._trigger()
   }
 
