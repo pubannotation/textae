@@ -75,6 +75,39 @@ export default class ControlBar extends Control {
         const button = this._el.querySelector(`.textae-control-pallet-button`)
         button.title = title
       })
+      .on('textae-event.orginal-data.configuration.reset', () =>
+        this._updateButton('pallet', 'transit')
+      )
+      .on('textae-event.type-definition.entity.change', () =>
+        this._updateButton('pallet', 'transit')
+      )
+      .on('textae-event.type-definition.entity.delete', () =>
+        this._updateButton('pallet', 'transit')
+      )
+      .on('textae-event.type-definition.entity.change-default', () =>
+        this._updateButton('pallet', 'transit')
+      )
+      .on('textae-event.type-definition.relation.change', () =>
+        this._updateButton('pallet', 'transit')
+      )
+      .on('textae-event.type-definition.relation.delete', () =>
+        this._updateButton('pallet', 'transit')
+      )
+      .on('textae-event.type-definition.relation.change-default', () =>
+        this._updateButton('pallet', 'transit')
+      )
+      .on('textae-event.type-definition.attribute.create', () =>
+        this._updateButton('pallet', 'transit')
+      )
+      .on('textae-event.type-definition.attribute.change', () =>
+        this._updateButton('pallet', 'transit')
+      )
+      .on('textae-event.type-definition.attribute.delete', () =>
+        this._updateButton('pallet', 'transit')
+      )
+      .on('textae-event.type-definition.attribute.move', () =>
+        this._updateButton('pallet', 'transit')
+      )
   }
 
   _updateButton(buttonName, stateName) {

@@ -101,7 +101,15 @@ export default class ButtonController {
       case 'disabled':
         return !this._enableState.get(name)
       case 'transit':
-        return name === 'write' && this._annotationDataEventsObserver.hasChange
+        switch (name) {
+          case 'write':
+            return this._annotationDataEventsObserver.hasChange
+          case 'pallet':
+            return this.diffOfConfiguration
+          default:
+            new Error('Unknown name')
+        }
+        break
       default:
         new Error('Unknown state')
     }
