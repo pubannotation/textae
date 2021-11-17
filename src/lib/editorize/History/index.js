@@ -60,14 +60,6 @@ export default class History {
     return this._pointer < this._histories.length - 1
   }
 
-  _getPrevKindCommand(kind) {
-    for (let i = this._pointer - 1; i >= 0; i--) {
-      if (this._histories[i].kind.has(kind)) {
-        return i
-      }
-    }
-  }
-
   _trigger() {
     this._eventEmitter.emit('textae-event.history.change', this)
   }
