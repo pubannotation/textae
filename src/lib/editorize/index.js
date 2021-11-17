@@ -10,6 +10,7 @@ import start from './start'
 import { EventEmitter } from 'events'
 import getParams from './getParams'
 import ValidationDialog from '../component/ValidationDialog'
+import isTouchDevice from './isTouchDevice'
 
 export default function (element) {
   const $this = $(element)
@@ -44,6 +45,12 @@ export default function (element) {
         }
       }
     )
+    .on('textae-event.annotation-data.events-observer.change', (hasChange) => {
+      // change leaveMessage show
+      // Reloading when trying to scroll further when you are at the top on an Android device.
+      // Show a confirmation dialog to prevent this.
+      window.onbeforeunload = isTouchDevice() || hasChange ? () => true : null
+    })
 
   // public funcitons of editor
   Object.assign($this, {

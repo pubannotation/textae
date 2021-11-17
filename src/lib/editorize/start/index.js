@@ -24,7 +24,6 @@ import warningIfBeginEndOfSpanAreNotInteger from './warningIfBeginEndOfSpanAreNo
 import validateConfigurationAndAlert from './validateConfigurationAndAlert'
 import setAnnotationAndConfiguration from './setAnnotationAndConfiguration'
 import DataSource from '../DataSource'
-import isTouchDevice from '../isTouchDevice'
 
 export default function (
   editor,
@@ -136,12 +135,6 @@ export default function (
   )
 
   editor.eventEmitter
-    .on('textae-event.annotation-data.events-observer.change', (hasChange) => {
-      // change leaveMessage show
-      // Reloading when trying to scroll further when you are at the top on an Android device.
-      // Show a confirmation dialog to prevent this.
-      window.onbeforeunload = isTouchDevice() || hasChange ? () => true : null
-    })
     .on(
       'textae-event.data-access-object.annotation.load.success',
       (dataSource) => {
