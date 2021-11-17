@@ -9,7 +9,7 @@ export default class History {
         this._resetConfiguration()
       )
       .on('textae-event.annotation-data.all.change', () =>
-        this.resetAllHistories()
+        this._resetAllHistories()
       )
   }
 
@@ -47,7 +47,7 @@ export default class History {
     this._trigger()
   }
 
-  resetAllHistories() {
+  _resetAllHistories() {
     this._resetHistory()
     this._trigger()
   }
