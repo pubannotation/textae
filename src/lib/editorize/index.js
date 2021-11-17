@@ -37,6 +37,11 @@ export default function (element) {
     .on('textae-event.data-access-object.save.error', () => {
       alertifyjs.error('could not save')
     })
+    .on('textae-event.data-access-object.annotation.load.error', (url) =>
+      alertifyjs.error(
+        `Could not load the file from the location you specified.: ${url}`
+      )
+    )
     .on(
       'textae-event.annotation-data.all.change',
       (_, __, hasError, reject) => {
