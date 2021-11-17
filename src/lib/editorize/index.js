@@ -1,4 +1,5 @@
 import $ from 'jquery'
+import alertifyjs from 'alertifyjs'
 import DataAccessObject from './DataAccessObject'
 // model manages data objects.
 import AnnotationData from './AnnotationData'
@@ -7,7 +8,6 @@ import SelectionModel from './SelectionModel'
 import History from './History'
 import start from './start'
 import { EventEmitter } from 'events'
-import observeDataSave from './observeDataSave'
 import getParams from './getParams'
 import ValidationDialog from '../component/ValidationDialog'
 
@@ -26,15 +26,24 @@ export default function (element) {
   const history = new History($this.eventEmitter)
   const dataAccessObject = new DataAccessObject($this)
 
-  observeDataSave($this, history)
-  $this.eventEmitter.on(
-    'textae-event.annotation-data.all.change',
-    (_, __, hasError, reject) => {
-      if (hasError) {
-        new ValidationDialog(reject).open()
+  $this.eventEmitter
+    .on('textae-event.data-access-object.annotation.save', () => {
+      alertifyjs.success('annotation saved')
+    })
+    .on('textae-event.data-access-object.configuration.save', () => {
+      alertifyjs.success('configuration saved')
+    })
+    .on('textae-event.data-access-object.save.error', () => {
+      alertifyjs.error('could not save')
+    })
+    .on(
+      'textae-event.annotation-data.all.change',
+      (_, __, hasError, reject) => {
+        if (hasError) {
+          new ValidationDialog(reject).open()
+        }
       }
-    }
-  )
+    )
 
   // public funcitons of editor
   Object.assign($this, {
