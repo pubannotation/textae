@@ -1,5 +1,3 @@
-import Pointer from './Pointer'
-
 // histories of edit to undo and redo.
 export default class History {
   constructor(eventEmitter) {
@@ -16,10 +14,6 @@ export default class History {
     )
     this._pointer++
 
-    if (command.kind.has('configuration_command')) {
-      this._pointerForConfiguration.lastEdit = this._pointer
-    }
-
     this._trigger()
   }
 
@@ -27,22 +21,12 @@ export default class History {
     this._pointer++
     const next = this._histories[this._pointer]
 
-    if (next.kind.has('configuration_command')) {
-      this._pointerForConfiguration.lastEdit = this._pointer
-    }
-
     this._trigger()
     return next
   }
 
   prev() {
     const prev = this._histories[this._pointer]
-
-    if (prev.kind.has('configuration_command')) {
-      this._pointerForConfiguration.lastEdit = this._getPrevPrevCommandIndexOf(
-        'configuration_command'
-      )
-    }
 
     this._pointer--
 
@@ -52,7 +36,6 @@ export default class History {
 
   resetConfiguration() {
     this._removeConfigurationOperationsFromHistory()
-    this._pointerForConfiguration.reset()
     this._trigger()
   }
 
@@ -66,7 +49,6 @@ export default class History {
   }
 
   configurationSaved() {
-    this._pointerForConfiguration.save()
     this._trigger()
   }
 
@@ -112,6 +94,5 @@ export default class History {
   _resetHistory() {
     this._pointer = -1
     this._histories = []
-    this._pointerForConfiguration = new Pointer()
   }
 }
