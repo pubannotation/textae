@@ -3,6 +3,10 @@ export default class History {
   constructor(eventEmitter) {
     this._resetHistory()
     this._eventEmitter = eventEmitter
+
+    eventEmitter.on('textae-event.type-definition.reset', () =>
+      this.resetConfiguration()
+    )
   }
 
   push(command) {
