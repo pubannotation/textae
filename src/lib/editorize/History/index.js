@@ -81,10 +81,6 @@ export default class History {
     this._trigger()
   }
 
-  get hasAnythingToSaveAnnotation() {
-    return this._pointerForAnnotation.hasAnythingToSave
-  }
-
   get hasAnythingToSaveConfiguration() {
     return this._pointerForConfiguration.hasAnythingToSave
   }
