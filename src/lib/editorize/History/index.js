@@ -5,17 +5,19 @@ export default class History {
     this._eventEmitter = eventEmitter
 
     eventEmitter
-      .on('textae-event.type-definition.reset', () =>
-        this._resetConfiguration()
-      )
-      .on('textae-event.annotation-data.all.change', () =>
-        this._resetAllHistories()
-      )
+      .on('textae-event.type-definition.reset', () => {
+        this._removeConfigurationOperationsFromHistory()
+        this._trigger()
+      })
+      .on('textae-event.annotation-data.all.change', () => {
+        this._resetHistory()
+        this._trigger()
+      })
       .on('textae-event.data-access-object.annotation.save', () => {
-        this._annotatioSaved()
+        this._trigger()
       })
       .on('textae-event.data-access-object.configuration.save', () => {
-        this._configurationSaved()
+        this._trigger()
       })
   }
 
@@ -46,24 +48,6 @@ export default class History {
 
     this._trigger()
     return prev
-  }
-
-  _resetConfiguration() {
-    this._removeConfigurationOperationsFromHistory()
-    this._trigger()
-  }
-
-  _resetAllHistories() {
-    this._resetHistory()
-    this._trigger()
-  }
-
-  _annotatioSaved() {
-    this._trigger()
-  }
-
-  _configurationSaved() {
-    this._trigger()
   }
 
   get hasAnythingToUndo() {
