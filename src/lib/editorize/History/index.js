@@ -81,10 +81,6 @@ export default class History {
     this._trigger()
   }
 
-  get hasAnythingToSaveConfiguration() {
-    return this._pointerForConfiguration.hasAnythingToSave
-  }
-
   get hasAnythingToUndo() {
     return this._pointer > -1
   }
