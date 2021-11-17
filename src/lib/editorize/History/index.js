@@ -29,23 +29,19 @@ export default class History {
       command
     )
     this._pointer++
-
     this._trigger()
   }
 
   next() {
     this._pointer++
     const next = this._histories[this._pointer]
-
     this._trigger()
     return next
   }
 
   prev() {
     const prev = this._histories[this._pointer]
-
     this._pointer--
-
     this._trigger()
     return prev
   }
