@@ -28,6 +28,9 @@ export default function (element) {
   const history = new History($this.eventEmitter)
   const dataAccessObject = new DataAccessObject($this)
 
+  // Set position of toast messages.
+  alertifyjs.set('notifier', 'position', 'top-right')
+
   $this.eventEmitter
     .on('textae-event.data-access-object.annotation.save', () => {
       alertifyjs.success('annotation saved')

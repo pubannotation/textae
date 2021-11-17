@@ -240,9 +240,6 @@ export default function (
   // Add tabIndex to listen to keyboard events.
   editor[0].tabIndex = -1
 
-  // Set position of toast messages.
-  alertifyjs.set('notifier', 'position', 'top-right')
-
   const iconEventMap = new IconEventMap(
     commander,
     presenter,
