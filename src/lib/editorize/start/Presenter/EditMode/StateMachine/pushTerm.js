@@ -1,10 +1,9 @@
 import { MODE } from '../../../../../MODE'
-import isSimple from '../isSimple'
 
 export default function (stateMachine, annotationData) {
   switch (stateMachine.currentState) {
     case MODE.EDIT_RELATION:
-      if (isSimple(annotationData)) {
+      if (annotationData.isSimple) {
         stateMachine.setState(MODE.EDIT_DENOTATION_WITHOUT_RELATION)
       } else {
         stateMachine.setState(MODE.EDIT_DENOTATION_WITH_RELATION)

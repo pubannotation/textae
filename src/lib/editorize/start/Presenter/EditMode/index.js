@@ -3,7 +3,6 @@ import StateMachine from './StateMachine'
 import EditDenotation from './EditDenotation'
 import EditBlock from './EditBlock'
 import EditRelation from './EditRelation'
-import isSimple from './isSimple'
 
 export default class EditMode {
   constructor(
@@ -84,7 +83,7 @@ export default class EditMode {
 
   // For an intiation transition on an annotations data loaded.
   forView() {
-    if (isSimple(this._annotationData)) {
+    if (this._annotationData.isSimple) {
       this._stateMachine.setState(MODE.VIEW_WITHOUT_RELATION)
     } else {
       this._stateMachine.setState(MODE.VIEW_WITH_RELATION)
@@ -92,7 +91,7 @@ export default class EditMode {
   }
 
   forEditable() {
-    if (isSimple(this._annotationData)) {
+    if (this._annotationData.isSimple) {
       this._stateMachine.setState(MODE.EDIT_DENOTATION_WITHOUT_RELATION)
     } else {
       this._stateMachine.setState(MODE.EDIT_DENOTATION_WITH_RELATION)
