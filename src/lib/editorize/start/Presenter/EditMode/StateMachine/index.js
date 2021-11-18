@@ -1,7 +1,6 @@
 import Machine from 'emitter-fsm'
 import { MODE } from '../../../../../MODE'
 import changeByShortcut from './changeByShortcut'
-import pushTerm from './pushTerm'
 import toggleSimple from './toggleSimple'
 import bindTransition from './bindTransition'
 import Transition from './Transition'
@@ -143,7 +142,25 @@ export default class StateMachine {
   }
 
   toTermMode() {
-    pushTerm(this, this._annotationData)
+    switch (this.currentState) {
+      case MODE.EDIT_RELATION:
+        if (this._annotationData.hasRelations) {
+          this.setState(MODE.EDIT_DENOTATION_WITH_RELATION)
+        } else {
+          this.setState(MODE.EDIT_DENOTATION_WITHOUT_RELATION)
+        }
+        break
+      case MODE.VIEW_WITH_RELATION:
+      case MODE.EDIT_BLOCK_WITH_RELATION:
+        this.setState(MODE.EDIT_DENOTATION_WITH_RELATION)
+        break
+      case MODE.VIEW_WITHOUT_RELATION:
+      case MODE.EDIT_BLOCK_WITHOUT_RELATION:
+        this.setState(MODE.EDIT_DENOTATION_WITHOUT_RELATION)
+        break
+      default:
+      // Do nothig.
+    }
   }
 
   toBlockMode() {
