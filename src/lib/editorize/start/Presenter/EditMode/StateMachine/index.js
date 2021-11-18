@@ -230,7 +230,11 @@ export default class StateMachine {
         this.setState(MODE.EDIT_RELATION)
         break
       case MODE.EDIT_RELATION:
-        this.setState(MODE.VIEW_WITH_RELATION)
+        if (this._annotationData.hasRelations) {
+          this.setState(MODE.VIEW_WITH_RELATION)
+        } else {
+          this.setState(MODE.VIEW_WITHOUT_RELATION)
+        }
         break
       default:
       // Do nothig.
