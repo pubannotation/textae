@@ -4,7 +4,7 @@ import IntervalNotation from '../../IntervalNotation'
 import template from './template'
 import enableHTMLElement from '../enableHTMLElement'
 
-export default class EditValueOfAttributeDefinitionDialog extends PromiseDialog {
+export default class CreateOrEditValueOfAttributeDefinitionDialog extends PromiseDialog {
   constructor(valueType, value = {}) {
     const bindingObject = {
       label: value.label,
