@@ -41,6 +41,7 @@ export default class AnnotationDataEventsObserver {
       .on('textae-event.annotation-data.entity.remove', () =>
         this._updateState()
       )
+      .on('textae-event.annotation-data.entity.move', () => this._updateState())
       .on('textae-event.annotation-data.relation.add', () =>
         this._updateState()
       )
