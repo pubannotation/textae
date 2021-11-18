@@ -16,7 +16,6 @@ import TypeDefinition from './TypeDefinition'
 import DefinitionContainer from './DefinitionContainer'
 import AttributeDefinitionContainer from './AttributeDefinitionContainer'
 import getAnnotationBox from './getAnnotationBox'
-import isSimple from '../start/Presenter/EditMode/isSimple'
 
 export default class AnnotationData {
   constructor(editor) {
@@ -157,7 +156,7 @@ export default class AnnotationData {
   }
 
   get isSimple() {
-    return isSimple(this)
+    return !this.relation.some
   }
 
   updatePosition() {
