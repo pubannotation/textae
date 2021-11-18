@@ -4,7 +4,6 @@ import changeByShortcut from './changeByShortcut'
 import toggleSimple from './toggleSimple'
 import bindTransition from './bindTransition'
 import Transition from './Transition'
-import pushBlock from './pushBlock'
 
 export default class StateMachine {
   constructor(
@@ -164,7 +163,29 @@ export default class StateMachine {
   }
 
   toBlockMode() {
-    pushBlock(this, this._annotationData)
+    switch (this.currentState) {
+      case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
+        this.setState(MODE.EDIT_BLOCK_WITHOUT_RELATION)
+        break
+      case MODE.EDIT_DENOTATION_WITH_RELATION:
+        this.setState(MODE.EDIT_BLOCK_WITH_RELATION)
+        break
+      case MODE.EDIT_RELATION:
+        if (this._annotationData.hasRelations) {
+          this.setState(MODE.EDIT_BLOCK_WITH_RELATION)
+        } else {
+          this.setState(MODE.EDIT_BLOCK_WITHOUT_RELATION)
+        }
+        break
+      case MODE.VIEW_WITH_RELATION:
+        this.setState(MODE.EDIT_BLOCK_WITH_RELATION)
+        break
+      case MODE.VIEW_WITHOUT_RELATION:
+        this.setState(MODE.EDIT_BLOCK_WITHOUT_RELATION)
+        break
+      default:
+      // Do nothig.
+    }
   }
 
   toRelationMode() {
