@@ -1,6 +1,5 @@
 import Machine from 'emitter-fsm'
 import { MODE } from '../../../../../MODE'
-import changeByShortcut from './changeByShortcut'
 import bindTransition from './bindTransition'
 import Transition from './Transition'
 
@@ -213,6 +212,28 @@ export default class StateMachine {
   }
 
   changeModeByShortcut() {
-    changeByShortcut(this)
+    switch (this.currentState) {
+      case MODE.VIEW_WITH_RELATION:
+        this.setState(MODE.EDIT_DENOTATION_WITH_RELATION)
+        break
+      case MODE.VIEW_WITHOUT_RELATION:
+        this.setState(MODE.EDIT_DENOTATION_WITHOUT_RELATION)
+        break
+      case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
+        this.setState(MODE.EDIT_BLOCK_WITHOUT_RELATION)
+        break
+      case MODE.EDIT_DENOTATION_WITH_RELATION:
+        this.setState(MODE.EDIT_BLOCK_WITH_RELATION)
+        break
+      case MODE.EDIT_BLOCK_WITHOUT_RELATION:
+      case MODE.EDIT_BLOCK_WITH_RELATION:
+        this.setState(MODE.EDIT_RELATION)
+        break
+      case MODE.EDIT_RELATION:
+        this.setState(MODE.VIEW_WITH_RELATION)
+        break
+      default:
+      // Do nothig.
+    }
   }
 }
