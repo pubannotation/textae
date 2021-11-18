@@ -77,13 +77,13 @@ export default class StateMachine {
         exclude: [MODE.INIT]
       },
       to: {
-        exclude: [MODE.INIT, MODE.VIEW_WITHOUT_RELATION]
+        exclude: [MODE.INIT]
       }
     })
 
     m.config(MODE.VIEW_WITHOUT_RELATION, {
       from: {
-        exclude: [MODE.EDIT_DENOTATION_WITH_RELATION, MODE.EDIT_RELATION]
+        exclude: [MODE.EDIT_DENOTATION_WITH_RELATION]
       },
       to: {
         exclude: [MODE.INIT, MODE.EDIT_DENOTATION_WITH_RELATION]
@@ -122,7 +122,7 @@ export default class StateMachine {
   }
 
   toViewMode() {
-    pushView(this)
+    pushView(this, this._annotationData)
   }
 
   toTermMode() {
