@@ -3,10 +3,10 @@ import { MODE } from '../../../../../MODE'
 export default function (stateMachine, annotationData) {
   switch (stateMachine.currentState) {
     case MODE.EDIT_RELATION:
-      if (annotationData.isSimple) {
-        stateMachine.setState(MODE.VIEW_WITHOUT_RELATION)
-      } else {
+      if (annotationData.hasRelations) {
         stateMachine.setState(MODE.VIEW_WITH_RELATION)
+      } else {
+        stateMachine.setState(MODE.VIEW_WITHOUT_RELATION)
       }
       break
     case MODE.EDIT_DENOTATION_WITHOUT_RELATION:

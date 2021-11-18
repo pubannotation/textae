@@ -155,8 +155,8 @@ export default class AnnotationData {
     return this._typeDefinition
   }
 
-  get isSimple() {
-    return !this.relation.some
+  get hasRelations() {
+    return this.relation.some
   }
 
   updatePosition() {

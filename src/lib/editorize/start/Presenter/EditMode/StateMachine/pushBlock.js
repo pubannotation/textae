@@ -9,10 +9,10 @@ export default function (stateMachine, annotationData) {
       stateMachine.setState(MODE.EDIT_BLOCK_WITH_RELATION)
       break
     case MODE.EDIT_RELATION:
-      if (annotationData.isSimple) {
-        stateMachine.setState(MODE.EDIT_BLOCK_WITHOUT_RELATION)
-      } else {
+      if (annotationData.hasRelations) {
         stateMachine.setState(MODE.EDIT_BLOCK_WITH_RELATION)
+      } else {
+        stateMachine.setState(MODE.EDIT_BLOCK_WITHOUT_RELATION)
       }
       break
     case MODE.VIEW_WITH_RELATION:
