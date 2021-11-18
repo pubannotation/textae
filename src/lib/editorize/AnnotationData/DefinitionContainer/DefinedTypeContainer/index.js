@@ -40,7 +40,7 @@ export default class DefinedTypeContainer {
       .filter((t) => t.label.includes(term))
   }
 
-  clone() {
-    return new Map(this._map)
+  get map() {
+    return this._map
   }
 }
