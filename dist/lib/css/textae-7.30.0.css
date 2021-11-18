@@ -2626,6 +2626,9 @@ ul.jsondiffpatch-textdiff {
 .textae-control-pallet-button {
   background: url('./images/btn_pallet_16.png');
 }
+.textae-control-pallet-button.textae-control-icon--transit {
+  background: url('./images/btn_pallet_modified_16.png');
+}
 .textae-control-change-label-button {
   background: url('./images/btn_change_label_16.png');
 }

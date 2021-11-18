@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.30.0](https://github.com/pubannotation/textae/compare/v7.29.0...v7.30.0) (2021-11-18)
+
+
+### Features
+
+* Show a star on the palette icon in the control bar when there is a change in the configuration ([23aa94d](https://github.com/pubannotation/textae/commit/23aa94d624c8d0233533e347aa1fcbf89671f5a0))
+* Stop judging the mark to save annotations based on the existence of operation history, and instead judge whether there are differences in annotations ([4c87cdb](https://github.com/pubannotation/textae/commit/4c87cdb646946a10871f06a7f083b15254e369a7))
+* Stop judging the showing alert to leave page based on the existence of operation history, and instead judge whether there are differences in annotations ([60f2a6d](https://github.com/pubannotation/textae/commit/60f2a6df5be8383d1a5e04e91f6a66bea288fbf5))
+* Stop judging the showing alert to load annotations based on the existence of operation history, and instead judge whether there are differences in annotations ([eeaa1e0](https://github.com/pubannotation/textae/commit/eeaa1e027eceb65fcca02a2aa13aba56a8bee4e6))
+
+
+### Bug Fixes
+
+* An error occurs when loading a configuration with no attribute definition when attributes are opened in the palette ([52bdb2e](https://github.com/pubannotation/textae/commit/52bdb2eb468d99c0c19552b82e1744b8fbf8bf74))
+* No alerts are displayed when loading the configuration ([5d66f32](https://github.com/pubannotation/textae/commit/5d66f3201ccdb8547f00c659c47483620cf0738f))
+* Palette does not update when entity default type is changed ([052b048](https://github.com/pubannotation/textae/commit/052b048cdcd35839ec1f097c1d85974e9546315e))
+
 ## [7.29.0](https://github.com/pubannotation/textae/compare/v7.28.0...v7.29.0) (2021-11-11)
 
 
