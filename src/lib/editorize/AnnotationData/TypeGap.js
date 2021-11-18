@@ -3,7 +3,7 @@ export default class TypeGap {
     // The typeGap is changed from the Setting dialog or
     // by changing mode showing or not showing instances.
     this._isGapShown = true
-    this._numberOfGap = 2
+    this._numberOfGap = 1
     this._callback = callback
   }
 
