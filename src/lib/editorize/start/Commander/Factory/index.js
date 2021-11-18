@@ -17,7 +17,7 @@ import DeleteAttributeDefinitionCommand from './DeleteAttributeDefinitionCommand
 import MoveAttributeDefinitionCommand from './MoveAttributeDefinitionCommand'
 import MoveBlockSpanCommand from './MoveBlockSpanCommand'
 import MoveDenotationSpanCommand from './MoveDenotationSpanCommand'
-import MoveEntitiesToSelectedSpansCommand from './MoveEntitiesToSelectedSpansCommand'
+import MoveEntitiesToSelectedSpanCommand from './MoveEntitiesToSelectedSpanCommand'
 import PasteTypesToSelectedSpansCommand from './PasteTypesToSelectedSpansCommand'
 import ReplicateSpanCommand from './ReplicateSpanCommand'
 import RemoveAttributesFromItemsByPredCommand from './RemoveAttributesFromItemsByPredCommand'
@@ -218,8 +218,8 @@ export default class Factory {
     )
   }
 
-  moveEntitiesToSelectedSpansCommand(entities) {
-    return new MoveEntitiesToSelectedSpansCommand(
+  moveEntitiesToSelectedSpanCommand(entities) {
+    return new MoveEntitiesToSelectedSpanCommand(
       this._annotationData,
       this._selectionModel,
       entities
