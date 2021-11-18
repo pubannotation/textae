@@ -164,12 +164,6 @@ export default class StateMachine {
 
   toBlockMode() {
     switch (this.currentState) {
-      case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
-        this.setState(MODE.EDIT_BLOCK_WITHOUT_RELATION)
-        break
-      case MODE.EDIT_DENOTATION_WITH_RELATION:
-        this.setState(MODE.EDIT_BLOCK_WITH_RELATION)
-        break
       case MODE.EDIT_RELATION:
         if (this._annotationData.hasRelations) {
           this.setState(MODE.EDIT_BLOCK_WITH_RELATION)
@@ -178,9 +172,11 @@ export default class StateMachine {
         }
         break
       case MODE.VIEW_WITH_RELATION:
+      case MODE.EDIT_DENOTATION_WITH_RELATION:
         this.setState(MODE.EDIT_BLOCK_WITH_RELATION)
         break
       case MODE.VIEW_WITHOUT_RELATION:
+      case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
         this.setState(MODE.EDIT_BLOCK_WITHOUT_RELATION)
         break
       default:
