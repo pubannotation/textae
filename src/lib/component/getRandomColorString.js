@@ -1,5 +1,7 @@
 export default function () {
-  return `#${Math.floor(Math.random() * 150 + 100).toString(16)}${Math.floor(
-    Math.random() * 150 + 100
-  ).toString(16)}${Math.floor(Math.random() * 150 + 100).toString(16)}`
+  return `#${getRandomHEXFrom64ToFF()}${getRandomHEXFrom64ToFF()}${getRandomHEXFrom64ToFF()}`
+}
+
+function getRandomHEXFrom64ToFF() {
+  return Math.floor(Math.random() * 155 + 100).toString(16)
 }
