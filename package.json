@@ -12,7 +12,7 @@
     "ajv-keywords": "^5.1.0",
     "alertifyjs": "1.13.1",
     "array-move": "4.0.0",
-    "codemirror": "5.63.3",
+    "codemirror": "^5.64.0",
     "debounce": "1.2.1",
     "deepcopy": "^2.1.0",
     "delegate": "3.2.0",
