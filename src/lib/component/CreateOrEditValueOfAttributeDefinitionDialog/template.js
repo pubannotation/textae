@@ -1,4 +1,4 @@
-import getRandomColorString from './getRandomColorString'
+import getRandomColorString from '../getRandomColorString'
 import inputDefault from './inputDefault'
 
 export default function (context) {

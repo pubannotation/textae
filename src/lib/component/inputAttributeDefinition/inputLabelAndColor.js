@@ -1,4 +1,4 @@
-import getRandomColorString from '../CreateOrEditValueOfAttributeDefinitionDialog/getRandomColorString'
+import getRandomColorString from '../getRandomColorString'
 
 export default function (componentClassName, label, color) {
   return `
