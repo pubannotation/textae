@@ -1,3 +1,4 @@
+import getRandomColorString from './getRandomColorString'
 import inputDefault from './inputDefault'
 
 export default function (context) {
@@ -31,7 +32,7 @@ export default function (context) {
     <label>
       <input
         type="color"
-        value="${color || ''}"
+        value="${color || getRandomColorString()}"
         class="textae-editor__create-or-edit-value-of-attribute-definition-dialog__color"
       >
       color
