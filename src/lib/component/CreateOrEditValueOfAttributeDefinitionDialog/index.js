@@ -3,16 +3,13 @@ import getInputElementValue from '../getInputElementValue'
 import IntervalNotation from '../../IntervalNotation'
 import template from './template'
 import enableHTMLElement from '../enableHTMLElement'
+import getRandomColorString from './getRandomColorString'
 
 export default class CreateOrEditValueOfAttributeDefinitionDialog extends PromiseDialog {
   constructor(valueType, value = {}) {
     const bindingObject = {
       label: value.label,
-      color:
-        value.color ||
-        `#${Math.floor(Math.random() * 150 + 100).toString(16)}${Math.floor(
-          Math.random() * 150 + 100
-        ).toString(16)}${Math.floor(Math.random() * 150 + 100).toString(16)}`
+      color: value.color || getRandomColorString()
     }
 
     switch (valueType) {
