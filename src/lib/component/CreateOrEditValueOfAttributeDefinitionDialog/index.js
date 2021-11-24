@@ -8,7 +8,11 @@ export default class CreateOrEditValueOfAttributeDefinitionDialog extends Promis
   constructor(valueType, value = {}) {
     const bindingObject = {
       label: value.label,
-      color: value.color
+      color:
+        value.color ||
+        `#${Math.floor(Math.random() * 150 + 100).toString(16)}${Math.floor(
+          Math.random() * 150 + 100
+        ).toString(16)}${Math.floor(Math.random() * 150 + 100).toString(16)}`
     }
 
     switch (valueType) {
