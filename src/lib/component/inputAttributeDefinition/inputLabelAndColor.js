@@ -1,3 +1,5 @@
+import getRandomColorString from '../CreateOrEditValueOfAttributeDefinitionDialog/getRandomColorString'
+
 export default function (componentClassName, label, color) {
   return `
     <div class="${componentClassName}__row">
@@ -12,7 +14,7 @@ export default function (componentClassName, label, color) {
       <label>Color</label>
       <input
         type="color"
-        value="${color || '#000000'}"
+        value="${color || getRandomColorString()}"
         class="${componentClassName}__color"
       >
     </div>
