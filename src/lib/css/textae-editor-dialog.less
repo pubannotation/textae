@@ -7,6 +7,22 @@
   padding: 3px;
 }
 
+.disabled() {
+  // Overwrite jQueryUI button style.
+  &:disabled {
+    background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50%
+      repeat-x;
+    color: #999;
+    cursor: initial;
+
+    &:hover {
+      background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50%
+        repeat-x;
+      border-color: #ccc;
+    }
+  }
+}
+
 .button() {
   background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50%
     repeat-x;
@@ -25,10 +41,7 @@
   text-decoration: none;
   user-select: none;
 
-  &:disabled {
-    background-color: #ccc;
-    color: #999;
-  }
+  .disabled();
 }
 
 .form() {
@@ -76,6 +89,12 @@
 
 /* dialog */
 .textae-editor {
+  &__dialog {
+    button {
+      .disabled();
+    }
+  }
+
   &__create-attribute-definition-dialog,
   &__edit-attribute-definition-dialog {
     .form();
