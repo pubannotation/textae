@@ -34,9 +34,9 @@ export default function (context) {
                 }) => {
                   return `
       <tr class="textae-editor__pallet__row" style="background-color: ${color};">
-        <td class="textae-editor__pallet__label" data-id="${id}">
-          <span title="${id}">
-            ${id}
+        <td class="textae-editor__pallet__label" data-id="${escape(id)}">
+          <span title="${escape(id)}">
+            ${escape(id)}
           </span>
           ${
             uri
@@ -62,7 +62,7 @@ export default function (context) {
               useNumber ? '' : ' textae-editor__pallet__table-button--disabled'
             }"
             title="Select all the cases of this type."
-            data-id="${id}"
+            data-id="${escape(id)}"
             data-use-number="${useNumber}">
           </button>
           ${
@@ -72,7 +72,7 @@ export default function (context) {
           <button
             type="button"
             class="textae-editor__pallet__table-button textae-editor__pallet__edit-type"
-            title="Edit this type." data-id="${id}"
+            title="Edit this type." data-id="${escape(id)}"
             data-color="${color}"
             data-is-default="${defaultType}">
           </button>
@@ -86,7 +86,7 @@ export default function (context) {
                 ? 'To activate this button, remove all the annotations of this type.'
                 : 'Remove this type.'
             }"
-            data-id="${id}"
+            data-id="${escape(id)}"
             data-label="${label}">
           </button>
           `
