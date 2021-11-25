@@ -10,7 +10,7 @@ function template(context) {
     <label>Id</label>
     <input
       class="textae-editor__type-definition-dialog--id textae-editor__promise-daialog__observable-element" 
-      value=${id || ''}>
+      value="${id || ''}">
   </div>
   <div class="textae-editor__type-definition-dialog__row ui-front">
     <label>Label<span></span></label>
