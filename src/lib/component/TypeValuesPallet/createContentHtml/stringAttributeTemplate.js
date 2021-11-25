@@ -2,6 +2,7 @@ import headerTemplate from './headerTemplate'
 import valueButtonsTemplate from './valueButtonsTemplate'
 import showAddAttributeValueButton from './showAddAttributeValueButton'
 import predicateControllerTemplate from './predicateControllerTemplate'
+import { escape } from 'lodash'
 
 export default function (context) {
   const { default: defaultValue, values } = context.attrDef
@@ -12,7 +13,7 @@ export default function (context) {
   <div>
     <div class="textae-editor__pallet__predicate">
       ${predicateControllerTemplate(context)}
-      default: ${defaultValue}
+      default: ${escape(defaultValue)}
     </div>
 
     <table>
