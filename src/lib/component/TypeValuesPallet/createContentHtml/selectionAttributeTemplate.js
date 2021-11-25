@@ -1,3 +1,4 @@
+import { escape } from 'lodash'
 import headerTemplate from './headerTemplate'
 import valueButtonsTemplate from './valueButtonsTemplate'
 import showAddAttributeValueButton from './showAddAttributeValueButton'
@@ -36,7 +37,7 @@ export default function (context, attributeContainer) {
             }
           </td>
           <td class="textae-editor__pallet__short-label">
-            ${label}
+            ${escape(label)}
           </td>
           <td class="textae-editor__pallet__short-label">
             ${color}
