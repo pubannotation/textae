@@ -35,7 +35,7 @@ export default function (context) {
                   return `
       <tr class="textae-editor__pallet__row" style="background-color: ${color};">
         <td class="textae-editor__pallet__label" data-id="${id}">
-          <span title=${id}>
+          <span title="${id}">
             ${id}
           </span>
           ${
