@@ -33,7 +33,7 @@ export default function (context) {
             ${pattern}
           </td>
           <td class="textae-editor__pallet__short-label">
-            ${label}
+            ${escape(label)}
           </td>
           <td class="textae-editor__pallet__short-label">
             ${color}
