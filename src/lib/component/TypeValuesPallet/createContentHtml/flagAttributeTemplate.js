@@ -1,3 +1,4 @@
+import { escape } from 'lodash'
 import headerTemplate from './headerTemplate'
 import predicateControllerTemplate from './predicateControllerTemplate'
 
@@ -9,7 +10,7 @@ export default function (context) {
   <div>
     <div class="textae-editor__pallet__predicate">
       ${predicateControllerTemplate(context)}
-      label: "${label || ''}"
+      label: "${escape(label) || ''}"
       color: "${color || ''}"
     </div>
   </div>
