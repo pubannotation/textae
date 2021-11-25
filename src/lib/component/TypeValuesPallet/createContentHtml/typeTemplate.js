@@ -87,7 +87,7 @@ export default function (context) {
                 : 'Remove this type.'
             }"
             data-id="${escape(id)}"
-            data-label="${label}">
+            data-label="${escape(label)}">
           </button>
           `
           }
