@@ -1,3 +1,4 @@
+import { escape } from 'lodash'
 import getRandomColorString from '../getRandomColorString'
 import inputDefault from './inputDefault'
 
@@ -24,7 +25,7 @@ export default function (context) {
   <div class="textae-editor__create-or-edit-value-of-attribute-definition-dialog__row">
     <label>label</label>
     <input
-      value="${label || ''}"
+      value="${escape(label) || ''}"
       class="textae-editor__create-or-edit-value-of-attribute-definition-dialog__label textae-editor__promise-daialog__observable-element"
     >
   </div>
