@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.31.0](https://github.com/pubannotation/textae/compare/v7.30.0...v7.31.0) (2021-11-25)
+
+
+### Features
+
+* Change the default value of TypeGap to 1 ([ef02256](https://github.com/pubannotation/textae/commit/ef02256f9f65ade631e8794351819936cb9f350f))
+* Preserve the order of type definitions ([3f188dd](https://github.com/pubannotation/textae/commit/3f188ddc723ac3b089c1d37ea0be7c0248596233))
+* Set the initial color randomly when adding values to attribute definitions ([de95be1](https://github.com/pubannotation/textae/commit/de95be1a5596048dd7249ae12794ad228be055f7))
+* Set the initial color to random when adding a new flag attribute definition ([4d494f3](https://github.com/pubannotation/textae/commit/4d494f320b4015b3ddc98f2d18e3b09b9a13091f))
+* When switching from the relation mode to the next with the shortcut key, if there is no relation, the transition will be to simple view mode ([09c106c](https://github.com/pubannotation/textae/commit/09c106ce27a58ed735418bfde865e2d72ec75755))
+* When the view button on the control bar is pressed, it transitions to simple view mode when there is no relation ([15c0935](https://github.com/pubannotation/textae/commit/15c093533d7e448102320b97917083f9a0b164a4))
+
+
+### Bug Fixes
+
+* When I cut and paste an entity, the save icon in the control bar does not show a star ([2202fa9](https://github.com/pubannotation/textae/commit/2202fa979577cd16ee1ae679cd7655c73aea699f))
+
 ## [7.30.0](https://github.com/pubannotation/textae/compare/v7.29.0...v7.30.0) (2021-11-18)
 
 
