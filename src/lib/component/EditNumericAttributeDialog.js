@@ -25,12 +25,7 @@ function template(context) {
 
 export default class EditNumericAttributeDialog extends PromiseDialog {
   constructor(attrDef, attribute, deletable, editTypeValues, pallet) {
-    const buttons = [
-      {
-        text: 'OK',
-        click: () => this.close()
-      }
-    ]
+    const buttons = []
 
     if (deletable) {
       buttons.unshift({

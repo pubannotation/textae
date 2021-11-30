@@ -3,7 +3,15 @@ import Dialog from './Dialog'
 
 export default class PromiseDialog extends Dialog {
   constructor(title, contentHtml, option, getResultsFunc) {
-    super(title, contentHtml, 'OK', option)
+    const okButton = {
+      text: 'OK',
+      click: () => this.close()
+    }
+    option.buttons = option.buttons
+      ? option.buttons.concat([okButton])
+      : [okButton]
+
+    super(title, contentHtml, null, option)
 
     this._promise = new Promise((resolveFunc) => {
       this.resolveFunc = resolveFunc
