@@ -56,7 +56,8 @@ export default class EditTypeValuesDialog extends PromiseDialog {
           case 'numeric':
             new EditNumericAttributeDialog(
               attrDef,
-              attributes[e.target.dataset.index]
+              attributes[e.target.dataset.index],
+              [attributes[e.target.dataset.index]]
             )
               .open()
               .then(({ newObj }) => {

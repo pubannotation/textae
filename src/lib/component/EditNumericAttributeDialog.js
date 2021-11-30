@@ -24,7 +24,14 @@ function template(context) {
 }
 
 export default class EditNumericAttributeDialog extends PromiseDialog {
-  constructor(attrDef, attribute, deletable, editTypeValues, pallet) {
+  constructor(
+    attrDef,
+    attribute,
+    targetAttributes,
+    deletable,
+    editTypeValues,
+    pallet
+  ) {
     const buttons = []
 
     if (deletable) {
@@ -60,7 +67,7 @@ export default class EditNumericAttributeDialog extends PromiseDialog {
     }
 
     super(
-      'Numeric attibute',
+      `Attribute [${targetAttributes.map(({ id }) => id || '-').join(',')}]`,
       template({
         pred: attribute.pred,
         value: attribute.obj,

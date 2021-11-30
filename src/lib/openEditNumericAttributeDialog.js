@@ -11,6 +11,10 @@ export default function (
   new EditNumericAttributeDialog(
     attrDef,
     attribute,
+    selectionModelEntity.all.reduce((attrs, entity) => {
+      attrs.push(entity.attributes.find((a) => a.pred == attribute.pred))
+      return attrs
+    }, []),
     true,
     editTypeValues,
     pallet
