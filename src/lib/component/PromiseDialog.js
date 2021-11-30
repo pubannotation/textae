@@ -20,10 +20,6 @@ export default class PromiseDialog extends Dialog {
 
     super(title, contentHtml, option)
 
-    this._promise = new Promise((resolveFunc) => {
-      this.resolveFunc = resolveFunc
-    })
-
     delegate(
       super.el,
       '.textae-editor__promise-daialog__observable-element',
@@ -38,6 +34,6 @@ export default class PromiseDialog extends Dialog {
 
   open() {
     super.open()
-    return this._promise
+    return new Promise((resolveFunc) => (this.resolveFunc = resolveFunc))
   }
 }
