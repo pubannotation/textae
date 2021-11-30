@@ -6,31 +6,31 @@ export default class PromiseDialog extends Dialog {
     super(title, contentHtml, 'OK', option)
 
     this._promise = new Promise((resolveFunc) => {
-      const onOKButtonClick = () => {
-        const results = getResultsFunc()
-        if (results) {
-          resolveFunc(results)
-        }
-        super.close()
-      }
-
-      // Overwrite the button handler.
-      this._option.buttons[this._option.buttons.length - 1].click =
-        onOKButtonClick
-
-      delegate(
-        super.el,
-        '.textae-editor__promise-daialog__observable-element',
-        'keyup',
-        (e) => {
-          if (e.keyCode === 13) {
-            onOKButtonClick()
-          }
-        }
-      )
-
       this.resolveFunc = resolveFunc
     })
+
+    const onOKButtonClick = () => {
+      const results = getResultsFunc()
+      if (results) {
+        this.resolveFunc(results)
+      }
+      super.close()
+    }
+
+    // Overwrite the button handler.
+    this._option.buttons[this._option.buttons.length - 1].click =
+      onOKButtonClick
+
+    delegate(
+      super.el,
+      '.textae-editor__promise-daialog__observable-element',
+      'keyup',
+      (e) => {
+        if (e.keyCode === 13) {
+          onOKButtonClick()
+        }
+      }
+    )
   }
 
   open() {
