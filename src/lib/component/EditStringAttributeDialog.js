@@ -57,6 +57,7 @@ export default class EditStringAttributeDialog extends PromiseDialog {
         click: () => {
           this.close()
           pallet.show()
+          pallet.showAttribute(attribute.pred)
         }
       })
     }
