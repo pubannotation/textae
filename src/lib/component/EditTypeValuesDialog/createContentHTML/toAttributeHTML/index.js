@@ -6,7 +6,7 @@ export default function (
   attributeInstances,
   attributeContainer
 ) {
-  const { pred, obj } = attribute
+  const { id, pred, obj } = attribute
   const previousAttribute = attributeInstances[index - 1]
   const previousPredicate = previousAttribute && previousAttribute.pred
   const definitionIndex = attributeContainer.getIndexOf(pred)
@@ -44,6 +44,7 @@ export default function (
   <td>
     <span
       class="textae-editor__edit-type-values-dialog__attribute-value"
+      data-id="${id}"
       data-obj="${obj}"
       data-label="${getLabelOf(attribute, attributeContainer)}"
       >

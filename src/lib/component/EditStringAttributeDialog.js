@@ -27,7 +27,14 @@ function template(context) {
 }
 
 export default class EditStringAttributeDialog extends PromiseDialog {
-  constructor(attribute, attrDef, deletable, editTypeValues, pallet) {
+  constructor(
+    attribute,
+    attrDef,
+    targetAttributes,
+    deletable,
+    editTypeValues,
+    pallet
+  ) {
     const buttons = []
 
     if (deletable) {
@@ -63,7 +70,7 @@ export default class EditStringAttributeDialog extends PromiseDialog {
     }
 
     super(
-      'String attribute',
+      `Attribute [${targetAttributes.map(({ id }) => id || '-').join(',')}]`,
       template({
         pred: attribute.pred,
         value: attribute.obj

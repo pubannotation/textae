@@ -15,6 +15,9 @@ export default function (content) {
       pred: attr.querySelector(
         '.textae-editor__edit-type-values-dialog__attribute-predicate'
       ).dataset.pred,
+      id: attr.querySelector(
+        '.textae-editor__edit-type-values-dialog__attribute-value'
+      ).dataset.id,
       obj: attr.querySelector(
         '.textae-editor__edit-type-values-dialog__attribute-value'
       ).dataset.obj,
