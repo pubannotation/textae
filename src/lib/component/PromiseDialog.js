@@ -11,7 +11,7 @@ export default class PromiseDialog extends Dialog {
       ? option.buttons.concat([okButton])
       : [okButton]
 
-    super(title, contentHtml, null, option)
+    super(title, contentHtml, option)
 
     this._promise = new Promise((resolveFunc) => {
       this.resolveFunc = resolveFunc

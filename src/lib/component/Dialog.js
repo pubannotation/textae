@@ -3,7 +3,7 @@ import $ from 'jquery'
 import 'jquery-ui/ui/widgets/dialog'
 
 export default class Dialog {
-  constructor(title, contentHtml, buttonLabel, option = {}) {
+  constructor(title, contentHtml, option = {}) {
     this._el = dohtml.create(`
     <div title="${title}">
       ${contentHtml}
@@ -14,20 +14,6 @@ export default class Dialog {
       // Delay destroy to check a click target is child of the dialog.
       requestAnimationFrame(() => this._$dialog.dialog('destroy'))
     })
-
-    if (buttonLabel) {
-      option = {
-        ...{
-          buttons: [
-            {
-              text: buttonLabel,
-              click: () => this.close()
-            }
-          ]
-        },
-        ...option
-      }
-    }
 
     this._option = option
   }

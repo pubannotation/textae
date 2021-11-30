@@ -54,7 +54,7 @@ export default class SaveConfigurationDialog extends Dialog {
         url,
         diff: jsonDiff(originalData, editedData) || 'nothing.'
       }),
-      null,
+
       {
         maxWidth: 550
       }
