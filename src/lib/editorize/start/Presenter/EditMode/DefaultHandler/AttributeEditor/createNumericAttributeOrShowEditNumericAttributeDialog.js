@@ -22,7 +22,6 @@ export default function (
         attrDef,
         attribute,
         commander,
-        true,
         pallet,
         editTypeValues
       )

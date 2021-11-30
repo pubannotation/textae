@@ -5,14 +5,13 @@ export default function (
   attrDef,
   attribute,
   commander,
-  deletable,
   editTypeValues,
   pallet
 ) {
   new EditNumericAttributeDialog(
     attrDef,
     attribute,
-    deletable,
+    true,
     editTypeValues,
     pallet
   )
