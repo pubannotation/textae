@@ -8,7 +8,13 @@ export default function (
   editTypeValues,
   pallet
 ) {
-  new EditStringAttributeDialog(attribute, attrDef, editTypeValues, pallet)
+  new EditStringAttributeDialog(
+    attribute,
+    attrDef,
+    true,
+    editTypeValues,
+    pallet
+  )
     .open()
     .then(({ newObj, newLabel }) => {
       if (newObj) {
