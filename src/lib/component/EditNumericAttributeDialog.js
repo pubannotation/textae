@@ -54,6 +54,7 @@ export default class EditNumericAttributeDialog extends PromiseDialog {
         click: () => {
           this.close()
           pallet.show()
+          pallet.showAttribute(attribute.pred)
         }
       })
     }
