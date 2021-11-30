@@ -52,7 +52,8 @@ export default class EditStringAttributeDialog extends PromiseDialog {
 
     if (pallet) {
       buttons.unshift({
-        text: 'Show label list editor',
+        text: '...',
+        title: 'configuration',
         click: () => {
           this.close()
           pallet.show()
