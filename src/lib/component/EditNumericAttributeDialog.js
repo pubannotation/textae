@@ -1,8 +1,7 @@
-import delegate from 'delegate'
 import PromiseDialog from './PromiseDialog'
 
 function template(context) {
-  const { pred, min, max, step, value, deletable } = context
+  const { pred, min, max, step, value } = context
   return `
 <div class="textae-editor__edit-numeric-attribute-dialog__container">
   <div class="textae-editor__edit-numeric-attribute-dialog__row">
@@ -21,35 +20,13 @@ function template(context) {
       step="${step}" 
       value="${value}">
   </div>
-  ${
-    deletable
-      ? `
-      <div class="textae-editor__edit-numeric-attribute-dialog__row">
-        <button
-          type="button" 
-          class="textae-editor__edit-numeric-attribute-dialog__remove-attribute" 
-          >
-        </button>
-      </div>
-      `
-      : ''
-  }
 </div>`
 }
 
 export default class EditNumericAttributeDialog extends PromiseDialog {
   constructor(attrDef, attribute, deletable, editTypeValues, pallet) {
-    const bind = (dialog, resolve) => {
-      delegate(
-        dialog.el,
-        '.textae-editor__edit-numeric-attribute-dialog__remove-attribute',
-        'click',
-        () => {
-          dialog.close()
-          resolve({ newObj: null })
-        }
-      )
-    }
+    let resolve = null
+    const bind = (_, resolveFunc) => (resolve = resolveFunc)
 
     const buttons = [
       {
@@ -57,6 +34,16 @@ export default class EditNumericAttributeDialog extends PromiseDialog {
         click: () => this.close()
       }
     ]
+
+    if (deletable) {
+      buttons.unshift({
+        class: 'textae-editor__edit-numeric-attribute-dialog__remove-attribute',
+        click: () => {
+          this.close()
+          resolve({ newObj: null })
+        }
+      })
+    }
 
     if (editTypeValues) {
       buttons.unshift({
@@ -85,8 +72,7 @@ export default class EditNumericAttributeDialog extends PromiseDialog {
         value: attribute.obj,
         min: attrDef.min,
         max: attrDef.max,
-        step: attrDef.step,
-        deletable
+        step: attrDef.step
       }),
       { buttons },
       () => {
