@@ -3,7 +3,7 @@ import $ from 'jquery'
 import 'jquery-ui/ui/widgets/dialog'
 
 export default class Dialog {
-  constructor(title, contentHtml, buttonLabel, option) {
+  constructor(title, contentHtml, buttonLabel, option = {}) {
     this._el = dohtml.create(`
     <div title="${title}">
       ${contentHtml}
