@@ -163,7 +163,7 @@ export default function (pallet, el, commander, selectionModelEntity) {
           pallet.attrDef,
           attribute,
           commander,
-          false
+          true
         )
         break
       case 'string':
