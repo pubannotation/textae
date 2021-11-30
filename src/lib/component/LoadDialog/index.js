@@ -68,7 +68,7 @@ export default class LoadDialog extends Dialog {
     readFromText,
     hasChange
   ) {
-    super(title, template({ url }), 'Cancel')
+    super(title, template({ url }))
 
     // Disabled the button to load from the URL when no URL.
     delegate(
