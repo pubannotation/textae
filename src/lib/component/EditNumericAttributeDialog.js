@@ -25,9 +25,6 @@ function template(context) {
 
 export default class EditNumericAttributeDialog extends PromiseDialog {
   constructor(attrDef, attribute, deletable, editTypeValues, pallet) {
-    let resolve = null
-    const bind = (_, resolveFunc) => (resolve = resolveFunc)
-
     const buttons = [
       {
         text: 'OK',
@@ -40,7 +37,7 @@ export default class EditNumericAttributeDialog extends PromiseDialog {
         class: 'textae-editor__edit-numeric-attribute-dialog__remove-attribute',
         click: () => {
           this.close()
-          resolve({ newObj: null })
+          this.resolveFunc({ newObj: null })
         }
       })
     }
@@ -82,8 +79,7 @@ export default class EditNumericAttributeDialog extends PromiseDialog {
 
         // Numeric attribute obj value type must be Number type.
         return { newObj: input.value }
-      },
-      deletable ? bind : null
+      }
     )
   }
 }

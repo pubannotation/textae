@@ -2,14 +2,14 @@ import delegate from 'delegate'
 import Dialog from './Dialog'
 
 export default class PromiseDialog extends Dialog {
-  constructor(title, contentHtml, option, getResultsFunc, bind) {
+  constructor(title, contentHtml, option, getResultsFunc) {
     super(title, contentHtml, 'OK', option)
 
-    this._promise = new Promise((resolve) => {
+    this._promise = new Promise((resolveFunc) => {
       const onOKButtonClick = () => {
         const results = getResultsFunc()
         if (results) {
-          resolve(results)
+          resolveFunc(results)
         }
         super.close()
       }
@@ -29,9 +29,7 @@ export default class PromiseDialog extends Dialog {
         }
       )
 
-      if (bind) {
-        bind(this, resolve)
-      }
+      this.resolveFunc = resolveFunc
     })
   }
 
