@@ -59,7 +59,7 @@ export default class SettingDialog extends Dialog {
       version: packageJson.version
     })
 
-    super('Setting', contentHtml, 'OK')
+    super('Setting', contentHtml)
 
     // Reflects configuration changes in real time.
     reflectImmediately(super.el, typeGap, typeDefinition, textBox)
