@@ -49,7 +49,8 @@ export default class EditNumericAttributeDialog extends PromiseDialog {
 
     if (pallet) {
       buttons.unshift({
-        text: 'Show label list editor',
+        text: '...',
+        title: 'cofiguration',
         click: () => {
           this.close()
           pallet.show()
