@@ -9,8 +9,8 @@ export default function (
   pallet
 ) {
   new EditStringAttributeDialog(
-    attribute,
     attrDef,
+    attribute,
     selectionModelEntity.all.reduce((attrs, entity) => {
       attrs.push(entity.attributes.find((a) => a.pred == attribute.pred))
       return attrs

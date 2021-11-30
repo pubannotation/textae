@@ -28,8 +28,8 @@ function template(context) {
 
 export default class EditStringAttributeDialog extends PromiseDialog {
   constructor(
-    attribute,
     attrDef,
+    attribute,
     targetAttributes,
     deletable,
     editTypeValues,

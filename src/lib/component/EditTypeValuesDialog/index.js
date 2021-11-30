@@ -84,8 +84,8 @@ export default class EditTypeValuesDialog extends PromiseDialog {
             break
           case 'string':
             new EditStringAttributeDialog(
-              attributes[e.target.dataset.index],
               attrDef,
+              attributes[e.target.dataset.index],
               [attributes[e.target.dataset.index]]
             )
               .open()
