@@ -169,12 +169,10 @@ export default class LoadDialog extends Dialog {
         clickable: false
       }
     )
-    let zIndexOfOverlayDropzone = 0
+    const zIndexOfOverlayDropzone = overlayDropzone.element.style.zIndex
+
     overlayDropzone
-      .on(
-        'dragenter',
-        () => (zIndexOfOverlayDropzone = maximizeOverlay(overlayDropzone))
-      )
+      .on('dragenter', () => maximizeOverlay(overlayDropzone))
       .on('dragleave', () =>
         revertMaximizeOverlay(overlayDropzone, zIndexOfOverlayDropzone)
       )
