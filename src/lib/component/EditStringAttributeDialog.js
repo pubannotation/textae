@@ -30,6 +30,16 @@ export default class EditStringAttributeDialog extends PromiseDialog {
   constructor(attribute, attrDef, deletable, editTypeValues, pallet) {
     const buttons = []
 
+    if (deletable) {
+      buttons.unshift({
+        class: 'textae-editor__edit-string-attribute-dialog__remove-attribute',
+        click: () => {
+          this.close()
+          this.resolveFunc({ newObj: null })
+        }
+      })
+    }
+
     if (editTypeValues) {
       buttons.unshift({
         text: 'Change label',
