@@ -12,12 +12,15 @@ export default function (content) {
     '.textae-editor__edit-type-values-dialog__attribute'
   )) {
     attributes.push({
-      pred: attr.querySelector(
-        '.textae-editor__edit-type-values-dialog__attribute-predicate'
-      ).dataset.pred,
       id: attr.querySelector(
         '.textae-editor__edit-type-values-dialog__attribute-value'
       ).dataset.id,
+      subj: attr.querySelector(
+        '.textae-editor__edit-type-values-dialog__attribute-value'
+      ).dataset.subj,
+      pred: attr.querySelector(
+        '.textae-editor__edit-type-values-dialog__attribute-predicate'
+      ).dataset.pred,
       obj: attr.querySelector(
         '.textae-editor__edit-type-values-dialog__attribute-value'
       ).dataset.obj,

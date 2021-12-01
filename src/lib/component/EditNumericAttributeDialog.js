@@ -1,9 +1,15 @@
 import PromiseDialog from './PromiseDialog'
 
 function template(context) {
-  const { pred, min, max, step, value } = context
+  const { subjects, pred, min, max, step, value } = context
   return `
 <div class="textae-editor__edit-numeric-attribute-dialog__container">
+  <div class="textae-editor__edit-numeric-attribute-dialog__row">
+    <label>Subject</label>
+    <input 
+      value="${subjects}" 
+      disabled="disabled">
+  </div>
   <div class="textae-editor__edit-numeric-attribute-dialog__row">
     <label>Predicate</label>
     <input 
@@ -69,6 +75,9 @@ export default class EditNumericAttributeDialog extends PromiseDialog {
     super(
       `Attribute [${targetAttributes.map(({ id }) => id || '-').join(',')}]`,
       template({
+        subjects: `${targetAttributes
+          .map(({ subj }) => subj || '-')
+          .join(', ')}`,
         pred: attribute.pred,
         value: attribute.obj,
         min: attrDef.min,
