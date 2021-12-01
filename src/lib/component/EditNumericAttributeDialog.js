@@ -1,3 +1,4 @@
+import delegate from 'delegate'
 import PromiseDialog from './PromiseDialog'
 
 function template(context) {
@@ -6,9 +7,15 @@ function template(context) {
 <div class="textae-editor__edit-numeric-attribute-dialog__container">
   <div class="textae-editor__edit-numeric-attribute-dialog__row">
     <label>Subject</label>
-    <input 
-      value="${subjects}" 
-      disabled="disabled">
+    <div class="textae-editor__edit-numeric-attribute-dialog__subject-row">
+      <input 
+      class="textae-editor__edit-numeric-attribute-dialog__subject-input"
+        value="${subjects}" 
+        disabled="disabled">
+      <button 
+        class="textae-editor__edit-numeric-attribute-dialog__subject-edit-button"
+        title="properties">...</button>
+    </div>
   </div>
   <div class="textae-editor__edit-numeric-attribute-dialog__row">
     <label>Predicate</label>
@@ -24,7 +31,8 @@ function template(context) {
       min="${min}" 
       max="${max}" 
       step="${step}" 
-      value="${value}">
+      value="${value}"
+      autofocus>
   </div>
 </div>`
 }
@@ -46,16 +54,6 @@ export default class EditNumericAttributeDialog extends PromiseDialog {
         click: () => {
           this.close()
           this.resolveFunc({ newObj: null })
-        }
-      })
-    }
-
-    if (editTypeValues) {
-      buttons.unshift({
-        text: 'Change label',
-        click: () => {
-          this.close()
-          editTypeValues()
         }
       })
     }
@@ -94,5 +92,17 @@ export default class EditNumericAttributeDialog extends PromiseDialog {
         return { newObj: input.value }
       }
     )
+
+    if (editTypeValues) {
+      delegate(
+        super.el,
+        '.textae-editor__edit-numeric-attribute-dialog__subject-edit-button',
+        'click',
+        () => {
+          this.close()
+          editTypeValues()
+        }
+      )
+    }
   }
 }
