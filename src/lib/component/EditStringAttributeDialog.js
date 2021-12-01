@@ -2,10 +2,16 @@ import PromiseDialog from './PromiseDialog'
 import setSourceOfAutoComplete from './setSourceOfAutoComplete'
 
 function template(context) {
-  const { pred, value } = context
+  const { subjects, pred, value } = context
 
   return `
 <div class="textae-editor__edit-string-attribute-dialog__container">
+  <div class="textae-editor__edit-numeric-attribute-dialog__row">
+    <label>Subject</label>
+    <input 
+      value="${subjects}" 
+      disabled="disabled">
+  </div>
   <div class="textae-editor__edit-string-attribute-dialog__row">
     <label>Predicate</label>
     <input 
@@ -72,6 +78,9 @@ export default class EditStringAttributeDialog extends PromiseDialog {
     super(
       `Attribute [${targetAttributes.map(({ id }) => id || '-').join(',')}]`,
       template({
+        subjects: `${targetAttributes
+          .map(({ subj }) => subj || '-')
+          .join(', ')}`,
         pred: attribute.pred,
         value: attribute.obj
       }),
