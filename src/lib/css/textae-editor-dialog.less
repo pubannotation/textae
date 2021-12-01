@@ -246,6 +246,16 @@
   &__edit-numeric-attribute-dialog,
   &__edit-string-attribute-dialog {
     .form();
+    &__subject- {
+      &row {
+        display: flex;
+        width: 100%;
+      }
+      &input {
+        width: calc(100% - 58px);
+      }
+    }
+
     &__remove-attribute:before {
       .fontAwesomeIcon('\f1f8');
     }

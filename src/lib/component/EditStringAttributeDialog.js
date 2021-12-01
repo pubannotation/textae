@@ -1,3 +1,4 @@
+import delegate from 'delegate'
 import PromiseDialog from './PromiseDialog'
 import setSourceOfAutoComplete from './setSourceOfAutoComplete'
 
@@ -8,9 +9,15 @@ function template(context) {
 <div class="textae-editor__edit-string-attribute-dialog__container">
   <div class="textae-editor__edit-numeric-attribute-dialog__row">
     <label>Subject</label>
-    <input 
-      value="${subjects}" 
-      disabled="disabled">
+    <div class="textae-editor__edit-numeric-attribute-dialog__subject-row">
+      <input 
+      class="textae-editor__edit-numeric-attribute-dialog__subject-input"
+        value="${subjects}" 
+        disabled="disabled">
+      <button 
+        class="textae-editor__edit-numeric-attribute-dialog__subject-edit-button"
+        title="properties">...</button>
+    </div>
   </div>
   <div class="textae-editor__edit-string-attribute-dialog__row">
     <label>Predicate</label>
@@ -21,7 +28,8 @@ function template(context) {
     <label>Object</label>
     <input
       class="textae-editor__edit-string-attribute-dialog__value textae-editor__promise-daialog__observable-element" 
-      value="${value}">
+      value="${value}"
+      autofocus>
   </div>
   <div class="textae-editor__edit-string-attribute-dialog__row">
     <label>Label</label>
@@ -49,16 +57,6 @@ export default class EditStringAttributeDialog extends PromiseDialog {
         click: () => {
           this.close()
           this.resolveFunc({ newObj: null })
-        }
-      })
-    }
-
-    if (editTypeValues) {
-      buttons.unshift({
-        text: 'Change label',
-        click: () => {
-          this.close()
-          editTypeValues()
         }
       })
     }
@@ -98,6 +96,18 @@ export default class EditStringAttributeDialog extends PromiseDialog {
         }
       }
     )
+
+    if (editTypeValues) {
+      delegate(
+        super.el,
+        '.textae-editor__edit-numeric-attribute-dialog__subject-edit-button',
+        'click',
+        () => {
+          this.close()
+          editTypeValues()
+        }
+      )
+    }
 
     setSourceOfAutoComplete(
       super.el.querySelector(
