@@ -2827,6 +2827,15 @@ ul.jsondiffpatch-textdiff {
   width: calc(100% - 40px);
 }
 /* dialog */
+.textae-editor__dialog button:disabled {
+  background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
+  color: #999;
+  cursor: initial;
+}
+.textae-editor__dialog button:disabled:hover {
+  background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
+  border-color: #ccc;
+}
 .textae-editor__create-attribute-definition-dialog__container,
 .textae-editor__edit-attribute-definition-dialog__container {
   display: flex;
@@ -2870,8 +2879,18 @@ ul.jsondiffpatch-textdiff {
 .textae-editor__edit-attribute-definition-dialog__row button:disabled,
 .textae-editor__create-attribute-definition-dialog__row a:disabled,
 .textae-editor__edit-attribute-definition-dialog__row a:disabled {
-  background-color: #ccc;
+  background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
   color: #999;
+  cursor: initial;
+}
+.textae-editor__create-attribute-definition-dialog__row input[type='button']:disabled:hover,
+.textae-editor__edit-attribute-definition-dialog__row input[type='button']:disabled:hover,
+.textae-editor__create-attribute-definition-dialog__row button:disabled:hover,
+.textae-editor__edit-attribute-definition-dialog__row button:disabled:hover,
+.textae-editor__create-attribute-definition-dialog__row a:disabled:hover,
+.textae-editor__edit-attribute-definition-dialog__row a:disabled:hover {
+  background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
+  border-color: #ccc;
 }
 .textae-editor__create-attribute-definition-dialog__value-type-row,
 .textae-editor__edit-attribute-definition-dialog__value-type-row {
@@ -2940,51 +2959,15 @@ ul.jsondiffpatch-textdiff {
 .textae-editor__create-or-edit-value-of-attribute-definition-dialog__row input[type='button']:disabled,
 .textae-editor__create-or-edit-value-of-attribute-definition-dialog__row button:disabled,
 .textae-editor__create-or-edit-value-of-attribute-definition-dialog__row a:disabled {
-  background-color: #ccc;
-  color: #999;
-}
-.textae-editor__edit-numeric-attribute-dialog__container {
-  display: flex;
-  flex-direction: column;
-}
-.textae-editor__edit-numeric-attribute-dialog__container > div {
-  margin-bottom: 16px;
-}
-.textae-editor__edit-numeric-attribute-dialog__row {
-  display: flex;
-  flex-direction: column;
-  width: calc(100% - 7px);
-}
-.textae-editor__edit-numeric-attribute-dialog__row input[type='button'],
-.textae-editor__edit-numeric-attribute-dialog__row button,
-.textae-editor__edit-numeric-attribute-dialog__row a {
   background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  color: #1c94c4;
-  cursor: pointer;
-  display: inline-block;
-  font-weight: bold;
-  line-height: normal;
-  overflow: visible;
-  padding: 0.4em 1em;
-  position: relative;
-  vertical-align: middle;
-  text-align: center;
-  text-decoration: none;
-  user-select: none;
-}
-.textae-editor__edit-numeric-attribute-dialog__row input[type='button']:disabled,
-.textae-editor__edit-numeric-attribute-dialog__row button:disabled,
-.textae-editor__edit-numeric-attribute-dialog__row a:disabled {
-  background-color: #ccc;
   color: #999;
+  cursor: initial;
 }
-.textae-editor__edit-numeric-attribute-dialog__remove-attribute:before {
-  position: relative;
-  display: inline-block;
-  font-family: FontAwesome;
-  content: '\f1f8';
+.textae-editor__create-or-edit-value-of-attribute-definition-dialog__row input[type='button']:disabled:hover,
+.textae-editor__create-or-edit-value-of-attribute-definition-dialog__row button:disabled:hover,
+.textae-editor__create-or-edit-value-of-attribute-definition-dialog__row a:disabled:hover {
+  background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
+  border-color: #ccc;
 }
 .textae-editor__edit-type-values-dialog__table {
   border-collapse: collapse;
@@ -3027,8 +3010,13 @@ ul.jsondiffpatch-textdiff {
   user-select: none;
 }
 .textae-editor__edit-type-values-dialog__table tr:nth-child(even) button:disabled {
-  background-color: #ccc;
+  background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
   color: #999;
+  cursor: initial;
+}
+.textae-editor__edit-type-values-dialog__table tr:nth-child(even) button:disabled:hover {
+  background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
+  border-color: #ccc;
 }
 .textae-editor__edit-type-values-dialog__table td {
   border-top-style: dashed;
@@ -3139,8 +3127,13 @@ ul.jsondiffpatch-textdiff {
   user-select: none;
 }
 .textae-editor__edit-type-values-dialog__add-attribute-buttons button:disabled {
-  background-color: #ccc;
+  background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
   color: #999;
+  cursor: initial;
+}
+.textae-editor__edit-type-values-dialog__add-attribute-buttons button:disabled:hover {
+  background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
+  border-color: #ccc;
 }
 .textae-editor__edit-type-values-dialog__add-attribute-buttons button::after {
   background-color: #1c94c4;
@@ -3184,20 +3177,26 @@ ul.jsondiffpatch-textdiff {
 .textae-editor__edit-type-values-dialog__add-attribute-buttons button:nth-child(9)::after {
   content: '9';
 }
+.textae-editor__edit-numeric-attribute-dialog__container,
 .textae-editor__edit-string-attribute-dialog__container {
   display: flex;
   flex-direction: column;
 }
+.textae-editor__edit-numeric-attribute-dialog__container > div,
 .textae-editor__edit-string-attribute-dialog__container > div {
   margin-bottom: 16px;
 }
+.textae-editor__edit-numeric-attribute-dialog__row,
 .textae-editor__edit-string-attribute-dialog__row {
   display: flex;
   flex-direction: column;
   width: calc(100% - 7px);
 }
+.textae-editor__edit-numeric-attribute-dialog__row input[type='button'],
 .textae-editor__edit-string-attribute-dialog__row input[type='button'],
+.textae-editor__edit-numeric-attribute-dialog__row button,
 .textae-editor__edit-string-attribute-dialog__row button,
+.textae-editor__edit-numeric-attribute-dialog__row a,
 .textae-editor__edit-string-attribute-dialog__row a {
   background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
   border: 1px solid #ccc;
@@ -3215,11 +3214,40 @@ ul.jsondiffpatch-textdiff {
   text-decoration: none;
   user-select: none;
 }
+.textae-editor__edit-numeric-attribute-dialog__row input[type='button']:disabled,
 .textae-editor__edit-string-attribute-dialog__row input[type='button']:disabled,
+.textae-editor__edit-numeric-attribute-dialog__row button:disabled,
 .textae-editor__edit-string-attribute-dialog__row button:disabled,
+.textae-editor__edit-numeric-attribute-dialog__row a:disabled,
 .textae-editor__edit-string-attribute-dialog__row a:disabled {
-  background-color: #ccc;
+  background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
   color: #999;
+  cursor: initial;
+}
+.textae-editor__edit-numeric-attribute-dialog__row input[type='button']:disabled:hover,
+.textae-editor__edit-string-attribute-dialog__row input[type='button']:disabled:hover,
+.textae-editor__edit-numeric-attribute-dialog__row button:disabled:hover,
+.textae-editor__edit-string-attribute-dialog__row button:disabled:hover,
+.textae-editor__edit-numeric-attribute-dialog__row a:disabled:hover,
+.textae-editor__edit-string-attribute-dialog__row a:disabled:hover {
+  background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
+  border-color: #ccc;
+}
+.textae-editor__edit-numeric-attribute-dialog__subject-row,
+.textae-editor__edit-string-attribute-dialog__subject-row {
+  display: flex;
+  width: 100%;
+}
+.textae-editor__edit-numeric-attribute-dialog__subject-input,
+.textae-editor__edit-string-attribute-dialog__subject-input {
+  width: calc(100% - 58px);
+}
+.textae-editor__edit-numeric-attribute-dialog__remove-attribute:before,
+.textae-editor__edit-string-attribute-dialog__remove-attribute:before {
+  position: relative;
+  display: inline-block;
+  font-family: FontAwesome;
+  content: '\f1f8';
 }
 .textae-editor__load-dialog__container {
   display: flex;
@@ -3255,8 +3283,15 @@ ul.jsondiffpatch-textdiff {
 .textae-editor__load-dialog__row input[type='button']:disabled,
 .textae-editor__load-dialog__row button:disabled,
 .textae-editor__load-dialog__row a:disabled {
-  background-color: #ccc;
+  background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
   color: #999;
+  cursor: initial;
+}
+.textae-editor__load-dialog__row input[type='button']:disabled:hover,
+.textae-editor__load-dialog__row button:disabled:hover,
+.textae-editor__load-dialog__row a:disabled:hover {
+  background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
+  border-color: #ccc;
 }
 .textae-editor__load-dialog__dropzone {
   border: 3px dashed;
@@ -3328,8 +3363,15 @@ ul.jsondiffpatch-textdiff {
 .textae-editor__save-dialog__row input[type='button']:disabled,
 .textae-editor__save-dialog__row button:disabled,
 .textae-editor__save-dialog__row a:disabled {
-  background-color: #ccc;
+  background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
   color: #999;
+  cursor: initial;
+}
+.textae-editor__save-dialog__row input[type='button']:disabled:hover,
+.textae-editor__save-dialog__row button:disabled:hover,
+.textae-editor__save-dialog__row a:disabled:hover {
+  background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
+  border-color: #ccc;
 }
 .textae-editor__save-dialog__diff-add-legend,
 .textae-editor__save-dialog__diff-remove-legend {
@@ -3385,8 +3427,15 @@ ul.jsondiffpatch-textdiff {
 .textae-editor__setting-dialog__row input[type='button']:disabled,
 .textae-editor__setting-dialog__row button:disabled,
 .textae-editor__setting-dialog__row a:disabled {
-  background-color: #ccc;
+  background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
   color: #999;
+  cursor: initial;
+}
+.textae-editor__setting-dialog__row input[type='button']:disabled:hover,
+.textae-editor__setting-dialog__row button:disabled:hover,
+.textae-editor__setting-dialog__row a:disabled:hover {
+  background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
+  border-color: #ccc;
 }
 .textae-editor__type-definition-dialog__container {
   display: flex;
@@ -3422,8 +3471,15 @@ ul.jsondiffpatch-textdiff {
 .textae-editor__type-definition-dialog__row input[type='button']:disabled,
 .textae-editor__type-definition-dialog__row button:disabled,
 .textae-editor__type-definition-dialog__row a:disabled {
-  background-color: #ccc;
+  background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
   color: #999;
+  cursor: initial;
+}
+.textae-editor__type-definition-dialog__row input[type='button']:disabled:hover,
+.textae-editor__type-definition-dialog__row button:disabled:hover,
+.textae-editor__type-definition-dialog__row a:disabled:hover {
+  background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
+  border-color: #ccc;
 }
 .textae-editor__type-definition-dialog__row:first-child {
   z-index: 101;

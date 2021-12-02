@@ -2,6 +2,45 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.32.0](https://github.com/pubannotation/textae/compare/v7.31.0...v7.32.0) (2021-12-02)
+
+
+### Features
+
+* Add the delete button to the Edit String Dialog ([de43aff](https://github.com/pubannotation/textae/commit/de43affb2ed5a5e1ce803abed35edb03355006a5))
+* Allow deletion when the Edit Numeric Attributes dialog is opened from the palette ([87a9c84](https://github.com/pubannotation/textae/commit/87a9c847b94fd6350e61ecc8b49c8ff29d9bca79))
+* Change label of the open pallet button in the Edit Numeric Attribute Dialog ([b8e9aca](https://github.com/pubannotation/textae/commit/b8e9acab9cbcc5d6bf9c60327ecf1e34cce09ef1))
+* Change label of the open pallet button in the Edit String Attribute Dialog ([2b85b69](https://github.com/pubannotation/textae/commit/2b85b6981b54851c202b46c23cfae6d051b2cbea))
+* Move change label button to the subject row in the Edit Numeric Attribute Dialog ([bd3260b](https://github.com/pubannotation/textae/commit/bd3260b870787c1479cc69546c4814b5690a1ebb))
+* Move change label button to the subject row in the Edit String Attribute Dialog ([52939ec](https://github.com/pubannotation/textae/commit/52939ec1b211b4a46b1715643f0e31958820c441))
+* Move the Delete button in the Edit Numerical Attributes dialog to the left of the OK button ([4b7f3a9](https://github.com/pubannotation/textae/commit/4b7f3a95ce2130ee52e5c808aeef8b00b00ce7bb))
+* Opon the attribute tab of the pallet from Edit Numeric Attribute Dialog ([5edefa7](https://github.com/pubannotation/textae/commit/5edefa70b3eafa7ae5200fab57010d92783fa220))
+* Opon the attribute tab of the pallet from Edit String Attribute Dialog ([476989f](https://github.com/pubannotation/textae/commit/476989fd876ebe933314be0b8221004bf5f1f540))
+* Remove the Cancel button from the Load or Save Dialogs ([0536648](https://github.com/pubannotation/textae/commit/0536648c8bd0d152e99be0c719b52646d0b97a0b))
+* Remove the OK button from the Setting Dialog ([a33774a](https://github.com/pubannotation/textae/commit/a33774a775b4619a80ef1fcf81290c3b6c782670))
+* Show editing target attributes in the title bar of the Edit String Attribute Dialog ([014ae37](https://github.com/pubannotation/textae/commit/014ae3780b9a5d95bd8ddb76e097fa7f10005f53))
+* Show the subject in the Edit Numeric Attribute Dialog ([5ee8ec9](https://github.com/pubannotation/textae/commit/5ee8ec98b69f19ececa77441b9b129a3721fa153))
+* Show the subject in the Edit String Attribute Dialog ([9c09e5a](https://github.com/pubannotation/textae/commit/9c09e5aa13df1167e9134e801329fa508309feed))
+
+
+### Bug Fixes
+
+* HTML string in flag attribute label breaks the display of the edit dialog ([e148986](https://github.com/pubannotation/textae/commit/e14898688df07fefa2026ad39d3b9aec9395d57c))
+* HTML string in flag attribute label breaks the display of the pallet ([c935524](https://github.com/pubannotation/textae/commit/c935524a651868706aec309678a50f052cd287a6))
+* HTML string in string attribute default value breaks the display of the edit dialog ([22947ba](https://github.com/pubannotation/textae/commit/22947baffb09da6bf7c517691959b72ed859533b))
+* HTML string in string attribute default value breaks the display of the pallet ([f6f0a59](https://github.com/pubannotation/textae/commit/f6f0a591a6737e518699e96c4e2322b51b6f8356))
+* HTML string in the label of value of numeric attribute breaks the display of the pallet ([f02e0e4](https://github.com/pubannotation/textae/commit/f02e0e4f3520a3536b39be3d021e81277849bff7))
+* HTML string in the label of value of selection attribute breaks the display of the pallet ([8fed62e](https://github.com/pubannotation/textae/commit/8fed62eb55fa1312a74aed7e0dc5771040d4f1e8))
+* HTML string in the label of value of string attribute breaks the display of the edit dialog ([a2d5f31](https://github.com/pubannotation/textae/commit/a2d5f319316b542e2c6c74b27fd9bbd327fa4d8a))
+* HTML string in the label of value of string attribute breaks the display of the pallet ([0cdf938](https://github.com/pubannotation/textae/commit/0cdf938c74dc9766a8c266fc9c0d6022c630fa1b))
+* HTML string in type ID breaks the display of the edit dialog ([2dc07ae](https://github.com/pubannotation/textae/commit/2dc07aecbab9f202af2b12a5a16d386fd3896b7c))
+* HTML string in type ID breaks the display of the pallet ([4793b5a](https://github.com/pubannotation/textae/commit/4793b5a17f74cc940162574f55825ab8e1969649))
+* HTML string in type label breaks the display of the pallet ([b96723a](https://github.com/pubannotation/textae/commit/b96723a9d14670fa82592cf0c794b55916d0312a))
+* Overlays do not disappear when dragging and dropping a configuration file in Firefox ([8c65ae0](https://github.com/pubannotation/textae/commit/8c65ae0f38cef968f59d2506399c3d7422ef38ed))
+* Single quotes in type ID breaks the display of the edit dialog ([6664a9f](https://github.com/pubannotation/textae/commit/6664a9f9ee4ac96fc9d6357a61028aa264f4df7d))
+* Single quotes in type ID breaks the display of the pallet ([d30bf13](https://github.com/pubannotation/textae/commit/d30bf13f1b92498dd0beb75ec7f8ece1de6482a1))
+* When an input validation error occurs in the Edit Attribute Value dialog, the OK button cannot be pressed, but the appearance remains the same ([ae631b2](https://github.com/pubannotation/textae/commit/ae631b26e3b976ac9cc046981634e36c27cfe815))
+
 ## [7.31.0](https://github.com/pubannotation/textae/compare/v7.30.0...v7.31.0) (2021-11-25)
 
 
