@@ -11,7 +11,13 @@ import start from './start'
 import { EventEmitter } from 'events'
 import getParams from './getParams'
 import ValidationDialog from '../component/ValidationDialog'
-import isTouchDevice from './isTouchDevice'
+
+function isAndroid() {
+  // For development environments, Use the navigator.userAgent.
+  // Because the navigator.userAgentData only work in the secure context(HTTPS).
+  // https://developer.mozilla.org/en-US/docs/Web/API/Navigator/userAgentData
+  return /Android/.test(navigator.userAgent)
+}
 
 export default function (element) {
   const $this = $(element)
@@ -77,7 +83,7 @@ export default function (element) {
       // change leaveMessage show
       // Reloading when trying to scroll further when you are at the top on an Android device.
       // Show a confirmation dialog to prevent this.
-      window.onbeforeunload = isTouchDevice() || hasChange ? () => true : null
+      window.onbeforeunload = isAndroid() || hasChange ? () => true : null
     })
 
   const dom = $this[0]
