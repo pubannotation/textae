@@ -12,7 +12,7 @@ export default class EditorContainer {
       // Keyup events occurs without selected editor, When editor is focused before initializing.
       if (this.selected) {
         if (e.key === 'h') {
-          this.openHelpDialog()
+          helpDialog.open()
         }
       }
     })
@@ -55,9 +55,5 @@ export default class EditorContainer {
 
   findByHTMLelement(dom) {
     return this._editors.filter((e) => e[0] === dom)[0]
-  }
-
-  openHelpDialog() {
-    helpDialog.open()
   }
 }
