@@ -82,7 +82,10 @@ export default function (
     editorHTMLElement.classList.add('textae-editor--control-visible')
   }
 
-  if (params.get('control') === 'hidden') {
+  if (
+    params.get('control') === 'hidden' ||
+    (params.get('mode') === 'view' && params.get('control') !== 'visible')
+  ) {
     editorHTMLElement.classList.add('textae-editor--control-hidden')
   }
 
