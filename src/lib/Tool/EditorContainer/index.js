@@ -15,7 +15,7 @@ export default class EditorContainer {
     })
     this._editors.push(editor)
 
-    editor[0].addEventListener('keyup', (e) => {
+    window.addEventListener('keyup', (e) => {
       // Keyup events occurs without selected editor, When editor is focused before initializing.
       if (this.selected) {
         if (e.key === 'h') {
