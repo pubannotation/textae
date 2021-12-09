@@ -257,16 +257,16 @@ export default function (
   const contextMenu = new ContextMenu(editor, buttonController, iconEventMap)
   editor[0].appendChild(contextMenu.el)
 
-  const keyEventMap = new KeyEventMap(
-    commander,
-    presenter,
-    persistenceInterface
-  )
   editor[0].addEventListener('keyup', (event) => {
     contextMenu.hide()
 
     // Keyup events occurs without selected editor, When editor is focused before initializing.
     if (editor.instanceMethods.isActive) {
+      const keyEventMap = new KeyEventMap(
+        commander,
+        presenter,
+        persistenceInterface
+      )
       keyEventMap.handle(event)
     }
   })
