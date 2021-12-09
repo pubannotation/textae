@@ -264,6 +264,10 @@ export default function (
   )
   editor[0].addEventListener('keyup', (event) => {
     contextMenu.hide()
-    keyEventMap.handle(editor.instanceMethods.isActive, event)
+
+    // Keyup events occurs without selected editor, When editor is focused before initializing.
+    if (editor.instanceMethods.isActive) {
+      keyEventMap.handle(event)
+    }
   })
 }
