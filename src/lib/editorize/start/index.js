@@ -77,12 +77,13 @@ export default function (
 
   focusEditorWhenFocusedChildRemoved(editor)
 
+  const editorHTMLElement = editor[0]
   if (params.get('control') === 'visible') {
-    editor[0].classList.add('textae-editor--control-visible')
+    editorHTMLElement.classList.add('textae-editor--control-visible')
   }
 
   if (params.get('control') === 'hidden') {
-    editor[0].classList.add('textae-editor--control-hidden')
+    editorHTMLElement.classList.add('textae-editor--control-hidden')
   }
 
   // Over write editor-div's config lock state by url's.
@@ -238,7 +239,7 @@ export default function (
   )
 
   // Add tabIndex to listen to keyboard events.
-  editor[0].tabIndex = -1
+  editorHTMLElement.tabIndex = -1
 
   const iconEventMap = new IconEventMap(
     commander,
@@ -249,15 +250,15 @@ export default function (
   )
 
   // add control bar
-  editor[0].insertBefore(
+  editorHTMLElement.insertBefore(
     new ControlBar(editor, buttonController, iconEventMap).el,
-    editor[0].childNodes[0]
+    editorHTMLElement.childNodes[0]
   )
   // add context menu
   const contextMenu = new ContextMenu(editor, buttonController, iconEventMap)
-  editor[0].appendChild(contextMenu.el)
+  editorHTMLElement.appendChild(contextMenu.el)
 
-  editor[0].addEventListener('keyup', (event) => {
+  editorHTMLElement.addEventListener('keyup', (event) => {
     contextMenu.hide()
 
     if (editor.instanceMethods.isActive) {
