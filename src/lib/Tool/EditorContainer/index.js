@@ -1,6 +1,5 @@
 import HelpDialog from '../../component/HelpDialog'
 import getNewId from './getNewId'
-import keyInputHandler from './keyInputHandler'
 
 const helpDialog = new HelpDialog()
 
@@ -16,7 +15,14 @@ export default class EditorContainer {
     })
     this._editors.push(editor)
 
-    editor[0].addEventListener('keyup', (e) => keyInputHandler(this, e))
+    editor[0].addEventListener('keyup', (e) => {
+      // Keyup events occurs without selected editor, When editor is focused before initializing.
+      if (this.selected) {
+        if (e.key === 'h') {
+          this.openHelpDialog()
+        }
+      }
+    })
   }
 
   get selected() {
