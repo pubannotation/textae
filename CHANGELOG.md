@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [7.32.1](https://github.com/pubannotation/textae/compare/v7.32.0...v7.32.1) (2021-12-09)
+
+
+### Bug Fixes
+
+* PCs with touch devices such as surface will also show the confirm dialog when reloading ([44f373b](https://github.com/pubannotation/textae/commit/44f373b90a05add91773833c89f7f9ce208e4cd0))
+
 ## [7.32.0](https://github.com/pubannotation/textae/compare/v7.31.0...v7.32.0) (2021-12-02)
 
 
