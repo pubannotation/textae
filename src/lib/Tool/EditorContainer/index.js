@@ -7,13 +7,6 @@ export default class EditorContainer {
   constructor() {
     this._editors = []
     this._selected = null
-  }
-
-  push(editor) {
-    Object.assign(editor, {
-      editorId: getNewId(this._editors)
-    })
-    this._editors.push(editor)
 
     window.addEventListener('keyup', (e) => {
       // Keyup events occurs without selected editor, When editor is focused before initializing.
@@ -23,6 +16,13 @@ export default class EditorContainer {
         }
       }
     })
+  }
+
+  push(editor) {
+    Object.assign(editor, {
+      editorId: getNewId(this._editors)
+    })
+    this._editors.push(editor)
   }
 
   get selected() {
