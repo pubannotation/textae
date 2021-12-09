@@ -262,12 +262,7 @@ export default function (
 
     // Keyup events occurs without selected editor, When editor is focused before initializing.
     if (editor.instanceMethods.isActive) {
-      const keyEventMap = new KeyEventMap(
-        commander,
-        presenter,
-        persistenceInterface
-      )
-      keyEventMap.handle(event)
+      new KeyEventMap(commander, presenter, persistenceInterface).handle(event)
     }
   })
 }
