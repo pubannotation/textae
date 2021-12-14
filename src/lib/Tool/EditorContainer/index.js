@@ -17,6 +17,24 @@ export default class EditorContainer {
         }
       }
     })
+
+    // Since the Body element does not yet exist at the time of initializing the EditorContainer,
+    // we will set up an event handler in the document.
+    document.addEventListener('copy', () => {
+      if (this.selected) {
+        this.selected.instanceMethods.copyEntities()
+      }
+    })
+    document.addEventListener('cut', () => {
+      if (this.selected) {
+        this.selected.instanceMethods.cutEntities()
+      }
+    })
+    document.addEventListener('paste', () => {
+      if (this.selected) {
+        this.selected.instanceMethods.pasteEntities()
+      }
+    })
   }
 
   push(editor) {
