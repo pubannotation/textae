@@ -97,6 +97,11 @@ export default class AttributeEditor {
   deleteAt(number) {
     const attrDef = this._typeDefinition.attribute.getAttributeAt(number)
 
+    if (!attrDef) {
+      alertifyjs.warning(`Attribute No.${number} is not defined`)
+      return
+    }
+
     if (this._selectionModelItems.selectedWithAttributeOf(attrDef.pred)) {
       const command =
         this._commander.factory.removeAttributesFromItemsByPredCommand(
