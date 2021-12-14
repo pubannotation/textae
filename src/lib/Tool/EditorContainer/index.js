@@ -1,8 +1,10 @@
 import delegate from 'delegate'
 import HelpDialog from '../../component/HelpDialog'
+import TipsDialog from '../../component/TipsDialog'
 import getNewId from './getNewId'
 
 const helpDialog = new HelpDialog()
+const tipsDialog = new TipsDialog()
 
 export default class EditorContainer {
   constructor() {
@@ -12,8 +14,14 @@ export default class EditorContainer {
     delegate(window, '.textae-editor', 'keyup', (e) => {
       // Keyup events occurs without selected editor, When editor is focused before initializing.
       if (this.selected) {
-        if (e.key === 'h') {
-          helpDialog.open()
+        switch (e.key) {
+          case 'h':
+            helpDialog.open()
+            break
+          case 'c':
+          case 'x':
+          case 'v':
+            tipsDialog.open()
         }
       }
     })
