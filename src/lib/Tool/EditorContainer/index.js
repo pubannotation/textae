@@ -1,3 +1,4 @@
+import delegate from 'delegate'
 import HelpDialog from '../../component/HelpDialog'
 import getNewId from './getNewId'
 
@@ -8,7 +9,7 @@ export default class EditorContainer {
     this._editors = []
     this._selected = null
 
-    window.addEventListener('keyup', (e) => {
+    delegate(window, '.textae-editor', 'keyup', (e) => {
       // Keyup events occurs without selected editor, When editor is focused before initializing.
       if (this.selected) {
         if (e.key === 'h') {
