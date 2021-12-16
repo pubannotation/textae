@@ -21,7 +21,9 @@ export default class EditorContainer {
           case 'c':
           case 'x':
           case 'v':
-            tipsDialog.open()
+            if (!event.ctrlKey && !event.metaKey) {
+              tipsDialog.open()
+            }
         }
       }
     })
