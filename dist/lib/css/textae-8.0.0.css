@@ -3525,6 +3525,29 @@ ul.jsondiffpatch-textdiff {
 .textae-editor__valiondate-dialog__content table td.alert {
   color: red;
 }
+.textae-editor__tips-dialog__table {
+  border-collapse: collapse;
+  border-spacing: 0px;
+  margin: 8px auto;
+  table-layout: fixed;
+  width: calc(100% - 262px);
+}
+.textae-editor__tips-dialog__table th {
+  border-style: solid;
+  border-width: 1px;
+}
+.textae-editor__tips-dialog__table th:first-child {
+  border-style: none;
+  width: 76px;
+}
+.textae-editor__tips-dialog__table td {
+  border-style: solid;
+  border-width: 1px;
+  text-align: center;
+}
+.textae-editor__help-dialog__icon {
+  vertical-align: bottom;
+}
 .textae-editor__dialog {
   /* To show candidates of the autocomplete, overwrite a style of the jQuery-ui dialog */
 }

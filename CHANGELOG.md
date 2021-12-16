@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.0.0](https://github.com/pubannotation/textae/compare/v7.32.1...v8.0.0) (2021-12-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* We will use the system clipboard to realize copy and paste between multiple editors. In order to access the system clipboard while keeping browser security in mind, we will handle copy and paste events for standard OS operations. In Chrome and Safafi, copy and paste events for elements other than EditableContent are fired for the Body element, so we use EditorContainer to handle events instead of individual editors.
+
+### Features
+
+* Applying Styles to the Tips Dialog ([f497dcf](https://github.com/pubannotation/textae/commit/f497dcf1ff73882da374f467160f017c9458d9a8))
+* Change the keystrokes for copy and paste to match the standard OS operation ([2578d16](https://github.com/pubannotation/textae/commit/2578d164f5297b9ca04ed04329b96352745654fe))
+* Changed the short key for copy and paste. When an old keystroke is performed, a dialog will be displayed to inform the user of the change ([962ebd6](https://github.com/pubannotation/textae/commit/962ebd6517e6facd43ccd6930490ad25934d9941))
+* Hide the control bar by default when the view mode is specified in the startup parameter ([5a74a15](https://github.com/pubannotation/textae/commit/5a74a15953e88e366bed121e6ff3d852c23d354e))
+* Update the contents of the help dialog to reflect the change in the copy and paste shortcut key ([e325e60](https://github.com/pubannotation/textae/commit/e325e60adfcfb6cdb228b667cdde7fea932281a0))
+
+
+### Bug Fixes
+
+* Pressing the H key in the Type values edit dialog opens the help dialog ([c4a94b1](https://github.com/pubannotation/textae/commit/c4a94b13457bc1a3bfbd4bcc15a6d76e4b475f52))
+* Pressing the shift and numeric keys, which are shortcut keys for deleting attributes when the attribute definition does not exist, will cause an error ([53b47a1](https://github.com/pubannotation/textae/commit/53b47a1ae59f6523ed9302c7850159c456b1cd65))
+* The "add to" and "remove from" buttons in the palette are not immediately toggled when attributes are added to or removed from selected entities ([695addc](https://github.com/pubannotation/textae/commit/695addc7d1a738efacfe6baba9ea39099eeb7587))
+
 ### [7.32.1](https://github.com/pubannotation/textae/compare/v7.32.0...v7.32.1) (2021-12-09)
 
 
