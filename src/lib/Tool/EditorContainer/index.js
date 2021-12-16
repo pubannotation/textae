@@ -11,10 +11,10 @@ export default class EditorContainer {
     this._editors = []
     this._selected = null
 
-    delegate(window, '.textae-editor', 'keyup', (e) => {
+    delegate(window, '.textae-editor', 'keyup', (event) => {
       // Keyup events occurs without selected editor, When editor is focused before initializing.
       if (this.selected) {
-        switch (e.key) {
+        switch (event.key) {
           case 'h':
             helpDialog.open()
             break
