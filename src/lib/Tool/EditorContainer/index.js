@@ -40,9 +40,9 @@ export default class EditorContainer {
         this.selected.instanceMethods.cutEntities()
       }
     })
-    document.addEventListener('paste', () => {
+    document.addEventListener('paste', (e) => {
       if (this.selected) {
-        this.selected.instanceMethods.pasteEntities()
+        this.selected.instanceMethods.pasteEntities(e)
       }
     })
   }

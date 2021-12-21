@@ -67,6 +67,17 @@ export default class Clipboard {
           }
         })
       )
+      clipboardEvent.clipboardData.setData(
+        'application/x-textae-type-values',
+        JSON.stringify({
+          action: 'copoeuay',
+          typeValues: copyingItems.map(({ JSON }) => JSON),
+          config: {
+            'entity types': entityTypes,
+            'attribute types': attributeTypes
+          }
+        })
+      )
       clipboardEvent.preventDefault()
     }
 
@@ -88,10 +99,29 @@ export default class Clipboard {
     }
   }
 
-  pasteEntities() {
-    if (this.hasCopyingItem) {
+  pasteEntities(clipboardEvent) {
+    const copyData = clipboardEvent.clipboardData.getData(
+      'application/x-textae-type-values'
+    )
+
+    if (copyData) {
+      const data = JSON.parse(copyData)
+
       const command = this._commander.factory.pasteTypesToSelectedSpansCommand(
-        this._items
+        data.typeValues.map(
+          ({ obj, attributes }) =>
+            new TypeValues(
+              obj,
+              attributes.filter(
+                ({ pred }) =>
+                  this._attributeDefinitionContainer.get(pred) &&
+                  this._attributeDefinitionContainer.get(pred).valueType ===
+                    data.config['attribute types'].find((a) => a.pred === pred)[
+                      'value type'
+                    ]
+              )
+            )
+        )
       )
       this._commander.invoke(command)
 
