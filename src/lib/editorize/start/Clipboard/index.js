@@ -59,7 +59,6 @@ export default class Clipboard {
       clipboardEvent.clipboardData.setData(
         'text/plain',
         JSON.stringify({
-          action: 'copy',
           typeValues: copyingItems.map(({ JSON }) => JSON),
           config: {
             'entity types': entityTypes,
@@ -70,7 +69,6 @@ export default class Clipboard {
       clipboardEvent.clipboardData.setData(
         'application/x-textae-type-values',
         JSON.stringify({
-          action: 'copoeuay',
           typeValues: copyingItems.map(({ JSON }) => JSON),
           config: {
             'entity types': entityTypes,
