@@ -44,7 +44,8 @@ export default function (
   const clipBoard = new Clipboard(
     editor.eventEmitter,
     commander,
-    selectionModel
+    selectionModel,
+    annotationData.attributeDefinitionContainer
   )
   const view = new View(editor.eventEmitter, annotationData)
   const statusBar = getStatusBar(editor, params.get('status_bar'))

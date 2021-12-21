@@ -3,10 +3,16 @@ import EntityModel from '../../EntityModel'
 import getSelectedEntities from './getSelectedEntities'
 
 export default class ClipBoard {
-  constructor(eventEmitter, commander, selectionModel) {
+  constructor(
+    eventEmitter,
+    commander,
+    selectionModel,
+    attributeDefinitionContainer
+  ) {
     this._eventEmitter = eventEmitter
     this._commander = commander
     this._selectionModel = selectionModel
+    this._attributeDefinitionContainer = attributeDefinitionContainer
 
     // This list stores two types of things: type for copy and entity for cut.
     // Only one type is stored at a time.
@@ -37,11 +43,19 @@ export default class ClipBoard {
     )
 
     if (copyingItems.length > 0) {
+      const attributeTypes = this._attributeDefinitionContainer.config.filter(
+        ({ pred }) =>
+          copyingItems.some(({ attributes }) =>
+            attributes.some((a) => a.pred === pred)
+          )
+      )
+
       clipboardEvent.clipboardData.setData(
         'text/plain',
         JSON.stringify({
           action: 'copy',
-          typeValues: copyingItems.map(({ JSON }) => JSON)
+          typeValues: copyingItems.map(({ JSON }) => JSON),
+          'attribute types': attributeTypes
         })
       )
       clipboardEvent.preventDefault()
