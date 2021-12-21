@@ -2,7 +2,7 @@ import TypeValues from '../../TypeValues'
 import EntityModel from '../../EntityModel'
 import getSelectedEntities from './getSelectedEntities'
 
-export default class ClipBoard {
+export default class Clipboard {
   constructor(
     eventEmitter,
     commander,
