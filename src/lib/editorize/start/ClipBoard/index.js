@@ -16,7 +16,7 @@ export default class ClipBoard {
     eventEmitter
       .on('textae-event.annotation-data.entity.remove', (entity) => {
         if (this.hasCuttingItem) {
-          this._updateItems(new Set(this._items.filter((e) => e != entity)))
+          this._updateItems(this._items.filter((e) => e != entity))
         }
       })
       .on('textae-event.edit-mode.transition', () => this._updateItems())
@@ -33,8 +33,8 @@ export default class ClipBoard {
   copyEntities() {
     // Map entities to types, because entities may be delete.
     const copyingItems = [...getSelectedEntities(this._selectionModel)].reduce(
-      (set, e) => set.add(e.typeValues),
-      new Set()
+      (ary, e) => ary.concat([e.typeValues]),
+      []
     )
 
     this._updateItems(copyingItems)
@@ -51,7 +51,7 @@ export default class ClipBoard {
     ) {
       this._updateItems()
     } else {
-      this._updateItems(newItems)
+      this._updateItems([...newItems])
     }
   }
 
@@ -81,9 +81,9 @@ export default class ClipBoard {
 
   // Notify items that are cutting and items that are no longer cutting
   // in order to switch between highlighting entities that are cutting.
-  _updateItems(newItems = new Set()) {
-    const oldItems = this._cuttingItems.filter((i) => !newItems.has(i))
-    this._items = [...newItems]
+  _updateItems(newItems = []) {
+    const oldItems = this._cuttingItems.filter((i) => !newItems.includes(i))
+    this._items = newItems
 
     this._eventEmitter.emit(
       'textae-event.clip-board.change',
