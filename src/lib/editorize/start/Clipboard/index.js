@@ -56,25 +56,18 @@ export default class Clipboard {
           )
       )
 
-      clipboardEvent.clipboardData.setData(
-        'text/plain',
-        JSON.stringify({
-          typeValues: copyingItems.map(({ JSON }) => JSON),
-          config: {
-            'entity types': entityTypes,
-            'attribute types': attributeTypes
-          }
-        })
-      )
+      const dataString = JSON.stringify({
+        typeValues: copyingItems.map(({ JSON }) => JSON),
+        config: {
+          'entity types': entityTypes,
+          'attribute types': attributeTypes
+        }
+      })
+
+      clipboardEvent.clipboardData.setData('text/plain', dataString)
       clipboardEvent.clipboardData.setData(
         'application/x-textae-type-values',
-        JSON.stringify({
-          typeValues: copyingItems.map(({ JSON }) => JSON),
-          config: {
-            'entity types': entityTypes,
-            'attribute types': attributeTypes
-          }
-        })
+        dataString
       )
       clipboardEvent.preventDefault()
     }
