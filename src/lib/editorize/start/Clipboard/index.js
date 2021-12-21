@@ -103,7 +103,7 @@ export default class Clipboard {
             obj,
             attributes.filter(
               ({ pred }) =>
-                this._attributeDefinitionContainer.get(pred) &&
+                !this._attributeDefinitionContainer.get(pred) ||
                 this._attributeDefinitionContainer.get(pred).valueType ===
                   data.config['attribute types'].find((a) => a.pred === pred)[
                     'value type'
@@ -114,10 +114,16 @@ export default class Clipboard {
       const newTypes = data.config['entity types'].filter(
         ({ id }) => !this._denotationDefinitionContainer.has(id)
       )
+      const attrDefs = data.config['attribute types'].filter(
+        ({ pred }) => !this._attributeDefinitionContainer.get(pred)
+      )
+
+      console.log(data.config, attrDefs)
 
       const command = this._commander.factory.pasteTypesToSelectedSpansCommand(
         typeValuesList,
-        newTypes
+        newTypes,
+        attrDefs
       )
       this._commander.invoke(command)
 

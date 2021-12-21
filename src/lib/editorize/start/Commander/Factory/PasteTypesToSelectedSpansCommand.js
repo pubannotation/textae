@@ -1,26 +1,20 @@
 import CompositeCommand from './CompositeCommand'
+import CreateAttributeDefinitionCommand from './CreateAttributeDefinitionCommand'
 import CreateEntityAndAttributesCommand from './CreateEntityAndAttributesCommand'
 import CreateTypeDefinitionCommand from './CreateTypeDefinitionCommand'
 
 export default class PasteTypesToSelectedSpansCommand extends CompositeCommand {
-  constructor(annotationData, selectionModel, typeValuesList, newTypes) {
+  constructor(
+    annotationData,
+    selectionModel,
+    typeValuesList,
+    newTypes,
+    attrDefs
+  ) {
     super()
 
     const selecteedSpans = selectionModel.span.all.map((span) => span.id)
-    this._subCommands = selecteedSpans
-      .map((span) =>
-        typeValuesList.map(
-          (typeValues) =>
-            new CreateEntityAndAttributesCommand(
-              annotationData,
-              selectionModel,
-              span,
-              typeValues.typeName,
-              typeValues.attributes
-            )
-        )
-      )
-      .flat()
+    this._subCommands = []
 
     for (const newType of newTypes) {
       this._subCommands.push(
@@ -30,6 +24,32 @@ export default class PasteTypesToSelectedSpansCommand extends CompositeCommand {
         )
       )
     }
+
+    for (const attrDef of attrDefs) {
+      this._subCommands.push(
+        new CreateAttributeDefinitionCommand(
+          annotationData.attributeDefinitionContainer,
+          { valueType: attrDef['value type'], ...attrDef }
+        )
+      )
+    }
+
+    this._subCommands = this._subCommands.concat(
+      selecteedSpans
+        .map((span) =>
+          typeValuesList.map(
+            (typeValues) =>
+              new CreateEntityAndAttributesCommand(
+                annotationData,
+                selectionModel,
+                span,
+                typeValues.typeName,
+                typeValues.attributes
+              )
+          )
+        )
+        .flat()
+    )
 
     this._logMessage = `paste types [${typeValuesList.map(
       ({ typeName, attributes }) =>
