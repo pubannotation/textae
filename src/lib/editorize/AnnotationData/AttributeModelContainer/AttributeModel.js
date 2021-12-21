@@ -42,6 +42,15 @@ export default class AttributeModel {
     )
   }
 
+  get JSON() {
+    return {
+      id: this.id,
+      subj: this.subj,
+      pred: this.pred,
+      obj: this._obj
+    }
+  }
+
   equalsTo(pred, obj) {
     // If the attribute is a numeric type,
     // then the type of obj is numeric.
