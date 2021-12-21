@@ -30,9 +30,9 @@ export default class EditorContainer {
 
     // Since the Body element does not yet exist at the time of initializing the EditorContainer,
     // we will set up an event handler in the document.
-    document.addEventListener('copy', () => {
+    document.addEventListener('copy', (e) => {
       if (this.selected) {
-        this.selected.instanceMethods.copyEntities()
+        this.selected.instanceMethods.copyEntities(e)
       }
     })
     document.addEventListener('cut', () => {
