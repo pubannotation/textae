@@ -106,22 +106,27 @@ export default class Clipboard {
 
     if (copyData) {
       const data = JSON.parse(copyData)
+      const typeValuesList = data.typeValues.map(
+        ({ obj, attributes }) =>
+          new TypeValues(
+            obj,
+            attributes.filter(
+              ({ pred }) =>
+                this._attributeDefinitionContainer.get(pred) &&
+                this._attributeDefinitionContainer.get(pred).valueType ===
+                  data.config['attribute types'].find((a) => a.pred === pred)[
+                    'value type'
+                  ]
+            )
+          )
+      )
+      const newTypes = data.config['entity types'].filter(
+        ({ id }) => !this._denotationDefinitionContainer.has(id)
+      )
 
       const command = this._commander.factory.pasteTypesToSelectedSpansCommand(
-        data.typeValues.map(
-          ({ obj, attributes }) =>
-            new TypeValues(
-              obj,
-              attributes.filter(
-                ({ pred }) =>
-                  this._attributeDefinitionContainer.get(pred) &&
-                  this._attributeDefinitionContainer.get(pred).valueType ===
-                    data.config['attribute types'].find((a) => a.pred === pred)[
-                      'value type'
-                    ]
-              )
-            )
-        )
+        typeValuesList,
+        newTypes
       )
       this._commander.invoke(command)
 
