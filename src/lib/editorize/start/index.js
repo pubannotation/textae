@@ -12,7 +12,7 @@ import initAnnotation from './initAnnotation'
 import getConfigEditParamFromUrl from './getConfigEditParamFromUrl'
 import OriginalData from './OriginalData'
 import ButtonController from './ButtonController'
-import ClipBoard from './ClipBoard'
+import Clipboard from './Clipboard'
 import AnnotationAutoSaver from './AnnotationAutoSaver'
 import ControlBar from '../control/ControlBar'
 import ContextMenu from '../control/ContextMenu'
@@ -41,7 +41,7 @@ export default function (
     selectionModel,
     history
   )
-  const clipBoard = new ClipBoard(
+  const clipBoard = new Clipboard(
     editor.eventEmitter,
     commander,
     selectionModel
