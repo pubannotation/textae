@@ -6,7 +6,6 @@ import EntityModelContainer from './EntityModelContainer'
 import parseAnnotation from './parseAnnotation'
 import clearAnnotationData from './clearAnnotationData'
 import toDenotations from './toDenotations'
-import toAttributes from './toAttributes'
 import toRelations from './toRelations'
 import toBlocks from './toBlocks'
 import getReplicationRanges from './getReplicationRanges'
@@ -119,7 +118,7 @@ export default class AnnotationData {
   get JSON() {
     return {
       denotations: toDenotations(this),
-      attributes: toAttributes(this),
+      attributes: this.attribute.all.map(({ JSON }) => JSON),
       relations: toRelations(this),
       blocks: toBlocks(this)
     }
