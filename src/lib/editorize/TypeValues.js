@@ -12,6 +12,13 @@ export default class TypeValues {
     return this._attributes
   }
 
+  get JSON() {
+    return {
+      obj: this._typeName,
+      attributes: this._attributes.map(({ JSON }) => JSON)
+    }
+  }
+
   isSameType(typeName, attributes = null) {
     if (attributes) {
       return this.typeName === typeName && this._hasSameAttributes(attributes)
