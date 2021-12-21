@@ -51,7 +51,7 @@ export default class AnnotationData {
       this.namespace
     )
 
-    const attributeDefinitionContainer = new AttributeDefinitionContainer(
+    this.attributeDefinitionContainer = new AttributeDefinitionContainer(
       editor,
       () => this.attribute.all
     )
@@ -60,7 +60,7 @@ export default class AnnotationData {
       this.entity,
       this.relation,
       this.namespace,
-      attributeDefinitionContainer
+      this.attributeDefinitionContainer
     )
 
     this._textBox = createTextBox(editor, this)
@@ -90,7 +90,7 @@ export default class AnnotationData {
       denotationDefinitionContainer,
       blockDefinitionContainer,
       relationDefinitionContainer,
-      attributeDefinitionContainer
+      this.attributeDefinitionContainer
     )
   }
 
