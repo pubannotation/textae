@@ -7,11 +7,13 @@ export default class Clipboard {
     eventEmitter,
     commander,
     selectionModel,
+    denotationDefinitionContainer,
     attributeDefinitionContainer
   ) {
     this._eventEmitter = eventEmitter
     this._commander = commander
     this._selectionModel = selectionModel
+    this._denotationDefinitionContainer = denotationDefinitionContainer
     this._attributeDefinitionContainer = attributeDefinitionContainer
 
     // This list stores two types of things: type for copy and entity for cut.
@@ -43,6 +45,10 @@ export default class Clipboard {
     )
 
     if (copyingItems.length > 0) {
+      const entityTypes = this._denotationDefinitionContainer.config.filter(
+        ({ id }) => copyingItems.some(({ typeName }) => typeName === id)
+      )
+
       const attributeTypes = this._attributeDefinitionContainer.config.filter(
         ({ pred }) =>
           copyingItems.some(({ attributes }) =>
@@ -55,7 +61,10 @@ export default class Clipboard {
         JSON.stringify({
           action: 'copy',
           typeValues: copyingItems.map(({ JSON }) => JSON),
-          'attribute types': attributeTypes
+          config: {
+            'entity types': entityTypes,
+            'attribute types': attributeTypes
+          }
         })
       )
       clipboardEvent.preventDefault()

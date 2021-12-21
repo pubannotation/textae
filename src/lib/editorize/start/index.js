@@ -45,6 +45,7 @@ export default function (
     editor.eventEmitter,
     commander,
     selectionModel,
+    annotationData.denotationDefinitionContainer,
     annotationData.attributeDefinitionContainer
   )
   const view = new View(editor.eventEmitter, annotationData)
