@@ -73,7 +73,7 @@ export default class AnnotationData {
     )
     this._editor = editor
 
-    const denotationDefinitionContainer = new DefinitionContainer(
+    this.denotationDefinitionContainer = new DefinitionContainer(
       editor.eventEmitter,
       'entity',
       () => this.entity.denotations,
@@ -87,7 +87,7 @@ export default class AnnotationData {
     )
     this._typeDefinition = new TypeDefinition(
       editor,
-      denotationDefinitionContainer,
+      this.denotationDefinitionContainer,
       blockDefinitionContainer,
       relationDefinitionContainer,
       this.attributeDefinitionContainer
