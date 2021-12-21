@@ -32,9 +32,8 @@ export default class ClipBoard {
 
   copyEntities(clipboardEvent) {
     // Map entities to types, because entities may be delete.
-    const copyingItems = [...getSelectedEntities(this._selectionModel)].reduce(
-      (ary, e) => ary.concat([e.typeValues]),
-      []
+    const copyingItems = [...getSelectedEntities(this._selectionModel)].map(
+      ({ typeValues }) => typeValues
     )
 
     if (copyingItems.length > 0) {
