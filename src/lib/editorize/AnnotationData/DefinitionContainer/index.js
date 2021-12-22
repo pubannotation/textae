@@ -9,6 +9,7 @@ export default class DefinitionContainer {
   constructor(eventEmitter, annotationType, getAllInstanceFunc, defaultColor) {
     this._eventEmitter = eventEmitter
     this._annotationType = annotationType
+    /** @type {DefinedTypeContainer} **/
     this._definedTypes = null
     this._getAllInstanceFunc = getAllInstanceFunc
     this._defaultColor = defaultColor
