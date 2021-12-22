@@ -95,7 +95,7 @@ export default class Clipboard {
       'application/x-textae-type-values'
     )
 
-    if (copyData) {
+    if (this.hasCopyingItem && copyData) {
       const data = JSON.parse(copyData)
       const typeValuesList = data.typeValues.map(
         ({ obj, attributes }) =>
