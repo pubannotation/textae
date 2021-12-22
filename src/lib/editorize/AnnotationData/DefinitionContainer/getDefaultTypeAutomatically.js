@@ -2,11 +2,9 @@ import createCountMapFrom from './createCountMapFrom'
 import sortByCountAndName from './sortByCountAndName'
 
 export default function (instances) {
-  const countMap = createCountMapFrom(instances)
-
-  if (countMap.size === 0) {
+  if (instances.length === 0) {
     return 'something'
   }
 
-  return sortByCountAndName(countMap)[0]
+  return sortByCountAndName(createCountMapFrom(instances))[0]
 }
