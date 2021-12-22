@@ -80,33 +80,6 @@ export default class DefinitionContainer {
     return this._definedTypes
   }
 
-  get config() {
-    // Get type definitions.
-    // Copy map to add definitions from instance.
-    const types = new Map(this._definedTypes.map)
-
-    // Get types from instances.
-    for (const { typeName } of this._getAllInstanceFunc()) {
-      if (!types.has(typeName)) {
-        types.set(typeName, { id: typeName })
-      }
-    }
-
-    // Make default type and delete defalut type from original configuratian.
-    for (const [key, type] of types.entries()) {
-      // Make a copy so as not to destroy the original object.
-      const copy = { ...type }
-      if (type.id === this.defaultType) {
-        copy.default = true
-      } else {
-        delete copy.default
-      }
-      types.set(key, copy)
-    }
-
-    return [...types.values()]
-  }
-
   // Return the type that has the default property or the most used type.
   get defaultType() {
     if (this._defaultType) {
@@ -160,6 +133,33 @@ export default class DefinitionContainer {
       this.defaultType,
       this._defaultColor
     )
+  }
+
+  get config() {
+    // Get type definitions.
+    // Copy map to add definitions from instance.
+    const types = new Map(this._definedTypes.map)
+
+    // Get types from instances.
+    for (const { typeName } of this._getAllInstanceFunc()) {
+      if (!types.has(typeName)) {
+        types.set(typeName, { id: typeName })
+      }
+    }
+
+    // Make default type and delete defalut type from original configuratian.
+    for (const [key, type] of types.entries()) {
+      // Make a copy so as not to destroy the original object.
+      const copy = { ...type }
+      if (type.id === this.defaultType) {
+        copy.default = true
+      } else {
+        delete copy.default
+      }
+      types.set(key, copy)
+    }
+
+    return [...types.values()]
   }
 
   delete(id, defaultType) {
