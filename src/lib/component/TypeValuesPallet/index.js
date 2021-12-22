@@ -18,6 +18,7 @@ export default class TypeValuesPallet extends Pallet {
     super(editorHTMLElement, title)
 
     this._eventEmitter = eventEmitter
+    /** @type {import('../../editorize/AnnotationData').default} */
     this._annotationData = annotationData
     this._definitionContainer = definitionContainer
     this._selectionModelItems = selectionModelEntity
