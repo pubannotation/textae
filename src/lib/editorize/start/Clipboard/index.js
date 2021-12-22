@@ -91,11 +91,24 @@ export default class Clipboard {
   }
 
   pasteEntities(clipboardEvent) {
+    if (
+      this._itemsWillBeCutAndPaste.length &&
+      this._selectionModel.span.single
+    ) {
+      const command = this._commander.factory.moveEntitiesToSelectedSpanCommand(
+        this._itemsWillBeCutAndPaste
+      )
+      this._commander.invoke(command)
+      this._updateItems()
+
+      return
+    }
+
     const copyData = clipboardEvent.clipboardData.getData(
       'application/x-textae-type-values'
     )
 
-    if (this.hasCopyingItem && copyData) {
+    if (copyData) {
       const data = JSON.parse(copyData)
       const typeValuesList = data.typeValues.map(
         ({ obj, attributes }) =>
@@ -128,19 +141,6 @@ export default class Clipboard {
         attrDefs
       )
       this._commander.invoke(command)
-
-      return
-    }
-
-    if (
-      this._itemsWillBeCutAndPaste.length &&
-      this._selectionModel.span.single
-    ) {
-      const command = this._commander.factory.moveEntitiesToSelectedSpanCommand(
-        this._itemsWillBeCutAndPaste
-      )
-      this._commander.invoke(command)
-      this._updateItems()
 
       return
     }
