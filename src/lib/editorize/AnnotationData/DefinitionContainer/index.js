@@ -1,7 +1,8 @@
 import getUrlMatches from '../../getUrlMatches'
-import getDefaultTypeAutomatically from './getDefaultTypeAutomatically'
 import formatForPallet from './formatForPallet'
 import DefinedTypeContainer from './DefinedTypeContainer'
+import sortByCountAndName from './sortByCountAndName'
+import createCountMapFrom from './createCountMapFrom'
 
 export default class DefinitionContainer {
   constructor(eventEmitter, annotationType, getAllInstanceFunc, defaultColor) {
@@ -112,7 +113,11 @@ export default class DefinitionContainer {
       return this._defaultType
     }
 
-    return getDefaultTypeAutomatically(this._getAllInstanceFunc())
+    if (this._getAllInstanceFunc().length === 0) {
+      return 'something'
+    }
+
+    return sortByCountAndName(createCountMapFrom(this._getAllInstanceFunc()))[0]
   }
 
   // The default value can be removed.
