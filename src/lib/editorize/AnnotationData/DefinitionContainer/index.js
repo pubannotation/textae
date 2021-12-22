@@ -113,11 +113,13 @@ export default class DefinitionContainer {
       return this._defaultType
     }
 
-    if (this._getAllInstanceFunc().length === 0) {
-      return 'something'
+    if (this._getAllInstanceFunc().length > 0) {
+      return sortByCountAndName(
+        createCountMapFrom(this._getAllInstanceFunc())
+      )[0]
     }
 
-    return sortByCountAndName(createCountMapFrom(this._getAllInstanceFunc()))[0]
+    return 'something'
   }
 
   // The default value can be removed.
