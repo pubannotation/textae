@@ -1,4 +1,5 @@
 import createCountMapFrom from './createCountMapFrom'
+import sortByCountAndName from './formatForPallet/sortByCountAndName'
 
 export default function (instances) {
   const countMap = createCountMapFrom(instances)
@@ -7,19 +8,5 @@ export default function (instances) {
     return 'something'
   }
 
-  const countMapEntries = [...countMap.entries()].sort()
-
-  const { mostCommonlyUsedType } = countMapEntries.reduce(
-    ({ max, mostCommonlyUsedType }, [type, useCount]) => {
-      if (useCount > max) {
-        max = useCount
-        mostCommonlyUsedType = type
-      }
-
-      return { max, mostCommonlyUsedType }
-    },
-    { max: 0, mostCommonlyUsedType: [countMapEntries][0] }
-  )
-
-  return mostCommonlyUsedType
+  return sortByCountAndName(countMap)[0]
 }
