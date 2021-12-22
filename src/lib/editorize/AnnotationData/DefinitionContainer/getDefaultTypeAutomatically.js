@@ -1,5 +1,5 @@
 import createCountMapFrom from './createCountMapFrom'
-import sortByCountAndName from './formatForPallet/sortByCountAndName'
+import sortByCountAndName from './sortByCountAndName'
 
 export default function (instances) {
   const countMap = createCountMapFrom(instances)

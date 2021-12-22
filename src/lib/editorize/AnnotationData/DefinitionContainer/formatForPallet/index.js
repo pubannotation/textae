@@ -1,6 +1,6 @@
 import getUrlMatches from '../../../getUrlMatches'
 import createCountMapFrom from '../createCountMapFrom'
-import sortByCountAndName from './sortByCountAndName'
+import sortByCountAndName from '../sortByCountAndName'
 import createTypesWithoutInstance from './createTypesWithoutInstance'
 
 export default function (instances, definedTypes, defaultType, defaultColor) {
