@@ -138,7 +138,7 @@ export default class DefinitionContainer {
   get config() {
     // Get type definitions.
     // Copy map to add definitions from instance.
-    const types = new Map(this._definedTypes.map)
+    const types = this._definedTypes.map
 
     // Get types from instances.
     for (const { typeName } of this._getAllInstanceFunc()) {
