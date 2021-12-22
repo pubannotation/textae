@@ -1,10 +1,10 @@
 import getUrlMatches from '../../../getUrlMatches'
-import createCountMap from '../createCountMap'
+import createCountMapFrom from '../createCountMapFrom'
 import sortByCountAndName from './sortByCountAndName'
 import createTypesWithoutInstance from './createTypesWithoutInstance'
 
 export default function (instances, definedTypes, defaultType, defaultColor) {
-  const countMap = createCountMap(instances)
+  const countMap = createCountMapFrom(instances)
   const typesWithoutInstance = createTypesWithoutInstance(
     definedTypes.ids(),
     countMap

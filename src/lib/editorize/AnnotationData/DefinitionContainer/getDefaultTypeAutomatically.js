@@ -1,7 +1,7 @@
-import createCountMap from './createCountMap'
+import createCountMapFrom from './createCountMapFrom'
 
 export default function (instances) {
-  const countMap = createCountMap(instances)
+  const countMap = createCountMapFrom(instances)
 
   if (countMap.size === 0) {
     return 'something'
