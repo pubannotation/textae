@@ -53,7 +53,7 @@ export default function (context) {
           ${escape(label)}
         </td>
         <td class="textae-editor__pallet__use-number">
-          ${useNumber ? useNumber : 0}
+          ${useNumber}
         </td>
         <td class="textae-editor__pallet__table-buttons">
           <button
