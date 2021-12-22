@@ -2,8 +2,7 @@ import getUrlMatches from '../../getUrlMatches'
 import formatForPallet from './formatForPallet'
 import DefinedTypeContainer from './DefinedTypeContainer'
 import sortByCountAndName from './sortByCountAndName'
-import createCountMapFrom from './createCountMapFrom'
-import createTypesWithoutInstance from './formatForPallet/createTypesWithoutInstance'
+import countUsage from './countUsage'
 
 export default class DefinitionContainer {
   constructor(eventEmitter, annotationType, getAllInstanceFunc, defaultColor) {
@@ -90,7 +89,7 @@ export default class DefinitionContainer {
 
     if (this._getAllInstanceFunc().length > 0) {
       return sortByCountAndName(
-        createCountMapFrom(this._getAllInstanceFunc())
+        countUsage(this._typeMap, this._getAllInstanceFunc())
       )[0]
     }
 
@@ -129,12 +128,8 @@ export default class DefinitionContainer {
   }
 
   get pallet() {
-    const countMap = createCountMapFrom(this._getAllInstanceFunc())
-    const typesWithoutInstance = createTypesWithoutInstance(
-      this._definedTypes.ids(),
-      countMap
-    )
-    const types = sortByCountAndName(countMap).concat(typesWithoutInstance)
+    const countMap = countUsage(this._typeMap, this._getAllInstanceFunc())
+    const types = sortByCountAndName(countMap)
 
     return formatForPallet(
       types,

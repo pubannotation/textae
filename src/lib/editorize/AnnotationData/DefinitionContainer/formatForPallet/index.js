@@ -13,6 +13,6 @@ export default function (
     defaultType: id === defaultType,
     uri: getUrlMatches(id) ? id : undefined,
     color: (definedTypes.has(id) && definedTypes.get(id).color) || defaultColor,
-    useNumber: countMap.has(id) ? countMap.get(id).usage : 0
+    useNumber: countMap.get(id).usage
   }))
 }
