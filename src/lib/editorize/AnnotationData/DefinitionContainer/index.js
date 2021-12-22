@@ -129,8 +129,7 @@ export default class DefinitionContainer {
   }
 
   get pallet() {
-    const instances = this._getAllInstanceFunc()
-    const countMap = createCountMapFrom(instances)
+    const countMap = createCountMapFrom(this._getAllInstanceFunc())
     const typesWithoutInstance = createTypesWithoutInstance(
       this._definedTypes.ids(),
       countMap
