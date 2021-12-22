@@ -3,9 +3,9 @@ export default function (instances) {
     const type = instance.typeName
 
     if (countMap.has(type)) {
-      countMap.set(type, countMap.get(type) + 1)
+      countMap.get(type).usage += 1
     } else {
-      countMap.set(type, 1)
+      countMap.set(type, { usage: 1 })
     }
 
     return countMap
