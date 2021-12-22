@@ -8,13 +8,15 @@ export default class Clipboard {
     commander,
     selectionModel,
     denotationDefinitionContainer,
-    attributeDefinitionContainer
+    attributeDefinitionContainer,
+    typeDefinition
   ) {
     this._eventEmitter = eventEmitter
     this._commander = commander
     this._selectionModel = selectionModel
     this._denotationDefinitionContainer = denotationDefinitionContainer
     this._attributeDefinitionContainer = attributeDefinitionContainer
+    this._typeDefinition = typeDefinition
 
     // This list stores two types of things: type for copy and entity for cut.
     // Only one type is stored at a time.
@@ -110,37 +112,64 @@ export default class Clipboard {
 
     if (copyData) {
       const data = JSON.parse(copyData)
-      const typeValuesList = data.typeValues.map(
-        ({ obj, attributes }) =>
-          new TypeValues(
-            obj,
-            attributes.filter(
-              ({ pred }) =>
-                !this._attributeDefinitionContainer.get(pred) ||
-                this._attributeDefinitionContainer.get(pred).valueType ===
-                  data.config['attribute types'].find((a) => a.pred === pred)[
-                    'value type'
-                  ]
+
+      if (this._typeDefinition.isLock) {
+        const typeValuesList = data.typeValues.map(
+          ({ obj, attributes }) =>
+            new TypeValues(
+              obj,
+              attributes.filter(
+                ({ pred }) =>
+                  this._attributeDefinitionContainer.get(pred) &&
+                  this._attributeDefinitionContainer.get(pred).valueType ===
+                    data.config['attribute types'].find((a) => a.pred === pred)[
+                      'value type'
+                    ]
+              )
             )
-          )
-      )
+        )
 
-      const newTypes = data.config['entity types'].filter(
-        ({ id }) =>
-          !this._denotationDefinitionContainer.config.some(
-            (type) => type.id === id
+        const command =
+          this._commander.factory.pasteTypesToSelectedSpansCommand(
+            typeValuesList,
+            [],
+            []
           )
-      )
-      const attrDefs = data.config['attribute types'].filter(
-        ({ pred }) => !this._attributeDefinitionContainer.get(pred)
-      )
+        this._commander.invoke(command)
+      } else {
+        const typeValuesList = data.typeValues.map(
+          ({ obj, attributes }) =>
+            new TypeValues(
+              obj,
+              attributes.filter(
+                ({ pred }) =>
+                  !this._attributeDefinitionContainer.get(pred) ||
+                  this._attributeDefinitionContainer.get(pred).valueType ===
+                    data.config['attribute types'].find((a) => a.pred === pred)[
+                      'value type'
+                    ]
+              )
+            )
+        )
 
-      const command = this._commander.factory.pasteTypesToSelectedSpansCommand(
-        typeValuesList,
-        newTypes,
-        attrDefs
-      )
-      this._commander.invoke(command)
+        const newTypes = data.config['entity types'].filter(
+          ({ id }) =>
+            !this._denotationDefinitionContainer.config.some(
+              (type) => type.id === id
+            )
+        )
+        const attrDefs = data.config['attribute types'].filter(
+          ({ pred }) => !this._attributeDefinitionContainer.get(pred)
+        )
+
+        const command =
+          this._commander.factory.pasteTypesToSelectedSpansCommand(
+            typeValuesList,
+            newTypes,
+            attrDefs
+          )
+        this._commander.invoke(command)
+      }
 
       return
     }

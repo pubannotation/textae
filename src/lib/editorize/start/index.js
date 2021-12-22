@@ -46,7 +46,8 @@ export default function (
     commander,
     selectionModel,
     annotationData.denotationDefinitionContainer,
-    annotationData.attributeDefinitionContainer
+    annotationData.attributeDefinitionContainer,
+    annotationData.typeDefinition
   )
   const view = new View(editor.eventEmitter, annotationData)
   const statusBar = getStatusBar(editor, params.get('status_bar'))
