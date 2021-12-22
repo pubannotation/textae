@@ -118,8 +118,6 @@ export default class Clipboard {
         ({ pred }) => !this._attributeDefinitionContainer.get(pred)
       )
 
-      console.log(data.config, attrDefs)
-
       const command = this._commander.factory.pasteTypesToSelectedSpansCommand(
         typeValuesList,
         newTypes,
