@@ -107,7 +107,7 @@ export default class DefinitionContainer {
     return [...types.values()]
   }
 
-  // Return the type that has the default property or the most  used type.
+  // Return the type that has the default property or the most used type.
   get defaultType() {
     if (this._defaultType) {
       return this._defaultType
