@@ -146,16 +146,7 @@ export default class DefinitionContainer {
   }
 
   get config() {
-    // Get type definitions.
-    // Copy map to add definitions from instance.
-    const types = this._definedTypes.map
-
-    // Get types from instances.
-    for (const { typeName } of this._getAllInstanceFunc()) {
-      if (!types.has(typeName)) {
-        types.set(typeName, { id: typeName })
-      }
-    }
+    const types = this._typeMap
 
     // Make default type and delete defalut type from original configuratian.
     for (const [key, type] of types.entries()) {
@@ -170,6 +161,21 @@ export default class DefinitionContainer {
     }
 
     return [...types.values()]
+  }
+
+  get _typeMap() {
+    // Get type definitions.
+    // Copy map to add definitions from instance.
+    const types = this._definedTypes.map
+
+    // Get types from instances.
+    for (const { typeName } of this._getAllInstanceFunc()) {
+      if (!types.has(typeName)) {
+        types.set(typeName, { id: typeName })
+      }
+    }
+
+    return types
   }
 
   delete(id, defaultType) {
