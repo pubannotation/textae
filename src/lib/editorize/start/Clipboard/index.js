@@ -111,8 +111,12 @@ export default class Clipboard {
             )
           )
       )
+
       const newTypes = data.config['entity types'].filter(
-        ({ id }) => !this._denotationDefinitionContainer.has(id)
+        ({ id }) =>
+          !this._denotationDefinitionContainer.config.some(
+            (type) => type.id === id
+          )
       )
       const attrDefs = data.config['attribute types'].filter(
         ({ pred }) => !this._attributeDefinitionContainer.get(pred)
