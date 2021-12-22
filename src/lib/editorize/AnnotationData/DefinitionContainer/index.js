@@ -3,6 +3,7 @@ import formatForPallet from './formatForPallet'
 import DefinedTypeContainer from './DefinedTypeContainer'
 import sortByCountAndName from './sortByCountAndName'
 import createCountMapFrom from './createCountMapFrom'
+import createTypesWithoutInstance from './formatForPallet/createTypesWithoutInstance'
 
 export default class DefinitionContainer {
   constructor(eventEmitter, annotationType, getAllInstanceFunc, defaultColor) {
@@ -127,8 +128,17 @@ export default class DefinitionContainer {
   }
 
   get pallet() {
+    const instances = this._getAllInstanceFunc()
+    const countMap = createCountMapFrom(instances)
+    const typesWithoutInstance = createTypesWithoutInstance(
+      this._definedTypes.ids(),
+      countMap
+    )
+    const types = sortByCountAndName(countMap).concat(typesWithoutInstance)
+
     return formatForPallet(
-      this._getAllInstanceFunc(),
+      types,
+      countMap,
       this._definedTypes,
       this.defaultType,
       this._defaultColor
