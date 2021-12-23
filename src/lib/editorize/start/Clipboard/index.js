@@ -129,7 +129,6 @@ export default class Clipboard {
 
     if (copyData) {
       const data = JSON.parse(copyData)
-      const newAttributeTypes = data.config['attribute types']
       const newAttrDefContainer = new AttributeDefinitionContainer()
       newAttrDefContainer.definedTypes = data.config['attribute types']
 
@@ -172,7 +171,7 @@ export default class Clipboard {
               (type) => type.id === id
             )
         )
-        const attrDefs = newAttributeTypes.filter(
+        const attrDefs = data.config['attribute types'].filter(
           ({ pred }) => !this._attributeDefinitionContainer.get(pred)
         )
 
