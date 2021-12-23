@@ -175,18 +175,15 @@ export default class Clipboard {
           ({ pred }) => !this._attributeDefinitionContainer.get(pred)
         )
 
-        const newSelectionAttributeObjects =
-          this._getNewSelectionAttributeObjects(
-            typeValuesList,
-            newAttrDefContainer
-          )
-
         const command =
           this._commander.factory.pasteTypesToSelectedSpansCommand(
             typeValuesList,
             newTypes,
             attrDefs,
-            newSelectionAttributeObjects
+            this._getNewSelectionAttributeObjects(
+              typeValuesList,
+              newAttrDefContainer
+            )
           )
         this._commander.invoke(command)
       }
