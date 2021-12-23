@@ -6,7 +6,7 @@ import AttributeDefinitionContainer from '../../AnnotationData/AttributeDefiniti
 export default class Clipboard {
   /**
    * @param {import('../Commander').default} commander
-   * @param {import('../../AnnotationData/AttributeDefinitionContainer').default} attributeDefinitionContainer
+   * @param {AttributeDefinitionContainer} attributeDefinitionContainer
    * */
   constructor(
     eventEmitter,
