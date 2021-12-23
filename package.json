@@ -1,7 +1,7 @@
 {
   "name": "textae",
   "description": "text annotation editor",
-  "version": "8.0.0",
+  "version": "8.1.0",
   "author": "jdkim",
   "bugs": {
     "url": "https://github.com/pubannotation/textae/issues"
@@ -34,7 +34,7 @@
     "@typescript-eslint/parser": "^5.8.0",
     "clean-css-cli": "^5.5.0",
     "connect": "3.7.0",
-    "cpx2": "^4.1.0",
+    "cpx2": "^4.1.1",
     "eslint": "^8.5.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-import": "^2.25.3",

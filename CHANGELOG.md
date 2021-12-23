@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.1.0](https://github.com/pubannotation/textae/compare/v8.0.0...v8.1.0) (2021-12-23)
+
+
+### Features
+
+* Copy and paste between editors via the system clipboard ([8480413](https://github.com/pubannotation/textae/commit/84804137464426cc3e9e547d6d2ef716d529d128))
+* Do not add entity and attribute type definitions when the configuration is locked ([8b48e7b](https://github.com/pubannotation/textae/commit/8b48e7b473dda28a35c47c6a080d935dac03f5c2))
+* If the attribute definition is missing when copied and pasted between editors, it will be generated ([c24f639](https://github.com/pubannotation/textae/commit/c24f6396c610081facf283421e6294631ebf86b7))
+* If the type definition is missing when copied and pasted between editors, it will be generated ([f1c40b5](https://github.com/pubannotation/textae/commit/f1c40b5983779fe47a0112709c770abe3eb054c3))
+* Write the Attribute definition to the clipboard ([92d4aab](https://github.com/pubannotation/textae/commit/92d4aab155c98b7a8e29de625a2bf46f10ae6acb))
+* Write the Denotation definition to the clipboard ([4196446](https://github.com/pubannotation/textae/commit/419644661d520d8bbb9914d3ad72895dc9da1283))
+* Write the serialized representation of TypeValues to the system clipboard when copying ([0406e2d](https://github.com/pubannotation/textae/commit/0406e2dbdcfb11251bcd8914b5efd29b7e8dfaab))
+
+
+### Bug Fixes
+
+* Even if you have copied an entity to the system clipboard in another editor, you cannot paste it unless you have copied the entity at least once in the editor ([2abb233](https://github.com/pubannotation/textae/commit/2abb233d9bba776d69370c503e7f406d3940cb59))
+* Pressing the C key while holding down Ctrl will also display the tips dialog ([59ac0ea](https://github.com/pubannotation/textae/commit/59ac0eaf2413f2be6578c32b053098dce6938299))
+* Unable to cut and paste when TypeValues are copied to the system clipboard ([f5dec2f](https://github.com/pubannotation/textae/commit/f5dec2f6a2361cd121deaf917ca554f31611ceb4))
+* When copying and pasting in the same editor, a type definition is added when there is no type definition for the entity ([21d6392](https://github.com/pubannotation/textae/commit/21d6392ac0cede62890798c1961d07553c8d34f4))
+
 ## [8.0.0](https://github.com/pubannotation/textae/compare/v7.32.1...v8.0.0) (2021-12-16)
 
 
