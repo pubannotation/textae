@@ -3,7 +3,10 @@ import EntityModel from '../../EntityModel'
 import getSelectedEntities from './getSelectedEntities'
 
 export default class Clipboard {
-  /** @param {import('../Commander').default} commander */
+  /**
+   * @param {import('../Commander').default} commander
+   * @param {import('../../AnnotationData/AttributeDefinitionContainer').default} attributeDefinitionContainer
+   * */
   constructor(
     eventEmitter,
     commander,
