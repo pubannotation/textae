@@ -8,7 +8,7 @@ export default class InstanceMethods {
     this._isActive = false
 
     forwardMethods(this, () => presenter, [
-      'copyEntities',
+      'copyEntitiesToSystemClipboard',
       'cutEntities',
       'pasteEntities'
     ])

@@ -24,7 +24,7 @@ export default class IconEventMap {
       ['change-label', () => presenter.editTypeValues()],
       ['pallet', () => presenter.showPallet()],
       ['delete', () => presenter.removeSelectedElements()],
-      ['copy', () => presenter.copyEntities()],
+      ['copy', () => presenter.copyEntitiesToLocalClipboard()],
       ['cut', () => presenter.cutEntities()],
       ['paste', () => presenter.pasteEntities()],
       ['setting', () => presenter.showSettingDialog()],

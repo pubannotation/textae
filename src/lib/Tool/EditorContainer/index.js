@@ -32,7 +32,7 @@ export default class EditorContainer {
     // we will set up an event handler in the document.
     document.addEventListener('copy', (e) => {
       if (this.selected) {
-        this.selected.instanceMethods.copyEntities(e)
+        this.selected.instanceMethods.copyEntitiesToSystemClipboard(e)
       }
     })
     document.addEventListener('cut', () => {

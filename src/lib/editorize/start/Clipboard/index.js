@@ -40,17 +40,12 @@ export default class Clipboard {
     return this._items[0] instanceof EntityModel
   }
 
-  copyEntities(clipboardEvent) {
-    this._copyEntitiesToLocalClipboard()
-    this._copyEntitiesToSystemClipboard(clipboardEvent)
-  }
-
-  _copyEntitiesToLocalClipboard() {
+  copyEntitiesToLocalClipboard() {
     // Map entities to types, because entities may be delete.
     this._updateItems(this._copyingItems)
   }
 
-  _copyEntitiesToSystemClipboard(clipboardEvent) {
+  copyEntitiesToSystemClipboard(clipboardEvent) {
     const copyingItems = this._copyingItems
 
     if (copyingItems.length > 0) {
