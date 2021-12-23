@@ -4,6 +4,7 @@ import createAttributeDefinition from './createAttributeDefinition'
 export default class AttributeDefinitionContainer {
   constructor(editor, getAllInstanceFunc) {
     this._editor = editor
+    this._eventEmitter = editor.eventEmitter
     this._getAllInstanceFunc = getAllInstanceFunc
   }
 
@@ -46,7 +47,7 @@ export default class AttributeDefinitionContainer {
       )
     }
 
-    this._editor.eventEmitter.emit(
+    this._eventEmitter.emit(
       `textae-event.type-definition.attribute.create`,
       attrDef.pred
     )
@@ -73,7 +74,7 @@ export default class AttributeDefinitionContainer {
       })
     )
 
-    this._editor.eventEmitter.emit(
+    this._eventEmitter.emit(
       `textae-event.type-definition.attribute.change`,
       attrDef.pred
     )
@@ -100,17 +101,12 @@ export default class AttributeDefinitionContainer {
 
     // When an attribute definition move is undoed,
     // it fires an event to notify the palette to immediately reflect the display content.
-    this._editor.eventEmitter.emit(
-      `textae-event.type-definition.attribute.move`,
-      pred
-    )
+    this._eventEmitter.emit(`textae-event.type-definition.attribute.move`, pred)
   }
 
   delete(pred) {
     this._definedTypes.delete(pred)
-    this._editor.eventEmitter.emit(
-      `textae-event.type-definition.attribute.delete`
-    )
+    this._eventEmitter.emit(`textae-event.type-definition.attribute.delete`)
   }
 
   get attributes() {
