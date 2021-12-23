@@ -1,3 +1,4 @@
+import AddValueToAttributeDefinitionCommand from './AddValueToAttributeDefinitionCommand'
 import CompositeCommand from './CompositeCommand'
 import CreateAttributeDefinitionCommand from './CreateAttributeDefinitionCommand'
 import CreateEntityAndAttributesCommand from './CreateEntityAndAttributesCommand'
@@ -9,7 +10,8 @@ export default class PasteTypesToSelectedSpansCommand extends CompositeCommand {
     selectionModel,
     typeValuesList,
     newTypes,
-    attrDefs
+    attrDefs,
+    newSelectionAttributeObjects
   ) {
     super()
 
@@ -30,6 +32,16 @@ export default class PasteTypesToSelectedSpansCommand extends CompositeCommand {
         new CreateAttributeDefinitionCommand(
           annotationData.attributeDefinitionContainer,
           { valueType: attrDef['value type'], ...attrDef }
+        )
+      )
+    }
+
+    for (const { pred, value } of newSelectionAttributeObjects) {
+      this._subCommands.push(
+        new AddValueToAttributeDefinitionCommand(
+          annotationData.attributeDefinitionContainer,
+          annotationData.attributeDefinitionContainer.get(pred),
+          value
         )
       )
     }

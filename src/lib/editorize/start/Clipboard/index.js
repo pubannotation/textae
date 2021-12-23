@@ -106,6 +106,7 @@ export default class Clipboard {
       const command = this._commander.factory.pasteTypesToSelectedSpansCommand(
         this._items,
         [],
+        [],
         []
       )
       this._commander.invoke(command)
@@ -148,6 +149,7 @@ export default class Clipboard {
           this._commander.factory.pasteTypesToSelectedSpansCommand(
             typeValuesList,
             [],
+            [],
             []
           )
         this._commander.invoke(command)
@@ -177,11 +179,44 @@ export default class Clipboard {
           ({ pred }) => !this._attributeDefinitionContainer.get(pred)
         )
 
+        // If there is an attribute definition for the selection attribute to be added
+        // but the value definition is missing, add the value definition.
+        const newSelectionAttributeObjects = []
+        const selectionAttibutes = typeValuesList.reduce((list, typeValue) => {
+          return list.concat(
+            typeValue.attributes.filter(
+              (attribute) =>
+                data.config['attribute types'].find(
+                  ({ pred }) => pred === attribute.pred
+                )['value type'] === 'selection'
+            )
+          )
+        }, [])
+        for (const sa of selectionAttibutes) {
+          if (this._attributeDefinitionContainer.get(sa.pred)) {
+            if (
+              !this._attributeDefinitionContainer
+                .get(sa.pred)
+                .values.some(({ id }) => id === sa.obj)
+            ) {
+              const value = data.config['attribute types']
+                .find(({ pred }) => pred === sa.pred)
+                .values.find(({ id }) => id === sa.obj)
+
+              newSelectionAttributeObjects.push({
+                pred: sa.pred,
+                value
+              })
+            }
+          }
+        }
+
         const command =
           this._commander.factory.pasteTypesToSelectedSpansCommand(
             typeValuesList,
             newTypes,
-            attrDefs
+            attrDefs,
+            newSelectionAttributeObjects
           )
         this._commander.invoke(command)
       }

@@ -226,13 +226,19 @@ export default class Factory {
     )
   }
 
-  pasteTypesToSelectedSpansCommand(typeValuesList, newTypes, attrDefs) {
+  pasteTypesToSelectedSpansCommand(
+    typeValuesList,
+    newTypes,
+    attrDefs,
+    newSelectionAttributeObjects
+  ) {
     return new PasteTypesToSelectedSpansCommand(
       this._annotationData,
       this._selectionModel,
       typeValuesList,
       newTypes,
-      attrDefs
+      attrDefs,
+      newSelectionAttributeObjects
     )
   }
 
