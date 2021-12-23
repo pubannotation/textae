@@ -125,7 +125,7 @@ export default class Clipboard {
 
     if (copyData) {
       const data = JSON.parse(copyData)
-      const attributeTypes = data.config['attribute types']
+      const newAttributeTypes = data.config['attribute types']
 
       if (this._typeDefinition.isLock) {
         const typeValuesList = data.typeValues.map(
@@ -136,7 +136,7 @@ export default class Clipboard {
                 ({ pred }) =>
                   this._attributeDefinitionContainer.get(pred) &&
                   this._attributeDefinitionContainer.get(pred).valueType ===
-                    attributeTypes.find((a) => a.pred === pred)['value type']
+                    newAttributeTypes.find((a) => a.pred === pred)['value type']
               )
             )
         )
@@ -155,7 +155,7 @@ export default class Clipboard {
                 ({ pred }) =>
                   !this._attributeDefinitionContainer.get(pred) ||
                   this._attributeDefinitionContainer.get(pred).valueType ===
-                    attributeTypes.find((a) => a.pred === pred)['value type']
+                    newAttributeTypes.find((a) => a.pred === pred)['value type']
               )
             )
         )
@@ -166,7 +166,7 @@ export default class Clipboard {
               (type) => type.id === id
             )
         )
-        const attrDefs = attributeTypes.filter(
+        const attrDefs = newAttributeTypes.filter(
           ({ pred }) => !this._attributeDefinitionContainer.get(pred)
         )
 
@@ -177,7 +177,7 @@ export default class Clipboard {
           return list.concat(
             typeValue.attributes.filter(
               (attribute) =>
-                attributeTypes.find(({ pred }) => pred === attribute.pred)[
+                newAttributeTypes.find(({ pred }) => pred === attribute.pred)[
                   'value type'
                 ] === 'selection'
             )
@@ -190,7 +190,7 @@ export default class Clipboard {
                 .get(sa.pred)
                 .values.some(({ id }) => id === sa.obj)
             ) {
-              const value = attributeTypes
+              const value = newAttributeTypes
                 .find(({ pred }) => pred === sa.pred)
                 .values.find(({ id }) => id === sa.obj)
 
