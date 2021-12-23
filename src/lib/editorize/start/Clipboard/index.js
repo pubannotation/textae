@@ -104,10 +104,7 @@ export default class Clipboard {
 
     if (this.hasCopyingItem) {
       const command = this._commander.factory.pasteTypesToSelectedSpansCommand(
-        this._items,
-        [],
-        [],
-        []
+        this._items
       )
       this._commander.invoke(command)
     }
@@ -146,10 +143,7 @@ export default class Clipboard {
 
         const command =
           this._commander.factory.pasteTypesToSelectedSpansCommand(
-            typeValuesList,
-            [],
-            [],
-            []
+            typeValuesList
           )
         this._commander.invoke(command)
       } else {
