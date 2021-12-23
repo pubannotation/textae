@@ -187,19 +187,19 @@ export default class Clipboard {
             )
           )
         }, [])
-        for (const sa of selectionAttibutes) {
-          if (this._attributeDefinitionContainer.get(sa.pred)) {
+        for (const { pred, obj } of selectionAttibutes) {
+          if (this._attributeDefinitionContainer.get(pred)) {
             if (
               !this._attributeDefinitionContainer
-                .get(sa.pred)
-                .values.some(({ id }) => id === sa.obj)
+                .get(pred)
+                .values.some(({ id }) => id === obj)
             ) {
               const value = newAttrDefContainer
-                .get(sa.pred)
-                .values.find(({ id }) => id === sa.obj)
+                .get(pred)
+                .values.find(({ id }) => id === obj)
 
               newSelectionAttributeObjects.push({
-                pred: sa.pred,
+                pred,
                 value
               })
             }
