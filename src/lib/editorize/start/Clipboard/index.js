@@ -175,35 +175,11 @@ export default class Clipboard {
           ({ pred }) => !this._attributeDefinitionContainer.get(pred)
         )
 
-        // If there is an attribute definition for the selection attribute to be added
-        // but the value definition is missing, add the value definition.
-        const newSelectionAttributeObjects = []
-        const selectionAttibutes = typeValuesList.reduce((list, typeValue) => {
-          return list.concat(
-            typeValue.attributes.filter(
-              ({ pred }) =>
-                newAttrDefContainer.get(pred).valueType === 'selection'
-            )
+        const newSelectionAttributeObjects =
+          this._getNewSelectionAttributeObjects(
+            typeValuesList,
+            newAttrDefContainer
           )
-        }, [])
-        for (const { pred, obj } of selectionAttibutes) {
-          if (this._attributeDefinitionContainer.get(pred)) {
-            if (
-              !this._attributeDefinitionContainer
-                .get(pred)
-                .values.some(({ id }) => id === obj)
-            ) {
-              const value = newAttrDefContainer
-                .get(pred)
-                .values.find(({ id }) => id === obj)
-
-              newSelectionAttributeObjects.push({
-                pred,
-                value
-              })
-            }
-          }
-        }
 
         const command =
           this._commander.factory.pasteTypesToSelectedSpansCommand(
@@ -217,6 +193,38 @@ export default class Clipboard {
 
       return
     }
+  }
+
+  // If there is an attribute definition for the selection attribute to be added
+  // but the value definition is missing, add the value definition.
+  _getNewSelectionAttributeObjects(typeValuesList, newAttrDefContainer) {
+    const newSelectionAttributeObjects = []
+    const selectionAttibutes = typeValuesList.reduce((list, typeValue) => {
+      return list.concat(
+        typeValue.attributes.filter(
+          ({ pred }) => newAttrDefContainer.get(pred).valueType === 'selection'
+        )
+      )
+    }, [])
+    for (const { pred, obj } of selectionAttibutes) {
+      if (this._attributeDefinitionContainer.get(pred)) {
+        if (
+          !this._attributeDefinitionContainer
+            .get(pred)
+            .values.some(({ id }) => id === obj)
+        ) {
+          const value = newAttrDefContainer
+            .get(pred)
+            .values.find(({ id }) => id === obj)
+
+          newSelectionAttributeObjects.push({
+            pred,
+            value
+          })
+        }
+      }
+    }
+    return newSelectionAttributeObjects
   }
 
   _moveEntities() {
