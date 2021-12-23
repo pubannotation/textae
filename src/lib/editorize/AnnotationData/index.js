@@ -13,7 +13,7 @@ import TypeGap from './TypeGap'
 import createTextBox from './createTextBox'
 import TypeDefinition from './TypeDefinition'
 import DefinitionContainer from './DefinitionContainer'
-import AttributeDefinitionContainer from './AttributeDefinitionContainer'
+import AttributeDefinitionContainer from '../AttributeDefinitionContainer'
 import getAnnotationBox from './getAnnotationBox'
 
 export default class AnnotationData {

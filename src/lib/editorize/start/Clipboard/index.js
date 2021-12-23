@@ -1,7 +1,7 @@
 import TypeValues from '../../TypeValues'
 import EntityModel from '../../EntityModel'
 import getSelectedEntities from './getSelectedEntities'
-import AttributeDefinitionContainer from '../../AnnotationData/AttributeDefinitionContainer'
+import AttributeDefinitionContainer from '../../AttributeDefinitionContainer'
 
 export default class Clipboard {
   /**

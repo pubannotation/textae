@@ -1,5 +1,5 @@
 import AttributeDefinition from './AttributeDefinition'
-import IntervalNotation from '../../../../IntervalNotation'
+import IntervalNotation from '../../../IntervalNotation'
 
 export default class NumericAttributeDefinition extends AttributeDefinition {
   constructor(valueType, hash) {
