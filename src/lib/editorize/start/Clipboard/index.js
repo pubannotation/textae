@@ -41,10 +41,17 @@ export default class Clipboard {
   }
 
   copyEntities(clipboardEvent) {
+    this._copyEntitiesToLocalClipboard()
+    this._copyEntitiesToSystemClipboard(clipboardEvent)
+  }
+
+  _copyEntitiesToLocalClipboard() {
     // Map entities to types, because entities may be delete.
-    const copyingItems = [...getSelectedEntities(this._selectionModel)].map(
-      ({ typeValues }) => typeValues
-    )
+    this._updateItems(this._copyingItems)
+  }
+
+  _copyEntitiesToSystemClipboard(clipboardEvent) {
+    const copyingItems = this._copyingItems
 
     if (copyingItems.length > 0) {
       const entityTypes = this._denotationDefinitionContainer.config.filter(
@@ -73,8 +80,6 @@ export default class Clipboard {
       )
       clipboardEvent.preventDefault()
     }
-
-    this._updateItems(copyingItems)
   }
 
   cutEntities() {
@@ -201,6 +206,12 @@ export default class Clipboard {
         i.span.id !==
         (this._selectionModel.span.single &&
           this._selectionModel.span.single.id)
+    )
+  }
+
+  get _copyingItems() {
+    return [...getSelectedEntities(this._selectionModel)].map(
+      ({ typeValues }) => typeValues
     )
   }
 
