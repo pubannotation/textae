@@ -52,7 +52,7 @@ export default class AnnotationData {
     )
 
     this.attributeDefinitionContainer = new AttributeDefinitionContainer(
-      editor,
+      editor.eventEmitter,
       () => this.attribute.all
     )
     this.attribute = new AttributeModelContainer(

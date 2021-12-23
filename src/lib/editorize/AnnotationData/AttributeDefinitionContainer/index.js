@@ -2,9 +2,8 @@ import { arrayMoveImmutable } from 'array-move'
 import createAttributeDefinition from './createAttributeDefinition'
 
 export default class AttributeDefinitionContainer {
-  constructor(editor, getAllInstanceFunc) {
-    this._editor = editor
-    this._eventEmitter = editor.eventEmitter
+  constructor(eventEmitter, getAllInstanceFunc) {
+    this._eventEmitter = eventEmitter
     this._getAllInstanceFunc = getAllInstanceFunc
   }
 
