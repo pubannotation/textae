@@ -92,17 +92,31 @@ export default class Clipboard {
     }
   }
 
-  pasteEntities(clipboardEvent) {
+  pasteEntitiesFromLocalClipboard() {
     if (
       this._itemsWillBeCutAndPaste.length &&
       this._selectionModel.span.single
     ) {
-      const command = this._commander.factory.moveEntitiesToSelectedSpanCommand(
-        this._itemsWillBeCutAndPaste
+      this._moveEntities()
+      return
+    }
+
+    if (this.hasCopyingItem) {
+      const command = this._commander.factory.pasteTypesToSelectedSpansCommand(
+        this._items,
+        [],
+        []
       )
       this._commander.invoke(command)
-      this._updateItems()
+    }
+  }
 
+  pasteEntitiesFromSystemClipboard(clipboardEvent) {
+    if (
+      this._itemsWillBeCutAndPaste.length &&
+      this._selectionModel.span.single
+    ) {
+      this._moveEntities()
       return
     }
 
@@ -173,6 +187,14 @@ export default class Clipboard {
 
       return
     }
+  }
+
+  _moveEntities() {
+    const command = this._commander.factory.moveEntitiesToSelectedSpanCommand(
+      this._itemsWillBeCutAndPaste
+    )
+    this._commander.invoke(command)
+    this._updateItems()
   }
 
   // Notify items that are cutting and items that are no longer cutting

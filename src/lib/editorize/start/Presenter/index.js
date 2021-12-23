@@ -88,7 +88,8 @@ export default class Presenter {
       'copyEntitiesToLocalClipboard',
       'copyEntitiesToSystemClipboard',
       'cutEntities',
-      'pasteEntities'
+      'pasteEntitiesFromLocalClipboard',
+      'pasteEntitiesFromSystemClipboard'
     ])
     forwardMethods(this, () => this._buttonController, ['toggleButton'])
   }

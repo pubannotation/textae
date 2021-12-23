@@ -10,7 +10,7 @@ export default class InstanceMethods {
     forwardMethods(this, () => presenter, [
       'copyEntitiesToSystemClipboard',
       'cutEntities',
-      'pasteEntities'
+      'pasteEntitiesFromSystemClipboard'
     ])
   }
 

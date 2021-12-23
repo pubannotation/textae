@@ -42,7 +42,7 @@ export default class EditorContainer {
     })
     document.addEventListener('paste', (e) => {
       if (this.selected) {
-        this.selected.instanceMethods.pasteEntities(e)
+        this.selected.instanceMethods.pasteEntitiesFromSystemClipboard(e)
       }
     })
   }
