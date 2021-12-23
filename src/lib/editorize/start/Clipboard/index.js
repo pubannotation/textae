@@ -1,6 +1,7 @@
 import TypeValues from '../../TypeValues'
 import EntityModel from '../../EntityModel'
 import getSelectedEntities from './getSelectedEntities'
+import AttributeDefinitionContainer from '../../AnnotationData/AttributeDefinitionContainer'
 
 export default class Clipboard {
   /**
@@ -129,6 +130,8 @@ export default class Clipboard {
     if (copyData) {
       const data = JSON.parse(copyData)
       const newAttributeTypes = data.config['attribute types']
+      const newAttrDefContainer = new AttributeDefinitionContainer()
+      newAttrDefContainer.definedTypes = data.config['attribute types']
 
       if (this._typeDefinition.isLock) {
         const typeValuesList = data.typeValues.map(
@@ -139,7 +142,7 @@ export default class Clipboard {
                 ({ pred }) =>
                   this._attributeDefinitionContainer.get(pred) &&
                   this._attributeDefinitionContainer.get(pred).valueType ===
-                    newAttributeTypes.find((a) => a.pred === pred)['value type']
+                    newAttrDefContainer.get(pred).valueType
               )
             )
         )
@@ -158,7 +161,7 @@ export default class Clipboard {
                 ({ pred }) =>
                   !this._attributeDefinitionContainer.get(pred) ||
                   this._attributeDefinitionContainer.get(pred).valueType ===
-                    newAttributeTypes.find((a) => a.pred === pred)['value type']
+                    newAttrDefContainer.get(pred).valueType
               )
             )
         )
@@ -179,10 +182,8 @@ export default class Clipboard {
         const selectionAttibutes = typeValuesList.reduce((list, typeValue) => {
           return list.concat(
             typeValue.attributes.filter(
-              (attribute) =>
-                newAttributeTypes.find(({ pred }) => pred === attribute.pred)[
-                  'value type'
-                ] === 'selection'
+              ({ pred }) =>
+                newAttrDefContainer.get(pred).valueType === 'selection'
             )
           )
         }, [])
@@ -193,8 +194,8 @@ export default class Clipboard {
                 .get(sa.pred)
                 .values.some(({ id }) => id === sa.obj)
             ) {
-              const value = newAttributeTypes
-                .find(({ pred }) => pred === sa.pred)
+              const value = newAttrDefContainer
+                .get(sa.pred)
                 .values.find(({ id }) => id === sa.obj)
 
               newSelectionAttributeObjects.push({
