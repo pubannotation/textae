@@ -128,6 +128,7 @@ export default class Clipboard {
 
     if (copyData) {
       const data = JSON.parse(copyData)
+      const attributeTypes = data.config['attribute types']
 
       if (this._typeDefinition.isLock) {
         const typeValuesList = data.typeValues.map(
@@ -138,9 +139,7 @@ export default class Clipboard {
                 ({ pred }) =>
                   this._attributeDefinitionContainer.get(pred) &&
                   this._attributeDefinitionContainer.get(pred).valueType ===
-                    data.config['attribute types'].find((a) => a.pred === pred)[
-                      'value type'
-                    ]
+                    attributeTypes.find((a) => a.pred === pred)['value type']
               )
             )
         )
@@ -162,9 +161,7 @@ export default class Clipboard {
                 ({ pred }) =>
                   !this._attributeDefinitionContainer.get(pred) ||
                   this._attributeDefinitionContainer.get(pred).valueType ===
-                    data.config['attribute types'].find((a) => a.pred === pred)[
-                      'value type'
-                    ]
+                    attributeTypes.find((a) => a.pred === pred)['value type']
               )
             )
         )
@@ -175,7 +172,7 @@ export default class Clipboard {
               (type) => type.id === id
             )
         )
-        const attrDefs = data.config['attribute types'].filter(
+        const attrDefs = attributeTypes.filter(
           ({ pred }) => !this._attributeDefinitionContainer.get(pred)
         )
 
@@ -186,9 +183,9 @@ export default class Clipboard {
           return list.concat(
             typeValue.attributes.filter(
               (attribute) =>
-                data.config['attribute types'].find(
-                  ({ pred }) => pred === attribute.pred
-                )['value type'] === 'selection'
+                attributeTypes.find(({ pred }) => pred === attribute.pred)[
+                  'value type'
+                ] === 'selection'
             )
           )
         }, [])
@@ -199,7 +196,7 @@ export default class Clipboard {
                 .get(sa.pred)
                 .values.some(({ id }) => id === sa.obj)
             ) {
-              const value = data.config['attribute types']
+              const value = attributeTypes
                 .find(({ pred }) => pred === sa.pred)
                 .values.find(({ id }) => id === sa.obj)
 
