@@ -1,3 +1,4 @@
+import { v4 as uuidv4 } from 'uuid'
 import TypeValues from '../../TypeValues'
 import EntityModel from '../../EntityModel'
 import AttributeDefinitionContainer from '../../AttributeDefinitionContainer'
@@ -27,6 +28,7 @@ export default class Clipboard {
     // Only one type is stored at a time.
     // Use one list.
     this._items = []
+    this._uuid = uuidv4()
 
     eventEmitter
       .on('textae-event.annotation-data.entity.remove', (entity) => {
@@ -87,6 +89,12 @@ export default class Clipboard {
 
   cutEntitiesToSystemClipboard(clipboardEvent) {
     this._cutEntities()
+
+    clipboardEvent.clipboardData.setData(
+      'application/x-textae-editor-uuid',
+      this._uuid
+    )
+
     this.copyEntitiesToSystemClipboard(clipboardEvent)
   }
 
@@ -123,7 +131,11 @@ export default class Clipboard {
   }
 
   pasteEntitiesFromSystemClipboard(clipboardEvent) {
+    const uuid = clipboardEvent.clipboardData.getData(
+      'application/x-textae-editor-uuid'
+    )
     if (
+      uuid === this._uuid &&
       this._itemsWillBeCutAndPaste.length &&
       this._selectionModel.span.single
     ) {
