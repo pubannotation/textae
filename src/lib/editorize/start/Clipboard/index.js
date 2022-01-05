@@ -262,9 +262,7 @@ export default class Clipboard {
   }
 
   get _copyingItems() {
-    return [...getSelectedEntities(this._selectionModel)].map(
-      ({ typeValues }) => typeValues
-    )
+    return this._selectionModel.copyingItems
   }
 
   get _cuttingItems() {

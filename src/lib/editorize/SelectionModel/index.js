@@ -1,5 +1,6 @@
 import SelectedItemsWithAttributes from './SelectedItemsWithAttributes'
 import SelectedItems from './SelectedItems'
+import getSelectedEntities from '../start/Clipboard/getSelectedEntities'
 
 export default class SelectionModel {
   constructor(eventEmitter, annotationData) {
@@ -35,6 +36,10 @@ export default class SelectionModel {
         this.entity.clear()
         this.relation.clear()
       })
+  }
+
+  get copyingItems() {
+    return [...getSelectedEntities(this)].map(({ typeValues }) => typeValues)
   }
 
   add(modelType, id) {
