@@ -1,6 +1,5 @@
 import SelectedItemsWithAttributes from './SelectedItemsWithAttributes'
 import SelectedItems from './SelectedItems'
-import getSelectedEntities from './getSelectedEntities'
 
 export default class SelectionModel {
   constructor(eventEmitter, annotationData) {
@@ -40,11 +39,11 @@ export default class SelectionModel {
 
   get copyingItems() {
     // Map entities to types, because entities may be delete.
-    return [...getSelectedEntities(this)].map(({ typeValues }) => typeValues)
+    return [...this._selectedEntities].map(({ typeValues }) => typeValues)
   }
 
   get cuttingItems() {
-    return getSelectedEntities(this)
+    return this._selectedEntities
   }
 
   add(modelType, id) {
@@ -78,5 +77,14 @@ export default class SelectionModel {
   selectRelation(id) {
     this.removeAll()
     this.relation.add(id)
+  }
+
+  get _selectedEntities() {
+    return new Set(
+      this.span.all
+        .map((span) => span.entities)
+        .flat()
+        .concat(this.entity.all)
+    )
   }
 }
