@@ -37,7 +37,7 @@ export default class EditorContainer {
     })
     document.addEventListener('cut', () => {
       if (this.selected) {
-        this.selected.instanceMethods.cutEntities()
+        this.selected.instanceMethods.cutEntitiesToSystemClipboard()
       }
     })
     document.addEventListener('paste', (e) => {

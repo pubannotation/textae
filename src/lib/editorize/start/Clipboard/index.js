@@ -81,7 +81,15 @@ export default class Clipboard {
     }
   }
 
-  cutEntities() {
+  cutEntitiesToLocalClipboard() {
+    this._cutEntities()
+  }
+
+  cutEntitiesToSystemClipboard() {
+    this._cutEntities()
+  }
+
+  _cutEntities() {
     const { cuttingTargets } = this._selectionModel
 
     //  When exactly the same entities that are being cut are selected, the cut is canceled.

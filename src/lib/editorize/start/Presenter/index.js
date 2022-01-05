@@ -87,7 +87,8 @@ export default class Presenter {
     forwardMethods(this, () => this._clipBoard, [
       'copyEntitiesToLocalClipboard',
       'copyEntitiesToSystemClipboard',
-      'cutEntities',
+      'cutEntitiesToLocalClipboard',
+      'cutEntitiesToSystemClipboard',
       'pasteEntitiesFromLocalClipboard',
       'pasteEntitiesFromSystemClipboard'
     ])

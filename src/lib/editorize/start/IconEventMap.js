@@ -25,7 +25,7 @@ export default class IconEventMap {
       ['pallet', () => presenter.showPallet()],
       ['delete', () => presenter.removeSelectedElements()],
       ['copy', () => presenter.copyEntitiesToLocalClipboard()],
-      ['cut', () => presenter.cutEntities()],
+      ['cut', () => presenter.cutEntitiesToLocalClipboard()],
       ['paste', () => presenter.pasteEntitiesFromLocalClipboard()],
       ['setting', () => presenter.showSettingDialog()],
       ['line-height', () => view.updateLineHeight()]
