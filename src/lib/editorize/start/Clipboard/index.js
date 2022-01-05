@@ -85,7 +85,7 @@ export default class Clipboard {
     this._cutEntities()
   }
 
-  cutEntitiesToSystemClipboard() {
+  cutEntitiesToSystemClipboard(clipboardEvent) {
     this._cutEntities()
   }
 
