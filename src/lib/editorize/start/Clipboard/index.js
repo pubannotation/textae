@@ -5,6 +5,7 @@ import AttributeDefinitionContainer from '../../AttributeDefinitionContainer'
 export default class Clipboard {
   /**
    * @param {import('../Commander').default} commander
+   * @param {import('../../SelectionModel'} selectionModel
    * @param {AttributeDefinitionContainer} attributeDefinitionContainer
    * */
   constructor(
