@@ -37,12 +37,12 @@ export default class SelectionModel {
       })
   }
 
-  get copyingItems() {
+  get copyingTargets() {
     // Map entities to types, because entities may be delete.
     return [...this._selectedEntities].map(({ typeValues }) => typeValues)
   }
 
-  get cuttingItems() {
+  get cuttingTargets() {
     return this._selectedEntities
   }
 

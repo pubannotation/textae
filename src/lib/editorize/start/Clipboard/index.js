@@ -46,11 +46,11 @@ export default class Clipboard {
   }
 
   copyEntitiesToLocalClipboard() {
-    this._updateItems(this._selectionModel.copyingItems)
+    this._updateItems(this._selectionModel.copyingTargets)
   }
 
   copyEntitiesToSystemClipboard(clipboardEvent) {
-    const { copyingItems } = this._selectionModel
+    const copyingItems = this._selectionModel.copyingTargets
 
     if (copyingItems.length > 0) {
       const entityTypes = this._denotationDefinitionContainer.config.filter(
@@ -82,7 +82,7 @@ export default class Clipboard {
   }
 
   cutEntities() {
-    const newItems = this._selectionModel.cuttingItems
+    const newItems = this._selectionModel.cuttingTargets
 
     //  When exactly the same entities that are being cut are selected, the cut is canceled.
     if (
