@@ -50,22 +50,22 @@ export default class Clipboard {
   }
 
   copyEntitiesToSystemClipboard(clipboardEvent) {
-    const copyingItems = this._selectionModel.copyingTargets
+    const { copyingTargets } = this._selectionModel
 
-    if (copyingItems.length > 0) {
+    if (copyingTargets.length > 0) {
       const entityTypes = this._denotationDefinitionContainer.config.filter(
-        ({ id }) => copyingItems.some(({ typeName }) => typeName === id)
+        ({ id }) => copyingTargets.some(({ typeName }) => typeName === id)
       )
 
       const attributeTypes = this._attributeDefinitionContainer.config.filter(
         ({ pred }) =>
-          copyingItems.some(({ attributes }) =>
+          copyingTargets.some(({ attributes }) =>
             attributes.some((a) => a.pred === pred)
           )
       )
 
       const dataString = JSON.stringify({
-        typeValues: copyingItems.map(({ JSON }) => JSON),
+        typeValues: copyingTargets.map(({ JSON }) => JSON),
         config: {
           'entity types': entityTypes,
           'attribute types': attributeTypes
