@@ -46,7 +46,6 @@ export default class Clipboard {
   }
 
   copyEntitiesToLocalClipboard() {
-    // Map entities to types, because entities may be delete.
     this._updateItems(this._selectionModel.copyingItems)
   }
 
