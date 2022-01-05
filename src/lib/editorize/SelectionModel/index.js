@@ -43,6 +43,10 @@ export default class SelectionModel {
     return [...getSelectedEntities(this)].map(({ typeValues }) => typeValues)
   }
 
+  get cuttingItems() {
+    return getSelectedEntities(this)
+  }
+
   add(modelType, id) {
     console.assert(this[modelType])
     this[modelType].add(id)

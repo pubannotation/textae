@@ -1,6 +1,5 @@
 import TypeValues from '../../TypeValues'
 import EntityModel from '../../EntityModel'
-import getSelectedEntities from './getSelectedEntities'
 import AttributeDefinitionContainer from '../../AttributeDefinitionContainer'
 
 export default class Clipboard {
@@ -82,7 +81,7 @@ export default class Clipboard {
   }
 
   cutEntities() {
-    const newItems = getSelectedEntities(this._selectionModel)
+    const newItems = this._selectionModel.cuttingItems
 
     //  When exactly the same entities that are being cut are selected, the cut is canceled.
     if (
