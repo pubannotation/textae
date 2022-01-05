@@ -47,11 +47,11 @@ export default class Clipboard {
 
   copyEntitiesToLocalClipboard() {
     // Map entities to types, because entities may be delete.
-    this._updateItems(this._copyingItems)
+    this._updateItems(this._selectionModel.copyingItems)
   }
 
   copyEntitiesToSystemClipboard(clipboardEvent) {
-    const copyingItems = this._copyingItems
+    const { copyingItems } = this._selectionModel
 
     if (copyingItems.length > 0) {
       const entityTypes = this._denotationDefinitionContainer.config.filter(
@@ -259,10 +259,6 @@ export default class Clipboard {
         (this._selectionModel.span.single &&
           this._selectionModel.span.single.id)
     )
-  }
-
-  get _copyingItems() {
-    return this._selectionModel.copyingItems
   }
 
   get _cuttingItems() {
