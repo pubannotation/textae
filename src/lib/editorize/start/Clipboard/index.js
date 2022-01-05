@@ -82,17 +82,17 @@ export default class Clipboard {
   }
 
   cutEntities() {
-    const newItems = this._selectionModel.cuttingTargets
+    const { cuttingTargets } = this._selectionModel
 
     //  When exactly the same entities that are being cut are selected, the cut is canceled.
     if (
       this._cuttingItems.length &&
-      this._cuttingItems.every((item) => newItems.has(item)) &&
-      [...newItems].every((item) => this._cuttingItems.includes(item))
+      this._cuttingItems.every((item) => cuttingTargets.has(item)) &&
+      [...cuttingTargets].every((item) => this._cuttingItems.includes(item))
     ) {
       this._updateItems()
     } else {
-      this._updateItems([...newItems])
+      this._updateItems([...cuttingTargets])
     }
   }
 
