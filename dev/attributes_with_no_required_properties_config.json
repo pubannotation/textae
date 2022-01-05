@@ -1,0 +1,16 @@
+{
+  "attribute types": [
+    {
+      "pred": "category",
+      "value type": "string"
+    },
+    {
+      "pred": "tags",
+      "value type": "selection"
+    },
+    {
+      "pred": "rate",
+      "value type": "numeric"
+    }
+  ]
+}

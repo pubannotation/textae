@@ -1,0 +1,14 @@
+{
+  "attribute types": [
+    {
+      "pred": "bad color",
+      "value type": "selection",
+      "values": [
+        {
+          "color": "<span style='color:red'>Invalid color format</span>",
+          "id": "id"
+        }
+      ]
+    }
+  ]
+}
