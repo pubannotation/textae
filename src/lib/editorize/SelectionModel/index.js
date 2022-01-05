@@ -1,6 +1,6 @@
 import SelectedItemsWithAttributes from './SelectedItemsWithAttributes'
 import SelectedItems from './SelectedItems'
-import getSelectedEntities from '../start/Clipboard/getSelectedEntities'
+import getSelectedEntities from './getSelectedEntities'
 
 export default class SelectionModel {
   constructor(eventEmitter, annotationData) {
