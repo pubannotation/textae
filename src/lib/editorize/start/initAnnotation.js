@@ -8,7 +8,6 @@ import setDefault from './setDefault'
 export default function (
   spanConfig,
   annotationData,
-  statusBar,
   params,
   dataAccessObject,
   buttonController,
