@@ -1,4 +1,4 @@
-import isTouchDevice from '../isTouchDevice'
+import isTouchable from '../isTouchable'
 import { config } from './config'
 import deepcopy from 'deepcopy'
 import { MODE } from '../../MODE'
@@ -45,7 +45,7 @@ export default class ButtonConfig {
   get controlBar() {
     return this._config
       .filter(({ usage }) => {
-        if (isTouchDevice() && isResolusionLessThanIPadPro()) {
+        if (isTouchable() && isResolusionLessThanIPadPro()) {
           return usage['touce device'].includes('control bar')
         } else {
           return usage['keyboard device'].includes('control bar')
@@ -63,7 +63,7 @@ export default class ButtonConfig {
   get contextMenu() {
     return this._config
       .filter(({ usage }) => {
-        if (isTouchDevice()) {
+        if (isTouchable()) {
           return usage['touce device'].includes('context menu')
         } else {
           return usage['keyboard device'].includes('context menu')

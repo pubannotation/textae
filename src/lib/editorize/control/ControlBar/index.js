@@ -1,5 +1,5 @@
 import Control from '../Control'
-import isTouchDevice from '../../isTouchDevice'
+import isTouchable from '../../isTouchable'
 import toButtonGroup from './toButtonGroup'
 import Sticky from 'sticky-js'
 import classify from '../classify'
@@ -7,7 +7,7 @@ import classify from '../classify'
 function template(context) {
   return `
 <div class="textae-control ${
-    isTouchDevice() ? 'textae-touch-bar' : 'textae-control-bar'
+    isTouchable() ? 'textae-touch-bar' : 'textae-control-bar'
   }">
   <div class="textae-control-summary">
     <span class="textae-control-title">
@@ -53,7 +53,7 @@ export default class ControlBar extends Control {
     // Instead, we will use JavaScript to adjust the position of the toolbar
     // as the browser scrolls.
     if (
-      isTouchDevice() &&
+      isTouchable() &&
       Math.max(document.documentElement.clientWidth, window.innerWidth) < 768
     ) {
       new Sticky('.textae-touch-bar', { stickyContainer: '.textae-editor' })

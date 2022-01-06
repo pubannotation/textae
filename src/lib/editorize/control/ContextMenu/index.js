@@ -1,5 +1,5 @@
 import dohtml from 'dohtml'
-import isTouchDevice from '../../isTouchDevice'
+import isTouchable from '../../isTouchable'
 import classify from '../classify'
 import Control from '../Control'
 import bindToWindowEvents from './bindToWindowEvents'
@@ -9,7 +9,7 @@ export default class ContextMenu extends Control {
   constructor(editor, buttonController, iconEventMap) {
     super(
       `<div class="textae-control ${
-        isTouchDevice() ? 'textae-android-context-menu' : 'textae-context-menu'
+        isTouchable() ? 'textae-android-context-menu' : 'textae-context-menu'
       }"></div>`,
       iconEventMap
     )

@@ -2,7 +2,7 @@ import SELECTED from './SELECTED'
 import getHeightIncludeDescendantGrids from './getHeightIncludeDescendantGrids'
 import round from './round'
 import SpanModel from './SpanModel'
-import isTouchDevice from '../../isTouchDevice'
+import isTouchable from '../../isTouchable'
 
 const TEXT_HEIGHT = 23
 const MARGIN_TOP = 30
@@ -46,7 +46,7 @@ export default class DenotationSpanModel extends SpanModel {
     // On Android chrome, if an element is drawn at a position that is out of the device width,
     // the sticky position will be shifted upward by the width of the overhang.
     // To prevent this, the grid is not drawn outside the text box.
-    const width = isTouchDevice()
+    const width = isTouchable()
       ? Math.min(rectOfSpan.width, rectOfTextBox.width - left)
       : rectOfSpan.width
 

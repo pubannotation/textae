@@ -1,4 +1,4 @@
-import isTouchDevice from '../../isTouchDevice'
+import isTouchable from '../../isTouchable'
 
 export default function (editor, contextMenu) {
   // Close ContextMenu when another editor is clicked
@@ -37,7 +37,7 @@ export default function (editor, contextMenu) {
       e.preventDefault()
       const selection = window.getSelection()
 
-      if (isTouchDevice() && selection.rangeCount === 1) {
+      if (isTouchable() && selection.rangeCount === 1) {
         const rectOfSelection = selection.getRangeAt(0).getBoundingClientRect()
         const rectOfTextBox = editor[0]
           .querySelector('.textae-editor__text-box')

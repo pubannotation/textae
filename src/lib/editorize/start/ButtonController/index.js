@@ -4,7 +4,7 @@ import EnableState from './EnableState'
 import DelimiterDetectAdjuster from './DelimiterDetectAdjuster'
 import BlankSkipAdjuster from './BlankSkipAdjuster'
 import ButtonConfig from '../../ButtonConfig'
-import isTouchDevice from '../../isTouchDevice'
+import isTouchable from '../../isTouchable'
 
 export default class ButtonController {
   constructor(
@@ -76,7 +76,7 @@ export default class ButtonController {
       .map(({ list }) => {
         const ret = []
         for (const { type, title } of list) {
-          if (!isTouchDevice() && this.getState(type, 'disabled')) {
+          if (!isTouchable() && this.getState(type, 'disabled')) {
             continue
           }
 
