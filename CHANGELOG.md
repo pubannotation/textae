@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.3.0](https://github.com/pubannotation/textae/compare/v8.2.0...v8.3.0) (2022-01-06)
+
+
+### Features
+
+* Change the group of the delete button on the toolbar to the same group as the add entity button ([b9832bd](https://github.com/pubannotation/textae/commit/b9832bd9b5f7d381515b904c4bd2a0a6d11b8fef))
+* The Copy, Cut, and Paste buttons appear only on smartphones or tablets ([0521275](https://github.com/pubannotation/textae/commit/05212757f8a1e37e51d919ace285445ce1a70611))
+
+
+### Bug Fixes
+
+* When I cut an entity in one editor, copy it in another editor, and then paste it in the first editor, the decoration of the entity being cut remains ([aa61147](https://github.com/pubannotation/textae/commit/aa61147bb2c03ceb63d299418f77804b07d4c58c))
+* When the width of the browser is narrowed on a touch-enabled computer, icons for smartphones and tablets will be displayed ([e55a0ed](https://github.com/pubannotation/textae/commit/e55a0eddb087be52129d937c8c3c052fb71ce572))
+
 ## [8.2.0](https://github.com/pubannotation/textae/compare/v8.1.0...v8.2.0) (2022-01-06)
 
 
