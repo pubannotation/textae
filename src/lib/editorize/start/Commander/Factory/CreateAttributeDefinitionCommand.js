@@ -3,6 +3,7 @@ import DeleteAttributeDefinitionCommand from './DeleteAttributeDefinitionCommand
 import ConfigurationCommand from './ConfigurationCommand'
 
 export default class CreateAttributeDefinitionCommand extends ConfigurationCommand {
+  /** @param {import("../../../AttributeDefinitionContainer").default} definitionContainer */
   constructor(definitionContainer, attrDef, index) {
     super()
     this._definitionContainer = definitionContainer
