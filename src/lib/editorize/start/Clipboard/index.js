@@ -84,21 +84,6 @@ export default class Clipboard {
   }
 
   cutEntitiesToLocalClipboard() {
-    this._cutEntities()
-  }
-
-  cutEntitiesToSystemClipboard(clipboardEvent) {
-    this.cutEntitiesToLocalClipboard()
-
-    clipboardEvent.clipboardData.setData(
-      'application/x-textae-editor-uuid',
-      this._uuid
-    )
-
-    this.copyEntitiesToSystemClipboard(clipboardEvent)
-  }
-
-  _cutEntities() {
     const { cuttingTargets } = this._selectionModel
 
     //  When exactly the same entities that are being cut are selected, the cut is canceled.
@@ -111,6 +96,17 @@ export default class Clipboard {
     } else {
       this._updateItems([...cuttingTargets])
     }
+  }
+
+  cutEntitiesToSystemClipboard(clipboardEvent) {
+    this.cutEntitiesToLocalClipboard()
+
+    clipboardEvent.clipboardData.setData(
+      'application/x-textae-editor-uuid',
+      this._uuid
+    )
+
+    this.copyEntitiesToSystemClipboard(clipboardEvent)
   }
 
   pasteEntitiesFromLocalClipboard() {
