@@ -154,7 +154,7 @@ export const config = [
   },
   {
     usage: {
-      'keyboard device': ['control bar', 'context menu'],
+      'keyboard device': [],
       'touce device': ['control bar']
     },
     list: [
