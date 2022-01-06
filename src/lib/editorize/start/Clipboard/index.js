@@ -204,6 +204,10 @@ export default class Clipboard {
         this._commander.invoke(command)
       }
 
+      if (this.hasCuttingItem) {
+        this._updateItems()
+      }
+
       return
     }
   }
