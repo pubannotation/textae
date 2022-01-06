@@ -88,7 +88,7 @@ export default class Clipboard {
   }
 
   cutEntitiesToSystemClipboard(clipboardEvent) {
-    this._cutEntities()
+    this.cutEntitiesToLocalClipboard()
 
     clipboardEvent.clipboardData.setData(
       'application/x-textae-editor-uuid',
