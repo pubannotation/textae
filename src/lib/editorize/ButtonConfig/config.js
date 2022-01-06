@@ -141,6 +141,14 @@ export const config = [
         title: 'Change label [W]',
         enableWhenSelecting: (selectionModel) =>
           selectionModel.entity.some || selectionModel.relation.some
+      },
+      {
+        type: 'delete',
+        title: 'Delete [D]',
+        enableWhenSelecting: (selectionModel) =>
+          selectionModel.span.some ||
+          selectionModel.entity.some ||
+          selectionModel.relation.some
       }
     ]
   },
@@ -150,14 +158,6 @@ export const config = [
       'touce device': ['control bar']
     },
     list: [
-      {
-        type: 'delete',
-        title: 'Delete [D]',
-        enableWhenSelecting: (selectionModel) =>
-          selectionModel.span.some ||
-          selectionModel.entity.some ||
-          selectionModel.relation.some
-      },
       {
         type: 'copy',
         title: 'Copy [C]',
