@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.2.0](https://github.com/pubannotation/textae/compare/v8.1.0...v8.2.0) (2022-01-06)
+
+
+### Features
+
+* Entities that are cut to the system clipboard in one editor can be pasted into another editor ([84c9b49](https://github.com/pubannotation/textae/commit/84c9b49b71e1031e8ac8d1dc65f704e41317da98))
+* If the cut and paste editors are the same, the cut entity can be moved ([852d66d](https://github.com/pubannotation/textae/commit/852d66d0f3c9c06b9c55afc38d42f1f8aea38f58))
+* If there is an attribute definition for the selection attribute to be added but the value definition is missing, add the value definition ([8140591](https://github.com/pubannotation/textae/commit/81405911c600125943afe14eeefc80389af05655))
+
+
+### Bug Fixes
+
+* An error occurs when I press the copy button on the toolbar ([8a8c589](https://github.com/pubannotation/textae/commit/8a8c58933f01442c28f63bb675e7daf50eab718c))
+* An error occurs when I press the paste button on the toolbar ([8b98d26](https://github.com/pubannotation/textae/commit/8b98d26c73006fbd3161d4687d072c2afcc20a3d))
+
 ## [8.1.0](https://github.com/pubannotation/textae/compare/v8.0.0...v8.1.0) (2021-12-23)
 
 
