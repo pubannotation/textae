@@ -52,9 +52,9 @@ export default class ButtonConfig {
         }
       })
       .map(({ list }) => ({
-        list: list.map((button) => ({
-          type: button.type,
-          title: button.title
+        list: list.map(({ type, title }) => ({
+          type,
+          title
         }))
       }))
   }
@@ -70,9 +70,9 @@ export default class ButtonConfig {
         }
       })
       .map(({ list }) => ({
-        list: list.map((button) => ({
-          type: button.type,
-          title: button.title
+        list: list.map(({ type, title }) => ({
+          type,
+          title
         }))
       }))
   }
