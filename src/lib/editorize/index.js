@@ -11,13 +11,7 @@ import start from './start'
 import { EventEmitter } from 'events'
 import getParams from './getParams'
 import ValidationDialog from '../component/ValidationDialog'
-
-function isAndroid() {
-  // For development environments, Use the navigator.userAgent.
-  // Because the navigator.userAgentData only work in the secure context(HTTPS).
-  // https://developer.mozilla.org/en-US/docs/Web/API/Navigator/userAgentData
-  return /Android/.test(navigator.userAgent)
-}
+import isAndroid from './isAndroid'
 
 export default function (element) {
   const $this = $(element)
