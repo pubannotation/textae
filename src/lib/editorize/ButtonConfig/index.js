@@ -2,11 +2,10 @@ import isTouchable from '../isTouchable'
 import { config } from './config'
 import deepcopy from 'deepcopy'
 import { MODE } from '../../MODE'
+import isAndroid from '../isAndroid'
 
-function isResolusionLessThanIPadPro() {
-  // The resolution is based on the resolution of the iPad Pro
-  // when it is in landscape orientation.
-  return window.screen.width <= 1366
+function isIOS() {
+  return /iPad/.test(navigator.userAgent) || /iPhone/.test(navigator.userAgent)
 }
 
 export default class ButtonConfig {
@@ -45,7 +44,8 @@ export default class ButtonConfig {
   get controlBar() {
     return this._config
       .filter(({ usage }) => {
-        if (isTouchable() && isResolusionLessThanIPadPro()) {
+        // To make it easier to guess the result, don't use the screen size to judge the device.
+        if (isAndroid() || isIOS()) {
           return usage['touce device'].includes('control bar')
         } else {
           return usage['keyboard device'].includes('control bar')
