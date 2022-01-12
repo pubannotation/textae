@@ -97,6 +97,11 @@ export default class AttributeModel {
       `
   }
 
+  get height() {
+    const attributeUnitHeight = 18
+    return attributeUnitHeight
+  }
+
   get _title() {
     return `[${this.id}] pred: ${this.pred}, value: ${this._obj}`
   }

@@ -367,9 +367,9 @@ export default class EntityModel {
   }
 
   get _attributesHeight() {
-    const attributeUnitHeight = 18
-
-    return this.attributes.length * attributeUnitHeight
+    return this.attributes
+      .map(({ height }) => height)
+      .reduce((sum, height) => sum + height, 0)
   }
 
   _pointUpRelations() {
