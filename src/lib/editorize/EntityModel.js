@@ -166,6 +166,12 @@ export default class EntityModel {
     return this._clientRect.width
   }
 
+  get attributesHeight() {
+    const attributeUnitHeight = 18
+
+    return this.attributes.length * attributeUnitHeight
+  }
+
   get isDenotation() {
     return this._span.isDenotation
   }
