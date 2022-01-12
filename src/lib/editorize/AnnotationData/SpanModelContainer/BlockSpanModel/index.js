@@ -4,7 +4,6 @@ import renderBackground from './renderBackground'
 import setPosition from './setPosition'
 import SpanModel from '../SpanModel'
 import round from '../round'
-import getGridHeight from '../getHeightIncludeDescendantGrids/getGridHeight'
 import getAnnotationBox from '../../getAnnotationBox'
 
 // Leave a gap between the text and the block border.
@@ -86,7 +85,7 @@ export default class BlockSpanModel extends SpanModel {
   }
 
   getHeightIncludeDescendantGrids(typeGap) {
-    return getGridHeight(this, typeGap) + 35
+    return super.getGridHeight(typeGap) + 35
   }
 
   get _contentHTML() {
