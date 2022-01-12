@@ -173,7 +173,7 @@
               }
             },
             "then": {
-              "required": ["default", "min", "max", "step"],
+              "required": ["default", "step"],
               "properties": {
                 "default": {
                   "type": "number"
