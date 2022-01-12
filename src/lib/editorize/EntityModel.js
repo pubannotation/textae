@@ -10,6 +10,10 @@ const CSS_CLASS_SELECTED = 'textae-editor__signboard--selected'
 const CSS_CLASS_CUTTING = 'textae-editor__signboard--cutting'
 
 export default class EntityModel {
+  /**
+   *
+   * @param {import('./AnnotationData/SpanModelContainer/SpanModel').default} span
+   */
   constructor(
     editor,
     attributeContainer,
