@@ -93,7 +93,7 @@ export default class AttributeModel {
           class="textae-editor__signboard__attribute-label"
           ${`style="background-color: ${getLabelBackgroundColor()};"`}
           >
-          ${toAnchorElement(this._displayName, this._href)}
+          ${this._labelOrMedia}
         </span>
       </div>
       `
@@ -111,6 +111,14 @@ export default class AttributeModel {
 
   get _title() {
     return `[${this.id}] pred: ${this.pred}, value: ${this._obj}`
+  }
+
+  get _labelOrMedia() {
+    if (this._definitionContainer.get(this.pred).valueType === 'medeia') {
+      return `<img src="${this.obj}" >`
+    } else {
+      return toAnchorElement(this._displayName, this._href)
+    }
   }
 
   get _displayName() {
