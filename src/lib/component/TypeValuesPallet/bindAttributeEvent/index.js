@@ -8,6 +8,9 @@ import enableAttributeTabDrop from './enableAttributeTabDrop'
 import openEditNumericAttributeDialog from '../../../openEditNumericAttributeDialog'
 import openEditStringAttributeDialog from '../../../openEditStringAttributeDialog'
 
+/**
+ * @param {import('../../../editorize/start/Commander').default} commander
+ */
 export default function (pallet, el, commander, selectionModelEntity) {
   enableAttributeTabDrag(el)
   enableAttributeTabDrop(el, commander)
