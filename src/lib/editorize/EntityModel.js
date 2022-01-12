@@ -168,13 +168,7 @@ export default class EntityModel {
   }
 
   getHeight(typeGap) {
-    return getEntityUnitHeight(typeGap) + this.attributesHeight
-  }
-
-  get attributesHeight() {
-    const attributeUnitHeight = 18
-
-    return this.attributes.length * attributeUnitHeight
+    return getEntityUnitHeight(typeGap) + this._attributesHeight
   }
 
   get isDenotation() {
@@ -370,6 +364,12 @@ export default class EntityModel {
       this.typeName,
       this._definitionContainerFor.getUri(this.typeName)
     )
+  }
+
+  get _attributesHeight() {
+    const attributeUnitHeight = 18
+
+    return this.attributes.length * attributeUnitHeight
   }
 
   _pointUpRelations() {
