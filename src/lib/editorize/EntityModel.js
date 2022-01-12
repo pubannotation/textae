@@ -5,6 +5,7 @@ import getDisplayName from './getDisplayName'
 import getUri from './getUri'
 import toAnchorElement from './toAnchorElement'
 import getAnnotationBox from './AnnotationData/getAnnotationBox'
+import getEntityUnitHeight from './AnnotationData/SpanModelContainer/getHeightIncludeDescendantGrids/getGridHeight/getEntityUnitHeight'
 
 const CSS_CLASS_SELECTED = 'textae-editor__signboard--selected'
 const CSS_CLASS_CUTTING = 'textae-editor__signboard--cutting'
@@ -164,6 +165,10 @@ export default class EntityModel {
 
   get width() {
     return this._clientRect.width
+  }
+
+  getHeight(typeGap) {
+    return getEntityUnitHeight(typeGap) + this.attributesHeight
   }
 
   get attributesHeight() {
