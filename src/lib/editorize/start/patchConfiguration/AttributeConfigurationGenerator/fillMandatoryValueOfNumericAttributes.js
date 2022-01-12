@@ -1,20 +1,26 @@
 import clone from '../clone'
+import {
+  DEFAULT,
+  MAX,
+  MIN,
+  STEP
+} from '../../../AttributeDefinitionContainer/createAttributeDefinition/NumericAttributeDefinition'
 
 export default function (config) {
   config = clone(config)
 
   for (const a of config.filter((a) => a['value type'] === 'numeric')) {
     if (!Object.prototype.hasOwnProperty.call(a, 'default')) {
-      a.default = 0
+      a.default = DEFAULT
     }
     if (!Object.prototype.hasOwnProperty.call(a, 'min')) {
-      a.min = 0
+      a.min = MIN
     }
     if (!Object.prototype.hasOwnProperty.call(a, 'max')) {
-      a.max = 0
+      a.max = MAX
     }
     if (!Object.prototype.hasOwnProperty.call(a, 'step')) {
-      a.step = 0
+      a.step = STEP
     }
   }
 

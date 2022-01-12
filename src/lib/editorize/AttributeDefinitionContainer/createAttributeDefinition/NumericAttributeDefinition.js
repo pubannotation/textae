@@ -1,6 +1,11 @@
 import AttributeDefinition from './AttributeDefinition'
 import IntervalNotation from '../../../IntervalNotation'
 
+export const DEFAULT = 0
+export const MIN = 0
+export const MAX = 0
+export const STEP = 0
+
 export default class NumericAttributeDefinition extends AttributeDefinition {
   constructor(valueType, hash) {
     super(valueType, hash.pred)
