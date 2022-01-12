@@ -3,6 +3,10 @@ import commandLog from '../../commandLog'
 import applyChangedProperties from './applyChangedProperties'
 
 export default class ChangeAttributeDefinitionCommand extends ConfigurationCommand {
+  /**
+   *
+   * @param {import('../../../../../../editorize/AttributeDefinitionContainer').default} definitionContainer
+   */
   constructor(definitionContainer, attrDef, changedProperties) {
     super()
     this._definitionContainer = definitionContainer
