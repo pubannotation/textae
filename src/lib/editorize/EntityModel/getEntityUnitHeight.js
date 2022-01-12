@@ -1,4 +1,4 @@
-import typeGapUnitHeight from '../../../../typeGapUnitHeight'
+import typeGapUnitHeight from '../typeGapUnitHeight'
 
 const labelUnitHegiht = 18
 

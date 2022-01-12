@@ -5,7 +5,7 @@ import getDisplayName from '../getDisplayName'
 import getUri from '../getUri'
 import toAnchorElement from '../toAnchorElement'
 import getAnnotationBox from '../AnnotationData/getAnnotationBox'
-import getEntityUnitHeight from '../AnnotationData/SpanModelContainer/getHeightIncludeDescendantGrids/getGridHeight/getEntityUnitHeight'
+import getEntityUnitHeight from './getEntityUnitHeight'
 
 const CSS_CLASS_SELECTED = 'textae-editor__signboard--selected'
 const CSS_CLASS_CUTTING = 'textae-editor__signboard--cutting'
