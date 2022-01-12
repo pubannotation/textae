@@ -1,10 +1,16 @@
+import {
+  MAX,
+  MIN,
+  STEP
+} from '../../editorize/AttributeDefinitionContainer/createAttributeDefinition/NumericAttributeDefinition'
+
 export default function (componentClassName, min, max, step) {
   return `
     <div class="${componentClassName}__row">
       <label>Min</label>
       <input
         type="text"
-        value="${min || 0}"
+        value="${min || MIN}"
         class="${componentClassName}__min"
       >
     </div>
@@ -12,7 +18,7 @@ export default function (componentClassName, min, max, step) {
       <label>Max</label>
       <input
         type="text"
-        value="${max || 0}"
+        value="${max || MAX}"
         class="${componentClassName}__max"
       >
     </div>
@@ -20,7 +26,7 @@ export default function (componentClassName, min, max, step) {
       <label>Step</label>
       <input
         type="text"
-        value="${step || 0}"
+        value="${step || STEP}"
         class="${componentClassName}__step"
       >
     </div>
