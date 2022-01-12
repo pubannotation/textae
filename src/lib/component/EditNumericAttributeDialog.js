@@ -28,8 +28,8 @@ function template(context) {
     <input 
       class="textae-editor__edit-numeric-attribute-dialog__value textae-editor__promise-daialog__observable-element" 
       type="number" 
-      min="${min}" 
-      max="${max}" 
+      ${typeof min === 'number' ? `min="${min}"` : ''}
+      ${typeof max === 'number' ? `max="${max}"` : ''}
       step="${step}" 
       value="${value}"
       autofocus>
