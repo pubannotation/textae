@@ -1,5 +1,5 @@
-import AttributeDefinition from './AttributeDefinition'
-import IntervalNotation from '../../../IntervalNotation'
+import AttributeDefinition from './editorize/AttributeDefinitionContainer/createAttributeDefinition/AttributeDefinition'
+import IntervalNotation from './IntervalNotation'
 
 export const DEFAULT = 0
 export const MIN = 0

@@ -1,8 +1,5 @@
 import clone from '../clone'
-import {
-  DEFAULT,
-  STEP
-} from '../../../AttributeDefinitionContainer/createAttributeDefinition/NumericAttributeDefinition'
+import { DEFAULT, STEP } from '../../../../NumericAttributeDefinition'
 
 export default function (config) {
   config = clone(config)

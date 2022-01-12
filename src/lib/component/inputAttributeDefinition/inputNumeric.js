@@ -1,8 +1,4 @@
-import {
-  MAX,
-  MIN,
-  STEP
-} from '../../editorize/AttributeDefinitionContainer/createAttributeDefinition/NumericAttributeDefinition'
+import { MAX, MIN, STEP } from '../../NumericAttributeDefinition'
 
 export default function (componentClassName, min, max, step) {
   return `

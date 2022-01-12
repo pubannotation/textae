@@ -1,5 +1,5 @@
 import FlagAttributeDefinition from './FlagAttributeDefinition'
-import NumericAttributeDefinition from './NumericAttributeDefinition'
+import NumericAttributeDefinition from '../../../NumericAttributeDefinition'
 import SelectionAttributeDefinition from './SelectionAttributeDefinition'
 import StringAttributeDefinition from './StringAttributeDefinition'
 
