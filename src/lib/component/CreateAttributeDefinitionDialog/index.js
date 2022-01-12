@@ -11,24 +11,7 @@ export default class CreateAttributeDefinitionDialog extends PromiseDialog {
       'New attribute',
       template(componentClassName, { valueType: 'flag' }),
       {},
-      () => {
-        const state = this._state
-
-        // Numeric Attribute property value type must be Number type.
-        if (state.valueType === 'numeric') {
-          return {
-            ...state,
-            ...{
-              default: state.default,
-              min: state.min,
-              max: state.max,
-              step: state.step
-            }
-          }
-        }
-
-        return state
-      }
+      () => this._state
     )
 
     delegate(
