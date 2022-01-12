@@ -87,6 +87,9 @@ export default class EntityModel {
     )
   }
 
+  /**
+   * @returns {AttributeModel[]}
+   */
   get attributes() {
     return this._attributeContainer.getAttributesFor(this._id)
   }
