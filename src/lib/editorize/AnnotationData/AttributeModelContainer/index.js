@@ -69,6 +69,11 @@ export default class AttributeModelContainer extends IdIssueContainer {
     return this.all.filter((a) => a.equalsTo(pred, obj))
   }
 
+  /**
+   *
+   * @param {string} subj
+   * @returns {AttributeModel[]}
+   */
   getAttributesFor(subj) {
     return this.all
       .filter((a) => a.subj === subj)
