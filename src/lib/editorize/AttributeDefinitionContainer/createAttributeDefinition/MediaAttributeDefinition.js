@@ -1,5 +1,8 @@
 import AttributeDefinition from './AttributeDefinition'
 
+export const DEFAULT = ''
+export const HEIGHT = 18
+
 export default class MediaAttributeDefinition extends AttributeDefinition {
   constructor(valueType, hash) {
     super(valueType, hash.pred)
