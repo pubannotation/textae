@@ -99,7 +99,12 @@ export default class AttributeModel {
 
   get height() {
     const attributeUnitHeight = 18
-    return attributeUnitHeight
+
+    if (this._definitionContainer.get(this.pred).valueType === 'medeia') {
+      return this._definitionContainer.get(this.pred).height
+    } else {
+      return attributeUnitHeight
+    }
   }
 
   get _title() {
