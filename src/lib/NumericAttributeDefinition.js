@@ -2,17 +2,23 @@ import AttributeDefinition from './editorize/AttributeDefinitionContainer/create
 import IntervalNotation from './IntervalNotation'
 
 export const DEFAULT = 0
-export const MIN = 0
-export const MAX = 0
-export const STEP = 1
+export const STEP = 2
 
 export default class NumericAttributeDefinition extends AttributeDefinition {
   constructor(valueType, hash) {
     super(valueType, hash.pred)
-    this.default = hash.default
-    this.min = hash.min
-    this.max = hash.max
-    this.step = hash.step
+    this.default = Number.isNaN(parseFloat(hash.default))
+      ? DEFAULT
+      : parseFloat(hash.default)
+    if (!Number.isNaN(parseFloat(hash.min))) {
+      this.min = parseFloat(hash.min)
+    }
+    if (!Number.isNaN(parseFloat(hash.max))) {
+      this.max = parseFloat(hash.max)
+    }
+    this.step = Number.isNaN(parseFloat(hash.step))
+      ? STEP
+      : parseFloat(hash.step)
     this._values = hash.values || []
   }
 

@@ -1,4 +1,4 @@
-import { MAX, MIN, STEP } from '../../NumericAttributeDefinition'
+import { STEP } from '../../NumericAttributeDefinition'
 
 export default function (componentClassName, min, max, step) {
   return `
@@ -6,7 +6,7 @@ export default function (componentClassName, min, max, step) {
       <label>Min</label>
       <input
         type="text"
-        value="${min || MIN}"
+        value="${min || ''}"
         class="${componentClassName}__min"
       >
     </div>
@@ -14,7 +14,7 @@ export default function (componentClassName, min, max, step) {
       <label>Max</label>
       <input
         type="text"
-        value="${max || MAX}"
+        value="${max || ''}"
         class="${componentClassName}__max"
       >
     </div>

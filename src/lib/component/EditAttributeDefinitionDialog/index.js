@@ -50,7 +50,7 @@ export default class EditAttributeDefinitionDialog extends PromiseDialog {
 
       if (attrDef.valueType === 'numeric') {
         if (isChanged(attrDef.default, defaultValue)) {
-          diff.set('default', parseFloat(defaultValue))
+          diff.set('default', defaultValue)
         }
 
         const min = getInputElementValue(
@@ -67,15 +67,15 @@ export default class EditAttributeDefinitionDialog extends PromiseDialog {
         )
 
         if (isChanged(attrDef.min, min)) {
-          diff.set('min', parseFloat(min))
+          diff.set('min', min)
         }
 
         if (isChanged(attrDef.max, max)) {
-          diff.set('max', parseFloat(max))
+          diff.set('max', max)
         }
 
         if (isChanged(attrDef.step, step)) {
-          diff.set('step', parseFloat(step))
+          diff.set('step', step)
         }
       }
 

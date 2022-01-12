@@ -13,8 +13,8 @@ export default function (context) {
   <div>
     <div class="textae-editor__pallet__predicate">
       ${predicateControllerTemplate(context)}
-      min: ${min}
-      max: ${max}
+      min: ${min || ''}
+      max: ${max || ''}
       step: ${step}
       default: ${defaultValue}
     </div>
