@@ -2,6 +2,12 @@ import delegate from 'delegate'
 import PromiseDialog from '../PromiseDialog'
 import getInputElementValue from '../getInputElementValue'
 import template from './template'
+import {
+  DEFAULT,
+  MAX,
+  MIN,
+  STEP
+} from '../../editorize/AttributeDefinitionContainer/createAttributeDefinition/NumericAttributeDefinition'
 
 const componentClassName = `textae-editor__create-attribute-definition-dialog`
 
@@ -19,10 +25,10 @@ export default class CreateAttributeDefinitionDialog extends PromiseDialog {
           return {
             ...state,
             ...{
-              default: parseFloat(state.default) || 0,
-              min: parseFloat(state.min) || 0,
-              max: parseFloat(state.max) || 0,
-              step: parseFloat(state.step) || 0
+              default: parseFloat(state.default) || DEFAULT,
+              min: parseFloat(state.min) || MIN,
+              max: parseFloat(state.max) || MAX,
+              step: parseFloat(state.step) || STEP
             }
           }
         }
