@@ -143,6 +143,13 @@ export default class SpanModel {
     return document.querySelector(`#G${this.id}`)
   }
 
+  getGridHeight(typeGap) {
+    const { entities } = this
+    return entities
+      .map((entity) => entity.getHeight(typeGap))
+      .reduce((sum, heght) => sum + heght, 0)
+  }
+
   get isGridRendered() {
     return this.gridElement
   }
