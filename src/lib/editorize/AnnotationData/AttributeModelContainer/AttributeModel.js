@@ -28,7 +28,7 @@ export default class AttributeModel {
   }
 
   set obj(value) {
-    if (this._definitionContainer.get(this.pred).valueType === 'numeric') {
+    if (this._valueType === 'numeric') {
       this._obj = parseFloat(value)
     } else {
       this._obj = value
@@ -102,7 +102,7 @@ export default class AttributeModel {
   get height() {
     const attributeUnitHeight = 18
 
-    if (this._definitionContainer.get(this.pred).valueType === 'medeia') {
+    if (this._valueType === 'medeia') {
       return this._definitionContainer.get(this.pred).height
     } else {
       return attributeUnitHeight
@@ -114,7 +114,7 @@ export default class AttributeModel {
   }
 
   get _labelOrMedia() {
-    if (this._definitionContainer.get(this.pred).valueType === 'medeia') {
+    if (this._valueType === 'medeia') {
       return `<img src="${this.obj}" >`
     } else {
       return toAnchorElement(this._displayName, this._href)
@@ -141,5 +141,9 @@ export default class AttributeModel {
       this._definitionContainer.getColor(this.pred, this._obj) ||
       this.subjectModel.color
     )
+  }
+
+  get _valueType() {
+    return this._definitionContainer.get(this.pred).valueType
   }
 }
