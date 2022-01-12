@@ -223,6 +223,10 @@
       {
         "pred": "selection without values",
         "value type": "selection"
+      },
+      {
+        "pred": "score2",
+        "value type": "numeric"
       }
     ]
   },
