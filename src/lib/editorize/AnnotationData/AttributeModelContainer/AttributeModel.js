@@ -85,7 +85,9 @@ export default class AttributeModel {
         title="${this._title}"
         data-pred="${this.pred}"
         data-obj="${this.obj}"
-        ${`style="background-color: ${hexToRGBA(this._color, 0.4)};"`}
+        ${`style="background-color: ${hexToRGBA(this._color, 0.4)}; height: ${
+          this.height
+        }px;"`}
         >
         <span
           class="textae-editor__signboard__attribute-label"
