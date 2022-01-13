@@ -4,7 +4,7 @@ export default function (
   selectionModel,
   annotationData,
   spanAdjuster,
-  spanId,
+  spanID,
   selectionWrapper,
   spanConfig,
   okHandler
@@ -12,7 +12,7 @@ export default function (
   selectionModel.removeAll()
 
   const { begin, end } = annotationData.span
-    .get(spanId)
+    .get(spanID)
     .getExpandedInAnchorNodeToFocusNodeDirection(
       spanAdjuster,
       selectionWrapper,
