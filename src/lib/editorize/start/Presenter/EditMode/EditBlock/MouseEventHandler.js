@@ -5,6 +5,10 @@ import selectSpan from '../selectSpan'
 import isRangeInTextBox from '../isRangeInTextBox'
 
 export default class MouseEventHandler {
+  /**
+   *
+   * @param {import('./SpanEditor').default} spanEditor
+   */
   constructor(
     editorHTMLElement,
     annotationData,
