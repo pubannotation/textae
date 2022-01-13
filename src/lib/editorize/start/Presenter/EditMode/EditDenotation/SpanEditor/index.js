@@ -2,12 +2,12 @@ import alertifyjs from 'alertifyjs'
 import clearTextSelection from '../../clearTextSelection'
 import create from './create'
 import shrinkSpan from '../../shrinkSpan'
-import expandSpan from '../../expandSpan'
 import hasCharacters from '../../hasCharacters'
 import getIsDelimiterFunc from '../../../getIsDelimiterFunc'
 import SelectionWrapper from '../../SelectionWrapper'
 import isPositionBetweenSpan from './isPositionBetweenSpan'
 import getRightSpanElement from '../../../../../getRightSpanElement'
+import validateNewDennotationSpan from './validateNewDennotationSpan'
 
 export default class SpanEditor {
   constructor(
@@ -601,19 +601,22 @@ export default class SpanEditor {
   }
 
   _expand(selectionWrapper, spanID) {
-    expandSpan(
-      this._selectionModel,
-      this._annotationData,
-      this._buttonController.spanAdjuster,
-      spanID,
-      selectionWrapper,
-      this._spanConfig,
-      (begin, end) => {
-        this._commander.invoke(
-          this._commander.factory.moveDenotationSpanCommand(spanID, begin, end)
-        )
-      }
-    )
+    this._selectionModel.removeAll()
+
+    const { begin, end } = this._annotationData.span
+      .get(spanID)
+      .getExpandedInAnchorNodeToFocusNodeDirection(
+        this._buttonController.spanAdjuster,
+        selectionWrapper,
+        this._annotationData.sourceDoc,
+        this._spanConfig
+      )
+
+    if (validateNewDennotationSpan(this._annotationData, begin, end)) {
+      this._commander.invoke(
+        this._commander.factory.moveDenotationSpanCommand(spanID, begin, end)
+      )
+    }
 
     clearTextSelection()
   }
