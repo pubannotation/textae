@@ -1,4 +1,5 @@
 import inputDefault from './inputDefault'
+import inputMediaHeight from './inputMediaHeight'
 import inputLabelAndColor from './inputLabelAndColor'
 import inputNumeric from './inputNumeric'
 
@@ -6,6 +7,7 @@ export default function (componentClassName, context) {
   const {
     pred,
     default: defaultValue,
+    mediaHeight,
     label,
     color,
     min,
@@ -15,6 +17,7 @@ export default function (componentClassName, context) {
   } = context
 
   const showDefault = valueType === 'numeric' || valueType === 'string'
+  const showMediaHeight = valueType === 'string'
   const showLabelAndColor = valueType === 'flag'
   const showNumeric = valueType === 'numeric'
 
@@ -27,6 +30,11 @@ export default function (componentClassName, context) {
       >
     </div>
     ${showDefault ? `${inputDefault(componentClassName, defaultValue)}` : ''}
+    ${
+      showMediaHeight
+        ? `${inputMediaHeight(componentClassName, mediaHeight)}`
+        : ''
+    }
     ${
       showLabelAndColor
         ? `${inputLabelAndColor(componentClassName, label, color)}`
