@@ -4,21 +4,23 @@ import IntervalNotation from './IntervalNotation'
 export const DEFAULT = 0
 export const STEP = 2
 
-function isFloat(str) {
+function isAbleToParseFloat(str) {
   return !Number.isNaN(parseFloat(str))
 }
 
 export default class NumericAttributeDefinition extends AttributeDefinition {
   constructor(valueType, hash) {
     super(valueType, hash.pred)
-    this.default = isFloat(hash.default) ? parseFloat(hash.default) : DEFAULT
-    if (isFloat(hash.min)) {
+    this.default = isAbleToParseFloat(hash.default)
+      ? parseFloat(hash.default)
+      : DEFAULT
+    if (isAbleToParseFloat(hash.min)) {
       this.min = parseFloat(hash.min)
     }
-    if (isFloat(hash.max)) {
+    if (isAbleToParseFloat(hash.max)) {
       this.max = parseFloat(hash.max)
     }
-    this.step = isFloat(hash.step) ? parseFloat(hash.step) : STEP
+    this.step = isAbleToParseFloat(hash.step) ? parseFloat(hash.step) : STEP
     this._values = hash.values || []
   }
 
