@@ -1,7 +1,6 @@
 import inputDefault from './inputDefault'
 import inputLabelAndColor from './inputLabelAndColor'
 import inputNumeric from './inputNumeric'
-import inputHeight from './inputHeight'
 
 export default function (componentClassName, context) {
   const {
@@ -11,16 +10,13 @@ export default function (componentClassName, context) {
     color,
     min,
     max,
-    height,
     step,
     valueType
   } = context
 
-  const showDefault =
-    valueType === 'numeric' || valueType === 'string' || valueType === 'media'
+  const showDefault = valueType === 'numeric' || valueType === 'string'
   const showLabelAndColor = valueType === 'flag'
   const showNumeric = valueType === 'numeric'
-  const showHeight = valueType === 'media'
 
   return `
     <div class="${componentClassName}__row">
@@ -37,6 +33,5 @@ export default function (componentClassName, context) {
         : ''
     }
     ${showNumeric ? `${inputNumeric(componentClassName, min, max, step)}` : ''}
-    ${showHeight ? `${inputHeight(componentClassName, height)}` : ''}
   `
 }
