@@ -1,9 +1,14 @@
+import isAbleToParseFloat from '../../../isAbleToParseFloat'
 import AttributeDefinition from './AttributeDefinition'
+
 export default class StringAttributeDefinition extends AttributeDefinition {
   constructor(valueType, hash) {
     super(valueType, hash.pred)
     this.autocompletionWs = hash.autocompletion_ws
     this.default = hash.default
+    if (isAbleToParseFloat(hash.mediaHeight)) {
+      this.mediaHeight = parseFloat(hash.mediaHeight)
+    }
     this._values = hash.values || []
   }
 
