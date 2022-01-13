@@ -114,7 +114,7 @@ export default class AttributeModel {
   }
 
   get _labelOrMedia() {
-    if (this._valueType === 'medeia') {
+    if (this._valueType === 'string' && /\.(jpg|png|gif)$/.test(this._href)) {
       return `<img src="${this.obj}" >`
     } else {
       return toAnchorElement(this._displayName, this._href)

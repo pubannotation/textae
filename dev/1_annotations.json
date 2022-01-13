@@ -800,6 +800,12 @@
       "subj": "R12",
       "pred": "denote",
       "obj": "http://www.yahoo.co.jp/eeeeeeeeeeeeeeeeeoaoeuaoeuaoue"
+    },
+    {
+      "id": "A22",
+      "subj": "E19",
+      "pred": "free_text_predicate",
+      "obj": "https://pubannotation.org/assets/logo.png"
     }
   ],
   "relations": [
