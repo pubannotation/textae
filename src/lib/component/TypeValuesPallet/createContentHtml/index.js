@@ -3,7 +3,6 @@ import flagAttributeTemplate from './flagAttributeTemplate'
 import numericAttributeTemplate from './numericAttributeTemplate'
 import selectionAttributeTemplate from './selectionAttributeTemplate'
 import stringAttributeTemplate from './stringAttributeTemplate'
-import mediaAttributeTemplate from './mediaAttributeTemplate'
 
 export default function (
   types,
@@ -63,8 +62,6 @@ export default function (
       return selectionAttributeTemplate(context, attributeContainer)
     case 'string':
       return stringAttributeTemplate(context)
-    case 'media':
-      return mediaAttributeTemplate(context)
     default:
       throw `attrDef.valueType is unknown attribute`
   }
