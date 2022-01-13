@@ -39,7 +39,7 @@ export default function (
     })
   }
 
-  const values = {
+  const context = {
     isLock,
     attributes,
     hasDiff,
@@ -55,13 +55,13 @@ export default function (
 
   switch (attrDef.valueType) {
     case 'flag':
-      return flagAttributeTemplate(values)
+      return flagAttributeTemplate(context)
     case 'numeric':
-      return numericAttributeTemplate(values)
+      return numericAttributeTemplate(context)
     case 'selection':
-      return selectionAttributeTemplate(values, attributeContainer)
+      return selectionAttributeTemplate(context, attributeContainer)
     case 'string':
-      return stringAttributeTemplate(values)
+      return stringAttributeTemplate(context)
     default:
       throw `attrDef.valueType is unknown attribute`
   }
