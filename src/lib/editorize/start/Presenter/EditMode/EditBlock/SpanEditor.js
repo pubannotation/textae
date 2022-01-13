@@ -6,7 +6,6 @@ import create from './create'
 import SelectionWrapper from '../SelectionWrapper'
 import validateNewBlockSpan from './validateNewBlockSpan'
 import getRightSpanElement from '../../../../getRightSpanElement'
-import validateNewDennotationSpan from '../EditDenotation/SpanEditor/validateNewDennotationSpan'
 
 export default class SpanEditor {
   constructor(
@@ -212,7 +211,7 @@ export default class SpanEditor {
         this._spanConfig
       )
 
-    if (validateNewDennotationSpan(this._annotationData, begin, end)) {
+    if (validateNewBlockSpan(this._annotationData, begin, end, spanID)) {
       this._commander.invoke(
         this._commander.factory.moveBlockSpanCommand(spanID, begin, end)
       )
