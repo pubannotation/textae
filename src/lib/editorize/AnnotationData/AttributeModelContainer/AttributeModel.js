@@ -100,8 +100,11 @@ export default class AttributeModel {
   }
 
   get height() {
-    if (this._valueType === 'medeia') {
-      return this._definitionContainer.get(this.pred).height
+    if (
+      this._valueType === 'string' &&
+      this._definitionContainer.get(this.pred).mediaHeight
+    ) {
+      return this._definitionContainer.get(this.pred).mediaHeight
     } else {
       return 18
     }
