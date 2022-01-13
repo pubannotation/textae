@@ -79,21 +79,6 @@ export default class EditAttributeDefinitionDialog extends PromiseDialog {
         }
       }
 
-      if (attrDef.valueType === 'media') {
-        if (isChanged(attrDef.default, defaultValue)) {
-          diff.set('default', defaultValue)
-        }
-
-        const height = getInputElementValue(
-          super.el,
-          `.${componentClassName}__height`
-        )
-
-        if (isChanged(attrDef.height, height)) {
-          diff.set('height', height)
-        }
-      }
-
       return diff
     })
   }
