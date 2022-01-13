@@ -42,6 +42,10 @@ export default class CreateAttributeDefinitionDialog extends PromiseDialog {
       super.el,
       `.${componentClassName}__default-value`
     )
+    const mediaHeight = getInputElementValue(
+      super.el,
+      `.${componentClassName}__media-height`
+    )
     const min = getInputElementValue(super.el, `.${componentClassName}__min`)
     const max = getInputElementValue(super.el, `.${componentClassName}__max`)
     const step = getInputElementValue(super.el, `.${componentClassName}__step`)
@@ -51,6 +55,7 @@ export default class CreateAttributeDefinitionDialog extends PromiseDialog {
       label,
       color,
       default: defaultValue,
+      mediaHeight,
       min,
       max,
       step,
