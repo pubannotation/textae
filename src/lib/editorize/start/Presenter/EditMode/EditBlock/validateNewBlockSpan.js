@@ -1,6 +1,6 @@
 import alertifyjs from 'alertifyjs'
 
-export default function (annotationData, begin, end, spanId) {
+export default function (annotationData, begin, end, spanID) {
   // The span cross exists spans.
   if (annotationData.span.isBoundaryCrossingWithOtherSpans(begin, end)) {
     alertifyjs.warning('A span cannot be modifyed to make a boundary crossing.')
@@ -13,7 +13,7 @@ export default function (annotationData, begin, end, spanId) {
 
   // There is a BlockSpan that is a child.
   if (
-    annotationData.span.hasBlockSpanBetween(begin, end, { excluded: spanId })
+    annotationData.span.hasBlockSpanBetween(begin, end, { excluded: spanID })
   ) {
     return false
   }
