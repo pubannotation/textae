@@ -5,7 +5,7 @@ import predicateControllerTemplate from './predicateControllerTemplate'
 import { escape } from 'lodash'
 
 export default function (context) {
-  const { default: defaultValue, values } = context.attrDef
+  const { default: defaultValue, mediaHeight, values } = context.attrDef
   const { isLock } = context
 
   return `
@@ -13,6 +13,7 @@ export default function (context) {
   <div>
     <div class="textae-editor__pallet__predicate">
       ${predicateControllerTemplate(context)}
+      media height: ${mediaHeight || '""'}
       default: ${escape(defaultValue)}
     </div>
 
