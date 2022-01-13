@@ -1,5 +1,10 @@
 import alertifyjs from 'alertifyjs'
 
+/**
+ *
+ * @param {import('../../../../../AnnotationData').default} annotationData
+ * @returns
+ */
 export default function (annotationData, begin, end) {
   // The span cross exists spans.
   if (annotationData.span.isBoundaryCrossingWithOtherSpans(begin, end)) {
