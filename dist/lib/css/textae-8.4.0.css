@@ -4236,8 +4236,6 @@ ul.jsondiffpatch-textdiff {
   z-index: 2;
 }
 .textae-editor__signboard__attribute {
-  background-color: inherit;
-  height: 18px;
   margin: 0 2px;
   width: calc(100% - 4px);
 }

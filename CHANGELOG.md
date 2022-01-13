@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.4.0](https://github.com/pubannotation/textae/compare/v8.3.0...v8.4.0) (2022-01-13)
+
+
+### Features
+
+* Change the default value of the step property of the Numeric attribute to 1 ([a3e19d6](https://github.com/pubannotation/textae/commit/a3e19d62c3a1dd4eb3d982ba39e9433ce749b8b2))
+* Eliminate the ability to fill in numeric attribute definitions with 0 when min and max are missing ([085a4ba](https://github.com/pubannotation/textae/commit/085a4bab0ab0b91e7cedc65daa6821f0e01110f7))
+* Min and max in the Numeric attribute definition are no longer required ([4421474](https://github.com/pubannotation/textae/commit/4421474bb0309a2b98930e6c3556d840fcddfc7e))
+* When min and max are not specified in the Numeric attribute definition, the min and max attributes of the input element in the Numeric attribute edit dialog are not rendered ([af839e3](https://github.com/pubannotation/textae/commit/af839e355032b6157c180cc05e21a0b6af06c313))
+* You can create Numeric attribute definitions without min and max ([09847de](https://github.com/pubannotation/textae/commit/09847de8822c78662c6c5acfc34d5dcde8a40404))
+
 ## [8.3.0](https://github.com/pubannotation/textae/compare/v8.2.0...v8.3.0) (2022-01-06)
 
 
