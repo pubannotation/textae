@@ -100,12 +100,10 @@ export default class AttributeModel {
   }
 
   get height() {
-    const attributeUnitHeight = 18
-
     if (this._valueType === 'medeia') {
       return this._definitionContainer.get(this.pred).height
     } else {
-      return attributeUnitHeight
+      return 18
     }
   }
 
