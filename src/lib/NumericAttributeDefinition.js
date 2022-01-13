@@ -1,12 +1,9 @@
 import AttributeDefinition from './editorize/AttributeDefinitionContainer/createAttributeDefinition/AttributeDefinition'
 import IntervalNotation from './IntervalNotation'
+import isAbleToParseFloat from './isAbleToParseFloat'
 
 export const DEFAULT = 0
 export const STEP = 2
-
-function isAbleToParseFloat(str) {
-  return !Number.isNaN(parseFloat(str))
-}
 
 export default class NumericAttributeDefinition extends AttributeDefinition {
   constructor(valueType, hash) {
