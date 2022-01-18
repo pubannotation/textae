@@ -12,10 +12,6 @@ export default class DenotationSpanModel extends SpanModel {
     this._entityModelContainer = entityModelContainer
   }
 
-  get entities() {
-    return this._entityModelContainer.getAllOfSpan(this)
-  }
-
   passesAllEntitiesTo(newSpan) {
     for (const entity of this.entities) {
       entity.span = newSpan

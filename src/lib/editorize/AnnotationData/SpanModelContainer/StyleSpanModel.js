@@ -6,6 +6,10 @@ export default class StyleSpanModel extends SpanModel {
     this.styles = new Set([style])
   }
 
+  get entities() {
+    return []
+  }
+
   // Mark it not to be rendered as a span.
   get styleOnly() {
     return true

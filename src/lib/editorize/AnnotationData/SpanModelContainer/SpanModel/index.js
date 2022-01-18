@@ -45,7 +45,7 @@ export default class SpanModel {
    * @return {[import('../../../EntityModel').default]}
    */
   get entities() {
-    return []
+    return this._entityModelContainer.getAllOfSpan(this)
   }
 
   get bigBrother() {

@@ -19,10 +19,6 @@ export default class BlockSpanModel extends SpanModel {
     return true
   }
 
-  get entities() {
-    return this._entityModelContainer.getAllOfSpan(this)
-  }
-
   passesAllEntitiesTo(newSpan) {
     for (const entity of this.entities) {
       entity.span = newSpan
