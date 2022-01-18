@@ -5,7 +5,13 @@ import { MODE } from '../../MODE'
 import isAndroid from '../isAndroid'
 
 function isIOS() {
-  return /iPad/.test(navigator.userAgent) || /iPhone/.test(navigator.userAgent)
+  // iPad Safari (iPadOS 14 or later) does not include the string iPad in its userAgent.
+  // see https://iwb.jp/ipad-safari-javascript-useragent-is-not-ipad/
+  return (
+    /iPad/.test(navigator.userAgent) ||
+    /iPhone/.test(navigator.userAgent) ||
+    (/Macintosh/.test(navigator.userAgent) && isTouchable())
+  )
 }
 
 export default class ButtonConfig {
