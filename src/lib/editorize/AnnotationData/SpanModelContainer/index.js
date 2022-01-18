@@ -377,7 +377,7 @@ export default class SpanModelContainer {
 
   arrangeBackgroundOfBlockSpanPosition() {
     for (const span of this.allBlockSpans) {
-      span.updateHitAreaOfBlockSpanPosition()
+      span.updateBackgroundPosition()
     }
   }
 

@@ -56,7 +56,7 @@ export default class BlockSpanModel extends SpanModel {
     }
   }
 
-  updateHitAreaOfBlockSpanPosition() {
+  updateBackgroundPosition() {
     const { top, left, width, height } = this._reactOfBackground
     setPosition(this._backgroundElement, top, left, width, height)
 
