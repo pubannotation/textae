@@ -164,8 +164,11 @@ export default class EntityModel {
     }
 
     return (
-      this._clientRect.top -
-      getAnnotationBox(this._editor[0]).getBoundingClientRect().top
+      span.gridRectangle.top +
+      span.getReactOfSidekicksOfBlock(span._spanModelContainer._textBox)
+        .height -
+      this.height -
+      15
     )
   }
 
