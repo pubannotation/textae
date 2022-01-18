@@ -150,7 +150,7 @@ export default class SpanModel {
     return document.querySelector(`#G${this.id}`)
   }
 
-  getGridHeight(typeGap) {
+  getGridHeight() {
     const { entities } = this
     return entities
       .map(({ height }) => height)
