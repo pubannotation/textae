@@ -1,10 +1,10 @@
-import TypeValues from '../TypeValues'
-import SignboardHTMLElement from '../SignboardHTMLElement'
-import typeGapUnitHeight from '../typeGapUnitHeight'
-import getDisplayName from '../getDisplayName'
-import getUri from '../getUri'
-import toAnchorElement from '../toAnchorElement'
-import getAnnotationBox from '../AnnotationData/getAnnotationBox'
+import TypeValues from './TypeValues'
+import SignboardHTMLElement from './SignboardHTMLElement'
+import typeGapUnitHeight from './typeGapUnitHeight'
+import getDisplayName from './getDisplayName'
+import getUri from './getUri'
+import toAnchorElement from './toAnchorElement'
+import getAnnotationBox from './AnnotationData/getAnnotationBox'
 
 const CSS_CLASS_SELECTED = 'textae-editor__signboard--selected'
 const CSS_CLASS_CUTTING = 'textae-editor__signboard--cutting'
@@ -12,7 +12,7 @@ const CSS_CLASS_CUTTING = 'textae-editor__signboard--cutting'
 export default class EntityModel {
   /**
    *
-   * @param {import('../AnnotationData/SpanModelContainer/SpanModel').default} span
+   * @param {import('./AnnotationData/SpanModelContainer/SpanModel').default} span
    */
   constructor(
     editor,
