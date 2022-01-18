@@ -101,10 +101,10 @@ export default class BlockSpanModel extends SpanModel {
     const { width } = this._spanModelContainer._textBox.boundingClientRect
 
     return {
-      width: 100,
       top: round(top),
       bottom: round(bottom),
-      left: round(width - 108)
+      left: round(width - 108),
+      width: 100
     }
   }
 
