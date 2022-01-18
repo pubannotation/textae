@@ -387,7 +387,7 @@ export default class SpanModelContainer {
     ])
 
     if (spans.length) {
-      return getCurrentMaxHeight(spans, this.typeGap.value)
+      return getCurrentMaxHeight(spans)
     } else {
       return null
     }
