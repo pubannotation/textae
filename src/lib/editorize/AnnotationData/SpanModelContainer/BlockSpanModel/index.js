@@ -98,12 +98,12 @@ export default class BlockSpanModel extends SpanModel {
   get gridRectangle() {
     console.assert(this.element, 'span is not renderd')
     const rectOfTextBox = this._spanModelContainer._textBox.boundingClientRect
-    const rectOfHitAreta = this._reactOfBackground
+    const rectOfBackground = this._reactOfBackground
 
     return {
       width: 100,
-      top: round(rectOfHitAreta.top),
-      bottom: round(rectOfHitAreta.top + rectOfHitAreta.height),
+      top: round(rectOfBackground.top),
+      bottom: round(rectOfBackground.top + rectOfBackground.height),
       left: round(rectOfTextBox.width - 108)
     }
   }
