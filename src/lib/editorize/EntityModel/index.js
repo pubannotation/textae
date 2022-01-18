@@ -168,7 +168,7 @@ export default class EntityModel {
   }
 
   getHeight(typeGap) {
-    return getEntityUnitHeight(typeGap) + this._attributesHeight
+    return getEntityUnitHeight(this._typeGap.value) + this._attributesHeight
   }
 
   get isDenotation() {
