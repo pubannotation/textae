@@ -57,7 +57,7 @@ export default class BlockSpanModel extends SpanModel {
   }
 
   updateSidekicksOfBlockSpanPosition(textBox) {
-    const { top, left, width, height } = this._getReactOfHitArea(textBox)
+    const { top, left, width, height } = this._reactOfHitArea
     setPosition(this._backgroundElement, top, left, width, height)
 
     // The div height cannot be obtained at grid rendering time,
@@ -98,9 +98,7 @@ export default class BlockSpanModel extends SpanModel {
   get gridRectangle() {
     console.assert(this.element, 'span is not renderd')
     const rectOfTextBox = this._spanModelContainer._textBox.boundingClientRect
-    const rectOfHitAreta = this._getReactOfHitArea(
-      this._spanModelContainer._textBox
-    )
+    const rectOfHitAreta = this._reactOfHitArea
 
     return {
       width: 100,
@@ -128,8 +126,9 @@ export default class BlockSpanModel extends SpanModel {
     this._entityToFocusOn = val
   }
 
-  _getReactOfHitArea(textBox) {
+  get _reactOfHitArea() {
     const rect = this._rectangle
+    const textBox = this._spanModelContainer._textBox
 
     return {
       // Shifting up half a line from the original block position.
