@@ -107,10 +107,17 @@ export default class EntityModelContainer extends IdIssueContainer {
   }
 
   redrawEntitiesWithSpecifiedAttribute(pred) {
-    for (const entity of this.all.filter((e) =>
+    const entities = this.all.filter((e) =>
       e.typeValues.hasSpecificPredicateAttribute(pred)
-    )) {
+    )
+    for (const entity of entities) {
       entity.updateElement()
+    }
+
+    // If you change the media height attribute of the string attribute definition,
+    // you may need to change the position of the Grid.
+    for (const span of new Set([...entities.map(({ span }) => span)])) {
+      span.updateGridPosition()
     }
   }
 
