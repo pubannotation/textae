@@ -79,9 +79,7 @@ export default class DenotationSpanModel extends SpanModel {
   }
 
   getHeightIncludeDescendantGrids(typeGap) {
-    return (
-      getHeightIncludeDescendantGrids(this, typeGap) + TEXT_HEIGHT + MARGIN_TOP
-    )
+    return getHeightIncludeDescendantGrids(this) + TEXT_HEIGHT + MARGIN_TOP
   }
 
   get _contentHTML() {
