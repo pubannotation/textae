@@ -1,3 +1,9 @@
+/**
+ *
+ * @param {import('../SpanModel').default} span
+ * @param {number} typeGap
+ * @returns {number}
+ */
 export default function getHeightIncludeDescendantGrids(span, typeGap) {
   const descendantsMaxHeight =
     span.children.length === 0 ? 0 : getMaxHeight(span, typeGap)
