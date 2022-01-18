@@ -1,3 +1,5 @@
+import typeGapUnitHeight from '../typeGapUnitHeight'
+
 export default class TypeGap {
   constructor(callback) {
     // The typeGap is changed from the Setting dialog or
@@ -20,6 +22,10 @@ export default class TypeGap {
 
   get value() {
     return this._isGapShown ? this._numberOfGap : 0
+  }
+
+  get height() {
+    return this.value * typeGapUnitHeight
   }
 
   // The typeGap be able to be changed when mode showing instances.

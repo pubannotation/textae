@@ -154,7 +154,7 @@ export default class EntityModel {
     if (span.isDenotation) {
       let { top } = span.gridRectangle
 
-      top = top + this._typeGap.value * typeGapUnitHeight
+      top = top + this._typeGap.height
 
       const index = span.entities.indexOf(this)
       for (const entity of span.entities.slice(0, index)) {
@@ -185,11 +185,7 @@ export default class EntityModel {
   get height() {
     const labelUnitHegiht = 18
 
-    return (
-      this._typeGap.value * typeGapUnitHeight +
-      labelUnitHegiht +
-      this._attributesHeight
-    )
+    return this._typeGap.height + labelUnitHegiht + this._attributesHeight
   }
 
   get isDenotation() {
