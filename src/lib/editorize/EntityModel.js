@@ -163,13 +163,7 @@ export default class EntityModel {
       return top
     }
 
-    return (
-      span.gridRectangle.top +
-      span.getReactOfSidekicksOfBlock(span._spanModelContainer._textBox)
-        .height -
-      this.height -
-      15
-    )
+    return span.gridRectangle.bottom - this.height - 15
   }
 
   get bottom() {
