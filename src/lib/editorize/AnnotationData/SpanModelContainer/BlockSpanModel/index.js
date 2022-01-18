@@ -81,7 +81,7 @@ export default class BlockSpanModel extends SpanModel {
   }
 
   getHeightIncludeDescendantGrids(typeGap) {
-    return super.getGridHeight() + 35
+    return super.gridHeight + 35
   }
 
   get _contentHTML() {
