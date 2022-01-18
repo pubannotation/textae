@@ -2,6 +2,10 @@ import debounce from 'debounce'
 import LineHeightAuto from './LineHeightAuto'
 
 export default class View {
+  /**
+   *
+   * @param {import('../../AnnotationData').default} annotationData
+   */
   constructor(eventEmitter, annotationData) {
     this._annotationData = annotationData
 
