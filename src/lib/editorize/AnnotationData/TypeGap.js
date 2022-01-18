@@ -1,5 +1,3 @@
-import typeGapUnitHeight from '../typeGapUnitHeight'
-
 export default class TypeGap {
   constructor(callback) {
     // The typeGap is changed from the Setting dialog or
@@ -25,6 +23,8 @@ export default class TypeGap {
   }
 
   get height() {
+    const typeGapUnitHeight = 24
+
     return this.value * typeGapUnitHeight
   }
 
