@@ -100,13 +100,7 @@ export default class DenotationSpanModel extends SpanModel {
 
     return {
       width: round(width),
-      top: round(
-        top -
-          getHeightIncludeDescendantGrids(
-            this,
-            this._spanModelContainer.typeGap.value
-          )
-      ),
+      top: round(top - getHeightIncludeDescendantGrids(this)),
       left: round(left)
     }
   }
