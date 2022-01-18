@@ -115,11 +115,15 @@ export default class AttributeModel {
   }
 
   get _labelOrMedia() {
-    if (this._valueType === 'string' && /\.(jpg|png|gif)$/.test(this._href)) {
+    if (this._isMedia) {
       return `<img src="${this.obj}" >`
     } else {
       return toAnchorElement(this._displayName, this._href)
     }
+  }
+
+  get _isMedia() {
+    return this._valueType === 'string' && /\.(jpg|png|gif)$/.test(this._href)
   }
 
   get _displayName() {
