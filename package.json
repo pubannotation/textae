@@ -7,7 +7,7 @@
     "url": "https://github.com/pubannotation/textae/issues"
   },
   "dependencies": {
-    "ajv": "^8.8.2",
+    "ajv": "^8.9.0",
     "ajv-formats": "2.1.1",
     "ajv-keywords": "^5.1.0",
     "alertifyjs": "1.13.1",
@@ -32,11 +32,11 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@typescript-eslint/parser": "^5.9.1",
+    "@typescript-eslint/parser": "^5.10.0",
     "clean-css-cli": "^5.5.0",
     "connect": "3.7.0",
     "cpx2": "^4.1.2",
-    "eslint": "^8.6.0",
+    "eslint": "^8.7.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-unused-imports": "^2.0.0",
