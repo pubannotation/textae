@@ -1,6 +1,5 @@
 import TypeValues from './TypeValues'
 import SignboardHTMLElement from './SignboardHTMLElement'
-import typeGapUnitHeight from './typeGapUnitHeight'
 import getDisplayName from './getDisplayName'
 import getUri from './getUri'
 import toAnchorElement from './toAnchorElement'
@@ -278,7 +277,7 @@ export default class EntityModel {
       if (entityElement) {
         entityElement.setAttribute(
           'style',
-          `padding-top: ${typeGapUnitHeight * this._typeGap.value}px;`
+          `padding-top: ${this._typeGap.height}px;`
         )
       }
     }
