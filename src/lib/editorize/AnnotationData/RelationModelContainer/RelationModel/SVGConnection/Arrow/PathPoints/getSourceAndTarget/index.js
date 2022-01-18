@@ -2,6 +2,12 @@ import { MarkerHeight } from '../../MarkerHeight'
 import determineAnchorPositions from './determineAnchorPositions'
 import determineXPositions from './determineXPositions'
 
+/**
+ *
+ * @param {import('../../../../../../../EntityModel').default} sourceEntity
+ * @param {import('../../../../../../../EntityModel').default} targetEntity
+ * @returns
+ */
 export default function (
   sourceEntity,
   targetEntity,
