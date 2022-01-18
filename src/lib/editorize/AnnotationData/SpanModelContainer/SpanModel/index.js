@@ -176,13 +176,13 @@ export default class SpanModel {
   }
 
   _createGridElement() {
-    const { width, top, left } = this._gridRectangle
+    const { width, top, left } = this.gridRectangle
     const html = createGridHtml(this.id, top, left, width)
     return dohtml.create(html)
   }
 
   updateGridPosition() {
-    const { top, left } = this._gridRectangle
+    const { top, left } = this.gridRectangle
     updateGridPosition(this.gridElement, top, left)
   }
 

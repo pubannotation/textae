@@ -96,7 +96,7 @@ export default class DenotationSpanModel extends SpanModel {
     `
   }
 
-  get _gridRectangle() {
+  get gridRectangle() {
     console.assert(this.element, 'span is not renderd')
     const { top, left, width } = this.rectangle
 

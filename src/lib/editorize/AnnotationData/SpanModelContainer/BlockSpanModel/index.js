@@ -96,7 +96,7 @@ export default class BlockSpanModel extends SpanModel {
     return el
   }
 
-  get _gridRectangle() {
+  get gridRectangle() {
     console.assert(this.element, 'span is not renderd')
     const rectOfTextBox = this._spanModelContainer._textBox.boundingClientRect
 

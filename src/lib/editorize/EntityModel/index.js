@@ -153,7 +153,7 @@ export default class EntityModel {
 
     // Calculates the top without referencing the HTML element of entities.
     if (span.isDenotation) {
-      let { top } = span._gridRectangle
+      let { top } = span.gridRectangle
 
       top = top + this._typeGap.value * typeGapUnitHeight
 
