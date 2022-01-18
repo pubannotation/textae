@@ -129,10 +129,11 @@ export default class BlockSpanModel extends SpanModel {
   get _reactOfBackground() {
     const rect = this._rectangle
     const textBox = this._spanModelContainer._textBox
+
+    // Shifting up half a line from the original block position.
     const top = rect.top - textBox.lineHeight / 2 + 20
 
     return {
-      // Shifting up half a line from the original block position.
       top,
       bottom: top + rect.height,
       left: rect.left - textBox.boundingClientRect.left - gapBetweenText,
