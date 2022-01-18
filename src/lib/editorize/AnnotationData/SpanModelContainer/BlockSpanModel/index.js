@@ -80,7 +80,7 @@ export default class BlockSpanModel extends SpanModel {
     this._backgroundElement.remove()
   }
 
-  getHeightIncludeDescendantGrids() {
+  get heightIncludeDescendantGrids() {
     return super.gridHeight + 35
   }
 
