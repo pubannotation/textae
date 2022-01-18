@@ -167,7 +167,7 @@ export default class EntityModel {
     return this._clientRect.width
   }
 
-  getHeight(typeGap) {
+  get height() {
     return getEntityUnitHeight(this._typeGap.value) + this._attributesHeight
   }
 
