@@ -1,6 +1,6 @@
 export default function (spans, typeGap) {
   const maxHeight = Math.max(
-    ...spans.map((span) => span.getHeightIncludeDescendantGrids(typeGap))
+    ...spans.map((span) => span.getHeightIncludeDescendantGrids())
   )
   return maxHeight
 }
