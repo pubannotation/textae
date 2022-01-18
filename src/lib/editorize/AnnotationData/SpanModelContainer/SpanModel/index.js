@@ -41,6 +41,9 @@ export default class SpanModel {
     return []
   }
 
+  /**
+   * @return {[import('../../../EntityModel').default]}
+   */
   get entities() {
     return []
   }
