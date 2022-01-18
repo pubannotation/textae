@@ -8,23 +8,14 @@ export default class HelpDialog extends Dialog {
        <ul>
          <li>
           cut
-          <image
-           class="textae-editor__help-dialog__icon"
-           src="http://localhost:8000/src/lib/css/images/btn_cut_16.png">
           : Ctrl+x
         </li>
          <li>
           copy
-          <image
-           class="textae-editor__help-dialog__icon"
-           src="http://localhost:8000/src/lib/css/images/btn_copy_16.png">
           : Ctrl+c
         </li>
          <li>
           paste
-          <image
-           class="textae-editor__help-dialog__icon"
-           src="http://localhost:8000/src/lib/css/images/btn_paste_16.png">
           : Ctrl+v
         </li>
        </ul>
