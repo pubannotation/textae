@@ -154,7 +154,7 @@ export default class SpanModel {
     const { entities } = this
     return entities
       .map(({ height }) => height)
-      .reduce((sum, heght) => sum + heght, 0)
+      .reduce((sum, entityHeight) => sum + entityHeight, 0)
   }
 
   get isGridRendered() {
