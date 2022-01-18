@@ -149,6 +149,22 @@ export default class EntityModel {
   }
 
   get top() {
+    const { span } = this
+
+    // Calculates the top without referencing the HTML element of entities.
+    if (span.isDenotation) {
+      let { top } = span._gridRectangle
+
+      top = top + this._typeGap.value * typeGapUnitHeight
+
+      const index = span.entities.indexOf(this)
+      for (const entity of span.entities.slice(0, index)) {
+        top += entity.height
+      }
+
+      return top
+    }
+
     return (
       this._clientRect.top -
       getAnnotationBox(this._editor[0]).getBoundingClientRect().top
