@@ -56,7 +56,7 @@ export default class BlockSpanModel extends SpanModel {
     }
   }
 
-  updateSidekicksOfBlockSpanPosition(textBox) {
+  updateHitAreaOfBlockSpanPosition(textBox) {
     const { top, left, width, height } = this._reactOfHitArea
     setPosition(this._backgroundElement, top, left, width, height)
 
