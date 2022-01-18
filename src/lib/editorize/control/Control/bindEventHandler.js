@@ -4,8 +4,9 @@ import HelpDialog from '../../../component/HelpDialog'
 const helpDialog = new HelpDialog()
 
 export default function (el, iconEventMap) {
-  // Bind eventhandler
-  delegate(el, '.textae-control-icon', 'mousedown', ({ target }) => {
+  // Monitor the touchestart event to get the currently selected text.
+  // On the iPad, the mousedown event fires after the text is deselected.
+  delegate(el, '.textae-control-icon', 'touchstart', ({ target }) => {
     // Ignore disabled button's events.
     if (target.classList.contains('textae-control-icon--disabled')) {
       return
@@ -16,7 +17,6 @@ export default function (el, iconEventMap) {
       case 'create-span':
       case 'expand-span':
       case 'shrink-span':
-        // Monitor the mousedown event to get the currently selected text.
         iconEventMap.handle(buttonType)
         break
       default:
