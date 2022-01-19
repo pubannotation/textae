@@ -315,10 +315,6 @@ export default class EntityModel {
     return element
   }
 
-  get _clientRect() {
-    return this._typeValuesElement.getBoundingClientRect()
-  }
-
   get _element() {
     return document.querySelector(`#${this._entityHTMLElementID}`)
   }
