@@ -137,10 +137,6 @@ export default class EntityModel {
     return [...relations.values()].filter((s) => s.size).length > 1
   }
 
-  get center() {
-    return this.span.gridRectangle.left + this.width / 2
-  }
-
   get top() {
     const { span } = this
 
@@ -180,6 +176,10 @@ export default class EntityModel {
     const labelUnitHegiht = 18
 
     return labelUnitHegiht + this._attributesHeight
+  }
+
+  get center() {
+    return this.span.gridRectangle.left + this.width / 2
   }
 
   get isDenotation() {
