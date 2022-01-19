@@ -99,9 +99,9 @@ export default class DenotationSpanModel extends SpanModel {
     const { top, left, width } = this.rectangle
 
     return {
-      width: round(width),
       top: round(top - getHeightIncludeDescendantGrids(this)),
-      left: round(left)
+      left: round(left),
+      width: round(width)
     }
   }
 }
