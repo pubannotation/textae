@@ -179,7 +179,7 @@ export default class EntityModel {
   }
 
   get center() {
-    return this.span.gridRectangle.left + this.width / 2
+    return this.span.gridRectangle.center
   }
 
   get isDenotation() {

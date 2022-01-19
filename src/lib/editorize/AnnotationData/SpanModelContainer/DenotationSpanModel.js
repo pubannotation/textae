@@ -101,7 +101,8 @@ export default class DenotationSpanModel extends SpanModel {
     return {
       top: round(top - getHeightIncludeDescendantGrids(this)),
       left: round(left),
-      width: round(width)
+      width: round(width),
+      center: round(left + width / 2)
     }
   }
 }

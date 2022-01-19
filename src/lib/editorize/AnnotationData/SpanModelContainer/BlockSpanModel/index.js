@@ -104,7 +104,8 @@ export default class BlockSpanModel extends SpanModel {
       top: round(top),
       bottom: round(bottom),
       left: round(width - 108),
-      width: 100
+      width: 100,
+      center: round(width - 58)
     }
   }
 
