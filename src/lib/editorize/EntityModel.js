@@ -3,7 +3,6 @@ import SignboardHTMLElement from './SignboardHTMLElement'
 import getDisplayName from './getDisplayName'
 import getUri from './getUri'
 import toAnchorElement from './toAnchorElement'
-import getAnnotationBox from './AnnotationData/getAnnotationBox'
 
 const CSS_CLASS_SELECTED = 'textae-editor__signboard--selected'
 const CSS_CLASS_CUTTING = 'textae-editor__signboard--cutting'
@@ -139,11 +138,7 @@ export default class EntityModel {
   }
 
   get center() {
-    return (
-      this._clientRect.left +
-      this._clientRect.width / 2 -
-      getAnnotationBox(this._editor[0]).getBoundingClientRect().left
-    )
+    return this.span.gridRectangle.left + this.width / 2
   }
 
   get top() {
