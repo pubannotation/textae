@@ -174,11 +174,7 @@ export default class EntityModel {
   }
 
   get bottom() {
-    return (
-      this._clientRect.top -
-      getAnnotationBox(this._editor[0]).getBoundingClientRect().top +
-      this._clientRect.height
-    )
+    return this.top + this.height
   }
 
   get width() {
