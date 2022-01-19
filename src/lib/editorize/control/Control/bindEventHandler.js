@@ -6,22 +6,28 @@ const helpDialog = new HelpDialog()
 export default function (el, iconEventMap) {
   // Monitor the touchestart event to get the currently selected text.
   // On the iPad, the mousedown event fires after the text is deselected.
-  delegate(el, '.textae-control-icon', 'touchstart', ({ target }) => {
-    // Ignore disabled button's events.
-    if (target.classList.contains('textae-control-icon--disabled')) {
-      return
-    }
+  delegate(
+    el,
+    '.textae-control-icon',
+    'touchstart',
+    ({ target }) => {
+      // Ignore disabled button's events.
+      if (target.classList.contains('textae-control-icon--disabled')) {
+        return
+      }
 
-    const { buttonType } = target.dataset
-    switch (buttonType) {
-      case 'create-span':
-      case 'expand-span':
-      case 'shrink-span':
-        iconEventMap.handle(buttonType)
-        break
-      default:
-    }
-  })
+      const { buttonType } = target.dataset
+      switch (buttonType) {
+        case 'create-span':
+        case 'expand-span':
+        case 'shrink-span':
+          iconEventMap.handle(buttonType)
+          break
+        default:
+      }
+    },
+    { passive: true }
+  )
 
   delegate(el, '.textae-control-icon', 'click', ({ target }) => {
     // Ignore disabled button's events.
