@@ -31,16 +31,28 @@ export default class EditorContainer {
     // Since the Body element does not yet exist at the time of initializing the EditorContainer,
     // we will set up an event handler in the document.
     document.addEventListener('copy', (e) => {
+      if (isTextFields(e.target)) {
+        return
+      }
+
       if (this.selected) {
         this.selected.instanceMethods.copyEntitiesToSystemClipboard(e)
       }
     })
     document.addEventListener('cut', (e) => {
+      if (isTextFields(e.target)) {
+        return
+      }
+
       if (this.selected) {
         this.selected.instanceMethods.cutEntitiesToSystemClipboard(e)
       }
     })
     document.addEventListener('paste', (e) => {
+      if (isTextFields(e.target)) {
+        return
+      }
+
       if (this.selected) {
         this.selected.instanceMethods.pasteEntitiesFromSystemClipboard(e)
       }
@@ -85,4 +97,11 @@ export default class EditorContainer {
   findByHTMLelement(dom) {
     return this._editors.filter((e) => e[0] === dom)[0]
   }
+}
+
+function isTextFields(htmlElement) {
+  return (
+    htmlElement instanceof HTMLInputElement ||
+    htmlElement instanceof HTMLTextAreaElement
+  )
 }
