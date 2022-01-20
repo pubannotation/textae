@@ -2,6 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.5.0](https://github.com/pubannotation/textae/compare/v8.4.0...v8.5.0) (2022-01-20)
+
+
+### Features
+
+* Apply media height only when the value of the string attribute is an image ([732c2ef](https://github.com/pubannotation/textae/commit/732c2ef6e1dd7b298ca81dba2aa3053e13b79128))
+* Create and edit string attribute definitions with the media height property ([7f86574](https://github.com/pubannotation/textae/commit/7f865740677c7b54f421ce2777f3d6169bd7471c))
+* Delete tool bar icons for copy and paste in the help dialog ([dcceeef](https://github.com/pubannotation/textae/commit/dcceeef59409a5a7b2fd8af4e533258917cf7a97))
+* Detect iPad safari on iPadOS 14 or later ([a8db9b6](https://github.com/pubannotation/textae/commit/a8db9b6b4bdc996b609f41195a7e302c31d712cc))
+* Display "" when there is no value set in the attribute definition ([c53c24a](https://github.com/pubannotation/textae/commit/c53c24aaa63ed7d456634bbaf34ae1f8fe04b523))
+* Display meida height value of the strng attribute definition in the pallet ([32b3aac](https://github.com/pubannotation/textae/commit/32b3aacde637e8404d93efe28617eb955317c1a6))
+* Renders the image if the string attribute value is a URL and the extension is an image ([c72e46e](https://github.com/pubannotation/textae/commit/c72e46e70da7323f0e70efdcce5d388bf8ee9edd))
+* The height of string attributes to be rendered will reflect the media height value of the attribute definition ([45c427d](https://github.com/pubannotation/textae/commit/45c427daedab39cde5a6ec1f278d25c917033a50))
+* Update the position of the grid when the media height attribute of the string attribute definition is changed ([68be99a](https://github.com/pubannotation/textae/commit/68be99aabfd5b4cc497826f75a8fe4f84f9351c4))
+
+
+### Bug Fixes
+
+* Cannot extend the block span ([1e1405b](https://github.com/pubannotation/textae/commit/1e1405be3f2645bf08218f81f5be1becd1ad58bc))
+* Unable to create, extend, and reduce spans on iPad ([d551b03](https://github.com/pubannotation/textae/commit/d551b037d9413e9ff17ab3ac52268612170708e0))
+
 ## [8.4.0](https://github.com/pubannotation/textae/compare/v8.3.0...v8.4.0) (2022-01-13)
 
 
