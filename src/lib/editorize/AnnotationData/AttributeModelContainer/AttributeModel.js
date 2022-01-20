@@ -113,7 +113,7 @@ export default class AttributeModel {
 
   get _labelOrMedia() {
     if (this._isMedia) {
-      return `<img src="${this.obj}" >`
+      return `<img src="${this.obj}" height="${this.height}" >`
     } else {
       return toAnchorElement(this._displayName, this._href)
     }
