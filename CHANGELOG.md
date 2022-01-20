@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.6.0](https://github.com/pubannotation/textae/compare/v8.5.0...v8.6.0) (2022-01-20)
+
+
+### Features
+
+* Apply media height to the img element ([e0f29e4](https://github.com/pubannotation/textae/commit/e0f29e4876abfc624f461fee7873b245773f7f6c))
+
+
+### Bug Fixes
+
+* Copying the input element string while editing an entity will copy the entity ([6294505](https://github.com/pubannotation/textae/commit/629450519be390bb810f9c3ff0c9e8e29721e0de))
+
 ## [8.5.0](https://github.com/pubannotation/textae/compare/v8.4.0...v8.5.0) (2022-01-20)
 
 
