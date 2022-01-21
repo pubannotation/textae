@@ -13,6 +13,7 @@ export default class SpanModel {
     this._begin = begin
     this._end = end
     this._spanModelContainer = spanModelContainer
+    this._isGridRendered = false
 
     this.severTies()
   }
@@ -159,7 +160,7 @@ export default class SpanModel {
   }
 
   get isGridRendered() {
-    return this.gridElement
+    return this._isGridRendered
   }
 
   renderGridElement() {
@@ -167,11 +168,15 @@ export default class SpanModel {
     if (rightGrid) {
       // insert before the right grid.
       rightGrid.insertAdjacentElement('beforebegin', this._createGridElement())
+      this._isGridRendered = true
+
       return rightGrid.previousElementSibling
     } else {
       // append to the annotation area.
       const container = getAnnotationBox(this._editor[0])
       container.insertAdjacentElement('beforeend', this._createGridElement())
+      this._isGridRendered = true
+
       return container.lastElementChild
     }
   }
