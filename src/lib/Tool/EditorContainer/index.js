@@ -1,3 +1,4 @@
+import debounce from 'debounce'
 import delegate from 'delegate'
 import HelpDialog from '../../component/HelpDialog'
 import TipsDialog from '../../component/TipsDialog'
@@ -55,6 +56,21 @@ export default class EditorContainer {
 
       if (this.selected) {
         this.selected.instanceMethods.pasteEntitiesFromSystemClipboard(e)
+      }
+    })
+
+    // Enable/disable the context menu icon by looking at the text selection.
+    document.addEventListener(
+      'selectionchange',
+      debounce(() => {
+        if (this.selected) {
+          this.selected.instanceMethods.applyTextSelection()
+        }
+      }, 100)
+    )
+    document.addEventListener('contextmenu', () => {
+      if (this.selected) {
+        this.selected.instanceMethods.applyTextSelection()
       }
     })
   }

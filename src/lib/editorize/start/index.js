@@ -1,5 +1,4 @@
 import alertifyjs from 'alertifyjs'
-import debounce from 'debounce'
 import SpanConfig from './SpanConfig'
 import Commander from './Commander'
 import View from './View'
@@ -234,14 +233,6 @@ export default function (
     .on('textae-event.pallet.write-button.click', () =>
       persistenceInterface.uploadConfiguration()
     )
-
-  document.addEventListener(
-    'selectionchange',
-    debounce(() => editor.instanceMethods.applyTextSelection(), 100)
-  )
-  document.addEventListener('contextmenu', () =>
-    editor.instanceMethods.applyTextSelection()
-  )
 
   // Add tabIndex to listen to keyboard events.
   editorHTMLElement.tabIndex = -1
