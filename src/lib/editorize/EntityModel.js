@@ -229,8 +229,6 @@ export default class EntityModel {
       return
     }
 
-    // A span have one grid and a grid can have multi types and a type can have multi entities.
-    // A grid is only shown when at least one entity is owned by a correspond span.
     const grid = this.span.gridElement || this.span.renderGridElement()
 
     // Append a new entity to the type
