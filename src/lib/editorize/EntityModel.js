@@ -229,7 +229,7 @@ export default class EntityModel {
       return
     }
 
-    const grid = this.span.gridElement || this.span.renderGridElement()
+    const grid = this.span.gridElement
 
     // Append a new entity to the type
     const element = this._renderElement()
@@ -239,13 +239,7 @@ export default class EntityModel {
   }
 
   erase() {
-    if (this.span.entities.length === 0) {
-      // Destroy a grid when all entities are remove.
-      this.span.destroyGridElement()
-    } else {
-      // Destroy whole of type DOM.
-      this.destroyElement()
-    }
+    this.destroyElement()
   }
 
   updateElement() {
