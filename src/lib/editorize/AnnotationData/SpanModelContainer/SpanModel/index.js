@@ -188,8 +188,10 @@ export default class SpanModel {
   }
 
   updateGridPosition() {
-    const { top, left } = this.gridRectangle
-    updateGridPosition(this.gridElement, top, left)
+    if (this.isGridRendered) {
+      const { top, left } = this.gridRectangle
+      updateGridPosition(this.gridElement, top, left)
+    }
   }
 
   destroyGridElement() {
