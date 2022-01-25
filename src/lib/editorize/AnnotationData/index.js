@@ -179,6 +179,12 @@ export default class AnnotationData {
     }
   }
 
+  drawGridsInSight() {
+    for (const span of this.span.all) {
+      span.drawGridsInSight()
+    }
+  }
+
   _clearAndDrawAllAnnotations() {
     getAnnotationBox(this._editor[0]).innerHTML = ''
     for (const span of this.span.topLevel) {

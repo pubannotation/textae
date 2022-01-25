@@ -192,6 +192,17 @@ export default class SpanModel {
     }
   }
 
+  drawGridsInSight() {
+    if (this.isDenotation || this.isBlock) {
+      if (this._isInViewport) {
+        this.renderGridElement()
+        for (const entity of this.entities) {
+          entity.render()
+        }
+      }
+    }
+  }
+
   get _isInViewport() {
     return true
   }
