@@ -225,8 +225,6 @@ export default class EntityModel {
   }
 
   render() {
-    // Don't delete child Span on span moves.
-    // Check if a child span is already present so that it is not drawn twice.
     if (this._signboardElement) {
       return
     }
