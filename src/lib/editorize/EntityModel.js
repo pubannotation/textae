@@ -311,12 +311,6 @@ export default class EntityModel {
     return document.querySelector(`#${this._entityHTMLElementID}`)
   }
 
-  get _typeValuesElement() {
-    return document.querySelector(
-      `#${this._entityHTMLElementID} .textae-editor__signboard__type-values`
-    )
-  }
-
   // Exclude : and . from a dom id to use for ID selector.
   get _entityHTMLElementID() {
     return `${this._editor.editorId}__E${this.id.replace(/[:¥.]/g, '')}`
