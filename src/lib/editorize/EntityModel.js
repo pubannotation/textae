@@ -38,6 +38,7 @@ export default class EntityModel {
     // When in view mode, the mousleave event will not declarify labels.
     this._isLabelClarified = false
 
+    this._signboard = null
     this._signboardElement = null
   }
 
@@ -213,19 +214,19 @@ export default class EntityModel {
   }
 
   startCut() {
-    if (this._signboardElement) {
+    if (this._signboard) {
       this._signboardElement.classList.add(CSS_CLASS_CUTTING)
     }
   }
 
   cancelCut() {
-    if (this._signboardElement) {
+    if (this._signboard) {
       this._signboardElement.classList.remove(CSS_CLASS_CUTTING)
     }
   }
 
   render() {
-    if (this._signboardElement) {
+    if (this._signboard) {
       return
     }
 
@@ -257,7 +258,7 @@ export default class EntityModel {
   }
 
   reflectTypeGapInTheHeight() {
-    if (this.isDenotation && this._signboardElement) {
+    if (this.isDenotation && this._signboard) {
       this._signboard.reflectTypeGapInTheHeight(this._typeGap.height)
     }
   }
@@ -276,6 +277,7 @@ export default class EntityModel {
 
   erase() {
     this._signboard.remove()
+    this._signboard = null
     this._signboardElement = null
   }
 
