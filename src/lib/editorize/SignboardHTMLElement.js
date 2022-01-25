@@ -70,6 +70,10 @@ export default class SignboardHTMLElement {
     }
   }
 
+  remove() {
+    this._element.remove()
+  }
+
   // A Type element has an entity_pane elment that has a label and will have entities.
   _getHtml(HTMLId, entityType) {
     return `

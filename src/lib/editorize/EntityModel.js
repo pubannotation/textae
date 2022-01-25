@@ -277,7 +277,7 @@ export default class EntityModel {
   }
 
   erase() {
-    this._signboardElement.remove()
+    this._signboard.remove()
     this._signboardElement = null
   }
 
