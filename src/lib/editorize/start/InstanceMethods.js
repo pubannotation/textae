@@ -1,6 +1,10 @@
 import forwardMethods from './Presenter/forwardMethods'
 
 export default class InstanceMethods {
+  /**
+   *
+   * @param {import('./View').default} view
+   */
   constructor(presenter, buttonController, view) {
     this._view = view
     this._buttonController = buttonController
