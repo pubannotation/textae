@@ -28,8 +28,7 @@ export default class SignboardHTMLElement {
   }
 
   set CSSClass(className) {
-    this.element.className = ''
-    this.element.classList.add('textae-editor__signboard')
+    this.clearCSSClass()
     if (className) {
       this.element.classList.add(className)
     }
@@ -41,6 +40,11 @@ export default class SignboardHTMLElement {
 
   cancelCut() {
     this._element.classList.remove(CSS_CLASS_CUTTING)
+  }
+
+  clearCSSClass() {
+    this.element.className = ''
+    this.element.classList.add('textae-editor__signboard')
   }
 
   updateLabel() {
