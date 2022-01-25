@@ -232,7 +232,7 @@ export default class EntityModel {
     const grid = this.span.gridElement
 
     // Append a new entity to the type
-    const element = this._renderElement()
+    const element = this._renderSignboardElement()
     grid.insertAdjacentElement('beforeend', element)
 
     this.reflectTypeGapInTheHeight()
@@ -243,7 +243,7 @@ export default class EntityModel {
   }
 
   updateElement() {
-    const element = this._renderElement()
+    const element = this._renderSignboardElement()
     this._signboardElement.replaceWith(element)
 
     // Re-select a new entity element.
@@ -282,7 +282,7 @@ export default class EntityModel {
     this._isLabelClarified = false
   }
 
-  _renderElement() {
+  _renderSignboardElement() {
     this._signboard = new SignboardHTMLElement(
       this,
       this.isDenotation ? 'denotation' : 'block',
