@@ -87,6 +87,7 @@ export default class SignboardHTMLElement {
 
   replaceWith(signboardHTMLElement) {
     this._element.replaceWith(signboardHTMLElement.element)
+    return signboardHTMLElement
   }
 
   reflectTypeGapInTheHeight(height) {
