@@ -32,13 +32,6 @@ export default class SignboardHTMLElement {
     this._element.querySelector('.textae-editor__signboard__type-label').focus()
   }
 
-  set CSSClass(className) {
-    this.clearCSSClass()
-    if (className) {
-      this.element.classList.add(className)
-    }
-  }
-
   startCut() {
     this._element.classList.add(CSS_CLASS_CUTTING)
   }
