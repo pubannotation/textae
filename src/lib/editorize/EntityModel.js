@@ -239,7 +239,7 @@ export default class EntityModel {
   }
 
   erase() {
-    this.destroyElement()
+    this._signboardElement.remove()
   }
 
   updateElement() {
@@ -252,10 +252,6 @@ export default class EntityModel {
     }
 
     this.reflectTypeGapInTheHeight()
-  }
-
-  destroyElement() {
-    this._signboardElement.remove()
   }
 
   reflectTypeGapInTheHeight() {
