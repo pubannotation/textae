@@ -36,7 +36,6 @@ export default class EntityModel {
     this._isLabelClarified = false
 
     this._signboard = null
-    this._signboardElement = null
   }
 
   get id() {
@@ -234,7 +233,6 @@ export default class EntityModel {
     const { element } = signboard
     grid.insertAdjacentElement('beforeend', element)
     this._signboard = signboard
-    this._signboardElement = element
 
     this.reflectTypeGapInTheHeight()
   }
@@ -244,7 +242,6 @@ export default class EntityModel {
     const { element } = signboard
     this._signboard.replaceWith(element)
     this._signboard = signboard
-    this._signboardElement = element
 
     // Re-select a new entity element.
     if (this._isSelected) {
@@ -275,7 +272,6 @@ export default class EntityModel {
   erase() {
     this._signboard.remove()
     this._signboard = null
-    this._signboardElement = null
   }
 
   _renderSignboardElement() {
