@@ -32,7 +32,7 @@ export default class Label {
     if (this._relation.isSelected) {
       this._signboard.select()
     } else if (this._relation.isHovered) {
-      this._signboard.CSSClass = 'textae-editor__signboard--hovered'
+      this._signboard.hover()
     }
   }
 

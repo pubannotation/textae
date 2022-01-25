@@ -3,6 +3,7 @@ import getLabelBackgroundColor from './getLabelBackgroundColor'
 import hexToRGBA from './hexToRGBA'
 
 const CSS_CLASS_SELECTED = 'textae-editor__signboard--selected'
+const CSS_CLASS_HOVERED = 'textae-editor__signboard--hovered'
 const CSS_CLASS_CUTTING = 'textae-editor__signboard--cutting'
 
 export default class SignboardHTMLElement {
@@ -13,6 +14,10 @@ export default class SignboardHTMLElement {
 
   get element() {
     return this._element
+  }
+
+  hover() {
+    this._element.classList.add(CSS_CLASS_HOVERED)
   }
 
   select() {
