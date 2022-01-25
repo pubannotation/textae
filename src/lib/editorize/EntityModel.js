@@ -205,27 +205,27 @@ export default class EntityModel {
   deselect() {
     if (this._isSelected) {
       this._isSelected = false
-      this._element.classList.remove(CSS_CLASS_SELECTED)
+      this._signboardElement.classList.remove(CSS_CLASS_SELECTED)
       this._updateRelationHighlighting()
     }
   }
 
   startCut() {
-    if (this._element) {
-      this._element.classList.add(CSS_CLASS_CUTTING)
+    if (this._signboardElement) {
+      this._signboardElement.classList.add(CSS_CLASS_CUTTING)
     }
   }
 
   cancelCut() {
-    if (this._element) {
-      this._element.classList.remove(CSS_CLASS_CUTTING)
+    if (this._signboardElement) {
+      this._signboardElement.classList.remove(CSS_CLASS_CUTTING)
     }
   }
 
   render() {
     // Don't delete child Span on span moves.
     // Check if a child span is already present so that it is not drawn twice.
-    if (this._element) {
+    if (this._signboardElement) {
       return
     }
 
@@ -244,7 +244,7 @@ export default class EntityModel {
 
   updateElement() {
     const element = this._renderElement()
-    this._element.replaceWith(element)
+    this._signboardElement.replaceWith(element)
 
     // Re-select a new entity element.
     if (this._isSelected) {
@@ -255,12 +255,12 @@ export default class EntityModel {
   }
 
   destroyElement() {
-    this._element.remove()
+    this._signboardElement.remove()
   }
 
   reflectTypeGapInTheHeight() {
     if (this.isDenotation) {
-      const entityElement = this._element
+      const entityElement = this._signboardElement
       if (entityElement) {
         entityElement.setAttribute(
           'style',
@@ -307,7 +307,7 @@ export default class EntityModel {
     return element
   }
 
-  get _element() {
+  get _signboardElement() {
     return document.querySelector(`#${this._entityHTMLElementID}`)
   }
 
@@ -317,7 +317,7 @@ export default class EntityModel {
   }
 
   _selectElement() {
-    const el = this._element
+    const el = this._signboardElement
     el.classList.add(CSS_CLASS_SELECTED)
 
     // The block span renders as a div HTML element.
