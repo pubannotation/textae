@@ -312,8 +312,7 @@ export default class EntityModel {
   }
 
   _selectElement() {
-    const el = this._signboardElement
-    el.classList.add(CSS_CLASS_SELECTED)
+    this._signboard.select()
 
     // The block span renders as a div HTML element.
     // Because the positioning of div HTML elements is slower than that of span HTML elements,
@@ -324,7 +323,7 @@ export default class EntityModel {
       this.span.entityToFocusOn = this
     } else {
       // Set focus to the label element in order to scroll the browser to the position of the element.
-      el.querySelector('.textae-editor__signboard__type-label').focus()
+      this._signboard.focus()
     }
   }
 

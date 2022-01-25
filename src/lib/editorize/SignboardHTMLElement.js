@@ -2,6 +2,8 @@ import dohtml from 'dohtml'
 import getLabelBackgroundColor from './getLabelBackgroundColor'
 import hexToRGBA from './hexToRGBA'
 
+const CSS_CLASS_SELECTED = 'textae-editor__signboard--selected'
+
 export default class SignboardHTMLElement {
   constructor(model, entityType, HTMLId) {
     this._model = model
@@ -10,6 +12,14 @@ export default class SignboardHTMLElement {
 
   get element() {
     return this._element
+  }
+
+  select() {
+    this._element.classList.add(CSS_CLASS_SELECTED)
+  }
+
+  focus() {
+    this._element.querySelector('.textae-editor__signboard__type-label').focus()
   }
 
   set CSSClass(className) {
