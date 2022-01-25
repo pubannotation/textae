@@ -204,7 +204,9 @@ export default class EntityModel {
   deselect() {
     if (this._isSelected) {
       this._isSelected = false
-      this._signboard.deselect()
+      if (this._signboard) {
+        this._signboard.deselect()
+      }
       this._updateRelationHighlighting()
     }
   }
@@ -226,26 +228,30 @@ export default class EntityModel {
       return
     }
 
-    const grid = this.span.gridElement
+    if (this.span.isGridRendered) {
+      const grid = this.span.gridElement
 
-    // Append a new entity to the type
-    this._signboard = this._createSignboardElement()
-    grid.insertAdjacentElement('beforeend', this._signboard.element)
+      // Append a new entity to the type
+      this._signboard = this._createSignboardElement()
+      grid.insertAdjacentElement('beforeend', this._signboard.element)
 
-    this.reflectTypeGapInTheHeight()
+      this.reflectTypeGapInTheHeight()
+    }
   }
 
   updateElement() {
-    this._signboard = this._signboard.replaceWith(
-      this._createSignboardElement()
-    )
+    if (this._signboard) {
+      this._signboard = this._signboard.replaceWith(
+        this._createSignboardElement()
+      )
 
-    // Re-select a new entity element.
-    if (this._isSelected) {
-      this._selectElement()
+      // Re-select a new entity element.
+      if (this._isSelected) {
+        this._selectElement()
+      }
+
+      this.reflectTypeGapInTheHeight()
     }
-
-    this.reflectTypeGapInTheHeight()
   }
 
   reflectTypeGapInTheHeight() {
@@ -255,20 +261,24 @@ export default class EntityModel {
   }
 
   clarifyLabel() {
-    this._signboard.clarifyLabel()
+    if (this._signboard) {
+      this._signboard.clarifyLabel()
+    }
     this._isLabelClarified = true
   }
 
   declarifyLabel() {
-    if (!this._isHovered) {
+    if (!this._isHovered && this._signboard) {
       this._signboard.declarifyLabel()
     }
     this._isLabelClarified = false
   }
 
   erase() {
-    this._signboard.remove()
-    this._signboard = null
+    if (this._signboard) {
+      this._signboard.remove()
+      this._signboard = null
+    }
   }
 
   _createSignboardElement() {
@@ -296,18 +306,20 @@ export default class EntityModel {
   }
 
   _selectElement() {
-    this._signboard.select()
+    if (this._signboard) {
+      this._signboard.select()
 
-    // The block span renders as a div HTML element.
-    // Because the positioning of div HTML elements is slower than that of span HTML elements,
-    // block span grids do not move at render time.
-    // Focusing before moving causes the browser to scroll to the top of the document.
-    // So focus after the move, not at render time.
-    if (this.span.isGridBeforePositioned) {
-      this.span.entityToFocusOn = this
-    } else {
-      // Set focus to the label element in order to scroll the browser to the position of the element.
-      this._signboard.focus()
+      // The block span renders as a div HTML element.
+      // Because the positioning of div HTML elements is slower than that of span HTML elements,
+      // block span grids do not move at render time.
+      // Focusing before moving causes the browser to scroll to the top of the document.
+      // So focus after the move, not at render time.
+      if (this.span.isGridBeforePositioned) {
+        this.span.entityToFocusOn = this
+      } else {
+        // Set focus to the label element in order to scroll the browser to the position of the element.
+        this._signboard.focus()
+      }
     }
   }
 
