@@ -106,6 +106,12 @@ export default class EditorContainer {
     }
   }
 
+  drawGridsInSight() {
+    for (const editor of this._editors) {
+      editor.instanceMethods.drawGridsInSight()
+    }
+  }
+
   relayout() {
     this._editors.forEach((e) => e.instanceMethods.relayout())
   }

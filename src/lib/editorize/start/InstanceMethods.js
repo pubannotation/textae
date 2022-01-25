@@ -22,6 +22,10 @@ export default class InstanceMethods {
     return this._isActive
   }
 
+  drawGridsInSight() {
+    this._view.drawGridsInSight()
+  }
+
   relayout() {
     this._view.relayout()
   }
