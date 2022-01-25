@@ -232,16 +232,20 @@ export default class EntityModel {
     const grid = this.span.gridElement
 
     // Append a new entity to the type
-    const element = this._renderSignboardElement()
+    const signboard = this._renderSignboardElement()
+    const { element } = signboard
     grid.insertAdjacentElement('beforeend', element)
+    this._signboard = signboard
     this._signboardElement = element
 
     this.reflectTypeGapInTheHeight()
   }
 
   updateElement() {
-    const element = this._renderSignboardElement()
-    this._signboardElement.replaceWith(element)
+    const signboard = this._renderSignboardElement()
+    const { element } = signboard
+    this._signboard.replaceWith(element)
+    this._signboard = signboard
     this._signboardElement = element
 
     // Re-select a new entity element.
@@ -276,28 +280,28 @@ export default class EntityModel {
   }
 
   _renderSignboardElement() {
-    this._signboard = new SignboardHTMLElement(
+    const signboard = new SignboardHTMLElement(
       this,
       this.isDenotation ? 'denotation' : 'block',
       `${this._editor.editorId}__E${this.id.replace(/[:¥.]/g, '')}`
     )
-    const { element } = this._signboard
+    const { element } = signboard
 
     // Highlight retaitons when related entity is hoverd.
     element.addEventListener('mouseenter', () => {
-      this._signboard.clarifyLabel()
+      signboard.clarifyLabel()
       this._pointUpRelations()
       this._isHovered = true
     })
     element.addEventListener('mouseleave', () => {
       if (!this._isLabelClarified) {
-        this._signboard.declarifyLabel()
+        signboard.declarifyLabel()
       }
       this._updateRelationHighlighting()
       this._isHovered = false
     })
 
-    return element
+    return signboard
   }
 
   _selectElement() {

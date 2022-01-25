@@ -70,6 +70,10 @@ export default class SignboardHTMLElement {
     }
   }
 
+  replaceWith(element) {
+    this._element.replaceWith(element)
+  }
+
   reflectTypeGapInTheHeight(height) {
     this._element.setAttribute('style', `padding-top: ${height}px;`)
   }
