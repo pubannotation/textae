@@ -104,7 +104,7 @@ export default class AnnotationData {
     clearAnnotationData(this)
     const { multitrack, hasError, rejects } = parseAnnotation(this, rawData)
 
-    this._redrawAllAnnotations()
+    this._clearAndDrawAllAnnotations()
 
     this._editor.eventEmitter.emit(
       'textae-event.annotation-data.all.change',
@@ -179,7 +179,7 @@ export default class AnnotationData {
     }
   }
 
-  _redrawAllAnnotations() {
+  _clearAndDrawAllAnnotations() {
     getAnnotationBox(this._editor[0]).innerHTML = ''
     for (const span of this.span.topLevel) {
       span.render()
