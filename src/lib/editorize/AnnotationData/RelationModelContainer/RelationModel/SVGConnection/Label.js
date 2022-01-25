@@ -26,11 +26,14 @@ export default class Label {
 
   updateHighlighting() {
     this._updatePosition()
-    this._signboard.CSSClass = this._relation.isSelected
-      ? 'textae-editor__signboard--selected'
-      : this._relation.isHovered
-      ? 'textae-editor__signboard--hovered'
-      : null
+
+    this._signboard.clearCSSClass()
+
+    if (this._relation.isSelected) {
+      this._signboard.CSSClass = 'textae-editor__signboard--selected'
+    } else if (this._relation.isHovered) {
+      this._signboard.CSSClass = 'textae-editor__signboard--hovered'
+    }
   }
 
   destructor() {
