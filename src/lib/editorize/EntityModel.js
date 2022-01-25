@@ -221,7 +221,7 @@ export default class EntityModel {
 
   cancelCut() {
     if (this._signboard) {
-      this._signboardElement.classList.remove(CSS_CLASS_CUTTING)
+      this._signboard.cancelCut()
     }
   }
 

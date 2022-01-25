@@ -3,6 +3,7 @@ import getLabelBackgroundColor from './getLabelBackgroundColor'
 import hexToRGBA from './hexToRGBA'
 
 const CSS_CLASS_SELECTED = 'textae-editor__signboard--selected'
+const CSS_CLASS_CUTTING = 'textae-editor__signboard--cutting'
 
 export default class SignboardHTMLElement {
   constructor(model, entityType, HTMLId) {
@@ -28,6 +29,10 @@ export default class SignboardHTMLElement {
     if (className) {
       this.element.classList.add(className)
     }
+  }
+
+  cancelCut() {
+    this._element.classList.remove(CSS_CLASS_CUTTING)
   }
 
   updateLabel() {
