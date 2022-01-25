@@ -28,10 +28,6 @@ export default class SignboardHTMLElement {
     this._element.classList.remove(CSS_CLASS_SELECTED)
   }
 
-  focus() {
-    this._element.querySelector('.textae-editor__signboard__type-label').focus()
-  }
-
   startCut() {
     this._element.classList.add(CSS_CLASS_CUTTING)
   }
@@ -83,6 +79,10 @@ export default class SignboardHTMLElement {
     for (const a of this._model.attributes) {
       a.declarifyLabelIn(this.element)
     }
+  }
+
+  focus() {
+    this._element.querySelector('.textae-editor__signboard__type-label').focus()
   }
 
   replaceWith(element) {
