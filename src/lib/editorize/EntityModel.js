@@ -4,8 +4,6 @@ import getDisplayName from './getDisplayName'
 import getUri from './getUri'
 import toAnchorElement from './toAnchorElement'
 
-const CSS_CLASS_SELECTED = 'textae-editor__signboard--selected'
-
 export default class EntityModel {
   /**
    *
@@ -207,7 +205,7 @@ export default class EntityModel {
   deselect() {
     if (this._isSelected) {
       this._isSelected = false
-      this._signboardElement.classList.remove(CSS_CLASS_SELECTED)
+      this._signboard.deselect()
       this._updateRelationHighlighting()
     }
   }
