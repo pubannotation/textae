@@ -107,7 +107,7 @@ export default class EditorContainer {
   }
 
   redraw() {
-    this._editors.forEach((e) => e.instanceMethods.redraw())
+    this._editors.forEach((e) => e.instanceMethods.relayout())
   }
 
   findByHTMLelement(dom) {

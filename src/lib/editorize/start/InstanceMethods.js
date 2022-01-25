@@ -22,7 +22,7 @@ export default class InstanceMethods {
     return this._isActive
   }
 
-  redraw() {
+  relayout() {
     this._view.relayout()
   }
 
