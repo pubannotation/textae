@@ -112,7 +112,7 @@ export default class View {
       })
   }
 
-  updateDisplay() {
+  relayout() {
     this._annotationData.textBox.forceUpdate()
     this._annotationData.updatePosition()
   }
