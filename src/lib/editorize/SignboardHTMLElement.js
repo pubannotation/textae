@@ -16,6 +16,10 @@ export default class SignboardHTMLElement {
     return this._element
   }
 
+  addEventListener(event, listener) {
+    this._element.addEventListener(event, listener)
+  }
+
   hover() {
     this._element.classList.add(CSS_CLASS_HOVERED)
   }

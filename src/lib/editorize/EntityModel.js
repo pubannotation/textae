@@ -277,15 +277,14 @@ export default class EntityModel {
       this.isDenotation ? 'denotation' : 'block',
       `${this._editor.editorId}__E${this.id.replace(/[:¥.]/g, '')}`
     )
-    const { element } = signboard
 
     // Highlight retaitons when related entity is hoverd.
-    element.addEventListener('mouseenter', () => {
+    signboard.addEventListener('mouseenter', () => {
       signboard.clarifyLabel()
       this._pointUpRelations()
       this._isHovered = true
     })
-    element.addEventListener('mouseleave', () => {
+    signboard.addEventListener('mouseleave', () => {
       if (!this._isLabelClarified) {
         signboard.declarifyLabel()
       }
