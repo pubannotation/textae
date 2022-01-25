@@ -106,7 +106,7 @@ export default class EditorContainer {
     }
   }
 
-  redraw() {
+  relayout() {
     this._editors.forEach((e) => e.instanceMethods.relayout())
   }
 

@@ -18,7 +18,7 @@ export default class Tool {
     // Observe window-resize event and redraw all editors.
     window.addEventListener(
       'resize',
-      throttle(() => this._editors.redraw(), 500)
+      throttle(() => this._editors.relayout(), 500)
     )
   }
 
