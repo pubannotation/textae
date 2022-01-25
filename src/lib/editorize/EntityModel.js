@@ -239,11 +239,6 @@ export default class EntityModel {
     this.reflectTypeGapInTheHeight()
   }
 
-  erase() {
-    this._signboardElement.remove()
-    this._signboardElement = null
-  }
-
   updateElement() {
     const element = this._renderSignboardElement()
     this._signboardElement.replaceWith(element)
@@ -279,6 +274,11 @@ export default class EntityModel {
       this._signboard.declarifyLabel()
     }
     this._isLabelClarified = false
+  }
+
+  erase() {
+    this._signboardElement.remove()
+    this._signboardElement = null
   }
 
   _renderSignboardElement() {
