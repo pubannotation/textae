@@ -5,7 +5,6 @@ import getUri from './getUri'
 import toAnchorElement from './toAnchorElement'
 
 const CSS_CLASS_SELECTED = 'textae-editor__signboard--selected'
-const CSS_CLASS_CUTTING = 'textae-editor__signboard--cutting'
 
 export default class EntityModel {
   /**
@@ -215,7 +214,7 @@ export default class EntityModel {
 
   startCut() {
     if (this._signboard) {
-      this._signboardElement.classList.add(CSS_CLASS_CUTTING)
+      this._signboard.startCut()
     }
   }
 

@@ -31,6 +31,10 @@ export default class SignboardHTMLElement {
     }
   }
 
+  startCut() {
+    this._element.classList.add(CSS_CLASS_CUTTING)
+  }
+
   cancelCut() {
     this._element.classList.remove(CSS_CLASS_CUTTING)
   }
