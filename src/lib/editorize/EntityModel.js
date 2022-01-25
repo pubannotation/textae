@@ -256,10 +256,7 @@ export default class EntityModel {
     if (this.isDenotation) {
       const entityElement = this._signboardElement
       if (entityElement) {
-        entityElement.setAttribute(
-          'style',
-          `padding-top: ${this._typeGap.height}px;`
-        )
+        this._signboard.reflectTypeGapInTheHeight(this._typeGap.height)
       }
     }
   }
