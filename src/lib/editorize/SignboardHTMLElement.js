@@ -85,8 +85,8 @@ export default class SignboardHTMLElement {
     this._element.querySelector('.textae-editor__signboard__type-label').focus()
   }
 
-  replaceWith(element) {
-    this._element.replaceWith(element)
+  replaceWith(signboardHTMLElement) {
+    this._element.replaceWith(signboardHTMLElement.element)
   }
 
   reflectTypeGapInTheHeight(height) {

@@ -239,8 +239,7 @@ export default class EntityModel {
 
   updateElement() {
     const signboard = this._renderSignboardElement()
-    const { element } = signboard
-    this._signboard.replaceWith(element)
+    this._signboard.replaceWith(signboard)
     this._signboard = signboard
 
     // Re-select a new entity element.
