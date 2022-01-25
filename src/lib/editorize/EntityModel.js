@@ -253,11 +253,8 @@ export default class EntityModel {
   }
 
   reflectTypeGapInTheHeight() {
-    if (this.isDenotation) {
-      const entityElement = this._signboardElement
-      if (entityElement) {
-        this._signboard.reflectTypeGapInTheHeight(this._typeGap.height)
-      }
+    if (this.isDenotation && this._signboardElement) {
+      this._signboard.reflectTypeGapInTheHeight(this._typeGap.height)
     }
   }
 
