@@ -110,7 +110,7 @@ export default class SpanModel {
       (span) => {
         // When the child spans contain bold style spans, the width of the parent span changes.
         // Render the entity after the child span has been rendered.
-        span.drawGridsInSight()
+        span.drawGridInSight()
       }
     )
   }
@@ -187,7 +187,7 @@ export default class SpanModel {
     }
   }
 
-  drawGridsInSight() {
+  drawGridInSight() {
     if (this.isDenotation || this.isBlock) {
       if (this._isInViewport) {
         this.renderGridElement()

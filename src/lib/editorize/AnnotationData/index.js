@@ -181,7 +181,7 @@ export default class AnnotationData {
 
   drawGridsInSight() {
     for (const span of this.span.all) {
-      span.drawGridsInSight()
+      span.drawGridInSight()
     }
   }
 
