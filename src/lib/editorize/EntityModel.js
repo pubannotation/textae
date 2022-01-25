@@ -37,6 +37,8 @@ export default class EntityModel {
     this._isHovered = false
     // When in view mode, the mousleave event will not declarify labels.
     this._isLabelClarified = false
+
+    this._signboardElement = null
   }
 
   get id() {
@@ -234,17 +236,20 @@ export default class EntityModel {
     // Append a new entity to the type
     const element = this._renderSignboardElement()
     grid.insertAdjacentElement('beforeend', element)
+    this._signboardElement = element
 
     this.reflectTypeGapInTheHeight()
   }
 
   erase() {
     this._signboardElement.remove()
+    this._signboardElement = null
   }
 
   updateElement() {
     const element = this._renderSignboardElement()
     this._signboardElement.replaceWith(element)
+    this._signboardElement = element
 
     // Re-select a new entity element.
     if (this._isSelected) {
@@ -301,10 +306,6 @@ export default class EntityModel {
     })
 
     return element
-  }
-
-  get _signboardElement() {
-    return document.querySelector(`#${this._entityHTMLElementID}`)
   }
 
   // Exclude : and . from a dom id to use for ID selector.
