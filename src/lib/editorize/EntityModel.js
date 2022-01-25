@@ -285,7 +285,7 @@ export default class EntityModel {
     this._signboard = new SignboardHTMLElement(
       this,
       this.isDenotation ? 'denotation' : 'block',
-      this._entityHTMLElementID
+      `${this._editor.editorId}__E${this.id.replace(/[:¥.]/g, '')}`
     )
     const { element } = this._signboard
 
@@ -304,11 +304,6 @@ export default class EntityModel {
     })
 
     return element
-  }
-
-  // Exclude : and . from a dom id to use for ID selector.
-  get _entityHTMLElementID() {
-    return `${this._editor.editorId}__E${this.id.replace(/[:¥.]/g, '')}`
   }
 
   _selectElement() {
