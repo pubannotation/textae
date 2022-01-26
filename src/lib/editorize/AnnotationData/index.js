@@ -180,8 +180,9 @@ export default class AnnotationData {
   }
 
   drawGridsInSight() {
-    for (const span of this.span.all) {
+    for (const span of this.span.allBlockSpans) {
       span.drawGridInSight()
+      span.updateBackgroundPosition()
     }
   }
 

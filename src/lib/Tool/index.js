@@ -20,6 +20,8 @@ export default class Tool {
       'resize',
       throttle(() => this._editors.relayout(), 500)
     )
+
+    window.addEventListener('scroll', () => this._editors.drawGridsInSight())
   }
 
   registerEditor(editor) {

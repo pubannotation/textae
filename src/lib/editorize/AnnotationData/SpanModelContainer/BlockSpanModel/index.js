@@ -169,4 +169,10 @@ export default class BlockSpanModel extends SpanModel {
       height: rectOfSpan.height
     }
   }
+
+  get _isInViewport() {
+    const { clientHeight } = document.documentElement
+    const { top, bottom } = this.element.getBoundingClientRect()
+    return 0 <= bottom && top <= clientHeight
+  }
 }
