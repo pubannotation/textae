@@ -86,9 +86,16 @@ export default class EntityModelContainer extends IdIssueContainer {
 
   moveEntities(span, entities) {
     for (const entity of entities) {
+      const spanBeforeMove = entity.span
       entity.span = span
       entity.erase()
+      spanBeforeMove.updateSelfAndAncestorsGridPosition()
+
       entity.render()
+
+      for (const relation of entity.relations) {
+        relation.updateHighlighting()
+      }
     }
 
     this._emit(`textae-event.annotation-data.entity.move`)

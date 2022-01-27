@@ -8,9 +8,6 @@ export default class View {
 
     // Bind annotation data events
     eventEmitter
-      .on('textae-event.annotation-data.entity.move', () =>
-        this._annotationData.updatePositionDebounced()
-      )
       .on('textae-event.annotation-data.relation.add', () =>
         this._annotationData.updatePositionDebounced()
       )
