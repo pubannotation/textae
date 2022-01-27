@@ -93,8 +93,12 @@ export default class AnnotationData {
       this.attributeDefinitionContainer
     )
 
-    editor.eventEmitter.on('textae-event.annotation-data.span.add-block', () =>
-      this.updatePosition()
+    editor.eventEmitter.on(
+      'textae-event.annotation-data.span.add-block',
+      () => {
+        this.updatePosition()
+        this._textBox.forceUpdate()
+      }
     )
   }
 

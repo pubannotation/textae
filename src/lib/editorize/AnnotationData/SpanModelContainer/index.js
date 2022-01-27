@@ -243,8 +243,6 @@ export default class SpanModelContainer {
     this._addSpan(this._blocks, blockSpan, oldSpan)
     this._emitter.emit(`textae-event.annotation-data.span.add-block`, blockSpan)
 
-    this._textBox.forceUpdate()
-
     return blockSpan
   }
 
