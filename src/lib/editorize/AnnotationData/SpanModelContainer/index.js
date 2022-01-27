@@ -12,6 +12,10 @@ import rangeFrom from './rangeFrom'
 import getCurrentMaxHeight from './getCurrentMaxHeight'
 
 export default class SpanModelContainer {
+  /**
+   *
+   * @param {import('../createTextBox/TextBox').default} textBox
+   */
   constructor(editor, emitter, entityContainer, textBox, typeGap) {
     this._editor = editor
     this._emitter = emitter
