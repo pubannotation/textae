@@ -1,6 +1,3 @@
-import debounce from 'debounce'
-import LineHeightAuto from './LineHeightAuto'
-
 export default class View {
   /**
    *
@@ -10,32 +7,31 @@ export default class View {
     this._annotationData = annotationData
 
     // Bind annotation data events
-    const lineHeightAuto = new LineHeightAuto(
-      eventEmitter,
-      this._annotationData.textBox
-    )
-    const debouncedUpdatePosition = debounce(() => {
-      lineHeightAuto.updateLineHeight()
-      this._annotationData.updatePosition()
-    }, 100)
-
     eventEmitter
-      .on('textae-event.annotation-data.entity.change', debouncedUpdatePosition)
+      .on('textae-event.annotation-data.entity.change', () =>
+        this._annotationData.updatePositionDebounced()
+      )
       .on('textae-event.annotation-data.entity.remove', () =>
         this._annotationData.updatePositionAsync()
       )
-      .on('textae-event.annotation-data.entity.move', debouncedUpdatePosition)
-      .on('textae-event.annotation-data.relation.add', debouncedUpdatePosition)
-      .on('textae-event.annotation-data.attribute.add', debouncedUpdatePosition)
-      .on(
-        'textae-event.annotation-data.attribute.change',
-        debouncedUpdatePosition
+      .on('textae-event.annotation-data.entity.move', () =>
+        this._annotationData.updatePositionDebounced()
       )
-      .on(
-        'textae-event.annotation-data.attribute.remove',
-        debouncedUpdatePosition
+      .on('textae-event.annotation-data.relation.add', () =>
+        this._annotationData.updatePositionDebounced()
       )
-      .on('textae-event.annotation-data.span.move', debouncedUpdatePosition)
+      .on('textae-event.annotation-data.attribute.add', () =>
+        this._annotationData.updatePositionDebounced()
+      )
+      .on('textae-event.annotation-data.attribute.change', () =>
+        this._annotationData.updatePositionDebounced()
+      )
+      .on('textae-event.annotation-data.attribute.remove', () =>
+        this._annotationData.updatePositionDebounced()
+      )
+      .on('textae-event.annotation-data.span.move', () =>
+        this._annotationData.updatePositionDebounced()
+      )
       .on('textae-event.annotation-data.entity-gap.change', () =>
         this._annotationData.updatePosition()
       )
