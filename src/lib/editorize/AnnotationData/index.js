@@ -159,23 +159,27 @@ export default class AnnotationData {
   }
 
   updatePosition() {
-    this._editor.startWait()
-    // jQuery Ui dialogs are not in the editor.
-    for (const dialog of document.querySelectorAll('.ui-dialog')) {
-      dialog.classList.add('textae-editor--wait')
-    }
-    for (const dialog of document.querySelectorAll('.ui-widget-overlay')) {
-      dialog.classList.add('textae-editor--wait')
-    }
+    try {
+      this._editor.startWait()
+      // jQuery Ui dialogs are not in the editor.
+      for (const dialog of document.querySelectorAll('.ui-dialog')) {
+        dialog.classList.add('textae-editor--wait')
+      }
+      for (const dialog of document.querySelectorAll('.ui-widget-overlay')) {
+        dialog.classList.add('textae-editor--wait')
+      }
 
-    this._rearrangeAllAnnotations()
-
-    this._editor.endWait()
-    for (const dialog of document.querySelectorAll('.ui-dialog')) {
-      dialog.classList.remove('textae-editor--wait')
-    }
-    for (const dialog of document.querySelectorAll('.ui-widget-overlay')) {
-      dialog.classList.remove('textae-editor--wait')
+      this._rearrangeAllAnnotations()
+    } catch (e) {
+      console.error(e)
+    } finally {
+      this._editor.endWait()
+      for (const dialog of document.querySelectorAll('.ui-dialog')) {
+        dialog.classList.remove('textae-editor--wait')
+      }
+      for (const dialog of document.querySelectorAll('.ui-widget-overlay')) {
+        dialog.classList.remove('textae-editor--wait')
+      }
     }
   }
 
