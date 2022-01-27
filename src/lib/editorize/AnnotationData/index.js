@@ -92,6 +92,10 @@ export default class AnnotationData {
       relationDefinitionContainer,
       this.attributeDefinitionContainer
     )
+
+    editor.eventEmitter.on('textae-event.annotation-data.entity.add', () =>
+      this.updatePosition()
+    )
   }
 
   reset(rawData, config) {
