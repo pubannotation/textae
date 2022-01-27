@@ -133,14 +133,16 @@ export default class RelationModel {
   }
 
   updateHighlighting() {
-    if (this.sourceEntity.isSelected && this.targetEntity.isSelected) {
-      this._connect.pointUpPath()
-    } else if (this.sourceEntity.isSelected) {
-      this._connect.pointUpPathAndSourceBollards()
-    } else if (this.targetEntity.isSelected) {
-      this._connect.pointUpPathAndTargetBollards()
-    } else {
-      this._connect.pointDownPath()
+    if (this._connect) {
+      if (this.sourceEntity.isSelected && this.targetEntity.isSelected) {
+        this._connect.pointUpPath()
+      } else if (this.sourceEntity.isSelected) {
+        this._connect.pointUpPathAndSourceBollards()
+      } else if (this.targetEntity.isSelected) {
+        this._connect.pointUpPathAndTargetBollards()
+      } else {
+        this._connect.pointDownPath()
+      }
     }
   }
 

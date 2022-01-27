@@ -234,6 +234,12 @@ export default class EntityModel {
       this.span.addEntityElementToGridElement(this._signboard.element)
 
       this.reflectTypeGapInTheHeight()
+
+      for (const entity of this.span.entities.filter((e) => e !== this)) {
+        for (const relation of entity.relations) {
+          relation.updateHighlighting()
+        }
+      }
     }
   }
 
