@@ -49,7 +49,8 @@ export default class SpanModelContainer {
         newValue.begin,
         newValue.end,
         this._entityContainer,
-        this
+        this,
+        this._textBox
       )
       return this._addBlock(blockSpan)
     } else {
@@ -222,7 +223,8 @@ export default class SpanModelContainer {
       begin,
       end,
       this._entityContainer,
-      this
+      this,
+      this._textBox
     )
     this._addBlock(newOne, oldSpan)
     this._emitter.emit('textae-event.annotation-data.span.move')
@@ -338,7 +340,8 @@ export default class SpanModelContainer {
           denotation.span.begin,
           denotation.span.end,
           this._entityContainer,
-          this
+          this,
+          this._textBox
         )
 
         this._blocks.set(blockSpan.id, blockSpan)

@@ -9,9 +9,17 @@ import getAnnotationBox from '../../getAnnotationBox'
 // Leave a gap between the text and the block border.
 const gapBetweenText = 8
 export default class BlockSpanModel extends SpanModel {
-  constructor(editor, begin, end, entityModelContainer, spanModelContainer) {
+  constructor(
+    editor,
+    begin,
+    end,
+    entityModelContainer,
+    spanModelContainer,
+    textBox
+  ) {
     super(editor, begin, end, spanModelContainer)
     this._entityModelContainer = entityModelContainer
+    this._textBox = textBox
   }
 
   // Utility to distinguish with otehr type spans.
@@ -100,7 +108,7 @@ export default class BlockSpanModel extends SpanModel {
   get gridRectangle() {
     console.assert(this.element, 'span is not renderd')
     const { top, bottom } = this._reactOfBackground
-    const { width } = this._spanModelContainer._textBox.boundingClientRect
+    const { width } = this._textBox.boundingClientRect
 
     return {
       top: round(top),
@@ -131,7 +139,7 @@ export default class BlockSpanModel extends SpanModel {
 
   get _reactOfBackground() {
     const rect = this._rectangle
-    const textBox = this._spanModelContainer._textBox
+    const textBox = this._textBox
 
     // Shifting up half a line from the original block position.
     const top = rect.top - textBox.lineHeight / 2 + 20
