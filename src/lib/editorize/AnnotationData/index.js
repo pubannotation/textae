@@ -106,12 +106,6 @@ export default class AnnotationData {
 
     this._clearAndDrawAllAnnotations()
 
-    this.span.arrangeDenotationEntityPosition()
-    this.span.arrangeBlockEntityPosition()
-    for (const relation of this.relation.all) {
-      relation.updateHighlighting()
-    }
-
     this._editor.eventEmitter.emit(
       'textae-event.annotation-data.all.change',
       this,
@@ -198,14 +192,18 @@ export default class AnnotationData {
 
   _clearAndDrawAllAnnotations() {
     getAnnotationBox(this._editor[0]).innerHTML = ''
-    for (const span of this.span.topLevel) {
-      span.render()
-    }
 
     this._textBox.updateLineHeight()
 
+    for (const span of this.span.topLevel) {
+      span.render()
+    }
+    this.span.arrangeDenotationEntityPosition()
+    this.span.arrangeBlockEntityPosition()
+
     for (const relation of this.relation.all) {
       relation.render()
+      relation.updateHighlighting()
     }
   }
 
