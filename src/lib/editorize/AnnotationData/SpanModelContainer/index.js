@@ -270,7 +270,6 @@ export default class SpanModelContainer {
     this._blocks.delete(span.id)
     span.erase()
     this._emitter.emit(`textae-event.annotation-data.span.remove`, span)
-    this._textBox.forceUpdate()
   }
 
   isBoundaryCrossingWithOtherSpans(begin, end) {
