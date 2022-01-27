@@ -94,7 +94,7 @@ export default class AnnotationData {
     )
 
     editor.eventEmitter.on('textae-event.annotation-data.entity.add', () =>
-      this.updatePosition()
+      this.span.arrangeDenotationEntityPosition()
     )
   }
 
