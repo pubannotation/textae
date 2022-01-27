@@ -57,6 +57,17 @@ export default class DenotationSpanModel extends SpanModel {
     return true
   }
 
+  addEntityElementToGridElement(entityElement) {
+    super.addEntityElementToGridElement(entityElement)
+
+    this.updateGridPosition()
+    let self = this.parent
+    while (self instanceof DenotationSpanModel) {
+      self.updateGridPosition()
+      self = self.parent
+    }
+  }
+
   select() {
     const el = super.element
     el.classList.add(SELECTED)
