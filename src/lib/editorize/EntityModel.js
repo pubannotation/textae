@@ -249,6 +249,10 @@ export default class EntityModel {
       }
 
       this.reflectTypeGapInTheHeight()
+
+      if (this.span.isDenotation) {
+        this.span.updateSelfAndAncestorsGridPosition()
+      }
     }
   }
 
