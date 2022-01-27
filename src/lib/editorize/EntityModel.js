@@ -250,9 +250,7 @@ export default class EntityModel {
 
       this.reflectTypeGapInTheHeight()
 
-      if (this.span.isDenotation) {
-        this.span.updateSelfAndAncestorsGridPosition()
-      }
+      this.span.updateSelfAndAncestorsGridPosition()
     }
   }
 
@@ -280,9 +278,7 @@ export default class EntityModel {
     if (this._signboard) {
       this._signboard.remove()
       this._signboard = null
-      if (this.span.isDenotation) {
-        this.span.updateSelfAndAncestorsGridPosition()
-      }
+      this.span.updateSelfAndAncestorsGridPosition()
     }
   }
 

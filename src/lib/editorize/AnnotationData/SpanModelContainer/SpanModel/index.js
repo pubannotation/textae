@@ -191,6 +191,11 @@ export default class SpanModel {
     this.gridElement.insertAdjacentElement('beforeend', entityElement)
   }
 
+  updateSelfAndAncestorsGridPosition() {
+    // Do nothing.
+    // This method overrided in the DenotationSpanModel.
+  }
+
   drawGridInSight() {
     if (this.isDenotation || this.isBlock) {
       if (this._isInViewport) {
