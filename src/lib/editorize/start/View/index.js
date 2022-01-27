@@ -30,7 +30,9 @@ export default class View {
       })
 
     eventEmitter
-      .on('textae-event.annotation-data.entity.add', asyncUpdatePosition)
+      .on('textae-event.annotation-data.entity.add', () =>
+        this._annotationData.updatePosition()
+      )
       .on('textae-event.annotation-data.entity.change', debouncedUpdatePosition)
       .on('textae-event.annotation-data.entity.remove', asyncUpdatePosition)
       .on('textae-event.annotation-data.entity.move', debouncedUpdatePosition)
