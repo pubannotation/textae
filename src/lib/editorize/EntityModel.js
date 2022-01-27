@@ -276,6 +276,9 @@ export default class EntityModel {
     if (this._signboard) {
       this._signboard.remove()
       this._signboard = null
+      if (this.span.isDenotation) {
+        this.span.updateSelfAndAncestorsGridPosition()
+      }
     }
   }
 

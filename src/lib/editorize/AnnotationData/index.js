@@ -113,6 +113,7 @@ export default class AnnotationData {
       })
       .on('textae-event.annotation-data.span.remove', (span) => {
         if (span.isBlock) {
+          this.updatePosition()
           this._textBox.forceUpdate()
         }
       })

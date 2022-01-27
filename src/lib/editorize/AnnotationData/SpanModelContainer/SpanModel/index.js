@@ -220,13 +220,14 @@ export default class SpanModel {
   }
 
   destroyGridElement() {
-    for (const entity of this.entities) {
-      entity.erase()
-    }
-
     if (this.isGridRendered) {
-      this.gridElement.remove()
       this._isGridRendered = false
+
+      for (const entity of this.entities) {
+        entity.erase()
+      }
+
+      this.gridElement.remove()
     }
   }
 
