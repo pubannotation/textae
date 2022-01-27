@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.7.0](https://github.com/pubannotation/textae/compare/v8.6.0...v8.7.0) (2022-01-27)
+
+
+### Features
+
+* Draws the entities of the blockspan that have entered the visible range by resizing the window ([2dfa953](https://github.com/pubannotation/textae/commit/2dfa953d797f78b77d4cb0e8fe1d89ea3513fd24))
+* Draws the entities of the blockspan that have entered the visible range by scrolling ([ed8d455](https://github.com/pubannotation/textae/commit/ed8d455af2bca1450fd69c6a651e88b7b1584be4))
+
 ## [8.6.0](https://github.com/pubannotation/textae/compare/v8.5.0...v8.6.0) (2022-01-20)
 
 
