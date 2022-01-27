@@ -187,6 +187,11 @@ export default class SpanModel {
     }
   }
 
+  addEntityElementToGridElement(entityElement) {
+    this.gridElement.insertAdjacentElement('beforeend', entityElement)
+    this.updateGridPosition()
+  }
+
   drawGridInSight() {
     if (this.isDenotation || this.isBlock) {
       if (this._isInViewport) {

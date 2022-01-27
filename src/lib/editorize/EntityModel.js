@@ -229,11 +229,9 @@ export default class EntityModel {
     }
 
     if (this.span.isGridRendered) {
-      const grid = this.span.gridElement
-
       // Append a new entity to the type
       this._signboard = this._createSignboardElement()
-      grid.insertAdjacentElement('beforeend', this._signboard.element)
+      this.span.addEntityElementToGridElement(this._signboard.element)
 
       this.reflectTypeGapInTheHeight()
     }

@@ -96,9 +96,7 @@ export default class AnnotationData {
     editor.eventEmitter.on(
       'textae-event.annotation-data.entity.add',
       (entity) => {
-        if (entity.span.isDennotation) {
-          this.span.arrangeDenotationEntityPosition()
-        } else {
+        if (entity.span.isBlock) {
           this.updatePosition()
         }
       }
