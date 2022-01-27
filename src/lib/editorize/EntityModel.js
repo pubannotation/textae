@@ -251,6 +251,11 @@ export default class EntityModel {
       this.reflectTypeGapInTheHeight()
 
       this.span.updateSelfAndAncestorsGridPosition()
+      for (const entity of this.span.entities) {
+        for (const relation of entity.relations) {
+          relation.updateHighlighting()
+        }
+      }
     }
   }
 
