@@ -238,12 +238,14 @@ export default class SpanModelContainer {
 
   _addDenotation(denotationSpan, oldSpan = null) {
     this._addSpan(this._denotations, denotationSpan, oldSpan)
+    this._emitter.emit(`textae-event.annotation-data.span.add`, denotationSpan)
+
     return denotationSpan
   }
 
   _addBlock(blockSpan, oldSpan = null) {
     this._addSpan(this._blocks, blockSpan, oldSpan)
-    this._emitter.emit(`textae-event.annotation-data.span.add-block`, blockSpan)
+    this._emitter.emit(`textae-event.annotation-data.span.add`, blockSpan)
 
     return blockSpan
   }
