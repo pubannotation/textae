@@ -15,6 +15,7 @@ import TypeDefinition from './TypeDefinition'
 import DefinitionContainer from './DefinitionContainer'
 import AttributeDefinitionContainer from '../AttributeDefinitionContainer'
 import getAnnotationBox from './getAnnotationBox'
+import LineHeightAuto from '../start/View/LineHeightAuto'
 
 export default class AnnotationData {
   constructor(editor) {
@@ -64,6 +65,11 @@ export default class AnnotationData {
     )
 
     this._textBox = createTextBox(editor, this)
+    this._lineHeightAuto = new LineHeightAuto(
+      editor.eventEmitter,
+      this._textBox
+    )
+
     this.span = new SpanModelContainer(
       editor,
       editor.eventEmitter,
@@ -194,6 +200,18 @@ export default class AnnotationData {
         dialog.classList.remove('textae-editor--wait')
       }
     }
+  }
+
+  updatePositionAsync() {
+    // If you delay the recalculation of the line height,
+    // the span will move after the scrolling by the span focus.
+    // This may cause the span to move out of the display area.
+    // Calculate the line height with as little delay as possible
+    // and after rendering the entities.
+    requestAnimationFrame(() => {
+      this._lineHeightAuto.updateLineHeight()
+      this.updatePosition()
+    })
   }
 
   drawGridsInSight() {

@@ -18,20 +18,12 @@ export default class View {
       lineHeightAuto.updateLineHeight()
       this._annotationData.updatePosition()
     }, 100)
-    const asyncUpdatePosition = () =>
-      // If you delay the recalculation of the line height,
-      // the span will move after the scrolling by the span focus.
-      // This may cause the span to move out of the display area.
-      // Calculate the line height with as little delay as possible
-      // and after rendering the entities.
-      requestAnimationFrame(() => {
-        lineHeightAuto.updateLineHeight()
-        this._annotationData.updatePosition()
-      })
 
     eventEmitter
       .on('textae-event.annotation-data.entity.change', debouncedUpdatePosition)
-      .on('textae-event.annotation-data.entity.remove', asyncUpdatePosition)
+      .on('textae-event.annotation-data.entity.remove', () =>
+        this._annotationData.updatePositionAsync()
+      )
       .on('textae-event.annotation-data.entity.move', debouncedUpdatePosition)
       .on('textae-event.annotation-data.relation.add', debouncedUpdatePosition)
       .on('textae-event.annotation-data.attribute.add', debouncedUpdatePosition)
