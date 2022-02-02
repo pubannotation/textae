@@ -13,12 +13,11 @@ import ValidationDialog from '../component/ValidationDialog'
 import isAndroid from './isAndroid'
 
 export default function (element) {
-  const $this = $(element)
+  const params = extractParamsFromHTMLElement(element)
 
+  const $this = $(element)
   // Set the eventEmitter to communicate with the tool and a control.
   $this.eventEmitter = new EventEmitter()
-
-  const params = extractParamsFromHTMLElement(element)
   const annotationData = new AnnotationData($this)
 
   // A contaier of selection state.
