@@ -172,6 +172,7 @@ export default function (
             )
 
             originalData.annotation = dataSource
+            dataAccessObject.annotationUrl = dataSource
           }
         }
       }

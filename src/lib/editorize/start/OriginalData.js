@@ -32,8 +32,6 @@ export default class OriginalData {
       this.configuration = new DataSource(null, null, dataSource.data.config)
     }
 
-    this._dataAccessObject.annotationUrl = dataSource
-
     if (dataSource.type) {
       this._statusBar.status = dataSource
     }
