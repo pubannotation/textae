@@ -105,7 +105,8 @@ export default class DataAccessObject {
     if (url) {
       this._ajaxSender.post(url, JSON.stringify(editedData), () =>
         this._editor.eventEmitter.emit(
-          'textae-event.data-access-object.annotation.save'
+          'textae-event.data-access-object.annotation.save',
+          editedData
         )
       )
     }
