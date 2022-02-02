@@ -18,8 +18,7 @@ export default function (element) {
   // Set the eventEmitter to communicate with the tool and a control.
   $this.eventEmitter = new EventEmitter()
 
-  const dom = $this[0]
-  const params = extractParamsFromHTMLElement(dom)
+  const params = extractParamsFromHTMLElement(element)
   const annotationData = new AnnotationData($this)
 
   // A contaier of selection state.
@@ -57,14 +56,14 @@ export default function (element) {
     })
 
   // Prevent a selection text with shift keies.
-  dom.addEventListener('mousedown', (e) => {
+  element.addEventListener('mousedown', (e) => {
     if (e.shiftKey) {
       e.preventDefault()
     }
   })
 
   // Prevent a selection of an entity by the double-click.
-  delegate(dom, '.textae-editor__signboard', 'mousedown', (e) =>
+  delegate(element, '.textae-editor__signboard', 'mousedown', (e) =>
     e.preventDefault()
   )
 
