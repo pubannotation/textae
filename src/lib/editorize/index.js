@@ -35,11 +35,6 @@ export default function (element) {
         `${displayName} is not a annotation file or its format is invalid.`
       )
     )
-    .on('textae-event.resource.configuration.load.error', (url) =>
-      alertifyjs.error(
-        `Could not load the file from the location you specified.: ${url}`
-      )
-    )
     .on('textae-event.resource.configuration.format.error', ({ displayName }) =>
       alertifyjs.error(
         `${displayName} is not a configuration file or its format is invalid.!`
