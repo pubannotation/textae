@@ -33,7 +33,6 @@ export default class AnnotationDataEventsObserver {
       .on('textae-event.annotation-data.span.add', () => this._updateState())
       .on('textae-event.annotation-data.span.change', () => this._updateState())
       .on('textae-event.annotation-data.span.remove', () => this._updateState())
-      .on('textae-event.annotation-data.span.move', () => this._updateState())
       .on('textae-event.annotation-data.entity.add', () => this._updateState())
       .on('textae-event.annotation-data.entity.change', () =>
         this._updateState()
