@@ -60,11 +60,15 @@ export default class RemoteSource {
           )
         }
       },
-      () =>
+      () => {
+        alertifyjs.error(
+          `Could not load the file from the location you specified.: ${url}`
+        )
         this._eventEmitter.emit(
           'textae-event.resource.annotation.load.error',
           url
-        ),
+        )
+      },
       this._eventEmitter
     )
   }

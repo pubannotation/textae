@@ -30,11 +30,6 @@ export default function (element) {
   alertifyjs.set('notifier', 'position', 'top-right')
 
   $this.eventEmitter
-    .on('textae-event.resource.annotation.load.error', (url) =>
-      alertifyjs.error(
-        `Could not load the file from the location you specified.: ${url}`
-      )
-    )
     .on('textae-event.resource.annotation.format.error', ({ displayName }) =>
       alertifyjs.error(
         `${displayName} is not a annotation file or its format is invalid.`
