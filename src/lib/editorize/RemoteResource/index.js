@@ -1,3 +1,4 @@
+import alertifyjs from 'alertifyjs'
 import get from './get'
 import DataSource from '../DataSource'
 import post from './post'
@@ -97,11 +98,13 @@ export default class RemoteSource {
         url,
         JSON.stringify(editedData),
         () => this._eventEmitter.emit('textae-event.resource.startSave'),
-        () =>
+        () => {
+          alertifyjs.success('annotation saved')
           this._eventEmitter.emit(
             'textae-event.resource.annotation.save',
             editedData
-          ),
+          )
+        },
         () => this._eventEmitter.emit('textae-event.resource.save.error'),
         () => this._eventEmitter.emit('textae-event.resource.endSave')
       )

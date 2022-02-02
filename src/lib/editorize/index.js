@@ -30,9 +30,6 @@ export default function (element) {
   alertifyjs.set('notifier', 'position', 'top-right')
 
   $this.eventEmitter
-    .on('textae-event.resource.annotation.save', () => {
-      alertifyjs.success('annotation saved')
-    })
     .on('textae-event.resource.configuration.save', () => {
       alertifyjs.success('configuration saved')
     })
