@@ -18,7 +18,8 @@ export default function (element) {
   // Set the eventEmitter to communicate with the tool and a control.
   $this.eventEmitter = new EventEmitter()
 
-  const params = extractParamsFromHTMLElement($this[0])
+  const dom = $this[0]
+  const params = extractParamsFromHTMLElement(dom)
   const annotationData = new AnnotationData($this)
 
   // A contaier of selection state.
@@ -54,8 +55,6 @@ export default function (element) {
       // Show a confirmation dialog to prevent this.
       window.onbeforeunload = isAndroid() || hasChange ? () => true : null
     })
-
-  const dom = $this[0]
 
   // Prevent a selection text with shift keies.
   dom.addEventListener('mousedown', (e) => {
