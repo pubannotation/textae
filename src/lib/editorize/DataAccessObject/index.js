@@ -4,21 +4,14 @@ import DataSource from '../DataSource'
 
 // A sub component to save and load data.
 export default class DataAccessObject {
-  constructor(editor) {
-    this._eventEmitter = editor.eventEmitter
+  constructor(eventEmitter) {
+    this._eventEmitter = eventEmitter
 
     // Store the url the annotation data is loaded from per editor.
     this._urlOfLastRead = {
       annotation: '',
       config: ''
     }
-    this._ajaxSender = new AjaxSender(
-      () =>
-        this._eventEmitter.emit('textae-event.data-access-object.startSave'),
-      () =>
-        this._eventEmitter.emit('textae-event.data-access-object.save.error'),
-      () => this._eventEmitter.emit('textae-event.data-access-object.endSave')
-    )
   }
 
   get annotationUrl() {
@@ -99,7 +92,13 @@ export default class DataAccessObject {
 
   saveAnnotation(url, editedData) {
     if (url) {
-      this._ajaxSender.post(url, JSON.stringify(editedData), () =>
+      new AjaxSender(
+        () =>
+          this._eventEmitter.emit('textae-event.data-access-object.startSave'),
+        () =>
+          this._eventEmitter.emit('textae-event.data-access-object.save.error'),
+        () => this._eventEmitter.emit('textae-event.data-access-object.endSave')
+      ).post(url, JSON.stringify(editedData), () =>
         this._eventEmitter.emit(
           'textae-event.data-access-object.annotation.save',
           editedData
@@ -112,7 +111,13 @@ export default class DataAccessObject {
     // textae-config service is build with the Ruby on Rails 4.X.
     // To change existing files, only PATCH method is allowed on the Ruby on Rails 4.X.
     if (url) {
-      this._ajaxSender.patch(url, JSON.stringify(editedData), () =>
+      new AjaxSender(
+        () =>
+          this._eventEmitter.emit('textae-event.data-access-object.startSave'),
+        () =>
+          this._eventEmitter.emit('textae-event.data-access-object.save.error'),
+        () => this._eventEmitter.emit('textae-event.data-access-object.endSave')
+      ).patch(url, JSON.stringify(editedData), () =>
         this._eventEmitter.emit(
           'textae-event.data-access-object.configuration.save',
           editedData

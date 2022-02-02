@@ -26,7 +26,7 @@ export default function (element) {
   const selectionModel = new SelectionModel($this.eventEmitter, annotationData)
 
   const history = new History($this.eventEmitter)
-  const dataAccessObject = new DataAccessObject($this)
+  const dataAccessObject = new DataAccessObject($this.eventEmitter)
 
   // Set position of toast messages.
   alertifyjs.set('notifier', 'position', 'top-right')
