@@ -108,10 +108,11 @@ export default function (
   initAnnotation(
     spanConfig,
     annotationData,
-    params,
     dataAccessObject,
     buttonController,
-    originalData
+    originalData,
+    params.get('annotation'),
+    params.get('config')
   )
 
   const persistenceInterface = new PersistenceInterface(

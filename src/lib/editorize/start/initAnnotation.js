@@ -8,15 +8,13 @@ import setDefault from './setDefault'
 export default function (
   spanConfig,
   annotationData,
-  params,
   dataAccessObject,
   buttonController,
-  originalData
+  originalData,
+  annotationParameter,
+  configParameter
 ) {
-  const annotationParameter = params.get('annotation')
-
   if (annotationParameter) {
-    const configParameter = params.get('config')
     if (annotationParameter.has('inlineAnnotation')) {
       // Set an inline annotation.
       const dataSource = new DataSource(
