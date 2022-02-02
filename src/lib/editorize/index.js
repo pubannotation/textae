@@ -30,9 +30,6 @@ export default function (element) {
   alertifyjs.set('notifier', 'position', 'top-right')
 
   $this.eventEmitter
-    .on('textae-event.resource.save.error', () => {
-      alertifyjs.error('could not save')
-    })
     .on('textae-event.resource.annotation.load.error', (url) =>
       alertifyjs.error(
         `Could not load the file from the location you specified.: ${url}`

@@ -105,7 +105,10 @@ export default class RemoteSource {
             editedData
           )
         },
-        () => this._eventEmitter.emit('textae-event.resource.save.error'),
+        () => {
+          alertifyjs.error('could not save')
+          this._eventEmitter.emit('textae-event.resource.save.error')
+        },
         () => this._eventEmitter.emit('textae-event.resource.endSave')
       )
     }
@@ -126,7 +129,10 @@ export default class RemoteSource {
             editedData
           )
         },
-        () => this._eventEmitter.emit('textae-event.resource.save.error'),
+        () => {
+          alertifyjs.error('could not save')
+          this._eventEmitter.emit('textae-event.resource.save.error')
+        },
         () => this._eventEmitter.emit('textae-event.resource.endSave')
       )
     }
