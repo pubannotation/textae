@@ -104,11 +104,11 @@ export default function (
     annotationData.typeDefinition.unlockEdit()
   }
 
-  const dataAccessObject = new RemoteResource(editor.eventEmitter)
+  const remoteResource = new RemoteResource(editor.eventEmitter)
   initAnnotation(
     spanConfig,
     annotationData,
-    dataAccessObject,
+    remoteResource,
     buttonController,
     originalData,
     params.get('annotation'),
@@ -117,7 +117,7 @@ export default function (
 
   const persistenceInterface = new PersistenceInterface(
     editor,
-    dataAccessObject,
+    remoteResource,
     annotationData,
     () => originalData.annotation,
     () => originalData.configuration,
@@ -145,7 +145,7 @@ export default function (
       'textae-event.data-access-object.annotation.load.success',
       (dataSource) => {
         if (!dataSource.data.config && params.get('config')) {
-          dataAccessObject.loadConfigulation(params.get('config'), dataSource)
+          remoteResource.loadConfigulation(params.get('config'), dataSource)
         } else {
           warningIfBeginEndOfSpanAreNotInteger(dataSource.data)
 
@@ -173,7 +173,7 @@ export default function (
             )
 
             originalData.annotation = dataSource
-            dataAccessObject.annotationUrl = dataSource
+            remoteResource.annotationUrl = dataSource
           }
         }
       }
@@ -225,7 +225,7 @@ export default function (
         }
 
         originalData.configuration = dataSource
-        dataAccessObject.configurationUrl = dataSource
+        remoteResource.configurationUrl = dataSource
       }
     )
     .on('textae-event.data-access-object.annotation.save', (editedData) => {

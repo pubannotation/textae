@@ -9,7 +9,7 @@ import isJSON from './isJSON'
 export default class PersistenceInterface {
   constructor(
     editor,
-    dataAccessObject,
+    remoteResource,
     annotationData,
     getOriginalAnnotation,
     getOriginalConfig,
@@ -18,7 +18,7 @@ export default class PersistenceInterface {
     buttonController
   ) {
     this._editor = editor
-    this._dataAccessObject = dataAccessObject
+    this._remoteResource = remoteResource
     this._annotationData = annotationData
     this._getOriginalAnnotation = getOriginalAnnotation
     this._getOriginalConfig = getOriginalConfig
@@ -36,8 +36,8 @@ export default class PersistenceInterface {
   importAnnotation() {
     new LoadDialog(
       'Load Annotations',
-      this._dataAccessObject.annotationUrl,
-      (url) => this._dataAccessObject.loadAnnotation(url),
+      this._remoteResource.annotationUrl,
+      (url) => this._remoteResource.loadAnnotation(url),
       (file) => {
         readAnnotationFile(file, this._editor)
         this._filenameOfLastRead.annotation = file.name
@@ -66,17 +66,16 @@ export default class PersistenceInterface {
   uploadAnnotation() {
     new SaveAnnotationDialog(
       this._editor,
-      this._saveToParameter || this._dataAccessObject.annotationUrl,
+      this._saveToParameter || this._remoteResource.annotationUrl,
       this._filenameOfLastRead.annotation,
       this._editedAnnotation,
-      (url) =>
-        this._dataAccessObject.saveAnnotation(url, this._editedAnnotation)
+      (url) => this._remoteResource.saveAnnotation(url, this._editedAnnotation)
     ).open()
   }
 
   saveAnnotation() {
-    this._dataAccessObject.saveAnnotation(
-      this._saveToParameter || this._dataAccessObject.annotationUrl,
+    this._remoteResource.saveAnnotation(
+      this._saveToParameter || this._remoteResource.annotationUrl,
       this._editedAnnotation
     )
   }
@@ -84,8 +83,8 @@ export default class PersistenceInterface {
   importConfiguration() {
     new LoadDialog(
       'Load Configurations',
-      this._dataAccessObject.configurationUrl,
-      (url) => this._dataAccessObject.loadConfigulation(url),
+      this._remoteResource.configurationUrl,
+      (url) => this._remoteResource.loadConfigulation(url),
       (file) => {
         readConfigurationFile(file, this._editor)
         this._filenameOfLastRead.configuration = file.name
@@ -116,11 +115,11 @@ export default class PersistenceInterface {
 
     new SaveConfigurationDialog(
       this._editor,
-      this._dataAccessObject.configurationUrl,
+      this._remoteResource.configurationUrl,
       this._filenameOfLastRead.configuration,
       this._getOriginalConfig(),
       editidConfig,
-      (url) => this._dataAccessObject.saveConfiguration(url, editidConfig)
+      (url) => this._remoteResource.saveConfiguration(url, editidConfig)
     ).open()
   }
 

@@ -8,7 +8,7 @@ import setDefault from './setDefault'
 export default function (
   spanConfig,
   annotationData,
-  dataAccessObject,
+  remoteResource,
   buttonController,
   originalData,
   annotationParameter,
@@ -23,7 +23,7 @@ export default function (
     )
 
     if (!dataSource.data.config && configParameter) {
-      dataAccessObject.loadConfigulation(configParameter, dataSource)
+      remoteResource.loadConfigulation(configParameter, dataSource)
     } else {
       warningIfBeginEndOfSpanAreNotInteger(dataSource.data)
 
@@ -55,10 +55,10 @@ export default function (
     }
   } else if (annotationParameter.has('url')) {
     // Load an annotation from server.
-    dataAccessObject.loadAnnotation(annotationParameter.get('url'))
+    remoteResource.loadAnnotation(annotationParameter.get('url'))
   } else {
     if (configParameter) {
-      dataAccessObject.loadConfigulation(configParameter)
+      remoteResource.loadConfigulation(configParameter)
     } else {
       setDefault(originalData, buttonController, spanConfig, annotationData)
     }
