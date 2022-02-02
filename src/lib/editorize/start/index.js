@@ -105,17 +105,15 @@ export default function (
   }
 
   const dataAccessObject = new DataAccessObject(editor.eventEmitter)
-  if (params.get('annotation')) {
-    initAnnotation(
-      spanConfig,
-      annotationData,
-      dataAccessObject,
-      buttonController,
-      originalData,
-      params.get('annotation'),
-      params.get('config')
-    )
-  }
+  initAnnotation(
+    spanConfig,
+    annotationData,
+    dataAccessObject,
+    buttonController,
+    originalData,
+    params.get('annotation'),
+    params.get('config')
+  )
 
   const persistenceInterface = new PersistenceInterface(
     editor,
