@@ -17,18 +17,19 @@ export default function (element) {
 
   const $this = $(element)
   // Set the eventEmitter to communicate with the tool and a control.
-  $this.eventEmitter = new EventEmitter()
-  const annotationData = new AnnotationData($this, $this.eventEmitter)
+  const eventEmitter = new EventEmitter()
+  $this.eventEmitter = eventEmitter
+  const annotationData = new AnnotationData($this, eventEmitter)
 
   // A contaier of selection state.
-  const selectionModel = new SelectionModel($this.eventEmitter, annotationData)
+  const selectionModel = new SelectionModel(eventEmitter, annotationData)
 
-  const history = new History($this.eventEmitter)
+  const history = new History(eventEmitter)
 
   // Set position of toast messages.
   alertifyjs.set('notifier', 'position', 'top-right')
 
-  $this.eventEmitter
+  eventEmitter
     .on('textae-event.resource.annotation.format.error', ({ displayName }) =>
       alertifyjs.error(
         `${displayName} is not a annotation file or its format is invalid.`
@@ -79,7 +80,7 @@ export default function (element) {
     }
   })
 
-  $this.eventEmitter
+  eventEmitter
     .on('textae-event.resource.startLoad', $this.startWait)
     .on('textae-event.resource.endLoad', $this.endWait)
     .on('textae-event.resource.startSave', $this.startWait)
