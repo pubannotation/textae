@@ -224,6 +224,9 @@ export default function (
         originalData.configuration = dataSource
       }
     )
+    .on('textae-event.data-access-object.annotation.save', (editedData) => {
+      originalData.annotation = new DataSource(null, null, editedData)
+    })
     .on('textae-event.data-access-object.configuration.save', (editedData) => {
       originalData.configuration = new DataSource(null, null, editedData)
     })
