@@ -114,5 +114,9 @@ export default function (element) {
     }
   })
 
+  $this.eventEmitter
+    .on('textae-event.data-access-object.startLoad', $this.startWait)
+    .on('textae-event.data-access-object.endLoad', $this.endWait)
+
   return $this
 }

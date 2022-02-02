@@ -1,17 +1,17 @@
 import ajaxAccessor from '../../util/ajaxAccessor'
 
 export default function (url, done, errorHandler, editor) {
-  editor.startWait()
+  editor.eventEmitter.emit('textae-event.data-access-object.startLoad')
 
   ajaxAccessor(
     url,
     (data) => {
       done(data)
-      editor.endWait()
+      editor.eventEmitter.emit('textae-event.data-access-object.endLoad')
     },
     () => {
       errorHandler()
-      editor.endWait()
+      editor.eventEmitter.emit('textae-event.data-access-object.endLoad')
     }
   )
 }
