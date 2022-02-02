@@ -1,7 +1,7 @@
 import get from './get'
 import DataSource from '../DataSource'
-import post from './AjaxSender/post'
-import patch from './AjaxSender/patch'
+import post from './post'
+import patch from './patch'
 
 // A sub component to save and load data.
 export default class DataAccessObject {
