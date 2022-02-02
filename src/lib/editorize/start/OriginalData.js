@@ -4,7 +4,7 @@ import patchConfiguration from './patchConfiguration'
 // Manage the original annotations and the original configuration and merge the changes when you save them.
 export default class OriginalData {
   constructor(editor, statusBar) {
-    this._editor = editor
+    this._eventEmitter = editor.eventEmitter
     this._statusBar = statusBar
     this._map = new Map()
   }
@@ -44,8 +44,6 @@ export default class OriginalData {
 
   set configuration(dataSource) {
     this._map.set('configuration', dataSource)
-    this._editor.eventEmitter.emit(
-      'textae-event.orginal-data.configuration.reset'
-    )
+    this._eventEmitter.emit('textae-event.orginal-data.configuration.reset')
   }
 }
