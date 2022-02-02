@@ -7,13 +7,9 @@ export default class View {
     this._annotationData = annotationData
 
     // Bind annotation data events
-    eventEmitter
-      .on('textae-event.annotation-data.span.move', () =>
-        this._annotationData.updatePositionDebounced()
-      )
-      .on('textae-event.annotation-data.entity-gap.change', () =>
-        this._annotationData.updatePosition()
-      )
+    eventEmitter.on('textae-event.annotation-data.entity-gap.change', () =>
+      this._annotationData.updatePosition()
+    )
 
     // Bind clipBoard events.
     eventEmitter.on('textae-event.clip-board.change', (added, removed) => {
