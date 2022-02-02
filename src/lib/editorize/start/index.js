@@ -51,7 +51,7 @@ export default function (
   const view = new View(editor.eventEmitter, annotationData)
   const statusBar = getStatusBar(editor, params.get('status_bar'))
   const dataAccessObject = new DataAccessObject(editor.eventEmitter)
-  const originalData = new OriginalData(editor, statusBar)
+  const originalData = new OriginalData(editor.eventEmitter, statusBar)
   const annotationDataEventsObserver = new AnnotationDataEventsObserver(
     editor.eventEmitter,
     originalData,
