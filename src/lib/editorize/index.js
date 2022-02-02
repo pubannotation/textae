@@ -18,7 +18,6 @@ export default function (element) {
   const $this = $(element)
   // Set the eventEmitter to communicate with the tool and a control.
   const eventEmitter = new EventEmitter()
-  $this.eventEmitter = eventEmitter
   const annotationData = new AnnotationData($this, eventEmitter)
 
   // A contaier of selection state.
@@ -77,7 +76,8 @@ export default function (element) {
     },
     endWait() {
       $this[0].classList.remove('textae-editor--wait')
-    }
+    },
+    eventEmitter
   })
 
   eventEmitter
