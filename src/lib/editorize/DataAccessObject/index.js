@@ -1,7 +1,6 @@
 import AjaxSender from './AjaxSender'
 import bind from './bind'
 import get from './get'
-import post from './post'
 import DataSource from '../DataSource'
 
 // A sub component to save and load data.
@@ -104,12 +103,10 @@ export default class DataAccessObject {
 
   saveAnnotation(url, editedData) {
     if (url) {
-      post(
-        this._editor,
-        this._ajaxSender,
-        url,
-        JSON.stringify(editedData),
-        'textae-event.data-access-object.annotation.save'
+      this._ajaxSender.post(url, JSON.stringify(editedData), () =>
+        this._editor.eventEmitter.emit(
+          'textae-event.data-access-object.annotation.save'
+        )
       )
     }
   }
