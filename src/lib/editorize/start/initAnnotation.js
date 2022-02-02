@@ -16,6 +16,7 @@ export default function (
   const annotationParameter = params.get('annotation')
 
   if (annotationParameter) {
+    const configParameter = params.get('config')
     if (annotationParameter.has('inlineAnnotation')) {
       // Set an inline annotation.
       const dataSource = new DataSource(
@@ -24,8 +25,8 @@ export default function (
         JSON.parse(annotationParameter.get('inlineAnnotation'))
       )
 
-      if (!dataSource.data.config && params.get('config')) {
-        dataAccessObject.loadConfigulation(params.get('config'), dataSource)
+      if (!dataSource.data.config && configParameter) {
+        dataAccessObject.loadConfigulation(configParameter, dataSource)
       } else {
         warningIfBeginEndOfSpanAreNotInteger(dataSource.data)
 
@@ -59,8 +60,8 @@ export default function (
       // Load an annotation from server.
       dataAccessObject.loadAnnotation(annotationParameter.get('url'))
     } else {
-      if (params.get('config')) {
-        dataAccessObject.loadConfigulation(params.get('config'))
+      if (configParameter) {
+        dataAccessObject.loadConfigulation(configParameter)
       } else {
         setDefault(originalData, buttonController, spanConfig, annotationData)
       }
