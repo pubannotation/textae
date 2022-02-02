@@ -4,7 +4,7 @@ import post from './post'
 import patch from './patch'
 
 // A sub component to save and load data.
-export default class DataAccessObject {
+export default class RemoteSource {
   constructor(eventEmitter) {
     this._eventEmitter = eventEmitter
 

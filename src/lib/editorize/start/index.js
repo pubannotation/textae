@@ -22,7 +22,7 @@ import warningIfBeginEndOfSpanAreNotInteger from './warningIfBeginEndOfSpanAreNo
 import validateConfigurationAndAlert from './validateConfigurationAndAlert'
 import setAnnotationAndConfiguration from './setAnnotationAndConfiguration'
 import DataSource from '../DataSource'
-import DataAccessObject from '../DataAccessObject'
+import RemoteResource from '../RemoteResource'
 
 export default function (
   editor,
@@ -104,7 +104,7 @@ export default function (
     annotationData.typeDefinition.unlockEdit()
   }
 
-  const dataAccessObject = new DataAccessObject(editor.eventEmitter)
+  const dataAccessObject = new RemoteResource(editor.eventEmitter)
   initAnnotation(
     spanConfig,
     annotationData,
