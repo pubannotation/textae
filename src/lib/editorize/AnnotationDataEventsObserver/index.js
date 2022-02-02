@@ -3,6 +3,11 @@ import Observable from 'observ'
 import diffOfAnnotation from './diffOfAnnotation'
 
 export default class AnnotationDataEventsObserver {
+  /**
+   *
+   * @param {import('../start/OriginalData').default} originalData
+   * @param {import('../AnnotationData').default} annotationData
+   */
   constructor(eventEmitter, originalData, annotationData) {
     this._originalData = originalData
     this._annotationData = annotationData
