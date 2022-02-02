@@ -19,18 +19,18 @@ import LineHeightAuto from '../start/View/LineHeightAuto'
 import { debounce } from 'debounce'
 
 export default class AnnotationData {
-  constructor(editor) {
+  constructor(editor, eventEmitter) {
     this._sourceDoc = ''
-    this.namespace = new ModelContainer(editor.eventEmitter, 'namespace')
+    this.namespace = new ModelContainer(eventEmitter, 'namespace')
     const relationDefinitionContainer = new DefinitionContainer(
-      editor.eventEmitter,
+      eventEmitter,
       'relation',
       () => this.relation.all,
       '#00CC66'
     )
     this.relation = new RelationModelContainer(
       editor,
-      editor.eventEmitter,
+      eventEmitter,
       this,
       this.namespace,
       relationDefinitionContainer
@@ -40,25 +40,23 @@ export default class AnnotationData {
         entity.reflectTypeGapInTheHeight()
       }
       this._textBox.updateLineHeight()
-      this._editor.eventEmitter.emit(
-        'textae-event.annotation-data.entity-gap.change'
-      )
+      this._eventEmitter.emit('textae-event.annotation-data.entity-gap.change')
     })
 
     this.entity = new EntityModelContainer(
       editor,
-      editor.eventEmitter,
+      eventEmitter,
       this,
       this._typeGap,
       this.namespace
     )
 
     this.attributeDefinitionContainer = new AttributeDefinitionContainer(
-      editor.eventEmitter,
+      eventEmitter,
       () => this.attribute.all
     )
     this.attribute = new AttributeModelContainer(
-      editor.eventEmitter,
+      eventEmitter,
       this.entity,
       this.relation,
       this.namespace,
@@ -66,10 +64,7 @@ export default class AnnotationData {
     )
 
     this._textBox = createTextBox(editor, this)
-    this._lineHeightAuto = new LineHeightAuto(
-      editor.eventEmitter,
-      this._textBox
-    )
+    this._lineHeightAuto = new LineHeightAuto(eventEmitter, this._textBox)
     this.updatePositionDebounced = debounce(() => {
       this._lineHeightAuto.updateLineHeight()
       this.updatePosition()
@@ -77,21 +72,22 @@ export default class AnnotationData {
 
     this.span = new SpanModelContainer(
       editor,
-      editor.eventEmitter,
+      eventEmitter,
       this.entity,
       this._textBox,
       this._typeGap
     )
     this._editor = editor
+    this._eventEmitter = eventEmitter
 
     this.denotationDefinitionContainer = new DefinitionContainer(
-      editor.eventEmitter,
+      eventEmitter,
       'entity',
       () => this.entity.denotations,
       '#77DDDD'
     )
     const blockDefinitionContainer = new DefinitionContainer(
-      editor.eventEmitter,
+      eventEmitter,
       'entity',
       () => this.entity.blocks,
       '#77DDDD'
@@ -104,7 +100,7 @@ export default class AnnotationData {
       this.attributeDefinitionContainer
     )
 
-    editor.eventEmitter
+    eventEmitter
       .on('textae-event.annotation-data.span.add', (span) => {
         if (span.isDenotation || span.isBlock) {
           this.updatePosition()
@@ -134,7 +130,7 @@ export default class AnnotationData {
 
     this._clearAndDrawAllAnnotations()
 
-    this._editor.eventEmitter.emit(
+    this._eventEmitter.emit(
       'textae-event.annotation-data.all.change',
       this,
       multitrack,

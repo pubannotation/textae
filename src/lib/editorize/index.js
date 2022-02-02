@@ -18,7 +18,7 @@ export default function (element) {
   const $this = $(element)
   // Set the eventEmitter to communicate with the tool and a control.
   $this.eventEmitter = new EventEmitter()
-  const annotationData = new AnnotationData($this)
+  const annotationData = new AnnotationData($this, $this.eventEmitter)
 
   // A contaier of selection state.
   const selectionModel = new SelectionModel($this.eventEmitter, annotationData)
