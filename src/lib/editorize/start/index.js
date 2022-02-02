@@ -224,6 +224,7 @@ export default function (
         }
 
         originalData.configuration = dataSource
+        dataAccessObject.configurationUrl = dataSource
       }
     )
     .on('textae-event.data-access-object.annotation.save', (editedData) => {

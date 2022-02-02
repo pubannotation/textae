@@ -45,7 +45,6 @@ export default class OriginalData {
 
   set configuration(dataSource) {
     this._map.set('configuration', dataSource)
-    this._dataAccessObject.configurationUrl = dataSource
     this._editor.eventEmitter.emit(
       'textae-event.orginal-data.configuration.reset'
     )
