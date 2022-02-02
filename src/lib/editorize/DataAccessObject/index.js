@@ -1,5 +1,4 @@
 import AjaxSender from './AjaxSender'
-import bind from './bind'
 import get from './get'
 import DataSource from '../DataSource'
 
@@ -21,8 +20,6 @@ export default class DataAccessObject {
         ),
       () => editor.endWait()
     )
-
-    bind(editor, this._ajaxSender)
   }
 
   get annotationUrl() {
