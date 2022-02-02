@@ -13,10 +13,11 @@ export default class DataAccessObject {
       config: ''
     }
     this._ajaxSender = new AjaxSender(
-      () => editor.startWait(),
+      () =>
+        this._eventEmitter.emit('textae-event.data-access-object.startSave'),
       () =>
         this._eventEmitter.emit('textae-event.data-access-object.save.error'),
-      () => editor.endWait()
+      () => this._eventEmitter.emit('textae-event.data-access-object.endSave')
     )
   }
 
