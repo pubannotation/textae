@@ -3,7 +3,7 @@ import patchConfiguration from './patchConfiguration'
 
 // Manage the original annotations and the original configuration and merge the changes when you save them.
 export default class OriginalData {
-  constructor(editor, dataAccessObject, statusBar) {
+  constructor(editor, statusBar) {
     this._editor = editor
     this._statusBar = statusBar
     this._map = new Map()
