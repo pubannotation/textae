@@ -119,11 +119,13 @@ export default class RemoteSource {
         url,
         JSON.stringify(editedData),
         () => this._eventEmitter.emit('textae-event.resource.startSave'),
-        () =>
+        () => {
+          alertifyjs.success('configuration saved')
           this._eventEmitter.emit(
             'textae-event.resource.configuration.save',
             editedData
-          ),
+          )
+        },
         () => this._eventEmitter.emit('textae-event.resource.save.error'),
         () => this._eventEmitter.emit('textae-event.resource.endSave')
       )
