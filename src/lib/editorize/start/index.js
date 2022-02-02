@@ -22,15 +22,16 @@ import warningIfBeginEndOfSpanAreNotInteger from './warningIfBeginEndOfSpanAreNo
 import validateConfigurationAndAlert from './validateConfigurationAndAlert'
 import setAnnotationAndConfiguration from './setAnnotationAndConfiguration'
 import DataSource from '../DataSource'
+import DataAccessObject from '../DataAccessObject'
 
 export default function (
   editor,
-  dataAccessObject,
   history,
   annotationData,
   selectionModel,
   params
 ) {
+  const dataAccessObject = new DataAccessObject(editor.eventEmitter)
   const spanConfig = new SpanConfig()
 
   // Users can edit model only via commands.

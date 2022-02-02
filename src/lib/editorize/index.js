@@ -1,7 +1,6 @@
 import $ from 'jquery'
 import alertifyjs from 'alertifyjs'
 import delegate from 'delegate'
-import DataAccessObject from './DataAccessObject'
 // model manages data objects.
 import AnnotationData from './AnnotationData'
 import SelectionModel from './SelectionModel'
@@ -26,7 +25,6 @@ export default function (element) {
   const selectionModel = new SelectionModel($this.eventEmitter, annotationData)
 
   const history = new History($this.eventEmitter)
-  const dataAccessObject = new DataAccessObject($this.eventEmitter)
 
   // Set position of toast messages.
   alertifyjs.set('notifier', 'position', 'top-right')
@@ -97,14 +95,7 @@ export default function (element) {
   // public funcitons of editor
   Object.assign($this, {
     start(editor) {
-      start(
-        editor,
-        dataAccessObject,
-        history,
-        annotationData,
-        selectionModel,
-        params
-      )
+      start(editor, history, annotationData, selectionModel, params)
     },
     startWait() {
       $this[0].classList.add('textae-editor--wait')
