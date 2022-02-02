@@ -5,7 +5,6 @@ import patchConfiguration from './patchConfiguration'
 export default class OriginalData {
   constructor(editor, dataAccessObject, statusBar) {
     this._editor = editor
-    this._dataAccessObject = dataAccessObject
     this._statusBar = statusBar
     this._map = new Map()
   }
