@@ -71,7 +71,7 @@ export default class DataAccessObject {
           'textae-event.data-access-object.annotation.load.error',
           url
         ),
-      this._editor
+      this._editor.eventEmitter
     )
   }
 
@@ -94,7 +94,7 @@ export default class DataAccessObject {
           'textae-event.data-access-object.configuration.load.error',
           url
         ),
-      this._editor
+      this._editor.eventEmitter
     )
   }
 
