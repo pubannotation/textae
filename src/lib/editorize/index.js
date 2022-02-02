@@ -8,7 +8,7 @@ import SelectionModel from './SelectionModel'
 import History from './History'
 import start from './start'
 import { EventEmitter } from 'events'
-import getParams from './getParams'
+import extractParamsFromHTMLElement from './extractParamsFromHTMLElement'
 import ValidationDialog from '../component/ValidationDialog'
 import isAndroid from './isAndroid'
 
@@ -18,7 +18,7 @@ export default function (element) {
   // Set the eventEmitter to communicate with the tool and a control.
   $this.eventEmitter = new EventEmitter()
 
-  const params = getParams($this[0])
+  const params = extractParamsFromHTMLElement($this[0])
   const annotationData = new AnnotationData($this)
 
   // A contaier of selection state.
