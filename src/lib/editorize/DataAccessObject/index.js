@@ -1,7 +1,7 @@
-import AjaxSender from './AjaxSender'
 import get from './get'
 import DataSource from '../DataSource'
 import post from './AjaxSender/post'
+import patch from './AjaxSender/patch'
 
 // A sub component to save and load data.
 export default class DataAccessObject {
@@ -114,17 +114,19 @@ export default class DataAccessObject {
     // textae-config service is build with the Ruby on Rails 4.X.
     // To change existing files, only PATCH method is allowed on the Ruby on Rails 4.X.
     if (url) {
-      new AjaxSender(
+      patch(
+        url,
+        JSON.stringify(editedData),
         () =>
           this._eventEmitter.emit('textae-event.data-access-object.startSave'),
         () =>
+          this._eventEmitter.emit(
+            'textae-event.data-access-object.configuration.save',
+            editedData
+          ),
+        () =>
           this._eventEmitter.emit('textae-event.data-access-object.save.error'),
         () => this._eventEmitter.emit('textae-event.data-access-object.endSave')
-      ).patch(url, JSON.stringify(editedData), () =>
-        this._eventEmitter.emit(
-          'textae-event.data-access-object.configuration.save',
-          editedData
-        )
       )
     }
   }
