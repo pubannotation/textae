@@ -37,7 +37,7 @@ export default function (
       aTag.setAttribute('href', downloadPath)
       aTag.setAttribute('download', aTag.previousElementSibling.value)
       editor.eventEmitter.emit(
-        'textae-event.data-access-object.configuration.save',
+        'textae-event.resource.configuration.save',
         editedData
       )
       closeDialog()

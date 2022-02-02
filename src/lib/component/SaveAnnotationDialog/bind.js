@@ -30,10 +30,7 @@ export default function (editor, element, data, closeDialog, saveAnnotation) {
       const downloadPath = createDownloadPath(data)
       aTag.setAttribute('href', downloadPath)
       aTag.setAttribute('download', aTag.previousElementSibling.value)
-      editor.eventEmitter.emit(
-        'textae-event.data-access-object.annotation.save',
-        data
-      )
+      editor.eventEmitter.emit('textae-event.resource.annotation.save', data)
       closeDialog()
     }
   )
@@ -44,10 +41,7 @@ export default function (editor, element, data, closeDialog, saveAnnotation) {
     'click',
     () => {
       window.open(createDownloadPath(data), '_blank')
-      editor.eventEmitter.emit(
-        'textae-event.data-access-object.annotation.save',
-        data
-      )
+      editor.eventEmitter.emit('textae-event.resource.annotation.save', data)
       closeDialog()
     }
   )

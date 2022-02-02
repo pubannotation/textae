@@ -45,23 +45,23 @@ export default class RemoteSource {
         const dataSource = new DataSource('url', url, annotation)
         if (annotation && annotation.text) {
           this._eventEmitter.emit(
-            'textae-event.data-access-object.annotation.load.success',
+            'textae-event.resource.annotation.load.success',
             dataSource
           )
           this._eventEmitter.emit(
-            'textae-event.data-access-object.annotation.url.set',
+            'textae-event.resource.annotation.url.set',
             dataSource
           )
         } else {
           this._eventEmitter.emit(
-            'textae-event.data-access-object.annotation.format.error',
+            'textae-event.resource.annotation.format.error',
             dataSource
           )
         }
       },
       () =>
         this._eventEmitter.emit(
-          'textae-event.data-access-object.annotation.load.error',
+          'textae-event.resource.annotation.load.error',
           url
         ),
       this._eventEmitter
@@ -77,14 +77,14 @@ export default class RemoteSource {
       url,
       (config) => {
         this._eventEmitter.emit(
-          'textae-event.data-access-object.configuration.load.success',
+          'textae-event.resource.configuration.load.success',
           new DataSource('url', url, config),
           annotationDataSource
         )
       },
       () =>
         this._eventEmitter.emit(
-          'textae-event.data-access-object.configuration.load.error',
+          'textae-event.resource.configuration.load.error',
           url
         ),
       this._eventEmitter
@@ -96,16 +96,14 @@ export default class RemoteSource {
       post(
         url,
         JSON.stringify(editedData),
-        () =>
-          this._eventEmitter.emit('textae-event.data-access-object.startSave'),
+        () => this._eventEmitter.emit('textae-event.resource.startSave'),
         () =>
           this._eventEmitter.emit(
-            'textae-event.data-access-object.annotation.save',
+            'textae-event.resource.annotation.save',
             editedData
           ),
-        () =>
-          this._eventEmitter.emit('textae-event.data-access-object.save.error'),
-        () => this._eventEmitter.emit('textae-event.data-access-object.endSave')
+        () => this._eventEmitter.emit('textae-event.resource.save.error'),
+        () => this._eventEmitter.emit('textae-event.resource.endSave')
       )
     }
   }
@@ -117,16 +115,14 @@ export default class RemoteSource {
       patch(
         url,
         JSON.stringify(editedData),
-        () =>
-          this._eventEmitter.emit('textae-event.data-access-object.startSave'),
+        () => this._eventEmitter.emit('textae-event.resource.startSave'),
         () =>
           this._eventEmitter.emit(
-            'textae-event.data-access-object.configuration.save',
+            'textae-event.resource.configuration.save',
             editedData
           ),
-        () =>
-          this._eventEmitter.emit('textae-event.data-access-object.save.error'),
-        () => this._eventEmitter.emit('textae-event.data-access-object.endSave')
+        () => this._eventEmitter.emit('textae-event.resource.save.error'),
+        () => this._eventEmitter.emit('textae-event.resource.endSave')
       )
     }
   }

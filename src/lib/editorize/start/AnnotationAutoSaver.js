@@ -16,11 +16,11 @@ export default class AnnotationAutoSaver {
     )
 
     eventEmitter
-      .on('textae-event.data-access-object.annotation.load.success', () =>
+      .on('textae-event.resource.annotation.load.success', () =>
         this._disabled()
       )
-      .on('textae-event.data-access-object.save.error', () => this._disabled())
-      .on('textae-event.data-access-object.annotation.url.set', (dataSource) =>
+      .on('textae-event.resource.save.error', () => this._disabled())
+      .on('textae-event.resource.annotation.url.set', (dataSource) =>
         eventEmitter.emit(
           'textae-event.annotation-auto-saver.enable',
           Boolean(saveToParameter || dataSource.id)

@@ -141,45 +141,42 @@ export default function (
   )
 
   editor.eventEmitter
-    .on(
-      'textae-event.data-access-object.annotation.load.success',
-      (dataSource) => {
-        if (!dataSource.data.config && params.get('config')) {
-          remoteResource.loadConfigulation(params.get('config'), dataSource)
-        } else {
-          warningIfBeginEndOfSpanAreNotInteger(dataSource.data)
+    .on('textae-event.resource.annotation.load.success', (dataSource) => {
+      if (!dataSource.data.config && params.get('config')) {
+        remoteResource.loadConfigulation(params.get('config'), dataSource)
+      } else {
+        warningIfBeginEndOfSpanAreNotInteger(dataSource.data)
 
-          if (dataSource.data.config) {
-            // When config is specified, it must be JSON.
-            // For example, when we load an HTML file, we treat it as text here.
-            if (typeof dataSource.data.config !== 'object') {
-              alertifyjs.error(`configuration in anntotaion file is invalid.`)
-              return
-            }
-          }
-
-          const validConfig = validateConfigurationAndAlert(
-            dataSource.data,
-            dataSource.data.config
-          )
-
-          if (validConfig) {
-            setAnnotationAndConfiguration(
-              validConfig,
-              buttonController,
-              spanConfig,
-              annotationData,
-              dataSource.data
-            )
-
-            originalData.annotation = dataSource
-            remoteResource.annotationUrl = dataSource
+        if (dataSource.data.config) {
+          // When config is specified, it must be JSON.
+          // For example, when we load an HTML file, we treat it as text here.
+          if (typeof dataSource.data.config !== 'object') {
+            alertifyjs.error(`configuration in anntotaion file is invalid.`)
+            return
           }
         }
+
+        const validConfig = validateConfigurationAndAlert(
+          dataSource.data,
+          dataSource.data.config
+        )
+
+        if (validConfig) {
+          setAnnotationAndConfiguration(
+            validConfig,
+            buttonController,
+            spanConfig,
+            annotationData,
+            dataSource.data
+          )
+
+          originalData.annotation = dataSource
+          remoteResource.annotationUrl = dataSource
+        }
       }
-    )
+    })
     .on(
-      'textae-event.data-access-object.configuration.load.success',
+      'textae-event.resource.configuration.load.success',
       (dataSource, loadedAnnotation = null) => {
         // When config is specified, it must be JSON.
         // For example, when we load an HTML file, we treat it as text here.
@@ -228,10 +225,10 @@ export default function (
         remoteResource.configurationUrl = dataSource
       }
     )
-    .on('textae-event.data-access-object.annotation.save', (editedData) => {
+    .on('textae-event.resource.annotation.save', (editedData) => {
       originalData.annotation = new DataSource(null, null, editedData)
     })
-    .on('textae-event.data-access-object.configuration.save', (editedData) => {
+    .on('textae-event.resource.configuration.save', (editedData) => {
       originalData.configuration = new DataSource(null, null, editedData)
     })
     .on('textae-event.pallet.read-button.click', () =>

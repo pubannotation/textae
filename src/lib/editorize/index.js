@@ -30,38 +30,34 @@ export default function (element) {
   alertifyjs.set('notifier', 'position', 'top-right')
 
   $this.eventEmitter
-    .on('textae-event.data-access-object.annotation.save', () => {
+    .on('textae-event.resource.annotation.save', () => {
       alertifyjs.success('annotation saved')
     })
-    .on('textae-event.data-access-object.configuration.save', () => {
+    .on('textae-event.resource.configuration.save', () => {
       alertifyjs.success('configuration saved')
     })
-    .on('textae-event.data-access-object.save.error', () => {
+    .on('textae-event.resource.save.error', () => {
       alertifyjs.error('could not save')
     })
-    .on('textae-event.data-access-object.annotation.load.error', (url) =>
+    .on('textae-event.resource.annotation.load.error', (url) =>
       alertifyjs.error(
         `Could not load the file from the location you specified.: ${url}`
       )
     )
-    .on(
-      'textae-event.data-access-object.annotation.format.error',
-      ({ displayName }) =>
-        alertifyjs.error(
-          `${displayName} is not a annotation file or its format is invalid.`
-        )
+    .on('textae-event.resource.annotation.format.error', ({ displayName }) =>
+      alertifyjs.error(
+        `${displayName} is not a annotation file or its format is invalid.`
+      )
     )
-    .on('textae-event.data-access-object.configuration.load.error', (url) =>
+    .on('textae-event.resource.configuration.load.error', (url) =>
       alertifyjs.error(
         `Could not load the file from the location you specified.: ${url}`
       )
     )
-    .on(
-      'textae-event.data-access-object.configuration.format.error',
-      ({ displayName }) =>
-        alertifyjs.error(
-          `${displayName} is not a configuration file or its format is invalid.!`
-        )
+    .on('textae-event.resource.configuration.format.error', ({ displayName }) =>
+      alertifyjs.error(
+        `${displayName} is not a configuration file or its format is invalid.!`
+      )
     )
     .on(
       'textae-event.annotation-data.all.change',
@@ -106,10 +102,10 @@ export default function (element) {
   })
 
   $this.eventEmitter
-    .on('textae-event.data-access-object.startLoad', $this.startWait)
-    .on('textae-event.data-access-object.endLoad', $this.endWait)
-    .on('textae-event.data-access-object.startSave', $this.startWait)
-    .on('textae-event.data-access-object.endSave', $this.endWait)
+    .on('textae-event.resource.startLoad', $this.startWait)
+    .on('textae-event.resource.endLoad', $this.endWait)
+    .on('textae-event.resource.startSave', $this.startWait)
+    .on('textae-event.resource.endSave', $this.endWait)
 
   return $this
 }

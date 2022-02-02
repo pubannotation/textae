@@ -19,7 +19,7 @@ export default class AnnotationDataEventsObserver {
     this._loadedAnnotationIsModified = false
 
     eventEmitter
-      .on('textae-event.data-access-object.annotation.save', () => {
+      .on('textae-event.resource.annotation.save', () => {
         this._observable.set(false)
         this._loadedAnnotationIsModified = false
       })

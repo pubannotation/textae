@@ -13,10 +13,10 @@ export default class History {
         this._resetHistory()
         this._trigger()
       })
-      .on('textae-event.data-access-object.annotation.save', () => {
+      .on('textae-event.resource.annotation.save', () => {
         this._trigger()
       })
-      .on('textae-event.data-access-object.configuration.save', () => {
+      .on('textae-event.resource.configuration.save', () => {
         this._trigger()
       })
   }

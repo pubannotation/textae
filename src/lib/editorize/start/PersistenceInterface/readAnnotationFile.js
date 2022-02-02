@@ -10,7 +10,7 @@ export default async function (file, editor) {
   if (isTxtFile(file.name)) {
     // If this is .txt, New annotation json is made from .txt
     editor.eventEmitter.emit(
-      'textae-event.data-access-object.annotation.load.success',
+      'textae-event.resource.annotation.load.success',
       new DataSource('local file', file.name, {
         text: fileContent
       })
@@ -24,7 +24,7 @@ export default async function (file, editor) {
 
     if (annotation.text) {
       editor.eventEmitter.emit(
-        'textae-event.data-access-object.annotation.load.success',
+        'textae-event.resource.annotation.load.success',
         new DataSource('local file', file.name, annotation)
       )
 
@@ -33,7 +33,7 @@ export default async function (file, editor) {
   }
 
   editor.eventEmitter.emit(
-    'textae-event.data-access-object.annotation.format.error',
+    'textae-event.resource.annotation.format.error',
     new DataSource('local file', file.name)
   )
 }

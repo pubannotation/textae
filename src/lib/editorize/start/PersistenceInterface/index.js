@@ -47,7 +47,7 @@ export default class PersistenceInterface {
           const annotation = JSON.parse(text)
           if (annotation.text) {
             this._editor.eventEmitter.emit(
-              'textae-event.data-access-object.annotation.load.success',
+              'textae-event.resource.annotation.load.success',
               new DataSource('instant', null, annotation)
             )
             return
@@ -55,7 +55,7 @@ export default class PersistenceInterface {
         }
 
         this._editor.eventEmitter.emit(
-          'textae-event.data-access-object.annotation.format.error',
+          'textae-event.resource.annotation.format.error',
           new DataSource('instant', null)
         )
       },
@@ -92,12 +92,12 @@ export default class PersistenceInterface {
       (text) => {
         if (isJSON(text)) {
           this._editor.eventEmitter.emit(
-            'textae-event.data-access-object.configuration.load.success',
+            'textae-event.resource.configuration.load.success',
             new DataSource('instant', null, JSON.parse(text))
           )
         } else {
           this._editor.eventEmitter.emit(
-            'textae-event.data-access-object.configuration.format.error',
+            'textae-event.resource.configuration.format.error',
             new DataSource('instant', null)
           )
         }
