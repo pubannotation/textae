@@ -6,11 +6,6 @@ export default class View {
   constructor(eventEmitter, annotationData) {
     this._annotationData = annotationData
 
-    // Bind annotation data events
-    eventEmitter.on('textae-event.annotation-data.entity-gap.change', () =>
-      this._annotationData.updatePosition()
-    )
-
     // Bind clipBoard events.
     eventEmitter.on('textae-event.clip-board.change', (added, removed) => {
       for (const entity of added) {

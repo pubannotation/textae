@@ -117,6 +117,9 @@ export default class AnnotationData {
           this._textBox.forceUpdate()
         }
       })
+      .on('textae-event.annotation-data.entity-gap.change', () =>
+        this.updatePosition()
+      )
   }
 
   reset(rawData, config) {
