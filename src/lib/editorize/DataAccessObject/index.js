@@ -5,7 +5,7 @@ import DataSource from '../DataSource'
 // A sub component to save and load data.
 export default class DataAccessObject {
   constructor(editor) {
-    this._editor = editor
+    this._eventEmitter = editor.eventEmitter
 
     // Store the url the annotation data is loaded from per editor.
     this._urlOfLastRead = {
@@ -15,9 +15,7 @@ export default class DataAccessObject {
     this._ajaxSender = new AjaxSender(
       () => editor.startWait(),
       () =>
-        this._editor.eventEmitter.emit(
-          'textae-event.data-access-object.save.error'
-        ),
+        this._eventEmitter.emit('textae-event.data-access-object.save.error'),
       () => editor.endWait()
     )
   }
@@ -51,27 +49,27 @@ export default class DataAccessObject {
       (annotation) => {
         const dataSource = new DataSource('url', url, annotation)
         if (annotation && annotation.text) {
-          this._editor.eventEmitter.emit(
+          this._eventEmitter.emit(
             'textae-event.data-access-object.annotation.load.success',
             dataSource
           )
-          this._editor.eventEmitter.emit(
+          this._eventEmitter.emit(
             'textae-event.data-access-object.annotation.url.set',
             dataSource
           )
         } else {
-          this._editor.eventEmitter.emit(
+          this._eventEmitter.emit(
             'textae-event.data-access-object.annotation.format.error',
             dataSource
           )
         }
       },
       () =>
-        this._editor.eventEmitter.emit(
+        this._eventEmitter.emit(
           'textae-event.data-access-object.annotation.load.error',
           url
         ),
-      this._editor.eventEmitter
+      this._eventEmitter
     )
   }
 
@@ -83,25 +81,25 @@ export default class DataAccessObject {
     get(
       url,
       (config) => {
-        this._editor.eventEmitter.emit(
+        this._eventEmitter.emit(
           'textae-event.data-access-object.configuration.load.success',
           new DataSource('url', url, config),
           annotationDataSource
         )
       },
       () =>
-        this._editor.eventEmitter.emit(
+        this._eventEmitter.emit(
           'textae-event.data-access-object.configuration.load.error',
           url
         ),
-      this._editor.eventEmitter
+      this._eventEmitter
     )
   }
 
   saveAnnotation(url, editedData) {
     if (url) {
       this._ajaxSender.post(url, JSON.stringify(editedData), () =>
-        this._editor.eventEmitter.emit(
+        this._eventEmitter.emit(
           'textae-event.data-access-object.annotation.save',
           editedData
         )
@@ -114,7 +112,7 @@ export default class DataAccessObject {
     // To change existing files, only PATCH method is allowed on the Ruby on Rails 4.X.
     if (url) {
       this._ajaxSender.patch(url, JSON.stringify(editedData), () =>
-        this._editor.eventEmitter.emit(
+        this._eventEmitter.emit(
           'textae-event.data-access-object.configuration.save',
           editedData
         )
