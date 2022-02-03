@@ -18,7 +18,8 @@ export default class RelationModelContainer extends IdIssueContainer {
 
   _toModel(relation) {
     return new RelationModel(
-      this._editor,
+      this._editor[0],
+      this._editor.eventEmitter,
       this._parentContainer.entity,
       this._parentContainer.attribute,
       relation,
@@ -33,7 +34,8 @@ export default class RelationModelContainer extends IdIssueContainer {
       newValue instanceof RelationModel
         ? newValue
         : new RelationModel(
-            this._editor,
+            this._editor[0],
+            this._editor.eventEmitter,
             this._parentContainer.entity,
             this._parentContainer.attribute,
             newValue,

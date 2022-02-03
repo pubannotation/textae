@@ -6,15 +6,16 @@ import SVGConnection from './SVGConnection'
 
 export default class RelationModel {
   constructor(
-    editor,
+    editorHTMLElement,
+    eventEmitter,
     entityContainer,
     attributeContainer,
     { id, pred, subj, obj },
     namespace,
     definitionContainer
   ) {
-    this._editorHTMLElement = editor[0]
-    this._eventEmitter = editor.eventEmitter
+    this._editorHTMLElement = editorHTMLElement
+    this._eventEmitter = eventEmitter
     this._entityContainer = entityContainer
     this._attributeContainer = attributeContainer
     this._id = id
