@@ -60,7 +60,8 @@ export default class SpanModelContainer {
         'There is already a span.'
       )
       const denotationSpan = new DenotationSpanModel(
-        this._editor,
+        this._editor.editorID,
+        this._editor[0],
         newValue.begin,
         newValue.end,
         this._entityContainer,
@@ -194,7 +195,8 @@ export default class SpanModelContainer {
     this._removeDenotation(oldSpan)
 
     const newOne = new DenotationSpanModel(
-      this._editor,
+      this._editor.editorID,
+      this._editor[0],
       begin,
       end,
       this._entityContainer,
@@ -328,7 +330,8 @@ export default class SpanModelContainer {
     switch (type) {
       case 'denotation': {
         const objectSpan = new DenotationSpanModel(
-          this._editor,
+          this._editor.editorID,
+          this._editor[0],
           denotation.span.begin,
           denotation.span.end,
           this._entityContainer,
