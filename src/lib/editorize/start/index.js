@@ -35,7 +35,9 @@ export default function (
 
   // Users can edit model only via commands.
   const commander = new Commander(
-    editor,
+    editor[0],
+    editor.editorID,
+    editor.events,
     annotationData,
     selectionModel,
     history
