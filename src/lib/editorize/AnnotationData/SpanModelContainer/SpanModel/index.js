@@ -10,6 +10,8 @@ import createRangeToSpan from '../createRangeToSpan'
 export default class SpanModel {
   constructor(editor, begin, end, spanModelContainer) {
     this._editor = editor
+    this._editorID = editor.editorID
+    this._editorHTMLElement = editor[0]
     this._begin = begin
     this._end = end
     this._spanModelContainer = spanModelContainer
@@ -20,7 +22,7 @@ export default class SpanModel {
 
   get id() {
     return makeDenotationSpanHTMLElementID(
-      this._editor.editorID,
+      this._editorID,
       this._begin,
       this._end
     )
@@ -170,7 +172,7 @@ export default class SpanModel {
       return
     }
 
-    const rightGrid = getRightGrid(this._editor[0], this.id)
+    const rightGrid = getRightGrid(this._editorHTMLElement, this.id)
     if (rightGrid) {
       // insert before the right grid.
       rightGrid.insertAdjacentElement('beforebegin', this._createGridElement())
@@ -179,7 +181,7 @@ export default class SpanModel {
       return rightGrid.previousElementSibling
     } else {
       // append to the annotation area.
-      const container = getAnnotationBox(this._editor[0])
+      const container = getAnnotationBox(this._editorHTMLElement)
       container.insertAdjacentElement('beforeend', this._createGridElement())
       this._isGridRendered = true
 
