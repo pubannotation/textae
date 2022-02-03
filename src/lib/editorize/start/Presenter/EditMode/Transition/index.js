@@ -1,5 +1,5 @@
 import EditorCSSClassForMode from './EditorCSSClassForMode'
-import { MODE } from '../../../../../../MODE'
+import { MODE } from '../../../../../MODE'
 
 export default class Transition {
   constructor(

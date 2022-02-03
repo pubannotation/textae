@@ -6,7 +6,7 @@ export default class StateMachine {
   /**
    *
    * @param {import('../../../../AnnotationData/RelationModelContainer').default} relationContainer
-   * @param {import('./Transition').default} transition
+   * @param {import('../Transition').default} transition
    */
   constructor(relationContainer, transition) {
     const m = new Machine({
