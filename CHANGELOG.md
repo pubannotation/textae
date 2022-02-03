@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.8.0](https://github.com/pubannotation/textae/compare/v8.7.0...v8.8.0) (2022-02-03)
+
+
+### Features
+
+* Show annotation saved message only when an annotation is saved to a server ([db8b63a](https://github.com/pubannotation/textae/commit/db8b63aed8c259e4b0f2464a67c8a0a728c0a3af))
+* Show configuration saved message only when a configuration is saved to a server ([34505b6](https://github.com/pubannotation/textae/commit/34505b638f705ca61e7ebd4a821a58c990389655))
+
+
+### Bug Fixes
+
+* Once you save the annotations, change the annotations, and then undo, the save button will still have a star mark on it ([aad4617](https://github.com/pubannotation/textae/commit/aad4617148c14cdae95cbc916e47cdf0059ee565))
+* Text box height is not updated when annotations are initially loaded ([db0e2f0](https://github.com/pubannotation/textae/commit/db0e2f00322e84a3b16420573f2b1f0eb55a861c))
+
 ## [8.7.0](https://github.com/pubannotation/textae/compare/v8.6.0...v8.7.0) (2022-01-27)
 
 
