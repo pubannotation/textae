@@ -3,15 +3,7 @@ import { MODE } from '../../../../../MODE'
 import bindTransition from './bindTransition'
 
 export default class StateMachine {
-  constructor(
-    editor,
-    annotationData,
-    noEdit,
-    editEntity,
-    editBlock,
-    editRelation,
-    transition
-  ) {
+  constructor(annotationData, transition) {
     const m = new Machine({
       states: [
         MODE.INIT,

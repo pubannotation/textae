@@ -61,18 +61,7 @@ export default class EditMode {
       () => (this._listeners = this._editBlock.init()),
       () => (this._listeners = this._editRelation.init())
     )
-    this._stateMachine = new StateMachine(
-      editor,
-      annotationData,
-      () => {
-        this.cancelSelect()
-        this._unbindAllMouseEventhandler()
-      },
-      () => (this._listeners = this._editDenotation.init()),
-      () => (this._listeners = this._editBlock.init()),
-      () => (this._listeners = this._editRelation.init()),
-      transition
-    )
+    this._stateMachine = new StateMachine(annotationData, transition)
 
     this._annotationData = annotationData
     this._selectionModel = selectionModel
