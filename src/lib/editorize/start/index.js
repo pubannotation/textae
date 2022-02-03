@@ -26,6 +26,7 @@ import RemoteResource from '../RemoteResource'
 
 export default function (
   editor,
+  eventEmitter,
   history,
   annotationData,
   selectionModel,
@@ -43,23 +44,23 @@ export default function (
     history
   )
   const clipBoard = new Clipboard(
-    editor.eventEmitter,
+    eventEmitter,
     commander,
     selectionModel,
     annotationData.denotationDefinitionContainer,
     annotationData.attributeDefinitionContainer,
     annotationData.typeDefinition
   )
-  const view = new View(editor.eventEmitter, annotationData)
+  const view = new View(eventEmitter, annotationData)
   const statusBar = getStatusBar(editor, params.get('status_bar'))
-  const originalData = new OriginalData(editor.eventEmitter, statusBar)
+  const originalData = new OriginalData(eventEmitter, statusBar)
   const annotationDataEventsObserver = new AnnotationDataEventsObserver(
-    editor.eventEmitter,
+    eventEmitter,
     originalData,
     annotationData
   )
   const buttonController = new ButtonController(
-    editor.eventEmitter,
+    eventEmitter,
     selectionModel,
     clipBoard,
     annotationDataEventsObserver,
@@ -68,7 +69,7 @@ export default function (
   )
   const presenter = new Presenter(
     editor[0],
-    editor.eventEmitter,
+    eventEmitter,
     annotationData,
     selectionModel,
     commander,
@@ -107,7 +108,7 @@ export default function (
     annotationData.typeDefinition.unlockEdit()
   }
 
-  const remoteResource = new RemoteResource(editor.eventEmitter)
+  const remoteResource = new RemoteResource(eventEmitter)
   initAnnotation(
     spanConfig,
     annotationData,
@@ -119,7 +120,7 @@ export default function (
   )
 
   const persistenceInterface = new PersistenceInterface(
-    editor.eventEmitter,
+    eventEmitter,
     remoteResource,
     annotationData,
     () => originalData.annotation,
@@ -130,7 +131,7 @@ export default function (
   )
 
   new AnnotationAutoSaver(
-    editor.eventEmitter,
+    eventEmitter,
     buttonController,
     persistenceInterface,
     params.get('annotation').get('save_to'),
@@ -143,7 +144,7 @@ export default function (
     view
   )
 
-  editor.eventEmitter
+  eventEmitter
     .on('textae-event.resource.annotation.load.success', (dataSource) => {
       if (!dataSource.data.config && params.get('config')) {
         remoteResource.loadConfigulation(params.get('config'), dataSource)
@@ -254,7 +255,7 @@ export default function (
 
   // add control bar
   editorHTMLElement.insertBefore(
-    new ControlBar(editor.eventEmitter, buttonController, iconEventMap).el,
+    new ControlBar(eventEmitter, buttonController, iconEventMap).el,
     editorHTMLElement.childNodes[0]
   )
   // add context menu
