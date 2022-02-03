@@ -229,7 +229,8 @@ export default class SpanEditor {
 
     shrinkSpan(
       this._editorHTMLElement,
-      this._annotationData,
+      this._annotationData.span,
+      this._annotationData.sourceDoc,
       this._selectionModel,
       this._commander,
       this._buttonController.spanAdjuster,
