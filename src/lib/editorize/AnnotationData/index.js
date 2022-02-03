@@ -74,7 +74,7 @@ export default class AnnotationData {
 
     this.span = new SpanModelContainer(
       editor.editorID,
-      editor[0],
+      this._editorHTMLElement,
       eventEmitter,
       this.entity,
       this._textBox,
