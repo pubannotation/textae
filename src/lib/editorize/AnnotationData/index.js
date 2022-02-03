@@ -80,7 +80,6 @@ export default class AnnotationData {
       this._textBox,
       this._typeGap
     )
-    this._editor = editor
     this._eventEmitter = eventEmitter
     this._editorCSSClass = editorCSSClass
 
