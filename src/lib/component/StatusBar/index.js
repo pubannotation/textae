@@ -2,11 +2,16 @@ import isUri from '../../isUri'
 import getAreaIn from './getAreaIn'
 
 export default class StatusBar {
-  constructor(editorHTMLElement) {
+  constructor(editorHTMLElement, isShow) {
     this._editorHTMLElement = editorHTMLElement
+    this._isShow = isShow
   }
 
   set status(dataSource) {
+    if (!this._isShow) {
+      return
+    }
+
     const message = dataSource.displayName
 
     if (message !== '') {
