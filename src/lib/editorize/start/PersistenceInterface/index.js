@@ -8,7 +8,7 @@ import isJSON from './isJSON'
 
 export default class PersistenceInterface {
   constructor(
-    editor,
+    eventEmitter,
     remoteResource,
     annotationData,
     getOriginalAnnotation,
@@ -17,7 +17,7 @@ export default class PersistenceInterface {
     annotationDataEventsObserver,
     buttonController
   ) {
-    this._editor = editor
+    this._eventEmitter = eventEmitter
     this._remoteResource = remoteResource
     this._annotationData = annotationData
     this._getOriginalAnnotation = getOriginalAnnotation
@@ -39,14 +39,14 @@ export default class PersistenceInterface {
       this._remoteResource.annotationUrl,
       (url) => this._remoteResource.loadAnnotation(url),
       (file) => {
-        readAnnotationFile(file, this._editor.eventEmitter)
+        readAnnotationFile(file, this._eventEmitter)
         this._filenameOfLastRead.annotation = file.name
       },
       (text) => {
         if (isJSON(text)) {
           const annotation = JSON.parse(text)
           if (annotation.text) {
-            this._editor.eventEmitter.emit(
+            this._eventEmitter.emit(
               'textae-event.resource.annotation.load.success',
               new DataSource('instant', null, annotation)
             )
@@ -54,7 +54,7 @@ export default class PersistenceInterface {
           }
         }
 
-        this._editor.eventEmitter.emit(
+        this._eventEmitter.emit(
           'textae-event.resource.annotation.format.error',
           new DataSource('instant', null)
         )
@@ -65,7 +65,7 @@ export default class PersistenceInterface {
 
   uploadAnnotation() {
     new SaveAnnotationDialog(
-      this._editor.eventEmitter,
+      this._eventEmitter,
       this._saveToParameter || this._remoteResource.annotationUrl,
       this._filenameOfLastRead.annotation,
       this._editedAnnotation,
@@ -86,17 +86,17 @@ export default class PersistenceInterface {
       this._remoteResource.configurationUrl,
       (url) => this._remoteResource.loadConfigulation(url),
       (file) => {
-        readConfigurationFile(file, this._editor.eventEmitter)
+        readConfigurationFile(file, this._eventEmitter)
         this._filenameOfLastRead.configuration = file.name
       },
       (text) => {
         if (isJSON(text)) {
-          this._editor.eventEmitter.emit(
+          this._eventEmitter.emit(
             'textae-event.resource.configuration.load.success',
             new DataSource('instant', null, JSON.parse(text))
           )
         } else {
-          this._editor.eventEmitter.emit(
+          this._eventEmitter.emit(
             'textae-event.resource.configuration.format.error',
             new DataSource('instant', null)
           )
@@ -114,7 +114,7 @@ export default class PersistenceInterface {
     }
 
     new SaveConfigurationDialog(
-      this._editor.eventEmitter,
+      this._eventEmitter,
       this._remoteResource.configurationUrl,
       this._filenameOfLastRead.configuration,
       this._getOriginalConfig(),

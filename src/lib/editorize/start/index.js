@@ -118,7 +118,7 @@ export default function (
   )
 
   const persistenceInterface = new PersistenceInterface(
-    editor,
+    editor.eventEmitter,
     remoteResource,
     annotationData,
     () => originalData.annotation,
