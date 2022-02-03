@@ -10,7 +10,8 @@ export default class RelationModelContainer extends IdIssueContainer {
     definitionContainer
   ) {
     super(eventEmitter, 'relation', 'R')
-    this._editor = editor
+    this._editorHTMLElement = editor[0]
+    this._eventEmitter = eventEmitter
     this._parentContainer = parentContainer
     this._namespace = namespace
     this._definitionContainer = definitionContainer
@@ -18,8 +19,8 @@ export default class RelationModelContainer extends IdIssueContainer {
 
   _toModel(relation) {
     return new RelationModel(
-      this._editor[0],
-      this._editor.eventEmitter,
+      this._editorHTMLElement,
+      this._eventEmitter,
       this._parentContainer.entity,
       this._parentContainer.attribute,
       relation,
@@ -34,8 +35,8 @@ export default class RelationModelContainer extends IdIssueContainer {
       newValue instanceof RelationModel
         ? newValue
         : new RelationModel(
-            this._editor[0],
-            this._editor.eventEmitter,
+            this._editorHTMLElement,
+            this._eventEmitter,
             this._parentContainer.entity,
             this._parentContainer.attribute,
             newValue,
