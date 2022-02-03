@@ -10,7 +10,7 @@ export default class EntityModel {
    * @param {import('./AnnotationData/SpanModelContainer/SpanModel').default} span
    */
   constructor(
-    editor,
+    editorID,
     attributeContainer,
     relationContaier,
     typeGap,
@@ -20,7 +20,7 @@ export default class EntityModel {
     namespace,
     id = null
   ) {
-    this._editor = editor
+    this._editorID = editorID
     this._span = span
     this.typeName = typeName
     this._id = id
@@ -297,7 +297,7 @@ export default class EntityModel {
     const signboard = new SignboardHTMLElement(
       this,
       this.isDenotation ? 'denotation' : 'block',
-      `${this._editor.editorId}__E${this.id.replace(/[:¥.]/g, '')}`
+      `${this._editorID}__E${this.id.replace(/[:¥.]/g, '')}`
     )
 
     // Highlight retaitons when related entity is hoverd.
