@@ -2,6 +2,7 @@ import EditorContainer from './EditorContainer'
 import selectUnselectEditorOn from './selectUnselectEditorOn'
 import Veil from './Veil'
 import throttle from 'throttleit'
+import getNewId from './EditorContainer/getNewId'
 
 // The tool manages interactions between components.
 export default class Tool {
@@ -25,6 +26,10 @@ export default class Tool {
     )
 
     window.addEventListener('scroll', () => this._editors.drawGridsInSight())
+  }
+
+  get nextID() {
+    return getNewId(this._editors)
   }
 
   registerEditor(editor) {
