@@ -8,7 +8,7 @@ export default function () {
   for (const self of document.querySelectorAll('.textae-editor')) {
     const $this = $(self)
     // Register an editor
-    tool.registerEditor($this)
+    $this.editorID = tool.registerEditor($this)
     // Create an editor
     editorize($this)
   }

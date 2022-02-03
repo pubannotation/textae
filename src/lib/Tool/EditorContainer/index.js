@@ -76,10 +76,9 @@ export default class EditorContainer {
   }
 
   push(editor) {
-    Object.assign(editor, {
-      editorID: getNewId(this._editors)
-    })
+    const editorID = getNewId(this._editors)
     this._editors.push(editor)
+    return editorID
   }
 
   get selected() {

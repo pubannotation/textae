@@ -28,7 +28,7 @@ export default class Tool {
   }
 
   registerEditor(editor) {
-    this._editors.push(editor)
     this._veil.setObserver(editor)
+    return this._editors.push(editor)
   }
 }
