@@ -9,7 +9,8 @@ import { MODE } from '../../../MODE'
 
 export default class Presenter {
   constructor(
-    editor,
+    editorHTMLElement,
+    eventEmitter,
     annotationData,
     selectionModel,
     commander,
@@ -21,8 +22,8 @@ export default class Presenter {
     mode
   ) {
     const editMode = new EditMode(
-      editor[0],
-      editor.eventEmitter,
+      editorHTMLElement,
+      eventEmitter,
       annotationData,
       selectionModel,
       spanConfig,
@@ -31,7 +32,7 @@ export default class Presenter {
       autocompletionWs
     )
 
-    editor.eventEmitter
+    eventEmitter
       .on('textae-event.annotation-data.all.change', (_, multitrack) => {
         if (mode !== 'edit') {
           editMode.forView()
@@ -55,7 +56,8 @@ export default class Presenter {
         }
       })
 
-    this._editor = editor
+    this._editorHTMLElement = editorHTMLElement
+    this._eventEmitter = eventEmitter
     this._commander = commander
     this._selectionModel = selectionModel
     this._annotationData = annotationData
@@ -64,8 +66,8 @@ export default class Presenter {
     this._clipBoard = clipBoard
     this._view = view
     this._editMode = editMode
-    this._horizontal = new Horizontal(editor[0], selectionModel)
-    this._vertical = new Vertical(editor[0], selectionModel)
+    this._horizontal = new Horizontal(editorHTMLElement, selectionModel)
+    this._vertical = new Vertical(editorHTMLElement, selectionModel)
 
     forwardMethods(this, () => this._editMode.currentEdit, [
       'createSpan',
@@ -140,7 +142,7 @@ export default class Presenter {
   cancelSelect() {
     this._editMode.cancelSelect()
     // Foucs the editor for ESC key
-    this._editor[0].focus()
+    this._editorHTMLElement.focus()
   }
 
   showSettingDialog() {
@@ -152,12 +154,12 @@ export default class Presenter {
   }
 
   active() {
-    this._editor[0].classList.add('textae-editor--active')
+    this._editorHTMLElement.classList.add('textae-editor--active')
   }
 
   deactive() {
-    this._editor[0].classList.remove('textae-editor--active')
-    this._editor.eventEmitter.emit('textae-event.editor.unselect')
+    this._editorHTMLElement.classList.remove('textae-editor--active')
+    this._eventEmitter.emit('textae-event.editor.unselect')
   }
 
   selectLeft(shiftKey) {

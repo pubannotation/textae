@@ -67,7 +67,8 @@ export default function (
     annotationData.typeDefinition
   )
   const presenter = new Presenter(
-    editor,
+    editor[0],
+    editor.eventEmitter,
     annotationData,
     selectionModel,
     commander,
