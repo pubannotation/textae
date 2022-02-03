@@ -83,7 +83,7 @@ export default function (
     params.get('mode')
   )
 
-  focusEditorWhenFocusedChildRemoved(editor)
+  focusEditorWhenFocusedChildRemoved(editor[0])
 
   const editorHTMLElement = editor[0]
   if (params.get('control') === 'visible') {

@@ -4,7 +4,7 @@
 // Next elements are seleced autmatically by user deleting.
 // Next elements are not seleced autmatically by undo creation.
 // So, focus the editer when spans or entity types are removed and lost focus.
-export default function (editor) {
+export default function (editorHTMLElement) {
   // Observe a removing the focused document object.
   new MutationObserver((mutations) => {
     mutations.forEach((mutation) => {
@@ -17,12 +17,12 @@ export default function (editor) {
           mutation.removedNodes[0].classList.contains('textae-editor__type')
         ) {
           if (document.activeElement.tagName === 'BODY') {
-            editor[0].focus()
+            editorHTMLElement.focus()
           }
         }
       }
     })
-  }).observe(editor[0].querySelector('.textae-editor__body'), {
+  }).observe(editorHTMLElement.querySelector('.textae-editor__body'), {
     childList: true,
     subtree: true
   })
