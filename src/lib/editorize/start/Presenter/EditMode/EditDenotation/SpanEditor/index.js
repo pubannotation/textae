@@ -592,7 +592,8 @@ export default class SpanEditor {
     ) {
       this._selectionModel.removeAll()
       create(
-        this._annotationData,
+        this._annotationData.sourceDoc,
+        this._annotationData.span,
         this._commander,
         this._buttonController.spanAdjuster,
         this._isReplicateAuto,

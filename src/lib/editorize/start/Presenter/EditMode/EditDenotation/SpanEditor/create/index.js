@@ -3,7 +3,8 @@ import getNewSpan from '../../../getNewSpan'
 import validateNewDennotationSpan from '../validateNewDennotationSpan'
 
 export default function (
-  annotationData,
+  sourceDoc,
+  spanModelContainer,
   commander,
   spanAdjuster,
   isReplicateAuto,
@@ -12,13 +13,13 @@ export default function (
   isDelimiterFunc
 ) {
   const { begin, end } = getNewSpan(
-    annotationData.sourceDoc,
+    sourceDoc,
     spanAdjuster,
     selectionWrapper,
     spanConfig
   )
 
-  if (validateNewDennotationSpan(annotationData.span, begin, end)) {
+  if (validateNewDennotationSpan(spanModelContainer, begin, end)) {
     const command = createCommand(
       commander,
       { begin, end },
