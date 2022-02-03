@@ -19,7 +19,7 @@ import LineHeightAuto from '../start/View/LineHeightAuto'
 import { debounce } from 'debounce'
 
 export default class AnnotationData {
-  constructor(editor, eventEmitter, editorCSSClass) {
+  constructor(editorID, editorHTMLElement, eventEmitter, editorCSSClass) {
     this._sourceDoc = ''
     this.namespace = new ModelContainer(eventEmitter, 'namespace')
     const relationDefinitionContainer = new DefinitionContainer(
@@ -29,7 +29,7 @@ export default class AnnotationData {
       '#00CC66'
     )
 
-    this._editorHTMLElement = editor[0]
+    this._editorHTMLElement = editorHTMLElement
     this.relation = new RelationModelContainer(
       this._editorHTMLElement,
       eventEmitter,
@@ -46,7 +46,7 @@ export default class AnnotationData {
     })
 
     this.entity = new EntityModelContainer(
-      editor.editorID,
+      editorID,
       eventEmitter,
       this,
       this._typeGap,
@@ -73,7 +73,7 @@ export default class AnnotationData {
     }, 100)
 
     this.span = new SpanModelContainer(
-      editor.editorID,
+      editorID,
       this._editorHTMLElement,
       eventEmitter,
       this.entity,
