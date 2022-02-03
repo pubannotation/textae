@@ -183,7 +183,11 @@ export default class SpanEditor {
 
   _create(selectionWrapper) {
     if (
-      hasCharacters(this._annotationData, this._spanConfig, selectionWrapper)
+      hasCharacters(
+        this._annotationData.sourceDoc,
+        this._spanConfig,
+        selectionWrapper
+      )
     ) {
       this._selectionModel.removeAll()
       create(
