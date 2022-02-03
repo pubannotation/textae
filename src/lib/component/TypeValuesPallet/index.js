@@ -5,6 +5,11 @@ import createContentHtml from './createContentHtml'
 import enableDrag from './enableDrag'
 
 export default class TypeValuesPallet extends Pallet {
+  /**
+   *
+   * @param {import('../../editorize/AnnotationData/TypeDefinition').default} typeDefinition
+   * @param {import('../../editorize/AttributeDefinitionContainer').default} attributeModelContainer
+   */
   constructor(
     editorHTMLElement,
     eventEmitter,
@@ -19,7 +24,6 @@ export default class TypeValuesPallet extends Pallet {
     super(editorHTMLElement, title)
 
     this._eventEmitter = eventEmitter
-    /** @type {import('../../editorize/AnnotationData/TypeDefinition').default} */
     this._typeDefinition = typeDefinition
     this._attributeModelContainer = attributeModelContainer
     this._definitionContainer = definitionContainer
