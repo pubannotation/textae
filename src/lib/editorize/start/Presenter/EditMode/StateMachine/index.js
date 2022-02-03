@@ -89,7 +89,7 @@ export default class StateMachine {
     bindTransition(m, transition)
 
     this._m = m
-    this._annotationData = annotationData
+    this._relationContainer = annotationData.relation
   }
 
   get currentState() {
@@ -103,7 +103,7 @@ export default class StateMachine {
   toViewMode() {
     switch (this.currentState) {
       case MODE.EDIT_RELATION:
-        if (this._annotationData.hasRelations) {
+        if (this._relationContainer.some) {
           this.setState(MODE.VIEW_WITH_RELATION)
         } else {
           this.setState(MODE.VIEW_WITHOUT_RELATION)
@@ -125,7 +125,7 @@ export default class StateMachine {
   toTermMode() {
     switch (this.currentState) {
       case MODE.EDIT_RELATION:
-        if (this._annotationData.hasRelations) {
+        if (this._relationContainer.some) {
           this.setState(MODE.EDIT_DENOTATION_WITH_RELATION)
         } else {
           this.setState(MODE.EDIT_DENOTATION_WITHOUT_RELATION)
@@ -147,7 +147,7 @@ export default class StateMachine {
   toBlockMode() {
     switch (this.currentState) {
       case MODE.EDIT_RELATION:
-        if (this._annotationData.hasRelations) {
+        if (this._relationContainer.some) {
           this.setState(MODE.EDIT_BLOCK_WITH_RELATION)
         } else {
           this.setState(MODE.EDIT_BLOCK_WITHOUT_RELATION)
@@ -214,7 +214,7 @@ export default class StateMachine {
         this.setState(MODE.EDIT_RELATION)
         break
       case MODE.EDIT_RELATION:
-        if (this._annotationData.hasRelations) {
+        if (this._relationContainer.some) {
           this.setState(MODE.VIEW_WITH_RELATION)
         } else {
           this.setState(MODE.VIEW_WITHOUT_RELATION)
