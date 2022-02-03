@@ -63,7 +63,7 @@ export default class AnnotationData {
       this.attributeDefinitionContainer
     )
 
-    this._textBox = createTextBox(editor, this)
+    this._textBox = createTextBox(editor[0], this)
     this._lineHeightAuto = new LineHeightAuto(eventEmitter, this._textBox)
     this.updatePositionDebounced = debounce(() => {
       this._lineHeightAuto.updateLineHeight()
