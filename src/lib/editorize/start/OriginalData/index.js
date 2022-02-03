@@ -1,6 +1,6 @@
-import StatusBar from '../../component/StatusBar'
-import DataSource from '../DataSource'
-import patchConfiguration from './patchConfiguration'
+import StatusBar from '../../../component/StatusBar'
+import DataSource from '../../DataSource'
+import patchConfiguration from '../patchConfiguration'
 
 // Manage the original annotations and the original configuration and merge the changes when you save them.
 export default class OriginalData {
