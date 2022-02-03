@@ -95,10 +95,10 @@ export default function (element) {
   })
 
   eventEmitter
-    .on('textae-event.resource.startLoad', $this.startWait)
-    .on('textae-event.resource.endLoad', $this.endWait)
-    .on('textae-event.resource.startSave', $this.startWait)
-    .on('textae-event.resource.endSave', $this.endWait)
+    .on('textae-event.resource.startLoad', () => editorCSSClass.startWait())
+    .on('textae-event.resource.endLoad', () => editorCSSClass.endWait())
+    .on('textae-event.resource.startSave', () => editorCSSClass.startWait())
+    .on('textae-event.resource.endSave', () => editorCSSClass.endWait())
 
   return $this
 }
