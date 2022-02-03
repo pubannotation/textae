@@ -61,7 +61,7 @@ export default class EditMode {
       () => (this._listeners = this._editBlock.init()),
       () => (this._listeners = this._editRelation.init())
     )
-    this._stateMachine = new StateMachine(annotationData, transition)
+    this._stateMachine = new StateMachine(annotationData.relation, transition)
 
     this._annotationData = annotationData
     this._selectionModel = selectionModel

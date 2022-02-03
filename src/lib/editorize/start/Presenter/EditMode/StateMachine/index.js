@@ -3,7 +3,7 @@ import { MODE } from '../../../../../MODE'
 import bindTransition from './bindTransition'
 
 export default class StateMachine {
-  constructor(annotationData, transition) {
+  constructor(relationContainer, transition) {
     const m = new Machine({
       states: [
         MODE.INIT,
@@ -89,7 +89,7 @@ export default class StateMachine {
     bindTransition(m, transition)
 
     this._m = m
-    this._relationContainer = annotationData.relation
+    this._relationContainer = relationContainer
   }
 
   get currentState() {
