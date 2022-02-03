@@ -9,7 +9,7 @@ export default class EntityModelContainer extends IdIssueContainer {
   constructor(editor, eventEmitter, parent, typeGap, namespace) {
     super(eventEmitter, 'entity', 'T')
 
-    this._editor = editor
+    this._editorID = editor.editorID
 
     // Since the attribute model container and the entity model container are cross-referenced,
     // the entity model retrieves other containers dynamically.
@@ -34,7 +34,7 @@ export default class EntityModelContainer extends IdIssueContainer {
   _toModel(denotation, type) {
     // Expected an entity like {id: "E21", span: "editor2__S50_54", obj: "Protein"}.
     return new EntityModel(
-      this._editor.editorID,
+      this._editorID,
       this._attributeModelContainer,
       this._relationModelContainer,
       this._typeGap,
@@ -58,7 +58,7 @@ export default class EntityModelContainer extends IdIssueContainer {
     }
 
     const newEntity = new EntityModel(
-      this._editor.editorID,
+      this._editorID,
       this._attributeModelContainer,
       this._relationModelContainer,
       this._typeGap,
@@ -148,13 +148,13 @@ export default class EntityModelContainer extends IdIssueContainer {
     switch (type) {
       case 'denotation':
         return makeDenotationSpanHTMLElementID(
-          this._editor.editorID,
+          this._editorID,
           denotation.span.begin,
           denotation.span.end
         )
       case 'block':
         return makeBlockSpanHTMLElementID(
-          this._editor.editorID,
+          this._editorID,
           denotation.span.begin,
           denotation.span.end
         )
