@@ -34,15 +34,9 @@ function template(context) {
 }
 
 export default class SaveAnnotationDialog extends Dialog {
-  constructor(editor, url, filename, data, saveAnnotation) {
+  constructor(eventEmitter, url, filename, data, saveAnnotation) {
     super('Save Annotations', template({ filename, url }))
 
-    bind(
-      editor.eventEmitter,
-      super.el,
-      data,
-      () => super.close(),
-      saveAnnotation
-    )
+    bind(eventEmitter, super.el, data, () => super.close(), saveAnnotation)
   }
 }

@@ -65,7 +65,7 @@ export default class PersistenceInterface {
 
   uploadAnnotation() {
     new SaveAnnotationDialog(
-      this._editor,
+      this._editor.eventEmitter,
       this._saveToParameter || this._remoteResource.annotationUrl,
       this._filenameOfLastRead.annotation,
       this._editedAnnotation,
