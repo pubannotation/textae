@@ -20,6 +20,7 @@ export default class SpanEditor {
   ) {
     this._editorHTMLElement = editorHTMLElemnt
     this._annotationData = annotationData
+    this._spanModelContainer = annotationData.span
     this._selectionModel = selectionModel
     this._commander = commander
     this._buttonController = buttonController
@@ -104,7 +105,7 @@ export default class SpanEditor {
   }
 
   cerateSpanForTouchDevice() {
-    const selectionWrapper = new SelectionWrapper(this._annotationData.span)
+    const selectionWrapper = new SelectionWrapper(this._spanModelContainer)
 
     if (selectionWrapper.isParentOfBothNodesSame) {
       this._create(selectionWrapper)
@@ -118,13 +119,13 @@ export default class SpanEditor {
 
       // The span cross exists spans.
       if (
-        this._annotationData.span.isBoundaryCrossingWithOtherSpans(begin, end)
+        this._spanModelContainer.isBoundaryCrossingWithOtherSpans(begin, end)
       ) {
         return
       }
 
       // A span cannot be expanded a span to the same as an existing span.
-      if (this._annotationData.span.hasDenotationSpan(begin, end)) {
+      if (this._spanModelContainer.hasDenotationSpan(begin, end)) {
         return
       }
 
@@ -142,7 +143,7 @@ export default class SpanEditor {
 
       // The span cross exists spans.
       if (
-        this._annotationData.span.isBoundaryCrossingWithOtherSpans(begin, end)
+        this._spanModelContainer.isBoundaryCrossingWithOtherSpans(begin, end)
       ) {
         alertifyjs.warning(
           'A span cannot be shrinked to make a boundary crossing.'
@@ -150,7 +151,7 @@ export default class SpanEditor {
         return
       }
 
-      const doesExists = this._annotationData.span.hasDenotationSpan(begin, end)
+      const doesExists = this._spanModelContainer.hasDenotationSpan(begin, end)
       if (begin < end && !doesExists) {
         this._commander.invoke(
           this._commander.factory.moveDenotationSpanCommand(spanID, begin, end)
@@ -167,7 +168,7 @@ export default class SpanEditor {
   }
 
   _getExpandedSpanForTouchDevice() {
-    const selectionWrapper = new SelectionWrapper(this._annotationData.span)
+    const selectionWrapper = new SelectionWrapper(this._spanModelContainer)
 
     // When there is no denotation span in ancestors of anchor node and focus node,
     // a span to expand does not exist.
@@ -190,7 +191,7 @@ export default class SpanEditor {
 
       return {
         spanID,
-        ...this._annotationData.span
+        ...this._spanModelContainer
           .get(spanID)
           .getExpandedInAnchorNodeToFocusNodeDirection(
             this._buttonController.spanAdjuster,
@@ -212,7 +213,7 @@ export default class SpanEditor {
 
       return {
         spanID,
-        ...this._annotationData.span
+        ...this._spanModelContainer
           .get(spanID)
           .getExpandedInFocusNodeToAnchorNodeDirection(
             this._buttonController.spanAdjuster,
@@ -225,7 +226,7 @@ export default class SpanEditor {
   }
 
   _getShrinkedSpanForTouchDevice() {
-    const selectionWrapper = new SelectionWrapper(this._annotationData.span)
+    const selectionWrapper = new SelectionWrapper(this._spanModelContainer)
 
     // When there is no denotation span in ancestors of anchor node and focus node,
     // a span to shrink does not exist.
@@ -256,7 +257,7 @@ export default class SpanEditor {
 
       return {
         spanID,
-        ...this._annotationData.span
+        ...this._spanModelContainer
           .get(spanID)
           .getShortenInFocusNodeToAnchorNodeDirection(
             this._buttonController.spanAdjuster,
@@ -278,7 +279,7 @@ export default class SpanEditor {
 
       return {
         spanID,
-        ...this._annotationData.span
+        ...this._spanModelContainer
           .get(spanID)
           .getShotrenInAnchorNodeToFocusNodeDirection(
             this._buttonController.spanAdjuster,
@@ -504,7 +505,7 @@ export default class SpanEditor {
     if (selectionWrapper.ancestorDenotationSpanOfAnchorNode) {
       const { anchor } = selectionWrapper.positionsOnAnnotation
 
-      const { begin, end } = this._annotationData.span.getDenotationSpan(
+      const { begin, end } = this._spanModelContainer.getDenotationSpan(
         selectionWrapper.ancestorDenotationSpanOfAnchorNode.id
       )
       if (anchor === begin || anchor === end) {
@@ -593,7 +594,7 @@ export default class SpanEditor {
       this._selectionModel.removeAll()
       create(
         this._annotationData.sourceDoc,
-        this._annotationData.span,
+        this._spanModelContainer,
         this._commander,
         this._buttonController.spanAdjuster,
         this._isReplicateAuto,
@@ -608,7 +609,7 @@ export default class SpanEditor {
   _expand(selectionWrapper, spanID) {
     this._selectionModel.removeAll()
 
-    const { begin, end } = this._annotationData.span
+    const { begin, end } = this._spanModelContainer
       .get(spanID)
       .getExpandedInAnchorNodeToFocusNodeDirection(
         this._buttonController.spanAdjuster,
@@ -617,7 +618,7 @@ export default class SpanEditor {
         this._spanConfig
       )
 
-    if (validateNewDennotationSpan(this._annotationData.span, begin, end)) {
+    if (validateNewDennotationSpan(this._spanModelContainer, begin, end)) {
       this._commander.invoke(
         this._commander.factory.moveDenotationSpanCommand(spanID, begin, end)
       )
