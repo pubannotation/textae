@@ -72,11 +72,6 @@ export default function ($this) {
     e.preventDefault()
   )
 
-  // public funcitons of editor
-  Object.assign($this, {
-    eventEmitter
-  })
-
   eventEmitter
     .on('textae-event.resource.startLoad', () => editorCSSClass.startWait())
     .on('textae-event.resource.endLoad', () => editorCSSClass.endWait())
