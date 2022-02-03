@@ -86,7 +86,7 @@ export default class PersistenceInterface {
       this._remoteResource.configurationUrl,
       (url) => this._remoteResource.loadConfigulation(url),
       (file) => {
-        readConfigurationFile(file, this._editor)
+        readConfigurationFile(file, this._editor.eventEmitter)
         this._filenameOfLastRead.configuration = file.name
       },
       (text) => {
