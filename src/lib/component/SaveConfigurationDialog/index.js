@@ -40,7 +40,7 @@ function template(context) {
 
 export default class SaveConfigurationDialog extends Dialog {
   constructor(
-    editor,
+    eventEmitter,
     url,
     filename,
     originalData,
@@ -63,6 +63,12 @@ export default class SaveConfigurationDialog extends Dialog {
     // Hide unchanged diff.
     this._$dialog.on('dialogopen', () => formatters.html.hideUnchanged())
 
-    bind(editor, super.el, editedData, () => super.close(), saveConfiguration)
+    bind(
+      eventEmitter,
+      super.el,
+      editedData,
+      () => super.close(),
+      saveConfiguration
+    )
   }
 }

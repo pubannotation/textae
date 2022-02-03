@@ -3,7 +3,7 @@ import createDownloadPath from '../createDownloadPath'
 import enableHTMLElement from '../enableHTMLElement'
 
 export default function (
-  editor,
+  eventEmitter,
   element,
   editedData,
   closeDialog,
@@ -36,10 +36,7 @@ export default function (
       const downloadPath = createDownloadPath(editedData)
       aTag.setAttribute('href', downloadPath)
       aTag.setAttribute('download', aTag.previousElementSibling.value)
-      editor.eventEmitter.emit(
-        'textae-event.resource.configuration.save',
-        editedData
-      )
+      eventEmitter.emit('textae-event.resource.configuration.save', editedData)
       closeDialog()
     }
   )

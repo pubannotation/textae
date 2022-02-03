@@ -114,7 +114,7 @@ export default class PersistenceInterface {
     }
 
     new SaveConfigurationDialog(
-      this._editor,
+      this._editor.eventEmitter,
       this._remoteResource.configurationUrl,
       this._filenameOfLastRead.configuration,
       this._getOriginalConfig(),
