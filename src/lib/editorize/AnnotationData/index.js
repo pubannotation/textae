@@ -28,8 +28,10 @@ export default class AnnotationData {
       () => this.relation.all,
       '#00CC66'
     )
+
+    this._editorHTMLElement = editor[0]
     this.relation = new RelationModelContainer(
-      editor[0],
+      this._editorHTMLElement,
       eventEmitter,
       this,
       this.namespace,
@@ -63,7 +65,7 @@ export default class AnnotationData {
       this.attributeDefinitionContainer
     )
 
-    this._textBox = createTextBox(editor[0], this)
+    this._textBox = createTextBox(this._editorHTMLElement, this)
     this._lineHeightAuto = new LineHeightAuto(eventEmitter, this._textBox)
     this.updatePositionDebounced = debounce(() => {
       this._lineHeightAuto.updateLineHeight()
@@ -224,7 +226,7 @@ export default class AnnotationData {
   }
 
   _clearAndDrawAllAnnotations() {
-    getAnnotationBox(this._editor[0]).innerHTML = ''
+    getAnnotationBox(this._editorHTMLElement).innerHTML = ''
 
     for (const span of this.span.topLevel) {
       span.render()
