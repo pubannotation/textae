@@ -1,6 +1,6 @@
 export default class ViewMode {
   constructor(editorHTMLElement) {
-    this._editor = editorHTMLElement
+    this._editorHTMLElement = editorHTMLElement
   }
 
   setViewWithRelation() {
@@ -32,12 +32,12 @@ export default class ViewMode {
   }
 
   _setCssClassFor(mode) {
-    for (const cssClass of this._editor.classList) {
+    for (const cssClass of this._editorHTMLElement.classList) {
       if (cssClass.startsWith('textae-editor__mode')) {
-        this._editor.classList.remove(cssClass)
+        this._editorHTMLElement.classList.remove(cssClass)
       }
     }
 
-    this._editor.classList.add(`textae-editor__mode--${mode}`)
+    this._editorHTMLElement.classList.add(`textae-editor__mode--${mode}`)
   }
 }
