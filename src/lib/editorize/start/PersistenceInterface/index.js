@@ -39,7 +39,7 @@ export default class PersistenceInterface {
       this._remoteResource.annotationUrl,
       (url) => this._remoteResource.loadAnnotation(url),
       (file) => {
-        readAnnotationFile(file, this._editor)
+        readAnnotationFile(file, this._editor.eventEmitter)
         this._filenameOfLastRead.annotation = file.name
       },
       (text) => {
