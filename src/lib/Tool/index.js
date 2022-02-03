@@ -34,6 +34,6 @@ export default class Tool {
 
   registerEditor(editor) {
     this._veil.setObserver(editor[0])
-    return this._editors.push(editor)
+    this._editors.push(editor)
   }
 }

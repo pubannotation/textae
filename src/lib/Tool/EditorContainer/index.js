@@ -2,7 +2,6 @@ import debounce from 'debounce'
 import delegate from 'delegate'
 import HelpDialog from '../../component/HelpDialog'
 import TipsDialog from '../../component/TipsDialog'
-import getNewId from './getNewId'
 
 const helpDialog = new HelpDialog()
 const tipsDialog = new TipsDialog()
@@ -76,9 +75,7 @@ export default class EditorContainer {
   }
 
   push(editor) {
-    const editorID = getNewId(this._editors)
     this._editors.push(editor)
-    return editorID
   }
 
   get selected() {
