@@ -1,6 +1,6 @@
 export default class Horizontal {
-  constructor(editor, selectionModel) {
-    this._editor = editor
+  constructor(editorHTMLElement, selectionModel) {
+    this._editorHTMLElement = editorHTMLElement
     this._selectionModel = selectionModel
   }
 
@@ -51,7 +51,7 @@ export default class Horizontal {
   }
 
   _searchLeft(selector) {
-    const elements = this._editor[0].querySelectorAll(selector)
+    const elements = this._editorHTMLElement.querySelectorAll(selector)
     const firstSelectedIndex = [...elements].findIndex(
       (el) =>
         el.classList.contains('ui-selected') ||
@@ -64,7 +64,7 @@ export default class Horizontal {
   }
 
   _searchRight(selector) {
-    const elements = this._editor[0].querySelectorAll(selector)
+    const elements = this._editorHTMLElement.querySelectorAll(selector)
     const lastSelectedIndex = [...elements]
       .reverse()
       .findIndex(
