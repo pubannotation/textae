@@ -119,7 +119,9 @@ export default class TypeValuesPallet extends Pallet {
       if (this._selectedIndex === 0) {
         this.showAttribute()
       } else {
-        this.showAttribute(this._attributes[this._selectedIndex - 1].pred)
+        this.showAttribute(
+          this._attributeDefinitions[this._selectedIndex - 1].pred
+        )
       }
     }
   }
@@ -127,21 +129,23 @@ export default class TypeValuesPallet extends Pallet {
   selectRightAttributeTab() {
     if (this._selectedPred) {
       // Ignore when the last attribute is selected.
-      if (this._selectedIndex === this._attributes.length - 1) {
+      if (this._selectedIndex === this._attributeDefinitions.length - 1) {
         return
       }
 
-      this.showAttribute(this._attributes[this._selectedIndex + 1].pred)
+      this.showAttribute(
+        this._attributeDefinitions[this._selectedIndex + 1].pred
+      )
     } else {
       // Select the first attribute when type selected.
-      if (this._attributes.length) {
-        this.showAttribute(this._attributes[0].pred)
+      if (this._attributeDefinitions.length) {
+        this.showAttribute(this._attributeDefinitions[0].pred)
       }
     }
   }
 
   get _selectedIndex() {
-    return this._attributes.findIndex(
+    return this._attributeDefinitions.findIndex(
       (attribute) => attribute.pred === this._selectedPred
     )
   }
@@ -162,7 +166,7 @@ export default class TypeValuesPallet extends Pallet {
     return this._typeDefinition.attribute.get(this._selectedPred)
   }
 
-  get _attributes() {
+  get _attributeDefinitions() {
     return this._typeDefinition.attribute.attributes
   }
 }
