@@ -255,7 +255,7 @@ export default function (
     editorHTMLElement.childNodes[0]
   )
   // add context menu
-  const contextMenu = new ContextMenu(editor, buttonController, iconEventMap)
+  const contextMenu = new ContextMenu(editor[0], buttonController, iconEventMap)
   editorHTMLElement.appendChild(contextMenu.el)
 
   editorHTMLElement.addEventListener('keyup', (event) => {

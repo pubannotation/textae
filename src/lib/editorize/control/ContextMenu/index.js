@@ -6,7 +6,7 @@ import bindToWindowEvents from './bindToWindowEvents'
 import toContextMenuItem from './toContextMenuItem'
 
 export default class ContextMenu extends Control {
-  constructor(editor, buttonController, iconEventMap) {
+  constructor(editorHTMLElement, buttonController, iconEventMap) {
     super(
       `<div class="textae-control ${
         isTouchable() ? 'textae-android-context-menu' : 'textae-context-menu'
@@ -14,7 +14,7 @@ export default class ContextMenu extends Control {
       iconEventMap
     )
 
-    bindToWindowEvents(editor[0], this)
+    bindToWindowEvents(editorHTMLElement, this)
 
     this._buttonController = buttonController
   }
