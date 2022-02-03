@@ -1,4 +1,4 @@
-import StatusBar from '../../../component/StatusBar'
+import StatusBar from './StatusBar'
 import DataSource from '../../DataSource'
 import patchConfiguration from '../patchConfiguration'
 

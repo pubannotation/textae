@@ -1,4 +1,4 @@
-import isUri from '../../isUri'
+import isUri from '../../../../isUri'
 import getAreaIn from './getAreaIn'
 
 export default class StatusBar {
