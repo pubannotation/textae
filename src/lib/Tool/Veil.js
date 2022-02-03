@@ -11,7 +11,7 @@ export default class Veil {
     this._waitingEditors = new Set()
   }
 
-  setObserver(editor) {
+  setObserver(editorHTMLElement) {
     // Do not create HTML elements in the constructor
     // so that this class can be initialized before document.body is created.
     // Instead, we create it here.
@@ -24,7 +24,7 @@ export default class Veil {
 
     new MutationObserver((mutationRecords) =>
       this._mutationCallback(mutationRecords)
-    ).observe(editor[0], config)
+    ).observe(editorHTMLElement, config)
   }
 
   _mutationCallback(mutationRecords) {
