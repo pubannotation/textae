@@ -25,6 +25,7 @@ import RemoteResource from '../RemoteResource'
 
 export default function (
   editor,
+  editorHTMLElement,
   eventEmitter,
   history,
   annotationData,
@@ -35,7 +36,7 @@ export default function (
 
   // Users can edit model only via commands.
   const commander = new Commander(
-    editor[0],
+    editorHTMLElement,
     editor.editorID,
     editor.events,
     annotationData,
@@ -53,7 +54,7 @@ export default function (
   const view = new View(eventEmitter, annotationData)
   const originalData = new OriginalData(
     eventEmitter,
-    editor[0],
+    editorHTMLElement,
     params.get('status_bar')
   )
   const annotationDataEventsObserver = new AnnotationDataEventsObserver(
@@ -70,7 +71,7 @@ export default function (
     annotationData.typeDefinition
   )
   const presenter = new Presenter(
-    editor[0],
+    editorHTMLElement,
     eventEmitter,
     annotationData,
     selectionModel,
@@ -83,9 +84,8 @@ export default function (
     params.get('mode')
   )
 
-  focusEditorWhenFocusedChildRemoved(editor[0])
+  focusEditorWhenFocusedChildRemoved(editorHTMLElement)
 
-  const editorHTMLElement = editor[0]
   if (params.get('control') === 'visible') {
     editorHTMLElement.classList.add('textae-editor--control-visible')
   }
