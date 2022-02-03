@@ -45,7 +45,8 @@ export default class SpanModelContainer {
       )
 
       const blockSpan = new BlockSpanModel(
-        this._editor,
+        this._editor.editorID,
+        this._editor[0],
         newValue.begin,
         newValue.end,
         this._entityContainer,
@@ -219,7 +220,8 @@ export default class SpanModelContainer {
     this._removeBlock(oldSpan)
 
     const newOne = new BlockSpanModel(
-      this._editor,
+      this._editor.editorID,
+      this._editor[0],
       begin,
       end,
       this._entityContainer,
@@ -338,7 +340,8 @@ export default class SpanModelContainer {
       }
       case 'block': {
         const blockSpan = new BlockSpanModel(
-          this._editor,
+          this._editor.editorID,
+          this._editor[0],
           denotation.span.begin,
           denotation.span.end,
           this._entityContainer,

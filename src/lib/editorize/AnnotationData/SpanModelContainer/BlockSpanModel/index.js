@@ -10,14 +10,15 @@ import getAnnotationBox from '../../getAnnotationBox'
 const gapBetweenText = 8
 export default class BlockSpanModel extends SpanModel {
   constructor(
-    editor,
+    editorID,
+    editorHTMLElement,
     begin,
     end,
     entityModelContainer,
     spanModelContainer,
     textBox
   ) {
-    super(editor.editorID, editor[0], begin, end, spanModelContainer)
+    super(editorID, editorHTMLElement, begin, end, spanModelContainer)
     this._entityModelContainer = entityModelContainer
     this._textBox = textBox
   }
