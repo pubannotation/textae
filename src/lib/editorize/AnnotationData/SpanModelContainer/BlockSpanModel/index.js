@@ -17,7 +17,7 @@ export default class BlockSpanModel extends SpanModel {
     spanModelContainer,
     textBox
   ) {
-    super(editor, begin, end, spanModelContainer)
+    super(editor.editorID, editor[0], begin, end, spanModelContainer)
     this._entityModelContainer = entityModelContainer
     this._textBox = textBox
   }

@@ -8,7 +8,7 @@ const TEXT_HEIGHT = 23
 const MARGIN_TOP = 30
 export default class DenotationSpanModel extends SpanModel {
   constructor(editor, begin, end, entityModelContainer, spanModelContainer) {
-    super(editor, begin, end, spanModelContainer)
+    super(editor.editorID, editor[0], begin, end, spanModelContainer)
     this._entityModelContainer = entityModelContainer
   }
 

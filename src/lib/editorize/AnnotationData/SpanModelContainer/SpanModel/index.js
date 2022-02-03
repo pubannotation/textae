@@ -8,10 +8,9 @@ import getRightGrid from './getRightGrid'
 import createRangeToSpan from '../createRangeToSpan'
 
 export default class SpanModel {
-  constructor(editor, begin, end, spanModelContainer) {
-    this._editor = editor
-    this._editorID = editor.editorID
-    this._editorHTMLElement = editor[0]
+  constructor(editorID, editorHTMLElement, begin, end, spanModelContainer) {
+    this._editorID = editorID
+    this._editorHTMLElement = editorHTMLElement
     this._begin = begin
     this._end = end
     this._spanModelContainer = spanModelContainer
