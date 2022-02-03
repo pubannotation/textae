@@ -1,6 +1,10 @@
 import Observable from 'observ'
 
 export default class TypeDefinition {
+  /**
+   *
+   * @param {import('../AttributeDefinitionContainer').default} attribute
+   */
   constructor(editor, denotation, block, relation, attribute) {
     this._editor = editor
     this._denotationContainer = denotation
