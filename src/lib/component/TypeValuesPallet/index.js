@@ -20,6 +20,7 @@ export default class TypeValuesPallet extends Pallet {
     this._eventEmitter = eventEmitter
     /** @type {import('../../editorize/AnnotationData').default} */
     this._annotationData = annotationData
+    this._typeDefinition = annotationData.typeDefinition
     this._definitionContainer = definitionContainer
     this._selectionModelItems = selectionModelEntity
     this._buttonController = buttonController
@@ -150,17 +151,17 @@ export default class TypeValuesPallet extends Pallet {
       this._buttonController.diffOfConfiguration,
       this._selectedPred,
       this._selectionModelItems,
-      this._annotationData.typeDefinition.attribute,
+      this._typeDefinition.attribute,
       this._annotationData.attribute.all,
-      this._annotationData.typeDefinition.isLock
+      this._typeDefinition.isLock
     )
   }
 
   get attrDef() {
-    return this._annotationData.typeDefinition.attribute.get(this._selectedPred)
+    return this._typeDefinition.attribute.get(this._selectedPred)
   }
 
   get _attributes() {
-    return this._annotationData.typeDefinition.attribute.attributes
+    return this._typeDefinition.attribute.attributes
   }
 }
