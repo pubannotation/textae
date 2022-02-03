@@ -11,18 +11,7 @@ import { EventEmitter } from 'events'
 import extractParamsFromHTMLElement from './extractParamsFromHTMLElement'
 import ValidationDialog from '../component/ValidationDialog'
 import isAndroid from './isAndroid'
-
-class EditorCSSClass {
-  constructor(editorHTMLElement) {
-    this._editorHTMLElement = editorHTMLElement
-  }
-  startWait() {
-    this._editorHTMLElement.classList.add('textae-editor--wait')
-  }
-  endWait() {
-    this._editorHTMLElement.classList.remove('textae-editor--wait')
-  }
-}
+import EditorCSSClass from './EditorCSSClass'
 
 export default function (element) {
   const params = extractParamsFromHTMLElement(element)
