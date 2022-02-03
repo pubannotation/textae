@@ -72,10 +72,10 @@ export default function (element) {
       start(editor, history, annotationData, selectionModel, params)
     },
     startWait() {
-      $this[0].classList.add('textae-editor--wait')
+      element.classList.add('textae-editor--wait')
     },
     endWait() {
-      $this[0].classList.remove('textae-editor--wait')
+      element.classList.remove('textae-editor--wait')
     },
     eventEmitter
   })
