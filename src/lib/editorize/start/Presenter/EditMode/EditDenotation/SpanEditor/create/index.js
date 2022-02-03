@@ -12,7 +12,7 @@ export default function (
   isDelimiterFunc
 ) {
   const { begin, end } = getNewSpan(
-    annotationData,
+    annotationData.sourceDoc,
     spanAdjuster,
     selectionWrapper,
     spanConfig
