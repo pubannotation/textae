@@ -3,7 +3,6 @@ import { MODE } from '../../../../../../MODE'
 
 export default class Transition {
   constructor(editor, typeGap, noEdit, editEntity, editBlock, editRelation) {
-    this._editor = editor
     this._eventEmitter = editor.eventEmitter
     this._editorCSSClassForMode = new EditorCSSClassForMode(editor[0])
     this._typeGap = typeGap
