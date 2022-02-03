@@ -65,7 +65,7 @@ export default class Presenter {
     this._view = view
     this._editMode = editMode
     this._horizontal = new Horizontal(editor[0], selectionModel)
-    this._vertical = new Vertical(editor, selectionModel)
+    this._vertical = new Vertical(editor[0], selectionModel)
 
     forwardMethods(this, () => this._editMode.currentEdit, [
       'createSpan',

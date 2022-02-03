@@ -1,6 +1,6 @@
 export default class Vertical {
-  constructor(editor, selectionModel) {
-    this._editor = editor
+  constructor(editorHTMLElement, selectionModel) {
+    this._editorHTMLElement = editorHTMLElement
     this._selectionModel = selectionModel
   }
 
@@ -14,7 +14,7 @@ export default class Vertical {
   }
 
   down() {
-    const selectedEntityHtmlelement = this._editor[0].querySelector(
+    const selectedEntityHtmlelement = this._editorHTMLElement.querySelector(
       '.textae-editor__signboard--selected'
     )
 
