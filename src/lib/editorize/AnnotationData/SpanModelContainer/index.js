@@ -82,7 +82,11 @@ export default class SpanModelContainer {
   }
 
   hasDenotationSpan(begin, end) {
-    const spanID = makeDenotationSpanHTMLElementID(this._editor, begin, end)
+    const spanID = makeDenotationSpanHTMLElementID(
+      this._editor.editorID,
+      begin,
+      end
+    )
     return this._denotations.has(spanID)
   }
 
