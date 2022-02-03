@@ -1,7 +1,7 @@
 import StatusBar from '../../component/StatusBar'
 
-export default function (editor, parameterValue) {
-  if (parameterValue === 'on') return new StatusBar(editor)
+export default function (editorHTMLElement, parameterValue) {
+  if (parameterValue === 'on') return new StatusBar(editorHTMLElement)
   return {
     status() {}
   }

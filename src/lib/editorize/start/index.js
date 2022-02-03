@@ -52,7 +52,7 @@ export default function (
     annotationData.typeDefinition
   )
   const view = new View(eventEmitter, annotationData)
-  const statusBar = getStatusBar(editor, params.get('status_bar'))
+  const statusBar = getStatusBar(editor[0], params.get('status_bar'))
   const originalData = new OriginalData(eventEmitter, statusBar)
   const annotationDataEventsObserver = new AnnotationDataEventsObserver(
     eventEmitter,
