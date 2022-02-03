@@ -5,8 +5,8 @@ export default class TypeDefinition {
    *
    * @param {import('../AttributeDefinitionContainer').default} attribute
    */
-  constructor(editor, denotation, block, relation, attribute) {
-    this._editor = editor
+  constructor(eventEmitter, denotation, block, relation, attribute) {
+    this._eventEmitter = eventEmitter
     this._denotationContainer = denotation
     this._blockContainer = block
     this._relationContainer = relation
@@ -14,7 +14,7 @@ export default class TypeDefinition {
 
     this._lockStateObservable = new Observable(false)
     this._lockStateObservable(() =>
-      this._editor.eventEmitter.emit(`textae-event.type-definition.lock`)
+      this._eventEmitter.emit(`textae-event.type-definition.lock`)
     )
   }
 
@@ -82,6 +82,6 @@ export default class TypeDefinition {
       this.autocompletionWs = ''
     }
 
-    this._editor.eventEmitter.emit(`textae-event.type-definition.reset`)
+    this._eventEmitter.emit(`textae-event.type-definition.reset`)
   }
 }

@@ -97,7 +97,7 @@ export default class AnnotationData {
       '#77DDDD'
     )
     this._typeDefinition = new TypeDefinition(
-      editor,
+      eventEmitter,
       this.denotationDefinitionContainer,
       blockDefinitionContainer,
       relationDefinitionContainer,
