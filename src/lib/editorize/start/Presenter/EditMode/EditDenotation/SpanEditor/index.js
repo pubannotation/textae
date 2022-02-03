@@ -616,7 +616,7 @@ export default class SpanEditor {
         this._spanConfig
       )
 
-    if (validateNewDennotationSpan(this._annotationData, begin, end)) {
+    if (validateNewDennotationSpan(this._annotationData.span, begin, end)) {
       this._commander.invoke(
         this._commander.factory.moveDenotationSpanCommand(spanID, begin, end)
       )

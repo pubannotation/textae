@@ -18,7 +18,7 @@ export default function (
     spanConfig
   )
 
-  if (validateNewDennotationSpan(annotationData, begin, end)) {
+  if (validateNewDennotationSpan(annotationData.span, begin, end)) {
     const command = createCommand(
       commander,
       { begin, end },
