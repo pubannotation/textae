@@ -21,7 +21,8 @@ export default class Presenter {
     mode
   ) {
     const editMode = new EditMode(
-      editor,
+      editor[0],
+      editor.eventEmitter,
       annotationData,
       selectionModel,
       spanConfig,

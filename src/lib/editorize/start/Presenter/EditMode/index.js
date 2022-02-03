@@ -7,7 +7,8 @@ import Transition from './Transition'
 
 export default class EditMode {
   constructor(
-    editor,
+    editorHTMLElement,
+    eventEmitter,
     annotationData,
     selectionModel,
     spanConfig,
@@ -16,8 +17,8 @@ export default class EditMode {
     autocompletionWs
   ) {
     this._editDenotation = new EditDenotation(
-      editor[0],
-      editor.eventEmitter,
+      editorHTMLElement,
+      eventEmitter,
       annotationData,
       selectionModel,
       commander,
@@ -27,8 +28,8 @@ export default class EditMode {
     )
 
     this._editBlock = new EditBlock(
-      editor[0],
-      editor.eventEmitter,
+      editorHTMLElement,
+      eventEmitter,
       annotationData,
       selectionModel,
       spanConfig,
@@ -38,8 +39,8 @@ export default class EditMode {
     )
 
     this._editRelation = new EditRelation(
-      editor[0],
-      editor.eventEmitter,
+      editorHTMLElement,
+      eventEmitter,
       annotationData,
       selectionModel,
       commander,
@@ -50,8 +51,8 @@ export default class EditMode {
     this._listeners = []
 
     const transition = new Transition(
-      editor.eventEmitter,
-      editor[0],
+      eventEmitter,
+      editorHTMLElement,
       annotationData.typeGap,
       () => {
         this.cancelSelect()
@@ -66,7 +67,7 @@ export default class EditMode {
     this._annotationData = annotationData
     this._selectionModel = selectionModel
 
-    editor.eventEmitter.on(
+    eventEmitter.on(
       'textae-event.editor.relation.click',
       (event, relation, attribute) =>
         this.currentEdit.relationClicked(event, relation, attribute)
