@@ -354,7 +354,8 @@ export default class SpanModelContainer {
       }
       case 'typesetting': {
         const styleSpan = new StyleSpanModel(
-          this._editor,
+          this._editor.editorID,
+          this._editor[0],
           denotation.span.begin,
           denotation.span.end,
           this,
