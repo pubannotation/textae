@@ -1,11 +1,12 @@
+import StatusBar from '../../component/StatusBar'
 import DataSource from '../DataSource'
 import patchConfiguration from './patchConfiguration'
 
 // Manage the original annotations and the original configuration and merge the changes when you save them.
 export default class OriginalData {
-  constructor(eventEmitter, statusBar) {
+  constructor(eventEmitter, editorHTMLElement, isShow) {
     this._eventEmitter = eventEmitter
-    this._statusBar = statusBar
+    this._statusBar = new StatusBar(editorHTMLElement, isShow)
     this._map = new Map()
   }
 

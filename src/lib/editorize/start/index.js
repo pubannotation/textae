@@ -6,7 +6,6 @@ import Presenter from './Presenter'
 import PersistenceInterface from './PersistenceInterface'
 import InstanceMethods from './InstanceMethods'
 import focusEditorWhenFocusedChildRemoved from './focusEditorWhenFocusedChildRemoved'
-import getStatusBar from './getStatusBar'
 import initAnnotation from './initAnnotation'
 import getConfigEditParamFromUrl from './getConfigEditParamFromUrl'
 import OriginalData from './OriginalData'
@@ -52,8 +51,11 @@ export default function (
     annotationData.typeDefinition
   )
   const view = new View(eventEmitter, annotationData)
-  const statusBar = getStatusBar(editor[0], params.get('status_bar'))
-  const originalData = new OriginalData(eventEmitter, statusBar)
+  const originalData = new OriginalData(
+    eventEmitter,
+    editor[0],
+    params.get('status_bar')
+  )
   const annotationDataEventsObserver = new AnnotationDataEventsObserver(
     eventEmitter,
     originalData,
