@@ -29,7 +29,7 @@ export default class AnnotationData {
       '#00CC66'
     )
     this.relation = new RelationModelContainer(
-      editor,
+      editor[0],
       eventEmitter,
       this,
       this.namespace,

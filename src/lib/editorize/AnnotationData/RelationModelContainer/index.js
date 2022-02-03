@@ -3,14 +3,14 @@ import IdIssueContainer from '../IdIssueContainer'
 
 export default class RelationModelContainer extends IdIssueContainer {
   constructor(
-    editor,
+    editorHTMLElement,
     eventEmitter,
     parentContainer,
     namespace,
     definitionContainer
   ) {
     super(eventEmitter, 'relation', 'R')
-    this._editorHTMLElement = editor[0]
+    this._editorHTMLElement = editorHTMLElement
     this._eventEmitter = eventEmitter
     this._parentContainer = parentContainer
     this._namespace = namespace
