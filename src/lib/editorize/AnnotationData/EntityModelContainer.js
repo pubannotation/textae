@@ -6,10 +6,10 @@ import {
 import IdIssueContainer from './IdIssueContainer'
 
 export default class EntityModelContainer extends IdIssueContainer {
-  constructor(editor, eventEmitter, parent, typeGap, namespace) {
+  constructor(editorID, eventEmitter, parent, typeGap, namespace) {
     super(eventEmitter, 'entity', 'T')
 
-    this._editorID = editor.editorID
+    this._editorID = editorID
 
     // Since the attribute model container and the entity model container are cross-referenced,
     // the entity model retrieves other containers dynamically.

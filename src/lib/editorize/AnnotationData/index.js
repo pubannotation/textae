@@ -44,7 +44,7 @@ export default class AnnotationData {
     })
 
     this.entity = new EntityModelContainer(
-      editor,
+      editor.editorID,
       eventEmitter,
       this,
       this._typeGap,
