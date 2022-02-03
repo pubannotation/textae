@@ -17,7 +17,8 @@ export default class EditRelation extends Edit {
     const relationPallet = new TypeValuesPallet(
       editorHTMLElement,
       eventEmitter,
-      annotationData,
+      annotationData.typeDefinition,
+      annotationData.attribute,
       annotationData.typeDefinition.relation,
       selectionModel.relation,
       commander,

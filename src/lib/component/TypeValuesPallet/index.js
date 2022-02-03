@@ -8,7 +8,8 @@ export default class TypeValuesPallet extends Pallet {
   constructor(
     editorHTMLElement,
     eventEmitter,
-    annotationData,
+    typeDefinition,
+    attributeModelContainer,
     definitionContainer,
     selectionModelEntity,
     commander,
@@ -19,8 +20,8 @@ export default class TypeValuesPallet extends Pallet {
 
     this._eventEmitter = eventEmitter
     /** @type {import('../../editorize/AnnotationData/TypeDefinition').default} */
-    this._typeDefinition = annotationData.typeDefinition
-    this._attributeModelContainer = annotationData.attribute
+    this._typeDefinition = typeDefinition
+    this._attributeModelContainer = attributeModelContainer
     this._definitionContainer = definitionContainer
     this._selectionModelItems = selectionModelEntity
     this._buttonController = buttonController
