@@ -12,6 +12,18 @@ import extractParamsFromHTMLElement from './extractParamsFromHTMLElement'
 import ValidationDialog from '../component/ValidationDialog'
 import isAndroid from './isAndroid'
 
+class EditorCSSClass {
+  constructor(editorHTMLElement) {
+    this._editorHTMLElement = editorHTMLElement
+  }
+  startWait() {
+    this._editorHTMLElement.classList.add('textae-editor--wait')
+  }
+  endWait() {
+    this._editorHTMLElement.classList.remove('textae-editor--wait')
+  }
+}
+
 export default function (element) {
   const params = extractParamsFromHTMLElement(element)
 
@@ -66,16 +78,18 @@ export default function (element) {
     e.preventDefault()
   )
 
+  const editorCSSClass = new EditorCSSClass(element)
+
   // public funcitons of editor
   Object.assign($this, {
     start(editor) {
       start(editor, history, annotationData, selectionModel, params)
     },
     startWait() {
-      element.classList.add('textae-editor--wait')
+      editorCSSClass.startWait()
     },
     endWait() {
-      element.classList.remove('textae-editor--wait')
+      editorCSSClass.endWait()
     },
     eventEmitter
   })
