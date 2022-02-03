@@ -251,7 +251,7 @@ export default function (
 
   // add control bar
   editorHTMLElement.insertBefore(
-    new ControlBar(editor, buttonController, iconEventMap).el,
+    new ControlBar(editor.eventEmitter, buttonController, iconEventMap).el,
     editorHTMLElement.childNodes[0]
   )
   // add context menu

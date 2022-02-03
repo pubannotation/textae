@@ -31,7 +31,7 @@ function template(context) {
 
 // The control is a control bar in an editor.
 export default class ControlBar extends Control {
-  constructor(editor, buttonController, iconEventMap) {
+  constructor(eventEmitter, buttonController, iconEventMap) {
     super(template(classify(buttonController.controlBarButton)), iconEventMap)
 
     this._buttonController = buttonController
@@ -59,7 +59,7 @@ export default class ControlBar extends Control {
       new Sticky('.textae-touch-bar', { stickyContainer: '.textae-editor' })
     }
 
-    editor.eventEmitter
+    eventEmitter
       .on('textae-event.control.button.push', ({ name }) => {
         this._updateButton(name, 'pushed')
       })
