@@ -3,6 +3,11 @@ import { MODE } from '../../../../../MODE'
 import bindTransition from './bindTransition'
 
 export default class StateMachine {
+  /**
+   *
+   * @param {import('../../../../AnnotationData/RelationModelContainer').default} relationContainer
+   * @param {import('./Transition').default} transition
+   */
   constructor(relationContainer, transition) {
     const m = new Machine({
       states: [
