@@ -1,4 +1,4 @@
-// The ID of spans has editorId and begin and end, like 'editor1__S0_15'.
+// The ID of spans has editorID and begin and end, like 'editor1__S0_15'.
 export function makeDenotationSpanHTMLElementID(editorID, begin, end) {
   return `${editorID}__S${begin}_${end}`
 }

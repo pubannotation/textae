@@ -20,7 +20,7 @@ export default class SpanModel {
 
   get id() {
     return makeDenotationSpanHTMLElementID(
-      this._editor.editorId,
+      this._editor.editorID,
       this._begin,
       this._end
     )

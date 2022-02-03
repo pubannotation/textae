@@ -85,7 +85,7 @@ export default class SpanModelContainer {
   }
 
   hasBlockSpan(begin, end) {
-    const spanID = makeBlockSpanHTMLElementID(this._editor.editorId, begin, end)
+    const spanID = makeBlockSpanHTMLElementID(this._editor.editorID, begin, end)
     return this._blocks.has(spanID)
   }
 
@@ -183,7 +183,7 @@ export default class SpanModelContainer {
 
   moveDenotationSpan(id, begin, end) {
     console.assert(
-      id !== makeDenotationSpanHTMLElementID(this._editor.editorId, begin, end),
+      id !== makeDenotationSpanHTMLElementID(this._editor.editorID, begin, end),
       `Do not need move span:  ${id} ${begin} ${end}`
     )
 
@@ -211,7 +211,7 @@ export default class SpanModelContainer {
 
   moveBlockSpan(id, begin, end) {
     console.assert(
-      id !== makeBlockSpanHTMLElementID(this._editor.editorId, begin, end),
+      id !== makeBlockSpanHTMLElementID(this._editor.editorID, begin, end),
       `Do not need move span:  ${id} ${begin} ${end}`
     )
 

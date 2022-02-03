@@ -77,7 +77,7 @@ export default class EditorContainer {
 
   push(editor) {
     Object.assign(editor, {
-      editorId: getNewId(this._editors)
+      editorID: getNewId(this._editors)
     })
     this._editors.push(editor)
   }

@@ -34,7 +34,7 @@ export default class EntityModelContainer extends IdIssueContainer {
   _toModel(denotation, type) {
     // Expected an entity like {id: "E21", span: "editor2__S50_54", obj: "Protein"}.
     return new EntityModel(
-      this._editor.editorId,
+      this._editor.editorID,
       this._attributeModelContainer,
       this._relationModelContainer,
       this._typeGap,
@@ -58,7 +58,7 @@ export default class EntityModelContainer extends IdIssueContainer {
     }
 
     const newEntity = new EntityModel(
-      this._editor.editorId,
+      this._editor.editorID,
       this._attributeModelContainer,
       this._relationModelContainer,
       this._typeGap,
@@ -148,13 +148,13 @@ export default class EntityModelContainer extends IdIssueContainer {
     switch (type) {
       case 'denotation':
         return makeDenotationSpanHTMLElementID(
-          this._editor.editorId,
+          this._editor.editorID,
           denotation.span.begin,
           denotation.span.end
         )
       case 'block':
         return makeBlockSpanHTMLElementID(
-          this._editor.editorId,
+          this._editor.editorID,
           denotation.span.begin,
           denotation.span.end
         )
