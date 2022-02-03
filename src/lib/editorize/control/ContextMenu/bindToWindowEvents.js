@@ -1,6 +1,6 @@
 import isTouchable from '../../isTouchable'
 
-export default function (editor, contextMenu) {
+export default function (editorHTMLElement, contextMenu) {
   // Close ContextMenu when another editor is clicked
   window.addEventListener('click', (e) => {
     // In Firefox, the right button of mouse fires a 'click' event.
@@ -21,7 +21,7 @@ export default function (editor, contextMenu) {
     // If the editor you click on is selected and editable,
     // it will display its own context menu, rather than the browser's context menu.
     const clickedEditor = e.target.closest('.textae-editor')
-    if (clickedEditor === editor[0]) {
+    if (clickedEditor === editorHTMLElement) {
       if (
         clickedEditor.classList.contains(
           'textae-editor__mode--view-with-relation'
@@ -39,12 +39,12 @@ export default function (editor, contextMenu) {
 
       if (isTouchable() && selection.rangeCount === 1) {
         const rectOfSelection = selection.getRangeAt(0).getBoundingClientRect()
-        const rectOfTextBox = editor[0]
+        const rectOfTextBox = editorHTMLElement
           .querySelector('.textae-editor__text-box')
           .getBoundingClientRect()
 
         contextMenu.showAbove(
-          rectOfSelection.y - editor[0].getBoundingClientRect().y,
+          rectOfSelection.y - editorHTMLElement.getBoundingClientRect().y,
           rectOfSelection.x - rectOfTextBox.x
         )
       } else {
@@ -52,7 +52,10 @@ export default function (editor, contextMenu) {
         // I want the coordinates where you right-click with the mouse,
         // starting from the upper left of the editor.
         // So the Y coordinate is pageY minus the editor's offsetTop.
-        contextMenu.showLowerRight(e.pageY - editor[0].offsetTop, e.pageX)
+        contextMenu.showLowerRight(
+          e.pageY - editorHTMLElement.offsetTop,
+          e.pageX
+        )
       }
     }
   })
