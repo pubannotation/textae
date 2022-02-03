@@ -6,8 +6,8 @@ import {
 import IdIssueContainer from './IdIssueContainer'
 
 export default class EntityModelContainer extends IdIssueContainer {
-  constructor(editor, emitter, parent, typeGap, namespace) {
-    super(emitter, 'entity', 'T')
+  constructor(editor, eventEmitter, parent, typeGap, namespace) {
+    super(eventEmitter, 'entity', 'T')
 
     this._editor = editor
 
