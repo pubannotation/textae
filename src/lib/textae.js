@@ -11,6 +11,6 @@ export default function () {
     $this.editorID = tool.nextID
     editorize($this)
     // Register an editor
-    tool.registerEditor($this)
+    tool.registerEditor($this, self)
   }
 }
