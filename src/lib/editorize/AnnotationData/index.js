@@ -29,9 +29,8 @@ export default class AnnotationData {
       '#00CC66'
     )
 
-    this._editorHTMLElement = editorHTMLElement
     this.relation = new RelationModelContainer(
-      this._editorHTMLElement,
+      editorHTMLElement,
       eventEmitter,
       this,
       this.namespace,
@@ -42,7 +41,7 @@ export default class AnnotationData {
         entity.reflectTypeGapInTheHeight()
       }
       this._textBox.updateLineHeight()
-      this._eventEmitter.emit('textae-event.annotation-data.entity-gap.change')
+      eventEmitter.emit('textae-event.annotation-data.entity-gap.change')
     })
 
     this.entity = new EntityModelContainer(
@@ -65,7 +64,7 @@ export default class AnnotationData {
       this.attributeDefinitionContainer
     )
 
-    this._textBox = createTextBox(this._editorHTMLElement, this)
+    this._textBox = createTextBox(editorHTMLElement, this)
     this._lineHeightAuto = new LineHeightAuto(eventEmitter, this._textBox)
     this.updatePositionDebounced = debounce(() => {
       this._lineHeightAuto.updateLineHeight()
@@ -74,14 +73,12 @@ export default class AnnotationData {
 
     this.span = new SpanModelContainer(
       editorID,
-      this._editorHTMLElement,
+      editorHTMLElement,
       eventEmitter,
       this.entity,
       this._textBox,
       this._typeGap
     )
-    this._eventEmitter = eventEmitter
-    this._editorCSSClass = editorCSSClass
 
     this.denotationDefinitionContainer = new DefinitionContainer(
       eventEmitter,
@@ -119,6 +116,10 @@ export default class AnnotationData {
       .on('textae-event.annotation-data.entity-gap.change', () =>
         this.updatePosition()
       )
+
+    this._editorHTMLElement = editorHTMLElement
+    this._eventEmitter = eventEmitter
+    this._editorCSSClass = editorCSSClass
   }
 
   reset(rawData, config) {
