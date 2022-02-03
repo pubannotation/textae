@@ -229,11 +229,10 @@ export default class AnnotationData {
   _clearAndDrawAllAnnotations() {
     getAnnotationBox(this._editor[0]).innerHTML = ''
 
-    this._textBox.updateLineHeight()
-
     for (const span of this.span.topLevel) {
       span.render()
     }
+    this._textBox.updateLineHeight()
     this.span.arrangeDenotationEntityPosition()
     this.span.arrangeBlockEntityPosition()
 
