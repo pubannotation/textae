@@ -34,11 +34,7 @@ export default class BlockSpanModel extends SpanModel {
   }
 
   get id() {
-    return makeBlockSpanHTMLElementID(
-      this._editor.editorID,
-      this._begin,
-      this._end
-    )
+    return makeBlockSpanHTMLElementID(this._editorID, this._begin, this._end)
   }
 
   select() {
@@ -80,7 +76,7 @@ export default class BlockSpanModel extends SpanModel {
 
     // Place the background in the annotation box
     // to shift the background up by half a line from the block span area.
-    const annotationBox = getAnnotationBox(this._editor[0])
+    const annotationBox = getAnnotationBox(this._editorHTMLElement)
     renderBackground(annotationBox, this._backgroundId)
   }
 
