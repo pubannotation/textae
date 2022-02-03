@@ -10,8 +10,6 @@ export default function () {
     // Register an editor
     tool.registerEditor($this)
     // Create an editor
-    const $e = editorize($this)
-    // Start an editor
-    $e.start($e)
+    editorize($this).start()
   }
 }

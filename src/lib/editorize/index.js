@@ -69,9 +69,6 @@ export default function ($this) {
 
   // public funcitons of editor
   Object.assign($this, {
-    start(editor) {
-      start(editor, history, annotationData, selectionModel, params)
-    },
     eventEmitter
   })
 
@@ -81,5 +78,9 @@ export default function ($this) {
     .on('textae-event.resource.startSave', () => editorCSSClass.startWait())
     .on('textae-event.resource.endSave', () => editorCSSClass.endWait())
 
-  return $this
+  return {
+    start() {
+      start($this, history, annotationData, selectionModel, params)
+    }
+  }
 }
