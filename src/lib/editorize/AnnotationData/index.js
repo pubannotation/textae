@@ -178,10 +178,6 @@ export default class AnnotationData {
     return this._typeDefinition
   }
 
-  get hasRelations() {
-    return this.relation.some
-  }
-
   updatePosition() {
     try {
       this._editor.startWait()
