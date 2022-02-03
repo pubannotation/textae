@@ -2,7 +2,13 @@ import delegate from 'delegate'
 import createDownloadPath from '../createDownloadPath'
 import enableHTMLElement from '../enableHTMLElement'
 
-export default function (editor, element, data, closeDialog, saveAnnotation) {
+export default function (
+  eventEmitter,
+  element,
+  data,
+  closeDialog,
+  saveAnnotation
+) {
   // Disabled the button to save to the URL when no URL.
   delegate(element, '.textae-editor__save-dialog__url-text', 'input', (e) => {
     enableHTMLElement(e.target.nextElementSibling, e.target.value)
@@ -30,7 +36,7 @@ export default function (editor, element, data, closeDialog, saveAnnotation) {
       const downloadPath = createDownloadPath(data)
       aTag.setAttribute('href', downloadPath)
       aTag.setAttribute('download', aTag.previousElementSibling.value)
-      editor.eventEmitter.emit('textae-event.resource.annotation.save', data)
+      eventEmitter.emit('textae-event.resource.annotation.save', data)
       closeDialog()
     }
   )
@@ -41,7 +47,7 @@ export default function (editor, element, data, closeDialog, saveAnnotation) {
     'click',
     () => {
       window.open(createDownloadPath(data), '_blank')
-      editor.eventEmitter.emit('textae-event.resource.annotation.save', data)
+      eventEmitter.emit('textae-event.resource.annotation.save', data)
       closeDialog()
     }
   )
