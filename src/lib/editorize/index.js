@@ -84,12 +84,6 @@ export default function (element) {
     start(editor) {
       start(editor, history, annotationData, selectionModel, params)
     },
-    startWait() {
-      editorCSSClass.startWait()
-    },
-    endWait() {
-      editorCSSClass.endWait()
-    },
     eventEmitter
   })
 
