@@ -16,7 +16,6 @@ export default class ContextMenu extends Control {
 
     bindToWindowEvents(editor[0], this)
 
-    this._editor = editor
     this._buttonController = buttonController
   }
 
