@@ -86,7 +86,7 @@ export default class EditMode {
 
   // For an intiation transition on an annotations data loaded.
   forView() {
-    if (this._annotationData.hasRelations) {
+    if (this._annotationData.relation.some) {
       this._stateMachine.setState(MODE.VIEW_WITH_RELATION)
     } else {
       this._stateMachine.setState(MODE.VIEW_WITHOUT_RELATION)
@@ -94,7 +94,7 @@ export default class EditMode {
   }
 
   forEditable() {
-    if (this._annotationData.hasRelations) {
+    if (this._annotationData.relation.some) {
       this._stateMachine.setState(MODE.EDIT_DENOTATION_WITH_RELATION)
     } else {
       this._stateMachine.setState(MODE.EDIT_DENOTATION_WITHOUT_RELATION)
