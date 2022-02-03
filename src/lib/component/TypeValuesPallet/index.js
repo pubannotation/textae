@@ -22,6 +22,7 @@ export default class TypeValuesPallet extends Pallet {
     this._annotationData = annotationData
     /** @type {import('../../editorize/AnnotationData/TypeDefinition').default} */
     this._typeDefinition = annotationData.typeDefinition
+    this._attributeModelContainer = annotationData.attribute
     this._definitionContainer = definitionContainer
     this._selectionModelItems = selectionModelEntity
     this._buttonController = buttonController
@@ -157,7 +158,7 @@ export default class TypeValuesPallet extends Pallet {
       this._selectedPred,
       this._selectionModelItems,
       this._typeDefinition.attribute,
-      this._annotationData.attribute.all,
+      this._attributeModelContainer.all,
       this._typeDefinition.isLock
     )
   }
