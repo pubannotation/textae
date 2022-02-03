@@ -1,7 +1,6 @@
 import Machine from 'emitter-fsm'
 import { MODE } from '../../../../../MODE'
 import bindTransition from './bindTransition'
-import Transition from './Transition'
 
 export default class StateMachine {
   constructor(
@@ -10,7 +9,8 @@ export default class StateMachine {
     noEdit,
     editEntity,
     editBlock,
-    editRelation
+    editRelation,
+    transition
   ) {
     const m = new Machine({
       states: [
@@ -94,15 +94,6 @@ export default class StateMachine {
       }
     })
 
-    const transition = new Transition(
-      editor.eventEmitter,
-      editor[0],
-      annotationData.typeGap,
-      noEdit,
-      editEntity,
-      editBlock,
-      editRelation
-    )
     bindTransition(m, transition)
 
     this._m = m

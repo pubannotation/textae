@@ -3,6 +3,7 @@ import StateMachine from './StateMachine'
 import EditDenotation from './EditDenotation'
 import EditBlock from './EditBlock'
 import EditRelation from './EditRelation'
+import Transition from './StateMachine/Transition'
 
 export default class EditMode {
   constructor(
@@ -48,6 +49,18 @@ export default class EditMode {
 
     this._listeners = []
 
+    const transition = new Transition(
+      editor.eventEmitter,
+      editor[0],
+      annotationData.typeGap,
+      () => {
+        this.cancelSelect()
+        this._unbindAllMouseEventhandler()
+      },
+      () => (this._listeners = this._editDenotation.init()),
+      () => (this._listeners = this._editBlock.init()),
+      () => (this._listeners = this._editRelation.init())
+    )
     this._stateMachine = new StateMachine(
       editor,
       annotationData,
@@ -57,7 +70,8 @@ export default class EditMode {
       },
       () => (this._listeners = this._editDenotation.init()),
       () => (this._listeners = this._editBlock.init()),
-      () => (this._listeners = this._editRelation.init())
+      () => (this._listeners = this._editRelation.init()),
+      transition
     )
 
     this._annotationData = annotationData
