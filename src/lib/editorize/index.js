@@ -1,4 +1,3 @@
-import $ from 'jquery'
 import alertifyjs from 'alertifyjs'
 import delegate from 'delegate'
 // model manages data objects.
@@ -13,10 +12,10 @@ import ValidationDialog from '../component/ValidationDialog'
 import isAndroid from './isAndroid'
 import EditorCSSClass from './EditorCSSClass'
 
-export default function (element) {
+export default function ($this) {
+  const element = $this[0]
   const params = extractParamsFromHTMLElement(element)
 
-  const $this = $(element)
   // Set the eventEmitter to communicate with the tool and a control.
   const eventEmitter = new EventEmitter()
   const editorCSSClass = new EditorCSSClass(element)
