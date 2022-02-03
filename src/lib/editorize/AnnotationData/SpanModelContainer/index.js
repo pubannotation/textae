@@ -18,6 +18,8 @@ export default class SpanModelContainer {
    */
   constructor(editor, emitter, entityContainer, textBox, typeGap) {
     this._editor = editor
+    this._editorID = editor.editorID
+    this._editorHTMLElement = editor[0]
     this._emitter = emitter
     this._entityContainer = entityContainer
     this._textBox = textBox
@@ -45,8 +47,8 @@ export default class SpanModelContainer {
       )
 
       const blockSpan = new BlockSpanModel(
-        this._editor.editorID,
-        this._editor[0],
+        this._editorID,
+        this._editorHTMLElement,
         newValue.begin,
         newValue.end,
         this._entityContainer,
@@ -60,8 +62,8 @@ export default class SpanModelContainer {
         'There is already a span.'
       )
       const denotationSpan = new DenotationSpanModel(
-        this._editor.editorID,
-        this._editor[0],
+        this._editorID,
+        this._editorHTMLElement,
         newValue.begin,
         newValue.end,
         this._entityContainer,
@@ -82,16 +84,12 @@ export default class SpanModelContainer {
   }
 
   hasDenotationSpan(begin, end) {
-    const spanID = makeDenotationSpanHTMLElementID(
-      this._editor.editorID,
-      begin,
-      end
-    )
+    const spanID = makeDenotationSpanHTMLElementID(this._editorID, begin, end)
     return this._denotations.has(spanID)
   }
 
   hasBlockSpan(begin, end) {
-    const spanID = makeBlockSpanHTMLElementID(this._editor.editorID, begin, end)
+    const spanID = makeBlockSpanHTMLElementID(this._editorID, begin, end)
     return this._blocks.has(spanID)
   }
 
@@ -189,7 +187,7 @@ export default class SpanModelContainer {
 
   moveDenotationSpan(id, begin, end) {
     console.assert(
-      id !== makeDenotationSpanHTMLElementID(this._editor.editorID, begin, end),
+      id !== makeDenotationSpanHTMLElementID(this._editorID, begin, end),
       `Do not need move span:  ${id} ${begin} ${end}`
     )
 
@@ -199,8 +197,8 @@ export default class SpanModelContainer {
     this._removeDenotation(oldSpan)
 
     const newOne = new DenotationSpanModel(
-      this._editor.editorID,
-      this._editor[0],
+      this._editorID,
+      this._editorHTMLElement,
       begin,
       end,
       this._entityContainer,
@@ -218,7 +216,7 @@ export default class SpanModelContainer {
 
   moveBlockSpan(id, begin, end) {
     console.assert(
-      id !== makeBlockSpanHTMLElementID(this._editor.editorID, begin, end),
+      id !== makeBlockSpanHTMLElementID(this._editorID, begin, end),
       `Do not need move span:  ${id} ${begin} ${end}`
     )
 
@@ -226,8 +224,8 @@ export default class SpanModelContainer {
     this._removeBlock(oldSpan)
 
     const newOne = new BlockSpanModel(
-      this._editor.editorID,
-      this._editor[0],
+      this._editorID,
+      this._editorHTMLElement,
       begin,
       end,
       this._entityContainer,
@@ -322,7 +320,7 @@ export default class SpanModelContainer {
 
   // It has a common interface with the span model so that it can be the parent of the span model
   get element() {
-    return this._editor[0].querySelector(`.textae-editor__text-box`)
+    return this._editorHTMLElement.querySelector(`.textae-editor__text-box`)
   }
 
   _updateSpanTree() {
@@ -334,8 +332,8 @@ export default class SpanModelContainer {
     switch (type) {
       case 'denotation': {
         const objectSpan = new DenotationSpanModel(
-          this._editor.editorID,
-          this._editor[0],
+          this._editorID,
+          this._editorHTMLElement,
           denotation.span.begin,
           denotation.span.end,
           this._entityContainer,
@@ -347,8 +345,8 @@ export default class SpanModelContainer {
       }
       case 'block': {
         const blockSpan = new BlockSpanModel(
-          this._editor.editorID,
-          this._editor[0],
+          this._editorID,
+          this._editorHTMLElement,
           denotation.span.begin,
           denotation.span.end,
           this._entityContainer,
@@ -361,8 +359,8 @@ export default class SpanModelContainer {
       }
       case 'typesetting': {
         const styleSpan = new StyleSpanModel(
-          this._editor.editorID,
-          this._editor[0],
+          this._editorID,
+          this._editorHTMLElement,
           denotation.span.begin,
           denotation.span.end,
           this,
