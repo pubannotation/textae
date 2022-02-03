@@ -16,9 +16,16 @@ export default class SpanModelContainer {
    *
    * @param {import('../createTextBox/TextBox').default} textBox
    */
-  constructor(editor, emitter, entityContainer, textBox, typeGap) {
-    this._editorID = editor.editorID
-    this._editorHTMLElement = editor[0]
+  constructor(
+    editorID,
+    editorHTMLElement,
+    emitter,
+    entityContainer,
+    textBox,
+    typeGap
+  ) {
+    this._editorID = editorID
+    this._editorHTMLElement = editorHTMLElement
     this._emitter = emitter
     this._entityContainer = entityContainer
     this._textBox = textBox
