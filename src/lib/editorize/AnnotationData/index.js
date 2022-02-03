@@ -19,7 +19,7 @@ import LineHeightAuto from '../start/View/LineHeightAuto'
 import { debounce } from 'debounce'
 
 export default class AnnotationData {
-  constructor(editor, eventEmitter) {
+  constructor(editor, eventEmitter, editorCSSClass) {
     this._sourceDoc = ''
     this.namespace = new ModelContainer(eventEmitter, 'namespace')
     const relationDefinitionContainer = new DefinitionContainer(
@@ -79,6 +79,7 @@ export default class AnnotationData {
     )
     this._editor = editor
     this._eventEmitter = eventEmitter
+    this._editorCSSClass = editorCSSClass
 
     this.denotationDefinitionContainer = new DefinitionContainer(
       eventEmitter,
@@ -180,7 +181,7 @@ export default class AnnotationData {
 
   updatePosition() {
     try {
-      this._editor.startWait()
+      this._editorCSSClass.startWait()
       // jQuery Ui dialogs are not in the editor.
       for (const dialog of document.querySelectorAll('.ui-dialog')) {
         dialog.classList.add('textae-editor--wait')
@@ -193,7 +194,7 @@ export default class AnnotationData {
     } catch (e) {
       console.error(e)
     } finally {
-      this._editor.endWait()
+      this._editorCSSClass.endWait()
       for (const dialog of document.querySelectorAll('.ui-dialog')) {
         dialog.classList.remove('textae-editor--wait')
       }

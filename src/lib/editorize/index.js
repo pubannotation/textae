@@ -30,7 +30,8 @@ export default function (element) {
   const $this = $(element)
   // Set the eventEmitter to communicate with the tool and a control.
   const eventEmitter = new EventEmitter()
-  const annotationData = new AnnotationData($this, eventEmitter)
+  const editorCSSClass = new EditorCSSClass(element)
+  const annotationData = new AnnotationData($this, eventEmitter, editorCSSClass)
 
   // A contaier of selection state.
   const selectionModel = new SelectionModel(eventEmitter, annotationData)
@@ -77,8 +78,6 @@ export default function (element) {
   delegate(element, '.textae-editor__signboard', 'mousedown', (e) =>
     e.preventDefault()
   )
-
-  const editorCSSClass = new EditorCSSClass(element)
 
   // public funcitons of editor
   Object.assign($this, {
