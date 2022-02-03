@@ -1,6 +1,6 @@
 export default class ViewMode {
-  constructor(editor) {
-    this._editor = editor
+  constructor(editorHTMLElement) {
+    this._editor = editorHTMLElement
   }
 
   setViewWithRelation() {
