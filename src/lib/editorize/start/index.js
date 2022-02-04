@@ -262,17 +262,15 @@ export default function (
   )
   editorHTMLElement.appendChild(contextMenu.el)
 
-  const instanceMethods = new InstanceMethods(presenter, buttonController, view)
+  const editorAPI = new InstanceMethods(presenter, buttonController, view)
 
   editorHTMLElement.addEventListener('keyup', (event) => {
     contextMenu.hide()
 
-    if (instanceMethods.isActive) {
+    if (editorAPI.isActive) {
       new KeyEventMap(commander, presenter, persistenceInterface).handle(event)
     }
   })
 
-  return {
-    instanceMethods
-  }
+  return editorAPI
 }

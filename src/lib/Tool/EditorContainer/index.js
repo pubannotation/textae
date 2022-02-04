@@ -37,9 +37,7 @@ export default class EditorContainer {
       }
 
       if (this.selected) {
-        this._editorAPIs
-          .get(this.selected)
-          .instanceMethods.copyEntitiesToSystemClipboard(e)
+        this._editorAPIs.get(this.selected).copyEntitiesToSystemClipboard(e)
       }
     })
     document.addEventListener('cut', (e) => {
@@ -48,9 +46,7 @@ export default class EditorContainer {
       }
 
       if (this.selected) {
-        this._editorAPIs
-          .get(this.selected)
-          .instanceMethods.cutEntitiesToSystemClipboard(e)
+        this._editorAPIs.get(this.selected).cutEntitiesToSystemClipboard(e)
       }
     })
     document.addEventListener('paste', (e) => {
@@ -59,9 +55,7 @@ export default class EditorContainer {
       }
 
       if (this.selected) {
-        this._editorAPIs
-          .get(this.selected)
-          .instanceMethods.pasteEntitiesFromSystemClipboard(e)
+        this._editorAPIs.get(this.selected).pasteEntitiesFromSystemClipboard(e)
       }
     })
 
@@ -70,15 +64,13 @@ export default class EditorContainer {
       'selectionchange',
       debounce(() => {
         if (this.selected) {
-          this._editorAPIs
-            .get(this.selected)
-            .instanceMethods.applyTextSelection()
+          this._editorAPIs.get(this.selected).applyTextSelection()
         }
       }, 100)
     )
     document.addEventListener('contextmenu', () => {
       if (this.selected) {
-        this._editorAPIs.get(this.selected).instanceMethods.applyTextSelection()
+        this._editorAPIs.get(this.selected).applyTextSelection()
       }
     })
   }
@@ -96,27 +88,27 @@ export default class EditorContainer {
   }
 
   set selected(element) {
-    this._editorAPIs.get(element).instanceMethods.active()
+    this._editorAPIs.get(element).active()
 
     this._selected = element
   }
 
   unselect(element) {
     if (this._selected === element) {
-      this._editorAPIs.get(element).instanceMethods.deactive()
+      this._editorAPIs.get(element).deactive()
       this._selected = null
     }
   }
 
   drawGridsInSight() {
     for (const editor of this._editorAPIs.values()) {
-      editor.instanceMethods.drawGridsInSight()
+      editor.drawGridsInSight()
     }
   }
 
   relayout() {
     for (const editor of this._editorAPIs.values()) {
-      editor.instanceMethods.relayout()
+      editor.relayout()
     }
   }
 
