@@ -1,5 +1,3 @@
-import selectEditor from './selectEditor'
-
 export default function (editors) {
   // The blur events always occurs each focus changing.
   // For example, blur events always occurs when the labels in the pallet is clicked.
@@ -15,7 +13,12 @@ export default function (editors) {
       const editor = editors.findByHTMLelement(
         e.target.closest('.textae-editor')
       )
-      selectEditor(editors, editor)
+      if (editor) {
+        if (editors.selected && editor[0] !== editors.selected[0]) {
+          editors.unselect(editors.selected)
+        }
+        editors.selected = editor
+      }
     },
     true
   )
