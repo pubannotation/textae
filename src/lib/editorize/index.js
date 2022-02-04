@@ -11,7 +11,6 @@ import extractParamsFromHTMLElement from './extractParamsFromHTMLElement'
 import ValidationDialog from '../component/ValidationDialog'
 import isAndroid from './isAndroid'
 import EditorCSSClass from './EditorCSSClass'
-import View from './start/View'
 
 export default function (element, editorID) {
   const params = extractParamsFromHTMLElement(element)
@@ -78,7 +77,63 @@ export default function (element, editorID) {
     .on('textae-event.resource.startSave', () => editorCSSClass.startWait())
     .on('textae-event.resource.endSave', () => editorCSSClass.endWait())
 
-  new View(eventEmitter, annotationData)
+  // Bind clipBoard events.
+  eventEmitter.on('textae-event.clip-board.change', (added, removed) => {
+    for (const entity of added) {
+      entity.startCut()
+    }
+
+    for (const entity of removed) {
+      entity.cancelCut()
+    }
+  })
+
+  // Bind commander events.
+  // When you have an entity with multiple attributes whose pred is the same,
+  // if you redraw the HTML element of the entity every time you update the attributes,
+  // you need to consider the mixed state of the attributes after the update and before the update.
+  // Redraw all the Entities that were affected at the end of the command.
+  eventEmitter.on('textae-event.commander.attributes.change', (attributes) => {
+    for (const subjectModel of attributes.reduce(
+      (prev, curr) => prev.add(curr.subjectModel),
+      new Set()
+    )) {
+      subjectModel.updateElement()
+    }
+  })
+
+  // Bind type-definition events.
+  eventEmitter
+    .on('textae-event.type-definition.entity.change', (typeName) => {
+      for (const entity of annotationData.entity.all) {
+        // If the type name ends in a wildcard, look for the DOMs to update with a forward match.
+        if (
+          entity.typeName === typeName ||
+          (typeName.lastIndexOf('*') === typeName.length - 1 &&
+            entity.typeName.indexOf(typeName.slice(0, -1) === 0))
+        ) {
+          entity.updateElement()
+        }
+      }
+    })
+    .on('textae-event.type-definition.attribute.change', (pred) =>
+      annotationData.entity.redrawEntitiesWithSpecifiedAttribute(pred)
+    )
+    .on('textae-event.type-definition.attribute.move', (pred) =>
+      annotationData.entity.redrawEntitiesWithSpecifiedAttribute(pred)
+    )
+    .on('textae-event.type-definition.relation.change', (typeName) => {
+      for (const relation of annotationData.relation.all) {
+        // If the type name ends in a wildcard, look for the DOMs to update with a forward match.
+        if (
+          relation.typeName === typeName ||
+          (typeName.lastIndexOf('*') === typeName.length - 1 &&
+            relation.typeName.indexOf(typeName.slice(0, -1) === 0))
+        ) {
+          relation.updateElement()
+        }
+      }
+    })
 
   return start(
     element,
