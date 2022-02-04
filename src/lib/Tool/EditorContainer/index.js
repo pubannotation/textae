@@ -83,13 +83,6 @@ export default class EditorContainer {
   }
 
   set selected(editor) {
-    for (const editor of this._editors) {
-      // Do not deselect the selected editor.
-      // Otherwise, it will be deselected once when you reselect the currently selected editor and close the palette.
-      if (editor !== editor) {
-        editor.instanceMethods.deactive()
-      }
-    }
     editor.instanceMethods.active()
 
     this._selected = editor
