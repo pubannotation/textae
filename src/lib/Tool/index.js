@@ -6,33 +6,35 @@ import throttle from 'throttleit'
 // The tool manages interactions between components.
 export default class Tool {
   constructor() {
-    this._editors = new EditorContainer()
+    this._editorContainer = new EditorContainer()
     this._veil = new Veil()
 
     // When the DOMContentLoaded event occurs, document.body may not have been initialized yet.
     // When the load event occurs, bind the event handler of document.body.
     window.addEventListener('load', () => {
-      selectUnselectEditorOn(this._editors)
+      selectUnselectEditorOn(this._editorContainer)
     })
 
     // Observe window-resize event and redraw all editors.
     window.addEventListener(
       'resize',
       throttle(() => {
-        this._editors.relayout()
-        this._editors.drawGridsInSight()
+        this._editorContainer.relayout()
+        this._editorContainer.drawGridsInSight()
       }, 500)
     )
 
-    window.addEventListener('scroll', () => this._editors.drawGridsInSight())
+    window.addEventListener('scroll', () =>
+      this._editorContainer.drawGridsInSight()
+    )
   }
 
   get nextID() {
-    return this._editors.nextID
+    return this._editorContainer.nextID
   }
 
   registerEditor(editor, element) {
     this._veil.setObserver(element)
-    this._editors.push(editor, element)
+    this._editorContainer.push(editor, element)
   }
 }
