@@ -4,8 +4,6 @@ export default class View {
    * @param {import('../../AnnotationData').default} annotationData
    */
   constructor(eventEmitter, annotationData) {
-    this._annotationData = annotationData
-
     // Bind clipBoard events.
     eventEmitter.on('textae-event.clip-board.change', (added, removed) => {
       for (const entity of added) {
