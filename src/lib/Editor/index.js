@@ -19,6 +19,8 @@ export default class EditorAPI {
 
     // Set the eventEmitter to communicate with the tool and a control.
     const eventEmitter = new EventEmitter()
+    observeEventEmitter(eventEmitter)
+
     const editorCSSClass = new EditorCSSClass(element)
     editorCSSClassObserve(eventEmitter, editorCSSClass)
 
@@ -36,37 +38,6 @@ export default class EditorAPI {
 
     // Set position of toast messages.
     alertifyjs.set('notifier', 'position', 'top-right')
-
-    eventEmitter
-      .on('textae-event.resource.annotation.format.error', ({ displayName }) =>
-        alertifyjs.error(
-          `${displayName} is not a annotation file or its format is invalid.`
-        )
-      )
-      .on(
-        'textae-event.resource.configuration.format.error',
-        ({ displayName }) =>
-          alertifyjs.error(
-            `${displayName} is not a configuration file or its format is invalid.!`
-          )
-      )
-      .on(
-        'textae-event.annotation-data.all.change',
-        (_, __, hasError, reject) => {
-          if (hasError) {
-            new ValidationDialog(reject).open()
-          }
-        }
-      )
-      .on(
-        'textae-event.annotation-data.events-observer.change',
-        (hasChange) => {
-          // change leaveMessage show
-          // Reloading when trying to scroll further when you are at the top on an Android device.
-          // Show a confirmation dialog to prevent this.
-          window.onbeforeunload = isAndroid() || hasChange ? () => true : null
-        }
-      )
 
     // Prevent a selection text with shift keies.
     element.addEventListener('mousedown', (e) => {
@@ -173,6 +144,34 @@ export default class EditorAPI {
     this._annotationData.updatePosition()
   }
 }
+function observeEventEmitter(eventEmitter) {
+  eventEmitter
+    .on('textae-event.resource.annotation.format.error', ({ displayName }) =>
+      alertifyjs.error(
+        `${displayName} is not a annotation file or its format is invalid.`
+      )
+    )
+    .on('textae-event.resource.configuration.format.error', ({ displayName }) =>
+      alertifyjs.error(
+        `${displayName} is not a configuration file or its format is invalid.!`
+      )
+    )
+    .on(
+      'textae-event.annotation-data.all.change',
+      (_, __, hasError, reject) => {
+        if (hasError) {
+          new ValidationDialog(reject).open()
+        }
+      }
+    )
+    .on('textae-event.annotation-data.events-observer.change', (hasChange) => {
+      // change leaveMessage show
+      // Reloading when trying to scroll further when you are at the top on an Android device.
+      // Show a confirmation dialog to prevent this.
+      window.onbeforeunload = isAndroid() || hasChange ? () => true : null
+    })
+}
+
 function editorCSSClassObserve(eventEmitter, editorCSSClass) {
   eventEmitter
     .on('textae-event.resource.startLoad', () => editorCSSClass.startWait())
