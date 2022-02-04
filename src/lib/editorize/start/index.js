@@ -244,7 +244,6 @@ export default function (
     commander,
     presenter,
     persistenceInterface,
-    view,
     buttonController,
     annotationData
   )

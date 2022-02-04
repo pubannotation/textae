@@ -3,7 +3,6 @@ export default class IconEventMap {
     commander,
     presenter,
     persistenceInterface,
-    view,
     buttonController,
     annotationData
   ) {
