@@ -11,7 +11,7 @@ export default class Tool {
     // When the DOMContentLoaded event occurs, document.body may not have been initialized yet.
     // When the load event occurs, bind the event handler of document.body.
     window.addEventListener('load', () =>
-      this._editorContainer.selectUnselectEditorOn()
+      this._editorContainer.bindDocumentEvents()
     )
 
     // Observe window-resize event and redraw all editors.
