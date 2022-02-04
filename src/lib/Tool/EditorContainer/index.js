@@ -115,6 +115,10 @@ export default class EditorContainer {
   findByHTMLelement(dom) {
     return this._editors.filter((e) => e[0] === dom)[0]
   }
+
+  get nextID() {
+    return `editor${this._editors.length}`
+  }
 }
 
 function isTextFields(htmlElement) {
