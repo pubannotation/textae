@@ -1,5 +1,5 @@
 import isAbleToParseFloat from '../../../isAbleToParseFloat'
-import AttributeDefinition from './AttributeDefinition'
+import AttributeDefinition from '../../../AttributeDefinition'
 
 export default class StringAttributeDefinition extends AttributeDefinition {
   constructor(valueType, hash) {

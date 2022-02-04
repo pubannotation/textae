@@ -1,4 +1,4 @@
-import AttributeDefinition from './AttributeDefinition'
+import AttributeDefinition from '../../../AttributeDefinition'
 
 export default class FlagAttributeDefinition extends AttributeDefinition {
   constructor(valueType, hash) {

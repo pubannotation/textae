@@ -1,4 +1,4 @@
-import AttributeDefinition from './Editor/AttributeDefinitionContainer/createAttributeDefinition/AttributeDefinition'
+import AttributeDefinition from './AttributeDefinition'
 import IntervalNotation from './IntervalNotation'
 import isAbleToParseFloat from './isAbleToParseFloat'
 

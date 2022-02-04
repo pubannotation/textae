@@ -1,4 +1,4 @@
-import AttributeDefinition from './AttributeDefinition'
+import AttributeDefinition from '../../../AttributeDefinition'
 
 export default class SelectionAttributeDefinition extends AttributeDefinition {
   constructor(valueType, hash) {
