@@ -5,9 +5,8 @@ export default class EditorAPI {
    *
    * @param {import('./View').default} view
    */
-  constructor(presenter, buttonController, view) {
+  constructor(presenter, view) {
     this._view = view
-    this._buttonController = buttonController
     this._presenter = presenter
     this._isActive = false
 
