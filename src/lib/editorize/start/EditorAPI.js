@@ -1,6 +1,6 @@
 import forwardMethods from './Presenter/forwardMethods'
 
-export default class InstanceMethods {
+export default class EditorAPI {
   /**
    *
    * @param {import('./View').default} view

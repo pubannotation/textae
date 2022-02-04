@@ -4,7 +4,7 @@ import Commander from './Commander'
 import View from './View'
 import Presenter from './Presenter'
 import PersistenceInterface from './PersistenceInterface'
-import InstanceMethods from './InstanceMethods'
+import EditorAPI from './EditorAPI'
 import focusEditorWhenFocusedChildRemoved from './focusEditorWhenFocusedChildRemoved'
 import initAnnotation from './initAnnotation'
 import getConfigEditParamFromUrl from './getConfigEditParamFromUrl'
@@ -262,7 +262,7 @@ export default function (
   )
   editorHTMLElement.appendChild(contextMenu.el)
 
-  const editorAPI = new InstanceMethods(presenter, buttonController, view)
+  const editorAPI = new EditorAPI(presenter, buttonController, view)
 
   editorHTMLElement.addEventListener('keyup', (event) => {
     contextMenu.hide()
