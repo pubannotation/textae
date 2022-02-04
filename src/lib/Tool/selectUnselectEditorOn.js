@@ -1,8 +1,8 @@
 /**
  *
- * @param {import('./EditorContainer').default} editors
+ * @param {import('./EditorContainer').default} editorContainer
  */
-export default function (editors) {
+export default function (editorContainer) {
   // The blur events always occurs each focus changing.
   // For example, blur events always occurs when the labels in the pallet is clicked.
   // If other editors are selected, the pallet should be closed.
@@ -17,10 +17,10 @@ export default function (editors) {
       const element = e.target.closest('.textae-editor')
 
       if (element) {
-        if (editors.selected && editors.selected !== element) {
-          editors.unselect(editors.selected)
+        if (editorContainer.selected && editorContainer.selected !== element) {
+          editorContainer.unselect(editorContainer.selected)
         }
-        editors.selected = element
+        editorContainer.selected = element
       }
     },
     true
@@ -50,12 +50,12 @@ export default function (editors) {
     }
 
     // Ignore clicks on children of the this Editor
-    if (editors.has(e.target.closest('.textae-editor'))) {
+    if (editorContainer.has(e.target.closest('.textae-editor'))) {
       return
     }
 
-    if (editors.selected) {
-      editors.unselect(editors.selected)
+    if (editorContainer.selected) {
+      editorContainer.unselect(editorContainer.selected)
     }
   })
 }
