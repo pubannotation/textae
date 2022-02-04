@@ -2,7 +2,7 @@ import forwardMethods from './Presenter/forwardMethods'
 
 export default class EditorAPI {
   /**
-   *
+   * @param {import('./Presenter').default} presenter
    * @param {import('./View').default} view
    */
   constructor(presenter, view) {
