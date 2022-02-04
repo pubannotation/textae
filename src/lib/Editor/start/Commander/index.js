@@ -1,5 +1,5 @@
 import alertifyjs from 'alertifyjs'
-import History from '../../History'
+import History from './History'
 import Factory from './Factory'
 
 // A command is an operation by user that is saved as history, and can undo and redo.
