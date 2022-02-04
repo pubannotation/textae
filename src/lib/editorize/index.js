@@ -11,6 +11,7 @@ import extractParamsFromHTMLElement from './extractParamsFromHTMLElement'
 import ValidationDialog from '../component/ValidationDialog'
 import isAndroid from './isAndroid'
 import EditorCSSClass from './EditorCSSClass'
+import View from './start/View'
 
 export default function (element, editorID) {
   const params = extractParamsFromHTMLElement(element)
@@ -76,6 +77,8 @@ export default function (element, editorID) {
     .on('textae-event.resource.endLoad', () => editorCSSClass.endWait())
     .on('textae-event.resource.startSave', () => editorCSSClass.startWait())
     .on('textae-event.resource.endSave', () => editorCSSClass.endWait())
+
+  new View(eventEmitter, annotationData)
 
   return start(
     element,

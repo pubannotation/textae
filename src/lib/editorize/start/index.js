@@ -1,7 +1,6 @@
 import alertifyjs from 'alertifyjs'
 import SpanConfig from './SpanConfig'
 import Commander from './Commander'
-import View from './View'
 import Presenter from './Presenter'
 import PersistenceInterface from './PersistenceInterface'
 import EditorAPI from './EditorAPI'
@@ -51,7 +50,6 @@ export default function (
     annotationData.attributeDefinitionContainer,
     annotationData.typeDefinition
   )
-  const view = new View(eventEmitter, annotationData)
   const originalData = new OriginalData(
     eventEmitter,
     editorHTMLElement,
