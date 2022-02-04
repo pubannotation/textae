@@ -8,7 +8,7 @@ const tipsDialog = new TipsDialog()
 
 export default class EditorContainer {
   constructor() {
-    this._editors = new Map()
+    this._editorAPIs = new Map()
     this._selected = null
 
     delegate(window, '.textae-editor', 'keyup', (event) => {
@@ -36,7 +36,7 @@ export default class EditorContainer {
       }
 
       if (this.selected) {
-        this._editors
+        this._editorAPIs
           .get(this.selected)
           .instanceMethods.copyEntitiesToSystemClipboard(e)
       }
@@ -47,7 +47,7 @@ export default class EditorContainer {
       }
 
       if (this.selected) {
-        this._editors
+        this._editorAPIs
           .get(this.selected)
           .instanceMethods.cutEntitiesToSystemClipboard(e)
       }
@@ -58,7 +58,7 @@ export default class EditorContainer {
       }
 
       if (this.selected) {
-        this._editors
+        this._editorAPIs
           .get(this.selected)
           .instanceMethods.pasteEntitiesFromSystemClipboard(e)
       }
@@ -69,19 +69,21 @@ export default class EditorContainer {
       'selectionchange',
       debounce(() => {
         if (this.selected) {
-          this._editors.get(this.selected).instanceMethods.applyTextSelection()
+          this._editorAPIs
+            .get(this.selected)
+            .instanceMethods.applyTextSelection()
         }
       }, 100)
     )
     document.addEventListener('contextmenu', () => {
       if (this.selected) {
-        this._editors.get(this.selected).instanceMethods.applyTextSelection()
+        this._editorAPIs.get(this.selected).instanceMethods.applyTextSelection()
       }
     })
   }
 
   push(editor, element) {
-    this._editors.set(element, editor)
+    this._editorAPIs.set(element, editor)
   }
 
   get selected() {
@@ -89,36 +91,36 @@ export default class EditorContainer {
   }
 
   set selected(element) {
-    this._editors.get(element).instanceMethods.active()
+    this._editorAPIs.get(element).instanceMethods.active()
 
     this._selected = element
   }
 
   unselect(element) {
     if (this._selected === element) {
-      this._editors.get(element).instanceMethods.deactive()
+      this._editorAPIs.get(element).instanceMethods.deactive()
       this._selected = null
     }
   }
 
   drawGridsInSight() {
-    for (const editor of this._editors.values()) {
+    for (const editor of this._editorAPIs.values()) {
       editor.instanceMethods.drawGridsInSight()
     }
   }
 
   relayout() {
-    for (const editor of this._editors.values()) {
+    for (const editor of this._editorAPIs.values()) {
       editor.instanceMethods.relayout()
     }
   }
 
   has(element) {
-    return this._editors.has(element)
+    return this._editorAPIs.has(element)
   }
 
   get nextID() {
-    return `editor${this._editors.size}`
+    return `editor${this._editorAPIs.size}`
   }
 }
 
