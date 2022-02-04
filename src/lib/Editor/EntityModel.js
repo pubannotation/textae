@@ -1,4 +1,4 @@
-import TypeValues from './TypeValues'
+import TypeValues from '../TypeValues'
 import SignboardHTMLElement from './SignboardHTMLElement'
 import getDisplayName from './getDisplayName'
 import getUri from './getUri'

@@ -1,5 +1,5 @@
 import { v4 as uuidv4 } from 'uuid'
-import TypeValues from '../../TypeValues'
+import TypeValues from '../../../TypeValues'
 import EntityModel from '../../EntityModel'
 import AttributeDefinitionContainer from '../../AttributeDefinitionContainer'
 

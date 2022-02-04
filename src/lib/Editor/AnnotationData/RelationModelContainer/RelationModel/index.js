@@ -1,7 +1,7 @@
 import getDisplayName from '../../../getDisplayName'
 import getUri from '../../../getUri'
 import toAnchorElement from '../../../toAnchorElement'
-import TypeValues from '../../../TypeValues'
+import TypeValues from '../../../../TypeValues'
 import SVGConnection from './SVGConnection'
 
 export default class RelationModel {
