@@ -68,15 +68,6 @@ export default class View {
       })
   }
 
-  drawGridsInSight() {
-    this._annotationData.drawGridsInSight()
-  }
-
-  relayout() {
-    this._annotationData.textBox.forceUpdate()
-    this._annotationData.updatePosition()
-  }
-
   updateLineHeight() {
     this._annotationData.textBox.updateLineHeight()
     this._annotationData.updatePosition()
