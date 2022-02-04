@@ -79,7 +79,6 @@ export default function (
     spanConfig,
     clipBoard,
     buttonController,
-    view,
     params.get('autocompletion_ws'),
     params.get('mode')
   )

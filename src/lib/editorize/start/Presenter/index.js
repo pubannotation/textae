@@ -17,7 +17,6 @@ export default class Presenter {
     spanConfig,
     clipBoard,
     buttonController,
-    view,
     autocompletionWs,
     mode
   ) {
@@ -64,7 +63,6 @@ export default class Presenter {
     this._buttonController = buttonController
     this._spanConfig = spanConfig
     this._clipBoard = clipBoard
-    this._view = view
     this._editMode = editMode
     this._horizontal = new Horizontal(editorHTMLElement, selectionModel)
     this._vertical = new Vertical(editorHTMLElement, selectionModel)
