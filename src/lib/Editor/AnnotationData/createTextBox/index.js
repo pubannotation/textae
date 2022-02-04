@@ -1,3 +1,4 @@
+import focusEditorWhenFocusedChildRemoved from './focusEditorWhenFocusedChildRemoved'
 import TextBox from './TextBox'
 
 export default function (editorHTMLElement, annotationData) {
@@ -17,6 +18,7 @@ export default function (editorHTMLElement, annotationData) {
   // In this case, HTML line breaks are included in the editor's height calculation.
   // Remove CRLF so that it is not included in the height calculation.
   editorHTMLElement.innerHTML = html.replace(/[\n\r]+/g, '')
+  focusEditorWhenFocusedChildRemoved(editorHTMLElement)
 
   return new TextBox(editorHTMLElement, annotationData)
 }
