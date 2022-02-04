@@ -1,5 +1,9 @@
 import setPushBUttons from './setPushBUttons'
 
+/**
+ *
+ * @param {import('../AnnotationData').default} annotationData
+ */
 export default function (
   validConfig,
   buttonController,
