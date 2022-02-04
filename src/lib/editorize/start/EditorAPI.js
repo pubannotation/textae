@@ -8,7 +8,6 @@ export default class EditorAPI {
   constructor(presenter, annotationData) {
     this._annotationData = annotationData
     this._presenter = presenter
-    this._isActive = false
 
     forwardMethods(this, () => presenter, [
       'copyEntitiesToSystemClipboard',
@@ -18,7 +17,7 @@ export default class EditorAPI {
   }
 
   get isActive() {
-    return this._isActive
+    return this._presenter.isActive
   }
 
   drawGridsInSight() {
@@ -32,12 +31,10 @@ export default class EditorAPI {
 
   active() {
     this._presenter.active()
-    this._isActive = true
   }
 
   deactive() {
     this._presenter.deactive()
-    this._isActive = false
   }
 
   applyTextSelection() {

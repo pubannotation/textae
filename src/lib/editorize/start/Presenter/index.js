@@ -66,6 +66,7 @@ export default class Presenter {
     this._editMode = editMode
     this._horizontal = new Horizontal(editorHTMLElement, selectionModel)
     this._vertical = new Vertical(editorHTMLElement, selectionModel)
+    this._isActive = false
 
     forwardMethods(this, () => this._editMode.currentEdit, [
       'createSpan',
@@ -151,13 +152,19 @@ export default class Presenter {
     ).open()
   }
 
+  get isActive() {
+    return this._isActive
+  }
+
   active() {
     this._editorHTMLElement.classList.add('textae-editor--active')
+    this._isActive = true
   }
 
   deactive() {
     this._editorHTMLElement.classList.remove('textae-editor--active')
     this._eventEmitter.emit('textae-event.editor.unselect')
+    this._isActive = false
   }
 
   selectLeft(shiftKey) {
