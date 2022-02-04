@@ -83,6 +83,10 @@ export default class EditorContainer {
     })
   }
 
+  bindDocumentEvents() {
+    bindDocumentEvents(this)
+  }
+
   set(element, editorAPI) {
     this._editorAPIs.set(element, editorAPI)
   }
@@ -122,10 +126,6 @@ export default class EditorContainer {
 
   get nextID() {
     return `editor${this._editorAPIs.size}`
-  }
-
-  bindDocumentEvents() {
-    bindDocumentEvents(this)
   }
 }
 
