@@ -15,7 +15,8 @@ export default class EditorAPI {
       'pasteEntitiesFromSystemClipboard',
       'isActive',
       'active',
-      'deactive'
+      'deactive',
+      'applyTextSelection'
     ])
   }
 
@@ -26,11 +27,5 @@ export default class EditorAPI {
   relayout() {
     this._annotationData.textBox.forceUpdate()
     this._annotationData.updatePosition()
-  }
-
-  applyTextSelection() {
-    if (this._isActive) {
-      this._presenter.applyTextSelection()
-    }
   }
 }

@@ -196,6 +196,8 @@ export default class Presenter {
   }
 
   applyTextSelection() {
-    this._editMode.currentEdit.applyTextSelection()
+    if (this._isActive) {
+      this._editMode.currentEdit.applyTextSelection()
+    }
   }
 }
