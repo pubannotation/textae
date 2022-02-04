@@ -1,3 +1,7 @@
+/**
+ *
+ * @param {import('./EditorContainer').default} editors
+ */
 export default function (editors) {
   // The blur events always occurs each focus changing.
   // For example, blur events always occurs when the labels in the pallet is clicked.
