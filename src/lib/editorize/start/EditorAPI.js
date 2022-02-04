@@ -3,10 +3,10 @@ import forwardMethods from './Presenter/forwardMethods'
 export default class EditorAPI {
   /**
    * @param {import('./Presenter').default} presenter
-   * @param {import('./View').default} view
+   * @param {import('./../AnnotationData').default} annotationData
    */
-  constructor(presenter, view) {
-    this._view = view
+  constructor(presenter, annotationData) {
+    this._annotationData = annotationData
     this._presenter = presenter
     this._isActive = false
 
@@ -22,11 +22,12 @@ export default class EditorAPI {
   }
 
   drawGridsInSight() {
-    this._view.drawGridsInSight()
+    this._annotationData.drawGridsInSight()
   }
 
   relayout() {
-    this._view.relayout()
+    this._annotationData.textBox.forceUpdate()
+    this._annotationData.updatePosition()
   }
 
   active() {

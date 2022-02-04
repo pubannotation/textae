@@ -261,7 +261,7 @@ export default function (
   )
   editorHTMLElement.appendChild(contextMenu.el)
 
-  const editorAPI = new EditorAPI(presenter, view)
+  const editorAPI = new EditorAPI(presenter, annotationData)
 
   editorHTMLElement.addEventListener('keyup', (event) => {
     contextMenu.hide()
