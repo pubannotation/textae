@@ -1,4 +1,4 @@
-import forwardMethods from './Presenter/forwardMethods'
+import forwardMethods from './forwardMethods'
 
 export default class EditorAPI {
   /**

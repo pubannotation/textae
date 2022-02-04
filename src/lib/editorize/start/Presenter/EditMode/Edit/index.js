@@ -1,4 +1,4 @@
-import forwardMethods from '../../forwardMethods'
+import forwardMethods from '../../../forwardMethods'
 import bindPalletEvents from './bindPalletEvents'
 
 export default class Edit {
