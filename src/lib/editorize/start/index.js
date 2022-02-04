@@ -264,7 +264,7 @@ export default function (
   editorHTMLElement.addEventListener('keyup', (event) => {
     contextMenu.hide()
 
-    if (editorAPI.isActive) {
+    if (presenter.isActive) {
       new KeyEventMap(commander, presenter, persistenceInterface).handle(event)
     }
   })
