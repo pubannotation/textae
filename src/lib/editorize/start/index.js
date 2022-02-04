@@ -24,7 +24,6 @@ import DataSource from '../DataSource'
 import RemoteResource from '../RemoteResource'
 
 export default function (
-  editor,
   editorHTMLElement,
   editorID,
   eventEmitter,
