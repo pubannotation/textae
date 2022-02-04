@@ -81,6 +81,7 @@ export default function ($this) {
   start(
     $this,
     element,
+    $this.editorID,
     eventEmitter,
     history,
     annotationData,

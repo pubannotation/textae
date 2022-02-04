@@ -26,6 +26,7 @@ import RemoteResource from '../RemoteResource'
 export default function (
   editor,
   editorHTMLElement,
+  editorID,
   eventEmitter,
   history,
   annotationData,
@@ -37,7 +38,7 @@ export default function (
   // Users can edit model only via commands.
   const commander = new Commander(
     editorHTMLElement,
-    editor.editorID,
+    editorID,
     eventEmitter,
     annotationData,
     selectionModel,
