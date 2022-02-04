@@ -51,23 +51,6 @@ export default class EditorAPI {
       e.preventDefault()
     )
 
-    // Bind commander events.
-    // When you have an entity with multiple attributes whose pred is the same,
-    // if you redraw the HTML element of the entity every time you update the attributes,
-    // you need to consider the mixed state of the attributes after the update and before the update.
-    // Redraw all the Entities that were affected at the end of the command.
-    eventEmitter.on(
-      'textae-event.commander.attributes.change',
-      (attributes) => {
-        for (const subjectModel of attributes.reduce(
-          (prev, curr) => prev.add(curr.subjectModel),
-          new Set()
-        )) {
-          subjectModel.updateElement()
-        }
-      }
-    )
-
     // Bind type-definition events.
     eventEmitter
       .on('textae-event.type-definition.entity.change', (typeName) => {
@@ -168,6 +151,20 @@ function observeEventEmitter(eventEmitter) {
 
     for (const entity of removed) {
       entity.cancelCut()
+    }
+  })
+
+  // Bind commander events.
+  // When you have an entity with multiple attributes whose pred is the same,
+  // if you redraw the HTML element of the entity every time you update the attributes,
+  // you need to consider the mixed state of the attributes after the update and before the update.
+  // Redraw all the Entities that were affected at the end of the command.
+  eventEmitter.on('textae-event.commander.attributes.change', (attributes) => {
+    for (const subjectModel of attributes.reduce(
+      (prev, curr) => prev.add(curr.subjectModel),
+      new Set()
+    )) {
+      subjectModel.updateElement()
     }
   })
 }
