@@ -117,6 +117,39 @@ export default class AnnotationData {
         this.updatePosition()
       )
 
+    // Bind type-definition events.
+    eventEmitter
+      .on('textae-event.type-definition.entity.change', (typeName) => {
+        for (const entity of this.entity.all) {
+          // If the type name ends in a wildcard, look for the DOMs to update with a forward match.
+          if (
+            entity.typeName === typeName ||
+            (typeName.lastIndexOf('*') === typeName.length - 1 &&
+              entity.typeName.indexOf(typeName.slice(0, -1) === 0))
+          ) {
+            entity.updateElement()
+          }
+        }
+      })
+      .on('textae-event.type-definition.attribute.change', (pred) =>
+        this.entity.redrawEntitiesWithSpecifiedAttribute(pred)
+      )
+      .on('textae-event.type-definition.attribute.move', (pred) =>
+        this.entity.redrawEntitiesWithSpecifiedAttribute(pred)
+      )
+      .on('textae-event.type-definition.relation.change', (typeName) => {
+        for (const relation of this.relation.all) {
+          // If the type name ends in a wildcard, look for the DOMs to update with a forward match.
+          if (
+            relation.typeName === typeName ||
+            (typeName.lastIndexOf('*') === typeName.length - 1 &&
+              relation.typeName.indexOf(typeName.slice(0, -1) === 0))
+          ) {
+            relation.updateElement()
+          }
+        }
+      })
+
     this._editorHTMLElement = editorHTMLElement
     this._eventEmitter = eventEmitter
     this._editorCSSClass = editorCSSClass
