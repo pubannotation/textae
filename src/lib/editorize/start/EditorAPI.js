@@ -12,12 +12,11 @@ export default class EditorAPI {
     forwardMethods(this, () => presenter, [
       'copyEntitiesToSystemClipboard',
       'cutEntitiesToSystemClipboard',
-      'pasteEntitiesFromSystemClipboard'
+      'pasteEntitiesFromSystemClipboard',
+      'isActive',
+      'active',
+      'deactive'
     ])
-  }
-
-  get isActive() {
-    return this._presenter.isActive
   }
 
   drawGridsInSight() {
@@ -27,14 +26,6 @@ export default class EditorAPI {
   relayout() {
     this._annotationData.textBox.forceUpdate()
     this._annotationData.updatePosition()
-  }
-
-  active() {
-    this._presenter.active()
-  }
-
-  deactive() {
-    this._presenter.deactive()
   }
 
   applyTextSelection() {
