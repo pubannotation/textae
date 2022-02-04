@@ -245,7 +245,8 @@ export default function (
     presenter,
     persistenceInterface,
     view,
-    buttonController
+    buttonController,
+    annotationData
   )
 
   // add control bar
