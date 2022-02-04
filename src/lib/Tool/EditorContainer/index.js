@@ -74,8 +74,8 @@ export default class EditorContainer {
     })
   }
 
-  push(editor) {
-    this._editors.push(editor)
+  push(editor, element) {
+    this._editors.push({ editor, element })
   }
 
   get selected() {
@@ -96,17 +96,17 @@ export default class EditorContainer {
   }
 
   drawGridsInSight() {
-    for (const editor of this._editors) {
+    for (const { editor } of this._editors) {
       editor.instanceMethods.drawGridsInSight()
     }
   }
 
   relayout() {
-    this._editors.forEach((e) => e.instanceMethods.relayout())
+    this._editors.forEach(({ editor }) => editor.instanceMethods.relayout())
   }
 
   findByHTMLelement(element) {
-    return this._editors.find((e) => e[0] === element)
+    return this._editors.find(({ editor }) => editor[0] === element).editor
   }
 
   get nextID() {
