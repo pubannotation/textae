@@ -1,4 +1,3 @@
-import alertifyjs from 'alertifyjs'
 // model manages data objects.
 import AnnotationData from './AnnotationData'
 import SelectionModel from './SelectionModel'
@@ -36,9 +35,6 @@ export default class EditorAPI {
     const selectionModel = new SelectionModel(eventEmitter, annotationData)
 
     const history = new History(eventEmitter)
-
-    // Set position of toast messages.
-    alertifyjs.set('notifier', 'position', 'top-right')
 
     const presenter = start(
       element,
