@@ -113,7 +113,7 @@ export default class EditorContainer {
   }
 
   findByHTMLelement(dom) {
-    return this._editors.filter((e) => e[0] === dom)[0]
+    return this._editors.find((e) => e[0] === dom)
   }
 
   get nextID() {
