@@ -3,7 +3,6 @@ import SpanConfig from './SpanConfig'
 import Commander from './Commander'
 import Presenter from './Presenter'
 import PersistenceInterface from './PersistenceInterface'
-import focusEditorWhenFocusedChildRemoved from './focusEditorWhenFocusedChildRemoved'
 import initAnnotation from './initAnnotation'
 import getConfigEditParamFromUrl from './getConfigEditParamFromUrl'
 import OriginalData from './OriginalData'
@@ -79,8 +78,6 @@ export default function (
     params.get('autocompletion_ws'),
     params.get('mode')
   )
-
-  focusEditorWhenFocusedChildRemoved(editorHTMLElement)
 
   if (params.get('control') === 'visible') {
     editorHTMLElement.classList.add('textae-editor--control-visible')
