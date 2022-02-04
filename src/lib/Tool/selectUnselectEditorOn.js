@@ -14,14 +14,13 @@ export default function (editors) {
   document.body.addEventListener(
     'focus',
     (e) => {
-      const editor = editors.findByHTMLelement(
-        e.target.closest('.textae-editor')
-      )
-      if (editor) {
-        if (editors.selected && editor[0] !== editors.selected[0]) {
+      const element = e.target.closest('.textae-editor')
+
+      if (element) {
+        if (editors.selected && editors.selected !== element) {
           editors.unselect(editors.selected)
         }
-        editors.selected = editor
+        editors.selected = element
       }
     },
     true
