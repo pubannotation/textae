@@ -4,7 +4,7 @@ import SaveConfigurationDialog from '../../../component/SaveConfigurationDialog'
 import readAnnotationFile from './readAnnotationFile'
 import readConfigurationFile from './readConfigurationFile'
 import DataSource from '../../DataSource'
-import isJSON from './isJSON'
+import isJSON from '../../../isJSON'
 
 export default class PersistenceInterface {
   constructor(

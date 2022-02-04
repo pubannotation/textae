@@ -1,5 +1,5 @@
 import readFile from './readFile'
-import isJSON from './isJSON'
+import isJSON from '../../../isJSON'
 import DataSource from '../../DataSource'
 
 export default function (file, eventEmitter) {
