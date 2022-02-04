@@ -12,7 +12,7 @@ import ValidationDialog from '../component/ValidationDialog'
 import isAndroid from './isAndroid'
 import EditorCSSClass from './EditorCSSClass'
 
-export default function ($this) {
+export default function ($this, editorID) {
   const element = $this[0]
   const params = extractParamsFromHTMLElement(element)
 
@@ -20,7 +20,7 @@ export default function ($this) {
   const eventEmitter = new EventEmitter()
   const editorCSSClass = new EditorCSSClass(element)
   const annotationData = new AnnotationData(
-    $this.editorID,
+    editorID,
     element,
     eventEmitter,
     editorCSSClass
@@ -81,7 +81,7 @@ export default function ($this) {
   start(
     $this,
     element,
-    $this.editorID,
+    editorID,
     eventEmitter,
     history,
     annotationData,
