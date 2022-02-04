@@ -78,7 +78,7 @@ export default function ($this, editorID) {
     .on('textae-event.resource.startSave', () => editorCSSClass.startWait())
     .on('textae-event.resource.endSave', () => editorCSSClass.endWait())
 
-  start(
+  return start(
     $this,
     element,
     editorID,

@@ -8,8 +8,8 @@ export default function () {
   for (const element of document.querySelectorAll('.textae-editor')) {
     // Create an editor
     const $this = $(element)
-    editorize($this, tool.nextID)
+    const editorAPI = editorize($this, tool.nextID)
     // Register an editor
-    tool.registerEditor($this, element)
+    tool.registerEditor(editorAPI, element)
   }
 }

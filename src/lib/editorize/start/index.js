@@ -141,12 +141,6 @@ export default function (
     annotationDataEventsObserver
   )
 
-  editor.instanceMethods = new InstanceMethods(
-    presenter,
-    buttonController,
-    view
-  )
-
   eventEmitter
     .on('textae-event.resource.annotation.load.success', (dataSource) => {
       if (!dataSource.data.config && params.get('config')) {
@@ -269,11 +263,17 @@ export default function (
   )
   editorHTMLElement.appendChild(contextMenu.el)
 
+  const instanceMethods = new InstanceMethods(presenter, buttonController, view)
+
   editorHTMLElement.addEventListener('keyup', (event) => {
     contextMenu.hide()
 
-    if (editor.instanceMethods.isActive) {
+    if (instanceMethods.isActive) {
       new KeyEventMap(commander, presenter, persistenceInterface).handle(event)
     }
   })
+
+  return {
+    instanceMethods
+  }
 }
