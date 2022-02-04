@@ -15,7 +15,7 @@ import TypeDefinition from './TypeDefinition'
 import DefinitionContainer from './DefinitionContainer'
 import AttributeDefinitionContainer from '../AttributeDefinitionContainer'
 import getAnnotationBox from './getAnnotationBox'
-import LineHeightAuto from '../start/View/LineHeightAuto'
+import LineHeightAuto from './LineHeightAuto'
 import { debounce } from 'debounce'
 
 export default class AnnotationData {
