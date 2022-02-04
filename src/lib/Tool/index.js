@@ -32,8 +32,8 @@ export default class Tool {
     return this._editorContainer.nextID
   }
 
-  registerEditor(element, editorAPI) {
+  registerEditor(element, editor) {
     this._veil.setObserver(element)
-    this._editorContainer.set(element, editorAPI)
+    this._editorContainer.set(element, editor)
   }
 }
