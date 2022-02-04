@@ -17,8 +17,6 @@ export default class EditorAPI {
   constructor(element, editorID) {
     observeElement(element)
 
-    const params = extractParamsFromHTMLElement(element)
-
     // Set the eventEmitter to communicate with the tool and a control.
     const eventEmitter = new EventEmitter()
     observeEventEmitter(eventEmitter)
@@ -26,6 +24,7 @@ export default class EditorAPI {
     const editorCSSClass = new EditorCSSClass(element)
     editorCSSClassObserve(eventEmitter, editorCSSClass)
 
+    const params = extractParamsFromHTMLElement(element)
     const annotationData = new AnnotationData(
       editorID,
       element,
