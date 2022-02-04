@@ -2,7 +2,7 @@ import debounce from 'debounce'
 import delegate from 'delegate'
 import HelpDialog from '../../component/HelpDialog'
 import TipsDialog from '../../component/TipsDialog'
-import selectUnselectEditorOn from '../selectUnselectEditorOn'
+import selectUnselectEditorOn from './selectUnselectEditorOn'
 
 const helpDialog = new HelpDialog()
 const tipsDialog = new TipsDialog()
