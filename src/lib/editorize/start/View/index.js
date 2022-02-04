@@ -67,9 +67,4 @@ export default class View {
         }
       })
   }
-
-  updateLineHeight() {
-    this._annotationData.textBox.updateLineHeight()
-    this._annotationData.updatePosition()
-  }
 }
