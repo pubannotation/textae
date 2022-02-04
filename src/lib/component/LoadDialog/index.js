@@ -4,7 +4,7 @@ import enableHTMLelment from '../enableHTMLElement'
 import Dropzone from 'dropzone'
 import CodeMirror from 'codemirror'
 import 'codemirror/mode/javascript/javascript.js'
-import isJSON from '../../editorize/start/PersistenceInterface/isJSON'
+import isJSON from '../../Editor/start/PersistenceInterface/isJSON'
 import maximizeOverlay from './maximizeOverlay'
 import revertMaximizeOverlay from './revertMaximizeOverlay'
 
