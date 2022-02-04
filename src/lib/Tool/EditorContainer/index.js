@@ -83,8 +83,8 @@ export default class EditorContainer {
     })
   }
 
-  push(editor, element) {
-    this._editorAPIs.set(element, editor)
+  set(element, editorAPI) {
+    this._editorAPIs.set(element, editorAPI)
   }
 
   get selected() {
