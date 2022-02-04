@@ -15,6 +15,8 @@ import forwardMethods from './start/forwardMethods'
 
 export default class EditorAPI {
   constructor(element, editorID) {
+    observeElement(element)
+
     const params = extractParamsFromHTMLElement(element)
 
     // Set the eventEmitter to communicate with the tool and a control.
@@ -38,18 +40,6 @@ export default class EditorAPI {
 
     // Set position of toast messages.
     alertifyjs.set('notifier', 'position', 'top-right')
-
-    // Prevent a selection text with shift keies.
-    element.addEventListener('mousedown', (e) => {
-      if (e.shiftKey) {
-        e.preventDefault()
-      }
-    })
-
-    // Prevent a selection of an entity by the double-click.
-    delegate(element, '.textae-editor__signboard', 'mousedown', (e) =>
-      e.preventDefault()
-    )
 
     const presenter = start(
       element,
@@ -83,6 +73,20 @@ export default class EditorAPI {
     this._annotationData.updatePosition()
   }
 }
+function observeElement(element) {
+  // Prevent a selection text with shift keies.
+  element.addEventListener('mousedown', (e) => {
+    if (e.shiftKey) {
+      e.preventDefault()
+    }
+  })
+
+  // Prevent a selection of an entity by the double-click.
+  delegate(element, '.textae-editor__signboard', 'mousedown', (e) =>
+    e.preventDefault()
+  )
+}
+
 function observeEventEmitter(eventEmitter) {
   eventEmitter
     .on('textae-event.resource.annotation.format.error', ({ displayName }) =>
