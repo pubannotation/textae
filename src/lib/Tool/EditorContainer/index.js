@@ -105,8 +105,8 @@ export default class EditorContainer {
     this._editors.forEach(({ editor }) => editor.instanceMethods.relayout())
   }
 
-  findByHTMLelement(element) {
-    return this._editors.find(({ editor }) => editor[0] === element).editor
+  findByHTMLelement(targetElement) {
+    return this._editors.find(({ element }) => element === targetElement).editor
   }
 
   get nextID() {
