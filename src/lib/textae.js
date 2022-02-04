@@ -8,6 +8,6 @@ export default function () {
     // Create an editor
     const editorAPI = editorize(element, tool.nextID)
     // Register an editor
-    tool.registerEditor(editorAPI, element)
+    tool.registerEditor(element, editorAPI)
   }
 }
