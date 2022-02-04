@@ -38,7 +38,7 @@ export default function (
   const commander = new Commander(
     editorHTMLElement,
     editor.editorID,
-    editor.events,
+    eventEmitter,
     annotationData,
     selectionModel,
     history
