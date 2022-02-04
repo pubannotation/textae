@@ -20,6 +20,8 @@ export default class EditorAPI {
     // Set the eventEmitter to communicate with the tool and a control.
     const eventEmitter = new EventEmitter()
     const editorCSSClass = new EditorCSSClass(element)
+    editorCSSClassObserve(eventEmitter, editorCSSClass)
+
     const annotationData = new AnnotationData(
       editorID,
       element,
@@ -77,12 +79,6 @@ export default class EditorAPI {
     delegate(element, '.textae-editor__signboard', 'mousedown', (e) =>
       e.preventDefault()
     )
-
-    eventEmitter
-      .on('textae-event.resource.startLoad', () => editorCSSClass.startWait())
-      .on('textae-event.resource.endLoad', () => editorCSSClass.endWait())
-      .on('textae-event.resource.startSave', () => editorCSSClass.startWait())
-      .on('textae-event.resource.endSave', () => editorCSSClass.endWait())
 
     // Bind clipBoard events.
     eventEmitter.on('textae-event.clip-board.change', (added, removed) => {
@@ -176,4 +172,11 @@ export default class EditorAPI {
     this._annotationData.textBox.forceUpdate()
     this._annotationData.updatePosition()
   }
+}
+function editorCSSClassObserve(eventEmitter, editorCSSClass) {
+  eventEmitter
+    .on('textae-event.resource.startLoad', () => editorCSSClass.startWait())
+    .on('textae-event.resource.endLoad', () => editorCSSClass.endWait())
+    .on('textae-event.resource.startSave', () => editorCSSClass.startWait())
+    .on('textae-event.resource.endSave', () => editorCSSClass.endWait())
 }
