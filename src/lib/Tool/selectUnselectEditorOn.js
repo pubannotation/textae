@@ -50,7 +50,7 @@ export default function (editors) {
     }
 
     // Ignore clicks on children of the this Editor
-    if (editors.findByHTMLelement(e.target.closest('.textae-editor'))) {
+    if (editors.has(e.target.closest('.textae-editor'))) {
       return
     }
 
