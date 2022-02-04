@@ -1,5 +1,4 @@
 import EditorContainer from './EditorContainer'
-import selectUnselectEditorOn from './selectUnselectEditorOn'
 import Veil from './Veil'
 import throttle from 'throttleit'
 
@@ -11,9 +10,9 @@ export default class Tool {
 
     // When the DOMContentLoaded event occurs, document.body may not have been initialized yet.
     // When the load event occurs, bind the event handler of document.body.
-    window.addEventListener('load', () => {
-      selectUnselectEditorOn(this._editorContainer)
-    })
+    window.addEventListener('load', () =>
+      this._editorContainer.selectUnselectEditorOn()
+    )
 
     // Observe window-resize event and redraw all editors.
     window.addEventListener(
