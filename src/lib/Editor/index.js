@@ -1,8 +1,6 @@
 // model manages data objects.
 import AnnotationData from './AnnotationData'
 import SelectionModel from './SelectionModel'
-// The history of command that providing undo and redo.
-import History from './History'
 import start from './start'
 import { EventEmitter } from 'events'
 import extractParamsFromHTMLElement from './extractParamsFromHTMLElement'
@@ -34,13 +32,10 @@ export default class EditorAPI {
     // A contaier of selection state.
     const selectionModel = new SelectionModel(eventEmitter, annotationData)
 
-    const history = new History(eventEmitter)
-
     const presenter = start(
       element,
       editorID,
       eventEmitter,
-      history,
       annotationData,
       selectionModel,
       params

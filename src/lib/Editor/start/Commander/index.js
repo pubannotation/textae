@@ -1,4 +1,5 @@
 import alertifyjs from 'alertifyjs'
+import History from '../../History'
 import Factory from './Factory'
 
 // A command is an operation by user that is saved as history, and can undo and redo.
@@ -9,15 +10,14 @@ export default class Commander {
     editorID,
     eventEmitter,
     annotationData,
-    selectionModel,
-    history
+    selectionModel
   ) {
     this._editorHTMLElement = editorHTMLElement
     this._editorID = editorID
     this._eventEmitter = eventEmitter
     this._annotationData = annotationData
     this._selectionModel = selectionModel
-    this._history = history
+    this._history = new History(eventEmitter)
   }
 
   invoke(command) {

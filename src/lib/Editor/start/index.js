@@ -24,7 +24,6 @@ export default function (
   editorHTMLElement,
   editorID,
   eventEmitter,
-  history,
   annotationData,
   selectionModel,
   params
@@ -37,8 +36,7 @@ export default function (
     editorID,
     eventEmitter,
     annotationData,
-    selectionModel,
-    history
+    selectionModel
   )
   const clipBoard = new Clipboard(
     eventEmitter,
