@@ -12,8 +12,7 @@ import ValidationDialog from '../component/ValidationDialog'
 import isAndroid from './isAndroid'
 import EditorCSSClass from './EditorCSSClass'
 
-export default function ($this, editorID) {
-  const element = $this[0]
+export default function (element, editorID) {
   const params = extractParamsFromHTMLElement(element)
 
   // Set the eventEmitter to communicate with the tool and a control.
