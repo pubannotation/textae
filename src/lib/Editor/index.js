@@ -51,17 +51,6 @@ export default class EditorAPI {
       e.preventDefault()
     )
 
-    // Bind clipBoard events.
-    eventEmitter.on('textae-event.clip-board.change', (added, removed) => {
-      for (const entity of added) {
-        entity.startCut()
-      }
-
-      for (const entity of removed) {
-        entity.cancelCut()
-      }
-    })
-
     // Bind commander events.
     // When you have an entity with multiple attributes whose pred is the same,
     // if you redraw the HTML element of the entity every time you update the attributes,
@@ -170,6 +159,17 @@ function observeEventEmitter(eventEmitter) {
       // Show a confirmation dialog to prevent this.
       window.onbeforeunload = isAndroid() || hasChange ? () => true : null
     })
+
+  // Bind clipBoard events.
+  eventEmitter.on('textae-event.clip-board.change', (added, removed) => {
+    for (const entity of added) {
+      entity.startCut()
+    }
+
+    for (const entity of removed) {
+      entity.cancelCut()
+    }
+  })
 }
 
 function editorCSSClassObserve(eventEmitter, editorCSSClass) {
