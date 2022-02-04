@@ -3,7 +3,6 @@ import SpanConfig from './SpanConfig'
 import Commander from './Commander'
 import Presenter from './Presenter'
 import PersistenceInterface from './PersistenceInterface'
-import EditorAPI from './EditorAPI'
 import focusEditorWhenFocusedChildRemoved from './focusEditorWhenFocusedChildRemoved'
 import initAnnotation from './initAnnotation'
 import getConfigEditParamFromUrl from './getConfigEditParamFromUrl'
@@ -259,8 +258,6 @@ export default function (
   )
   editorHTMLElement.appendChild(contextMenu.el)
 
-  const editorAPI = new EditorAPI(presenter, annotationData)
-
   editorHTMLElement.addEventListener('keyup', (event) => {
     contextMenu.hide()
 
@@ -269,5 +266,5 @@ export default function (
     }
   })
 
-  return editorAPI
+  return presenter
 }

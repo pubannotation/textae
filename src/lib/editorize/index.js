@@ -11,6 +11,7 @@ import extractParamsFromHTMLElement from './extractParamsFromHTMLElement'
 import ValidationDialog from '../component/ValidationDialog'
 import isAndroid from './isAndroid'
 import EditorCSSClass from './EditorCSSClass'
+import EditorAPI from './start/EditorAPI'
 
 export default function (element, editorID) {
   const params = extractParamsFromHTMLElement(element)
@@ -135,7 +136,7 @@ export default function (element, editorID) {
       }
     })
 
-  return start(
+  const presenter = start(
     element,
     editorID,
     eventEmitter,
@@ -144,4 +145,6 @@ export default function (element, editorID) {
     selectionModel,
     params
   )
+
+  return new EditorAPI(presenter, annotationData)
 }
