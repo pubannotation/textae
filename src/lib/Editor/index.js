@@ -12,6 +12,9 @@ import editorCSSClassObserve from './editorCSSClassObserve'
 
 export default class Editor {
   constructor(element, editorID) {
+    // Add tabIndex to listen to keyboard events.
+    element.tabIndex = -1
+
     observeElement(element)
 
     // Set the eventEmitter to communicate with the tool and a control.

@@ -192,9 +192,6 @@ export default function (
       }
     )
 
-  // Add tabIndex to listen to keyboard events.
-  editorHTMLElement.tabIndex = -1
-
   const iconEventMap = new IconEventMap(
     commander,
     presenter,
