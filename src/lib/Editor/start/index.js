@@ -225,8 +225,7 @@ export default function (
     }
   })
 
-  const api = {}
-  forwardMethods(api, () => presenter, [
+  return forwardMethods({}, () => presenter, [
     'copyEntitiesToSystemClipboard',
     'cutEntitiesToSystemClipboard',
     'pasteEntitiesFromSystemClipboard',
@@ -235,6 +234,4 @@ export default function (
     'deactive',
     'applyTextSelection'
   ])
-
-  return api
 }

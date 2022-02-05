@@ -7,4 +7,6 @@ export default function (delegator, getTargetFunction, methods) {
       return target[method].apply(target, args)
     }
   }
+
+  return delegator
 }
