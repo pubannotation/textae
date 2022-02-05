@@ -76,12 +76,6 @@ export default function (
     params.get('mode')
   )
 
-  if (params.has('config_lock') && params.get('config_lock') === 'true') {
-    annotationData.typeDefinition.lockEdit()
-  } else {
-    annotationData.typeDefinition.unlockEdit()
-  }
-
   const remoteResource = new RemoteResource(eventEmitter)
   initAnnotation(
     spanConfig,

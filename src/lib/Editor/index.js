@@ -28,6 +28,11 @@ export default class EditorAPI {
       eventEmitter,
       editorCSSClass
     )
+    if (params.has('config_lock') && params.get('config_lock') === 'true') {
+      annotationData.typeDefinition.lockEdit()
+    } else {
+      annotationData.typeDefinition.unlockEdit()
+    }
 
     // A contaier of selection state.
     const selectionModel = new SelectionModel(eventEmitter, annotationData)
