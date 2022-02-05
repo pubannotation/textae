@@ -2,6 +2,7 @@ import debounce from 'debounce'
 import delegate from 'delegate'
 import HelpDialog from '../../component/HelpDialog'
 import TipsDialog from '../../component/TipsDialog'
+import isTextFields from './isTextFields'
 import observeBodyEvents from './observeBodyEvents'
 
 const helpDialog = new HelpDialog()
@@ -165,11 +166,4 @@ export default class EditorContainer {
       }
     })
   }
-}
-
-function isTextFields(htmlElement) {
-  return (
-    htmlElement instanceof HTMLInputElement ||
-    htmlElement instanceof HTMLTextAreaElement
-  )
 }
