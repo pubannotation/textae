@@ -1,6 +1,6 @@
-export default function (self, getTargetFunction, methods) {
+export default function (delegator, getTargetFunction, methods) {
   for (const method of methods) {
-    self[method] = (...args) => {
+    delegator[method] = (...args) => {
       const target = getTargetFunction()
       console.assert(target[method], `No ${method} method to forward`, target)
 
