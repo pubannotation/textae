@@ -17,7 +17,7 @@ import warningIfBeginEndOfSpanAreNotInteger from './warningIfBeginEndOfSpanAreNo
 import validateConfigurationAndAlert from './validateConfigurationAndAlert'
 import setAnnotationAndConfiguration from './setAnnotationAndConfiguration'
 import RemoteResource from '../RemoteResource'
-import SelectionModel from '../SelectionModel'
+import SelectionModel from './SelectionModel'
 
 export default function (
   editorHTMLElement,
