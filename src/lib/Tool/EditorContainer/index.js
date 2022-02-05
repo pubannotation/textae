@@ -29,6 +29,55 @@ export default class EditorContainer {
       }
     })
 
+    this._observeDocumentEvents()
+  }
+
+  observeBodyEvents() {
+    observeBodyEvents(this)
+  }
+
+  set(element, editor) {
+    this._editors.set(element, editor)
+  }
+
+  get selected() {
+    return this._selected
+  }
+
+  set selected(element) {
+    this._editors.get(element).active()
+
+    this._selected = element
+  }
+
+  unselect(element) {
+    if (this._selected === element) {
+      this._editors.get(element).deactive()
+      this._selected = null
+    }
+  }
+
+  drawGridsInSight() {
+    for (const editor of this._editors.values()) {
+      editor.drawGridsInSight()
+    }
+  }
+
+  relayout() {
+    for (const editor of this._editors.values()) {
+      editor.relayout()
+    }
+  }
+
+  has(element) {
+    return this._editors.has(element)
+  }
+
+  get nextID() {
+    return `editor${this._editors.size}`
+  }
+
+  _observeDocumentEvents() {
     // Since the Body element does not yet exist at the time of initializing the EditorContainer,
     // we will set up an event handler in the document.
     document.addEventListener('copy', (e) => {
@@ -115,51 +164,6 @@ export default class EditorContainer {
         this._editors.get(this._selected).showContextMenu(contextmenuEvent)
       }
     })
-  }
-
-  observeBodyEvents() {
-    observeBodyEvents(this)
-  }
-
-  set(element, editor) {
-    this._editors.set(element, editor)
-  }
-
-  get selected() {
-    return this._selected
-  }
-
-  set selected(element) {
-    this._editors.get(element).active()
-
-    this._selected = element
-  }
-
-  unselect(element) {
-    if (this._selected === element) {
-      this._editors.get(element).deactive()
-      this._selected = null
-    }
-  }
-
-  drawGridsInSight() {
-    for (const editor of this._editors.values()) {
-      editor.drawGridsInSight()
-    }
-  }
-
-  relayout() {
-    for (const editor of this._editors.values()) {
-      editor.relayout()
-    }
-  }
-
-  has(element) {
-    return this._editors.has(element)
-  }
-
-  get nextID() {
-    return `editor${this._editors.size}`
   }
 }
 
