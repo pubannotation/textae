@@ -20,7 +20,7 @@ export default class ContextMenu extends Control {
     this._buttonController = buttonController
   }
 
-  show(e) {
+  show(contextmenuEvent) {
     const selection = window.getSelection()
 
     if (isTouchable() && selection.rangeCount === 1) {
@@ -38,7 +38,10 @@ export default class ContextMenu extends Control {
       // I want the coordinates where you right-click with the mouse,
       // starting from the upper left of the editor.
       // So the Y coordinate is pageY minus the editor's offsetTop.
-      this.showLowerRight(e.pageY - this._editorHTMLElement.offsetTop, e.pageX)
+      this.showLowerRight(
+        contextmenuEvent.pageY - this._editorHTMLElement.offsetTop,
+        contextmenuEvent.pageX
+      )
     }
   }
 

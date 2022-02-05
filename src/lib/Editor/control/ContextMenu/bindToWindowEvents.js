@@ -12,13 +12,13 @@ export default function (editorHTMLElement, contextMenu) {
     contextMenu.hide()
   })
 
-  window.addEventListener('contextmenu', (e) => {
+  window.addEventListener('contextmenu', (contextmenuEvent) => {
     // Close ContextMenu when another editor is clicked.
     contextMenu.hide()
 
     // If the editor you click on is selected and editable,
     // it will display its own context menu, rather than the browser's context menu.
-    const clickedEditor = e.target.closest('.textae-editor')
+    const clickedEditor = contextmenuEvent.target.closest('.textae-editor')
     if (clickedEditor === editorHTMLElement) {
       if (
         clickedEditor.classList.contains(
@@ -32,8 +32,8 @@ export default function (editorHTMLElement, contextMenu) {
       }
 
       // Prevent show browser default context menu
-      e.preventDefault()
-      contextMenu.show(e)
+      contextmenuEvent.preventDefault()
+      contextMenu.show(contextmenuEvent)
     }
   })
 }
