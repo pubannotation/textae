@@ -29,13 +29,14 @@ export default function (element) {
   decodeUrl(params, 'config')
   decodeUrl(params, 'autocompletion_ws')
 
+  params.set('source', getSource(element))
+
   // Over write editor-div's config lock state by url's.
   // Url's default is 'unlock', so its default is also 'unlock'.
-  getAttribute(params, element, 'config_lock')
-  params.set('source', getSource(element))
+  const configLockFromAttr = element.getAttribute('config_lock')
   const configLockFromUrl = getConfigEditParamFromUrl(params.get('source'))
-  if (configLockFromUrl !== null) {
-    params.set('config_lock', configLockFromUrl)
+  if (configLockFromUrl || configLockFromAttr) {
+    params.set('config_lock', configLockFromUrl || configLockFromAttr)
   }
 
   // Set annotation parameters.
