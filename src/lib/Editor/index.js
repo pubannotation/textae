@@ -36,15 +36,9 @@ export default class Editor {
       annotationData.typeDefinition.unlockEdit()
     }
 
-    const presenter = start(
-      element,
-      editorID,
-      eventEmitter,
-      annotationData,
-      params
-    )
+    const api = start(element, editorID, eventEmitter, annotationData, params)
 
-    forwardMethods(this, () => presenter, [
+    forwardMethods(this, () => api, [
       'copyEntitiesToSystemClipboard',
       'cutEntitiesToSystemClipboard',
       'pasteEntitiesFromSystemClipboard',

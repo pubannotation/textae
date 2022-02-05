@@ -18,6 +18,7 @@ import validateConfigurationAndAlert from './validateConfigurationAndAlert'
 import setAnnotationAndConfiguration from './setAnnotationAndConfiguration'
 import RemoteResource from '../RemoteResource'
 import SelectionModel from './SelectionModel'
+import forwardMethods from './forwardMethods'
 
 export default function (
   editorHTMLElement,
@@ -224,5 +225,16 @@ export default function (
     }
   })
 
-  return presenter
+  const api = {}
+  forwardMethods(api, () => presenter, [
+    'copyEntitiesToSystemClipboard',
+    'cutEntitiesToSystemClipboard',
+    'pasteEntitiesFromSystemClipboard',
+    'isActive',
+    'active',
+    'deactive',
+    'applyTextSelection'
+  ])
+
+  return api
 }
