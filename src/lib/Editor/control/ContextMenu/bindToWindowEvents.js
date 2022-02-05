@@ -1,5 +1,3 @@
-import isTouchable from '../../isTouchable'
-
 export default function (editorHTMLElement, contextMenu) {
   // Close ContextMenu when another editor is clicked
   window.addEventListener('click', (e) => {
@@ -35,28 +33,7 @@ export default function (editorHTMLElement, contextMenu) {
 
       // Prevent show browser default context menu
       e.preventDefault()
-      const selection = window.getSelection()
-
-      if (isTouchable() && selection.rangeCount === 1) {
-        const rectOfSelection = selection.getRangeAt(0).getBoundingClientRect()
-        const rectOfTextBox = editorHTMLElement
-          .querySelector('.textae-editor__text-box')
-          .getBoundingClientRect()
-
-        contextMenu.showAbove(
-          rectOfSelection.y - editorHTMLElement.getBoundingClientRect().y,
-          rectOfSelection.x - rectOfTextBox.x
-        )
-      } else {
-        // The context menu is `position:absolute` in the editor.
-        // I want the coordinates where you right-click with the mouse,
-        // starting from the upper left of the editor.
-        // So the Y coordinate is pageY minus the editor's offsetTop.
-        contextMenu.showLowerRight(
-          e.pageY - editorHTMLElement.offsetTop,
-          e.pageX
-        )
-      }
+      contextMenu.show(e)
     }
   })
 }

@@ -16,7 +16,30 @@ export default class ContextMenu extends Control {
 
     bindToWindowEvents(editorHTMLElement, this)
 
+    this._editorHTMLElement = editorHTMLElement
     this._buttonController = buttonController
+  }
+
+  show(e) {
+    const selection = window.getSelection()
+
+    if (isTouchable() && selection.rangeCount === 1) {
+      const rectOfSelection = selection.getRangeAt(0).getBoundingClientRect()
+      const rectOfTextBox = this._editorHTMLElement
+        .querySelector('.textae-editor__text-box')
+        .getBoundingClientRect()
+
+      this.showAbove(
+        rectOfSelection.y - this._editorHTMLElement.getBoundingClientRect().y,
+        rectOfSelection.x - rectOfTextBox.x
+      )
+    } else {
+      // The context menu is `position:absolute` in the editor.
+      // I want the coordinates where you right-click with the mouse,
+      // starting from the upper left of the editor.
+      // So the Y coordinate is pageY minus the editor's offsetTop.
+      this.showLowerRight(e.pageY - this._editorHTMLElement.offsetTop, e.pageX)
+    }
   }
 
   showLowerRight(positionTop, positionLeft) {
