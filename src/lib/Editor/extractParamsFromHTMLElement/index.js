@@ -23,23 +23,23 @@ export default function (element) {
 
   getAttribute(params, element, 'status_bar')
   getAttribute(params, element, 'config')
-  getAttribute(params, element, 'config_lock')
   getAttribute(params, element, 'autocompletion_ws')
 
   // Decode URI encode
   decodeUrl(params, 'config')
   decodeUrl(params, 'autocompletion_ws')
 
-  // Set annotation parameters.
-  params.set('source', getSource(element))
-  params.set('annotation', getAnnotation(element, params.get('source')))
-
   // Over write editor-div's config lock state by url's.
   // Url's default is 'unlock', so its default is also 'unlock'.
+  getAttribute(params, element, 'config_lock')
+  params.set('source', getSource(element))
   const configEditFromUrl = getConfigEditParamFromUrl(params.get('source'))
   if (configEditFromUrl !== null) {
     params.set('config_lock', configEditFromUrl)
   }
+
+  // Set annotation parameters.
+  params.set('annotation', getAnnotation(element, params.get('source')))
 
   return params
 }
