@@ -236,5 +236,14 @@ export default class API {
       'deactive',
       'applyTextSelection'
     ])
+
+    this._contextMenu = contextMenu
+  }
+
+  showContextMenu(contextmenuEvent) {
+    this._contextMenu.show(contextmenuEvent)
+  }
+  hideContextMenu() {
+    this._contextMenu.hide()
   }
 }
