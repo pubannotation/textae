@@ -4,7 +4,6 @@ import Commander from './Commander'
 import Presenter from './Presenter'
 import PersistenceInterface from './PersistenceInterface'
 import initAnnotation from './initAnnotation'
-import getConfigEditParamFromUrl from './getConfigEditParamFromUrl'
 import OriginalData from './OriginalData'
 import ButtonController from './ButtonController'
 import Clipboard from './Clipboard'
@@ -76,13 +75,6 @@ export default function (
     params.get('autocompletion_ws'),
     params.get('mode')
   )
-
-  // Over write editor-div's config lock state by url's.
-  // Url's default is 'unlock', so its default is also 'unlock'.
-  const configEditFromUrl = getConfigEditParamFromUrl(params.get('source'))
-  if (configEditFromUrl !== null) {
-    params.set('config_lock', configEditFromUrl)
-  }
 
   if (params.has('config_lock') && params.get('config_lock') === 'true') {
     annotationData.typeDefinition.lockEdit()
