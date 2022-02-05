@@ -21,5 +21,16 @@ export default function (element) {
   params.set('source', getSource(element))
   params.set('annotation', getAnnotation(element, params.get('source')))
 
+  if (params.get('control') === 'visible') {
+    element.classList.add('textae-editor--control-visible')
+  }
+
+  if (
+    params.get('control') === 'hidden' ||
+    (params.get('mode') === 'view' && params.get('control') !== 'visible')
+  ) {
+    element.classList.add('textae-editor--control-hidden')
+  }
+
   return params
 }

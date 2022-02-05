@@ -22,16 +22,6 @@ export default class EditorAPI {
     editorCSSClassObserve(eventEmitter, editorCSSClass)
 
     const params = extractParamsFromHTMLElement(element)
-    if (params.get('control') === 'visible') {
-      element.classList.add('textae-editor--control-visible')
-    }
-
-    if (
-      params.get('control') === 'hidden' ||
-      (params.get('mode') === 'view' && params.get('control') !== 'visible')
-    ) {
-      element.classList.add('textae-editor--control-hidden')
-    }
     const annotationData = new AnnotationData(
       editorID,
       element,
