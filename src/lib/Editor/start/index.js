@@ -77,17 +77,6 @@ export default function (
     params.get('mode')
   )
 
-  if (params.get('control') === 'visible') {
-    editorHTMLElement.classList.add('textae-editor--control-visible')
-  }
-
-  if (
-    params.get('control') === 'hidden' ||
-    (params.get('mode') === 'view' && params.get('control') !== 'visible')
-  ) {
-    editorHTMLElement.classList.add('textae-editor--control-hidden')
-  }
-
   // Over write editor-div's config lock state by url's.
   // Url's default is 'unlock', so its default is also 'unlock'.
   const configEditFromUrl = getConfigEditParamFromUrl(params.get('source'))
