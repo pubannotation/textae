@@ -16,7 +16,6 @@ import AnnotationDataEventsObserver from '../AnnotationDataEventsObserver'
 import warningIfBeginEndOfSpanAreNotInteger from './warningIfBeginEndOfSpanAreNotInteger'
 import validateConfigurationAndAlert from './validateConfigurationAndAlert'
 import setAnnotationAndConfiguration from './setAnnotationAndConfiguration'
-import DataSource from '../DataSource'
 import RemoteResource from '../RemoteResource'
 
 export default function (
@@ -50,13 +49,6 @@ export default function (
     editorHTMLElement,
     params.get('status_bar')
   )
-  eventEmitter
-    .on('textae-event.resource.annotation.save', (editedData) => {
-      originalData.annotation = new DataSource(null, null, editedData)
-    })
-    .on('textae-event.resource.configuration.save', (editedData) => {
-      originalData.configuration = new DataSource(null, null, editedData)
-    })
 
   const annotationDataEventsObserver = new AnnotationDataEventsObserver(
     eventEmitter,

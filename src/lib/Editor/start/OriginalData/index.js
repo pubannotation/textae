@@ -8,6 +8,14 @@ export default class OriginalData {
     this._eventEmitter = eventEmitter
     this._statusBar = new StatusBar(editorHTMLElement, isShow)
     this._map = new Map()
+
+    eventEmitter
+      .on('textae-event.resource.annotation.save', (editedData) => {
+        this.annotation = new DataSource(null, null, editedData)
+      })
+      .on('textae-event.resource.configuration.save', (editedData) => {
+        this.configuration = new DataSource(null, null, editedData)
+      })
   }
 
   get defaultAnnotation() {
