@@ -191,12 +191,6 @@ export default function (
         remoteResource.configurationUrl = dataSource
       }
     )
-    .on('textae-event.pallet.read-button.click', () =>
-      persistenceInterface.importConfiguration()
-    )
-    .on('textae-event.pallet.write-button.click', () =>
-      persistenceInterface.uploadConfiguration()
-    )
 
   // Add tabIndex to listen to keyboard events.
   editorHTMLElement.tabIndex = -1

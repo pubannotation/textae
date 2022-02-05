@@ -31,6 +31,14 @@ export default class PersistenceInterface {
       annotation: '',
       configuration: ''
     }
+
+    eventEmitter
+      .on('textae-event.pallet.read-button.click', () =>
+        this.importConfiguration()
+      )
+      .on('textae-event.pallet.write-button.click', () =>
+        this.uploadConfiguration()
+      )
   }
 
   importAnnotation() {
