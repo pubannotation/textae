@@ -2,7 +2,7 @@ import getSource from './getSource'
 import getAnnotation from './getAnnotation'
 import decodeUrl from './decodeUrl'
 import getAttribute from './getAttribute'
-import getConfigEditParamFromUrl from './getConfigEditParamFromUrl'
+import getConfigLockFromURL from './getConfigLockFromURL'
 
 export default function (element) {
   const params = new Map()
@@ -34,9 +34,9 @@ export default function (element) {
   // Over write editor-div's config lock state by url's.
   // Url's default is 'unlock', so its default is also 'unlock'.
   const configLockFromAttr = element.getAttribute('config_lock')
-  const configLockFromUrl = getConfigEditParamFromUrl(params.get('source'))
-  if (configLockFromUrl || configLockFromAttr) {
-    params.set('config_lock', configLockFromUrl || configLockFromAttr)
+  const configLockFromURL = getConfigLockFromURL(params.get('source'))
+  if (configLockFromURL || configLockFromAttr) {
+    params.set('config_lock', configLockFromURL || configLockFromAttr)
   }
 
   // Set annotation parameters.
