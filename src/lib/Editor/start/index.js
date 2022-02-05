@@ -20,218 +20,222 @@ import RemoteResource from '../RemoteResource'
 import SelectionModel from './SelectionModel'
 import forwardMethods from './forwardMethods'
 
-export default function (
-  editorHTMLElement,
-  editorID,
-  eventEmitter,
-  annotationData,
-  params
-) {
-  const spanConfig = new SpanConfig()
-
-  // A contaier of selection state.
-  const selectionModel = new SelectionModel(eventEmitter, annotationData)
-
-  // Users can edit model only via commands.
-  const commander = new Commander(
+export default class API {
+  constructor(
     editorHTMLElement,
     editorID,
     eventEmitter,
     annotationData,
-    selectionModel
-  )
-  const clipBoard = new Clipboard(
-    eventEmitter,
-    commander,
-    selectionModel,
-    annotationData.denotationDefinitionContainer,
-    annotationData.attributeDefinitionContainer,
-    annotationData.typeDefinition
-  )
-  const originalData = new OriginalData(
-    eventEmitter,
-    editorHTMLElement,
-    params.get('status_bar')
-  )
+    params
+  ) {
+    const spanConfig = new SpanConfig()
 
-  const annotationDataEventsObserver = new AnnotationDataEventsObserver(
-    eventEmitter,
-    originalData,
-    annotationData
-  )
-  const buttonController = new ButtonController(
-    eventEmitter,
-    selectionModel,
-    clipBoard,
-    annotationDataEventsObserver,
-    originalData,
-    annotationData.typeDefinition
-  )
-  const presenter = new Presenter(
-    editorHTMLElement,
-    eventEmitter,
-    annotationData,
-    selectionModel,
-    commander,
-    spanConfig,
-    clipBoard,
-    buttonController,
-    params.get('autocompletion_ws'),
-    params.get('mode')
-  )
+    // A contaier of selection state.
+    const selectionModel = new SelectionModel(eventEmitter, annotationData)
 
-  const remoteResource = new RemoteResource(eventEmitter)
-  initAnnotation(
-    spanConfig,
-    annotationData,
-    remoteResource,
-    buttonController,
-    originalData,
-    params.get('annotation'),
-    params.get('config')
-  )
+    // Users can edit model only via commands.
+    const commander = new Commander(
+      editorHTMLElement,
+      editorID,
+      eventEmitter,
+      annotationData,
+      selectionModel
+    )
+    const clipBoard = new Clipboard(
+      eventEmitter,
+      commander,
+      selectionModel,
+      annotationData.denotationDefinitionContainer,
+      annotationData.attributeDefinitionContainer,
+      annotationData.typeDefinition
+    )
+    const originalData = new OriginalData(
+      eventEmitter,
+      editorHTMLElement,
+      params.get('status_bar')
+    )
 
-  const persistenceInterface = new PersistenceInterface(
-    eventEmitter,
-    remoteResource,
-    annotationData,
-    () => originalData.annotation,
-    () => originalData.configuration,
-    params.get('annotation').get('save_to'),
-    annotationDataEventsObserver,
-    buttonController
-  )
+    const annotationDataEventsObserver = new AnnotationDataEventsObserver(
+      eventEmitter,
+      originalData,
+      annotationData
+    )
+    const buttonController = new ButtonController(
+      eventEmitter,
+      selectionModel,
+      clipBoard,
+      annotationDataEventsObserver,
+      originalData,
+      annotationData.typeDefinition
+    )
+    const presenter = new Presenter(
+      editorHTMLElement,
+      eventEmitter,
+      annotationData,
+      selectionModel,
+      commander,
+      spanConfig,
+      clipBoard,
+      buttonController,
+      params.get('autocompletion_ws'),
+      params.get('mode')
+    )
 
-  new AnnotationAutoSaver(
-    eventEmitter,
-    buttonController,
-    persistenceInterface,
-    params.get('annotation').get('save_to'),
-    annotationDataEventsObserver
-  )
+    const remoteResource = new RemoteResource(eventEmitter)
+    initAnnotation(
+      spanConfig,
+      annotationData,
+      remoteResource,
+      buttonController,
+      originalData,
+      params.get('annotation'),
+      params.get('config')
+    )
 
-  eventEmitter
-    .on('textae-event.resource.annotation.load.success', (dataSource) => {
-      if (!dataSource.data.config && params.get('config')) {
-        remoteResource.loadConfigulation(params.get('config'), dataSource)
-      } else {
-        warningIfBeginEndOfSpanAreNotInteger(dataSource.data)
+    const persistenceInterface = new PersistenceInterface(
+      eventEmitter,
+      remoteResource,
+      annotationData,
+      () => originalData.annotation,
+      () => originalData.configuration,
+      params.get('annotation').get('save_to'),
+      annotationDataEventsObserver,
+      buttonController
+    )
 
-        if (dataSource.data.config) {
-          // When config is specified, it must be JSON.
-          // For example, when we load an HTML file, we treat it as text here.
-          if (typeof dataSource.data.config !== 'object') {
-            alertifyjs.error(`configuration in anntotaion file is invalid.`)
-            return
+    new AnnotationAutoSaver(
+      eventEmitter,
+      buttonController,
+      persistenceInterface,
+      params.get('annotation').get('save_to'),
+      annotationDataEventsObserver
+    )
+
+    eventEmitter
+      .on('textae-event.resource.annotation.load.success', (dataSource) => {
+        if (!dataSource.data.config && params.get('config')) {
+          remoteResource.loadConfigulation(params.get('config'), dataSource)
+        } else {
+          warningIfBeginEndOfSpanAreNotInteger(dataSource.data)
+
+          if (dataSource.data.config) {
+            // When config is specified, it must be JSON.
+            // For example, when we load an HTML file, we treat it as text here.
+            if (typeof dataSource.data.config !== 'object') {
+              alertifyjs.error(`configuration in anntotaion file is invalid.`)
+              return
+            }
+          }
+
+          const validConfig = validateConfigurationAndAlert(
+            dataSource.data,
+            dataSource.data.config
+          )
+
+          if (validConfig) {
+            setAnnotationAndConfiguration(
+              validConfig,
+              buttonController,
+              spanConfig,
+              annotationData,
+              dataSource.data
+            )
+
+            originalData.annotation = dataSource
+            remoteResource.annotationUrl = dataSource
           }
         }
+      })
+      .on(
+        'textae-event.resource.configuration.load.success',
+        (dataSource, loadedAnnotation = null) => {
+          // When config is specified, it must be JSON.
+          // For example, when we load an HTML file, we treat it as text here.
+          if (typeof dataSource.data !== 'object') {
+            alertifyjs.error(
+              `${dataSource.displayName} is not a configuration file or its format is invalid.`
+            )
+            return
+          }
 
-        const validConfig = validateConfigurationAndAlert(
-          dataSource.data,
-          dataSource.data.config
-        )
+          if (loadedAnnotation) {
+            warningIfBeginEndOfSpanAreNotInteger(loadedAnnotation.data)
+          }
 
-        if (validConfig) {
+          // If an annotation that does not contain a configuration is loaded
+          // and a configuration is loaded from a taxtae attribute value,
+          // both the loaded configuration and the annotation are passed.
+          // If only the configuration is read, the annotation is null.
+          const annotation = (loadedAnnotation && loadedAnnotation.data) || {
+            ...originalData.annotation,
+            ...annotationData.JSON
+          }
+
+          const validConfig = validateConfigurationAndAlert(
+            annotation,
+            dataSource.data
+          )
+
+          if (!validConfig) {
+            return
+          }
+
           setAnnotationAndConfiguration(
             validConfig,
             buttonController,
             spanConfig,
             annotationData,
-            dataSource.data
+            annotation
           )
 
-          originalData.annotation = dataSource
-          remoteResource.annotationUrl = dataSource
+          if (loadedAnnotation) {
+            originalData.annotation = loadedAnnotation
+          }
+
+          originalData.configuration = dataSource
+          remoteResource.configurationUrl = dataSource
         }
-      }
-    })
-    .on(
-      'textae-event.resource.configuration.load.success',
-      (dataSource, loadedAnnotation = null) => {
-        // When config is specified, it must be JSON.
-        // For example, when we load an HTML file, we treat it as text here.
-        if (typeof dataSource.data !== 'object') {
-          alertifyjs.error(
-            `${dataSource.displayName} is not a configuration file or its format is invalid.`
-          )
-          return
-        }
+      )
 
-        if (loadedAnnotation) {
-          warningIfBeginEndOfSpanAreNotInteger(loadedAnnotation.data)
-        }
-
-        // If an annotation that does not contain a configuration is loaded
-        // and a configuration is loaded from a taxtae attribute value,
-        // both the loaded configuration and the annotation are passed.
-        // If only the configuration is read, the annotation is null.
-        const annotation = (loadedAnnotation && loadedAnnotation.data) || {
-          ...originalData.annotation,
-          ...annotationData.JSON
-        }
-
-        const validConfig = validateConfigurationAndAlert(
-          annotation,
-          dataSource.data
-        )
-
-        if (!validConfig) {
-          return
-        }
-
-        setAnnotationAndConfiguration(
-          validConfig,
-          buttonController,
-          spanConfig,
-          annotationData,
-          annotation
-        )
-
-        if (loadedAnnotation) {
-          originalData.annotation = loadedAnnotation
-        }
-
-        originalData.configuration = dataSource
-        remoteResource.configurationUrl = dataSource
-      }
+    const iconEventMap = new IconEventMap(
+      commander,
+      presenter,
+      persistenceInterface,
+      buttonController,
+      annotationData
     )
 
-  const iconEventMap = new IconEventMap(
-    commander,
-    presenter,
-    persistenceInterface,
-    buttonController,
-    annotationData
-  )
+    // add control bar
+    editorHTMLElement.insertBefore(
+      new ControlBar(eventEmitter, buttonController, iconEventMap).el,
+      editorHTMLElement.childNodes[0]
+    )
+    // add context menu
+    const contextMenu = new ContextMenu(
+      editorHTMLElement,
+      buttonController,
+      iconEventMap
+    )
+    editorHTMLElement.appendChild(contextMenu.el)
 
-  // add control bar
-  editorHTMLElement.insertBefore(
-    new ControlBar(eventEmitter, buttonController, iconEventMap).el,
-    editorHTMLElement.childNodes[0]
-  )
-  // add context menu
-  const contextMenu = new ContextMenu(
-    editorHTMLElement,
-    buttonController,
-    iconEventMap
-  )
-  editorHTMLElement.appendChild(contextMenu.el)
+    editorHTMLElement.addEventListener('keyup', (event) => {
+      contextMenu.hide()
 
-  editorHTMLElement.addEventListener('keyup', (event) => {
-    contextMenu.hide()
+      if (presenter.isActive) {
+        new KeyEventMap(commander, presenter, persistenceInterface).handle(
+          event
+        )
+      }
+    })
 
-    if (presenter.isActive) {
-      new KeyEventMap(commander, presenter, persistenceInterface).handle(event)
-    }
-  })
-
-  return forwardMethods({}, () => presenter, [
-    'copyEntitiesToSystemClipboard',
-    'cutEntitiesToSystemClipboard',
-    'pasteEntitiesFromSystemClipboard',
-    'isActive',
-    'active',
-    'deactive',
-    'applyTextSelection'
-  ])
+    forwardMethods(this, () => presenter, [
+      'copyEntitiesToSystemClipboard',
+      'cutEntitiesToSystemClipboard',
+      'pasteEntitiesFromSystemClipboard',
+      'isActive',
+      'active',
+      'deactive',
+      'applyTextSelection'
+    ])
+  }
 }

@@ -1,6 +1,6 @@
 // model manages data objects.
 import AnnotationData from './AnnotationData'
-import start from './start'
+import API from './start'
 import { EventEmitter } from 'events'
 import extractParamsFromHTMLElement from './extractParamsFromHTMLElement'
 import EditorCSSClass from './EditorCSSClass'
@@ -36,7 +36,7 @@ export default class Editor {
       annotationData.typeDefinition.unlockEdit()
     }
 
-    const api = start(element, editorID, eventEmitter, annotationData, params)
+    const api = new API(element, editorID, eventEmitter, annotationData, params)
 
     forwardMethods(this, () => api, [
       'copyEntitiesToSystemClipboard',
