@@ -2,7 +2,7 @@ import getSource from './getSource'
 import getAnnotation from './getAnnotation'
 import decodeUrl from './decodeUrl'
 import getAttribute from './getAttribute'
-import getConfigEditParamFromUrl from '../start/getConfigEditParamFromUrl'
+import getConfigEditParamFromUrl from './getConfigEditParamFromUrl'
 
 export default function (element) {
   const params = new Map()
