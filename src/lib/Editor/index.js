@@ -1,6 +1,5 @@
 // model manages data objects.
 import AnnotationData from './AnnotationData'
-import SelectionModel from './SelectionModel'
 import start from './start'
 import { EventEmitter } from 'events'
 import extractParamsFromHTMLElement from './extractParamsFromHTMLElement'
@@ -37,15 +36,11 @@ export default class Editor {
       annotationData.typeDefinition.unlockEdit()
     }
 
-    // A contaier of selection state.
-    const selectionModel = new SelectionModel(eventEmitter, annotationData)
-
     const presenter = start(
       element,
       editorID,
       eventEmitter,
       annotationData,
-      selectionModel,
       params
     )
 

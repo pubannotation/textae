@@ -17,16 +17,19 @@ import warningIfBeginEndOfSpanAreNotInteger from './warningIfBeginEndOfSpanAreNo
 import validateConfigurationAndAlert from './validateConfigurationAndAlert'
 import setAnnotationAndConfiguration from './setAnnotationAndConfiguration'
 import RemoteResource from '../RemoteResource'
+import SelectionModel from '../SelectionModel'
 
 export default function (
   editorHTMLElement,
   editorID,
   eventEmitter,
   annotationData,
-  selectionModel,
   params
 ) {
   const spanConfig = new SpanConfig()
+
+  // A contaier of selection state.
+  const selectionModel = new SelectionModel(eventEmitter, annotationData)
 
   // Users can edit model only via commands.
   const commander = new Commander(
