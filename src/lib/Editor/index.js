@@ -10,7 +10,7 @@ import observeElement from './observeElement'
 import observeEventEmitter from './observeEventEmitter'
 import editorCSSClassObserve from './editorCSSClassObserve'
 
-export default class EditorAPI {
+export default class Editor {
   constructor(element, editorID) {
     observeElement(element)
 
