@@ -2,7 +2,6 @@ import dohtml from 'dohtml'
 import isTouchable from '../../isTouchable'
 import classify from '../classify'
 import Control from '../Control'
-import bindToWindowEvents from './bindToWindowEvents'
 import toContextMenuItem from './toContextMenuItem'
 
 export default class ContextMenu extends Control {
@@ -13,8 +12,6 @@ export default class ContextMenu extends Control {
       }"></div>`,
       iconEventMap
     )
-
-    bindToWindowEvents(editorHTMLElement, this)
 
     this._editorHTMLElement = editorHTMLElement
     this._buttonController = buttonController

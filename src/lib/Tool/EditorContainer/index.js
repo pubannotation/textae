@@ -73,6 +73,48 @@ export default class EditorContainer {
         this._editors.get(this.selected).applyTextSelection()
       }
     })
+
+    // Close ContextMenu when another editor is clicked
+    document.addEventListener('click', (e) => {
+      // In Firefox, the right button of mouse fires a 'click' event.
+      // https://stackoverflow.com/questions/43144995/mouse-right-click-on-firefox-triggers-click-event
+      // In Fireforx, MoesueEvent has a 'which' property, which is 3 when the right button is clicked.
+      // https://stackoverflow.com/questions/2405771/is-right-click-a-javascript-event
+      if (e.which === 3) {
+        return
+      }
+
+      for (const api of this._editors.values()) {
+        api.hideContextMenu()
+      }
+    })
+
+    document.addEventListener('contextmenu', (contextmenuEvent) => {
+      // Close ContextMenu when another editor is clicked.
+      for (const api of this._editors.values()) {
+        api.hideContextMenu()
+      }
+
+      // If the editor you click on is selected and editable,
+      // it will display its own context menu, rather than the browser's context menu.
+      const clickedEditor = contextmenuEvent.target.closest('.textae-editor')
+      if (clickedEditor === this._selected) {
+        if (
+          clickedEditor.classList.contains(
+            'textae-editor__mode--view-with-relation'
+          ) ||
+          clickedEditor.classList.contains(
+            'textae-editor__mode--view-without-relation'
+          )
+        ) {
+          return
+        }
+
+        // Prevent show browser default context menu
+        contextmenuEvent.preventDefault()
+        this._editors.get(this._selected).showContextMenu(contextmenuEvent)
+      }
+    })
   }
 
   observeBodyEvents() {

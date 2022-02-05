@@ -44,7 +44,9 @@ export default class Editor {
       'pasteEntitiesFromSystemClipboard',
       'active',
       'deactive',
-      'applyTextSelection'
+      'applyTextSelection',
+      'showContextMenu',
+      'hideContextMenu'
     ])
 
     this._annotationData = annotationData
