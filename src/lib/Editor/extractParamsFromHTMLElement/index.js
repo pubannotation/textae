@@ -33,9 +33,9 @@ export default function (element) {
   // Url's default is 'unlock', so its default is also 'unlock'.
   getAttribute(params, element, 'config_lock')
   params.set('source', getSource(element))
-  const configEditFromUrl = getConfigEditParamFromUrl(params.get('source'))
-  if (configEditFromUrl !== null) {
-    params.set('config_lock', configEditFromUrl)
+  const configLockFromUrl = getConfigEditParamFromUrl(params.get('source'))
+  if (configLockFromUrl !== null) {
+    params.set('config_lock', configLockFromUrl)
   }
 
   // Set annotation parameters.
