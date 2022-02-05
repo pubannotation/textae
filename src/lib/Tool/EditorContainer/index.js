@@ -2,7 +2,7 @@ import debounce from 'debounce'
 import delegate from 'delegate'
 import HelpDialog from '../../component/HelpDialog'
 import TipsDialog from '../../component/TipsDialog'
-import bindDocumentEvents from './bindDocumentEvents'
+import observeBodyEvents from './observeBodyEvents'
 
 const helpDialog = new HelpDialog()
 const tipsDialog = new TipsDialog()
@@ -75,8 +75,8 @@ export default class EditorContainer {
     })
   }
 
-  bindDocumentEvents() {
-    bindDocumentEvents(this)
+  observeBodyEvents() {
+    observeBodyEvents(this)
   }
 
   set(element, editor) {
