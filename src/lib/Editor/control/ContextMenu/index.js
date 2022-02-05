@@ -29,7 +29,7 @@ export default class ContextMenu extends Control {
         .querySelector('.textae-editor__text-box')
         .getBoundingClientRect()
 
-      this.showAbove(
+      this._showAbove(
         rectOfSelection.y - this._editorHTMLElement.getBoundingClientRect().y,
         rectOfSelection.x - rectOfTextBox.x
       )
@@ -38,30 +38,11 @@ export default class ContextMenu extends Control {
       // I want the coordinates where you right-click with the mouse,
       // starting from the upper left of the editor.
       // So the Y coordinate is pageY minus the editor's offsetTop.
-      this.showLowerRight(
+      this._showLowerRight(
         contextmenuEvent.pageY - this._editorHTMLElement.offsetTop,
         contextmenuEvent.pageX
       )
     }
-  }
-
-  showLowerRight(positionTop, positionLeft) {
-    this._show()
-
-    super.el.setAttribute(
-      'style',
-      `top: ${positionTop}px; left: ${positionLeft}px`
-    )
-  }
-
-  showAbove(positionTop, positionLeft) {
-    this._show()
-
-    const { height } = this.el.getBoundingClientRect()
-    super.el.setAttribute(
-      'style',
-      `top: ${positionTop - height}px; left: ${positionLeft}px`
-    )
   }
 
   hide() {
@@ -73,6 +54,25 @@ export default class ContextMenu extends Control {
 
   get _isOpen() {
     return super.el.classList.contains('textae-context-menu--show')
+  }
+
+  _showAbove(positionTop, positionLeft) {
+    this._show()
+
+    const { height } = this.el.getBoundingClientRect()
+    super.el.setAttribute(
+      'style',
+      `top: ${positionTop - height}px; left: ${positionLeft}px`
+    )
+  }
+
+  _showLowerRight(positionTop, positionLeft) {
+    this._show()
+
+    super.el.setAttribute(
+      'style',
+      `top: ${positionTop}px; left: ${positionLeft}px`
+    )
   }
 
   _show() {
