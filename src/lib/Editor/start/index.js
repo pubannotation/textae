@@ -50,6 +50,14 @@ export default function (
     editorHTMLElement,
     params.get('status_bar')
   )
+  eventEmitter
+    .on('textae-event.resource.annotation.save', (editedData) => {
+      originalData.annotation = new DataSource(null, null, editedData)
+    })
+    .on('textae-event.resource.configuration.save', (editedData) => {
+      originalData.configuration = new DataSource(null, null, editedData)
+    })
+
   const annotationDataEventsObserver = new AnnotationDataEventsObserver(
     eventEmitter,
     originalData,
@@ -191,12 +199,6 @@ export default function (
         remoteResource.configurationUrl = dataSource
       }
     )
-    .on('textae-event.resource.annotation.save', (editedData) => {
-      originalData.annotation = new DataSource(null, null, editedData)
-    })
-    .on('textae-event.resource.configuration.save', (editedData) => {
-      originalData.configuration = new DataSource(null, null, editedData)
-    })
     .on('textae-event.pallet.read-button.click', () =>
       persistenceInterface.importConfiguration()
     )
