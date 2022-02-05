@@ -1,5 +1,5 @@
-export default function (params, editor, name) {
-  if (editor.getAttribute(name)) {
-    params.set(name, editor.getAttribute(name))
+export default function (params, element, name) {
+  if (element.getAttribute(name)) {
+    params.set(name, element.getAttribute(name))
   }
 }
