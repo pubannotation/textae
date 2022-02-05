@@ -18,7 +18,7 @@ import validateConfigurationAndAlert from './validateConfigurationAndAlert'
 import setAnnotationAndConfiguration from './setAnnotationAndConfiguration'
 import RemoteResource from '../RemoteResource'
 import SelectionModel from './SelectionModel'
-import forwardMethods from './forwardMethods'
+import forwardMethods from '../forwardMethods'
 
 export default class API {
   constructor(
