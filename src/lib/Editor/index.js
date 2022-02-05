@@ -1,10 +1,10 @@
 // model manages data objects.
 import AnnotationData from './AnnotationData'
-import API from './start'
+import API from './API'
 import { EventEmitter } from 'events'
 import extractParamsFromHTMLElement from './extractParamsFromHTMLElement'
 import EditorCSSClass from './EditorCSSClass'
-import forwardMethods from './start/forwardMethods'
+import forwardMethods from './API/forwardMethods'
 import observeElement from './observeElement'
 import observeEventEmitter from './observeEventEmitter'
 import editorCSSClassObserve from './editorCSSClassObserve'
