@@ -267,8 +267,6 @@ export default class AnnotationData {
     for (const span of this.span.topLevel) {
       span.render()
     }
-    this.span.arrangeDenotationEntityPosition()
-    this.span.arrangeBlockEntityPosition()
 
     for (const relation of this.relation.all) {
       relation.render()
