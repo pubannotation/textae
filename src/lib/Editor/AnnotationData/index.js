@@ -254,6 +254,10 @@ export default class AnnotationData {
   }
 
   drawGridsInSight() {
+    for (const span of this.span.allDenotationSpans) {
+      span.drawGridInSight()
+    }
+
     for (const span of this.span.allBlockSpans) {
       span.drawGridInSight()
       span.updateBackgroundPosition()
