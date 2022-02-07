@@ -139,7 +139,7 @@ export default class BlockSpanModel extends SpanModel {
     const textBox = this._textBox
 
     // Shifting up half a line from the original block position.
-    const top = rect.top - textBox.lineHeight / 2 + 20
+    const top = this._shiftUpGrid(rect.top)
 
     return {
       top,
@@ -179,5 +179,9 @@ export default class BlockSpanModel extends SpanModel {
     const { clientHeight } = document.documentElement
     const { top, bottom } = this.element.getBoundingClientRect()
     return 0 <= bottom && top <= clientHeight
+  }
+
+  _shiftUpGrid(y) {
+    return y - this._textBox.lineHeight / 2 + 20
   }
 }
