@@ -9,6 +9,10 @@ import getAnnotationBox from '../../getAnnotationBox'
 // Leave a gap between the text and the block border.
 const gapBetweenText = 8
 export default class BlockSpanModel extends SpanModel {
+  /**
+   *
+   * @param {import('../../createTextBox/TextBox').default} textBox
+   */
   constructor(
     editorID,
     editorHTMLElement,
