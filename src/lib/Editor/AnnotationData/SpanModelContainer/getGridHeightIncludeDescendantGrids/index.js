@@ -4,7 +4,7 @@
  * @param {number} typeGap
  * @returns {number}
  */
-export default function getHeightIncludeDescendantGrids(span) {
+export default function getGridHeightIncludeDescendantGrids(span) {
   const descendantsMaxHeight =
     span.children.length === 0 ? 0 : getMaxHeight(span)
   const height = span.gridHeight
@@ -15,6 +15,8 @@ export default function getHeightIncludeDescendantGrids(span) {
 function getMaxHeight(span) {
   return Math.max.apply(
     null,
-    span.children.map((childSpan) => getHeightIncludeDescendantGrids(childSpan))
+    span.children.map((childSpan) =>
+      getGridHeightIncludeDescendantGrids(childSpan)
+    )
   )
 }

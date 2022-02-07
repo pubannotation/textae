@@ -1,5 +1,5 @@
 import SELECTED from './SELECTED'
-import getHeightIncludeDescendantGrids from './getHeightIncludeDescendantGrids'
+import getGridHeightIncludeDescendantGrids from './getGridHeightIncludeDescendantGrids'
 import round from './round'
 import SpanModel from './SpanModel'
 import isTouchable from '../../isTouchable'
@@ -100,7 +100,7 @@ export default class DenotationSpanModel extends SpanModel {
   }
 
   get heightIncludeDescendantGrids() {
-    return getHeightIncludeDescendantGrids(this) + TEXT_HEIGHT + MARGIN_TOP
+    return getGridHeightIncludeDescendantGrids(this) + TEXT_HEIGHT + MARGIN_TOP
   }
 
   get _contentHTML() {
@@ -120,7 +120,7 @@ export default class DenotationSpanModel extends SpanModel {
     const { top, left, width } = this.rectangle
 
     return {
-      top: round(top - getHeightIncludeDescendantGrids(this)),
+      top: round(top - getGridHeightIncludeDescendantGrids(this)),
       left: round(left),
       width: round(width),
       center: round(left + width / 2)
