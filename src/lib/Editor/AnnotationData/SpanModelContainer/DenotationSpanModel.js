@@ -126,4 +126,14 @@ export default class DenotationSpanModel extends SpanModel {
       center: round(left + width / 2)
     }
   }
+
+  get _isGridInViewport() {
+    const { clientHeight } = document.documentElement
+    const { top } = this.element.getBoundingClientRect()
+    const gridBottom = top
+    const girtTop = gridBottom - getGridHeightIncludeDescendantGrids(this)
+
+    console.log(this.id, clientHeight, top, gridBottom, girtTop)
+    return 0 <= gridBottom && girtTop <= clientHeight
+  }
 }
