@@ -272,6 +272,9 @@ export default class AnnotationData {
       span.render()
     }
 
+    // Reflects the addition and deletion of line breaks by span.
+    this._textBox.forceUpdate()
+
     for (const relation of this.relation.all) {
       relation.render()
       relation.updateHighlighting()
