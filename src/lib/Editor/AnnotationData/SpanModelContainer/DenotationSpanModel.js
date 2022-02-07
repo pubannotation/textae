@@ -133,7 +133,6 @@ export default class DenotationSpanModel extends SpanModel {
     const gridBottom = top
     const girtTop = gridBottom - getGridHeightIncludeDescendantGrids(this)
 
-    console.log(this.id, clientHeight, top, gridBottom, girtTop)
     return 0 <= gridBottom && girtTop <= clientHeight
   }
 }
