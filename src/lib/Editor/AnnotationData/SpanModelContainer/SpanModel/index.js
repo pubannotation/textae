@@ -167,7 +167,7 @@ export default class SpanModel {
       return this.gridElement
     }
 
-    if (!this._isInViewport) {
+    if (!this._isGridInViewport) {
       return
     }
 
@@ -199,7 +199,7 @@ export default class SpanModel {
 
   drawGridInSight() {
     if (this.isDenotation || this.isBlock) {
-      if (this._isInViewport) {
+      if (this._isGridInViewport) {
         this.renderGridElement()
         for (const entity of this.entities) {
           entity.render()
@@ -208,7 +208,7 @@ export default class SpanModel {
     }
   }
 
-  get _isInViewport() {
+  get _isGridInViewport() {
     return true
   }
 

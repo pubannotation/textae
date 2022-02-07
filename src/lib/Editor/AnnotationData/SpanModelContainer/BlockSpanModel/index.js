@@ -175,7 +175,7 @@ export default class BlockSpanModel extends SpanModel {
     }
   }
 
-  get _isInViewport() {
+  get _isGridInViewport() {
     const { clientHeight } = document.documentElement
     const { top, bottom } = this.element.getBoundingClientRect()
     return 0 <= bottom && top <= clientHeight
