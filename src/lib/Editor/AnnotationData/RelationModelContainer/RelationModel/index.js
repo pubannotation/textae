@@ -156,18 +156,22 @@ export default class RelationModel {
   }
 
   pointUpPathAndSourceBollards() {
-    if (this.targetEntity.isSelected) {
-      this._connection.pointUpPath()
-    } else {
-      this._connection.pointUpPathAndSourceBollards()
+    if (this._connection) {
+      if (this.targetEntity.isSelected) {
+        this._connection.pointUpPath()
+      } else {
+        this._connection.pointUpPathAndSourceBollards()
+      }
     }
   }
 
   pointUpPathAndTargetBollards() {
-    if (this.sourceEntity.isSelected) {
-      this._connection.pointUpPath()
-    } else {
-      this._connection.pointUpPathAndTargetBollards()
+    if (this._connection) {
+      if (this.sourceEntity.isSelected) {
+        this._connection.pointUpPath()
+      } else {
+        this._connection.pointUpPathAndTargetBollards()
+      }
     }
   }
 
