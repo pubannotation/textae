@@ -194,8 +194,10 @@ export default class RelationModel {
   }
 
   erase() {
-    this._connection.destroy()
-    this._connection = undefined
+    if (this._connection) {
+      this._connection.destroy()
+      this._connection = undefined
+    }
   }
 
   get title() {
