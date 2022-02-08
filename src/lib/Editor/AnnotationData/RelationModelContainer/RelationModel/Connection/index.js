@@ -101,7 +101,7 @@ export default class Connection {
     this._label.updateValue()
   }
 
-  updateHighlighting() {
+  updateLabelHighlighting() {
     this._label.updateHighlighting()
   }
 }
