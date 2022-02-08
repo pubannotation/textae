@@ -107,7 +107,9 @@ export default class RelationModel {
   deselect() {
     if (this._isSelected) {
       this._isSelected = false
-      this.redrawLineConsideringSelection()
+      if (this._connection) {
+        this.redrawLineConsideringSelection()
+      }
     }
   }
 
