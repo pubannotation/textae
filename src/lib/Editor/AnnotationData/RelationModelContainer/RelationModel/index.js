@@ -93,7 +93,7 @@ export default class RelationModel {
   }
 
   select() {
-    if (!this._isSelected) {
+    if (this._connect && !this._isSelected) {
       this._isSelected = true
       this._connect.updateHighlighting()
     }
