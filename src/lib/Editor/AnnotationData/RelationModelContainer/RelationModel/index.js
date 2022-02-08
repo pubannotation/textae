@@ -163,6 +163,12 @@ export default class RelationModel {
     }
   }
 
+  pointUpSourceBollardsAndTargetBollards() {
+    if (this._connect) {
+      this._connect.pointUpSourceBollardsAndTargetBollards()
+    }
+  }
+
   erase() {
     this._connect.destroy()
     this._connect = undefined
@@ -253,7 +259,7 @@ export default class RelationModel {
     }
 
     for (const r of bothRelations) {
-      r._connect.pointUpSourceBollardsAndTargetBollards()
+      r.pointUpSourceBollardsAndTargetBollards()
     }
 
     for (const r of sourceRelations) {
