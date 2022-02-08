@@ -24,7 +24,7 @@ export default class Connection {
       this._relationBox,
       this._relation,
       this._onClick,
-      onMouseEnter,
+      () => onMouseEnter(this),
       onMouseLeave
     )
     this._label = new Label(
@@ -32,7 +32,7 @@ export default class Connection {
       this._relation,
       this._arrow,
       this._onClick,
-      onMouseEnter,
+      () => onMouseEnter(this),
       onMouseLeave
     )
   }
