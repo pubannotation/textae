@@ -10,6 +10,8 @@ export default class Label {
     this._location = dohtml.create(
       `<div class="textae-editor__relation__signboard-location"></div>`
     )
+    this._updatePosition()
+
     this._signboard = new SignboardHTMLElement(relation, 'relation', null)
     this._location.appendChild(this._signboard.element)
     this._container.appendChild(this._location)

@@ -277,7 +277,6 @@ export default class AnnotationData {
 
     for (const relation of this.relation.all) {
       relation.render()
-      relation.updateHighlighting()
     }
   }
 
