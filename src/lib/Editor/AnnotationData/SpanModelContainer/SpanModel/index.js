@@ -162,12 +162,12 @@ export default class SpanModel {
     return this._isGridRendered
   }
 
-  renderGridElement() {
+  renderGridElement(clientHeight, clientWidth) {
     if (this.isGridRendered) {
       return this.gridElement
     }
 
-    if (!this.isGridInViewport()) {
+    if (!this.isGridInViewport(clientHeight, clientWidth)) {
       return
     }
 
@@ -200,7 +200,7 @@ export default class SpanModel {
   drawGridInSight(clientHeight, clientWidth) {
     if (this.isDenotation || this.isBlock) {
       if (this.isGridInViewport(clientHeight, clientWidth)) {
-        this.renderGridElement()
+        this.renderGridElement(clientHeight, clientWidth)
         for (const entity of this.entities) {
           entity.render()
         }

@@ -254,17 +254,19 @@ export default class AnnotationData {
   }
 
   drawGridsInSight() {
+    const { clientHeight, clientWidth } = document.documentElement
+
     for (const span of this.span.allDenotationSpans) {
-      span.drawGridInSight()
+      span.drawGridInSight(clientHeight, clientWidth)
     }
 
     for (const span of this.span.allBlockSpans) {
-      span.drawGridInSight()
+      span.drawGridInSight(clientHeight, clientWidth)
       span.updateBackgroundPosition()
     }
 
     for (const relation of this.relation.all) {
-      relation.render()
+      relation.render(clientHeight, clientWidth)
     }
   }
 
@@ -282,7 +284,7 @@ export default class AnnotationData {
     this._textBox.forceUpdate()
 
     for (const relation of this.relation.all) {
-      relation.render()
+      relation.render(clientHeight, clientWidth)
     }
   }
 

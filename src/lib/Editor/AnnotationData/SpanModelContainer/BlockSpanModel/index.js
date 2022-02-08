@@ -179,10 +179,7 @@ export default class BlockSpanModel extends SpanModel {
     }
   }
 
-  isGridInViewport(
-    clientHeight = document.documentElement.clientHeight,
-    _ = document.documentElement.clientWidth
-  ) {
+  isGridInViewport(clientHeight) {
     const { top, bottom } = this.element.getBoundingClientRect()
     return (
       0 <= this._shiftUpGrid(bottom) && this._shiftUpGrid(top) <= clientHeight

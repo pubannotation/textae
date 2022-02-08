@@ -113,14 +113,14 @@ export default class RelationModel {
     }
   }
 
-  render() {
+  render(clientHeight, clientWidth) {
     if (this._connection) {
       return
     }
 
     if (
-      this.sourceEntity.span.isGridInViewport() ||
-      this.targetEntity.span.isGridInViewport()
+      this.sourceEntity.span.isGridInViewport(clientWidth, clientHeight) ||
+      this.targetEntity.span.isGridInViewport(clientHeight, clientWidth)
     ) {
       const connection = new Connection(
         this._editorHTMLElement,
