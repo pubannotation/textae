@@ -93,16 +93,16 @@ export default class RelationModel {
   }
 
   select() {
-    if (this._connect && !this._isSelected) {
+    if (this._connection && !this._isSelected) {
       this._isSelected = true
-      this._connect.updateHighlighting()
+      this._connection.updateHighlighting()
     }
   }
 
   deselect() {
     if (this._isSelected) {
       this._isSelected = false
-      this._connect.updateHighlighting()
+      this._connection.updateHighlighting()
       this.updateHighlighting()
     }
   }
@@ -126,64 +126,64 @@ export default class RelationModel {
       () => this._pointDownSelfAndEntities()
     )
 
-    this._connect = connection
+    this._connection = connection
   }
 
   updateElement() {
-    this._connect.updateValue()
+    this._connection.updateValue()
   }
 
   updateHighlighting() {
-    if (this._connect) {
+    if (this._connection) {
       if (this.sourceEntity.isSelected && this.targetEntity.isSelected) {
-        this._connect.pointUpPath()
+        this._connection.pointUpPath()
       } else if (this.sourceEntity.isSelected) {
-        this._connect.pointUpPathAndSourceBollards()
+        this._connection.pointUpPathAndSourceBollards()
       } else if (this.targetEntity.isSelected) {
-        this._connect.pointUpPathAndTargetBollards()
+        this._connection.pointUpPathAndTargetBollards()
       } else {
-        this._connect.pointDownPath()
+        this._connection.pointDownPath()
       }
     }
   }
 
   pointUpPathAndSourceBollards() {
     if (this.targetEntity.isSelected) {
-      this._connect.pointUpPath()
+      this._connection.pointUpPath()
     } else {
-      this._connect.pointUpPathAndSourceBollards()
+      this._connection.pointUpPathAndSourceBollards()
     }
   }
 
   pointUpPathAndTargetBollards() {
     if (this.sourceEntity.isSelected) {
-      this._connect.pointUpPath()
+      this._connection.pointUpPath()
     } else {
-      this._connect.pointUpPathAndTargetBollards()
+      this._connection.pointUpPathAndTargetBollards()
     }
   }
 
   pointUpSourceBollardsAndTargetBollards() {
-    if (this._connect) {
-      this._connect.pointUpSourceBollardsAndTargetBollards()
+    if (this._connection) {
+      this._connection.pointUpSourceBollardsAndTargetBollards()
     }
   }
 
   pointUpSourceBollards() {
-    if (this._connect) {
-      this._connect.pointUpSourceBollards()
+    if (this._connection) {
+      this._connection.pointUpSourceBollards()
     }
   }
 
   pointUpTargetBollards() {
-    if (this._connect) {
-      this._connect.pointUpTargetBollards()
+    if (this._connection) {
+      this._connection.pointUpTargetBollards()
     }
   }
 
   erase() {
-    this._connect.destroy()
-    this._connect = undefined
+    this._connection.destroy()
+    this._connection = undefined
   }
 
   get title() {
@@ -216,7 +216,7 @@ export default class RelationModel {
 
   _pointUpSelfAndEntities() {
     this._isHovered = true
-    this._connect.pointUpPath()
+    this._connection.pointUpPath()
 
     const bothRelations = new Set()
     const sourceRelations = new Set()
