@@ -136,7 +136,9 @@ export default class RelationModel {
   }
 
   updateElement() {
-    this._connection.updateValue()
+    if (this._connection) {
+      this._connection.updateValue()
+    }
   }
 
   redrawLineConsideringSelection() {
