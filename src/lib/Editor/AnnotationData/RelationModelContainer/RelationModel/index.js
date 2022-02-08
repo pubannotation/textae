@@ -114,25 +114,30 @@ export default class RelationModel {
   }
 
   render() {
-    const connection = new Connection(
-      this._editorHTMLElement,
-      this,
-      this._namespace,
-      this._definitionContainer,
-      (event, attribute) => {
-        this._eventEmitter.emit(
-          'textae-event.editor.relation.click',
-          event,
-          this,
-          attribute
-        )
-        event.stopPropagation()
-      },
-      (connection) => this._pointUpSelfAndEntities(connection),
-      () => this._pointDownSelfAndEntities()
-    )
+    if (
+      this.sourceEntity.span.isGridInViewport ||
+      this.targetEntity.span.isGridInViewport
+    ) {
+      const connection = new Connection(
+        this._editorHTMLElement,
+        this,
+        this._namespace,
+        this._definitionContainer,
+        (event, attribute) => {
+          this._eventEmitter.emit(
+            'textae-event.editor.relation.click',
+            event,
+            this,
+            attribute
+          )
+          event.stopPropagation()
+        },
+        (connection) => this._pointUpSelfAndEntities(connection),
+        () => this._pointDownSelfAndEntities()
+      )
 
-    this._connection = connection
+      this._connection = connection
+    }
   }
 
   updateElement() {
