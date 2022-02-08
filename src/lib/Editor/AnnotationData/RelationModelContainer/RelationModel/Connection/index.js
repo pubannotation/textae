@@ -16,8 +16,6 @@ export default class Connection {
     this._namespace = namespace
     this._definitionContainer = definitionContainer
     this._onClick = onClick
-    this._onMouseEnter = onMouseEnter
-    this._onMouseLeave = onMouseLeave
     this._relationBox = editorHTMLElement.querySelector(
       '.textae-editor__relation-box'
     )
@@ -26,16 +24,16 @@ export default class Connection {
       this._relationBox,
       this._relation,
       this._onClick,
-      this._onMouseEnter,
-      this._onMouseLeave
+      onMouseEnter,
+      onMouseLeave
     )
     this._label = new Label(
       this._annotationBox,
       this._relation,
       this._arrow,
       this._onClick,
-      this._onMouseEnter,
-      this._onMouseLeave
+      onMouseEnter,
+      onMouseLeave
     )
   }
 
