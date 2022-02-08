@@ -119,8 +119,8 @@ export default class RelationModel {
     }
 
     if (
-      this.sourceEntity.span.isGridInViewport ||
-      this.targetEntity.span.isGridInViewport
+      this.sourceEntity.span.isGridInViewport() ||
+      this.targetEntity.span.isGridInViewport()
     ) {
       const connection = new Connection(
         this._editorHTMLElement,

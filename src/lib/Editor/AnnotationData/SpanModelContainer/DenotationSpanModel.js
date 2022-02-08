@@ -127,7 +127,7 @@ export default class DenotationSpanModel extends SpanModel {
     }
   }
 
-  get isGridInViewport() {
+  isGridInViewport() {
     const { clientHeight, clientWidth } = document.documentElement
     const { top, left } = this.element.getBoundingClientRect()
     const gridBottom = top
