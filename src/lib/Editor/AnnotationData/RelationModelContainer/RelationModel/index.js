@@ -114,6 +114,10 @@ export default class RelationModel {
   }
 
   render() {
+    if (this._connection) {
+      return
+    }
+
     if (
       this.sourceEntity.span.isGridInViewport ||
       this.targetEntity.span.isGridInViewport

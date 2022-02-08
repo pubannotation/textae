@@ -262,6 +262,10 @@ export default class AnnotationData {
       span.drawGridInSight()
       span.updateBackgroundPosition()
     }
+
+    for (const relation of this.relation.all) {
+      relation.render()
+    }
   }
 
   _clearAndDrawAllAnnotations() {
