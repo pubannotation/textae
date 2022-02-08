@@ -98,7 +98,7 @@ export default class SpanModel {
     return document.querySelector(`#${this.id}`)
   }
 
-  render() {
+  render(clientHeight, clientWidth) {
     // Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
     this.traverse((span) => {
       if (span.element !== null) {
@@ -111,7 +111,7 @@ export default class SpanModel {
       (span) => {
         // When the child spans contain bold style spans, the width of the parent span changes.
         // Render the entity after the child span has been rendered.
-        span.drawGridInSight()
+        span.drawGridInSight(clientHeight, clientWidth)
       }
     )
   }
@@ -197,9 +197,9 @@ export default class SpanModel {
     // This method overrided in the DenotationSpanModel.
   }
 
-  drawGridInSight() {
+  drawGridInSight(clientHeight, clientWidth) {
     if (this.isDenotation || this.isBlock) {
-      if (this.isGridInViewport()) {
+      if (this.isGridInViewport(clientHeight, clientWidth)) {
         this.renderGridElement()
         for (const entity of this.entities) {
           entity.render()

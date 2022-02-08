@@ -272,8 +272,10 @@ export default class AnnotationData {
     getAnnotationBox(this._editorHTMLElement).innerHTML = ''
 
     this._textBox.updateLineHeight()
+
+    const { clientHeight, clientWidth } = document.documentElement
     for (const span of this.span.topLevel) {
-      span.render()
+      span.render(clientHeight, clientWidth)
     }
 
     // Reflects the addition and deletion of line breaks by span.
