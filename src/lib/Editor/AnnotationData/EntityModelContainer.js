@@ -94,7 +94,7 @@ export default class EntityModelContainer extends IdIssueContainer {
       entity.render()
 
       for (const relation of entity.relations) {
-        relation.updateHighlighting()
+        relation.redrawLineConsideringSelection()
       }
     }
 

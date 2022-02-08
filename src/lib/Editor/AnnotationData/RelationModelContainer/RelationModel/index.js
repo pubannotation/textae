@@ -103,7 +103,7 @@ export default class RelationModel {
     if (this._isSelected) {
       this._isSelected = false
       this._connection.updateLabelHighlighting()
-      this.updateHighlighting()
+      this.redrawLineConsideringSelection()
     }
   }
 
@@ -133,7 +133,7 @@ export default class RelationModel {
     this._connection.updateValue()
   }
 
-  updateHighlighting() {
+  redrawLineConsideringSelection() {
     if (this._connection) {
       if (this.sourceEntity.isSelected && this.targetEntity.isSelected) {
         this._connection.pointUpPath()
@@ -297,7 +297,7 @@ export default class RelationModel {
     }
 
     for (const r of relations) {
-      r.updateHighlighting()
+      r.redrawLineConsideringSelection()
     }
   }
 }

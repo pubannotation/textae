@@ -237,7 +237,7 @@ export default class EntityModel {
 
       for (const entity of this.span.entities.filter((e) => e !== this)) {
         for (const relation of entity.relations) {
-          relation.updateHighlighting()
+          relation.redrawLineConsideringSelection()
         }
       }
     }
@@ -259,7 +259,7 @@ export default class EntityModel {
       this.span.updateSelfAndAncestorsGridPosition()
       for (const entity of this.span.entities) {
         for (const relation of entity.relations) {
-          relation.updateHighlighting()
+          relation.redrawLineConsideringSelection()
         }
       }
     }
@@ -378,7 +378,7 @@ export default class EntityModel {
 
   _updateRelationHighlighting() {
     for (const relation of this.relations) {
-      relation.updateHighlighting()
+      relation.redrawLineConsideringSelection()
     }
   }
 }
