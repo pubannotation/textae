@@ -2,7 +2,7 @@ import getDisplayName from '../../../getDisplayName'
 import getUri from '../../../getUri'
 import toAnchorElement from '../../../toAnchorElement'
 import TypeValues from '../../../../TypeValues'
-import SVGConnection from './SVGConnection'
+import Connection from './Connection'
 
 export default class RelationModel {
   constructor(
@@ -108,7 +108,7 @@ export default class RelationModel {
   }
 
   render() {
-    const connection = new SVGConnection(
+    const connection = new Connection(
       this._editorHTMLElement,
       this,
       this._namespace,

@@ -2,7 +2,7 @@ import getAnnotationBox from '../../../getAnnotationBox'
 import Arrow from './Arrow/inedx'
 import Label from './Label'
 
-export default class SVGConnection {
+export default class Connection {
   constructor(
     editorHTMLElement,
     relation,
