@@ -95,6 +95,9 @@ export default class RelationModel {
   select() {
     if (this._connection && !this._isSelected) {
       this._isSelected = true
+      // When we select a relation,
+      // it is hovering and we have already highlighted the line,
+      // so we only need to update the label.
       this._connection.updateLabelHighlighting()
     }
   }
