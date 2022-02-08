@@ -175,6 +175,12 @@ export default class RelationModel {
     }
   }
 
+  pointUpTargetBollards() {
+    if (this._connect) {
+      this._connect.pointUpTargetBollards()
+    }
+  }
+
   erase() {
     this._connect.destroy()
     this._connect = undefined
@@ -273,7 +279,7 @@ export default class RelationModel {
     }
 
     for (const r of targetRelations) {
-      r._connect.pointUpTargetBollards()
+      r.pointUpTargetBollards()
     }
   }
 
