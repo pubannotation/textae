@@ -102,7 +102,6 @@ export default class RelationModel {
   deselect() {
     if (this._isSelected) {
       this._isSelected = false
-      this._connection.updateLabelHighlighting()
       this.redrawLineConsideringSelection()
     }
   }
