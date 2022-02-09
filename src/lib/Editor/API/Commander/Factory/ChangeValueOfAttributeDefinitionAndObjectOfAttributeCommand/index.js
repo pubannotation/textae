@@ -44,6 +44,6 @@ export default class ChangeValueOfAttributeDefinitionAndObjectOfAttributeCommand
         )
     }
 
-    this._logMessage = `change attribute definition.`
+    this._logMessage = `attribute: ${attrDef.pred}`
   }
 }
