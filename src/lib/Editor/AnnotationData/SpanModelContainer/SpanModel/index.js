@@ -89,7 +89,7 @@ export default class SpanModel {
     return document.querySelector(`#${this.id}`)
   }
 
-  render(clientHeight, clientWidth) {
+  render() {
     // Destroy children spans to wrap a TextNode with <span> tag when new span over exists spans.
     this.traverse((span) => {
       if (span.element !== null) {

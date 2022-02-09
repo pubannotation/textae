@@ -275,10 +275,11 @@ export default class AnnotationData {
 
     this._textBox.updateLineHeight()
 
-    const { clientHeight, clientWidth } = document.documentElement
     for (const span of this.span.topLevel) {
-      span.render(clientHeight, clientWidth)
+      span.render()
     }
+
+    const { clientHeight, clientWidth } = document.documentElement
 
     for (const span of this.span.allDenotationSpans) {
       span.drawGridInSight(clientHeight, clientWidth)

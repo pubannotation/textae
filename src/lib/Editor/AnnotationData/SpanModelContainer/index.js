@@ -275,8 +275,9 @@ export default class SpanModelContainer {
       oldSpan.passesAllEntitiesTo(span)
     }
 
+    span.render()
+
     const { clientHeight, clientWidth } = document.documentElement
-    span.render(clientHeight, clientWidth)
     span.drawGridInSight(clientHeight, clientWidth)
   }
 
