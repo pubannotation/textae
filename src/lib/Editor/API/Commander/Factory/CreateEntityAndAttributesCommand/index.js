@@ -24,6 +24,6 @@ export default class CreateEntityAndAttributesCommand extends CompositeCommand {
       )
     )
 
-    this._logMessage = `create a type for span: ${span}`
+    this._logMessage = `create a type values for span: ${span}`
   }
 }
