@@ -27,7 +27,7 @@ export default class ReplicateSpanCommand extends CompositeCommand {
           typeValeusList
         )
       })
-    this._logMessage = `replicate a span ${makeDenotationSpanHTMLElementID(
+    this._logMessage = `from span: ${makeDenotationSpanHTMLElementID(
       editorID,
       span.begin,
       span.end
