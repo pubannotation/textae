@@ -153,13 +153,9 @@ export default class SpanModel {
     return this._isGridRendered
   }
 
-  renderGridElement(clientHeight, clientWidth) {
+  renderGridElement() {
     if (this.isGridRendered) {
       return this.gridElement
-    }
-
-    if (!this.isGridInViewport(clientHeight, clientWidth)) {
-      return
     }
 
     const rightGrid = getRightGrid(this._editorHTMLElement, this.id)
@@ -191,7 +187,7 @@ export default class SpanModel {
   drawGridInSight(clientHeight, clientWidth) {
     if (this.isDenotation || this.isBlock) {
       if (this.isGridInViewport(clientHeight, clientWidth)) {
-        this.renderGridElement(clientHeight, clientWidth)
+        this.renderGridElement()
         for (const entity of this.entities) {
           entity.render()
         }
