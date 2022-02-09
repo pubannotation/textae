@@ -297,7 +297,13 @@ export default class AnnotationData {
     this.span.arrangeBlockEntityPosition()
 
     for (const relation of this.relation.all) {
-      relation.redrawLineConsideringSelection()
+      // The Grid disappears while the span is moving.
+      if (
+        relation.sourceEntity.span.isGridRendered &&
+        relation.targetEntity.span.isGridRendered
+      ) {
+        relation.redrawLineConsideringSelection()
+      }
     }
   }
 }
