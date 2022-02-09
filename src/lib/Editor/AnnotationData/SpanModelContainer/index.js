@@ -277,6 +277,7 @@ export default class SpanModelContainer {
 
     const { clientHeight, clientWidth } = document.documentElement
     span.render(clientHeight, clientWidth)
+    span.drawGridInSight(clientHeight, clientWidth)
   }
 
   _removeDenotation(span) {

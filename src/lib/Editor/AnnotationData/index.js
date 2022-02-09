@@ -280,6 +280,14 @@ export default class AnnotationData {
       span.render(clientHeight, clientWidth)
     }
 
+    for (const span of this.span.allDenotationSpans) {
+      span.drawGridInSight(clientHeight, clientWidth)
+    }
+
+    for (const span of this.span.allBlockSpans) {
+      span.drawGridInSight(clientHeight, clientWidth)
+    }
+
     // Reflects the addition and deletion of line breaks by span.
     this._textBox.forceUpdate()
 
