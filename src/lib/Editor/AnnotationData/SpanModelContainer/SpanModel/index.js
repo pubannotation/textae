@@ -73,15 +73,11 @@ export default class SpanModel {
     this._parent = parent
   }
 
-  traverse(preOrderFunction, postOrderFunction) {
+  traverse(preOrderFunction) {
     preOrderFunction(this)
 
     for (const child of this._children) {
-      child.traverse(preOrderFunction, postOrderFunction)
-    }
-
-    if (postOrderFunction) {
-      postOrderFunction(this)
+      child.traverse(preOrderFunction)
     }
   }
 
@@ -97,10 +93,7 @@ export default class SpanModel {
       }
     })
 
-    this.traverse(
-      (span) => span.renderElement(),
-      () => {}
-    )
+    this.traverse((span) => span.renderElement())
   }
 
   erase() {
