@@ -21,6 +21,7 @@ export default class CompositeCommand extends BaseCommand {
       this._afterInvoke()
     }
 
+    const self = this
     this.revert = () => ({
       _subCommands: this._subCommands,
       _logMessage: this._logMessage,
@@ -34,10 +35,10 @@ export default class CompositeCommand extends BaseCommand {
           this._afterInvoke()
         }
 
-        this._commandLog(`revert: ${this._logMessage}`)
+        commandLog(self, `revert: ${this._logMessage}`)
       }
     })
-    this._commandLog(this._logMessage)
+    commandLog(this, this._logMessage)
   }
 
   get kind() {
@@ -49,9 +50,5 @@ export default class CompositeCommand extends BaseCommand {
 
   get isEmpty() {
     return !this._subCommands || this._subCommands.length === 0
-  }
-
-  _commandLog(message) {
-    commandLog(this, message)
   }
 }
