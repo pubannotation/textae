@@ -22,7 +22,7 @@ export default class MoveEntitiesToSpanCommand extends AnnotationCommand {
       return map
     }, new Map())
 
-    const message = `move entities: ${Array.from(this._moveMap.entries())
+    const message = `${Array.from(this._moveMap.entries())
       .map(([_, entities]) => {
         return `${entities.map((e) => e.id).join(', ')} from ${
           entities[0].span.id
