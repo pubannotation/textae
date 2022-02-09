@@ -20,6 +20,7 @@ export default class Tool {
       throttle(() => {
         this._editorContainer.relayout()
         this._editorContainer.drawGridsInSight()
+        this._editorContainer.updateDenotationEntitiesWidth()
       }, 500)
     )
 

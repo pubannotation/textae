@@ -57,4 +57,10 @@ export default class Editor {
     this._annotationData.textBox.forceUpdate()
     this._annotationData.updatePosition()
   }
+
+  updateDenotationEntitiesWidth() {
+    for (const span of this._annotationData.span.allDenotationSpans) {
+      span.updateDenotationEntitiesWidth()
+    }
+  }
 }

@@ -64,6 +64,12 @@ export default class EditorContainer {
     }
   }
 
+  updateDenotationEntitiesWidth() {
+    for (const editor of this._editors.values()) {
+      editor.updateDenotationEntitiesWidth()
+    }
+  }
+
   relayout() {
     for (const editor of this._editors.values()) {
       editor.relayout()
