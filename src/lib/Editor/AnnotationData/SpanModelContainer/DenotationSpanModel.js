@@ -3,6 +3,7 @@ import getGridHeightIncludeDescendantGrids from './getGridHeightIncludeDescendan
 import round from './round'
 import SpanModel from './SpanModel'
 import isTouchable from '../../isTouchable'
+import { makeDenotationSpanHTMLElementID } from '../../idFactory'
 
 const TEXT_HEIGHT = 23
 const MARGIN_TOP = 30
@@ -17,6 +18,14 @@ export default class DenotationSpanModel extends SpanModel {
   ) {
     super(editorID, editorHTMLElement, begin, end, spanModelContainer)
     this._entityModelContainer = entityModelContainer
+  }
+
+  get id() {
+    return makeDenotationSpanHTMLElementID(
+      this._editorID,
+      this._begin,
+      this._end
+    )
   }
 
   passesAllEntitiesTo(newSpan) {

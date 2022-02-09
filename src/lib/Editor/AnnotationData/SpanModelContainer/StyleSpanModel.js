@@ -1,3 +1,4 @@
+import { makeStyleSpanHTMLElementID } from '../../idFactory'
 import SpanModel from './SpanModel'
 
 export default class StyleSpanModel extends SpanModel {
@@ -11,6 +12,10 @@ export default class StyleSpanModel extends SpanModel {
   ) {
     super(editorID, editorHTMLElement, begin, end, spanModelContainer, style)
     this.styles = new Set([style])
+  }
+
+  get id() {
+    return makeStyleSpanHTMLElementID(this._editorID, this._begin, this._end)
   }
 
   // Mark it not to be rendered as a span.
