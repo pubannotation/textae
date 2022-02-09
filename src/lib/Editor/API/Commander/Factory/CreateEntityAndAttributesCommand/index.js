@@ -24,6 +24,10 @@ export default class CreateEntityAndAttributesCommand extends CompositeCommand {
       )
     )
 
-    this._logMessage = `on span: ${span}`
+    this._logMessage = `span: ${span}, type: ${typeName}${
+      attributes.length
+        ? `, attributes: ${attributes.map(({ pred }) => pred).join(', ')}`
+        : ''
+    }`
   }
 }
