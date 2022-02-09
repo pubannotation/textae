@@ -35,6 +35,6 @@ export default class CreateSpanAndTypesCommand extends CompositeCommand {
           )
       )
     )
-    this._logMessage = `create a span ${spanId}`
+    this._logMessage = `create a span and type values ${spanId}`
   }
 }
