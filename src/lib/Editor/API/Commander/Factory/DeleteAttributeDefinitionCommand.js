@@ -14,6 +14,7 @@ export default class DeleteAttributeDefinitionCommand extends ConfigurationComma
     this._definitionContainer.delete(this._removeAttrdef.pred)
 
     commandLog(
+      this,
       `remove an attrribute definition:${JSON.stringify(
         this._removeAttrdef
       )}, index:${this._index}`

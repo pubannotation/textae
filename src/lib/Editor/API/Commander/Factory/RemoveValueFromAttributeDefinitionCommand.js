@@ -57,6 +57,7 @@ export default class RemoveValueFromAttributeDefinitionCommand extends Configura
     )
 
     commandLog(
+      this,
       `remove a value from an attrribute:${this._attrDef.pred}, index:${
         this._index
       }, updated values: \n ${values.map((v) => JSON.stringify(v)).join('\n ')}`

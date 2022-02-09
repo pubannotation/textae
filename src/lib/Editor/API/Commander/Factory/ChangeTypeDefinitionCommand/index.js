@@ -38,6 +38,7 @@ export default class ChangeTypeDefinitionCommand extends ConfigurationCommand {
     this.revertChangedProperties = revertChangedProperties
 
     commandLog(
+      this,
       `change old type:${JSON.stringify(oldType)} to new type:${JSON.stringify(
         newType
       )}, default is ${this._definitionContainer.defaultType}`

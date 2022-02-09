@@ -13,6 +13,7 @@ export default class MoveAttributeDefinitionCommand extends ConfigurationCommand
     this._definitionContainer.move(this._oldIndex, this._newIndex)
 
     commandLog(
+      this,
       `move the attrribute definition: from ${this._oldIndex} to ${this._newIndex}`
     )
   }

@@ -23,6 +23,7 @@ export default class MoveDenotationSpanCommand extends AnnotationCommand {
     this._oldEnd = end
 
     commandLog(
+      this,
       `move span: ${this._spanId} to {begin: ${this._begin}, end: ${this._end}}`
     )
   }

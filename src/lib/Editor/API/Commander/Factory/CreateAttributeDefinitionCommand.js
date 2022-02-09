@@ -33,6 +33,7 @@ export default class CreateAttributeDefinitionCommand extends ConfigurationComma
     )
 
     commandLog(
+      this,
       `create a new attrribute definition:${JSON.stringify(
         this._newAttrDef
       )}, index: ${this._index}`

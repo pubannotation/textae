@@ -1,8 +1,8 @@
-export default function (message, object) {
+export default function (self, message, object) {
   // For debug
   if (object) {
-    console.log('[command.invoke]', message, object)
+    console.log(`[${self.constructor.name}]`, message, object)
   } else {
-    console.log('[command.invoke]', message)
+    console.log(`[${self.constructor.name}]`, message)
   }
 }

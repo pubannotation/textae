@@ -17,7 +17,7 @@ class CreateCommand extends AnnotationCommand {
       this._selectionModel.add(this._modelType, this._model.id)
     }
 
-    commandLog(`create a new ${this._modelType}: ${this._model.id}`)
+    commandLog(this, `create a new ${this._modelType}: ${this._model.id}`)
   }
 
   revert() {
@@ -36,7 +36,7 @@ class RemoveCommand extends AnnotationCommand {
   execute() {
     this._annotationData[this._modelType].remove(this._model.id)
 
-    commandLog(`remove a ${this._modelType}: ${this._model.id}`)
+    commandLog(this, `remove a ${this._modelType}: ${this._model.id}`)
   }
 
   revert() {

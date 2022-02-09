@@ -34,10 +34,10 @@ export default class CompositeCommand extends BaseCommand {
           this._afterInvoke()
         }
 
-        commandLog(`revert: ${this._logMessage}`)
+        this._commandLog(`revert: ${this._logMessage}`)
       }
     })
-    commandLog(this._logMessage)
+    this._commandLog(this._logMessage)
   }
 
   get kind() {
@@ -49,5 +49,9 @@ export default class CompositeCommand extends BaseCommand {
 
   get isEmpty() {
     return !this._subCommands || this._subCommands.length === 0
+  }
+
+  _commandLog(message) {
+    commandLog(this, message)
   }
 }

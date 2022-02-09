@@ -25,6 +25,7 @@ export default class ChangeAttributeDefinitionCommand extends ConfigurationComma
     this._revertChangedProperties = revertChangedProperties
 
     commandLog(
+      this,
       `change old pred:${oldPred} to new attridute definition:${JSON.stringify(
         newAttrDef
       )}`

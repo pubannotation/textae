@@ -21,6 +21,7 @@ export default class ChangeAnnotationCommand extends AnnotationCommand {
       this._newType
     )
     commandLog(
+      this,
       `change type of a ${this._annotationType}. oldtype:${this.oldType} ${this._annotationType}:`,
       targetModel
     )

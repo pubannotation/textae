@@ -32,7 +32,7 @@ export default class MoveEntitiesToSpanCommand extends AnnotationCommand {
 
     this._annotationData.entity.moveEntities(this._span, this._entities)
 
-    commandLog(message)
+    commandLog(this, message)
   }
 
   revert() {

@@ -16,6 +16,7 @@ export default class CreateTypeDefinitionCommand extends ConfigurationCommand {
     this._definitionContainer.addDefinedType(this._newType)
 
     commandLog(
+      this,
       `create a new type:${JSON.stringify(this._newType)}, default is ${
         this._definitionContainer.defaultType
       }`

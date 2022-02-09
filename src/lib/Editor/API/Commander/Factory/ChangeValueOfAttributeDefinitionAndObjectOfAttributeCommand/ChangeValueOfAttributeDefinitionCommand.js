@@ -67,6 +67,7 @@ export default class ChangeValueOfAttributeDefinitionCommand extends Configurati
     this._definitionContainer.update(this._attrDef.pred, this._attrDef)
 
     commandLog(
+      this,
       `change value of attrribute:${
         this._attrDef.pred
       }, oldValue: ${JSON.stringify(

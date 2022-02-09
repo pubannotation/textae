@@ -21,6 +21,7 @@ export default class RemoveTypeDefinitionCommand extends ConfigurationCommand {
     }
 
     commandLog(
+      this,
       `remove a type:${JSON.stringify(this._removeType)}, default is ${
         this._definitionContainer.defaultType
       }`
