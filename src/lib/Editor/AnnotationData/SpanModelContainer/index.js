@@ -191,6 +191,8 @@ export default class SpanModelContainer {
     console.assert(false, `There is no target for remove for ${id}!`)
   }
 
+  // Since moving a span is deleting and adding span tags,
+  // we will delete and add the model as well.
   moveDenotationSpan(id, begin, end) {
     console.assert(
       id !== makeDenotationSpanHTMLElementID(this._editorID, begin, end),
