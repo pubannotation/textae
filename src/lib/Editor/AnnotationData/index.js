@@ -65,7 +65,7 @@ export default class AnnotationData {
 
     this._textBox = createTextBox(editorHTMLElement, this, () => {
       try {
-        this._editorCSSClass.startWait()
+        editorCSSClass.startWait()
         // jQuery Ui dialogs are not in the editor.
         for (const dialog of document.querySelectorAll('.ui-dialog')) {
           dialog.classList.add('textae-editor--wait')
@@ -78,7 +78,7 @@ export default class AnnotationData {
       } catch (e) {
         console.error(e)
       } finally {
-        this._editorCSSClass.endWait()
+        editorCSSClass.endWait()
         for (const dialog of document.querySelectorAll('.ui-dialog')) {
           dialog.classList.remove('textae-editor--wait')
         }
@@ -174,7 +174,6 @@ export default class AnnotationData {
 
     this._editorHTMLElement = editorHTMLElement
     this._eventEmitter = eventEmitter
-    this._editorCSSClass = editorCSSClass
   }
 
   reset(rawData, config) {
