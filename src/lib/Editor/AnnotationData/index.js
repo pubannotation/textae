@@ -234,18 +234,21 @@ export default class AnnotationData {
 
   drawGridsInSight() {
     const { clientHeight, clientWidth } = document.documentElement
+    const { top, bottom } = this._editorHTMLElement.getBoundingClientRect()
 
-    for (const span of this.span.allDenotationSpans) {
-      span.drawGridInSight(clientHeight, clientWidth)
-    }
+    if (0 <= bottom && top <= clientHeight) {
+      for (const span of this.span.allDenotationSpans) {
+        span.drawGridInSight(clientHeight, clientWidth)
+      }
 
-    for (const span of this.span.allBlockSpans) {
-      span.drawGridInSight(clientHeight, clientWidth)
-      span.updateBackgroundPosition()
-    }
+      for (const span of this.span.allBlockSpans) {
+        span.drawGridInSight(clientHeight, clientWidth)
+        span.updateBackgroundPosition()
+      }
 
-    for (const relation of this.relation.all) {
-      relation.render(clientHeight, clientWidth)
+      for (const relation of this.relation.all) {
+        relation.render(clientHeight, clientWidth)
+      }
     }
   }
 
