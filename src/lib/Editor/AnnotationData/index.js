@@ -119,7 +119,6 @@ export default class AnnotationData {
           this.updatePosition()
         }
       })
-
       .on('textae-event.annotation-data.entity-gap.change', () =>
         this.updatePosition()
       )
