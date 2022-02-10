@@ -113,6 +113,12 @@ export default class AnnotationData {
           this.updatePosition()
         }
       })
+      .on('textae-event.annotation-data.entity.remove', (entity) => {
+        if (entity.span.isDenotation) {
+          this._lineHeightAuto.updateLineHeight()
+          this.updatePosition()
+        }
+      })
 
       .on('textae-event.annotation-data.entity-gap.change', () =>
         this.updatePosition()
