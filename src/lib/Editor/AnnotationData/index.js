@@ -63,7 +63,30 @@ export default class AnnotationData {
       this.attributeDefinitionContainer
     )
 
-    this._textBox = createTextBox(editorHTMLElement, this)
+    this._textBox = createTextBox(editorHTMLElement, this, () => {
+      try {
+        this._editorCSSClass.startWait()
+        // jQuery Ui dialogs are not in the editor.
+        for (const dialog of document.querySelectorAll('.ui-dialog')) {
+          dialog.classList.add('textae-editor--wait')
+        }
+        for (const dialog of document.querySelectorAll('.ui-widget-overlay')) {
+          dialog.classList.add('textae-editor--wait')
+        }
+
+        this._rearrangeAllAnnotations()
+      } catch (e) {
+        console.error(e)
+      } finally {
+        this._editorCSSClass.endWait()
+        for (const dialog of document.querySelectorAll('.ui-dialog')) {
+          dialog.classList.remove('textae-editor--wait')
+        }
+        for (const dialog of document.querySelectorAll('.ui-widget-overlay')) {
+          dialog.classList.remove('textae-editor--wait')
+        }
+      }
+    })
     this._lineHeightAuto = new LineHeightAuto(eventEmitter, this._textBox)
     this.span = new SpanModelContainer(
       editorID,
@@ -212,31 +235,6 @@ export default class AnnotationData {
 
   get typeDefinition() {
     return this._typeDefinition
-  }
-
-  updatePosition() {
-    try {
-      this._editorCSSClass.startWait()
-      // jQuery Ui dialogs are not in the editor.
-      for (const dialog of document.querySelectorAll('.ui-dialog')) {
-        dialog.classList.add('textae-editor--wait')
-      }
-      for (const dialog of document.querySelectorAll('.ui-widget-overlay')) {
-        dialog.classList.add('textae-editor--wait')
-      }
-
-      this._rearrangeAllAnnotations()
-    } catch (e) {
-      console.error(e)
-    } finally {
-      this._editorCSSClass.endWait()
-      for (const dialog of document.querySelectorAll('.ui-dialog')) {
-        dialog.classList.remove('textae-editor--wait')
-      }
-      for (const dialog of document.querySelectorAll('.ui-widget-overlay')) {
-        dialog.classList.remove('textae-editor--wait')
-      }
-    }
   }
 
   drawGridsInSight() {
