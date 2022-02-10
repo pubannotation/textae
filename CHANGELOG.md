@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.9.0](https://github.com/pubannotation/textae/compare/v8.8.0...v8.9.0) (2022-02-10)
+
+
+### Features
+
+* Do not draw relations outside the drawing area ([b35ee49](https://github.com/pubannotation/textae/commit/b35ee49fac5fad7f6cdf00a0258339461ef0ac04))
+* Do now render denotation spans outside viewport ([5038dc1](https://github.com/pubannotation/textae/commit/5038dc1f4bced7d6884461e2b52afc50ba5213ee))
+* Include X coordinate in determining the drawing area ([1e6fb9b](https://github.com/pubannotation/textae/commit/1e6fb9b40b41bcad1cf12b1824acc765a75e9946))
+* Reflects the addition and deletion of line breaks by span ([d0c56b5](https://github.com/pubannotation/textae/commit/d0c56b565f5bdb08150f43dcaf2fb934cc94da7a))
+* Render denotation span coming into viewport on browser scrolling or resizing ([93efbb2](https://github.com/pubannotation/textae/commit/93efbb2c4c73f535254e96d6a045850a0a9f45b7))
+* Set height of the text box before render spans ([efa383b](https://github.com/pubannotation/textae/commit/efa383b33774d7403d99a4afe046e01ad88fab4e))
+* Updates the width of the denotation entity when the browser is resized ([07feebb](https://github.com/pubannotation/textae/commit/07feebb60fe28de59b67906f7567e5e8650b78c4))
+
+
+### Bug Fixes
+
+* Blockspan enters the viewport and is rendered a little later ([911b16d](https://github.com/pubannotation/textae/commit/911b16d522e478e3ef5d3bd5e77c26853b1312c7))
+* Commander does not recieve the event emitter ([9314595](https://github.com/pubannotation/textae/commit/93145952eff4e125844fc5af6296af9836e69f92))
+* Create multi spans when replicate same span twice ([60e9e89](https://github.com/pubannotation/textae/commit/60e9e89251fa2beeabd70ce52339869ec3145983))
+* Entities are not displayed when a span is created ([053ca21](https://github.com/pubannotation/textae/commit/053ca21e1def8666b983aa38f460ae26c93b86cd))
+* Error occurs during span movement ([4a5d133](https://github.com/pubannotation/textae/commit/4a5d1336d837d3b1c808d2e648fdb3da07d6d110))
+* Error when undoing ([c0addc2](https://github.com/pubannotation/textae/commit/c0addc22485463108403460d93e19d57bf7e87d8))
+* ID of editor is broken ([6da5225](https://github.com/pubannotation/textae/commit/6da5225d683b893b17d50c717ddcbb3364c816c0))
+
 ## [8.8.0](https://github.com/pubannotation/textae/compare/v8.7.0...v8.8.0) (2022-02-03)
 
 
