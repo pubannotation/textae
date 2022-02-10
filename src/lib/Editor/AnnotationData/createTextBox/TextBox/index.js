@@ -4,9 +4,9 @@ import updateTextBoxHeight from './updateTextBoxHeight'
 import pixelToInt from './pixelToInt'
 
 export default class TextBox {
-  constructor(editor, annotationData) {
-    this._editor = editor
-    this._el = editor.querySelector('.textae-editor__text-box')
+  constructor(editorHTMLElement, annotationData) {
+    this._editorHTMLElement = editorHTMLElement
+    this._el = editorHTMLElement.querySelector('.textae-editor__text-box')
     this._annotationData = annotationData
   }
 
@@ -45,12 +45,12 @@ export default class TextBox {
 
   _resetLineHeight() {
     // The default line height follows the editor's line height.
-    const { lineHeight } = window.getComputedStyle(this._editor)
+    const { lineHeight } = window.getComputedStyle(this._editorHTMLElement)
     this.lineHeight = pixelToInt(lineHeight)
   }
 
   _updateSizeOfRelationBox() {
-    const relationBox = this._editor.querySelector(
+    const relationBox = this._editorHTMLElement.querySelector(
       '.textae-editor__relation-box'
     )
     relationBox.style.height = this._el.style.height
