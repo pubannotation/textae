@@ -21,9 +21,7 @@ export default class TextBox {
 
   set lineHeight(val) {
     setLineHeight(this._el, val)
-    updateTextBoxHeight(this._el)
-    this._updateSizeOfRelationBox()
-    this._updatePosition()
+    this.forceUpdate()
   }
 
   render(text) {
