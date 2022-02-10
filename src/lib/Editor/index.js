@@ -10,7 +10,12 @@ import observeEventEmitter from './observeEventEmitter'
 import editorCSSClassObserve from './editorCSSClassObserve'
 
 export default class Editor {
-  constructor(element, editorID) {
+  constructor(
+    element,
+    editorID,
+    startJQueryUIDialogWait,
+    endJQueryUIDialogWait
+  ) {
     // Add tabIndex to listen to keyboard events.
     element.tabIndex = -1
 
@@ -28,7 +33,9 @@ export default class Editor {
       editorID,
       element,
       eventEmitter,
-      editorCSSClass
+      editorCSSClass,
+      startJQueryUIDialogWait,
+      endJQueryUIDialogWait
     )
     if (params.has('config_lock') && params.get('config_lock') === 'true') {
       annotationData.typeDefinition.lockEdit()

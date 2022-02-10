@@ -18,7 +18,14 @@ import getAnnotationBox from './getAnnotationBox'
 import LineHeightAuto from './LineHeightAuto'
 
 export default class AnnotationData {
-  constructor(editorID, editorHTMLElement, eventEmitter, editorCSSClass) {
+  constructor(
+    editorID,
+    editorHTMLElement,
+    eventEmitter,
+    editorCSSClass,
+    startJQueryUIDialogWait,
+    endJQueryUIDialogWait
+  ) {
     this._sourceDoc = ''
     this.namespace = new ModelContainer(eventEmitter, 'namespace')
     const relationDefinitionContainer = new DefinitionContainer(
@@ -66,25 +73,14 @@ export default class AnnotationData {
     this._textBox = createTextBox(editorHTMLElement, this, () => {
       try {
         editorCSSClass.startWait()
-        // jQuery Ui dialogs are not in the editor.
-        for (const dialog of document.querySelectorAll('.ui-dialog')) {
-          dialog.classList.add('textae-editor--wait')
-        }
-        for (const dialog of document.querySelectorAll('.ui-widget-overlay')) {
-          dialog.classList.add('textae-editor--wait')
-        }
+        startJQueryUIDialogWait()
 
         this._rearrangeAllAnnotations()
       } catch (e) {
         console.error(e)
       } finally {
         editorCSSClass.endWait()
-        for (const dialog of document.querySelectorAll('.ui-dialog')) {
-          dialog.classList.remove('textae-editor--wait')
-        }
-        for (const dialog of document.querySelectorAll('.ui-widget-overlay')) {
-          dialog.classList.remove('textae-editor--wait')
-        }
+        endJQueryUIDialogWait()
       }
     })
     this._lineHeightAuto = new LineHeightAuto(eventEmitter, this._textBox)
