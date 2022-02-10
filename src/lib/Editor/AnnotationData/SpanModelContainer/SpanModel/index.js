@@ -142,7 +142,31 @@ export default class SpanModel {
     return this._isGridRendered
   }
 
-  renderGridElement() {
+  addEntityElementToGridElement(entityElement) {
+    this.gridElement.insertAdjacentElement('beforeend', entityElement)
+  }
+
+  updateSelfAndAncestorsGridPosition() {
+    // Do nothing.
+    // This method overrided in the DenotationSpanModel.
+  }
+
+  drawGridInSight(clientHeight, clientWidth) {
+    if (this.isDenotation || this.isBlock) {
+      if (this.isGridInViewport(clientHeight, clientWidth)) {
+        this._renderGridElement()
+        for (const entity of this.entities) {
+          entity.render()
+        }
+      }
+    }
+  }
+
+  isGridInViewport() {
+    return true
+  }
+
+  _renderGridElement() {
     if (this.isGridRendered) {
       return this.gridElement
     }
@@ -162,30 +186,6 @@ export default class SpanModel {
 
       return container.lastElementChild
     }
-  }
-
-  addEntityElementToGridElement(entityElement) {
-    this.gridElement.insertAdjacentElement('beforeend', entityElement)
-  }
-
-  updateSelfAndAncestorsGridPosition() {
-    // Do nothing.
-    // This method overrided in the DenotationSpanModel.
-  }
-
-  drawGridInSight(clientHeight, clientWidth) {
-    if (this.isDenotation || this.isBlock) {
-      if (this.isGridInViewport(clientHeight, clientWidth)) {
-        this.renderGridElement()
-        for (const entity of this.entities) {
-          entity.render()
-        }
-      }
-    }
-  }
-
-  isGridInViewport() {
-    return true
   }
 
   _createGridElement() {
