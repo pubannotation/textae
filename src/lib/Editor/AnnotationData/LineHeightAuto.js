@@ -1,4 +1,8 @@
 export default class LineHeightAuto {
+  /**
+   *
+   * @param {import('./createTextBox/TextBox').default} textBox
+   */
   constructor(eventEmitter, textBox) {
     this._textBox = textBox
     this._enable = false
