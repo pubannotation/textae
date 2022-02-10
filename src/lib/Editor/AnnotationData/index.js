@@ -107,6 +107,13 @@ export default class AnnotationData {
           this._textBox.forceUpdate()
         }
       })
+      .on('textae-event.annotation-data.entity.add', (entity) => {
+        if (entity.span.isDenotation) {
+          this._lineHeightAuto.updateLineHeight()
+          this.updatePosition()
+        }
+      })
+
       .on('textae-event.annotation-data.entity-gap.change', () =>
         this.updatePosition()
       )
