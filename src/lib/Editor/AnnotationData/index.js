@@ -234,18 +234,6 @@ export default class AnnotationData {
     }
   }
 
-  updatePositionAsync() {
-    // If you delay the recalculation of the line height,
-    // the span will move after the scrolling by the span focus.
-    // This may cause the span to move out of the display area.
-    // Calculate the line height with as little delay as possible
-    // and after rendering the entities.
-    requestAnimationFrame(() => {
-      this._lineHeightAuto.updateLineHeight()
-      this.updatePosition()
-    })
-  }
-
   drawGridsInSight() {
     const { clientHeight, clientWidth } = document.documentElement
 
