@@ -118,23 +118,25 @@ export default class RelationModel {
       this.sourceEntity.span.isGridInViewport(clientWidth, clientHeight) ||
       this.targetEntity.span.isGridInViewport(clientHeight, clientWidth)
     ) {
-      this._connection = new Connection(
-        this._editorHTMLElement,
-        this,
-        this._namespace,
-        this._definitionContainer,
-        (event, attribute) => {
-          this._eventEmitter.emit(
-            'textae-event.editor.relation.click',
-            event,
-            this,
-            attribute
-          )
-          event.stopPropagation()
-        },
-        (connection) => this._pointUpSelfAndEntities(connection),
-        () => this._pointDownSelfAndEntities()
-      )
+      if (!this._connection) {
+        this._connection = new Connection(
+          this._editorHTMLElement,
+          this,
+          this._namespace,
+          this._definitionContainer,
+          (event, attribute) => {
+            this._eventEmitter.emit(
+              'textae-event.editor.relation.click',
+              event,
+              this,
+              attribute
+            )
+            event.stopPropagation()
+          },
+          (connection) => this._pointUpSelfAndEntities(connection),
+          () => this._pointDownSelfAndEntities()
+        )
+      }
     } else {
       if (this._connection) {
         this.erase()
