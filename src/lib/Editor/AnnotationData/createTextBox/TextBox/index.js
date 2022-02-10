@@ -22,6 +22,7 @@ export default class TextBox {
     setLineHeight(this._el, val)
     updateTextBoxHeight(this._el)
     this._updateSizeOfRelationBox()
+    this._annotationData.updatePosition()
   }
 
   render(text) {
@@ -41,6 +42,7 @@ export default class TextBox {
   forceUpdate() {
     updateTextBoxHeight(this._el)
     this._updateSizeOfRelationBox()
+    this._annotationData.updatePosition()
   }
 
   _resetLineHeight() {
