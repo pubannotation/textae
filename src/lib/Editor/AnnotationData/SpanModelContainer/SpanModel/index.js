@@ -104,7 +104,7 @@ export default class SpanModel {
     } else {
       this.destroyElement()
     }
-    this.destroyGridElement()
+    this._destroyGridElement()
   }
 
   renderElement() {
@@ -201,7 +201,7 @@ export default class SpanModel {
     }
   }
 
-  destroyGridElement() {
+  _destroyGridElement() {
     if (this.isGridRendered) {
       this._isGridRendered = false
 
