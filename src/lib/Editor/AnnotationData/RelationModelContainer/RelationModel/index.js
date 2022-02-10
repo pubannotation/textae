@@ -114,10 +114,6 @@ export default class RelationModel {
   }
 
   render(clientHeight, clientWidth) {
-    if (this._connection) {
-      return
-    }
-
     if (
       this.sourceEntity.span.isGridInViewport(clientWidth, clientHeight) ||
       this.targetEntity.span.isGridInViewport(clientHeight, clientWidth)
@@ -141,6 +137,10 @@ export default class RelationModel {
       )
 
       this._connection = connection
+    } else {
+      if (this._connection) {
+        this.erase()
+      }
     }
   }
 
