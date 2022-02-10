@@ -16,7 +16,6 @@ import DefinitionContainer from './DefinitionContainer'
 import AttributeDefinitionContainer from '../AttributeDefinitionContainer'
 import getAnnotationBox from './getAnnotationBox'
 import LineHeightAuto from './LineHeightAuto'
-import { debounce } from 'debounce'
 
 export default class AnnotationData {
   constructor(editorID, editorHTMLElement, eventEmitter, editorCSSClass) {
@@ -65,13 +64,7 @@ export default class AnnotationData {
     )
 
     this._textBox = createTextBox(editorHTMLElement, this)
-
     this._lineHeightAuto = new LineHeightAuto(eventEmitter, this._textBox)
-    this.updatePositionDebounced = debounce(() => {
-      this._lineHeightAuto.updateLineHeight()
-      this.updatePosition()
-    }, 100)
-
     this.span = new SpanModelContainer(
       editorID,
       editorHTMLElement,
