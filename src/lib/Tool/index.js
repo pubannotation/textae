@@ -1,6 +1,7 @@
 import EditorContainer from './EditorContainer'
 import Veil from './Veil'
 import throttle from 'throttleit'
+import debounce from 'debounce'
 
 // The tool manages interactions between components.
 export default class Tool {
@@ -24,8 +25,12 @@ export default class Tool {
       }, 500)
     )
 
-    window.addEventListener('scroll', () =>
-      this._editorContainer.drawGridsInSight()
+    window.addEventListener(
+      'scroll',
+      debounce(() => {
+        console.log('hi')
+        this._editorContainer.drawGridsInSight()
+      }, 300)
     )
   }
 
