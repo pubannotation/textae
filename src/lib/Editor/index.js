@@ -55,7 +55,6 @@ export default class Editor {
 
   relayout() {
     this._annotationData.textBox.forceUpdate()
-    this._annotationData.updatePosition()
   }
 
   updateDenotationEntitiesWidth() {

@@ -28,13 +28,7 @@ export default class IconEventMap {
       ['cut', () => presenter.cutEntitiesToLocalClipboard()],
       ['paste', () => presenter.pasteEntitiesFromLocalClipboard()],
       ['setting', () => presenter.showSettingDialog()],
-      [
-        'line-height',
-        () => {
-          annotationData.textBox.updateLineHeight()
-          annotationData.updatePosition()
-        }
-      ]
+      ['line-height', () => annotationData.textBox.updateLineHeight()]
     ])
 
     // Set handler for push buttons.

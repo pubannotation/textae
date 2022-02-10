@@ -97,31 +97,24 @@ export default class AnnotationData {
     eventEmitter
       .on('textae-event.annotation-data.span.add', (span) => {
         if (span.isDenotation || span.isBlock) {
-          this.updatePosition()
           this._textBox.forceUpdate()
         }
       })
       .on('textae-event.annotation-data.span.remove', (span) => {
         if (span.isDenotation || span.isBlock) {
-          this.updatePosition()
           this._textBox.forceUpdate()
         }
       })
       .on('textae-event.annotation-data.entity.add', (entity) => {
         if (entity.span.isDenotation) {
           this._lineHeightAuto.updateLineHeight()
-          this.updatePosition()
         }
       })
       .on('textae-event.annotation-data.entity.remove', (entity) => {
         if (entity.span.isDenotation) {
           this._lineHeightAuto.updateLineHeight()
-          this.updatePosition()
         }
       })
-      .on('textae-event.annotation-data.entity-gap.change', () =>
-        this.updatePosition()
-      )
 
     // Bind type-definition events.
     eventEmitter
