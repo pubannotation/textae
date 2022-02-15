@@ -28,7 +28,6 @@ export default class Tool {
     window.addEventListener(
       'scroll',
       debounce(() => {
-        console.log('hi')
         this._editorContainer.drawGridsInSight()
       }, 300)
     )
