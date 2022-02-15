@@ -252,6 +252,10 @@ export default class AnnotationData {
     }
   }
 
+  relayout() {
+    this._textBox.forceUpdate()
+  }
+
   _clearAndDrawAllAnnotations() {
     getAnnotationBox(this._editorHTMLElement).innerHTML = ''
 

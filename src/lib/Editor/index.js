@@ -55,13 +55,9 @@ export default class Editor {
       'showContextMenu',
       'hideContextMenu'
     ])
-    forwardMethods(this, () => annotationData, ['drawGridsInSight'])
+    forwardMethods(this, () => annotationData, ['drawGridsInSight', 'relayout'])
 
     this._annotationData = annotationData
-  }
-
-  relayout() {
-    this._annotationData.textBox.forceUpdate()
   }
 
   updateDenotationEntitiesWidth() {
