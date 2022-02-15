@@ -65,8 +65,28 @@ export default class SpanEditor {
       ) {
         if (selectionWrapper.ancestorBlockSpanOfAnchorNode) {
           if (selectionWrapper.doesFitInOneBlockSpan) {
-            // Shrink if the selection fits into a single block span.
-            this._shrink(selectionWrapper)
+            const { anchor, focus } = selectionWrapper.positionsOnAnnotation
+
+            const spanOnAnchor = this._annotationData.span.get(
+              selectionWrapper.parentOfAnchorNode.id
+            )
+            const blockSpanOnAnchor = this._annotationData.span.get(
+              selectionWrapper.ancestorBlockSpanOfAnchorNode.id
+            )
+
+            if (anchor < focus) {
+              if (spanOnAnchor.begin === blockSpanOnAnchor.begin) {
+                this._shrink(selectionWrapper)
+              } else {
+                clearTextSelection()
+              }
+            } else {
+              if (spanOnAnchor.end === blockSpanOnAnchor.end) {
+                this._shrink(selectionWrapper)
+              } else {
+                clearTextSelection()
+              }
+            }
           } else {
             // Expand when the selection exceeds a single block span.
             this._expand(selectionWrapper)
