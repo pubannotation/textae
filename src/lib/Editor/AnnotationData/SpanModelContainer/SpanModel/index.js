@@ -221,6 +221,10 @@ export default class SpanModel {
     )
   }
 
+  /**
+   *
+   * @param {import('../../../API/Presenter/EditMode/SelectionWrapper').default} selectionWrapper
+   */
   getShotrenInAnchorNodeToFocusNodeDirection(
     spanAdjuster,
     selectionWrapper,
