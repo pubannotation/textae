@@ -233,10 +233,9 @@ export default class AnnotationData {
   }
 
   drawGridsInSight() {
-    const { clientHeight, clientWidth } = document.documentElement
-    const { top, bottom } = this._editorHTMLElement.getBoundingClientRect()
+    if (this._isInSight) {
+      const { clientHeight, clientWidth } = document.documentElement
 
-    if (0 <= bottom && top <= clientHeight) {
       for (const span of this.span.allDenotationSpans) {
         span.drawGridInSight(clientHeight, clientWidth)
       }
@@ -254,6 +253,13 @@ export default class AnnotationData {
 
   relayout() {
     this._textBox.forceUpdate()
+  }
+
+  get _isInSight() {
+    const { clientHeight } = document.documentElement
+    const { top, bottom } = this._editorHTMLElement.getBoundingClientRect()
+
+    return 0 <= bottom && top <= clientHeight
   }
 
   _clearAndDrawAllAnnotations() {
