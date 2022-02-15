@@ -252,7 +252,9 @@ export default class AnnotationData {
   }
 
   relayout() {
-    this._textBox.forceUpdate()
+    if (this._isInSight) {
+      this._textBox.forceUpdate()
+    }
   }
 
   get _isInSight() {
