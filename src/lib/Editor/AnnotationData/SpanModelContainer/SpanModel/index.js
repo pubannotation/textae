@@ -158,9 +158,9 @@ export default class SpanModel {
         for (const entity of this.entities) {
           entity.render()
         }
+      } else {
+        this._destroyGridElement()
       }
-    } else {
-      this._destroyGridElement()
     }
   }
 
