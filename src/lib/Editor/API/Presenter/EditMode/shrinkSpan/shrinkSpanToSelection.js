@@ -1,5 +1,9 @@
 import alertifyjs from 'alertifyjs'
 
+/**
+ *
+ * @param {import('../../../../AnnotationData/SpanModelContainer').default} spanModelContainer
+ */
 export default function (
   spanModelContainer,
   sourceDoc,

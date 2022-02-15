@@ -128,6 +128,10 @@ export default class SpanModelContainer {
     return false
   }
 
+  /**
+   *
+   * @returns {import('./SpanModel').default}
+   */
   get(spanID) {
     if (this._denotations.has(spanID)) {
       return this._denotations.get(spanID)
