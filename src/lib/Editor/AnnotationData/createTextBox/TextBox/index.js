@@ -55,6 +55,16 @@ export default class TextBox {
       '.textae-editor__relation-box'
     )
     relationBox.style.height = this._el.style.height
-    relationBox.style.width = window.getComputedStyle(this._el).width
+
+    // When determining the width of one editor, vertical scroll bars are not needed,
+    // and when annotations are loaded in another editor and vertical scroll bars appear,
+    // the original editor is not wide enough and horizontal scroll bars appear.
+    // Reduce the size of the relational display area to prevent horizontal scroll bars from appearing.
+    // Why not resize the editor?
+    // It is not possible to detect that a scroll bar has been displayed, so a notification is needed to change the height of the editor.
+    // The editor does not have a notification mechanism.
+    // It would be a big step to add a notification mechanism for this purpose.
+    const width = parseFloat(window.getComputedStyle(this._el).width)
+    relationBox.style.width = `${width - 10}px`
   }
 }
