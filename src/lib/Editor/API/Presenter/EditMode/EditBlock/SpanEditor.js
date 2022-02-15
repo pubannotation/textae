@@ -24,6 +24,10 @@ export default class SpanEditor {
     this._selectionModel = selectionModel
   }
 
+  /**
+   *
+   * @param {SelectionWrapper} selectionWrapper
+   */
   editFor(selectionWrapper) {
     if (selectionWrapper.isParentOfAnchorNodeTextBox) {
       if (selectionWrapper.isParentOfFocusNodeTextBox) {
