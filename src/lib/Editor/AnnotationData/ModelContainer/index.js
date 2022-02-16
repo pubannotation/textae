@@ -33,6 +33,10 @@ export default class ModelContainer {
     return Array.from(this._container.values())
   }
 
+  get selectedItems() {
+    return this.all.filter(({ isSelected }) => isSelected)
+  }
+
   findByType(typeName) {
     return this.all.filter((model) => model.typeName === typeName)
   }

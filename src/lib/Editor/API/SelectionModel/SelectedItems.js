@@ -34,7 +34,7 @@ export default class SelectedItems {
   }
 
   contains(predicate) {
-    for (const v of this._selected.values()) {
+    for (const v of this._annotationData[this._kindName].selectedItems) {
       if (predicate(v)) {
         return true
       }
@@ -44,7 +44,7 @@ export default class SelectedItems {
   }
 
   get all() {
-    return Array.from(this._selected.values())
+    return this._annotationData[this._kindName].selectedItems
   }
 
   get size() {

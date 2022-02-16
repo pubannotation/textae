@@ -320,6 +320,12 @@ export default class SpanModelContainer {
       .concat(styleOnlySpans)
   }
 
+  get selectedItems() {
+    return [...this._blocks.values()]
+      .concat([...this._denotations.values()])
+      .filter(({ isSelected }) => isSelected)
+  }
+
   get allDenotationSpans() {
     return [...this._denotations.values()]
   }
