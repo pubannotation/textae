@@ -2,15 +2,10 @@ export default class SelectedItems {
   constructor(emitter, kindName, annotationData) {
     this._emitter = emitter
     this._kindName = kindName
-    this._selected = new Map()
     this._annotationData = annotationData
   }
 
   add(id) {
-    if (this._selected.has(id)) {
-      return
-    }
-
     const modelInstance = this._annotationData[this._kindName].get(id)
 
     console.assert(
@@ -18,7 +13,10 @@ export default class SelectedItems {
       `${id} is not a instance of ${this._kindName}.`
     )
 
-    this._selected.set(id, modelInstance)
+    if (modelInstance.isSelected) {
+      return
+    }
+
     modelInstance.select()
     this._triggerChange()
   }
@@ -81,7 +79,6 @@ export default class SelectedItems {
   remove(id) {
     if (this.has(id)) {
       this._annotationData[this._kindName].get(id).deselect()
-      this._selected.delete(id)
       this._triggerChange()
     }
   }
@@ -95,15 +92,12 @@ export default class SelectedItems {
 
     for (const instance of this.all) {
       instance.deselect()
-      this._selected.delete(instance.id)
     }
 
     this._triggerChange()
   }
 
-  clear() {
-    this._selected.clear()
-  }
+  clear() {}
 
   _triggerChange() {
     this._emitter.emit(`textae-event.selection.${this._kindName}.change`)
