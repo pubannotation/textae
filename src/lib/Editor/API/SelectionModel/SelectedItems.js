@@ -3,10 +3,11 @@ export default class SelectedItems {
     this._emitter = emitter
     this._kindName = kindName
     this._annotationData = annotationData
+    this._modelContainer = annotationData[kindName]
   }
 
   add(id) {
-    const modelInstance = this._annotationData[this._kindName].get(id)
+    const modelInstance = this._modelContainer.get(id)
 
     console.assert(
       modelInstance,
@@ -22,7 +23,7 @@ export default class SelectedItems {
   }
 
   has(id) {
-    const modelInstance = this._annotationData[this._kindName].get(id)
+    const modelInstance = this._modelContainer.get(id)
 
     if (modelInstance) {
       return modelInstance.isSelected
@@ -32,7 +33,7 @@ export default class SelectedItems {
   }
 
   contains(predicate) {
-    for (const v of this._annotationData[this._kindName].selectedItems) {
+    for (const v of this._modelContainer.selectedItems) {
       if (predicate(v)) {
         return true
       }
@@ -42,11 +43,11 @@ export default class SelectedItems {
   }
 
   get all() {
-    return this._annotationData[this._kindName].selectedItems
+    return this._modelContainer.selectedItems
   }
 
   get size() {
-    return this._annotationData[this._kindName].selectedItems.length
+    return this._modelContainer.selectedItems.length
   }
 
   get some() {
@@ -63,9 +64,7 @@ export default class SelectedItems {
   }
 
   get single() {
-    return this.size === 1
-      ? this._annotationData[this._kindName].selectedItems[0]
-      : null
+    return this.size === 1 ? this._modelContainer.selectedItems[0] : null
   }
 
   toggle(id) {
@@ -78,7 +77,7 @@ export default class SelectedItems {
 
   remove(id) {
     if (this.has(id)) {
-      this._annotationData[this._kindName].get(id).deselect()
+      this._modelContainer.get(id).deselect()
       this.triggerChange()
     }
   }
