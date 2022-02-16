@@ -48,7 +48,7 @@ export default class SelectedItems {
   }
 
   get size() {
-    return this._selected.size
+    return this._annotationData[this._kindName].selectedItems.length
   }
 
   get some() {
@@ -56,21 +56,22 @@ export default class SelectedItems {
   }
 
   get singleId() {
-    return this._selected.size === 1 ? this._selected.keys().next().value : null
-  }
-
-  get single() {
-    const id = this.singleId
-
-    if (id) {
-      return this._selected.get(id)
+    const instance = this.single
+    if (instance) {
+      return instance.id
     }
 
     return null
   }
 
+  get single() {
+    return this.size === 1
+      ? this._annotationData[this._kindName].selectedItems[0]
+      : null
+  }
+
   toggle(id) {
-    if (this._selected.has(id)) {
+    if (this.has(id)) {
       this.remove(id)
     } else {
       this.add(id)
@@ -78,7 +79,7 @@ export default class SelectedItems {
   }
 
   remove(id) {
-    if (this._selected.has(id)) {
+    if (this.has(id)) {
       this._selected.get(id).deselect()
       this._selected.delete(id)
       this._triggerChange()
