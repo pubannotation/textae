@@ -80,7 +80,7 @@ export default class SelectedItems {
 
   remove(id) {
     if (this.has(id)) {
-      this._selected.get(id).deselect()
+      this._annotationData[this._kindName].get(id).deselect()
       this._selected.delete(id)
       this._triggerChange()
     }
@@ -91,11 +91,11 @@ export default class SelectedItems {
   }
 
   removeAll() {
-    if (this._selected.size === 0) return
+    if (this.size === 0) return
 
-    for (const [id] of this._selected) {
-      this._selected.get(id).deselect()
-      this._selected.delete(id)
+    for (const instance of this.all) {
+      instance.deselect()
+      this._selected.delete(instance.id)
     }
 
     this._triggerChange()
