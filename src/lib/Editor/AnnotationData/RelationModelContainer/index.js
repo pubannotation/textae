@@ -43,7 +43,8 @@ export default class RelationModelContainer extends IdIssueContainer {
             this._namespace,
             this._definitionContainer
           )
-    newValue.render()
+    const { clientHeight, clientWidth } = document.documentElement
+    newValue.render(clientHeight, clientWidth)
     return super.add(newValue)
   }
 
