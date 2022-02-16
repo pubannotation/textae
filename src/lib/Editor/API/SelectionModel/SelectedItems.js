@@ -18,7 +18,7 @@ export default class SelectedItems {
     }
 
     modelInstance.select()
-    this._triggerChange()
+    this.triggerChange()
   }
 
   has(id) {
@@ -79,7 +79,7 @@ export default class SelectedItems {
   remove(id) {
     if (this.has(id)) {
       this._annotationData[this._kindName].get(id).deselect()
-      this._triggerChange()
+      this.triggerChange()
     }
   }
 
@@ -94,14 +94,10 @@ export default class SelectedItems {
       instance.deselect()
     }
 
-    this._triggerChange()
+    this.triggerChange()
   }
 
-  clear() {
-    this._triggerChange()
-  }
-
-  _triggerChange() {
+  triggerChange() {
     this._emitter.emit(`textae-event.selection.${this._kindName}.change`)
   }
 }

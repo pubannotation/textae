@@ -31,9 +31,9 @@ export default class SelectionModel {
       .on('textae-event.annotation-data.all.change', () => {
         // When the annotations are reset, the view will remove all HTML elements.
         // The selection model will release the selection instance without any manipulation.
-        this.span.clear()
-        this.entity.clear()
-        this.relation.clear()
+        this.span.triggerChange()
+        this.entity.triggerChange()
+        this.relation.triggerChange()
       })
   }
 
