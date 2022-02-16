@@ -24,7 +24,13 @@ export default class SelectedItems {
   }
 
   has(id) {
-    return this._selected.has(id)
+    const modelInstance = this._annotationData[this._kindName].get(id)
+
+    if (modelInstance) {
+      return modelInstance.isSelected
+    }
+
+    return false
   }
 
   contains(predicate) {
