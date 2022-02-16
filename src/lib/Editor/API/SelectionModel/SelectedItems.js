@@ -2,7 +2,6 @@ export default class SelectedItems {
   constructor(emitter, kindName, annotationData) {
     this._emitter = emitter
     this._kindName = kindName
-    this._annotationData = annotationData
     this._modelContainer = annotationData[kindName]
   }
 
