@@ -97,7 +97,9 @@ export default class SelectedItems {
     this._triggerChange()
   }
 
-  clear() {}
+  clear() {
+    this._triggerChange()
+  }
 
   _triggerChange() {
     this._emitter.emit(`textae-event.selection.${this._kindName}.change`)
