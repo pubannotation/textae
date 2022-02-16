@@ -14,6 +14,7 @@ export default class SpanModel {
     this._end = end
     this._spanModelContainer = spanModelContainer
     this._isGridRendered = false
+    this._isSelected = false
 
     this.severTies()
   }
@@ -140,6 +141,18 @@ export default class SpanModel {
 
   get isGridRendered() {
     return this._isGridRendered
+  }
+
+  get isSelected() {
+    return this._selected
+  }
+
+  select() {
+    this._selected = true
+  }
+
+  deselect() {
+    this._selected = false
   }
 
   addEntityElementToGridElement(entityElement) {
