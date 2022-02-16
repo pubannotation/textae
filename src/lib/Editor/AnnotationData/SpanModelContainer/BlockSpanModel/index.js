@@ -43,6 +43,8 @@ export default class BlockSpanModel extends SpanModel {
   }
 
   select() {
+    super.select()
+
     const el = super.element
     el.classList.add(SELECTED)
 
@@ -53,6 +55,8 @@ export default class BlockSpanModel extends SpanModel {
   }
 
   deselect() {
+    super.deselect()
+
     const el = super.element
 
     // A dom does not exist when it is deleted.

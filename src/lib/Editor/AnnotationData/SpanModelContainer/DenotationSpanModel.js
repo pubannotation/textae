@@ -95,6 +95,8 @@ export default class DenotationSpanModel extends SpanModel {
   }
 
   select() {
+    super.select()
+
     const el = super.element
     el.classList.add(SELECTED)
 
@@ -107,6 +109,8 @@ export default class DenotationSpanModel extends SpanModel {
   }
 
   deselect() {
+    super.deselect()
+
     const el = super.element
 
     // A dom does not exist when it is deleted.
