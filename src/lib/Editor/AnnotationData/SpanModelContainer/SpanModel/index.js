@@ -170,15 +170,13 @@ export default class SpanModel {
   }
 
   drawGrid(clientHeight, clientWidth) {
-    if (this.isDenotation || this.isBlock) {
-      if (this.isGridInViewport(clientHeight, clientWidth)) {
-        this._renderGridElement()
-        for (const entity of this.entities) {
-          entity.render()
-        }
-      } else {
-        this._destroyGridElement()
+    if (this.isGridInViewport(clientHeight, clientWidth)) {
+      this._renderGridElement()
+      for (const entity of this.entities) {
+        entity.render()
       }
+    } else {
+      this._destroyGridElement()
     }
   }
 
