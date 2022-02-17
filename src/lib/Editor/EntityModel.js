@@ -240,6 +240,12 @@ export default class EntityModel {
           relation.redrawLineConsideringSelection()
         }
       }
+
+      // When scrolling out of a selected entity and then scrolling in again,
+      // the selected state will be highlighted.
+      if (this._isSelected) {
+        this._signboard.select()
+      }
     }
   }
 
