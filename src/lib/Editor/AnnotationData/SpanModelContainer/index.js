@@ -79,8 +79,9 @@ export default class SpanModelContainer {
     }
   }
 
-  // It is assumed that the denotations or typesettings
-  // in the annotation file will be passed.
+  // Does not draw the instance.
+  // When loading for the first time, all instances will be loaded at once.
+  // The drawing of the instance is performed at a different time.
   addSource(source, type) {
     for (const element of source) {
       this._addInstanceFromElement(type, element)
