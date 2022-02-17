@@ -136,6 +136,10 @@ export default class RelationModel {
           (connection) => this._pointUpSelfAndEntities(connection),
           () => this._pointDownSelfAndEntities()
         )
+
+        // When scrolling out of a selected relation and then scrolling in again,
+        // the selected state will be highlighted.
+        this._connection.updateLabelHighlighting()
       }
     } else {
       if (this._connection) {
