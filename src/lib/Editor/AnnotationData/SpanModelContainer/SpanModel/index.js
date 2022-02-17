@@ -164,7 +164,7 @@ export default class SpanModel {
     // This method overrided in the DenotationSpanModel.
   }
 
-  drawGridInSight(clientHeight, clientWidth) {
+  drawGrid(clientHeight, clientWidth) {
     if (this.isDenotation || this.isBlock) {
       if (this.isGridInViewport(clientHeight, clientWidth)) {
         this._renderGridElement()

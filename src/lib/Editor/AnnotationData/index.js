@@ -237,11 +237,11 @@ export default class AnnotationData {
       const { clientHeight, clientWidth } = document.documentElement
 
       for (const span of this.span.allDenotationSpans) {
-        span.drawGridInSight(clientHeight, clientWidth)
+        span.drawGrid(clientHeight, clientWidth)
       }
 
       for (const span of this.span.allBlockSpans) {
-        span.drawGridInSight(clientHeight, clientWidth)
+        span.drawGrid(clientHeight, clientWidth)
         span.updateBackgroundPosition()
       }
 
@@ -276,11 +276,11 @@ export default class AnnotationData {
     const { clientHeight, clientWidth } = document.documentElement
 
     for (const span of this.span.allDenotationSpans) {
-      span.drawGridInSight(clientHeight, clientWidth)
+      span.drawGrid(clientHeight, clientWidth)
     }
 
     for (const span of this.span.allBlockSpans) {
-      span.drawGridInSight(clientHeight, clientWidth)
+      span.drawGrid(clientHeight, clientWidth)
     }
 
     // Reflects the addition and deletion of line breaks by span.
