@@ -147,41 +147,20 @@ export default class DenotationSpanModel extends SpanModel {
     }
   }
 
-  isGridInDrawArea(clientHeight, clientWidth) {
-    if (this._isGridInDrawArea(clientHeight, clientWidth)) {
-      return true
-    }
-
-    const entityWhichPairInViewport = this.entities.find(({ relations }) =>
-      relations.some(
-        (relation) =>
-          (relation.sourceEntity.span != this &&
-            relation.sourceEntity.span._isGridInDrawArea(
-              clientHeight,
-              clientWidth
-            )) ||
-          (relation.targetEntity.span != this &&
-            relation.targetEntity.span._isGridInDrawArea(
-              clientHeight,
-              clientWidth
-            ))
-      )
-    )
-    if (entityWhichPairInViewport) {
-      // console.log(entityWhichPairInViewport.id, this.id)
-      return true
-    }
-
-    return false
+  isGridInViewport(clientHeight, clientWidth) {
+    return this._isGridInDrawArea(clientHeight, clientWidth, 0)
   }
 
-  _isGridInDrawArea(clientHeight, clientWidth) {
+  isGridInDrawArea(clientHeight, clientWidth) {
+    return this._isGridInDrawArea(clientHeight, clientWidth, clientHeight)
+  }
+
+  _isGridInDrawArea(clientHeight, clientWidth, margin) {
     const { top, left } = this.element.getBoundingClientRect()
     const gridHeightIncludeDescendantGrids =
       getGridHeightIncludeDescendantGrids(this)
     const gridBottom = top - gridHeightIncludeDescendantGrids + this.gridHeight
     const gridTop = top - gridHeightIncludeDescendantGrids
-    const margin = clientHeight
 
     return (
       0 - margin <= gridBottom &&
