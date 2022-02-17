@@ -147,8 +147,8 @@ export default class DenotationSpanModel extends SpanModel {
     }
   }
 
-  isGridInViewport(clientHeight, clientWidth) {
-    if (this._isGridInViewport(clientHeight, clientWidth)) {
+  isGridInDrawArea(clientHeight, clientWidth) {
+    if (this._isGridInDrawArea(clientHeight, clientWidth)) {
       return true
     }
 
@@ -156,12 +156,12 @@ export default class DenotationSpanModel extends SpanModel {
       relations.some(
         (relation) =>
           (relation.sourceEntity.span != this &&
-            relation.sourceEntity.span._isGridInViewport(
+            relation.sourceEntity.span._isGridInDrawArea(
               clientHeight,
               clientWidth
             )) ||
           (relation.targetEntity.span != this &&
-            relation.targetEntity.span._isGridInViewport(
+            relation.targetEntity.span._isGridInDrawArea(
               clientHeight,
               clientWidth
             ))
@@ -175,7 +175,7 @@ export default class DenotationSpanModel extends SpanModel {
     return false
   }
 
-  _isGridInViewport(clientHeight, clientWidth) {
+  _isGridInDrawArea(clientHeight, clientWidth) {
     const { top, left } = this.element.getBoundingClientRect()
     const gridBottom = top
     const gridTop = gridBottom - getGridHeightIncludeDescendantGrids(this)

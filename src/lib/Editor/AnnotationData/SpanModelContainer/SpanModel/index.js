@@ -170,7 +170,7 @@ export default class SpanModel {
   }
 
   drawGrid(clientHeight, clientWidth) {
-    if (this.isGridInViewport(clientHeight, clientWidth)) {
+    if (this.isGridInDrawArea(clientHeight, clientWidth)) {
       this._renderGridElement()
       for (const entity of this.entities) {
         entity.render()
@@ -180,9 +180,9 @@ export default class SpanModel {
     }
   }
 
-  isGridInViewport() {
+  isGridInDrawArea() {
     throw new Error(
-      'SpanModel.isGridInViewport should be implemented in a subclass.'
+      'SpanModel.isGridInDrawArea should be implemented in a subclass.'
     )
   }
 
