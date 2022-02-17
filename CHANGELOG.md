@@ -2,6 +2,33 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.10.0](https://github.com/pubannotation/textae/compare/v8.9.0...v8.10.0) (2022-02-17)
+
+
+### Features
+
+* Change reduce event from debounce to throttle so that drawing doesn't look laggy ([5c1935b](https://github.com/pubannotation/textae/commit/5c1935b9a264eded8def8f8a520039cb4d94f235))
+* Draw the denotation entity if the entity on the other side of the relation is in the display area ([51feaa1](https://github.com/pubannotation/textae/commit/51feaa144611ac81cc87fdc2eb70c8bb5872bf54))
+* Erase entities out side the drawing area ([14f1471](https://github.com/pubannotation/textae/commit/14f1471ab97e6d1be7315cf346f680577ec97530))
+* Erase relations out side the drawing area ([6656e17](https://github.com/pubannotation/textae/commit/6656e178b2fe9304ccc491e2a458bb0c2ae6233d))
+* Redraw only the visible editor ([81084a1](https://github.com/pubannotation/textae/commit/81084a11bbff2df15a453c64c29a1393d4cee408))
+* Relayout elements when resizeing only in the visible editor ([f082c03](https://github.com/pubannotation/textae/commit/f082c03303a545d26a75e65bb99471184b799064))
+* To make the display of entities smoother, entities in the same range above and below the display area are also drawn ([1e3e4e1](https://github.com/pubannotation/textae/commit/1e3e4e18a5ec2fb661a8b49473e835e60a5b2e09))
+
+
+### Bug Fixes
+
+* Auto Adujt Line Hight dose not work when add new dennotation span ([ab5911b](https://github.com/pubannotation/textae/commit/ab5911be627c26cb3c36651b9765c3d75385ad7a))
+* Auto Adujt Line Hight dose not work when remove dennotation spans ([676896d](https://github.com/pubannotation/textae/commit/676896d7ccea58285cb48a1611b5781397954bbe))
+* Deleting a relation and undoing it will not draw it ([346cb9b](https://github.com/pubannotation/textae/commit/346cb9b4875ba24fabbef4dfa37012195a72a185))
+* Entities that are outside the display area are not deleted ([3c5efac](https://github.com/pubannotation/textae/commit/3c5efac5ce60a6c07b8aabdef135d00b41a6ada8))
+* Scrolling out of the selected entity and then scrolling in again will remove the highlighting of the selected state ([6228af3](https://github.com/pubannotation/textae/commit/6228af383fa224cf4fa5ad400b62c6e8353b444b))
+* Scrolling out of the selected relation and then scrolling in again will remove the highlighting of the selected state ([a1f89da](https://github.com/pubannotation/textae/commit/a1f89dab36867327d773c9d191118f9caea95e53))
+* Selecting a string in a denotation span or style span that is not at the end of the block span will shrink the block span ([66e2124](https://github.com/pubannotation/textae/commit/66e212432c8677384ee8ee35331b9876e46e8130))
+* The same relation is drawn again and again with each scroll ([ff95c58](https://github.com/pubannotation/textae/commit/ff95c58817164a455e7eb39207ebf8f491747230))
+* The status of the Edit and Delete buttons on the toolbar is not reset when the element is selected and the annotation is reread ([05af614](https://github.com/pubannotation/textae/commit/05af6141bd590a64e41c7f3582a24e7f73315a75))
+* When determining the width of one editor, vertical scroll bars are not needed, and when annotations are loaded in another editor and vertical scroll bars appear, the original editor is not wide enough and horizontal scroll bars appear. ([df80448](https://github.com/pubannotation/textae/commit/df804483b2d391ef56f86f0d9e3a30134085aecc))
+
 ## [8.9.0](https://github.com/pubannotation/textae/compare/v8.8.0...v8.9.0) (2022-02-10)
 
 
