@@ -179,10 +179,11 @@ export default class DenotationSpanModel extends SpanModel {
     const { top, left } = this.element.getBoundingClientRect()
     const gridBottom = top
     const gridTop = gridBottom - getGridHeightIncludeDescendantGrids(this)
+    const margin = clientHeight
 
     return (
-      0 - clientHeight <= gridBottom &&
-      gridTop <= clientHeight * 2 &&
+      0 - margin <= gridBottom &&
+      gridTop <= clientHeight + margin &&
       left <= clientWidth
     )
   }
