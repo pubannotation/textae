@@ -181,7 +181,9 @@ export default class SpanModel {
   }
 
   isGridInViewport() {
-    return true
+    throw new Error(
+      'SpanModel.isGridInViewport should be implemented in a subclass.'
+    )
   }
 
   _renderGridElement() {
