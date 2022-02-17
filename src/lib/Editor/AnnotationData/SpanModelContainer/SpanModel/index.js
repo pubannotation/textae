@@ -94,6 +94,11 @@ export default class SpanModel {
       }
     })
 
+    // Reflow occurs when acquiring the position information of the span to draw the grid.
+    // If the span drawing and grid drawing are repeated at the first display,
+    // the reflow effect will slow down the process.
+    // Here, only the span will be drawn,
+    // and the grid drawing will be done at another time.
     this.traverse((span) => span.renderElement())
   }
 
