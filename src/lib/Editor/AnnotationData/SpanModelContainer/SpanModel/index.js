@@ -209,16 +209,17 @@ export default class SpanModel {
   }
 
   _createGridElement() {
-    const { widthOfGrid } = this
-    const { top, left } = this.gridRelativeRectangle
-    const html = createGridHtml(this.id, top, left, widthOfGrid)
+    const { topOfGrid, widthOfGrid } = this
+    const { left } = this.gridRelativeRectangle
+    const html = createGridHtml(this.id, topOfGrid, left, widthOfGrid)
     return dohtml.create(html)
   }
 
   updateGridPosition() {
     if (this.isGridRendered) {
-      const { top, left } = this.gridRelativeRectangle
-      updateGridPosition(this.gridElement, top, left)
+      const { topOfGrid } = this
+      const { left } = this.gridRelativeRectangle
+      updateGridPosition(this.gridElement, topOfGrid, left)
     }
   }
 
