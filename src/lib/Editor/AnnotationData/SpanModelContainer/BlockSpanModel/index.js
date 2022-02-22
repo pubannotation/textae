@@ -72,7 +72,12 @@ export default class BlockSpanModel extends SpanModel {
   updateBackgroundPosition() {
     if (this.isGridRendered) {
       const height = this._height
-      const { left, width } = this._reactOfBackground
+      const left =
+        this.element.getBoundingClientRect().left -
+        this._textBox.boundingClientRect.left -
+        gapBetweenText
+      const width = this.element.getBoundingClientRect().width + gapBetweenText
+
       setPosition(this._backgroundElement, this._top, left, width, height)
 
       // The div height cannot be obtained at grid rendering time,
@@ -159,16 +164,6 @@ export default class BlockSpanModel extends SpanModel {
     return this._shiftUpGrid(
       rectOfSpan.top - this._textBox.boundingClientRect.top
     )
-  }
-
-  get _reactOfBackground() {
-    const rectOfSpan = this.element.getBoundingClientRect()
-    const textBox = this._textBox
-
-    return {
-      left: rectOfSpan.left - textBox.boundingClientRect.left - gapBetweenText,
-      width: this.element.getBoundingClientRect().width + gapBetweenText
-    }
   }
 
   get _backgroundId() {
