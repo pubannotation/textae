@@ -89,7 +89,7 @@ export default class DenotationSpanModel extends SpanModel {
 
   updateDenotationEntitiesWidth() {
     if (this.isGridRendered) {
-      const { width } = this.gridRectangle
+      const { width } = this.gridRelativeRectangle
       this.gridElement.style.width = `${width}px`
     }
   }
@@ -135,7 +135,7 @@ export default class DenotationSpanModel extends SpanModel {
     `
   }
 
-  get gridRectangle() {
+  get gridRelativeRectangle() {
     console.assert(this.element, 'span is not renderd')
     const { top, left, width } = this.rectangle
 

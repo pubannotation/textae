@@ -141,7 +141,7 @@ export default class EntityModel {
 
     // Calculates the top without referencing the HTML element of entities.
     if (span.isDenotation) {
-      let { top } = span.gridRectangle
+      let { top } = span.gridRelativeRectangle
 
       top = top + this._typeGap.height
 
@@ -156,7 +156,9 @@ export default class EntityModel {
     if (span.isBlock) {
       const paddingBottomOfGridOfBlockSpan = 15
       return (
-        span.gridRectangle.bottom - this.height - paddingBottomOfGridOfBlockSpan
+        span.gridRelativeRectangle.bottom -
+        this.height -
+        paddingBottomOfGridOfBlockSpan
       )
     }
 
@@ -168,7 +170,7 @@ export default class EntityModel {
   }
 
   get width() {
-    return this.span.gridRectangle.width
+    return this.span.gridRelativeRectangle.width
   }
 
   get height() {
@@ -178,7 +180,7 @@ export default class EntityModel {
   }
 
   get center() {
-    return this.span.gridRectangle.center
+    return this.span.gridRelativeRectangle.center
   }
 
   get isDenotation() {
