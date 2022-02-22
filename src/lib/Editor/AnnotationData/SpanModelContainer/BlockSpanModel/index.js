@@ -71,12 +71,13 @@ export default class BlockSpanModel extends SpanModel {
 
   updateBackgroundPosition() {
     if (this.isGridRendered) {
-      const { top, left, width, height } = this._reactOfBackground
+      const height = this._height
+      const { top, left, width } = this._reactOfBackground
       setPosition(this._backgroundElement, top, left, width, height)
 
       // The div height cannot be obtained at grid rendering time,
       // so set it at move.
-      this.gridElement.style.height = `${this._height}px`
+      this.gridElement.style.height = `${height}px`
     }
   }
 
