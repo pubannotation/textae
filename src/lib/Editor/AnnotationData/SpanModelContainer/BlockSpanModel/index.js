@@ -166,6 +166,10 @@ export default class BlockSpanModel extends SpanModel {
     return this._shiftUpGrid(this.element.getBoundingClientRect().top)
   }
 
+  get _clientBottom() {
+    return this._shiftUpGrid(this.element.getBoundingClientRect().bottom)
+  }
+
   get _backgroundId() {
     return `bg_of_${this.id}`
   }
@@ -175,9 +179,8 @@ export default class BlockSpanModel extends SpanModel {
   }
 
   _isGridInViewPort(clientHeight, margin) {
-    const { bottom } = this.element.getBoundingClientRect()
     return (
-      0 - margin <= this._shiftUpGrid(bottom) &&
+      0 - margin <= this._clientBottom &&
       this._clientTop <= clientHeight + margin
     )
   }
