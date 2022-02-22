@@ -55,7 +55,6 @@ export default class DenotationSpanModel extends SpanModel {
     const left = rectOfSpan.left - rectOfTextBox.left
 
     return {
-      top: rectOfSpan.top - rectOfTextBox.top,
       left
     }
   }
