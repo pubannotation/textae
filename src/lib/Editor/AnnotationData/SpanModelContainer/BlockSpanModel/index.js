@@ -76,7 +76,7 @@ export default class BlockSpanModel extends SpanModel {
 
       // The div height cannot be obtained at grid rendering time,
       // so set it at move.
-      this.gridElement.style.height = `${this._rectangle.height}px`
+      this.gridElement.style.height = `${this._height}px`
     }
   }
 
@@ -171,6 +171,10 @@ export default class BlockSpanModel extends SpanModel {
 
   get _backgroundElement() {
     return document.querySelector(`#${this._backgroundId}`)
+  }
+
+  get _height() {
+    return this.element.getBoundingClientRect().height
   }
 
   get _rectangle() {
