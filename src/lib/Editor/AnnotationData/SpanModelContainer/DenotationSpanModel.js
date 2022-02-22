@@ -61,20 +61,24 @@ export default class DenotationSpanModel extends SpanModel {
   }
 
   get width() {
-    const rectOfSpan = this.element.getBoundingClientRect()
-    const rectOfTextBox =
-      this.element.offsetParent.offsetParent.getBoundingClientRect()
-    const left = rectOfSpan.left - rectOfTextBox.left
+    if (isTouchable) {
+      const rectOfSpan = this.element.getBoundingClientRect()
+      const rectOfTextBox =
+        this.element.offsetParent.offsetParent.getBoundingClientRect()
+      const left = rectOfSpan.left - rectOfTextBox.left
 
-    // To fix the position of the toolbar, we use position: sticky.
-    // On Android chrome, if an element is drawn at a position that is out of the device width,
-    // the sticky position will be shifted upward by the width of the overhang.
-    // To prevent this, the grid is not drawn outside the text box.
-    const width = isTouchable()
-      ? Math.min(rectOfSpan.width, rectOfTextBox.width - left)
-      : rectOfSpan.width
+      // To fix the position of the toolbar, we use position: sticky.
+      // On Android chrome, if an element is drawn at a position that is out of the device width,
+      // the sticky position will be shifted upward by the width of the overhang.
+      // To prevent this, the grid is not drawn outside the text box.
+      const width = Math.min(rectOfSpan.width, rectOfTextBox.width - left)
 
-    return round(width)
+      return round(width)
+    } else {
+      const { width } = this.element.getBoundingClientRect()
+
+      return round(width)
+    }
   }
 
   get isDenotation() {
