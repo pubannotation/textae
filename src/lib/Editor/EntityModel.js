@@ -141,9 +141,7 @@ export default class EntityModel {
 
     // Calculates the top without referencing the HTML element of entities.
     if (span.isDenotation) {
-      const { topOfGrid } = span
-
-      let top = topOfGrid + this._typeGap.height
+      let top = span.topOfGrid + this._typeGap.height
 
       for (const entity of span.entities) {
         if (entity === this) {
