@@ -72,11 +72,11 @@ export default class BlockSpanModel extends SpanModel {
   updateBackgroundPosition() {
     if (this.isGridRendered) {
       const height = this._height
+
+      const clientRect = this.element.getBoundingClientRect()
       const left =
-        this.element.getBoundingClientRect().left -
-        this._textBox.boundingClientRect.left -
-        gapBetweenText
-      const width = this.element.getBoundingClientRect().width + gapBetweenText
+        clientRect.left - this._textBox.boundingClientRect.left - gapBetweenText
+      const width = clientRect.width + gapBetweenText
 
       setPosition(this._backgroundElement, this._top, left, width, height)
 
