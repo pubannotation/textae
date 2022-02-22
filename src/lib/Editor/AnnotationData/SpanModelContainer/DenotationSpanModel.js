@@ -89,8 +89,8 @@ export default class DenotationSpanModel extends SpanModel {
 
   updateDenotationEntitiesWidth() {
     if (this.isGridRendered) {
-      const { width } = this.gridRelativeRectangle
-      this.gridElement.style.width = `${width}px`
+      const { width } = this.rectangle
+      this.gridElement.style.width = `${round(width)}px`
     }
   }
 
