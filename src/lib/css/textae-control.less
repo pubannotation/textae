@@ -176,13 +176,8 @@
 /* control bar */
 .textae-control-bar,
 .textae-touch-bar {
-  background: linear-gradient(to right, #bbbbee, #ffffff);
-  border-left: 5px solid #558;
-  border-radius: 15px;
-  border-right: 5px solid #558;
-  box-shadow: 6px 6px 6px 6px rgba(0, 0, 0, 0.4);
-  margin-left: 2px;
-  padding: 0 20px 5px 10px;
+  background-color: #ddf;
+  padding: 2px 10px 5px 10px;
   position: sticky;
   top: 0;
   z-index: 8;
@@ -202,7 +197,7 @@
   }
 }
 .textae-control-bar {
-  max-width: 763px;
+  display: flex;
 
   .textae-control-separator {
     height: 16px;
@@ -214,9 +209,9 @@
   }
 }
 .textae-touch-bar {
-  max-width: 752px;
-
   @media screen and (max-width: 768px) {
+    left: 1px;
+    max-width: 752px;
     position: absolute;
     width: 100%;
   }
