@@ -129,9 +129,7 @@ export default class DenotationSpanModel extends SpanModel {
 
       return round(width)
     } else {
-      const { width } = this.element.getBoundingClientRect()
-
-      return round(width)
+      return round(this.element.getBoundingClientRect().width)
     }
   }
 
