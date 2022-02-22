@@ -114,18 +114,6 @@ export default class DenotationSpanModel extends SpanModel {
     return getGridHeightIncludeDescendantGrids(this) + TEXT_HEIGHT + MARGIN_TOP
   }
 
-  get _contentHTML() {
-    return `
-      <span
-        id="${this.id}"
-        title="${this.title}"
-        tabindex="0"
-        class="${['textae-editor__span'].concat(this._styleClasses).join(' ')}"
-        >
-      </span>
-    `
-  }
-
   get widthOfGrid() {
     if (isTouchable) {
       const rectOfSpan = this.element.getBoundingClientRect()
@@ -184,5 +172,17 @@ export default class DenotationSpanModel extends SpanModel {
       gridTop <= clientHeight + margin &&
       left <= clientWidth
     )
+  }
+
+  get _contentHTML() {
+    return `
+      <span
+        id="${this.id}"
+        title="${this.title}"
+        tabindex="0"
+        class="${['textae-editor__span'].concat(this._styleClasses).join(' ')}"
+        >
+      </span>
+    `
   }
 }

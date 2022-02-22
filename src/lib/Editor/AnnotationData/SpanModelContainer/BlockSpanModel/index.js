@@ -98,18 +98,6 @@ export default class BlockSpanModel extends SpanModel {
     return super.gridHeight + 35
   }
 
-  get _contentHTML() {
-    return `<div id="${this.id}" class="textae-editor__block"></div>`
-  }
-
-  _createGridElement() {
-    const el = super._createGridElement()
-    el.classList.add('textae-editor__block-hit-area')
-    el.dataset.id = this.id
-    el.title = this.title
-    return el
-  }
-
   get widthOfGrid() {
     return 100
   }
@@ -148,6 +136,14 @@ export default class BlockSpanModel extends SpanModel {
 
   set entityToFocusOn(val) {
     this._entityToFocusOn = val
+  }
+
+  isGridInViewport(clientHeight) {
+    return this._isGridInViewPort(clientHeight, 0)
+  }
+
+  isGridInDrawArea(clientHeight) {
+    return this._isGridInViewPort(clientHeight, clientHeight)
   }
 
   get _reactOfBackground() {
@@ -190,14 +186,6 @@ export default class BlockSpanModel extends SpanModel {
     }
   }
 
-  isGridInViewport(clientHeight) {
-    return this._isGridInViewPort(clientHeight, 0)
-  }
-
-  isGridInDrawArea(clientHeight) {
-    return this._isGridInViewPort(clientHeight, clientHeight)
-  }
-
   _isGridInViewPort(clientHeight, margin) {
     const { top, bottom } = this.element.getBoundingClientRect()
     return (
@@ -208,5 +196,17 @@ export default class BlockSpanModel extends SpanModel {
 
   _shiftUpGrid(y) {
     return y - this._textBox.lineHeight / 2 + 20
+  }
+
+  get _contentHTML() {
+    return `<div id="${this.id}" class="textae-editor__block"></div>`
+  }
+
+  _createGridElement() {
+    const el = super._createGridElement()
+    el.classList.add('textae-editor__block-hit-area')
+    el.dataset.id = this.id
+    el.title = this.title
+    return el
   }
 }
