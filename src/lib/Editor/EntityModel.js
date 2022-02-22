@@ -172,8 +172,8 @@ export default class EntityModel {
     )
   }
 
-  get offsetBottom() {
-    return this.offsetTop + this.height
+  get clientBottom() {
+    return this.clientTop + this.height
   }
 
   get width() {

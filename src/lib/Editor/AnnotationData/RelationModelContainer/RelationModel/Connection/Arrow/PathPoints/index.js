@@ -20,8 +20,8 @@ export default class PathPoints {
     const { sourceControlX, targetControlX } = getControlXs(
       source,
       target,
-      sourceEntity.offsetBottom,
-      targetEntity.offsetBottom
+      sourceEntity.clientBottom,
+      targetEntity.clientBottom
     )
 
     const controlY =
