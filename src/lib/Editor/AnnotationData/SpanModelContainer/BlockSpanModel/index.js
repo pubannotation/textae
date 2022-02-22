@@ -117,13 +117,10 @@ export default class BlockSpanModel extends SpanModel {
     return round(bottom)
   }
 
-  get gridRelativeRectangle() {
-    console.assert(this.element, 'span is not renderd')
+  get leftOfGrid() {
     const { width } = this._textBox.boundingClientRect
 
-    return {
-      left: round(width - 108)
-    }
+    return round(width - 108)
   }
 
   updateGridPosition() {
