@@ -115,8 +115,8 @@ export default class RelationModel {
 
   render(clientHeight, clientWidth) {
     if (
-      this.sourceEntity.span.isGridInViewport(clientHeight, clientWidth) ||
-      this.targetEntity.span.isGridInViewport(clientHeight, clientWidth)
+      this.sourceEntity.isInViewport(clientHeight, clientWidth) ||
+      this.targetEntity.isInViewport(clientHeight, clientWidth)
     ) {
       if (!this._connection) {
         this._connection = new Connection(

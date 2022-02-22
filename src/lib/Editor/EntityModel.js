@@ -176,6 +176,10 @@ export default class EntityModel {
     return this.clientTop + this.height
   }
 
+  isInViewport(clientHeight) {
+    return 0 <= this.clientBottom && this.clientTop <= clientHeight
+  }
+
   get width() {
     return this.span.widthOfGrid
   }
