@@ -139,7 +139,7 @@ export default class DenotationSpanModel extends SpanModel {
     const { widthOfGrid } = this
     const { left } = this.rectangle
 
-    return round(left + widthOfGrid / 2)
+    return left + widthOfGrid / 2
   }
 
   get offsetTopOfGrid() {

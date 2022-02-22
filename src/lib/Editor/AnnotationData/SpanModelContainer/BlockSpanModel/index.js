@@ -116,7 +116,7 @@ export default class BlockSpanModel extends SpanModel {
 
   get centerOfGrid() {
     const { width } = this._textBox.boundingClientRect
-    return round(width - 58)
+    return width - 58
   }
 
   get offsetTopOfGrid() {

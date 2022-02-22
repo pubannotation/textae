@@ -3,6 +3,7 @@ import SignboardHTMLElement from './SignboardHTMLElement'
 import getDisplayName from './getDisplayName'
 import getUri from './getUri'
 import toAnchorElement from './toAnchorElement'
+import round from './AnnotationData/SpanModelContainer/round'
 
 export default class EntityModel {
   /**
@@ -177,7 +178,7 @@ export default class EntityModel {
   }
 
   get center() {
-    return this.span.centerOfGrid
+    return round(this.span.centerOfGrid)
   }
 
   get isDenotation() {
