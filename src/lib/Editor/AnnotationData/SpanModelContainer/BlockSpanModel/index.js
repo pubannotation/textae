@@ -173,7 +173,6 @@ export default class BlockSpanModel extends SpanModel {
 
     return {
       top,
-      bottom: top + this._height,
       left: rectOfSpan.left - textBox.boundingClientRect.left - gapBetweenText,
       width: this.element.getBoundingClientRect().width + gapBetweenText
     }
