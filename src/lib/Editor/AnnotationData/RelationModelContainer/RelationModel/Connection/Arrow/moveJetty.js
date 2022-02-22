@@ -12,6 +12,6 @@ export default function (jetty, x, y, entity) {
     'points',
     `${x} ${y + MarkerHeight}, ${entity.center} ${y + MarkerHeight}, ${
       entity.center
-    } ${entity.relativeTop}`
+    } ${entity.relativeTopFromParentElement}`
   )
 }
