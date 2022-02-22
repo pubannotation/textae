@@ -157,7 +157,7 @@ export default class BlockSpanModel extends SpanModel {
       top,
       bottom: top + rect.height,
       left: rect.left - textBox.boundingClientRect.left - gapBetweenText,
-      width: rect.width + gapBetweenText,
+      width: this.element.getBoundingClientRect().width + gapBetweenText,
       height: rect.height
     }
   }
