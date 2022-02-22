@@ -16,8 +16,8 @@ export default function (
     targetEntity.width / 2 >= MinimumDistance ||
     (targetEntity.hasMultipleEndpoints && alignTargetBollards)
 
-  const centerOfSource = sourceEntity.center
-  const centerOfTarget = targetEntity.center
+  const centerOfSource = sourceEntity.offsetCenter
+  const centerOfTarget = targetEntity.offsetCenter
 
   const leftTarget = isTargetJettyDeployed
     ? centerOfTarget - DistanceToShift

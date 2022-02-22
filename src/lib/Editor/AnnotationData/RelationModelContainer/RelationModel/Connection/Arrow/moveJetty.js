@@ -10,8 +10,8 @@ import { MarkerHeight } from './MarkerHeight'
 export default function (jetty, x, y, entity) {
   jetty.setAttribute(
     'points',
-    `${x} ${y + MarkerHeight}, ${entity.center} ${y + MarkerHeight}, ${
-      entity.center
+    `${x} ${y + MarkerHeight}, ${entity.offsetCenter} ${y + MarkerHeight}, ${
+      entity.offsetCenter
     } ${entity.offsetTop}`
   )
 }

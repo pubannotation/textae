@@ -111,9 +111,9 @@ export default class EntityModel {
     relations.set('whereThisIsSourceAndTargetIsUpOrDown', new Set())
 
     for (const r of this.relationsWhereThisIsSource) {
-      if (r.targetEntity.center < this.center) {
+      if (r.targetEntity.offsetCenter < this.offsetCenter) {
         relations.get('whereThisIsSourceAndTargetIsOnTheLeft').add(r)
-      } else if (this.center < r.targetEntity.center) {
+      } else if (this.offsetCenter < r.targetEntity.offsetCenter) {
         relations.get('whereThisIsSourceAndTargetIsOnTheRight').add(r)
       } else {
         relations.get('whereThisIsSourceAndTargetIsUpOrDown').add(r)
@@ -125,9 +125,9 @@ export default class EntityModel {
     relations.set('whereThisIsTargetAndSourceIsUpOrDown', new Set())
 
     for (const r of this.relationsWhereThisIsTarget) {
-      if (r.sourceEntity.center < this.center) {
+      if (r.sourceEntity.offsetCenter < this.offsetCenter) {
         relations.get('whereThisIsTargetAndSourceIsOnTheLeft').add(r)
-      } else if (this.center < r.targetEntity.center) {
+      } else if (this.offsetCenter < r.targetEntity.offsetCenter) {
         relations.get('whereThisIsTargetAndSourceIsOnTheRight').add(r)
       } else {
         relations.get('whereThisIsTargetAndSourceIsUpOrDown').add(r)
@@ -179,7 +179,7 @@ export default class EntityModel {
     return labelUnitHegiht + this._attributesHeight
   }
 
-  get center() {
+  get offsetCenter() {
     return round(this.span.offsetCenterOfGrid)
   }
 
