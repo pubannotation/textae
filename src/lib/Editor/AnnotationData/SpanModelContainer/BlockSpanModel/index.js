@@ -167,15 +167,6 @@ export default class BlockSpanModel extends SpanModel {
     return this._clientTop - this._textBox.boundingClientRect.top
   }
 
-  // Shifting up half a line from the original block position.
-  get _clientTop() {
-    return this._shiftUpGrid(this.element.getBoundingClientRect().top)
-  }
-
-  get _clientBottom() {
-    return this._shiftUpGrid(this.element.getBoundingClientRect().bottom)
-  }
-
   get _backgroundId() {
     return `bg_of_${this.id}`
   }
@@ -189,6 +180,15 @@ export default class BlockSpanModel extends SpanModel {
       0 - margin <= this._clientBottom &&
       this._clientTop <= clientHeight + margin
     )
+  }
+
+  // Shifting up half a line from the original block position.
+  get _clientTop() {
+    return this._shiftUpGrid(this.element.getBoundingClientRect().top)
+  }
+
+  get _clientBottom() {
+    return this._shiftUpGrid(this.element.getBoundingClientRect().bottom)
   }
 
   _shiftUpGrid(y) {
