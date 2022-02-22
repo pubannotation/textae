@@ -142,6 +142,11 @@ export default class DenotationSpanModel extends SpanModel {
     return round(left + widthOfGrid / 2)
   }
 
+  get topOfGrid() {
+    const { top } = this.rectangle
+    return round(top - getGridHeightIncludeDescendantGrids(this))
+  }
+
   get gridRelativeRectangle() {
     console.assert(this.element, 'span is not renderd')
     const { top, left } = this.rectangle
