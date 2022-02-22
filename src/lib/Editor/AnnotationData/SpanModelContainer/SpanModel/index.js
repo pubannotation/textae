@@ -214,7 +214,7 @@ export default class SpanModel {
     const html = createGridHtml(
       this.id,
       round(offsetTopOfGrid),
-      offsetLeftOfGrid,
+      round(offsetLeftOfGrid),
       widthOfGrid
     )
     return dohtml.create(html)
@@ -226,7 +226,7 @@ export default class SpanModel {
       updateGridPosition(
         this.gridElement,
         round(offsetTopOfGrid),
-        offsetLeftOfGrid
+        round(offsetLeftOfGrid)
       )
     }
   }

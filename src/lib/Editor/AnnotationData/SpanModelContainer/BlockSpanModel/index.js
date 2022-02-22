@@ -3,7 +3,6 @@ import SELECTED from '../SELECTED'
 import renderBackground from './renderBackground'
 import setPosition from './setPosition'
 import SpanModel from '../SpanModel'
-import round from '../../../round'
 import getAnnotationBox from '../../getAnnotationBox'
 
 // Leave a gap between the text and the block border.
@@ -129,7 +128,7 @@ export default class BlockSpanModel extends SpanModel {
   get offsetLeftOfGrid() {
     const { width } = this._textBox.boundingClientRect
 
-    return round(width - 108)
+    return width - 108
   }
 
   updateGridPosition() {
