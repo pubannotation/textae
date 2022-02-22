@@ -158,7 +158,7 @@ export default class EntityModel {
     if (span.isBlock) {
       const paddingBottomOfGridOfBlockSpan = 15
       return round(
-        span.bottomOfGrid - this.height - paddingBottomOfGridOfBlockSpan
+        span.offsetBottomOfGrid - this.height - paddingBottomOfGridOfBlockSpan
       )
     }
 
