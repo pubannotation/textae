@@ -98,6 +98,10 @@ export default class BlockSpanModel extends SpanModel {
     return super.gridHeight + 35
   }
 
+  get width() {
+    return 100
+  }
+
   get _contentHTML() {
     return `<div id="${this.id}" class="textae-editor__block"></div>`
   }

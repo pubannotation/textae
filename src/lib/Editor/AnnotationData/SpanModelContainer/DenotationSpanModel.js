@@ -123,6 +123,11 @@ export default class DenotationSpanModel extends SpanModel {
     return getGridHeightIncludeDescendantGrids(this) + TEXT_HEIGHT + MARGIN_TOP
   }
 
+  get width() {
+    const { width } = this.rectangle
+    return round(width)
+  }
+
   get _contentHTML() {
     return `
       <span
