@@ -6,13 +6,15 @@ export default class PathPoints {
     sourceEntity,
     targetEntity,
     alignSourceBollards,
-    alignTargetBollards
+    alignTargetBollards,
+    containerTop
   ) {
     const [source, target] = getSourceAndTarget(
       sourceEntity,
       targetEntity,
       alignSourceBollards,
-      alignTargetBollards
+      alignTargetBollards,
+      containerTop
     )
 
     const { sourceControlX, targetControlX } = getControlXs(

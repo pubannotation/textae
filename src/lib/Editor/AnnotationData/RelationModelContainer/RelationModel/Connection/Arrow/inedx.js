@@ -44,7 +44,8 @@ export default class Arrow {
       this._relation.sourceEntity,
       this._relation.targetEntity,
       pointUpSourceBollards,
-      pointUpTargetBollards
+      pointUpTargetBollards,
+      this._container.getBoundingClientRect().top
     )
     updatePath(this._path, pathPoints, this._relation.color, pointUpPath)
     updatePath(this._aura, pathPoints, this._relation.color, false)

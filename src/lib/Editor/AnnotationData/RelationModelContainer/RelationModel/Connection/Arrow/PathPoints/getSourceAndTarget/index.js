@@ -12,12 +12,17 @@ export default function (
   sourceEntity,
   targetEntity,
   alignSourceBollards,
-  alignTargetBollards
+  alignTargetBollards,
+  containerTop
 ) {
-  const sourceY =
-    sourceEntity.top - MarkerHeight - (alignSourceBollards ? 3 : 0)
-  const targetY =
-    targetEntity.top - MarkerHeight - (alignTargetBollards ? 3 : 0)
+  const containerBottom = document.documentElement.clientHeight - containerTop
+  const sourceTop =
+    sourceEntity.top > containerBottom ? containerBottom : sourceEntity.top
+  const targetTop =
+    targetEntity.top > containerBottom ? containerBottom : targetEntity.top
+
+  const sourceY = sourceTop - MarkerHeight - (alignSourceBollards ? 3 : 0)
+  const targetY = targetTop - MarkerHeight - (alignTargetBollards ? 3 : 0)
 
   const anchorPositions = determineAnchorPositions(
     sourceEntity,
