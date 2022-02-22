@@ -158,11 +158,7 @@ export default class EntityModel {
 
     if (span.isBlock) {
       const paddingBottomOfGridOfBlockSpan = 15
-      return (
-        span.gridRelativeRectangle.bottom -
-        this.height -
-        paddingBottomOfGridOfBlockSpan
-      )
+      return span.bottomOfGrid - this.height - paddingBottomOfGridOfBlockSpan
     }
 
     throw new Error('Unexpect type of span')
