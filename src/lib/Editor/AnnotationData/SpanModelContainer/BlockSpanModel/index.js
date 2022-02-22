@@ -98,15 +98,6 @@ export default class BlockSpanModel extends SpanModel {
     return super.gridHeight + 35
   }
 
-  get widthOfGrid() {
-    return 100
-  }
-
-  get centerOfGrid() {
-    const { width } = this._textBox.boundingClientRect
-    return round(width - 58)
-  }
-
   get _contentHTML() {
     return `<div id="${this.id}" class="textae-editor__block"></div>`
   }
@@ -117,6 +108,15 @@ export default class BlockSpanModel extends SpanModel {
     el.dataset.id = this.id
     el.title = this.title
     return el
+  }
+
+  get widthOfGrid() {
+    return 100
+  }
+
+  get centerOfGrid() {
+    const { width } = this._textBox.boundingClientRect
+    return round(width - 58)
   }
 
   get gridRelativeRectangle() {
