@@ -152,7 +152,7 @@ export default class EntityModel {
         top += this._typeGap.height + entity.height
       }
 
-      return top
+      return round(top)
     }
 
     if (span.isBlock) {

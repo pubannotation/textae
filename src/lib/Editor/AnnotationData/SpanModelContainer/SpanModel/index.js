@@ -5,6 +5,7 @@ import updateGridPosition from './updateGridPosition'
 import getAnnotationBox from '../../getAnnotationBox'
 import getRightGrid from './getRightGrid'
 import createRangeToSpan from '../createRangeToSpan'
+import round from '../../../round'
 
 export default class SpanModel {
   constructor(editorID, editorHTMLElement, begin, end, spanModelContainer) {
@@ -212,7 +213,7 @@ export default class SpanModel {
     const { offsetTopOfGrid, offsetLeftOfGrid, widthOfGrid } = this
     const html = createGridHtml(
       this.id,
-      offsetTopOfGrid,
+      round(offsetTopOfGrid),
       offsetLeftOfGrid,
       widthOfGrid
     )
@@ -222,7 +223,11 @@ export default class SpanModel {
   updateGridPosition() {
     if (this.isGridRendered) {
       const { offsetTopOfGrid, offsetLeftOfGrid } = this
-      updateGridPosition(this.gridElement, offsetTopOfGrid, offsetLeftOfGrid)
+      updateGridPosition(
+        this.gridElement,
+        round(offsetTopOfGrid),
+        offsetLeftOfGrid
+      )
     }
   }
 
