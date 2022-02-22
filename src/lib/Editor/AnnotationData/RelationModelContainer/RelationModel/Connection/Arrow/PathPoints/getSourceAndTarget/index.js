@@ -18,11 +18,11 @@ export default function (
   const offsetBottomOfContainer =
     document.documentElement.clientHeight - clientTopOfContainer
   const sourceTop =
-    sourceEntity.offsetTop > offsetBottomOfContainer
+    offsetBottomOfContainer < sourceEntity.offsetTop
       ? offsetBottomOfContainer
       : sourceEntity.offsetTop
   const targetTop =
-    targetEntity.offsetTop > offsetBottomOfContainer
+    offsetBottomOfContainer < targetEntity.offsetTop
       ? offsetBottomOfContainer
       : targetEntity.offsetTop
 
