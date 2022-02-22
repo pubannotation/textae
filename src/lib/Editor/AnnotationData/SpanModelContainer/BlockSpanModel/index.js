@@ -78,7 +78,7 @@ export default class BlockSpanModel extends SpanModel {
         clientRect.left - this._textBox.boundingClientRect.left - gapBetweenText
       const width = clientRect.width + gapBetweenText
 
-      setPosition(this._backgroundElement, this._top, left, width, height)
+      setPosition(this._backgroundElement, this._offsetTop, left, width, height)
 
       // The div height cannot be obtained at grid rendering time,
       // so set it at move.
@@ -114,11 +114,11 @@ export default class BlockSpanModel extends SpanModel {
   }
 
   get topOfGrid() {
-    return round(this._top)
+    return round(this._offsetTop)
   }
 
   get bottomOfGrid() {
-    return round(this._top + this._height)
+    return round(this._offsetTop + this._height)
   }
 
   get leftOfGrid() {
@@ -157,7 +157,7 @@ export default class BlockSpanModel extends SpanModel {
     return this.element.getBoundingClientRect().height
   }
 
-  get _top() {
+  get _offsetTop() {
     // Shifting up half a line from the original block position.
     return (
       this._shiftUpGrid(this.element.getBoundingClientRect().top) -
