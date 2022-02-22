@@ -145,8 +145,11 @@ export default class EntityModel {
 
       top = top + this._typeGap.height
 
-      const index = span.entities.indexOf(this)
-      for (const entity of span.entities.slice(0, index)) {
+      for (const entity of span.entities) {
+        if (entity === this) {
+          break
+        }
+
         top += this._typeGap.height + entity.height
       }
 
