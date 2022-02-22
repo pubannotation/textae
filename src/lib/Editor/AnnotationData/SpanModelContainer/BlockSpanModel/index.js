@@ -3,7 +3,7 @@ import SELECTED from '../SELECTED'
 import renderBackground from './renderBackground'
 import setPosition from './setPosition'
 import SpanModel from '../SpanModel'
-import round from '../round'
+import round from '../../../round'
 import getAnnotationBox from '../../getAnnotationBox'
 
 // Leave a gap between the text and the block border.

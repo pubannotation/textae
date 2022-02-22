@@ -1,6 +1,6 @@
 import SELECTED from './SELECTED'
 import getGridHeightIncludeDescendantGrids from './getGridHeightIncludeDescendantGrids'
-import round from './round'
+import round from '../../round'
 import SpanModel from './SpanModel'
 import isTouchable from '../../isTouchable'
 import { makeDenotationSpanHTMLElementID } from '../../idFactory'

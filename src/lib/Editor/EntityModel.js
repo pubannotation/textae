@@ -3,7 +3,7 @@ import SignboardHTMLElement from './SignboardHTMLElement'
 import getDisplayName from './getDisplayName'
 import getUri from './getUri'
 import toAnchorElement from './toAnchorElement'
-import round from './AnnotationData/SpanModelContainer/round'
+import round from './round'
 
 export default class EntityModel {
   /**
