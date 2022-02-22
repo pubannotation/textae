@@ -13,16 +13,17 @@ export default function (
   targetEntity,
   alignSourceBollards,
   alignTargetBollards,
-  containerTop
+  clientTopOfContainer
 ) {
-  const containerBottom = document.documentElement.clientHeight - containerTop
+  const offsetBottomOfContainer =
+    document.documentElement.clientHeight - clientTopOfContainer
   const sourceTop =
-    sourceEntity.offsetTop > containerBottom
-      ? containerBottom
+    sourceEntity.offsetTop > offsetBottomOfContainer
+      ? offsetBottomOfContainer
       : sourceEntity.offsetTop
   const targetTop =
-    targetEntity.offsetTop > containerBottom
-      ? containerBottom
+    targetEntity.offsetTop > offsetBottomOfContainer
+      ? offsetBottomOfContainer
       : targetEntity.offsetTop
 
   const sourceY = sourceTop - MarkerHeight - (alignSourceBollards ? 3 : 0)
