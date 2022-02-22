@@ -154,6 +154,15 @@ export default class BlockSpanModel extends SpanModel {
     return this.element.getBoundingClientRect().height
   }
 
+  get _top() {
+    const rectOfSpan = this.element.getBoundingClientRect()
+
+    // Shifting up half a line from the original block position.
+    return this._shiftUpGrid(
+      rectOfSpan.top - this._textBox.boundingClientRect.top
+    )
+  }
+
   get _reactOfBackground() {
     const rectOfSpan = this.element.getBoundingClientRect()
     const textBox = this._textBox
