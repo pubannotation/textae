@@ -107,6 +107,11 @@ export default class BlockSpanModel extends SpanModel {
     return round(width - 58)
   }
 
+  get topOfGrid() {
+    const { top } = this._reactOfBackground
+    return round(top)
+  }
+
   get gridRelativeRectangle() {
     console.assert(this.element, 'span is not renderd')
     const { top, bottom } = this._reactOfBackground
