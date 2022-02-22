@@ -150,6 +150,10 @@ export default class BlockSpanModel extends SpanModel {
     return this._isGridInViewPort(clientHeight, clientHeight)
   }
 
+  get _height() {
+    return this.element.getBoundingClientRect().height
+  }
+
   get _reactOfBackground() {
     const rectOfSpan = this.element.getBoundingClientRect()
     const textBox = this._textBox
@@ -173,10 +177,6 @@ export default class BlockSpanModel extends SpanModel {
 
   get _backgroundElement() {
     return document.querySelector(`#${this._backgroundId}`)
-  }
-
-  get _height() {
-    return this.element.getBoundingClientRect().height
   }
 
   _isGridInViewPort(clientHeight, margin) {
