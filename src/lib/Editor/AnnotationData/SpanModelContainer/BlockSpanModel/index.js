@@ -151,6 +151,7 @@ export default class BlockSpanModel extends SpanModel {
   }
 
   get _reactOfBackground() {
+    const rectOfSpan = this.element.getBoundingClientRect()
     const rect = this._rectangle
     const textBox = this._textBox
 
@@ -160,7 +161,7 @@ export default class BlockSpanModel extends SpanModel {
     return {
       top,
       bottom: top + this._height,
-      left: rect.left - textBox.boundingClientRect.left - gapBetweenText,
+      left: rectOfSpan.left - textBox.boundingClientRect.left - gapBetweenText,
       width: this.element.getBoundingClientRect().width + gapBetweenText
     }
   }
@@ -187,8 +188,7 @@ export default class BlockSpanModel extends SpanModel {
       spanElement.offsetParent.offsetParent.getBoundingClientRect()
 
     return {
-      top: rectOfSpan.top - rectOfTextBox.top,
-      left: rectOfSpan.left
+      top: rectOfSpan.top - rectOfTextBox.top
     }
   }
 
