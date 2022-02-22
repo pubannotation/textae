@@ -173,7 +173,7 @@ export default class EntityModel {
   }
 
   get width() {
-    return this.span.gridRelativeRectangle.width
+    return this.span.width
   }
 
   get height() {
