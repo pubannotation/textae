@@ -54,6 +54,18 @@ export default class DenotationSpanModel extends SpanModel {
 
     const left = rectOfSpan.left - rectOfTextBox.left
 
+    return {
+      top: rectOfSpan.top - rectOfTextBox.top,
+      left
+    }
+  }
+
+  get width() {
+    const rectOfSpan = this.element.getBoundingClientRect()
+    const rectOfTextBox =
+      this.element.offsetParent.offsetParent.getBoundingClientRect()
+    const left = rectOfSpan.left - rectOfTextBox.left
+
     // To fix the position of the toolbar, we use position: sticky.
     // On Android chrome, if an element is drawn at a position that is out of the device width,
     // the sticky position will be shifted upward by the width of the overhang.
@@ -62,11 +74,7 @@ export default class DenotationSpanModel extends SpanModel {
       ? Math.min(rectOfSpan.width, rectOfTextBox.width - left)
       : rectOfSpan.width
 
-    return {
-      top: rectOfSpan.top - rectOfTextBox.top,
-      left,
-      width
-    }
+    return round(width)
   }
 
   get isDenotation() {
@@ -121,11 +129,6 @@ export default class DenotationSpanModel extends SpanModel {
 
   get heightIncludeDescendantGrids() {
     return getGridHeightIncludeDescendantGrids(this) + TEXT_HEIGHT + MARGIN_TOP
-  }
-
-  get width() {
-    const { width } = this.rectangle
-    return round(width)
   }
 
   get _contentHTML() {
