@@ -172,7 +172,7 @@ export default class EntityModel {
     )
   }
 
-  get bottom() {
+  get offsetBottom() {
     return this.offsetTop + this.height
   }
 
