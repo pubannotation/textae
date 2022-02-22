@@ -137,12 +137,12 @@ export default class EntityModel {
     return [...relations.values()].filter((s) => s.size).length > 1
   }
 
-  get offsetTop() {
+  get clientTop() {
     const { span } = this
 
     // Calculates the top without referencing the HTML element of entities.
     if (span.isDenotation) {
-      let top = span.offsetTopOfGrid + this._typeGap.height
+      let top = span.clientTopOfGrid + this._typeGap.height
 
       for (const entity of span.entities) {
         if (entity === this) {
@@ -158,11 +158,18 @@ export default class EntityModel {
     if (span.isBlock) {
       const paddingBottomOfGridOfBlockSpan = 15
       return round(
-        span.offsetBottomOfGrid - this.height - paddingBottomOfGridOfBlockSpan
+        span.clientBottomOfGrid - this.height - paddingBottomOfGridOfBlockSpan
       )
     }
 
     throw new Error('Unexpect type of span')
+  }
+
+  get offsetTop() {
+    return (
+      this.clientTop -
+      this.span.element.offsetParent.offsetParent.getBoundingClientRect().top
+    )
   }
 
   get bottom() {
