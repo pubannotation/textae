@@ -136,7 +136,7 @@ export default class EntityModel {
     return [...relations.values()].filter((s) => s.size).length > 1
   }
 
-  get relativeTopFromParentElement() {
+  get offsetTop() {
     const { span } = this
 
     // Calculates the top without referencing the HTML element of entities.
@@ -163,7 +163,7 @@ export default class EntityModel {
   }
 
   get bottom() {
-    return this.relativeTopFromParentElement + this.height
+    return this.offsetTop + this.height
   }
 
   get width() {

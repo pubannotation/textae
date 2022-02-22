@@ -17,13 +17,13 @@ export default function (
 ) {
   const containerBottom = document.documentElement.clientHeight - containerTop
   const sourceTop =
-    sourceEntity.relativeTopFromParentElement > containerBottom
+    sourceEntity.offsetTop > containerBottom
       ? containerBottom
-      : sourceEntity.relativeTopFromParentElement
+      : sourceEntity.offsetTop
   const targetTop =
-    targetEntity.relativeTopFromParentElement > containerBottom
+    targetEntity.offsetTop > containerBottom
       ? containerBottom
-      : targetEntity.relativeTopFromParentElement
+      : targetEntity.offsetTop
 
   const sourceY = sourceTop - MarkerHeight - (alignSourceBollards ? 3 : 0)
   const targetY = targetTop - MarkerHeight - (alignTargetBollards ? 3 : 0)
