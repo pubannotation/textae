@@ -43,7 +43,7 @@ export default class DenotationSpanModel extends SpanModel {
     return this._spanModelContainer.getStyle(this.id)
   }
 
-  get rectangle() {
+  get _rectangle() {
     const spanElement = this.element
 
     // An element.offsetTop and element.offsetLeft does not work in the Firefox,
@@ -134,15 +134,15 @@ export default class DenotationSpanModel extends SpanModel {
   }
 
   get centerOfGrid() {
-    return this.rectangle.left + this.widthOfGrid / 2
+    return this._rectangle.left + this.widthOfGrid / 2
   }
 
   get offsetTopOfGrid() {
-    return this.rectangle.top - getGridHeightIncludeDescendantGrids(this)
+    return this._rectangle.top - getGridHeightIncludeDescendantGrids(this)
   }
 
   get offsetLeftOfGrid() {
-    return this.rectangle.left
+    return this._rectangle.left
   }
 
   isGridInViewport(clientHeight, clientWidth) {
