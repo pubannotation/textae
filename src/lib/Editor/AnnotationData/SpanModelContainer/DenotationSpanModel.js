@@ -138,7 +138,12 @@ export default class DenotationSpanModel extends SpanModel {
   }
 
   get offsetTopOfGrid() {
-    return this._rectangle.top - getGridHeightIncludeDescendantGrids(this)
+    // An element.offsetTop and element.offsetLeft does not work in the Firefox,
+    // when much spans are loaded like http://pubannotation.org/docs/sourcedb/PMC/sourceid/1315279/divs/10/annotations.json.
+    const offsetTop =
+      this.element.getBoundingClientRect().top -
+      this.element.offsetParent.offsetParent.getBoundingClientRect().top
+    return offsetTop - getGridHeightIncludeDescendantGrids(this)
   }
 
   get offsetLeftOfGrid() {
