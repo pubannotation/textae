@@ -209,15 +209,20 @@ export default class SpanModel {
   }
 
   _createGridElement() {
-    const { topOfGrid, leftOfGrid, widthOfGrid } = this
-    const html = createGridHtml(this.id, topOfGrid, leftOfGrid, widthOfGrid)
+    const { offsetTopOfGrid, leftOfGrid, widthOfGrid } = this
+    const html = createGridHtml(
+      this.id,
+      offsetTopOfGrid,
+      leftOfGrid,
+      widthOfGrid
+    )
     return dohtml.create(html)
   }
 
   updateGridPosition() {
     if (this.isGridRendered) {
-      const { topOfGrid, leftOfGrid } = this
-      updateGridPosition(this.gridElement, topOfGrid, leftOfGrid)
+      const { offsetTopOfGrid, leftOfGrid } = this
+      updateGridPosition(this.gridElement, offsetTopOfGrid, leftOfGrid)
     }
   }
 
