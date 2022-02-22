@@ -98,7 +98,7 @@ export default class BlockSpanModel extends SpanModel {
     return super.gridHeight + 35
   }
 
-  get width() {
+  get widthOfGrid() {
     return 100
   }
 

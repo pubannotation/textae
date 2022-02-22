@@ -209,9 +209,9 @@ export default class SpanModel {
   }
 
   _createGridElement() {
-    const { width } = this
+    const { widthOfGrid } = this
     const { top, left } = this.gridRelativeRectangle
-    const html = createGridHtml(this.id, top, left, width)
+    const html = createGridHtml(this.id, top, left, widthOfGrid)
     return dohtml.create(html)
   }
 

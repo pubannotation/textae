@@ -60,7 +60,7 @@ export default class DenotationSpanModel extends SpanModel {
     }
   }
 
-  get width() {
+  get widthOfGrid() {
     if (isTouchable) {
       const rectOfSpan = this.element.getBoundingClientRect()
       const rectOfTextBox =
@@ -101,8 +101,8 @@ export default class DenotationSpanModel extends SpanModel {
 
   updateDenotationEntitiesWidth() {
     if (this.isGridRendered) {
-      const { width } = this
-      this.gridElement.style.width = `${width}px`
+      const { widthOfGrid } = this
+      this.gridElement.style.width = `${widthOfGrid}px`
     }
   }
 
@@ -149,13 +149,13 @@ export default class DenotationSpanModel extends SpanModel {
 
   get gridRelativeRectangle() {
     console.assert(this.element, 'span is not renderd')
-    const { width } = this
+    const { widthOfGrid } = this
     const { top, left } = this.rectangle
 
     return {
       top: round(top - getGridHeightIncludeDescendantGrids(this)),
       left: round(left),
-      center: round(left + width / 2)
+      center: round(left + widthOfGrid / 2)
     }
   }
 
