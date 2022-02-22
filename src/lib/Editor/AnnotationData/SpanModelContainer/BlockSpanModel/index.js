@@ -102,6 +102,11 @@ export default class BlockSpanModel extends SpanModel {
     return 100
   }
 
+  get centerOfGrid() {
+    const { width } = this._textBox.boundingClientRect
+    return round(width - 58)
+  }
+
   get _contentHTML() {
     return `<div id="${this.id}" class="textae-editor__block"></div>`
   }
@@ -123,8 +128,7 @@ export default class BlockSpanModel extends SpanModel {
       top: round(top),
       bottom: round(bottom),
       left: round(width - 108),
-      width: 100,
-      center: round(width - 58)
+      width: 100
     }
   }
 

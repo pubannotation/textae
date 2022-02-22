@@ -183,7 +183,7 @@ export default class EntityModel {
   }
 
   get center() {
-    return this.span.gridRelativeRectangle.center
+    return this.span.centerOfGrid
   }
 
   get isDenotation() {
