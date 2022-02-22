@@ -74,11 +74,17 @@ export default class BlockSpanModel extends SpanModel {
       const height = this._height
 
       const clientRect = this.element.getBoundingClientRect()
-      const left =
+      const offsetLeft =
         clientRect.left - this._textBox.boundingClientRect.left - gapBetweenText
       const width = clientRect.width + gapBetweenText
 
-      setPosition(this._backgroundElement, this._offsetTop, left, width, height)
+      setPosition(
+        this._backgroundElement,
+        this._offsetTop,
+        offsetLeft,
+        width,
+        height
+      )
 
       // The div height cannot be obtained at grid rendering time,
       // so set it at move.
