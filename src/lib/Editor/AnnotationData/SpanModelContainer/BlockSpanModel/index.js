@@ -182,7 +182,6 @@ export default class BlockSpanModel extends SpanModel {
     return {
       top: rectOfSpan.top - rectOfTextBox.top,
       left: rectOfSpan.left,
-      width: rectOfSpan.width,
       height: rectOfSpan.height
     }
   }
