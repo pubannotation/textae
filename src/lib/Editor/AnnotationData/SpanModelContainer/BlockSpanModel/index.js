@@ -126,9 +126,7 @@ export default class BlockSpanModel extends SpanModel {
   }
 
   get offsetLeftOfGrid() {
-    const { width } = this._textBox.boundingClientRect
-
-    return width - 108
+    return this._textBox.boundingClientRect.width - 108
   }
 
   updateGridPosition() {
