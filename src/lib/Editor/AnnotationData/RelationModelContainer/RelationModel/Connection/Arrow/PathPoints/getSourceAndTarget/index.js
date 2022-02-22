@@ -15,14 +15,14 @@ export default function (
   alignTargetBollards,
   clientTopOfContainer
 ) {
-  const offsetBottomOfContainer =
-    document.documentElement.clientHeight - clientTopOfContainer
+  const { clientHeight } = document.documentElement
+  const offsetBottomOfContainer = clientHeight - clientTopOfContainer
   const sourceTop =
-    offsetBottomOfContainer < sourceEntity.offsetTop
+    clientHeight < sourceEntity.clientTop
       ? offsetBottomOfContainer
       : sourceEntity.offsetTop
   const targetTop =
-    offsetBottomOfContainer < targetEntity.offsetTop
+    clientHeight < targetEntity.clientTop
       ? offsetBottomOfContainer
       : targetEntity.offsetTop
 
