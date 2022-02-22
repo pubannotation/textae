@@ -114,8 +114,7 @@ export default class BlockSpanModel extends SpanModel {
   }
 
   get bottomOfGrid() {
-    const { bottom } = this._reactOfBackground
-    return round(bottom)
+    return round(this._top + this._height)
   }
 
   get leftOfGrid() {
