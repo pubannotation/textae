@@ -130,7 +130,7 @@ export default class DenotationSpanModel extends SpanModel {
     }
   }
 
-  get centerOfGrid() {
+  get offsetCenterOfGrid() {
     return this._offsetLeft + this.widthOfGrid / 2
   }
 

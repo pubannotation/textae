@@ -180,7 +180,7 @@ export default class EntityModel {
   }
 
   get center() {
-    return round(this.span.centerOfGrid)
+    return round(this.span.offsetCenterOfGrid)
   }
 
   get isDenotation() {
