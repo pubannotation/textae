@@ -147,9 +147,7 @@ export default class DenotationSpanModel extends SpanModel {
   }
 
   get offsetLeftOfGrid() {
-    const { left } = this.rectangle
-
-    return round(left)
+    return round(this.rectangle.left)
   }
 
   isGridInViewport(clientHeight, clientWidth) {
