@@ -158,11 +158,12 @@ export default class BlockSpanModel extends SpanModel {
   }
 
   get _offsetTop() {
-    // Shifting up half a line from the original block position.
-    return (
-      this._shiftUpGrid(this.element.getBoundingClientRect().top) -
-      this._textBox.boundingClientRect.top
-    )
+    return this._clientTop - this._textBox.boundingClientRect.top
+  }
+
+  // Shifting up half a line from the original block position.
+  get _clientTop() {
+    return this._shiftUpGrid(this.element.getBoundingClientRect().top)
   }
 
   get _backgroundId() {
@@ -174,10 +175,10 @@ export default class BlockSpanModel extends SpanModel {
   }
 
   _isGridInViewPort(clientHeight, margin) {
-    const { top, bottom } = this.element.getBoundingClientRect()
+    const { bottom } = this.element.getBoundingClientRect()
     return (
       0 - margin <= this._shiftUpGrid(bottom) &&
-      this._shiftUpGrid(top) <= clientHeight + margin
+      this._clientTop <= clientHeight + margin
     )
   }
 
