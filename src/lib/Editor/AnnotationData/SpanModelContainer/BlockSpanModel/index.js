@@ -123,7 +123,7 @@ export default class BlockSpanModel extends SpanModel {
   }
 
   get bottomOfGrid() {
-    return round(this._offsetTop + this._height)
+    return this._offsetTop + this._height
   }
 
   get offsetLeftOfGrid() {
