@@ -148,14 +148,14 @@ export default class DenotationSpanModel extends SpanModel {
   }
 
   isGridInViewport(clientHeight, clientWidth) {
-    return this._isGridInDrawArea(clientHeight, clientWidth, 0)
+    return this._isGridInViewPort(clientHeight, clientWidth, 0)
   }
 
   isGridInDrawArea(clientHeight, clientWidth) {
-    return this._isGridInDrawArea(clientHeight, clientWidth, clientHeight)
+    return this._isGridInViewPort(clientHeight, clientWidth, clientHeight)
   }
 
-  _isGridInDrawArea(clientHeight, clientWidth, margin) {
+  _isGridInViewPort(clientHeight, clientWidth, margin) {
     const { top, left } = this.element.getBoundingClientRect()
     const gridHeightIncludeDescendantGrids =
       getGridHeightIncludeDescendantGrids(this)
