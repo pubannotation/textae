@@ -1,5 +1,5 @@
 import getAnnotationBox from '../../../getAnnotationBox'
-import Arrow from './Arrow/inedx'
+import Arrow from './Arrow'
 import Label from './Label'
 
 export default class Connection {
