@@ -119,9 +119,8 @@ export default class Arrow {
       return 0
     }
 
-    throw new Error(
-      "Couldn't get the parameter indicating the highest point of the relation."
-    )
+    // When you bend the relation a lot, you can't get the parameter that shows the highest point.
+    return this._path.getBBox().width
   }
 
   get _t() {
