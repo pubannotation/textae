@@ -52,6 +52,10 @@ export default class Clipboard {
   }
 
   copyEntitiesToSystemClipboard(clipboardEvent) {
+    if (this._selectionModel.span.contains((s) => s.isBlock)) {
+      return
+    }
+
     const { copyingTargets } = this._selectionModel
 
     if (copyingTargets.length > 0) {
@@ -99,6 +103,10 @@ export default class Clipboard {
   }
 
   cutEntitiesToSystemClipboard(clipboardEvent) {
+    if (this._selectionModel.span.contains((s) => s.isBlock)) {
+      return
+    }
+
     this.cutEntitiesToLocalClipboard()
 
     clipboardEvent.clipboardData.setData(
