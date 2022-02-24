@@ -127,6 +127,10 @@ export default class Clipboard {
   }
 
   pasteEntitiesFromSystemClipboard(clipboardEvent) {
+    if (this._selectionModel.span.contains((s) => s.isBlock)) {
+      return
+    }
+
     const uuid = clipboardEvent.clipboardData.getData(
       'application/x-textae-editor-uuid'
     )
