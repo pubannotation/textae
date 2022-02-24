@@ -95,8 +95,7 @@ export default class Arrow {
   }
 
   get top() {
-    const pathBBox = this._path.getBBox()
-    return pathBBox.y
+    return this._path.getBBox().y
   }
 
   get left() {
