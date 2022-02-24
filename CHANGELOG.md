@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.11.0](https://github.com/pubannotation/textae/compare/v8.10.0...v8.11.0) (2022-02-24)
+
+
+### Features
+
+* Adjust the position of the relation each time you scroll ([903338a](https://github.com/pubannotation/textae/commit/903338a04126b39fbc43666d9b1ee9ddb0ba7c14))
+* Draws the relation when the entity enters the drawing area. ([36b9935](https://github.com/pubannotation/textae/commit/36b9935003cd0e55b8e718b7a4074fcdb13a191c))
+* Flatten the appearance of the control bar ([d3f15da](https://github.com/pubannotation/textae/commit/d3f15da7b59843b416e2efb7a90120a4009b2035))
+* Push the lower end point of the relation toward the bottom of the display area up into the display area ([36afd77](https://github.com/pubannotation/textae/commit/36afd7744dde779126dd91d2f00ac57e46df137f))
+* To make the display of entities smoother, block entities in the same range above and below the display area are also drawn ([7e6726d](https://github.com/pubannotation/textae/commit/7e6726d141d02289bc1e1fc80261ac3fa9ffbad2))
+
+
+### Bug Fixes
+
+* Both entities of the relation are not visible, but the relation is visible ([d1e2be7](https://github.com/pubannotation/textae/commit/d1e2be7945f098a8f512bd7f8f2a63f1b4d33cfd))
+* The grid height includes the grid height of the descendant spans ([6a12497](https://github.com/pubannotation/textae/commit/6a124971ca7ddfee552c661729f3760ad59266d3))
+
 ## [8.10.0](https://github.com/pubannotation/textae/compare/v8.9.0...v8.10.0) (2022-02-17)
 
 
