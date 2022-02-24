@@ -110,8 +110,8 @@ export default class Arrow {
       return labelX
     }
 
-    const pathBBox = this._path.getBBox()
-    return pathBBox.x
+    // When you bend the relation a lot, you can't get the parameter that shows the highest point.
+    return this._path.getBBox().x
   }
 
   get width() {
