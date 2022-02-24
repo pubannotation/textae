@@ -119,7 +119,9 @@ export default class Arrow {
       return 0
     }
 
-    return this._path.getBBox().width
+    throw new Error(
+      "Couldn't get the parameter indicating the highest point of the relation."
+    )
   }
 
   get _t() {
