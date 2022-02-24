@@ -68,6 +68,11 @@ export default class EntityModelContainer extends IdIssueContainer {
       this._namespace
     )
 
+    console.assert(
+      newEntity.span.isDenotation || newEntity.span.entities.length === 0,
+      'A blockspan cannot have more than one entity.'
+    )
+
     super.add(newEntity)
     newEntity.render()
     return newEntity
