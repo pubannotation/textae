@@ -119,8 +119,7 @@ export default class Arrow {
       return 0
     }
 
-    const pathBBox = this._path.getBBox()
-    return pathBBox.width
+    return this._path.getBBox().width
   }
 
   get _t() {
