@@ -27,5 +27,6 @@ module.exports = merge(common, {
     buildDependencies: {
       config: [__filename]
     }
-  }
+  },
+  devtool: 'eval-source-map'
 })
