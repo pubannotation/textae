@@ -128,6 +128,7 @@ export default class Arrow {
     // https://ja.javascript.info/bezier-curve
     // (1−t)3P1 + 3(1−t)2tP2 +3(1−t)t2P3 + t3P4
     const sample = 20
+    const { top } = this
     return [...Array(sample).keys()]
       .map((i) => (i * 1) / sample)
       .find((t) => {
@@ -136,7 +137,7 @@ export default class Arrow {
           3 * Math.pow(1 - t, 2) * t * controlY +
           3 * (1 - t) * Math.pow(t, 2) * controlY +
           Math.pow(t, 3) * targetY
-        return Math.abs(labelY - this._path.getBBox().y) < 1
+        return Math.abs(labelY - top) < 1
       })
   }
 
