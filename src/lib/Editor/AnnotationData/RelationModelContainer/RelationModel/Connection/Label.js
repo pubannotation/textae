@@ -2,6 +2,12 @@ import dohtml from 'dohtml'
 import SignboardHTMLElement from '../../../../SignboardHTMLElement'
 
 export default class Label {
+  /**
+   *
+   * @param {SVGAElement} container
+   * @param {import('../../RelationModel').default} relation
+   * @param {import('./Arrow').default} arrow
+   */
   constructor(container, relation, arrow, onClick, onMouseEnter, onMouseLeave) {
     this._container = container
     this._relation = relation
