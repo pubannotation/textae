@@ -81,7 +81,7 @@ export default class PathPoints {
     return this.sourceControlX !== this.sourceX
   }
 
-  getTForY(top) {
+  getTForY(y) {
     const sample = 20
 
     // https://ja.javascript.info/bezier-curve
@@ -99,7 +99,7 @@ export default class PathPoints {
             3 * Math.pow(1 - t, 2) * t * controlY +
             3 * (1 - t) * Math.pow(t, 2) * controlY +
             Math.pow(t, 3) * (this.controlY * 0.25 + additionalControlY * 0.75)
-          return Math.abs(labelY - top) < 1
+          return Math.abs(labelY - y) < 1
         })
     }
 
@@ -111,7 +111,7 @@ export default class PathPoints {
           3 * Math.pow(1 - t, 2) * t * controlY +
           3 * (1 - t) * Math.pow(t, 2) * controlY +
           Math.pow(t, 3) * targetY
-        return Math.abs(labelY - top) < 1
+        return Math.abs(labelY - y) < 1
       })
   }
 
