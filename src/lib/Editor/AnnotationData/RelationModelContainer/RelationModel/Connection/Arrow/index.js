@@ -124,11 +124,6 @@ export default class Arrow {
     return 0
   }
 
-  get _t() {
-    const { top } = this
-    return this._pathPoints.getTForY(top)
-  }
-
   _drawSourceJetty(pathPoints) {
     const { sourceEntity } = this._relation
 
