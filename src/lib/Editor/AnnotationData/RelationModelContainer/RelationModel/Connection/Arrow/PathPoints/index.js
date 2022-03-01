@@ -78,10 +78,7 @@ export default class PathPoints {
   }
 
   get isBentSignificantly() {
-    return (
-      this.targetControlX !== this.targetX ||
-      this.sourceControlX !== this.sourceX
-    )
+    return this.sourceControlX !== this.sourceX
   }
 
   getTForY(top) {
@@ -90,6 +87,22 @@ export default class PathPoints {
     // https://ja.javascript.info/bezier-curve
     // (1−t)3P1 + 3(1−t)2tP2 +3(1−t)t2P3 + t3P4
     const { sourceY, targetY, controlY } = this
+
+    if (this.targetControlX !== this.targetX) {
+      const additionalControlY = this.sourceY * 0.3 + this.targetY * 0.7
+
+      return [...Array(sample).keys()]
+        .map((i) => (i * 1) / sample)
+        .find((t) => {
+          const labelY =
+            Math.pow(1 - t, 3) * sourceY +
+            3 * Math.pow(1 - t, 2) * t * controlY +
+            3 * (1 - t) * Math.pow(t, 2) * controlY +
+            Math.pow(t, 3) * (this.controlY * 0.25 + additionalControlY * 0.75)
+          return Math.abs(labelY - top) < 1
+        })
+    }
+
     return [...Array(sample).keys()]
       .map((i) => (i * 1) / sample)
       .find((t) => {
