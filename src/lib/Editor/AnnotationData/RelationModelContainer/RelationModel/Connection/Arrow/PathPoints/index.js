@@ -65,7 +65,7 @@ export default class PathPoints {
   }
 
   get isBentSignificantly() {
-    return this.sourceControlX !== this.sourceX
+    return false
   }
 
   getTForY(y) {
@@ -84,6 +84,20 @@ export default class PathPoints {
             3 * Math.pow(1 - t, 2) * t * controlY +
             3 * (1 - t) * Math.pow(t, 2) * controlY +
             Math.pow(t, 3) * this._junctionPointY
+          return Math.abs(labelY - y) < 1
+        })
+    }
+
+    if (this.sourceControlX !== this.sourceX) {
+      return [...Array(sample).keys()]
+        .map((i) => (i * 1) / sample)
+        .find((t) => {
+          const labelY =
+            Math.pow(1 - t, 3) * this._junctionPointY +
+            3 * Math.pow(1 - t, 2) * t * controlY +
+            3 * (1 - t) * Math.pow(t, 2) * controlY +
+            Math.pow(t, 3) * targetY
+
           return Math.abs(labelY - y) < 1
         })
     }
