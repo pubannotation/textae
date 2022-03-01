@@ -118,6 +118,15 @@ export default class PathPoints {
   getXOnT(_t) {
     const { sourceX, targetX, sourceControlX, targetControlX } = this
 
+    if (this.targetControlX !== this.targetX) {
+      return (
+        Math.pow(1 - _t, 3) * sourceX +
+        3 * Math.pow(1 - _t, 2) * _t * sourceControlX +
+        3 * (1 - _t) * Math.pow(_t, 2) * targetControlX +
+        Math.pow(_t, 3) * (this.targetControlX * 0.25 + this.targetX * 0.75)
+      )
+    }
+
     return (
       Math.pow(1 - _t, 3) * sourceX +
       3 * Math.pow(1 - _t, 2) * _t * sourceControlX +
