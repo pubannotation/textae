@@ -123,7 +123,7 @@ export default class PathPoints {
         Math.pow(1 - _t, 3) * sourceX +
         3 * Math.pow(1 - _t, 2) * _t * sourceControlX +
         3 * (1 - _t) * Math.pow(_t, 2) * targetControlX +
-        Math.pow(_t, 3) * (this.targetControlX * 0.25 + this.targetX * 0.75)
+        Math.pow(_t, 3) * this._junctionPointX
       )
     }
 
@@ -133,5 +133,13 @@ export default class PathPoints {
       3 * (1 - _t) * Math.pow(_t, 2) * targetControlX +
       Math.pow(_t, 3) * targetX
     )
+  }
+
+  get _junctionPointX() {
+    if (this.targetControlX !== this.targetX) {
+      return this.targetControlX * 0.25 + this.targetX * 0.75
+    }
+
+    throw new Error('No junction point!')
   }
 }
