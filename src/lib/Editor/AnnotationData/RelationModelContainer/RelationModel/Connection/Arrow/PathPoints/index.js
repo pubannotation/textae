@@ -45,17 +45,7 @@ export default class PathPoints {
     }
 
     if (this.sourceControlX !== this.sourceX) {
-      const additionalControlY = this.sourceY * 0.7 + this.targetY * 0.3
-
-      return `M ${this.sourceX}, ${this.sourceY} Q ${
-        this.sourceX
-      } ${additionalControlY}, ${
-        this.sourceControlX * 0.25 + this.sourceX * 0.75
-      } ${this.controlY * 0.25 + additionalControlY * 0.75} C ${
-        this.sourceControlX
-      } ${this.controlY}, ${this.targetControlX} ${this.controlY}, ${
-        this.targetX
-      } ${this.targetY}`
+      return `M ${this.sourceX}, ${this.sourceY} Q ${this.sourceX} ${this._additionalControlY}, ${this._junctionPointX} ${this._junctionPointY} C ${this.sourceControlX} ${this.controlY}, ${this.targetControlX} ${this.controlY}, ${this.targetX} ${this.targetY}`
     }
 
     return `M ${this.sourceX}, ${this.sourceY} C ${this.sourceControlX} ${this.controlY}, ${this.targetControlX} ${this.controlY}, ${this.targetX} ${this.targetY}`
@@ -130,6 +120,10 @@ export default class PathPoints {
       return this.sourceY * 0.3 + this.targetY * 0.7
     }
 
+    if (this.sourceControlX !== this.sourceX) {
+      return this.sourceY * 0.7 + this.targetY * 0.3
+    }
+
     throw new Error('No additional control point!')
   }
 
@@ -138,11 +132,19 @@ export default class PathPoints {
       return this.targetControlX * 0.25 + this.targetX * 0.75
     }
 
+    if (this.sourceControlX !== this.sourceX) {
+      return this.sourceControlX * 0.25 + this.sourceX * 0.75
+    }
+
     throw new Error('No junction point!')
   }
 
   get _junctionPointY() {
     if (this.targetControlX !== this.targetX) {
+      return this.controlY * 0.25 + this._additionalControlY * 0.75
+    }
+
+    if (this.sourceControlX !== this.sourceX) {
       return this.controlY * 0.25 + this._additionalControlY * 0.75
     }
 
