@@ -106,11 +106,13 @@ export default class Arrow {
 
     const { sourceX, targetX, sourceControlX, targetControlX } =
       this._pathPoints
+    const _t = this._pathPoints.getTForY(this.top)
+
     const labelX =
-      Math.pow(1 - this._t, 3) * sourceX +
-      3 * Math.pow(1 - this._t, 2) * this._t * sourceControlX +
-      3 * (1 - this._t) * Math.pow(this._t, 2) * targetControlX +
-      Math.pow(this._t, 3) * targetX
+      Math.pow(1 - _t, 3) * sourceX +
+      3 * Math.pow(1 - _t, 2) * _t * sourceControlX +
+      3 * (1 - _t) * Math.pow(_t, 2) * targetControlX +
+      Math.pow(_t, 3) * targetX
     return labelX
   }
 
