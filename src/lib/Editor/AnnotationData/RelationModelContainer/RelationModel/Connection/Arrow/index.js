@@ -94,10 +94,6 @@ export default class Arrow {
     this._destroyTargetJetty()
   }
 
-  get isBentSignificantly() {
-    return this._pathPoints.isBentSignificantly
-  }
-
   get top() {
     return this._path.getBBox().y
   }

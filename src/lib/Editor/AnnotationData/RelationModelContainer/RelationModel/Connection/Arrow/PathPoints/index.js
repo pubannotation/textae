@@ -64,10 +64,6 @@ export default class PathPoints {
     return `translate(${this.targetX}, ${this.targetY})`
   }
 
-  get isBentSignificantly() {
-    return false
-  }
-
   getTForY(y) {
     const sample = 20
 

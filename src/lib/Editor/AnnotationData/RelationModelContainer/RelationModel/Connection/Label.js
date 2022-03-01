@@ -61,15 +61,9 @@ export default class Label {
   }
 
   _updatePosition() {
-    if (this._arrow.isBentSignificantly) {
-      // When you bend the relation a lot, you can't get the parameter that shows the highest point.
-      this._location.style.width = `${this._arrow.width}px`
-      this._location.style.left = `${this._arrow.left}px`
-    } else {
-      // Set the center of the label to the X coordinate of the highest point of the curve.
-      this._location.style.width = '0px'
-      this._location.style.left = `${this._arrow.highestX}px`
-    }
+    // Set the center of the label to the X coordinate of the highest point of the curve.
+    this._location.style.width = '0px'
+    this._location.style.left = `${this._arrow.highestX}px`
 
     this._location.style.top = `${
       this._arrow.top - 18 - this._relation.attributes.length * 18
