@@ -99,19 +99,19 @@ export default class Arrow {
   }
 
   get left() {
-    if (this._t) {
-      const { sourceX, targetX, sourceControlX, targetControlX } =
-        this._pathPoints
-      const labelX =
-        Math.pow(1 - this._t, 3) * sourceX +
-        3 * Math.pow(1 - this._t, 2) * this._t * sourceControlX +
-        3 * (1 - this._t) * Math.pow(this._t, 2) * targetControlX +
-        Math.pow(this._t, 3) * targetX
-      return labelX
+    if (this._pathPoints.isBentSignificantly) {
+      // When you bend the relation a lot, you can't get the parameter that shows the highest point.
+      return this._path.getBBox().x
     }
 
-    // When you bend the relation a lot, you can't get the parameter that shows the highest point.
-    return this._path.getBBox().x
+    const { sourceX, targetX, sourceControlX, targetControlX } =
+      this._pathPoints
+    const labelX =
+      Math.pow(1 - this._t, 3) * sourceX +
+      3 * Math.pow(1 - this._t, 2) * this._t * sourceControlX +
+      3 * (1 - this._t) * Math.pow(this._t, 2) * targetControlX +
+      Math.pow(this._t, 3) * targetX
+    return labelX
   }
 
   get width() {
