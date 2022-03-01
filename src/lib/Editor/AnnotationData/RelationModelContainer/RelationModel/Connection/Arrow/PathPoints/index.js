@@ -114,4 +114,15 @@ export default class PathPoints {
         return Math.abs(labelY - top) < 1
       })
   }
+
+  getXOnT(_t) {
+    const { sourceX, targetX, sourceControlX, targetControlX } = this
+
+    return (
+      Math.pow(1 - _t, 3) * sourceX +
+      3 * Math.pow(1 - _t, 2) * _t * sourceControlX +
+      3 * (1 - _t) * Math.pow(_t, 2) * targetControlX +
+      Math.pow(_t, 3) * targetX
+    )
+  }
 }

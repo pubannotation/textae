@@ -107,16 +107,9 @@ export default class Arrow {
   }
 
   get highestX() {
-    const { sourceX, targetX, sourceControlX, targetControlX } =
-      this._pathPoints
     const _t = this._pathPoints.getTForY(this.top)
 
-    const labelX =
-      Math.pow(1 - _t, 3) * sourceX +
-      3 * Math.pow(1 - _t, 2) * _t * sourceControlX +
-      3 * (1 - _t) * Math.pow(_t, 2) * targetControlX +
-      Math.pow(_t, 3) * targetX
-    return labelX
+    return this._pathPoints.getXOnT(_t)
   }
 
   get width() {
