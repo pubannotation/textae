@@ -89,8 +89,6 @@ export default class PathPoints {
     const { sourceY, targetY, controlY } = this
 
     if (this.targetControlX !== this.targetX) {
-      const additionalControlY = this.sourceY * 0.3 + this.targetY * 0.7
-
       return [...Array(sample).keys()]
         .map((i) => (i * 1) / sample)
         .find((t) => {
@@ -98,7 +96,7 @@ export default class PathPoints {
             Math.pow(1 - t, 3) * sourceY +
             3 * Math.pow(1 - t, 2) * t * controlY +
             3 * (1 - t) * Math.pow(t, 2) * controlY +
-            Math.pow(t, 3) * (this.controlY * 0.25 + additionalControlY * 0.75)
+            Math.pow(t, 3) * this._junctionPointY
           return Math.abs(labelY - y) < 1
         })
     }
@@ -138,6 +136,15 @@ export default class PathPoints {
   get _junctionPointX() {
     if (this.targetControlX !== this.targetX) {
       return this.targetControlX * 0.25 + this.targetX * 0.75
+    }
+
+    throw new Error('No junction point!')
+  }
+
+  get _junctionPointY() {
+    if (this.targetControlX !== this.targetX) {
+      const additionalControlY = this.sourceY * 0.3 + this.targetY * 0.7
+      return this.controlY * 0.25 + additionalControlY * 0.75
     }
 
     throw new Error('No junction point!')
