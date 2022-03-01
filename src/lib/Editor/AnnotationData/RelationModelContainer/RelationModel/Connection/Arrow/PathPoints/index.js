@@ -41,14 +41,19 @@ export default class PathPoints {
 
   get pathCommands() {
     if (this.targetControlX !== this.targetX) {
-      return `M ${this.sourceX}, ${this.sourceY} C ${this.sourceControlX} ${this.controlY}, ${this.targetControlX} ${this.controlY}, ${this._junctionPointX} ${this._junctionPointY} Q ${this.targetX} ${this._additionalControlY}, ${this.targetX} ${this.targetY}`
+      return `M ${this.sourceX}, ${this.sourceY}
+              C ${this.sourceControlX} ${this.controlY}, ${this.targetControlX} ${this.controlY}, ${this._junctionPointX} ${this._junctionPointY}
+              Q ${this.targetX} ${this._additionalControlY}, ${this.targetX} ${this.targetY}`
     }
 
     if (this.sourceControlX !== this.sourceX) {
-      return `M ${this.sourceX}, ${this.sourceY} Q ${this.sourceX} ${this._additionalControlY}, ${this._junctionPointX} ${this._junctionPointY} C ${this.sourceControlX} ${this.controlY}, ${this.targetControlX} ${this.controlY}, ${this.targetX} ${this.targetY}`
+      return `M ${this.sourceX}, ${this.sourceY}
+              Q ${this.sourceX} ${this._additionalControlY}, ${this._junctionPointX} ${this._junctionPointY}
+              C ${this.sourceControlX} ${this.controlY}, ${this.targetControlX} ${this.controlY}, ${this.targetX} ${this.targetY}`
     }
 
-    return `M ${this.sourceX}, ${this.sourceY} C ${this.sourceControlX} ${this.controlY}, ${this.targetControlX} ${this.controlY}, ${this.targetX} ${this.targetY}`
+    return `M ${this.sourceX}, ${this.sourceY}
+            C ${this.sourceControlX} ${this.controlY}, ${this.targetControlX} ${this.controlY}, ${this.targetX} ${this.targetY}`
   }
 
   get transformDefinitionsForSourceTriangle() {
