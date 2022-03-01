@@ -94,17 +94,16 @@ export default class Arrow {
     this._destroyTargetJetty()
   }
 
+  get isBentSignificantly() {
+    return this._pathPoints.isBentSignificantly
+  }
+
   get top() {
     return this._path.getBBox().y
   }
 
   get left() {
-    if (this._pathPoints.isBentSignificantly) {
-      // When you bend the relation a lot, you can't get the parameter that shows the highest point.
-      return this._path.getBBox().x
-    }
-
-    return this.highestX
+    return this._path.getBBox().x
   }
 
   get highestX() {
@@ -121,11 +120,7 @@ export default class Arrow {
   }
 
   get width() {
-    if (this._pathPoints.isBentSignificantly) {
-      // When you bend the relation a lot, you can't get the parameter that shows the highest point.
-      return this._path.getBBox().width
-    }
-    return 0
+    return this._path.getBBox().width
   }
 
   _drawSourceJetty(pathPoints) {
