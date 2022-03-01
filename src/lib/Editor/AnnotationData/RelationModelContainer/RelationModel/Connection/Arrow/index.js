@@ -124,11 +124,15 @@ export default class Arrow {
   }
 
   get _t() {
+    const { top } = this
+    return this.getTForY(top)
+  }
+
+  getTForY(top) {
     const { sourceY, targetY, controlY } = this._pathPoints
     // https://ja.javascript.info/bezier-curve
     // (1−t)3P1 + 3(1−t)2tP2 +3(1−t)t2P3 + t3P4
     const sample = 20
-    const { top } = this
     return [...Array(sample).keys()]
       .map((i) => (i * 1) / sample)
       .find((t) => {
