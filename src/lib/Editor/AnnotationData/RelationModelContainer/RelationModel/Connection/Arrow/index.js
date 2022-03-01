@@ -115,12 +115,11 @@ export default class Arrow {
   }
 
   get width() {
-    if (this._t) {
-      return 0
+    if (this._pathPoints.isBentSignificantly) {
+      // When you bend the relation a lot, you can't get the parameter that shows the highest point.
+      return this._path.getBBox().width
     }
-
-    // When you bend the relation a lot, you can't get the parameter that shows the highest point.
-    return this._path.getBBox().width
+    return 0
   }
 
   get _t() {
