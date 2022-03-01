@@ -43,13 +43,7 @@ export default class PathPoints {
     if (this.targetControlX !== this.targetX) {
       const additionalControlY = this.sourceY * 0.3 + this.targetY * 0.7
 
-      return `M ${this.sourceX}, ${this.sourceY} C ${this.sourceControlX} ${
-        this.controlY
-      }, ${this.targetControlX} ${this.controlY}, ${
-        this.targetControlX * 0.25 + this.targetX * 0.75
-      } ${this.controlY * 0.25 + additionalControlY * 0.75} Q ${
-        this.targetX
-      } ${additionalControlY}, ${this.targetX} ${this.targetY}`
+      return `M ${this.sourceX}, ${this.sourceY} C ${this.sourceControlX} ${this.controlY}, ${this.targetControlX} ${this.controlY}, ${this._junctionPointX} ${this._junctionPointY} Q ${this.targetX} ${additionalControlY}, ${this.targetX} ${this.targetY}`
     }
 
     if (this.sourceControlX !== this.sourceX) {
