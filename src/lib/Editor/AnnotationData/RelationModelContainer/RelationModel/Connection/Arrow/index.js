@@ -104,6 +104,10 @@ export default class Arrow {
       return this._path.getBBox().x
     }
 
+    return this.highestX
+  }
+
+  get highestX() {
     const { sourceX, targetX, sourceControlX, targetControlX } =
       this._pathPoints
     const _t = this._pathPoints.getTForY(this.top)
