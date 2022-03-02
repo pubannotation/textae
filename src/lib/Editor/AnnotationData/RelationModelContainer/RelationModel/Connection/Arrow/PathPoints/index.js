@@ -2,6 +2,14 @@ import getControlXs from './getControlXs'
 import getSourceAndTarget from './getSourceAndTarget'
 
 export default class PathPoints {
+  /**
+   *
+   * @param {import('./../../../../../../EntityModel').default} sourceEntity
+   * @param {import('./../../../../../../EntityModel').default} targetEntity
+   * @param {boolean} alignSourceBollards
+   * @param {boolean} alignTargetBollards
+   * @param {number} clientTopOfContainer
+   */
   constructor(
     sourceEntity,
     targetEntity,
