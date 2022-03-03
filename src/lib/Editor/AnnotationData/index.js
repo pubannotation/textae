@@ -257,6 +257,12 @@ export default class AnnotationData {
     }
   }
 
+  /** @param {number} value */
+  set controlBarHeight(value) {
+    console.log(value)
+    this._controlBarHeight = value
+  }
+
   get _isInSight() {
     const { clientHeight } = document.documentElement
     const { top, bottom } = this._editorHTMLElement.getBoundingClientRect()

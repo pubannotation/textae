@@ -206,10 +206,18 @@ export default class API {
     )
 
     // add control bar
+    const controlBarHTMLElement = new ControlBar(
+      eventEmitter,
+      buttonController,
+      iconEventMap
+    ).el
     editorHTMLElement.insertBefore(
-      new ControlBar(eventEmitter, buttonController, iconEventMap).el,
+      controlBarHTMLElement,
       editorHTMLElement.childNodes[0]
     )
+    annotationData.controlBarHeight =
+      controlBarHTMLElement.getBoundingClientRect().height
+
     // add context menu
     const contextMenu = new ContextMenu(
       editorHTMLElement,
