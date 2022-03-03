@@ -82,15 +82,6 @@ export default class API {
     )
 
     const remoteResource = new RemoteResource(eventEmitter)
-    initAnnotation(
-      spanConfig,
-      annotationData,
-      remoteResource,
-      buttonController,
-      originalData,
-      params.get('annotation'),
-      params.get('config')
-    )
 
     const persistenceInterface = new PersistenceInterface(
       eventEmitter,
@@ -217,6 +208,16 @@ export default class API {
     )
     annotationData.controlBarHeight =
       controlBarHTMLElement.getBoundingClientRect().height
+
+    initAnnotation(
+      spanConfig,
+      annotationData,
+      remoteResource,
+      buttonController,
+      originalData,
+      params.get('annotation'),
+      params.get('config')
+    )
 
     // add context menu
     const contextMenu = new ContextMenu(

@@ -31,6 +31,11 @@ export default class EntityModelContainer extends IdIssueContainer {
     return this._parent.relation
   }
 
+  /** @param {number} value */
+  set controlBarHeight(value) {
+    this._controlBarHeight = value
+  }
+
   _toModel(denotation, type) {
     // Expected an entity like {id: "E21", span: "editor2__S50_54", obj: "Protein"}.
     return new EntityModel(
@@ -42,6 +47,7 @@ export default class EntityModelContainer extends IdIssueContainer {
       this._getSpan(type, denotation),
       denotation.obj,
       this._namespace,
+      this._controlBarHeight,
       denotation.id
     )
   }
@@ -65,7 +71,8 @@ export default class EntityModelContainer extends IdIssueContainer {
       this._parent.typeDefinition,
       this._spanModelContainer.get(newValue.span),
       newValue.typeName,
-      this._namespace
+      this._namespace,
+      this._controlBarHeight
     )
 
     console.assert(

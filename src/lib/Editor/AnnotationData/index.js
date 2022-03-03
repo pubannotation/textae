@@ -259,8 +259,7 @@ export default class AnnotationData {
 
   /** @param {number} value */
   set controlBarHeight(value) {
-    console.log(value)
-    this._controlBarHeight = value
+    this.entity.controlBarHeight = value
   }
 
   get _isInSight() {

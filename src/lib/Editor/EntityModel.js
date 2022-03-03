@@ -19,6 +19,7 @@ export default class EntityModel {
     span,
     typeName,
     namespace,
+    controlBarHeight,
     id = null
   ) {
     this._editorID = editorID
@@ -30,6 +31,7 @@ export default class EntityModel {
     this._typeGap = typeGap
     this._typeDefinition = typeDefinition
     this._namespace = namespace
+    this._controlBarHeight = controlBarHeight
 
     this._isSelected = false
     this._isHovered = false
@@ -177,7 +179,10 @@ export default class EntityModel {
   }
 
   isInViewport(clientHeight) {
-    return 0 <= this.clientBottom && this.clientTop <= clientHeight
+    return (
+      this._controlBarHeight <= this.clientBottom &&
+      this.clientTop <= clientHeight
+    )
   }
 
   get width() {
