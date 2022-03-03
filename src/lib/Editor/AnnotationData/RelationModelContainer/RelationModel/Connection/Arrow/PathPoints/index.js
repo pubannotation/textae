@@ -30,7 +30,7 @@ export default class PathPoints {
       20 +
       (alignSourceBollards && alignTargetBollards ? 3 : 0)
 
-    this.controlY = controlY
+    this._controlY = controlY
     this.sourceX = source.x
     this.targetX = target.x
 
@@ -84,18 +84,18 @@ export default class PathPoints {
   get pathCommands() {
     if (this._isBentOnTargetSide) {
       return `M ${this.sourceX}, ${this.sourceY}
-              C ${this.sourceControlX} ${this.controlY}, ${this.targetControlX} ${this.controlY}, ${this._junctionPointX} ${this._junctionPointY}
+              C ${this.sourceControlX} ${this._controlY}, ${this.targetControlX} ${this._controlY}, ${this._junctionPointX} ${this._junctionPointY}
               Q ${this.targetX} ${this._additionalControlY}, ${this.targetX} ${this.targetY}`
     }
 
     if (this._isBentOnSourceSide) {
       return `M ${this.sourceX}, ${this.sourceY}
               Q ${this.sourceX} ${this._additionalControlY}, ${this._junctionPointX} ${this._junctionPointY}
-              C ${this.sourceControlX} ${this.controlY}, ${this.targetControlX} ${this.controlY}, ${this.targetX} ${this.targetY}`
+              C ${this.sourceControlX} ${this._controlY}, ${this.targetControlX} ${this._controlY}, ${this.targetX} ${this.targetY}`
     }
 
     return `M ${this.sourceX}, ${this.sourceY}
-            C ${this.sourceControlX} ${this.controlY}, ${this.targetControlX} ${this.controlY}, ${this.targetX} ${this.targetY}`
+            C ${this.sourceControlX} ${this._controlY}, ${this.targetControlX} ${this._controlY}, ${this.targetX} ${this.targetY}`
   }
 
   get transformDefinitionsForSourceTriangle() {
@@ -111,7 +111,7 @@ export default class PathPoints {
 
     // https://ja.javascript.info/bezier-curve
     // (1−t)3P1 + 3(1−t)2tP2 +3(1−t)t2P3 + t3P4
-    const { sourceY, targetY, controlY } = this
+    const { sourceY, targetY, _controlY: controlY } = this
 
     if (this._isBentOnTargetSide) {
       return [...Array(sample).keys()]
@@ -198,11 +198,11 @@ export default class PathPoints {
 
   get _junctionPointY() {
     if (this._isBentOnTargetSide) {
-      return this.controlY * 0.25 + this._additionalControlY * 0.75
+      return this._controlY * 0.25 + this._additionalControlY * 0.75
     }
 
     if (this._isBentOnSourceSide) {
-      return this.controlY * 0.25 + this._additionalControlY * 0.75
+      return this._controlY * 0.25 + this._additionalControlY * 0.75
     }
 
     throw new Error('No junction point!')
