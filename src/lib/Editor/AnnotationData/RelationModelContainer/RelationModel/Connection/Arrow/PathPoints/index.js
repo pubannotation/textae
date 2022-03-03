@@ -51,7 +51,7 @@ export default class PathPoints {
     return this._target.y
   }
 
-  get sourceControlX() {
+  get _sourceControlX() {
     if (
       Math.abs(
         this._sourceEntity.clientBottom - this._targetEntity.clientBottom
@@ -68,7 +68,7 @@ export default class PathPoints {
     }
   }
 
-  get targetControlX() {
+  get _targetControlX() {
     if (
       Math.abs(
         this._sourceEntity.clientBottom - this._targetEntity.clientBottom
@@ -88,18 +88,18 @@ export default class PathPoints {
   get pathCommands() {
     if (this._isBentOnTargetSide) {
       return `M ${this.sourceX}, ${this.sourceY}
-              C ${this.sourceControlX} ${this._controlY}, ${this.targetControlX} ${this._controlY}, ${this._junctionPointX} ${this._junctionPointY}
+              C ${this._sourceControlX} ${this._controlY}, ${this._targetControlX} ${this._controlY}, ${this._junctionPointX} ${this._junctionPointY}
               Q ${this.targetX} ${this._additionalControlY}, ${this.targetX} ${this.targetY}`
     }
 
     if (this._isBentOnSourceSide) {
       return `M ${this.sourceX}, ${this.sourceY}
               Q ${this.sourceX} ${this._additionalControlY}, ${this._junctionPointX} ${this._junctionPointY}
-              C ${this.sourceControlX} ${this._controlY}, ${this.targetControlX} ${this._controlY}, ${this.targetX} ${this.targetY}`
+              C ${this._sourceControlX} ${this._controlY}, ${this._targetControlX} ${this._controlY}, ${this.targetX} ${this.targetY}`
     }
 
     return `M ${this.sourceX}, ${this.sourceY}
-            C ${this.sourceControlX} ${this._controlY}, ${this.targetControlX} ${this._controlY}, ${this.targetX} ${this.targetY}`
+            C ${this._sourceControlX} ${this._controlY}, ${this._targetControlX} ${this._controlY}, ${this.targetX} ${this.targetY}`
   }
 
   get transformDefinitionsForSourceTriangle() {
@@ -157,7 +157,12 @@ export default class PathPoints {
   }
 
   getXOnT(_t) {
-    const { sourceX, targetX, sourceControlX, targetControlX } = this
+    const {
+      sourceX,
+      targetX,
+      _sourceControlX: sourceControlX,
+      _targetControlX: targetControlX
+    } = this
 
     if (this._isBentOnTargetSide) {
       return (
@@ -190,11 +195,11 @@ export default class PathPoints {
 
   get _junctionPointX() {
     if (this._isBentOnTargetSide) {
-      return this.targetControlX * 0.25 + this.targetX * 0.75
+      return this._targetControlX * 0.25 + this.targetX * 0.75
     }
 
     if (this._isBentOnSourceSide) {
-      return this.sourceControlX * 0.25 + this.sourceX * 0.75
+      return this._sourceControlX * 0.25 + this.sourceX * 0.75
     }
 
     throw new Error('No junction point!')
@@ -213,10 +218,10 @@ export default class PathPoints {
   }
 
   get _isBentOnTargetSide() {
-    return this.targetControlX !== this.targetX
+    return this._targetControlX !== this.targetX
   }
 
   get _isBentOnSourceSide() {
-    return this.sourceControlX !== this.sourceX
+    return this._sourceControlX !== this.sourceX
   }
 }
