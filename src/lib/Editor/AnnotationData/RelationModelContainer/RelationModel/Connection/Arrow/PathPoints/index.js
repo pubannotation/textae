@@ -61,7 +61,6 @@ export default class PathPoints {
     this.controlY = controlY
     this.sourceX = source.x
     this.targetX = target.x
-    this.targetControlX = targetControlX
 
     this._source = source
     this._target = target
@@ -83,6 +82,23 @@ export default class PathPoints {
       return this._source.x
     } else {
       return this._source.x + (this._target.anchor === 'right' ? 150 : -150)
+    }
+  }
+
+  get targetControlX() {
+    if (
+      Math.abs(
+        this._sourceEntity.clientBottom - this._targetEntity.clientBottom
+      ) < 12 ||
+      42 < Math.abs(this._target.x - this._source.x)
+    ) {
+      return this._target.x
+    }
+
+    if (this._source.y < this._target.y) {
+      return this._target.x + (this._source.anchor === 'right' ? 150 : -150)
+    } else {
+      return this._target.x
     }
   }
 
