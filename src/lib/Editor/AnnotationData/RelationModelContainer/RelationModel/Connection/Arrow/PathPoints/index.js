@@ -31,13 +31,17 @@ export default class PathPoints {
       (alignSourceBollards && alignTargetBollards ? 3 : 0)
 
     this._controlY = controlY
-    this.sourceX = source.x
-    this.targetX = target.x
-
     this._source = source
     this._target = target
     this._sourceEntity = sourceEntity
     this._targetEntity = targetEntity
+  }
+
+  get sourceX() {
+    return this._source.x
+  }
+  get targetX() {
+    return this._target.x
   }
 
   get sourceY() {
