@@ -1,17 +1,6 @@
 import getSourceAndTarget from './getSourceAndTarget'
 import bentSignificantly from './bentSignificantly'
 
-function getControlXs(source, target, sourceEntityBottom, targetEntityBottom) {
-  if (
-    Math.abs(sourceEntityBottom - targetEntityBottom) < 12 ||
-    42 < Math.abs(target.x - source.x)
-  ) {
-    return { sourceControlX: source.x, targetControlX: target.x }
-  }
-
-  return bentSignificantly(source, target)
-}
-
 export default class PathPoints {
   /**
    *
@@ -36,12 +25,21 @@ export default class PathPoints {
       clientTopOfContainer
     )
 
-    const { sourceControlX, targetControlX } = getControlXs(
+    const { sourceControlX, targetControlX } = (function (
       source,
       target,
-      sourceEntity.clientBottom,
-      targetEntity.clientBottom
-    )
+      sourceEntityBottom,
+      targetEntityBottom
+    ) {
+      if (
+        Math.abs(sourceEntityBottom - targetEntityBottom) < 12 ||
+        42 < Math.abs(target.x - source.x)
+      ) {
+        return { sourceControlX: source.x, targetControlX: target.x }
+      }
+
+      return bentSignificantly(source, target)
+    })(source, target, sourceEntity.clientBottom, targetEntity.clientBottom)
 
     const controlY =
       Math.min(source.y, target.y) -
