@@ -4370,6 +4370,11 @@ ul.jsondiffpatch-textdiff {
 .textae-editor {
   font-family: verdana, arial, helvetica, sans-serif;
 }
+@media screen and (max-width: 768px) {
+  .textae-editor {
+    padding-top: 60px;
+  }
+}
 .textae-editor,
 .textae-editor * {
   box-sizing: border-box;

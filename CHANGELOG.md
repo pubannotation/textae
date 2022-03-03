@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.12.0](https://github.com/pubannotation/textae/compare/v8.11.0...v8.12.0) (2022-03-03)
+
+
+### Features
+
+* Place the label at the highest point of the relation, where the source side has a large bend ([f24b90a](https://github.com/pubannotation/textae/commit/f24b90a911218689bd5dd55ff4a509bf5c8b95ea))
+* Place the label at the highest point of the relation, where the target side has a large bend ([55c5113](https://github.com/pubannotation/textae/commit/55c51138833b2d17c11d09b3746b96c61331cfb0))
+
+
+### Bug Fixes
+
+* Control bar covers unannotated text in Android ([8073b94](https://github.com/pubannotation/textae/commit/8073b94f4cc775cf7452c16d9bc2f2be785457d7))
+* Entities in the system clipboard can be pasted into Blockspan ([ad443f1](https://github.com/pubannotation/textae/commit/ad443f176a76bb6c01be3e15516ac54cacae7665))
+* You can select a block span and copy or cut it to the system clipboard ([3964a92](https://github.com/pubannotation/textae/commit/3964a922de65caf711b6ac600d06f1acc7b12398))
+
 ## [8.11.0](https://github.com/pubannotation/textae/compare/v8.10.0...v8.11.0) (2022-02-24)
 
 
