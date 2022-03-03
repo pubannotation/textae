@@ -63,7 +63,7 @@ export default class PathPoints {
               Q ${this.targetX} ${this._additionalControlY}, ${this.targetX} ${this.targetY}`
     }
 
-    if (this.sourceControlX !== this.sourceX) {
+    if (this._isBentOnSourceSide) {
       return `M ${this.sourceX}, ${this.sourceY}
               Q ${this.sourceX} ${this._additionalControlY}, ${this._junctionPointX} ${this._junctionPointY}
               C ${this.sourceControlX} ${this.controlY}, ${this.targetControlX} ${this.controlY}, ${this.targetX} ${this.targetY}`
@@ -101,7 +101,7 @@ export default class PathPoints {
         })
     }
 
-    if (this.sourceControlX !== this.sourceX) {
+    if (this._isBentOnSourceSide) {
       return [...Array(sample).keys()]
         .map((i) => (i * 1) / sample)
         .find((t) => {
@@ -152,7 +152,7 @@ export default class PathPoints {
       return this.sourceY * 0.3 + this.targetY * 0.7
     }
 
-    if (this.sourceControlX !== this.sourceX) {
+    if (this._isBentOnSourceSide) {
       return this.sourceY * 0.7 + this.targetY * 0.3
     }
 
@@ -164,7 +164,7 @@ export default class PathPoints {
       return this.targetControlX * 0.25 + this.targetX * 0.75
     }
 
-    if (this.sourceControlX !== this.sourceX) {
+    if (this._isBentOnSourceSide) {
       return this.sourceControlX * 0.25 + this.sourceX * 0.75
     }
 
@@ -176,7 +176,7 @@ export default class PathPoints {
       return this.controlY * 0.25 + this._additionalControlY * 0.75
     }
 
-    if (this.sourceControlX !== this.sourceX) {
+    if (this._isBentOnSourceSide) {
       return this.controlY * 0.25 + this._additionalControlY * 0.75
     }
 
@@ -185,5 +185,9 @@ export default class PathPoints {
 
   get _isBentOnTargetSide() {
     return this.targetControlX !== this.targetX
+  }
+
+  get _isBentOnSourceSide() {
+    return this.sourceControlX !== this.sourceX
   }
 }
