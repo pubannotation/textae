@@ -24,32 +24,6 @@ export default class PathPoints {
       clientTopOfContainer
     )
 
-    const { sourceControlX, targetControlX } = (function (
-      source,
-      target,
-      sourceEntityBottom,
-      targetEntityBottom
-    ) {
-      if (
-        Math.abs(sourceEntityBottom - targetEntityBottom) < 12 ||
-        42 < Math.abs(target.x - source.x)
-      ) {
-        return { sourceControlX: source.x, targetControlX: target.x }
-      }
-
-      if (source.y < target.y) {
-        return {
-          sourceControlX: source.x,
-          targetControlX: target.x + (source.anchor === 'right' ? 150 : -150)
-        }
-      } else {
-        return {
-          sourceControlX: source.x + (target.anchor === 'right' ? 150 : -150),
-          targetControlX: target.x
-        }
-      }
-    })(source, target, sourceEntity.clientBottom, targetEntity.clientBottom)
-
     const controlY =
       Math.min(source.y, target.y) -
       Math.abs(target.x - source.x) / 4 -
