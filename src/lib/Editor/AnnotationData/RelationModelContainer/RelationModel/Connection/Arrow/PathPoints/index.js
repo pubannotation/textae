@@ -1,5 +1,5 @@
 import getSourceAndTarget from './getSourceAndTarget'
-import bentSignificantly from './getControlXs/bentSignificantly'
+import bentSignificantly from './bentSignificantly'
 
 function getControlXs(source, target, sourceEntityBottom, targetEntityBottom) {
   if (
