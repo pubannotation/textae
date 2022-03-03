@@ -182,4 +182,8 @@ export default class PathPoints {
 
     throw new Error('No junction point!')
   }
+
+  get _isBentOnTargetSide() {
+    return this.targetControlX !== this.targetX
+  }
 }
