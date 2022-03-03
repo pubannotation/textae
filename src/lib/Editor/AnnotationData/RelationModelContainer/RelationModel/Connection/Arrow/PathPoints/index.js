@@ -1,5 +1,4 @@
 import getSourceAndTarget from './getSourceAndTarget'
-import bentSignificantly from './bentSignificantly'
 
 export default class PathPoints {
   /**
@@ -38,7 +37,17 @@ export default class PathPoints {
         return { sourceControlX: source.x, targetControlX: target.x }
       }
 
-      return bentSignificantly(source, target)
+      if (source.y < target.y) {
+        return {
+          sourceControlX: source.x,
+          targetControlX: target.x + (source.anchor === 'right' ? 150 : -150)
+        }
+      } else {
+        return {
+          sourceControlX: source.x + (target.anchor === 'right' ? 150 : -150),
+          targetControlX: target.x
+        }
+      }
     })(source, target, sourceEntity.clientBottom, targetEntity.clientBottom)
 
     const controlY =
