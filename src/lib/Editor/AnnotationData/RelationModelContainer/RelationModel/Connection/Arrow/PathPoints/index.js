@@ -51,40 +51,6 @@ export default class PathPoints {
     return this._target.y
   }
 
-  get _sourceControlX() {
-    if (
-      Math.abs(
-        this._sourceEntity.clientBottom - this._targetEntity.clientBottom
-      ) < 12 ||
-      42 < Math.abs(this._target.x - this._source.x)
-    ) {
-      return this._source.x
-    }
-
-    if (this._source.y < this._target.y) {
-      return this._source.x
-    } else {
-      return this._source.x + (this._target.anchor === 'right' ? 150 : -150)
-    }
-  }
-
-  get _targetControlX() {
-    if (
-      Math.abs(
-        this._sourceEntity.clientBottom - this._targetEntity.clientBottom
-      ) < 12 ||
-      42 < Math.abs(this._target.x - this._source.x)
-    ) {
-      return this._target.x
-    }
-
-    if (this._source.y < this._target.y) {
-      return this._target.x + (this._source.anchor === 'right' ? 150 : -150)
-    } else {
-      return this._target.x
-    }
-  }
-
   get pathCommands() {
     if (this._isBentOnTargetSide) {
       return `M ${this.sourceX}, ${this.sourceY}
@@ -217,11 +183,48 @@ export default class PathPoints {
     throw new Error('No junction point!')
   }
 
-  get _isBentOnTargetSide() {
-    return this._targetControlX !== this.targetX
+  get _sourceControlX() {
+    if (this._isBentOnSourceSide) {
+      return this._source.x + (this._target.anchor === 'right' ? 150 : -150)
+    }
+    return this._source.x
+  }
+
+  get _targetControlX() {
+    if (
+      Math.abs(
+        this._sourceEntity.clientBottom - this._targetEntity.clientBottom
+      ) < 12 ||
+      42 < Math.abs(this._target.x - this._source.x)
+    ) {
+      return this._target.x
+    }
+
+    if (this._source.y < this._target.y) {
+      return this._target.x + (this._source.anchor === 'right' ? 150 : -150)
+    } else {
+      return this._target.x
+    }
   }
 
   get _isBentOnSourceSide() {
-    return this._sourceControlX !== this.sourceX
+    if (
+      Math.abs(
+        this._sourceEntity.clientBottom - this._targetEntity.clientBottom
+      ) < 12 ||
+      42 < Math.abs(this._target.x - this._source.x)
+    ) {
+      return false
+    }
+
+    if (this._source.y < this._target.y) {
+      return false
+    } else {
+      return true
+    }
+  }
+
+  get _isBentOnTargetSide() {
+    return this._targetControlX !== this.targetX
   }
 }
