@@ -2,7 +2,9 @@ import getDisplayName from '../../../getDisplayName'
 import getUri from '../../../getUri'
 import toAnchorElement from '../../../toAnchorElement'
 import TypeValues from '../../../../TypeValues'
-import Connection from './Connection'
+import Arrow from './Connection/Arrow'
+import Label from './Connection/Label'
+import getAnnotationBox from '../../getAnnotationBox'
 
 export default class RelationModel {
   constructor(
@@ -102,8 +104,8 @@ export default class RelationModel {
       // When we select a relation,
       // it is hovering and we have already highlighted the line,
       // so we only need to update the label.
-      if (this._connection) {
-        this._connection.updateLabelHighlighting()
+      if (this._label) {
+        this._label.updateHighlighting()
       }
     }
   }
@@ -111,7 +113,7 @@ export default class RelationModel {
   deselect() {
     if (this._isSelected) {
       this._isSelected = false
-      if (this._connection) {
+      if (this._arrow || this._label) {
         this.redrawLineConsideringSelection()
       }
     }
@@ -122,12 +124,14 @@ export default class RelationModel {
       this.sourceEntity.isInViewport(clientHeight, clientWidth) ||
       this.targetEntity.isInViewport(clientHeight, clientWidth)
     ) {
-      if (!this._connection) {
-        this._connection = new Connection(
-          this._editorHTMLElement,
+      if (!this._arrow && !this._label) {
+        this._relationBox = this._editorHTMLElement.querySelector(
+          '.textae-editor__relation-box'
+        )
+        this._arrow = new Arrow(
+          this._relationBox,
           this,
-          this._namespace,
-          this._definitionContainer,
+          this._controlBarHeight,
           (event, attribute) => {
             this._eventEmitter.emit(
               'textae-event.editor.relation.click',
@@ -137,86 +141,140 @@ export default class RelationModel {
             )
             event.stopPropagation()
           },
-          (connection) => this._pointUpSelfAndEntities(connection),
-          () => this._pointDownSelfAndEntities(),
-          this._controlBarHeight
+          () => this._pointUpSelfAndEntities(this),
+          () => this._pointDownSelfAndEntities()
+        )
+
+        this._annotationBox = getAnnotationBox(this._editorHTMLElement)
+        this._label = new Label(
+          this._annotationBox,
+          this,
+          this._arrow,
+          (event, attribute) => {
+            this._eventEmitter.emit(
+              'textae-event.editor.relation.click',
+              event,
+              this,
+              attribute
+            )
+            event.stopPropagation()
+          },
+          () => this._pointUpSelfAndEntities(this),
+          () => this._pointDownSelfAndEntities()
         )
 
         // When scrolling out of a selected relation and then scrolling in again,
         // the selected state will be highlighted.
-        this._connection.updateLabelHighlighting()
+        this._label.updateHighlighting()
       } else {
         this.redrawLineConsideringSelection()
       }
     } else {
-      if (this._connection) {
+      if (this._arrow || this._label) {
         this.erase()
       }
     }
   }
 
   updateElement() {
-    if (this._connection) {
-      this._connection.updateValue()
+    if (this._arrow) {
+      this._arrow.update(
+        this.isSelected || this._relation.isHovered,
+        this.isSelected || this._relation.isHovered,
+        this.isSelected || this._relation.isHovered
+      )
+    }
+
+    if (this._label) {
+      this._label.updateValue()
     }
   }
 
   redrawLineConsideringSelection() {
-    if (this._connection) {
+    if (this._arrow) {
       if (this.sourceEntity.isSelected && this.targetEntity.isSelected) {
-        this._connection.pointUpPath()
+        this._arrow.update(true, true, true)
       } else if (this.sourceEntity.isSelected) {
-        this._connection.pointUpPathAndSourceBollards()
+        this._arrow.update(true, true, this.isSelected)
       } else if (this.targetEntity.isSelected) {
-        this._connection.pointUpPathAndTargetBollards()
+        this._arrow.update(true, this.isSelected, true)
       } else {
-        this._connection.pointDownPath()
+        this._arrow.update(this.isSelected, this.isSelected, this.isSelected)
       }
+    }
+
+    if (this._label) {
+      this._label.updateHighlighting()
     }
   }
 
   pointUpPathAndSourceBollards() {
-    if (this._connection) {
+    if (this._arrow) {
       if (this.targetEntity.isSelected) {
-        this._connection.pointUpPath()
+        this._arrow.update(true, true, true)
       } else {
-        this._connection.pointUpPathAndSourceBollards()
+        this._arrow.update(true, true, this.isSelected)
       }
+    }
+
+    if (this._label) {
+      this._label.updateHighlighting()
     }
   }
 
   pointUpPathAndTargetBollards() {
-    if (this._connection) {
+    if (this._arrow) {
       if (this.sourceEntity.isSelected) {
-        this._connection.pointUpPath()
+        this._arrow.update(true, true, true)
       } else {
-        this._connection.pointUpPathAndTargetBollards()
+        this._arrow.update(true, this.isSelected, true)
       }
+    }
+
+    if (this._label) {
+      this._label.updateHighlighting()
     }
   }
 
   pointUpSourceBollardsAndTargetBollards() {
-    if (this._connection) {
-      this._connection.pointUpSourceBollardsAndTargetBollards()
+    if (this._arrow) {
+      this._arrow.update(this.isSelected, true, true)
+    }
+
+    if (this._label) {
+      this._label.updateHighlighting()
     }
   }
 
   pointUpSourceBollards() {
-    if (this._connection) {
-      this._connection.pointUpSourceBollards()
+    if (this._arrow) {
+      this._arrow.update(this.isSelected, true, this.isSelected)
+    }
+
+    if (this._label) {
+      this._label.updateHighlighting()
     }
   }
 
   pointUpTargetBollards() {
-    if (this._connection) {
-      this._connection.pointUpTargetBollards()
+    if (this._arrow) {
+      this._arrow.update(this.isSelected, this.isSelected, true)
+    }
+
+    if (this._label) {
+      this._label.updateHighlighting()
     }
   }
 
   erase() {
-    if (this._connection) {
-      this._connection.destroy()
-      this._connection = undefined
+    if (this._arrow) {
+      this._arrow.destructor()
+      this._arrow = undefined
+    }
+
+    if (this._label) {
+      this._label.destructor()
+      this._label = undefined
     }
   }
 
@@ -248,9 +306,10 @@ export default class RelationModel {
     )
   }
 
-  _pointUpSelfAndEntities(connection) {
+  _pointUpSelfAndEntities() {
     this._isHovered = true
-    connection.pointUpPath()
+    this._arrow.update(true, true, true)
+    this._label.updateHighlighting()
 
     const bothRelations = new Set()
     const sourceRelations = new Set()
