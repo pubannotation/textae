@@ -125,11 +125,11 @@ export default class RelationModel {
       this.targetEntity.isInViewport(clientHeight, clientWidth)
     ) {
       if (!this._arrow && !this._label) {
-        this._relationBox = this._editorHTMLElement.querySelector(
+        const relationBox = this._editorHTMLElement.querySelector(
           '.textae-editor__relation-box'
         )
         this._arrow = new Arrow(
-          this._relationBox,
+          relationBox,
           this,
           this._controlBarHeight,
           (event, attribute) => {
@@ -145,9 +145,9 @@ export default class RelationModel {
           () => this._pointDownSelfAndEntities()
         )
 
-        this._annotationBox = getAnnotationBox(this._editorHTMLElement)
+        const annotationBox = getAnnotationBox(this._editorHTMLElement)
         this._label = new Label(
-          this._annotationBox,
+          annotationBox,
           this,
           this._arrow,
           (event, attribute) => {
