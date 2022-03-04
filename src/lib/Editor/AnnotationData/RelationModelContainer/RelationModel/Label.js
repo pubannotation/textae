@@ -1,15 +1,23 @@
 import dohtml from 'dohtml'
 import SignboardHTMLElement from '../../../SignboardHTMLElement'
+import getAnnotationBox from '../../getAnnotationBox'
 
 export default class Label {
   /**
    *
-   * @param {SVGAElement} container
+   * @param {HTMLElement} editorHTMLElement
    * @param {import('.').default} relation
    * @param {import('./Arrow').default} arrow
    */
-  constructor(container, relation, arrow, onClick, onMouseEnter, onMouseLeave) {
-    this._container = container
+  constructor(
+    editorHTMLElement,
+    relation,
+    arrow,
+    onClick,
+    onMouseEnter,
+    onMouseLeave
+  ) {
+    this._container = getAnnotationBox(editorHTMLElement)
     this._relation = relation
     this._arrow = arrow
 

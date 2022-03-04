@@ -4,7 +4,6 @@ import toAnchorElement from '../../../toAnchorElement'
 import TypeValues from '../../../../TypeValues'
 import Arrow from './Arrow'
 import Label from './Label'
-import getAnnotationBox from '../../getAnnotationBox'
 
 export default class RelationModel {
   constructor(
@@ -142,9 +141,8 @@ export default class RelationModel {
           () => this._pointDownSelfAndEntities()
         )
 
-        const annotationBox = getAnnotationBox(this._editorHTMLElement)
         this._label = new Label(
-          annotationBox,
+          this._editorHTMLElement,
           this,
           this._arrow,
           (event, attribute) => {
