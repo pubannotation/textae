@@ -260,6 +260,7 @@ export default class AnnotationData {
   /** @param {number} value */
   set controlBarHeight(value) {
     this.entity.controlBarHeight = value
+    this.relation.controlBarHeight = value
   }
 
   get _isInSight() {

@@ -17,6 +17,11 @@ export default class RelationModelContainer extends IdIssueContainer {
     this._definitionContainer = definitionContainer
   }
 
+  /** @param {number} value */
+  set controlBarHeight(value) {
+    this._controlBarHeight = value
+  }
+
   _toModel(relation) {
     return new RelationModel(
       this._editorHTMLElement,
@@ -25,7 +30,8 @@ export default class RelationModelContainer extends IdIssueContainer {
       this._parentContainer.attribute,
       relation,
       this._namespace,
-      this._definitionContainer
+      this._definitionContainer,
+      this._controlBarHeight
     )
   }
 
@@ -41,7 +47,8 @@ export default class RelationModelContainer extends IdIssueContainer {
             this._parentContainer.attribute,
             newValue,
             this._namespace,
-            this._definitionContainer
+            this._definitionContainer,
+            this._controlBarHeight
           )
     const { clientHeight, clientWidth } = document.documentElement
     newValue.render(clientHeight, clientWidth)

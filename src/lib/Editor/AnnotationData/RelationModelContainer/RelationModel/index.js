@@ -12,7 +12,8 @@ export default class RelationModel {
     attributeContainer,
     { id, pred, subj, obj },
     namespace,
-    definitionContainer
+    definitionContainer,
+    controlBarHeight
   ) {
     this._editorHTMLElement = editorHTMLElement
     this._eventEmitter = eventEmitter
@@ -24,6 +25,7 @@ export default class RelationModel {
     this._obj = obj
     this._namespace = namespace
     this._definitionContainer = definitionContainer
+    this._controlBarHeight = controlBarHeight
     this._isSelected = false
 
     // When you click on a relation to deselect it, the display of the relation will be in hover.
@@ -136,7 +138,8 @@ export default class RelationModel {
             event.stopPropagation()
           },
           (connection) => this._pointUpSelfAndEntities(connection),
-          () => this._pointDownSelfAndEntities()
+          () => this._pointDownSelfAndEntities(),
+          this._controlBarHeight
         )
 
         // When scrolling out of a selected relation and then scrolling in again,

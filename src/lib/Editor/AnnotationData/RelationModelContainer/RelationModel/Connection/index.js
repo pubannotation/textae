@@ -10,7 +10,8 @@ export default class Connection {
     definitionContainer,
     onClick,
     onMouseEnter,
-    onMouseLeave
+    onMouseLeave,
+    controlBarHeight
   ) {
     this._relation = relation
     this._namespace = namespace
@@ -23,6 +24,7 @@ export default class Connection {
     this._arrow = new Arrow(
       this._relationBox,
       this._relation,
+      controlBarHeight,
       this._onClick,
       () => onMouseEnter(this),
       onMouseLeave

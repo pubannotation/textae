@@ -8,13 +8,15 @@ export default class PathPoints {
    * @param {boolean} alignSourceBollards
    * @param {boolean} alignTargetBollards
    * @param {number} clientTopOfContainer
+   * @param {number} column
    */
   constructor(
     sourceEntity,
     targetEntity,
     alignSourceBollards,
     alignTargetBollards,
-    clientTopOfContainer
+    clientTopOfContainer,
+    controlBarHeight
   ) {
     const [source, target] = getSourceAndTarget(
       sourceEntity,

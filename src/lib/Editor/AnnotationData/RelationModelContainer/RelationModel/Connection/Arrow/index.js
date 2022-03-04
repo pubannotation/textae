@@ -8,9 +8,17 @@ import createJetty from './createJetty'
 import moveJetty from './moveJetty'
 
 export default class Arrow {
-  constructor(container, relation, onClick, onMouseEnter, onMouseLeave) {
+  constructor(
+    container,
+    relation,
+    controlBarHeight,
+    onClick,
+    onMouseEnter,
+    onMouseLeave
+  ) {
     this._container = container
     this._relation = relation
+    this._controlBarHeight = controlBarHeight
 
     const sourceBollard = createSourceBollard()
     this._container.appendChild(sourceBollard)
@@ -45,7 +53,8 @@ export default class Arrow {
       this._relation.targetEntity,
       pointUpSourceBollards,
       pointUpTargetBollards,
-      this._container.getBoundingClientRect().top
+      this._container.getBoundingClientRect().top,
+      this._controlBarHeight
     )
     updatePath(this._path, pathPoints, this._relation.color, pointUpPath)
     updatePath(this._aura, pathPoints, this._relation.color, false)
