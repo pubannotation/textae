@@ -2,8 +2,8 @@ import getDisplayName from '../../../getDisplayName'
 import getUri from '../../../getUri'
 import toAnchorElement from '../../../toAnchorElement'
 import TypeValues from '../../../../TypeValues'
-import Arrow from './Connection/Arrow'
-import Label from './Connection/Label'
+import Arrow from './Arrow'
+import Label from './Label'
 import getAnnotationBox from '../../getAnnotationBox'
 
 export default class RelationModel {
