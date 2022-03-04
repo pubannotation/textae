@@ -1,7 +1,7 @@
 import { MarkerHeight } from '../MarkerHeight'
 import getSourceAndTarget from './getSourceAndTarget'
 
-export default class PathPoints {
+class PathPoints {
   /**
    *
    * @param {import('./../../../../../../EntityModel').default} sourceEntity
@@ -232,3 +232,7 @@ export default class PathPoints {
     }
   }
 }
+
+export class ArchedPathPoints extends PathPoints {}
+export class BentOnSourcePathPoints extends PathPoints {}
+export class BentOnTargetPathPoints extends PathPoints {}
