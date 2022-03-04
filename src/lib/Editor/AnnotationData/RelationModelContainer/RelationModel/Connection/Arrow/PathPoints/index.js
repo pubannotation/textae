@@ -192,9 +192,6 @@ class PathPoints {
   }
 
   get _targetControlX() {
-    if (this._isBentOnTargetSide) {
-      return this._target.x + (this._source.anchor === 'right' ? 150 : -150)
-    }
     return this._target.x
   }
 
@@ -235,4 +232,8 @@ class PathPoints {
 
 export class ArchedPathPoints extends PathPoints {}
 export class BentOnSourcePathPoints extends PathPoints {}
-export class BentOnTargetPathPoints extends PathPoints {}
+export class BentOnTargetPathPoints extends PathPoints {
+  get _targetControlX() {
+    return this._target.x + (this._source.anchor === 'right' ? 150 : -150)
+  }
+}
