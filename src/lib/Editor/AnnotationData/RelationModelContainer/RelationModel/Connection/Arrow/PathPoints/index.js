@@ -84,33 +84,6 @@ class PathPoints {
 
     // https://ja.javascript.info/bezier-curve
     // (1−t)3P1 + 3(1−t)2tP2 +3(1−t)t2P3 + t3P4
-    if (this._isBentOnTargetSide) {
-      return [...Array(sample).keys()]
-        .map((i) => (i * 1) / sample)
-        .find((t) => {
-          const labelY =
-            Math.pow(1 - t, 3) * this.sourceY +
-            3 * Math.pow(1 - t, 2) * t * this._controlY +
-            3 * (1 - t) * Math.pow(t, 2) * this._controlY +
-            Math.pow(t, 3) * this._junctionPointY
-          return Math.abs(labelY - y) < 1
-        })
-    }
-
-    if (this._isBentOnSourceSide) {
-      return [...Array(sample).keys()]
-        .map((i) => (i * 1) / sample)
-        .find((t) => {
-          const labelY =
-            Math.pow(1 - t, 3) * this._junctionPointY +
-            3 * Math.pow(1 - t, 2) * t * this._controlY +
-            3 * (1 - t) * Math.pow(t, 2) * this._controlY +
-            Math.pow(t, 3) * this.targetY
-
-          return Math.abs(labelY - y) < 1
-        })
-    }
-
     return [...Array(sample).keys()]
       .map((i) => (i * 1) / sample)
       .find((t) => {
@@ -130,15 +103,6 @@ class PathPoints {
       _sourceControlX: sourceControlX,
       _targetControlX: targetControlX
     } = this
-
-    if (this._isBentOnTargetSide) {
-      return (
-        Math.pow(1 - _t, 3) * sourceX +
-        3 * Math.pow(1 - _t, 2) * _t * sourceControlX +
-        3 * (1 - _t) * Math.pow(_t, 2) * targetControlX +
-        Math.pow(_t, 3) * this._junctionPointX
-      )
-    }
 
     return (
       Math.pow(1 - _t, 3) * sourceX +
@@ -194,6 +158,24 @@ class PathPoints {
 export class ArchedPathPoints extends PathPoints {}
 
 export class BentOnSourcePathPoints extends PathPoints {
+  getTForY(y) {
+    const sample = 20
+
+    // https://ja.javascript.info/bezier-curve
+    // (1−t)3P1 + 3(1−t)2tP2 +3(1−t)t2P3 + t3P4
+    return [...Array(sample).keys()]
+      .map((i) => (i * 1) / sample)
+      .find((t) => {
+        const labelY =
+          Math.pow(1 - t, 3) * this._junctionPointY +
+          3 * Math.pow(1 - t, 2) * t * this._controlY +
+          3 * (1 - t) * Math.pow(t, 2) * this._controlY +
+          Math.pow(t, 3) * this.targetY
+
+        return Math.abs(labelY - y) < 1
+      })
+  }
+
   get _additionalControlY() {
     return this.sourceY * 0.7 + this.targetY * 0.3
   }
@@ -212,6 +194,23 @@ export class BentOnSourcePathPoints extends PathPoints {
 }
 
 export class BentOnTargetPathPoints extends PathPoints {
+  getTForY(y) {
+    const sample = 20
+
+    // https://ja.javascript.info/bezier-curve
+    // (1−t)3P1 + 3(1−t)2tP2 +3(1−t)t2P3 + t3P4
+    return [...Array(sample).keys()]
+      .map((i) => (i * 1) / sample)
+      .find((t) => {
+        const labelY =
+          Math.pow(1 - t, 3) * this.sourceY +
+          3 * Math.pow(1 - t, 2) * t * this._controlY +
+          3 * (1 - t) * Math.pow(t, 2) * this._controlY +
+          Math.pow(t, 3) * this._junctionPointY
+        return Math.abs(labelY - y) < 1
+      })
+  }
+
   get _additionalControlY() {
     return this.sourceY * 0.3 + this.targetY * 0.7
   }
