@@ -148,46 +148,7 @@ class PathPoints {
     )
   }
 
-  get _additionalControlY() {
-    if (this._isBentOnTargetSide) {
-      return this.sourceY * 0.3 + this.targetY * 0.7
-    }
-
-    if (this._isBentOnSourceSide) {
-      return this.sourceY * 0.7 + this.targetY * 0.3
-    }
-
-    throw new Error('No additional control point!')
-  }
-
-  get _junctionPointX() {
-    if (this._isBentOnTargetSide) {
-      return this._targetControlX * 0.25 + this.targetX * 0.75
-    }
-
-    if (this._isBentOnSourceSide) {
-      return this._sourceControlX * 0.25 + this.sourceX * 0.75
-    }
-
-    throw new Error('No junction point!')
-  }
-
-  get _junctionPointY() {
-    if (this._isBentOnTargetSide) {
-      return this._controlY * 0.25 + this._additionalControlY * 0.75
-    }
-
-    if (this._isBentOnSourceSide) {
-      return this._controlY * 0.25 + this._additionalControlY * 0.75
-    }
-
-    throw new Error('No junction point!')
-  }
-
   get _sourceControlX() {
-    if (this._isBentOnSourceSide) {
-      return this._source.x + (this._target.anchor === 'right' ? 150 : -150)
-    }
     return this._source.x
   }
 
@@ -231,8 +192,38 @@ class PathPoints {
 }
 
 export class ArchedPathPoints extends PathPoints {}
-export class BentOnSourcePathPoints extends PathPoints {}
+
+export class BentOnSourcePathPoints extends PathPoints {
+  get _additionalControlY() {
+    return this.sourceY * 0.7 + this.targetY * 0.3
+  }
+
+  get _junctionPointX() {
+    return this._sourceControlX * 0.25 + this.sourceX * 0.75
+  }
+
+  get _junctionPointY() {
+    return this._controlY * 0.25 + this._additionalControlY * 0.75
+  }
+
+  get _sourceControlX() {
+    return this._source.x + (this._target.anchor === 'right' ? 150 : -150)
+  }
+}
+
 export class BentOnTargetPathPoints extends PathPoints {
+  get _additionalControlY() {
+    return this.sourceY * 0.3 + this.targetY * 0.7
+  }
+
+  get _junctionPointX() {
+    return this._targetControlX * 0.25 + this.targetX * 0.75
+  }
+
+  get _junctionPointY() {
+    return this._controlY * 0.25 + this._additionalControlY * 0.75
+  }
+
   get _targetControlX() {
     return this._target.x + (this._source.anchor === 'right' ? 150 : -150)
   }
