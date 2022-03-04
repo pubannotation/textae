@@ -7,6 +7,24 @@ import { NS } from '../NS'
 import createJetty from './createJetty'
 import moveJetty from './moveJetty'
 
+function createPathPoints(
+  sourceEntity,
+  targetEntity,
+  alignSourceBollards,
+  alignTargetBollards,
+  clientTopOfContainer,
+  controlBarHeight
+) {
+  return new PathPoints(
+    sourceEntity,
+    targetEntity,
+    alignSourceBollards,
+    alignTargetBollards,
+    clientTopOfContainer,
+    controlBarHeight
+  )
+}
+
 export default class Arrow {
   constructor(
     container,
@@ -48,7 +66,7 @@ export default class Arrow {
   }
 
   update(pointUpPath, pointUpSourceBollards, pointUpTargetBollards) {
-    const pathPoints = new PathPoints(
+    const pathPoints = createPathPoints(
       this._relation.sourceEntity,
       this._relation.targetEntity,
       pointUpSourceBollards,
