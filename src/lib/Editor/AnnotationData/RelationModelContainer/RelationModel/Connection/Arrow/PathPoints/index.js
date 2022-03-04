@@ -55,18 +55,6 @@ class PathPoints {
   }
 
   get pathCommands() {
-    if (this._isBentOnTargetSide) {
-      return `M ${this.sourceX}, ${this.sourceY}
-              C ${this._sourceControlX} ${this._controlY}, ${this._targetControlX} ${this._controlY}, ${this._junctionPointX} ${this._junctionPointY}
-              Q ${this.targetX} ${this._additionalControlY}, ${this.targetX} ${this.targetY}`
-    }
-
-    if (this._isBentOnSourceSide) {
-      return `M ${this.sourceX}, ${this.sourceY}
-              Q ${this.sourceX} ${this._additionalControlY}, ${this._junctionPointX} ${this._junctionPointY}
-              C ${this._sourceControlX} ${this._controlY}, ${this._targetControlX} ${this._controlY}, ${this.targetX} ${this.targetY}`
-    }
-
     return `M ${this.sourceX}, ${this.sourceY}
             C ${this._sourceControlX} ${this._controlY}, ${this._targetControlX} ${this._controlY}, ${this.targetX} ${this.targetY}`
   }
@@ -158,6 +146,12 @@ class PathPoints {
 export class ArchedPathPoints extends PathPoints {}
 
 export class BentOnSourcePathPoints extends PathPoints {
+  get pathCommands() {
+    return `M ${this.sourceX}, ${this.sourceY}
+              Q ${this.sourceX} ${this._additionalControlY}, ${this._junctionPointX} ${this._junctionPointY}
+              C ${this._sourceControlX} ${this._controlY}, ${this._targetControlX} ${this._controlY}, ${this.targetX} ${this.targetY}`
+  }
+
   getTForY(y) {
     const sample = 20
 
@@ -194,6 +188,12 @@ export class BentOnSourcePathPoints extends PathPoints {
 }
 
 export class BentOnTargetPathPoints extends PathPoints {
+  get pathCommands() {
+    return `M ${this.sourceX}, ${this.sourceY}
+              C ${this._sourceControlX} ${this._controlY}, ${this._targetControlX} ${this._controlY}, ${this._junctionPointX} ${this._junctionPointY}
+              Q ${this.targetX} ${this._additionalControlY}, ${this.targetX} ${this.targetY}`
+  }
+
   getTForY(y) {
     const sample = 20
 
