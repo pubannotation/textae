@@ -1,4 +1,3 @@
-import { MarkerHeight } from '../../MarkerHeight'
 import determineAnchorPositions from './determineAnchorPositions'
 import determineXPositions from './determineXPositions'
 
@@ -26,8 +25,8 @@ export default function (
       ? offsetBottomOfContainer
       : targetEntity.offsetTop
 
-  const sourceY = sourceTop - MarkerHeight - (alignSourceBollards ? 3 : 0)
-  const targetY = targetTop - MarkerHeight - (alignTargetBollards ? 3 : 0)
+  const sourceY = sourceTop - (alignSourceBollards ? 3 : 0)
+  const targetY = targetTop - (alignTargetBollards ? 3 : 0)
 
   const anchorPositions = determineAnchorPositions(
     sourceEntity,

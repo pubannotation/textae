@@ -1,3 +1,4 @@
+import { MarkerHeight } from '../MarkerHeight'
 import getSourceAndTarget from './getSourceAndTarget'
 
 export default class PathPoints {
@@ -47,10 +48,10 @@ export default class PathPoints {
   }
 
   get sourceY() {
-    return this._source.y
+    return this._source.y - MarkerHeight
   }
   get targetY() {
-    return this._target.y
+    return this._target.y - MarkerHeight
   }
 
   get pathCommands() {
