@@ -123,7 +123,7 @@ export default class RelationModel {
       this.sourceEntity.isInViewport(clientHeight, clientWidth) ||
       this.targetEntity.isInViewport(clientHeight, clientWidth)
     ) {
-      if (!this._arrow && !this._label) {
+      if (!this._arrow) {
         this._arrow = new Arrow(
           this._editorHTMLElement,
           this,
@@ -157,12 +157,45 @@ export default class RelationModel {
           () => this._pointUpSelfAndEntities(),
           () => this._pointDownSelfAndEntities()
         )
-
-        // When scrolling out of a selected relation and then scrolling in again,
-        // the selected state will be highlighted.
-        this._label.updateHighlighting()
       } else {
-        this.redrawLineConsideringSelection()
+        this._redrawArrowConsideringSelection()
+      }
+
+      if (
+        (this.sourceEntity.clientTop > this.targetEntity.clientTop &&
+          this.sourceEntity.isInViewport(clientHeight, clientWidth)) ||
+        (this.sourceEntity.clientTop < this.targetEntity.clientTop &&
+          this.targetEntity.isInViewport(clientHeight, clientWidth))
+      ) {
+        if (!this._label) {
+          this._label = new Label(
+            this._editorHTMLElement,
+            this,
+            this._arrow,
+            (event, attribute) => {
+              this._eventEmitter.emit(
+                'textae-event.editor.relation.click',
+                event,
+                this,
+                attribute
+              )
+              event.stopPropagation()
+            },
+            () => this._pointUpSelfAndEntities(),
+            () => this._pointDownSelfAndEntities()
+          )
+
+          // When scrolling out of a selected relation and then scrolling in again,
+          // the selected state will be highlighted.
+          this._label.updateHighlighting()
+        } else {
+          this._redrawLabelConsideringSelection()
+        }
+      } else {
+        if (this._label) {
+          this._label.destructor()
+          this._label = undefined
+        }
       }
     } else {
       if (this._arrow || this._label) {
