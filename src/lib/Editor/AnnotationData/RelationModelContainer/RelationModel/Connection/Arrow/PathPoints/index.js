@@ -107,40 +107,6 @@ class PathPoints {
   get _targetControlX() {
     return this._target.x
   }
-
-  get _isBentOnSourceSide() {
-    if (
-      Math.abs(
-        this._sourceEntity.clientBottom - this._targetEntity.clientBottom
-      ) < 12 ||
-      42 < Math.abs(this._target.x - this._source.x)
-    ) {
-      return false
-    }
-
-    if (this._source.y < this._target.y) {
-      return false
-    } else {
-      return true
-    }
-  }
-
-  get _isBentOnTargetSide() {
-    if (
-      Math.abs(
-        this._sourceEntity.clientBottom - this._targetEntity.clientBottom
-      ) < 12 ||
-      42 < Math.abs(this._target.x - this._source.x)
-    ) {
-      return false
-    }
-
-    if (this._source.y < this._target.y) {
-      return true
-    } else {
-      return false
-    }
-  }
 }
 
 export class ArchedPathPoints extends PathPoints {}
