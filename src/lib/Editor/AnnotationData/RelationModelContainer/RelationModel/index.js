@@ -186,21 +186,8 @@ export default class RelationModel {
   }
 
   redrawLineConsideringSelection() {
-    if (this._arrow) {
-      if (this.sourceEntity.isSelected && this.targetEntity.isSelected) {
-        this._arrow.update(true, true, true)
-      } else if (this.sourceEntity.isSelected) {
-        this._arrow.update(true, true, this.isSelected)
-      } else if (this.targetEntity.isSelected) {
-        this._arrow.update(true, this.isSelected, true)
-      } else {
-        this._arrow.update(this.isSelected, this.isSelected, this.isSelected)
-      }
-    }
-
-    if (this._label) {
-      this._label.updateHighlighting()
-    }
+    this._redrawArrowConsideringSelection()
+    this._redrawLabelConsideringSelection()
   }
 
   pointUpPathAndSourceBollards() {
@@ -386,6 +373,26 @@ export default class RelationModel {
 
     for (const r of relations) {
       r.redrawLineConsideringSelection()
+    }
+  }
+
+  _redrawArrowConsideringSelection() {
+    if (this._arrow) {
+      if (this.sourceEntity.isSelected && this.targetEntity.isSelected) {
+        this._arrow.update(true, true, true)
+      } else if (this.sourceEntity.isSelected) {
+        this._arrow.update(true, true, this.isSelected)
+      } else if (this.targetEntity.isSelected) {
+        this._arrow.update(true, this.isSelected, true)
+      } else {
+        this._arrow.update(this.isSelected, this.isSelected, this.isSelected)
+      }
+    }
+  }
+
+  _redrawLabelConsideringSelection() {
+    if (this._label) {
+      this._label.updateHighlighting()
     }
   }
 }
