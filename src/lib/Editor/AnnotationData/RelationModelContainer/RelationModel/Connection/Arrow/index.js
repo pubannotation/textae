@@ -2,28 +2,10 @@ import updatePath from './updatePath'
 import createSourceBollard from './createSourceBollard'
 import createTargetBollard from './createTargetBollard'
 import createPath from './createPath'
-import PathPoints from './PathPoints'
 import { NS } from '../NS'
 import createJetty from './createJetty'
 import moveJetty from './moveJetty'
-
-function createPathPoints(
-  sourceEntity,
-  targetEntity,
-  alignSourceBollards,
-  alignTargetBollards,
-  clientTopOfContainer,
-  controlBarHeight
-) {
-  return new PathPoints(
-    sourceEntity,
-    targetEntity,
-    alignSourceBollards,
-    alignTargetBollards,
-    clientTopOfContainer,
-    controlBarHeight
-  )
-}
+import createPathPoints from './createPathPoints'
 
 export default class Arrow {
   constructor(
