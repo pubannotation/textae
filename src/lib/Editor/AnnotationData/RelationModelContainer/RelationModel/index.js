@@ -125,11 +125,8 @@ export default class RelationModel {
       this.targetEntity.isInViewport(clientHeight, clientWidth)
     ) {
       if (!this._arrow && !this._label) {
-        const relationBox = this._editorHTMLElement.querySelector(
-          '.textae-editor__relation-box'
-        )
         this._arrow = new Arrow(
-          relationBox,
+          this._editorHTMLElement,
           this,
           this._controlBarHeight,
           (event, attribute) => {

@@ -9,14 +9,16 @@ import createPathPoints from './createPathPoints'
 
 export default class Arrow {
   constructor(
-    container,
+    editorHTMLElement,
     relation,
     controlBarHeight,
     onClick,
     onMouseEnter,
     onMouseLeave
   ) {
-    this._container = container
+    this._container = editorHTMLElement.querySelector(
+      '.textae-editor__relation-box'
+    )
     this._relation = relation
     this._controlBarHeight = controlBarHeight
 
@@ -29,7 +31,7 @@ export default class Arrow {
     this._targetBollard = targetBollard
 
     const path = createPath()
-    container.appendChild(path)
+    this._container.appendChild(path)
     this._path = path
 
     const aura = document.createElementNS(NS.SVG, 'path')
@@ -39,7 +41,7 @@ export default class Arrow {
     aura.addEventListener('mouseleave', onMouseLeave)
     const title = document.createElementNS(NS.SVG, 'title')
     aura.appendChild(title)
-    container.appendChild(aura)
+    this._container.appendChild(aura)
     this._aura = aura
     this._sourceJetty = null
     this._targetJetty = null
