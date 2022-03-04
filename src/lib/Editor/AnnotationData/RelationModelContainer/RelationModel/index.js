@@ -141,7 +141,7 @@ export default class RelationModel {
             )
             event.stopPropagation()
           },
-          () => this._pointUpSelfAndEntities(this),
+          () => this._pointUpSelfAndEntities(),
           () => this._pointDownSelfAndEntities()
         )
 
@@ -159,7 +159,7 @@ export default class RelationModel {
             )
             event.stopPropagation()
           },
-          () => this._pointUpSelfAndEntities(this),
+          () => this._pointUpSelfAndEntities(),
           () => this._pointDownSelfAndEntities()
         )
 
