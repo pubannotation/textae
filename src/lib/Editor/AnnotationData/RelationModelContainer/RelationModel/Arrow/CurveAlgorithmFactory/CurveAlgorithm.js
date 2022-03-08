@@ -162,7 +162,7 @@ export class BentOnSourceCurveAlgorithm extends CurveAlgorithm {
   get _sourceControlX() {
     return (
       this._sourceAndTarget.source.x +
-      (this._sourceAndTarget.target.anchor === 'right' ? 150 : -150)
+      (this._sourceAndTarget.isPointingToRight ? 150 : -150)
     )
   }
 }
@@ -206,7 +206,7 @@ export class BentOnTargetCurveAlgorithm extends CurveAlgorithm {
   get _targetControlX() {
     return (
       this._sourceAndTarget.target.x +
-      (this._sourceAndTarget.source.anchor === 'right' ? 150 : -150)
+      (this._sourceAndTarget.isPointingToRight ? 150 : -150)
     )
   }
 }
