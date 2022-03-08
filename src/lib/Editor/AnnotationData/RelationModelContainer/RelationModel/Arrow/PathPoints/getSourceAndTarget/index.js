@@ -101,9 +101,4 @@ export default function (
       ]
     }
   }
-
-  return [
-    { y: sourceY, ...source },
-    { y: targetY, ...target }
-  ]
 }
