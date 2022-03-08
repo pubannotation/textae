@@ -21,15 +21,13 @@ export default function (
     alignTargetBollards,
     clientTopOfContainer
   )
-  const { source, target } = sourceAndTarget
 
   if (
     sourceEntity.clientBottom < controlBarHeight &&
     sourceEntity.clientTop < targetEntity.clientTop
   ) {
     return new PointingDownPathPoints(
-      source,
-      target,
+      sourceAndTarget,
       alignSourceBollards,
       alignTargetBollards,
       controlBarHeight,
@@ -42,8 +40,7 @@ export default function (
     42 < sourceAndTarget.horizontalDistance
   ) {
     return new ArchedPathPoints(
-      source,
-      target,
+      sourceAndTarget,
       alignSourceBollards,
       alignTargetBollards,
       controlBarHeight,
@@ -53,8 +50,7 @@ export default function (
 
   if (sourceAndTarget.isDownward) {
     return new BentOnTargetPathPoints(
-      source,
-      target,
+      sourceAndTarget,
       alignSourceBollards,
       alignTargetBollards,
       controlBarHeight,
@@ -62,8 +58,7 @@ export default function (
     )
   } else {
     return new BentOnSourcePathPoints(
-      source,
-      target,
+      sourceAndTarget,
       alignSourceBollards,
       alignTargetBollards,
       controlBarHeight,

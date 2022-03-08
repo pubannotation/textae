@@ -9,13 +9,14 @@ class PathPoints {
    * @param {number} column
    */
   constructor(
-    source,
-    target,
+    sourceAndTarget,
     alignSourceBollards,
     alignTargetBollards,
     controlBarHeight,
     clientTopOfContainer
   ) {
+    const { source, target } = sourceAndTarget
+
     const controlY =
       Math.min(source.y, target.y) -
       Math.abs(target.x - source.x) / 4 -
