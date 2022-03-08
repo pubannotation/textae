@@ -222,11 +222,15 @@ export default class EntityModel {
       this.width / 2 >= MinimumDistance ||
       (this.hasMultipleEndpoints && alignBollards)
 
-    const center = this.offsetCenter
-    const left = isJettyDeployed ? center - DistanceToShift * 3 : center
-    const right = isJettyDeployed ? center + DistanceToShift * 3 : center
-
-    return { left, right, center }
+    return {
+      center: this.offsetCenter,
+      left: isJettyDeployed
+        ? this.offsetCenter - DistanceToShift * 3
+        : this.offsetCenter,
+      right: isJettyDeployed
+        ? this.offsetCenter + DistanceToShift * 3
+        : this.offsetCenter
+    }
   }
 
   getTargetAnchorPosition(alignBollards) {
@@ -236,11 +240,15 @@ export default class EntityModel {
       this.width / 2 >= MinimumDistance ||
       (this.hasMultipleEndpoints && alignBollards)
 
-    const center = this.offsetCenter
-    const left = isJettyDeployed ? center - DistanceToShift : center
-    const right = isJettyDeployed ? center + DistanceToShift : center
-
-    return { left, right, center }
+    return {
+      center: this.offsetCenter,
+      left: isJettyDeployed
+        ? this.offsetCenter - DistanceToShift
+        : this.offsetCenter,
+      right: isJettyDeployed
+        ? this.offsetCenter + DistanceToShift
+        : this.offsetCenter
+    }
   }
 
   select() {
