@@ -2,25 +2,25 @@ import { MarkerHeight } from '../MarkerHeight'
 
 class CurveAlgorithm {
   /**
-   * @param {import('./SourceAndTarget').default} sourceAndTarget
+   * @param {import('./StartAndEnd').startAndEnd} startAndEnd
    * @param {boolean} alignSourceBollards
    * @param {boolean} alignTargetBollards
    * @param {number} clientTopOfContainer
    * @param {number} column
    */
   constructor(
-    sourceAndTarget,
+    startAndEnd,
     alignSourceBollards,
     alignTargetBollards,
     controlBarHeight,
     clientTopOfContainer
   ) {
     this._controlY =
-      sourceAndTarget.offsetTop -
-      sourceAndTarget.horizontalDistance / 4 -
+      startAndEnd.offsetTop -
+      startAndEnd.horizontalDistance / 4 -
       20 +
       (alignSourceBollards && alignTargetBollards ? 3 : 0)
-    this._sourceAndTarget = sourceAndTarget
+    this._sourceAndTarget = startAndEnd
     this._controlBarHeight = controlBarHeight
     this._clientTopOfContainer = clientTopOfContainer
   }

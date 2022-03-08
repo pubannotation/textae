@@ -4,7 +4,7 @@ import {
   BentOnTargetCurveAlgorithm,
   PointingDownCurveAlgorithm
 } from './CurveAlgorithm'
-import SourceAndTarget from './SourceAndTarget'
+import StartAndEnd from './StartAndEnd'
 
 export default class CurveAlgorithmFactory {
   static create(
@@ -15,7 +15,7 @@ export default class CurveAlgorithmFactory {
     clientTopOfContainer,
     controlBarHeight
   ) {
-    const sourceAndTarget = new SourceAndTarget(
+    const startAndEnd = new StartAndEnd(
       sourceEntity,
       targetEntity,
       alignSourceBollards,
@@ -28,7 +28,7 @@ export default class CurveAlgorithmFactory {
       sourceEntity.clientTop < targetEntity.clientTop
     ) {
       return new PointingDownCurveAlgorithm(
-        sourceAndTarget,
+        startAndEnd,
         alignSourceBollards,
         alignTargetBollards,
         controlBarHeight,
@@ -38,10 +38,10 @@ export default class CurveAlgorithmFactory {
 
     if (
       Math.abs(sourceEntity.clientBottom - targetEntity.clientBottom) < 12 ||
-      42 < sourceAndTarget.horizontalDistance
+      42 < startAndEnd.horizontalDistance
     ) {
       return new ArchedCurveAlgorithm(
-        sourceAndTarget,
+        startAndEnd,
         alignSourceBollards,
         alignTargetBollards,
         controlBarHeight,
@@ -49,9 +49,9 @@ export default class CurveAlgorithmFactory {
       )
     }
 
-    if (sourceAndTarget.isDownward) {
+    if (startAndEnd.isDownward) {
       return new BentOnTargetCurveAlgorithm(
-        sourceAndTarget,
+        startAndEnd,
         alignSourceBollards,
         alignTargetBollards,
         controlBarHeight,
@@ -59,7 +59,7 @@ export default class CurveAlgorithmFactory {
       )
     } else {
       return new BentOnSourceCurveAlgorithm(
-        sourceAndTarget,
+        startAndEnd,
         alignSourceBollards,
         alignTargetBollards,
         controlBarHeight,

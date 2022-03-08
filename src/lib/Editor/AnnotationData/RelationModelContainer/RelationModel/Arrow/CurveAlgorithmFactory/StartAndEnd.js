@@ -1,4 +1,4 @@
-export default class SourceAndTarget {
+export default class startAndEnd {
   /**
    *
    * @param {import('../../../../../../../EntityModel').default} sourceEntity
