@@ -223,7 +223,6 @@ export default class EntityModel {
       (this.hasMultipleEndpoints && alignBollards)
 
     return {
-      center: this.offsetCenter,
       left: isJettyDeployed
         ? this.offsetCenter - DistanceToShift * 3
         : this.offsetCenter,
@@ -241,7 +240,6 @@ export default class EntityModel {
       (this.hasMultipleEndpoints && alignBollards)
 
     return {
-      center: this.offsetCenter,
       left: isJettyDeployed
         ? this.offsetCenter - DistanceToShift
         : this.offsetCenter,
