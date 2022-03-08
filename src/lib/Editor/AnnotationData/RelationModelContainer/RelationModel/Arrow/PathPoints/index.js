@@ -1,32 +1,20 @@
 import { MarkerHeight } from '../MarkerHeight'
-import getSourceAndTarget from './getSourceAndTarget'
 
 class PathPoints {
   /**
    *
-   * @param {import('./../../../../../../EntityModel').default} sourceEntity
-   * @param {import('./../../../../../../EntityModel').default} targetEntity
    * @param {boolean} alignSourceBollards
    * @param {boolean} alignTargetBollards
    * @param {number} clientTopOfContainer
    * @param {number} column
    */
   constructor(
-    sourceEntity,
-    targetEntity,
+    source,
+    target,
     alignSourceBollards,
     alignTargetBollards,
-    clientTopOfContainer,
     controlBarHeight
   ) {
-    const [source, target] = getSourceAndTarget(
-      sourceEntity,
-      targetEntity,
-      alignSourceBollards,
-      alignTargetBollards,
-      clientTopOfContainer
-    )
-
     const controlY =
       Math.min(source.y, target.y) -
       Math.abs(target.x - source.x) / 4 -

@@ -26,31 +26,28 @@ export default function (
     42 < Math.abs(target.x - source.x)
   ) {
     return new ArchedPathPoints(
-      sourceEntity,
-      targetEntity,
+      source,
+      target,
       alignSourceBollards,
       alignTargetBollards,
-      clientTopOfContainer,
       controlBarHeight
     )
   }
 
   if (source.y < target.y) {
     return new BentOnTargetPathPoints(
-      sourceEntity,
-      targetEntity,
+      source,
+      target,
       alignSourceBollards,
       alignTargetBollards,
-      clientTopOfContainer,
       controlBarHeight
     )
   } else {
     return new BentOnSourcePathPoints(
-      sourceEntity,
-      targetEntity,
+      source,
+      target,
       alignSourceBollards,
       alignTargetBollards,
-      clientTopOfContainer,
       controlBarHeight
     )
   }
