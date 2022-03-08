@@ -1,12 +1,12 @@
 import {
-  ArchedPathPoints,
-  BentOnSourcePathPoints,
-  BentOnTargetPathPoints,
-  PointingDownPathPoints
-} from './PathPoints'
+  ArchedCurveAlgorithm,
+  BentOnSourceCurveAlgorithm,
+  BentOnTargetCurveAlgorithm,
+  PointingDownCurveAlgorithm
+} from './CurveAlgorithm'
 import SourceAndTarget from './SourceAndTarget'
 
-export default class PathPointsFactory {
+export default class CurveAlgorithmFactory {
   static create(
     sourceEntity,
     targetEntity,
@@ -27,7 +27,7 @@ export default class PathPointsFactory {
       sourceEntity.clientBottom < controlBarHeight &&
       sourceEntity.clientTop < targetEntity.clientTop
     ) {
-      return new PointingDownPathPoints(
+      return new PointingDownCurveAlgorithm(
         sourceAndTarget,
         alignSourceBollards,
         alignTargetBollards,
@@ -40,7 +40,7 @@ export default class PathPointsFactory {
       Math.abs(sourceEntity.clientBottom - targetEntity.clientBottom) < 12 ||
       42 < sourceAndTarget.horizontalDistance
     ) {
-      return new ArchedPathPoints(
+      return new ArchedCurveAlgorithm(
         sourceAndTarget,
         alignSourceBollards,
         alignTargetBollards,
@@ -50,7 +50,7 @@ export default class PathPointsFactory {
     }
 
     if (sourceAndTarget.isDownward) {
-      return new BentOnTargetPathPoints(
+      return new BentOnTargetCurveAlgorithm(
         sourceAndTarget,
         alignSourceBollards,
         alignTargetBollards,
@@ -58,7 +58,7 @@ export default class PathPointsFactory {
         clientTopOfContainer
       )
     } else {
-      return new BentOnSourcePathPoints(
+      return new BentOnSourceCurveAlgorithm(
         sourceAndTarget,
         alignSourceBollards,
         alignTargetBollards,

@@ -5,7 +5,7 @@ import createPath from './createPath'
 import { NS } from '../NS'
 import createJetty from './createJetty'
 import moveJetty from './moveJetty'
-import PathPointsFactory from './PathPointsFactory'
+import CurveAlgorithmFactory from './CurveAlgorithmFactory'
 
 export default class Arrow {
   constructor(
@@ -50,7 +50,7 @@ export default class Arrow {
   }
 
   update(pointUpPath, pointUpSourceBollards, pointUpTargetBollards) {
-    const pathPoints = PathPointsFactory.create(
+    const pathPoints = CurveAlgorithmFactory.create(
       this._relation.sourceEntity,
       this._relation.targetEntity,
       pointUpSourceBollards,

@@ -1,6 +1,6 @@
 import { MarkerHeight } from '../MarkerHeight'
 
-class PathPoints {
+class CurveAlgorithm {
   /**
    * @param {import('./SourceAndTarget').default} sourceAndTarget
    * @param {boolean} alignSourceBollards
@@ -94,9 +94,9 @@ class PathPoints {
   }
 }
 
-export class ArchedPathPoints extends PathPoints {}
+export class ArchedCurveAlgorithm extends CurveAlgorithm {}
 
-export class PointingDownPathPoints extends PathPoints {
+export class PointingDownCurveAlgorithm extends CurveAlgorithm {
   get pathCommands() {
     return `M ${this.sourceX}, ${this.sourceY + MarkerHeight}
       C ${this._sourceControlX} ${
@@ -122,7 +122,7 @@ export class PointingDownPathPoints extends PathPoints {
   }
 }
 
-export class BentOnSourcePathPoints extends PathPoints {
+export class BentOnSourceCurveAlgorithm extends CurveAlgorithm {
   get pathCommands() {
     return `M ${this.sourceX}, ${this.sourceY}
               Q ${this.sourceX} ${this._additionalControlY}, ${this._junctionPointX} ${this._junctionPointY}
@@ -167,7 +167,7 @@ export class BentOnSourcePathPoints extends PathPoints {
   }
 }
 
-export class BentOnTargetPathPoints extends PathPoints {
+export class BentOnTargetCurveAlgorithm extends CurveAlgorithm {
   get pathCommands() {
     return `M ${this.sourceX}, ${this.sourceY}
               C ${this._sourceControlX} ${this._controlY}, ${this._targetControlX} ${this._controlY}, ${this._junctionPointX} ${this._junctionPointY}
