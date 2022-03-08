@@ -1,9 +1,5 @@
 import XPosition from './XPosition'
 
-export const DistanceToShift = 8
-// Leave a gap half the width of the triangle so that the triangle does not intersect the vertical line.
-export const MinimumDistance = DistanceToShift * 3 + 4
-
 export default function (sourceY, targetY, anchorPositions) {
   const centerOfSource = anchorPositions.source.center
   const centerOfTarget = anchorPositions.target.center

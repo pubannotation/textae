@@ -4,10 +4,6 @@ import getDisplayName from './getDisplayName'
 import getUri from './getUri'
 import toAnchorElement from './toAnchorElement'
 import round from './round'
-import {
-  DistanceToShift,
-  MinimumDistance
-} from './AnnotationData/RelationModelContainer/RelationModel/Arrow/PathPoints/getSourceAndTarget/determineXPositions'
 
 export default class EntityModel {
   /**
@@ -216,6 +212,10 @@ export default class EntityModel {
   }
 
   getAnchorPosition(alignBollards) {
+    const DistanceToShift = 8
+    // Leave a gap half the width of the triangle so that the triangle does not intersect the vertical line.
+    const MinimumDistance = DistanceToShift * 3 + 4
+
     // When the entity width is small and the endpoint is displayed in the center of the entity and the entity has only one endpoint,
     // hovering will not move the entity left or right.
     const isSourceJettyDeployed =
