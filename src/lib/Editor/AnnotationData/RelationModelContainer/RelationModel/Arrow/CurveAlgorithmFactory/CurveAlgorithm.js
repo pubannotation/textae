@@ -20,23 +20,23 @@ class CurveAlgorithm {
       startAndEnd.horizontalDistance / 4 -
       20 +
       (alignSourceBollards && alignTargetBollards ? 3 : 0)
-    this._sourceAndTarget = startAndEnd
+    this._startAndEnd = startAndEnd
     this._controlBarHeight = controlBarHeight
     this._clientTopOfContainer = clientTopOfContainer
   }
 
   get sourceX() {
-    return this._sourceAndTarget.source.x
+    return this._startAndEnd.source.x
   }
   get targetX() {
-    return this._sourceAndTarget.target.x
+    return this._startAndEnd.target.x
   }
 
   get sourceY() {
-    return this._sourceAndTarget.source.y - MarkerHeight
+    return this._startAndEnd.source.y - MarkerHeight
   }
   get targetY() {
-    return this._sourceAndTarget.target.y - MarkerHeight
+    return this._startAndEnd.target.y - MarkerHeight
   }
 
   get pathCommands() {
@@ -86,11 +86,11 @@ class CurveAlgorithm {
   }
 
   get _sourceControlX() {
-    return this._sourceAndTarget.source.x
+    return this._startAndEnd.source.x
   }
 
   get _targetControlX() {
-    return this._sourceAndTarget.target.x
+    return this._startAndEnd.target.x
   }
 }
 
@@ -161,8 +161,8 @@ export class BentOnSourceCurveAlgorithm extends CurveAlgorithm {
 
   get _sourceControlX() {
     return (
-      this._sourceAndTarget.source.x +
-      (this._sourceAndTarget.isPointingToRight ? 150 : -150)
+      this._startAndEnd.source.x +
+      (this._startAndEnd.isPointingToRight ? 150 : -150)
     )
   }
 }
@@ -205,8 +205,8 @@ export class BentOnTargetCurveAlgorithm extends CurveAlgorithm {
 
   get _targetControlX() {
     return (
-      this._sourceAndTarget.target.x +
-      (this._sourceAndTarget.isPointingToRight ? 150 : -150)
+      this._startAndEnd.target.x +
+      (this._startAndEnd.isPointingToRight ? 150 : -150)
     )
   }
 }
