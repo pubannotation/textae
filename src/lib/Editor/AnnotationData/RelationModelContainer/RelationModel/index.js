@@ -165,7 +165,8 @@ export default class RelationModel {
         (this.sourceEntity.clientTop > this.targetEntity.clientTop &&
           this.targetEntity.isInViewport(clientHeight, clientWidth)) ||
         (this.sourceEntity.clientTop < this.targetEntity.clientTop &&
-          this.sourceEntity.isInViewport(clientHeight, clientWidth))
+          this.sourceEntity.isInViewport(clientHeight, clientWidth)) ||
+        this.sourceEntity.clientTop === this.targetEntity.clientTop
       ) {
         if (!this._label) {
           this._label = new Label(
