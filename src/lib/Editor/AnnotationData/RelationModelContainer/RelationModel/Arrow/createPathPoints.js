@@ -4,7 +4,7 @@ import {
   BentOnTargetPathPoints,
   PointingDownPathPoints
 } from './PathPoints'
-import getSourceAndTarget from './createSourceAndTarget'
+import SourceAndTarget from './SourceAndTarget'
 
 export default function (
   sourceEntity,
@@ -14,7 +14,7 @@ export default function (
   clientTopOfContainer,
   controlBarHeight
 ) {
-  const sourceAndTarget = getSourceAndTarget(
+  const sourceAndTarget = new SourceAndTarget(
     sourceEntity,
     targetEntity,
     alignSourceBollards,
