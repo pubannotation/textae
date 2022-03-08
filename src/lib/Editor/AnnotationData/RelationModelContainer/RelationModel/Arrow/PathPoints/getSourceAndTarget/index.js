@@ -1,4 +1,3 @@
-import determineAnchorPositions from './determineAnchorPositions'
 import determineXPositions from './determineXPositions'
 
 /**
@@ -28,12 +27,10 @@ export default function (
   const sourceY = sourceTop - (alignSourceBollards ? 3 : 0)
   const targetY = targetTop - (alignTargetBollards ? 3 : 0)
 
-  const anchorPositions = determineAnchorPositions(
-    sourceEntity,
-    targetEntity,
-    alignSourceBollards,
-    alignTargetBollards
-  )
+  const anchorPositions = {
+    source: sourceEntity.getAnchorPosition(alignSourceBollards),
+    target: targetEntity.getAnchorPosition(alignTargetBollards)
+  }
 
   const [source, target] = determineXPositions(
     sourceY,
