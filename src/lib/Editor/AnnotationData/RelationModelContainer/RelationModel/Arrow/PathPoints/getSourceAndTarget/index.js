@@ -32,9 +32,6 @@ export default function (
     target: targetEntity.getTargetAnchorPosition(alignTargetBollards)
   }
 
-  const centerOfSource = sourceEntity.offsetCenter
-  const centerOfTarget = targetEntity.offsetCenter
-
   if (sourceEntity.offsetCenter === targetEntity.offsetCenter) {
     return [
       { y: sourceY, x: sourceEntity.offsetCenter, anchor: 'center' },
@@ -63,13 +60,14 @@ export default function (
       }
     ]
   } else if (sourceY > targetY) {
-    const targetAnchor = centerOfSource < centerOfTarget ? 'left' : 'right'
+    const targetAnchor =
+      sourceEntity.offsetCenter < targetEntity.offsetCenter ? 'left' : 'right'
     const target = new XPosition(
       anchorPositions.target[targetAnchor],
       targetAnchor
     )
 
-    const sourceAnchor = target.x < centerOfSource ? 'left' : 'right'
+    const sourceAnchor = target.x < sourceEntity.offsetCenter ? 'left' : 'right'
     const source = new XPosition(
       anchorPositions.source[sourceAnchor],
       sourceAnchor
@@ -82,7 +80,7 @@ export default function (
   } else {
     // When the source and target entities have the same height
     // Prevent source and target X coordinates from being swapped.
-    if (centerOfSource < centerOfTarget) {
+    if (sourceEntity.offsetCenter < targetEntity.offsetCenter) {
       const targetAnchor =
         anchorPositions.source.right < anchorPositions.target.left
           ? 'left'
@@ -98,7 +96,7 @@ export default function (
         { y: sourceY, ...source },
         { y: targetY, ...target }
       ]
-    } else if (centerOfTarget < centerOfSource) {
+    } else if (sourceEntity.offsetCenter > targetEntity.offsetCenter) {
       const targetAnchor =
         anchorPositions.source.left < anchorPositions.target.right
           ? 'left'
