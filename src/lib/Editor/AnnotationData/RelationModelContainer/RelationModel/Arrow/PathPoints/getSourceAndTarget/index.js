@@ -43,9 +43,12 @@ export default function (
   }
 
   if (sourceY < targetY) {
-    const sourceAnchor = centerOfSource < centerOfTarget ? 'right' : 'left'
+    const sourceAnchor =
+      sourceEntity.offsetCenter < targetEntity.offsetCenter ? 'right' : 'left'
     const targetAnchor =
-      anchorPositions.source[sourceAnchor] < centerOfTarget ? 'left' : 'right'
+      anchorPositions.source[sourceAnchor] < targetEntity.offsetCenter
+        ? 'left'
+        : 'right'
 
     return [
       {
