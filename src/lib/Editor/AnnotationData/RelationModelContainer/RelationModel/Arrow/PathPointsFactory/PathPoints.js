@@ -15,8 +15,6 @@ class PathPoints {
     controlBarHeight,
     clientTopOfContainer
   ) {
-    const { source, target } = sourceAndTarget
-
     const controlY =
       sourceAndTarget.offsetTop -
       sourceAndTarget.horizontalDistance / 4 -
