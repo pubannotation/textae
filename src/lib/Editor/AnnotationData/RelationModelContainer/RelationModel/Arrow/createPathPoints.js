@@ -51,7 +51,7 @@ export default function (
     )
   }
 
-  if (source.y < target.y) {
+  if (sourceAndTarget.isDownward) {
     return new BentOnTargetPathPoints(
       source,
       target,

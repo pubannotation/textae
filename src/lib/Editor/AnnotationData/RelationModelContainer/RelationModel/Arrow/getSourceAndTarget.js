@@ -15,6 +15,10 @@ class SourceAndTarget {
   get horizontalDistance() {
     return Math.abs(this._target.x - this._source.x)
   }
+
+  get isDownward() {
+    return this._source.y < this._target.y
+  }
 }
 
 /**
