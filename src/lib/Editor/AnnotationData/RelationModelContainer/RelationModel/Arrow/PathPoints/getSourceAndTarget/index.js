@@ -35,7 +35,7 @@ export default function (
   const centerOfSource = sourceEntity.offsetCenter
   const centerOfTarget = targetEntity.offsetCenter
 
-  if (centerOfSource === centerOfTarget) {
+  if (sourceEntity.offsetCenter === targetEntity.offsetCenter) {
     return [
       { y: sourceY, x: sourceEntity.offsetCenter, anchor: 'center' },
       { y: targetY, x: targetEntity.offsetCenter, anchor: 'center' }
