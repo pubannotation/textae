@@ -4,6 +4,10 @@ import getDisplayName from './getDisplayName'
 import getUri from './getUri'
 import toAnchorElement from './toAnchorElement'
 import round from './round'
+import {
+  DistanceToShift,
+  MinimumDistance
+} from './AnnotationData/RelationModelContainer/RelationModel/Arrow/PathPoints/getSourceAndTarget/determineXPositions'
 
 export default class EntityModel {
   /**
@@ -209,6 +213,24 @@ export default class EntityModel {
 
   get isSelected() {
     return this._isSelected
+  }
+
+  getAnchorPosition(alignBollards) {
+    // When the entity width is small and the endpoint is displayed in the center of the entity and the entity has only one endpoint,
+    // hovering will not move the entity left or right.
+    const isSourceJettyDeployed =
+      this.width / 2 >= MinimumDistance ||
+      (this.hasMultipleEndpoints && alignBollards)
+
+    const centerOfSource = this.offsetCenter
+    const leftSource = isSourceJettyDeployed
+      ? centerOfSource - DistanceToShift * 3
+      : centerOfSource
+    const rightSource = isSourceJettyDeployed
+      ? centerOfSource + DistanceToShift * 3
+      : centerOfSource
+
+    return { left: leftSource, right: rightSource, center: centerOfSource }
   }
 
   select() {
