@@ -41,6 +41,11 @@ export default function (
   if (centerOfSource === centerOfTarget) {
     source = new XPosition(sourceEntity.offsetCenter, 'center')
     target = new XPosition(targetEntity.offsetCenter, 'center')
+
+    return [
+      { y: sourceY, ...source },
+      { y: targetY, ...target }
+    ]
   }
 
   if (sourceY < targetY) {
