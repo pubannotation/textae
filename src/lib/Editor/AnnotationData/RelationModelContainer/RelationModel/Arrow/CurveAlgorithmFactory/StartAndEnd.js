@@ -37,11 +37,11 @@ export default class startAndEnd {
       sourceEntity.offsetCenter < targetEntity.offsetCenter
 
     if (sourceEntity.offsetCenter === targetEntity.offsetCenter) {
-      this._source = {
+      this._start = {
         y: sourceY,
         x: sourceEntity.offsetCenter
       }
-      this._target = {
+      this._end = {
         y: targetY,
         x: targetEntity.offsetCenter
       }
@@ -55,11 +55,11 @@ export default class startAndEnd {
           ? 'left'
           : 'right'
 
-      this._source = {
+      this._start = {
         y: sourceY,
         x: anchorPositions.source[sourceAnchor]
       }
-      this._target = {
+      this._end = {
         y: targetY,
         x: anchorPositions.target[targetAnchor]
       }
@@ -71,11 +71,11 @@ export default class startAndEnd {
           ? 'left'
           : 'right'
 
-      this._source = {
+      this._start = {
         y: sourceY,
         x: anchorPositions.source[sourceAnchor]
       }
-      this._target = {
+      this._end = {
         y: targetY,
         x: anchorPositions.target[targetAnchor]
       }
@@ -89,11 +89,11 @@ export default class startAndEnd {
             ? 'left'
             : 'right'
 
-        this._source = {
+        this._start = {
           y: sourceY,
           x: anchorPositions.source.right
         }
-        this._target = {
+        this._end = {
           y: targetY,
           x: anchorPositions.target[targetAnchor]
         }
@@ -104,11 +104,11 @@ export default class startAndEnd {
             ? 'left'
             : 'right'
 
-        this._source = {
+        this._start = {
           y: sourceY,
           x: anchorPositions.source.left
         }
-        this._target = {
+        this._end = {
           y: targetY,
           x: anchorPositions.target[targetAnchor]
         }
@@ -117,12 +117,12 @@ export default class startAndEnd {
     }
   }
 
-  get source() {
-    return this._source
+  get start() {
+    return this._start
   }
 
-  get target() {
-    return this._target
+  get end() {
+    return this._end
   }
 
   get isPointingToRight() {
@@ -130,14 +130,14 @@ export default class startAndEnd {
   }
 
   get isDownward() {
-    return this._source.y < this._target.y
+    return this._start.y < this._end.y
   }
 
   get offsetTop() {
-    return Math.min(this._source.y, this._target.y)
+    return Math.min(this._start.y, this._end.y)
   }
 
   get horizontalDistance() {
-    return Math.abs(this._target.x - this._source.x)
+    return Math.abs(this._end.x - this._start.x)
   }
 }
