@@ -33,6 +33,9 @@ export default class SourceAndTarget {
       target: targetEntity.getTargetAnchorPosition(alignTargetBollards)
     }
 
+    this._isPontingToRight =
+      sourceEntity.offsetCenter < targetEntity.offsetCenter
+
     if (sourceEntity.offsetCenter === targetEntity.offsetCenter) {
       this._source = {
         y: sourceY,
@@ -48,8 +51,7 @@ export default class SourceAndTarget {
     }
 
     if (sourceY < targetY) {
-      const sourceAnchor =
-        sourceEntity.offsetCenter < targetEntity.offsetCenter ? 'right' : 'left'
+      const sourceAnchor = this._isPontingToRight ? 'right' : 'left'
       const targetAnchor =
         anchorPositions.source[sourceAnchor] < targetEntity.offsetCenter
           ? 'left'
@@ -67,8 +69,7 @@ export default class SourceAndTarget {
       }
       return
     } else if (sourceY > targetY) {
-      const targetAnchor =
-        sourceEntity.offsetCenter < targetEntity.offsetCenter ? 'left' : 'right'
+      const targetAnchor = this._isPontingToRight ? 'left' : 'right'
       const sourceAnchor =
         anchorPositions.target[targetAnchor] < sourceEntity.offsetCenter
           ? 'left'
@@ -88,7 +89,7 @@ export default class SourceAndTarget {
     } else {
       // When the source and target entities have the same height
       // Prevent source and target X coordinates from being swapped.
-      if (sourceEntity.offsetCenter < targetEntity.offsetCenter) {
+      if (this._isPontingToRight) {
         const targetAnchor =
           anchorPositions.source.right < anchorPositions.target.left
             ? 'left'
@@ -105,7 +106,7 @@ export default class SourceAndTarget {
           anchor: targetAnchor
         }
         return
-      } else if (sourceEntity.offsetCenter > targetEntity.offsetCenter) {
+      } else {
         const targetAnchor =
           anchorPositions.source.left < anchorPositions.target.right
             ? 'left'
@@ -132,6 +133,10 @@ export default class SourceAndTarget {
 
   get target() {
     return this._target
+  }
+
+  get isPointingToRight() {
+    return this._isPontingToRight
   }
 
   get isDownward() {
