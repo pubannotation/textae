@@ -2,7 +2,8 @@ import {
   ArchedCurveAlgorithm,
   BentOnSourceCurveAlgorithm,
   BentOnTargetCurveAlgorithm,
-  PointingDownCurveAlgorithm
+  PointingDownCurveAlgorithm,
+  PointingUpCurveAlgorithm
 } from './CurveAlgorithm'
 import StartAndEnd from './StartAndEnd'
 
@@ -22,6 +23,19 @@ export default class CurveAlgorithmFactory {
       alignTargetBollards,
       clientTopOfContainer
     )
+
+    if (
+      targetEntity.clientBottom < controlBarHeight &&
+      targetEntity.clientTop < sourceEntity.clientTop
+    ) {
+      return new PointingUpCurveAlgorithm(
+        startAndEnd,
+        alignSourceBollards,
+        alignTargetBollards,
+        controlBarHeight,
+        clientTopOfContainer
+      )
+    }
 
     if (
       sourceEntity.clientBottom < controlBarHeight &&
