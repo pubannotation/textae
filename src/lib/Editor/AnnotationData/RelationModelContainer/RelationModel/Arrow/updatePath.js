@@ -1,9 +1,9 @@
-export default function (path, pathPoints, color, isBold) {
-  path.setAttribute('d', pathPoints.pathCommands)
+export default function (path, curveAlgorithm, color, isBold) {
+  path.setAttribute('d', curveAlgorithm.pathCommands)
 
   path.setAttribute('style', `stroke: ${color};`)
 
-  if (isBold && !pathPoints.isCalm) {
+  if (isBold && !curveAlgorithm.isCalm) {
     path.classList.add('textae-editor__relation--isBold')
   } else {
     path.classList.remove('textae-editor__relation--isBold')

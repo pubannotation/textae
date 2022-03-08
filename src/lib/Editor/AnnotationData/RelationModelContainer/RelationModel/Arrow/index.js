@@ -50,7 +50,7 @@ export default class Arrow {
   }
 
   update(pointUpPath, pointUpSourceBollards, pointUpTargetBollards) {
-    const pathPoints = CurveAlgorithmFactory.create(
+    const curveAlgorithm = CurveAlgorithmFactory.create(
       this._relation.sourceEntity,
       this._relation.targetEntity,
       pointUpSourceBollards,
@@ -58,8 +58,8 @@ export default class Arrow {
       this._container.getBoundingClientRect().top,
       this._controlBarHeight
     )
-    updatePath(this._path, pathPoints, this._relation.color, pointUpPath)
-    updatePath(this._aura, pathPoints, this._relation.color, false)
+    updatePath(this._path, curveAlgorithm, this._relation.color, pointUpPath)
+    updatePath(this._aura, curveAlgorithm, this._relation.color, false)
     this._aura.children[0].textContent = this._relation.title
 
     this._sourceBollard.setAttribute(
@@ -68,7 +68,7 @@ export default class Arrow {
     )
     this._sourceBollard.setAttribute(
       'transform',
-      pathPoints.transformDefinitionsForSourceTriangle
+      curveAlgorithm.transformDefinitionsForSourceTriangle
     )
 
     this._targetBollard.setAttribute(
@@ -77,22 +77,22 @@ export default class Arrow {
     )
     this._targetBollard.setAttribute(
       'transform',
-      pathPoints.transformDefinitionsForTargetTriangle
+      curveAlgorithm.transformDefinitionsForTargetTriangle
     )
 
-    if (pointUpSourceBollards && !pathPoints.isCalm) {
-      this._drawSourceJetty(pathPoints)
+    if (pointUpSourceBollards && !curveAlgorithm.isCalm) {
+      this._drawSourceJetty(curveAlgorithm)
     } else {
       this._destroySourceJetty()
     }
 
     if (pointUpTargetBollards) {
-      this._drawTargetJetty(pathPoints)
+      this._drawTargetJetty(curveAlgorithm)
     } else {
       this._destroyTargetJetty()
     }
 
-    this._pathPoints = pathPoints
+    this._curveAlgorithm = curveAlgorithm
   }
 
   destructor() {
@@ -114,29 +114,29 @@ export default class Arrow {
   }
 
   get highestX() {
-    const _t = this._pathPoints.getTForY(this.top)
+    const _t = this._curveAlgorithm.getTForY(this.top)
 
-    return this._pathPoints.getXOnT(_t)
+    return this._curveAlgorithm.getXOnT(_t)
   }
 
   get width() {
     return this._path.getBBox().width
   }
 
-  _drawSourceJetty(pathPoints) {
+  _drawSourceJetty(curveAlgorithm) {
     const { sourceEntity } = this._relation
 
     if (this._sourceJetty) {
       moveJetty(
         this._sourceJetty,
-        pathPoints.sourceX,
-        pathPoints.sourceY,
+        curveAlgorithm.sourceX,
+        curveAlgorithm.sourceY,
         sourceEntity
       )
     } else {
       const sourceJetty = createJetty(
-        pathPoints.sourceX,
-        pathPoints.sourceY,
+        curveAlgorithm.sourceX,
+        curveAlgorithm.sourceY,
         sourceEntity
       )
       this._container.appendChild(sourceJetty)
@@ -144,20 +144,20 @@ export default class Arrow {
     }
   }
 
-  _drawTargetJetty(pathPoints) {
+  _drawTargetJetty(curveAlgorithm) {
     const { targetEntity } = this._relation
 
     if (this._targetJetty) {
       moveJetty(
         this._targetJetty,
-        pathPoints.targetX,
-        pathPoints.targetY,
+        curveAlgorithm.targetX,
+        curveAlgorithm.targetY,
         targetEntity
       )
     } else {
       const targetJetty = createJetty(
-        pathPoints.targetX,
-        pathPoints.targetY,
+        curveAlgorithm.targetX,
+        curveAlgorithm.targetY,
         targetEntity
       )
       this._container.appendChild(targetJetty)
