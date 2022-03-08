@@ -1,4 +1,4 @@
-import determineXPositions from './determineXPositions'
+import XPosition from './determineXPositions/XPosition'
 
 /**
  *
@@ -32,11 +32,52 @@ export default function (
     target: targetEntity.getAnchorPosition(alignTargetBollards)
   }
 
-  const [source, target] = determineXPositions(
-    sourceY,
-    targetY,
-    anchorPositions
-  )
+  let source
+  let target
+
+  const centerOfSource = anchorPositions.source.center
+  const centerOfTarget = anchorPositions.target.center
+
+  if (centerOfSource === centerOfTarget) {
+    return [
+      new XPosition(anchorPositions, 'source', 'center'),
+      new XPosition(anchorPositions, 'target', 'center')
+    ]
+  }
+
+  if (sourceY < targetY) {
+    const sourceAnchor = centerOfSource < centerOfTarget ? 'right' : 'left'
+    source = new XPosition(anchorPositions, 'source', sourceAnchor)
+
+    const targetAnchor = source.x < centerOfTarget ? 'left' : 'right'
+    target = new XPosition(anchorPositions, 'target', targetAnchor)
+  } else if (sourceY > targetY) {
+    const targetAnchor = centerOfSource < centerOfTarget ? 'left' : 'right'
+    target = new XPosition(anchorPositions, 'target', targetAnchor)
+
+    const sourceAnchor = target.x < centerOfSource ? 'left' : 'right'
+    source = new XPosition(anchorPositions, 'source', sourceAnchor)
+  } else {
+    // When the source and target entities have the same height
+    // Prevent source and target X coordinates from being swapped.
+    if (centerOfSource < centerOfTarget) {
+      const targetAnchor =
+        anchorPositions.source.right < anchorPositions.target.left
+          ? 'left'
+          : 'right'
+
+      source = new XPosition(anchorPositions, 'source', 'right')
+      target = new XPosition(anchorPositions, 'target', targetAnchor)
+    } else if (centerOfTarget < centerOfSource) {
+      const targetAnchor =
+        anchorPositions.source.left < anchorPositions.target.right
+          ? 'left'
+          : 'right'
+
+      source = new XPosition(anchorPositions, 'source', 'left')
+      target = new XPosition(anchorPositions, 'target', targetAnchor)
+    }
+  }
 
   return [
     { y: sourceY, ...source },
