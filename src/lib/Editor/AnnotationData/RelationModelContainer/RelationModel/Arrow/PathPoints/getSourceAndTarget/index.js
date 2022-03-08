@@ -35,8 +35,8 @@ export default function (
   let source
   let target
 
-  const centerOfSource = anchorPositions.source.center
-  const centerOfTarget = anchorPositions.target.center
+  const centerOfSource = sourceEntity.offsetCenter
+  const centerOfTarget = targetEntity.offsetCenter
 
   if (centerOfSource === centerOfTarget) {
     return [
