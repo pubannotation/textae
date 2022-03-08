@@ -39,13 +39,11 @@ export default class SourceAndTarget {
     if (sourceEntity.offsetCenter === targetEntity.offsetCenter) {
       this._source = {
         y: sourceY,
-        x: sourceEntity.offsetCenter,
-        anchor: 'center'
+        x: sourceEntity.offsetCenter
       }
       this._target = {
         y: targetY,
-        x: targetEntity.offsetCenter,
-        anchor: 'center'
+        x: targetEntity.offsetCenter
       }
       return
     }
@@ -59,13 +57,11 @@ export default class SourceAndTarget {
 
       this._source = {
         y: sourceY,
-        x: anchorPositions.source[sourceAnchor],
-        anchor: sourceAnchor
+        x: anchorPositions.source[sourceAnchor]
       }
       this._target = {
         y: targetY,
-        x: anchorPositions.target[targetAnchor],
-        anchor: targetAnchor
+        x: anchorPositions.target[targetAnchor]
       }
       return
     } else if (sourceY > targetY) {
@@ -77,13 +73,11 @@ export default class SourceAndTarget {
 
       this._source = {
         y: sourceY,
-        x: anchorPositions.source[sourceAnchor],
-        anchor: sourceAnchor
+        x: anchorPositions.source[sourceAnchor]
       }
       this._target = {
         y: targetY,
-        x: anchorPositions.target[targetAnchor],
-        anchor: targetAnchor
+        x: anchorPositions.target[targetAnchor]
       }
       return
     } else {
@@ -97,13 +91,11 @@ export default class SourceAndTarget {
 
         this._source = {
           y: sourceY,
-          x: anchorPositions.source.right,
-          anchor: 'right'
+          x: anchorPositions.source.right
         }
         this._target = {
           y: targetY,
-          x: anchorPositions.target[targetAnchor],
-          anchor: targetAnchor
+          x: anchorPositions.target[targetAnchor]
         }
         return
       } else {
@@ -114,13 +106,11 @@ export default class SourceAndTarget {
 
         this._source = {
           y: sourceY,
-          x: anchorPositions.source.left,
-          anchor: 'left'
+          x: anchorPositions.source.left
         }
         this._target = {
           y: targetY,
-          x: anchorPositions.target[targetAnchor],
-          anchor: targetAnchor
+          x: anchorPositions.target[targetAnchor]
         }
         return
       }
