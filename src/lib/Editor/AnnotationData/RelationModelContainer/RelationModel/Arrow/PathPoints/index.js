@@ -120,6 +120,10 @@ export class PointingDownPathPoints extends PathPoints {
   get sourceY() {
     return this._controlBarHeight - this._clientTopOfContainer
   }
+
+  get isWithoutSourceJetty() {
+    return true
+  }
 }
 
 export class BentOnSourcePathPoints extends PathPoints {
