@@ -121,6 +121,7 @@ export class PointingDownPathPoints extends PathPoints {
     return this._controlBarHeight - this._clientTopOfContainer
   }
 
+  // No emphasis on relation.
   get isCalm() {
     return true
   }
