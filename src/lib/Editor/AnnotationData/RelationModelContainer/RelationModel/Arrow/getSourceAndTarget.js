@@ -92,7 +92,7 @@ export default function (
         { y: sourceY, x: anchorPositions.source.right, anchor: 'right' },
         {
           y: targetY,
-          x: anchorPositions.target.targetAnchor,
+          x: anchorPositions.target[targetAnchor],
           anchor: targetAnchor
         }
       ]
