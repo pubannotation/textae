@@ -15,16 +15,12 @@ class PathPoints {
     controlBarHeight,
     clientTopOfContainer
   ) {
-    const controlY =
+    this._controlY =
       sourceAndTarget.offsetTop -
       sourceAndTarget.horizontalDistance / 4 -
       20 +
       (alignSourceBollards && alignTargetBollards ? 3 : 0)
-
-    this._controlY = controlY
-
     this._sourceAndTarget = sourceAndTarget
-
     this._controlBarHeight = controlBarHeight
     this._clientTopOfContainer = clientTopOfContainer
   }
