@@ -32,15 +32,12 @@ export default function (
     target: targetEntity.getTargetAnchorPosition(alignTargetBollards)
   }
 
-  let source
-  let target
-
   const centerOfSource = sourceEntity.offsetCenter
   const centerOfTarget = targetEntity.offsetCenter
 
   if (centerOfSource === centerOfTarget) {
-    source = new XPosition(sourceEntity.offsetCenter, 'center')
-    target = new XPosition(targetEntity.offsetCenter, 'center')
+    const source = new XPosition(sourceEntity.offsetCenter, 'center')
+    const target = new XPosition(targetEntity.offsetCenter, 'center')
 
     return [
       { y: sourceY, ...source },
@@ -50,10 +47,16 @@ export default function (
 
   if (sourceY < targetY) {
     const sourceAnchor = centerOfSource < centerOfTarget ? 'right' : 'left'
-    source = new XPosition(anchorPositions.source[sourceAnchor], sourceAnchor)
+    const source = new XPosition(
+      anchorPositions.source[sourceAnchor],
+      sourceAnchor
+    )
 
     const targetAnchor = source.x < centerOfTarget ? 'left' : 'right'
-    target = new XPosition(anchorPositions.target[targetAnchor], targetAnchor)
+    const target = new XPosition(
+      anchorPositions.target[targetAnchor],
+      targetAnchor
+    )
 
     return [
       { y: sourceY, ...source },
@@ -61,10 +64,16 @@ export default function (
     ]
   } else if (sourceY > targetY) {
     const targetAnchor = centerOfSource < centerOfTarget ? 'left' : 'right'
-    target = new XPosition(anchorPositions.target[targetAnchor], targetAnchor)
+    const target = new XPosition(
+      anchorPositions.target[targetAnchor],
+      targetAnchor
+    )
 
     const sourceAnchor = target.x < centerOfSource ? 'left' : 'right'
-    source = new XPosition(anchorPositions.source[sourceAnchor], sourceAnchor)
+    const source = new XPosition(
+      anchorPositions.source[sourceAnchor],
+      sourceAnchor
+    )
 
     return [
       { y: sourceY, ...source },
@@ -79,8 +88,11 @@ export default function (
           ? 'left'
           : 'right'
 
-      source = new XPosition(anchorPositions.source.right, 'right')
-      target = new XPosition(anchorPositions.target.targetAnchor, targetAnchor)
+      const source = new XPosition(anchorPositions.source.right, 'right')
+      const target = new XPosition(
+        anchorPositions.target.targetAnchor,
+        targetAnchor
+      )
 
       return [
         { y: sourceY, ...source },
@@ -92,8 +104,11 @@ export default function (
           ? 'left'
           : 'right'
 
-      source = new XPosition(anchorPositions.source.left, 'left')
-      target = new XPosition(anchorPositions.target[targetAnchor], targetAnchor)
+      const source = new XPosition(anchorPositions.source.left, 'left')
+      const target = new XPosition(
+        anchorPositions.target[targetAnchor],
+        targetAnchor
+      )
 
       return [
         { y: sourceY, ...source },
