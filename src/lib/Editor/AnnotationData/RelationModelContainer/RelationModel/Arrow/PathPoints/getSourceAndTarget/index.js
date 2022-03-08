@@ -55,6 +55,11 @@ export default function (
 
     const sourceAnchor = target.x < centerOfSource ? 'left' : 'right'
     source = new XPosition(anchorPositions.source[sourceAnchor], sourceAnchor)
+
+    return [
+      { y: sourceY, ...source },
+      { y: targetY, ...target }
+    ]
   } else {
     // When the source and target entities have the same height
     // Prevent source and target X coordinates from being swapped.
@@ -66,6 +71,11 @@ export default function (
 
       source = new XPosition(anchorPositions.source.right, 'right')
       target = new XPosition(anchorPositions.target.targetAnchor, targetAnchor)
+
+      return [
+        { y: sourceY, ...source },
+        { y: targetY, ...target }
+      ]
     } else if (centerOfTarget < centerOfSource) {
       const targetAnchor =
         anchorPositions.source.left < anchorPositions.target.right
@@ -74,6 +84,11 @@ export default function (
 
       source = new XPosition(anchorPositions.source.left, 'left')
       target = new XPosition(anchorPositions.target[targetAnchor], targetAnchor)
+
+      return [
+        { y: sourceY, ...source },
+        { y: targetY, ...target }
+      ]
     }
   }
 
