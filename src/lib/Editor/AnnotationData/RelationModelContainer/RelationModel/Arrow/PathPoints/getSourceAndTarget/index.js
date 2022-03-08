@@ -40,23 +40,23 @@ export default function (
 
   if (centerOfSource === centerOfTarget) {
     return [
-      new XPosition(anchorPositions, 'source', 'center'),
-      new XPosition(anchorPositions, 'target', 'center')
+      new XPosition(anchorPositions.source.center, 'center'),
+      new XPosition(anchorPositions.target.center, 'center')
     ]
   }
 
   if (sourceY < targetY) {
     const sourceAnchor = centerOfSource < centerOfTarget ? 'right' : 'left'
-    source = new XPosition(anchorPositions, 'source', sourceAnchor)
+    source = new XPosition(anchorPositions.source[sourceAnchor], sourceAnchor)
 
     const targetAnchor = source.x < centerOfTarget ? 'left' : 'right'
-    target = new XPosition(anchorPositions, 'target', targetAnchor)
+    target = new XPosition(anchorPositions.target[targetAnchor], targetAnchor)
   } else if (sourceY > targetY) {
     const targetAnchor = centerOfSource < centerOfTarget ? 'left' : 'right'
-    target = new XPosition(anchorPositions, 'target', targetAnchor)
+    target = new XPosition(anchorPositions.target[targetAnchor], targetAnchor)
 
     const sourceAnchor = target.x < centerOfSource ? 'left' : 'right'
-    source = new XPosition(anchorPositions, 'source', sourceAnchor)
+    source = new XPosition(anchorPositions.source[sourceAnchor], sourceAnchor)
   } else {
     // When the source and target entities have the same height
     // Prevent source and target X coordinates from being swapped.
@@ -66,16 +66,16 @@ export default function (
           ? 'left'
           : 'right'
 
-      source = new XPosition(anchorPositions, 'source', 'right')
-      target = new XPosition(anchorPositions, 'target', targetAnchor)
+      source = new XPosition(anchorPositions.source.right, 'right')
+      target = new XPosition(anchorPositions.target.targetAnchor, targetAnchor)
     } else if (centerOfTarget < centerOfSource) {
       const targetAnchor =
         anchorPositions.source.left < anchorPositions.target.right
           ? 'left'
           : 'right'
 
-      source = new XPosition(anchorPositions, 'source', 'left')
-      target = new XPosition(anchorPositions, 'target', targetAnchor)
+      source = new XPosition(anchorPositions.source.left, 'left')
+      target = new XPosition(anchorPositions.target[targetAnchor], targetAnchor)
     }
   }
 
