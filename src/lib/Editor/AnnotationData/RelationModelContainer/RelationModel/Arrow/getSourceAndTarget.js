@@ -11,6 +11,10 @@ class SourceAndTarget {
   get target() {
     return this._target
   }
+
+  get horizontalDistance() {
+    return Math.abs(this._target.x - this._source.x)
+  }
 }
 
 /**

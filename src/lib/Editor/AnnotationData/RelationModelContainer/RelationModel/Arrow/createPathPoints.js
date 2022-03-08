@@ -14,13 +14,14 @@ export default function (
   clientTopOfContainer,
   controlBarHeight
 ) {
-  const { source, target } = getSourceAndTarget(
+  const sourceAndTarget = getSourceAndTarget(
     sourceEntity,
     targetEntity,
     alignSourceBollards,
     alignTargetBollards,
     clientTopOfContainer
   )
+  const { source, target } = sourceAndTarget
 
   if (
     sourceEntity.clientBottom < controlBarHeight &&
@@ -38,7 +39,7 @@ export default function (
 
   if (
     Math.abs(sourceEntity.clientBottom - targetEntity.clientBottom) < 12 ||
-    42 < Math.abs(target.x - source.x)
+    42 < sourceAndTarget.horizontalDistance
   ) {
     return new ArchedPathPoints(
       source,
