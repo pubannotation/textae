@@ -5,6 +5,10 @@ import getUri from './getUri'
 import toAnchorElement from './toAnchorElement'
 import round from './round'
 
+const DistanceToShift = 8
+// Leave a gap half the width of the triangle so that the triangle does not intersect the vertical line.
+const MinimumDistance = DistanceToShift * 3 + 4
+
 export default class EntityModel {
   /**
    *
@@ -212,47 +216,31 @@ export default class EntityModel {
   }
 
   getSourceAnchorPosition(alignBollards) {
-    const DistanceToShift = 8
-    // Leave a gap half the width of the triangle so that the triangle does not intersect the vertical line.
-    const MinimumDistance = DistanceToShift * 3 + 4
-
     // When the entity width is small and the endpoint is displayed in the center of the entity and the entity has only one endpoint,
     // hovering will not move the entity left or right.
-    const isSourceJettyDeployed =
+    const isJettyDeployed =
       this.width / 2 >= MinimumDistance ||
       (this.hasMultipleEndpoints && alignBollards)
 
-    const centerOfSource = this.offsetCenter
-    const leftSource = isSourceJettyDeployed
-      ? centerOfSource - DistanceToShift * 3
-      : centerOfSource
-    const rightSource = isSourceJettyDeployed
-      ? centerOfSource + DistanceToShift * 3
-      : centerOfSource
+    const center = this.offsetCenter
+    const left = isJettyDeployed ? center - DistanceToShift * 3 : center
+    const right = isJettyDeployed ? center + DistanceToShift * 3 : center
 
-    return { left: leftSource, right: rightSource, center: centerOfSource }
+    return { left, right, center }
   }
 
   getTargetAnchorPosition(alignBollards) {
-    const DistanceToShift = 8
-    // Leave a gap half the width of the triangle so that the triangle does not intersect the vertical line.
-    const MinimumDistance = DistanceToShift * 3 + 4
-
     // When the entity width is small and the endpoint is displayed in the center of the entity and the entity has only one endpoint,
     // hovering will not move the entity left or right.
-    const isTargetJettyDeployed =
+    const isJettyDeployed =
       this.width / 2 >= MinimumDistance ||
       (this.hasMultipleEndpoints && alignBollards)
 
-    const centerOfTarget = this.offsetCenter
-    const leftTarget = isTargetJettyDeployed
-      ? centerOfTarget - DistanceToShift
-      : centerOfTarget
-    const rightTarget = isTargetJettyDeployed
-      ? centerOfTarget + DistanceToShift
-      : centerOfTarget
+    const center = this.offsetCenter
+    const left = isJettyDeployed ? center - DistanceToShift : center
+    const right = isJettyDeployed ? center + DistanceToShift : center
 
-    return { left: leftTarget, right: rightTarget, center: centerOfTarget }
+    return { left, right, center }
   }
 
   select() {
