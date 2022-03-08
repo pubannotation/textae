@@ -44,20 +44,20 @@ export default function (
 
   if (sourceY < targetY) {
     const sourceAnchor = centerOfSource < centerOfTarget ? 'right' : 'left'
-    const source = new XPosition(
-      anchorPositions.source[sourceAnchor],
-      sourceAnchor
-    )
-
-    const targetAnchor = source.x < centerOfTarget ? 'left' : 'right'
-    const target = new XPosition(
-      anchorPositions.target[targetAnchor],
-      targetAnchor
-    )
+    const targetAnchor =
+      anchorPositions.source[sourceAnchor] < centerOfTarget ? 'left' : 'right'
 
     return [
-      { y: sourceY, ...source },
-      { y: targetY, ...target }
+      {
+        y: sourceY,
+        x: anchorPositions.source[sourceAnchor],
+        anchor: sourceAnchor
+      },
+      {
+        y: targetY,
+        x: anchorPositions.target[targetAnchor],
+        anchor: targetAnchor
+      }
     ]
   } else if (sourceY > targetY) {
     const targetAnchor = centerOfSource < centerOfTarget ? 'left' : 'right'
