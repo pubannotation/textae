@@ -18,7 +18,7 @@ class PathPoints {
     const { source, target } = sourceAndTarget
 
     const controlY =
-      Math.min(source.y, target.y) -
+      sourceAndTarget.offsetTop -
       sourceAndTarget.horizontalDistance / 4 -
       20 +
       (alignSourceBollards && alignTargetBollards ? 3 : 0)

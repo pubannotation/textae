@@ -141,4 +141,8 @@ export default class SourceAndTarget {
   get isDownward() {
     return this._source.y < this._target.y
   }
+
+  get offsetTop() {
+    return Math.min(this._source.y, this._target.y)
+  }
 }
