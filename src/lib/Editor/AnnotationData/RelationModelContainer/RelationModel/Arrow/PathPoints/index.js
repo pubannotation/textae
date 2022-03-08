@@ -121,7 +121,7 @@ export class PointingDownPathPoints extends PathPoints {
     return this._controlBarHeight - this._clientTopOfContainer
   }
 
-  get isWithoutSourceJetty() {
+  get isCalm() {
     return true
   }
 }

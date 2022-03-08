@@ -80,7 +80,7 @@ export default class Arrow {
       pathPoints.transformDefinitionsForTargetTriangle
     )
 
-    if (pointUpSourceBollards && !pathPoints.isWithoutSourceJetty) {
+    if (pointUpSourceBollards && !pathPoints.isCalm) {
       this._drawSourceJetty(pathPoints)
     } else {
       this._destroySourceJetty()
