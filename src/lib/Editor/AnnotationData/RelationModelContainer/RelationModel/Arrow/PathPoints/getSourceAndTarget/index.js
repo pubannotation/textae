@@ -39,10 +39,8 @@ export default function (
   const centerOfTarget = targetEntity.offsetCenter
 
   if (centerOfSource === centerOfTarget) {
-    return [
-      new XPosition(anchorPositions.source.center, 'center'),
-      new XPosition(anchorPositions.target.center, 'center')
-    ]
+    source = new XPosition(anchorPositions.source.center, 'center')
+    target = new XPosition(anchorPositions.target.center, 'center')
   }
 
   if (sourceY < targetY) {
