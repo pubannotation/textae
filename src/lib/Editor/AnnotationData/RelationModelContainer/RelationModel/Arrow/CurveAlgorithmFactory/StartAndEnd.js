@@ -17,7 +17,7 @@ export default class startAndEnd {
 
     const sourceTop =
       clientHeight < sourceEntity.clientTop
-        ? offsetBottomOfContainer
+        ? offsetBottomOfContainer - 3
         : sourceEntity.offsetTop
 
     const targetTop =
