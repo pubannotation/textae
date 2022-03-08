@@ -36,8 +36,6 @@ class PathPoints {
     this._controlY = controlY
     this._source = source
     this._target = target
-    this._sourceEntity = sourceEntity
-    this._targetEntity = targetEntity
   }
 
   get sourceX() {
