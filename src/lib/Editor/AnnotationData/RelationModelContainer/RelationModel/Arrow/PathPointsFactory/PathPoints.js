@@ -2,7 +2,7 @@ import { MarkerHeight } from '../MarkerHeight'
 
 class PathPoints {
   /**
-   *
+   * @param {import('./SourceAndTarget').default} sourceAndTarget
    * @param {boolean} alignSourceBollards
    * @param {boolean} alignTargetBollards
    * @param {number} clientTopOfContainer
