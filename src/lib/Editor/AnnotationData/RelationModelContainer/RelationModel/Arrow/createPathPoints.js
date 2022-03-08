@@ -3,7 +3,7 @@ import {
   BentOnSourcePathPoints,
   BentOnTargetPathPoints
 } from './PathPoints'
-import getSourceAndTarget from './PathPoints/getSourceAndTarget'
+import getSourceAndTarget from './getSourceAndTarget'
 
 export default function (
   sourceEntity,
