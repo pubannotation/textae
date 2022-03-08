@@ -8,7 +8,14 @@ class PathPoints {
    * @param {number} clientTopOfContainer
    * @param {number} column
    */
-  constructor(source, target, alignSourceBollards, alignTargetBollards) {
+  constructor(
+    source,
+    target,
+    alignSourceBollards,
+    alignTargetBollards,
+    controlBarHeight,
+    clientTopOfContainer
+  ) {
     const controlY =
       Math.min(source.y, target.y) -
       Math.abs(target.x - source.x) / 4 -
@@ -18,6 +25,9 @@ class PathPoints {
     this._controlY = controlY
     this._source = source
     this._target = target
+
+    this._controlBarHeight = controlBarHeight
+    this._clientTopOfContainer = clientTopOfContainer
   }
 
   get sourceX() {
@@ -108,7 +118,7 @@ export class PointingDownPathPoints extends PathPoints {
   }
 
   get sourceY() {
-    return this._source.y
+    return this._controlBarHeight - this._clientTopOfContainer
   }
 }
 

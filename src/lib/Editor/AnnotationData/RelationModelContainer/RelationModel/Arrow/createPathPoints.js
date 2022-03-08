@@ -19,8 +19,7 @@ export default function (
     targetEntity,
     alignSourceBollards,
     alignTargetBollards,
-    clientTopOfContainer,
-    controlBarHeight
+    clientTopOfContainer
   )
 
   if (
@@ -32,7 +31,8 @@ export default function (
       target,
       alignSourceBollards,
       alignTargetBollards,
-      controlBarHeight
+      controlBarHeight,
+      clientTopOfContainer
     )
   }
 
@@ -45,7 +45,8 @@ export default function (
       target,
       alignSourceBollards,
       alignTargetBollards,
-      controlBarHeight
+      controlBarHeight,
+      clientTopOfContainer
     )
   }
 
@@ -55,7 +56,8 @@ export default function (
       target,
       alignSourceBollards,
       alignTargetBollards,
-      controlBarHeight
+      controlBarHeight,
+      clientTopOfContainer
     )
   } else {
     return new BentOnSourcePathPoints(
@@ -63,7 +65,8 @@ export default function (
       target,
       alignSourceBollards,
       alignTargetBollards,
-      controlBarHeight
+      controlBarHeight,
+      clientTopOfContainer
     )
   }
 }
