@@ -62,20 +62,22 @@ export default function (
   } else if (sourceY > targetY) {
     const targetAnchor =
       sourceEntity.offsetCenter < targetEntity.offsetCenter ? 'left' : 'right'
-    const target = new XPosition(
-      anchorPositions.target[targetAnchor],
-      targetAnchor
-    )
-
-    const sourceAnchor = target.x < sourceEntity.offsetCenter ? 'left' : 'right'
-    const source = new XPosition(
-      anchorPositions.source[sourceAnchor],
-      sourceAnchor
-    )
+    const sourceAnchor =
+      anchorPositions.target[targetAnchor] < sourceEntity.offsetCenter
+        ? 'left'
+        : 'right'
 
     return [
-      { y: sourceY, ...source },
-      { y: targetY, ...target }
+      {
+        y: sourceY,
+        x: anchorPositions.source[sourceAnchor],
+        anchor: sourceAnchor
+      },
+      {
+        y: targetY,
+        x: anchorPositions.target[targetAnchor],
+        anchor: targetAnchor
+      }
     ]
   } else {
     // When the source and target entities have the same height
