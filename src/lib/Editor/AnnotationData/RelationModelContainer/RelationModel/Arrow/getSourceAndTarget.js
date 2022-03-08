@@ -1,3 +1,18 @@
+class SourceAndTarget {
+  constructor(source, target) {
+    this._source = source
+    this._target = target
+  }
+
+  get source() {
+    return this._source
+  }
+
+  get target() {
+    return this._target
+  }
+}
+
 /**
  *
  * @param {import('../../../../../../../EntityModel').default} sourceEntity
@@ -33,10 +48,10 @@ export default function (
   }
 
   if (sourceEntity.offsetCenter === targetEntity.offsetCenter) {
-    return [
+    return new SourceAndTarget(
       { y: sourceY, x: sourceEntity.offsetCenter, anchor: 'center' },
       { y: targetY, x: targetEntity.offsetCenter, anchor: 'center' }
-    ]
+    )
   }
 
   if (sourceY < targetY) {
@@ -47,7 +62,7 @@ export default function (
         ? 'left'
         : 'right'
 
-    return [
+    return new SourceAndTarget(
       {
         y: sourceY,
         x: anchorPositions.source[sourceAnchor],
@@ -58,7 +73,7 @@ export default function (
         x: anchorPositions.target[targetAnchor],
         anchor: targetAnchor
       }
-    ]
+    )
   } else if (sourceY > targetY) {
     const targetAnchor =
       sourceEntity.offsetCenter < targetEntity.offsetCenter ? 'left' : 'right'
@@ -67,7 +82,7 @@ export default function (
         ? 'left'
         : 'right'
 
-    return [
+    return new SourceAndTarget(
       {
         y: sourceY,
         x: anchorPositions.source[sourceAnchor],
@@ -78,7 +93,7 @@ export default function (
         x: anchorPositions.target[targetAnchor],
         anchor: targetAnchor
       }
-    ]
+    )
   } else {
     // When the source and target entities have the same height
     // Prevent source and target X coordinates from being swapped.
@@ -88,28 +103,28 @@ export default function (
           ? 'left'
           : 'right'
 
-      return [
+      return new SourceAndTarget(
         { y: sourceY, x: anchorPositions.source.right, anchor: 'right' },
         {
           y: targetY,
           x: anchorPositions.target[targetAnchor],
           anchor: targetAnchor
         }
-      ]
+      )
     } else if (sourceEntity.offsetCenter > targetEntity.offsetCenter) {
       const targetAnchor =
         anchorPositions.source.left < anchorPositions.target.right
           ? 'left'
           : 'right'
 
-      return [
+      return new SourceAndTarget(
         { y: sourceY, x: anchorPositions.source.left, anchor: 'left' },
         {
           y: targetY,
           x: anchorPositions.target[targetAnchor],
           anchor: targetAnchor
         }
-      ]
+      )
     }
   }
 }

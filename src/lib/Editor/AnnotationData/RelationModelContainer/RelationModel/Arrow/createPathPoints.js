@@ -14,7 +14,7 @@ export default function (
   clientTopOfContainer,
   controlBarHeight
 ) {
-  const [source, target] = getSourceAndTarget(
+  const { source, target } = getSourceAndTarget(
     sourceEntity,
     targetEntity,
     alignSourceBollards,
