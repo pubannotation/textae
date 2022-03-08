@@ -28,8 +28,8 @@ export default function (
   const targetY = targetTop - (alignTargetBollards ? 3 : 0)
 
   const anchorPositions = {
-    source: sourceEntity.getAnchorPosition(alignSourceBollards),
-    target: targetEntity.getAnchorPosition(alignTargetBollards)
+    source: sourceEntity.getSourceAnchorPosition(alignSourceBollards),
+    target: targetEntity.getTargetAnchorPosition(alignTargetBollards)
   }
 
   let source

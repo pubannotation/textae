@@ -211,7 +211,7 @@ export default class EntityModel {
     return this._isSelected
   }
 
-  getAnchorPosition(alignBollards) {
+  getSourceAnchorPosition(alignBollards) {
     const DistanceToShift = 8
     // Leave a gap half the width of the triangle so that the triangle does not intersect the vertical line.
     const MinimumDistance = DistanceToShift * 3 + 4
@@ -231,6 +231,28 @@ export default class EntityModel {
       : centerOfSource
 
     return { left: leftSource, right: rightSource, center: centerOfSource }
+  }
+
+  getTargetAnchorPosition(alignBollards) {
+    const DistanceToShift = 8
+    // Leave a gap half the width of the triangle so that the triangle does not intersect the vertical line.
+    const MinimumDistance = DistanceToShift * 3 + 4
+
+    // When the entity width is small and the endpoint is displayed in the center of the entity and the entity has only one endpoint,
+    // hovering will not move the entity left or right.
+    const isTargetJettyDeployed =
+      this.width / 2 >= MinimumDistance ||
+      (this.hasMultipleEndpoints && alignBollards)
+
+    const centerOfTarget = this.offsetCenter
+    const leftTarget = isTargetJettyDeployed
+      ? centerOfTarget - DistanceToShift
+      : centerOfTarget
+    const rightTarget = isTargetJettyDeployed
+      ? centerOfTarget + DistanceToShift
+      : centerOfTarget
+
+    return { left: leftTarget, right: rightTarget, center: centerOfTarget }
   }
 
   select() {
