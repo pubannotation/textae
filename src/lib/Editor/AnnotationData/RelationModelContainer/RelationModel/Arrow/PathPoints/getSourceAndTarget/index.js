@@ -1,5 +1,3 @@
-import XPosition from './XPosition'
-
 /**
  *
  * @param {import('../../../../../../../EntityModel').default} sourceEntity
@@ -88,15 +86,13 @@ export default function (
           ? 'left'
           : 'right'
 
-      const source = new XPosition(anchorPositions.source.right, 'right')
-      const target = new XPosition(
-        anchorPositions.target.targetAnchor,
-        targetAnchor
-      )
-
       return [
-        { y: sourceY, ...source },
-        { y: targetY, ...target }
+        { y: sourceY, x: anchorPositions.source.right, anchor: 'right' },
+        {
+          y: targetY,
+          x: anchorPositions.target.targetAnchor,
+          anchor: targetAnchor
+        }
       ]
     } else if (sourceEntity.offsetCenter > targetEntity.offsetCenter) {
       const targetAnchor =
@@ -104,15 +100,13 @@ export default function (
           ? 'left'
           : 'right'
 
-      const source = new XPosition(anchorPositions.source.left, 'left')
-      const target = new XPosition(
-        anchorPositions.target[targetAnchor],
-        targetAnchor
-      )
-
       return [
-        { y: sourceY, ...source },
-        { y: targetY, ...target }
+        { y: sourceY, x: anchorPositions.source.left, anchor: 'left' },
+        {
+          y: targetY,
+          x: anchorPositions.target[targetAnchor],
+          anchor: targetAnchor
+        }
       ]
     }
   }
