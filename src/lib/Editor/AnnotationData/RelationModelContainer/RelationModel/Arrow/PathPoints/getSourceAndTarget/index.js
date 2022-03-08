@@ -54,6 +54,11 @@ export default function (
 
     const targetAnchor = source.x < centerOfTarget ? 'left' : 'right'
     target = new XPosition(anchorPositions.target[targetAnchor], targetAnchor)
+
+    return [
+      { y: sourceY, ...source },
+      { y: targetY, ...target }
+    ]
   } else if (sourceY > targetY) {
     const targetAnchor = centerOfSource < centerOfTarget ? 'left' : 'right'
     target = new XPosition(anchorPositions.target[targetAnchor], targetAnchor)
