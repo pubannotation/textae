@@ -134,15 +134,15 @@ export default class SourceAndTarget {
     return this._target
   }
 
-  get horizontalDistance() {
-    return Math.abs(this._target.x - this._source.x)
-  }
-
   get isDownward() {
     return this._source.y < this._target.y
   }
 
   get offsetTop() {
     return Math.min(this._source.y, this._target.y)
+  }
+
+  get horizontalDistance() {
+    return Math.abs(this._target.x - this._source.x)
   }
 }
