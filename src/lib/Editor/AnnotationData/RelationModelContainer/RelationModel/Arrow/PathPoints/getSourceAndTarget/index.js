@@ -1,4 +1,4 @@
-import XPosition from './determineXPositions/XPosition'
+import XPosition from './XPosition'
 
 /**
  *
