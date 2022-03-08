@@ -18,11 +18,11 @@ export default function (
   const offsetBottomOfContainer = clientHeight - clientTopOfContainer
   const sourceTop =
     clientHeight < sourceEntity.clientTop
-      ? offsetBottomOfContainer
+      ? offsetBottomOfContainer - 3
       : sourceEntity.offsetTop
   const targetTop =
     clientHeight < targetEntity.clientTop
-      ? offsetBottomOfContainer
+      ? offsetBottomOfContainer - 3
       : targetEntity.offsetTop
 
   const sourceY = sourceTop - (alignSourceBollards ? 3 : 0)
