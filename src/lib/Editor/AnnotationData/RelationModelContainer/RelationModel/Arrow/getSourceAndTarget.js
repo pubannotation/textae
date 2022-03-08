@@ -9,14 +9,22 @@ export default function (
   targetEntity,
   alignSourceBollards,
   alignTargetBollards,
-  clientTopOfContainer
+  clientTopOfContainer,
+  controlBarHeight
 ) {
   const { clientHeight } = document.documentElement
   const offsetBottomOfContainer = clientHeight - clientTopOfContainer
-  const sourceTop =
-    clientHeight < sourceEntity.clientTop
-      ? offsetBottomOfContainer - 3
-      : sourceEntity.offsetTop
+
+  const isSourcePushIntoViewport =
+    sourceEntity.clientBottom < controlBarHeight &&
+    sourceEntity.clientTop < targetEntity.clientTop
+
+  const sourceTop = isSourcePushIntoViewport
+    ? controlBarHeight - clientTopOfContainer
+    : clientHeight < sourceEntity.clientTop
+    ? offsetBottomOfContainer
+    : sourceEntity.offsetTop
+
   const targetTop =
     clientHeight < targetEntity.clientTop
       ? offsetBottomOfContainer - 3

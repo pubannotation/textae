@@ -8,13 +8,7 @@ class PathPoints {
    * @param {number} clientTopOfContainer
    * @param {number} column
    */
-  constructor(
-    source,
-    target,
-    alignSourceBollards,
-    alignTargetBollards,
-    controlBarHeight
-  ) {
+  constructor(source, target, alignSourceBollards, alignTargetBollards) {
     const controlY =
       Math.min(source.y, target.y) -
       Math.abs(target.x - source.x) / 4 -
@@ -96,6 +90,27 @@ class PathPoints {
 }
 
 export class ArchedPathPoints extends PathPoints {}
+
+export class PointingDownPathPoints extends PathPoints {
+  get pathCommands() {
+    return `M ${this.sourceX}, ${this.sourceY + MarkerHeight}
+      C ${this._sourceControlX} ${
+      this.sourceY + Math.abs(this.targetY - this.sourceY) / 3
+    }, ${this._targetControlX} ${
+      this.targetY - Math.abs(this.targetY - this.sourceY) / 3
+    }, ${this.targetX} ${this.targetY}`
+  }
+
+  get transformDefinitionsForSourceTriangle() {
+    return ` rotate(180, ${this.sourceX}, ${this.sourceY + 3}) translate(${
+      this.sourceX
+    }, ${this.sourceY})`
+  }
+
+  get sourceY() {
+    return this._source.y
+  }
+}
 
 export class BentOnSourcePathPoints extends PathPoints {
   get pathCommands() {

@@ -1,7 +1,8 @@
 import {
   ArchedPathPoints,
   BentOnSourcePathPoints,
-  BentOnTargetPathPoints
+  BentOnTargetPathPoints,
+  PointingDownPathPoints
 } from './PathPoints'
 import getSourceAndTarget from './getSourceAndTarget'
 
@@ -18,8 +19,22 @@ export default function (
     targetEntity,
     alignSourceBollards,
     alignTargetBollards,
-    clientTopOfContainer
+    clientTopOfContainer,
+    controlBarHeight
   )
+
+  if (
+    sourceEntity.clientBottom < controlBarHeight &&
+    sourceEntity.clientTop < targetEntity.clientTop
+  ) {
+    return new PointingDownPathPoints(
+      source,
+      target,
+      alignSourceBollards,
+      alignTargetBollards,
+      controlBarHeight
+    )
+  }
 
   if (
     Math.abs(sourceEntity.clientBottom - targetEntity.clientBottom) < 12 ||
