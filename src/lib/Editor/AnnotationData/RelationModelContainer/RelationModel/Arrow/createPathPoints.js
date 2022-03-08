@@ -4,7 +4,7 @@ import {
   BentOnTargetPathPoints,
   PointingDownPathPoints
 } from './PathPoints'
-import getSourceAndTarget from './getSourceAndTarget'
+import getSourceAndTarget from './createSourceAndTarget'
 
 export default function (
   sourceEntity,
