@@ -24,25 +24,25 @@ class PathPoints {
       (alignSourceBollards && alignTargetBollards ? 3 : 0)
 
     this._controlY = controlY
-    this._source = source
-    this._target = target
+
+    this._sourceAndTarget = sourceAndTarget
 
     this._controlBarHeight = controlBarHeight
     this._clientTopOfContainer = clientTopOfContainer
   }
 
   get sourceX() {
-    return this._source.x
+    return this._sourceAndTarget.source.x
   }
   get targetX() {
-    return this._target.x
+    return this._sourceAndTarget.target.x
   }
 
   get sourceY() {
-    return this._source.y - MarkerHeight
+    return this._sourceAndTarget.source.y - MarkerHeight
   }
   get targetY() {
-    return this._target.y - MarkerHeight
+    return this._sourceAndTarget.target.y - MarkerHeight
   }
 
   get pathCommands() {
@@ -92,11 +92,11 @@ class PathPoints {
   }
 
   get _sourceControlX() {
-    return this._source.x
+    return this._sourceAndTarget.source.x
   }
 
   get _targetControlX() {
-    return this._target.x
+    return this._sourceAndTarget.target.x
   }
 }
 
@@ -166,7 +166,10 @@ export class BentOnSourcePathPoints extends PathPoints {
   }
 
   get _sourceControlX() {
-    return this._source.x + (this._target.anchor === 'right' ? 150 : -150)
+    return (
+      this._sourceAndTarget.source.x +
+      (this._sourceAndTarget.target.anchor === 'right' ? 150 : -150)
+    )
   }
 }
 
@@ -207,6 +210,9 @@ export class BentOnTargetPathPoints extends PathPoints {
   }
 
   get _targetControlX() {
-    return this._target.x + (this._source.anchor === 'right' ? 150 : -150)
+    return (
+      this._sourceAndTarget.target.x +
+      (this._sourceAndTarget.source.anchor === 'right' ? 150 : -150)
+    )
   }
 }
