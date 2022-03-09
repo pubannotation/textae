@@ -21,6 +21,14 @@ export default class PointingUpCurveAlgorithm extends CurveAlgorithm {
     }, ${this.targetY})`
   }
 
+  get targetX() {
+    if (!this._chachedTargetX) {
+      const unit = 50
+      this._chachedTargetX = super.targetX - unit + Math.random() * 2 * unit
+    }
+    return this._chachedTargetX
+  }
+
   get targetY() {
     return this._controlBarHeight - this._clientTopOfContainer
   }

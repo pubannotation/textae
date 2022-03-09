@@ -21,6 +21,14 @@ export default class PointingDownCurveAlgorithm extends CurveAlgorithm {
     }, ${this.sourceY})`
   }
 
+  get sourceX() {
+    if (!this._chachedSourceX) {
+      const unit = 50
+      this._chachedSourceX = super.sourceX - unit + Math.random() * 2 * unit
+    }
+    return this._chachedSourceX
+  }
+
   get sourceY() {
     return this._controlBarHeight - this._clientTopOfContainer
   }
