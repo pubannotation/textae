@@ -1,3 +1,7 @@
 import CurveAlgorithm from './CurveAlgorithm'
 
-export default class ArchedCurveAlgorithm extends CurveAlgorithm {}
+export default class ArchedCurveAlgorithm extends CurveAlgorithm {
+  get isEmphasizable() {
+    return true
+  }
+}

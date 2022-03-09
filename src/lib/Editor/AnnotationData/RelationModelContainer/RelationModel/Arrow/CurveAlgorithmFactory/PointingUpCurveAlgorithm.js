@@ -2,6 +2,10 @@ import { MarkerHeight } from '../MarkerHeight'
 import CurveAlgorithm from './CurveAlgorithm'
 
 export default class PointingUpCurveAlgorithm extends CurveAlgorithm {
+  get isEmphasizable() {
+    return false
+  }
+
   get pathCommands() {
     return `M ${this.sourceX}, ${this.sourceY}
       C ${this._sourceControlX} ${
@@ -19,10 +23,5 @@ export default class PointingUpCurveAlgorithm extends CurveAlgorithm {
 
   get targetY() {
     return this._controlBarHeight - this._clientTopOfContainer
-  }
-
-  // No emphasis on relation.
-  get isCalm() {
-    return true
   }
 }

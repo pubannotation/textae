@@ -1,6 +1,10 @@
 import CurveAlgorithm from './CurveAlgorithm'
 
 export default class BentOnTargetCurveAlgorithm extends CurveAlgorithm {
+  get isEmphasizable() {
+    return true
+  }
+
   get pathCommands() {
     return `M ${this.sourceX}, ${this.sourceY}
               C ${this._sourceControlX} ${this._controlY}, ${this._targetControlX} ${this._controlY}, ${this._junctionPointX} ${this._junctionPointY}
