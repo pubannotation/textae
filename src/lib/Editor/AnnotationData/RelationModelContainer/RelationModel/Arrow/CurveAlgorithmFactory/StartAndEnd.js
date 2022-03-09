@@ -14,10 +14,10 @@ export default class startAndEnd {
     const sourceY = sourceEntity.offsetTop - (alignSourceBollards ? 3 : 0)
     const targetY = targetEntity.offsetTop - (alignTargetBollards ? 3 : 0)
 
-    const anchorPositions = {
-      source: sourceEntity.getSourceAnchorPosition(alignSourceBollards),
-      target: targetEntity.getTargetAnchorPosition(alignTargetBollards)
-    }
+    const sourceAnchorPosition =
+      sourceEntity.getSourceAnchorPosition(alignSourceBollards)
+    const targetAnchorPosition =
+      targetEntity.getTargetAnchorPosition(alignTargetBollards)
 
     this._isPontingToRight =
       sourceEntity.offsetCenter < targetEntity.offsetCenter
@@ -37,33 +37,33 @@ export default class startAndEnd {
     if (sourceY < targetY) {
       const sourceAnchor = this._isPontingToRight ? 'right' : 'left'
       const targetAnchor =
-        anchorPositions.source[sourceAnchor] < targetEntity.offsetCenter
+        sourceAnchorPosition[sourceAnchor] < targetEntity.offsetCenter
           ? 'left'
           : 'right'
 
       this._start = {
         y: sourceY,
-        x: anchorPositions.source[sourceAnchor]
+        x: sourceAnchorPosition[sourceAnchor]
       }
       this._end = {
         y: targetY,
-        x: anchorPositions.target[targetAnchor]
+        x: targetAnchorPosition[targetAnchor]
       }
       return
     } else if (sourceY > targetY) {
       const targetAnchor = this._isPontingToRight ? 'left' : 'right'
       const sourceAnchor =
-        anchorPositions.target[targetAnchor] < sourceEntity.offsetCenter
+        targetAnchorPosition[targetAnchor] < sourceEntity.offsetCenter
           ? 'left'
           : 'right'
 
       this._start = {
         y: sourceY,
-        x: anchorPositions.source[sourceAnchor]
+        x: sourceAnchorPosition[sourceAnchor]
       }
       this._end = {
         y: targetY,
-        x: anchorPositions.target[targetAnchor]
+        x: targetAnchorPosition[targetAnchor]
       }
       return
     } else {
@@ -71,32 +71,32 @@ export default class startAndEnd {
       // Prevent source and target X coordinates from being swapped.
       if (this._isPontingToRight) {
         const targetAnchor =
-          anchorPositions.source.right < anchorPositions.target.left
+          sourceAnchorPosition.right < targetAnchorPosition.left
             ? 'left'
             : 'right'
 
         this._start = {
           y: sourceY,
-          x: anchorPositions.source.right
+          x: sourceAnchorPosition.right
         }
         this._end = {
           y: targetY,
-          x: anchorPositions.target[targetAnchor]
+          x: targetAnchorPosition[targetAnchor]
         }
         return
       } else {
         const targetAnchor =
-          anchorPositions.source.left < anchorPositions.target.right
+          sourceAnchorPosition.left < targetAnchorPosition.right
             ? 'left'
             : 'right'
 
         this._start = {
           y: sourceY,
-          x: anchorPositions.source.left
+          x: sourceAnchorPosition.left
         }
         this._end = {
           y: targetY,
-          x: anchorPositions.target[targetAnchor]
+          x: targetAnchorPosition[targetAnchor]
         }
         return
       }
