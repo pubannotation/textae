@@ -1,7 +1,11 @@
 import ArchedCurveAlgorithm from './ArchedCurveAlgorithm'
 
 export default class CutOffOnTargetArchedCurveAlgorithm extends ArchedCurveAlgorithm {
-  get isEmphasizable() {
+  get isSourceJettyVisible() {
+    return true
+  }
+
+  get isTargetJettyVisible() {
     return false
   }
 

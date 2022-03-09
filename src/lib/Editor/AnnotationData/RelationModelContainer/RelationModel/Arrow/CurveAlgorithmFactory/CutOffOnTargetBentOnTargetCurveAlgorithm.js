@@ -1,7 +1,11 @@
 import BentOnTargetCurveAlgorithm from './BentOnTargetCurveAlgorithm'
 
 export default class CutOffOnTargetBentOnTargetCurveAlgorithm extends BentOnTargetCurveAlgorithm {
-  get isEmphasizable() {
+  get isSourceJettyVisible() {
+    return true
+  }
+
+  get isTargetJettyVisible() {
     return false
   }
 

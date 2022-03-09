@@ -1,7 +1,11 @@
 import CurveAlgorithm from './CurveAlgorithm'
 
 export default class BentOnSourceCurveAlgorithm extends CurveAlgorithm {
-  get isEmphasizable() {
+  get isSourceJettyVisible() {
+    return true
+  }
+
+  get isTargetJettyVisible() {
     return true
   }
 

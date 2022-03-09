@@ -79,13 +79,13 @@ export default class Arrow {
       curveAlgorithm.transformDefinitionsForTargetTriangle
     )
 
-    if (pointUpSourceBollards && curveAlgorithm.isEmphasizable) {
+    if (pointUpSourceBollards && curveAlgorithm.isSourceJettyVisible) {
       this._drawSourceJetty(curveAlgorithm)
     } else {
       this._destroySourceJetty()
     }
 
-    if (pointUpTargetBollards && curveAlgorithm.isEmphasizable) {
+    if (pointUpTargetBollards && curveAlgorithm.isTargetJettyVisible) {
       this._drawTargetJetty(curveAlgorithm)
     } else {
       this._destroyTargetJetty()

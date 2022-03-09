@@ -2,10 +2,13 @@ import { MarkerHeight } from '../MarkerHeight'
 import CurveAlgorithm from './CurveAlgorithm'
 
 export default class PointingDownCurveAlgorithm extends CurveAlgorithm {
-  get isEmphasizable() {
+  get isSourceJettyVisible() {
     return false
   }
 
+  get isTargetJettyVisible() {
+    return true
+  }
   get pathCommands() {
     return `M ${this.sourceX}, ${this.sourceY + MarkerHeight}
       C ${this._sourceControlX} ${
