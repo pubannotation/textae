@@ -8,6 +8,8 @@ import CutOffOnSourceBentOnSourceCurveAlgorithm from './CutOffOnSourceBentOnSour
 import CutOffOnTargetBentOnTargetCurveAlgorithm from './CutOffOnTargetBentOnTargetCurveAlgorithm'
 import CutOffOnSourceBentOnTargetCurveAlgorithm from './CutOffOnSourceBentOnTargetCurveAlgorithm'
 import CutOffOnTargetBentOnSourceCurveAlgorithm from './CutOffOnTargetBentOnSourceCurveAlgorithm'
+import CutOffOnSourceArchedCurveAlgorithm from './CutOffOnSourceArchedCurveAlgorithm'
+import CutOffOnTargetArchedCurveAlgorithm from './CutOffOnTargetArchedCurveAlgorithm'
 
 export default class CurveAlgorithmFactory {
   static create(
@@ -52,10 +54,31 @@ export default class CurveAlgorithmFactory {
       )
     }
 
+    const { clientHeight } = document.documentElement
     if (
       Math.abs(sourceEntity.clientBottom - targetEntity.clientBottom) < 12 ||
       42 < startAndEnd.horizontalDistance
     ) {
+      if (clientHeight < sourceEntity.clientTop) {
+        return new CutOffOnSourceArchedCurveAlgorithm(
+          startAndEnd,
+          alignSourceBollards,
+          alignTargetBollards,
+          controlBarHeight,
+          clientTopOfContainer
+        )
+      }
+
+      if (clientHeight < targetEntity.clientTop) {
+        return new CutOffOnTargetArchedCurveAlgorithm(
+          startAndEnd,
+          alignSourceBollards,
+          alignTargetBollards,
+          controlBarHeight,
+          clientTopOfContainer
+        )
+      }
+
       return new ArchedCurveAlgorithm(
         startAndEnd,
         alignSourceBollards,
@@ -65,7 +88,6 @@ export default class CurveAlgorithmFactory {
       )
     }
 
-    const { clientHeight } = document.documentElement
     if (startAndEnd.isDownward) {
       if (clientHeight < sourceEntity.clientTop) {
         return new CutOffOnSourceBentOnTargetCurveAlgorithm(
