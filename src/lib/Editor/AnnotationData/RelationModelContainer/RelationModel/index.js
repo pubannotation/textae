@@ -325,7 +325,9 @@ export default class RelationModel {
   _pointUpSelfAndEntities() {
     this._isHovered = true
     this._arrow.update(true, true, true)
-    this._label.updateHighlighting()
+    if (this._label) {
+      this._label.updateHighlighting()
+    }
 
     const bothRelations = new Set()
     const sourceRelations = new Set()
