@@ -1,11 +1,11 @@
-import BentOnTargetCurveAlgorithm from './BentOnTargetCurveAlgorithm'
+import BentOnSourceCurveAlgorithm from './BentOnSourceCurveAlgorithm'
 
-export default class BentOnTargetShortCurveAlgorithm extends BentOnTargetCurveAlgorithm {
+export default class CutOffOnSourceBentOnSourceCurveAlgorithm extends BentOnSourceCurveAlgorithm {
   get isEmphasizable() {
     return false
   }
 
-  get targetY() {
+  get sourceY() {
     const { clientHeight } = document.documentElement
     const offsetBottomOfContainer = clientHeight - this._clientTopOfContainer
 
