@@ -1,10 +1,8 @@
-import {
-  ArchedCurveAlgorithm,
-  BentOnSourceCurveAlgorithm,
-  BentOnTargetCurveAlgorithm,
-  PointingDownCurveAlgorithm,
-  PointingUpCurveAlgorithm
-} from './CurveAlgorithm'
+import BentOnTargetCurveAlgorithm from './BentOnTargetCurveAlgorithm'
+import BentOnSourceCurveAlgorithm from './BentOnSourceCurveAlgorithm'
+import PointingDownCurveAlgorithm from './PointingDownCurveAlgorithm'
+import PointingUpCurveAlgorithm from './PointingUpCurveAlgorithm'
+import ArchedCurveAlgorithm from './ArchedCurveAlgorithm'
 import StartAndEnd from './StartAndEnd'
 
 export default class CurveAlgorithmFactory {
