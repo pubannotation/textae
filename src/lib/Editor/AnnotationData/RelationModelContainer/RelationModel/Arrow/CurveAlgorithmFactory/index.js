@@ -6,6 +6,8 @@ import ArchedCurveAlgorithm from './ArchedCurveAlgorithm'
 import StartAndEnd from './StartAndEnd'
 import CutOffOnSourceBentOnSourceCurveAlgorithm from './CutOffOnSourceBentOnSourceCurveAlgorithm'
 import CutOffOnTargetBentOnTargetCurveAlgorithm from './CutOffOnTargetBentOnTargetCurveAlgorithm'
+import CutOffOnSourceBentOnTargetCurveAlgorithm from './CutOffOnSourceBentOnTargetCurveAlgorithm'
+import CutOffOnTargetBentOnSourceCurveAlgorithm from './CutOffOnTargetBentOnSourceCurveAlgorithm'
 
 export default class CurveAlgorithmFactory {
   static create(
@@ -65,6 +67,16 @@ export default class CurveAlgorithmFactory {
 
     const { clientHeight } = document.documentElement
     if (startAndEnd.isDownward) {
+      if (clientHeight < sourceEntity.clientTop) {
+        return new CutOffOnSourceBentOnTargetCurveAlgorithm(
+          startAndEnd,
+          alignSourceBollards,
+          alignTargetBollards,
+          controlBarHeight,
+          clientTopOfContainer
+        )
+      }
+
       if (clientHeight < targetEntity.clientTop) {
         return new CutOffOnTargetBentOnTargetCurveAlgorithm(
           startAndEnd,
@@ -85,6 +97,16 @@ export default class CurveAlgorithmFactory {
     } else {
       if (clientHeight < sourceEntity.clientTop) {
         return new CutOffOnSourceBentOnSourceCurveAlgorithm(
+          startAndEnd,
+          alignSourceBollards,
+          alignTargetBollards,
+          controlBarHeight,
+          clientTopOfContainer
+        )
+      }
+
+      if (clientHeight < targetEntity.clientTop) {
+        return new CutOffOnTargetBentOnSourceCurveAlgorithm(
           startAndEnd,
           alignSourceBollards,
           alignTargetBollards,
