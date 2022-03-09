@@ -47,6 +47,10 @@ export default class SpanModel {
     return []
   }
 
+  get relations() {
+    return this.entities.map(({ relations }) => relations).flat()
+  }
+
   get bigBrother() {
     return getBigBrotherSpan(this, this._spanModelContainer.topLevel)
   }
