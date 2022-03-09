@@ -11,6 +11,9 @@ export default class startAndEnd {
     alignSourceBollards,
     alignTargetBollards
   ) {
+    this._sourceEntity = sourceEntity
+    this._targetEntity = targetEntity
+
     const sourceY = sourceEntity.offsetTop - (alignSourceBollards ? 3 : 0)
     const targetY = targetEntity.offsetTop - (alignTargetBollards ? 3 : 0)
 
@@ -18,9 +21,6 @@ export default class startAndEnd {
       sourceEntity.getSourceAnchorPosition(alignSourceBollards)
     const targetAnchorPosition =
       targetEntity.getTargetAnchorPosition(alignTargetBollards)
-
-    this._isPontingToRight =
-      sourceEntity.offsetCenter < targetEntity.offsetCenter
 
     if (sourceEntity.offsetCenter === targetEntity.offsetCenter) {
       this._start = {
@@ -35,7 +35,7 @@ export default class startAndEnd {
     }
 
     if (sourceY < targetY) {
-      const sourceAnchor = this._isPontingToRight ? 'right' : 'left'
+      const sourceAnchor = this.isPointingToRight ? 'right' : 'left'
       const targetAnchor =
         sourceAnchorPosition[sourceAnchor] < targetEntity.offsetCenter
           ? 'left'
@@ -51,7 +51,7 @@ export default class startAndEnd {
       }
       return
     } else if (sourceY > targetY) {
-      const targetAnchor = this._isPontingToRight ? 'left' : 'right'
+      const targetAnchor = this.isPointingToRight ? 'left' : 'right'
       const sourceAnchor =
         targetAnchorPosition[targetAnchor] < sourceEntity.offsetCenter
           ? 'left'
@@ -69,7 +69,7 @@ export default class startAndEnd {
     } else {
       // When the source and target entities have the same height
       // Prevent source and target X coordinates from being swapped.
-      if (this._isPontingToRight) {
+      if (this.isPointingToRight) {
         const targetAnchor =
           sourceAnchorPosition.right < targetAnchorPosition.left
             ? 'left'
@@ -112,7 +112,7 @@ export default class startAndEnd {
   }
 
   get isPointingToRight() {
-    return this._isPontingToRight
+    return this._sourceEntity.offsetCenter < this._targetEntity.offsetCenter
   }
 
   get isDownward() {
