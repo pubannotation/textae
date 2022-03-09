@@ -122,4 +122,16 @@ export default class startAndEnd {
   get horizontalDistance() {
     return Math.abs(this._end.x - this._start.x)
   }
+
+  get sourceXShiftRate() {
+    const { relations } = this._sourceEntity.span
+    const index = relations.indexOf(this._relation)
+    return relations.length === 1 ? 0.5 : index / (relations.length - 1)
+  }
+
+  get targetXShiftRate() {
+    const { relations } = this._targetEntity.span
+    const index = relations.indexOf(this._relation)
+    return relations.length === 1 ? 0.5 : index / (relations.length - 1)
+  }
 }

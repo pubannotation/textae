@@ -6,11 +6,11 @@ export default class CutOffOnTargetBentOnSourceCurveAlgorithm extends BentOnSour
   }
 
   get targetX() {
-    if (!this._chachedTargetX) {
-      const unit = 50
-      this._chachedTargetX = super.targetX - unit + Math.random() * 2 * unit
-    }
-    return this._chachedTargetX
+    return (
+      super.targetX -
+      this._virtualEntityWidth / 2 +
+      this._virtualEntityWidth * this._startAndEnd.targetXShiftRate
+    )
   }
 
   get targetY() {

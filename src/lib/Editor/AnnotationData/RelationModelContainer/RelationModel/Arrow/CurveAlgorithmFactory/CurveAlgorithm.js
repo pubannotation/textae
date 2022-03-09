@@ -23,6 +23,8 @@ export default class CurveAlgorithm {
     this._startAndEnd = startAndEnd
     this._controlBarHeight = controlBarHeight
     this._clientTopOfContainer = clientTopOfContainer
+
+    this._virtualEntityWidth = 100
   }
 
   get sourceX() {
