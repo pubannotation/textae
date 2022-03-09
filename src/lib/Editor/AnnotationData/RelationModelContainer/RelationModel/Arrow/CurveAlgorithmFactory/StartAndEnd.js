@@ -11,12 +11,8 @@ export default class startAndEnd {
     alignSourceBollards,
     alignTargetBollards
   ) {
-    const sourceTop = sourceEntity.offsetTop
-
-    const targetTop = targetEntity.offsetTop
-
-    const sourceY = sourceTop - (alignSourceBollards ? 3 : 0)
-    const targetY = targetTop - (alignTargetBollards ? 3 : 0)
+    const sourceY = sourceEntity.offsetTop - (alignSourceBollards ? 3 : 0)
+    const targetY = targetEntity.offsetTop - (alignTargetBollards ? 3 : 0)
 
     const anchorPositions = {
       source: sourceEntity.getSourceAnchorPosition(alignSourceBollards),
