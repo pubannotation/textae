@@ -85,7 +85,7 @@ export default class Arrow {
       this._destroySourceJetty()
     }
 
-    if (pointUpTargetBollards) {
+    if (pointUpTargetBollards && curveAlgorithm.isEmphasizable) {
       this._drawTargetJetty(curveAlgorithm)
     } else {
       this._destroyTargetJetty()
