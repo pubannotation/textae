@@ -9,21 +9,11 @@ export default class startAndEnd {
     sourceEntity,
     targetEntity,
     alignSourceBollards,
-    alignTargetBollards,
-    clientTopOfContainer
+    alignTargetBollards
   ) {
-    const { clientHeight } = document.documentElement
-    const offsetBottomOfContainer = clientHeight - clientTopOfContainer
+    const sourceTop = sourceEntity.offsetTop
 
-    const sourceTop =
-      clientHeight < sourceEntity.clientTop
-        ? offsetBottomOfContainer - 3
-        : sourceEntity.offsetTop
-
-    const targetTop =
-      clientHeight < targetEntity.clientTop
-        ? offsetBottomOfContainer - 3
-        : targetEntity.offsetTop
+    const targetTop = targetEntity.offsetTop
 
     const sourceY = sourceTop - (alignSourceBollards ? 3 : 0)
     const targetY = targetTop - (alignTargetBollards ? 3 : 0)

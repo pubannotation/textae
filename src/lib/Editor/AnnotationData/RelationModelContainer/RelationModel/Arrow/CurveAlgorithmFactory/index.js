@@ -24,8 +24,7 @@ export default class CurveAlgorithmFactory {
       sourceEntity,
       targetEntity,
       alignSourceBollards,
-      alignTargetBollards,
-      clientTopOfContainer
+      alignTargetBollards
     )
 
     if (
