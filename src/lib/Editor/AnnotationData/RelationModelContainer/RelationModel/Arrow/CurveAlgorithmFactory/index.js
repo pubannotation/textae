@@ -4,6 +4,7 @@ import PointingDownCurveAlgorithm from './PointingDownCurveAlgorithm'
 import PointingUpCurveAlgorithm from './PointingUpCurveAlgorithm'
 import ArchedCurveAlgorithm from './ArchedCurveAlgorithm'
 import StartAndEnd from './StartAndEnd'
+import BentOnSourceShortCurveAlgorithm from './BentOnSourceShortCurveAlgorithm'
 
 export default class CurveAlgorithmFactory {
   static create(
@@ -70,6 +71,17 @@ export default class CurveAlgorithmFactory {
         clientTopOfContainer
       )
     } else {
+      const { clientHeight } = document.documentElement
+      if (clientHeight < sourceEntity.clientTop) {
+        return new BentOnSourceShortCurveAlgorithm(
+          startAndEnd,
+          alignSourceBollards,
+          alignTargetBollards,
+          controlBarHeight,
+          clientTopOfContainer
+        )
+      }
+
       return new BentOnSourceCurveAlgorithm(
         startAndEnd,
         alignSourceBollards,
