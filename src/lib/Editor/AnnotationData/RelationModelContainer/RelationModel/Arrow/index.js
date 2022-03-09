@@ -51,8 +51,7 @@ export default class Arrow {
 
   update(pointUpPath, pointUpSourceBollards, pointUpTargetBollards) {
     const curveAlgorithm = CurveAlgorithmFactory.create(
-      this._relation.sourceEntity,
-      this._relation.targetEntity,
+      this._relation,
       pointUpSourceBollards,
       pointUpTargetBollards,
       this._container.getBoundingClientRect().top,

@@ -5,31 +5,27 @@ export default class startAndEnd {
    * @param {import('../../../../../../../EntityModel').default} targetEntity
    * @returns
    */
-  constructor(
-    sourceEntity,
-    targetEntity,
-    alignSourceBollards,
-    alignTargetBollards
-  ) {
-    this._sourceEntity = sourceEntity
-    this._targetEntity = targetEntity
+  constructor(relation, alignSourceBollards, alignTargetBollards) {
+    this._relation = relation
+    this._sourceEntity = relation.sourceEntity
+    this._targetEntity = relation.targetEntity
 
-    const sourceY = sourceEntity.offsetTop - (alignSourceBollards ? 3 : 0)
-    const targetY = targetEntity.offsetTop - (alignTargetBollards ? 3 : 0)
+    const sourceY = this._sourceEntity.offsetTop - (alignSourceBollards ? 3 : 0)
+    const targetY = this._targetEntity.offsetTop - (alignTargetBollards ? 3 : 0)
 
     const sourceAnchorPosition =
-      sourceEntity.getSourceAnchorPosition(alignSourceBollards)
+      this._sourceEntity.getSourceAnchorPosition(alignSourceBollards)
     const targetAnchorPosition =
-      targetEntity.getTargetAnchorPosition(alignTargetBollards)
+      this._targetEntity.getTargetAnchorPosition(alignTargetBollards)
 
-    if (sourceEntity.offsetCenter === targetEntity.offsetCenter) {
+    if (this._sourceEntity.offsetCenter === this._targetEntity.offsetCenter) {
       this._start = {
         y: sourceY,
-        x: sourceEntity.offsetCenter
+        x: this._sourceEntity.offsetCenter
       }
       this._end = {
         y: targetY,
-        x: targetEntity.offsetCenter
+        x: this._targetEntity.offsetCenter
       }
       return
     }
@@ -37,7 +33,7 @@ export default class startAndEnd {
     if (sourceY < targetY) {
       const sourceAnchor = this.isPointingToRight ? 'right' : 'left'
       const targetAnchor =
-        sourceAnchorPosition[sourceAnchor] < targetEntity.offsetCenter
+        sourceAnchorPosition[sourceAnchor] < this._targetEntity.offsetCenter
           ? 'left'
           : 'right'
 
@@ -53,7 +49,7 @@ export default class startAndEnd {
     } else if (sourceY > targetY) {
       const targetAnchor = this.isPointingToRight ? 'left' : 'right'
       const sourceAnchor =
-        targetAnchorPosition[targetAnchor] < sourceEntity.offsetCenter
+        targetAnchorPosition[targetAnchor] < this._sourceEntity.offsetCenter
           ? 'left'
           : 'right'
 

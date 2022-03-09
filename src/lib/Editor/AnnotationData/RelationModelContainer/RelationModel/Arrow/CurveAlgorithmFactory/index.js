@@ -13,19 +13,19 @@ import CutOffOnTargetArchedCurveAlgorithm from './CutOffOnTargetArchedCurveAlgor
 
 export default class CurveAlgorithmFactory {
   static create(
-    sourceEntity,
-    targetEntity,
+    relation,
     alignSourceBollards,
     alignTargetBollards,
     clientTopOfContainer,
     controlBarHeight
   ) {
     const startAndEnd = new StartAndEnd(
-      sourceEntity,
-      targetEntity,
+      relation,
       alignSourceBollards,
       alignTargetBollards
     )
+
+    const { sourceEntity, targetEntity } = relation
 
     if (
       targetEntity.clientBottom < controlBarHeight &&
