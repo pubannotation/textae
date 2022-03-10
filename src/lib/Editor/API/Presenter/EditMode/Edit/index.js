@@ -55,4 +55,12 @@ export default class Edit {
   createSpan() {}
   expandSpan() {}
   shrinkSpan() {}
+
+  manipulateAttribute(number, shiftKey) {
+    if (shiftKey) {
+      this._attributeEditor.deleteAt(number)
+    } else {
+      this._attributeEditor.addOrEditAt(number)
+    }
+  }
 }

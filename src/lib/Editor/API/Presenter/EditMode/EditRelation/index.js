@@ -72,12 +72,4 @@ export default class EditRelation extends Edit {
   applyTextSelection() {
     this._buttonController.updateManipulateSpanButtons(false, false, false)
   }
-
-  manipulateAttribute(number, shiftKey) {
-    if (shiftKey) {
-      this._attributeEditor.deleteAt(number)
-    } else {
-      this._attributeEditor.addOrEditAt(number)
-    }
-  }
 }
