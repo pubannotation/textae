@@ -1,4 +1,5 @@
 import delegate from 'delegate'
+import getEntityHTMLelementFromChild from '../../../getEntityHTMLelementFromChild'
 
 // For support context menu.
 // Mouse up event occurs when either left or right button is clicked.
@@ -47,7 +48,10 @@ export default function (editorHTMLElement, mouseEventHandler) {
       editorHTMLElement,
       '.textae-editor__signboard__type-values',
       'click',
-      (e) => mouseEventHandler.typeValuesClicked(e)
+      (event) => {
+        const entityID = getEntityHTMLelementFromChild(event.target).dataset.id
+        mouseEventHandler.typeValuesClicked(event, entityID)
+      }
     )
   )
 

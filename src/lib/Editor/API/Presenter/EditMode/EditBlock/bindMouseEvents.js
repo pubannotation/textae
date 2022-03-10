@@ -1,4 +1,5 @@
 import delegate from 'delegate'
+import getEntityHTMLelementFromChild from '../../../getEntityHTMLelementFromChild'
 
 export default function (editorHTMLElement, mouseEventHandler) {
   const listeners = []
@@ -33,7 +34,10 @@ export default function (editorHTMLElement, mouseEventHandler) {
       editorHTMLElement,
       '.textae-editor__signboard__type-values',
       'click',
-      (e) => mouseEventHandler.typeValuesClicked(e)
+      (event) => {
+        const entityID = getEntityHTMLelementFromChild(event.target).dataset.id
+        mouseEventHandler.typeValuesClicked(event, entityID)
+      }
     )
   )
 

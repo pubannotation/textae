@@ -24,12 +24,13 @@ export default class MouseEventHandler {
     this._editorHTMLElement.focus()
   }
 
-  typeValuesClicked(e) {
+  typeValuesClicked(event, entityID) {
     typeValuesClicked(
       this._selectionModel,
       this._commander,
       this._typeDefinition.relation,
-      e
+      event,
+      entityID
     )
   }
 }

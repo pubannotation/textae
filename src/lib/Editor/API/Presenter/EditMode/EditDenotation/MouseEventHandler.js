@@ -1,6 +1,5 @@
 import clearTextSelection from '../clearTextSelection'
 import SelectionWrapper from '../SelectionWrapper'
-import getEntityHTMLelementFromChild from '../../../getEntityHTMLelementFromChild'
 import selectSpan from '../selectSpan'
 import isRangeInTextBox from '../isRangeInTextBox'
 
@@ -125,11 +124,9 @@ export default class MouseEventHandler {
     this._editorHTMLElement.focus()
   }
 
-  typeValuesClicked(e) {
-    const entityID = getEntityHTMLelementFromChild(e.target).dataset.id
-
+  typeValuesClicked(event, entityID) {
     if (this._annotationData.entity.get(entityID).isDenotation) {
-      if (e.ctrlKey || e.metaKey) {
+      if (event.ctrlKey || event.metaKey) {
         this._selectionModel.entity.toggle(entityID)
       } else {
         this._selectionModel.selectEntity(entityID)

@@ -1,4 +1,5 @@
 import delegate from 'delegate'
+import getEntityHTMLelementFromChild from '../../../getEntityHTMLelementFromChild'
 
 // Manupulate only entities and relations on the Edit Relation mode.
 // For support context menu.
@@ -38,7 +39,10 @@ export default function (editorHTMLElement, mouseEventHandler) {
       editorHTMLElement,
       '.textae-editor__signboard__type-values',
       'click',
-      (e) => mouseEventHandler.typeValuesClicked(e)
+      (event) => {
+        const entityID = getEntityHTMLelementFromChild(event.target).dataset.id
+        mouseEventHandler.typeValuesClicked(event, entityID)
+      }
     )
   )
 
