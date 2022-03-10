@@ -2,6 +2,35 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.13.0](https://github.com/pubannotation/textae/compare/v8.12.0...v8.13.0) (2022-03-10)
+
+
+### Features
+
+* A small gap below the arrow pointing downwards out of the screen is used to indicate that the arrow is heading out of the screen ([c748d62](https://github.com/pubannotation/textae/commit/c748d6236873d3103c4b25159ccbd20bb5347546))
+* A small gap below the arrow pointing downwards out of the screen is used to indicate that the arrow is heading out of the screen ([ccbc36d](https://github.com/pubannotation/textae/commit/ccbc36d905c06543d7ab4dd7a136dbdf8e8b034a))
+* Push the arrow endpoints down into the display area when the source entity of the relation is above the display area ([3d72eec](https://github.com/pubannotation/textae/commit/3d72eec2ffa2b0b3908cbd95f8d313e934c28a84))
+* Push the arrow endpoints down into the display area when the target entity of the relation is above the display area ([3847aa9](https://github.com/pubannotation/textae/commit/3847aa93281984739c167d1c95b9a3d00cc64b9b))
+* Relationships that lead outside the display area are thickened, but the pier is not displayed ([bb83d19](https://github.com/pubannotation/textae/commit/bb83d1953473b5a2e00a311cd1b53b12d4c3a12b))
+* Shift the X coordinate of the relation arrows pointing off-screen so they do not overlap ([bb03cf9](https://github.com/pubannotation/textae/commit/bb03cf95bc0d98b5348aa9a3b36064bebe1bc41d))
+* Shift the X coordinate of the relation arrows pointing off-screen so they do not overlap ([2ecdddc](https://github.com/pubannotation/textae/commit/2ecdddc4c13730a8ff5cf5b194fa60eede82be7e))
+* The height of the control bar is taken into account to determine if the entity is in the viewable area ([f7b521e](https://github.com/pubannotation/textae/commit/f7b521e34a517f7d07c6f6a66be1ac20b09c504e))
+* When a source entity extends beyond the top of the display area while selecting a source entity, the relation is not made thicker ([68bbbb3](https://github.com/pubannotation/textae/commit/68bbbb379a7f0f709c8b4e27fb257b4c46d00545))
+
+
+### Bug Fixes
+
+* Anchor position calculations for the target entity have been replaced by those for the source entity ([56ab33d](https://github.com/pubannotation/textae/commit/56ab33d4332361f634a841ba558aab0f3f20f111))
+* Error occurs when the X coordinate of the center of the source entity and the target entity match ([b74841f](https://github.com/pubannotation/textae/commit/b74841f6877a091aab0ecefd490d1d784cf8abf5))
+* Hovering over a relation causes an error ([527552e](https://github.com/pubannotation/textae/commit/527552ef27909d34a8afb03602c6a0a1e5eba6d6))
+* If the X-coordinates of the entities in the relation are equal, use the center anchor ([1fb0f05](https://github.com/pubannotation/textae/commit/1fb0f05d9f9f4f0b4d9cf2b052e6e945ec05e653))
+* Labels are not displayed when the Y-coordinates of the entities in the relation are equal ([f58522e](https://github.com/pubannotation/textae/commit/f58522e29ccbcfe66f8cc2b214533d0c5778aeff))
+* Relationships are not drawn when the source and target entities are on the same row and the target entity is on the right ([2f3e2ef](https://github.com/pubannotation/textae/commit/2f3e2ef80c37b1869fcf2651061e9c70e5704634))
+* Shows the pier of the target of the relation whose target side is out of sight ([02c6db4](https://github.com/pubannotation/textae/commit/02c6db4acb2d6dcacd3e484465063419f07f0862))
+* When a source entity extends above the display area while a source entity is selected, the triangle on the side of the source entity extends outside the display area ([ae5afc6](https://github.com/pubannotation/textae/commit/ae5afc6a0a80cad53c4eed8c576618ab71ba51cf))
+* When a source entity extends above the display area while selecting a source entity, the pier on the source entity side is displayed ([3b122b8](https://github.com/pubannotation/textae/commit/3b122b84e9eb93706212cca9d64d74bfeec94d6c))
+* When the lower of the entities in a relation is not visible, the label is not displayed. I want to reverse this ([6845f69](https://github.com/pubannotation/textae/commit/6845f697c5fc70ff878e3e7b4e793b5e15ad3ee8))
+
 ## [8.12.0](https://github.com/pubannotation/textae/compare/v8.11.0...v8.12.0) (2022-03-03)
 
 
