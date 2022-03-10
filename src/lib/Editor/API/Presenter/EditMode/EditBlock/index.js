@@ -9,6 +9,7 @@ import OrderedPositions from '../OrderedPositions'
 import SelectionWrapper from '../SelectionWrapper'
 import AttributeEditor from '../DefaultHandler/AttributeEditor'
 import SelectionAttributePallet from '../../../../../component/SelectionAttributePallet'
+import EditTypeValuesDialog from '../../../../../component/EditTypeValuesDialog'
 
 export default class EditBlock extends Edit {
   constructor(
@@ -66,6 +67,9 @@ export default class EditBlock extends Edit {
         blockPallet
       ),
       handler,
+      selectionModel,
+      annotationData,
+
       blockPallet,
       commander,
       getAutocompletionWs,
@@ -115,6 +119,23 @@ export default class EditBlock extends Edit {
       )
     } else {
       this._buttonController.updateManipulateSpanButtons(false, false, false)
+    }
+  }
+
+  editTypeValues() {
+    if (this._selectionModel.entity.some) {
+      new EditTypeValuesDialog(
+        this._editorHTMLElement,
+        'Block',
+        'Entity',
+        this._definitionContainer,
+        this._annotationData.typeDefinition.attribute,
+        this._getAutocompletionWs(),
+        this._selectionModel.entity.all,
+        this._typeValuesPallet
+      )
+        .open()
+        .then((values) => this._typeValuesChanged(values))
     }
   }
 }

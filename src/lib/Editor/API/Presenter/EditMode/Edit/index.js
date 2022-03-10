@@ -7,6 +7,8 @@ export default class Edit {
     bindMouseEvents,
     mouseEventHandler,
     handler,
+    selectionModel,
+    annotationData,
     pallet,
     commander,
     getAutocompletionWs,
@@ -16,6 +18,11 @@ export default class Edit {
     this._bindMouseEvents = bindMouseEvents
     this._mouseEventHandler = mouseEventHandler
     this._handler = handler
+    this._selectionModel = selectionModel
+    this._annotationData = annotationData
+    this._getAutocompletionWs = getAutocompletionWs
+    this._definitionContainer = definitionContainer
+
     this._pallet = pallet
 
     bindPalletEvents(
@@ -28,7 +35,10 @@ export default class Edit {
 
     editorHTMLElement.appendChild(pallet.el)
 
-    forwardMethods(this, () => handler, ['editTypeValues', 'relationClicked'])
+    forwardMethods(this, () => handler, [
+      'relationClicked',
+      '_typeValuesChanged'
+    ])
     forwardMethods(this, () => pallet, [
       'showPallet',
       'selectLeftAttributeTab',

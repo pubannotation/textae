@@ -5,6 +5,7 @@ import Edit from '../Edit'
 import TypeValuesPallet from '../../../../../component/TypeValuesPallet'
 import AttributeEditor from '../DefaultHandler/AttributeEditor'
 import SelectionAttributePallet from '../../../../../component/SelectionAttributePallet'
+import EditTypeValuesDialog from '../../../../../component/EditTypeValuesDialog'
 
 export default class EditRelation extends Edit {
   constructor(
@@ -52,6 +53,8 @@ export default class EditRelation extends Edit {
         relationPallet
       ),
       handler,
+      selectionModel,
+      annotationData,
       relationPallet,
       commander,
       getAutocompletionWs,
@@ -71,5 +74,22 @@ export default class EditRelation extends Edit {
 
   applyTextSelection() {
     this._buttonController.updateManipulateSpanButtons(false, false, false)
+  }
+
+  editTypeValues() {
+    if (this._selectionModel.relation.some) {
+      new EditTypeValuesDialog(
+        this._editorHTMLElement,
+        'Relation',
+        'Relation',
+        this._definitionContainer,
+        this._annotationData.typeDefinition.attribute,
+        this._getAutocompletionWs(),
+        this._selectionModel.relation.all,
+        this._typeValuesPallet
+      )
+        .open()
+        .then((values) => this._typeValuesChanged(values))
+    }
   }
 }

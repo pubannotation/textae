@@ -1,5 +1,4 @@
 import DefaultHandler from '../DefaultHandler'
-import EditTypeValuesDialog from '../../../../../component/EditTypeValuesDialog'
 
 export default class EditRelationHandler extends DefaultHandler {
   constructor(
@@ -18,23 +17,6 @@ export default class EditRelationHandler extends DefaultHandler {
     this._selectionModel = selectionModel
     this._getAutocompletionWs = getAutocompletionWs
     this._typeValuesPallet = typeValuesPallet
-  }
-
-  editTypeValues() {
-    if (this._selectionModel.relation.some) {
-      new EditTypeValuesDialog(
-        this._editorHTMLElement,
-        'Relation',
-        'Relation',
-        this._definitionContainer,
-        this._annotationData.typeDefinition.attribute,
-        this._getAutocompletionWs(),
-        this._selectionModel.relation.all,
-        this._typeValuesPallet
-      )
-        .open()
-        .then((values) => this._typeValuesChanged(values))
-    }
   }
 
   relationClicked(event, relation) {
