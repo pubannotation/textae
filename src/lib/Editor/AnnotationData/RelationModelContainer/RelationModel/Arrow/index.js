@@ -12,7 +12,7 @@ export default class Arrow {
     editorHTMLElement,
     relation,
     controlBarHeight,
-    onClick,
+    onAuraClick,
     onMouseEnter,
     onMouseLeave
   ) {
@@ -36,7 +36,7 @@ export default class Arrow {
 
     const aura = document.createElementNS(NS.SVG, 'path')
     aura.classList.add('textae-editor__relation-aura')
-    aura.addEventListener('click', onClick)
+    aura.addEventListener('click', onAuraClick)
     aura.addEventListener('mouseenter', onMouseEnter)
     aura.addEventListener('mouseleave', onMouseLeave)
     const title = document.createElementNS(NS.SVG, 'title')
