@@ -26,14 +26,4 @@ export default class EditRelationHandler extends DefaultHandler {
       this._selectionModel.selectRelation(relation.id)
     }
   }
-
-  _getSelectedType() {
-    const relation = this._selectionModel.relation.single
-
-    if (relation) {
-      return relation.typeName
-    }
-
-    return ''
-  }
 }
