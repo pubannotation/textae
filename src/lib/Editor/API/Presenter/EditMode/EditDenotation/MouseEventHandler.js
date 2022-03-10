@@ -126,13 +126,13 @@ export default class MouseEventHandler {
   }
 
   typeValuesClicked(e) {
-    const entityId = getEntityHTMLelementFromChild(e.target).dataset.id
+    const entityID = getEntityHTMLelementFromChild(e.target).dataset.id
 
-    if (this._annotationData.entity.get(entityId).isDenotation) {
+    if (this._annotationData.entity.get(entityID).isDenotation) {
       if (e.ctrlKey || e.metaKey) {
-        this._selectionModel.entity.toggle(entityId)
+        this._selectionModel.entity.toggle(entityID)
       } else {
-        this._selectionModel.selectEntity(entityId)
+        this._selectionModel.selectEntity(entityID)
       }
     }
   }

@@ -126,14 +126,14 @@ export default class MouseEventHandler {
   }
 
   typeValuesClicked(e) {
-    const entityId = getEntityHTMLelementFromChild(e.target).dataset.id
-    const entity = this._annotationData.entity.get(entityId)
+    const entityID = getEntityHTMLelementFromChild(e.target).dataset.id
+    const entity = this._annotationData.entity.get(entityID)
 
     if (entity.isBlock) {
       if (e.ctrlKey || e.metaKey) {
-        this._selectionModel.entity.toggle(entityId)
+        this._selectionModel.entity.toggle(entityID)
       } else {
-        this._selectionModel.selectEntity(entityId)
+        this._selectionModel.selectEntity(entityID)
       }
 
       // Select span of the selected entity.

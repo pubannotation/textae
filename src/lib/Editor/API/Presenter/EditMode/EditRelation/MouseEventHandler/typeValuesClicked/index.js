@@ -7,13 +7,13 @@ export default function (
   relationDefinitionContainer,
   event
 ) {
-  const entityId = getEntityHTMLelementFromChild(event.target).dataset.id
+  const entityID = getEntityHTMLelementFromChild(event.target).dataset.id
 
   if (!selectionModel.entity.some) {
-    selectionModel.selectEntity(entityId)
+    selectionModel.selectEntity(entityID)
   } else {
     const subjectEntityId = selectionModel.entity.singleId
-    const objectEntityId = entityId
+    const objectEntityId = entityID
 
     // Cannot make a self reference relation.
     if (subjectEntityId === objectEntityId) {
