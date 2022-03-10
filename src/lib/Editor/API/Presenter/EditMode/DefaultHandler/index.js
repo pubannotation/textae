@@ -56,14 +56,6 @@ export default class DefaultHandler {
 
   relationClicked() {}
 
-  manipulateAttribute(number, shiftKey) {
-    if (shiftKey) {
-      this._attributeEditor.deleteAt(number)
-    } else {
-      this._attributeEditor.addOrEditAt(number)
-    }
-  }
-
   _typeValuesChanged({ typeName, label, attributes = [] }) {
     const commands = this._commander.factory.changeTypeValuesCommand(
       label,

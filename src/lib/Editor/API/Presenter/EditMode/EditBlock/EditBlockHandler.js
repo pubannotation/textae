@@ -31,6 +31,14 @@ export default class EditBlockHandler extends DefaultHandler {
     this._typeValuesPallet = typeValuesPallet
   }
 
+  manipulateAttribute(number, shiftKey) {
+    if (shiftKey) {
+      this._attributeEditor.deleteAt(number)
+    } else {
+      this._attributeEditor.addOrEditAt(number)
+    }
+  }
+
   editTypeValues() {
     if (this._selectionModel.entity.some) {
       new EditTypeValuesDialog(

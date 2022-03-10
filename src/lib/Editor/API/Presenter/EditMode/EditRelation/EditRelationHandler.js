@@ -31,6 +31,14 @@ export default class EditRelationHandler extends DefaultHandler {
     this._typeValuesPallet = typeValuesPallet
   }
 
+  manipulateAttribute(number, shiftKey) {
+    if (shiftKey) {
+      this._attributeEditor.deleteAt(number)
+    } else {
+      this._attributeEditor.addOrEditAt(number)
+    }
+  }
+
   editTypeValues() {
     if (this._selectionModel.relation.some) {
       new EditTypeValuesDialog(
