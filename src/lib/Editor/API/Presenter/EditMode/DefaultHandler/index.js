@@ -1,13 +1,5 @@
 export default class DefaultHandler {
-  constructor(
-    editorHTMLElement,
-    annotationType,
-    definitionContainer,
-    commander,
-    annotationData,
-    selectionModelItems,
-    typeValuesPallet
-  ) {
+  constructor(annotationType, definitionContainer, commander) {
     this._annotationType = annotationType
     this._definitionContainer = definitionContainer
     this._commander = commander

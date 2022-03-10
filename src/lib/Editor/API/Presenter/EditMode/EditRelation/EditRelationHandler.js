@@ -13,15 +13,7 @@ export default class EditRelationHandler extends DefaultHandler {
     typeValuesPallet,
     getAutocompletionWs
   ) {
-    super(
-      editorHTMLElement,
-      'relation',
-      definitionContainer,
-      commander,
-      annotationData,
-      selectionModel.relation,
-      typeValuesPallet
-    )
+    super('relation', definitionContainer, commander)
 
     this._attributeEditor = new AttributeEditor(
       commander,

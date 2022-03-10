@@ -13,15 +13,7 @@ export default class EditDenotationHandler extends DefaultHandler {
     typeValuesPallet,
     getAutocompletionWs
   ) {
-    super(
-      editorHTMLElement,
-      'entity',
-      definitionContainer,
-      commander,
-      annotationData,
-      selectionModel.entity,
-      typeValuesPallet
-    )
+    super('entity', definitionContainer, commander)
 
     this._attributeEditor = new AttributeEditor(
       commander,
