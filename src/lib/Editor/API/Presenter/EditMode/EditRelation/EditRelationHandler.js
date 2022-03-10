@@ -18,12 +18,4 @@ export default class EditRelationHandler extends DefaultHandler {
     this._getAutocompletionWs = getAutocompletionWs
     this._typeValuesPallet = typeValuesPallet
   }
-
-  relationClicked(event, relation) {
-    if (event.ctrlKey || event.metaKey) {
-      this._selectionModel.relation.toggle(relation.id)
-    } else {
-      this._selectionModel.selectRelation(relation.id)
-    }
-  }
 }

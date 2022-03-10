@@ -53,6 +53,4 @@ export default class DefaultHandler {
       removeType
     )
   }
-
-  relationClicked() {}
 }

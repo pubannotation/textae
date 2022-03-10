@@ -36,7 +36,6 @@ export default class Edit {
 
     editorHTMLElement.appendChild(pallet.el)
 
-    forwardMethods(this, () => handler, ['relationClicked'])
     forwardMethods(this, () => pallet, [
       'showPallet',
       'selectLeftAttributeTab',
@@ -63,6 +62,7 @@ export default class Edit {
   createSpan() {}
   expandSpan() {}
   shrinkSpan() {}
+  relationClicked() {}
 
   manipulateAttribute(number, shiftKey) {
     if (shiftKey) {

@@ -92,4 +92,12 @@ export default class EditRelation extends Edit {
         .then((values) => this._typeValuesChanged(values))
     }
   }
+
+  relationClicked(event, relation) {
+    if (event.ctrlKey || event.metaKey) {
+      this._selectionModel.relation.toggle(relation.id)
+    } else {
+      this._selectionModel.selectRelation(relation.id)
+    }
+  }
 }
