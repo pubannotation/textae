@@ -3,6 +3,8 @@ import bindMouseEvents from './bindMouseEvents'
 import MouseEventHandler from './MouseEventHandler'
 import Edit from '../Edit'
 import TypeValuesPallet from '../../../../../component/TypeValuesPallet'
+import AttributeEditor from '../DefaultHandler/AttributeEditor'
+import SelectionAttributePallet from '../../../../../component/SelectionAttributePallet'
 
 export default class EditRelation extends Edit {
   constructor(
@@ -57,9 +59,25 @@ export default class EditRelation extends Edit {
     )
 
     this._buttonController = buttonController
+    this._attributeEditor = new AttributeEditor(
+      commander,
+      annotationData,
+      selectionModel.relation,
+      new SelectionAttributePallet(editorHTMLElement),
+      () => this.editTypeValues(),
+      relationPallet
+    )
   }
 
   applyTextSelection() {
     this._buttonController.updateManipulateSpanButtons(false, false, false)
+  }
+
+  manipulateAttribute(number, shiftKey) {
+    if (shiftKey) {
+      this._attributeEditor.deleteAt(number)
+    } else {
+      this._attributeEditor.addOrEditAt(number)
+    }
   }
 }

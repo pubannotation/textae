@@ -28,11 +28,7 @@ export default class Edit {
 
     editorHTMLElement.appendChild(pallet.el)
 
-    forwardMethods(this, () => handler, [
-      'editTypeValues',
-      'manipulateAttribute',
-      'relationClicked'
-    ])
+    forwardMethods(this, () => handler, ['editTypeValues', 'relationClicked'])
     forwardMethods(this, () => pallet, [
       'showPallet',
       'selectLeftAttributeTab',

@@ -7,6 +7,8 @@ import TypeValuesPallet from '../../../../../component/TypeValuesPallet'
 import isRangeInTextBox from '../isRangeInTextBox'
 import OrderedPositions from '../OrderedPositions'
 import SelectionWrapper from '../SelectionWrapper'
+import AttributeEditor from '../DefaultHandler/AttributeEditor'
+import SelectionAttributePallet from '../../../../../component/SelectionAttributePallet'
 
 export default class EditBlock extends Edit {
   constructor(
@@ -74,6 +76,15 @@ export default class EditBlock extends Edit {
     this._buttonController = buttonController
     this._textBox = editorHTMLElement.querySelector('.textae-editor__text-box')
     this._spanModelContainer = annotationData.span
+
+    this._attributeEditor = new AttributeEditor(
+      commander,
+      annotationData,
+      selectionModel.entity,
+      new SelectionAttributePallet(editorHTMLElement),
+      () => this.editTypeValues(),
+      blockPallet
+    )
   }
 
   createSpan() {
@@ -104,6 +115,14 @@ export default class EditBlock extends Edit {
       )
     } else {
       this._buttonController.updateManipulateSpanButtons(false, false, false)
+    }
+  }
+
+  manipulateAttribute(number, shiftKey) {
+    if (shiftKey) {
+      this._attributeEditor.deleteAt(number)
+    } else {
+      this._attributeEditor.addOrEditAt(number)
     }
   }
 }

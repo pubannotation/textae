@@ -1,7 +1,5 @@
 import EditTypeValuesDialog from '../../../../../component/EditTypeValuesDialog'
-import SelectionAttributePallet from '../../../../../component/SelectionAttributePallet'
 import DefaultHandler from '../DefaultHandler'
-import AttributeEditor from '../DefaultHandler/AttributeEditor'
 
 export default class EditDenotationHandler extends DefaultHandler {
   constructor(
@@ -15,28 +13,11 @@ export default class EditDenotationHandler extends DefaultHandler {
   ) {
     super('entity', definitionContainer, commander)
 
-    this._attributeEditor = new AttributeEditor(
-      commander,
-      annotationData,
-      selectionModel.entity,
-      new SelectionAttributePallet(editorHTMLElement),
-      () => this.editTypeValues(),
-      typeValuesPallet
-    )
-
     this._editorHTMLelement = editorHTMLElement
     this._annotationData = annotationData
     this._selectionModel = selectionModel
     this._getAutocompletionWs = getAutocompletionWs
     this._typeValuesPallet = typeValuesPallet
-  }
-
-  manipulateAttribute(number, shiftKey) {
-    if (shiftKey) {
-      this._attributeEditor.deleteAt(number)
-    } else {
-      this._attributeEditor.addOrEditAt(number)
-    }
   }
 
   editTypeValues() {
