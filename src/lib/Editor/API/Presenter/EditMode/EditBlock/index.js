@@ -2,7 +2,6 @@ import SpanEditor from './SpanEditor'
 import bindMouseEvents from './bindMouseEvents'
 import MouseEventHandler from './MouseEventHandler'
 import Edit from '../Edit'
-import EditBlockHandler from './EditBlockHandler'
 import TypeValuesPallet from '../../../../../component/TypeValuesPallet'
 import isRangeInTextBox from '../isRangeInTextBox'
 import OrderedPositions from '../OrderedPositions'
@@ -10,6 +9,7 @@ import SelectionWrapper from '../SelectionWrapper'
 import AttributeEditor from '../DefaultHandler/AttributeEditor'
 import SelectionAttributePallet from '../../../../../component/SelectionAttributePallet'
 import EditTypeValuesDialog from '../../../../../component/EditTypeValuesDialog'
+import DefaultHandler from '../DefaultHandler'
 
 export default class EditBlock extends Edit {
   constructor(
@@ -46,14 +46,10 @@ export default class EditBlock extends Edit {
     const getAutocompletionWs = () =>
       autocompletionWs || annotationData.typeDefinition.autocompletionWs
 
-    const handler = new EditBlockHandler(
-      editorHTMLElement,
+    const handler = new DefaultHandler(
+      'entity',
       annotationData.typeDefinition.block,
-      commander,
-      annotationData,
-      selectionModel,
-      blockPallet,
-      getAutocompletionWs
+      commander
     )
 
     super(
