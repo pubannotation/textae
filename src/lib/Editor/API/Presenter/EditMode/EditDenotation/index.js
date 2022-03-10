@@ -49,7 +49,9 @@ export default class EditDenotation extends Edit {
     const handler = new DefaultHandler(
       'entity',
       annotationData.typeDefinition.denotation,
-      commander
+      commander,
+      selectionModel,
+      annotationData
     )
 
     const mouseEventHandler = new MouseEventHandler(

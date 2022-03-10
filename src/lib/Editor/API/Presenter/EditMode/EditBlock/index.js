@@ -49,7 +49,9 @@ export default class EditBlock extends Edit {
     const handler = new DefaultHandler(
       'entity',
       annotationData.typeDefinition.block,
-      commander
+      commander,
+      selectionModel,
+      annotationData
     )
 
     super(

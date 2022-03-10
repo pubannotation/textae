@@ -35,7 +35,9 @@ export default class EditRelation extends Edit {
     const handler = new DefaultHandler(
       'relation',
       annotationData.typeDefinition.relation,
-      commander
+      commander,
+      selectionModel,
+      annotationData
     )
 
     super(

@@ -1,8 +1,16 @@
 export default class DefaultHandler {
-  constructor(annotationType, definitionContainer, commander) {
+  constructor(
+    annotationType,
+    definitionContainer,
+    commander,
+    selectionModel,
+    annotationData
+  ) {
     this._annotationType = annotationType
     this._definitionContainer = definitionContainer
     this._commander = commander
+    this._selectionModel = selectionModel
+    this._annotationData = annotationData
   }
 
   selectAll(typeName) {
