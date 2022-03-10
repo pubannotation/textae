@@ -1,5 +1,7 @@
 import EditTypeValuesDialog from '../../../../../component/EditTypeValuesDialog'
+import SelectionAttributePallet from '../../../../../component/SelectionAttributePallet'
 import DefaultHandler from '../DefaultHandler'
+import AttributeEditor from '../DefaultHandler/AttributeEditor'
 
 export default class EditBlockHandler extends DefaultHandler {
   constructor(
@@ -18,6 +20,15 @@ export default class EditBlockHandler extends DefaultHandler {
       commander,
       annotationData,
       selectionModel.entity,
+      typeValuesPallet
+    )
+
+    this._attributeEditor = new AttributeEditor(
+      commander,
+      annotationData,
+      selectionModel.entity,
+      new SelectionAttributePallet(editorHTMLElement),
+      () => this.editTypeValues(),
       typeValuesPallet
     )
 

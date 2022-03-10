@@ -1,6 +1,3 @@
-import SelectionAttributePallet from '../../../../../component/SelectionAttributePallet'
-import AttributeEditor from './AttributeEditor'
-
 export default class DefaultHandler {
   constructor(
     editorHTMLElement,
@@ -14,14 +11,6 @@ export default class DefaultHandler {
     this._annotationType = annotationType
     this._definitionContainer = definitionContainer
     this._commander = commander
-    this._attributeEditor = new AttributeEditor(
-      commander,
-      annotationData,
-      selectionModelItems,
-      new SelectionAttributePallet(editorHTMLElement),
-      () => this.editTypeValues(),
-      typeValuesPallet
-    )
   }
 
   selectAll(typeName) {
