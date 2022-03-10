@@ -5,7 +5,6 @@ import TypeValuesPallet from '../../../../../component/TypeValuesPallet'
 import AttributeEditor from '../DefaultHandler/AttributeEditor'
 import SelectionAttributePallet from '../../../../../component/SelectionAttributePallet'
 import EditTypeValuesDialog from '../../../../../component/EditTypeValuesDialog'
-import DefaultHandler from '../DefaultHandler'
 
 export default class EditRelation extends Edit {
   constructor(
@@ -32,14 +31,6 @@ export default class EditRelation extends Edit {
     const getAutocompletionWs = () =>
       autocompletionWs || annotationData.typeDefinition.autocompletionWs
 
-    const handler = new DefaultHandler(
-      'relation',
-      annotationData.typeDefinition.relation,
-      commander,
-      selectionModel,
-      annotationData
-    )
-
     super(
       editorHTMLElement,
       bindMouseEvents,
@@ -50,13 +41,13 @@ export default class EditRelation extends Edit {
         annotationData.typeDefinition,
         relationPallet
       ),
-      handler,
       selectionModel,
       annotationData,
       relationPallet,
       commander,
       getAutocompletionWs,
-      annotationData.typeDefinition.relation
+      annotationData.typeDefinition.relation,
+      'relation'
     )
 
     this._buttonController = buttonController

@@ -6,18 +6,17 @@ export default class Edit {
     editorHTMLElement,
     bindMouseEvents,
     mouseEventHandler,
-    handler,
     selectionModel,
     annotationData,
     pallet,
     commander,
     getAutocompletionWs,
-    definitionContainer
+    definitionContainer,
+    annotationType
   ) {
     this._editorHTMLElement = editorHTMLElement
     this._bindMouseEvents = bindMouseEvents
     this._mouseEventHandler = mouseEventHandler
-    this._handler = handler
     this._selectionModel = selectionModel
     this._annotationData = annotationData
     this._getAutocompletionWs = getAutocompletionWs
@@ -29,9 +28,11 @@ export default class Edit {
     bindPalletEvents(
       pallet,
       commander,
-      handler,
       getAutocompletionWs,
-      definitionContainer
+      definitionContainer,
+      annotationType,
+      selectionModel,
+      annotationData
     )
 
     editorHTMLElement.appendChild(pallet.el)

@@ -13,30 +13,6 @@ export default class DefaultHandler {
     this._annotationData = annotationData
   }
 
-  selectAll(typeName) {
-    this._selectionModel.removeAll()
-    for (const { id } of this._annotationData[this._annotationType].findByType(
-      typeName
-    )) {
-      this._selectionModel[this._annotationType].add(id)
-    }
-  }
-
-  changeTypeOfSelectedElement(newType) {
-    return this._commander.factory.changeTypeOfSelectedItemsCommand(
-      this._annotationType,
-      newType
-    )
-  }
-
-  addTypeDefinition(newType) {
-    console.assert(newType.id, 'id is necessary!')
-    return this._commander.factory.createTypeDefinitionCommand(
-      this._definitionContainer,
-      newType
-    )
-  }
-
   changeTypeDefinition(id, changedProperties) {
     return this._commander.factory.changeTypeDefinitionCommand(
       this._definitionContainer,

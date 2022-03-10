@@ -9,7 +9,6 @@ import SelectionWrapper from '../SelectionWrapper'
 import AttributeEditor from '../DefaultHandler/AttributeEditor'
 import SelectionAttributePallet from '../../../../../component/SelectionAttributePallet'
 import EditTypeValuesDialog from '../../../../../component/EditTypeValuesDialog'
-import DefaultHandler from '../DefaultHandler'
 
 export default class EditDenotation extends Edit {
   constructor(
@@ -46,14 +45,6 @@ export default class EditDenotation extends Edit {
     const getAutocompletionWs = () =>
       autocompletionWs || annotationData.typeDefinition.autocompletionWs
 
-    const handler = new DefaultHandler(
-      'entity',
-      annotationData.typeDefinition.denotation,
-      commander,
-      selectionModel,
-      annotationData
-    )
-
     const mouseEventHandler = new MouseEventHandler(
       editorHTMLElement,
       annotationData,
@@ -66,13 +57,13 @@ export default class EditDenotation extends Edit {
       editorHTMLElement,
       bindMouseEvents,
       mouseEventHandler,
-      handler,
       selectionModel,
       annotationData,
       denotationPallet,
       commander,
       getAutocompletionWs,
-      annotationData.typeDefinition.denotation
+      annotationData.typeDefinition.denotation,
+      'entity'
     )
 
     this._spanEdtior = spanEditor
