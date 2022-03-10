@@ -50,10 +50,6 @@ export default class Edit {
     )
   }
 
-  get handler() {
-    return this._handler
-  }
-
   get pallet() {
     return this._pallet
   }
