@@ -2,7 +2,7 @@ import bindMouseEvents from './bindMouseEvents'
 import MouseEventHandler from './MouseEventHandler'
 import Edit from '../Edit'
 import TypeValuesPallet from '../../../../../component/TypeValuesPallet'
-import AttributeEditor from '../DefaultHandler/AttributeEditor'
+import AttributeEditor from '../AttributeEditor'
 import SelectionAttributePallet from '../../../../../component/SelectionAttributePallet'
 import EditTypeValuesDialog from '../../../../../component/EditTypeValuesDialog'
 

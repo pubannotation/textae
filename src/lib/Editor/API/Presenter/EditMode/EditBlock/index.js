@@ -6,7 +6,7 @@ import TypeValuesPallet from '../../../../../component/TypeValuesPallet'
 import isRangeInTextBox from '../isRangeInTextBox'
 import OrderedPositions from '../OrderedPositions'
 import SelectionWrapper from '../SelectionWrapper'
-import AttributeEditor from '../DefaultHandler/AttributeEditor'
+import AttributeEditor from '../AttributeEditor'
 import SelectionAttributePallet from '../../../../../component/SelectionAttributePallet'
 import EditTypeValuesDialog from '../../../../../component/EditTypeValuesDialog'
 
