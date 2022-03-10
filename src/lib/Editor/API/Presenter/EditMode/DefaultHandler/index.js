@@ -55,17 +55,4 @@ export default class DefaultHandler {
   }
 
   relationClicked() {}
-
-  _typeValuesChanged({ typeName, label, attributes = [] }) {
-    const commands = this._commander.factory.changeTypeValuesCommand(
-      label,
-      typeName,
-      this._definitionContainer,
-      attributes
-    )
-
-    if (typeName) {
-      this._commander.invoke(commands)
-    }
-  }
 }
