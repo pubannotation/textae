@@ -13,6 +13,7 @@ export default class Arrow {
     relation,
     controlBarHeight,
     onAuraClick,
+    onBollardClick,
     onMouseEnter,
     onMouseLeave
   ) {
@@ -23,10 +24,16 @@ export default class Arrow {
     this._controlBarHeight = controlBarHeight
 
     const sourceBollard = createSourceBollard()
+    sourceBollard.addEventListener('click', (e) =>
+      onBollardClick(e, relation.sourceEntity)
+    )
     this._container.appendChild(sourceBollard)
     this._sourceBollard = sourceBollard
 
     const targetBollard = createTargetBollard()
+    targetBollard.addEventListener('click', (e) =>
+      onBollardClick(e, relation.targetEntity)
+    )
     this._container.appendChild(targetBollard)
     this._targetBollard = targetBollard
 

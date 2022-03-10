@@ -137,6 +137,15 @@ export default class RelationModel {
             )
             event.stopPropagation()
           },
+          (event, entity) => {
+            this._eventEmitter.emit(
+              'textae-event.editor.relation-bollard.click',
+              event,
+              this,
+              entity
+            )
+            event.stopPropagation()
+          },
           () => this._pointUpSelfAndEntities(),
           () => this._pointDownSelfAndEntities()
         )
