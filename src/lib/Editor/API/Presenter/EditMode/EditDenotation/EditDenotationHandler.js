@@ -11,11 +11,5 @@ export default class EditDenotationHandler extends DefaultHandler {
     getAutocompletionWs
   ) {
     super('entity', definitionContainer, commander)
-
-    this._editorHTMLelement = editorHTMLElement
-    this._annotationData = annotationData
-    this._selectionModel = selectionModel
-    this._getAutocompletionWs = getAutocompletionWs
-    this._typeValuesPallet = typeValuesPallet
   }
 }

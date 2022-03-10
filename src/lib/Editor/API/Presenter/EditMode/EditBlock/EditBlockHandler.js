@@ -11,11 +11,5 @@ export default class EditBlockHandler extends DefaultHandler {
     getAutocompletionWs
   ) {
     super('entity', definitionContainer, commander)
-
-    this._editorHTMLElement = editorHTMLElement
-    this._selectionModel = selectionModel
-    this._annotationData = annotationData
-    this._getAutocompletionWs = getAutocompletionWs
-    this._typeValuesPallet = typeValuesPallet
   }
 }
