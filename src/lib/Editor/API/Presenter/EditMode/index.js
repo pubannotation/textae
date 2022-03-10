@@ -142,13 +142,7 @@ export default class EditMode {
           selectRightAttributeTab() {},
           editTypeValues() {},
           manipulateAttribute() {},
-          relationClicked(_, relation) {
-            const { href } = relation
-
-            if (href) {
-              window.open(href, '_blank')
-            }
-          },
+          relationClicked() {},
           applyTextSelection() {}
         }
     }
