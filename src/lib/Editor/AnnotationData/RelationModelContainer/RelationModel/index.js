@@ -128,12 +128,11 @@ export default class RelationModel {
           this._editorHTMLElement,
           this,
           this._controlBarHeight,
-          (event, attribute) => {
+          (event) => {
             this._eventEmitter.emit(
               'textae-event.editor.relation.click',
               event,
-              this,
-              attribute
+              this
             )
             event.stopPropagation()
           },

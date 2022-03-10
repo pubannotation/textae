@@ -67,10 +67,8 @@ export default class EditMode {
     this._annotationData = annotationData
     this._selectionModel = selectionModel
 
-    eventEmitter.on(
-      'textae-event.editor.relation.click',
-      (event, relation, attribute) =>
-        this.currentEdit.relationClicked(event, relation, attribute)
+    eventEmitter.on('textae-event.editor.relation.click', (event, relation) =>
+      this.currentEdit.relationClicked(event, relation)
     )
   }
 
@@ -144,8 +142,8 @@ export default class EditMode {
           selectRightAttributeTab() {},
           editTypeValues() {},
           manipulateAttribute() {},
-          relationClicked(_, relation, attribute) {
-            const { href } = attribute || relation
+          relationClicked(_, relation) {
+            const { href } = relation
 
             if (href) {
               window.open(href, '_blank')
