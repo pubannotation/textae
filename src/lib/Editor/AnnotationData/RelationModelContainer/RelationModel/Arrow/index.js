@@ -27,6 +27,7 @@ export default class Arrow {
     sourceBollard.addEventListener('click', (e) =>
       onBollardClick(e, relation.sourceEntity)
     )
+    sourceBollard.appendChild(document.createElementNS(NS.SVG, 'title'))
     this._container.appendChild(sourceBollard)
     this._sourceBollard = sourceBollard
 
@@ -34,6 +35,7 @@ export default class Arrow {
     targetBollard.addEventListener('click', (e) =>
       onBollardClick(e, relation.targetEntity)
     )
+    targetBollard.appendChild(document.createElementNS(NS.SVG, 'title'))
     this._container.appendChild(targetBollard)
     this._targetBollard = targetBollard
 
@@ -76,6 +78,8 @@ export default class Arrow {
       'transform',
       curveAlgorithm.transformDefinitionsForSourceTriangle
     )
+    this._sourceBollard.children[0].textContent =
+      this._relation.sourceEntity.title
 
     this._targetBollard.setAttribute(
       'style',
@@ -85,6 +89,8 @@ export default class Arrow {
       'transform',
       curveAlgorithm.transformDefinitionsForTargetTriangle
     )
+    this._targetBollard.children[0].textContent =
+      this._relation.targetEntity.title
 
     if (pointUpSourceBollards && curveAlgorithm.isSourceJettyVisible) {
       this._drawSourceJetty(curveAlgorithm)
