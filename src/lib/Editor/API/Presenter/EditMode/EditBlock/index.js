@@ -47,17 +47,6 @@ export default class EditBlock extends Edit {
 
     super(
       editorHTMLElement,
-      () =>
-        bindMouseEvents(
-          editorHTMLElement,
-          new MouseEventHandler(
-            editorHTMLElement,
-            annotationData,
-            selectionModel,
-            spanEditor,
-            blockPallet
-          )
-        ),
       selectionModel,
       annotationData,
       blockPallet,
@@ -67,6 +56,13 @@ export default class EditBlock extends Edit {
       'entity'
     )
 
+    this._mouseEventHandler = new MouseEventHandler(
+      editorHTMLElement,
+      annotationData,
+      selectionModel,
+      spanEditor,
+      blockPallet
+    )
     this._spanEdtior = spanEditor
     this._buttonController = buttonController
     this._textBox = editorHTMLElement.querySelector('.textae-editor__text-box')
@@ -80,6 +76,10 @@ export default class EditBlock extends Edit {
       () => this.editTypeValues(),
       blockPallet
     )
+  }
+
+  bindMouseEvents() {
+    return bindMouseEvents(this._editorHTMLElement, this._mouseEventHandler)
   }
 
   createSpan() {

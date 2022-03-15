@@ -33,17 +33,6 @@ export default class EditRelation extends Edit {
 
     super(
       editorHTMLElement,
-      () =>
-        bindMouseEvents(
-          editorHTMLElement,
-          new MouseEventHandler(
-            editorHTMLElement,
-            selectionModel,
-            commander,
-            annotationData.typeDefinition,
-            relationPallet
-          )
-        ),
       selectionModel,
       annotationData,
       relationPallet,
@@ -53,6 +42,14 @@ export default class EditRelation extends Edit {
       'relation'
     )
 
+    this._editorHTMLElement = editorHTMLElement
+    this._mouseEventHandler = new MouseEventHandler(
+      editorHTMLElement,
+      selectionModel,
+      commander,
+      annotationData.typeDefinition,
+      relationPallet
+    )
     this._buttonController = buttonController
     this._attributeEditor = new AttributeEditor(
       commander,
@@ -62,6 +59,10 @@ export default class EditRelation extends Edit {
       () => this.editTypeValues(),
       relationPallet
     )
+  }
+
+  bindMouseEvents() {
+    return bindMouseEvents(this._editorHTMLElement, this._mouseEventHandler)
   }
 
   applyTextSelection() {

@@ -47,17 +47,6 @@ export default class EditDenotation extends Edit {
 
     super(
       editorHTMLElement,
-      () =>
-        bindMouseEvents(
-          editorHTMLElement,
-          new MouseEventHandler(
-            editorHTMLElement,
-            annotationData,
-            selectionModel,
-            denotationPallet,
-            spanEditor
-          )
-        ),
       selectionModel,
       annotationData,
       denotationPallet,
@@ -67,6 +56,13 @@ export default class EditDenotation extends Edit {
       'entity'
     )
 
+    this._mouseEventHandler = new MouseEventHandler(
+      editorHTMLElement,
+      annotationData,
+      selectionModel,
+      denotationPallet,
+      spanEditor
+    )
     this._spanEdtior = spanEditor
     this._buttonController = buttonController
     this._textBox = editorHTMLElement.querySelector('.textae-editor__text-box')
@@ -80,6 +76,10 @@ export default class EditDenotation extends Edit {
       () => this.editTypeValues(),
       denotationPallet
     )
+  }
+
+  bindMouseEvents() {
+    return bindMouseEvents(this._editorHTMLElement, this._mouseEventHandler)
   }
 
   createSpan() {
