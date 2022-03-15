@@ -47,14 +47,17 @@ export default class EditBlock extends Edit {
 
     super(
       editorHTMLElement,
-      bindMouseEvents,
-      new MouseEventHandler(
-        editorHTMLElement,
-        annotationData,
-        selectionModel,
-        spanEditor,
-        blockPallet
-      ),
+      () =>
+        bindMouseEvents(
+          editorHTMLElement,
+          new MouseEventHandler(
+            editorHTMLElement,
+            annotationData,
+            selectionModel,
+            spanEditor,
+            blockPallet
+          )
+        ),
       selectionModel,
       annotationData,
       blockPallet,

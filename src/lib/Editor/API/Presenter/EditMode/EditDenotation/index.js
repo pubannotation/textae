@@ -55,8 +55,7 @@ export default class EditDenotation extends Edit {
 
     super(
       editorHTMLElement,
-      bindMouseEvents,
-      mouseEventHandler,
+      () => bindMouseEvents(editorHTMLElement, mouseEventHandler),
       selectionModel,
       annotationData,
       denotationPallet,

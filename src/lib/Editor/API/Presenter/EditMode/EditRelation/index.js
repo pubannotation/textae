@@ -33,14 +33,17 @@ export default class EditRelation extends Edit {
 
     super(
       editorHTMLElement,
-      bindMouseEvents,
-      new MouseEventHandler(
-        editorHTMLElement,
-        selectionModel,
-        commander,
-        annotationData.typeDefinition,
-        relationPallet
-      ),
+      () =>
+        bindMouseEvents(
+          editorHTMLElement,
+          new MouseEventHandler(
+            editorHTMLElement,
+            selectionModel,
+            commander,
+            annotationData.typeDefinition,
+            relationPallet
+          )
+        ),
       selectionModel,
       annotationData,
       relationPallet,
