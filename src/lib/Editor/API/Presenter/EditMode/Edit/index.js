@@ -4,7 +4,7 @@ import bindPalletEvents from './bindPalletEvents'
 export default class Edit {
   constructor(
     editorHTMLElement,
-    init,
+    bindMouseEvents,
     selectionModel,
     annotationData,
     pallet,
@@ -13,7 +13,7 @@ export default class Edit {
     definitionContainer,
     annotationType
   ) {
-    this._init = init
+    this._bindMouseEvents = bindMouseEvents
     this._selectionModel = selectionModel
     this._annotationData = annotationData
     this._getAutocompletionWs = getAutocompletionWs
@@ -41,8 +41,8 @@ export default class Edit {
     ])
   }
 
-  init() {
-    return this._init()
+  bindMouseEvents() {
+    return this._bindMouseEvents()
   }
 
   get pallet() {
