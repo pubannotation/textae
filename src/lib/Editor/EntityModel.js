@@ -250,6 +250,10 @@ export default class EntityModel {
     }
   }
 
+  focus() {
+    this._signboard.focus()
+  }
+
   select() {
     if (!this._isSelected) {
       this._isSelected = true
