@@ -24,18 +24,10 @@ export default class Arrow {
     this._controlBarHeight = controlBarHeight
 
     const sourceBollard = createSourceBollard()
-    sourceBollard.addEventListener('click', (e) =>
-      onBollardClick(e, relation.sourceEntity)
-    )
-    sourceBollard.appendChild(document.createElementNS(NS.SVG, 'title'))
     this._container.appendChild(sourceBollard)
     this._sourceBollard = sourceBollard
 
     const targetBollard = createTargetBollard()
-    targetBollard.addEventListener('click', (e) =>
-      onBollardClick(e, relation.targetEntity)
-    )
-    targetBollard.appendChild(document.createElementNS(NS.SVG, 'title'))
     this._container.appendChild(targetBollard)
     this._targetBollard = targetBollard
 
@@ -52,6 +44,25 @@ export default class Arrow {
     pathAura.appendChild(title)
     this._container.appendChild(pathAura)
     this._pathAura = pathAura
+
+    const sourceBollardAura = createSourceBollard()
+    sourceBollardAura.classList.add('textae-editor__relation-bollard-aura')
+    sourceBollardAura.addEventListener('click', (e) =>
+      onBollardClick(e, relation.sourceEntity)
+    )
+    sourceBollardAura.appendChild(document.createElementNS(NS.SVG, 'title'))
+    this._container.appendChild(sourceBollardAura)
+    this._sourceBollardAura = sourceBollardAura
+
+    const targetBollardAura = createTargetBollard()
+    targetBollardAura.classList.add('textae-editor__relation-bollard-aura')
+    targetBollardAura.addEventListener('click', (e) =>
+      onBollardClick(e, relation.targetEntity)
+    )
+    targetBollardAura.appendChild(document.createElementNS(NS.SVG, 'title'))
+    this._container.appendChild(targetBollardAura)
+    this._targetBollardAura = targetBollardAura
+
     this._sourceJetty = null
     this._targetJetty = null
 
@@ -78,8 +89,6 @@ export default class Arrow {
       'transform',
       curveAlgorithm.transformDefinitionsForSourceTriangle
     )
-    this._sourceBollard.children[0].textContent =
-      this._relation.sourceEntity.title
 
     this._targetBollard.setAttribute(
       'style',
@@ -89,8 +98,20 @@ export default class Arrow {
       'transform',
       curveAlgorithm.transformDefinitionsForTargetTriangle
     )
-    this._targetBollard.children[0].textContent =
+
+    this._sourceBollardAura.children[0].textContent =
+      this._relation.sourceEntity.title
+    this._sourceBollardAura.setAttribute(
+      'transform',
+      curveAlgorithm.transformDefinitionsForSourceTriangle
+    )
+
+    this._targetBollardAura.children[0].textContent =
       this._relation.targetEntity.title
+    this._targetBollardAura.setAttribute(
+      'transform',
+      curveAlgorithm.transformDefinitionsForTargetTriangle
+    )
 
     if (pointUpSourceBollards && curveAlgorithm.isSourceJettyVisible) {
       this._drawSourceJetty(curveAlgorithm)
@@ -109,6 +130,8 @@ export default class Arrow {
 
   destructor() {
     this._container.removeChild(this._path)
+    this._container.removeChild(this._sourceBollardAura)
+    this._container.removeChild(this._targetBollardAura)
     this._container.removeChild(this._pathAura)
     this._container.removeChild(this._sourceBollard)
     this._container.removeChild(this._targetBollard)
