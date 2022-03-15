@@ -66,7 +66,6 @@ export default class EditDenotation extends Edit {
     )
 
     this._spanEdtior = spanEditor
-    this._mouseEventHandler = mouseEventHandler
     this._buttonController = buttonController
     this._textBox = editorHTMLElement.querySelector('.textae-editor__text-box')
     this._spanModelContainer = annotationData.span
