@@ -140,7 +140,6 @@ export default class RelationModel {
             this._eventEmitter.emit(
               'textae-event.editor.relation-bollard.click',
               event,
-              this,
               entity
             )
             event.stopPropagation()

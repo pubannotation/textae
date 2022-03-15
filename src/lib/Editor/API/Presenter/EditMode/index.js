@@ -67,9 +67,13 @@ export default class EditMode {
     this._annotationData = annotationData
     this._selectionModel = selectionModel
 
-    eventEmitter.on('textae-event.editor.relation.click', (event, relation) =>
-      this.currentEdit.relationClicked(event, relation)
-    )
+    eventEmitter
+      .on('textae-event.editor.relation.click', (event, relation) =>
+        this.currentEdit.relationClicked(event, relation)
+      )
+      .on('textae-event.editor.relation-bollard.click', (event, entity) =>
+        this.currentEdit.typeValuesClicked(event, entity)
+      )
   }
 
   get stateMachine() {
@@ -143,6 +147,9 @@ export default class EditMode {
           editTypeValues() {},
           manipulateAttribute() {},
           relationClicked() {},
+          typeValuesClicked(_, entity) {
+            entity.focus()
+          },
           applyTextSelection() {}
         }
     }

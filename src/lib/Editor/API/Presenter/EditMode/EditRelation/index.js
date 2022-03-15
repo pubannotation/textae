@@ -93,4 +93,8 @@ export default class EditRelation extends Edit {
       this._selectionModel.selectRelation(relation.id)
     }
   }
+
+  typeValuesClicked(event, entity) {
+    this._selectionModel.selectEntity(entity.id)
+  }
 }
