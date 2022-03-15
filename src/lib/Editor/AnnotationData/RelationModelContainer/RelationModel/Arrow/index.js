@@ -43,15 +43,15 @@ export default class Arrow {
     this._container.appendChild(path)
     this._path = path
 
-    const aura = document.createElementNS(NS.SVG, 'path')
-    aura.classList.add('textae-editor__relation-aura')
-    aura.addEventListener('click', onAuraClick)
-    aura.addEventListener('mouseenter', onMouseEnter)
-    aura.addEventListener('mouseleave', onMouseLeave)
+    const pathAura = document.createElementNS(NS.SVG, 'path')
+    pathAura.classList.add('textae-editor__relation-aura')
+    pathAura.addEventListener('click', onAuraClick)
+    pathAura.addEventListener('mouseenter', onMouseEnter)
+    pathAura.addEventListener('mouseleave', onMouseLeave)
     const title = document.createElementNS(NS.SVG, 'title')
-    aura.appendChild(title)
-    this._container.appendChild(aura)
-    this._aura = aura
+    pathAura.appendChild(title)
+    this._container.appendChild(pathAura)
+    this._pathAura = pathAura
     this._sourceJetty = null
     this._targetJetty = null
 
@@ -67,8 +67,8 @@ export default class Arrow {
       this._controlBarHeight
     )
     updatePath(this._path, curveAlgorithm, this._relation.color, pointUpPath)
-    updatePath(this._aura, curveAlgorithm, this._relation.color, false)
-    this._aura.children[0].textContent = this._relation.title
+    updatePath(this._pathAura, curveAlgorithm, this._relation.color, false)
+    this._pathAura.children[0].textContent = this._relation.title
 
     this._sourceBollard.setAttribute(
       'style',
@@ -109,7 +109,7 @@ export default class Arrow {
 
   destructor() {
     this._container.removeChild(this._path)
-    this._container.removeChild(this._aura)
+    this._container.removeChild(this._pathAura)
     this._container.removeChild(this._sourceBollard)
     this._container.removeChild(this._targetBollard)
 
