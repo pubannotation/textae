@@ -45,17 +45,19 @@ export default class EditDenotation extends Edit {
     const getAutocompletionWs = () =>
       autocompletionWs || annotationData.typeDefinition.autocompletionWs
 
-    const mouseEventHandler = new MouseEventHandler(
-      editorHTMLElement,
-      annotationData,
-      selectionModel,
-      denotationPallet,
-      spanEditor
-    )
-
     super(
       editorHTMLElement,
-      () => bindMouseEvents(editorHTMLElement, mouseEventHandler),
+      () =>
+        bindMouseEvents(
+          editorHTMLElement,
+          new MouseEventHandler(
+            editorHTMLElement,
+            annotationData,
+            selectionModel,
+            denotationPallet,
+            spanEditor
+          )
+        ),
       selectionModel,
       annotationData,
       denotationPallet,
