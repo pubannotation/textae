@@ -3957,6 +3957,10 @@ ul.jsondiffpatch-textdiff {
 }
 .textae-editor__relation-box polygon {
   stroke: #6464d7;
+  pointer-events: visiblePainted;
+}
+.textae-editor__relation-box .textae-editor__relation-bollard-aura {
+  fill: none;
 }
 .textae-editor__footer {
   background: linear-gradient(to left, #ffffff, #ddddff);
@@ -4062,6 +4066,10 @@ ul.jsondiffpatch-textdiff {
   fill: none;
   stroke-width: 28;
   stroke-opacity: 0.05;
+}
+.textae-editor__mode--relation .textae-editor__relation-box .textae-editor__relation-bollard-aura {
+  stroke-width: 9;
+  stroke-opacity: 0;
 }
 .textae-editor-veil {
   cursor: wait;

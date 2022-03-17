@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.14.0](https://github.com/pubannotation/textae/compare/v8.13.0...v8.14.0) (2022-03-17)
+
+
+### Features
+
+* Place an invisible clickable area around the bollard of the relation ([4d71d62](https://github.com/pubannotation/textae/commit/4d71d62491d1fabd753360716faac5222559fdea))
+* Scroll to the entity by clicking bollards ([bcbe0cf](https://github.com/pubannotation/textae/commit/bcbe0cfdbcc88ef53b6c7ec392e5dd41fe71b091))
+* Show entities information in the title element in the bollards of relations ([1827967](https://github.com/pubannotation/textae/commit/182796718a76c6876aa2b880623ef2864cc643e3))
+
+
+### Bug Fixes
+
+* Selection entities from the pallet causes an error ([89a0f23](https://github.com/pubannotation/textae/commit/89a0f23882358b8f7e2696834307f4c0d6352e04))
+
 ## [8.13.0](https://github.com/pubannotation/textae/compare/v8.12.0...v8.13.0) (2022-03-10)
 
 
