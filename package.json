@@ -7,7 +7,7 @@
     "url": "https://github.com/pubannotation/textae/issues"
   },
   "dependencies": {
-    "ajv": "^8.10.0",
+    "ajv": "^8.11.0",
     "ajv-formats": "2.1.1",
     "ajv-keywords": "^5.1.0",
     "alertifyjs": "1.13.1",
@@ -32,11 +32,11 @@
     "uuid": "^8.3.2"
   },
   "devDependencies": {
-    "@typescript-eslint/parser": "^5.15.0",
-    "clean-css-cli": "^5.5.2",
+    "@typescript-eslint/parser": "^5.18.0",
+    "clean-css-cli": "^5.6.0",
     "connect": "3.7.0",
     "cpx2": "^4.2.0",
-    "eslint": "^8.11.0",
+    "eslint": "^8.12.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-import": "^2.25.4",
     "eslint-plugin-unused-imports": "^2.0.0",
@@ -47,15 +47,15 @@
     "mkdirp": "1.0.4",
     "npm-run-all": "4.1.5",
     "open-cli": "7.0.1",
-    "prettier": "^2.6.0",
+    "prettier": "^2.6.2",
     "replace-in-file": "6.3.2",
     "rimraf": "3.0.2",
     "serve-favicon": "2.5.0",
-    "serve-static": "^1.14.2",
+    "serve-static": "^1.15.0",
     "source-map-loader": "^3.0.1",
     "standard-version": "9.3.2",
     "terser-webpack-plugin": "^5.3.1",
-    "webpack": "^5.70.0",
+    "webpack": "^5.71.0",
     "webpack-cli": "^4.9.2",
     "webpack-merge": "5.8.0"
   },
