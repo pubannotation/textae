@@ -362,7 +362,9 @@ export default class SpanModelContainer {
           this
         )
 
-        this._denotations.set(objectSpan.id, objectSpan)
+        if (!this._denotations.has(objectSpan.id)) {
+          this._denotations.set(objectSpan.id, objectSpan)
+        }
         break
       }
       case 'block': {
@@ -376,7 +378,9 @@ export default class SpanModelContainer {
           this._textBox
         )
 
-        this._blocks.set(blockSpan.id, blockSpan)
+        if (!this._blocks.has(blockSpan.id)) {
+          this._blocks.set(blockSpan.id, blockSpan)
+        }
         break
       }
       case 'typesetting': {
