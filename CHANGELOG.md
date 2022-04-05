@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [8.14.1](https://github.com/pubannotation/textae/compare/v8.14.0...v8.14.1) (2022-04-05)
+
+
+### Bug Fixes
+
+* When reading duplicate spans across multiple tracks, the first entity read is not displayed ([702617d](https://github.com/pubannotation/textae/commit/702617d82d61bea18d90d194f83da88f77b531df))
+
 ## [8.14.0](https://github.com/pubannotation/textae/compare/v8.13.0...v8.14.0) (2022-03-17)
 
 
