@@ -18,7 +18,7 @@ export default class AnnotationDataEventsObserver {
         this._observable.set(false)
         this._loadedAnnotationIsModified = false
       })
-      .on('textae-event.annotation-data.all.change', (_) =>
+      .on('textae-event.annotation-data.all.change', () =>
         this._observable.set(false)
       )
       .on('textae-event.annotation-data.span.add', () => this._updateState())
