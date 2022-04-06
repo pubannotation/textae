@@ -180,7 +180,8 @@ export default class AnnotationData {
     this._textBox.render(this.sourceDoc)
 
     clearAnnotationData(this)
-    const { multitrack, hasError, rejects } = parseAnnotation(this, rawData)
+    const { multitrack, rejects } = parseAnnotation(this, rawData)
+    const hasError = rejects.some((r) => r.hasError)
 
     this._clearAndDrawAllAnnotations()
 

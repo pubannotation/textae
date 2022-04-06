@@ -30,11 +30,9 @@ export default function (annotationData, rowData) {
   importNamespace(annotationData.namespace, rowData.namespaces || [])
 
   const rejects = [annotationReject].concat(multitrackRejects)
-  const hasError = rejects.some((r) => r.hasError)
 
   return {
     multitrack,
-    hasError,
     rejects
   }
 }
