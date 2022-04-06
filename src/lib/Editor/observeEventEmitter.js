@@ -14,14 +14,11 @@ export default function (eventEmitter) {
         `${displayName} is not a configuration file or its format is invalid.!`
       )
     )
-    .on(
-      'textae-event.annotation-data.all.change',
-      (_, __, hasError, reject) => {
-        if (hasError) {
-          new ValidationDialog(reject).open()
-        }
+    .on('textae-event.annotation-data.all.change', (_, __, rejects) => {
+      if (rejects.some((r) => r.hasError)) {
+        new ValidationDialog(rejects).open()
       }
-    )
+    })
     .on('textae-event.annotation-data.events-observer.change', (hasChange) => {
       // change leaveMessage show
       // Reloading when trying to scroll further when you are at the top on an Android device.

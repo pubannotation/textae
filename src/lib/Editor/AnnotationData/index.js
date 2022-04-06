@@ -181,7 +181,6 @@ export default class AnnotationData {
 
     clearAnnotationData(this)
     const { multitrack, rejects } = parseAnnotation(this, rawData)
-    const hasError = rejects.some((r) => r.hasError)
 
     this._clearAndDrawAllAnnotations()
 
@@ -189,7 +188,6 @@ export default class AnnotationData {
       'textae-event.annotation-data.all.change',
       this,
       multitrack,
-      hasError,
       rejects
     )
   }
