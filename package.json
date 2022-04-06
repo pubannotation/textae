@@ -105,7 +105,7 @@
     "dist:copy:demo": "cpx 'src/demo/**' dist/demo",
     "dist:copy:fonts": "cpx 'src/lib/fonts/**' dist/lib/fonts",
     "dist:copy:images": "cpx 'src/lib/css/images/**.png' dist/lib/css/images",
-    "dist:copy:js": "cpx src/lib/$npm_package_name-$npm_package_version.min.js dist/lib",
+    "dist:copy:js": "cpx src/lib/$npm_package_name-$npm_package_version'*'.js dist/lib",
     "dist:less": "lessc 'src/lib/css/textae.less' src/lib/css/$npm_package_name-$npm_package_version.css",
     "dist:lint": "npx prettier --check 'src/lib/**/*.js' 'src/lib/css/*.less' && eslint src/lib",
     "dist:replace:version": "replace-in-file /{{version}}/g $npm_package_version dist/editor.html,dist/demo/**/*.html --isRegex",
