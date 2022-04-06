@@ -2,6 +2,7 @@ node_modules/
 npm-debug.log
 *.dev_data.json
 src/lib/fonts/
+src/lib/css/
 dev/bundle.js
 tmp/textae-*.js
 tmp/textae-*.min.js
