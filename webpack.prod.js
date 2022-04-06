@@ -5,17 +5,23 @@ const PACKAGE = require('./package.json')
 const { name, version } = PACKAGE
 const TerserPlugin = require('terser-webpack-plugin')
 
+const entry = {}
+entry[`${name}-${version}.min`] = './src/index.js'
+entry[`${name}-${version}`] = './src/index.js'
+
 module.exports = merge(common, {
   mode: 'production',
+  entry,
   output: {
     path: path.resolve(__dirname, 'src/lib'),
-    filename: `${name}-${version}.min.js`
+    filename: '[name].js'
   },
   optimization: {
     minimize: true,
     minimizer: [
       new TerserPlugin({
-        extractComments: false
+        extractComments: false,
+        include: /\.min\.js$/
       })
     ]
   },

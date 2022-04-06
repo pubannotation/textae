@@ -97,7 +97,7 @@
     "dist:build:css": "npm-run-all dist:less dist:cleancss",
     "dist:build:js": "npm-run-all dist:lint dist:bundle",
     "dist:bundle": "webpack --config webpack.prod.js",
-    "dist:clean": "rimraf dist/* src/lib/$npm_package_name-*.min.js src/lib/css/textae-*.css",
+    "dist:clean": "rimraf dist/* src/lib/$npm_package_name-*.js src/lib/$npm_package_name-*.min.js src/lib/css/textae-*.css",
     "dist:cleancss": "cleancss -o src/lib/css/$npm_package_name-$npm_package_version.min.css src/lib/css/$npm_package_name-$npm_package_version.css",
     "dist:copy": "npm-run-all -p dist:copy:**",
     "dist:copy:app": "cpx src/app/editor.html dist",
