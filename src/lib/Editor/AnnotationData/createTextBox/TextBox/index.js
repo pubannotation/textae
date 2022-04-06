@@ -25,7 +25,13 @@ export default class TextBox {
   }
 
   render(text) {
+    // https://stackoverflow.com/questions/6234773/can-i-escape-html-special-chars-in-javascript
     this._el.innerHTML = text
+      .replaceAll('&', '&amp;')
+      .replaceAll('<', '&lt;')
+      .replaceAll('>', '&gt;')
+      .replaceAll('"', '&quot;')
+      .replaceAll("'", '&#039;')
   }
 
   updateLineHeight() {
