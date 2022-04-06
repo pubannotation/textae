@@ -13,7 +13,7 @@ module.exports = merge(common, {
   mode: 'production',
   entry,
   output: {
-    path: path.resolve(__dirname, 'src/lib'),
+    path: path.resolve(__dirname, 'tmp'),
     filename: '[name].js'
   },
   optimization: {
