@@ -193,26 +193,6 @@ function post(
   requestAjax('post', url, data, successHandler, failHandler, finishHandler)
 }
 
-function patch(
-  url,
-  data,
-  beforeSend,
-  successHandler,
-  failHandler,
-  finishHandler
-) {
-  beforeSend()
-  requestAjax(
-    'patch',
-    url,
-    data,
-    successHandler,
-    () =>
-      post(url, data, beforeSend, successHandler, failHandler, finishHandler),
-    finishHandler
-  )
-}
-
 function requestAjax(
   type,
   url,
