@@ -2,6 +2,7 @@ import $ from 'jquery'
 import alertifyjs from 'alertifyjs'
 import DataSource from '../DataSource'
 import serverAuthHandler from './serverAuthHandler'
+import isServerAuthRequired from './serverAuthHandler/isServerAuthRequired'
 
 // A sub component to save and load data.
 export default class RemoteSource {
@@ -207,15 +208,21 @@ function requestAjax(
 
   $.ajax(opt)
     .done(successHandler)
-    .fail((ajaxResponse) =>
-      serverAuthHandler(ajaxResponse)
-        .then(() =>
-          $.ajax(opt)
-            .done(successHandler)
-            .fail(failHandler)
-            .always(finishHandler)
-        )
-        .catch(failHandler)
-    )
+    .fail((ajaxResponse) => {
+      const location = isServerAuthRequired(ajaxResponse)
+
+      if (location) {
+        serverAuthHandler(ajaxResponse)
+          .then(() =>
+            $.ajax(opt)
+              .done(successHandler)
+              .fail(failHandler)
+              .always(finishHandler)
+          )
+          .catch(failHandler)
+      } else {
+        failHandler()
+      }
+    })
     .always(finishHandler)
 }
