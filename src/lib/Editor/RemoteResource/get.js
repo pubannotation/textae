@@ -1,23 +1,9 @@
 import $ from 'jquery'
 
 export default function (url, done, errorHandler, eventEmitter) {
-  eventEmitter.emit('textae-event.resource.startLoad')
-
-  ajaxAccessor(
-    url,
-    (data) => {
-      done(data)
-      eventEmitter.emit('textae-event.resource.endLoad')
-    },
-    () => {
-      errorHandler()
-      eventEmitter.emit('textae-event.resource.endLoad')
-    }
-  )
-}
-
-function ajaxAccessor(url, dataHandler, failedHandler) {
   console.assert(url, 'url is necessary!')
+
+  eventEmitter.emit('textae-event.resource.startLoad')
 
   const opt = {
     type: 'GET',
@@ -29,5 +15,13 @@ function ajaxAccessor(url, dataHandler, failedHandler) {
     timeout: 30000
   }
 
-  $.ajax(opt).done(dataHandler).fail(failedHandler)
+  $.ajax(opt)
+    .done((data) => {
+      done(data)
+      eventEmitter.emit('textae-event.resource.endLoad')
+    })
+    .fail(() => {
+      errorHandler()
+      eventEmitter.emit('textae-event.resource.endLoad')
+    })
 }
