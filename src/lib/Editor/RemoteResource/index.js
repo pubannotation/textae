@@ -161,28 +161,41 @@ export default class RemoteSource {
 
       this._eventEmitter.emit('textae-event.resource.startSave')
 
-      requestAjax(
-        'patch',
+      const opt = {
+        type: 'patch',
         url,
+        contentType: 'application/json',
         data,
-        successHandler,
-        () => {
+        crossDomain: true,
+        xhrFields: {
+          withCredentials: true
+        }
+      }
+
+      $.ajax(opt)
+        .done(successHandler)
+        .fail(() => {
           this._eventEmitter.emit('textae-event.resource.startSave')
 
-          requestAjax(
-            'post',
+          const opt = {
+            type: 'post',
             url,
+            contentType: 'application/json',
             data,
-            successHandler,
-            () => {
+            crossDomain: true,
+            xhrFields: {
+              withCredentials: true
+            }
+          }
+          $.ajax(opt)
+            .done(successHandler)
+            .fail(() => {
               alertifyjs.error('could not save')
               this._eventEmitter.emit('textae-event.resource.save.error')
-            },
-            finishHandler
-          )
-        },
-        finishHandler
-      )
+            })
+            .always(finishHandler)
+        })
+        .always(finishHandler)
     }
   }
 }
