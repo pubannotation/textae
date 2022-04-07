@@ -123,7 +123,8 @@ export default class RemoteSource {
     if (url) {
       this._eventEmitter.emit('textae-event.resource.startSave')
 
-      post(
+      requestAjax(
+        'post',
         url,
         JSON.stringify(editedData),
         () => {
@@ -166,7 +167,9 @@ export default class RemoteSource {
         successHandler,
         () => {
           this._eventEmitter.emit('textae-event.resource.startSave')
-          post(
+
+          requestAjax(
+            'post',
             url,
             data,
             successHandler,
@@ -181,10 +184,6 @@ export default class RemoteSource {
       )
     }
   }
-}
-
-function post(url, data, successHandler, failHandler, finishHandler) {
-  requestAjax('post', url, data, successHandler, failHandler, finishHandler)
 }
 
 function requestAjax(
