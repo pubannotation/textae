@@ -208,9 +208,14 @@ function requestAjax(
   $.ajax(opt)
     .done(successHandler)
     .fail((ajaxResponse) =>
-      serverAuthHandler(ajaxResponse, failHandler, () => {
-        $.ajax(opt).done(successHandler).fail(failHandler).always(finishHandler)
-      })
+      serverAuthHandler(ajaxResponse)
+        .then(() =>
+          $.ajax(opt)
+            .done(successHandler)
+            .fail(failHandler)
+            .always(finishHandler)
+        )
+        .catch(failHandler)
     )
     .always(finishHandler)
 }
