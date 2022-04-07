@@ -1,8 +1,8 @@
 import $ from 'jquery'
 import alertifyjs from 'alertifyjs'
 import DataSource from '../DataSource'
-import isServerAuthRequired from './serverAuthHandler/isServerAuthRequired'
-import openPopUp from './serverAuthHandler/openPopUp'
+import isServerAuthRequired from './isServerAuthRequired'
+import openPopUp from './openPopUp'
 
 // A sub component to save and load data.
 export default class RemoteSource {
