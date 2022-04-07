@@ -5,7 +5,7 @@ export default function (url, done, errorHandler, eventEmitter) {
 
   eventEmitter.emit('textae-event.resource.startLoad')
 
-  const opt = {
+  $.ajax({
     type: 'GET',
     url,
     cache: false,
@@ -13,9 +13,7 @@ export default function (url, done, errorHandler, eventEmitter) {
       withCredentials: true
     },
     timeout: 30000
-  }
-
-  $.ajax(opt)
+  })
     .done(done)
     .fail(errorHandler)
     .always(() => eventEmitter.emit('textae-event.resource.endLoad'))
