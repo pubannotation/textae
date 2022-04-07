@@ -186,11 +186,16 @@ function patch(
   failHandler,
   finishHandler
 ) {
-  const retryByPost = () =>
-    post(url, data, beforeSend, successHandler, failHandler, finishHandler)
-
   beforeSend()
-  requestAjax('patch', url, data, successHandler, retryByPost, finishHandler)
+  requestAjax(
+    'patch',
+    url,
+    data,
+    successHandler,
+    () =>
+      post(url, data, beforeSend, successHandler, failHandler, finishHandler),
+    finishHandler
+  )
 }
 
 function requestAjax(
