@@ -156,12 +156,10 @@ export default class RemoteSource {
           editedData
         )
       }
-      const finishHandler = () =>
-        this._eventEmitter.emit('textae-event.resource.endSave')
 
       this._eventEmitter.emit('textae-event.resource.startSave')
 
-      const opt = {
+      $.ajax({
         type: 'patch',
         url,
         contentType: 'application/json',
@@ -170,14 +168,13 @@ export default class RemoteSource {
         xhrFields: {
           withCredentials: true
         }
-      }
-
-      $.ajax(opt)
+      })
         .done(successHandler)
         .fail(() => {
+          // Retry by a post method.
           this._eventEmitter.emit('textae-event.resource.startSave')
 
-          const opt = {
+          $.ajax({
             type: 'post',
             url,
             contentType: 'application/json',
@@ -186,16 +183,17 @@ export default class RemoteSource {
             xhrFields: {
               withCredentials: true
             }
-          }
-          $.ajax(opt)
+          })
             .done(successHandler)
             .fail(() => {
               alertifyjs.error('could not save')
               this._eventEmitter.emit('textae-event.resource.save.error')
             })
-            .always(finishHandler)
+            .always(() =>
+              this._eventEmitter.emit('textae-event.resource.endSave')
+            )
         })
-        .always(finishHandler)
+        .always(() => this._eventEmitter.emit('textae-event.resource.endSave'))
     }
   }
 }
