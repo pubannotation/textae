@@ -1,5 +1,5 @@
 import $ from 'jquery'
-import serverAuthHandler from './requestAjax/serverAuthHandler'
+import serverAuthHandler from './serverAuthHandler'
 
 export default function (
   url,
