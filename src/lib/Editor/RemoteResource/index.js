@@ -121,10 +121,11 @@ export default class RemoteSource {
 
   saveAnnotation(url, editedData) {
     if (url) {
+      this._eventEmitter.emit('textae-event.resource.startSave')
+
       post(
         url,
         JSON.stringify(editedData),
-        () => this._eventEmitter.emit('textae-event.resource.startSave'),
         () => {
           alertifyjs.success('annotation saved')
           this._eventEmitter.emit(
@@ -163,33 +164,26 @@ export default class RemoteSource {
         url,
         data,
         successHandler,
-        () =>
+        () => {
+          this._eventEmitter.emit('textae-event.resource.startSave')
           post(
             url,
             data,
-            () => this._eventEmitter.emit('textae-event.resource.startSave'),
             successHandler,
             () => {
               alertifyjs.error('could not save')
               this._eventEmitter.emit('textae-event.resource.save.error')
             },
             finishHandler
-          ),
+          )
+        },
         finishHandler
       )
     }
   }
 }
 
-function post(
-  url,
-  data,
-  beforeSend,
-  successHandler,
-  failHandler,
-  finishHandler
-) {
-  beforeSend()
+function post(url, data, successHandler, failHandler, finishHandler) {
   requestAjax('post', url, data, successHandler, failHandler, finishHandler)
 }
 
