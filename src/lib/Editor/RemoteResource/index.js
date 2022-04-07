@@ -1,8 +1,7 @@
 import $ from 'jquery'
 import alertifyjs from 'alertifyjs'
 import DataSource from '../DataSource'
-import post from './post'
-import patch from './patch'
+import serverAuthHandler from './serverAuthHandler'
 
 // A sub component to save and load data.
 export default class RemoteSource {
@@ -165,4 +164,66 @@ export default class RemoteSource {
       )
     }
   }
+}
+
+function post(
+  url,
+  data,
+  beforeSend,
+  successHandler,
+  failHandler,
+  finishHandler
+) {
+  console.assert(url, 'url is necessary!')
+
+  beforeSend()
+  requestAjax('post', url, data, successHandler, failHandler, finishHandler)
+}
+
+function patch(
+  url,
+  data,
+  beforeSend,
+  successHandler,
+  failHandler,
+  finishHandler
+) {
+  console.assert(url, 'url is necessary!')
+
+  const retryByPost = () =>
+    post(url, data, beforeSend, successHandler, failHandler, finishHandler)
+
+  beforeSend()
+  requestAjax('patch', url, data, successHandler, retryByPost, finishHandler)
+}
+
+function requestAjax(
+  type,
+  url,
+  data,
+  successHandler,
+  failHandler,
+  finishHandler
+) {
+  const opt = {
+    type,
+    url,
+    contentType: 'application/json',
+    data,
+    crossDomain: true,
+    xhrFields: {
+      withCredentials: true
+    }
+  }
+
+  const retryHandler = () => {
+    $.ajax(opt).done(successHandler).fail(failHandler).always(finishHandler)
+  }
+
+  $.ajax(opt)
+    .done(successHandler)
+    .fail((ajaxResponse) =>
+      serverAuthHandler(ajaxResponse, failHandler, retryHandler)
+    )
+    .always(finishHandler)
 }
