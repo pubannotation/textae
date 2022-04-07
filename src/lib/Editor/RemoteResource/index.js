@@ -174,8 +174,6 @@ function post(
   failHandler,
   finishHandler
 ) {
-  console.assert(url, 'url is necessary!')
-
   beforeSend()
   requestAjax('post', url, data, successHandler, failHandler, finishHandler)
 }
@@ -188,8 +186,6 @@ function patch(
   failHandler,
   finishHandler
 ) {
-  console.assert(url, 'url is necessary!')
-
   const retryByPost = () =>
     post(url, data, beforeSend, successHandler, failHandler, finishHandler)
 
