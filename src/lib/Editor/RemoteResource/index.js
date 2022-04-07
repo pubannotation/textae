@@ -124,23 +124,59 @@ export default class RemoteSource {
     if (url) {
       this._eventEmitter.emit('textae-event.resource.startSave')
 
-      requestAjax(
-        'post',
+      const opt = {
+        type: 'post',
         url,
-        JSON.stringify(editedData),
-        () => {
-          alertifyjs.success('annotation saved')
-          this._eventEmitter.emit(
-            'textae-event.resource.annotation.save',
-            editedData
-          )
-        },
-        () => {
-          alertifyjs.error('could not save')
-          this._eventEmitter.emit('textae-event.resource.save.error')
-        },
-        () => this._eventEmitter.emit('textae-event.resource.endSave')
-      )
+        contentType: 'application/json',
+        data: JSON.stringify(editedData),
+        crossDomain: true,
+        xhrFields: {
+          withCredentials: true
+        }
+      }
+      const successHandler = () => {
+        alertifyjs.success('annotation saved')
+        this._eventEmitter.emit(
+          'textae-event.resource.annotation.save',
+          editedData
+        )
+      }
+      const failHandler = () => {
+        alertifyjs.error('could not save')
+        this._eventEmitter.emit('textae-event.resource.save.error')
+      }
+
+      $.ajax(opt)
+        .done(successHandler)
+        .fail((response) => {
+          // Authenticate in popup window.
+          const location = isServerAuthRequired(response)
+          if (!location) {
+            return failHandler()
+          }
+
+          const window = openPopUp(location)
+          if (!window) {
+            return failHandler()
+          }
+
+          // Watching for cross-domain pop-up windows to close.
+          // https://stackoverflow.com/questions/9388380/capture-the-close-event-of-popup-window-in-javascript/48240128#48240128
+          const timer = setInterval(() => {
+            if (window.closed) {
+              clearInterval(timer)
+
+              // Retry after authentication.
+              $.ajax(opt)
+                .done(successHandler)
+                .fail(failHandler)
+                .always(() =>
+                  this._eventEmitter.emit('textae-event.resource.endSave')
+                )
+            }
+          }, 1000)
+        })
+        .always(() => this._eventEmitter.emit('textae-event.resource.endSave'))
     }
   }
 
@@ -196,54 +232,4 @@ export default class RemoteSource {
         .always(() => this._eventEmitter.emit('textae-event.resource.endSave'))
     }
   }
-}
-
-function requestAjax(
-  type,
-  url,
-  data,
-  successHandler,
-  failHandler,
-  finishHandler
-) {
-  const opt = {
-    type,
-    url,
-    contentType: 'application/json',
-    data,
-    crossDomain: true,
-    xhrFields: {
-      withCredentials: true
-    }
-  }
-
-  $.ajax(opt)
-    .done(successHandler)
-    .fail((response) => {
-      // Authenticate in popup window.
-      const location = isServerAuthRequired(response)
-      if (!location) {
-        return failHandler()
-      }
-
-      const window = openPopUp(location)
-      if (!window) {
-        return failHandler()
-      }
-
-      // Watching for cross-domain pop-up windows to close.
-      // https://stackoverflow.com/questions/9388380/capture-the-close-event-of-popup-window-in-javascript/48240128#48240128
-      const timer = setInterval(() => {
-        if (window.closed) {
-          clearInterval(timer)
-
-          // Retry after authentication.
-          $.ajax(opt)
-            .done(successHandler)
-            .fail(failHandler)
-            .always(finishHandler)
-        }
-      }, 1000)
-    })
-    .always(finishHandler)
 }
