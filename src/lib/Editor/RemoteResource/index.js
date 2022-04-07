@@ -1,5 +1,5 @@
+import $ from 'jquery'
 import alertifyjs from 'alertifyjs'
-import get from './get'
 import DataSource from '../DataSource'
 import post from './post'
 import patch from './patch'
@@ -40,9 +40,20 @@ export default class RemoteSource {
   }
 
   loadAnnotation(url) {
-    get(
+    console.assert(url, 'url is necessary!')
+
+    this._eventEmitter.emit('textae-event.resource.startLoad')
+
+    $.ajax({
+      type: 'GET',
       url,
-      (annotation) => {
+      cache: false,
+      xhrFields: {
+        withCredentials: true
+      },
+      timeout: 30000
+    })
+      .done((annotation) => {
         const dataSource = new DataSource('url', url, annotation)
         if (annotation && annotation.text) {
           this._eventEmitter.emit(
@@ -59,8 +70,8 @@ export default class RemoteSource {
             dataSource
           )
         }
-      },
-      () => {
+      })
+      .fail(() => {
         alertifyjs.error(
           `Could not load the file from the location you specified.: ${url}`
         )
@@ -68,9 +79,8 @@ export default class RemoteSource {
           'textae-event.resource.annotation.load.error',
           url
         )
-      },
-      this._eventEmitter
-    )
+      })
+      .always(() => this._eventEmitter.emit('textae-event.resource.endLoad'))
   }
 
   // The second argument is the annotation you want to be notified of
@@ -78,16 +88,27 @@ export default class RemoteSource {
   // This is supposed to be used when reading an annotation that does not contain a configuration
   // and then reading the configuration set by the attribute value of the textae-event.
   loadConfigulation(url, annotationDataSource = null) {
-    get(
+    console.assert(url, 'url is necessary!')
+
+    this._eventEmitter.emit('textae-event.resource.startLoad')
+
+    $.ajax({
+      type: 'GET',
       url,
-      (config) => {
+      cache: false,
+      xhrFields: {
+        withCredentials: true
+      },
+      timeout: 30000
+    })
+      .done((config) => {
         this._eventEmitter.emit(
           'textae-event.resource.configuration.load.success',
           new DataSource('url', url, config),
           annotationDataSource
         )
-      },
-      () => {
+      })
+      .fail(() => {
         alertifyjs.error(
           `Could not load the file from the location you specified.: ${url}`
         )
@@ -95,9 +116,8 @@ export default class RemoteSource {
           'textae-event.resource.configuration.load.error',
           url
         )
-      },
-      this._eventEmitter
-    )
+      })
+      .always(() => this._eventEmitter.emit('textae-event.resource.endLoad'))
   }
 
   saveAnnotation(url, editedData) {
