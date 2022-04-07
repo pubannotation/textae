@@ -1,8 +1,8 @@
 import $ from 'jquery'
 import alertifyjs from 'alertifyjs'
 import DataSource from '../DataSource'
-import serverAuthHandler from './serverAuthHandler'
 import isServerAuthRequired from './serverAuthHandler/isServerAuthRequired'
+import openPopUp from './serverAuthHandler/openPopUp'
 
 // A sub component to save and load data.
 export default class RemoteSource {
@@ -208,21 +208,31 @@ function requestAjax(
 
   $.ajax(opt)
     .done(successHandler)
-    .fail((ajaxResponse) => {
-      const location = isServerAuthRequired(ajaxResponse)
-
-      if (location) {
-        serverAuthHandler(ajaxResponse)
-          .then(() =>
-            $.ajax(opt)
-              .done(successHandler)
-              .fail(failHandler)
-              .always(finishHandler)
-          )
-          .catch(failHandler)
-      } else {
-        failHandler()
+    .fail((response) => {
+      // Authenticate in popup window.
+      const location = isServerAuthRequired(response)
+      if (!location) {
+        return failHandler()
       }
+
+      const window = openPopUp(location)
+      if (!window) {
+        return failHandler()
+      }
+
+      // Watching for cross-domain pop-up windows to close.
+      // https://stackoverflow.com/questions/9388380/capture-the-close-event-of-popup-window-in-javascript/48240128#48240128
+      const timer = setInterval(() => {
+        if (window.closed) {
+          clearInterval(timer)
+
+          // Retry after authentication.
+          $.ajax(opt)
+            .done(successHandler)
+            .fail(failHandler)
+            .always(finishHandler)
+        }
+      }, 1000)
     })
     .always(finishHandler)
 }
