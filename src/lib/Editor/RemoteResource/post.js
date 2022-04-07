@@ -1,4 +1,5 @@
-import requestAjax from './requestAjax'
+import $ from 'jquery'
+import serverAuthHandler from './requestAjax/serverAuthHandler'
 
 export default function (
   url,
@@ -12,4 +13,35 @@ export default function (
 
   beforeSend()
   requestAjax('post', url, data, successHandler, failHandler, finishHandler)
+}
+
+function requestAjax(
+  type,
+  url,
+  data,
+  successHandler,
+  failHandler,
+  finishHandler
+) {
+  const opt = {
+    type,
+    url,
+    contentType: 'application/json',
+    data,
+    crossDomain: true,
+    xhrFields: {
+      withCredentials: true
+    }
+  }
+
+  const retryHandler = () => {
+    $.ajax(opt).done(successHandler).fail(failHandler).always(finishHandler)
+  }
+
+  $.ajax(opt)
+    .done(successHandler)
+    .fail((ajaxResponse) =>
+      serverAuthHandler(ajaxResponse, failHandler, retryHandler)
+    )
+    .always(finishHandler)
 }
