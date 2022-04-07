@@ -145,22 +145,37 @@ export default class RemoteSource {
     // textae-config service is build with the Ruby on Rails 4.X.
     // To change existing files, only PATCH method is allowed on the Ruby on Rails 4.X.
     if (url) {
-      patch(
+      const data = JSON.stringify(editedData)
+      const successHandler = () => {
+        alertifyjs.success('configuration saved')
+        this._eventEmitter.emit(
+          'textae-event.resource.configuration.save',
+          editedData
+        )
+      }
+      const finishHandler = () =>
+        this._eventEmitter.emit('textae-event.resource.endSave')
+
+      this._eventEmitter.emit('textae-event.resource.startSave')
+
+      requestAjax(
+        'patch',
         url,
-        JSON.stringify(editedData),
-        () => this._eventEmitter.emit('textae-event.resource.startSave'),
-        () => {
-          alertifyjs.success('configuration saved')
-          this._eventEmitter.emit(
-            'textae-event.resource.configuration.save',
-            editedData
-          )
-        },
-        () => {
-          alertifyjs.error('could not save')
-          this._eventEmitter.emit('textae-event.resource.save.error')
-        },
-        () => this._eventEmitter.emit('textae-event.resource.endSave')
+        data,
+        successHandler,
+        () =>
+          post(
+            url,
+            data,
+            () => this._eventEmitter.emit('textae-event.resource.startSave'),
+            successHandler,
+            () => {
+              alertifyjs.error('could not save')
+              this._eventEmitter.emit('textae-event.resource.save.error')
+            },
+            finishHandler
+          ),
+        finishHandler
       )
     }
   }
