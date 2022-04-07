@@ -16,12 +16,7 @@ export default function (url, done, errorHandler, eventEmitter) {
   }
 
   $.ajax(opt)
-    .done((data) => {
-      done(data)
-      eventEmitter.emit('textae-event.resource.endLoad')
-    })
-    .fail(() => {
-      errorHandler()
-      eventEmitter.emit('textae-event.resource.endLoad')
-    })
+    .done(done)
+    .fail(errorHandler)
+    .always(() => eventEmitter.emit('textae-event.resource.endLoad'))
 }
