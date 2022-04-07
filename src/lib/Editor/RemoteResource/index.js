@@ -205,14 +205,12 @@ function requestAjax(
     }
   }
 
-  const retryHandler = () => {
-    $.ajax(opt).done(successHandler).fail(failHandler).always(finishHandler)
-  }
-
   $.ajax(opt)
     .done(successHandler)
     .fail((ajaxResponse) =>
-      serverAuthHandler(ajaxResponse, failHandler, retryHandler)
+      serverAuthHandler(ajaxResponse, failHandler, () => {
+        $.ajax(opt).done(successHandler).fail(failHandler).always(finishHandler)
+      })
     )
     .always(finishHandler)
 }
