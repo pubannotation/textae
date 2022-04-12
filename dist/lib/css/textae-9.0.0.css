@@ -2663,7 +2663,7 @@ ul.jsondiffpatch-textdiff {
   visibility: visible !important;
 }
 .textae-editor--control-hidden .textae-control {
-  visibility: hidden !important;
+  display: none;
 }
 /* control bar */
 .textae-control-bar,
@@ -2718,6 +2718,28 @@ ul.jsondiffpatch-textdiff {
   margin: 8px 8px;
   width: 32px;
 }
+.textae-touch-bar .textae-control-summary {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+@media screen and (min-width: 769px) {
+  .textae-touch-bar .textae-control-summary {
+    display: none;
+  }
+}
+@media screen and (max-width: 768px) {
+  .textae-touch-bar .textae-control-details {
+    display: none;
+  }
+  .textae-touch-bar .textae-control-details--force-show {
+    display: flex;
+  }
+  .textae-touch-bar .textae-control-details--force-show > :nth-of-type(1),
+  .textae-touch-bar .textae-control-details--force-show > :nth-of-type(2) {
+    display: none;
+  }
+}
 .textae-control-humburger-menu-button {
   background-color: transparent;
   border-color: rgba(0, 0, 0, 0.5);
@@ -2730,31 +2752,12 @@ ul.jsondiffpatch-textdiff {
   width: 32px;
 }
 .textae-control-summary {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-@media screen and (min-width: 769px) {
-  .textae-control-summary {
-    display: none;
-  }
+  display: none;
 }
 .textae-control-details {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-}
-@media screen and (max-width: 768px) {
-  .textae-control-details {
-    display: none;
-  }
-  .textae-control-details--force-show {
-    display: flex;
-  }
-  .textae-control-details--force-show > :nth-of-type(1),
-  .textae-control-details--force-show > :nth-of-type(2) {
-    display: none;
-  }
 }
 /* context menu */
 .textae-context-menu,
@@ -4058,6 +4061,7 @@ ul.jsondiffpatch-textdiff {
   padding: 0;
 }
 .textae-editor__mode--relation .textae-editor__relation-box path,
+.textae-editor__mode--relation .textae-editor__relation-box polygon,
 .textae-editor__mode--relation .textae-editor__relation-box text,
 .textae-editor__mode--relation .textae-editor__relation-box rect {
   cursor: pointer;

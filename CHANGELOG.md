@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.0.0](https://github.com/pubannotation/textae/compare/v8.14.1...v9.0.0) (2022-04-12)
+
+
+### ⚠ BREAKING CHANGES
+
+* ServerPage authentication is a PubAnnotation-only protocol.
+The main destination for configuration is textae-configs.
+ServerPage authentication is not required for configuration saving.
+
+### Features
+
+* Displays the hamburger menu when the touch device is narrow ([e224776](https://github.com/pubannotation/textae/commit/e2247761f4ae008d177bf38c3147c8ce499090ae))
+* No ServerPage authentication when saving configuration ([89960f3](https://github.com/pubannotation/textae/commit/89960f3fa2a01cf34d5c471f2ac559b63a0ebadb))
+* When multi-track or broken annotations are read, they are not treated as unsaved annotations. ([4a0563d](https://github.com/pubannotation/textae/commit/4a0563ddc0ba7194be3cf7feae1f3c202163e1ea))
+* When the mouse cursor is on the bollard aura, the mouse cursor changes to a finger shape ([80e09ad](https://github.com/pubannotation/textae/commit/80e09ad2f0ba730074fed92760d7272fcc0f2f6e))
+
+
+### Bug Fixes
+
+* An error occurs when I try to open a palette from the Edit Entity dialog ([d4348cd](https://github.com/pubannotation/textae/commit/d4348cdc2cc7370d44f45b976bc59ee54f771e22))
+* Text rendering is broken when loading text containing HTML tags ([8688d03](https://github.com/pubannotation/textae/commit/8688d035a591797fd31952d4bcba12d799d03936))
+* The top overhanging relation is broken when the control bar is not visible ([4ad15b8](https://github.com/pubannotation/textae/commit/4ad15b88c13bff73004758f27e889e596fc12c77))
+
 ### [8.14.1](https://github.com/pubannotation/textae/compare/v8.14.0...v8.14.1) (2022-04-05)
 
 
