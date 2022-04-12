@@ -123,7 +123,7 @@ export default class EditBlock extends Edit {
         this._annotationData.typeDefinition.attribute,
         this._getAutocompletionWs(),
         this._selectionModel.entity.all,
-        this._typeValuesPallet
+        this.pallet
       )
         .open()
         .then((values) => this._typeValuesChanged(values))
