@@ -19,7 +19,7 @@ export default class PointingDownCurveAlgorithm extends CurveAlgorithm {
   }
 
   get transformDefinitionsForSourceTriangle() {
-    return ` rotate(180, ${this.sourceX}, ${this.sourceY + 3}) translate(${
+    return `rotate(180, ${this.sourceX}, ${this.sourceY + 3}) translate(${
       this.sourceX
     }, ${this.sourceY})`
   }
