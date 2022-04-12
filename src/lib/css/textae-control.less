@@ -230,6 +230,29 @@
     margin: 8px 8px;
     width: 32px;
   }
+
+  .textae-control-summary {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    @media screen and (min-width: 769px) {
+      display: none;
+    }
+  }
+
+  .textae-control-details {
+    @media screen and (max-width: 768px) {
+      display: none;
+      &--force-show {
+        display: flex;
+
+        > :nth-of-type(1),
+        > :nth-of-type(2) {
+          display: none;
+        }
+      }
+    }
+  }
 }
 
 // Show the hamburger menu button and collapse the toolbar on narrow devices.
@@ -244,29 +267,14 @@
   padding: 2px 0;
   width: 32px;
 }
+
 .textae-control-summary {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  @media screen and (min-width: 769px) {
-    display: none;
-  }
+  display: none;
 }
 .textae-control-details {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
-  @media screen and (max-width: 768px) {
-    display: none;
-    &--force-show {
-      display: flex;
-
-      > :nth-of-type(1),
-      > :nth-of-type(2) {
-        display: none;
-      }
-    }
-  }
 }
 
 /* context menu */
