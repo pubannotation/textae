@@ -118,13 +118,13 @@ export default class AnnotationData {
       .on('textae-event.annotation-data.span.add', (span) => {
         if (span.isDenotation || span.isBlock) {
           this._textBox.forceUpdate()
-          this.updatePosition()
+          this._rearrangeAllAnnotations()
         }
       })
       .on('textae-event.annotation-data.span.remove', (span) => {
         if (span.isDenotation || span.isBlock) {
           this._textBox.forceUpdate()
-          this.updatePosition()
+          this._rearrangeAllAnnotations()
         }
       })
       .on('textae-event.annotation-data.entity.add', (entity) => {
