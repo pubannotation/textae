@@ -295,7 +295,6 @@ export default class AnnotationData {
 
     // Reflects the addition and deletion of line breaks by span.
     this._textBox.forceUpdate()
-    this.updatePosition()
 
     for (const relation of this.relation.all) {
       relation.render(clientHeight, clientWidth)
