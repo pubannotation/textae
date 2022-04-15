@@ -283,6 +283,9 @@ export default class AnnotationData {
       span.render()
     }
 
+    // Reflects the addition and deletion of line breaks by span.
+    this._textBox.forceUpdate()
+
     const { clientHeight, clientWidth } = document.documentElement
 
     for (const span of this.span.allDenotationSpans) {
@@ -292,9 +295,6 @@ export default class AnnotationData {
     for (const span of this.span.allBlockSpans) {
       span.drawGrid(clientHeight, clientWidth)
     }
-
-    // Reflects the addition and deletion of line breaks by span.
-    this._textBox.forceUpdate()
 
     for (const relation of this.relation.all) {
       relation.render(clientHeight, clientWidth)
