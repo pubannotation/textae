@@ -118,11 +118,13 @@ export default class AnnotationData {
       .on('textae-event.annotation-data.span.add', (span) => {
         if (span.isDenotation || span.isBlock) {
           this._textBox.forceUpdate()
+          this.updatePosition()
         }
       })
       .on('textae-event.annotation-data.span.remove', (span) => {
         if (span.isDenotation || span.isBlock) {
           this._textBox.forceUpdate()
+          this.updatePosition()
         }
       })
       .on('textae-event.annotation-data.entity.add', (entity) => {
@@ -254,6 +256,7 @@ export default class AnnotationData {
   relayout() {
     if (this._isEditorInSight) {
       this._textBox.forceUpdate()
+      this.updatePosition()
     }
   }
 
@@ -291,6 +294,7 @@ export default class AnnotationData {
 
     // Reflects the addition and deletion of line breaks by span.
     this._textBox.forceUpdate()
+    this.updatePosition()
 
     for (const relation of this.relation.all) {
       relation.render(clientHeight, clientWidth)
