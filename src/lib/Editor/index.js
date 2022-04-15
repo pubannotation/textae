@@ -8,6 +8,7 @@ import forwardMethods from './forwardMethods'
 import observeElement from './observeElement'
 import observeEventEmitter from './observeEventEmitter'
 import editorCSSClassObserve from './editorCSSClassObserve'
+import isAndroid from './isAndroid'
 
 export default class Editor {
   constructor(
@@ -18,6 +19,10 @@ export default class Editor {
   ) {
     // Add tabIndex to listen to keyboard events.
     element.tabIndex = -1
+
+    if (isAndroid()) {
+      element.classList.add('textae-editor--android')
+    }
 
     observeElement(element)
 
