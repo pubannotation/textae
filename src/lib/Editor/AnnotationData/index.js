@@ -232,7 +232,7 @@ export default class AnnotationData {
   }
 
   drawGridsInSight() {
-    if (this._isInSight) {
+    if (this._isEditorInSight) {
       const { clientHeight, clientWidth } = document.documentElement
 
       for (const span of this.span.allDenotationSpans) {
@@ -251,7 +251,7 @@ export default class AnnotationData {
   }
 
   relayout() {
-    if (this._isInSight) {
+    if (this._isEditorInSight) {
       this._textBox.forceUpdate()
     }
   }
@@ -262,7 +262,7 @@ export default class AnnotationData {
     this.relation.controlBarHeight = value
   }
 
-  get _isInSight() {
+  get _isEditorInSight() {
     const { clientHeight } = document.documentElement
     const { top, bottom } = this._editorHTMLElement.getBoundingClientRect()
 
