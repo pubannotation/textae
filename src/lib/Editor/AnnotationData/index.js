@@ -70,7 +70,7 @@ export default class AnnotationData {
       this.attributeDefinitionContainer
     )
 
-    this._textBox = createTextBox(editorHTMLElement, this, () => {
+    const updatePosition = () => {
       try {
         editorCSSClass.startWait()
         startJQueryUIDialogWait()
@@ -82,7 +82,8 @@ export default class AnnotationData {
         editorCSSClass.endWait()
         endJQueryUIDialogWait()
       }
-    })
+    }
+    this._textBox = createTextBox(editorHTMLElement, this, updatePosition)
     this._lineHeightAuto = new LineHeightAuto(eventEmitter, this._textBox)
     this.span = new SpanModelContainer(
       editorID,
