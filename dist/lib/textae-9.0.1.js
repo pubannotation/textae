@@ -98383,11 +98383,10 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
     } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/createTextBox/TextBox/index.js
 
     class TextBox {
-      constructor(editorHTMLElement, annotationData, updatePosition) {
+      constructor(editorHTMLElement, annotationData) {
         this._editorHTMLElement = editorHTMLElement
         this._el = editorHTMLElement.querySelector('.textae-editor__text-box')
         this._annotationData = annotationData
-        this._updatePosition = updatePosition
       }
 
       get boundingClientRect() {
@@ -98401,6 +98400,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
       set lineHeight(val) {
         setLineHeight(this._el, val)
         this.forceUpdate()
+        this._annotationData.updatePosition()
       }
 
       render(text) {
@@ -98426,7 +98426,6 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
       forceUpdate() {
         updateTextBoxHeight(this._el)
         this._updateSizeOfRelationBox()
-        this._updatePosition()
       }
 
       _resetLineHeight() {
@@ -98456,8 +98455,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
 
     /* harmony default export */ function createTextBox(
       editorHTMLElement,
-      annotationData,
-      updatePosition
+      annotationData
     ) {
       // Place the text box behind the annotation box to allow you
       // to select the text behind the relationship label in entity editing mode.
@@ -98477,7 +98475,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
       editorHTMLElement.innerHTML = html.replace(/[\n\r]+/g, '')
       focusEditorWhenFocusedChildRemoved(editorHTMLElement)
 
-      return new TextBox(editorHTMLElement, annotationData, updatePosition)
+      return new TextBox(editorHTMLElement, annotationData)
     }
 
     // EXTERNAL MODULE: ./node_modules/observ/index.js
@@ -99519,7 +99517,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
           this.attributeDefinitionContainer
         )
 
-        this._textBox = createTextBox(editorHTMLElement, this, () => {
+        this.updatePosition = () => {
           try {
             editorCSSClass.startWait()
             startJQueryUIDialogWait()
@@ -99531,7 +99529,8 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
             editorCSSClass.endWait()
             endJQueryUIDialogWait()
           }
-        })
+        }
+        this._textBox = createTextBox(editorHTMLElement, this)
         this._lineHeightAuto = new LineHeightAuto(eventEmitter, this._textBox)
         this.span = new SpanModelContainer(
           editorID,
@@ -99566,11 +99565,13 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
           .on('textae-event.annotation-data.span.add', (span) => {
             if (span.isDenotation || span.isBlock) {
               this._textBox.forceUpdate()
+              this._rearrangeAllAnnotations()
             }
           })
           .on('textae-event.annotation-data.span.remove', (span) => {
             if (span.isDenotation || span.isBlock) {
               this._textBox.forceUpdate()
+              this._rearrangeAllAnnotations()
             }
           })
           .on('textae-event.annotation-data.entity.add', (entity) => {
@@ -99681,7 +99682,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
       }
 
       drawGridsInSight() {
-        if (this._isInSight) {
+        if (this._isEditorInSight) {
           const { clientHeight, clientWidth } = document.documentElement
 
           for (const span of this.span.allDenotationSpans) {
@@ -99700,8 +99701,10 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
       }
 
       relayout() {
-        if (this._isInSight) {
-          this._textBox.forceUpdate()
+        this._textBox.forceUpdate()
+
+        if (this._isEditorInSight) {
+          this.updatePosition()
         }
       }
 
@@ -99711,7 +99714,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
         this.relation.controlBarHeight = value
       }
 
-      get _isInSight() {
+      get _isEditorInSight() {
         const { clientHeight } = document.documentElement
         const { top, bottom } = this._editorHTMLElement.getBoundingClientRect()
 
@@ -99727,6 +99730,9 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
           span.render()
         }
 
+        // Reflects the addition and deletion of line breaks by span.
+        this._textBox.forceUpdate()
+
         const { clientHeight, clientWidth } = document.documentElement
 
         for (const span of this.span.allDenotationSpans) {
@@ -99736,9 +99742,6 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
         for (const span of this.span.allBlockSpans) {
           span.drawGrid(clientHeight, clientWidth)
         }
-
-        // Reflects the addition and deletion of line breaks by span.
-        this._textBox.forceUpdate()
 
         for (const relation of this.relation.all) {
           relation.render(clientHeight, clientWidth)
@@ -109114,7 +109117,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
       bindChangeLockConfig(content, typeDefinition)
     } // CONCATENATED MODULE: ./package.json
 
-    const package_namespaceObject = { i8: '9.0.0' } // CONCATENATED MODULE: ./src/lib/component/SettingDialog/index.js
+    const package_namespaceObject = { i8: '9.0.1' } // CONCATENATED MODULE: ./src/lib/component/SettingDialog/index.js
     function SettingDialog_template(context) {
       const {
         typeGap,
@@ -114147,6 +114150,10 @@ data-button-type="${type}">
       ) {
         // Add tabIndex to listen to keyboard events.
         element.tabIndex = -1
+
+        if (isAndroid()) {
+          element.classList.add('textae-editor--android')
+        }
 
         observeElement(element)
 

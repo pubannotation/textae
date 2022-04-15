@@ -3570,7 +3570,7 @@ ul.jsondiffpatch-textdiff {
   z-index: 102;
 }
 .textae-editor__edit-type-values-dialog__type-name + .ui-widget.ui-autocomplete {
-  width: 386px;
+  width: 381px;
 }
 .textae-editor__edit-string-attribute-dialog__row .ui-widget.ui-autocomplete {
   width: 522px;
@@ -4383,7 +4383,7 @@ ul.jsondiffpatch-textdiff {
   font-family: verdana, arial, helvetica, sans-serif;
 }
 @media screen and (max-width: 768px) {
-  .textae-editor {
+  .textae-editor.textae-editor--android {
     padding-top: 60px;
   }
 }

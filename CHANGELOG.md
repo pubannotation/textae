@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [9.0.1](https://github.com/pubannotation/textae/compare/v9.0.0...v9.0.1) (2022-04-15)
+
+
+### Bug Fixes
+
+* Blank space above the toolbar when the desktop browser is narrow ([1f2eb93](https://github.com/pubannotation/textae/commit/1f2eb931b4cbb9664ffc37bd284b56655dfb2a87))
+* In Firefox, a horizontal scrollbar appears when an autocomplete candidate for a type is displayed in the entity edit dialog ([651ce3e](https://github.com/pubannotation/textae/commit/651ce3e304d1437c57b5a6c47accc609c650fd2b))
+* When the editor is outside the display area and the browser width is reduced, the width of the text area does not change and a horizontal scroll bar is displayed ([e49c096](https://github.com/pubannotation/textae/commit/e49c0963cf2126921b7da5fee971c858a67199f5))
+
 ## [9.0.0](https://github.com/pubannotation/textae/compare/v8.14.1...v9.0.0) (2022-04-12)
 
 
