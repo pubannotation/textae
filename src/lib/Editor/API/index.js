@@ -181,6 +181,7 @@ export default class API {
 
           if (loadedAnnotation) {
             originalData.annotation = loadedAnnotation
+            remoteResource.annotationUrl = loadedAnnotation
           }
 
           originalData.configuration = dataSource
