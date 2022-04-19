@@ -11,6 +11,6 @@ File.open(__FILE__, 'w') do
 end
 
 __END__
-iPad
 Firefox
 Android
+iPad
