@@ -109117,7 +109117,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
       bindChangeLockConfig(content, typeDefinition)
     } // CONCATENATED MODULE: ./package.json
 
-    const package_namespaceObject = { i8: '9.0.1' } // CONCATENATED MODULE: ./src/lib/component/SettingDialog/index.js
+    const package_namespaceObject = { i8: '9.0.2' } // CONCATENATED MODULE: ./src/lib/component/SettingDialog/index.js
     function SettingDialog_template(context) {
       const {
         typeGap,
@@ -113387,6 +113387,7 @@ data-button-type="${type}">
 
               if (loadedAnnotation) {
                 originalData.annotation = loadedAnnotation
+                remoteResource.annotationUrl = loadedAnnotation
               }
 
               originalData.configuration = dataSource

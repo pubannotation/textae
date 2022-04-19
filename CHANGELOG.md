@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [9.0.2](https://github.com/pubannotation/textae/compare/v9.0.1...v9.0.2) (2022-04-19)
+
+
+### Bug Fixes
+
+* Annotation URL is not saved when configuration is specified in attribute ([53ec237](https://github.com/pubannotation/textae/commit/53ec2375a33e4774e969127ae1a733c8c9bd3829))
+
 ### [9.0.1](https://github.com/pubannotation/textae/compare/v9.0.0...v9.0.1) (2022-04-15)
 
 
