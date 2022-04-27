@@ -53,7 +53,7 @@ export default class EditAttributeDefinitionDialog extends PromiseDialog {
         )
 
         if (attrDef.mediaHeight !== mediaHeight) {
-          diff.set('mediaHeight', mediaHeight)
+          diff.set('media height', mediaHeight)
         }
       }
 

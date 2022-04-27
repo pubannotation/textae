@@ -6,8 +6,8 @@ export default class StringAttributeDefinition extends AttributeDefinition {
     super(valueType, hash.pred)
     this.autocompletionWs = hash.autocompletion_ws
     this.default = hash.default
-    if (isAbleToParseFloat(hash.mediaHeight)) {
-      this.mediaHeight = parseFloat(hash.mediaHeight)
+    if (isAbleToParseFloat(hash['media height'])) {
+      this.mediaHeight = parseFloat(hash['media height'])
     }
     this._values = hash.values || []
   }

@@ -55,7 +55,7 @@ export default class CreateAttributeDefinitionDialog extends PromiseDialog {
       label,
       color,
       default: defaultValue,
-      mediaHeight,
+      'media height': mediaHeight,
       min,
       max,
       step,

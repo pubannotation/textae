@@ -182,7 +182,8 @@
             "color": "#FF0000",
             "label": "High"
           }
-        ]
+        ],
+        "media height": 90
       },
       {
         "pred": "reputation",
