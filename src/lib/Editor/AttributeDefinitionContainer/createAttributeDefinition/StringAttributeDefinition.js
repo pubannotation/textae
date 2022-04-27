@@ -58,7 +58,8 @@ export default class StringAttributeDefinition extends AttributeDefinition {
         'value type': 'string',
         autocompletion_ws: this.autocompletionWs,
         default: this.default,
-        values: super._valuesClone
+        values: super._valuesClone,
+        'media height': this.mediaHeight
       }
     }
   }
