@@ -23,7 +23,7 @@ export default function (
   const { denotation } = accept
   const denotations = denotation.map((src) => ({
     ...src,
-    id: setIdPrefixIfExist(src, trackNumber),
+    id: src.id ? trackNumber + src.id : null,
     span: convertBeginAndEndToInteger(src.span)
   }))
   spanContainer.addSource(denotations, 'denotation')
@@ -32,7 +32,7 @@ export default function (
   const { block } = accept
   const blocks = block.map((src) => ({
     ...src,
-    id: setIdPrefixIfExist(src, trackNumber),
+    id: src.id ? trackNumber + src.id : null,
     span: convertBeginAndEndToInteger(src.span)
   }))
   spanContainer.addSource(blocks, 'block')
@@ -41,7 +41,7 @@ export default function (
   const { relation } = accept
   const relations = relation.map((src) => ({
     ...src,
-    id: setIdPrefixIfExist(src, trackNumber),
+    id: src.id ? trackNumber + src.id : null,
     subj: trackNumber + src.subj,
     obj: trackNumber + src.obj
   }))
@@ -50,17 +50,11 @@ export default function (
   const { attribute } = accept
   const attributes = attribute.map((src) => ({
     ...src,
-    id: setIdPrefixIfExist(src, trackNumber),
+    id: src.id ? trackNumber + src.id : null,
     subj: trackNumber + src.subj,
     obj: src.obj
   }))
   attributeContainer.addSource(attributes)
 
   return reject
-}
-
-function setIdPrefixIfExist(src, prefix) {
-  // An id will be generated if id is null.
-  // But an undefined is convert to string as 'undefined' when it add to any string.
-  return src.id ? prefix + src.id : null
 }
