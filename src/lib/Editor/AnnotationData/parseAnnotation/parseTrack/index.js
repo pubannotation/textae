@@ -16,42 +16,33 @@ export default function (
 ) {
   const result = validateAnnotation(text, spans, rowData)
 
-  importSource(
-    [spanContainer, entityContainer],
-    result.accept.denotation.map((src) => translateSpan(src, trackNumber)),
-    'denotation'
+  const denotations = result.accept.denotation.map((src) =>
+    translateSpan(src, trackNumber)
   )
+  spanContainer.addSource(denotations, 'denotation')
+  entityContainer.addSource(denotations, 'denotation')
 
-  importSource(
-    [attributeContainer],
-    result.accept.attribute.map((src) => translateAttribute(src, trackNumber))
+  const attributes = result.accept.attribute.map((src) =>
+    translateAttribute(src, trackNumber)
   )
+  attributeContainer.addSource(attributes)
 
-  importSource(
-    [relationContainer],
-    result.accept.relation.map((src) => translateRelation(src, trackNumber))
+  const relations = result.accept.relation.map((src) =>
+    translateRelation(src, trackNumber)
   )
+  relationContainer.addSource(relations)
 
-  importSource(
-    [spanContainer],
-    result.accept.typeSetting.map((src) => ({
-      ...src,
-      span: convertBeginAndEndToInteger(src.span)
-    })),
-    'typesetting'
-  )
+  const typesettings = result.accept.typeSetting.map((src) => ({
+    ...src,
+    span: convertBeginAndEndToInteger(src.span)
+  }))
+  spanContainer.addSource(typesettings, 'typesetting')
 
-  importSource(
-    [spanContainer, entityContainer],
-    result.accept.block.map((src) => translateSpan(src, trackNumber)),
-    'block'
+  const blocks = result.accept.block.map((src) =>
+    translateSpan(src, trackNumber)
   )
+  spanContainer.addSource(blocks, 'block')
+  entityContainer.addSource(blocks, 'block')
 
   return result.reject
-}
-
-function importSource(targets, source, type) {
-  for (const target of targets) {
-    target.addSource(source, type)
-  }
 }
