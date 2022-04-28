@@ -55,9 +55,7 @@ export default function (
 }
 
 function importSource(targets, translater, source, type) {
-  if (source) {
-    source = source.map(translater)
-  }
+  source = source.map(translater)
 
   for (const target of targets) {
     target.addSource(source, type)
