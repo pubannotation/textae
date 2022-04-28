@@ -28,7 +28,11 @@ export default function (
   spanContainer.addSource(denotations, 'denotation')
   entityContainer.addSource(denotations, 'denotation')
 
-  const blocks = accept.block.map((src) => translateSpan(src, trackNumber))
+  const blocks = accept.block.map((src) => ({
+    ...src,
+    id: setIdPrefixIfExist(src, trackNumber),
+    span: convertBeginAndEndToInteger(src.span)
+  }))
   spanContainer.addSource(blocks, 'block')
   entityContainer.addSource(blocks, 'block')
 
