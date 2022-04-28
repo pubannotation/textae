@@ -1,5 +1,4 @@
 import parseTrack from './parseTrack'
-import importNamespace from './importNamespace'
 import parseTracks from './parseTracks'
 import getAllSpansOf from './getAllSpansOf'
 
@@ -35,4 +34,10 @@ export default function (annotationData, rowData) {
     multitrack,
     rejects
   }
+}
+
+function importNamespace(destination, source) {
+  destination.addSource(
+    source.map((namespace) => ({ id: namespace.prefix, ...namespace }))
+  )
 }
