@@ -1,5 +1,4 @@
 import validateAnnotation from './validateAnnotation'
-import translateAttribute from './translateAttribute'
 import convertBeginAndEndToInteger from './convertBeginAndEndToInteger'
 import setIdPrefixIfExist from './setIdPrefixIfExist'
 
@@ -45,9 +44,12 @@ export default function (
   }))
   relationContainer.addSource(relations)
 
-  const attributes = accept.attribute.map((src) =>
-    translateAttribute(src, trackNumber)
-  )
+  const attributes = accept.attribute.map((src) => ({
+    ...src,
+    id: setIdPrefixIfExist(src, trackNumber),
+    subj: trackNumber + src.subj,
+    obj: src.obj
+  }))
   attributeContainer.addSource(attributes)
 
   return reject
