@@ -18,45 +18,39 @@ export default function (
 
   importSource(
     [spanContainer, entityContainer],
-    (src) => translateSpan(src, trackNumber),
-    result.accept.denotation,
+    result.accept.denotation.map((src) => translateSpan(src, trackNumber)),
     'denotation'
   )
 
   importSource(
     [attributeContainer],
-    (src) => translateAttribute(src, trackNumber),
-    result.accept.attribute
+    result.accept.attribute.map((src) => translateAttribute(src, trackNumber))
   )
 
   importSource(
     [relationContainer],
-    (src) => translateRelation(src, trackNumber),
-    result.accept.relation
+    result.accept.relation.map((src) => translateRelation(src, trackNumber))
   )
 
   importSource(
     [spanContainer],
-    (src) => {
-      return { ...src, span: convertBeginAndEndToInteger(src.span) }
-    },
-    result.accept.typeSetting,
+    result.accept.typeSetting.map((src) => ({
+      ...src,
+      span: convertBeginAndEndToInteger(src.span)
+    })),
     'typesetting'
   )
 
   importSource(
     [spanContainer, entityContainer],
-    (src) => translateSpan(src, trackNumber),
-    result.accept.block,
+    result.accept.block.map((src) => translateSpan(src, trackNumber)),
     'block'
   )
 
   return result.reject
 }
 
-function importSource(targets, translater, source, type) {
-  source = source.map(translater)
-
+function importSource(targets, source, type) {
   for (const target of targets) {
     target.addSource(source, type)
   }
