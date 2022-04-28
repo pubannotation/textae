@@ -1,5 +1,4 @@
 import validateAnnotation from './validateAnnotation'
-import translateSpan from './translateSpan'
 import translateAttribute from './translateAttribute'
 import convertBeginAndEndToInteger from './convertBeginAndEndToInteger'
 import setIdPrefixIfExist from './setIdPrefixIfExist'
@@ -22,9 +21,11 @@ export default function (
   }))
   spanContainer.addSource(typesettings, 'typesetting')
 
-  const denotations = accept.denotation.map((src) =>
-    translateSpan(src, trackNumber)
-  )
+  const denotations = accept.denotation.map((src) => ({
+    ...src,
+    id: setIdPrefixIfExist(src, trackNumber),
+    span: convertBeginAndEndToInteger(src.span)
+  }))
   spanContainer.addSource(denotations, 'denotation')
   entityContainer.addSource(denotations, 'denotation')
 
