@@ -1,5 +1,3 @@
-import importSource from './importSource'
-
 export default function (destination, source) {
   // Clone source to prevet changing orignal data.
   importSource(
@@ -7,4 +5,14 @@ export default function (destination, source) {
     (namespace) => ({ id: namespace.prefix, ...namespace }),
     source
   )
+}
+
+function importSource(targets, translater, source, type) {
+  if (source) {
+    source = source.map(translater)
+  }
+
+  for (const target of targets) {
+    target.addSource(source, type)
+  }
 }
