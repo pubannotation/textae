@@ -1,5 +1,4 @@
 import validateAnnotation from './validateAnnotation'
-import importSource from '../importSource'
 import translateSpan from './translateSpan'
 import translateAttribute from './translateAttribute'
 import translateRelation from './translateRelation'
@@ -53,4 +52,14 @@ export default function (
   )
 
   return result.reject
+}
+
+function importSource(targets, translater, source, type) {
+  if (source) {
+    source = source.map(translater)
+  }
+
+  for (const target of targets) {
+    target.addSource(source, type)
+  }
 }
