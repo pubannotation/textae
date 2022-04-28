@@ -1,8 +1,8 @@
 import validateAnnotation from './validateAnnotation'
 import translateSpan from './translateSpan'
 import translateAttribute from './translateAttribute'
-import translateRelation from './translateRelation'
 import convertBeginAndEndToInteger from './convertBeginAndEndToInteger'
+import setIdPrefixIfExist from './setIdPrefixIfExist'
 
 export default function (
   spanContainer,
@@ -32,9 +32,12 @@ export default function (
   spanContainer.addSource(blocks, 'block')
   entityContainer.addSource(blocks, 'block')
 
-  const relations = accept.relation.map((src) =>
-    translateRelation(src, trackNumber)
-  )
+  const relations = accept.relation.map((src) => ({
+    ...src,
+    id: setIdPrefixIfExist(src, trackNumber),
+    subj: trackNumber + src.subj,
+    obj: trackNumber + src.obj
+  }))
   relationContainer.addSource(relations)
 
   const attributes = accept.attribute.map((src) =>
