@@ -27,12 +27,17 @@ export default function (annotationData, rowData) {
   )
   annotationReject.name = 'Root annotations.'
 
-  annotationData.namespace.addSource(
-    (rowData.namespaces || []).map((namespace) => ({
-      id: namespace.prefix,
-      ...namespace
-    }))
-  )
+  // Import namespaces
+  if (rowData.namespaces) {
+    annotationData.namespace.addSource(
+      rowData.namespaces.map((n) => ({
+        id: n.prefix,
+        ...n
+      }))
+    )
+  } else {
+    annotationData.namespace.addSource([])
+  }
 
   const rejects = [annotationReject].concat(multitrackRejects)
 
