@@ -1,6 +1,5 @@
 import validateAnnotation from './validateAnnotation'
 import convertBeginAndEndToInteger from './convertBeginAndEndToInteger'
-import setIdPrefixIfExist from './setIdPrefixIfExist'
 
 export default function (
   spanContainer,
@@ -53,4 +52,10 @@ export default function (
   attributeContainer.addSource(attributes)
 
   return reject
+}
+
+function setIdPrefixIfExist(src, prefix) {
+  // An id will be generated if id is null.
+  // But an undefined is convert to string as 'undefined' when it add to any string.
+  return src.id ? prefix + src.id : null
 }
