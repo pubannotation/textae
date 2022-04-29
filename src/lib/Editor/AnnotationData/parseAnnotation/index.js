@@ -1,4 +1,4 @@
-import parseTrack from './parseTrack'
+import readTrackTo from './readTrackTo'
 import parseTracks from './parseTracks'
 import getAllSpansOf from './getAllSpansOf'
 import validateAnnotation from './validateAnnotation'
@@ -23,7 +23,7 @@ export default function (annotationData, rowData) {
     spans,
     rowData
   )
-  parseTrack(span, entity, attribute, relation, accept)
+  readTrackTo(span, entity, attribute, relation, accept)
   annotationReject.name = 'Root annotations.'
 
   // Import namespaces
