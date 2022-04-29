@@ -10,7 +10,7 @@ export default function (
   spans,
   rowData
 ) {
-  if (!rowData.tracks) return []
+  console.assert(rowData.tracks)
 
   const { tracks } = rowData
   delete rowData.tracks

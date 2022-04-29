@@ -9,16 +9,9 @@ export default function (annotationData, rowData) {
   const spans = getAllSpansOf(rowData)
 
   const hasMultiTracks = Boolean(rowData.tracks)
-
-  const trackRejects = parseTracks(
-    span,
-    entity,
-    attribute,
-    relation,
-    text,
-    spans,
-    rowData
-  )
+  const trackRejects = hasMultiTracks
+    ? parseTracks(span, entity, attribute, relation, text, spans, rowData)
+    : []
 
   const { accept, reject: rootReject } = validateAnnotation(
     text,
