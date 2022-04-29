@@ -26,11 +26,12 @@ export default class AnnotationParser {
     const { text } = this._rowData
     const spans = getAllSpansOf(this._rowData)
     const { accept, reject } = validateAnnotation(text, spans, this._rowData)
-    this._rootReject = reject
-    this._rootReject.name = 'Root annotations.'
 
     const { span, entity, attribute, relation } = this._annotationData
     readAcceptedAnnotationTo(span, entity, attribute, relation, accept)
+
+    reject.name = 'Root annotations.'
+    this._rootReject = reject
 
     // Read multiple track annotations.
     if (this.hasMultiTracks) {
