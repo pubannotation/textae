@@ -8,11 +8,6 @@ export default function (annotationData, rowData) {
   const { text } = rowData
   const spans = getAllSpansOf(rowData)
 
-  const hasMultiTracks = Boolean(rowData.tracks)
-  const trackRejects = hasMultiTracks
-    ? parseTracks(span, entity, attribute, relation, text, spans, rowData)
-    : []
-
   const { accept, reject: rootReject } = validateAnnotation(
     text,
     spans,
@@ -33,7 +28,21 @@ export default function (annotationData, rowData) {
     annotationData.namespace.addSource([])
   }
 
-  const rejects = [rootReject].concat(trackRejects)
+  let rejects = [rootReject]
+
+  const hasMultiTracks = Boolean(rowData.tracks)
+  if (hasMultiTracks) {
+    const trackRejects = parseTracks(
+      span,
+      entity,
+      attribute,
+      relation,
+      text,
+      spans,
+      rowData
+    )
+    rejects = [rootReject].concat(trackRejects)
+  }
 
   return {
     hasMultiTracks,
