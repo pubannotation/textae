@@ -8,7 +8,9 @@ export default function (annotationData, rowData) {
   const { text } = rowData
   const spans = getAllSpansOf(rowData)
 
-  const [hasMultiTracks, trackRejects] = parseTracks(
+  const hasMultiTracks = Boolean(rowData.tracks)
+
+  const trackRejects = parseTracks(
     span,
     entity,
     attribute,

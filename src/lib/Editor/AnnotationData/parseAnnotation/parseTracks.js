@@ -10,10 +10,12 @@ export default function (
   spans,
   rowData
 ) {
-  if (!rowData.tracks) return [false, []]
+  if (!rowData.tracks) return []
+
   const { tracks } = rowData
   delete rowData.tracks
-  const rejects = tracks.map((track, i) => {
+
+  return tracks.map((track, i) => {
     const number = i + 1
     const trackNumber = `track${number}_`
 
@@ -29,5 +31,4 @@ export default function (
     reject.name = `Track ${number} annotations.`
     return reject
   })
-  return [true, rejects]
 }
