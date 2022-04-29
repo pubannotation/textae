@@ -1,4 +1,4 @@
-import addTrackNumberAsIDPrefix from './addTrackNumberAsIDPrefix'
+import IDConflictResolver from './IDConflictResolver'
 import convertBeginAndEndOfSpanToInteger from './convertBeginAndEndOfSpanToInteger'
 import validateAnnotation from './validateAnnotation'
 
@@ -19,14 +19,9 @@ export default function (
     accept.block
   )
   const { relation, attribute } = accept
-  const { denotations, blocks, relations, attributes } =
-    addTrackNumberAsIDPrefix(
-      denotation,
-      block,
-      relation,
-      attribute,
-      trackNumber
-    )
+  const { denotations, blocks, relations, attributes } = new IDConflictResolver(
+    trackNumber
+  ).addTrackNumberAsIDPrefix(denotation, block, relation, attribute)
 
   spanContainer.addSource(typeSettings, 'typesetting')
   spanContainer.addSource(denotations, 'denotation')
