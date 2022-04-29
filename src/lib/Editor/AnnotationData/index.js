@@ -184,7 +184,7 @@ export default class AnnotationData {
 
     clearAnnotationData(this)
     const annotationParser = new AnnotationParser(this, rawData)
-    const rejects = annotationParser.parse()
+    annotationParser.parse()
 
     this._clearAndDrawAllAnnotations()
 
@@ -192,7 +192,7 @@ export default class AnnotationData {
       'textae-event.annotation-data.all.change',
       this,
       annotationParser.hasMultiTracks,
-      rejects
+      annotationParser.rejects
     )
   }
 
