@@ -183,14 +183,14 @@ export default class AnnotationData {
     this._textBox.render(this.sourceDoc)
 
     clearAnnotationData(this)
-    const { multiTracks, rejects } = parseAnnotation(this, rawData)
+    const { hasMultiTracks, rejects } = parseAnnotation(this, rawData)
 
     this._clearAndDrawAllAnnotations()
 
     this._eventEmitter.emit(
       'textae-event.annotation-data.all.change',
       this,
-      multiTracks,
+      hasMultiTracks,
       rejects
     )
   }
