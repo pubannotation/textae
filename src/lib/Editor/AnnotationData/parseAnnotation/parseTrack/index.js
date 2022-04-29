@@ -1,3 +1,4 @@
+import { convertBeginAndEndToInteger } from './convertBeginAndEndToInteger'
 import validateAnnotation from './validateAnnotation'
 
 export default function (
@@ -12,7 +13,7 @@ export default function (
 ) {
   const { accept, reject } = validateAnnotation(text, spans, rowData)
   const { typeSetting, denotation, block, relation, attribute } =
-    convert(accept)
+    convertBeginAndEndToInteger(accept)
 
   spanContainer.addSource(typeSetting, 'typesetting')
 
@@ -47,33 +48,6 @@ export default function (
   attributeContainer.addSource(attributes)
 
   return reject
-}
-
-function convert(acceptedAnnotation) {
-  const typeSetting = acceptedAnnotation.typeSetting.map((src) => ({
-    ...src,
-    span: convertBeginAndEndToInteger(src.span)
-  }))
-
-  const denotation = acceptedAnnotation.denotation.map((src) => ({
-    ...src,
-    span: convertBeginAndEndToInteger(src.span)
-  }))
-
-  const block = acceptedAnnotation.block.map((src) => ({
-    ...src,
-    span: convertBeginAndEndToInteger(src.span)
-  }))
-
-  return { ...acceptedAnnotation, typeSetting, denotation, block }
-}
-
-// If the begin or end value is a string,
-// the comparison with other numbers cannot be done correctly.
-// You cannot generate a valid value for the ID of HTML element of span
-// from a begin or end that contains a decimal point.
-function convertBeginAndEndToInteger(span) {
-  return { ...span, begin: parseInt(span.begin), end: parseInt(span.end) }
 }
 
 // Set Prefx to the ID if ID exists.
