@@ -3,7 +3,7 @@ import SpanModelContainer from './SpanModelContainer'
 import AttributeModelContainer from './AttributeModelContainer'
 import RelationModelContainer from './RelationModelContainer'
 import EntityModelContainer from './EntityModelContainer'
-import parseAnnotation from './parseAnnotation'
+import AnnotationParser from './AnnotationParser'
 import clearAnnotationData from './clearAnnotationData'
 import toDenotations from './toDenotations'
 import toRelations from './toRelations'
@@ -183,7 +183,10 @@ export default class AnnotationData {
     this._textBox.render(this.sourceDoc)
 
     clearAnnotationData(this)
-    const { hasMultiTracks, rejects } = parseAnnotation(this, rawData)
+    const { hasMultiTracks, rejects } = new AnnotationParser(
+      this,
+      rawData
+    ).parse()
 
     this._clearAndDrawAllAnnotations()
 
