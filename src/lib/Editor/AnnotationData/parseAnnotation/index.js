@@ -26,7 +26,7 @@ export default function (annotationData, rowData) {
   readTrackTo(span, entity, attribute, relation, accept)
   rootReject.name = 'Root annotations.'
 
-  // Import namespaces
+  // Read namespaces
   if (rowData.namespaces) {
     annotationData.namespace.addSource(
       rowData.namespaces.map((n) => ({
