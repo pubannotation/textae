@@ -22,7 +22,7 @@ export default function (
   const { denotation } = accept
   const denotations = denotation.map((src) => ({
     ...src,
-    id: src.id ? trackNumber + src.id : null,
+    id: setIDPrefix(src, trackNumber),
     span: convertBeginAndEndToInteger(src.span)
   }))
   spanContainer.addSource(denotations, 'denotation')
@@ -31,7 +31,7 @@ export default function (
   const { block } = accept
   const blocks = block.map((src) => ({
     ...src,
-    id: src.id ? trackNumber + src.id : null,
+    id: setIDPrefix(src, trackNumber),
     span: convertBeginAndEndToInteger(src.span)
   }))
   spanContainer.addSource(blocks, 'block')
@@ -40,7 +40,7 @@ export default function (
   const { relation } = accept
   const relations = relation.map((src) => ({
     ...src,
-    id: src.id ? trackNumber + src.id : null,
+    id: setIDPrefix(src, trackNumber),
     subj: trackNumber + src.subj,
     obj: trackNumber + src.obj
   }))
@@ -49,7 +49,7 @@ export default function (
   const { attribute } = accept
   const attributes = attribute.map((src) => ({
     ...src,
-    id: src.id ? trackNumber + src.id : null,
+    id: setIDPrefix(src, trackNumber),
     subj: trackNumber + src.subj,
     obj: src.obj
   }))
@@ -64,4 +64,10 @@ export default function (
 // from a begin or end that contains a decimal point.
 function convertBeginAndEndToInteger(span) {
   return { ...span, begin: parseInt(span.begin), end: parseInt(span.end) }
+}
+
+// Set Prefx to the ID if ID exists.
+// IF the ID does not exist, Set new ID in addSource function.
+function setIDPrefix(src, trackNumber) {
+  return src.id ? trackNumber + src.id : null
 }
