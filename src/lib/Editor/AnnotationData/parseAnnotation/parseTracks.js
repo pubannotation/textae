@@ -1,5 +1,5 @@
 import parseTrack from './parseTrack'
-import validateAnnotation from './parseTrack/validateAnnotation'
+import validateAnnotation from './validateAnnotation'
 
 export default function (
   spanContainer,

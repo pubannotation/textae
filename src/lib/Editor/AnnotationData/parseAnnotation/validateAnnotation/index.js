@@ -6,7 +6,7 @@ import validateDenotation from './validateDenotation'
 import validateBlock from './validateBlock'
 import debugLogCrossing from './debugLogCrossing'
 import { collectErrors } from './ErrorMap'
-import getAllSpansIn from '../../getAllSpansIn'
+import getAllSpansIn from '../getAllSpansIn'
 
 export default function (text, spanOfAllTracks, track) {
   const [typeSetting, errorTypeSettings] = validateTypeSettings(

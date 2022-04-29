@@ -1,7 +1,7 @@
 import parseTrack from './parseTrack'
 import parseTracks from './parseTracks'
 import getAllSpansOf from './getAllSpansOf'
-import validateAnnotation from './parseTrack/validateAnnotation'
+import validateAnnotation from './validateAnnotation'
 
 export default function (annotationData, rowData) {
   const { span, entity, attribute, relation } = annotationData

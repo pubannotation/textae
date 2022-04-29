@@ -1,6 +1,6 @@
 import isBeginAndEndIn from './isBeginAndEndIn'
 import ChainValidation from '../ChainValidation'
-import getBoundaryCrossingSpans from '../../../../getBoundaryCrossingSpans'
+import getBoundaryCrossingSpans from '../../../getBoundaryCrossingSpans'
 
 export default function (targetSpans, text, allSpans, sourcePropertyName) {
   return new ChainValidation(targetSpans, sourcePropertyName)
