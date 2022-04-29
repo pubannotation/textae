@@ -1,18 +1,14 @@
 import IDConflictResolver from './IDConflictResolver'
 import convertBeginAndEndOfSpanToInteger from './convertBeginAndEndOfSpanToInteger'
-import validateAnnotation from './validateAnnotation'
 
 export default function (
   spanContainer,
   entityContainer,
   attributeContainer,
   relationContainer,
-  text,
-  spans,
-  rowData,
+  accept,
   trackNumber = ''
 ) {
-  const { accept, reject } = validateAnnotation(text, spans, rowData)
   const [typeSettings, denotation, block] = convertBeginAndEndOfSpanToInteger(
     accept.typeSetting,
     accept.denotation,
@@ -30,6 +26,4 @@ export default function (
   entityContainer.addSource(blocks, 'block')
   relationContainer.addSource(relations)
   attributeContainer.addSource(attributes)
-
-  return reject
 }

@@ -1,4 +1,5 @@
 import parseTrack from './parseTrack'
+import validateAnnotation from './parseTrack/validateAnnotation'
 
 export default function (
   spanContainer,
@@ -15,14 +16,14 @@ export default function (
   const rejects = tracks.map((track, i) => {
     const number = i + 1
     const trackNumber = `track${number}_`
-    const reject = parseTrack(
+
+    const { accept, reject } = validateAnnotation(text, spans, track)
+    parseTrack(
       spanContainer,
       entityContainer,
       attributeContainer,
       relationContainer,
-      text,
-      spans,
-      track,
+      accept,
       trackNumber
     )
     reject.name = `Track ${number} annotations.`

@@ -1,6 +1,7 @@
 import parseTrack from './parseTrack'
 import parseTracks from './parseTracks'
 import getAllSpansOf from './getAllSpansOf'
+import validateAnnotation from './parseTrack/validateAnnotation'
 
 export default function (annotationData, rowData) {
   const { span, entity, attribute, relation } = annotationData
@@ -16,15 +17,13 @@ export default function (annotationData, rowData) {
     spans,
     rowData
   )
-  const annotationReject = parseTrack(
-    span,
-    entity,
-    attribute,
-    relation,
+
+  const { accept, reject: annotationReject } = validateAnnotation(
     text,
     spans,
     rowData
   )
+  parseTrack(span, entity, attribute, relation, accept)
   annotationReject.name = 'Root annotations.'
 
   // Import namespaces
