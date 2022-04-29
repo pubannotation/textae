@@ -23,9 +23,11 @@ export default class AnnotationParser {
     }
 
     // Read the root annotation.
-    const { text } = this._rowData
-    const spans = getAllSpansOf(this._rowData)
-    const { accept, reject } = validateAnnotation(text, spans, this._rowData)
+    const { accept, reject } = validateAnnotation(
+      this._text,
+      this._spans,
+      this._rowData
+    )
 
     const { span, entity, attribute, relation } = this._annotationData
     readAcceptedAnnotationTo(span, entity, attribute, relation, accept)
@@ -40,8 +42,8 @@ export default class AnnotationParser {
         entity,
         attribute,
         relation,
-        text,
-        spans,
+        this._text,
+        this._spans,
         this._rowData
       )
     }
@@ -57,5 +59,13 @@ export default class AnnotationParser {
     } else {
       return [this._rootReject]
     }
+  }
+
+  get _text() {
+    return this._rowData.text
+  }
+
+  get _spans() {
+    return getAllSpansOf(this._rowData)
   }
 }
