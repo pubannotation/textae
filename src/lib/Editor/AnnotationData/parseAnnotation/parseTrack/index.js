@@ -12,7 +12,7 @@ export default function (
   trackNumber = ''
 ) {
   const { accept, reject } = validateAnnotation(text, spans, rowData)
-  const [typeSetting, denotation, block] = convertBeginAndEndOfSpanToInteger(
+  const [typeSettings, denotation, block] = convertBeginAndEndOfSpanToInteger(
     accept.typeSetting,
     accept.denotation,
     accept.block
@@ -27,7 +27,7 @@ export default function (
       trackNumber
     )
 
-  spanContainer.addSource(typeSetting, 'typesetting')
+  spanContainer.addSource(typeSettings, 'typesetting')
   spanContainer.addSource(denotations, 'denotation')
   entityContainer.addSource(denotations, 'denotation')
   spanContainer.addSource(blocks, 'block')
