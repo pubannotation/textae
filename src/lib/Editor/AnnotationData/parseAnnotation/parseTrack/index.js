@@ -11,33 +11,31 @@ export default function (
   trackNumber = ''
 ) {
   const { accept, reject } = validateAnnotation(text, spans, rowData)
+  const convertedAccept = convert(accept)
 
-  const { typeSetting } = accept
+  const { typeSetting } = convertedAccept
   const typesettings = typeSetting.map((src) => ({
-    ...src,
-    span: convertBeginAndEndToInteger(src.span)
+    ...src
   }))
   spanContainer.addSource(typesettings, 'typesetting')
 
-  const { denotation } = accept
+  const { denotation } = convertedAccept
   const denotations = denotation.map((src) => ({
     ...src,
-    id: setIDPrefix(src, trackNumber),
-    span: convertBeginAndEndToInteger(src.span)
+    id: setIDPrefix(src, trackNumber)
   }))
   spanContainer.addSource(denotations, 'denotation')
   entityContainer.addSource(denotations, 'denotation')
 
-  const { block } = accept
+  const { block } = convertedAccept
   const blocks = block.map((src) => ({
     ...src,
-    id: setIDPrefix(src, trackNumber),
-    span: convertBeginAndEndToInteger(src.span)
+    id: setIDPrefix(src, trackNumber)
   }))
   spanContainer.addSource(blocks, 'block')
   entityContainer.addSource(blocks, 'block')
 
-  const { relation } = accept
+  const { relation } = convertedAccept
   const relations = relation.map((src) => ({
     ...src,
     id: setIDPrefix(src, trackNumber),
@@ -46,7 +44,7 @@ export default function (
   }))
   relationContainer.addSource(relations)
 
-  const { attribute } = accept
+  const { attribute } = convertedAccept
   const attributes = attribute.map((src) => ({
     ...src,
     id: setIDPrefix(src, trackNumber),
@@ -56,6 +54,25 @@ export default function (
   attributeContainer.addSource(attributes)
 
   return reject
+}
+
+function convert(acceptedAnnotation) {
+  const typeSetting = acceptedAnnotation.typeSetting.map((src) => ({
+    ...src,
+    span: convertBeginAndEndToInteger(src.span)
+  }))
+
+  const denotation = acceptedAnnotation.denotation.map((src) => ({
+    ...src,
+    span: convertBeginAndEndToInteger(src.span)
+  }))
+
+  const block = acceptedAnnotation.block.map((src) => ({
+    ...src,
+    span: convertBeginAndEndToInteger(src.span)
+  }))
+
+  return { ...acceptedAnnotation, typeSetting, denotation, block }
 }
 
 // If the begin or end value is a string,
