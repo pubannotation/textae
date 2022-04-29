@@ -11,15 +11,11 @@ export default function (
   trackNumber = ''
 ) {
   const { accept, reject } = validateAnnotation(text, spans, rowData)
-  const convertedAccept = convert(accept)
+  const { typeSetting, denotation, block, relation, attribute } =
+    convert(accept)
 
-  const { typeSetting } = convertedAccept
-  const typesettings = typeSetting.map((src) => ({
-    ...src
-  }))
-  spanContainer.addSource(typesettings, 'typesetting')
+  spanContainer.addSource(typeSetting, 'typesetting')
 
-  const { denotation } = convertedAccept
   const denotations = denotation.map((src) => ({
     ...src,
     id: setIDPrefix(src, trackNumber)
@@ -27,7 +23,6 @@ export default function (
   spanContainer.addSource(denotations, 'denotation')
   entityContainer.addSource(denotations, 'denotation')
 
-  const { block } = convertedAccept
   const blocks = block.map((src) => ({
     ...src,
     id: setIDPrefix(src, trackNumber)
@@ -35,7 +30,6 @@ export default function (
   spanContainer.addSource(blocks, 'block')
   entityContainer.addSource(blocks, 'block')
 
-  const { relation } = convertedAccept
   const relations = relation.map((src) => ({
     ...src,
     id: setIDPrefix(src, trackNumber),
@@ -44,7 +38,6 @@ export default function (
   }))
   relationContainer.addSource(relations)
 
-  const { attribute } = convertedAccept
   const attributes = attribute.map((src) => ({
     ...src,
     id: setIDPrefix(src, trackNumber),
