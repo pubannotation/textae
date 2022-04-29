@@ -36,8 +36,7 @@ export default class AnnotationParser {
 
     let rejects = [rootReject]
 
-    const hasMultiTracks = Boolean(this._rowData.tracks)
-    if (hasMultiTracks) {
+    if (this.hasMultiTracks) {
       const trackRejects = parseTracks(
         span,
         entity,
@@ -50,9 +49,10 @@ export default class AnnotationParser {
       rejects = [rootReject].concat(trackRejects)
     }
 
-    return {
-      hasMultiTracks,
-      rejects
-    }
+    return rejects
+  }
+
+  get hasMultiTracks() {
+    return Boolean(this._rowData.tracks)
   }
 }
