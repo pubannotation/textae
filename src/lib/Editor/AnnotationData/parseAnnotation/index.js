@@ -8,7 +8,7 @@ export default function (annotationData, rowData) {
   const { text } = rowData
   const spans = getAllSpansOf(rowData)
 
-  const [multitrack, multitrackRejects] = parseTracks(
+  const [multitrack, trackRejects] = parseTracks(
     span,
     entity,
     attribute,
@@ -18,13 +18,13 @@ export default function (annotationData, rowData) {
     rowData
   )
 
-  const { accept, reject: annotationReject } = validateAnnotation(
+  const { accept, reject: rootReject } = validateAnnotation(
     text,
     spans,
     rowData
   )
   readTrackTo(span, entity, attribute, relation, accept)
-  annotationReject.name = 'Root annotations.'
+  rootReject.name = 'Root annotations.'
 
   // Import namespaces
   if (rowData.namespaces) {
@@ -38,7 +38,7 @@ export default function (annotationData, rowData) {
     annotationData.namespace.addSource([])
   }
 
-  const rejects = [annotationReject].concat(multitrackRejects)
+  const rejects = [rootReject].concat(trackRejects)
 
   return {
     multitrack,
