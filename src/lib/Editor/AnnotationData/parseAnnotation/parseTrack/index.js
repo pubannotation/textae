@@ -18,40 +18,55 @@ export default function (
     accept.block
   )
   const { relation, attribute } = accept
+  const { denotations, blocks, relations, attributes } =
+    addTrackNumberAsIDPrefix(
+      denotation,
+      block,
+      relation,
+      attribute,
+      trackNumber
+    )
 
   spanContainer.addSource(typeSetting, 'typesetting')
-
-  const denotations = denotation.map((src) => ({
-    ...src,
-    id: setIDPrefix(src, trackNumber)
-  }))
   spanContainer.addSource(denotations, 'denotation')
   entityContainer.addSource(denotations, 'denotation')
-
-  const blocks = block.map((src) => ({
-    ...src,
-    id: setIDPrefix(src, trackNumber)
-  }))
   spanContainer.addSource(blocks, 'block')
   entityContainer.addSource(blocks, 'block')
-
-  const relations = relation.map((src) => ({
-    ...src,
-    id: setIDPrefix(src, trackNumber),
-    subj: trackNumber + src.subj,
-    obj: trackNumber + src.obj
-  }))
   relationContainer.addSource(relations)
-
-  const attributes = attribute.map((src) => ({
-    ...src,
-    id: setIDPrefix(src, trackNumber),
-    subj: trackNumber + src.subj,
-    obj: src.obj
-  }))
   attributeContainer.addSource(attributes)
 
   return reject
+}
+
+function addTrackNumberAsIDPrefix(
+  denotation,
+  block,
+  relation,
+  attribute,
+  trackNumber
+) {
+  return {
+    denotations: denotation.map((src) => ({
+      ...src,
+      id: setIDPrefix(src, trackNumber)
+    })),
+    blocks: block.map((src) => ({
+      ...src,
+      id: setIDPrefix(src, trackNumber)
+    })),
+    relations: relation.map((src) => ({
+      ...src,
+      id: setIDPrefix(src, trackNumber),
+      subj: trackNumber + src.subj,
+      obj: trackNumber + src.obj
+    })),
+    attributes: attribute.map((src) => ({
+      ...src,
+      id: setIDPrefix(src, trackNumber),
+      subj: trackNumber + src.subj,
+      obj: src.obj
+    }))
+  }
 }
 
 // Set Prefx to the ID if ID exists.
