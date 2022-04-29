@@ -9,7 +9,7 @@ export default class RelationModelContainer extends IdIssueContainer {
     namespace,
     definitionContainer
   ) {
-    super(eventEmitter, 'relation', 'R')
+    super(eventEmitter, 'relation', () => 'R')
     this._editorHTMLElement = editorHTMLElement
     this._eventEmitter = eventEmitter
     this._parentContainer = parentContainer

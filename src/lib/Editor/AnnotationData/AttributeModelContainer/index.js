@@ -9,7 +9,7 @@ export default class AttributeModelContainer extends IdIssueContainer {
     namespace,
     definitionContainer
   ) {
-    super(emitter, 'attribute', 'A')
+    super(emitter, 'attribute', () => 'A')
 
     this._entityContainer = entityContainer
     this._relationContaier = relationContaier

@@ -2,10 +2,10 @@ import issueId from './issueId'
 import ModelContainer from '../ModelContainer'
 
 export default class IdIssueContainer extends ModelContainer {
-  constructor(emitter, name, prefix) {
+  constructor(emitter, name, prefixFunc) {
     super(emitter, name)
 
-    this._prefix = prefix
+    this._prefixFunc = prefixFunc
   }
 
   addSource(source, type) {
@@ -28,7 +28,7 @@ export default class IdIssueContainer extends ModelContainer {
 
   _addToContainer(instance) {
     return super._addToContainer(
-      issueId(instance, this._container, this._prefix)
+      issueId(instance, this._container, this._prefixFunc())
     )
   }
 }
