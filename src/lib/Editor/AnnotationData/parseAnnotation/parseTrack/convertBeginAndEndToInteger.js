@@ -2,7 +2,7 @@
 // the comparison with other numbers cannot be done correctly.
 // You cannot generate a valid value for the ID of HTML element of span
 // from a begin or end that contains a decimal point.
-export function convertBeginAndEndToInteger(acceptedAnnotation) {
+export default function (acceptedAnnotation) {
   const typeSetting = acceptedAnnotation.typeSetting.map((src) => ({
     ...src,
     span: convert(src.span)

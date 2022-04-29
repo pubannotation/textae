@@ -1,4 +1,4 @@
-import { convertBeginAndEndToInteger } from './convertBeginAndEndToInteger'
+import convertBeginAndEndToInteger from './convertBeginAndEndToInteger'
 import validateAnnotation from './validateAnnotation'
 
 export default function (
