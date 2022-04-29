@@ -21,8 +21,8 @@ export default function (
 
   spanContainer.addSource(typeSettings, 'typesetting')
   spanContainer.addSource(denotations, 'denotation')
-  entityContainer.addSource(denotations, 'denotation')
   spanContainer.addSource(blocks, 'block')
+  entityContainer.addSource(denotations, 'denotation')
   entityContainer.addSource(blocks, 'block')
   relationContainer.addSource(relations)
   attributeContainer.addSource(attributes)
