@@ -7,7 +7,9 @@ import IdIssueContainer from './IdIssueContainer'
 
 export default class EntityModelContainer extends IdIssueContainer {
   constructor(editorID, eventEmitter, parent, typeGap, namespace) {
-    super(eventEmitter, 'entity', () => 'T')
+    super(eventEmitter, 'entity', (instance) =>
+      instance.isDenotation ? 'T' : 'B'
+    )
 
     this._editorID = editorID
 

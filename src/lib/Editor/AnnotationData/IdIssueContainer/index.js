@@ -22,13 +22,13 @@ export default class IdIssueContainer extends ModelContainer {
     })
 
     for (const instance of collection) {
-      this._addToContainer(instance)
+      super._addToContainer(
+        issueId(instance, this._container, this._prefixFunc(instance))
+      )
     }
   }
 
-  _addToContainer(instance) {
-    return super._addToContainer(
-      issueId(instance, this._container, this._prefixFunc())
-    )
+  add(instance) {
+    super.add(issueId(instance, this._container, this._prefixFunc(instance)))
   }
 }
