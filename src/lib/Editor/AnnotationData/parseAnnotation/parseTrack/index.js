@@ -1,4 +1,4 @@
-import convertBeginAndEndToInteger from './convertBeginAndEndToInteger'
+import convertBeginAndEndOfSpanToInteger from './convertBeginAndEndOfSpanToInteger'
 import validateAnnotation from './validateAnnotation'
 
 export default function (
@@ -12,7 +12,7 @@ export default function (
   trackNumber = ''
 ) {
   const { accept, reject } = validateAnnotation(text, spans, rowData)
-  const [typeSetting, denotation, block] = convertBeginAndEndToInteger(
+  const [typeSetting, denotation, block] = convertBeginAndEndOfSpanToInteger(
     accept.typeSetting,
     accept.denotation,
     accept.block
