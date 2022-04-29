@@ -11,6 +11,10 @@ function convert(src) {
 
   return {
     ...src,
-    span: { ...span, begin: parseInt(span.begin), end: parseInt(span.end) }
+    span: convertBeginAndEndToInteger(span)
   }
+}
+
+function convertBeginAndEndToInteger(span) {
+  return { ...span, begin: parseInt(span.begin), end: parseInt(span.end) }
 }
