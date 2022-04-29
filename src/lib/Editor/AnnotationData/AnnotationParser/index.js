@@ -1,4 +1,4 @@
-import readTrackTo from './readTrackTo'
+import readAcceptedAnnotationTo from './readAcceptedAnnotationTo'
 import parseTracks from './parseTracks'
 import getAllSpansOf from './getAllSpansOf'
 import validateAnnotation from './validateAnnotation'
@@ -30,7 +30,7 @@ export default class AnnotationParser {
     this._rootReject.name = 'Root annotations.'
 
     const { span, entity, attribute, relation } = this._annotationData
-    readTrackTo(span, entity, attribute, relation, accept)
+    readAcceptedAnnotationTo(span, entity, attribute, relation, accept)
 
     // Read multiple track annotations.
     if (this.hasMultiTracks) {

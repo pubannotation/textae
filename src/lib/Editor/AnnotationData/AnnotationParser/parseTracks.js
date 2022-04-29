@@ -1,4 +1,4 @@
-import readTrackTo from './readTrackTo'
+import readAcceptedAnnotationTo from './readAcceptedAnnotationTo'
 import validateAnnotation from './validateAnnotation'
 
 export default function (
@@ -20,7 +20,7 @@ export default function (
     const trackNumber = `track${number}_`
 
     const { accept, reject } = validateAnnotation(text, spans, track)
-    readTrackTo(
+    readAcceptedAnnotationTo(
       spanContainer,
       entityContainer,
       attributeContainer,
