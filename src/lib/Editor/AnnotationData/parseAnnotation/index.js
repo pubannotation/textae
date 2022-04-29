@@ -8,7 +8,7 @@ export default function (annotationData, rowData) {
   const { text } = rowData
   const spans = getAllSpansOf(rowData)
 
-  const [multitrack, trackRejects] = parseTracks(
+  const [multiTracks, trackRejects] = parseTracks(
     span,
     entity,
     attribute,
@@ -41,7 +41,7 @@ export default function (annotationData, rowData) {
   const rejects = [rootReject].concat(trackRejects)
 
   return {
-    multitrack,
+    multiTracks,
     rejects
   }
 }
