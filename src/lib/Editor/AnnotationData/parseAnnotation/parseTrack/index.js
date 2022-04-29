@@ -1,3 +1,4 @@
+import addTrackNumberAsIDPrefix from './addTrackNumberAsIDPrefix'
 import convertBeginAndEndOfSpanToInteger from './convertBeginAndEndOfSpanToInteger'
 import validateAnnotation from './validateAnnotation'
 
@@ -36,41 +37,4 @@ export default function (
   attributeContainer.addSource(attributes)
 
   return reject
-}
-
-function addTrackNumberAsIDPrefix(
-  denotation,
-  block,
-  relation,
-  attribute,
-  trackNumber
-) {
-  return {
-    denotations: denotation.map((src) => ({
-      ...src,
-      id: setIDPrefix(src, trackNumber)
-    })),
-    blocks: block.map((src) => ({
-      ...src,
-      id: setIDPrefix(src, trackNumber)
-    })),
-    relations: relation.map((src) => ({
-      ...src,
-      id: setIDPrefix(src, trackNumber),
-      subj: trackNumber + src.subj,
-      obj: trackNumber + src.obj
-    })),
-    attributes: attribute.map((src) => ({
-      ...src,
-      id: setIDPrefix(src, trackNumber),
-      subj: trackNumber + src.subj,
-      obj: src.obj
-    }))
-  }
-}
-
-// Set Prefx to the ID if ID exists.
-// IF the ID does not exist, Set new ID in addSource function.
-function setIDPrefix(src, trackNumber) {
-  return src.id ? trackNumber + src.id : null
 }
