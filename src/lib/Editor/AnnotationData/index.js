@@ -183,7 +183,15 @@ export default class AnnotationData {
     this._textBox.render(this.sourceDoc)
 
     clearAnnotationData(this)
-    const annotationParser = new AnnotationParser(this, rawData)
+    const { namespace, span, entity, attribute, relation } = this
+    const annotationParser = new AnnotationParser(
+      namespace,
+      span,
+      entity,
+      attribute,
+      relation,
+      rawData
+    )
     annotationParser.parse()
 
     this._clearAndDrawAllAnnotations()

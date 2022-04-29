@@ -4,22 +4,26 @@ import getAllSpansOf from './getAllSpansOf'
 import validateAnnotation from './validateAnnotation'
 
 export default class AnnotationParser {
-  constructor(annotationData, rowData) {
-    this._annotationData = annotationData
+  constructor(namespace, span, entity, attribute, relation, rowData) {
+    this._namespace = namespace
+    this._span = span
+    this._entity = entity
+    this._attribute = attribute
+    this._relation = relation
     this._rowData = rowData
   }
 
   parse() {
     // Read namespaces
     if (this._rowData.namespaces) {
-      this._annotationData.namespace.addSource(
+      this._namespace.addSource(
         this._rowData.namespaces.map((n) => ({
           id: n.prefix,
           ...n
         }))
       )
     } else {
-      this._annotationData.namespace.addSource([])
+      this._namespace.addSource([])
     }
 
     // Read the root annotation.
@@ -29,8 +33,13 @@ export default class AnnotationParser {
       this._rowData
     )
 
-    const { span, entity, attribute, relation } = this._annotationData
-    readAcceptedAnnotationTo(span, entity, attribute, relation, accept)
+    readAcceptedAnnotationTo(
+      this._span,
+      this._entity,
+      this._attribute,
+      this._relation,
+      accept
+    )
 
     reject.name = 'Root annotations.'
     this._rootReject = reject
@@ -38,10 +47,10 @@ export default class AnnotationParser {
     // Read multiple track annotations.
     if (this.hasMultiTracks) {
       this._trackRejects = parseTracks(
-        span,
-        entity,
-        attribute,
-        relation,
+        this._span,
+        this._entity,
+        this._attribute,
+        this._relation,
         this._text,
         this._spans,
         this._rowData
