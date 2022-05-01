@@ -1,10 +1,10 @@
-import isUri from '../../isUri'
+import isURI from '../../isURI'
 import getUrlMatches from '../getUrlMatches'
 
 // Display short name for URL(http or https);
 export default function (type) {
   // For tunning, search the scheme before execute a regular-expression.
-  if (isUri(type)) {
+  if (isURI(type)) {
     const matches = getUrlMatches(type)
 
     if (matches) {

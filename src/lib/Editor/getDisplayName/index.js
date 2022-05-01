@@ -1,4 +1,4 @@
-import isUri from '../../isUri'
+import isURI from '../../isURI'
 import getMatchPrefix from '../getMatchPrefix'
 import getDisplayNameFromUri from './getDisplayNameFromUri'
 
@@ -9,7 +9,7 @@ export default function (namespace, value, displayName) {
   }
 
   // When a type id is uri
-  if (isUri(value)) {
+  if (isURI(value)) {
     return getDisplayNameFromUri(value)
   }
 

@@ -1,8 +1,8 @@
-import isUri from '../isUri'
+import isURI from '../isURI'
 import getMatchPrefix from './getMatchPrefix'
 
 export default function (namespace, value, uri) {
-  if (isUri(value)) {
+  if (isURI(value)) {
     return value
   }
 
