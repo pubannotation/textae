@@ -50,9 +50,12 @@ export default class RelationModelContainer extends IdIssueContainer {
             this._definitionContainer,
             this._controlBarHeight
           )
+    const newInstance = super.add(newValue)
+
     const { clientHeight, clientWidth } = document.documentElement
-    newValue.render(clientHeight, clientWidth)
-    return super.add(newValue)
+    newInstance.render(clientHeight, clientWidth)
+
+    return newInstance
   }
 
   changeType(id, newType) {
