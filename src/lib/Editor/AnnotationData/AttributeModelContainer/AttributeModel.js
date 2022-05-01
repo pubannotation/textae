@@ -6,6 +6,10 @@ import toAnchorElement from '../../toAnchorElement'
 
 export default class AttributeModel {
   // Expected an attribute like {id: "A1", subj: "T1", pred: "example_predicate_1", obj: "attr1"}.
+  /**
+   *
+   * @param {import('../DefinitionContainer/index.js').default} definitionContainer
+   */
   constructor(
     { id, subj, pred, obj },
     entityContainer,
