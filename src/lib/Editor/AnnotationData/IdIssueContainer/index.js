@@ -45,7 +45,7 @@ function getNextID(prefix, existingIDs) {
   const wellFormattedIDs = new Set()
   for (const id of existingIDs) {
     if (new RegExp(`^${prefix}\\d+$`).test(id)) {
-      wellFormattedIDs.add(id)
+      wellFormattedIDs.add(id.slice(1))
     }
   }
 
@@ -54,7 +54,6 @@ function getNextID(prefix, existingIDs) {
     return `${prefix}1`
   }
 
-  const numbers = [...wellFormattedIDs.values()].map((id) => id.slice(1))
-  const max = Math.max(...numbers)
+  const max = Math.max(...wellFormattedIDs.values())
   return `${prefix}${max + 1}`
 }
