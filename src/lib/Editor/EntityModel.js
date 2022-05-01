@@ -59,7 +59,7 @@ export default class EntityModel {
   }
 
   get color() {
-    return this._definitionContainerFor.getColor(this.typeName)
+    return this._definitionContainer.getColor(this.typeName)
   }
 
   get anchorHTML() {
@@ -402,7 +402,8 @@ export default class EntityModel {
     }
   }
 
-  get _definitionContainerFor() {
+  /** @return {import('./AnnotationData/DefinitionContainer/index.js').default} */
+  get _definitionContainer() {
     if (this.isDenotation) {
       return this._typeDefinition.denotation
     } else if (this.isBlock) {
@@ -416,7 +417,7 @@ export default class EntityModel {
     return getDisplayName(
       this._namespace,
       this.typeName,
-      this._definitionContainerFor.getLabel(this.typeName)
+      this._definitionContainer.getLabel(this.typeName)
     )
   }
 
@@ -424,7 +425,7 @@ export default class EntityModel {
     return getURI(
       this._namespace,
       this.typeName,
-      this._definitionContainerFor.getURI(this.typeName)
+      this._definitionContainer.getURI(this.typeName)
     )
   }
 
