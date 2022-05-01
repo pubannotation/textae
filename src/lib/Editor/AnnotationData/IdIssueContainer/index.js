@@ -32,7 +32,7 @@ export default class IdIssueContainer extends ModelContainer {
   _assignID(instance) {
     if (!instance.id) {
       // Overwrite to revert
-      const existingIDs = Array.from(this._container.keys())
+      const existingIDs = this._container.keys()
       const newId = getNextID(this._prefixFunc(instance), existingIDs)
       instance.id = newId
     }
@@ -42,16 +42,19 @@ export default class IdIssueContainer extends ModelContainer {
 
 function getNextID(prefix, existingIDs) {
   // The format of id is a prefix and a number, for exapmle 'T1'.
-  const wellFormattedIDs = existingIDs.filter((id) =>
-    new RegExp(`^${prefix}\\d+$`).test(id)
-  )
+  const wellFormattedIDs = new Set()
+  for (const id of existingIDs) {
+    if (new RegExp(`^${prefix}\\d+$`).test(id)) {
+      wellFormattedIDs.add(id)
+    }
+  }
 
   // The Math.max retrun -Infinity when the second argument array is empty.
-  if (wellFormattedIDs.length === 0) {
+  if (wellFormattedIDs.size === 0) {
     return `${prefix}1`
   }
 
-  const numbers = wellFormattedIDs.map((id) => id.slice(1))
+  const numbers = [...wellFormattedIDs.values()].map((id) => id.slice(1))
   const max = Math.max(...numbers)
   return `${prefix}${max + 1}`
 }
