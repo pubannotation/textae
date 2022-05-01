@@ -40,9 +40,9 @@ export default class IdIssueContainer extends ModelContainer {
   _generateNextID(instance) {
     const prefix = this._prefixFunc(instance)
 
-    // The format of id is a prefix and a number, for exapmle 'T1'.
     const wellFormattedIDs = new Set()
     for (const id of this._container.keys()) {
+      // The format of id is a prefix and a number, for exapmle 'T1'.
       if (new RegExp(`^${prefix}\\d+$`).test(id)) {
         wellFormattedIDs.add(id.slice(1))
       }
