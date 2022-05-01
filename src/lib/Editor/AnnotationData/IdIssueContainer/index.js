@@ -22,23 +22,21 @@ export default class IdIssueContainer extends ModelContainer {
     })
 
     for (const instance of collection) {
-      super._addToContainer(
-        issueId(instance, this._container, this._prefixFunc(instance))
-      )
+      super._addToContainer(this._issueId(instance))
     }
   }
 
   add(instance) {
-    return super.add(issueId(instance, this._container, this._prefixFunc(instance)))
+    return super.add(this._issueId(instance))
   }
-}
 
-function issueId(instance, container, prefix) {
-  if (!instance.id) {
-    // Overwrite to revert
-    const ids = Array.from(container.keys())
-    const newId = getNextId(prefix, ids)
-    instance.id = newId
+  _issueId(instance) {
+    if (!instance.id) {
+      // Overwrite to revert
+      const ids = Array.from(this._container.keys())
+      const newId = getNextId(this._prefixFunc(instance), ids)
+      instance.id = newId
+    }
+    return instance
   }
-  return instance
 }
