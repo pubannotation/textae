@@ -31,13 +31,13 @@ export default class IdIssueContainer extends ModelContainer {
 
   _assignID(instance) {
     if (!instance.id) {
-      instance.id = this._getNextID(instance)
+      instance.id = this._generateNextID(instance)
     }
 
     return instance
   }
 
-  _getNextID(instance) {
+  _generateNextID(instance) {
     const prefix = this._prefixFunc(instance)
 
     // The format of id is a prefix and a number, for exapmle 'T1'.
