@@ -62,11 +62,7 @@ export default class AttributeModel {
     return this.pred === pred && String(this._obj) === obj
   }
 
-  render() {
-    this.subjectModel.updateElement()
-  }
-
-  erase() {
+  updateElement() {
     this.subjectModel.updateElement()
   }
 

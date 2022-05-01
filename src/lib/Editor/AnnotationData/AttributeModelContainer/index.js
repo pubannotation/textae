@@ -34,7 +34,7 @@ export default class AttributeModelContainer extends IdIssueContainer {
 
     super.add(newValue)
 
-    newValue.render()
+    newValue.updateElement()
 
     return newValue
   }
@@ -58,7 +58,7 @@ export default class AttributeModelContainer extends IdIssueContainer {
 
     console.assert(instance, `There are no attribute ${id} to delete!`)
 
-    instance.erase()
+    instance.updateElement()
   }
 
   getSameDefinitionsAttributes(pred) {
