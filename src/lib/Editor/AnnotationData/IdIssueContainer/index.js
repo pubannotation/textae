@@ -32,17 +32,17 @@ export default class IdIssueContainer extends ModelContainer {
   _assignID(instance) {
     if (!instance.id) {
       // Overwrite to revert
-      const ids = Array.from(this._container.keys())
-      const newId = getNextId(this._prefixFunc(instance), ids)
+      const existingIDs = Array.from(this._container.keys())
+      const newId = getNextID(this._prefixFunc(instance), existingIDs)
       instance.id = newId
     }
     return instance
   }
 }
 
-function getNextId(prefix, existsIds) {
+function getNextID(prefix, existingIDs) {
   // The format of id is a prefix and a number, for exapmle 'T1'.
-  const wellFormattedIDs = existsIds.filter((id) =>
+  const wellFormattedIDs = existingIDs.filter((id) =>
     new RegExp(`^${prefix}\\d+$`).test(id)
   )
 
