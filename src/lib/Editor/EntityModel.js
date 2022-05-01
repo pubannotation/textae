@@ -1,7 +1,7 @@
 import TypeValues from '../TypeValues'
 import SignboardHTMLElement from './SignboardHTMLElement'
 import getDisplayName from './getDisplayName'
-import getUri from './getUri'
+import getURI from './getURI'
 import toAnchorElement from './toAnchorElement'
 import round from './round'
 
@@ -421,7 +421,7 @@ export default class EntityModel {
   }
 
   get _href() {
-    return getUri(
+    return getURI(
       this._namespace,
       this.typeName,
       this._definitionContainerFor.getUri(this.typeName)

@@ -1,6 +1,6 @@
 import getDisplayName from '../../getDisplayName'
 import getLabelBackgroundColor from '../../getLabelBackgroundColor'
-import getUri from '../../getUri'
+import getURI from '../../getURI'
 import hexToRGBA from '../../hexToRGBA'
 import toAnchorElement from '../../toAnchorElement'
 
@@ -132,7 +132,7 @@ export default class AttributeModel {
   }
 
   get _href() {
-    return getUri(
+    return getURI(
       this._namespace,
       typeof this._obj === 'string' ? this._obj : ''
     )

@@ -1,5 +1,5 @@
 import getDisplayName from '../../../getDisplayName'
-import getUri from '../../../getUri'
+import getURI from '../../../getURI'
 import toAnchorElement from '../../../toAnchorElement'
 import TypeValues from '../../../../TypeValues'
 import Arrow from './Arrow'
@@ -322,7 +322,7 @@ export default class RelationModel {
   }
 
   get _href() {
-    return getUri(
+    return getURI(
       this._namespace,
       this.typeName,
       this._definitionContainer.getUri(this.typeName)
