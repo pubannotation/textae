@@ -1,5 +1,5 @@
-import issueId from './issueId'
 import ModelContainer from '../ModelContainer'
+import getNextId from './getNextId'
 
 export default class IdIssueContainer extends ModelContainer {
   constructor(emitter, name, prefixFunc) {
@@ -31,4 +31,14 @@ export default class IdIssueContainer extends ModelContainer {
   add(instance) {
     return super.add(issueId(instance, this._container, this._prefixFunc(instance)))
   }
+}
+
+function issueId(instance, container, prefix) {
+  if (!instance.id) {
+    // Overwrite to revert
+    const ids = Array.from(container.keys())
+    const newId = getNextId(prefix, ids)
+    instance.id = newId
+  }
+  return instance
 }
