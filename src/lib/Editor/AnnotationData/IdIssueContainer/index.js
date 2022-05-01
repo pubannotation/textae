@@ -29,6 +29,6 @@ export default class IdIssueContainer extends ModelContainer {
   }
 
   add(instance) {
-    super.add(issueId(instance, this._container, this._prefixFunc(instance)))
+    return super.add(issueId(instance, this._container, this._prefixFunc(instance)))
   }
 }
