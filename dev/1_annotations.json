@@ -807,6 +807,12 @@
       "subj": "E19",
       "pred": "free_text_predicate",
       "obj": "https://pubannotation.org/assets/logo.png"
+    },
+    {
+      "id": "A23",
+      "subj": "E19",
+      "pred": "free_text_predicate",
+      "obj": "https://lifesciencedb.jp/bp3d/API/animation?shorten=OTL9na0HjKPzj4XrSDOLjaqG"
     }
   ],
   "relations": [
