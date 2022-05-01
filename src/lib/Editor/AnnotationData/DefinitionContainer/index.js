@@ -119,7 +119,7 @@ export default class DefinitionContainer {
     return config && config.label
   }
 
-  getUri(id) {
+  getURI(id) {
     return getUrlMatches(id) ? id : undefined
   }
 

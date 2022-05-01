@@ -325,7 +325,7 @@ export default class RelationModel {
     return getURI(
       this._namespace,
       this.typeName,
-      this._definitionContainer.getUri(this.typeName)
+      this._definitionContainer.getURI(this.typeName)
     )
   }
 

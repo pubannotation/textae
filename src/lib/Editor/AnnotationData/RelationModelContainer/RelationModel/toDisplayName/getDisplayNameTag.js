@@ -8,6 +8,6 @@ export default function (namespace, definitionContainer, value) {
     value,
     definitionContainer.getLabel(value)
   )
-  const href = getURI(namespace, value, definitionContainer.getUri(value))
+  const href = getURI(namespace, value, definitionContainer.getURI(value))
   return href ? eskape`<a href="#">${displayName}</a>` : eskape`${displayName}`
 }

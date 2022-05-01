@@ -424,7 +424,7 @@ export default class EntityModel {
     return getURI(
       this._namespace,
       this.typeName,
-      this._definitionContainerFor.getUri(this.typeName)
+      this._definitionContainerFor.getURI(this.typeName)
     )
   }
 
