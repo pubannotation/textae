@@ -22,15 +22,15 @@ export default class IdIssueContainer extends ModelContainer {
     })
 
     for (const instance of collection) {
-      super._addToContainer(this._issueId(instance))
+      super._addToContainer(this._assignID(instance))
     }
   }
 
   add(instance) {
-    return super.add(this._issueId(instance))
+    return super.add(this._assignID(instance))
   }
 
-  _issueId(instance) {
+  _assignID(instance) {
     if (!instance.id) {
       // Overwrite to revert
       const ids = Array.from(this._container.keys())
