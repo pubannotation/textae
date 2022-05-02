@@ -1,11 +1,9 @@
-import getQueryParams from './getQueryParams'
+export default function (source) {
+  if (source) {
+    const searchParams = new URLSearchParams(source.split('?')[1])
 
-export default function (url) {
-  if (url) {
-    const queryParamMap = getQueryParams(url)
-
-    if (queryParamMap.has('config_lock')) {
-      return queryParamMap.get('config_lock')
+    if (searchParams.has('config_lock')) {
+      return searchParams.get('config_lock')
     }
   }
   return null
