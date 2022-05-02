@@ -14,12 +14,12 @@ export default function (
   annotationParameter,
   configParameter
 ) {
-  if (annotationParameter.has('inlineAnnotation')) {
+  if (annotationParameter.hasInlineAnnotation) {
     // Set an inline annotation.
     const dataSource = new DataSource(
       'inline',
       null,
-      JSON.parse(annotationParameter.get('inlineAnnotation'))
+      JSON.parse(annotationParameter.inlineAnnotation)
     )
 
     if (!dataSource.data.config && configParameter) {

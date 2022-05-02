@@ -17,6 +17,18 @@ class AnnotationParameter {
   set(key, value) {
     this._map.set(key, value)
   }
+
+  get hasInlineAnnotation() {
+    return Boolean(this._inlineAnnotation)
+  }
+
+  get inlineAnnotation() {
+    return this._inlineAnnotation
+  }
+
+  set inlineAnnotation(value) {
+    this._inlineAnnotation = value
+  }
 }
 
 export default function (element, source) {
@@ -28,7 +40,7 @@ export default function (element, source) {
   const inlineAnnotation = element.textContent
   element.innerHTML = ''
   if (inlineAnnotation) {
-    annotation.set('inlineAnnotation', inlineAnnotation)
+    annotation.inlineAnnotation = inlineAnnotation
   }
 
   // Read url.
