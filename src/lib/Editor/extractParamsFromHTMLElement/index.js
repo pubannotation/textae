@@ -1,5 +1,4 @@
 import AnnotationParameter from './AnnotationParameter'
-import getConfigLockFromURL from './getConfigLockFromURL'
 
 export default function (element) {
   const params = new Map()
@@ -51,4 +50,15 @@ function readURLAttribute(params, element, name) {
   if (element.hasAttribute(name)) {
     params.set(name, decodeURIComponent(element.getAttribute(name)))
   }
+}
+
+function getConfigLockFromURL(source) {
+  if (source) {
+    const searchParams = new URLSearchParams(source.split('?')[1])
+
+    if (searchParams.has('config_lock')) {
+      return searchParams.get('config_lock')
+    }
+  }
+  return null
 }
