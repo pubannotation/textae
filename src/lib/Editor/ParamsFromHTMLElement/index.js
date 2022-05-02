@@ -13,16 +13,16 @@ export default class ParamsFormHTMLElement {
       this._element.classList.add('textae-editor--control-hidden')
     }
 
-    if (this._element.getAttribute('control')) {
-      const controlParam = this._element.getAttribute('control')
-
-      if (controlParam === 'hidden') {
+    switch (this._element.getAttribute('control')) {
+      case 'hidden':
         this._element.classList.add('textae-editor--control-hidden')
-      }
-
-      if (controlParam === 'visible') {
+        break
+      case 'visible':
         this._element.classList.add('textae-editor--control-visible')
-      }
+        break
+      default:
+        // No error is made if any other value is set.
+        break
     }
   }
 
