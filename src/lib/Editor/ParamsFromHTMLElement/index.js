@@ -14,11 +14,7 @@ export default class ParamsFormHTMLElement {
   }
 
   get autocompletionWS() {
-    if (this._element.hasAttribute('autocompletion_ws')) {
-      return decodeURIComponent(this._element.getAttribute('autocompletion_ws'))
-    }
-
-    return null
+    return this._readURLAttribute('autocompletion_ws')
   }
 
   has(name) {
@@ -32,7 +28,7 @@ export default class ParamsFormHTMLElement {
   get _params() {
     const ret = new Map()
 
-    this._readURLAttribute(ret, 'config')
+    this._pickURLAttribute(ret, 'config')
 
     // Over write editor-div's config lock state by url's.
     // Url's default is 'unlock', so its default is also 'unlock'.
@@ -55,9 +51,9 @@ export default class ParamsFormHTMLElement {
       }
     }
 
-    this._readAttribute(ret, 'mode')
-    this._readAttribute(ret, 'status_bar')
-    this._readURLAttribute(ret, 'save_to')
+    this._pickAttribute(ret, 'mode')
+    this._pickAttribute(ret, 'status_bar')
+    this._pickURLAttribute(ret, 'save_to')
 
     return ret
   }
@@ -69,16 +65,32 @@ export default class ParamsFormHTMLElement {
     )
   }
 
-  _readURLAttribute(params, name) {
+  _pickURLAttribute(params, name) {
     if (this._element.hasAttribute(name)) {
       params.set(name, decodeURIComponent(this._element.getAttribute(name)))
     }
   }
 
-  _readAttribute(params, name) {
+  _readURLAttribute(name) {
+    if (this._element.hasAttribute(name)) {
+      return decodeURIComponent(this._element.getAttribute(name))
+    }
+
+    return null
+  }
+
+  _pickAttribute(params, name) {
     if (this._element.hasAttribute(name)) {
       params.set(name, this._element.getAttribute(name))
     }
+  }
+
+  _readAttribute(name) {
+    if (this._element.hasAttribute(name)) {
+      return this._element.getAttribute(name)
+    }
+
+    return null
   }
 }
 
