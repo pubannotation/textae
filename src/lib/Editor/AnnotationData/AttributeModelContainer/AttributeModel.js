@@ -15,7 +15,8 @@ export default class AttributeModel {
     entityContainer,
     relationContaier,
     namespace,
-    definitionContainer
+    definitionContainer,
+    wikiMedia
   ) {
     this.id = id
     this.subj = subj
@@ -25,6 +26,15 @@ export default class AttributeModel {
     this._relationContaier = relationContaier
     this._namespace = namespace
     this._definitionContainer = definitionContainer
+    this._wikiMedia = wikiMedia
+
+    // If the extension cannot be used to determine whether the image is an image or not,
+    // the Content-Type header is acquired to determine whether the image is an image or not.
+    if (this._valueType === 'string' && !this._hasImageExtesion) {
+      this._wikiMedia
+        .acquireContentTypeOf(this._href)
+        .then(() => this.updateElement())
+    }
   }
 
   get obj() {
@@ -120,7 +130,15 @@ export default class AttributeModel {
   }
 
   get _isMedia() {
-    return this._valueType === 'string' && /\.(jpg|png|gif)$/.test(this._href)
+    return (
+      this._valueType === 'string' &&
+      (this._hasImageExtesion ||
+        this._wikiMedia.hasImageContentTypeOf(this._href))
+    )
+  }
+
+  get _hasImageExtesion() {
+    return /\.(jpg|png|gif)$/.test(this._href)
   }
 
   get _displayName() {

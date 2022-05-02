@@ -1,5 +1,6 @@
 import AttributeModel from './AttributeModel'
 import IdIssueContainer from '../IdIssueContainer'
+import WikiMedia from './WikiMedia'
 
 export default class AttributeModelContainer extends IdIssueContainer {
   constructor(
@@ -15,6 +16,7 @@ export default class AttributeModelContainer extends IdIssueContainer {
     this._relationContaier = relationContaier
     this._namespace = namespace
     this._definitionContainer = definitionContainer
+    this._wikiMedia = new WikiMedia()
   }
 
   _toModel(attribute) {
@@ -23,7 +25,8 @@ export default class AttributeModelContainer extends IdIssueContainer {
       this._entityContainer,
       this._relationContaier,
       this._namespace,
-      this._definitionContainer
+      this._definitionContainer,
+      this._wikiMedia
     )
   }
 
