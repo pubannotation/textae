@@ -1,4 +1,3 @@
-import getSource from './getSource'
 import getAnnotation from './getAnnotation'
 import decodeUrl from './decodeUrl'
 import getConfigLockFromURL from './getConfigLockFromURL'
@@ -28,7 +27,10 @@ export default function (element) {
   decodeUrl(params, 'config')
   decodeUrl(params, 'autocompletion_ws')
 
-  params.set('source', getSource(element))
+  params.set(
+    'source',
+    element.getAttribute('source') || element.getAttribute('target')
+  )
 
   // Over write editor-div's config lock state by url's.
   // Url's default is 'unlock', so its default is also 'unlock'.
