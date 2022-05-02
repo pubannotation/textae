@@ -9,6 +9,7 @@ export default class AnnotationDataEventsObserver {
    * @param {import('../AnnotationData').default} annotationData
    */
   constructor(eventEmitter, originalData, annotationData) {
+    this._eventEmitter = eventEmitter
     this._originalData = originalData
     this._annotationData = annotationData
     this._observable = new Observable(false)
@@ -17,10 +18,12 @@ export default class AnnotationDataEventsObserver {
       .on('textae-event.resource.annotation.save', () => {
         this._observable.set(false)
         this._loadedAnnotationIsModified = false
+        this._notifyChange()
       })
-      .on('textae-event.annotation-data.all.change', () =>
+      .on('textae-event.annotation-data.all.change', () => {
         this._observable.set(false)
-      )
+        this._notifyChange()
+      })
       .on('textae-event.annotation-data.span.add', () => this._updateState())
       .on('textae-event.annotation-data.span.change', () => this._updateState())
       .on('textae-event.annotation-data.span.remove', () => this._updateState())
@@ -63,6 +66,14 @@ export default class AnnotationDataEventsObserver {
   _updateState() {
     this._observable.set(
       diffOfAnnotation(this._originalData, this._annotationData)
+    )
+    this._notifyChange()
+  }
+
+  _notifyChange() {
+    this._eventEmitter.emit(
+      'textae-event.annotation-data.events-observer.change',
+      this._annotationData
     )
   }
 }
