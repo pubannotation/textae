@@ -1,5 +1,4 @@
 import getSaveToUrl from './getSaveToUrl'
-import getUrl from './getUrl'
 
 class AnnotationParameter {
   constructor(element) {
@@ -40,9 +39,8 @@ export default function (element, source) {
   const annotation = new AnnotationParameter(element)
 
   // Read url.
-  const url = getUrl(source)
-  if (url) {
-    annotation.set('url', url)
+  if (source) {
+    annotation.set('url', decodeURIComponent(source))
   }
 
   // Read save_to
