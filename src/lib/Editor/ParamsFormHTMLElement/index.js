@@ -3,9 +3,18 @@ import AnnotationParameter from './AnnotationParameter'
 export default class ParamsFormHTMLElement {
   constructor(element) {
     this._element = element
+    this._params2 = this._parseParams()
   }
 
-  get params() {
+  has(name) {
+    return this._params2.has(name)
+  }
+
+  get(name) {
+    return this._params2.get(name)
+  }
+
+  _parseParams() {
     const ret = new Map()
 
     // Set annotation parameters.

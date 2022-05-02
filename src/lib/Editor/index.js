@@ -33,7 +33,7 @@ export default class Editor {
     const editorCSSClass = new EditorCSSClass(element)
     editorCSSClassObserve(eventEmitter, editorCSSClass)
 
-    const { params } = new ParamsFormHTMLElement(element)
+    const params = new ParamsFormHTMLElement(element)
     const annotationData = new AnnotationData(
       editorID,
       element,
