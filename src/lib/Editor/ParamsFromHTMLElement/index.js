@@ -21,6 +21,14 @@ export default class ParamsFormHTMLElement {
     return this._readURLAttribute('config')
   }
 
+  get configLock() {
+    // Over write editor-div's config lock state by url's.
+    // Url's default is 'unlock', so its default is also 'unlock'.
+    const configLockFromAttr = this._element.getAttribute('config_lock')
+    const configLockFromURL = getConfigLockFromURL(this._source)
+    return configLockFromURL || configLockFromAttr
+  }
+
   has(name) {
     return this._params.has(name)
   }
@@ -31,14 +39,6 @@ export default class ParamsFormHTMLElement {
 
   get _params() {
     const ret = new Map()
-
-    // Over write editor-div's config lock state by url's.
-    // Url's default is 'unlock', so its default is also 'unlock'.
-    const configLockFromAttr = this._element.getAttribute('config_lock')
-    const configLockFromURL = getConfigLockFromURL(this._source)
-    if (configLockFromURL || configLockFromAttr) {
-      ret.set('config_lock', configLockFromURL || configLockFromAttr)
-    }
 
     if (this._element.getAttribute('control')) {
       const controlParam = this._element.getAttribute('control')

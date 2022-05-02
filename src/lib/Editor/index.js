@@ -42,7 +42,7 @@ export default class Editor {
       startJQueryUIDialogWait,
       endJQueryUIDialogWait
     )
-    if (params.has('config_lock') && params.get('config_lock') === 'true') {
+    if (params.configLock === 'true') {
       annotationData.typeDefinition.lockEdit()
     } else {
       annotationData.typeDefinition.unlockEdit()
