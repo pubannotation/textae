@@ -21,6 +21,10 @@ import SelectionModel from './SelectionModel'
 import forwardMethods from '../forwardMethods'
 
 export default class API {
+  /**
+   *
+   * @param {import('../ParamsFromHTMLElement').default} params
+   */
   constructor(
     editorHTMLElement,
     editorID,
