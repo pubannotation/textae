@@ -9,16 +9,8 @@ export default function (element) {
   // Set annotation parameters.
   params.set('annotation', new AnnotationParameter(element, source))
 
-  if (element.hasAttribute('autocompletion_ws')) {
-    params.set(
-      'autocompletion_ws',
-      decodeURIComponent(element.getAttribute('autocompletion_ws'))
-    )
-  }
-
-  if (element.hasAttribute('config')) {
-    params.set('config', decodeURIComponent(element.getAttribute('config')))
-  }
+  getURLAttribute(params, element, 'autocompletion_ws')
+  getURLAttribute(params, element, 'config')
 
   getAttribute(params, element, 'mode')
   if (element.getAttribute('control')) {
@@ -36,10 +28,7 @@ export default function (element) {
 
   getAttribute(params, element, 'status_bar')
 
-  // Read save_to
-  if (element.hasAttribute('save_to')) {
-    params.set('save_to', decodeURIComponent(element.getAttribute('save_to')))
-  }
+  getURLAttribute(params, element, 'save_to')
 
   // Over write editor-div's config lock state by url's.
   // Url's default is 'unlock', so its default is also 'unlock'.
@@ -55,5 +44,11 @@ export default function (element) {
 function getAttribute(params, element, name) {
   if (element.hasAttribute(name)) {
     params.set(name, element.getAttribute(name))
+  }
+}
+
+function getURLAttribute(params, element, name) {
+  if (element.hasAttribute(name)) {
+    params.set(name, decodeURIComponent(element.getAttribute(name)))
   }
 }
