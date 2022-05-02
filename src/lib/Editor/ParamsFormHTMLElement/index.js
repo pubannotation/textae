@@ -6,23 +6,23 @@ export default class ParamsFormHTMLElement {
   }
 
   get params() {
-    const params = new Map()
+    const ret = new Map()
     const source =
       this._element.getAttribute('source') ||
       this._element.getAttribute('target')
 
     // Set annotation parameters.
-    params.set('annotation', new AnnotationParameter(this._element, source))
+    ret.set('annotation', new AnnotationParameter(this._element, source))
 
-    this._readURLAttribute(params, 'autocompletion_ws')
-    this._readURLAttribute(params, 'config')
+    this._readURLAttribute(ret, 'autocompletion_ws')
+    this._readURLAttribute(ret, 'config')
 
     // Over write editor-div's config lock state by url's.
     // Url's default is 'unlock', so its default is also 'unlock'.
     const configLockFromAttr = this._element.getAttribute('config_lock')
     const configLockFromURL = getConfigLockFromURL(source)
     if (configLockFromURL || configLockFromAttr) {
-      params.set('config_lock', configLockFromURL || configLockFromAttr)
+      ret.set('config_lock', configLockFromURL || configLockFromAttr)
     }
 
     if (this._element.getAttribute('control')) {
@@ -32,17 +32,17 @@ export default class ParamsFormHTMLElement {
       }
       if (
         controlParam === 'hidden' ||
-        (params.get('mode') === 'view' && controlParam !== 'visible')
+        (ret.get('mode') === 'view' && controlParam !== 'visible')
       ) {
         this._element.classList.add('textae-editor--control-hidden')
       }
     }
 
-    this._readAttribute(params, 'mode')
-    this._readAttribute(params, 'status_bar')
-    this._readURLAttribute(params, 'save_to')
+    this._readAttribute(ret, 'mode')
+    this._readAttribute(ret, 'status_bar')
+    this._readURLAttribute(ret, 'save_to')
 
-    return params
+    return ret
   }
 
   _readURLAttribute(params, name) {
