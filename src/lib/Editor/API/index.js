@@ -89,7 +89,7 @@ export default class API {
       annotationData,
       () => originalData.annotation,
       () => originalData.configuration,
-      params.get('annotation').get('save_to'),
+      params.get('save_to'),
       annotationDataEventsObserver,
       buttonController
     )
@@ -98,7 +98,7 @@ export default class API {
       eventEmitter,
       buttonController,
       persistenceInterface,
-      params.get('annotation').get('save_to'),
+      params.get('save_to'),
       annotationDataEventsObserver
     )
 

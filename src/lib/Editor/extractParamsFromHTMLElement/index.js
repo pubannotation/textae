@@ -28,6 +28,11 @@ export default function (element) {
   getAttribute(params, element, 'config')
   getAttribute(params, element, 'autocompletion_ws')
 
+  // Read save_to
+  if (element.hasAttribute('save_to')) {
+    params.set('save_to', decodeURIComponent(element.getAttribute('save_to')))
+  }
+
   // Decode URI encode
   decodeUrl(params, 'config')
   decodeUrl(params, 'autocompletion_ws')

@@ -49,13 +49,5 @@ class AnnotationParameter {
 export default function (element, source) {
   const annotation = new AnnotationParameter(element, source)
 
-  // Read save_to
-  if (element.hasAttribute('save_to')) {
-    annotation.set(
-      'save_to',
-      decodeURIComponent(element.getAttribute('save_to'))
-    )
-  }
-
   return annotation
 }
