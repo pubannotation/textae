@@ -29,10 +29,6 @@ export default class ParamsFormHTMLElement {
     return configLockFromURL || configLockFromAttr
   }
 
-  has(name) {
-    return this._params.has(name)
-  }
-
   get(name) {
     return this._params.get(name)
   }
