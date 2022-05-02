@@ -45,7 +45,7 @@ export default function (element) {
 }
 
 function getAttribute(params, element, name) {
-  if (element.getAttribute(name)) {
+  if (element.hasAttribute(name)) {
     params.set(name, element.getAttribute(name))
   }
 }
