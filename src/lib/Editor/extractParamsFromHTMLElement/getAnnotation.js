@@ -1,5 +1,3 @@
-import getSaveToUrl from './getSaveToUrl'
-
 class AnnotationParameter {
   constructor(element, source) {
     this._map = new Map()
@@ -52,9 +50,11 @@ export default function (element, source) {
   const annotation = new AnnotationParameter(element, source)
 
   // Read save_to
-  const saveTo = getSaveToUrl(element)
-  if (saveTo) {
-    annotation.set('save_to', getSaveToUrl(element))
+  if (element.hasAttribute('save_to')) {
+    annotation.set(
+      'save_to',
+      decodeURIComponent(element.getAttribute('save_to'))
+    )
   }
 
   return annotation
