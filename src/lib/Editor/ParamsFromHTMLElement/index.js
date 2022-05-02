@@ -7,7 +7,6 @@ export default class ParamsFormHTMLElement {
       this._element,
       this._source
     )
-    this._params2 = this._parseParams()
   }
 
   get annotation() {
@@ -15,18 +14,15 @@ export default class ParamsFormHTMLElement {
   }
 
   has(name) {
-    return this._params2.has(name)
+    return this._params.has(name)
   }
 
   get(name) {
-    return this._params2.get(name)
+    return this._params.get(name)
   }
 
-  _parseParams() {
+  get _params() {
     const ret = new Map()
-
-    // Set annotation parameters.
-    ret.set('annotation', new AnnotationParameter(this._element, this._source))
 
     this._readURLAttribute(ret, 'autocompletion_ws')
     this._readURLAttribute(ret, 'config')
