@@ -104,8 +104,8 @@ export default class API {
 
     eventEmitter
       .on('textae-event.resource.annotation.load.success', (dataSource) => {
-        if (!dataSource.data.config && params.get('config')) {
-          remoteResource.loadConfigulation(params.get('config'), dataSource)
+        if (!dataSource.data.config && params.config) {
+          remoteResource.loadConfigulation(params.config, dataSource)
         } else {
           warningIfBeginEndOfSpanAreNotInteger(dataSource.data)
 
@@ -217,7 +217,7 @@ export default class API {
       buttonController,
       originalData,
       params.annotation,
-      params.get('config')
+      params.config
     )
 
     // add context menu

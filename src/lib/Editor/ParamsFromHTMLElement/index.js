@@ -17,6 +17,10 @@ export default class ParamsFormHTMLElement {
     return this._readURLAttribute('autocompletion_ws')
   }
 
+  get config() {
+    return this._readURLAttribute('config')
+  }
+
   has(name) {
     return this._params.has(name)
   }
@@ -27,8 +31,6 @@ export default class ParamsFormHTMLElement {
 
   get _params() {
     const ret = new Map()
-
-    this._pickURLAttribute(ret, 'config')
 
     // Over write editor-div's config lock state by url's.
     // Url's default is 'unlock', so its default is also 'unlock'.
