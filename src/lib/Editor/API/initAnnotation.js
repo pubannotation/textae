@@ -53,9 +53,9 @@ export default function (
         originalData.annotation = dataSource
       }
     }
-  } else if (annotationParameter.has('url')) {
+  } else if (annotationParameter.hasURL) {
     // Load an annotation from server.
-    remoteResource.loadAnnotation(annotationParameter.get('url'))
+    remoteResource.loadAnnotation(annotationParameter.URL)
   } else {
     if (configParameter) {
       remoteResource.loadConfigulation(configParameter)

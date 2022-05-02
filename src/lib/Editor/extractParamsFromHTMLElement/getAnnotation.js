@@ -1,7 +1,7 @@
 import getSaveToUrl from './getSaveToUrl'
 
 class AnnotationParameter {
-  constructor(element) {
+  constructor(element, source) {
     this._map = new Map()
 
     // Read Html text and clear it.
@@ -11,6 +11,11 @@ class AnnotationParameter {
     element.innerHTML = ''
     if (inlineAnnotation) {
       this._inlineAnnotation = inlineAnnotation
+    }
+
+    // Read url.
+    if (source) {
+      this._url = decodeURIComponent(source)
     }
   }
 
@@ -33,15 +38,18 @@ class AnnotationParameter {
   get inlineAnnotation() {
     return this._inlineAnnotation
   }
+
+  get hasURL() {
+    return Boolean(this._url)
+  }
+
+  get URL() {
+    return this._url
+  }
 }
 
 export default function (element, source) {
-  const annotation = new AnnotationParameter(element)
-
-  // Read url.
-  if (source) {
-    annotation.set('url', decodeURIComponent(source))
-  }
+  const annotation = new AnnotationParameter(element, source)
 
   // Read save_to
   const saveTo = getSaveToUrl(element)
