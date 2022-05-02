@@ -2,7 +2,7 @@
 import AnnotationData from './AnnotationData'
 import API from './API'
 import { EventEmitter } from 'events'
-import extractParamsFromHTMLElement from './extractParamsFromHTMLElement'
+import ParamsFormHTMLElement from './ParamsFormHTMLElement'
 import EditorCSSClass from './EditorCSSClass'
 import forwardMethods from './forwardMethods'
 import observeElement from './observeElement'
@@ -33,7 +33,7 @@ export default class Editor {
     const editorCSSClass = new EditorCSSClass(element)
     editorCSSClassObserve(eventEmitter, editorCSSClass)
 
-    const params = extractParamsFromHTMLElement(element)
+    const { params } = new ParamsFormHTMLElement(element)
     const annotationData = new AnnotationData(
       editorID,
       element,
