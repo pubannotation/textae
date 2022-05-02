@@ -37,11 +37,14 @@ export default class AnnotationAutoSaver {
           persistenceInterface.saveAnnotation()
         }
       })
-      .on('textae-event.annotation-data.events-observer.change', (val) => {
-        if (val && buttonController.isPushed('write-auto')) {
-          debounceSaveAnnotation()
+      .on(
+        'textae-event.annotation-data.events-observer.local-changes',
+        (val) => {
+          if (val && buttonController.isPushed('write-auto')) {
+            debounceSaveAnnotation()
+          }
         }
-      })
+      )
   }
 
   _disabled() {

@@ -19,12 +19,15 @@ export default function (eventEmitter) {
         new ValidationDialog(rejects).open()
       }
     })
-    .on('textae-event.annotation-data.events-observer.change', (hasChange) => {
-      // change leaveMessage show
-      // Reloading when trying to scroll further when you are at the top on an Android device.
-      // Show a confirmation dialog to prevent this.
-      window.onbeforeunload = isAndroid() || hasChange ? () => true : null
-    })
+    .on(
+      'textae-event.annotation-data.events-observer.local-changes',
+      (hasChange) => {
+        // change leaveMessage show
+        // Reloading when trying to scroll further when you are at the top on an Android device.
+        // Show a confirmation dialog to prevent this.
+        window.onbeforeunload = isAndroid() || hasChange ? () => true : null
+      }
+    )
 
   // Bind clipBoard events.
   eventEmitter.on('textae-event.clip-board.change', (added, removed) => {

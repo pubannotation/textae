@@ -68,7 +68,7 @@ export default class ControlBar extends Control {
           this._updateButton(name, 'disabled')
         }
       })
-      .on('textae-event.annotation-data.events-observer.change', () => {
+      .on('textae-event.annotation-data.events-observer.local-changes', () => {
         this._updateButton('write', 'transit')
       })
       .on('textae-event.control.pallet-button.change-title', (title) => {
