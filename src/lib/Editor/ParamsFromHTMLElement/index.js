@@ -56,18 +56,12 @@ export default class ParamsFormHTMLElement {
     return this._element.getAttribute('mode')
   }
 
-  get(name) {
-    return this._params.get(name)
+  get statusBar() {
+    return this._element.getAttribute('status_bar')
   }
 
-  get _params() {
-    const ret = new Map()
-
-    this._pickAttribute(ret, 'mode')
-    this._pickAttribute(ret, 'status_bar')
-    this._pickURLAttribute(ret, 'save_to')
-
-    return ret
+  get saveTo() {
+    return this._readURLAttribute('save_to')
   }
 
   get _source() {
@@ -77,23 +71,11 @@ export default class ParamsFormHTMLElement {
     )
   }
 
-  _pickURLAttribute(params, name) {
-    if (this._element.hasAttribute(name)) {
-      params.set(name, decodeURIComponent(this._element.getAttribute(name)))
-    }
-  }
-
   _readURLAttribute(name) {
     if (this._element.hasAttribute(name)) {
       return decodeURIComponent(this._element.getAttribute(name))
     }
 
     return null
-  }
-
-  _pickAttribute(params, name) {
-    if (this._element.hasAttribute(name)) {
-      params.set(name, this._element.getAttribute(name))
-    }
   }
 }

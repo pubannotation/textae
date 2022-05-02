@@ -52,7 +52,7 @@ export default class API {
     const originalData = new OriginalData(
       eventEmitter,
       editorHTMLElement,
-      params.get('status_bar')
+      params.statusBar
     )
 
     const annotationDataEventsObserver = new AnnotationDataEventsObserver(
@@ -89,7 +89,7 @@ export default class API {
       annotationData,
       () => originalData.annotation,
       () => originalData.configuration,
-      params.get('save_to'),
+      params.saveTo,
       annotationDataEventsObserver,
       buttonController
     )
@@ -98,7 +98,7 @@ export default class API {
       eventEmitter,
       buttonController,
       persistenceInterface,
-      params.get('save_to'),
+      params.saveTo,
       annotationDataEventsObserver
     )
 
