@@ -9,22 +9,6 @@ export default class ParamsFormHTMLElement {
       this._element,
       this._source
     )
-
-    if (this.mode === 'view') {
-      this._element.classList.add('textae-editor--control-hidden')
-    }
-
-    switch (this._element.getAttribute('control')) {
-      case 'hidden':
-        this._element.classList.add('textae-editor--control-hidden')
-        break
-      case 'visible':
-        this._element.classList.add('textae-editor--control-visible')
-        break
-      default:
-        // No error is made if any other value is set.
-        break
-    }
   }
 
   get annotation() {
@@ -51,6 +35,10 @@ export default class ParamsFormHTMLElement {
     }
 
     return this._element.getAttribute('config_lock')
+  }
+
+  get control() {
+    return this._element.getAttribute('control')
   }
 
   get inspect() {

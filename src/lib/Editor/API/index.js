@@ -211,6 +211,24 @@ export default class API {
       controlBarHTMLElement,
       editorHTMLElement.childNodes[0]
     )
+
+    // Set control bar visibility.
+    if (params.mode === 'view') {
+      editorHTMLElement.classList.add('textae-editor--control-hidden')
+    }
+
+    switch (params.control) {
+      case 'hidden':
+        editorHTMLElement.classList.add('textae-editor--control-hidden')
+        break
+      case 'visible':
+        editorHTMLElement.classList.add('textae-editor--control-visible')
+        break
+      default:
+        // No error is made if any other value is set.
+        break
+    }
+
     annotationData.controlBarHeight =
       controlBarHTMLElement.getBoundingClientRect().height
 
