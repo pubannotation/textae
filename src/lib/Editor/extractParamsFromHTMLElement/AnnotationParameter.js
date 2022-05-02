@@ -17,7 +17,7 @@ export default class AnnotationParameter {
     }
   }
 
-  get hasInlineAnnotation() {
+  get isInline() {
     return Boolean(this._inlineAnnotation)
   }
 
@@ -25,7 +25,7 @@ export default class AnnotationParameter {
     return this._inlineAnnotation
   }
 
-  get hasURL() {
+  get isRemote() {
     return Boolean(this._url)
   }
 

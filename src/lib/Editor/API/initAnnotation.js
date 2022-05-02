@@ -5,6 +5,10 @@ import warningIfBeginEndOfSpanAreNotInteger from './warningIfBeginEndOfSpanAreNo
 import DataSource from '../DataSource'
 import setDefault from './setDefault'
 
+/**
+ *
+ * @param {import('../extractParamsFromHTMLElement/AnnotationParameter.js').default} annotationParameter
+ */
 export default function (
   spanConfig,
   annotationData,
@@ -14,7 +18,7 @@ export default function (
   annotationParameter,
   configParameter
 ) {
-  if (annotationParameter.hasInlineAnnotation) {
+  if (annotationParameter.isInline) {
     // Set an inline annotation.
     const dataSource = new DataSource(
       'inline',
@@ -53,7 +57,7 @@ export default function (
         originalData.annotation = dataSource
       }
     }
-  } else if (annotationParameter.hasURL) {
+  } else if (annotationParameter.isRemote) {
     // Load an annotation from server.
     remoteResource.loadAnnotation(annotationParameter.URL)
   } else {
