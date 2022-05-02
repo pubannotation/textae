@@ -7,12 +7,9 @@ export default class ParamsFormHTMLElement {
 
   get params() {
     const ret = new Map()
-    const source =
-      this._element.getAttribute('source') ||
-      this._element.getAttribute('target')
 
     // Set annotation parameters.
-    ret.set('annotation', new AnnotationParameter(this._element, source))
+    ret.set('annotation', new AnnotationParameter(this._element, this._source))
 
     this._readURLAttribute(ret, 'autocompletion_ws')
     this._readURLAttribute(ret, 'config')
@@ -20,7 +17,7 @@ export default class ParamsFormHTMLElement {
     // Over write editor-div's config lock state by url's.
     // Url's default is 'unlock', so its default is also 'unlock'.
     const configLockFromAttr = this._element.getAttribute('config_lock')
-    const configLockFromURL = getConfigLockFromURL(source)
+    const configLockFromURL = getConfigLockFromURL(this._source)
     if (configLockFromURL || configLockFromAttr) {
       ret.set('config_lock', configLockFromURL || configLockFromAttr)
     }
@@ -43,6 +40,13 @@ export default class ParamsFormHTMLElement {
     this._readURLAttribute(ret, 'save_to')
 
     return ret
+  }
+
+  get _source() {
+    return (
+      this._element.getAttribute('source') ||
+      this._element.getAttribute('target')
+    )
   }
 
   _readURLAttribute(params, name) {
