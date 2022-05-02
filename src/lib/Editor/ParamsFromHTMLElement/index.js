@@ -9,6 +9,10 @@ export default class ParamsFormHTMLElement {
       this._source
     )
 
+    if (this.mode === 'view') {
+      this._element.classList.add('textae-editor--control-hidden')
+    }
+
     if (this._element.getAttribute('control')) {
       const controlParam = this._element.getAttribute('control')
 
@@ -18,10 +22,6 @@ export default class ParamsFormHTMLElement {
 
       if (controlParam === 'visible') {
         this._element.classList.add('textae-editor--control-visible')
-      }
-
-      if (this.mode === 'view' && controlParam !== 'visible') {
-        this._element.classList.add('textae-editor--control-hidden')
       }
     }
   }
