@@ -216,7 +216,7 @@ export default class API {
       remoteResource,
       buttonController,
       originalData,
-      params.get('annotation'),
+      params.annotation,
       params.get('config')
     )
 
