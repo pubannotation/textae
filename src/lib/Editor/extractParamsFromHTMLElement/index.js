@@ -1,4 +1,4 @@
-import getAnnotation from './getAnnotation'
+import AnnotationParameter from './AnnotationParameter'
 import decodeUrl from './decodeUrl'
 import getConfigLockFromURL from './getConfigLockFromURL'
 
@@ -8,7 +8,7 @@ export default function (element) {
     element.getAttribute('source') || element.getAttribute('target')
 
   // Set annotation parameters.
-  params.set('annotation', getAnnotation(element, source))
+  params.set('annotation', new AnnotationParameter(element, source))
 
   getAttribute(params, element, 'mode')
   if (element.getAttribute('control')) {

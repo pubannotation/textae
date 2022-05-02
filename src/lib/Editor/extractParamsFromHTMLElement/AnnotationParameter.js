@@ -1,4 +1,4 @@
-class AnnotationParameter {
+export default class AnnotationParameter {
   constructor(element, source) {
     this._map = new Map()
 
@@ -17,18 +17,6 @@ class AnnotationParameter {
     }
   }
 
-  has(key) {
-    return this._map.has(key)
-  }
-
-  get(key) {
-    return this._map.get(key)
-  }
-
-  set(key, value) {
-    this._map.set(key, value)
-  }
-
   get hasInlineAnnotation() {
     return Boolean(this._inlineAnnotation)
   }
@@ -44,10 +32,4 @@ class AnnotationParameter {
   get URL() {
     return this._url
   }
-}
-
-export default function (element, source) {
-  const annotation = new AnnotationParameter(element, source)
-
-  return annotation
 }
