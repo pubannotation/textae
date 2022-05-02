@@ -1,7 +1,6 @@
 import getSource from './getSource'
 import getAnnotation from './getAnnotation'
 import decodeUrl from './decodeUrl'
-import getAttribute from './getAttribute'
 import getConfigLockFromURL from './getConfigLockFromURL'
 
 export default function (element) {
@@ -43,4 +42,10 @@ export default function (element) {
   params.set('annotation', getAnnotation(element, params.get('source')))
 
   return params
+}
+
+function getAttribute(params, element, name) {
+  if (element.getAttribute(name)) {
+    params.set(name, element.getAttribute(name))
+  }
 }
