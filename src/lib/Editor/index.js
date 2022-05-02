@@ -9,6 +9,7 @@ import observeElement from './observeElement'
 import observeEventEmitter from './observeEventEmitter'
 import editorCSSClassObserve from './editorCSSClassObserve'
 import isAndroid from './isAndroid'
+import Inspector from './Inspector'
 
 export default class Editor {
   constructor(
@@ -46,6 +47,10 @@ export default class Editor {
       annotationData.typeDefinition.lockEdit()
     } else {
       annotationData.typeDefinition.unlockEdit()
+    }
+
+    if (params.inspect) {
+      new Inspector(element, params.inspect, eventEmitter)
     }
 
     const api = new API(element, editorID, eventEmitter, annotationData, params)
