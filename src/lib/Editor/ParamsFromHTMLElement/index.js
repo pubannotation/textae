@@ -4,6 +4,7 @@ export default class ParamsFormHTMLElement {
   constructor(element) {
     this._element = element
 
+    // Reading inline annotations is a destructive operation, so it is done in the constructor.
     this._annotationParameter = new AnnotationParameter(
       this._element,
       this._source
