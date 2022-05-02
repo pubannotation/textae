@@ -77,7 +77,7 @@ export default class API {
       spanConfig,
       clipBoard,
       buttonController,
-      params.get('autocompletion_ws'),
+      params.autocompletionWS,
       params.get('mode')
     )
 

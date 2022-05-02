@@ -13,6 +13,14 @@ export default class ParamsFormHTMLElement {
     return this._annotationParameter
   }
 
+  get autocompletionWS() {
+    if (this._element.hasAttribute('autocompletion_ws')) {
+      return decodeURIComponent(this._element.getAttribute('autocompletion_ws'))
+    }
+
+    return null
+  }
+
   has(name) {
     return this._params.has(name)
   }
@@ -24,7 +32,6 @@ export default class ParamsFormHTMLElement {
   get _params() {
     const ret = new Map()
 
-    this._readURLAttribute(ret, 'autocompletion_ws')
     this._readURLAttribute(ret, 'config')
 
     // Over write editor-div's config lock state by url's.
