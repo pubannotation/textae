@@ -5,6 +5,13 @@ import getConfigLockFromURL from './getConfigLockFromURL'
 export default function (element) {
   const params = new Map()
 
+  // Set annotation parameters.
+  params.set(
+    'source',
+    element.getAttribute('source') || element.getAttribute('target')
+  )
+  params.set('annotation', getAnnotation(element, params.get('source')))
+
   getAttribute(params, element, 'mode')
   if (element.getAttribute('control')) {
     const controlParam = element.getAttribute('control')
@@ -27,11 +34,6 @@ export default function (element) {
   decodeUrl(params, 'config')
   decodeUrl(params, 'autocompletion_ws')
 
-  params.set(
-    'source',
-    element.getAttribute('source') || element.getAttribute('target')
-  )
-
   // Over write editor-div's config lock state by url's.
   // Url's default is 'unlock', so its default is also 'unlock'.
   const configLockFromAttr = element.getAttribute('config_lock')
@@ -39,9 +41,6 @@ export default function (element) {
   if (configLockFromURL || configLockFromAttr) {
     params.set('config_lock', configLockFromURL || configLockFromAttr)
   }
-
-  // Set annotation parameters.
-  params.set('annotation', getAnnotation(element, params.get('source')))
 
   return params
 }
