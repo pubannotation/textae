@@ -2,7 +2,7 @@
 import AnnotationData from './AnnotationData'
 import API from './API'
 import { EventEmitter } from 'events'
-import ParamsFormHTMLElement from './ParamsFormHTMLElement'
+import ParamsFormHTMLElement from './ParamsFromHTMLElement'
 import EditorCSSClass from './EditorCSSClass'
 import forwardMethods from './forwardMethods'
 import observeElement from './observeElement'
