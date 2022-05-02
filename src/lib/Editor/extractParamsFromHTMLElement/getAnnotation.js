@@ -1,8 +1,26 @@
 import getSaveToUrl from './getSaveToUrl'
 import getUrl from './getUrl'
 
+class AnnotationParameter {
+  constructor() {
+    this._map = new Map()
+  }
+
+  has(key) {
+    return this._map.has(key)
+  }
+
+  get(key) {
+    return this._map.get(key)
+  }
+
+  set(key, value) {
+    this._map.set(key, value)
+  }
+}
+
 export default function (element, source) {
-  const annotation = new Map()
+  const annotation = new AnnotationParameter()
 
   // Read Html text and clear it.
   // Use textContent instead of innerText,
