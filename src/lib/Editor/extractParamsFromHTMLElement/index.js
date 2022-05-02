@@ -1,5 +1,4 @@
 import AnnotationParameter from './AnnotationParameter'
-import decodeUrl from './decodeUrl'
 import getConfigLockFromURL from './getConfigLockFromURL'
 
 export default function (element) {
@@ -17,6 +16,10 @@ export default function (element) {
     )
   }
 
+  if (element.hasAttribute('config')) {
+    params.set('config', decodeURIComponent(element.getAttribute('config')))
+  }
+
   getAttribute(params, element, 'mode')
   if (element.getAttribute('control')) {
     const controlParam = element.getAttribute('control')
@@ -32,15 +35,11 @@ export default function (element) {
   }
 
   getAttribute(params, element, 'status_bar')
-  getAttribute(params, element, 'config')
 
   // Read save_to
   if (element.hasAttribute('save_to')) {
     params.set('save_to', decodeURIComponent(element.getAttribute('save_to')))
   }
-
-  // Decode URI encode
-  decodeUrl(params, 'config')
 
   // Over write editor-div's config lock state by url's.
   // Url's default is 'unlock', so its default is also 'unlock'.
