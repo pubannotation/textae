@@ -11,7 +11,14 @@ export default function (element) {
   readURLAttribute(params, element, 'autocompletion_ws')
   readURLAttribute(params, element, 'config')
 
-  readAttribute(params, element, 'mode')
+  // Over write editor-div's config lock state by url's.
+  // Url's default is 'unlock', so its default is also 'unlock'.
+  const configLockFromAttr = element.getAttribute('config_lock')
+  const configLockFromURL = getConfigLockFromURL(source)
+  if (configLockFromURL || configLockFromAttr) {
+    params.set('config_lock', configLockFromURL || configLockFromAttr)
+  }
+
   if (element.getAttribute('control')) {
     const controlParam = element.getAttribute('control')
     if (controlParam === 'visible') {
@@ -25,17 +32,9 @@ export default function (element) {
     }
   }
 
+  readAttribute(params, element, 'mode')
   readAttribute(params, element, 'status_bar')
-
   readURLAttribute(params, element, 'save_to')
-
-  // Over write editor-div's config lock state by url's.
-  // Url's default is 'unlock', so its default is also 'unlock'.
-  const configLockFromAttr = element.getAttribute('config_lock')
-  const configLockFromURL = getConfigLockFromURL(source)
-  if (configLockFromURL || configLockFromAttr) {
-    params.set('config_lock', configLockFromURL || configLockFromAttr)
-  }
 
   return params
 }
