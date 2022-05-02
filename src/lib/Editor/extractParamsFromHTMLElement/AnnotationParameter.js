@@ -22,7 +22,7 @@ export default class AnnotationParameter {
   }
 
   get inlineAnnotation() {
-    return this._inlineAnnotation
+    return JSON.parse(this._inlineAnnotation)
   }
 
   get isRemote() {

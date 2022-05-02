@@ -23,7 +23,7 @@ export default function (
     const dataSource = new DataSource(
       'inline',
       null,
-      JSON.parse(annotationParameter.inlineAnnotation)
+      annotationParameter.inlineAnnotation
     )
 
     if (!dataSource.data.config && configParameter) {
