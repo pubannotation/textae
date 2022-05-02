@@ -3,10 +3,27 @@ import AnnotationParameter from './AnnotationParameter'
 export default class ParamsFormHTMLElement {
   constructor(element) {
     this._element = element
+
     this._annotationParameter = new AnnotationParameter(
       this._element,
       this._source
     )
+
+    if (this._element.getAttribute('control')) {
+      const controlParam = this._element.getAttribute('control')
+
+      if (controlParam === 'hidden') {
+        this._element.classList.add('textae-editor--control-hidden')
+      }
+
+      if (controlParam === 'visible') {
+        this._element.classList.add('textae-editor--control-visible')
+      }
+
+      if (this.mode === 'view' && controlParam !== 'visible') {
+        this._element.classList.add('textae-editor--control-hidden')
+      }
+    }
   }
 
   get annotation() {
@@ -45,19 +62,6 @@ export default class ParamsFormHTMLElement {
 
   get _params() {
     const ret = new Map()
-
-    if (this._element.getAttribute('control')) {
-      const controlParam = this._element.getAttribute('control')
-      if (controlParam === 'visible') {
-        this._element.classList.add('textae-editor--control-visible')
-      }
-      if (
-        controlParam === 'hidden' ||
-        (ret.get('mode') === 'view' && controlParam !== 'visible')
-      ) {
-        this._element.classList.add('textae-editor--control-hidden')
-      }
-    }
 
     this._pickAttribute(ret, 'mode')
     this._pickAttribute(ret, 'status_bar')
