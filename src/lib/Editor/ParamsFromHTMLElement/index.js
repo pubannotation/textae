@@ -53,7 +53,7 @@ export default class ParamsFormHTMLElement {
   }
 
   get mode() {
-    return this._readAttribute('mode')
+    return this._element.getAttribute('mode')
   }
 
   get(name) {
@@ -95,13 +95,5 @@ export default class ParamsFormHTMLElement {
     if (this._element.hasAttribute(name)) {
       params.set(name, this._element.getAttribute(name))
     }
-  }
-
-  _readAttribute(name) {
-    if (this._element.hasAttribute(name)) {
-      return this._element.getAttribute(name)
-    }
-
-    return null
   }
 }
