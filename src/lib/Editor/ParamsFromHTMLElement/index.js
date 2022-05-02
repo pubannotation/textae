@@ -24,9 +24,15 @@ export default class ParamsFormHTMLElement {
   get configLock() {
     // Over write editor-div's config lock state by url's.
     // Url's default is 'unlock', so its default is also 'unlock'.
-    const configLockFromAttr = this._element.getAttribute('config_lock')
-    const configLockFromURL = getConfigLockFromURL(this._source)
-    return configLockFromURL || configLockFromAttr
+    if (this._source) {
+      const searchParams = new URLSearchParams(this._source.split('?')[1])
+
+      if (searchParams.has('config_lock')) {
+        return searchParams.get('config_lock')
+      }
+    }
+
+    return this._element.getAttribute('config_lock')
   }
 
   get(name) {
@@ -90,15 +96,4 @@ export default class ParamsFormHTMLElement {
 
     return null
   }
-}
-
-function getConfigLockFromURL(source) {
-  if (source) {
-    const searchParams = new URLSearchParams(source.split('?')[1])
-
-    if (searchParams.has('config_lock')) {
-      return searchParams.get('config_lock')
-    }
-  }
-  return null
 }
