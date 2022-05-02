@@ -78,7 +78,7 @@ export default class API {
       clipBoard,
       buttonController,
       params.autocompletionWS,
-      params.get('mode')
+      params.mode
     )
 
     const remoteResource = new RemoteResource(eventEmitter)

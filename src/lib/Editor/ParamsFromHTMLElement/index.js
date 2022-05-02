@@ -35,6 +35,10 @@ export default class ParamsFormHTMLElement {
     return this._element.getAttribute('config_lock')
   }
 
+  get mode() {
+    return this._readAttribute('mode')
+  }
+
   get(name) {
     return this._params.get(name)
   }
