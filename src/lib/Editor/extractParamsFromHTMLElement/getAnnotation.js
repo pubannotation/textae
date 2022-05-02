@@ -2,8 +2,17 @@ import getSaveToUrl from './getSaveToUrl'
 import getUrl from './getUrl'
 
 class AnnotationParameter {
-  constructor() {
+  constructor(element) {
     this._map = new Map()
+
+    // Read Html text and clear it.
+    // Use textContent instead of innerText,
+    // to read consecutive whitespace in inline annotations without collapsing.
+    const inlineAnnotation = element.textContent
+    element.innerHTML = ''
+    if (inlineAnnotation) {
+      this._inlineAnnotation = inlineAnnotation
+    }
   }
 
   has(key) {
@@ -25,23 +34,10 @@ class AnnotationParameter {
   get inlineAnnotation() {
     return this._inlineAnnotation
   }
-
-  set inlineAnnotation(value) {
-    this._inlineAnnotation = value
-  }
 }
 
 export default function (element, source) {
-  const annotation = new AnnotationParameter()
-
-  // Read Html text and clear it.
-  // Use textContent instead of innerText,
-  // to read consecutive whitespace in inline annotations without collapsing.
-  const inlineAnnotation = element.textContent
-  element.innerHTML = ''
-  if (inlineAnnotation) {
-    annotation.inlineAnnotation = inlineAnnotation
-  }
+  const annotation = new AnnotationParameter(element)
 
   // Read url.
   const url = getUrl(source)
