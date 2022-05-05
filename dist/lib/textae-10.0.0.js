@@ -13384,7 +13384,7 @@
             op &&
             window.WeakSet &&
             (op.markedSpans || (op.markedSpans = new WeakSet()))
-          if (inThisOp && inThisOp.has(line.markedSpans)) {
+          if (inThisOp && line.markedSpans && inThisOp.has(line.markedSpans)) {
             line.markedSpans.push(span)
           } else {
             line.markedSpans = line.markedSpans
@@ -26641,7 +26641,7 @@
 
         addLegacyProps(CodeMirror)
 
-        CodeMirror.version = '5.65.2'
+        CodeMirror.version = '5.65.3'
 
         return CodeMirror
       })
@@ -93065,12 +93065,8 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
         return rowDatum
       }
 
-      _toModels(rowData, type) {
-        return rowData.map((r) => this._toModel(r, type))
-      }
-
       addSource(source, type) {
-        for (const instance of this._toModels(source, type)) {
+        for (const instance of source.map((r) => this._toModel(r, type))) {
           this._addToContainer(instance)
         }
       }
@@ -94761,9 +94757,9 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
           return null
         }
       }
-    } // CONCATENATED MODULE: ./src/lib/isUri.js
+    } // CONCATENATED MODULE: ./src/lib/isURI.js
 
-    /* harmony default export */ function isUri(type) {
+    /* harmony default export */ function isURI(type) {
       return type.trim().startsWith('http')
     } // CONCATENATED MODULE: ./src/lib/Editor/getMatchPrefix.js
 
@@ -94790,7 +94786,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
     // Display short name for URL(http or https);
     /* harmony default export */ function getDisplayNameFromUri(type) {
       // For tunning, search the scheme before execute a regular-expression.
-      if (isUri(type)) {
+      if (isURI(type)) {
         const matches = getUrlMatches(type)
 
         if (matches) {
@@ -94829,7 +94825,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
       }
 
       // When a type id is uri
-      if (isUri(value)) {
+      if (isURI(value)) {
         return getDisplayNameFromUri(value)
       }
 
@@ -94853,10 +94849,10 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
 
     /* harmony default export */ function getLabelBackgroundColor() {
       return hexToRGBA('#FFFFFF', 0.6)
-    } // CONCATENATED MODULE: ./src/lib/Editor/getUri.js
+    } // CONCATENATED MODULE: ./src/lib/Editor/getURI.js
 
-    /* harmony default export */ function getUri(namespace, value, uri) {
-      if (isUri(value)) {
+    /* harmony default export */ function getURI(namespace, value, uri) {
+      if (isURI(value)) {
         return value
       }
 
@@ -94893,12 +94889,17 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
 
     class AttributeModel {
       // Expected an attribute like {id: "A1", subj: "T1", pred: "example_predicate_1", obj: "attr1"}.
+      /**
+       *
+       * @param {import('../DefinitionContainer/index.js').default} definitionContainer
+       */
       constructor(
         { id, subj, pred, obj },
         entityContainer,
         relationContaier,
         namespace,
-        definitionContainer
+        definitionContainer,
+        wikiMedia
       ) {
         this.id = id
         this.subj = subj
@@ -94908,6 +94909,15 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
         this._relationContaier = relationContaier
         this._namespace = namespace
         this._definitionContainer = definitionContainer
+        this._wikiMedia = wikiMedia
+
+        // If the extension cannot be used to determine whether the image is an image or not,
+        // the Content-Type header is acquired to determine whether the image is an image or not.
+        if (this._valueType === 'string' && !this._hasImageExtesion) {
+          this._wikiMedia
+            .acquireContentTypeOf(this._href)
+            .then(() => this.updateElement())
+        }
       }
 
       get obj() {
@@ -94945,11 +94955,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
         return this.pred === pred && String(this._obj) === obj
       }
 
-      render() {
-        this.subjectModel.updateElement()
-      }
-
-      erase() {
+      updateElement() {
         this.subjectModel.updateElement()
       }
 
@@ -95011,8 +95017,14 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
 
       get _isMedia() {
         return (
-          this._valueType === 'string' && /\.(jpg|png|gif)$/.test(this._href)
+          this._valueType === 'string' &&
+          (this._hasImageExtesion ||
+            this._wikiMedia.hasImageContentTypeOf(this._href))
         )
+      }
+
+      get _hasImageExtesion() {
+        return /\.(jpg|png|gif)$/.test(this._href)
       }
 
       get _displayName() {
@@ -95024,7 +95036,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
       }
 
       get _href() {
-        return getUri(
+        return getURI(
           this._namespace,
           typeof this._obj === 'string' ? this._obj : ''
         )
@@ -95040,53 +95052,17 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
       get _valueType() {
         return this._definitionContainer.get(this.pred).valueType
       }
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/IdIssueContainer/issueId/getNextId/getIssuedNumbers/onlyNumber.js
-
-    /* harmony default export */ function onlyNumber(id) {
-      return id.slice(1)
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/IdIssueContainer/issueId/getNextId/getIssuedNumbers/isWellFormed.js
-
-    /* harmony default export */ function isWellFormed(prefix, id) {
-      // The format of id is a prefix and a number, for exapmle 'T1'.
-      return new RegExp(`^${prefix}\\d+$`).test(id)
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/IdIssueContainer/issueId/getNextId/getIssuedNumbers/inedx.js
-
-    /* harmony default export */ function inedx(ids, prefix) {
-      return ids.filter((id) => isWellFormed(prefix, id)).map(onlyNumber)
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/IdIssueContainer/issueId/getNextId/getNextNumber.js
-
-    /* harmony default export */ function getNextNumber(numbers) {
-      // The Math.max retrun -Infinity when the second argument array is empty.
-      const max = numbers.length === 0 ? 0 : Math.max(...numbers)
-      return max + 1
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/IdIssueContainer/issueId/getNextId/index.js
-
-    /* harmony default export */ function getNextId(prefix, existsIds) {
-      const numbers = inedx(existsIds, prefix)
-      const nextNumber = getNextNumber(numbers)
-
-      return prefix + nextNumber
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/IdIssueContainer/issueId/index.js
-
-    /* harmony default export */ function issueId(instance, container, prefix) {
-      if (!instance.id) {
-        // Overwrite to revert
-        const ids = Array.from(container.keys())
-        const newId = getNextId(prefix, ids)
-        instance.id = newId
-      }
-      return instance
     } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/IdIssueContainer/index.js
 
     class IdIssueContainer extends ModelContainer {
-      constructor(emitter, name, prefix) {
+      constructor(emitter, name, prefixFunc) {
         super(emitter, name)
 
-        this._prefix = prefix
+        this._prefixFunc = prefixFunc
       }
 
-      _toModels(rowDatum, type) {
-        const collection = super._toModels(rowDatum, type)
+      addSource(source, type) {
+        const collection = source.map((r) => this._toModel(r, type))
 
         // Move medols without id behind others, to prevet id duplication generated and exists.
         collection.sort((a, b) => {
@@ -95098,13 +95074,80 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
           return 0
         })
 
-        return collection
+        for (const instance of collection) {
+          super._addToContainer(this._assignID(instance))
+        }
       }
 
-      _addToContainer(instance) {
-        return super._addToContainer(
-          issueId(instance, this._container, this._prefix)
-        )
+      add(instance) {
+        return super.add(this._assignID(instance))
+      }
+
+      _assignID(instance) {
+        if (!instance.id) {
+          instance.id = this._generateNextID(instance)
+        }
+
+        return instance
+      }
+
+      _generateNextID(instance) {
+        const prefix = this._prefixFunc(instance)
+
+        const wellFormattedIDs = new Set()
+        for (const id of this._container.keys()) {
+          // The format of id is a prefix and a number, for exapmle 'T1'.
+          if (new RegExp(`^${prefix}\\d+$`).test(id)) {
+            wellFormattedIDs.add(id.slice(1))
+          }
+        }
+
+        // The Math.max retrun -Infinity when the second argument array is empty.
+        if (wellFormattedIDs.size === 0) {
+          return `${prefix}1`
+        }
+
+        const max = Math.max(...wellFormattedIDs.values())
+        return `${prefix}${max + 1}`
+      }
+    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/AttributeModelContainer/WikiMedia.js
+
+    // The browser cache is not available until the HTTP request is returned.
+    // To make only one request for a single URL, have an application-level cache.
+    class WikiMedia {
+      constructor() {
+        this._cache = new Map()
+      }
+
+      async acquireContentTypeOf(url) {
+        if (!url || this._cache.has(url)) {
+          return Promise.resolve()
+        }
+
+        this._cache.set(url, false)
+
+        // Use GET method.
+        // Some domains do not have CORS settings in the OPTIONS method.
+        // For example, lifesciencedb.jp.
+        const request = new Request(url, {
+          method: 'get',
+          mode: 'cors',
+          cache: 'force-cache'
+        })
+
+        try {
+          const response = await fetch(request)
+          this._cache.set(
+            url,
+            /image\/(jpg|png|gif)$/.test(response.headers.get('content-type'))
+          )
+        } catch (e) {
+          console.warn(e.message, url)
+        }
+      }
+
+      hasImageContentTypeOf(url) {
+        return this._cache.get(url)
       }
     } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/AttributeModelContainer/index.js
 
@@ -95116,12 +95159,13 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
         namespace,
         definitionContainer
       ) {
-        super(emitter, 'attribute', 'A')
+        super(emitter, 'attribute', () => 'A')
 
         this._entityContainer = entityContainer
         this._relationContaier = relationContaier
         this._namespace = namespace
         this._definitionContainer = definitionContainer
+        this._wikiMedia = new WikiMedia()
       }
 
       _toModel(attribute) {
@@ -95130,7 +95174,8 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
           this._entityContainer,
           this._relationContaier,
           this._namespace,
-          this._definitionContainer
+          this._definitionContainer,
+          this._wikiMedia
         )
       }
 
@@ -95143,7 +95188,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
 
         super.add(newValue)
 
-        newValue.render()
+        newValue.updateElement()
 
         return newValue
       }
@@ -95167,7 +95212,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
 
         console.assert(instance, `There are no attribute ${id} to delete!`)
 
-        instance.erase()
+        instance.updateElement()
       }
 
       getSameDefinitionsAttributes(pred) {
@@ -96781,10 +96826,10 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
       }
 
       get _href() {
-        return getUri(
+        return getURI(
           this._namespace,
           this.typeName,
-          this._definitionContainer.getUri(this.typeName)
+          this._definitionContainer.getURI(this.typeName)
         )
       }
 
@@ -96911,7 +96956,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
         namespace,
         definitionContainer
       ) {
-        super(eventEmitter, 'relation', 'R')
+        super(eventEmitter, 'relation', () => 'R')
         this._editorHTMLElement = editorHTMLElement
         this._eventEmitter = eventEmitter
         this._parentContainer = parentContainer
@@ -96952,9 +96997,12 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
                 this._definitionContainer,
                 this._controlBarHeight
               )
+        const newInstance = super.add(newValue)
+
         const { clientHeight, clientWidth } = document.documentElement
-        newValue.render(clientHeight, clientWidth)
-        return super.add(newValue)
+        newInstance.render(clientHeight, clientWidth)
+
+        return newInstance
       }
 
       changeType(id, newType) {
@@ -97031,7 +97079,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
       }
 
       get color() {
-        return this._definitionContainerFor.getColor(this.typeName)
+        return this._definitionContainer.getColor(this.typeName)
       }
 
       get anchorHTML() {
@@ -97377,7 +97425,8 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
         }
       }
 
-      get _definitionContainerFor() {
+      /** @return {import('./AnnotationData/DefinitionContainer/index.js').default} */
+      get _definitionContainer() {
         if (this.isDenotation) {
           return this._typeDefinition.denotation
         } else if (this.isBlock) {
@@ -97391,15 +97440,15 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
         return getDisplayName(
           this._namespace,
           this.typeName,
-          this._definitionContainerFor.getLabel(this.typeName)
+          this._definitionContainer.getLabel(this.typeName)
         )
       }
 
       get _href() {
-        return getUri(
+        return getURI(
           this._namespace,
           this.typeName,
-          this._definitionContainerFor.getUri(this.typeName)
+          this._definitionContainer.getURI(this.typeName)
         )
       }
 
@@ -97427,7 +97476,9 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
 
     class EntityModelContainer extends IdIssueContainer {
       constructor(editorID, eventEmitter, parent, typeGap, namespace) {
-        super(eventEmitter, 'entity', 'T')
+        super(eventEmitter, 'entity', (instance) =>
+          instance.isDenotation ? 'T' : 'B'
+        )
 
         this._editorID = editorID
 
@@ -97594,20 +97645,134 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
             throw `${type} is unknown type span!`
         }
       }
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/parseAnnotation/parseTrack/validateAnnotation/getSpanValidation/isBeginAndEndIn/isInText.js
+    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/AnnotationParser/readAcceptedAnnotationTo/IDConflictResolver.js
+
+    // To avoid ID collisions when reading multi-track annotations,
+    // add the track number before the ID.
+    class IDConflictResolver {
+      constructor(trackNumber) {
+        this._trackNumber = trackNumber
+      }
+
+      addTrackNumberAsIDPrefix(denotation, block, relation, attribute) {
+        const denotations = denotation.map((src) => ({
+          ...src,
+          id: this._prependToIDOf(src)
+        }))
+
+        const blocks = block.map((src) => ({
+          ...src,
+          id: this._prependToIDOf(src)
+        }))
+
+        // The attribute refers to the entities contained in the denotation or block by subject.
+        const attributes = attribute.map((src) => ({
+          ...src,
+          id: this._prependToIDOf(src),
+          subj: this._prependTrackNumberTo(src.subj),
+          obj: src.obj
+        }))
+
+        // The relation refers to the entities contained in the denotation or block by subject and object.
+        const relations = relation.map((src) => ({
+          ...src,
+          id: this._prependToIDOf(src),
+          subj: this._prependTrackNumberTo(src.subj),
+          obj: this._prependTrackNumberTo(src.obj)
+        }))
+
+        return {
+          denotations,
+          blocks,
+          relations,
+          attributes
+        }
+      }
+
+      // Set Prefx to the ID if ID exists.
+      // IF the ID does not exist, Set new ID in addSource function.
+      _prependToIDOf(src) {
+        return src.id ? this._prependTrackNumberTo(src.id) : null
+      }
+
+      _prependTrackNumberTo(val) {
+        return this._trackNumber + val
+      }
+    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/AnnotationParser/readAcceptedAnnotationTo/convertBeginAndEndOfSpanToInteger.js
+
+    // If the begin or end value is a string,
+    // the comparison with other numbers cannot be done correctly.
+    /* harmony default export */ function convertBeginAndEndOfSpanToInteger(
+      typeSetting,
+      denotation,
+      block
+    ) {
+      return [
+        typeSetting.map(convert),
+        denotation.map(convert),
+        block.map(convert)
+      ]
+    }
+
+    function convert(src) {
+      const { span } = src
+
+      return {
+        ...src,
+        span: convertBeginAndEndToInteger(span)
+      }
+    }
+
+    function convertBeginAndEndToInteger(span) {
+      // You cannot generate a valid value for the ID of HTML element of span
+      // from a begin or end that contains a decimal point.
+      return { ...span, begin: parseInt(span.begin), end: parseInt(span.end) }
+    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/AnnotationParser/readAcceptedAnnotationTo/index.js
+
+    /* harmony default export */ function readAcceptedAnnotationTo(
+      spanContainer,
+      entityContainer,
+      attributeContainer,
+      relationContainer,
+      accept,
+      trackNumber = ''
+    ) {
+      const [typeSettings, denotation, block] =
+        convertBeginAndEndOfSpanToInteger(
+          accept.typeSetting,
+          accept.denotation,
+          accept.block
+        )
+      const { relation, attribute } = accept
+      const { denotations, blocks, relations, attributes } =
+        new IDConflictResolver(trackNumber).addTrackNumberAsIDPrefix(
+          denotation,
+          block,
+          relation,
+          attribute
+        )
+
+      spanContainer.addSource(typeSettings, 'typesetting')
+      spanContainer.addSource(denotations, 'denotation')
+      spanContainer.addSource(blocks, 'block')
+      entityContainer.addSource(denotations, 'denotation')
+      entityContainer.addSource(blocks, 'block')
+      relationContainer.addSource(relations)
+      attributeContainer.addSource(attributes)
+    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/AnnotationParser/validateAnnotation/getSpanValidation/isBeginAndEndIn/isInText.js
 
     /* harmony default export */ function isInText(boundary, text) {
       return 0 <= boundary && boundary <= text.length
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/parseAnnotation/parseTrack/validateAnnotation/getSpanValidation/isBeginAndEndIn/index.js
+    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/AnnotationParser/validateAnnotation/getSpanValidation/isBeginAndEndIn/index.js
 
     /* harmony default export */ function isBeginAndEndIn(text, span) {
       return isInText(span.begin, text) && isInText(span.end, text)
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/parseAnnotation/parseTrack/validateAnnotation/ChainValidation/setSourceProperty.js
+    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/AnnotationParser/validateAnnotation/ChainValidation/setSourceProperty.js
 
     /* harmony default export */ function setSourceProperty(n, name) {
       n.sourceProperty = name
       return n
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/parseAnnotation/parseTrack/validateAnnotation/ErrorMap.js
+    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/AnnotationParser/validateAnnotation/ErrorMap.js
 
     class ErrorMap {
       constructor() {
@@ -97636,7 +97801,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
         (acc, errorMap) => acc.concat(errorMap.getErrors(name)),
         []
       )
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/parseAnnotation/parseTrack/validateAnnotation/ChainValidation/index.js
+    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/AnnotationParser/validateAnnotation/ChainValidation/index.js
 
     class ChainValidation {
       constructor(
@@ -97732,7 +97897,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
 
         return result
       }
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/parseAnnotation/parseTrack/validateAnnotation/getSpanValidation/index.js
+    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/AnnotationParser/validateAnnotation/getSpanValidation/index.js
 
     /* harmony default export */ function getSpanValidation(
       targetSpans,
@@ -97751,7 +97916,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
           )
           return [bondaryCrossingSpans.length === 0, bondaryCrossingSpans]
         })
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/parseAnnotation/parseTrack/validateAnnotation/validateTypeSettings.js
+    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/AnnotationParser/validateAnnotation/validateTypeSettings.js
 
     /* harmony default export */ function validateTypeSettings(
       text,
@@ -97764,14 +97929,14 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
         allSpans,
         'typesettings'
       ).validateAll()
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/parseAnnotation/parseTrack/validateAnnotation/isContains.js
+    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/AnnotationParser/validateAnnotation/isContains.js
 
     /* harmony default export */ function isContains(
       dictionary,
       referedEntityId
     ) {
       return dictionary.some((entry) => entry.id === referedEntityId)
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/parseAnnotation/parseTrack/validateAnnotation/validateAttribute/isUniqueIn.js
+    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/AnnotationParser/validateAnnotation/validateAttribute/isUniqueIn.js
 
     /* harmony default export */ function isUniqueIn(attributes, node) {
       return (
@@ -97780,7 +97945,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
             a.subj === node.subj && a.pred === node.pred && a.obj === node.obj
         ).length === 1
       )
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/parseAnnotation/parseTrack/validateAnnotation/validateAttribute/index.js
+    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/AnnotationParser/validateAnnotation/validateAttribute/index.js
 
     /* harmony default export */ function validateAttribute(
       subjects,
@@ -97790,7 +97955,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
         .and('subject', (a) => isContains(subjects, a.subj))
         .and('unique', (node) => isUniqueIn(attributes, node))
         .validateAll()
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/parseAnnotation/parseTrack/validateAnnotation/validateRelation.js
+    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/AnnotationParser/validateAnnotation/validateRelation.js
 
     /* harmony default export */ function validateRelation(
       denotations,
@@ -97800,7 +97965,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
         .and('object', (r) => isContains(denotations, r.obj))
         .and('subject', (r) => isContains(denotations, r.subj))
         .validateAll()
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/parseAnnotation/parseTrack/validateAnnotation/transformToReferencedEntitiesError.js
+    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/AnnotationParser/validateAnnotation/transformToReferencedEntitiesError.js
 
     /* harmony default export */ function transformToReferencedEntitiesError(
       attributeSubj,
@@ -97829,7 +97994,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
             return relation
           })
         )
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/parseAnnotation/parseTrack/validateAnnotation/isIDUnique.js
+    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/AnnotationParser/validateAnnotation/isIDUnique.js
 
     /* harmony default export */ function isIDUnique(spans, node) {
       // Span without ID is acceptable.
@@ -97837,7 +98002,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
         node.id === undefined ||
         spans.filter((d) => node.id && node.id === d.id).length === 1
       )
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/parseAnnotation/parseTrack/validateAnnotation/validateDenotation.js
+    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/AnnotationParser/validateAnnotation/validateDenotation.js
 
     /* harmony default export */ function validateDenotation(
       text,
@@ -97853,7 +98018,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
       )
         .and('uniqueID', (n) => isIDUnique(spansInTrack, n))
         .validateAll()
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/parseAnnotation/parseTrack/validateAnnotation/validateBlock.js
+    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/AnnotationParser/validateAnnotation/validateBlock.js
 
     /* harmony default export */ function validateBlock(
       text,
@@ -97872,7 +98037,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
             ).length === 1
         )
         .validateAll()
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/parseAnnotation/parseTrack/validateAnnotation/debugLogCrossing.js
+    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/AnnotationParser/validateAnnotation/debugLogCrossing.js
 
     /* harmony default export */ function debugLogCrossing(name, errors) {
       for (const [key, values] of errors.getInhibitors('isNotCrossing')) {
@@ -97884,12 +98049,12 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
             .join(', ')}`
         )
       }
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/parseAnnotation/getAllSpansIn.js
+    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/AnnotationParser/getAllSpansIn.js
 
     /* harmony default export */ function getAllSpansIn(track) {
       const { typesettings, denotations, blocks } = track
       return (typesettings || []).concat(denotations || []).concat(blocks || [])
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/parseAnnotation/parseTrack/validateAnnotation/index.js
+    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/AnnotationParser/validateAnnotation/index.js
 
     /* harmony default export */ function validateAnnotation(
       text,
@@ -97971,124 +98136,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
             errorTypeSettings.size
         }
       }
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/parseAnnotation/importSource.js
-
-    /* harmony default export */ function importSource(
-      targets,
-      translater,
-      source,
-      type
-    ) {
-      if (source) {
-        source = source.map(translater)
-      }
-
-      for (const target of targets) {
-        target.addSource(source, type)
-      }
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/parseAnnotation/parseTrack/setIdPrefixIfExist.js
-
-    /* harmony default export */ function setIdPrefixIfExist(src, prefix) {
-      // An id will be generated if id is null.
-      // But an undefined is convert to string as 'undefined' when it add to any string.
-      return src.id ? prefix + src.id : null
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/parseAnnotation/parseTrack/convertBeginAndEndToInteger.js
-
-    // If the begin or end value is a string,
-    // the comparison with other numbers cannot be done correctly.
-    // You cannot generate a valid value for the ID of HTML element of span
-    // from a begin or end that contains a decimal point.
-    /* harmony default export */ function convertBeginAndEndToInteger(span) {
-      return { ...span, begin: parseInt(span.begin), end: parseInt(span.end) }
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/parseAnnotation/parseTrack/translateSpan.js
-
-    // Expected denotations is an Array of object like { "id": "T1", "span": { "begin": 19, "end": 49 }, "obj": "Cell" }.
-    /* harmony default export */ function translateSpan(src, prefix) {
-      return {
-        ...src,
-        id: setIdPrefixIfExist(src, prefix),
-        span: convertBeginAndEndToInteger(src.span)
-      }
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/parseAnnotation/parseTrack/translateAttribute.js
-
-    // Expected denotations is an Array of object like { "id": "A1", "subj": "T1", "pred": "example_predicate_1", "obj": "attr1" }.
-    /* harmony default export */ function translateAttribute(src, prefix) {
-      return {
-        ...src,
-        id: setIdPrefixIfExist(src, prefix),
-        subj: prefix + src.subj,
-        obj: src.obj
-      }
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/parseAnnotation/parseTrack/translateRelation.js
-
-    // Expected relations is an Array of object like { "id": "R1", "pred": "locatedAt", "subj": "E1", "obj": "T1" }.
-    /* harmony default export */ function translateRelation(src, prefix) {
-      return {
-        ...src,
-        id: setIdPrefixIfExist(src, prefix),
-        subj: prefix + src.subj,
-        obj: prefix + src.obj
-      }
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/parseAnnotation/parseTrack/index.js
-
-    /* harmony default export */ function parseTrack(
-      spanContainer,
-      entityContainer,
-      attributeContainer,
-      relationContainer,
-      text,
-      spans,
-      rowData,
-      trackNumber = ''
-    ) {
-      const result = validateAnnotation(text, spans, rowData)
-
-      importSource(
-        [spanContainer, entityContainer],
-        (src) => translateSpan(src, trackNumber),
-        result.accept.denotation,
-        'denotation'
-      )
-
-      importSource(
-        [attributeContainer],
-        (src) => translateAttribute(src, trackNumber),
-        result.accept.attribute
-      )
-
-      importSource(
-        [relationContainer],
-        (src) => translateRelation(src, trackNumber),
-        result.accept.relation
-      )
-
-      importSource(
-        [spanContainer],
-        (src) => {
-          return { ...src, span: convertBeginAndEndToInteger(src.span) }
-        },
-        result.accept.typeSetting,
-        'typesetting'
-      )
-
-      importSource(
-        [spanContainer, entityContainer],
-        (src) => translateSpan(src, trackNumber),
-        result.accept.block,
-        'block'
-      )
-
-      return result.reject
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/parseAnnotation/importNamespace.js
-
-    /* harmony default export */ function importNamespace(destination, source) {
-      // Clone source to prevet changing orignal data.
-      importSource(
-        [destination],
-        (namespace) => ({ id: namespace.prefix, ...namespace }),
-        source
-      )
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/parseAnnotation/parseTracks.js
+    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/AnnotationParser/parseTracks.js
 
     /* harmony default export */ function parseTracks(
       spanContainer,
@@ -98099,27 +98147,28 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
       spans,
       rowData
     ) {
-      if (!rowData.tracks) return [false, []]
+      console.assert(rowData.tracks)
+
       const { tracks } = rowData
       delete rowData.tracks
-      const rejects = tracks.map((track, i) => {
+
+      return tracks.map((track, i) => {
         const number = i + 1
         const trackNumber = `track${number}_`
-        const reject = parseTrack(
+
+        const { accept, reject } = validateAnnotation(text, spans, track)
+        readAcceptedAnnotationTo(
           spanContainer,
           entityContainer,
           attributeContainer,
           relationContainer,
-          text,
-          spans,
-          track,
+          accept,
           trackNumber
         )
         reject.name = `Track ${number} annotations.`
         return reject
       })
-      return [true, rejects]
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/parseAnnotation/getAllSpansOf.js
+    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/AnnotationParser/getAllSpansOf.js
 
     // The boundraries of elements in the typesetings and
     // the denotations and blocks cannot cross each other.
@@ -98135,42 +98184,88 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
       }
 
       return spans
-    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/parseAnnotation/index.js
+    } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/AnnotationParser/index.js
 
-    /* harmony default export */ function parseAnnotation(
-      annotationData,
-      rowData
-    ) {
-      const { span, entity, attribute, relation } = annotationData
-      const { text } = rowData
-      const spans = getAllSpansOf(rowData)
-
-      const [multitrack, multitrackRejects] = parseTracks(
-        span,
-        entity,
-        attribute,
-        relation,
-        text,
-        spans,
+    class AnnotationParser {
+      constructor(
+        namespaceContainer,
+        spanContainer,
+        entityContainer,
+        attributeContainer,
+        relationContainer,
         rowData
-      )
-      const annotationReject = parseTrack(
-        span,
-        entity,
-        attribute,
-        relation,
-        text,
-        spans,
-        rowData
-      )
-      annotationReject.name = 'Root annotations.'
-      importNamespace(annotationData.namespace, rowData.namespaces || [])
+      ) {
+        this._namespaceContainer = namespaceContainer
+        this._spanContainer = spanContainer
+        this._entityContainer = entityContainer
+        this._attributeContainer = attributeContainer
+        this._relationContainer = relationContainer
+        this._rowData = rowData
+      }
 
-      const rejects = [annotationReject].concat(multitrackRejects)
+      parse() {
+        // Read namespaces
+        if (this._rowData.namespaces) {
+          this._namespaceContainer.addSource(
+            this._rowData.namespaces.map((n) => ({
+              id: n.prefix,
+              ...n
+            }))
+          )
+        } else {
+          this._namespaceContainer.addSource([])
+        }
 
-      return {
-        multitrack,
-        rejects
+        // Read the root annotation.
+        const { accept, reject } = validateAnnotation(
+          this._text,
+          this._spans,
+          this._rowData
+        )
+
+        readAcceptedAnnotationTo(
+          this._spanContainer,
+          this._entityContainer,
+          this._attributeContainer,
+          this._relationContainer,
+          accept
+        )
+
+        reject.name = 'Root annotations.'
+        this._rootReject = reject
+
+        // Read multiple track annotations.
+        if (this.hasMultiTracks) {
+          this._trackRejects = parseTracks(
+            this._spanContainer,
+            this._entityContainer,
+            this._attributeContainer,
+            this._relationContainer,
+            this._text,
+            this._spans,
+            this._rowData
+          )
+        }
+      }
+
+      get hasMultiTracks() {
+        return Boolean(this._rowData.tracks)
+      }
+
+      get rejects() {
+        if (this.hasMultiTracks) {
+          return [this._rootReject].concat(this._trackRejects)
+        } else {
+          return [this._rootReject]
+        }
+      }
+
+      get _text() {
+        return this._rowData.text
+      }
+
+      get _spans() {
+        return getAllSpansOf(this._rowData)
       }
     } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationData/clearAnnotationData.js
 
@@ -98833,7 +98928,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
         return config && config.label
       }
 
-      getUri(id) {
+      getURI(id) {
         return getUrlMatches(id) ? id : undefined
       }
 
@@ -99177,8 +99272,8 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
         super(valueType, hash.pred)
         this.autocompletionWs = hash.autocompletion_ws
         this.default = hash.default
-        if (isAbleToParseFloat(hash.mediaHeight)) {
-          this.mediaHeight = parseFloat(hash.mediaHeight)
+        if (isAbleToParseFloat(hash['media height'])) {
+          this.mediaHeight = parseFloat(hash['media height'])
         }
         this._values = hash.values || []
       }
@@ -99229,7 +99324,8 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
             'value type': 'string',
             autocompletion_ws: this.autocompletionWs,
             default: this.default,
-            values: super._valuesClone
+            values: super._valuesClone,
+            'media height': this.mediaHeight
           }
         }
       }
@@ -99630,15 +99726,24 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
         this._textBox.render(this.sourceDoc)
 
         clearAnnotationData(this)
-        const { multitrack, rejects } = parseAnnotation(this, rawData)
+        const { namespace, span, entity, attribute, relation } = this
+        const annotationParser = new AnnotationParser(
+          namespace,
+          span,
+          entity,
+          attribute,
+          relation,
+          rawData
+        )
+        annotationParser.parse()
 
         this._clearAndDrawAllAnnotations()
 
         this._eventEmitter.emit(
           'textae-event.annotation-data.all.change',
           this,
-          multitrack,
-          rejects
+          annotationParser.hasMultiTracks,
+          annotationParser.rejects
         )
       }
 
@@ -104840,7 +104945,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
           label,
           color,
           default: defaultValue,
-          mediaHeight,
+          'media height': mediaHeight,
           min,
           max,
           step,
@@ -104921,7 +105026,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
               )
 
               if (attrDef.mediaHeight !== mediaHeight) {
-                diff.set('mediaHeight', mediaHeight)
+                diff.set('media height', mediaHeight)
               }
             }
 
@@ -106554,7 +106659,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
 
         // Reload when instance addition / deletion is undo / redo.
         eventEmitter.on(
-          'textae-event.annotation-data.events-observer.change',
+          'textae-event.annotation-data.events-observer.local-changes',
           () => this.updateDisplay()
         )
 
@@ -109117,7 +109222,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
       bindChangeLockConfig(content, typeDefinition)
     } // CONCATENATED MODULE: ./package.json
 
-    const package_namespaceObject = { i8: '9.0.2' } // CONCATENATED MODULE: ./src/lib/component/SettingDialog/index.js
+    const package_namespaceObject = { i8: '10.0.0' } // CONCATENATED MODULE: ./src/lib/component/SettingDialog/index.js
     function SettingDialog_template(context) {
       const {
         typeGap,
@@ -109213,18 +109318,21 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
         )
 
         eventEmitter
-          .on('textae-event.annotation-data.all.change', (_, multitrack) => {
-            if (mode !== 'edit') {
-              editMode.forView()
-            } else {
-              if (multitrack) {
-                alertify_default().success(
-                  'track annotations have been merged to root annotations.'
-                )
+          .on(
+            'textae-event.annotation-data.all.change',
+            (_, hasMultiTracks) => {
+              if (mode !== 'edit') {
+                editMode.forView()
+              } else {
+                if (hasMultiTracks) {
+                  alertify_default().success(
+                    'track annotations have been merged to root annotations.'
+                  )
+                }
+                editMode.forEditable()
               }
-              editMode.forEditable()
             }
-          })
+          )
           .on('textae-event.edit-mode.transition', (mode) => {
             switch (mode) {
               case MODE.VIEW_WITHOUT_RELATION:
@@ -110655,6 +110763,10 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
       )
     } // CONCATENATED MODULE: ./src/lib/Editor/API/initAnnotation.js
 
+    /**
+     *
+     * @param {import('../ParamsFromHTMLElement/AnnotationParameter.js').default} annotationParameter
+     */
     /* harmony default export */ function initAnnotation(
       spanConfig,
       annotationData,
@@ -110664,12 +110776,12 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
       annotationParameter,
       configParameter
     ) {
-      if (annotationParameter.has('inlineAnnotation')) {
+      if (annotationParameter.isInline) {
         // Set an inline annotation.
         const dataSource = new DataSource(
           'inline',
           null,
-          JSON.parse(annotationParameter.get('inlineAnnotation'))
+          annotationParameter.inlineAnnotation
         )
 
         if (!dataSource.data.config && configParameter) {
@@ -110705,9 +110817,9 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
             originalData.annotation = dataSource
           }
         }
-      } else if (annotationParameter.has('url')) {
+      } else if (annotationParameter.isRemote) {
         // Load an annotation from server.
-        remoteResource.loadAnnotation(annotationParameter.get('url'))
+        remoteResource.loadAnnotation(annotationParameter.URL)
       } else {
         if (configParameter) {
           remoteResource.loadConfigulation(configParameter)
@@ -110756,7 +110868,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
         const message = dataSource.displayName
 
         if (message !== '') {
-          getAreaIn(this._editorHTMLElement).innerHTML = isUri(message)
+          getAreaIn(this._editorHTMLElement).innerHTML = isURI(message)
             ? `Source: ${`<a class="textae-editor__footer__message__link" href="${message}">${decodeURI(
                 message
               )}</a>`}`
@@ -112134,11 +112246,14 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
               persistenceInterface.saveAnnotation()
             }
           })
-          .on('textae-event.annotation-data.events-observer.change', (val) => {
-            if (val && buttonController.isPushed('write-auto')) {
-              debounceSaveAnnotation()
+          .on(
+            'textae-event.annotation-data.events-observer.local-changes',
+            (val) => {
+              if (val && buttonController.isPushed('write-auto')) {
+                debounceSaveAnnotation()
+              }
             }
-          })
+          )
       }
 
       _disabled() {
@@ -112343,9 +112458,12 @@ data-button-type="${type}">
               this._updateButton(name, 'disabled')
             }
           })
-          .on('textae-event.annotation-data.events-observer.change', () => {
-            this._updateButton('write', 'transit')
-          })
+          .on(
+            'textae-event.annotation-data.events-observer.local-changes',
+            () => {
+              this._updateButton('write', 'transit')
+            }
+          )
           .on('textae-event.control.pallet-button.change-title', (title) => {
             const button = this._el.querySelector(
               `.textae-control-pallet-button`
@@ -112642,6 +112760,7 @@ data-button-type="${type}">
        * @param {import('../AnnotationData').default} annotationData
        */
       constructor(eventEmitter, originalData, annotationData) {
+        this._eventEmitter = eventEmitter
         this._originalData = originalData
         this._annotationData = annotationData
         this._observable = new (observ_default())(false)
@@ -112650,10 +112769,12 @@ data-button-type="${type}">
           .on('textae-event.resource.annotation.save', () => {
             this._observable.set(false)
             this._loadedAnnotationIsModified = false
+            this._notifyChange()
           })
-          .on('textae-event.annotation-data.all.change', () =>
+          .on('textae-event.annotation-data.all.change', () => {
             this._observable.set(false)
-          )
+            this._notifyChange()
+          })
           .on('textae-event.annotation-data.span.add', () =>
             this._updateState()
           )
@@ -112693,7 +112814,7 @@ data-button-type="${type}">
 
         this._observable(() =>
           eventEmitter.emit(
-            'textae-event.annotation-data.events-observer.change',
+            'textae-event.annotation-data.events-observer.local-changes',
             this._observable()
           )
         )
@@ -112706,6 +112827,14 @@ data-button-type="${type}">
       _updateState() {
         this._observable.set(
           diffOfAnnotation(this._originalData, this._annotationData)
+        )
+        this._notifyChange()
+      }
+
+      _notifyChange() {
+        this._eventEmitter.emit(
+          'textae-event.annotation-data.events-observer.change',
+          this._annotationData
         )
       }
     } // CONCATENATED MODULE: ./src/lib/Editor/RemoteResource/isServerAuthRequired.js
@@ -113224,6 +113353,10 @@ data-button-type="${type}">
     } // CONCATENATED MODULE: ./src/lib/Editor/API/index.js
 
     class API {
+      /**
+       *
+       * @param {import('../ParamsFromHTMLElement').default} params
+       */
       constructor(
         editorHTMLElement,
         editorID,
@@ -113255,7 +113388,7 @@ data-button-type="${type}">
         const originalData = new OriginalData(
           eventEmitter,
           editorHTMLElement,
-          params.get('status_bar')
+          params.statusBar
         )
 
         const annotationDataEventsObserver = new AnnotationDataEventsObserver(
@@ -113280,8 +113413,8 @@ data-button-type="${type}">
           spanConfig,
           clipBoard,
           buttonController,
-          params.get('autocompletion_ws'),
-          params.get('mode')
+          params.autocompletionWS,
+          params.mode
         )
 
         const remoteResource = new RemoteSource(eventEmitter)
@@ -113292,7 +113425,7 @@ data-button-type="${type}">
           annotationData,
           () => originalData.annotation,
           () => originalData.configuration,
-          params.get('annotation').get('save_to'),
+          params.saveTo,
           annotationDataEventsObserver,
           buttonController
         )
@@ -113301,14 +113434,14 @@ data-button-type="${type}">
           eventEmitter,
           buttonController,
           persistenceInterface,
-          params.get('annotation').get('save_to'),
+          params.saveTo,
           annotationDataEventsObserver
         )
 
         eventEmitter
           .on('textae-event.resource.annotation.load.success', (dataSource) => {
-            if (!dataSource.data.config && params.get('config')) {
-              remoteResource.loadConfigulation(params.get('config'), dataSource)
+            if (!dataSource.data.config && params.config) {
+              remoteResource.loadConfigulation(params.config, dataSource)
             } else {
               warningIfBeginEndOfSpanAreNotInteger(dataSource.data)
 
@@ -113413,6 +113546,24 @@ data-button-type="${type}">
           controlBarHTMLElement,
           editorHTMLElement.childNodes[0]
         )
+
+        // Set control bar visibility.
+        if (params.mode === 'view') {
+          editorHTMLElement.classList.add('textae-editor--control-hidden')
+        }
+
+        switch (params.control) {
+          case 'hidden':
+            editorHTMLElement.classList.add('textae-editor--control-hidden')
+            break
+          case 'visible':
+            editorHTMLElement.classList.add('textae-editor--control-visible')
+            break
+          default:
+            // No error is made if any other value is set.
+            break
+        }
+
         annotationData.controlBarHeight =
           controlBarHTMLElement.getBoundingClientRect().height
 
@@ -113422,8 +113573,8 @@ data-button-type="${type}">
           remoteResource,
           buttonController,
           originalData,
-          params.get('annotation'),
-          params.get('config')
+          params.annotation,
+          params.config
         )
 
         // add context menu
@@ -113465,140 +113616,114 @@ data-button-type="${type}">
     }
 
     // EXTERNAL MODULE: ./node_modules/events/events.js
-    var events = __webpack_require__(7187) // CONCATENATED MODULE: ./src/lib/Editor/extractParamsFromHTMLElement/getSource.js
-    /* harmony default export */ function getSource(element) {
-      // 'source' prefer to 'target'
-      return element.getAttribute('source') || element.getAttribute('target')
-    } // CONCATENATED MODULE: ./src/lib/Editor/extractParamsFromHTMLElement/getSaveToUrl.js
+    var events = __webpack_require__(7187) // CONCATENATED MODULE: ./src/lib/Editor/ParamsFromHTMLElement/AnnotationParameter.js
+    class AnnotationParameter {
+      constructor(element, source) {
+        this._map = new Map()
 
-    /* harmony default export */ function getSaveToUrl(element) {
-      // 'save_to'
-      const value = element.getAttribute('save_to')
+        // Read Html text and clear it.
+        // Use textContent instead of innerText,
+        // to read consecutive whitespace in inline annotations without collapsing.
+        const inlineAnnotation = element.textContent
+        element.innerHTML = ''
+        if (inlineAnnotation) {
+          this._inlineAnnotation = inlineAnnotation
+        }
 
-      if (value) {
-        return decodeURIComponent(value)
-      }
-
-      return ''
-    } // CONCATENATED MODULE: ./src/lib/Editor/extractParamsFromHTMLElement/getUrl.js
-
-    /* harmony default export */ function getUrl(source) {
-      if (source) {
-        return decodeURIComponent(source)
-      }
-
-      return ''
-    } // CONCATENATED MODULE: ./src/lib/Editor/extractParamsFromHTMLElement/getAnnotation.js
-
-    /* harmony default export */ function getAnnotation(element, source) {
-      const annotation = new Map()
-
-      // Read Html text and clear it.
-      // Use textContent instead of innerText,
-      // to read consecutive whitespace in inline annotations without collapsing.
-      const inlineAnnotation = element.textContent
-      element.innerHTML = ''
-      if (inlineAnnotation) {
-        annotation.set('inlineAnnotation', inlineAnnotation)
-      }
-
-      // Read url.
-      const url = getUrl(source)
-      if (url) {
-        annotation.set('url', url)
-      }
-
-      // Read save_to
-      const saveTo = getSaveToUrl(element)
-      if (saveTo) {
-        annotation.set('save_to', getSaveToUrl(element))
-      }
-
-      return annotation
-    } // CONCATENATED MODULE: ./src/lib/Editor/extractParamsFromHTMLElement/decodeUrl.js
-
-    /* harmony default export */ function decodeUrl(params, name) {
-      if (params.has(name)) {
-        params.set(name, decodeURIComponent(params.get(name)))
-      }
-    } // CONCATENATED MODULE: ./src/lib/Editor/extractParamsFromHTMLElement/getAttribute.js
-
-    /* harmony default export */ function getAttribute(params, element, name) {
-      if (element.getAttribute(name)) {
-        params.set(name, element.getAttribute(name))
-      }
-    } // CONCATENATED MODULE: ./src/lib/Editor/extractParamsFromHTMLElement/getConfigLockFromURL/getQueryParams.js
-
-    /* harmony default export */ function getQueryParams(url) {
-      const queryParamMap = new Map()
-      const queryStr = url.split('?')[1]
-
-      if (queryStr) {
-        const parameters = queryStr.split('&')
-
-        for (let i = 0; i < parameters.length; i++) {
-          const element = parameters[i].split('=')
-          const paramName = decodeURIComponent(element[0])
-          const paramValue = decodeURIComponent(element[1])
-          queryParamMap.set(paramName, decodeURIComponent(paramValue))
+        // Read url.
+        if (source) {
+          this._url = decodeURIComponent(source)
         }
       }
 
-      return queryParamMap
-    } // CONCATENATED MODULE: ./src/lib/Editor/extractParamsFromHTMLElement/getConfigLockFromURL/index.js
-
-    /* harmony default export */ function getConfigLockFromURL(url) {
-      if (url) {
-        const queryParamMap = getQueryParams(url)
-
-        if (queryParamMap.has('config_lock')) {
-          return queryParamMap.get('config_lock')
-        }
-      }
-      return null
-    } // CONCATENATED MODULE: ./src/lib/Editor/extractParamsFromHTMLElement/index.js
-
-    /* harmony default export */ function extractParamsFromHTMLElement(
-      element
-    ) {
-      const params = new Map()
-
-      getAttribute(params, element, 'mode')
-      if (element.getAttribute('control')) {
-        const controlParam = element.getAttribute('control')
-        if (controlParam === 'visible') {
-          element.classList.add('textae-editor--control-visible')
-        }
-        if (
-          controlParam === 'hidden' ||
-          (params.get('mode') === 'view' && controlParam !== 'visible')
-        ) {
-          element.classList.add('textae-editor--control-hidden')
-        }
+      get isInline() {
+        return Boolean(this._inlineAnnotation)
       }
 
-      getAttribute(params, element, 'status_bar')
-      getAttribute(params, element, 'config')
-      getAttribute(params, element, 'autocompletion_ws')
-
-      // Decode URI encode
-      decodeUrl(params, 'config')
-      decodeUrl(params, 'autocompletion_ws')
-
-      params.set('source', getSource(element))
-
-      // Over write editor-div's config lock state by url's.
-      // Url's default is 'unlock', so its default is also 'unlock'.
-      const configLockFromAttr = element.getAttribute('config_lock')
-      const configLockFromURL = getConfigLockFromURL(params.get('source'))
-      if (configLockFromURL || configLockFromAttr) {
-        params.set('config_lock', configLockFromURL || configLockFromAttr)
+      get inlineAnnotation() {
+        return JSON.parse(this._inlineAnnotation)
       }
 
-      // Set annotation parameters.
-      params.set('annotation', getAnnotation(element, params.get('source')))
+      get isRemote() {
+        return Boolean(this._url)
+      }
 
-      return params
+      get URL() {
+        return this._url
+      }
+    } // CONCATENATED MODULE: ./src/lib/Editor/ParamsFromHTMLElement/index.js
+
+    class ParamsFormHTMLElement {
+      constructor(element) {
+        this._element = element
+
+        // Reading inline annotations is a destructive operation, so it is done in the constructor.
+        this._annotationParameter = new AnnotationParameter(
+          this._element,
+          this._source
+        )
+      }
+
+      get annotation() {
+        return this._annotationParameter
+      }
+
+      get autocompletionWS() {
+        return this._readURLAttribute('autocompletion_ws')
+      }
+
+      get config() {
+        return this._readURLAttribute('config')
+      }
+
+      get configLock() {
+        // Over write editor-div's config lock state by url's.
+        // Url's default is 'unlock', so its default is also 'unlock'.
+        if (this._source) {
+          const searchParams = new URLSearchParams(this._source.split('?')[1])
+
+          if (searchParams.has('config_lock')) {
+            return searchParams.get('config_lock')
+          }
+        }
+
+        return this._element.getAttribute('config_lock')
+      }
+
+      get control() {
+        return this._element.getAttribute('control')
+      }
+
+      get inspect() {
+        return this._element.getAttribute('inspect')
+      }
+
+      get mode() {
+        return this._element.getAttribute('mode')
+      }
+
+      get statusBar() {
+        return this._element.getAttribute('status_bar')
+      }
+
+      get saveTo() {
+        return this._readURLAttribute('save_to')
+      }
+
+      get _source() {
+        return (
+          this._element.getAttribute('source') ||
+          this._element.getAttribute('target')
+        )
+      }
+
+      _readURLAttribute(name) {
+        if (this._element.hasAttribute(name)) {
+          return decodeURIComponent(this._element.getAttribute(name))
+        }
+
+        return null
+      }
     } // CONCATENATED MODULE: ./src/lib/Editor/EditorCSSClass.js
 
     class EditorCSSClass {
@@ -114091,7 +114216,7 @@ data-button-type="${type}">
           }
         })
         .on(
-          'textae-event.annotation-data.events-observer.change',
+          'textae-event.annotation-data.events-observer.local-changes',
           (hasChange) => {
             // change leaveMessage show
             // Reloading when trying to scroll further when you are at the top on an Android device.
@@ -114138,6 +114263,27 @@ data-button-type="${type}">
         .on('textae-event.resource.endLoad', () => editorCSSClass.endWait())
         .on('textae-event.resource.startSave', () => editorCSSClass.startWait())
         .on('textae-event.resource.endSave', () => editorCSSClass.endWait())
+    } // CONCATENATED MODULE: ./src/lib/Editor/Inspector.js
+
+    class Inspector {
+      constructor(sourceElement, id, eventEmitter) {
+        const destinationElement = dohtml_default().create(
+          `<div id="${id}" style="display: none;"></div>`
+        )
+        sourceElement.insertAdjacentElement('afterend', destinationElement)
+
+        eventEmitter.on(
+          'textae-event.annotation-data.events-observer.change',
+          (annotationData) => {
+            console.log(annotationData)
+            destinationElement.textContent = JSON.stringify(
+              annotationData.JSON,
+              null,
+              2
+            )
+          }
+        )
+      }
     } // CONCATENATED MODULE: ./src/lib/Editor/index.js
 
     // model manages data objects.
@@ -114165,7 +114311,7 @@ data-button-type="${type}">
         const editorCSSClass = new EditorCSSClass(element)
         editorCSSClassObserve(eventEmitter, editorCSSClass)
 
-        const params = extractParamsFromHTMLElement(element)
+        const params = new ParamsFormHTMLElement(element)
         const annotationData = new AnnotationData(
           editorID,
           element,
@@ -114174,10 +114320,14 @@ data-button-type="${type}">
           startJQueryUIDialogWait,
           endJQueryUIDialogWait
         )
-        if (params.has('config_lock') && params.get('config_lock') === 'true') {
+        if (params.configLock === 'true') {
           annotationData.typeDefinition.lockEdit()
         } else {
           annotationData.typeDefinition.unlockEdit()
+        }
+
+        if (params.inspect) {
+          new Inspector(element, params.inspect, eventEmitter)
         }
 
         const api = new API(

@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.0.0](https://github.com/pubannotation/textae/compare/v9.0.2...v10.0.0) (2022-05-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* Space-separate media height properties in the configuration file.
+
+### Features
+
+* Create a div with the ID specified by the inspect attribute and always display the JSON representation of the current annotation ([ec7eb49](https://github.com/pubannotation/textae/commit/ec7eb498e0778a7e18714cb409fe489df0d86a27))
+* Determine whether the URL of the value of the string attribute indicates an image by actually sending an HTTP request and obtaining the Content-Type header ([aa8c160](https://github.com/pubannotation/textae/commit/aa8c16055f66993ff05612e84f3334eaa3e4f6cb))
+* Hide the control bar when in view mode ([689a5d9](https://github.com/pubannotation/textae/commit/689a5d91cb65e2fa7a0b9387e7b5e5be1e3d6c22))
+* Prefix B for the ID to be issued to the block entity ([5d63b84](https://github.com/pubannotation/textae/commit/5d63b846f3fc6ad0eaf48f4efc4e1f6b2d9f98d3))
+* Space-separate media height properties in the configuration file ([a549aaa](https://github.com/pubannotation/textae/commit/a549aaa61f10c23e577583b4c47a9b8e6c156198))
+
+
+### Bug Fixes
+
+* String attribute media height property not written out to config file ([46d48fe](https://github.com/pubannotation/textae/commit/46d48fe4d7a93fe7ee546cba5d4c1db110bb998c))
+* The ID of the relationship does not appear in the title attribute of the label of the newly created relationship ([ed3aeac](https://github.com/pubannotation/textae/commit/ed3aeac71ebb0ccb9d19ca3a6d7e2d0e76c99e61))
+* Undo delete causes error ([0c3c9b3](https://github.com/pubannotation/textae/commit/0c3c9b337a340e4d3fe98024b42391b2d8b0e43e))
+* Width of the candidates of auto completion in the Edit Type Values dialog ([b01afbf](https://github.com/pubannotation/textae/commit/b01afbf49357f8162fe9c630995c1b8932cd17f9))
+
 ### [9.0.2](https://github.com/pubannotation/textae/compare/v9.0.1...v9.0.2) (2022-04-19)
 
 

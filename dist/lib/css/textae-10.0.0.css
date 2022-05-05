@@ -3569,7 +3569,7 @@ ul.jsondiffpatch-textdiff {
   direction: rtl;
   z-index: 102;
 }
-.textae-editor__edit-type-values-dialog__type-name + .ui-widget.ui-autocomplete {
+.textae-editor__edit-type-values-dialog__type-name .ui-widget.ui-autocomplete {
   width: 381px;
 }
 .textae-editor__edit-string-attribute-dialog__row .ui-widget.ui-autocomplete {
