@@ -10,7 +10,6 @@ export default class Inspector {
     eventEmitter.on(
       'textae-event.annotation-data.events-observer.change',
       (annotationData) => {
-        console.log(annotationData)
         destinationElement.textContent = JSON.stringify(
           annotationData.JSON,
           null,
