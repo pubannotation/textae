@@ -11458,9 +11458,9 @@
 
     /***/ 4631: /***/ function (module) {
       // CodeMirror, copyright (c) by Marijn Haverbeke and others
-      // Distributed under an MIT license: https://codemirror.net/LICENSE
+      // Distributed under an MIT license: https://codemirror.net/5/LICENSE
 
-      // This is CodeMirror (https://codemirror.net), a code editor
+      // This is CodeMirror (https://codemirror.net/5), a code editor
       // implemented in JavaScript on top of the browser's DOM.
       //
       // You can find some technical background for some of the code below
@@ -11485,7 +11485,8 @@
           ie && (ie_upto10 ? document.documentMode || 6 : +(edge || ie_11up)[1])
         var webkit = !edge && /WebKit\//.test(userAgent)
         var qtwebkit = webkit && /Qt\/\d+\.\d+/.test(userAgent)
-        var chrome = !edge && /Chrome\//.test(userAgent)
+        var chrome = !edge && /Chrome\/(\d+)/.exec(userAgent)
+        var chrome_version = chrome && +chrome[1]
         var presto = /Opera\//.test(userAgent)
         var safari = /Apple Computer/.test(navigator.vendor)
         var mac_geMountainLion = /Mac OS X 1\d\D([8-9]|\d\d)\D/.test(userAgent)
@@ -11609,15 +11610,15 @@
           } while ((child = child.parentNode))
         }
 
-        function activeElt() {
+        function activeElt(doc) {
           // IE and Edge may throw an "Unspecified Error" when accessing document.activeElement.
           // IE < 10 will throw when accessed while the page is loading or in an iframe.
           // IE > 9 and Edge will throw when accessed in an iframe if document.body is unavailable.
           var activeElement
           try {
-            activeElement = document.activeElement
+            activeElement = doc.activeElement
           } catch (e) {
-            activeElement = document.body || null
+            activeElement = doc.body || null
           }
           while (
             activeElement &&
@@ -11661,6 +11662,14 @@
               node.select()
             } catch (_e) {}
           }
+        }
+
+        function doc(cm) {
+          return cm.display.wrapper.ownerDocument
+        }
+
+        function win(cm) {
+          return doc(cm).defaultView
         }
 
         function bind(f) {
@@ -15380,31 +15389,31 @@
           cm.display.lineNumChars = null
         }
 
-        function pageScrollX() {
+        function pageScrollX(doc) {
           // Work around https://bugs.chromium.org/p/chromium/issues/detail?id=489206
           // which causes page_Offset and bounding client rects to use
           // different reference viewports and invalidate our calculations.
           if (chrome && android) {
             return -(
-              document.body.getBoundingClientRect().left -
-              parseInt(getComputedStyle(document.body).marginLeft)
+              doc.body.getBoundingClientRect().left -
+              parseInt(getComputedStyle(doc.body).marginLeft)
             )
           }
           return (
-            window.pageXOffset ||
-            (document.documentElement || document.body).scrollLeft
+            doc.defaultView.pageXOffset ||
+            (doc.documentElement || doc.body).scrollLeft
           )
         }
-        function pageScrollY() {
+        function pageScrollY(doc) {
           if (chrome && android) {
             return -(
-              document.body.getBoundingClientRect().top -
-              parseInt(getComputedStyle(document.body).marginTop)
+              doc.body.getBoundingClientRect().top -
+              parseInt(getComputedStyle(doc.body).marginTop)
             )
           }
           return (
-            window.pageYOffset ||
-            (document.documentElement || document.body).scrollTop
+            doc.defaultView.pageYOffset ||
+            (doc.documentElement || doc.body).scrollTop
           )
         }
 
@@ -15446,8 +15455,9 @@
           }
           if (context == 'page' || context == 'window') {
             var lOff = cm.display.lineSpace.getBoundingClientRect()
-            yOff += lOff.top + (context == 'window' ? 0 : pageScrollY())
-            var xOff = lOff.left + (context == 'window' ? 0 : pageScrollX())
+            yOff += lOff.top + (context == 'window' ? 0 : pageScrollY(doc(cm)))
+            var xOff =
+              lOff.left + (context == 'window' ? 0 : pageScrollX(doc(cm)))
             rect.left += xOff
             rect.right += xOff
           }
@@ -15466,8 +15476,8 @@
             top = coords.top
           // First move into "page" coordinate system
           if (context == 'page') {
-            left -= pageScrollX()
-            top -= pageScrollY()
+            left -= pageScrollX(doc(cm))
+            top -= pageScrollY(doc(cm))
           } else if (context == 'local' || !context) {
             var localBox = cm.display.sizer.getBoundingClientRect()
             left += localBox.left
@@ -16753,11 +16763,12 @@
           var display = cm.display,
             box = display.sizer.getBoundingClientRect(),
             doScroll = null
+          var doc = display.wrapper.ownerDocument
           if (rect.top + box.top < 0) {
             doScroll = true
           } else if (
             rect.bottom + box.top >
-            (window.innerHeight || document.documentElement.clientHeight)
+            (doc.defaultView.innerHeight || doc.documentElement.clientHeight)
           ) {
             doScroll = false
           }
@@ -17157,8 +17168,7 @@
         NativeScrollbars.prototype.zeroWidthHack = function () {
           var w = mac && !mac_geMountainLion ? '12px' : '18px'
           this.horiz.style.height = this.vert.style.width = w
-          this.horiz.style.pointerEvents = this.vert.style.pointerEvents =
-            'none'
+          this.horiz.style.visibility = this.vert.style.visibility = 'hidden'
           this.disableHoriz = new Delayed()
           this.disableVert = new Delayed()
         }
@@ -17168,7 +17178,7 @@
           delay,
           type
         ) {
-          bar.style.pointerEvents = 'auto'
+          bar.style.visibility = ''
           function maybeDisable() {
             // To find out whether the scrollbar is still visible, we
             // check whether the element under the pixel in the bottom
@@ -17188,7 +17198,7 @@
                     box.bottom - 1
                   )
             if (elt != bar) {
-              bar.style.pointerEvents = 'none'
+              bar.style.visibility = 'hidden'
             } else {
               delay.set(1000, maybeDisable)
             }
@@ -17466,7 +17476,7 @@
             cm.display.maxLineChanged = false
           }
 
-          var takeFocus = op.focus && op.focus == activeElt()
+          var takeFocus = op.focus && op.focus == activeElt(doc(cm))
           if (op.preparedSelection) {
             cm.display.input.showSelection(op.preparedSelection, takeFocus)
           }
@@ -17737,13 +17747,13 @@
           if (cm.hasFocus()) {
             return null
           }
-          var active = activeElt()
+          var active = activeElt(doc(cm))
           if (!active || !contains(cm.display.lineDiv, active)) {
             return null
           }
           var result = { activeElt: active }
           if (window.getSelection) {
-            var sel = window.getSelection()
+            var sel = win(cm).getSelection()
             if (
               sel.anchorNode &&
               sel.extend &&
@@ -17762,7 +17772,7 @@
           if (
             !snapshot ||
             !snapshot.activeElt ||
-            snapshot.activeElt == activeElt()
+            snapshot.activeElt == activeElt(snapshot.activeElt.ownerDocument)
           ) {
             return
           }
@@ -17773,8 +17783,9 @@
             contains(document.body, snapshot.anchorNode) &&
             contains(document.body, snapshot.focusNode)
           ) {
-            var sel = window.getSelection(),
-              range = document.createRange()
+            var doc = snapshot.activeElt.ownerDocument
+            var sel = doc.defaultView.getSelection(),
+              range = doc.createRange()
             range.setEnd(snapshot.anchorNode, snapshot.anchorOffset)
             range.collapse(false)
             sel.removeAllRanges()
@@ -18351,6 +18362,20 @@
         }
 
         function onScrollWheel(cm, e) {
+          // On Chrome 102, viewport updates somehow stop wheel-based
+          // scrolling. Turning off pointer events during the scroll seems
+          // to avoid the issue.
+          if (chrome && chrome_version == 102) {
+            if (cm.display.chromeScrollHack == null) {
+              cm.display.sizer.style.pointerEvents = 'none'
+            } else {
+              clearTimeout(cm.display.chromeScrollHack)
+            }
+            cm.display.chromeScrollHack = setTimeout(function () {
+              cm.display.chromeScrollHack = null
+              cm.display.sizer.style.pointerEvents = ''
+            }, 100)
+          }
           var delta = wheelEventDelta(e),
             dx = delta.x,
             dy = delta.y
@@ -19335,13 +19360,10 @@
               bias,
               mayClear
             )
-            var newHead = skipAtomic(
-              doc,
-              range.head,
-              old && old.head,
-              bias,
-              mayClear
-            )
+            var newHead =
+              range.head == range.anchor
+                ? newAnchor
+                : skipAtomic(doc, range.head, old && old.head, bias, mayClear)
             if (out || newAnchor != range.anchor || newHead != range.head) {
               if (!out) {
                 out = sel.ranges.slice(0, i)
@@ -22618,7 +22640,7 @@
           if (e.target && e.target != cm.display.input.getField()) {
             return
           }
-          cm.curOp.focus = activeElt()
+          cm.curOp.focus = activeElt(doc(cm))
           if (signalDOMEvent(cm, e)) {
             return
           }
@@ -22785,7 +22807,7 @@
           var pos = posFromMouse(cm, e),
             button = e_button(e),
             repeat = pos ? clickRepeat(pos, button) : 'single'
-          window.focus()
+          win(cm).focus()
 
           // #3261: make sure, that we're not starting a second selection
           if (button == 1 && cm.state.selectingText) {
@@ -22882,7 +22904,7 @@
           if (ie) {
             setTimeout(bind(ensureFocus, cm), 0)
           } else {
-            cm.curOp.focus = activeElt()
+            cm.curOp.focus = activeElt(doc(cm))
           }
 
           var behavior = configureMouse(cm, repeat, event)
@@ -22998,23 +23020,23 @@
             delayBlurEvent(cm)
           }
           var display = cm.display,
-            doc = cm.doc
+            doc$1 = cm.doc
           e_preventDefault(event)
 
           var ourRange,
             ourIndex,
-            startSel = doc.sel,
+            startSel = doc$1.sel,
             ranges = startSel.ranges
           if (behavior.addNew && !behavior.extend) {
-            ourIndex = doc.sel.contains(start)
+            ourIndex = doc$1.sel.contains(start)
             if (ourIndex > -1) {
               ourRange = ranges[ourIndex]
             } else {
               ourRange = new Range(start, start)
             }
           } else {
-            ourRange = doc.sel.primary()
-            ourIndex = doc.sel.primIndex
+            ourRange = doc$1.sel.primary()
+            ourIndex = doc$1.sel.primIndex
           }
 
           if (behavior.unit == 'rectangle') {
@@ -23039,12 +23061,12 @@
 
           if (!behavior.addNew) {
             ourIndex = 0
-            setSelection(doc, new Selection([ourRange], 0), sel_mouse)
-            startSel = doc.sel
+            setSelection(doc$1, new Selection([ourRange], 0), sel_mouse)
+            startSel = doc$1.sel
           } else if (ourIndex == -1) {
             ourIndex = ranges.length
             setSelection(
-              doc,
+              doc$1,
               normalizeSelection(cm, ranges.concat([ourRange]), ourIndex),
               { scroll: false, origin: '*mouse' }
             )
@@ -23055,7 +23077,7 @@
             !behavior.extend
           ) {
             setSelection(
-              doc,
+              doc$1,
               normalizeSelection(
                 cm,
                 ranges.slice(0, ourIndex).concat(ranges.slice(ourIndex + 1)),
@@ -23063,9 +23085,9 @@
               ),
               { scroll: false, origin: '*mouse' }
             )
-            startSel = doc.sel
+            startSel = doc$1.sel
           } else {
-            replaceOneSelection(doc, ourIndex, ourRange, sel_mouse)
+            replaceOneSelection(doc$1, ourIndex, ourRange, sel_mouse)
           }
 
           var lastPos = start
@@ -23079,12 +23101,12 @@
               var ranges = [],
                 tabSize = cm.options.tabSize
               var startCol = countColumn(
-                getLine(doc, start.line).text,
+                getLine(doc$1, start.line).text,
                 start.ch,
                 tabSize
               )
               var posCol = countColumn(
-                getLine(doc, pos.line).text,
+                getLine(doc$1, pos.line).text,
                 pos.ch,
                 tabSize
               )
@@ -23096,7 +23118,7 @@
                 line <= end;
                 line++
               ) {
-                var text = getLine(doc, line).text,
+                var text = getLine(doc$1, line).text,
                   leftPos = findColumn(text, left, tabSize)
                 if (left == right) {
                   ranges.push(new Range(Pos(line, leftPos), Pos(line, leftPos)))
@@ -23113,7 +23135,7 @@
                 ranges.push(new Range(start, start))
               }
               setSelection(
-                doc,
+                doc$1,
                 normalizeSelection(
                   cm,
                   startSel.ranges.slice(0, ourIndex).concat(ranges),
@@ -23137,10 +23159,10 @@
               var ranges$1 = startSel.ranges.slice(0)
               ranges$1[ourIndex] = bidiSimplify(
                 cm,
-                new Range(clipPos(doc, anchor), head)
+                new Range(clipPos(doc$1, anchor), head)
               )
               setSelection(
-                doc,
+                doc$1,
                 normalizeSelection(cm, ranges$1, ourIndex),
                 sel_mouse
               )
@@ -23161,9 +23183,9 @@
               return
             }
             if (cmp(cur, lastPos) != 0) {
-              cm.curOp.focus = activeElt()
+              cm.curOp.focus = activeElt(doc(cm))
               extendTo(cur)
-              var visible = visibleLines(display, doc)
+              var visible = visibleLines(display, doc$1)
               if (cur.line >= visible.to || cur.line < visible.from) {
                 setTimeout(
                   operation(cm, function () {
@@ -23208,7 +23230,7 @@
             }
             off(display.wrapper.ownerDocument, 'mousemove', move)
             off(display.wrapper.ownerDocument, 'mouseup', up)
-            doc.history.lastSelOrigin = null
+            doc$1.history.lastSelOrigin = null
           }
 
           var move = operation(cm, function (e) {
@@ -23447,7 +23469,7 @@
           })
           option(
             'specialChars',
-            /[\u0000-\u001f\u007f-\u009f\u00ad\u061c\u200b\u200e\u200f\u2028\u2029\ufeff\ufff9-\ufffc]/g,
+            /[\u0000-\u001f\u007f-\u009f\u00ad\u061c\u200b\u200e\u200f\u2028\u2029\u202d\u202e\u2066\u2067\u2069\ufeff\ufff9-\ufffc]/g,
             function (cm, val, old) {
               cm.state.specialChars = new RegExp(
                 val.source + (val.test('\t') ? '' : '|\t'),
@@ -24194,7 +24216,7 @@
           var pasted = e.clipboardData && e.clipboardData.getData('Text')
           if (pasted) {
             e.preventDefault()
-            if (!cm.isReadOnly() && !cm.options.disableInput) {
+            if (!cm.isReadOnly() && !cm.options.disableInput && cm.hasFocus()) {
               runInOp(cm, function () {
                 return applyTextInput(cm, pasted, 0, null, 'paste')
               })
@@ -24311,7 +24333,7 @@
           CodeMirror.prototype = {
             constructor: CodeMirror,
             focus: function () {
-              window.focus()
+              win(this).focus()
               this.display.input.focus()
             },
 
@@ -24820,7 +24842,7 @@
               signal(this, 'overwriteToggle', this, this.state.overwrite)
             },
             hasFocus: function () {
-              return this.display.input.getField() == activeElt()
+              return this.display.input.getField() == activeElt(doc(this))
             },
             isReadOnly: function () {
               return !!(this.options.readOnly || this.doc.cantEdit)
@@ -25105,7 +25127,7 @@
           if (unit == 'page') {
             var pageSize = Math.min(
               cm.display.wrapper.clientHeight,
-              window.innerHeight || document.documentElement.clientHeight
+              win(cm).innerHeight || doc(cm).documentElement.clientHeight
             )
             var moveAmount = Math.max(
               pageSize - 0.5 * textHeight(cm.display),
@@ -25256,7 +25278,7 @@
               cm.display.lineSpace.firstChild
             )
             te.value = lastCopied.text.join('\n')
-            var hadFocus = activeElt()
+            var hadFocus = activeElt(div.ownerDocument)
             selectInput(te)
             setTimeout(function () {
               cm.display.lineSpace.removeChild(kludge)
@@ -25283,7 +25305,7 @@
 
         ContentEditableInput.prototype.prepareSelection = function () {
           var result = prepareSelection(this.cm, false)
-          result.focus = activeElt() == this.div
+          result.focus = activeElt(this.div.ownerDocument) == this.div
           return result
         }
 
@@ -25418,7 +25440,10 @@
 
         ContentEditableInput.prototype.focus = function () {
           if (this.cm.options.readOnly != 'nocursor') {
-            if (!this.selectionInEditor() || activeElt() != this.div) {
+            if (
+              !this.selectionInEditor() ||
+              activeElt(this.div.ownerDocument) != this.div
+            ) {
               this.showSelection(this.prepareSelection(), true)
             }
             this.div.focus()
@@ -25970,6 +25995,7 @@
           // Used to work around IE issue with selection being forgotten when focus moves away from textarea
           this.hasSelection = false
           this.composing = null
+          this.resetting = false
         }
 
         TextareaInput.prototype.init = function (display) {
@@ -26135,10 +26161,11 @@
         // Reset the input to correspond to the selection (or to be empty,
         // when not typing and nothing is selected)
         TextareaInput.prototype.reset = function (typing) {
-          if (this.contextMenuPending || this.composing) {
+          if (this.contextMenuPending || (this.composing && typing)) {
             return
           }
           var cm = this.cm
+          this.resetting = true
           if (cm.somethingSelected()) {
             this.prevInput = ''
             var content = cm.getSelection()
@@ -26155,6 +26182,7 @@
               this.hasSelection = null
             }
           }
+          this.resetting = false
         }
 
         TextareaInput.prototype.getField = function () {
@@ -26168,7 +26196,7 @@
         TextareaInput.prototype.focus = function () {
           if (
             this.cm.options.readOnly != 'nocursor' &&
-            (!mobile || activeElt() != this.textarea)
+            (!mobile || activeElt(this.textarea.ownerDocument) != this.textarea)
           ) {
             try {
               this.textarea.focus()
@@ -26242,6 +26270,7 @@
           // in which case reading its value would be expensive.
           if (
             this.contextMenuPending ||
+            this.resetting ||
             !cm.state.focused ||
             (hasSelection(input) && !prevInput && !this.composing) ||
             cm.isReadOnly() ||
@@ -26367,11 +26396,11 @@
             ';\n      outline: none; border-width: 0; outline: none; overflow: hidden; opacity: .05; filter: alpha(opacity=5);'
           var oldScrollY
           if (webkit) {
-            oldScrollY = window.scrollY
+            oldScrollY = te.ownerDocument.defaultView.scrollY
           } // Work around Chrome issue (#2712)
           display.input.focus()
           if (webkit) {
-            window.scrollTo(null, oldScrollY)
+            te.ownerDocument.defaultView.scrollTo(null, oldScrollY)
           }
           display.input.reset()
           // Adds "Select all" to context menu in FF
@@ -26476,7 +26505,7 @@
           // Set autofocus to true if this textarea is focused, or if it has
           // autofocus and no other element is focused.
           if (options.autofocus == null) {
-            var hasFocus = activeElt()
+            var hasFocus = activeElt(textarea.ownerDocument)
             options.autofocus =
               hasFocus == textarea ||
               (textarea.getAttribute('autofocus') != null &&
@@ -26641,7 +26670,7 @@
 
         addLegacyProps(CodeMirror)
 
-        CodeMirror.version = '5.65.3'
+        CodeMirror.version = '5.65.8'
 
         return CodeMirror
       })
@@ -26655,7 +26684,7 @@
       __webpack_require__
     ) => {
       // CodeMirror, copyright (c) by Marijn Haverbeke and others
-      // Distributed under an MIT license: https://codemirror.net/LICENSE
+      // Distributed under an MIT license: https://codemirror.net/5/LICENSE
 
       ;(function (mod) {
         if (true)
@@ -43774,7 +43803,7 @@
         __WEBPACK_AMD_DEFINE_ARRAY__,
         __WEBPACK_AMD_DEFINE_RESULT__
       /*!
-       * jQuery UI :data 1.13.1
+       * jQuery UI :data 1.13.2
        * http://jqueryui.com
        *
        * Copyright jQuery Foundation and other contributors
@@ -43833,7 +43862,7 @@
         __WEBPACK_AMD_DEFINE_ARRAY__,
         __WEBPACK_AMD_DEFINE_RESULT__
       /*!
-       * jQuery UI Disable Selection 1.13.1
+       * jQuery UI Disable Selection 1.13.2
        * http://jqueryui.com
        *
        * Copyright jQuery Foundation and other contributors
@@ -43902,7 +43931,7 @@
         __WEBPACK_AMD_DEFINE_ARRAY__,
         __WEBPACK_AMD_DEFINE_RESULT__
       /*!
-       * jQuery UI Focusable 1.13.1
+       * jQuery UI Focusable 1.13.2
        * http://jqueryui.com
        *
        * Copyright jQuery Foundation and other contributors
@@ -44016,7 +44045,7 @@
         __WEBPACK_AMD_DEFINE_ARRAY__,
         __WEBPACK_AMD_DEFINE_RESULT__
       /*!
-       * jQuery UI Form Reset Mixin 1.13.1
+       * jQuery UI Form Reset Mixin 1.13.2
        * http://jqueryui.com
        *
        * Copyright jQuery Foundation and other contributors
@@ -44186,7 +44215,7 @@
         __WEBPACK_AMD_DEFINE_ARRAY__,
         __WEBPACK_AMD_DEFINE_RESULT__
       /*!
-       * jQuery UI Keycode 1.13.1
+       * jQuery UI Keycode 1.13.2
        * http://jqueryui.com
        *
        * Copyright jQuery Foundation and other contributors
@@ -44251,7 +44280,7 @@
         __WEBPACK_AMD_DEFINE_ARRAY__,
         __WEBPACK_AMD_DEFINE_RESULT__
       /*!
-       * jQuery UI Labels 1.13.1
+       * jQuery UI Labels 1.13.2
        * http://jqueryui.com
        *
        * Copyright jQuery Foundation and other contributors
@@ -44402,7 +44431,7 @@
         __WEBPACK_AMD_DEFINE_ARRAY__,
         __WEBPACK_AMD_DEFINE_RESULT__
       /*!
-       * jQuery UI Position 1.13.1
+       * jQuery UI Position 1.13.2
        * http://jqueryui.com
        *
        * Copyright jQuery Foundation and other contributors
@@ -45133,7 +45162,7 @@
         __WEBPACK_AMD_DEFINE_ARRAY__,
         __WEBPACK_AMD_DEFINE_RESULT__
       /*!
-       * jQuery UI Scroll Parent 1.13.1
+       * jQuery UI Scroll Parent 1.13.2
        * http://jqueryui.com
        *
        * Copyright jQuery Foundation and other contributors
@@ -45207,7 +45236,7 @@
         __WEBPACK_AMD_DEFINE_ARRAY__,
         __WEBPACK_AMD_DEFINE_RESULT__
       /*!
-       * jQuery UI Tabbable 1.13.1
+       * jQuery UI Tabbable 1.13.2
        * http://jqueryui.com
        *
        * Copyright jQuery Foundation and other contributors
@@ -45265,7 +45294,7 @@
         __WEBPACK_AMD_DEFINE_ARRAY__,
         __WEBPACK_AMD_DEFINE_RESULT__
       /*!
-       * jQuery UI Unique ID 1.13.1
+       * jQuery UI Unique ID 1.13.2
        * http://jqueryui.com
        *
        * Copyright jQuery Foundation and other contributors
@@ -45355,7 +45384,7 @@
 
         $.ui = $.ui || {}
 
-        return ($.ui.version = '1.13.1')
+        return ($.ui.version = '1.13.2')
       })
 
       /***/
@@ -45366,7 +45395,7 @@
         __WEBPACK_AMD_DEFINE_ARRAY__,
         __WEBPACK_AMD_DEFINE_RESULT__
       /*!
-       * jQuery UI Widget 1.13.1
+       * jQuery UI Widget 1.13.2
        * http://jqueryui.com
        *
        * Copyright jQuery Foundation and other contributors
@@ -46204,7 +46233,7 @@
         __WEBPACK_AMD_DEFINE_ARRAY__,
         __WEBPACK_AMD_DEFINE_RESULT__
       /*!
-       * jQuery UI Autocomplete 1.13.1
+       * jQuery UI Autocomplete 1.13.2
        * http://jqueryui.com
        *
        * Copyright jQuery Foundation and other contributors
@@ -46251,7 +46280,7 @@
         'use strict'
 
         $.widget('ui.autocomplete', {
-          version: '1.13.1',
+          version: '1.13.2',
           defaultElement: '<input>',
           options: {
             appendTo: null,
@@ -46920,7 +46949,7 @@
         __WEBPACK_AMD_DEFINE_ARRAY__,
         __WEBPACK_AMD_DEFINE_RESULT__
       /*!
-       * jQuery UI Button 1.13.1
+       * jQuery UI Button 1.13.2
        * http://jqueryui.com
        *
        * Copyright jQuery Foundation and other contributors
@@ -46969,7 +46998,7 @@
         'use strict'
 
         $.widget('ui.button', {
-          version: '1.13.1',
+          version: '1.13.2',
           defaultElement: '<button>',
           options: {
             classes: {
@@ -47413,7 +47442,7 @@
         __WEBPACK_AMD_DEFINE_ARRAY__,
         __WEBPACK_AMD_DEFINE_RESULT__
       /*!
-       * jQuery UI Checkboxradio 1.13.1
+       * jQuery UI Checkboxradio 1.13.2
        * http://jqueryui.com
        *
        * Copyright jQuery Foundation and other contributors
@@ -47460,7 +47489,7 @@
         $.widget('ui.checkboxradio', [
           $.ui.formResetMixin,
           {
-            version: '1.13.1',
+            version: '1.13.2',
             options: {
               disabled: null,
               label: null,
@@ -47472,8 +47501,7 @@
             },
 
             _getCreateOptions: function () {
-              var disabled, labels
-              var that = this
+              var disabled, labels, labelContents
               var options = this._super() || {}
 
               // We read the type here, because it makes more sense to throw a element type error first,
@@ -47493,15 +47521,18 @@
 
               // We need to get the label text but this may also need to make sure it does not contain the
               // input itself.
-              this.label
-                .contents()
-                .not(this.element[0])
-                .each(function () {
-                  // The label contents could be text, html, or a mix. We concat each element to get a
-                  // string representation of the label, without the input as part of it.
-                  that.originalLabel +=
-                    this.nodeType === 3 ? $(this).text() : this.outerHTML
-                })
+              // The label contents could be text, html, or a mix. We wrap all elements
+              // and read the wrapper's `innerHTML` to get a string representation of
+              // the label, without the input as part of it.
+              labelContents = this.label.contents().not(this.element[0])
+
+              if (labelContents.length) {
+                this.originalLabel += labelContents
+                  .clone()
+                  .wrapAll('<div></div>')
+                  .parent()
+                  .html()
+              }
 
               // Set the label option if we found label text
               if (this.originalLabel) {
@@ -47762,7 +47793,7 @@
         __WEBPACK_AMD_DEFINE_ARRAY__,
         __WEBPACK_AMD_DEFINE_RESULT__
       /*!
-       * jQuery UI Controlgroup 1.13.1
+       * jQuery UI Controlgroup 1.13.2
        * http://jqueryui.com
        *
        * Copyright jQuery Foundation and other contributors
@@ -47806,7 +47837,7 @@
         var controlgroupCornerRegex = /ui-corner-([a-z]){2,6}/g
 
         return $.widget('ui.controlgroup', {
-          version: '1.13.1',
+          version: '1.13.2',
           defaultElement: '<div>',
           options: {
             direction: 'horizontal',
@@ -48104,7 +48135,7 @@
         __WEBPACK_AMD_DEFINE_ARRAY__,
         __WEBPACK_AMD_DEFINE_RESULT__
       /*!
-       * jQuery UI Dialog 1.13.1
+       * jQuery UI Dialog 1.13.2
        * http://jqueryui.com
        *
        * Copyright jQuery Foundation and other contributors
@@ -48158,7 +48189,7 @@
         'use strict'
 
         $.widget('ui.dialog', {
-          version: '1.13.1',
+          version: '1.13.2',
           options: {
             appendTo: 'body',
             autoOpen: true,
@@ -49119,7 +49150,7 @@
         __WEBPACK_AMD_DEFINE_ARRAY__,
         __WEBPACK_AMD_DEFINE_RESULT__
       /*!
-       * jQuery UI Draggable 1.13.1
+       * jQuery UI Draggable 1.13.2
        * http://jqueryui.com
        *
        * Copyright jQuery Foundation and other contributors
@@ -49166,7 +49197,7 @@
         'use strict'
 
         $.widget('ui.draggable', $.ui.mouse, {
-          version: '1.13.1',
+          version: '1.13.2',
           widgetEventPrefix: 'drag',
           options: {
             addClasses: true,
@@ -50481,7 +50512,7 @@
         __WEBPACK_AMD_DEFINE_ARRAY__,
         __WEBPACK_AMD_DEFINE_RESULT__
       /*!
-       * jQuery UI Menu 1.13.1
+       * jQuery UI Menu 1.13.2
        * http://jqueryui.com
        *
        * Copyright jQuery Foundation and other contributors
@@ -50528,7 +50559,7 @@
         'use strict'
 
         return $.widget('ui.menu', {
-          version: '1.13.1',
+          version: '1.13.2',
           defaultElement: '<ul>',
           delay: 300,
           options: {
@@ -51280,7 +51311,7 @@
         __WEBPACK_AMD_DEFINE_ARRAY__,
         __WEBPACK_AMD_DEFINE_RESULT__
       /*!
-       * jQuery UI Mouse 1.13.1
+       * jQuery UI Mouse 1.13.2
        * http://jqueryui.com
        *
        * Copyright jQuery Foundation and other contributors
@@ -51325,7 +51356,7 @@
         })
 
         return $.widget('ui.mouse', {
-          version: '1.13.1',
+          version: '1.13.2',
           options: {
             cancel: 'input, textarea, button, select, option',
             distance: 1,
@@ -51548,7 +51579,7 @@
         __WEBPACK_AMD_DEFINE_ARRAY__,
         __WEBPACK_AMD_DEFINE_RESULT__
       /*!
-       * jQuery UI Resizable 1.13.1
+       * jQuery UI Resizable 1.13.2
        * http://jqueryui.com
        *
        * Copyright jQuery Foundation and other contributors
@@ -51594,7 +51625,7 @@
         'use strict'
 
         $.widget('ui.resizable', $.ui.mouse, {
-          version: '1.13.1',
+          version: '1.13.2',
           widgetEventPrefix: 'resize',
           options: {
             alsoResize: false,
@@ -109222,7 +109253,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
       bindChangeLockConfig(content, typeDefinition)
     } // CONCATENATED MODULE: ./package.json
 
-    const package_namespaceObject = { i8: '10.0.0' } // CONCATENATED MODULE: ./src/lib/component/SettingDialog/index.js
+    const package_namespaceObject = { i8: '10.0.1' } // CONCATENATED MODULE: ./src/lib/component/SettingDialog/index.js
     function SettingDialog_template(context) {
       const {
         typeGap,
@@ -114275,7 +114306,6 @@ data-button-type="${type}">
         eventEmitter.on(
           'textae-event.annotation-data.events-observer.change',
           (annotationData) => {
-            console.log(annotationData)
             destinationElement.textContent = JSON.stringify(
               annotationData.JSON,
               null,
