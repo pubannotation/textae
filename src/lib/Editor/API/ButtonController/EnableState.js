@@ -48,7 +48,7 @@ export default class EnableState {
   updateManipulateSpanButtons(enableToCreate, enableToExpand, enableToShrink) {
     this._states.set('create-span-by-touch', enableToCreate)
     this._states.set('expand-span-by-touch', enableToExpand)
-    this._states.set('shrink-span', enableToShrink)
+    this._states.set('shrink-span-by-touch', enableToShrink)
     this._propagate()
   }
 
@@ -127,7 +127,7 @@ export default class EnableState {
     this._states.set('line-height-auto', lineHeightAuto)
     this._states.set('create-span-by-touch', span)
     this._states.set('expand-span-by-touch', span)
-    this._states.set('shrink-span', span)
+    this._states.set('shrink-span-by-touch', span)
     this._states.set('pallet', pallet)
   }
 }

@@ -19,7 +19,7 @@ export default class IconEventMap {
       ['replicate', () => presenter.replicate()],
       ['create-span-by-touch', () => presenter.createSpan()],
       ['expand-span-by-touch', () => presenter.expandSpan()],
-      ['shrink-span', () => presenter.shrinkSpan()],
+      ['shrink-span-by-touch', () => presenter.shrinkSpan()],
       ['entity', () => presenter.createEntity()],
       ['change-label', () => presenter.editTypeValues()],
       ['pallet', () => presenter.showPallet()],

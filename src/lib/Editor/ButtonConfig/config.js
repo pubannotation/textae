@@ -118,7 +118,7 @@ export const config = [
     list: [
       { type: 'create-span-by-touch', title: 'Create span' },
       { type: 'expand-span-by-touch', title: 'Expand span' },
-      { type: 'shrink-span', title: 'Shrink span' }
+      { type: 'shrink-span-by-touch', title: 'Shrink span' }
     ]
   },
   {
