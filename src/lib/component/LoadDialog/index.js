@@ -126,10 +126,11 @@ export default class LoadDialog extends Dialog {
     )
 
     // Load from a textarea
+    let jsonEditor = null
     delegate(super.el, '[type="button"].instant', 'click', () => {
-      const text = super.el.querySelector(
-        '.textae-editor__load-dialog__textarea'
-      ).value
+      const text = jsonEditor
+        ? jsonEditor.state.doc.toString()
+        : super.el.querySelector('.textae-editor__load-dialog__textarea').value
       if (isUserConfirm()) {
         readFromText(text)
       }
@@ -150,7 +151,7 @@ export default class LoadDialog extends Dialog {
       const dialogHeight = super.el.closest(
         '.textae-editor__dialog'
       ).clientHeight
-      initJSONEditor(textarea, dialogHeight)
+      jsonEditor = initJSONEditor(textarea, dialogHeight)
     })
   }
 

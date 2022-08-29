@@ -1,17 +1,27 @@
-import CodeMirror from 'codemirror'
-import 'codemirror/mode/javascript/javascript.js'
+import { EditorView, basicSetup } from 'codemirror'
+import { syntaxHighlighting, defaultHighlightStyle } from '@codemirror/language'
+import { javascript } from '@codemirror/lang-javascript'
 
 export default function initJSONEditor(textarea, dialogHeight) {
-  const JSONEditor = CodeMirror.fromTextArea(textarea, {
-    mode: {
-      name: 'javascript',
-      json: true
-    },
-    lineNumbers: true,
-    value: textarea.value
+  const editorHeightTheme = EditorView.theme({
+    '&': {
+      height: `${dialogHeight * 0.6}px`
+    }
   })
-  JSONEditor.setSize('auto', dialogHeight * 0.6)
-  JSONEditor.on('change', (cm) => {
-    textarea.value = cm.getValue()
+
+  const view = new EditorView({
+    doc: textarea.value,
+    extensions: [
+      basicSetup,
+      javascript(),
+      syntaxHighlighting(defaultHighlightStyle),
+      editorHeightTheme
+    ]
   })
+
+  // Replace the textarea with the new editor.
+  textarea.parentNode.insertBefore(view.dom, textarea)
+  textarea.style.display = 'none'
+
+  return view
 }
