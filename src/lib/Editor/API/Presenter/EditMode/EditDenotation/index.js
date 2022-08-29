@@ -8,7 +8,7 @@ import OrderedPositions from '../OrderedPositions'
 import SelectionWrapper from '../SelectionWrapper'
 import AttributeEditor from '../AttributeEditor'
 import SelectionAttributePallet from '../../../../../component/SelectionAttributePallet'
-import EditTypeValuesDialog from '../../../../../component/EditTypeValuesDialog'
+import EditPropertiesDialog from '../../../../../component/EditPropertiesDialog'
 
 export default class EditDenotation extends Edit {
   constructor(
@@ -115,7 +115,7 @@ export default class EditDenotation extends Edit {
 
   editProperties() {
     if (this._selectionModel.entity.some) {
-      new EditTypeValuesDialog(
+      new EditPropertiesDialog(
         this._editorHTMLelement,
         'Entity',
         'Entity',

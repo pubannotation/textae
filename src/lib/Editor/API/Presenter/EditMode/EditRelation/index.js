@@ -4,7 +4,7 @@ import Edit from '../Edit'
 import TypeValuesPallet from '../../../../../component/TypeValuesPallet'
 import AttributeEditor from '../AttributeEditor'
 import SelectionAttributePallet from '../../../../../component/SelectionAttributePallet'
-import EditTypeValuesDialog from '../../../../../component/EditTypeValuesDialog'
+import EditPropertiesDialog from '../../../../../component/EditPropertiesDialog'
 
 export default class EditRelation extends Edit {
   constructor(
@@ -71,7 +71,7 @@ export default class EditRelation extends Edit {
 
   editProperties() {
     if (this._selectionModel.relation.some) {
-      new EditTypeValuesDialog(
+      new EditPropertiesDialog(
         this._editorHTMLElement,
         'Relation',
         'Relation',

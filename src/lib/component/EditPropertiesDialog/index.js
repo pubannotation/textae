@@ -8,7 +8,7 @@ import EditNumericAttributeDialog from '../EditNumericAttributeDialog'
 import EditStringAttributeDialog from '../EditStringAttributeDialog'
 import mergedTypeValuesOf from './mergedTypeValuesOf'
 
-export default class EditTypeValuesDialog extends PromiseDialog {
+export default class EditPropertiesDialog extends PromiseDialog {
   constructor(
     editorHTMLElement,
     annotationType,
