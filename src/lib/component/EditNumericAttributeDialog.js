@@ -43,7 +43,7 @@ export default class EditNumericAttributeDialog extends PromiseDialog {
     attribute,
     targetAttributes,
     deletable,
-    editTypeValues,
+    editProperties,
     pallet
   ) {
     const buttons = []
@@ -93,14 +93,14 @@ export default class EditNumericAttributeDialog extends PromiseDialog {
       }
     )
 
-    if (editTypeValues) {
+    if (editProperties) {
       delegate(
         super.el,
         '.textae-editor__edit-numeric-attribute-dialog__subject-edit-button',
         'click',
         () => {
           this.close()
-          editTypeValues()
+          editProperties()
         }
       )
     }

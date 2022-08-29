@@ -56,7 +56,7 @@ export default class EditRelation extends Edit {
       annotationData,
       selectionModel.relation,
       new SelectionAttributePallet(editorHTMLElement),
-      () => this.editTypeValues(),
+      () => this.editProperties(),
       relationPallet
     )
   }
@@ -69,7 +69,7 @@ export default class EditRelation extends Edit {
     this._buttonController.updateManipulateSpanButtons(false, false, false)
   }
 
-  editTypeValues() {
+  editProperties() {
     if (this._selectionModel.relation.some) {
       new EditTypeValuesDialog(
         this._editorHTMLElement,

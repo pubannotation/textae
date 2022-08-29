@@ -5,7 +5,7 @@ export default function (
   attribute,
   commander,
   attrDef,
-  editTypeValues,
+  editProperties,
   pallet
 ) {
   new EditStringAttributeDialog(
@@ -16,7 +16,7 @@ export default function (
       return attrs
     }, []),
     true,
-    editTypeValues,
+    editProperties,
     pallet
   )
     .open()

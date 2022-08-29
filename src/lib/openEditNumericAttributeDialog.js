@@ -5,7 +5,7 @@ export default function (
   attrDef,
   attribute,
   commander,
-  editTypeValues,
+  editProperties,
   pallet
 ) {
   new EditNumericAttributeDialog(
@@ -16,7 +16,7 @@ export default function (
       return attrs
     }, []),
     true,
-    editTypeValues,
+    editProperties,
     pallet
   )
     .open()

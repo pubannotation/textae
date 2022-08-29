@@ -144,7 +144,7 @@ export default class EditMode {
           showPallet() {},
           selectLeftAttributeTab() {},
           selectRightAttributeTab() {},
-          editTypeValues() {},
+          editProperties() {},
           manipulateAttribute() {},
           relationClicked() {},
           typeValuesClicked(_, entity) {

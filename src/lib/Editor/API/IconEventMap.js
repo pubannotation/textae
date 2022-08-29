@@ -21,7 +21,7 @@ export default class IconEventMap {
       ['expand-span-by-touch', () => presenter.expandSpan()],
       ['shrink-span-by-touch', () => presenter.shrinkSpan()],
       ['entity', () => presenter.createEntity()],
-      ['edit-properties', () => presenter.editTypeValues()],
+      ['edit-properties', () => presenter.editProperties()],
       ['pallet', () => presenter.showPallet()],
       ['delete', () => presenter.removeSelectedElements()],
       ['copy', () => presenter.copyEntitiesToLocalClipboard()],

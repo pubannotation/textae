@@ -75,7 +75,7 @@ export default class Presenter {
       'showPallet',
       'selectLeftAttributeTab',
       'selectRightAttributeTab',
-      'editTypeValues',
+      'editProperties',
       'manipulateAttribute'
     ])
     forwardMethods(this, () => this._editMode.stateMachine, [

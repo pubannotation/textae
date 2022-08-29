@@ -73,7 +73,7 @@ export default class EditDenotation extends Edit {
       annotationData,
       selectionModel.entity,
       new SelectionAttributePallet(editorHTMLElement),
-      () => this.editTypeValues(),
+      () => this.editProperties(),
       denotationPallet
     )
   }
@@ -113,7 +113,7 @@ export default class EditDenotation extends Edit {
     }
   }
 
-  editTypeValues() {
+  editProperties() {
     if (this._selectionModel.entity.some) {
       new EditTypeValuesDialog(
         this._editorHTMLelement,

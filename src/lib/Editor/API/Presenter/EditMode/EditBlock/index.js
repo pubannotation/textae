@@ -73,7 +73,7 @@ export default class EditBlock extends Edit {
       annotationData,
       selectionModel.entity,
       new SelectionAttributePallet(editorHTMLElement),
-      () => this.editTypeValues(),
+      () => this.editProperties(),
       blockPallet
     )
   }
@@ -113,7 +113,7 @@ export default class EditBlock extends Edit {
     }
   }
 
-  editTypeValues() {
+  editProperties() {
     if (this._selectionModel.entity.some) {
       new EditTypeValuesDialog(
         this._editorHTMLElement,

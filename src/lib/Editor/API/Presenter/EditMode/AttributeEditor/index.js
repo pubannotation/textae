@@ -8,7 +8,7 @@ export default class AttributeEditor {
     annotationData,
     selectionModelItems,
     selectionAttributePallet,
-    editTypeValues,
+    editProperties,
     typeValuesPallet
   ) {
     this._commander = commander
@@ -16,7 +16,7 @@ export default class AttributeEditor {
     this._selectionModelItems = selectionModelItems
     this._selectionAttributePallet = selectionAttributePallet
     this._typeDefinition = annotationData.typeDefinition
-    this._editTypeValues = editTypeValues
+    this._editProperties = editProperties
     this._typeValuesPallet = typeValuesPallet
   }
 
@@ -44,7 +44,7 @@ export default class AttributeEditor {
           this._selectionModelItems,
           attrDef,
           this._commander,
-          this._editTypeValues,
+          this._editProperties,
           this._typeValuesPallet
         )
         break
@@ -85,7 +85,7 @@ export default class AttributeEditor {
           this._selectionModelItems,
           attrDef,
           this._commander,
-          this._editTypeValues,
+          this._editProperties,
           this._typeValuesPallet
         )
         break

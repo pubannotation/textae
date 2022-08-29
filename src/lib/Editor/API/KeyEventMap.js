@@ -20,7 +20,7 @@ export default class KeyEventMap {
       ['q', () => presenter.showPallet()],
       ['r', () => presenter.replicate()],
       ['u', () => persistenceInterface.uploadAnnotation()],
-      ['w', () => presenter.editTypeValues()],
+      ['w', () => presenter.editProperties()],
       ['y', () => commander.redo()],
       ['z', () => commander.undo()],
       ['ArrowDown', () => presenter.selectDown()],

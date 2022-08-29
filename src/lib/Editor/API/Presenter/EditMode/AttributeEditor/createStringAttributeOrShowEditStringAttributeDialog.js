@@ -5,7 +5,7 @@ export default function (
   selectionModelItems,
   attrDef,
   commander,
-  editTypeValues,
+  editProperties,
   pallet
 ) {
   const attribute = selectionModelItems.findSelectedAttributeWithSamePredicate(
@@ -22,7 +22,7 @@ export default function (
         attribute,
         commander,
         attrDef,
-        editTypeValues,
+        editProperties,
         pallet
       )
     } else {

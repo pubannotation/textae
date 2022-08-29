@@ -6,7 +6,7 @@ export default function (
   attrDef,
   commander,
   pallet,
-  editTypeValues
+  editProperties
 ) {
   const attribute = selectionModelItems.findSelectedAttributeWithSamePredicate(
     attrDef.pred
@@ -23,7 +23,7 @@ export default function (
         attribute,
         commander,
         pallet,
-        editTypeValues
+        editProperties
       )
     } else {
       alertifyjs.warning(
