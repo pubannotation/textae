@@ -137,8 +137,8 @@ export const config = [
         type: 'pallet'
       },
       {
-        type: 'change-label',
-        title: 'Change label [W]',
+        type: 'edit-properties',
+        title: 'Edit Properties [W]',
         enableWhenSelecting: (selectionModel) =>
           selectionModel.entity.some || selectionModel.relation.some
       },
