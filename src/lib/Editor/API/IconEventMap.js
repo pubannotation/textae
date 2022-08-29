@@ -18,7 +18,7 @@ export default class IconEventMap {
       ['redo', () => commander.redo()],
       ['replicate', () => presenter.replicate()],
       ['create-span-by-touch', () => presenter.createSpan()],
-      ['expand-span', () => presenter.expandSpan()],
+      ['expand-span-by-touch', () => presenter.expandSpan()],
       ['shrink-span', () => presenter.shrinkSpan()],
       ['entity', () => presenter.createEntity()],
       ['change-label', () => presenter.editTypeValues()],
