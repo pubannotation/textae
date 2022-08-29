@@ -16,7 +16,7 @@ export default class AttributeModel {
     relationContaier,
     namespace,
     definitionContainer,
-    wikiMedia
+    mediaDictionary
   ) {
     this.id = id
     this.subj = subj
@@ -26,12 +26,12 @@ export default class AttributeModel {
     this._relationContaier = relationContaier
     this._namespace = namespace
     this._definitionContainer = definitionContainer
-    this._wikiMedia = wikiMedia
+    this._mediaDictionary = mediaDictionary
 
     // If the extension cannot be used to determine whether the image is an image or not,
     // the Content-Type header is acquired to determine whether the image is an image or not.
     if (this._valueType === 'string' && !this._hasImageExtesion) {
-      this._wikiMedia
+      this._mediaDictionary
         .acquireContentTypeOf(this._href)
         .then(() => this.updateElement())
     }
@@ -133,7 +133,7 @@ export default class AttributeModel {
     return (
       this._valueType === 'string' &&
       (this._hasImageExtesion ||
-        this._wikiMedia.hasImageContentTypeOf(this._href))
+        this._mediaDictionary.hasImageContentTypeOf(this._href))
     )
   }
 

@@ -1,6 +1,6 @@
 // The browser cache is not available until the HTTP request is returned.
 // To make only one request for a single URL, have an application-level cache.
-export default class WikiMedia {
+export default class MediaDictionary {
   constructor() {
     this._cache = new Map()
   }
