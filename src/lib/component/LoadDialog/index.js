@@ -2,11 +2,10 @@ import delegate from 'delegate'
 import Dialog from '../Dialog'
 import enableHTMLelment from '../enableHTMLElement'
 import Dropzone from 'dropzone'
-import CodeMirror from 'codemirror'
-import 'codemirror/mode/javascript/javascript.js'
 import isJSON from '../../isJSON'
 import maximizeOverlay from './maximizeOverlay'
 import revertMaximizeOverlay from './revertMaximizeOverlay'
+import initJSONEditor from './initJSONEditor'
 
 function template(context) {
   const { url } = context
@@ -218,19 +217,4 @@ export default class LoadDialog extends Dialog {
       .closest('.textae-editor__dialog')
       .classList.add('textae-editor__load-dialog--expanded')
   }
-}
-
-function initJSONEditor(textarea, dialogHeight) {
-  const JSONEditor = CodeMirror.fromTextArea(textarea, {
-    mode: {
-      name: 'javascript',
-      json: true
-    },
-    lineNumbers: true,
-    value: textarea.value
-  })
-  JSONEditor.setSize('auto', dialogHeight * 0.6)
-  JSONEditor.on('change', (cm) => {
-    textarea.value = cm.getValue()
-  })
 }
