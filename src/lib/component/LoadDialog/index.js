@@ -147,7 +147,11 @@ export default class LoadDialog extends Dialog {
       if (isJSON(textarea.value)) {
         textarea.value = JSON.stringify(JSON.parse(textarea.value), null, 2)
       }
-      this._createJSONEditor(textarea)
+
+      const dialogHeight = super.el.closest(
+        '.textae-editor__dialog'
+      ).clientHeight
+      initJSONEditor(textarea, dialogHeight)
     })
   }
 
@@ -214,20 +218,19 @@ export default class LoadDialog extends Dialog {
       .closest('.textae-editor__dialog')
       .classList.add('textae-editor__load-dialog--expanded')
   }
+}
 
-  _createJSONEditor(textarea) {
-    const JSONEditor = CodeMirror.fromTextArea(textarea, {
-      mode: {
-        name: 'javascript',
-        json: true
-      },
-      lineNumbers: true,
-      value: textarea.value
-    })
-    const dialogHeight = super.el.closest('.textae-editor__dialog').clientHeight
-    JSONEditor.setSize('auto', dialogHeight * 0.6)
-    JSONEditor.on('change', (cm) => {
-      textarea.value = cm.getValue()
-    })
-  }
+function initJSONEditor(textarea, dialogHeight) {
+  const JSONEditor = CodeMirror.fromTextArea(textarea, {
+    mode: {
+      name: 'javascript',
+      json: true
+    },
+    lineNumbers: true,
+    value: textarea.value
+  })
+  JSONEditor.setSize('auto', dialogHeight * 0.6)
+  JSONEditor.on('change', (cm) => {
+    textarea.value = cm.getValue()
+  })
 }
