@@ -59,20 +59,21 @@ export default class ControlViewModel {
   }
 
   get controlBarButton() {
-    return new Buttons().controlBar.map(({ list }) => {
-      const ret = []
-      for (const { type, title } of list) {
-        ret.push({
+    return new Buttons().controlBar.map(({ list }) =>
+      list
+        .map(({ type, title }) =>
+          type == 'pallet'
+            ? { type, title: getPalletButtonTitleFor(this._mode) }
+            : { type, title }
+        )
+        .map(({ type, title }) => ({
           type,
           title,
           pushed: this.getState(type, 'pushed'),
           disabled: this.getState(type, 'disabled'),
           trasit: this.getState(type, 'trasit')
-        })
-      }
-
-      return ret
-    })
+        }))
+    )
   }
 
   get contextMenuButton() {

@@ -82,7 +82,7 @@ export default class ControlBar extends Control {
         button.title = title
       })
       .on('textae-event.orginal-data.configuration.reset', () =>
-        this._updateButton('pallet', 'transit')
+        this._redrawAllButtons()
       )
       .on('textae-event.type-definition.entity.change', () =>
         this._updateButton('pallet', 'transit')
@@ -128,5 +128,13 @@ export default class ControlBar extends Control {
         button.classList.remove(`textae-control-icon--${stateName}`)
       }
     }
+  }
+
+  _redrawAllButtons() {
+    this.el.innerHTML = ''
+    this.el.insertAdjacentHTML(
+      'beforeend',
+      template(classify(this._controlViewModel.controlBarButton))
+    )
   }
 }
