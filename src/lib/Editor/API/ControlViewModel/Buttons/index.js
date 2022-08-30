@@ -1,5 +1,5 @@
 import isTouchable from '../../../isTouchable'
-import { config } from './config'
+import { definition } from './definition'
 import isAndroid from '../../../isAndroid'
 
 function isIOS() {
@@ -15,7 +15,7 @@ function isIOS() {
 export default class Buttons {
   // Buttons to display on the control bar.
   get controlBar() {
-    return config
+    return definition
       .filter(({ usage }) => {
         // To make it easier to guess the result, don't use the screen size to judge the device.
         if (isAndroid() || isIOS()) {
@@ -34,7 +34,7 @@ export default class Buttons {
 
   // Buttons to display on the context menu.
   get contextMenu() {
-    return config
+    return definition
       .filter(({ usage }) => {
         if (isTouchable()) {
           return usage['touce device'].includes('context menu')
@@ -63,6 +63,6 @@ export default class Buttons {
   }
 
   get _buttons() {
-    return config.map(({ list }) => list).flat()
+    return definition.map(({ list }) => list).flat()
   }
 }

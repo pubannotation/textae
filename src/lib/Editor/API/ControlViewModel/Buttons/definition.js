@@ -1,4 +1,4 @@
-export const config = [
+export const definition = [
   {
     usage: {
       'keyboard device': ['control bar', 'context menu'],
