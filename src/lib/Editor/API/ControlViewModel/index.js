@@ -79,24 +79,23 @@ export default class ControlViewModel {
 
   get contextMenuButton() {
     return this._buttonConfig.contextMenu
-      .map(({ list }) => {
-        const ret = []
-        for (const { type, title } of list) {
+      .map(({ list }) =>
+        list.reduce((acc, { type, title }) => {
           if (!isTouchable() && this.getState(type, 'disabled')) {
-            continue
+            return acc
           }
 
-          ret.push({
+          acc.push({
             type,
             title,
             pushed: this.getState(type, 'pushed'),
             disabled: this.getState(type, 'disabled'),
             trasit: this.getState(type, 'trasit')
           })
-        }
 
-        return ret
-      })
+          return acc
+        }, [])
+      )
       .filter((list) => list.length)
   }
 
