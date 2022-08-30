@@ -32,6 +32,10 @@ function template(context) {
 
 // The control is a control bar in an editor.
 export default class ControlBar extends Control {
+  /**
+   *
+   * @param {import('../../API/ControlViewModel').default} controlViewModel
+   */
   constructor(eventEmitter, controlViewModel, iconEventMap) {
     super(template(classify(controlViewModel.controlBarButton)), iconEventMap)
 
