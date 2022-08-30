@@ -51,18 +51,18 @@ export default class Buttons {
   }
 
   get pasteButton() {
-    return this._buttons.find(({ type }) => type === 'paste')
+    return this._buttonList.find(({ type }) => type === 'paste')
   }
 
   get enabelButtonsWhenSelecting() {
-    return this._buttons.filter((b) => b.enableWhenSelecting)
+    return this._buttonList.filter((b) => b.enableWhenSelecting)
   }
 
   get pushButtons() {
-    return this._buttons.filter((b) => b.push).map((b) => b.type)
+    return this._buttonList.filter((b) => b.push).map((b) => b.type)
   }
 
-  get _buttons() {
+  get _buttonList() {
     return definition.map(({ list }) => list).flat()
   }
 }
