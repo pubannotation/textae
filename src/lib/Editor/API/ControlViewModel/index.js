@@ -23,15 +23,15 @@ export default class ControlViewModel {
     this._annotationDataEventsObserver = annotationDataEventsObserver
 
     this._buttonConfig = new ButtonConfig()
-    // Change the title of the palette button to match the edit mode.
-    eventEmitter.on('textae-event.edit-mode.transition', (mode) => {
-      const title = getPalletButtonTitleFor(mode)
-      this._buttonConfig.palletButtonTitle = title
-    })
 
     this._originalData = originalData
 
     this._typeDefinition = typeDefinition
+
+    // Change the title of the palette button to match the edit mode.
+    eventEmitter.on('textae-event.edit-mode.transition', (mode) => {
+      this._mode = mode
+    })
   }
 
   get pushButtonNames() {
@@ -80,21 +80,27 @@ export default class ControlViewModel {
   get contextMenuButton() {
     return this._buttonConfig.contextMenu
       .map(({ list }) =>
-        list.reduce((acc, { type, title }) => {
-          if (!isTouchable() && this.getState(type, 'disabled')) {
+        list
+          .map(({ type, title }) =>
+            type == 'pallet'
+              ? { type, title: getPalletButtonTitleFor(this._mode) }
+              : { type, title }
+          )
+          .reduce((acc, { type, title }) => {
+            if (!isTouchable() && this.getState(type, 'disabled')) {
+              return acc
+            }
+
+            acc.push({
+              type,
+              title,
+              pushed: this.getState(type, 'pushed'),
+              disabled: this.getState(type, 'disabled'),
+              trasit: this.getState(type, 'trasit')
+            })
+
             return acc
-          }
-
-          acc.push({
-            type,
-            title,
-            pushed: this.getState(type, 'pushed'),
-            disabled: this.getState(type, 'disabled'),
-            trasit: this.getState(type, 'trasit')
-          })
-
-          return acc
-        }, [])
+          }, [])
       )
       .filter((list) => list.length)
   }
