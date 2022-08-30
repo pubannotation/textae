@@ -23,7 +23,7 @@ export default class ButtonConfig {
     if (eventEmitter) {
       eventEmitter.on('textae-event.edit-mode.transition', (mode) => {
         const title = getPalletButtonTitleFor(mode)
-        this._buttons.find(({ type }) => type === 'pallet').title = title
+        this.palletButtonTitle = title
       })
     }
   }
@@ -79,5 +79,9 @@ export default class ButtonConfig {
 
   get _buttons() {
     return this._config.map(({ list }) => list).flat()
+  }
+
+  set palletButtonTitle(value) {
+    this._buttons.find(({ type }) => type === 'pallet').title = value
   }
 }
