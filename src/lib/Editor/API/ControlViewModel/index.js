@@ -6,6 +6,7 @@ import BlankSkipAdjuster from './BlankSkipAdjuster'
 import Buttons from './Buttons'
 import isTouchable from '../../isTouchable'
 import getPalletButtonTitleFor from '../../getPalletButtonTitleFor'
+import FetureToggles from './FeatureToggles'
 
 export default class ControlViewModel {
   constructor(
@@ -25,6 +26,8 @@ export default class ControlViewModel {
     this._originalData = originalData
 
     this._typeDefinition = typeDefinition
+
+    this._fetureToggles = new FetureToggles()
 
     // Change the title of the palette button to match the edit mode.
     eventEmitter.on('textae-event.edit-mode.transition', (mode) => {
@@ -136,6 +139,10 @@ export default class ControlViewModel {
       this.release('boundary-detection')
     } else {
       this.push('boundary-detection')
+    }
+
+    if (configuration['function availability']) {
+      this._fetureToggles.availability = configuration['function availability']
     }
   }
 

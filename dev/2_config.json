@@ -31,5 +31,8 @@
       "default": true
     }
   ],
-  "autocompletion_ws": "/dev/autocomplete?order=desc"
+  "autocompletion_ws": "/dev/autocomplete?order=desc",
+  "function availability": {
+    "relation": false
+  }
 }
