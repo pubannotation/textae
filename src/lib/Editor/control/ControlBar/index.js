@@ -3,6 +3,7 @@ import isTouchable from '../../isTouchable'
 import toButtonGroup from './toButtonGroup'
 import Sticky from 'sticky-js'
 import classify from '../classify'
+import getPalletButtonTitleFor from '../../getPalletButtonTitleFor'
 
 function template(context) {
   return `
@@ -71,7 +72,8 @@ export default class ControlBar extends Control {
       .on('textae-event.annotation-data.events-observer.local-changes', () => {
         this._updateButton('write', 'transit')
       })
-      .on('textae-event.control.pallet-button.change-title', (title) => {
+      .on('textae-event.edit-mode.transition', (mode) => {
+        const title = getPalletButtonTitleFor(mode)
         const button = this._el.querySelector(`.textae-control-pallet-button`)
         button.title = title
       })

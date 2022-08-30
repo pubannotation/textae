@@ -1,8 +1,8 @@
 import isTouchable from '../isTouchable'
 import { config } from './config'
 import deepcopy from 'deepcopy'
-import { MODE } from '../../MODE'
 import isAndroid from '../isAndroid'
+import getPalletButtonTitleFor from '../getPalletButtonTitleFor'
 
 function isIOS() {
   // iPad Safari (iPadOS 14 or later) does not include the string iPad in its userAgent.
@@ -23,12 +23,7 @@ export default class ButtonConfig {
     if (eventEmitter) {
       eventEmitter.on('textae-event.edit-mode.transition', (mode) => {
         const title = getPalletButtonTitleFor(mode)
-
         this._buttons.find(({ type }) => type === 'pallet').title = title
-        eventEmitter.emit(
-          'textae-event.control.pallet-button.change-title',
-          title
-        )
       })
     }
   }
@@ -84,19 +79,5 @@ export default class ButtonConfig {
 
   get _buttons() {
     return this._config.map(({ list }) => list).flat()
-  }
-}
-
-function getPalletButtonTitleFor(mode) {
-  switch (mode) {
-    case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
-    case MODE.EDIT_DENOTATION_WITH_RELATION:
-    case MODE.EDIT_BLOCK_WITHOUT_RELATION:
-    case MODE.EDIT_BLOCK_WITH_RELATION:
-      return 'Entity Configuration'
-    case MODE.EDIT_RELATION:
-      return 'Relation Configuration'
-    default:
-      return ''
   }
 }
