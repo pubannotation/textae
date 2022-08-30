@@ -1,15 +1,15 @@
-export default class FeatuerToggles {
+export default class FunctionAvailability {
   constructor(eventEmitter) {
-    this._toggles = this._newToggles()
+    this._availabilities = this._newAvailabilities()
     this._eventEmitter = eventEmitter
   }
 
   get(type) {
-    return this._toggles.get(type)
+    return this._availabilities.get(type)
   }
 
   set availability(values) {
-    const toggles = this._newToggles()
+    const toggles = this._newAvailabilities()
 
     if (values) {
       for (const [key, value] of Object.entries(values)) {
@@ -17,10 +17,10 @@ export default class FeatuerToggles {
       }
     }
 
-    this._toggles = toggles
+    this._availabilities = toggles
   }
 
-  _newToggles() {
+  _newAvailabilities() {
     return new Map([
       ['read', true],
       ['write', true],

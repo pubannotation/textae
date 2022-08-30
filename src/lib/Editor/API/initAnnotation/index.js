@@ -17,7 +17,7 @@ export default function (
   originalData,
   annotationParameter,
   configParameter,
-  fetureToggles
+  functionAvailability
 ) {
   if (annotationParameter.isInline) {
     // Set an inline annotation.
@@ -53,7 +53,7 @@ export default function (
           spanConfig,
           annotationData,
           dataSource.data,
-          fetureToggles
+          functionAvailability
         )
 
         originalData.annotation = dataSource
@@ -71,7 +71,7 @@ export default function (
         controlViewModel,
         spanConfig,
         annotationData,
-        fetureToggles
+        functionAvailability
       )
     }
   }

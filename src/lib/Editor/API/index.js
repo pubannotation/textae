@@ -19,7 +19,7 @@ import setAnnotationAndConfiguration from './setAnnotationAndConfiguration'
 import RemoteResource from '../RemoteResource'
 import SelectionModel from './SelectionModel'
 import forwardMethods from '../forwardMethods'
-import FetureToggles from './FeatureToggles'
+import FunctionAvailability from './FunctionAvailability'
 
 export default class API {
   /**
@@ -65,7 +65,7 @@ export default class API {
       originalData,
       annotationData
     )
-    const fetureToggles = new FetureToggles()
+    const functionAvailability = new FunctionAvailability()
     const controlViewModel = new ControlViewModel(
       eventEmitter,
       selectionModel,
@@ -73,7 +73,7 @@ export default class API {
       annotationDataEventsObserver,
       originalData,
       annotationData.typeDefinition,
-      fetureToggles
+      functionAvailability
     )
     const presenter = new Presenter(
       editorHTMLElement,
@@ -137,7 +137,7 @@ export default class API {
               spanConfig,
               annotationData,
               dataSource.data,
-              fetureToggles
+              functionAvailability
             )
 
             originalData.annotation = dataSource
@@ -185,7 +185,7 @@ export default class API {
             spanConfig,
             annotationData,
             annotation,
-            fetureToggles
+            functionAvailability
           )
 
           if (loadedAnnotation) {
@@ -245,7 +245,7 @@ export default class API {
       originalData,
       params.annotation,
       params.config,
-      fetureToggles
+      functionAvailability
     )
 
     // add context menu

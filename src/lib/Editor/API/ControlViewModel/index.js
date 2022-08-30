@@ -27,7 +27,7 @@ export default class ControlViewModel {
 
     this._typeDefinition = typeDefinition
 
-    this._fetureToggles = fetureToggle
+    this._functionAvailability = fetureToggle
 
     // Change the title of the palette button to match the edit mode.
     eventEmitter.on('textae-event.edit-mode.transition', (mode) => {
@@ -65,7 +65,7 @@ export default class ControlViewModel {
     return new Buttons().controlBar
       .map(({ list }) =>
         list
-          .filter(({ type }) => this._fetureToggles.get(type))
+          .filter(({ type }) => this._functionAvailability.get(type))
           .map(({ type, title }) => this._getPalletButtonTitle(type, title))
           .map(({ type, title }) => this._convertToButtonHash(type, title))
       )
@@ -76,7 +76,7 @@ export default class ControlViewModel {
     return new Buttons().contextMenu
       .map(({ list }) =>
         list
-          .filter(({ type }) => this._fetureToggles.get(type))
+          .filter(({ type }) => this._functionAvailability.get(type))
           .map(({ type, title }) => this._getPalletButtonTitle(type, title))
           .reduce((acc, { type, title }) => {
             if (!isTouchable() && this.getState(type, 'disabled')) {

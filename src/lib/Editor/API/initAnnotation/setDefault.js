@@ -5,7 +5,7 @@ export default function (
   controlViewModel,
   spanConfig,
   annotationData,
-  fetureToggles
+  functionAvailability
 ) {
   setAnnotationAndConfiguration(
     originalData.defaultConfiguration,
@@ -13,6 +13,6 @@ export default function (
     spanConfig,
     annotationData,
     originalData.defaultAnnotation,
-    fetureToggles
+    functionAvailability
   )
 }
