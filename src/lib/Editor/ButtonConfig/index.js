@@ -1,6 +1,5 @@
 import isTouchable from '../isTouchable'
 import { config } from './config'
-import deepcopy from 'deepcopy'
 import isAndroid from '../isAndroid'
 
 function isIOS() {
@@ -15,8 +14,7 @@ function isIOS() {
 
 export default class ButtonConfig {
   constructor() {
-    // Copy it to keep the state for each editor.
-    this._config = deepcopy(config)
+    this._config = config
   }
 
   // Buttons to display on the control bar.
