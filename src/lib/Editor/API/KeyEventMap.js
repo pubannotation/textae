@@ -1,5 +1,10 @@
 export default class KeyEventMap {
-  constructor(commander, presenter, persistenceInterface) {
+  constructor(
+    commander,
+    presenter,
+    persistenceInterface,
+    functionAvailability
+  ) {
     this._map = new Map([
       ['1', (shiftKey) => presenter.manipulateAttribute(1, shiftKey)],
       ['2', (shiftKey) => presenter.manipulateAttribute(2, shiftKey)],
@@ -10,19 +15,50 @@ export default class KeyEventMap {
       ['7', (shiftKey) => presenter.manipulateAttribute(7, shiftKey)],
       ['8', (shiftKey) => presenter.manipulateAttribute(8, shiftKey)],
       ['9', (shiftKey) => presenter.manipulateAttribute(9, shiftKey)],
-      ['a', () => commander.redo()],
-      ['b', () => presenter.toggleButton('boundary-detection')],
-      ['d', () => presenter.removeSelectedElements()],
-      ['e', () => presenter.createEntity()],
+      ['a', () => functionAvailability.get('redo') && commander.redo()],
+      [
+        'b',
+        () =>
+          functionAvailability.get('boundary-detection') &&
+          presenter.toggleButton('boundary-detection')
+      ],
+      [
+        'd',
+        () =>
+          functionAvailability.get('delete') &&
+          presenter.removeSelectedElements()
+      ],
+      [
+        'e',
+        () => functionAvailability.get('entity') && presenter.createEntity()
+      ],
       ['f', () => presenter.changeModeByShortcut()],
-      ['i', () => persistenceInterface.importAnnotation()],
+      [
+        'i',
+        () =>
+          functionAvailability.get('read') &&
+          persistenceInterface.importAnnotation()
+      ],
       ['m', () => presenter.changeModeByShortcut()],
-      ['q', () => presenter.showPallet()],
-      ['r', () => presenter.replicate()],
-      ['u', () => persistenceInterface.uploadAnnotation()],
-      ['w', () => presenter.editProperties()],
-      ['y', () => commander.redo()],
-      ['z', () => commander.undo()],
+      ['q', () => functionAvailability.get('pallet') && presenter.showPallet()],
+      [
+        'r',
+        () => functionAvailability.get('replicate') && presenter.replicate()
+      ],
+      [
+        'u',
+        () =>
+          functionAvailability.get('write') &&
+          persistenceInterface.uploadAnnotation()
+      ],
+      [
+        'w',
+        () =>
+          functionAvailability.get('edit-propeties') &&
+          presenter.editProperties()
+      ],
+      ['y', () => functionAvailability.get('redo') && commander.redo()],
+      ['z', () => functionAvailability.get('undo') && commander.undo()],
       ['ArrowDown', () => presenter.selectDown()],
       ['ArrowLeft', (shiftKey) => presenter.selectLeft(shiftKey)],
       ['ArrowRight', (shiftKey) => presenter.selectRight(shiftKey)],

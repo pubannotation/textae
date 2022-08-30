@@ -260,9 +260,12 @@ export default class API {
       contextMenu.hide()
 
       if (presenter.isActive) {
-        new KeyEventMap(commander, presenter, persistenceInterface).handle(
-          event
-        )
+        new KeyEventMap(
+          commander,
+          presenter,
+          persistenceInterface,
+          functionAvailability
+        ).handle(event)
       }
     })
 
