@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.1.0](https://github.com/pubannotation/textae/compare/v10.0.1...v10.1.0) (2022-08-30)
+
+
+### Features
+
+* Add JSON Scheme definition for function availability ([25a7521](https://github.com/pubannotation/textae/commit/25a75217067644c997a4fba3901116c97979f8b8))
+* Diable shortcut keys for unavailable funcitons ([d228b04](https://github.com/pubannotation/textae/commit/d228b04c4f1842a5bec88cffaa50597a5e24b5db))
+* Hide buttons for unavailable funcitons ([8d658d7](https://github.com/pubannotation/textae/commit/8d658d7f04fe56119d2dd663e435a6a0df22243e))
+* Load function availability from a configuration file ([13b58af](https://github.com/pubannotation/textae/commit/13b58af27f623f638b3d2d179038f378d0eddf7e))
+
 ### [10.0.1](https://github.com/pubannotation/textae/compare/v10.0.0...v10.0.1) (2022-08-26)
 
 ## [10.0.0](https://github.com/pubannotation/textae/compare/v9.0.2...v10.0.0) (2022-05-05)
