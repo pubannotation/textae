@@ -13,13 +13,9 @@ function isIOS() {
 }
 
 export default class ButtonConfig {
-  constructor() {
-    this._config = config
-  }
-
   // Buttons to display on the control bar.
   get controlBar() {
-    return this._config
+    return config
       .filter(({ usage }) => {
         // To make it easier to guess the result, don't use the screen size to judge the device.
         if (isAndroid() || isIOS()) {
@@ -38,7 +34,7 @@ export default class ButtonConfig {
 
   // Buttons to display on the context menu.
   get contextMenu() {
-    return this._config
+    return config
       .filter(({ usage }) => {
         if (isTouchable()) {
           return usage['touce device'].includes('context menu')
@@ -67,6 +63,6 @@ export default class ButtonConfig {
   }
 
   get _buttons() {
-    return this._config.map(({ list }) => list).flat()
+    return config.map(({ list }) => list).flat()
   }
 }
