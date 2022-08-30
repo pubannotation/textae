@@ -61,11 +61,7 @@ export default class ControlViewModel {
   get controlBarButton() {
     return new Buttons().controlBar.map(({ list }) =>
       list
-        .map(({ type, title }) =>
-          type == 'pallet'
-            ? { type, title: getPalletButtonTitleFor(this._mode) }
-            : { type, title }
-        )
+        .map(({ type, title }) => this._getPalletButtonTitle(type, title))
         .map(({ type, title }) => ({
           type,
           title,
@@ -80,11 +76,7 @@ export default class ControlViewModel {
     return new Buttons().contextMenu
       .map(({ list }) =>
         list
-          .map(({ type, title }) =>
-            type == 'pallet'
-              ? { type, title: getPalletButtonTitleFor(this._mode) }
-              : { type, title }
-          )
+          .map(({ type, title }) => this._getPalletButtonTitle(type, title))
           .reduce((acc, { type, title }) => {
             if (!isTouchable() && this.getState(type, 'disabled')) {
               return acc
@@ -158,5 +150,11 @@ export default class ControlViewModel {
     } else {
       this.push('boundary-detection')
     }
+  }
+
+  _getPalletButtonTitle(type, title) {
+    return type == 'pallet'
+      ? { type, title: getPalletButtonTitleFor(this._mode) }
+      : { type, title }
   }
 }
