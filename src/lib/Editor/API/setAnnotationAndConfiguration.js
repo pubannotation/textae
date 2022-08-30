@@ -1,5 +1,3 @@
-import setPushBUttons from './setPushBUttons'
-
 /**
  *
  * @param {import('../AnnotationData').default} annotationData
@@ -11,7 +9,7 @@ export default function (
   annotationData,
   annotation
 ) {
-  setPushBUttons(validConfig, buttonController)
+  buttonController.setPushBUttons(validConfig)
   spanConfig.set(validConfig)
   annotationData.reset(annotation, validConfig)
 }

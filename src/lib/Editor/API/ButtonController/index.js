@@ -129,4 +129,24 @@ export default class ButtonController {
       ...this._typeDefinition.config
     })
   }
+
+  setPushBUttons(configuration) {
+    if (configuration.autosave === true) {
+      this.push('write-auto')
+    } else {
+      this.release('write-auto')
+    }
+
+    if (configuration.autolineheight === false) {
+      this.release('line-height-auto')
+    } else {
+      this.push('line-height-auto')
+    }
+
+    if (configuration.boundarydetection === false) {
+      this.release('boundary-detection')
+    } else {
+      this.push('boundary-detection')
+    }
+  }
 }
