@@ -5,6 +5,7 @@ import DelimiterDetectAdjuster from './DelimiterDetectAdjuster'
 import BlankSkipAdjuster from './BlankSkipAdjuster'
 import ButtonConfig from '../../ButtonConfig'
 import isTouchable from '../../isTouchable'
+import getPalletButtonTitleFor from '../../getPalletButtonTitleFor'
 
 export default class ControlViewModel {
   constructor(
@@ -21,7 +22,12 @@ export default class ControlViewModel {
 
     this._annotationDataEventsObserver = annotationDataEventsObserver
 
-    this._buttonConfig = new ButtonConfig(eventEmitter)
+    this._buttonConfig = new ButtonConfig()
+    // Change the title of the palette button to match the edit mode.
+    eventEmitter.on('textae-event.edit-mode.transition', (mode) => {
+      const title = getPalletButtonTitleFor(mode)
+      this._buttonConfig.palletButtonTitle = title
+    })
 
     this._originalData = originalData
 

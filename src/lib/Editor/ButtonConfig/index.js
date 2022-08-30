@@ -2,7 +2,6 @@ import isTouchable from '../isTouchable'
 import { config } from './config'
 import deepcopy from 'deepcopy'
 import isAndroid from '../isAndroid'
-import getPalletButtonTitleFor from '../getPalletButtonTitleFor'
 
 function isIOS() {
   // iPad Safari (iPadOS 14 or later) does not include the string iPad in its userAgent.
@@ -15,17 +14,9 @@ function isIOS() {
 }
 
 export default class ButtonConfig {
-  constructor(eventEmitter) {
+  constructor() {
     // Copy it to keep the state for each editor.
     this._config = deepcopy(config)
-
-    // Change the title of the palette button to match the edit mode.
-    if (eventEmitter) {
-      eventEmitter.on('textae-event.edit-mode.transition', (mode) => {
-        const title = getPalletButtonTitleFor(mode)
-        this.palletButtonTitle = title
-      })
-    }
   }
 
   // Buttons to display on the control bar.
