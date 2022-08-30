@@ -3,7 +3,7 @@ import PushButtons from './PushButtons'
 import EnableState from './EnableState'
 import DelimiterDetectAdjuster from './DelimiterDetectAdjuster'
 import BlankSkipAdjuster from './BlankSkipAdjuster'
-import Buttons from '../../Buttons'
+import Buttons from './Buttons'
 import isTouchable from '../../isTouchable'
 import getPalletButtonTitleFor from '../../getPalletButtonTitleFor'
 

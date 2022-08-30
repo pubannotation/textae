@@ -1,6 +1,6 @@
-import isTouchable from '../isTouchable'
+import isTouchable from '../../../isTouchable'
 import { config } from './config'
-import isAndroid from '../isAndroid'
+import isAndroid from '../../../isAndroid'
 
 function isIOS() {
   // iPad Safari (iPadOS 14 or later) does not include the string iPad in its userAgent.

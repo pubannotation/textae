@@ -1,4 +1,4 @@
-import Buttons from '../../Buttons'
+import Buttons from './Buttons'
 import { MODE } from '../../../MODE'
 
 export default class EnableState {
