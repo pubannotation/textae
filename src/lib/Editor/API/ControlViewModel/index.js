@@ -3,7 +3,7 @@ import PushButtons from './PushButtons'
 import EnableState from './EnableState'
 import DelimiterDetectAdjuster from './DelimiterDetectAdjuster'
 import BlankSkipAdjuster from './BlankSkipAdjuster'
-import ButtonConfig from '../../ButtonConfig'
+import Buttons from '../../Buttons'
 import isTouchable from '../../isTouchable'
 import getPalletButtonTitleFor from '../../getPalletButtonTitleFor'
 
@@ -59,7 +59,7 @@ export default class ControlViewModel {
   }
 
   get controlBarButton() {
-    return new ButtonConfig().controlBar.map(({ list }) => {
+    return new Buttons().controlBar.map(({ list }) => {
       const ret = []
       for (const { type, title } of list) {
         ret.push({
@@ -76,7 +76,7 @@ export default class ControlViewModel {
   }
 
   get contextMenuButton() {
-    return new ButtonConfig().contextMenu
+    return new Buttons().contextMenu
       .map(({ list }) =>
         list
           .map(({ type, title }) =>

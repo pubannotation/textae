@@ -1,4 +1,4 @@
-import ButtonConfig from '../../ButtonConfig'
+import Buttons from '../../Buttons'
 import { MODE } from '../../../MODE'
 
 export default class EnableState {
@@ -53,7 +53,7 @@ export default class EnableState {
   }
 
   _updateButtons() {
-    for (const { type, enableWhenSelecting } of new ButtonConfig()
+    for (const { type, enableWhenSelecting } of new Buttons()
       .enabelButtonsWhenSelecting) {
       this.enable(
         type,
@@ -66,7 +66,7 @@ export default class EnableState {
   _updateByClipboard() {
     this.enable(
       'paste',
-      new ButtonConfig().pasteButton.enableWhenSelecting(
+      new Buttons().pasteButton.enableWhenSelecting(
         this._selectionModel,
         this._clipBoard
       )

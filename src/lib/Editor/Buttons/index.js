@@ -12,7 +12,7 @@ function isIOS() {
   )
 }
 
-export default class ButtonConfig {
+export default class Buttons {
   // Buttons to display on the control bar.
   get controlBar() {
     return config
