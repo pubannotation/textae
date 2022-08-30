@@ -22,8 +22,6 @@ export default class ControlViewModel {
 
     this._annotationDataEventsObserver = annotationDataEventsObserver
 
-    this._buttonConfig = new ButtonConfig()
-
     this._originalData = originalData
 
     this._typeDefinition = typeDefinition
@@ -78,7 +76,7 @@ export default class ControlViewModel {
   }
 
   get contextMenuButton() {
-    return this._buttonConfig.contextMenu
+    return new ButtonConfig().contextMenu
       .map(({ list }) =>
         list
           .map(({ type, title }) =>
