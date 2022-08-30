@@ -1,4 +1,4 @@
-export default class Button {
+export default class PushButton {
   constructor(name, eventEmitter = null) {
     this._name = name
     this._eventEmitter = eventEmitter

@@ -1,11 +1,11 @@
 import Buttons from '../Buttons'
 import { MODE } from '../../../../MODE'
-import Button from './Button'
+import PushButton from './PushButton'
 
 export default class PushButtons {
   constructor(eventEmitter) {
     this._buttons = new Buttons().pushButtons.reduce((map, name) => {
-      map.set(name, new Button(name, eventEmitter))
+      map.set(name, new PushButton(name, eventEmitter))
       return map
     }, new Map())
 
@@ -19,7 +19,9 @@ export default class PushButtons {
   }
 
   get(name) {
-    return this._buttons.has(name) ? this._buttons.get(name) : new Button(name)
+    return this._buttons.has(name)
+      ? this._buttons.get(name)
+      : new PushButton(name)
   }
 
   get names() {
