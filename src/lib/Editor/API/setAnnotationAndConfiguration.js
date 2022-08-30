@@ -1,5 +1,6 @@
 /**
  *
+ * @param {import('../API/ControlViewModel').default} controlViewModel
  * @param {import('../AnnotationData').default} annotationData
  */
 export default function (
