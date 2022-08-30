@@ -31,10 +31,10 @@ function template(context) {
 
 // The control is a control bar in an editor.
 export default class ControlBar extends Control {
-  constructor(eventEmitter, buttonController, iconEventMap) {
-    super(template(classify(buttonController.controlBarButton)), iconEventMap)
+  constructor(eventEmitter, controlViewModel, iconEventMap) {
+    super(template(classify(controlViewModel.controlBarButton)), iconEventMap)
 
-    this._buttonController = buttonController
+    this._controlViewModel = controlViewModel
 
     // If you use position: sticky,
     // the height of the toolbar will affect the Y coordinate of the textae-body
@@ -116,7 +116,7 @@ export default class ControlBar extends Control {
     )
 
     if (button) {
-      if (this._buttonController.getState(buttonName, stateName)) {
+      if (this._controlViewModel.getState(buttonName, stateName)) {
         button.classList.add(`textae-control-icon--${stateName}`)
       } else {
         button.classList.remove(`textae-control-icon--${stateName}`)

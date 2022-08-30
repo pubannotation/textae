@@ -3,12 +3,12 @@ import debounce from 'debounce'
 export default class AnnotationAutoSaver {
   constructor(
     eventEmitter,
-    buttonController,
+    controlViewModel,
     persistenceInterface,
     saveToParameter,
     annotationDataEventsObserver
   ) {
-    this._buttonController = buttonController
+    this._controlViewModel = controlViewModel
 
     const debounceSaveAnnotation = debounce(
       () => persistenceInterface.saveAnnotation(),
@@ -40,7 +40,7 @@ export default class AnnotationAutoSaver {
       .on(
         'textae-event.annotation-data.events-observer.local-changes',
         (val) => {
-          if (val && buttonController.isPushed('write-auto')) {
+          if (val && controlViewModel.isPushed('write-auto')) {
             debounceSaveAnnotation()
           }
         }
@@ -48,8 +48,8 @@ export default class AnnotationAutoSaver {
   }
 
   _disabled() {
-    if (this._buttonController.isPushed('write-auto')) {
-      this._buttonController.toggleButton('write-auto')
+    if (this._controlViewModel.isPushed('write-auto')) {
+      this._controlViewModel.toggleButton('write-auto')
     }
   }
 }

@@ -16,7 +16,7 @@ export default class Presenter {
     commander,
     spanConfig,
     clipBoard,
-    buttonController,
+    controlViewModel,
     autocompletionWs,
     mode
   ) {
@@ -27,7 +27,7 @@ export default class Presenter {
       selectionModel,
       spanConfig,
       commander,
-      buttonController,
+      controlViewModel,
       autocompletionWs
     )
 
@@ -60,7 +60,7 @@ export default class Presenter {
     this._commander = commander
     this._selectionModel = selectionModel
     this._annotationData = annotationData
-    this._buttonController = buttonController
+    this._controlViewModel = controlViewModel
     this._spanConfig = spanConfig
     this._clipBoard = clipBoard
     this._editMode = editMode
@@ -94,7 +94,7 @@ export default class Presenter {
       'pasteEntitiesFromLocalClipboard',
       'pasteEntitiesFromSystemClipboard'
     ])
-    forwardMethods(this, () => this._buttonController, ['toggleButton'])
+    forwardMethods(this, () => this._controlViewModel, ['toggleButton'])
   }
 
   removeSelectedElements() {
@@ -119,7 +119,7 @@ export default class Presenter {
 
   replicate() {
     const isDelimiterFunc = getIsDelimiterFunc(
-      this._buttonController,
+      this._controlViewModel,
       this._spanConfig
     )
 

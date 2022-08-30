@@ -17,7 +17,7 @@ export default class EditDenotation extends Edit {
     annotationData,
     selectionModel,
     commander,
-    buttonController,
+    controlViewModel,
     spanConfig,
     autocompletionWs
   ) {
@@ -30,7 +30,7 @@ export default class EditDenotation extends Edit {
       selectionModel.entity,
       commander,
       'Entity configuration',
-      buttonController
+      controlViewModel
     )
 
     const spanEditor = new SpanEditor(
@@ -38,7 +38,7 @@ export default class EditDenotation extends Edit {
       annotationData,
       selectionModel,
       commander,
-      buttonController,
+      controlViewModel,
       spanConfig
     )
 
@@ -64,7 +64,7 @@ export default class EditDenotation extends Edit {
       spanEditor
     )
     this._spanEdtior = spanEditor
-    this._buttonController = buttonController
+    this._controlViewModel = controlViewModel
     this._textBox = editorHTMLElement.querySelector('.textae-editor__text-box')
     this._spanModelContainer = annotationData.span
 
@@ -103,13 +103,13 @@ export default class EditDenotation extends Edit {
       const isSelectionTextCrossingAnySpan =
         this._spanModelContainer.isBoundaryCrossingWithOtherSpans(begin, end)
 
-      this._buttonController.updateManipulateSpanButtons(
+      this._controlViewModel.updateManipulateSpanButtons(
         selectionWrapper.isParentOfBothNodesSame,
         isSelectionTextCrossingAnySpan,
         isSelectionTextCrossingAnySpan
       )
     } else {
-      this._buttonController.updateManipulateSpanButtons(false, false, false)
+      this._controlViewModel.updateManipulateSpanButtons(false, false, false)
     }
   }
 

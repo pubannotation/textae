@@ -13,7 +13,7 @@ export default function (
   spanConfig,
   annotationData,
   remoteResource,
-  buttonController,
+  controlViewModel,
   originalData,
   annotationParameter,
   configParameter
@@ -48,7 +48,7 @@ export default function (
       if (validConfig) {
         setAnnotationAndConfiguration(
           validConfig,
-          buttonController,
+          controlViewModel,
           spanConfig,
           annotationData,
           dataSource.data
@@ -64,7 +64,7 @@ export default function (
     if (configParameter) {
       remoteResource.loadConfigulation(configParameter)
     } else {
-      setDefault(originalData, buttonController, spanConfig, annotationData)
+      setDefault(originalData, controlViewModel, spanConfig, annotationData)
     }
   }
 }

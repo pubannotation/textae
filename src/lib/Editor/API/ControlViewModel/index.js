@@ -6,7 +6,7 @@ import BlankSkipAdjuster from './BlankSkipAdjuster'
 import ButtonConfig from '../../ButtonConfig'
 import isTouchable from '../../isTouchable'
 
-export default class ButtonController {
+export default class ControlViewModel {
   constructor(
     eventEmitter,
     selectionModel,

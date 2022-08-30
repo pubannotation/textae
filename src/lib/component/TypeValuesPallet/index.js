@@ -19,7 +19,7 @@ export default class TypeValuesPallet extends Pallet {
     selectionModelEntity,
     commander,
     title,
-    buttonController
+    controlViewModel
   ) {
     super(editorHTMLElement, title)
 
@@ -28,7 +28,7 @@ export default class TypeValuesPallet extends Pallet {
     this._attributeModelContainer = attributeModelContainer
     this._definitionContainer = definitionContainer
     this._selectionModelItems = selectionModelEntity
-    this._buttonController = buttonController
+    this._controlViewModel = controlViewModel
 
     delegate(this._el, `.textae-editor__pallet__read-button`, 'click', () =>
       eventEmitter.emit('textae-event.pallet.read-button.click')
@@ -158,7 +158,7 @@ export default class TypeValuesPallet extends Pallet {
   get _content() {
     return createContentHtml(
       this._definitionContainer.pallet,
-      this._buttonController.diffOfConfiguration,
+      this._controlViewModel.diffOfConfiguration,
       this._selectedPred,
       this._selectionModelItems,
       this._typeDefinition.attribute,

@@ -13,7 +13,7 @@ export default class EditMode {
     selectionModel,
     spanConfig,
     commander,
-    buttonController,
+    controlViewModel,
     autocompletionWs
   ) {
     this._editDenotation = new EditDenotation(
@@ -22,7 +22,7 @@ export default class EditMode {
       annotationData,
       selectionModel,
       commander,
-      buttonController,
+      controlViewModel,
       spanConfig,
       autocompletionWs
     )
@@ -34,7 +34,7 @@ export default class EditMode {
       selectionModel,
       spanConfig,
       commander,
-      buttonController,
+      controlViewModel,
       autocompletionWs
     )
 
@@ -45,7 +45,7 @@ export default class EditMode {
       selectionModel,
       commander,
       autocompletionWs,
-      buttonController
+      controlViewModel
     )
 
     this._listeners = []

@@ -15,7 +15,7 @@ export default class PersistenceInterface {
     getOriginalConfig,
     saveToParameter,
     annotationDataEventsObserver,
-    buttonController
+    controlViewModel
   ) {
     this._eventEmitter = eventEmitter
     this._remoteResource = remoteResource
@@ -24,7 +24,7 @@ export default class PersistenceInterface {
     this._getOriginalConfig = getOriginalConfig
     this._saveToParameter = saveToParameter
     this._annotationDataEventsObserver = annotationDataEventsObserver
-    this._buttonController = buttonController
+    this._controlViewModel = controlViewModel
 
     // Store the filename of the annotation and configuration.
     this._filenameOfLastRead = {
@@ -110,7 +110,7 @@ export default class PersistenceInterface {
           )
         }
       },
-      this._buttonController.diffOfConfiguration
+      this._controlViewModel.diffOfConfiguration
     ).open()
   }
 

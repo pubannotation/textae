@@ -2,13 +2,13 @@ import setAnnotationAndConfiguration from './setAnnotationAndConfiguration'
 
 export default function (
   originalData,
-  buttonController,
+  controlViewModel,
   spanConfig,
   annotationData
 ) {
   setAnnotationAndConfiguration(
     originalData.defaultConfiguration,
-    buttonController,
+    controlViewModel,
     spanConfig,
     annotationData,
     originalData.defaultAnnotation

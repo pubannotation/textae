@@ -5,7 +5,7 @@ import Presenter from './Presenter'
 import PersistenceInterface from './PersistenceInterface'
 import initAnnotation from './initAnnotation'
 import OriginalData from './OriginalData'
-import ButtonController from './ButtonController'
+import ControlViewModel from './ControlViewModel'
 import Clipboard from './Clipboard'
 import AnnotationAutoSaver from './AnnotationAutoSaver'
 import ControlBar from '../control/ControlBar'
@@ -64,7 +64,7 @@ export default class API {
       originalData,
       annotationData
     )
-    const buttonController = new ButtonController(
+    const controlViewModel = new ControlViewModel(
       eventEmitter,
       selectionModel,
       clipBoard,
@@ -80,7 +80,7 @@ export default class API {
       commander,
       spanConfig,
       clipBoard,
-      buttonController,
+      controlViewModel,
       params.autocompletionWS,
       params.mode
     )
@@ -95,12 +95,12 @@ export default class API {
       () => originalData.configuration,
       params.saveTo,
       annotationDataEventsObserver,
-      buttonController
+      controlViewModel
     )
 
     new AnnotationAutoSaver(
       eventEmitter,
-      buttonController,
+      controlViewModel,
       persistenceInterface,
       params.saveTo,
       annotationDataEventsObserver
@@ -130,7 +130,7 @@ export default class API {
           if (validConfig) {
             setAnnotationAndConfiguration(
               validConfig,
-              buttonController,
+              controlViewModel,
               spanConfig,
               annotationData,
               dataSource.data
@@ -177,7 +177,7 @@ export default class API {
 
           setAnnotationAndConfiguration(
             validConfig,
-            buttonController,
+            controlViewModel,
             spanConfig,
             annotationData,
             annotation
@@ -197,14 +197,14 @@ export default class API {
       commander,
       presenter,
       persistenceInterface,
-      buttonController,
+      controlViewModel,
       annotationData
     )
 
     // add control bar
     const controlBarHTMLElement = new ControlBar(
       eventEmitter,
-      buttonController,
+      controlViewModel,
       iconEventMap
     ).el
     editorHTMLElement.insertBefore(
@@ -236,7 +236,7 @@ export default class API {
       spanConfig,
       annotationData,
       remoteResource,
-      buttonController,
+      controlViewModel,
       originalData,
       params.annotation,
       params.config
@@ -245,7 +245,7 @@ export default class API {
     // add context menu
     const contextMenu = new ContextMenu(
       editorHTMLElement,
-      buttonController,
+      controlViewModel,
       iconEventMap
     )
     editorHTMLElement.appendChild(contextMenu.el)

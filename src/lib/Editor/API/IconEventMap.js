@@ -3,7 +3,7 @@ export default class IconEventMap {
     commander,
     presenter,
     persistenceInterface,
-    buttonController,
+    controlViewModel,
     annotationData
   ) {
     this._map = new Map([
@@ -32,7 +32,7 @@ export default class IconEventMap {
     ])
 
     // Set handler for push buttons.
-    for (const buttonName of buttonController.pushButtonNames) {
+    for (const buttonName of controlViewModel.pushButtonNames) {
       if (!this._map.has(buttonName)) {
         this._map.set(buttonName, () => presenter.toggleButton(buttonName))
       }

@@ -14,7 +14,7 @@ export default class EditRelation extends Edit {
     selectionModel,
     commander,
     autocompletionWs,
-    buttonController
+    controlViewModel
   ) {
     const relationPallet = new TypeValuesPallet(
       editorHTMLElement,
@@ -25,7 +25,7 @@ export default class EditRelation extends Edit {
       selectionModel.relation,
       commander,
       'Relation configuration',
-      buttonController
+      controlViewModel
     )
 
     const getAutocompletionWs = () =>
@@ -50,7 +50,7 @@ export default class EditRelation extends Edit {
       annotationData.typeDefinition,
       relationPallet
     )
-    this._buttonController = buttonController
+    this._controlViewModel = controlViewModel
     this._attributeEditor = new AttributeEditor(
       commander,
       annotationData,
@@ -66,7 +66,7 @@ export default class EditRelation extends Edit {
   }
 
   applyTextSelection() {
-    this._buttonController.updateManipulateSpanButtons(false, false, false)
+    this._controlViewModel.updateManipulateSpanButtons(false, false, false)
   }
 
   editProperties() {

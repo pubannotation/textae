@@ -4,12 +4,12 @@
  */
 export default function (
   validConfig,
-  buttonController,
+  controlViewModel,
   spanConfig,
   annotationData,
   annotation
 ) {
-  buttonController.setPushBUttons(validConfig)
+  controlViewModel.setPushBUttons(validConfig)
   spanConfig.set(validConfig)
   annotationData.reset(annotation, validConfig)
 }

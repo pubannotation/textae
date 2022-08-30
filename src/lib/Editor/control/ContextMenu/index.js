@@ -5,7 +5,7 @@ import Control from '../Control'
 import toContextMenuItem from './toContextMenuItem'
 
 export default class ContextMenu extends Control {
-  constructor(editorHTMLElement, buttonController, iconEventMap) {
+  constructor(editorHTMLElement, controlViewModel, iconEventMap) {
     super(
       `<div class="textae-control ${
         isTouchable() ? 'textae-android-context-menu' : 'textae-context-menu'
@@ -14,7 +14,7 @@ export default class ContextMenu extends Control {
     )
 
     this._editorHTMLElement = editorHTMLElement
-    this._buttonController = buttonController
+    this._controlViewModel = controlViewModel
   }
 
   show(contextmenuEvent) {
@@ -73,7 +73,7 @@ export default class ContextMenu extends Control {
   }
 
   _show() {
-    const context = classify(this._buttonController.contextMenuButton)
+    const context = classify(this._controlViewModel.contextMenuButton)
     const html = `
     <div">
       ${context
