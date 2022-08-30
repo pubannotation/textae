@@ -210,6 +210,92 @@
           }
         ]
       }
+    },
+    "function availability": {
+      "type": "object",
+      "properties": {
+        "read": {
+          "type": "boolean"
+        },
+        "write": {
+          "type": "boolean"
+        },
+        "write-auto": {
+          "type": "boolean"
+        },
+        "view": {
+          "type": "boolean"
+        },
+        "term": {
+          "type": "boolean"
+        },
+        "block": {
+          "type": "boolean"
+        },
+        "relation": {
+          "type": "boolean"
+        },
+        "simple": {
+          "type": "boolean"
+        },
+        "line-height": {
+          "type": "boolean"
+        },
+        "line-height-auto": {
+          "type": "boolean"
+        },
+        "undo": {
+          "type": "boolean"
+        },
+        "redo": {
+          "type": "boolean"
+        },
+        "replicate": {
+          "type": "boolean"
+        },
+        "replicate-auto": {
+          "type": "boolean"
+        },
+        "boundary-detection": {
+          "type": "boolean"
+        },
+        "create-span-by-touch": {
+          "type": "boolean"
+        },
+        "expand-span-by-touch": {
+          "type": "boolean"
+        },
+        "shrink-span-by-touch": {
+          "type": "boolean"
+        },
+        "entity": {
+          "type": "boolean"
+        },
+        "pallet": {
+          "type": "boolean"
+        },
+        "edit-properties": {
+          "type": "boolean"
+        },
+        "delete": {
+          "type": "boolean"
+        },
+        "copy": {
+          "type": "boolean"
+        },
+        "cut": {
+          "type": "boolean"
+        },
+        "paste": {
+          "type": "boolean"
+        },
+        "setting": {
+          "type": "boolean"
+        },
+        "help": {
+          "type": "boolean"
+        }
+      }
     }
   }
 }
