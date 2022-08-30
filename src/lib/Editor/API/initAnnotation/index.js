@@ -1,13 +1,13 @@
 import alertifyjs from 'alertifyjs'
-import setAnnotationAndConfiguration from './setAnnotationAndConfiguration'
-import validateConfigurationAndAlert from './validateConfigurationAndAlert'
-import warningIfBeginEndOfSpanAreNotInteger from './warningIfBeginEndOfSpanAreNotInteger'
-import DataSource from '../DataSource'
+import setAnnotationAndConfiguration from '../setAnnotationAndConfiguration'
+import validateConfigurationAndAlert from '../validateConfigurationAndAlert'
+import warningIfBeginEndOfSpanAreNotInteger from '../warningIfBeginEndOfSpanAreNotInteger'
+import DataSource from '../../DataSource'
 import setDefault from './setDefault'
 
 /**
  *
- * @param {import('../ParamsFromHTMLElement/AnnotationParameter.js').default} annotationParameter
+ * @param {import('../../ParamsFromHTMLElement/AnnotationParameter.js').default} annotationParameter
  */
 export default function (
   spanConfig,

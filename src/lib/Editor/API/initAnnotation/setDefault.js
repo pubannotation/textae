@@ -1,4 +1,4 @@
-import setAnnotationAndConfiguration from './setAnnotationAndConfiguration'
+import setAnnotationAndConfiguration from '../setAnnotationAndConfiguration'
 
 export default function (
   originalData,
