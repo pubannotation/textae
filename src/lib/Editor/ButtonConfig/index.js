@@ -22,20 +22,7 @@ export default class ButtonConfig {
     // Change the title of the palette button to match the edit mode.
     if (eventEmitter) {
       eventEmitter.on('textae-event.edit-mode.transition', (mode) => {
-        let title = ''
-        switch (mode) {
-          case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
-          case MODE.EDIT_DENOTATION_WITH_RELATION:
-          case MODE.EDIT_BLOCK_WITHOUT_RELATION:
-          case MODE.EDIT_BLOCK_WITH_RELATION:
-            title = 'Entity Configuration'
-            break
-          case MODE.EDIT_RELATION:
-            title = 'Relation Configuration'
-            break
-          default:
-            title = ''
-        }
+        const title = getPalletButtonTitleFor(mode)
 
         this._buttons.find(({ type }) => type === 'pallet').title = title
         eventEmitter.emit(
@@ -97,5 +84,19 @@ export default class ButtonConfig {
 
   get _buttons() {
     return this._config.map(({ list }) => list).flat()
+  }
+}
+
+function getPalletButtonTitleFor(mode) {
+  switch (mode) {
+    case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
+    case MODE.EDIT_DENOTATION_WITH_RELATION:
+    case MODE.EDIT_BLOCK_WITHOUT_RELATION:
+    case MODE.EDIT_BLOCK_WITH_RELATION:
+      return 'Entity Configuration'
+    case MODE.EDIT_RELATION:
+      return 'Relation Configuration'
+    default:
+      return ''
   }
 }
