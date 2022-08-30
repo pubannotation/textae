@@ -19,6 +19,7 @@ import setAnnotationAndConfiguration from './setAnnotationAndConfiguration'
 import RemoteResource from '../RemoteResource'
 import SelectionModel from './SelectionModel'
 import forwardMethods from '../forwardMethods'
+import FetureToggles from './FeatureToggles'
 
 export default class API {
   /**
@@ -70,7 +71,8 @@ export default class API {
       clipBoard,
       annotationDataEventsObserver,
       originalData,
-      annotationData.typeDefinition
+      annotationData.typeDefinition,
+      new FetureToggles()
     )
     const presenter = new Presenter(
       editorHTMLElement,

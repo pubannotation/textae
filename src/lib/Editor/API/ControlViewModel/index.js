@@ -6,7 +6,6 @@ import BlankSkipAdjuster from './BlankSkipAdjuster'
 import Buttons from './Buttons'
 import isTouchable from '../../isTouchable'
 import getPalletButtonTitleFor from '../../getPalletButtonTitleFor'
-import FetureToggles from './FeatureToggles'
 
 export default class ControlViewModel {
   constructor(
@@ -15,7 +14,8 @@ export default class ControlViewModel {
     clipBoard,
     annotationDataEventsObserver,
     originalData,
-    typeDefinition
+    typeDefinition,
+    fetureToggle
   ) {
     this._enableState = new EnableState(eventEmitter, selectionModel, clipBoard)
     // Save state of push control buttons.
@@ -27,7 +27,7 @@ export default class ControlViewModel {
 
     this._typeDefinition = typeDefinition
 
-    this._fetureToggles = new FetureToggles()
+    this._fetureToggles = fetureToggle
 
     // Change the title of the palette button to match the edit mode.
     eventEmitter.on('textae-event.edit-mode.transition', (mode) => {
