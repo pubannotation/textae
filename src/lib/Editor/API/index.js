@@ -65,6 +65,7 @@ export default class API {
       originalData,
       annotationData
     )
+    const fetureToggles = new FetureToggles()
     const controlViewModel = new ControlViewModel(
       eventEmitter,
       selectionModel,
@@ -72,7 +73,7 @@ export default class API {
       annotationDataEventsObserver,
       originalData,
       annotationData.typeDefinition,
-      new FetureToggles()
+      fetureToggles
     )
     const presenter = new Presenter(
       editorHTMLElement,
@@ -135,7 +136,8 @@ export default class API {
               controlViewModel,
               spanConfig,
               annotationData,
-              dataSource.data
+              dataSource.data,
+              fetureToggles
             )
 
             originalData.annotation = dataSource
@@ -182,7 +184,8 @@ export default class API {
             controlViewModel,
             spanConfig,
             annotationData,
-            annotation
+            annotation,
+            fetureToggles
           )
 
           if (loadedAnnotation) {
@@ -241,7 +244,8 @@ export default class API {
       controlViewModel,
       originalData,
       params.annotation,
-      params.config
+      params.config,
+      fetureToggles
     )
 
     // add context menu

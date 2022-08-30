@@ -144,10 +144,6 @@ export default class ControlViewModel {
     } else {
       this.push('boundary-detection')
     }
-
-    if (configuration['function availability']) {
-      this._fetureToggles.availability = configuration['function availability']
-    }
   }
 
   _getPalletButtonTitle(type, title) {

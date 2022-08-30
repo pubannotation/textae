@@ -8,9 +8,11 @@ export default function (
   controlViewModel,
   spanConfig,
   annotationData,
-  annotation
+  annotation,
+  fetureToggles
 ) {
   controlViewModel.setPushBUttons(validConfig)
   spanConfig.set(validConfig)
   annotationData.reset(annotation, validConfig)
+  fetureToggles.availability = validConfig['function availability']
 }

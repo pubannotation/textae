@@ -11,8 +11,10 @@ export default class FeatuerToggles {
   set availability(values) {
     const toggles = this._newToggles()
 
-    for (const [key, value] of Object.entries(values)) {
-      toggles.set(key, value)
+    if (values) {
+      for (const [key, value] of Object.entries(values)) {
+        toggles.set(key, value)
+      }
     }
 
     this._toggles = toggles

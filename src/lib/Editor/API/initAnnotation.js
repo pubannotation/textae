@@ -16,7 +16,8 @@ export default function (
   controlViewModel,
   originalData,
   annotationParameter,
-  configParameter
+  configParameter,
+  fetureToggles
 ) {
   if (annotationParameter.isInline) {
     // Set an inline annotation.
@@ -51,7 +52,8 @@ export default function (
           controlViewModel,
           spanConfig,
           annotationData,
-          dataSource.data
+          dataSource.data,
+          fetureToggles
         )
 
         originalData.annotation = dataSource
@@ -64,7 +66,13 @@ export default function (
     if (configParameter) {
       remoteResource.loadConfigulation(configParameter)
     } else {
-      setDefault(originalData, controlViewModel, spanConfig, annotationData)
+      setDefault(
+        originalData,
+        controlViewModel,
+        spanConfig,
+        annotationData,
+        fetureToggles
+      )
     }
   }
 }
