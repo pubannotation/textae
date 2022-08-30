@@ -62,13 +62,7 @@ export default class ControlViewModel {
     return new Buttons().controlBar.map(({ list }) =>
       list
         .map(({ type, title }) => this._getPalletButtonTitle(type, title))
-        .map(({ type, title }) => ({
-          type,
-          title,
-          pushed: this.getState(type, 'pushed'),
-          disabled: this.getState(type, 'disabled'),
-          trasit: this.getState(type, 'trasit')
-        }))
+        .map(({ type, title }) => this._convertToButtonHash(type, title))
     )
   }
 
@@ -82,14 +76,7 @@ export default class ControlViewModel {
               return acc
             }
 
-            acc.push({
-              type,
-              title,
-              pushed: this.getState(type, 'pushed'),
-              disabled: this.getState(type, 'disabled'),
-              trasit: this.getState(type, 'trasit')
-            })
-
+            acc.push(this._convertToButtonHash(type, title))
             return acc
           }, [])
       )
@@ -156,5 +143,15 @@ export default class ControlViewModel {
     return type == 'pallet'
       ? { type, title: getPalletButtonTitleFor(this._mode) }
       : { type, title }
+  }
+
+  _convertToButtonHash(type, title) {
+    return {
+      type,
+      title,
+      pushed: this.getState(type, 'pushed'),
+      disabled: this.getState(type, 'disabled'),
+      trasit: this.getState(type, 'trasit')
+    }
   }
 }
