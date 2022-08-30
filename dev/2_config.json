@@ -33,6 +33,8 @@
   ],
   "autocompletion_ws": "/dev/autocomplete?order=desc",
   "function availability": {
-    "relation": false
+    "relation": false,
+    "undo": false,
+    "redo": false
   }
 }

@@ -1,6 +1,11 @@
 export default class FeatuerToggles {
   constructor(eventEmitter) {
+    this._toggles = this._newToggles()
     this._eventEmitter = eventEmitter
+  }
+
+  get(type) {
+    return this._toggles.get(type)
   }
 
   set availability(values) {

@@ -62,17 +62,21 @@ export default class ControlViewModel {
   }
 
   get controlBarButton() {
-    return new Buttons().controlBar.map(({ list }) =>
-      list
-        .map(({ type, title }) => this._getPalletButtonTitle(type, title))
-        .map(({ type, title }) => this._convertToButtonHash(type, title))
-    )
+    return new Buttons().controlBar
+      .map(({ list }) =>
+        list
+          .filter(({ type }) => this._fetureToggles.get(type))
+          .map(({ type, title }) => this._getPalletButtonTitle(type, title))
+          .map(({ type, title }) => this._convertToButtonHash(type, title))
+      )
+      .filter((list) => list.length)
   }
 
   get contextMenuButton() {
     return new Buttons().contextMenu
       .map(({ list }) =>
         list
+          .filter(({ type }) => this._fetureToggles.get(type))
           .map(({ type, title }) => this._getPalletButtonTitle(type, title))
           .reduce((acc, { type, title }) => {
             if (!isTouchable() && this.getState(type, 'disabled')) {
