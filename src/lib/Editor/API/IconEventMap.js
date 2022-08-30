@@ -20,7 +20,7 @@ export default class IconEventMap {
       ['create-span-by-touch', () => presenter.createSpan()],
       ['expand-span-by-touch', () => presenter.expandSpan()],
       ['shrink-span-by-touch', () => presenter.shrinkSpan()],
-      ['entity', () => presenter.createEntity()],
+      ['create-entity', () => presenter.createEntity()],
       ['edit-properties', () => presenter.editProperties()],
       ['pallet', () => presenter.showPallet()],
       ['delete', () => presenter.removeSelectedElements()],

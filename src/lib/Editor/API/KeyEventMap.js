@@ -30,7 +30,8 @@ export default class KeyEventMap {
       ],
       [
         'e',
-        () => functionAvailability.get('entity') && presenter.createEntity()
+        () =>
+          functionAvailability.get('create-entity') && presenter.createEntity()
       ],
       ['f', () => presenter.changeModeByShortcut()],
       [

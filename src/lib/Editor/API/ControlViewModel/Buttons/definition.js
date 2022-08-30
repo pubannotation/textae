@@ -128,7 +128,7 @@ export const definition = [
     },
     list: [
       {
-        type: 'entity',
+        type: 'create-entity',
         title: 'New entity [E]',
         enableWhenSelecting: (selectionModel) =>
           selectionModel.span.contains((s) => s.isDenotation)
