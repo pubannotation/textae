@@ -42,7 +42,7 @@ export const definition = [
         push: true
       },
       {
-        type: 'relation',
+        type: 'relation edit mode',
         title: 'Relation Edit Mode',
         push: true
       }

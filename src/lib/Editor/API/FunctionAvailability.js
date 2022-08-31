@@ -28,7 +28,7 @@ export default class FunctionAvailability {
       ['view mode', true],
       ['term edit mode', true],
       ['block edit mode', true],
-      ['relation', true],
+      ['relation edit mode', true],
       ['simple', true],
       ['line-height', true],
       ['line-height-auto', true],

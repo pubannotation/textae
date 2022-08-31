@@ -10,7 +10,7 @@ export default class IconEventMap {
       ['view mode', () => presenter.toViewMode()],
       ['term edit mode', () => presenter.toTermMode()],
       ['block edit mode', () => presenter.toBlockMode()],
-      ['relation', () => presenter.toRelationMode()],
+      ['relation edit mode', () => presenter.toRelationMode()],
       ['simple', () => presenter.toggleSimpleMode()],
       ['import', () => persistenceInterface.importAnnotation()],
       ['upload', () => persistenceInterface.uploadAnnotation()],
