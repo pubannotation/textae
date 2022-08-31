@@ -116,9 +116,9 @@ export const definition = [
       'touce device': ['control bar', 'context menu']
     },
     list: [
-      { type: 'create-span-by-touch', title: 'Create span' },
-      { type: 'expand-span-by-touch', title: 'Expand span' },
-      { type: 'shrink-span-by-touch', title: 'Shrink span' }
+      { type: 'create span by touch', title: 'Create span' },
+      { type: 'expand span by touch', title: 'Expand span' },
+      { type: 'shrink span by touch', title: 'Shrink span' }
     ]
   },
   {

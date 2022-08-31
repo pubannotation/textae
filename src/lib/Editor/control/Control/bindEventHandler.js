@@ -18,9 +18,9 @@ export default function (el, iconEventMap) {
 
       const { buttonType } = target.dataset
       switch (buttonType) {
-        case 'create-span-by-touch':
-        case 'expand-span-by-touch':
-        case 'shrink-span-by-touch':
+        case 'create span by touch':
+        case 'expand span by touch':
+        case 'shrink span by touch':
           iconEventMap.handle(buttonType)
           break
         default:
@@ -40,9 +40,9 @@ export default function (el, iconEventMap) {
       case 'help':
         helpDialog.open()
         break
-      case 'create-span-by-touch':
-      case 'expand-span-by-touch':
-      case 'shrink-span-by-touch':
+      case 'create span by touch':
+      case 'expand span by touch':
+      case 'shrink span by touch':
         // Monitor the mousedown event to get the currently selected text.
         break
       default:
