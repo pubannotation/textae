@@ -7,7 +7,7 @@ export default class EnableState {
     this._states = new Map([
       ['import', true],
       ['upload', true],
-      ['view', true],
+      ['view mode', true],
       ['term', true],
       ['block', true],
       ['relation', true],

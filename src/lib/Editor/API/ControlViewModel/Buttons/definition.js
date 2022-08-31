@@ -27,7 +27,7 @@ export const definition = [
     },
     list: [
       {
-        type: 'view',
+        type: 'view mode',
         title: 'View Mode',
         push: true
       },

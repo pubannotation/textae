@@ -7,7 +7,7 @@ export default class IconEventMap {
     annotationData
   ) {
     this._map = new Map([
-      ['view', () => presenter.toViewMode()],
+      ['view mode', () => presenter.toViewMode()],
       ['term', () => presenter.toTermMode()],
       ['block', () => presenter.toBlockMode()],
       ['relation', () => presenter.toRelationMode()],
