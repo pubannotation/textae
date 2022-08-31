@@ -35,7 +35,7 @@ export default class FunctionAvailability {
       ['undo', true],
       ['redo', true],
       ['replicate span annotation', true],
-      ['replicate-auto', true],
+      ['auto replicate', true],
       ['boundary-detection', true],
       ['create-span-by-touch', true],
       ['expand-span-by-touch', true],

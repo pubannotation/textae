@@ -649,6 +649,6 @@ export default class SpanEditor {
   }
 
   get _isReplicateAuto() {
-    return this._controlViewModel.isPushed('replicate-auto')
+    return this._controlViewModel.isPushed('auto replicate')
   }
 }

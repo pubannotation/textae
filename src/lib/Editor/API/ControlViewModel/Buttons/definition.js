@@ -99,7 +99,7 @@ export const definition = [
           selectionModel.span.single && selectionModel.span.single.isDenotation
       },
       {
-        type: 'replicate-auto',
+        type: 'auto replicate',
         title: 'Auto replicate',
         push: true
       },
