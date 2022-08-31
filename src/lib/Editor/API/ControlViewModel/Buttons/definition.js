@@ -55,7 +55,7 @@ export const definition = [
     },
     list: [
       {
-        type: 'simple',
+        type: 'simple view',
         title: 'Simple View',
         push: true
       },

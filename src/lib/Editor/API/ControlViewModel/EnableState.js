@@ -11,7 +11,7 @@ export default class EnableState {
       ['term edit mode', true],
       ['block edit mode', true],
       ['relation edit mode', true],
-      ['simple', true],
+      ['simple view', true],
       ['setting', true],
       ['help', true]
     ])
@@ -120,7 +120,7 @@ export default class EnableState {
     span,
     pallet
   ) {
-    this._states.set('simple', simple)
+    this._states.set('simple view', simple)
     this._states.set('replicate-auto', replicateAuto)
     this._states.set('boundary-detection', boundaryDetection)
     this._states.set('line-height', lineHeight)
