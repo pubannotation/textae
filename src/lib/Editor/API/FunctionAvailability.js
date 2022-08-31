@@ -34,7 +34,7 @@ export default class FunctionAvailability {
       ['auto adjust lineheight', true],
       ['undo', true],
       ['redo', true],
-      ['replicate', true],
+      ['replicate span annotation', true],
       ['replicate-auto', true],
       ['boundary-detection', true],
       ['create-span-by-touch', true],

@@ -16,7 +16,7 @@ export default class IconEventMap {
       ['upload', () => persistenceInterface.uploadAnnotation()],
       ['undo', () => commander.undo()],
       ['redo', () => commander.redo()],
-      ['replicate', () => presenter.replicate()],
+      ['replicate span annotation', () => presenter.replicate()],
       ['create-span-by-touch', () => presenter.createSpan()],
       ['expand-span-by-touch', () => presenter.expandSpan()],
       ['shrink-span-by-touch', () => presenter.shrinkSpan()],

@@ -44,7 +44,9 @@ export default class KeyEventMap {
       ['q', () => functionAvailability.get('pallet') && presenter.showPallet()],
       [
         'r',
-        () => functionAvailability.get('replicate') && presenter.replicate()
+        () =>
+          functionAvailability.get('replicate span annotation') &&
+          presenter.replicate()
       ],
       [
         'u',
