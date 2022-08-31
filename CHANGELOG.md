@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [10.1.1](https://github.com/pubannotation/textae/compare/v10.1.0...v10.1.1) (2022-08-31)
+
 ## [10.1.0](https://github.com/pubannotation/textae/compare/v10.0.1...v10.1.0) (2022-08-30)
 
 
