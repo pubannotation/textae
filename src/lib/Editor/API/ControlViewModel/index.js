@@ -134,9 +134,9 @@ export default class ControlViewModel {
     }
 
     if (configuration.autolineheight === false) {
-      this.release('line-height-auto')
+      this.release('auto adjust lineheight')
     } else {
-      this.push('line-height-auto')
+      this.push('auto adjust lineheight')
     }
 
     if (configuration.boundarydetection === false) {

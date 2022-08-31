@@ -124,7 +124,7 @@ export default class EnableState {
     this._states.set('replicate-auto', replicateAuto)
     this._states.set('boundary-detection', boundaryDetection)
     this._states.set('adjust lineheight', lineHeight)
-    this._states.set('line-height-auto', lineHeightAuto)
+    this._states.set('auto adjust lineheight', lineHeightAuto)
     this._states.set('create-span-by-touch', span)
     this._states.set('expand-span-by-touch', span)
     this._states.set('shrink-span-by-touch', span)

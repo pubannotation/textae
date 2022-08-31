@@ -64,7 +64,7 @@ export const definition = [
         title: 'Adjust LineHeight'
       },
       {
-        type: 'line-height-auto',
+        type: 'auto adjust lineheight',
         title: 'Auto Adjust LineHeight',
         push: true
       }

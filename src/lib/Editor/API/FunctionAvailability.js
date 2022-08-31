@@ -31,7 +31,7 @@ export default class FunctionAvailability {
       ['relation edit mode', true],
       ['simple view', true],
       ['adjust lineheight', true],
-      ['line-height-auto', true],
+      ['auto adjust lineheight', true],
       ['undo', true],
       ['redo', true],
       ['replicate', true],
