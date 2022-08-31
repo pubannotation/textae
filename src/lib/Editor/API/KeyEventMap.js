@@ -37,7 +37,7 @@ export default class KeyEventMap {
       [
         'i',
         () =>
-          functionAvailability.get('read') &&
+          functionAvailability.get('import') &&
           persistenceInterface.importAnnotation()
       ],
       ['m', () => presenter.changeModeByShortcut()],

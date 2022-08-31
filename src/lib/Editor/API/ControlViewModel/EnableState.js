@@ -5,7 +5,7 @@ export default class EnableState {
   constructor(eventEmitter, selectionModel, clipBoard) {
     // Enable always enabled buttons.
     this._states = new Map([
-      ['read', true],
+      ['import', true],
       ['write', true],
       ['view', true],
       ['term', true],

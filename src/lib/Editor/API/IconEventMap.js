@@ -12,7 +12,7 @@ export default class IconEventMap {
       ['block', () => presenter.toBlockMode()],
       ['relation', () => presenter.toRelationMode()],
       ['simple', () => presenter.toggleSimpleMode()],
-      ['read', () => persistenceInterface.importAnnotation()],
+      ['import', () => persistenceInterface.importAnnotation()],
       ['write', () => persistenceInterface.uploadAnnotation()],
       ['undo', () => commander.undo()],
       ['redo', () => commander.redo()],

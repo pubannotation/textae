@@ -22,7 +22,7 @@ export default class FunctionAvailability {
 
   _newAvailabilities() {
     return new Map([
-      ['read', true],
+      ['import', true],
       ['write', true],
       ['write-auto', true],
       ['view', true],

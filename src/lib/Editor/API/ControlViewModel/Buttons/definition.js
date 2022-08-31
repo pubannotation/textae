@@ -6,7 +6,7 @@ export const definition = [
     },
     list: [
       {
-        type: 'read',
+        type: 'import',
         title: 'Import [I]'
       },
       {
