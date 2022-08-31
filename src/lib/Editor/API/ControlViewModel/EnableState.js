@@ -32,7 +32,7 @@ export default class EnableState {
       .on('textae-event.edit-mode.transition', (mode) => this._setForMode(mode))
       .on('textae-event.clip-board.change', () => this._updateByClipboard())
       .on('textae-event.annotation-auto-saver.enable', (enable) =>
-        this.enable('write-auto', enable)
+        this.enable('upload automatically', enable)
       )
   }
 

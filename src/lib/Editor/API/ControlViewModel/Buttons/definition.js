@@ -14,7 +14,7 @@ export const definition = [
         title: 'Upload [U]'
       },
       {
-        type: 'write-auto',
+        type: 'upload automatically',
         title: 'Upload Automatically',
         push: true
       }

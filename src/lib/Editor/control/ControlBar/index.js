@@ -118,7 +118,7 @@ export default class ControlBar extends Control {
 
   _updateButton(buttonName, stateName) {
     const button = this._el.querySelector(
-      `.textae-control-${buttonName}-button`
+      `.textae-control-${buttonName.replace(' ', '-')}-button`
     )
 
     if (button) {

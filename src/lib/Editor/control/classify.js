@@ -2,7 +2,10 @@ export default function (buttonGroup) {
   return buttonGroup.map((list) => {
     const ret = []
     for (const { type, title, pushed, disabled, transit } of list) {
-      const classList = ['textae-control-icon', `textae-control-${type}-button`]
+      const classList = [
+        'textae-control-icon',
+        `textae-control-${type.replace(' ', '-')}-button`
+      ]
       if (pushed) {
         classList.push('textae-control-icon--pushed')
       }

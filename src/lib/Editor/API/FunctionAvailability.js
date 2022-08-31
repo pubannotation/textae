@@ -24,7 +24,7 @@ export default class FunctionAvailability {
     return new Map([
       ['import', true],
       ['upload', true],
-      ['write-auto', true],
+      ['upload automatically', true],
       ['view', true],
       ['term', true],
       ['block', true],

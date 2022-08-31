@@ -128,9 +128,9 @@ export default class ControlViewModel {
 
   setPushBUttons(configuration) {
     if (configuration.autosave === true) {
-      this.push('write-auto')
+      this.push('upload automatically')
     } else {
-      this.release('write-auto')
+      this.release('upload automatically')
     }
 
     if (configuration.autolineheight === false) {

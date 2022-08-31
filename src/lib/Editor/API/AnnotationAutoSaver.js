@@ -27,10 +27,10 @@ export default class AnnotationAutoSaver {
         )
       )
       .on('textae-event.control.button.push', ({ name, isPushed }) => {
-        // If there is something to save when the 'write-auto' button is pushed,
+        // If there is something to save when the 'upload automatically' button is pushed,
         // it will be saved immediately.
         if (
-          name === 'write-auto' &&
+          name === 'upload automatically' &&
           isPushed === true &&
           annotationDataEventsObserver.hasChange
         ) {
@@ -40,7 +40,7 @@ export default class AnnotationAutoSaver {
       .on(
         'textae-event.annotation-data.events-observer.local-changes',
         (val) => {
-          if (val && controlViewModel.isPushed('write-auto')) {
+          if (val && controlViewModel.isPushed('upload automatically')) {
             debounceSaveAnnotation()
           }
         }
@@ -48,8 +48,8 @@ export default class AnnotationAutoSaver {
   }
 
   _disabled() {
-    if (this._controlViewModel.isPushed('write-auto')) {
-      this._controlViewModel.toggleButton('write-auto')
+    if (this._controlViewModel.isPushed('upload automatically')) {
+      this._controlViewModel.toggleButton('upload automatically')
     }
   }
 }
