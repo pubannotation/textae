@@ -30,7 +30,7 @@ export default class FunctionAvailability {
       ['block edit mode', true],
       ['relation edit mode', true],
       ['simple view', true],
-      ['line-height', true],
+      ['adjust lineheight', true],
       ['line-height-auto', true],
       ['undo', true],
       ['redo', true],

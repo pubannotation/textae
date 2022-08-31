@@ -60,7 +60,7 @@ export const definition = [
         push: true
       },
       {
-        type: 'line-height',
+        type: 'adjust lineheight',
         title: 'Adjust LineHeight'
       },
       {
