@@ -40,7 +40,7 @@ export default class FunctionAvailability {
       ['create-span-by-touch', true],
       ['expand-span-by-touch', true],
       ['shrink-span-by-touch', true],
-      ['create-entity', true],
+      ['new entity', true],
       ['pallet', true],
       ['edit-properties', true],
       ['delete', true],
