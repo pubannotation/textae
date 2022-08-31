@@ -19,8 +19,8 @@ export default class KeyEventMap {
       [
         'b',
         () =>
-          functionAvailability.get('boundary-detection') &&
-          presenter.toggleButton('boundary-detection')
+          functionAvailability.get('boundary detection') &&
+          presenter.toggleButton('boundary detection')
       ],
       [
         'd',

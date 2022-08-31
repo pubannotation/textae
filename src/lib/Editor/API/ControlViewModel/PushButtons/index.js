@@ -15,7 +15,7 @@ export default class PushButtons {
     )
 
     // default pushed;
-    this._buttons.get('boundary-detection').pushued = true
+    this._buttons.get('boundary detection').pushued = true
   }
 
   get(name) {

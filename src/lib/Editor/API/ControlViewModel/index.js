@@ -56,7 +56,7 @@ export default class ControlViewModel {
   }
 
   get spanAdjuster() {
-    return this.isPushed('boundary-detection')
+    return this.isPushed('boundary detection')
       ? new DelimiterDetectAdjuster()
       : new BlankSkipAdjuster()
   }
@@ -140,9 +140,9 @@ export default class ControlViewModel {
     }
 
     if (configuration.boundarydetection === false) {
-      this.release('boundary-detection')
+      this.release('boundary detection')
     } else {
-      this.push('boundary-detection')
+      this.push('boundary detection')
     }
   }
 

@@ -104,7 +104,7 @@ export const definition = [
         push: true
       },
       {
-        type: 'boundary-detection',
+        type: 'boundary detection',
         title: 'Boundary Detection [B]',
         push: true
       }
