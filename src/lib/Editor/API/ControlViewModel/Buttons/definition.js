@@ -137,7 +137,7 @@ export const definition = [
         type: 'pallet'
       },
       {
-        type: 'edit-properties',
+        type: 'edit properties',
         title: 'Edit Properties [W]',
         enableWhenSelecting: (selectionModel) =>
           selectionModel.entity.some || selectionModel.relation.some

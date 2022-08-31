@@ -42,7 +42,7 @@ export default class FunctionAvailability {
       ['shrink-span-by-touch', true],
       ['new entity', true],
       ['pallet', true],
-      ['edit-properties', true],
+      ['edit properties', true],
       ['delete', true],
       ['copy', true],
       ['cut', true],
