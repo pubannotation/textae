@@ -37,7 +37,7 @@ export const definition = [
         push: true
       },
       {
-        type: 'block',
+        type: 'block edit mode',
         title: 'Block Edit Mode',
         push: true
       },

@@ -9,7 +9,7 @@ export default class EnableState {
       ['upload', true],
       ['view mode', true],
       ['term edit mode', true],
-      ['block', true],
+      ['block edit mode', true],
       ['relation', true],
       ['simple', true],
       ['setting', true],
