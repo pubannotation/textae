@@ -74,7 +74,7 @@ export default class ControlBar extends Control {
         }
       })
       .on('textae-event.annotation-data.events-observer.local-changes', () => {
-        this._updateButton('write', 'transit')
+        this._updateButton('upload', 'transit')
       })
       .on('textae-event.edit-mode.transition', (mode) => {
         const title = getPalletButtonTitleFor(mode)

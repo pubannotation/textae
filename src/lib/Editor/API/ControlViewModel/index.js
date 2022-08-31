@@ -98,7 +98,7 @@ export default class ControlViewModel {
         return !this._enableState.get(name)
       case 'transit':
         switch (name) {
-          case 'write':
+          case 'upload':
             return this._annotationDataEventsObserver.hasChange
           case 'pallet':
             return this.diffOfConfiguration

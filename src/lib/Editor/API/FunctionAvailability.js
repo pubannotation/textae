@@ -23,7 +23,7 @@ export default class FunctionAvailability {
   _newAvailabilities() {
     return new Map([
       ['import', true],
-      ['write', true],
+      ['upload', true],
       ['write-auto', true],
       ['view', true],
       ['term', true],

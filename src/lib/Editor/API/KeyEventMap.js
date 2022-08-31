@@ -49,7 +49,7 @@ export default class KeyEventMap {
       [
         'u',
         () =>
-          functionAvailability.get('write') &&
+          functionAvailability.get('upload') &&
           persistenceInterface.uploadAnnotation()
       ],
       [

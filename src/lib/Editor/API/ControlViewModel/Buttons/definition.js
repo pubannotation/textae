@@ -10,7 +10,7 @@ export const definition = [
         title: 'Import [I]'
       },
       {
-        type: 'write',
+        type: 'upload',
         title: 'Upload [U]'
       },
       {

@@ -6,7 +6,7 @@ export default class EnableState {
     // Enable always enabled buttons.
     this._states = new Map([
       ['import', true],
-      ['write', true],
+      ['upload', true],
       ['view', true],
       ['term', true],
       ['block', true],
