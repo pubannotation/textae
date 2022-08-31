@@ -4,7 +4,7 @@ export default function (buttonGroup) {
     for (const { type, title, pushed, disabled, transit } of list) {
       const classList = [
         'textae-control-icon',
-        `textae-control-${type.replace(' ', '-')}-button`
+        `textae-control-${type.replaceAll(' ', '-')}-button`
       ]
       if (pushed) {
         classList.push('textae-control-icon--pushed')

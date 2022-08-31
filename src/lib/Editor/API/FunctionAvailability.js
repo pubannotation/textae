@@ -26,7 +26,7 @@ export default class FunctionAvailability {
       ['upload', true],
       ['upload automatically', true],
       ['view mode', true],
-      ['term', true],
+      ['term edit mode', true],
       ['block', true],
       ['relation', true],
       ['simple', true],
