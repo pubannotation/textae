@@ -110,7 +110,7 @@ export default class AttributeModel {
   }
 
   get height() {
-    if (this._isMedia && this._definitionContainer.get(this.pred).mediaHeight) {
+    if (this._definitionContainer.get(this.pred).mediaHeight) {
       return this._definitionContainer.get(this.pred).mediaHeight
     } else {
       return 18
