@@ -5,12 +5,10 @@ export default class MediaDictionary {
     this._cache = new Map()
   }
 
-  async acquireContentTypeOf(url) {
+  acquireContentTypeOf(url) {
     if (!url || this._cache.has(url)) {
-      return Promise.resolve()
+      return this._cache.get(url)
     }
-
-    this._cache.set(url, false)
 
     // Use GET method.
     // Some domains do not have CORS settings in the OPTIONS method.
@@ -21,18 +19,34 @@ export default class MediaDictionary {
       cache: 'force-cache'
     })
 
-    try {
-      const response = await fetch(request)
-      this._cache.set(
-        url,
-        /image\/(jpg|png|gif)$/.test(response.headers.get('content-type'))
-      )
-    } catch (e) {
-      console.warn(e.message, url)
-    }
+    const promiseOfResult = new Promise((resolve) => {
+      try {
+        fetch(request).then((response) => {
+          const value = /image\/(jpg|png|gif)$/.test(
+            response.headers.get('content-type')
+          )
+
+          // Set the result to the value property so that the result can be referenced from synchronous functions.
+          // See: https://ourcodeworld.com/articles/read/317/how-to-check-if-a-javascript-promise-has-been-fulfilled-rejected-or-resolved
+          promiseOfResult.value = value
+
+          resolve(value)
+        })
+      } catch (e) {
+        console.warn(e.message, url)
+        resolve(false)
+      }
+    })
+
+    // Cache the promise of results, not the results themselves.
+    // Caching the result causes an immediate redraw at the caller;
+    // it does not wait for the HTTP response to arrive.
+    this._cache.set(url, promiseOfResult)
+
+    return promiseOfResult
   }
 
   hasImageContentTypeOf(url) {
-    return this._cache.get(url)
+    return this._cache.get(url).value
   }
 }
