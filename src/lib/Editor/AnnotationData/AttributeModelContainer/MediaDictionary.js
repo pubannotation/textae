@@ -6,7 +6,9 @@ export default class MediaDictionary {
   }
 
   acquireContentTypeOf(url) {
-    console.assert(url, 'url cannot be empty')
+    if (!url) {
+      return Promise.resolve(false)
+    }
 
     if (this._cache.has(url)) {
       return this._cache.get(url)
@@ -49,7 +51,9 @@ export default class MediaDictionary {
   }
 
   hasImageContentTypeOf(url) {
-    console.assert(url, 'url cannot be empty')
+    if (!url) {
+      return false
+    }
 
     return this._cache.get(url).value
   }
