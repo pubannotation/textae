@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [10.1.2](https://github.com/pubannotation/textae/compare/v10.1.1...v10.1.2) (2022-11-21)
+
+
+### Bug Fixes
+
+* Checks if the URL reference is an image only when a URL is present ([5c88617](https://github.com/pubannotation/textae/commit/5c88617697baaf1ccd5707c5c20e721dc2519b53))
+* Some attributes that point to the same image are not drawn during initial drawing ([48c25d7](https://github.com/pubannotation/textae/commit/48c25d759a437109d0673da80db6863063b6e53d))
+
 ### [10.1.1](https://github.com/pubannotation/textae/compare/v10.1.0...v10.1.1) (2022-08-31)
 
 ## [10.1.0](https://github.com/pubannotation/textae/compare/v10.0.1...v10.1.0) (2022-08-30)
