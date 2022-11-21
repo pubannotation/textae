@@ -30,7 +30,7 @@ export default class AttributeModel {
 
     // If the extension cannot be used to determine whether the image is an image or not,
     // the Content-Type header is acquired to determine whether the image is an image or not.
-    if (this._valueType === 'string' && !this._hasImageExtesion) {
+    if (this._valueType === 'string' && this._href && !this._hasImageExtesion) {
       this._mediaDictionary
         .acquireContentTypeOf(this._href)
         .then(() => this.updateElement())
@@ -132,6 +132,7 @@ export default class AttributeModel {
   get _isMedia() {
     return (
       this._valueType === 'string' &&
+      this._href &&
       (this._hasImageExtesion ||
         this._mediaDictionary.hasImageContentTypeOf(this._href))
     )
