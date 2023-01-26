@@ -202,6 +202,12 @@ export default class AnnotationData {
       annotationParser.hasMultiTracks,
       annotationParser.rejects
     )
+
+    // When reading some annotation Grid may be drawn out of alignment.
+    // For example, http://pubannotation.org/projects/GlyCosmos6-Glycan-Motif-Structure/docs/sourcedb/PubMed/sourceid/3571288/annotations.json .
+    // This seems to happen especially when the browser is wide with only one editor.
+    // The true cause is unknown, but it can be avoided by doing the layout twice.
+    this.relayout()
   }
 
   get JSON() {
