@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [10.1.3](https://github.com/pubannotation/textae/compare/v10.1.2...v10.1.3) (2023-01-26)
+
+
+### Bug Fixes
+
+* Grid is rendered misaligned ([80348a6](https://github.com/pubannotation/textae/commit/80348a6bbb4a2b2e13a99ec6f983c0da9b1b67cf))
+
 ### [10.1.2](https://github.com/pubannotation/textae/compare/v10.1.1...v10.1.2) (2022-11-21)
 
 
