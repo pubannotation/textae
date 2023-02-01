@@ -25,8 +25,8 @@ TextAE ...
 * Shigeru Nakajima ([Luxiar][Luxiar]) : Software Engineer
 * Nakashima Masahiro ([You Works][You Works]) : Software Engineer
 
-[PubAnnotation]: http://pubannotation.org
-[DBCLS]: http://dbcls.rois.ac.jp "Database Center for Life Science"
-[NBDC]: http://https://biosciencedbc.jp "National Bioscience Database Center"
-[Luxiar]: http://www.luxiar.com/
+[PubAnnotation]: https://pubannotation.org
+[DBCLS]: https://dbcls.rois.ac.jp "Database Center for Life Science"
+[NBDC]: https://biosciencedbc.jp "National Bioscience Database Center"
+[Luxiar]: https://www.luxiar.com/
 [You Works]: https://youworks.jp/

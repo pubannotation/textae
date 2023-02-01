@@ -8,11 +8,13 @@ permalink: /docs/term-edit-mode/
 
 You can enter the Term Edit mode by clicking the *Term Edit Mode* icon
 ![](https://raw.githubusercontent.com/pubannotation/textae/stable/4/dist/lib/css/images/btn_term_16.png)
+.
 
-In the mode, you can edit denotation- and attribute-type of annotations.
+In the mode, you can select a span of text, to which you can assign a piece of information.
+This type of annotation is called *denotation*.
 
-To learn about the annotation types supported by TextAE, please see this page of PubAnnotation manual:
-[PubAnnotation JSON Format](http://www.pubannotation.org/docs/annotation-format/).
+To learn about the annotation types supported by TextAE, please refer to the PubAnnotation manual:
+[PubAnnotation JSON Format](https://www.pubannotation.org/docs/annotation-format/).
 
 # Creating a denotation
 

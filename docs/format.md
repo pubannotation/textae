@@ -6,4 +6,4 @@ permalink: /docs/format/
 
 # Format
 
-TextAE supports the [PubAnnotation JSON Format](http://www.pubannotation.org/docs/annotation-format/).
+TextAE supports the [PubAnnotation JSON Format](https://www.pubannotation.org/docs/annotation-format/).

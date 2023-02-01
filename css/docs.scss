@@ -11,6 +11,11 @@ article {
   color: #552;
   line-height: 1.5;
 
+  .headline {
+    font-size: 1em;
+    font-style: italic;
+  }
+
 	h1 {
 		margin: 0.6em 0 0.4em 0;
 		border-style: none;
@@ -87,7 +92,6 @@ aside {
   }
 }
 
-
 .content {
   display: block;
   width: 80%;
@@ -104,6 +108,19 @@ aside {
   text-transform: uppercase;
   font-weight: bold;
   text-shadow: 0 -1px 0 rgba(0,0,0,.5);
+}
+
+.caveat {
+  color: #f00;
+  padding: 0;
+
+  legend {
+    border-radius: 6px;
+    padding-left: 4px;
+    padding-right: 4px;
+    background-color: #f00;
+    color:#fdd;
+  }
 }
 
 .hide-on-mobiles {

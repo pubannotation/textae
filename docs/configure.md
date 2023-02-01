@@ -1,8 +1,11 @@
 ---
 layout: docs_with_textae
 title: Configuration
+toc: true
 permalink: /docs/configure/
 ---
+
+{:toc}
 
 # Configuring TextAE
 
@@ -13,12 +16,12 @@ In case you have prepared a configuration in a separate JSON file,
 you can put it in any location which is accessible through the net (a github repository would be a good idea, because you can manage revision history of your configuration).
 
 An example of TextAE configuration can be found at:
-http://textae.pubannotation.org/examples/config-example.json 
+https://textae.pubannotation.org/examples/config-example.json
 
 Then, when you open an instance of TextAE, the configuration can be specified using the parameter, _configure_, e.g.,
 
 ```
-http://textae.pubannotation.org/editor.html?config=http://textae.pubannotation.org/examples/config-example.json...
+https://textae.pubannotation.org/editor.html?config=http://textae.pubannotation.org/examples/config-example.json...
 ```
 
 The elements of a TextAE configuration is described below:
@@ -121,7 +124,7 @@ The example below shows the definition of an attribute to have "selection"-type 
 The value of an attribute of this type can choose one of the predefined values as it s value.
 
 ### "numeric" value type
-The example below shows the definition of an attribute to have "selection"-type values.
+The example below shows the definition of an attribute to have "numeric"-type values.
 ```JSON
 {
   "pred": "score",
@@ -153,7 +156,7 @@ The value of an attribute of this type can be set with a numeric value within th
 By defining ranges in the "values" array, you can define show the values to be presented using colors and labels.
 
 ### "flag" value type
-The example below shows the definition of an attribute to have "selection"-type values.
+The example below shows the definition of an attribute to have "flag"-type values.
 ```JSON
 {
   "pred": "uncertain",
@@ -161,6 +164,8 @@ The example below shows the definition of an attribute to have "selection"-type 
   "color": "#FF0000"
 },
  ```
+
+An attribute of this type can have either _true_ or _false_ as its value.
 
 ### "string" value type
 The example below shows the definition of an attribute to have "string" type values.
@@ -180,7 +185,7 @@ The example below shows the definition of an attribute to have "string" type val
       "label": "Cancer"
     }
   ],
-  "autocompletion_ws":"http://pubdictionaries.org/dictionaries/MONDO/prefix_completion"
+  "autocompletion_ws":"https://pubdictionaries.org/dictionaries/MONDO/prefix_completion"
 }
 ```
 

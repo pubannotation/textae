@@ -6,39 +6,36 @@ permalink: /docs/embed/
 
 # Embedding TextAE in HTML documents
 
-You can embed TextAE in a HTML document as much as you like, in various styles you like.
+A TextAE instance is encapsulated in a _div_ element,
+thus you can embed TextAE instances as many as you like in a HTML document.
 
-Here is an example page which has multiple instances of TextAE.
-<a href="http://www.pubannotation.org">this page</a>
+## Step 1. Necessary setting in the _head_ section
 
-## Step 1. To load necessary lib's and css's
-
-In the _head_ area of a HTML document, put
+Following is the necessary setting in the _head_ section of the HTML document in which you want to embed TextAE instances:
 
 ```HTML
-<link rel="stylesheet" href="http://textae.pubannotation.org/lib/css/textae.min.css" />
-<script src="http://textae.pubannotation.org/lib/textae.min.js"></script>
+<meta charset="utf-8" />
+<link rel="stylesheet" href="https://textae.pubannotation.org/lib/css/textae.min.css" />
+<script src="https://textae.pubannotation.org/lib/textae.min.js"></script>
 ```
 
-## Step 2. To put a TextAE instance.
+## Step 2. Putting a TextAE instance.
 
-Wherever in the _body_ of a HTML document, put
+Wherever in the _body_ section of the HTML document, you can put a TextAE instance in the following way:
 ```HTML
 <div class="textae-editor"></div>
 ```
 
-It will insert an empty TextAE instance in the HTML document.
+## Step 3. Loading text/annotation in TextAE.
 
+There are two ways to load text/annotation in TextAE
 
-## Step 3. To load annotation in TextAE.
+### Step 3-1. Direct inclusion
 
-There are three ways as described below.
-
-
-### Step 3-1. To put annotation inside the TextAE instance.
+A piece of text with or without annotation can be directly included in the _div_ element, as below:
 
 ```HTML
-<div class="textae-editor>
+<div class="textae-editor">
 	{
 		"text":"Hello World!",
 		"denotations":[
@@ -49,35 +46,31 @@ There are three ways as described below.
 </div>
 ```
 
-### Step 3-2. To put annotation in a separate file, and specify the location.
-
-```HTML
-<div class="textae-editor" target="your_annotation.json"></div>
-```
-
-### Step 3-3. To get annotation from a web location.
-
-```HTML
-<div class="textae-editor" target="http://example.org/your_annotation.json"></div>
-```
-
-
-
-### Then, you will get this rendering in your browser
+Below is the resulted rendering of the above HTML code:
 
 <div class="textae-editor">
-{
-"text":"Hello World!",
-"denotations":[
-	{"span":{"begin":0,"end":5},"obj":"Greet"},
-	{"span":{"begin":6,"end":11},"obj":"Object"}
-]
-}
+	{
+		"text":"Hello World!",
+		"denotations":[
+			{"span":{"begin":0,"end":5},"obj":"Greet"},
+			{"span":{"begin":6,"end":11},"obj":"Object"}
+		]
+	}
 </div>
 
-<div class="textae-editor" target="http://pubannotation.org/projects/NCBIDiseaseCorpus/docs/sourcedb/PubMed/sourceid/1322637/annotations.json"></div>
 
-### Tip) Note that a TextAE rendering is a normal _div_ element, and you can freely style it using CSS.
+### Step 3-2. Getting text/annotation from a web location.
+
+The location (URL) of a piece of text with or without annotation can be specified through the _target_ argument of the _div_ element, as below:
+
+```HTML
+<div class="textae-editor" target="https://example.org/your_annotation.json"></div>
+```
+
+Note that however you have to open the HTML document through a web server.
+If you open it from you local storage, TextAE will complain about a [CORS](https://en.wikipedia.org/wiki/Cross-origin_resource_sharing) problem.
+
+### Tip) The style of a TextAE instance can be freely customized using CSS.
 
 <div class="textae-editor" style="color:yellow; width:400px; padding:5px; background:
 radial-gradient(black 15%, transparent 16%) 0 0,
@@ -95,7 +88,7 @@ background-size:16px 16px;">
 }
 </div>
 
-### Tip) You can embed TextAE instances as many as you like in one HTML document, like <a href="http://www.pubannotation.org">this page
+### Tip) You can embed TextAE instances as many as you like in one HTML document, like [this page](https://www.pubannotation.org).
 
 ### Tip) By default, an instance of TextAE works as a visualizer. You can turn it into the editor mode by setting its _mode_ to be _edit_.
 
