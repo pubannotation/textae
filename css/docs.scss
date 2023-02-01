@@ -2,19 +2,19 @@
 ---
 
 article {
-  min-height: 300px;
-  margin: 5px 0;
+	min-height: 300px;
+	margin: 5px 0;
 	padding: 10px;
-  border-radius: 10px;
+	border-radius: 10px;
 	background: #f8f8f0;
-  box-shadow: 3px 3px 3px #aaa;
-  color: #552;
-  line-height: 1.5;
+	box-shadow: 3px 3px 3px #aaa;
+	color: #552;
+	line-height: 1.5;
 
-  .headline {
-    font-size: 1em;
-    font-style: italic;
-  }
+	.headline {
+		font-size: 1em;
+		font-style: italic;
+	}
 
 	h1 {
 		margin: 0.6em 0 0.4em 0;
@@ -22,18 +22,18 @@ article {
 		font-size: 1.5em;
 	}
 
-  h2, h3 {
-    margin: 0.8em 0 0.5em 0;
-    border-style: none;
-  }
+	h2, h3 {
+		margin: 0.8em 0 0.5em 0;
+		border-style: none;
+	}
 
-  h2 {
-    font-size: 1.2em;
-  }
+	h2 {
+		font-size: 1.2em;
+	}
 
-  h3 {
-    font-size: 1.0em;
-  }
+	h3 {
+		font-size: 1.0em;
+	}
 
 	ul {
 		
@@ -47,101 +47,101 @@ article {
 		padding: 5px;
 		color: #eee;
 		background-color: #333;
-    font-size: 12pt;
+		font-size: 12pt;
 	}
 
 }
 
 .side-contents {
-  padding-left: 4px;
-  display: block;
-  width: 19%;
-  float: left;
+	padding-left: 4px;
+	display: block;
+	width: 19%;
+	float: left;
 }
 
 .docs-nav-mobile {
-  width: 100%;
+	width: 100%;
 
-  select {
-    width: 100%;
-  }
+	select {
+		width: 100%;
+	}
 }
 
 aside {
-  position: relative;
-  top: 20px;
-  left: -4px;
+	position: relative;
+	top: 20px;
+	left: -4px;
 
-  ul {
-    list-style-type: none;
-    margin: 10px 0;
-    padding: 0;
+	ul {
+		list-style-type: none;
+		margin: 10px 0;
+		padding: 0;
 
-    li {
-      margin: 2px 0;
-      border-top-right-radius: 8px;
-      border-bottom-right-radius: 8px;
-      padding: 5px;
-      padding-left: 10px;
+		li {
+			margin: 2px 0;
+			border-top-right-radius: 8px;
+			border-bottom-right-radius: 8px;
+			padding: 5px;
+			padding-left: 10px;
 
-      &.current {
-        background: #f8f8f0;
-        box-shadow: 3px 3px 3px #aaa;
-      }
-    }
-  }
+			&.current {
+				background: #f8f8f0;
+				box-shadow: 3px 3px 3px #aaa;
+			}
+		}
+	}
 }
 
 .content {
-  display: block;
-  width: 80%;
-  max-width: 80em;
-  float: left;
+	display: block;
+	width: 80%;
+	max-width: 80em;
+	float: left;
 }
 
 .clear {
-  clear:left;
+	clear:left;
 }
 
 .label {
-  float: left;
-  text-transform: uppercase;
-  font-weight: bold;
-  text-shadow: 0 -1px 0 rgba(0,0,0,.5);
+	float: left;
+	text-transform: uppercase;
+	font-weight: bold;
+	text-shadow: 0 -1px 0 rgba(0,0,0,.5);
 }
 
 .caveat {
-  color: #f00;
-  padding: 0;
+	color: #f00;
+	padding: 0;
 
-  legend {
-    border-radius: 6px;
-    padding-left: 4px;
-    padding-right: 4px;
-    background-color: #f00;
-    color:#fdd;
-  }
+	legend {
+		border-radius: 6px;
+		padding-left: 4px;
+		padding-right: 4px;
+		background-color: #f00;
+		color:#fdd;
+	}
 }
 
 .hide-on-mobiles {
-  display:block;
+	display:block;
 }
 
 .show-on-mobiles {
-  display:none;
+	display:none;
 }
 
 
 @media screen and (max-width: 568px) {
-  .hide-on-mobiles {
-    display:none;
-  }
+	.hide-on-mobiles {
+		display:none;
+	}
 
-  .show-on-mobiles {
-    display:block;
-  }
+	.show-on-mobiles {
+		display:block;
+	}
 
-  .content {
-    width:100%;
-  }
+	.content {
+		width:100%;
+	}
 }
