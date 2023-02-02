@@ -56,7 +56,7 @@ export default class KeyEventMap {
       [
         'w',
         () =>
-          functionAvailability.get('edit-propeties') &&
+          functionAvailability.get('edit properties') &&
           presenter.editProperties()
       ],
       ['y', () => functionAvailability.get('redo') && commander.redo()],
