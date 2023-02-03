@@ -38,7 +38,7 @@ export default class EditBlock extends Edit {
       annotationData.typeDefinition.block,
       selectionModel.entity,
       commander,
-      'Entity configuration',
+      'Block configuration',
       controlViewModel
     )
 

@@ -29,7 +29,7 @@ export default class EditDenotation extends Edit {
       annotationData.typeDefinition.denotation,
       selectionModel.entity,
       commander,
-      'Entity configuration',
+      'Term configuration',
       controlViewModel
     )
 
