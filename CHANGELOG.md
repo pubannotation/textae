@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [10.2.0](https://github.com/pubannotation/textae/compare/v10.1.3...v10.2.0) (2023-02-03)
+
+
+### Features
+
+* Rename title of pallets ([6e49d4b](https://github.com/pubannotation/textae/commit/6e49d4b44d73355cfef245c327aa3c0337d3877c))
+
+
+### Bug Fixes
+
+* Shortcut key w does not open property edit dialog ([357d671](https://github.com/pubannotation/textae/commit/357d671e0bd705c5c1b8ed3af82f9768bbfaf263))
+
 ### [10.1.3](https://github.com/pubannotation/textae/compare/v10.1.2...v10.1.3) (2023-01-26)
 
 
