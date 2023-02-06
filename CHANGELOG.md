@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [10.2.1](https://github.com/pubannotation/textae/compare/v10.2.0...v10.2.1) (2023-02-06)
+
+
+### Bug Fixes
+
+* The Configuration save and read buttons are missing. ([be7d4ca](https://github.com/pubannotation/textae/commit/be7d4ca3845e8804430bd30b92bd6b6c1f290e21))
+
 ## [10.2.0](https://github.com/pubannotation/textae/compare/v10.1.3...v10.2.0) (2023-02-03)
 
 
