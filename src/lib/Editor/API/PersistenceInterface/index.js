@@ -33,10 +33,10 @@ export default class PersistenceInterface {
     }
 
     eventEmitter
-      .on('textae-event.pallet.read-button.click', () =>
+      .on('textae-event.pallet.import-button.click', () =>
         this.importConfiguration()
       )
-      .on('textae-event.pallet.write-button.click', () =>
+      .on('textae-event.pallet.upload-button.click', () =>
         this.uploadConfiguration()
       )
   }

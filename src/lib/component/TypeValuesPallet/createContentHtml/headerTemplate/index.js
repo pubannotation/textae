@@ -34,9 +34,9 @@ export default function (context) {
     <span class="textae-editor__pallet__selected-entity-label">${selectedEntityLabel}</span>
   </div>
   <div class="textae-editor__pallet__buttons">
-    <span class="textae-editor__pallet__button textae-editor__pallet__read-button" title="Import"></span>
-    <span class="textae-editor__pallet__button textae-editor__pallet__write-button ${
-      hasDiff ? 'textae-editor__pallet__write-button--transit' : ''
+    <span class="textae-editor__pallet__button textae-editor__pallet__import-button" title="Import"></span>
+    <span class="textae-editor__pallet__button textae-editor__pallet__upload-button ${
+      hasDiff ? 'textae-editor__pallet__upload-button--transit' : ''
     }" title="Upload"></span>
   </div>
 </div>
