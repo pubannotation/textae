@@ -218,7 +218,7 @@ export default class API {
     )
 
     // Set control bar visibility.
-    if (params.mode === 'view mode') {
+    if (params.mode === 'view') {
       editorHTMLElement.classList.add('textae-editor--control-hidden')
     }
 
