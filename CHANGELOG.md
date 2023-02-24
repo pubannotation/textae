@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [11.0.0](https://github.com/pubannotation/textae/compare/v10.2.2...v11.0.0) (2023-02-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* When no mode is specified, the initial mode is view mode and the control bar is not displayed. Previously, the initial mode was view mode and the control bar was displayed. If you want to display the control bar, explicitly specify the "visible" for the control attribute.
+
+* The control bar is not displayed in view mode. ([3d35e93](https://github.com/pubannotation/textae/commit/3d35e93919cc626681c287736c09aa3db29173be))
+
 ### [10.2.2](https://github.com/pubannotation/textae/compare/v10.2.1...v10.2.2) (2023-02-22)
 
 
