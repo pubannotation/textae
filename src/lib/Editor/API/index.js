@@ -217,11 +217,6 @@ export default class API {
       editorHTMLElement.childNodes[0]
     )
 
-    // Set control bar visibility.
-    if (params.mode === 'view') {
-      editorHTMLElement.classList.add('textae-editor--control-hidden')
-    }
-
     switch (params.control) {
       case 'hidden':
         editorHTMLElement.classList.add('textae-editor--control-hidden')
@@ -230,7 +225,10 @@ export default class API {
         editorHTMLElement.classList.add('textae-editor--control-visible')
         break
       default:
-        // No error is made if any other value is set.
+        // Set control bar visibility.
+        if (params.mode !== 'edit') {
+          editorHTMLElement.classList.add('textae-editor--control-hidden')
+        }
         break
     }
 

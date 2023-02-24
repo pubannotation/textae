@@ -61,13 +61,13 @@ Example:
 
 Show the control bar of the editor.
 
-- auto (default) : Show the control bar the editable editor is selected
+- auto (default) : Show the control bar in edit mode
 - visible : Show the control bar always
 - hidden : Do not show the control bar always
 
 Example:
 ```html
-<div class="textae-editor" status_bar="visible" ></div>
+<div class="textae-editor" control="visible" ></div>
 ```
 
 ### status_bar
