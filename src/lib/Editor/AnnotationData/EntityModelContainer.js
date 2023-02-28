@@ -38,6 +38,11 @@ export default class EntityModelContainer extends IdIssueContainer {
     this._controlBarHeight = value
   }
 
+  addSource(source, type) {
+    super.addSource(source, type)
+    this._resetMemo()
+  }
+
   _toModel(denotation, type) {
     // Expected an entity like {id: "E21", span: "editor2__S50_54", obj: "Protein"}.
     return new EntityModel(
@@ -61,6 +66,7 @@ export default class EntityModelContainer extends IdIssueContainer {
     // When redoing, the newValue is instance of the EntityModel already.
     if (newValue instanceof EntityModel) {
       super.add(newValue)
+      this._resetMemo()
       newValue.render()
       return newValue
     }
@@ -83,6 +89,7 @@ export default class EntityModelContainer extends IdIssueContainer {
     )
 
     super.add(newEntity)
+    this._resetMemo()
     newEntity.render()
     return newEntity
   }
@@ -90,6 +97,7 @@ export default class EntityModelContainer extends IdIssueContainer {
   remove(id) {
     const instance = super.remove(id)
     instance.erase()
+    this._resetMemo()
   }
 
   changeType(id, newType) {
@@ -102,6 +110,7 @@ export default class EntityModelContainer extends IdIssueContainer {
     for (const entity of entities) {
       const spanBeforeMove = entity.span
       entity.span = span
+      this._resetMemo()
       entity.erase()
       spanBeforeMove.updateSelfAndAncestorsGridPosition()
 
@@ -116,7 +125,19 @@ export default class EntityModelContainer extends IdIssueContainer {
   }
 
   getAllOfSpan(span) {
-    return this.all.filter((entity) => span.id === entity.span.id)
+    if (this._allOfSpanMemo === null) {
+      this._allOfSpanMemo = new Map()
+    }
+
+    if (this._allOfSpanMemo.has(span)) {
+      return this._allOfSpanMemo.get(span)
+    }
+
+    this._allOfSpanMemo.set(
+      span,
+      this.all.filter((entity) => span.id === entity.span.id)
+    )
+    return this._allOfSpanMemo.get(span)
   }
 
   get denotations() {
@@ -175,5 +196,9 @@ export default class EntityModelContainer extends IdIssueContainer {
       default:
         throw `${type} is unknown type span!`
     }
+  }
+
+  _resetMemo() {
+    this._allOfSpanMemo = null
   }
 }
