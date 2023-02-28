@@ -38,25 +38,24 @@ export default class EntityModelContainer extends IdIssueContainer {
     this._controlBarHeight = value
   }
 
-  addSource(source, type) {
-    super.addSource(source, type)
-    this._resetMemo()
-  }
-
   _toModel(denotation, type) {
     // Expected an entity like {id: "E21", span: "editor2__S50_54", obj: "Protein"}.
-    return new EntityModel(
+    const span = this._getSpan(type, denotation)
+    const newModel = new EntityModel(
       this._editorID,
       this._attributeModelContainer,
       this._relationModelContainer,
       this._typeGap,
       this._parent.typeDefinition,
-      this._getSpan(type, denotation),
+      span,
       denotation.obj,
       this._namespace,
       this._controlBarHeight,
       denotation.id
     )
+    span.add(newModel)
+
+    return newModel
   }
 
   add(newValue) {
@@ -66,22 +65,24 @@ export default class EntityModelContainer extends IdIssueContainer {
     // When redoing, the newValue is instance of the EntityModel already.
     if (newValue instanceof EntityModel) {
       super.add(newValue)
-      this._resetMemo()
+      newValue.span.add(newValue)
       newValue.render()
       return newValue
     }
 
+    const span = this._spanModelContainer.get(newValue.span)
     const newEntity = new EntityModel(
       this._editorID,
       this._attributeModelContainer,
       this._relationModelContainer,
       this._typeGap,
       this._parent.typeDefinition,
-      this._spanModelContainer.get(newValue.span),
+      span,
       newValue.typeName,
       this._namespace,
       this._controlBarHeight
     )
+    span.add(newEntity)
 
     console.assert(
       newEntity.span.isDenotation || newEntity.span.entities.length === 0,
@@ -89,7 +90,6 @@ export default class EntityModelContainer extends IdIssueContainer {
     )
 
     super.add(newEntity)
-    this._resetMemo()
     newEntity.render()
     return newEntity
   }
@@ -97,7 +97,7 @@ export default class EntityModelContainer extends IdIssueContainer {
   remove(id) {
     const instance = super.remove(id)
     instance.erase()
-    this._resetMemo()
+    instance.span.remove(instance)
   }
 
   changeType(id, newType) {
@@ -108,12 +108,14 @@ export default class EntityModelContainer extends IdIssueContainer {
 
   moveEntities(span, entities) {
     for (const entity of entities) {
-      const spanBeforeMove = entity.span
-      entity.span = span
-      this._resetMemo()
       entity.erase()
+
+      const spanBeforeMove = entity.span
+      spanBeforeMove.remove(entity)
       spanBeforeMove.updateSelfAndAncestorsGridPosition()
 
+      entity.span = span
+      span.add(entity)
       entity.render()
 
       for (const relation of entity.relations) {
@@ -122,22 +124,6 @@ export default class EntityModelContainer extends IdIssueContainer {
     }
 
     this._emit(`textae-event.annotation-data.entity.move`)
-  }
-
-  getAllOfSpan(span) {
-    if (this._allOfSpanMemo === null) {
-      this._allOfSpanMemo = new Map()
-    }
-
-    if (this._allOfSpanMemo.has(span)) {
-      return this._allOfSpanMemo.get(span)
-    }
-
-    this._allOfSpanMemo.set(
-      span,
-      this.all.filter((entity) => span.id === entity.span.id)
-    )
-    return this._allOfSpanMemo.get(span)
   }
 
   get denotations() {
@@ -196,9 +182,5 @@ export default class EntityModelContainer extends IdIssueContainer {
       default:
         throw `${type} is unknown type span!`
     }
-  }
-
-  _resetMemo() {
-    this._allOfSpanMemo = null
   }
 }

@@ -16,6 +16,7 @@ export default class SpanModel {
     this._spanModelContainer = spanModelContainer
     this._isGridRendered = false
     this._isSelected = false
+    this._entities = new Set()
 
     this.severTies()
   }
@@ -40,11 +41,7 @@ export default class SpanModel {
    * @return {[import('../../../EntityModel').default]}
    */
   get entities() {
-    if (this._entityModelContainer) {
-      return this._entityModelContainer.getAllOfSpan(this)
-    }
-
-    return []
+    return [...this._entities]
   }
 
   get relations() {
@@ -65,6 +62,14 @@ export default class SpanModel {
 
   get children() {
     return this._children
+  }
+
+  add(entity) {
+    this._entities.add(entity)
+  }
+
+  remove(entity) {
+    this._entities.delete(entity)
   }
 
   severTies() {
