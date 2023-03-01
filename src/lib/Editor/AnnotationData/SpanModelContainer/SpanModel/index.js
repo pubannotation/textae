@@ -16,6 +16,9 @@ export default class SpanModel {
     this._spanModelContainer = spanModelContainer
     this._isGridRendered = false
     this._isSelected = false
+    /**
+     * @type {Set<import('../../../EntityModel').default>}
+     */
     this._entities = new Set()
 
     this.severTies()
@@ -64,10 +67,18 @@ export default class SpanModel {
     return this._children
   }
 
+  /**
+   *
+   * @param {import('../../../EntityModel').default} entity
+   */
   add(entity) {
     this._entities.add(entity)
   }
 
+  /**
+   *
+   * @param {import('../../../EntityModel').default} entity
+   */
   remove(entity) {
     this._entities.delete(entity)
   }
