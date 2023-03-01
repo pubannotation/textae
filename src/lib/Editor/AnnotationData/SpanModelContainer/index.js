@@ -184,12 +184,17 @@ export default class SpanModelContainer {
     const blockSpan = this._blocks.get(id)
     if (blockSpan) {
       this._removeBlock(blockSpan)
+      this._emitter.emit(`textae-event.annotation-data.span.remove`, blockSpan)
       return
     }
 
     const denotationSpan = this._denotations.get(id)
     if (denotationSpan) {
       this._removeDenotation(denotationSpan)
+      this._emitter.emit(
+        `textae-event.annotation-data.span.remove`,
+        denotationSpan
+      )
       return
     }
 
@@ -289,13 +294,17 @@ export default class SpanModelContainer {
   _removeDenotation(span) {
     this._denotations.delete(span.id)
     span.erase()
-    this._emitter.emit(`textae-event.annotation-data.span.remove`, span)
+    // When changing the length of a span, the span is erased and rendered again.
+    // When the span is erased, the span erase event fires and the position calculations for all annotations are performed.
+    // The event is not fired in this function.
   }
 
   _removeBlock(span) {
     this._blocks.delete(span.id)
     span.erase()
-    this._emitter.emit(`textae-event.annotation-data.span.remove`, span)
+    // When changing the length of a span, the span is erased and rendered again.
+    // When the span is erased, the span erase event fires and the position calculations for all annotations are performed.
+    // The event is not fired in this function.
   }
 
   isBoundaryCrossingWithOtherSpans(begin, end) {
