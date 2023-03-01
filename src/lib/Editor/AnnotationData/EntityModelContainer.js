@@ -53,7 +53,6 @@ export default class EntityModelContainer extends IdIssueContainer {
       this._controlBarHeight,
       denotation.id
     )
-    span.add(newModel)
 
     return newModel
   }
@@ -82,7 +81,6 @@ export default class EntityModelContainer extends IdIssueContainer {
       this._namespace,
       this._controlBarHeight
     )
-    span.add(newEntity)
 
     console.assert(
       newEntity.span.isDenotation || newEntity.span.entities.length === 0,
@@ -115,7 +113,6 @@ export default class EntityModelContainer extends IdIssueContainer {
       spanBeforeMove.updateSelfAndAncestorsGridPosition()
 
       entity.span = span
-      span.add(entity)
       entity.render()
 
       for (const relation of entity.relations) {

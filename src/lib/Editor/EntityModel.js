@@ -27,7 +27,7 @@ export default class EntityModel {
     id = null
   ) {
     this._editorID = editorID
-    this._span = span
+    this.span = span
     this.typeName = typeName
     this._id = id
     this._attributeContainer = attributeContainer
@@ -72,6 +72,7 @@ export default class EntityModel {
 
   set span(val) {
     this._span = val
+    val.add(this)
   }
 
   get typeName() {

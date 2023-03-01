@@ -34,7 +34,6 @@ export default class BlockSpanModel extends SpanModel {
   passesAllEntitiesTo(newSpan) {
     for (const entity of this.entities) {
       entity.span = newSpan
-      newSpan.add(entity)
     }
   }
 
