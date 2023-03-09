@@ -336,6 +336,9 @@ export default class SpanModelContainer {
       .filter(({ isSelected }) => isSelected)
   }
 
+  /**
+   * @returns {import('./DenotationSpanModel').default[]}
+   */
   get allDenotationSpans() {
     return [...this._denotations.values()]
   }
