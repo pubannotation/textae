@@ -1,9 +1,9 @@
-import SELECTED from './SELECTED'
-import getGridHeightIncludeDescendantGrids from './getGridHeightIncludeDescendantGrids'
-import round from '../../round'
-import SpanModel from './SpanModel'
-import isTouchable from '../../isTouchable'
-import { makeDenotationSpanHTMLElementID } from '../../idFactory'
+import SELECTED from '../SELECTED'
+import getGridHeightIncludeDescendantGrids from '../getGridHeightIncludeDescendantGrids'
+import round from '../../../round'
+import SpanModel from '../SpanModel'
+import isTouchable from '../../../isTouchable'
+import { makeDenotationSpanHTMLElementID } from '../../../idFactory'
 
 const TEXT_HEIGHT = 23
 const MARGIN_TOP = 30
