@@ -187,4 +187,8 @@ export default class DenotationSpanModel extends SpanModel {
       </span>
     `
   }
+
+  get _gridHeightIncludeDescendantGrids() {
+    return getGridHeightIncludeDescendantGrids(this)
+  }
 }
