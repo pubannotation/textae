@@ -90,8 +90,7 @@ export default class AnnotationData {
       editorHTMLElement,
       eventEmitter,
       this.entity,
-      this._textBox,
-      this._typeGap
+      this._textBox
     )
 
     this.denotationDefinitionContainer = new DefinitionContainer(
