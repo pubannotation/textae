@@ -43,10 +43,16 @@ export default class AnnotationData {
       relationDefinitionContainer
     )
     this._typeGap = new TypeGap(() => {
+      for (const denotaitonSpan of this.span.allDenotationSpans) {
+        denotaitonSpan.clearGridHeightIncludeDescendantGridsCache()
+      }
+
       for (const entity of this.entity.denotations) {
         entity.reflectTypeGapInTheHeight()
       }
+
       this._textBox.updateLineHeight()
+
       eventEmitter.emit('textae-event.annotation-data.entity-gap.change')
     })
 
