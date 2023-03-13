@@ -28,28 +28,6 @@ export default class DenotationSpanModel extends SpanModel {
     )
   }
 
-  clearGridHeightIncludeDescendantGridsCache() {
-    this._gridHeightIncludeDescendantGridsCache = null
-  }
-
-  /**
-   *
-   * @param {import('../../../EntityModel').default} entity
-   */
-  add(entity) {
-    super.add(entity)
-    this.clearGridHeightIncludeDescendantGridsCache()
-  }
-
-  /**
-   *
-   * @param {import('../../../EntityModel').default} entity
-   */
-  remove(entity) {
-    super.remove(entity)
-    this.clearGridHeightIncludeDescendantGridsCache()
-  }
-
   passesAllEntitiesTo(newSpan) {
     for (const entity of this.entities) {
       entity.span = newSpan
@@ -211,12 +189,6 @@ export default class DenotationSpanModel extends SpanModel {
   }
 
   get _gridHeightIncludeDescendantGrids() {
-    if (this._gridHeightIncludeDescendantGridsCache) {
-      return this._gridHeightIncludeDescendantGridsCache
-    }
-
-    this._gridHeightIncludeDescendantGridsCache =
-      getGridHeightIncludeDescendantGrids(this)
-    return this._gridHeightIncludeDescendantGridsCache
+    return getGridHeightIncludeDescendantGrids(this)
   }
 }
