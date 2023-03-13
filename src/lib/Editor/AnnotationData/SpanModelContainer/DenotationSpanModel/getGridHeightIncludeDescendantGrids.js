@@ -1,6 +1,6 @@
 /**
  *
- * @param {import('../SpanModel').default} span
+ * @param {import('./index').default} span
  * @param {number} typeGap
  * @returns {number}
  */
