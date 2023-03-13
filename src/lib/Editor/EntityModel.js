@@ -201,6 +201,10 @@ export default class EntityModel {
     return labelUnitHegiht + this._attributesHeight
   }
 
+  get heightWithTypeGap() {
+    return this.height + this._typeGap.height
+  }
+
   get offsetCenter() {
     return round(this.span.offsetCenterOfGrid)
   }

@@ -158,10 +158,8 @@ export default class SpanModel {
   }
 
   get gridHeight() {
-    const typeGapHeight = this._spanModelContainer.typeGap.height
-
     return this.entities
-      .map(({ height }) => height + typeGapHeight)
+      .map(({ heightWithTypeGap }) => heightWithTypeGap)
       .reduce((sum, entityHeight) => sum + entityHeight, 0)
   }
 
