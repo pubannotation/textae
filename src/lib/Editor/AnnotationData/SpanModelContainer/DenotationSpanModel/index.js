@@ -108,7 +108,7 @@ export default class DenotationSpanModel extends SpanModel {
   }
 
   get heightIncludeDescendantGrids() {
-    return getGridHeightIncludeDescendantGrids(this) + TEXT_HEIGHT + MARGIN_TOP
+    return this._gridHeightIncludeDescendantGrids + TEXT_HEIGHT + MARGIN_TOP
   }
 
   get widthOfGrid() {
@@ -137,7 +137,7 @@ export default class DenotationSpanModel extends SpanModel {
   get clientTopOfGrid() {
     return (
       this.element.getBoundingClientRect().top -
-      getGridHeightIncludeDescendantGrids(this)
+      this._gridHeightIncludeDescendantGrids
     )
   }
 
@@ -147,7 +147,7 @@ export default class DenotationSpanModel extends SpanModel {
     const offsetTop =
       this.element.getBoundingClientRect().top -
       this.element.offsetParent.offsetParent.getBoundingClientRect().top
-    return offsetTop - getGridHeightIncludeDescendantGrids(this)
+    return offsetTop - this._gridHeightIncludeDescendantGrids
   }
 
   get offsetLeftOfGrid() {
@@ -165,7 +165,7 @@ export default class DenotationSpanModel extends SpanModel {
   _isGridInViewPort(clientHeight, clientWidth, margin) {
     const { top, left } = this.element.getBoundingClientRect()
     const gridHeightIncludeDescendantGrids =
-      getGridHeightIncludeDescendantGrids(this)
+      this._gridHeightIncludeDescendantGrids
     const gridBottom = top - gridHeightIncludeDescendantGrids + this.gridHeight
     const gridTop = top - gridHeightIncludeDescendantGrids
 
