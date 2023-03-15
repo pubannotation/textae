@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [11.1.0](https://github.com/pubannotation/textae/compare/v11.0.0...v11.1.0) (2023-03-15)
+
+
+### Features
+
+* Memorize EntityModelCantainer.getAllSpanOf method to tune the drawGridsInSight function. ([79a39d1](https://github.com/pubannotation/textae/commit/79a39d19147174fbbaded57faf211d509d82573f))
+
 ## [11.0.0](https://github.com/pubannotation/textae/compare/v10.2.2...v11.0.0) (2023-02-24)
 
 
