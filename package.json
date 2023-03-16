@@ -34,7 +34,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@typescript-eslint/parser": "^5.54.1",
+    "@typescript-eslint/parser": "^5.55.0",
     "clean-css-cli": "^5.6.2",
     "connect": "3.7.0",
     "cpx2": "^4.2.2",
@@ -57,7 +57,7 @@
     "source-map-loader": "^4.0.1",
     "standard-version": "^9.5.0",
     "terser-webpack-plugin": "^5.3.7",
-    "webpack": "^5.76.1",
+    "webpack": "^5.76.2",
     "webpack-cli": "^5.0.1",
     "webpack-merge": "5.8.0"
   },
