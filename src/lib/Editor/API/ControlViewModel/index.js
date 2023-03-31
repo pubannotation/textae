@@ -15,7 +15,7 @@ export default class ControlViewModel {
     annotationDataEventsObserver,
     originalData,
     typeDefinition,
-    fetureToggle
+    functionAvailability
   ) {
     this._enableState = new EnableState(eventEmitter, selectionModel, clipBoard)
     // Save state of push control buttons.
@@ -27,7 +27,7 @@ export default class ControlViewModel {
 
     this._typeDefinition = typeDefinition
 
-    this._functionAvailability = fetureToggle
+    this._functionAvailability = functionAvailability
 
     // Change the title of the palette button to match the edit mode.
     eventEmitter.on('textae-event.edit-mode.transition', (mode) => {
