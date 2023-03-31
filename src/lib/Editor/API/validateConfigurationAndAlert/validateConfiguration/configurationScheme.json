@@ -223,7 +223,7 @@
         "upload automatically": {
           "type": "boolean"
         },
-        "view made": {
+        "view mode": {
           "type": "boolean"
         },
         "term edit mode": {
