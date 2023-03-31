@@ -1,5 +1,5 @@
 export default class FunctionAvailability {
-  constructor(eventEmitter) {
+  constructor() {
     this._availabilities = this._newAvailabilities()
   }
 
