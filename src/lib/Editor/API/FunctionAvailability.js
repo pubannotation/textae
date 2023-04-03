@@ -52,35 +52,14 @@ export default class FunctionAvailability {
   }
 
   get _default() {
-    return new Map([
-      ['import', true],
-      ['upload', true],
-      ['upload automatically', true],
-      ['view mode', true],
-      ['term edit mode', true],
-      ['block edit mode', true],
-      ['relation edit mode', true],
-      ['simple view', true],
-      ['adjust lineheight', true],
-      ['auto adjust lineheight', true],
-      ['undo', true],
-      ['redo', true],
-      ['replicate span annotation', true],
-      ['auto replicate', true],
-      ['boundary detection', true],
-      ['create span by touch', true],
-      ['expand span by touch', true],
-      ['shrink span by touch', true],
-      ['new entity', true],
-      ['pallet', true],
-      ['edit properties', true],
-      ['delete', true],
-      ['copy', true],
-      ['cut', true],
-      ['paste', true],
-      ['setting', true],
-      ['help', true]
-    ])
+    const map = new Map()
+
+    // All functions are enabled by default.
+    for (const key of NAME_MAP.values()) {
+      map.set(key, true)
+    }
+
+    return map
   }
 
   _translate(keyName) {
