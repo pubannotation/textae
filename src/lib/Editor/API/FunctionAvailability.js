@@ -1,5 +1,35 @@
 import alertifyjs from 'alertifyjs'
 
+const NAME_MAP = new Map([
+  ['read', 'import'],
+  ['write', 'update'],
+  ['write-auto', 'upload automatically'],
+  ['view', 'view mode'],
+  ['term', 'term edit mode'],
+  ['block', 'block edit mode'],
+  ['relation', 'relation edit mode'],
+  ['simple', 'simple view'],
+  ['line-height', 'adjust lineheight'],
+  ['line-height-auto', 'auto adjust lineheight'],
+  ['undo', 'undo'],
+  ['redo', 'redo'],
+  ['replicate', 'replicate span annotation'],
+  ['replicate-auto', 'auto replicate'],
+  ['boundary-detection', 'boundary detection'],
+  ['create-span-by-touch', 'create span by touch'],
+  ['expand-span-by-touch', 'expand span by touch'],
+  ['shrink-span-by-touch', 'shrink span by touch'],
+  ['entity', 'new entity'],
+  ['pallet', 'pallet'],
+  ['edit-properties', 'edit properties'],
+  ['delete', 'delete'],
+  ['copy', 'copy'],
+  ['cut', 'cut'],
+  ['paste', 'paste'],
+  ['setting', 'setting'],
+  ['help', 'help']
+])
+
 export default class FunctionAvailability {
   constructor() {
     this._availabilities = this._newAvailabilities()
@@ -54,38 +84,8 @@ export default class FunctionAvailability {
   }
 
   _translate(keyName) {
-    const map = new Map([
-      ['read', 'import'],
-      ['write', 'update'],
-      ['write-auto', 'upload automatically'],
-      ['view', 'view mode'],
-      ['term', 'term edit mode'],
-      ['block', 'block edit mode'],
-      ['relation', 'relation edit mode'],
-      ['simple', 'simple view'],
-      ['line-height', 'adjust lineheight'],
-      ['line-height-auto', 'auto adjust lineheight'],
-      ['undo', 'undo'],
-      ['redo', 'redo'],
-      ['replicate', 'replicate span annotation'],
-      ['replicate-auto', 'auto replicate'],
-      ['boundary-detection', 'boundary detection'],
-      ['create-span-by-touch', 'create span by touch'],
-      ['expand-span-by-touch', 'expand span by touch'],
-      ['shrink-span-by-touch', 'shrink span by touch'],
-      ['entity', 'new entity'],
-      ['pallet', 'pallet'],
-      ['edit-properties', 'edit properties'],
-      ['delete', 'delete'],
-      ['copy', 'copy'],
-      ['cut', 'cut'],
-      ['paste', 'paste'],
-      ['setting', 'setting'],
-      ['help', 'help']
-    ])
-
-    if (map.has(keyName)) {
-      return map.get(keyName)
+    if (NAME_MAP.has(keyName)) {
+      return NAME_MAP.get(keyName)
     }
 
     alertifyjs.warning(
