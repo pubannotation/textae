@@ -1,5 +1,6 @@
 import alertifyjs from 'alertifyjs'
 
+// This is a map of function names specified in config and those used internally.
 const NAME_MAP = new Map([
   ['read', 'import'],
   ['write', 'update'],
