@@ -32,7 +32,7 @@ const NAME_MAP = new Map([
 
 export default class FunctionAvailability {
   constructor() {
-    this._availabilities = this._newAvailabilities()
+    this._availabilities = this._default
   }
 
   get(type) {
@@ -40,18 +40,18 @@ export default class FunctionAvailability {
   }
 
   set availability(values) {
-    const toggles = this._newAvailabilities()
+    const availabilities = this._default
 
     if (values) {
       for (const [key, value] of Object.entries(values)) {
-        toggles.set(this._translate(key), value)
+        availabilities.set(this._translate(key), value)
       }
     }
 
-    this._availabilities = toggles
+    this._availabilities = availabilities
   }
 
-  _newAvailabilities() {
+  get _default() {
     return new Map([
       ['import', true],
       ['upload', true],
