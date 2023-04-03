@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [11.2.0](https://github.com/pubannotation/textae/compare/v11.1.0...v11.2.0) (2023-04-03)
+
+
+### Features
+
+* Show warning if function availability name is inappropriate ([f62a3dc](https://github.com/pubannotation/textae/commit/f62a3dc373e3579b73626cdbe9f1c39ee5158d1e))
+
+
+### Bug Fixes
+
+* Function availability settings do not work ([71056dd](https://github.com/pubannotation/textae/commit/71056dd84ade08b706a9aa82fab9b529335ae798))
+* The view mode specification in function availability does not work ([2fd8e1c](https://github.com/pubannotation/textae/commit/2fd8e1c5dd0e09e891b7c5e3597ebb46dc797234))
+
 ## [11.1.0](https://github.com/pubannotation/textae/compare/v11.0.0...v11.1.0) (2023-03-15)
 
 
