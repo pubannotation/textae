@@ -1,3 +1,5 @@
+import alertifyjs from 'alertifyjs'
+
 export default class FunctionAvailability {
   constructor() {
     this._availabilities = this._newAvailabilities()
@@ -63,6 +65,8 @@ export default class FunctionAvailability {
       ['simple', 'simple view'],
       ['line-height', 'adjust lineheight'],
       ['line-height-auto', 'auto adjust lineheight'],
+      ['undo', 'undo'],
+      ['redo', 'redo'],
       ['replicate', 'replicate span annotation'],
       ['replicate-auto', 'auto replicate'],
       ['boundary-detection', 'boundary detection'],
@@ -70,12 +74,23 @@ export default class FunctionAvailability {
       ['expand-span-by-touch', 'expand span by touch'],
       ['shrink-span-by-touch', 'shrink span by touch'],
       ['entity', 'new entity'],
-      ['edit-properties', 'edit properties']
+      ['pallet', 'pallet'],
+      ['edit-properties', 'edit properties'],
+      ['delete', 'delete'],
+      ['copy', 'copy'],
+      ['cut', 'cut'],
+      ['paste', 'paste'],
+      ['setting', 'setting'],
+      ['help', 'help']
     ])
 
     if (map.has(keyName)) {
       return map.get(keyName)
     }
+
+    alertifyjs.warning(
+      `'${keyName}' is an unknown function name for function availabilities.`
+    )
 
     return keyName
   }
