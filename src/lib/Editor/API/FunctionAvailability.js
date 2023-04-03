@@ -12,7 +12,7 @@ export default class FunctionAvailability {
 
     if (values) {
       for (const [key, value] of Object.entries(values)) {
-        toggles.set(key, value)
+        toggles.set(this._translate(key), value)
       }
     }
 
@@ -49,5 +49,34 @@ export default class FunctionAvailability {
       ['setting', true],
       ['help', true]
     ])
+  }
+
+  _translate(keyName) {
+    const map = new Map([
+      ['read', 'import'],
+      ['write', 'update'],
+      ['write-auto', 'upload automatically'],
+      ['view', 'view mode'],
+      ['term', 'term edit mode'],
+      ['block', 'block edit mode'],
+      ['relation', 'relation edit mode'],
+      ['simple', 'simple view'],
+      ['line-height', 'adjust lineheight'],
+      ['line-height-auto', 'auto adjust lineheight'],
+      ['replicate', 'replicate span annotation'],
+      ['replicate-auto', 'auto replicate'],
+      ['boundary-detection', 'boundary detection'],
+      ['create-span-by-touch', 'create span by touch'],
+      ['expand-span-by-touch', 'expand span by touch'],
+      ['shrink-span-by-touch', 'shrink span by touch'],
+      ['entity', 'new entity'],
+      ['edit-properties', 'edit properties']
+    ])
+
+    if (map.has(keyName)) {
+      return map.get(keyName)
+    }
+
+    return keyName
   }
 }
