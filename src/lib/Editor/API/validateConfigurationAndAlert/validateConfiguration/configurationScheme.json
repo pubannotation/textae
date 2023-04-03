@@ -214,34 +214,34 @@
     "function availability": {
       "type": "object",
       "properties": {
-        "import": {
+        "read": {
           "type": "boolean"
         },
-        "upload": {
+        "write": {
           "type": "boolean"
         },
-        "upload automatically": {
+        "write-auto": {
           "type": "boolean"
         },
-        "view mode": {
+        "view": {
           "type": "boolean"
         },
-        "term edit mode": {
+        "term": {
           "type": "boolean"
         },
-        "block edit mode": {
+        "block": {
           "type": "boolean"
         },
-        "relation edit mode": {
+        "relation": {
           "type": "boolean"
         },
-        "simple view": {
+        "simple": {
           "type": "boolean"
         },
-        "adjust lineheight": {
+        "line-height": {
           "type": "boolean"
         },
-        "auto adjust lineheight": {
+        "line-height-auto": {
           "type": "boolean"
         },
         "undo": {
@@ -250,31 +250,31 @@
         "redo": {
           "type": "boolean"
         },
-        "replicate span annotation": {
+        "replicate": {
           "type": "boolean"
         },
-        "auto replicate": {
+        "replicate-auto": {
           "type": "boolean"
         },
-        "boundary detection": {
+        "boundary-detection": {
           "type": "boolean"
         },
-        "create span by touch": {
+        "create-span-by-touch": {
           "type": "boolean"
         },
-        "expand span by touch": {
+        "expand-span-by-touch": {
           "type": "boolean"
         },
-        "shrink span by touch": {
+        "shrink-span-by-touch": {
           "type": "boolean"
         },
-        "new entity": {
+        "entity": {
           "type": "boolean"
         },
         "pallet": {
           "type": "boolean"
         },
-        "edit properties": {
+        "edit-properties": {
           "type": "boolean"
         },
         "delete": {
