@@ -33,6 +33,8 @@ const NAME_MAP = new Map([
 
 export default class FunctionAvailability {
   constructor() {
+    // This is a map whose key is the function name
+    // and its value is boolean value that is true if enabled.
     this._availabilities = this._default
   }
 
