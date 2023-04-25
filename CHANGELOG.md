@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [11.2.1](https://github.com/pubannotation/textae/compare/v11.2.0...v11.2.1) (2023-04-25)
+
+
+### Bug Fixes
+
+* The upload button does not appear by default. ([3b6643e](https://github.com/pubannotation/textae/commit/3b6643ee06a1f4181b066a28f291578ecec83711))
+
 ## [11.2.0](https://github.com/pubannotation/textae/compare/v11.1.0...v11.2.0) (2023-04-03)
 
 
