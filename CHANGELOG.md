@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [12.0.0](https://github.com/pubannotation/textae/compare/v11.2.1...v12.0.0) (2023-05-15)
+
+
+### ⚠ BREAKING CHANGES
+
+* If HTML elements are generated dynamically in TextAE, it becomes difficult to set up event handlers for those HTML elements.
+Create the HTML element to which the inspect attribute is output outside of TextAE.
+The easiest way is to predefine it in the HTML file.
+
+### Features
+
+* Do not generate HTML elements for the write target of the inspect attribute. ([9fc9f42](https://github.com/pubannotation/textae/commit/9fc9f423a57384ae5c8d921d8c504215a77c710b))
+
 ### [11.2.1](https://github.com/pubannotation/textae/compare/v11.2.0...v11.2.1) (2023-04-25)
 
 
