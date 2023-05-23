@@ -148,9 +148,13 @@ export default class RemoteSource {
 
       $.ajax(opt)
         .done(successHandler)
-        .fail((response) => {
+        .fail((jqXHR) => {
           // Authenticate in popup window.
-          const location = isServerAuthRequired(response)
+          const location = isServerAuthRequired(
+            jqXHR.status,
+            jqXHR.getResponseHeader('WWW-Authenticate'),
+            jqXHR.getResponseHeader('Location')
+          )
           if (!location) {
             return failHandler()
           }
