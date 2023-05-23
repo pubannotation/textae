@@ -96,11 +96,6 @@ export default class RemoteSource {
         }
       }
 
-      const failHandler = () => {
-        alertifyjs.error('could not save')
-        this._eventEmitter.emit('textae-event.resource.save.error')
-      }
-
       $.ajax(opt)
         .done(() => this._annotationSaved(editedData))
         .fail((jqXHR) => {
@@ -111,12 +106,12 @@ export default class RemoteSource {
             jqXHR.getResponseHeader('Location')
           )
           if (!location) {
-            return failHandler()
+            return this._annotationSaveFailed()
           }
 
           const window = openPopUp(location)
           if (!window) {
-            return failHandler()
+            return this._annotationSaveFailed()
           }
 
           // Watching for cross-domain pop-up windows to close.
@@ -128,7 +123,7 @@ export default class RemoteSource {
               // Retry after authentication.
               $.ajax(opt)
                 .done(() => this._annotationSaved(editedData))
-                .fail(failHandler)
+                .fail(() => this._annotationSaveFailed)
                 .always(() =>
                   this._eventEmitter.emit('textae-event.resource.endSave')
                 )
@@ -239,5 +234,10 @@ export default class RemoteSource {
   _annotationSaved(editedData) {
     alertifyjs.success('annotation saved')
     this._eventEmitter.emit('textae-event.resource.annotation.save', editedData)
+  }
+
+  _annotationSaveFailed() {
+    alertifyjs.error('could not save')
+    this._eventEmitter.emit('textae-event.resource.save.error')
   }
 }
