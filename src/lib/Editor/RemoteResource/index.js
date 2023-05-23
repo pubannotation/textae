@@ -110,13 +110,6 @@ export default class RemoteSource {
     // To change existing files, only PATCH method is allowed on the Ruby on Rails 4.X.
     if (url) {
       const data = JSON.stringify(editedData)
-      const successHandler = () => {
-        alertifyjs.success('configuration saved')
-        this._eventEmitter.emit(
-          'textae-event.resource.configuration.save',
-          editedData
-        )
-      }
 
       this._eventEmitter.emit('textae-event.resource.startSave')
 
@@ -130,7 +123,7 @@ export default class RemoteSource {
           withCredentials: true
         }
       })
-        .done(successHandler)
+        .done(() => this._configSaved(editedData))
         .fail(() => {
           // Retry by a post method.
           this._eventEmitter.emit('textae-event.resource.startSave')
@@ -145,7 +138,7 @@ export default class RemoteSource {
               withCredentials: true
             }
           })
-            .done(successHandler)
+            .done(() => this._configSaved(editedData))
             .fail(() => {
               alertifyjs.error('could not save')
               this._eventEmitter.emit('textae-event.resource.save.error')
@@ -243,5 +236,13 @@ export default class RemoteSource {
   _annotationSaveFinalFailed() {
     alertifyjs.error('could not save')
     this._eventEmitter.emit('textae-event.resource.save.error')
+  }
+
+  _configSaved(editedData) {
+    alertifyjs.success('configuration saved')
+    this._eventEmitter.emit(
+      'textae-event.resource.configuration.save',
+      editedData
+    )
   }
 }
