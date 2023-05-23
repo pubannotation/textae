@@ -44,25 +44,6 @@ export default class RemoteSource {
 
     this._eventEmitter.emit('textae-event.resource.startLoad')
 
-    const doneHandler = (annotation) => {
-      const dataSource = new DataSource('url', url, annotation)
-      if (annotation && annotation.text) {
-        this._eventEmitter.emit(
-          'textae-event.resource.annotation.load.success',
-          dataSource
-        )
-        this._eventEmitter.emit(
-          'textae-event.resource.annotation.url.set',
-          dataSource
-        )
-      } else {
-        this._eventEmitter.emit(
-          'textae-event.resource.annotation.format.error',
-          dataSource
-        )
-      }
-    }
-
     $.ajax({
       type: 'GET',
       url,
@@ -72,7 +53,7 @@ export default class RemoteSource {
       },
       timeout: 30000
     })
-      .done(doneHandler)
+      .done((annotation) => this._annotationLoaded(url, annotation))
       .fail(() => {
         alertifyjs.error(
           `Could not load the file from the location you specified.: ${url}`
@@ -236,6 +217,25 @@ export default class RemoteSource {
             )
         })
         .always(() => this._eventEmitter.emit('textae-event.resource.endSave'))
+    }
+  }
+
+  _annotationLoaded(url, annotation) {
+    const dataSource = new DataSource('url', url, annotation)
+    if (annotation && annotation.text) {
+      this._eventEmitter.emit(
+        'textae-event.resource.annotation.load.success',
+        dataSource
+      )
+      this._eventEmitter.emit(
+        'textae-event.resource.annotation.url.set',
+        dataSource
+      )
+    } else {
+      this._eventEmitter.emit(
+        'textae-event.resource.annotation.format.error',
+        dataSource
+      )
     }
   }
 }
