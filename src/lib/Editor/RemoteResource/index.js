@@ -95,20 +95,14 @@ export default class RemoteSource {
           withCredentials: true
         }
       }
-      const successHandler = () => {
-        alertifyjs.success('annotation saved')
-        this._eventEmitter.emit(
-          'textae-event.resource.annotation.save',
-          editedData
-        )
-      }
+
       const failHandler = () => {
         alertifyjs.error('could not save')
         this._eventEmitter.emit('textae-event.resource.save.error')
       }
 
       $.ajax(opt)
-        .done(successHandler)
+        .done(() => this._annotationSaved(editedData))
         .fail((jqXHR) => {
           // Authenticate in popup window.
           const location = isServerAuthRequired(
@@ -133,7 +127,7 @@ export default class RemoteSource {
 
               // Retry after authentication.
               $.ajax(opt)
-                .done(successHandler)
+                .done(() => this._annotationSaved(editedData))
                 .fail(failHandler)
                 .always(() =>
                   this._eventEmitter.emit('textae-event.resource.endSave')
@@ -240,5 +234,10 @@ export default class RemoteSource {
       'textae-event.resource.configuration.load.error',
       url
     )
+  }
+
+  _annotationSaved(editedData) {
+    alertifyjs.success('annotation saved')
+    this._eventEmitter.emit('textae-event.resource.annotation.save', editedData)
   }
 }
