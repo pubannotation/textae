@@ -124,29 +124,7 @@ export default class RemoteSource {
         }
       })
         .done(() => this._configSaved(editedData))
-        .fail(() => {
-          // Retry by a post method.
-          this._eventEmitter.emit('textae-event.resource.startSave')
-
-          $.ajax({
-            type: 'post',
-            url,
-            contentType: 'application/json',
-            data,
-            crossDomain: true,
-            xhrFields: {
-              withCredentials: true
-            }
-          })
-            .done(() => this._configSaved(editedData))
-            .fail(() => {
-              alertifyjs.error('could not save')
-              this._eventEmitter.emit('textae-event.resource.save.error')
-            })
-            .always(() =>
-              this._eventEmitter.emit('textae-event.resource.endSave')
-            )
-        })
+        .fail(() => this._configSaveFirstFailed(url, data, editedData))
         .always(() => this._eventEmitter.emit('textae-event.resource.endSave'))
     }
   }
@@ -244,5 +222,31 @@ export default class RemoteSource {
       'textae-event.resource.configuration.save',
       editedData
     )
+  }
+
+  _configSaveFirstFailed(url, data, editedData) {
+    {
+      // Retry by a post method.
+      this._eventEmitter.emit('textae-event.resource.startSave')
+
+      $.ajax({
+        type: 'post',
+        url,
+        contentType: 'application/json',
+        data,
+        crossDomain: true,
+        xhrFields: {
+          withCredentials: true
+        }
+      })
+        .done(() => this._configSaved(editedData))
+        .fail(() => this._configSaveFinalFailed())
+        .always(() => this._eventEmitter.emit('textae-event.resource.endSave'))
+    }
+  }
+
+  _configSaveFinalFailed() {
+    alertifyjs.error('could not save')
+    this._eventEmitter.emit('textae-event.resource.save.error')
   }
 }
