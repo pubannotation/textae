@@ -99,7 +99,7 @@ export default class RemoteSource {
       $.ajax(opt)
         .done(() => this._annotationSaved(editedData))
         .fail((jqXHR) =>
-          this._annotationSaveFirstFailed(jqXHR, editedData, opt)
+          this._annotationSaveFirstFailed(jqXHR, url, editedData)
         )
         .always(() => this._eventEmitter.emit('textae-event.resource.endSave'))
     }
@@ -124,7 +124,7 @@ export default class RemoteSource {
         }
       })
         .done(() => this._configSaved(editedData))
-        .fail(() => this._configSaveFirstFailed(url, data, editedData))
+        .fail(() => this._configSaveFirstFailed(url, editedData))
         .always(() => this._eventEmitter.emit('textae-event.resource.endSave'))
     }
   }
@@ -178,7 +178,7 @@ export default class RemoteSource {
     this._eventEmitter.emit('textae-event.resource.annotation.save', editedData)
   }
 
-  _annotationSaveFirstFailed(jqXHR, editedData, opt) {
+  _annotationSaveFirstFailed(jqXHR, url, editedData) {
     // Authenticate in popup window.
     const location = isServerAuthRequired(
       jqXHR.status,
@@ -199,6 +199,17 @@ export default class RemoteSource {
     const timer = setInterval(() => {
       if (window.closed) {
         clearInterval(timer)
+
+        const opt = {
+          type: 'post',
+          url,
+          contentType: 'application/json',
+          data: JSON.stringify(editedData),
+          crossDomain: true,
+          xhrFields: {
+            withCredentials: true
+          }
+        }
 
         // Retry after authentication.
         $.ajax(opt)
@@ -224,7 +235,7 @@ export default class RemoteSource {
     )
   }
 
-  _configSaveFirstFailed(url, data, editedData) {
+  _configSaveFirstFailed(url, editedData) {
     {
       // Retry by a post method.
       this._eventEmitter.emit('textae-event.resource.startSave')
@@ -233,7 +244,7 @@ export default class RemoteSource {
         type: 'post',
         url,
         contentType: 'application/json',
-        data,
+        data: JSON.stringify(editedData),
         crossDomain: true,
         xhrFields: {
           withCredentials: true
