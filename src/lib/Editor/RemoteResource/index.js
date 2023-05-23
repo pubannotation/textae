@@ -77,15 +77,7 @@ export default class RemoteSource {
       timeout: 30000
     })
       .done((config) => this._configLoaded(url, config, annotationDataSource))
-      .fail(() => {
-        alertifyjs.error(
-          `Could not load the file from the location you specified.: ${url}`
-        )
-        this._eventEmitter.emit(
-          'textae-event.resource.configuration.load.error',
-          url
-        )
-      })
+      .fail(() => this._configLoadFailed(url))
       .always(() => this._eventEmitter.emit('textae-event.resource.endLoad'))
   }
 
@@ -237,6 +229,16 @@ export default class RemoteSource {
       'textae-event.resource.configuration.load.success',
       new DataSource('url', url, config),
       annotationDataSource
+    )
+  }
+
+  _configLoadFailed(url) {
+    alertifyjs.error(
+      `Could not load the file from the location you specified.: ${url}`
+    )
+    this._eventEmitter.emit(
+      'textae-event.resource.configuration.load.error',
+      url
     )
   }
 }
