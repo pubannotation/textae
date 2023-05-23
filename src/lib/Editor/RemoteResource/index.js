@@ -98,38 +98,9 @@ export default class RemoteSource {
 
       $.ajax(opt)
         .done(() => this._annotationSaved(editedData))
-        .fail((jqXHR) => {
-          // Authenticate in popup window.
-          const location = isServerAuthRequired(
-            jqXHR.status,
-            jqXHR.getResponseHeader('WWW-Authenticate'),
-            jqXHR.getResponseHeader('Location')
-          )
-          if (!location) {
-            return this._annotationSaveFailed()
-          }
-
-          const window = openPopUp(location)
-          if (!window) {
-            return this._annotationSaveFailed()
-          }
-
-          // Watching for cross-domain pop-up windows to close.
-          // https://stackoverflow.com/questions/9388380/capture-the-close-event-of-popup-window-in-javascript/48240128#48240128
-          const timer = setInterval(() => {
-            if (window.closed) {
-              clearInterval(timer)
-
-              // Retry after authentication.
-              $.ajax(opt)
-                .done(() => this._annotationSaved(editedData))
-                .fail(() => this._annotationSaveFailed)
-                .always(() =>
-                  this._eventEmitter.emit('textae-event.resource.endSave')
-                )
-            }
-          }, 1000)
-        })
+        .fail((jqXHR) =>
+          this._annotationSaveFirstFailed(jqXHR, editedData, opt)
+        )
         .always(() => this._eventEmitter.emit('textae-event.resource.endSave'))
     }
   }
@@ -236,7 +207,40 @@ export default class RemoteSource {
     this._eventEmitter.emit('textae-event.resource.annotation.save', editedData)
   }
 
-  _annotationSaveFailed() {
+  _annotationSaveFirstFailed(jqXHR, editedData, opt) {
+    // Authenticate in popup window.
+    const location = isServerAuthRequired(
+      jqXHR.status,
+      jqXHR.getResponseHeader('WWW-Authenticate'),
+      jqXHR.getResponseHeader('Location')
+    )
+    if (!location) {
+      return this._annotationSaveFinalFailed()
+    }
+
+    const window = openPopUp(location)
+    if (!window) {
+      return this._annotationSaveFinalFailed()
+    }
+
+    // Watching for cross-domain pop-up windows to close.
+    // https://stackoverflow.com/questions/9388380/capture-the-close-event-of-popup-window-in-javascript/48240128#48240128
+    const timer = setInterval(() => {
+      if (window.closed) {
+        clearInterval(timer)
+
+        // Retry after authentication.
+        $.ajax(opt)
+          .done(() => this._annotationSaved(editedData))
+          .fail(() => this._annotationSaveFinalFailed)
+          .always(() =>
+            this._eventEmitter.emit('textae-event.resource.endSave')
+          )
+      }
+    }, 1000)
+  }
+
+  _annotationSaveFinalFailed() {
     alertifyjs.error('could not save')
     this._eventEmitter.emit('textae-event.resource.save.error')
   }
