@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [12.1.0](https://github.com/pubannotation/textae/compare/v12.0.0...v12.1.0) (2023-05-24)
+
+
+### Features
+
+* Enables to read annotation files placed on GitHub. ([7973703](https://github.com/pubannotation/textae/commit/7973703f9ca26a42743c439e3eca7250c05ec11a))
+* Enables to read configuration files placed on GitHub. ([84b98dc](https://github.com/pubannotation/textae/commit/84b98dce07fd4cba60a325b55156d3f08de656a3))
+* When obtaining annotations, credentials are not handled at the initial request, but only when authentication is requested. ([4a4672f](https://github.com/pubannotation/textae/commit/4a4672feb811c50e97aff5e4f040c046565880dd))
+
 ## [12.0.0](https://github.com/pubannotation/textae/compare/v11.2.1...v12.0.0) (2023-05-15)
 
 
