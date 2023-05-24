@@ -49,12 +49,12 @@ export default class RemoteSource {
       url,
       cache: false,
       xhrFields: {
-        withCredentials: true
+        withCredentials: false
       },
       timeout: 30000
     })
       .done((annotation) => this._annotationLoaded(url, annotation))
-      .fail(() => this._annotationLoadFailed(url))
+      .fail((jqXHR) => this._annotationLoadFirstFailed(jqXHR, url))
       .always(() => this._eventEmitter.emit('textae-event.resource.endLoad'))
   }
 
@@ -148,7 +148,27 @@ export default class RemoteSource {
     }
   }
 
-  _annotationLoadFailed(url) {
+  _annotationLoadFirstFailed(jqXHR, url) {
+    if (jqXHR.status !== 401) {
+      return this._annotationLoadFinalFailed(url)
+    }
+
+    // When authentication is requested, give credential and try again.
+    $.ajax({
+      type: 'GET',
+      url,
+      cache: false,
+      xhrFields: {
+        withCredentials: true
+      },
+      timeout: 30000
+    })
+      .done((annotation) => this._annotationLoaded(url, annotation))
+      .fail(() => this._annotationLoadFinalFailed(url))
+      .always(() => this._eventEmitter.emit('textae-event.resource.endLoad'))
+  }
+
+  _annotationLoadFinalFailed(url) {
     alertifyjs.error(
       `Could not load the file from the location you specified.: ${url}`
     )
