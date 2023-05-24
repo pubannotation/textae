@@ -73,9 +73,10 @@ export default class RemoteSource {
       url,
       cache: false,
       xhrFields: {
-        withCredentials: true
+        withCredentials: false
       },
-      timeout: 30000
+      timeout: 30000,
+      dataType: 'json'
     })
       .done((config) => this._configLoaded(url, config, annotationDataSource))
       .fail(() => this._configLoadFailed(url))
