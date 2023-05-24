@@ -51,7 +51,8 @@ export default class RemoteSource {
       xhrFields: {
         withCredentials: false
       },
-      timeout: 30000
+      timeout: 30000,
+      dataType: 'json'
     })
       .done((annotation) => this._annotationLoaded(url, annotation))
       .fail((jqXHR) => this._annotationLoadFirstFailed(jqXHR, url))
@@ -161,7 +162,8 @@ export default class RemoteSource {
       xhrFields: {
         withCredentials: true
       },
-      timeout: 30000
+      timeout: 30000,
+      dataType: 'json'
     })
       .done((annotation) => this._annotationLoaded(url, annotation))
       .fail(() => this._annotationLoadFinalFailed(url))
