@@ -1,10 +1,10 @@
 ---
 layout: docs_with_textae
-title: Embedding
+title: Usage
 permalink: /docs/embed/
 ---
 
-# Embedding TextAE in HTML documents
+# Putting TextAE in a HTML document
 
 A TextAE instance is encapsulated in a _div_ element,
 thus you can embed TextAE instances as many as you like in a HTML document.
@@ -48,7 +48,7 @@ A piece of text with or without annotation can be directly included in the _div_
 
 Below is the resulted rendering of the above HTML code:
 
-<div class="textae-editor">
+<div class="textae-editor" mode="view">
 	{
 		"text":"Hello World!",
 		"denotations":[

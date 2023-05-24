@@ -18,3 +18,18 @@
 	}
 
 }
+
+.textae-example {
+	display: inline-block;
+	width: 400px;
+	margin: 5px 10px;
+
+	.textae-editor {
+		font-size: small;
+	}
+
+	.caption {
+		text-align: center;
+		font-weight: bold;
+	}
+}

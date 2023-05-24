@@ -3,8 +3,11 @@
     - /
     - /docs/modes/
     - /docs/term-edit-mode/
-    - /docs/views/
+    - /docs/block-edit-mode/
+    - /docs/relation-edit-mode/
+    - /docs/attributes/
     - /docs/format/
     - /docs/embed/
+    - /docs/inspect/
     - /docs/configure/
     - /docs/about/

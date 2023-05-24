@@ -9,20 +9,71 @@ permalink: /docs/configure/
 
 # Configuring TextAE
 
-A configuration of TextAE can be written inside an annotation JSON file, or in a separate JSON file.
-The latter is more convenient if you want to share a configuration across multiple annotation JSON files.
+A configuration of TextAE can be written inside an annotation JSON file,
 
-In case you have prepared a configuration in a separate JSON file,
-you can put it in any location which is accessible through the net (a github repository would be a good idea, because you can manage revision history of your configuration).
-
-An example of TextAE configuration can be found at:
-https://textae.pubannotation.org/examples/config-example.json
-
-Then, when you open an instance of TextAE, the configuration can be specified using the parameter, _configure_, e.g.,
-
+```HTML
+<div class="textae-editor">
+  {
+    "text":"Elon Musk is a member of the PayPal Mafia.",
+    "denotations":[
+      {"span":{"begin":0,"end":9},"obj":"Person"},
+      {"span":{"begin":29,"end":41},"obj":"Group"}
+    ],
+    "config": {
+      "entity types": [
+        {
+          "id": "Person",
+          "color": "#8888FF"
+        },
+        {
+          "id": "Group",
+          "color": "#FF8888"
+        }
+      ]
+    }
+  }
+</div>
 ```
-https://textae.pubannotation.org/editor.html?config=http://textae.pubannotation.org/examples/config-example.json...
+
+<div class="textae-editor" style="width:500px; background-color:lightyellow">
+  {
+    "text":"Elon Musk is a member of the PayPal Mafia.",
+    "denotations":[
+      {"span":{"begin":0,"end":9},"obj":"Person"},
+      {"span":{"begin":29,"end":41},"obj":"Group"}
+    ],
+    "config": {
+      "entity types": [
+        {
+          "id": "Person",
+          "color": "#8888FF"
+        },
+        {
+          "id": "Group",
+          "color": "#FF8888"
+        }
+      ]
+    }
+  }
+</div>
+
+or it can be written in a separate JSON file, then loaded through the 'config' parameter.
+
+```HTML
+<div class="textae-editor" config="URL-to-the-config-file">
+  {
+    "text":"Elon Musk is a member of the PayPal Mafia.",
+    "denotations":[
+      {"span":{"begin":0,"end":9},"obj":"Person"},
+      {"span":{"begin":29,"end":41},"obj":"Group"}
+    ]
+  }
+</div>
 ```
+
+As shown in the example above, for a configuration file to be loaded by TextAE instance, it needs to be located at a place which is reachable from the net, e.g., the TextAE configuration database, or a github repository.
+
+Maintaining a configuration in a separate file is generally a recommended way because it is easily reusable.
 
 The elements of a TextAE configuration is described below:
 
@@ -221,4 +272,22 @@ Following is the default set of non-edge characters:
 ],
 ```
 
-
+## Function availability
+Individual functions of TextAE can be turned on or off.
+Below is an example:
+```
+{
+  "function availability": {
+    "term": false,
+    "relation": false,
+    "block": false,
+    "simple": false,
+    "replicate": false,
+    "replicate-auto": false,
+    "undo": false,
+    "redo": false,
+    "setting": false,
+    "help": false
+  }
+}
+```
