@@ -97,8 +97,7 @@ app
         },
         {
           label: 'Learning SPARQL',
-          id:
-            'http://www.amazon.com/Learning-SPARQL-Bob-DuCharme/dp/1449371434/ref=sr_1_1?ie=UTF8&qid=1452147643&sr=8-1&keywords=sparql'
+          id: 'http://www.amazon.com/Learning-SPARQL-Bob-DuCharme/dp/1449371434/ref=sr_1_1?ie=UTF8&qid=1452147643&sr=8-1&keywords=sparql'
         }
       ]
       const { term } = querystring.parse(req._parsedUrl.query)
@@ -111,4 +110,4 @@ app
   })
   .use(serveStatic(path.resolve(__dirname, '../')))
 
-http.createServer(app).listen(8000)
+http.createServer(app).listen(3000)
