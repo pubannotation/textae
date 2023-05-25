@@ -45,8 +45,11 @@ export default class ParamsFormHTMLElement {
     return this._element.getAttribute('inspect')
   }
 
-  get mode() {
-    return this._element.getAttribute('mode')
+  /**
+   * @returns {boolean}
+   */
+  get isEditMode() {
+    return this._element.getAttribute('mode') === 'edit'
   }
 
   get statusBar() {

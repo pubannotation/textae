@@ -36,7 +36,7 @@ export default class Presenter {
 
     eventEmitter
       .on('textae-event.annotation-data.all.change', (_, hasMultiTracks) => {
-        if (params.mode !== 'edit') {
+        if (!params.isEditMode) {
           editMode.forView()
         } else {
           if (hasMultiTracks) {
