@@ -49,7 +49,32 @@ export default class ParamsFormHTMLElement {
    * @returns {boolean}
    */
   get isEditMode() {
-    return this._element.getAttribute('mode') === 'edit'
+    switch (this._element.getAttribute('mode')) {
+      case 'edit':
+      case 'term-edit':
+      case 'block-edit':
+      case 'relation-edit':
+        return true
+
+      default:
+        return false
+    }
+  }
+
+  get isTermEditMode() {
+    // Same as edit mode and term-edit mode for compatibility.
+    return (
+      this._element.getAttribute('mode') === 'edit' ||
+      this._element.getAttribute('mode') === 'term-edit'
+    )
+  }
+
+  get isBlockEditMode() {
+    return this._element.getAttribute('mode') === 'block-edit'
+  }
+
+  get isRelationEditMode() {
+    return this._element.getAttribute('mode') === 'relation-edit'
   }
 
   get statusBar() {
