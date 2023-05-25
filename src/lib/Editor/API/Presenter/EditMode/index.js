@@ -104,6 +104,18 @@ export default class EditMode {
     }
   }
 
+  forBlockEditable() {
+    if (this._annotationData.relation.some) {
+      this._stateMachine.setState(MODE.EDIT_BLOCK_WITH_RELATION)
+    } else {
+      this._stateMachine.setState(MODE.EDIT_BLOCK_WITHOUT_RELATION)
+    }
+  }
+
+  forRelationEditable() {
+    this._stateMachine.setState(MODE.EDIT_RELATION)
+  }
+
   cancelSelect() {
     // Close all pallets.
     this._editDenotation.pallet.hide()
