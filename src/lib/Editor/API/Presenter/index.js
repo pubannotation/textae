@@ -8,6 +8,10 @@ import getIsDelimiterFunc from './getIsDelimiterFunc'
 import { MODE } from '../../../MODE'
 
 export default class Presenter {
+  /**
+   *
+   * @param {import('../../ParamsFromHTMLElement').default} params
+   */
   constructor(
     editorHTMLElement,
     eventEmitter,
@@ -17,8 +21,7 @@ export default class Presenter {
     spanConfig,
     clipBoard,
     controlViewModel,
-    autocompletionWs,
-    mode
+    params
   ) {
     const editMode = new EditMode(
       editorHTMLElement,
@@ -28,12 +31,12 @@ export default class Presenter {
       spanConfig,
       commander,
       controlViewModel,
-      autocompletionWs
+      params.autocompletionWs
     )
 
     eventEmitter
       .on('textae-event.annotation-data.all.change', (_, hasMultiTracks) => {
-        if (mode !== 'edit') {
+        if (params.mode !== 'edit') {
           editMode.forView()
         } else {
           if (hasMultiTracks) {

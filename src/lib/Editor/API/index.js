@@ -84,8 +84,7 @@ export default class API {
       spanConfig,
       clipBoard,
       controlViewModel,
-      params.autocompletionWS,
-      params.mode
+      params
     )
 
     const remoteResource = new RemoteResource(eventEmitter)
