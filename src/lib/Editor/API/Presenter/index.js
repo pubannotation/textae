@@ -36,15 +36,16 @@ export default class Presenter {
 
     eventEmitter
       .on('textae-event.annotation-data.all.change', (_, hasMultiTracks) => {
-        if (!params.isEditMode) {
-          editMode.forView()
-        } else {
-          if (hasMultiTracks) {
-            alertifyjs.success(
-              'track annotations have been merged to root annotations.'
-            )
-          }
+        if (params.isEditMode && hasMultiTracks) {
+          alertifyjs.success(
+            'track annotations have been merged to root annotations.'
+          )
+        }
+
+        if (params.isEditMode) {
           editMode.forDenotationEditable()
+        } else {
+          editMode.forView()
         }
       })
       .on('textae-event.edit-mode.transition', (mode) => {
