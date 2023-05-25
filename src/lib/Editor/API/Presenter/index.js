@@ -42,11 +42,7 @@ export default class Presenter {
           )
         }
 
-        if (params.isEditMode) {
-          editMode.forDenotationEditable()
-        } else {
-          editMode.forView()
-        }
+        editMode.reset()
       })
       .on('textae-event.edit-mode.transition', (mode) => {
         switch (mode) {

@@ -70,6 +70,7 @@ export default class EditMode {
 
     this._annotationData = annotationData
     this._selectionModel = selectionModel
+    this._params = params
 
     eventEmitter
       .on('textae-event.editor.relation.click', (event, relation) =>
@@ -91,33 +92,15 @@ export default class EditMode {
     )
   }
 
-  // For an intiation transition on an annotations data loaded.
-  forView() {
-    if (this._annotationData.relation.some) {
-      this._stateMachine.setState(MODE.VIEW_WITH_RELATION)
+  /**
+   * For an intiation transition on an annotations data loaded.
+   */
+  reset() {
+    if (this._params.isEditMode) {
+      this._forDenotationEditable()
     } else {
-      this._stateMachine.setState(MODE.VIEW_WITHOUT_RELATION)
+      this._forView()
     }
-  }
-
-  forDenotationEditable() {
-    if (this._annotationData.relation.some) {
-      this._stateMachine.setState(MODE.EDIT_DENOTATION_WITH_RELATION)
-    } else {
-      this._stateMachine.setState(MODE.EDIT_DENOTATION_WITHOUT_RELATION)
-    }
-  }
-
-  forBlockEditable() {
-    if (this._annotationData.relation.some) {
-      this._stateMachine.setState(MODE.EDIT_BLOCK_WITH_RELATION)
-    } else {
-      this._stateMachine.setState(MODE.EDIT_BLOCK_WITHOUT_RELATION)
-    }
-  }
-
-  forRelationEditable() {
-    this._stateMachine.setState(MODE.EDIT_RELATION)
   }
 
   cancelSelect() {
@@ -176,5 +159,33 @@ export default class EditMode {
       listner.destroy()
     }
     this._listeners = []
+  }
+
+  _forView() {
+    if (this._annotationData.relation.some) {
+      this._stateMachine.setState(MODE.VIEW_WITH_RELATION)
+    } else {
+      this._stateMachine.setState(MODE.VIEW_WITHOUT_RELATION)
+    }
+  }
+
+  _forDenotationEditable() {
+    if (this._annotationData.relation.some) {
+      this._stateMachine.setState(MODE.EDIT_DENOTATION_WITH_RELATION)
+    } else {
+      this._stateMachine.setState(MODE.EDIT_DENOTATION_WITHOUT_RELATION)
+    }
+  }
+
+  _forBlockEditable() {
+    if (this._annotationData.relation.some) {
+      this._stateMachine.setState(MODE.EDIT_BLOCK_WITH_RELATION)
+    } else {
+      this._stateMachine.setState(MODE.EDIT_BLOCK_WITHOUT_RELATION)
+    }
+  }
+
+  _forRelationEditable() {
+    this._stateMachine.setState(MODE.EDIT_RELATION)
   }
 }
