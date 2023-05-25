@@ -44,7 +44,7 @@ export default class Presenter {
               'track annotations have been merged to root annotations.'
             )
           }
-          editMode.forEditable()
+          editMode.forDenotationEditable()
         }
       })
       .on('textae-event.edit-mode.transition', (mode) => {

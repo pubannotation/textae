@@ -96,7 +96,7 @@ export default class EditMode {
     }
   }
 
-  forEditable() {
+  forDenotationEditable() {
     if (this._annotationData.relation.some) {
       this._stateMachine.setState(MODE.EDIT_DENOTATION_WITH_RELATION)
     } else {
