@@ -31,7 +31,7 @@ export default class Presenter {
       spanConfig,
       commander,
       controlViewModel,
-      params.autocompletionWs
+      params
     )
 
     eventEmitter

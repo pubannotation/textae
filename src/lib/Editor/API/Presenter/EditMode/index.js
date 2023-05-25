@@ -6,6 +6,10 @@ import EditRelation from './EditRelation'
 import Transition from './Transition'
 
 export default class EditMode {
+  /**
+   *
+   * @param {import('../../../ParamsFromHTMLElement').default} params
+   */
   constructor(
     editorHTMLElement,
     eventEmitter,
@@ -14,7 +18,7 @@ export default class EditMode {
     spanConfig,
     commander,
     controlViewModel,
-    autocompletionWs
+    params
   ) {
     this._editDenotation = new EditDenotation(
       editorHTMLElement,
@@ -24,7 +28,7 @@ export default class EditMode {
       commander,
       controlViewModel,
       spanConfig,
-      autocompletionWs
+      params.autocompletionWs
     )
 
     this._editBlock = new EditBlock(
@@ -35,7 +39,7 @@ export default class EditMode {
       spanConfig,
       commander,
       controlViewModel,
-      autocompletionWs
+      params.autocompletionWs
     )
 
     this._editRelation = new EditRelation(
@@ -44,7 +48,7 @@ export default class EditMode {
       annotationData,
       selectionModel,
       commander,
-      autocompletionWs,
+      params.autocompletionWs,
       controlViewModel
     )
 
