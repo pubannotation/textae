@@ -1,0 +1,27 @@
+{
+	"_comment0": "The _comment* element is only for the purpose of documentation.",
+	"_comment1": "Each element of the 'entity types' array defines a predefined value of entity type.",
+
+	"entity types": [
+		{
+			"id": "http://xmlns.com/foaf/0.1/Person",
+			"label": "Person",
+			"color": "#0000FF",
+			"default": true
+		},
+		{
+			"id": "http://xmlns.com/foaf/0.1/Group",
+			"label": "Group",
+			"color": "#FF0000",
+		}
+	],
+
+	"relation types": [
+		{
+			"id": "http://xmlns.com/foaf/0.1/member",
+			"label": "member",
+			"color": "#FF0000",
+		}
+		
+	]
+}

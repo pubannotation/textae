@@ -1,0 +1,10 @@
+{
+	"text":"Elon Musk is a member of the PayPal Mafia.",
+	"denotations":[
+		{"id":"T1","span":{"begin":0,"end":9},"obj":"Person"},
+		{"id":"T2","span":{"begin":29,"end":41},"obj":"Group"}
+	],
+	"relations":[
+		{"pred":"member","subj":"T1","obj":"T2"}
+	]
+}

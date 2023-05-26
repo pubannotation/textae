@@ -8,7 +8,7 @@ permalink: /docs/term-edit-mode/
 
 Below is an editable TextAE example in the *Term Edit* mode. You are recommended to use it to practice with what is described in this page.
 
-<div class="textae-editor" mode="edit" control="hidden" style="width:550px; background-color:lightyellow">
+<div class="textae-editor" mode="edit" style="width:550px; background-color:lightyellow">
 	{
 		"text":"Elon Musk is a member of the PayPal Mafia.",
 		"denotations":[
@@ -24,10 +24,9 @@ Below is an editable TextAE example in the *Term Edit* mode. You are recommended
 				"simple": false,
 				"replicate": false,
 				"replicate-auto": false,
-				"help": false
+				"setting": false
 			}
 		}
-
 	}
 </div>
 
@@ -40,7 +39,7 @@ In this mode, you can select a span of text, to which a piece of information can
 To learn about the annotation types supported by TextAE, please refer to the manual of *PubAnnotation*:
 [PubAnnotation JSON Format](https://www.pubannotation.org/docs/annotation-format/).
 
-# Creating a term annotation (denotation)
+## Creating a term annotation (denotation)
 
 To create a term annotation, which we call *denotation*, select a text span using the mouse drag and drop, then, a term annotation will be created with a default label.
 
@@ -53,7 +52,7 @@ When the function *Boundary Detection* is turned on, however, the boundary of th
 
 A default label is often *Something*. It can be specified by a configuration, or automatically determined to be, e.g., the most frequent one.
 
-# Changing the span of a term annotation
+## Changing the span of a term annotation
 
 Sometimes, we want to change the span of an already existing term annotation, expanding or contracting the span.
 
@@ -74,7 +73,7 @@ To contract the span of a term annoation, one can use a mouse drag-and-drop oper
 ![](/img/denotation-contract-left-with-boundary-detection.gif){: height="60" }
 
 
-# Chaning the lable of a term annotation
+## Chaning the lable of a term annotation
 
 To change the label, click
 the *Edit Properties* icon ![](https://raw.githubusercontent.com/pubannotation/textae/stable/4/dist/lib/css/images/btn_edit_properties_16.png),
@@ -82,7 +81,7 @@ to directly type in a label, or click
 the *Entity Configuration* icon ![](https://raw.githubusercontent.com/pubannotation/textae/stable/4/dist/lib/css/images/btn_pallet_16.png),
 to select one from the list of predefined labels.
 
-# Adding an attribute to a denotation
+## Adding an attribute to a denotation
 
 To add an attribute to a denotation,
 select a denotation and click

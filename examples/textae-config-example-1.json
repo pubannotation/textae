@@ -1,0 +1,23 @@
+{
+	"entity types": [
+		{
+			"id": "Person",
+		},
+		{
+			"id": "Group",
+		}
+	],
+
+	"attribute types": [
+		{
+			"pred": "entity_id"
+		}
+	],
+
+	"relation types": [
+		{
+			"id": "member",
+		}
+		
+	]
+}

@@ -1,13 +1,13 @@
 - title: Contents
   docs:
     - /
+    - /docs/begin/
     - /docs/modes/
     - /docs/term-edit-mode/
     - /docs/block-edit-mode/
     - /docs/relation-edit-mode/
     - /docs/attributes/
     - /docs/format/
-    - /docs/embed/
     - /docs/inspect/
     - /docs/configure/
     - /docs/about/

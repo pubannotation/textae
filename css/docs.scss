@@ -17,22 +17,28 @@ article {
 	}
 
 	h1 {
+		display: inline-block;
 		margin: 0.6em 0 0.4em 0;
+		padding: 0 5px;
 		border-style: none;
-		font-size: 1.5em;
+		box-shadow: 5px 5px 5px #d8d8d8;
+		border-radius: 5px;
+		font-size: 1.8em;
 	}
 
-	h2, h3 {
-		margin: 0.8em 0 0.5em 0;
+	h2, h3, h4 {
+		margin: 1em 0 0.5em 0;
 		border-style: none;
 	}
 
 	h2 {
-		font-size: 1.2em;
+		font-size: 1.4em;
 	}
 
-	h3 {
-		font-size: 1.0em;
+	h3, h4 {
+		font-size: 1.1em;
+		font-weight: normal;
+		font-style: italic;
 	}
 
 	ul {
