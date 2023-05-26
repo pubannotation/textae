@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [12.2.0](https://github.com/pubannotation/textae/compare/v12.1.0...v12.2.0) (2023-05-26)
+
+
+### Features
+
+* Add an HTML attribute that allows the default mode to be set to block edit mode or relation edit mode. ([0f64dd7](https://github.com/pubannotation/textae/commit/0f64dd72258413afa9829644e053fa3fd66257ad))
+
 ## [12.1.0](https://github.com/pubannotation/textae/compare/v12.0.0...v12.1.0) (2023-05-24)
 
 
