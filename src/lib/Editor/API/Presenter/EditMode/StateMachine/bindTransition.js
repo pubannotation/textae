@@ -1,6 +1,10 @@
 import { MODE } from '../../../../../MODE'
 import toEnterEvent from './toEnterEvent'
 
+/**
+ *
+ * @param {import('../Transition').default} transition
+ */
 export default function (stateMachine, transition) {
   stateMachine
     .on(toEnterEvent(MODE.EDIT_DENOTATION_WITHOUT_RELATION), () =>
