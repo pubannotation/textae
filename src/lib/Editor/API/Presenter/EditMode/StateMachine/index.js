@@ -24,7 +24,7 @@ export default class StateMachine {
 
     m.config(MODE.INIT, {
       to: {
-        exclude: [MODE.EDIT_RELATION]
+        exclude: []
       }
     })
 
@@ -66,7 +66,7 @@ export default class StateMachine {
 
     m.config(MODE.EDIT_RELATION, {
       from: {
-        exclude: [MODE.INIT]
+        exclude: []
       },
       to: {
         exclude: [MODE.INIT]

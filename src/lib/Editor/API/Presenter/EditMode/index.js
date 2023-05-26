@@ -96,11 +96,22 @@ export default class EditMode {
    * For an intiation transition on an annotations data loaded.
    */
   reset() {
-    if (this._params.isEditMode) {
+    if (this._params.isTermEditMode) {
       this._forDenotationEditable()
-    } else {
-      this._forView()
+      return
     }
+
+    if (this._params.isBlockEditMode) {
+      this._forBlockEditable()
+      return
+    }
+
+    if (this._params.isRelationEditMode) {
+      this._forRelationEditable()
+      return
+    }
+
+    this._forView()
   }
 
   cancelSelect() {
