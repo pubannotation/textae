@@ -22,12 +22,6 @@ export default class StateMachine {
       ]
     })
 
-    m.config(MODE.INIT, {
-      to: {
-        exclude: []
-      }
-    })
-
     m.config(MODE.EDIT_DENOTATION_WITHOUT_RELATION, {
       from: {
         exclude: [MODE.VIEW_WITH_RELATION]
@@ -65,9 +59,6 @@ export default class StateMachine {
     })
 
     m.config(MODE.EDIT_RELATION, {
-      from: {
-        exclude: []
-      },
       to: {
         exclude: [MODE.INIT]
       }
