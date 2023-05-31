@@ -9,6 +9,8 @@ export default function () {
   alertifyjs.set('notifier', 'position', 'top-right')
 
   for (const element of document.querySelectorAll('.textae-editor')) {
+    if (element.dataset.textaeInitialized) continue
+
     // Create an editor
     const editor = new Editor(
       element,
@@ -33,5 +35,8 @@ export default function () {
     )
     // Register an editor
     tool.registerEditor(element, editor)
+
+    // Mark as initiated.
+    element.dataset.textaeInitialized = true
   }
 }
