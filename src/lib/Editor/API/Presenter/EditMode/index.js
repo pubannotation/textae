@@ -174,29 +174,47 @@ export default class EditMode {
 
   _forView() {
     if (this._annotationData.relation.some) {
-      this._stateMachine.setState(MODE.VIEW_WITH_RELATION, true)
+      this._stateMachine.setState(
+        MODE.VIEW_WITH_RELATION,
+        this._annotationData.relation.some
+      )
     } else {
-      this._stateMachine.setState(MODE.VIEW_WITHOUT_RELATION, false)
+      this._stateMachine.setState(
+        MODE.VIEW_WITHOUT_RELATION,
+        this._annotationData.relation.some
+      )
     }
   }
 
   _forDenotationEditable() {
     if (this._annotationData.relation.some) {
-      this._stateMachine.setState(MODE.EDIT_DENOTATION_WITH_RELATION, true)
+      this._stateMachine.setState(
+        MODE.EDIT_DENOTATION_WITH_RELATION,
+        this._annotationData.relation.some
+      )
     } else {
-      this._stateMachine.setState(MODE.EDIT_DENOTATION_WITHOUT_RELATION, false)
+      this._stateMachine.setState(
+        MODE.EDIT_DENOTATION_WITHOUT_RELATION,
+        this._annotationData.relation.some
+      )
     }
   }
 
   _forBlockEditable() {
     if (this._annotationData.relation.some) {
-      this._stateMachine.setState(MODE.EDIT_BLOCK_WITH_RELATION, true)
+      this._stateMachine.setState(
+        MODE.EDIT_BLOCK_WITH_RELATION,
+        this._annotationData.relation.some
+      )
     } else {
-      this._stateMachine.setState(MODE.EDIT_BLOCK_WITHOUT_RELATION, false)
+      this._stateMachine.setState(
+        MODE.EDIT_BLOCK_WITHOUT_RELATION,
+        this._annotationData.relation.some
+      )
     }
   }
 
   _forRelationEditable() {
-    this._stateMachine.setState(MODE.EDIT_RELATION, true)
+    this._stateMachine.setState(MODE.EDIT_RELATION)
   }
 }
