@@ -166,8 +166,8 @@ export default class EditMode {
   }
 
   _unbindAllMouseEventhandler() {
-    for (const listner of this._listeners) {
-      listner.destroy()
+    for (const listener of this._listeners) {
+      listener.destroy()
     }
     this._listeners = []
   }
