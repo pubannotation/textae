@@ -1,10 +1,10 @@
-import { MODE } from '../../../../../MODE'
+import { MODE } from '../../../../MODE'
 
 export default class StateMachine {
   /**
    *
-   * @param {import('../../../../AnnotationData/RelationModelContainer').default} relationContainer
-   * @param {import('../Transition').default} transition
+   * @param {import('../../../AnnotationData/RelationModelContainer').default} relationContainer
+   * @param {import('./Transition').default} transition
    */
   constructor(relationContainer, transition) {
     this._relationContainer = relationContainer
