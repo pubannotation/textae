@@ -86,14 +86,16 @@ export default class StateMachine {
 
     this._m = m
     this._relationContainer = relationContainer
+    this._showRelation = false
   }
 
   get currentState() {
     return this._m.currentState
   }
 
-  setState(state, withRelation) {
-    this._m.setState(state, withRelation)
+  setState(state, showRelation) {
+    this._showRelation = showRelation
+    this._m.setState(state, showRelation)
   }
 
   toViewMode() {
