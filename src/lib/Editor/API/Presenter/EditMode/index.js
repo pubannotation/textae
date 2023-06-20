@@ -97,21 +97,51 @@ export default class EditMode {
    */
   reset() {
     if (this._params.isTermEditMode) {
-      this._forDenotationEditable()
+      if (this._annotationData.relation.some) {
+        this._stateMachine.setState(
+          MODE.EDIT_DENOTATION_WITH_RELATION,
+          this._annotationData.relation.some
+        )
+      } else {
+        this._stateMachine.setState(
+          MODE.EDIT_DENOTATION_WITHOUT_RELATION,
+          this._annotationData.relation.some
+        )
+      }
       return
     }
 
     if (this._params.isBlockEditMode) {
-      this._forBlockEditable()
+      if (this._annotationData.relation.some) {
+        this._stateMachine.setState(
+          MODE.EDIT_BLOCK_WITH_RELATION,
+          this._annotationData.relation.some
+        )
+      } else {
+        this._stateMachine.setState(
+          MODE.EDIT_BLOCK_WITHOUT_RELATION,
+          this._annotationData.relation.some
+        )
+      }
       return
     }
 
     if (this._params.isRelationEditMode) {
-      this._forRelationEditable()
+      this._stateMachine.setState(MODE.EDIT_RELATION)
       return
     }
 
-    this._forView()
+    if (this._annotationData.relation.some) {
+      this._stateMachine.setState(
+        MODE.VIEW_WITH_RELATION,
+        this._annotationData.relation.some
+      )
+    } else {
+      this._stateMachine.setState(
+        MODE.VIEW_WITHOUT_RELATION,
+        this._annotationData.relation.some
+      )
+    }
   }
 
   cancelSelect() {
@@ -170,51 +200,5 @@ export default class EditMode {
       listener.destroy()
     }
     this._listeners = []
-  }
-
-  _forView() {
-    if (this._annotationData.relation.some) {
-      this._stateMachine.setState(
-        MODE.VIEW_WITH_RELATION,
-        this._annotationData.relation.some
-      )
-    } else {
-      this._stateMachine.setState(
-        MODE.VIEW_WITHOUT_RELATION,
-        this._annotationData.relation.some
-      )
-    }
-  }
-
-  _forDenotationEditable() {
-    if (this._annotationData.relation.some) {
-      this._stateMachine.setState(
-        MODE.EDIT_DENOTATION_WITH_RELATION,
-        this._annotationData.relation.some
-      )
-    } else {
-      this._stateMachine.setState(
-        MODE.EDIT_DENOTATION_WITHOUT_RELATION,
-        this._annotationData.relation.some
-      )
-    }
-  }
-
-  _forBlockEditable() {
-    if (this._annotationData.relation.some) {
-      this._stateMachine.setState(
-        MODE.EDIT_BLOCK_WITH_RELATION,
-        this._annotationData.relation.some
-      )
-    } else {
-      this._stateMachine.setState(
-        MODE.EDIT_BLOCK_WITHOUT_RELATION,
-        this._annotationData.relation.some
-      )
-    }
-  }
-
-  _forRelationEditable() {
-    this._stateMachine.setState(MODE.EDIT_RELATION)
   }
 }
