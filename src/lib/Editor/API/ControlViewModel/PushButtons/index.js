@@ -10,8 +10,8 @@ export default class PushButtons {
     }, new Map())
 
     // Bind an event.
-    eventEmitter.on('textae-event.edit-mode.transition', (mode) =>
-      this._setMode(mode)
+    eventEmitter.on('textae-event.edit-mode.transition', (mode, withRelation) =>
+      this._setMode(mode, !withRelation)
     )
 
     // default pushed;
@@ -28,28 +28,28 @@ export default class PushButtons {
     return this._buttons.keys()
   }
 
-  _setMode(mode) {
+  _setMode(mode, isSimple) {
     switch (mode) {
       case MODE.VIEW_WITHOUT_RELATION:
-        this._updateModeButtons(true, false, false, false, true)
+        this._updateModeButtons(true, false, false, false, isSimple)
         break
       case MODE.VIEW_WITH_RELATION:
-        this._updateModeButtons(true, false, false, false, false)
+        this._updateModeButtons(true, false, false, false, isSimple)
         break
       case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
-        this._updateModeButtons(false, true, false, false, true)
+        this._updateModeButtons(false, true, false, false, isSimple)
         break
       case MODE.EDIT_DENOTATION_WITH_RELATION:
-        this._updateModeButtons(false, true, false, false, false)
+        this._updateModeButtons(false, true, false, false, isSimple)
         break
       case MODE.EDIT_BLOCK_WITHOUT_RELATION:
-        this._updateModeButtons(false, false, true, false, true)
+        this._updateModeButtons(false, false, true, false, isSimple)
         break
       case MODE.EDIT_BLOCK_WITH_RELATION:
-        this._updateModeButtons(false, false, true, false, false)
+        this._updateModeButtons(false, false, true, false, isSimple)
         break
       case MODE.EDIT_RELATION:
-        this._updateModeButtons(false, false, false, true, false)
+        this._updateModeButtons(false, false, false, true, isSimple)
         break
       default:
         throw `unknown edit mode!${mode}`
