@@ -87,15 +87,73 @@ export default class StateMachine {
     this._m = m
     this._relationContainer = relationContainer
     this._showRelation = false
+    this._transition = transition
+    this._currentState = MODE.INIT
   }
 
   get currentState() {
-    return this._m.currentState
+    return this._currentState
   }
 
   setState(state, showRelation) {
     this._showRelation = showRelation
-    this._m.setState(state, showRelation)
+
+    switch (state) {
+      case MODE.VIEW_WITHOUT_RELATION:
+        this._currentState = MODE.VIEW_WITHOUT_RELATION
+        if (showRelation) {
+          this._transition.toViewWithRelation()
+        } else {
+          this._transition.toViewWithoutRelation()
+        }
+        break
+      case MODE.VIEW_WITH_RELATION:
+        this._currentState = MODE.VIEW_WITH_RELATION
+        if (showRelation) {
+          this._transition.toViewWithRelation()
+        } else {
+          this._transition.toViewWithoutRelation()
+        }
+        break
+      case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
+        this._currentState = MODE.EDIT_DENOTATION_WITHOUT_RELATION
+        if (showRelation) {
+          this._transition.toEditDenotationWithoutRelation()
+        } else {
+          this._transition.toEditDenotationWithoutRelation()
+        }
+        break
+      case MODE.EDIT_DENOTATION_WITH_RELATION:
+        this._currentState = MODE.EDIT_DENOTATION_WITH_RELATION
+        if (showRelation) {
+          this._transition.toEditDenotationWithRelation()
+        } else {
+          this._transition.toEditDenotationWithoutRelation()
+        }
+        break
+      case MODE.EDIT_BLOCK_WITHOUT_RELATION:
+        this._currentState = MODE.EDIT_BLOCK_WITHOUT_RELATION
+        if (showRelation) {
+          this._transition.toEditBlockWithoutRelation()
+        } else {
+          this._transition.toEditBlockWithoutRelation()
+        }
+        break
+      case MODE.EDIT_BLOCK_WITH_RELATION:
+        this._currentState = MODE.EDIT_BLOCK_WITH_RELATION
+        if (showRelation) {
+          this._transition.toEditBlockWithRelation()
+        } else {
+          this._transition.toEditBlockWithoutRelation()
+        }
+        break
+      case MODE.EDIT_RELATION:
+        this._currentState = MODE.EDIT_RELATION
+        this._transition.toEditRelation()
+        break
+      default:
+        throw new Error(`Invalid state: ${state}`)
+    }
   }
 
   toViewMode() {
