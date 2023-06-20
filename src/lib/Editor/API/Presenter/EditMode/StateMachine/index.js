@@ -100,7 +100,7 @@ export default class StateMachine {
     switch (this.currentState) {
       case MODE.EDIT_RELATION:
         if (this._relationContainer.some) {
-          this.setState(MODE.VIEW_WITH_RELATION)
+          this.setState(MODE.VIEW_WITH_RELATION, true)
         } else {
           this.setState(MODE.VIEW_WITHOUT_RELATION, false)
         }
