@@ -174,7 +174,7 @@ export default class EditMode {
 
   _forView() {
     if (this._annotationData.relation.some) {
-      this._stateMachine.setState(MODE.VIEW_WITH_RELATION, true)
+      this._stateMachine.setState(MODE.VIEW_WITH_RELATION)
     } else {
       this._stateMachine.setState(MODE.VIEW_WITHOUT_RELATION, false)
     }
