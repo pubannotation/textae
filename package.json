@@ -7,8 +7,8 @@
     "url": "https://github.com/pubannotation/textae/issues"
   },
   "dependencies": {
-    "@codemirror/lang-javascript": "^6.1.8",
-    "@codemirror/language": "^6.7.0",
+    "@codemirror/lang-javascript": "^6.1.9",
+    "@codemirror/language": "^6.8.0",
     "@codemirror/legacy-modes": "^6.3.2",
     "ajv": "^8.12.0",
     "ajv-formats": "2.1.1",
@@ -34,11 +34,11 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@typescript-eslint/parser": "^5.59.8",
+    "@typescript-eslint/parser": "^5.60.0",
     "clean-css-cli": "^5.6.2",
     "connect": "3.7.0",
     "cpx2": "^4.2.3",
-    "eslint": "^8.41.0",
+    "eslint": "^8.43.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-unused-imports": "^2.0.0",
@@ -57,8 +57,8 @@
     "source-map-loader": "^4.0.1",
     "standard-version": "^9.5.0",
     "terser-webpack-plugin": "^5.3.9",
-    "webpack": "^5.84.1",
-    "webpack-cli": "^5.1.1",
+    "webpack": "^5.87.0",
+    "webpack-cli": "^5.1.4",
     "webpack-merge": "5.9.0"
   },
   "homepage": "https://github.com/pubannotation/textae",
