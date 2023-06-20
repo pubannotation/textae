@@ -217,7 +217,7 @@ export default class StateMachine {
         }
         break
       default:
-      // Do nothig.
+      // Do nothing.
     }
   }
 }
