@@ -49,7 +49,7 @@ export default class PushButtons {
         this._updateModeButtons(false, false, true, false, isSimple)
         break
       case MODE.EDIT_RELATION:
-        this._updateModeButtons(false, false, false, true, isSimple)
+        this._updateModeButtons(false, false, false, true, false)
         break
       default:
         throw `unknown edit mode!${mode}`
