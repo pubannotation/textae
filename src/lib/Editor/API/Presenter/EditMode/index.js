@@ -93,7 +93,7 @@ export default class EditMode {
   }
 
   /**
-   * For an intiation transition on an annotations data loaded.
+   * For an initiation transition on an annotations data loaded.
    */
   reset() {
     if (this._params.isTermEditMode) {
