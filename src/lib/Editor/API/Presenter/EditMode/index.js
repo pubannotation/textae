@@ -60,7 +60,7 @@ export default class EditMode {
       annotationData.typeGap,
       () => {
         this.cancelSelect()
-        this._unbindAllMouseEventhandler()
+        this._unbindAllMouseEventHandler()
       },
       () => (this._listeners = this._editDenotation.bindMouseEvents()),
       () => (this._listeners = this._editBlock.bindMouseEvents()),
@@ -165,7 +165,7 @@ export default class EditMode {
     }
   }
 
-  _unbindAllMouseEventhandler() {
+  _unbindAllMouseEventHandler() {
     for (const listener of this._listeners) {
       listener.destroy()
     }
