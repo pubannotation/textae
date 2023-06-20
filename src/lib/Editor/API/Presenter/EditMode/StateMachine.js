@@ -21,54 +21,33 @@ export default class StateMachine {
     this._showRelation = showRelation
 
     switch (state) {
-      case MODE.VIEW_WITHOUT_RELATION:
-        this._currentState = MODE.VIEW_WITHOUT_RELATION
+      case MODE.VIEW:
+        this._currentState = MODE.VIEW
         if (showRelation) {
           this._transition.toViewWithRelation()
         } else {
           this._transition.toViewWithoutRelation()
         }
         break
-      case MODE.VIEW_WITH_RELATION:
-        this._currentState = MODE.VIEW_WITH_RELATION
-        if (showRelation) {
-          this._transition.toViewWithRelation()
-        } else {
-          this._transition.toViewWithoutRelation()
-        }
-        break
-      case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
-        this._currentState = MODE.EDIT_DENOTATION_WITHOUT_RELATION
-        if (showRelation) {
-          this._transition.toEditDenotationWithoutRelation()
-        } else {
-          this._transition.toEditDenotationWithoutRelation()
-        }
-        break
-      case MODE.EDIT_DENOTATION_WITH_RELATION:
-        this._currentState = MODE.EDIT_DENOTATION_WITH_RELATION
+
+      case MODE.EDIT_DENOTATION:
+        this._currentState = MODE.EDIT_DENOTATION
         if (showRelation) {
           this._transition.toEditDenotationWithRelation()
         } else {
           this._transition.toEditDenotationWithoutRelation()
         }
         break
-      case MODE.EDIT_BLOCK_WITHOUT_RELATION:
-        this._currentState = MODE.EDIT_BLOCK_WITHOUT_RELATION
-        if (showRelation) {
-          this._transition.toEditBlockWithoutRelation()
-        } else {
-          this._transition.toEditBlockWithoutRelation()
-        }
-        break
-      case MODE.EDIT_BLOCK_WITH_RELATION:
-        this._currentState = MODE.EDIT_BLOCK_WITH_RELATION
+
+      case MODE.EDIT_BLOCK:
+        this._currentState = MODE.EDIT_BLOCK
         if (showRelation) {
           this._transition.toEditBlockWithRelation()
         } else {
           this._transition.toEditBlockWithoutRelation()
         }
         break
+
       case MODE.EDIT_RELATION:
         this._currentState = MODE.EDIT_RELATION
         this._transition.toEditRelation()
@@ -82,18 +61,14 @@ export default class StateMachine {
     switch (this.currentState) {
       case MODE.EDIT_RELATION:
         if (this._relationContainer.some) {
-          this.setState(MODE.VIEW_WITH_RELATION, true)
+          this.setState(MODE.VIEW, true)
         } else {
-          this.setState(MODE.VIEW_WITHOUT_RELATION, false)
+          this.setState(MODE.VIEW, false)
         }
         break
-      case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
-      case MODE.EDIT_BLOCK_WITHOUT_RELATION:
-        this.setState(MODE.VIEW_WITHOUT_RELATION, false)
-        break
-      case MODE.EDIT_DENOTATION_WITH_RELATION:
-      case MODE.EDIT_BLOCK_WITH_RELATION:
-        this.setState(MODE.VIEW_WITH_RELATION)
+      case MODE.EDIT_DENOTATION:
+      case MODE.EDIT_BLOCK:
+        this.setState(MODE.VIEW, this._showRelation)
         break
       default:
       // Do nothing.
@@ -104,18 +79,14 @@ export default class StateMachine {
     switch (this.currentState) {
       case MODE.EDIT_RELATION:
         if (this._relationContainer.some) {
-          this.setState(MODE.EDIT_DENOTATION_WITH_RELATION, true)
+          this.setState(MODE.EDIT_DENOTATION, true)
         } else {
-          this.setState(MODE.EDIT_DENOTATION_WITHOUT_RELATION, false)
+          this.setState(MODE.EDIT_DENOTATION, false)
         }
         break
-      case MODE.VIEW_WITH_RELATION:
-      case MODE.EDIT_BLOCK_WITH_RELATION:
-        this.setState(MODE.EDIT_DENOTATION_WITH_RELATION, true)
-        break
-      case MODE.VIEW_WITHOUT_RELATION:
-      case MODE.EDIT_BLOCK_WITHOUT_RELATION:
-        this.setState(MODE.EDIT_DENOTATION_WITHOUT_RELATION, false)
+      case MODE.VIEW:
+      case MODE.EDIT_BLOCK:
+        this.setState(MODE.EDIT_DENOTATION, this._showRelation)
         break
       default:
       // Do nothing.
@@ -126,18 +97,14 @@ export default class StateMachine {
     switch (this.currentState) {
       case MODE.EDIT_RELATION:
         if (this._relationContainer.some) {
-          this.setState(MODE.EDIT_BLOCK_WITH_RELATION, true)
+          this.setState(MODE.EDIT_BLOCK, true)
         } else {
-          this.setState(MODE.EDIT_BLOCK_WITHOUT_RELATION, false)
+          this.setState(MODE.EDIT_BLOCK, false)
         }
         break
-      case MODE.VIEW_WITH_RELATION:
-      case MODE.EDIT_DENOTATION_WITH_RELATION:
-        this.setState(MODE.EDIT_BLOCK_WITH_RELATION, true)
-        break
-      case MODE.VIEW_WITHOUT_RELATION:
-      case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
-        this.setState(MODE.EDIT_BLOCK_WITHOUT_RELATION, false)
+      case MODE.VIEW:
+      case MODE.EDIT_DENOTATION:
+        this.setState(MODE.EDIT_BLOCK, this._showRelation)
         break
       default:
       // Do nothing.
@@ -150,23 +117,14 @@ export default class StateMachine {
 
   toggleSimpleMode() {
     switch (this.currentState) {
-      case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
-        this.setState(MODE.EDIT_DENOTATION_WITH_RELATION, true)
+      case MODE.EDIT_DENOTATION:
+        this.setState(MODE.EDIT_DENOTATION, !this._showRelation)
         break
-      case MODE.EDIT_BLOCK_WITHOUT_RELATION:
-        this.setState(MODE.EDIT_BLOCK_WITH_RELATION, true)
+      case MODE.EDIT_BLOCK:
+        this.setState(MODE.EDIT_BLOCK, !this._showRelation)
         break
-      case MODE.VIEW_WITHOUT_RELATION:
-        this.setState(MODE.VIEW_WITH_RELATION)
-        break
-      case MODE.EDIT_DENOTATION_WITH_RELATION:
-        this.setState(MODE.EDIT_DENOTATION_WITHOUT_RELATION, false)
-        break
-      case MODE.EDIT_BLOCK_WITH_RELATION:
-        this.setState(MODE.EDIT_BLOCK_WITHOUT_RELATION, false)
-        break
-      case MODE.VIEW_WITH_RELATION:
-        this.setState(MODE.VIEW_WITHOUT_RELATION, false)
+      case MODE.VIEW:
+        this.setState(MODE.VIEW, !this._showRelation)
         break
       default:
         throw new Error(`Invalid state: ${this.currentState}`)
@@ -175,27 +133,20 @@ export default class StateMachine {
 
   changeModeByShortcut() {
     switch (this.currentState) {
-      case MODE.VIEW_WITH_RELATION:
-        this.setState(MODE.EDIT_DENOTATION_WITH_RELATION, true)
+      case MODE.VIEW:
+        this.setState(MODE.EDIT_DENOTATION, this._showRelation)
         break
-      case MODE.VIEW_WITHOUT_RELATION:
-        this.setState(MODE.EDIT_DENOTATION_WITHOUT_RELATION, false)
+      case MODE.EDIT_DENOTATION:
+        this.setState(MODE.EDIT_BLOCK, this)
         break
-      case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
-        this.setState(MODE.EDIT_BLOCK_WITHOUT_RELATION, false)
-        break
-      case MODE.EDIT_DENOTATION_WITH_RELATION:
-        this.setState(MODE.EDIT_BLOCK_WITH_RELATION, true)
-        break
-      case MODE.EDIT_BLOCK_WITHOUT_RELATION:
-      case MODE.EDIT_BLOCK_WITH_RELATION:
-        this.setState(MODE.EDIT_RELATION, true)
+      case MODE.EDIT_BLOCK:
+        this.setState(MODE.EDIT_RELATION)
         break
       case MODE.EDIT_RELATION:
         if (this._relationContainer.some) {
-          this.setState(MODE.VIEW_WITH_RELATION)
+          this.setState(MODE.VIEW, true)
         } else {
-          this.setState(MODE.VIEW_WITHOUT_RELATION, false)
+          this.setState(MODE.VIEW, false)
         }
         break
       default:

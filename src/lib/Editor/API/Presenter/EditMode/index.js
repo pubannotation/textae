@@ -86,10 +86,7 @@ export default class EditMode {
   }
 
   get isEditDenotation() {
-    return (
-      this._stateMachine.currentState === MODE.EDIT_DENOTATION_WITH_RELATION ||
-      this._stateMachine.currentState === MODE.EDIT_DENOTATION_WITHOUT_RELATION
-    )
+    return this._stateMachine.currentState === MODE.EDIT_DENOTATION
   }
 
   /**
@@ -97,32 +94,18 @@ export default class EditMode {
    */
   reset() {
     if (this._params.isTermEditMode) {
-      if (this._annotationData.relation.some) {
-        this._stateMachine.setState(
-          MODE.EDIT_DENOTATION_WITH_RELATION,
-          this._annotationData.relation.some
-        )
-      } else {
-        this._stateMachine.setState(
-          MODE.EDIT_DENOTATION_WITHOUT_RELATION,
-          this._annotationData.relation.some
-        )
-      }
+      this._stateMachine.setState(
+        MODE.EDIT_DENOTATION,
+        this._annotationData.relation.some
+      )
       return
     }
 
     if (this._params.isBlockEditMode) {
-      if (this._annotationData.relation.some) {
-        this._stateMachine.setState(
-          MODE.EDIT_BLOCK_WITH_RELATION,
-          this._annotationData.relation.some
-        )
-      } else {
-        this._stateMachine.setState(
-          MODE.EDIT_BLOCK_WITHOUT_RELATION,
-          this._annotationData.relation.some
-        )
-      }
+      this._stateMachine.setState(
+        MODE.EDIT_BLOCK,
+        this._annotationData.relation.some
+      )
       return
     }
 
@@ -131,17 +114,7 @@ export default class EditMode {
       return
     }
 
-    if (this._annotationData.relation.some) {
-      this._stateMachine.setState(
-        MODE.VIEW_WITH_RELATION,
-        this._annotationData.relation.some
-      )
-    } else {
-      this._stateMachine.setState(
-        MODE.VIEW_WITHOUT_RELATION,
-        this._annotationData.relation.some
-      )
-    }
+    this._stateMachine.setState(MODE.VIEW, this._annotationData.relation.some)
   }
 
   cancelSelect() {
@@ -171,11 +144,9 @@ export default class EditMode {
 
   get currentEdit() {
     switch (this._stateMachine.currentState) {
-      case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
-      case MODE.EDIT_DENOTATION_WITH_RELATION:
+      case MODE.EDIT_DENOTATION:
         return this._editDenotation
-      case MODE.EDIT_BLOCK_WITHOUT_RELATION:
-      case MODE.EDIT_BLOCK_WITH_RELATION:
+      case MODE.EDIT_BLOCK:
         return this._editBlock
       case MODE.EDIT_RELATION:
         return this._editRelation

@@ -30,22 +30,13 @@ export default class PushButtons {
 
   _setMode(mode, isSimple) {
     switch (mode) {
-      case MODE.VIEW_WITHOUT_RELATION:
+      case MODE.VIEW:
         this._updateModeButtons(true, false, false, false, isSimple)
         break
-      case MODE.VIEW_WITH_RELATION:
-        this._updateModeButtons(true, false, false, false, isSimple)
-        break
-      case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
+      case MODE.EDIT_DENOTATION:
         this._updateModeButtons(false, true, false, false, isSimple)
         break
-      case MODE.EDIT_DENOTATION_WITH_RELATION:
-        this._updateModeButtons(false, true, false, false, isSimple)
-        break
-      case MODE.EDIT_BLOCK_WITHOUT_RELATION:
-        this._updateModeButtons(false, false, true, false, isSimple)
-        break
-      case MODE.EDIT_BLOCK_WITH_RELATION:
+      case MODE.EDIT_BLOCK:
         this._updateModeButtons(false, false, true, false, isSimple)
         break
       case MODE.EDIT_RELATION:

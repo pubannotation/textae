@@ -82,8 +82,7 @@ export default class EnableState {
 
   _setForMode(mode) {
     switch (mode) {
-      case MODE.VIEW_WITHOUT_RELATION:
-      case MODE.VIEW_WITH_RELATION:
+      case MODE.VIEW:
         this._updateButtonsForMode(
           true,
           false,
@@ -94,12 +93,10 @@ export default class EnableState {
           false
         )
         break
-      case MODE.EDIT_DENOTATION_WITHOUT_RELATION:
-      case MODE.EDIT_DENOTATION_WITH_RELATION:
+      case MODE.EDIT_DENOTATION:
         this._updateButtonsForMode(true, true, true, true, true, true, true)
         break
-      case MODE.EDIT_BLOCK_WITHOUT_RELATION:
-      case MODE.EDIT_BLOCK_WITH_RELATION:
+      case MODE.EDIT_BLOCK:
         this._updateButtonsForMode(true, false, true, true, true, true, true)
         break
       case MODE.EDIT_RELATION:

@@ -46,8 +46,7 @@ export default class Presenter {
       })
       .on('textae-event.edit-mode.transition', (mode) => {
         switch (mode) {
-          case MODE.VIEW_WITHOUT_RELATION:
-          case MODE.VIEW_WITH_RELATION:
+          case MODE.VIEW:
             annotationData.entity.clarifyLabelOfAll()
             break
           default:

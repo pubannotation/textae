@@ -24,7 +24,7 @@ export default class Transition {
     this._typeGap.show = false
     this._eventEmitter.emit(
       'textae-event.edit-mode.transition',
-      MODE.VIEW_WITHOUT_RELATION,
+      MODE.VIEW,
       false
     )
 
@@ -36,7 +36,7 @@ export default class Transition {
     this._typeGap.show = true
     this._eventEmitter.emit(
       'textae-event.edit-mode.transition',
-      MODE.VIEW_WITH_RELATION,
+      MODE.VIEW,
       true
     )
 
@@ -48,7 +48,7 @@ export default class Transition {
     this._typeGap.show = false
     this._eventEmitter.emit(
       'textae-event.edit-mode.transition',
-      MODE.EDIT_DENOTATION_WITHOUT_RELATION,
+      MODE.EDIT_DENOTATION,
       false
     )
 
@@ -61,7 +61,7 @@ export default class Transition {
     this._typeGap.show = true
     this._eventEmitter.emit(
       'textae-event.edit-mode.transition',
-      MODE.EDIT_DENOTATION_WITH_RELATION,
+      MODE.EDIT_DENOTATION,
       true
     )
 
@@ -74,7 +74,7 @@ export default class Transition {
     this._typeGap.show = false
     this._eventEmitter.emit(
       'textae-event.edit-mode.transition',
-      MODE.EDIT_BLOCK_WITHOUT_RELATION,
+      MODE.EDIT_BLOCK,
       false
     )
 
@@ -87,7 +87,7 @@ export default class Transition {
     this._typeGap.show = true
     this._eventEmitter.emit(
       'textae-event.edit-mode.transition',
-      MODE.EDIT_BLOCK_WITH_RELATION,
+      MODE.EDIT_BLOCK,
       true
     )
 
