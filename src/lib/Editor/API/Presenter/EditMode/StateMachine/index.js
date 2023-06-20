@@ -114,7 +114,7 @@ export default class StateMachine {
         this.setState(MODE.VIEW_WITH_RELATION)
         break
       default:
-      // Do nothig.
+      // Do nothing.
     }
   }
 
@@ -136,7 +136,7 @@ export default class StateMachine {
         this.setState(MODE.EDIT_DENOTATION_WITHOUT_RELATION, false)
         break
       default:
-      // Do nothig.
+      // Do nothing.
     }
   }
 
@@ -158,7 +158,7 @@ export default class StateMachine {
         this.setState(MODE.EDIT_BLOCK_WITHOUT_RELATION, false)
         break
       default:
-      // Do nothig.
+      // Do nothing.
     }
   }
 
