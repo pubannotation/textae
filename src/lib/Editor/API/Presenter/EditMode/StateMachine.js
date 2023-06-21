@@ -12,7 +12,6 @@ export default class StateMachine {
     eventEmitter,
     editorHTMLElement,
     typeGap,
-    noEdit,
     view,
     editEntity,
     editBlock,
@@ -23,7 +22,6 @@ export default class StateMachine {
     this._eventEmitter = eventEmitter
     this._editorCSS = new EditorCSS(editorHTMLElement)
     this._typeGap = typeGap
-    this._noEdit = noEdit
     this._view = view
     this._editEntity = editEntity
     this._editBlock = editBlock
@@ -45,7 +43,6 @@ export default class StateMachine {
       showRelation
     )
 
-    this._noEdit()
     this._view()
     if (showRelation) {
       this._editorCSS.setFor('view-with-relation')
@@ -64,7 +61,6 @@ export default class StateMachine {
       showRelation
     )
 
-    this._noEdit()
     this._editEntity()
     if (showRelation) {
       this._editorCSS.setFor('denotation-with-relation')
@@ -83,7 +79,6 @@ export default class StateMachine {
       showRelation
     )
 
-    this._noEdit()
     this._editBlock()
 
     if (showRelation) {
@@ -102,7 +97,6 @@ export default class StateMachine {
       true
     )
 
-    this._noEdit()
     this._editRelation()
     this._editorCSS.setFor('relation')
   }

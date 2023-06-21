@@ -55,20 +55,33 @@ export default class EditMode {
     this._listeners = []
 
     this._editorCSS = new EditorCSS(editorHTMLElement)
+
+    const noEdit = () => {
+      this.cancelSelect()
+      this._unbindAllMouseEventHandler()
+      this._editorCSS.clear()
+    }
     this._stateMachine = new StateMachine(
       annotationData.relation,
       eventEmitter,
       editorHTMLElement,
       annotationData.typeGap,
+
       () => {
-        this.cancelSelect()
-        this._unbindAllMouseEventHandler()
-        this._editorCSS.clear()
+        noEdit()
       },
-      () => {},
-      () => (this._listeners = this._editDenotation.bindMouseEvents()),
-      () => (this._listeners = this._editBlock.bindMouseEvents()),
-      () => (this._listeners = this._editRelation.bindMouseEvents())
+      () => {
+        noEdit()
+        this._listeners = this._editDenotation.bindMouseEvents()
+      },
+      () => {
+        noEdit()
+        this._listeners = this._editBlock.bindMouseEvents()
+      },
+      () => {
+        noEdit()
+        this._listeners = this._editRelation.bindMouseEvents()
+      }
     )
 
     this._annotationData = annotationData
