@@ -1,4 +1,5 @@
 import { MODE } from '../../../../MODE'
+import Transition from './Transition'
 
 export default class StateMachine {
   /**
@@ -6,10 +7,27 @@ export default class StateMachine {
    * @param {import('../../../AnnotationData/RelationModelContainer').default} relationContainer
    * @param {import('./Transition').default} transition
    */
-  constructor(relationContainer, transition) {
+  constructor(
+    relationContainer,
+    eventEmitter,
+    editorHTMLElement,
+    typeGap,
+    noEdit,
+    editEntity,
+    editBlock,
+    editRelation
+  ) {
     this._relationContainer = relationContainer
     this._currentShowRelation = false
-    this._transition = transition
+    this._transition = new Transition(
+      eventEmitter,
+      editorHTMLElement,
+      typeGap,
+      noEdit,
+      editEntity,
+      editBlock,
+      editRelation
+    )
     this._currentState = MODE.INIT
   }
 
