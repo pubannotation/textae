@@ -54,12 +54,11 @@ export default class EditMode {
 
     this._listeners = []
 
-    this._editorCSS = new EditorCSS(editorHTMLElement)
-
+    const editorCSS = new EditorCSS(editorHTMLElement)
     const noEdit = () => {
       this.cancelSelect()
       this._unbindAllMouseEventHandler()
-      this._editorCSS.clear()
+      editorCSS.clear()
     }
     this._stateMachine = new StateMachine(
       annotationData.relation,
@@ -67,20 +66,36 @@ export default class EditMode {
       editorHTMLElement,
       annotationData.typeGap,
 
-      () => {
+      (showRelation) => {
         noEdit()
+        if (showRelation) {
+          editorCSS.setFor('view-with-relation')
+        } else {
+          editorCSS.setFor('view-without-relation')
+        }
       },
-      () => {
+      (showRelation) => {
         noEdit()
         this._listeners = this._editDenotation.bindMouseEvents()
+        if (showRelation) {
+          editorCSS.setFor('denotation-with-relation')
+        } else {
+          editorCSS.setFor('denotation-without-relation')
+        }
       },
-      () => {
+      (showRelation) => {
         noEdit()
         this._listeners = this._editBlock.bindMouseEvents()
+        if (showRelation) {
+          editorCSS.setFor('block-with-relation')
+        } else {
+          editorCSS.setFor('block-without-relation')
+        }
       },
       () => {
         noEdit()
         this._listeners = this._editRelation.bindMouseEvents()
+        editorCSS.setFor('relation')
       }
     )
 

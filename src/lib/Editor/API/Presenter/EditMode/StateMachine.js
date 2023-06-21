@@ -44,11 +44,6 @@ export default class StateMachine {
     )
 
     this._view()
-    if (showRelation) {
-      this._editorCSS.setFor('view-with-relation')
-    } else {
-      this._editorCSS.setFor('view-without-relation')
-    }
   }
 
   toTermMode(showRelation) {
@@ -62,11 +57,6 @@ export default class StateMachine {
     )
 
     this._editEntity()
-    if (showRelation) {
-      this._editorCSS.setFor('denotation-with-relation')
-    } else {
-      this._editorCSS.setFor('denotation-without-relation')
-    }
   }
 
   toBlockMode(showRelation) {
@@ -80,12 +70,6 @@ export default class StateMachine {
     )
 
     this._editBlock()
-
-    if (showRelation) {
-      this._editorCSS.setFor('block-with-relation')
-    } else {
-      this._editorCSS.setFor('block-without-relation')
-    }
   }
 
   toRelationMode() {
@@ -98,7 +82,6 @@ export default class StateMachine {
     )
 
     this._editRelation()
-    this._editorCSS.setFor('relation')
   }
 
   toggleSimpleMode() {
