@@ -23,29 +23,17 @@ export default class StateMachine {
     switch (state) {
       case MODE.VIEW:
         this._currentState = MODE.VIEW
-        if (showRelation) {
-          this._transition.toViewWithRelation()
-        } else {
-          this._transition.toViewWithoutRelation()
-        }
+        this._transition.toView(showRelation)
         break
 
       case MODE.EDIT_DENOTATION:
         this._currentState = MODE.EDIT_DENOTATION
-        if (showRelation) {
-          this._transition.toEditDenotationWithRelation()
-        } else {
-          this._transition.toEditDenotationWithoutRelation()
-        }
+        this._transition.toEditDenotation(showRelation)
         break
 
       case MODE.EDIT_BLOCK:
         this._currentState = MODE.EDIT_BLOCK
-        if (showRelation) {
-          this._transition.toEditBlockWithRelation()
-        } else {
-          this._transition.toEditBlockWithoutRelation()
-        }
+        this._transition.toEditBlock(showRelation)
         break
 
       case MODE.EDIT_RELATION:

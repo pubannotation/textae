@@ -20,80 +20,55 @@ export default class Transition {
     this._editRelation = editRelation
   }
 
-  toViewWithoutRelation() {
-    this._typeGap.show = false
+  toView(showRelation) {
+    this._typeGap.show = showRelation
     this._eventEmitter.emit(
       'textae-event.edit-mode.transition',
       MODE.VIEW,
-      false
+      showRelation
     )
 
     this._noEdit()
-    this._editorCSSClassForMode.setViewWithoutRelation()
+    if (showRelation) {
+      this._editorCSSClassForMode.setViewWithRelation()
+    } else {
+      this._editorCSSClassForMode.setViewWithoutRelation()
+    }
   }
 
-  toViewWithRelation() {
-    this._typeGap.show = true
-    this._eventEmitter.emit(
-      'textae-event.edit-mode.transition',
-      MODE.VIEW,
-      true
-    )
-
-    this._noEdit()
-    this._editorCSSClassForMode.setViewWithRelation()
-  }
-
-  toEditDenotationWithoutRelation() {
-    this._typeGap.show = false
+  toEditDenotation(showRelation) {
+    this._typeGap.show = showRelation
     this._eventEmitter.emit(
       'textae-event.edit-mode.transition',
       MODE.EDIT_DENOTATION,
-      false
+      showRelation
     )
 
     this._noEdit()
     this._editEntity()
-    this._editorCSSClassForMode.setDenotationWithoutRelation()
+    if (showRelation) {
+      this._editorCSSClassForMode.setDenotationWithRelation()
+    } else {
+      this._editorCSSClassForMode.setDenotationWithoutRelation()
+    }
   }
 
-  toEditDenotationWithRelation() {
-    this._typeGap.show = true
-    this._eventEmitter.emit(
-      'textae-event.edit-mode.transition',
-      MODE.EDIT_DENOTATION,
-      true
-    )
-
-    this._noEdit()
-    this._editEntity()
-    this._editorCSSClassForMode.setDenotationWithRelation()
-  }
-
-  toEditBlockWithoutRelation() {
-    this._typeGap.show = false
+  toEditBlock(showRelation) {
+    this._typeGap.show = showRelation
     this._eventEmitter.emit(
       'textae-event.edit-mode.transition',
       MODE.EDIT_BLOCK,
-      false
+      showRelation
     )
 
     this._noEdit()
     this._editBlock()
-    this._editorCSSClassForMode.setBlockWithoutRelation()
-  }
 
-  toEditBlockWithRelation() {
-    this._typeGap.show = true
-    this._eventEmitter.emit(
-      'textae-event.edit-mode.transition',
-      MODE.EDIT_BLOCK,
-      true
-    )
-
-    this._noEdit()
-    this._editBlock()
-    this._editorCSSClassForMode.setBlockWithRelation()
+    if (showRelation) {
+      this._editorCSSClassForMode.setBlockWithRelation()
+    } else {
+      this._editorCSSClassForMode.setBlockWithoutRelation()
+    }
   }
 
   toEditRelation() {
