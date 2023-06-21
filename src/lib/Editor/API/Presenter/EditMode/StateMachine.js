@@ -112,7 +112,7 @@ export default class StateMachine {
   }
 
   toRelationMode() {
-    this.setState(MODE.EDIT_RELATION, true)
+    this.setState(MODE.EDIT_RELATION)
   }
 
   toggleSimpleMode() {
