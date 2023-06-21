@@ -78,11 +78,7 @@ export default class StateMachine {
   toTermMode() {
     switch (this.currentState) {
       case MODE.EDIT_RELATION:
-        if (this._relationContainer.some) {
-          this.setState(MODE.EDIT_DENOTATION, true)
-        } else {
-          this.setState(MODE.EDIT_DENOTATION, false)
-        }
+        this.setState(MODE.EDIT_DENOTATION, this._relationContainer.some)
         break
       case MODE.VIEW:
       case MODE.EDIT_BLOCK:
@@ -96,11 +92,7 @@ export default class StateMachine {
   toBlockMode() {
     switch (this.currentState) {
       case MODE.EDIT_RELATION:
-        if (this._relationContainer.some) {
-          this.setState(MODE.EDIT_BLOCK, true)
-        } else {
-          this.setState(MODE.EDIT_BLOCK, false)
-        }
+        this.setState(MODE.EDIT_BLOCK, this._relationContainer.some)
         break
       case MODE.VIEW:
       case MODE.EDIT_DENOTATION:
