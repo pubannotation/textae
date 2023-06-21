@@ -55,18 +55,16 @@ export default class EditMode {
     this._listeners = []
 
     const editorCSS = new EditorCSS(editorHTMLElement)
-    const noEdit = () => {
-      this.cancelSelect()
-      this._unbindAllMouseEventHandler()
-      editorCSS.clear()
-    }
     eventEmitter.on(
       'textae-event.edit-mode.transition',
       (mode, showRelation) => {
+        this.cancelSelect()
+        this._unbindAllMouseEventHandler()
+        editorCSS.clear()
+
         switch (mode) {
           case MODE.VIEW:
             annotationData.typeGap.show = showRelation
-            noEdit()
             if (showRelation) {
               editorCSS.setFor('view-with-relation')
             } else {
@@ -75,7 +73,6 @@ export default class EditMode {
             break
           case MODE.EDIT_DENOTATION:
             annotationData.typeGap.show = showRelation
-            noEdit()
             this._listeners = this._editDenotation.bindMouseEvents()
             if (showRelation) {
               editorCSS.setFor('denotation-with-relation')
@@ -85,7 +82,6 @@ export default class EditMode {
             break
           case MODE.EDIT_BLOCK:
             annotationData.typeGap.show = showRelation
-            noEdit()
             this._listeners = this._editBlock.bindMouseEvents()
             if (showRelation) {
               editorCSS.setFor('block-with-relation')
@@ -95,7 +91,6 @@ export default class EditMode {
             break
           case MODE.EDIT_RELATION:
             annotationData.typeGap.show = true
-            noEdit()
             this._listeners = this._editRelation.bindMouseEvents()
             editorCSS.setFor('relation')
             break
