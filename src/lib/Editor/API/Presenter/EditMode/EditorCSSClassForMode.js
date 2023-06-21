@@ -4,34 +4,34 @@ export default class EditorCSSClassForMode {
   }
 
   setViewWithRelation() {
-    this._setCssClassFor('view-with-relation')
+    this.setCssClassFor('view-with-relation')
   }
 
   setViewWithoutRelation() {
-    this._setCssClassFor('view-without-relation')
+    this.setCssClassFor('view-without-relation')
   }
 
   setDenotationWithRelation() {
-    this._setCssClassFor('denotation-with-relation')
+    this.setCssClassFor('denotation-with-relation')
   }
 
   setDenotationWithoutRelation() {
-    this._setCssClassFor('denotation-without-relation')
+    this.setCssClassFor('denotation-without-relation')
   }
 
   setBlockWithRelation() {
-    this._setCssClassFor('block-with-relation')
+    this.setCssClassFor('block-with-relation')
   }
 
   setBlockWithoutRelation() {
-    this._setCssClassFor('block-without-relation')
+    this.setCssClassFor('block-without-relation')
   }
 
   setRelation() {
-    this._setCssClassFor('relation')
+    this.setCssClassFor('relation')
   }
 
-  _setCssClassFor(mode) {
+  setCssClassFor(mode) {
     for (const cssClass of this._editorHTMLElement.classList) {
       if (cssClass.startsWith('textae-editor__mode')) {
         this._editorHTMLElement.classList.remove(cssClass)
