@@ -3,7 +3,7 @@ export default class EditorCSS {
     this._editorHTMLElement = editorHTMLElement
   }
 
-  setCssClassFor(mode) {
+  setFor(mode) {
     for (const cssClass of this._editorHTMLElement.classList) {
       if (cssClass.startsWith('textae-editor__mode')) {
         this._editorHTMLElement.classList.remove(cssClass)
