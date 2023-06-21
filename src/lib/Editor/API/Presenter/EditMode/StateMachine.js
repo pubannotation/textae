@@ -1,5 +1,5 @@
 import { MODE } from '../../../../MODE'
-import EditorCSSClassForMode from './Transition/EditorCSSClassForMode'
+import EditorCSSClassForMode from './EditorCSSClassForMode'
 
 export default class StateMachine {
   /**
