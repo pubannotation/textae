@@ -60,11 +60,11 @@ export default class StateMachine {
   toViewMode() {
     switch (this.currentState) {
       case MODE.EDIT_RELATION:
-        this.setState(MODE.VIEW, this._relationContainer.some)
+        this.setState(MODE.VIEW, this._nextShowRelation)
         break
       case MODE.EDIT_DENOTATION:
       case MODE.EDIT_BLOCK:
-        this.setState(MODE.VIEW, this._currentShowRelation)
+        this.setState(MODE.VIEW, this._nextShowRelation)
         break
       default:
       // Do nothing.
@@ -74,11 +74,11 @@ export default class StateMachine {
   toTermMode() {
     switch (this.currentState) {
       case MODE.EDIT_RELATION:
-        this.setState(MODE.EDIT_DENOTATION, this._relationContainer.some)
+        this.setState(MODE.EDIT_DENOTATION, this._nextShowRelation)
         break
       case MODE.VIEW:
       case MODE.EDIT_BLOCK:
-        this.setState(MODE.EDIT_DENOTATION, this._currentShowRelation)
+        this.setState(MODE.EDIT_DENOTATION, this._nextShowRelation)
         break
       default:
       // Do nothing.
@@ -88,11 +88,11 @@ export default class StateMachine {
   toBlockMode() {
     switch (this.currentState) {
       case MODE.EDIT_RELATION:
-        this.setState(MODE.EDIT_BLOCK, this._relationContainer.some)
+        this.setState(MODE.EDIT_BLOCK, this._nextShowRelation)
         break
       case MODE.VIEW:
       case MODE.EDIT_DENOTATION:
-        this.setState(MODE.EDIT_BLOCK, this._currentShowRelation)
+        this.setState(MODE.EDIT_BLOCK, this._nextShowRelation)
         break
       default:
       // Do nothing.
@@ -122,19 +122,27 @@ export default class StateMachine {
   changeModeByShortcut() {
     switch (this.currentState) {
       case MODE.VIEW:
-        this.setState(MODE.EDIT_DENOTATION, this._currentShowRelation)
+        this.setState(MODE.EDIT_DENOTATION, this._nextShowRelation)
         break
       case MODE.EDIT_DENOTATION:
-        this.setState(MODE.EDIT_BLOCK, this)
+        this.setState(MODE.EDIT_BLOCK, this._nextShowRelation)
         break
       case MODE.EDIT_BLOCK:
         this.setState(MODE.EDIT_RELATION)
         break
       case MODE.EDIT_RELATION:
-        this.setState(MODE.VIEW, this._relationContainer.some)
+        this.setState(MODE.VIEW, this._nextShowRelation)
         break
       default:
       // Do nothing.
+    }
+  }
+
+  get _nextShowRelation() {
+    if (this._currentState === MODE.EDIT_RELATION) {
+      return this._relationContainer.some
+    } else {
+      return this._currentShowRelation
     }
   }
 }
