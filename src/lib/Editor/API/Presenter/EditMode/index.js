@@ -1,5 +1,5 @@
 import { MODE } from '../../../../MODE'
-import StateMachine from './StateMachine'
+import State from './State'
 import EditDenotation from './EditDenotation'
 import EditBlock from './EditBlock'
 import EditRelation from './EditRelation'
@@ -62,7 +62,7 @@ export default class EditMode {
       this._editRelation
     )
 
-    this._stateMachine = new StateMachine(annotationData.relation, eventEmitter)
+    this._stateMachine = new State(annotationData.relation, eventEmitter)
 
     this._annotationData = annotationData
     this._selectionModel = selectionModel
