@@ -6,22 +6,12 @@ export default class StateMachine {
    * @param {import('../../../AnnotationData/RelationModelContainer').default} relationContainer
    * @param {import('./Transition').default} transition
    */
-  constructor(
-    relationContainer,
-    eventEmitter,
-    view,
-    editEntity,
-    editBlock,
-    editRelation
-  ) {
-    this._relationContainer = relationContainer
+  constructor(relationContainer, eventEmitter) {
     this._currentShowRelation = false
-    this._eventEmitter = eventEmitter
-    this._view = view
-    this._editEntity = editEntity
-    this._editBlock = editBlock
-    this._editRelation = editRelation
     this._currentState = MODE.INIT
+
+    this._relationContainer = relationContainer
+    this._eventEmitter = eventEmitter
   }
 
   get currentState() {
@@ -32,32 +22,24 @@ export default class StateMachine {
     this._currentShowRelation = showRelation
     this._currentState = MODE.VIEW
     this._emit()
-
-    this._view()
   }
 
   toTermMode(showRelation) {
     this._currentShowRelation = showRelation
     this._currentState = MODE.EDIT_DENOTATION
     this._emit()
-
-    this._editEntity()
   }
 
   toBlockMode(showRelation) {
     this._currentShowRelation = showRelation
     this._currentState = MODE.EDIT_BLOCK
     this._emit()
-
-    this._editBlock()
   }
 
   toRelationMode() {
     this._currentShowRelation = true
     this._currentState = MODE.EDIT_RELATION
     this._emit()
-
-    this._editRelation()
   }
 
   toggleSimpleMode() {

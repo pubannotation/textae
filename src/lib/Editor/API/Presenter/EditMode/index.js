@@ -60,45 +60,52 @@ export default class EditMode {
       this._unbindAllMouseEventHandler()
       editorCSS.clear()
     }
-    this._stateMachine = new StateMachine(
-      annotationData.relation,
-      eventEmitter,
-      (showRelation) => {
-        annotationData.typeGap.show = showRelation
-        noEdit()
-        if (showRelation) {
-          editorCSS.setFor('view-with-relation')
-        } else {
-          editorCSS.setFor('view-without-relation')
+    eventEmitter.on(
+      'textae-event.edit-mode.transition',
+      (mode, showRelation) => {
+        switch (mode) {
+          case MODE.VIEW:
+            annotationData.typeGap.show = showRelation
+            noEdit()
+            if (showRelation) {
+              editorCSS.setFor('view-with-relation')
+            } else {
+              editorCSS.setFor('view-without-relation')
+            }
+            break
+          case MODE.EDIT_DENOTATION:
+            annotationData.typeGap.show = showRelation
+            noEdit()
+            this._listeners = this._editDenotation.bindMouseEvents()
+            if (showRelation) {
+              editorCSS.setFor('denotation-with-relation')
+            } else {
+              editorCSS.setFor('denotation-without-relation')
+            }
+            break
+          case MODE.EDIT_BLOCK:
+            annotationData.typeGap.show = showRelation
+            noEdit()
+            this._listeners = this._editBlock.bindMouseEvents()
+            if (showRelation) {
+              editorCSS.setFor('block-with-relation')
+            } else {
+              editorCSS.setFor('block-without-relation')
+            }
+            break
+          case MODE.EDIT_RELATION:
+            annotationData.typeGap.show = true
+            noEdit()
+            this._listeners = this._editRelation.bindMouseEvents()
+            editorCSS.setFor('relation')
+            break
+          default:
+            throw new Error(`Unknown mode: ${mode}`)
         }
-      },
-      (showRelation) => {
-        annotationData.typeGap.show = showRelation
-        noEdit()
-        this._listeners = this._editDenotation.bindMouseEvents()
-        if (showRelation) {
-          editorCSS.setFor('denotation-with-relation')
-        } else {
-          editorCSS.setFor('denotation-without-relation')
-        }
-      },
-      (showRelation) => {
-        annotationData.typeGap.show = showRelation
-        noEdit()
-        this._listeners = this._editBlock.bindMouseEvents()
-        if (showRelation) {
-          editorCSS.setFor('block-with-relation')
-        } else {
-          editorCSS.setFor('block-without-relation')
-        }
-      },
-      () => {
-        annotationData.typeGap.show = true
-        noEdit()
-        this._listeners = this._editRelation.bindMouseEvents()
-        editorCSS.setFor('relation')
       }
     )
+
+    this._stateMachine = new StateMachine(annotationData.relation, eventEmitter)
 
     this._annotationData = annotationData
     this._selectionModel = selectionModel
