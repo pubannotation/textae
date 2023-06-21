@@ -9,7 +9,6 @@ export default class StateMachine {
   constructor(
     relationContainer,
     eventEmitter,
-    typeGap,
     view,
     editEntity,
     editBlock,
@@ -18,7 +17,6 @@ export default class StateMachine {
     this._relationContainer = relationContainer
     this._currentShowRelation = false
     this._eventEmitter = eventEmitter
-    this._typeGap = typeGap
     this._view = view
     this._editEntity = editEntity
     this._editBlock = editBlock
@@ -33,7 +31,6 @@ export default class StateMachine {
   toViewMode(showRelation) {
     this._currentShowRelation = showRelation
     this._currentState = MODE.VIEW
-    this._typeGap.show = showRelation
     this._emit()
 
     this._view()
@@ -42,7 +39,6 @@ export default class StateMachine {
   toTermMode(showRelation) {
     this._currentShowRelation = showRelation
     this._currentState = MODE.EDIT_DENOTATION
-    this._typeGap.show = showRelation
     this._emit()
 
     this._editEntity()
@@ -51,7 +47,6 @@ export default class StateMachine {
   toBlockMode(showRelation) {
     this._currentShowRelation = showRelation
     this._currentState = MODE.EDIT_BLOCK
-    this._typeGap.show = showRelation
     this._emit()
 
     this._editBlock()
@@ -60,7 +55,6 @@ export default class StateMachine {
   toRelationMode() {
     this._currentShowRelation = true
     this._currentState = MODE.EDIT_RELATION
-    this._typeGap.show = true
     this._emit()
 
     this._editRelation()

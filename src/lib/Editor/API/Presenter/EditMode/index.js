@@ -63,9 +63,8 @@ export default class EditMode {
     this._stateMachine = new StateMachine(
       annotationData.relation,
       eventEmitter,
-      annotationData.typeGap,
-
       (showRelation) => {
+        annotationData.typeGap.show = showRelation
         noEdit()
         if (showRelation) {
           editorCSS.setFor('view-with-relation')
@@ -74,6 +73,7 @@ export default class EditMode {
         }
       },
       (showRelation) => {
+        annotationData.typeGap.show = showRelation
         noEdit()
         this._listeners = this._editDenotation.bindMouseEvents()
         if (showRelation) {
@@ -83,6 +83,7 @@ export default class EditMode {
         }
       },
       (showRelation) => {
+        annotationData.typeGap.show = showRelation
         noEdit()
         this._listeners = this._editBlock.bindMouseEvents()
         if (showRelation) {
@@ -92,6 +93,7 @@ export default class EditMode {
         }
       },
       () => {
+        annotationData.typeGap.show = true
         noEdit()
         this._listeners = this._editRelation.bindMouseEvents()
         editorCSS.setFor('relation')
