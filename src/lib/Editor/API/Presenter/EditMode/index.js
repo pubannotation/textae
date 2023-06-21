@@ -82,15 +82,15 @@ export default class EditMode {
   }
 
   toViewMode() {
-    this._stateMachine.toViewMode()
+    this._stateMachine.toViewMode(this._stateMachine.nextShowRelation)
   }
 
   toTermMode() {
-    this._stateMachine.toTermMode()
+    this._stateMachine.toTermMode(this._stateMachine.nextShowRelation)
   }
 
   toBlockMode() {
-    this._stateMachine.toBlockMode()
+    this._stateMachine.toBlockMode(this._stateMachine.nextShowRelation)
   }
 
   toRelationMode() {

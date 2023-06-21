@@ -41,16 +41,16 @@ export default class StateMachine {
     }
   }
 
-  toViewMode() {
-    this.setState(MODE.VIEW, this.nextShowRelation)
+  toViewMode(showRelation) {
+    this.setState(MODE.VIEW, showRelation)
   }
 
-  toTermMode() {
-    this.setState(MODE.EDIT_DENOTATION, this.nextShowRelation)
+  toTermMode(showRelation) {
+    this.setState(MODE.EDIT_DENOTATION, showRelation)
   }
 
-  toBlockMode() {
-    this.setState(MODE.EDIT_BLOCK, this.nextShowRelation)
+  toBlockMode(showRelation) {
+    this.setState(MODE.EDIT_BLOCK, showRelation)
   }
 
   toRelationMode() {
