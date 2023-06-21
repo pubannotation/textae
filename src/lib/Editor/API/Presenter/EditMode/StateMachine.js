@@ -8,7 +8,7 @@ export default class StateMachine {
    */
   constructor(relationContainer, transition) {
     this._relationContainer = relationContainer
-    this._showRelation = false
+    this._currentShowRelation = false
     this._transition = transition
     this._currentState = MODE.INIT
   }
@@ -18,7 +18,7 @@ export default class StateMachine {
   }
 
   setState(state, showRelation) {
-    this._showRelation = showRelation
+    this._currentShowRelation = showRelation
 
     switch (state) {
       case MODE.VIEW:
@@ -64,7 +64,7 @@ export default class StateMachine {
         break
       case MODE.EDIT_DENOTATION:
       case MODE.EDIT_BLOCK:
-        this.setState(MODE.VIEW, this._showRelation)
+        this.setState(MODE.VIEW, this._currentShowRelation)
         break
       default:
       // Do nothing.
@@ -78,7 +78,7 @@ export default class StateMachine {
         break
       case MODE.VIEW:
       case MODE.EDIT_BLOCK:
-        this.setState(MODE.EDIT_DENOTATION, this._showRelation)
+        this.setState(MODE.EDIT_DENOTATION, this._currentShowRelation)
         break
       default:
       // Do nothing.
@@ -92,7 +92,7 @@ export default class StateMachine {
         break
       case MODE.VIEW:
       case MODE.EDIT_DENOTATION:
-        this.setState(MODE.EDIT_BLOCK, this._showRelation)
+        this.setState(MODE.EDIT_BLOCK, this._currentShowRelation)
         break
       default:
       // Do nothing.
@@ -106,13 +106,13 @@ export default class StateMachine {
   toggleSimpleMode() {
     switch (this.currentState) {
       case MODE.EDIT_DENOTATION:
-        this.setState(MODE.EDIT_DENOTATION, !this._showRelation)
+        this.setState(MODE.EDIT_DENOTATION, !this._currentShowRelation)
         break
       case MODE.EDIT_BLOCK:
-        this.setState(MODE.EDIT_BLOCK, !this._showRelation)
+        this.setState(MODE.EDIT_BLOCK, !this._currentShowRelation)
         break
       case MODE.VIEW:
-        this.setState(MODE.VIEW, !this._showRelation)
+        this.setState(MODE.VIEW, !this._currentShowRelation)
         break
       default:
         throw new Error(`Invalid state: ${this.currentState}`)
@@ -122,7 +122,7 @@ export default class StateMachine {
   changeModeByShortcut() {
     switch (this.currentState) {
       case MODE.VIEW:
-        this.setState(MODE.EDIT_DENOTATION, this._showRelation)
+        this.setState(MODE.EDIT_DENOTATION, this._currentShowRelation)
         break
       case MODE.EDIT_DENOTATION:
         this.setState(MODE.EDIT_BLOCK, this)
