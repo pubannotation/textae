@@ -3,7 +3,7 @@ import StateMachine from './StateMachine'
 import EditDenotation from './EditDenotation'
 import EditBlock from './EditBlock'
 import EditRelation from './EditRelation'
-import EditorCSS from './EditorCSS'
+import ModeReactor from './ModeReactor'
 
 export default class EditMode {
   /**
@@ -52,52 +52,14 @@ export default class EditMode {
       controlViewModel
     )
 
-    this._listeners = []
-
-    const editorCSS = new EditorCSS(editorHTMLElement)
-    eventEmitter.on(
-      'textae-event.edit-mode.transition',
-      (mode, showRelation) => {
-        this.cancelSelect()
-        this._unbindAllMouseEventHandler()
-        editorCSS.clear()
-
-        switch (mode) {
-          case MODE.VIEW:
-            annotationData.typeGap.show = showRelation
-            if (showRelation) {
-              editorCSS.setFor('view-with-relation')
-            } else {
-              editorCSS.setFor('view-without-relation')
-            }
-            break
-          case MODE.EDIT_DENOTATION:
-            annotationData.typeGap.show = showRelation
-            this._listeners = this._editDenotation.bindMouseEvents()
-            if (showRelation) {
-              editorCSS.setFor('denotation-with-relation')
-            } else {
-              editorCSS.setFor('denotation-without-relation')
-            }
-            break
-          case MODE.EDIT_BLOCK:
-            annotationData.typeGap.show = showRelation
-            this._listeners = this._editBlock.bindMouseEvents()
-            if (showRelation) {
-              editorCSS.setFor('block-with-relation')
-            } else {
-              editorCSS.setFor('block-without-relation')
-            }
-            break
-          case MODE.EDIT_RELATION:
-            annotationData.typeGap.show = true
-            this._listeners = this._editRelation.bindMouseEvents()
-            editorCSS.setFor('relation')
-            break
-          default:
-            throw new Error(`Unknown mode: ${mode}`)
-        }
-      }
+    new ModeReactor(
+      editorHTMLElement,
+      eventEmitter,
+      annotationData,
+      () => this.cancelSelect(),
+      this._editDenotation,
+      this._editBlock,
+      this._editRelation
     )
 
     this._stateMachine = new StateMachine(annotationData.relation, eventEmitter)
@@ -212,12 +174,5 @@ export default class EditMode {
           applyTextSelection() {}
         }
     }
-  }
-
-  _unbindAllMouseEventHandler() {
-    for (const listener of this._listeners) {
-      listener.destroy()
-    }
-    this._listeners = []
   }
 }
