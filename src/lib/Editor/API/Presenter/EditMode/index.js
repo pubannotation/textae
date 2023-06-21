@@ -3,6 +3,7 @@ import StateMachine from './StateMachine'
 import EditDenotation from './EditDenotation'
 import EditBlock from './EditBlock'
 import EditRelation from './EditRelation'
+import EditorCSS from './EditorCSS'
 
 export default class EditMode {
   /**
@@ -53,6 +54,7 @@ export default class EditMode {
 
     this._listeners = []
 
+    this._editorCSS = new EditorCSS(editorHTMLElement)
     this._stateMachine = new StateMachine(
       annotationData.relation,
       eventEmitter,
@@ -61,6 +63,7 @@ export default class EditMode {
       () => {
         this.cancelSelect()
         this._unbindAllMouseEventHandler()
+        this._editorCSS.clear()
       },
       () => (this._listeners = this._editDenotation.bindMouseEvents()),
       () => (this._listeners = this._editBlock.bindMouseEvents()),

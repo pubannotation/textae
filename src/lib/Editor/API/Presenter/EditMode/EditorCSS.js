@@ -12,7 +12,6 @@ export default class EditorCSS {
   }
 
   setFor(mode) {
-    this.clear()
     this._editorHTMLElement.classList.add(`textae-editor__mode--${mode}`)
   }
 }
