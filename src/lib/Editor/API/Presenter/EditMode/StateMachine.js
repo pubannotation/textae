@@ -13,6 +13,7 @@ export default class StateMachine {
     editorHTMLElement,
     typeGap,
     noEdit,
+    view,
     editEntity,
     editBlock,
     editRelation
@@ -23,6 +24,7 @@ export default class StateMachine {
     this._editorCSS = new EditorCSS(editorHTMLElement)
     this._typeGap = typeGap
     this._noEdit = noEdit
+    this._view = view
     this._editEntity = editEntity
     this._editBlock = editBlock
     this._editRelation = editRelation
@@ -44,6 +46,7 @@ export default class StateMachine {
     )
 
     this._noEdit()
+    this._view()
     if (showRelation) {
       this._editorCSS.setFor('view-with-relation')
     } else {

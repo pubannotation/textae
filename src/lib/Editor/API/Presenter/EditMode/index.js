@@ -65,6 +65,7 @@ export default class EditMode {
         this._unbindAllMouseEventHandler()
         this._editorCSS.clear()
       },
+      () => {},
       () => (this._listeners = this._editDenotation.bindMouseEvents()),
       () => (this._listeners = this._editBlock.bindMouseEvents()),
       () => (this._listeners = this._editRelation.bindMouseEvents())
