@@ -130,7 +130,7 @@ export default class EditMode {
     }
 
     if (this._params.isRelationEditMode) {
-      this._stateMachine.setState(MODE.EDIT_RELATION)
+      this._stateMachine.toRelationMode()
       return
     }
 
