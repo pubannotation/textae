@@ -60,11 +60,7 @@ export default class StateMachine {
   toViewMode() {
     switch (this.currentState) {
       case MODE.EDIT_RELATION:
-        if (this._relationContainer.some) {
-          this.setState(MODE.VIEW, true)
-        } else {
-          this.setState(MODE.VIEW, false)
-        }
+        this.setState(MODE.VIEW, this._relationContainer.some)
         break
       case MODE.EDIT_DENOTATION:
       case MODE.EDIT_BLOCK:
