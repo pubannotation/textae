@@ -36,10 +36,6 @@ export default class StateMachine {
         this._transition.toEditBlock(showRelation)
         break
 
-      case MODE.EDIT_RELATION:
-        this._currentState = MODE.EDIT_RELATION
-        this._transition.toEditRelation()
-        break
       default:
         throw new Error(`Invalid state: ${state}`)
     }
@@ -58,7 +54,8 @@ export default class StateMachine {
   }
 
   toRelationMode() {
-    this.setState(MODE.EDIT_RELATION)
+    this._currentState = MODE.EDIT_RELATION
+    this._transition.toEditRelation()
   }
 
   toggleSimpleMode() {
@@ -86,7 +83,7 @@ export default class StateMachine {
         this.setState(MODE.EDIT_BLOCK, this._nextShowRelation)
         break
       case MODE.EDIT_BLOCK:
-        this.setState(MODE.EDIT_RELATION)
+        this.toRelationMode()
         break
       case MODE.EDIT_RELATION:
         this.setState(MODE.VIEW, this._nextShowRelation)
