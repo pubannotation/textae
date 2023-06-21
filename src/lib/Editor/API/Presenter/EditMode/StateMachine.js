@@ -1,5 +1,4 @@
 import { MODE } from '../../../../MODE'
-import EditorCSS from './EditorCSS'
 
 export default class StateMachine {
   /**
@@ -10,7 +9,6 @@ export default class StateMachine {
   constructor(
     relationContainer,
     eventEmitter,
-    editorHTMLElement,
     typeGap,
     view,
     editEntity,
@@ -20,7 +18,6 @@ export default class StateMachine {
     this._relationContainer = relationContainer
     this._currentShowRelation = false
     this._eventEmitter = eventEmitter
-    this._editorCSS = new EditorCSS(editorHTMLElement)
     this._typeGap = typeGap
     this._view = view
     this._editEntity = editEntity

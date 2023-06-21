@@ -63,7 +63,6 @@ export default class EditMode {
     this._stateMachine = new StateMachine(
       annotationData.relation,
       eventEmitter,
-      editorHTMLElement,
       annotationData.typeGap,
 
       (showRelation) => {
