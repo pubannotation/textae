@@ -1,4 +1,4 @@
-export default class EditorCSSClassForMode {
+export default class EditorCSS {
   constructor(editorHTMLElement) {
     this._editorHTMLElement = editorHTMLElement
   }

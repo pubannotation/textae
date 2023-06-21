@@ -1,5 +1,5 @@
 import { MODE } from '../../../../MODE'
-import EditorCSSClassForMode from './EditorCSSClassForMode'
+import EditorCSS from './EditorCSS'
 
 export default class StateMachine {
   /**
@@ -20,7 +20,7 @@ export default class StateMachine {
     this._relationContainer = relationContainer
     this._currentShowRelation = false
     this._eventEmitter = eventEmitter
-    this._editorCSSClassForMode = new EditorCSSClassForMode(editorHTMLElement)
+    this._editorCSS = new EditorCSS(editorHTMLElement)
     this._typeGap = typeGap
     this._noEdit = noEdit
     this._editEntity = editEntity
@@ -45,9 +45,9 @@ export default class StateMachine {
 
     this._noEdit()
     if (showRelation) {
-      this._editorCSSClassForMode.setCssClassFor('view-with-relation')
+      this._editorCSS.setCssClassFor('view-with-relation')
     } else {
-      this._editorCSSClassForMode.setCssClassFor('view-without-relation')
+      this._editorCSS.setCssClassFor('view-without-relation')
     }
   }
 
@@ -64,9 +64,9 @@ export default class StateMachine {
     this._noEdit()
     this._editEntity()
     if (showRelation) {
-      this._editorCSSClassForMode.setCssClassFor('denotation-with-relation')
+      this._editorCSS.setCssClassFor('denotation-with-relation')
     } else {
-      this._editorCSSClassForMode.setCssClassFor('denotation-without-relation')
+      this._editorCSS.setCssClassFor('denotation-without-relation')
     }
   }
 
@@ -84,9 +84,9 @@ export default class StateMachine {
     this._editBlock()
 
     if (showRelation) {
-      this._editorCSSClassForMode.setCssClassFor('block-with-relation')
+      this._editorCSS.setCssClassFor('block-with-relation')
     } else {
-      this._editorCSSClassForMode.setCssClassFor('block-without-relation')
+      this._editorCSS.setCssClassFor('block-without-relation')
     }
   }
 
@@ -101,7 +101,7 @@ export default class StateMachine {
 
     this._noEdit()
     this._editRelation()
-    this._editorCSSClassForMode.setCssClassFor('relation')
+    this._editorCSS.setCssClassFor('relation')
   }
 
   toggleSimpleMode() {
