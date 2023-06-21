@@ -81,8 +81,28 @@ export default class EditMode {
       )
   }
 
-  get stateMachine() {
-    return this._stateMachine
+  toViewMode() {
+    this._stateMachine.toViewMode()
+  }
+
+  toTermMode() {
+    this._stateMachine.toTermMode()
+  }
+
+  toBlockMode() {
+    this._stateMachine.toBlockMode()
+  }
+
+  toRelationMode() {
+    this._stateMachine.toRelationMode()
+  }
+
+  toggleSimpleMode() {
+    this._stateMachine.toggleSimpleMode()
+  }
+
+  changeModeByShortcut() {
+    this._stateMachine.changeModeByShortcut()
   }
 
   get isEditDenotation() {

@@ -67,6 +67,14 @@ export default class Presenter {
     this._vertical = new Vertical(editorHTMLElement, selectionModel)
     this._isActive = false
 
+    forwardMethods(this, () => this._editMode, [
+      'toViewMode',
+      'toTermMode',
+      'toBlockMode',
+      'toRelationMode',
+      'toggleSimpleMode',
+      'changeModeByShortcut'
+    ])
     forwardMethods(this, () => this._editMode.currentEdit, [
       'createSpan',
       'expandSpan',
@@ -76,14 +84,6 @@ export default class Presenter {
       'selectRightAttributeTab',
       'editProperties',
       'manipulateAttribute'
-    ])
-    forwardMethods(this, () => this._editMode.stateMachine, [
-      'toggleSimpleMode',
-      'changeModeByShortcut',
-      'toViewMode',
-      'toTermMode',
-      'toBlockMode',
-      'toRelationMode'
     ])
     forwardMethods(this, () => this._clipBoard, [
       'copyEntitiesToLocalClipboard',
