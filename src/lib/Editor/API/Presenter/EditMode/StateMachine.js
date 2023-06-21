@@ -143,11 +143,7 @@ export default class StateMachine {
         this.setState(MODE.EDIT_RELATION)
         break
       case MODE.EDIT_RELATION:
-        if (this._relationContainer.some) {
-          this.setState(MODE.VIEW, true)
-        } else {
-          this.setState(MODE.VIEW, false)
-        }
+        this.setState(MODE.VIEW, this._relationContainer.some)
         break
       default:
       // Do nothing.
