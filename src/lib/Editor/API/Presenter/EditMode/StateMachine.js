@@ -45,9 +45,9 @@ export default class StateMachine {
 
     this._noEdit()
     if (showRelation) {
-      this._editorCSSClassForMode.setViewWithRelation()
+      this._editorCSSClassForMode.setCssClassFor('view-with-relation')
     } else {
-      this._editorCSSClassForMode.setViewWithoutRelation()
+      this._editorCSSClassForMode.setCssClassFor('view-without-relation')
     }
   }
 
@@ -64,9 +64,9 @@ export default class StateMachine {
     this._noEdit()
     this._editEntity()
     if (showRelation) {
-      this._editorCSSClassForMode.setDenotationWithRelation()
+      this._editorCSSClassForMode.setCssClassFor('denotation-with-relation')
     } else {
-      this._editorCSSClassForMode.setDenotationWithoutRelation()
+      this._editorCSSClassForMode.setCssClassFor('denotation-without-relation')
     }
   }
 
@@ -84,9 +84,9 @@ export default class StateMachine {
     this._editBlock()
 
     if (showRelation) {
-      this._editorCSSClassForMode.setBlockWithRelation()
+      this._editorCSSClassForMode.setCssClassFor('block-with-relation')
     } else {
-      this._editorCSSClassForMode.setBlockWithoutRelation()
+      this._editorCSSClassForMode.setCssClassFor('block-without-relation')
     }
   }
 
@@ -101,7 +101,7 @@ export default class StateMachine {
 
     this._noEdit()
     this._editRelation()
-    this._editorCSSClassForMode.setRelation()
+    this._editorCSSClassForMode.setCssClassFor('relation')
   }
 
   toggleSimpleMode() {
