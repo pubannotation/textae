@@ -114,18 +114,12 @@ export default class EditMode {
    */
   reset() {
     if (this._params.isTermEditMode) {
-      this._stateMachine.setState(
-        MODE.EDIT_DENOTATION,
-        this._annotationData.relation.some
-      )
+      this._stateMachine.toTermMode(this._annotationData.relation.some)
       return
     }
 
     if (this._params.isBlockEditMode) {
-      this._stateMachine.setState(
-        MODE.EDIT_BLOCK,
-        this._annotationData.relation.some
-      )
+      this._stateMachine.toBlockMode(this._annotationData.relation.some)
       return
     }
 
@@ -134,7 +128,7 @@ export default class EditMode {
       return
     }
 
-    this._stateMachine.setState(MODE.VIEW, this._annotationData.relation.some)
+    this._stateMachine.toViewMode(this._annotationData.relation.some)
   }
 
   cancelSelect() {
