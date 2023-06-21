@@ -34,11 +34,7 @@ export default class StateMachine {
     this._currentShowRelation = showRelation
     this._currentState = MODE.VIEW
     this._typeGap.show = showRelation
-    this._eventEmitter.emit(
-      'textae-event.edit-mode.transition',
-      MODE.VIEW,
-      showRelation
-    )
+    this._emit()
 
     this._view()
   }
@@ -47,11 +43,7 @@ export default class StateMachine {
     this._currentShowRelation = showRelation
     this._currentState = MODE.EDIT_DENOTATION
     this._typeGap.show = showRelation
-    this._eventEmitter.emit(
-      'textae-event.edit-mode.transition',
-      MODE.EDIT_DENOTATION,
-      showRelation
-    )
+    this._emit()
 
     this._editEntity()
   }
@@ -60,23 +52,16 @@ export default class StateMachine {
     this._currentShowRelation = showRelation
     this._currentState = MODE.EDIT_BLOCK
     this._typeGap.show = showRelation
-    this._eventEmitter.emit(
-      'textae-event.edit-mode.transition',
-      MODE.EDIT_BLOCK,
-      showRelation
-    )
+    this._emit()
 
     this._editBlock()
   }
 
   toRelationMode() {
+    this._currentShowRelation = true
     this._currentState = MODE.EDIT_RELATION
     this._typeGap.show = true
-    this._eventEmitter.emit(
-      'textae-event.edit-mode.transition',
-      MODE.EDIT_RELATION,
-      true
-    )
+    this._emit()
 
     this._editRelation()
   }
@@ -122,5 +107,13 @@ export default class StateMachine {
     } else {
       return this._currentShowRelation
     }
+  }
+
+  _emit() {
+    this._eventEmitter.emit(
+      'textae-event.edit-mode.transition',
+      this._currentState,
+      this._currentShowRelation
+    )
   }
 }
