@@ -58,15 +58,15 @@ export default class StateMachine {
   }
 
   toViewMode() {
-    this.setState(MODE.VIEW, this.nextShowRelation)
+    this.setState(MODE.VIEW, this._nextShowRelation)
   }
 
   toTermMode() {
-    this.setState(MODE.EDIT_DENOTATION, this.nextShowRelation)
+    this.setState(MODE.EDIT_DENOTATION, this._nextShowRelation)
   }
 
   toBlockMode() {
-    this.setState(MODE.EDIT_BLOCK, this.nextShowRelation)
+    this.setState(MODE.EDIT_BLOCK, this._nextShowRelation)
   }
 
   toRelationMode() {
@@ -92,23 +92,23 @@ export default class StateMachine {
   changeModeByShortcut() {
     switch (this.currentState) {
       case MODE.VIEW:
-        this.setState(MODE.EDIT_DENOTATION, this.nextShowRelation)
+        this.setState(MODE.EDIT_DENOTATION, this._nextShowRelation)
         break
       case MODE.EDIT_DENOTATION:
-        this.setState(MODE.EDIT_BLOCK, this.nextShowRelation)
+        this.setState(MODE.EDIT_BLOCK, this._nextShowRelation)
         break
       case MODE.EDIT_BLOCK:
         this.setState(MODE.EDIT_RELATION)
         break
       case MODE.EDIT_RELATION:
-        this.setState(MODE.VIEW, this.nextShowRelation)
+        this.setState(MODE.VIEW, this._nextShowRelation)
         break
       default:
       // Do nothing.
     }
   }
 
-  get nextShowRelation() {
+  get _nextShowRelation() {
     if (this._currentState === MODE.EDIT_RELATION) {
       return this._relationContainer.some
     } else {
