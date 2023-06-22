@@ -59,13 +59,7 @@ export default class StateMachine {
   }
 
   changeModeByShortcut() {
-    const modes = [
-      { name: MODE.VIEW, funcName: `to${MODE.VIEW}Mode` },
-      { name: MODE.EDIT_DENOTATION, funcName: `to${MODE.EDIT_DENOTATION}Mode` },
-      { name: MODE.EDIT_BLOCK, funcName: `to${MODE.EDIT_BLOCK}Mode` },
-      { name: MODE.EDIT_RELATION, funcName: `to${MODE.EDIT_RELATION}Mode` }
-    ]
-
+    const modes = this._availableMode
     const currentIndex = modes.findIndex(
       (mode) => mode.name === this.currentState
     )
@@ -91,5 +85,14 @@ export default class StateMachine {
       this._currentState,
       this._currentShowRelation
     )
+  }
+
+  get _availableMode() {
+    return [
+      { name: MODE.VIEW, funcName: `to${MODE.VIEW}Mode` },
+      { name: MODE.EDIT_DENOTATION, funcName: `to${MODE.EDIT_DENOTATION}Mode` },
+      { name: MODE.EDIT_BLOCK, funcName: `to${MODE.EDIT_BLOCK}Mode` },
+      { name: MODE.EDIT_RELATION, funcName: `to${MODE.EDIT_RELATION}Mode` }
+    ]
   }
 }
