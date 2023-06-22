@@ -66,20 +66,15 @@ export default class StateMachine {
       { name: MODE.EDIT_RELATION, funcName: `to${MODE.EDIT_RELATION}Mode` }
     ]
 
-    let current = false
-    for (const { name, funcName } of modes) {
-      if (current) {
-        this[funcName](this.nextShowRelation)
-        return
-      }
+    const currentIndex = modes.findIndex(
+      (mode) => mode.name === this.currentState
+    )
 
-      if (this.currentState === name) {
-        current = true
-        continue
-      }
+    if (currentIndex < modes.length - 1) {
+      this[modes[currentIndex + 1].funcName](this.nextShowRelation)
+    } else {
+      this[modes[0].funcName](this.nextShowRelation)
     }
-
-    this[modes[0].funcName](this.nextShowRelation)
   }
 
   get nextShowRelation() {
