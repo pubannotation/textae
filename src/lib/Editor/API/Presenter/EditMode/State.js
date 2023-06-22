@@ -66,9 +66,20 @@ export default class StateMachine {
       MODE.EDIT_RELATION
     ]
 
-    const index = modes.indexOf(this.currentState)
+    let current = false
+    for (const mode of modes) {
+      if (current) {
+        this[`to${mode}Mode`](this.nextShowRelation)
+        return
+      }
 
-    this[`to${modes[(index + 1) % modes.length]}Mode`](this.nextShowRelation)
+      if (this.currentState === mode) {
+        current = true
+        continue
+      }
+    }
+
+    this.toViewMode(this.nextShowRelation)
   }
 
   get nextShowRelation() {
