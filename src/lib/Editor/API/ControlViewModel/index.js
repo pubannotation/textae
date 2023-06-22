@@ -67,7 +67,14 @@ export default class ControlViewModel {
         list
           .filter(({ type }) => this._functionAvailability.get(type))
           .map(({ type, title }) => this._getPalletButtonTitle(type, title))
-          .map(({ type, title }) => this._convertToButtonHash(type, title))
+          .map(({ type, title }) => ({
+            type,
+            title,
+            pushed: this.getState(type, 'pushed'),
+            disabled: this.getState(type, 'disabled')
+            // The status of transit cannot be referenced at the time of initialization.
+            // The _convertToButtonHash method cannot be used.
+          }))
       )
       .filter((list) => list.length)
   }
@@ -158,7 +165,7 @@ export default class ControlViewModel {
       title,
       pushed: this.getState(type, 'pushed'),
       disabled: this.getState(type, 'disabled'),
-      trasit: this.getState(type, 'trasit')
+      transit: this.getState(type, 'transit')
     }
   }
 }
