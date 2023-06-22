@@ -62,7 +62,7 @@ export default class EditMode {
       this._editRelation
     )
 
-    this._stateMachine = new State(annotationData.relation, eventEmitter)
+    this._state = new State(annotationData.relation, eventEmitter)
 
     this._annotationData = annotationData
     this._selectionModel = selectionModel
@@ -78,31 +78,31 @@ export default class EditMode {
   }
 
   toViewMode() {
-    this._stateMachine.toViewMode(this._stateMachine.nextShowRelation)
+    this._state.toViewMode(this._state.nextShowRelation)
   }
 
   toTermMode() {
-    this._stateMachine.toTermMode(this._stateMachine.nextShowRelation)
+    this._state.toTermMode(this._state.nextShowRelation)
   }
 
   toBlockMode() {
-    this._stateMachine.toBlockMode(this._stateMachine.nextShowRelation)
+    this._state.toBlockMode(this._state.nextShowRelation)
   }
 
   toRelationMode() {
-    this._stateMachine.toRelationMode()
+    this._state.toRelationMode()
   }
 
   toggleSimpleMode() {
-    this._stateMachine.toggleSimpleMode()
+    this._state.toggleSimpleMode()
   }
 
   changeModeByShortcut() {
-    this._stateMachine.changeModeByShortcut()
+    this._state.changeModeByShortcut()
   }
 
   get isEditDenotation() {
-    return this._stateMachine.currentState === MODE.EDIT_DENOTATION
+    return this._state.currentState === MODE.EDIT_DENOTATION
   }
 
   /**
@@ -110,21 +110,21 @@ export default class EditMode {
    */
   reset() {
     if (this._params.isTermEditMode) {
-      this._stateMachine.toTermMode(this._annotationData.relation.some)
+      this._state.toTermMode(this._annotationData.relation.some)
       return
     }
 
     if (this._params.isBlockEditMode) {
-      this._stateMachine.toBlockMode(this._annotationData.relation.some)
+      this._state.toBlockMode(this._annotationData.relation.some)
       return
     }
 
     if (this._params.isRelationEditMode) {
-      this._stateMachine.toRelationMode()
+      this._state.toRelationMode()
       return
     }
 
-    this._stateMachine.toViewMode(this._annotationData.relation.some)
+    this._state.toViewMode(this._annotationData.relation.some)
   }
 
   cancelSelect() {
@@ -153,7 +153,7 @@ export default class EditMode {
   }
 
   get currentEdit() {
-    switch (this._stateMachine.currentState) {
+    switch (this._state.currentState) {
       case MODE.EDIT_DENOTATION:
         return this._editDenotation
       case MODE.EDIT_BLOCK:
