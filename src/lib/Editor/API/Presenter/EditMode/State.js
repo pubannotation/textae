@@ -60,26 +60,26 @@ export default class StateMachine {
 
   changeModeByShortcut() {
     const modes = [
-      MODE.VIEW,
-      MODE.EDIT_DENOTATION,
-      MODE.EDIT_BLOCK,
-      MODE.EDIT_RELATION
+      { name: MODE.VIEW, funcName: `to${MODE.VIEW}Mode` },
+      { name: MODE.EDIT_DENOTATION, funcName: `to${MODE.EDIT_DENOTATION}Mode` },
+      { name: MODE.EDIT_BLOCK, funcName: `to${MODE.EDIT_BLOCK}Mode` },
+      { name: MODE.EDIT_RELATION, funcName: `to${MODE.EDIT_RELATION}Mode` }
     ]
 
     let current = false
-    for (const mode of modes) {
+    for (const { name, funcName } of modes) {
       if (current) {
-        this[`to${mode}Mode`](this.nextShowRelation)
+        this[funcName](this.nextShowRelation)
         return
       }
 
-      if (this.currentState === mode) {
+      if (this.currentState === name) {
         current = true
         continue
       }
     }
 
-    this[`to${modes[0]}Mode`](this.nextShowRelation)
+    this[modes[0].funcName](this.nextShowRelation)
   }
 
   get nextShowRelation() {
