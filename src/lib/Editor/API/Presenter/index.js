@@ -21,7 +21,8 @@ export default class Presenter {
     spanConfig,
     clipBoard,
     controlViewModel,
-    params
+    params,
+    functionAvailability
   ) {
     const editMode = new EditMode(
       editorHTMLElement,
@@ -31,7 +32,8 @@ export default class Presenter {
       spanConfig,
       commander,
       controlViewModel,
-      params
+      params,
+      functionAvailability
     )
 
     eventEmitter

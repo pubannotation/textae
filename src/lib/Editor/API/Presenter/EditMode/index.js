@@ -18,7 +18,8 @@ export default class EditMode {
     spanConfig,
     commander,
     controlViewModel,
-    params
+    params,
+    functionAvailability
   ) {
     this._editDenotation = new EditDenotation(
       editorHTMLElement,
@@ -62,7 +63,11 @@ export default class EditMode {
       this._editRelation
     )
 
-    this._state = new State(annotationData.relation, eventEmitter)
+    this._state = new State(
+      annotationData.relation,
+      eventEmitter,
+      functionAvailability
+    )
 
     this._annotationData = annotationData
     this._selectionModel = selectionModel

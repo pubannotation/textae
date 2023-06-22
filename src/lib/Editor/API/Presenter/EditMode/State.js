@@ -5,13 +5,15 @@ export default class StateMachine {
    *
    * @param {import('../../../AnnotationData/RelationModelContainer').default} relationContainer
    * @param {import('./Transition').default} transition
+   * @param {import('../..//FunctionAvailability').default} functionAvailability
    */
-  constructor(relationContainer, eventEmitter) {
+  constructor(relationContainer, eventEmitter, functionAvailability) {
     this._currentShowRelation = false
     this._currentState = MODE.INIT
 
     this._relationContainer = relationContainer
     this._eventEmitter = eventEmitter
+    this._functionAvailability = functionAvailability
   }
 
   get currentState() {
@@ -59,14 +61,22 @@ export default class StateMachine {
   }
 
   changeModeByShortcut() {
-    const modes = this._availableMode
+    const modes = this._availableModes
+
+    // No mode to change.
+    if (modes.length <= 1) {
+      return
+    }
+
     const currentIndex = modes.findIndex(
       (mode) => mode.name === this.currentState
     )
 
     if (currentIndex < modes.length - 1) {
+      // Change to the next mode.
       this[modes[currentIndex + 1].funcName](this.nextShowRelation)
     } else {
+      // Change to the first mode.
       this[modes[0].funcName](this.nextShowRelation)
     }
   }
@@ -87,12 +97,33 @@ export default class StateMachine {
     )
   }
 
-  get _availableMode() {
-    return [
-      { name: MODE.VIEW, funcName: `to${MODE.VIEW}Mode` },
-      { name: MODE.EDIT_DENOTATION, funcName: `to${MODE.EDIT_DENOTATION}Mode` },
-      { name: MODE.EDIT_BLOCK, funcName: `to${MODE.EDIT_BLOCK}Mode` },
-      { name: MODE.EDIT_RELATION, funcName: `to${MODE.EDIT_RELATION}Mode` }
+  // Look at Function Availability and return the possible transition modes.
+  get _availableModes() {
+    const all = [
+      {
+        name: MODE.VIEW,
+        availabilityName: 'view mode',
+        funcName: 'toViewMode'
+      },
+      {
+        name: MODE.EDIT_DENOTATION,
+        availabilityName: 'term edit mode',
+        funcName: 'toTermMode'
+      },
+      {
+        name: MODE.EDIT_BLOCK,
+        availabilityName: 'block edit mode',
+        funcName: 'toBlockMode'
+      },
+      {
+        name: MODE.EDIT_RELATION,
+        availabilityName: 'relation edit mode',
+        funcName: 'toRelationMode'
+      }
     ]
+
+    return all.filter((mode) =>
+      this._functionAvailability.get(mode.availabilityName)
+    )
   }
 }
