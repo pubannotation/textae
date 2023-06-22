@@ -79,7 +79,7 @@ export default class StateMachine {
       }
     }
 
-    this.toViewMode(this.nextShowRelation)
+    this[`to${modes[0]}Mode`](this.nextShowRelation)
   }
 
   get nextShowRelation() {
