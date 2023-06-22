@@ -1,4 +1,4 @@
-import { MODE } from '../../../../MODE'
+import { MODE } from '../../../../../MODE'
 import EditorCSS from './EditorCSS'
 
 export default class ModeReactor {
