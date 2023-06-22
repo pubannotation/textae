@@ -59,22 +59,16 @@ export default class StateMachine {
   }
 
   changeModeByShortcut() {
-    switch (this.currentState) {
-      case MODE.VIEW:
-        this.toTermMode(this.nextShowRelation)
-        break
-      case MODE.EDIT_DENOTATION:
-        this.toBlockMode(this.nextShowRelation)
-        break
-      case MODE.EDIT_BLOCK:
-        this.toRelationMode()
-        break
-      case MODE.EDIT_RELATION:
-        this.toViewMode(this.nextShowRelation)
-        break
-      default:
-      // Do nothing.
-    }
+    const modes = [
+      MODE.VIEW,
+      MODE.EDIT_DENOTATION,
+      MODE.EDIT_BLOCK,
+      MODE.EDIT_RELATION
+    ]
+
+    const index = modes.indexOf(this.currentState)
+
+    this[`to${modes[(index + 1) % modes.length]}Mode`](this.nextShowRelation)
   }
 
   get nextShowRelation() {
