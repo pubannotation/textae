@@ -153,6 +153,10 @@ export default class ControlViewModel {
     }
   }
 
+  get detailModifierClassName() {
+    return 'textae-control-details--show-log'
+  }
+
   _getPalletButtonTitle(type, title) {
     return type == 'pallet'
       ? { type, title: getPalletButtonTitleFor(this._mode) }

@@ -20,11 +20,11 @@ function template(context) {
       </svg>
     </button>
   </div>
-  <div class="textae-control-details">
+  <div class="textae-control-details ${context.detailModifierClassName}">
     <span class="textae-control-title">
       <a href="http://textae.pubannotation.org/" target="_blank">TextAE</a>
     </span>
-    ${context.map(toButtonGroup()).join('\n')}
+    ${classify(context.controlBarButton).map(toButtonGroup()).join('\n')}
   </div>
 </div>
 `
@@ -37,7 +37,7 @@ export default class ControlBar extends Control {
    * @param {import('../../API/ControlViewModel').default} controlViewModel
    */
   constructor(eventEmitter, controlViewModel, iconEventMap) {
-    super(template(classify(controlViewModel.controlBarButton)), iconEventMap)
+    super(template(controlViewModel), iconEventMap)
 
     this._controlViewModel = controlViewModel
 
@@ -132,9 +132,6 @@ export default class ControlBar extends Control {
 
   _redrawAllButtons() {
     this.el.innerHTML = ''
-    this.el.insertAdjacentHTML(
-      'beforeend',
-      template(classify(this._controlViewModel.controlBarButton))
-    )
+    this.el.insertAdjacentHTML('beforeend', template(this._controlViewModel))
   }
 }
