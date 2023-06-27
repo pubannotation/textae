@@ -51,7 +51,7 @@ export default function (el, iconEventMap) {
   })
 
   const hamburgerMenuButton = el.querySelector(
-    '.textae-control-humburger-menu-button'
+    '.textae-control-hamburger-menu-button'
   )
   if (hamburgerMenuButton) {
     hamburgerMenuButton.addEventListener('click', (e) =>

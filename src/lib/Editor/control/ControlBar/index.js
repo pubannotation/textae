@@ -14,7 +14,7 @@ function template(context) {
     <span class="textae-control-title">
       <a href="http://textae.pubannotation.org/" target="_blank">TextAE</a>
     </span>
-    <button type="button" class="textae-control-humburger-menu-button" >
+    <button type="button" class="textae-control-hamburger-menu-button" >
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="bi" fill="currentColor" viewBox="0 0 16 16">
         <path fill-rule="evenodd" d="M2.5 11.5A.5.5 0 0 1 3 11h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 7h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4A.5.5 0 0 1 3 3h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"></path>
       </svg>
