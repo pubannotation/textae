@@ -59,15 +59,9 @@ export default class EditorContainer {
   }
 
   drawGridsInSight() {
-    const start = Date.now()
-
     for (const editor of this._editors.values()) {
       editor.drawGridsInSight()
     }
-
-    const end = Date.now()
-    const executionTime = end - start
-    console.log(`drawGridsInSight's execution time: ${executionTime}ms`)
   }
 
   updateDenotationEntitiesWidth() {
