@@ -2,6 +2,7 @@ import alertifyjs from 'alertifyjs'
 
 // This is a map of function names specified in config and those used internally.
 const NAME_MAP = new Map([
+  ['logo', 'show logo'],
   ['read', 'import'],
   ['write', 'upload'],
   ['write-auto', 'upload automatically'],

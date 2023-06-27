@@ -154,7 +154,9 @@ export default class ControlViewModel {
   }
 
   get detailModifierClassName() {
-    return 'textae-control-details--show-log'
+    return this._functionAvailability.get('show logo')
+      ? 'textae-control-details--show-logo'
+      : 'textae-control-details--hide-logo'
   }
 
   _getPalletButtonTitle(type, title) {
