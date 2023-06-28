@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [12.4.0](https://github.com/pubannotation/textae/compare/v12.3.0...v12.4.0) (2023-06-28)
+
+
+### Features
+
+* For switching modes from shortcut keys, Skip modes set to disabled by Function Availability ([a08c762](https://github.com/pubannotation/textae/commit/a08c76216df37fa6ddece916b72daa777ec4aec5))
+* Function Availability allows you to control the presence or absence of the logo image. ([39503e3](https://github.com/pubannotation/textae/commit/39503e3f15a2949179f1e9fc03047441b32522de))
+
+
+### Bug Fixes
+
+* Context menu icons do not show the star symbol ([1421420](https://github.com/pubannotation/textae/commit/1421420a024844645c342ed36136b20c156b00e4))
+
 ## [12.3.0](https://github.com/pubannotation/textae/compare/v12.2.0...v12.3.0) (2023-05-31)
 
 
