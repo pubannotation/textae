@@ -51,7 +51,7 @@ export default class Editor {
     }
 
     if (params.inspect) {
-      new Inspector(element, params.inspect, eventEmitter)
+      new Inspector(eventEmitter, params.inspect)
     }
 
     const api = new API(element, editorID, eventEmitter, annotationData, params)

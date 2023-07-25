@@ -1,5 +1,5 @@
 export default class Inspector {
-  constructor(sourceElement, id, eventEmitter) {
+  constructor(eventEmitter, id) {
     eventEmitter.on(
       'textae-event.annotation-data.events-observer.change',
       (annotationData) => {
