@@ -5,7 +5,7 @@ import readAnnotationFile from './readAnnotationFile'
 import readConfigurationFile from './readConfigurationFile'
 import DataSource from '../../DataSource'
 import isJSON from '../../../isJSON'
-import readAnnotationJSON from '../../readAnnotationJSON'
+import readAnnotationText from './readAnnotationText'
 
 export default class PersistenceInterface {
   constructor(
@@ -52,7 +52,7 @@ export default class PersistenceInterface {
         this._filenameOfLastRead.annotation = file.name
       },
       (text) => {
-        if (readAnnotationJSON(this._eventEmitter, text)) {
+        if (readAnnotationText(this._eventEmitter, text)) {
           return
         }
 

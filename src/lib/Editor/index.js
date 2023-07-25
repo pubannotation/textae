@@ -10,7 +10,7 @@ import observeEventEmitter from './observeEventEmitter'
 import editorCSSClassObserve from './editorCSSClassObserve'
 import isAndroid from './isAndroid'
 import Inspector from './Inspector'
-import readAnnotationJSON from './readAnnotationJSON'
+import loadAnnotation from './loadAnnotation'
 
 export default class Editor {
   constructor(
@@ -79,6 +79,6 @@ export default class Editor {
   }
 
   load(annotation) {
-    readAnnotationJSON(this._eventEmitter, annotation)
+    loadAnnotation(this._eventEmitter, annotation)
   }
 }
