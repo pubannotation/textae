@@ -165,6 +165,7 @@
 
             const [editor] = window.initializeTextAEEditor()
             editor.annotation = { "text": "This is a TextAE editor dynamically created from a JavaScript program." }
+            editor.inspectCallback = (annotation) => { console.log(annotation) }
         }
     </script>
 </body>
