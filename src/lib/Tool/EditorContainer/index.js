@@ -46,14 +46,14 @@ export default class EditorContainer {
   }
 
   set selected(element) {
-    this._editors.get(element).active()
+    this._editors.get(element).activate()
 
     this._selected = element
   }
 
   unselect(element) {
     if (this._selected === element) {
-      this._editors.get(element).deactive()
+      this._editors.get(element).deactivate()
       this._selected = null
     }
   }

@@ -271,8 +271,8 @@ export default class API {
       'copyEntitiesToSystemClipboard',
       'cutEntitiesToSystemClipboard',
       'pasteEntitiesFromSystemClipboard',
-      'active',
-      'deactive',
+      'activate',
+      'deactivate',
       'applyTextSelection'
     ])
 

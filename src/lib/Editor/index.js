@@ -59,8 +59,8 @@ export default class Editor {
       'copyEntitiesToSystemClipboard',
       'cutEntitiesToSystemClipboard',
       'pasteEntitiesFromSystemClipboard',
-      'active',
-      'deactive',
+      'activate',
+      'deactivate',
       'applyTextSelection',
       'showContextMenu',
       'hideContextMenu'

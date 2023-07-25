@@ -157,12 +157,12 @@ export default class Presenter {
     return this._isActive
   }
 
-  active() {
+  activate() {
     this._editorHTMLElement.classList.add('textae-editor--active')
     this._isActive = true
   }
 
-  deactive() {
+  deactivate() {
     this._editorHTMLElement.classList.remove('textae-editor--active')
     this._eventEmitter.emit('textae-event.editor.unselect')
     this._isActive = false
