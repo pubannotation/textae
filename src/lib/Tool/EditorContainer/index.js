@@ -70,9 +70,9 @@ export default class EditorContainer {
     }
   }
 
-  relayout() {
+  reLayout() {
     for (const editor of this._editors.values()) {
-      editor.relayout()
+      editor.reLayout()
     }
   }
 

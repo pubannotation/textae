@@ -65,7 +65,7 @@ export default class Editor {
       'showContextMenu',
       'hideContextMenu'
     ])
-    forwardMethods(this, () => annotationData, ['drawGridsInSight', 'relayout'])
+    forwardMethods(this, () => annotationData, ['drawGridsInSight', 'reLayout'])
 
     this._annotationData = annotationData
   }

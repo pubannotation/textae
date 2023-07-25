@@ -18,7 +18,7 @@ export default class Tool {
     window.addEventListener(
       'resize',
       throttle(() => {
-        this._editorContainer.relayout()
+        this._editorContainer.reLayout()
         this._editorContainer.drawGridsInSight()
         this._editorContainer.updateDenotationEntitiesWidth()
       }, 500)
