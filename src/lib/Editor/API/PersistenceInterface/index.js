@@ -6,6 +6,21 @@ import readConfigurationFile from './readConfigurationFile'
 import DataSource from '../../DataSource'
 import isJSON from '../../../isJSON'
 
+function readAnnotationJSON(eventEmitter, text) {
+  if (isJSON(text)) {
+    const annotation = JSON.parse(text)
+    if (annotation.text) {
+      eventEmitter.emit(
+        'textae-event.resource.annotation.load.success',
+        new DataSource('instant', null, annotation)
+      )
+      return true
+    }
+  }
+
+  return false
+}
+
 export default class PersistenceInterface {
   constructor(
     eventEmitter,
@@ -51,15 +66,8 @@ export default class PersistenceInterface {
         this._filenameOfLastRead.annotation = file.name
       },
       (text) => {
-        if (isJSON(text)) {
-          const annotation = JSON.parse(text)
-          if (annotation.text) {
-            this._eventEmitter.emit(
-              'textae-event.resource.annotation.load.success',
-              new DataSource('instant', null, annotation)
-            )
-            return
-          }
+        if (readAnnotationJSON(this._eventEmitter, text)) {
+          return
         }
 
         this._eventEmitter.emit(
