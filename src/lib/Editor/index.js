@@ -51,7 +51,12 @@ export default class Editor {
     }
 
     if (params.inspect) {
-      new Inspector(eventEmitter, params.inspect)
+      new Inspector(eventEmitter, (annotation) => {
+        const destinationElement = document.querySelector(`#${params.inspect}`)
+        if (destinationElement) {
+          destinationElement.textContent = JSON.stringify(annotation, null, 2)
+        }
+      })
     }
 
     const api = new API(element, editorID, eventEmitter, annotationData, params)
