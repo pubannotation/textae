@@ -1,5 +1,5 @@
 import alertifyjs from 'alertifyjs'
-import Tool from '../Tool'
+import Tool from './Tool'
 import toEditor from './toEditor'
 import toAPI from './toAPI'
 
