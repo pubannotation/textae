@@ -10,24 +10,30 @@ export default function () {
 
   return Array.from(document.querySelectorAll('.textae-editor'))
     .filter((element) => !element.dataset.textaeInitialized)
-    .map((element) => {
-      // Create an editor
-      const editor = createEditor(element, tool)
-      // Register an editor
-      tool.registerEditor(element, editor)
+    .map(toEditor)
+    .map(toAPI)
+}
 
-      // Mark as initiated.
-      element.dataset.textaeInitialized = true
+function toEditor(element) {
+  // Create an editor
+  const editor = createEditor(element, tool)
+  // Register an editor
+  tool.registerEditor(element, editor)
 
-      return editor
-    })
-    .map((editor) => ({
-      // We plan to add information here that we would like to make available to the outside world.
-      set annotation(annotation) {
-        editor.load(annotation)
-      },
-      set inspectCallback(callback) {
-        editor.setInspector(callback)
-      }
-    }))
+  // Mark as initiated.
+  element.dataset.textaeInitialized = true
+
+  return editor
+}
+
+function toAPI(editor) {
+  return {
+    // We plan to add information here that we would like to make available to the outside world.
+    set annotation(annotation) {
+      editor.load(annotation)
+    },
+    set inspectCallback(callback) {
+      editor.setInspector(callback)
+    }
+  }
 }
