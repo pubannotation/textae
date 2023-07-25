@@ -86,4 +86,8 @@ export default class Editor {
   load(annotation) {
     loadAnnotation(this._eventEmitter, annotation)
   }
+
+  setInspector(callback) {
+    new Inspector(this._eventEmitter, callback)
+  }
 }
