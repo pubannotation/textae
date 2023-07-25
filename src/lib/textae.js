@@ -8,9 +8,9 @@ export default function () {
   // Set position of toast messages.
   alertifyjs.set('notifier', 'position', 'top-right')
 
-  Array.from(document.querySelectorAll('.textae-editor'))
+  return Array.from(document.querySelectorAll('.textae-editor'))
     .filter((element) => !element.dataset.textaeInitialized)
-    .forEach((element) => {
+    .map((element) => {
       // Create an editor
       const editor = createEditor(element, tool)
       // Register an editor
@@ -18,5 +18,10 @@ export default function () {
 
       // Mark as initiated.
       element.dataset.textaeInitialized = true
+
+      return editor
     })
+    .map((editor) => ({
+      // We plan to add information here that we would like to make available to the outside world.
+    }))
 }
