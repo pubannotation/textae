@@ -175,7 +175,7 @@ export default class AnnotationData {
   }
 
   reset(rawData, config) {
-    console.assert(rawData.text, 'This is not a json file of anntations.')
+    console.assert(rawData.text, 'This is not a json file of annotations.')
 
     this._typeDefinition.setTypeConfig(config)
     this._sourceDoc = rawData.text
