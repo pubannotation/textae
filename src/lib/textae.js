@@ -12,35 +12,35 @@ export default function () {
     .filter((element) => !element.dataset.textaeInitialized)
     .forEach((element) => {
       // Create an editor
-      const editor = new Editor(
-        element,
-        tool.nextID,
-        () => {
-          // jQuery Ui dialogs are not in the editor.
-          for (const dialog of document.querySelectorAll('.ui-dialog')) {
-            dialog.classList.add('textae-editor--wait')
-          }
-          for (const dialog of document.querySelectorAll(
-            '.ui-widget-overlay'
-          )) {
-            dialog.classList.add('textae-editor--wait')
-          }
-        },
-        () => {
-          for (const dialog of document.querySelectorAll('.ui-dialog')) {
-            dialog.classList.remove('textae-editor--wait')
-          }
-          for (const dialog of document.querySelectorAll(
-            '.ui-widget-overlay'
-          )) {
-            dialog.classList.remove('textae-editor--wait')
-          }
-        }
-      )
+      const editor = createEditor(element)
       // Register an editor
       tool.registerEditor(element, editor)
 
       // Mark as initiated.
       element.dataset.textaeInitialized = true
     })
+}
+
+function createEditor(element) {
+  return new Editor(
+    element,
+    tool.nextID,
+    () => {
+      // jQuery Ui dialogs are not in the editor.
+      for (const dialog of document.querySelectorAll('.ui-dialog')) {
+        dialog.classList.add('textae-editor--wait')
+      }
+      for (const dialog of document.querySelectorAll('.ui-widget-overlay')) {
+        dialog.classList.add('textae-editor--wait')
+      }
+    },
+    () => {
+      for (const dialog of document.querySelectorAll('.ui-dialog')) {
+        dialog.classList.remove('textae-editor--wait')
+      }
+      for (const dialog of document.querySelectorAll('.ui-widget-overlay')) {
+        dialog.classList.remove('textae-editor--wait')
+      }
+    }
+  )
 }
