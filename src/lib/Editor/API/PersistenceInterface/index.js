@@ -110,7 +110,7 @@ export default class PersistenceInterface {
 
   uploadConfiguration() {
     // Merge with the original config and save the value unchanged in the editor.
-    const editidConfig = {
+    const editedConfig = {
       ...this._getOriginalConfig(),
       ...this._annotationData.typeDefinition.config
     }
@@ -120,8 +120,8 @@ export default class PersistenceInterface {
       this._remoteResource.configurationUrl,
       this._filenameOfLastRead.configuration,
       this._getOriginalConfig(),
-      editidConfig,
-      (url) => this._remoteResource.saveConfiguration(url, editidConfig)
+      editedConfig,
+      (url) => this._remoteResource.saveConfiguration(url, editedConfig)
     ).open()
   }
 
