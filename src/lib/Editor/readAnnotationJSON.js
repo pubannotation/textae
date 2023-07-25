@@ -1,5 +1,5 @@
-import DataSource from '../../DataSource'
-import isJSON from '../../../isJSON'
+import DataSource from './DataSource'
+import isJSON from '../isJSON'
 
 export default function readAnnotationJSON(eventEmitter, text) {
   if (isJSON(text)) {

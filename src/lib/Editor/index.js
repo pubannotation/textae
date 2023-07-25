@@ -10,7 +10,7 @@ import observeEventEmitter from './observeEventEmitter'
 import editorCSSClassObserve from './editorCSSClassObserve'
 import isAndroid from './isAndroid'
 import Inspector from './Inspector'
-import readAnnotationJSON from './API/PersistenceInterface/readAnnotationJSON'
+import readAnnotationJSON from './readAnnotationJSON'
 
 export default class Editor {
   constructor(

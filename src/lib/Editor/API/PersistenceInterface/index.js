@@ -5,7 +5,7 @@ import readAnnotationFile from './readAnnotationFile'
 import readConfigurationFile from './readConfigurationFile'
 import DataSource from '../../DataSource'
 import isJSON from '../../../isJSON'
-import readAnnotationJSON from './readAnnotationJSON'
+import readAnnotationJSON from '../../readAnnotationJSON'
 
 export default class PersistenceInterface {
   constructor(
