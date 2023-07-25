@@ -28,7 +28,7 @@ export default function (
     )
 
     if (!dataSource.data.config && configParameter) {
-      remoteResource.loadConfigulation(configParameter, dataSource)
+      remoteResource.loadConfiguration(configParameter, dataSource)
     } else {
       warningIfBeginEndOfSpanAreNotInteger(dataSource.data)
 
@@ -64,7 +64,7 @@ export default function (
     remoteResource.loadAnnotation(annotationParameter.URL)
   } else {
     if (configParameter) {
-      remoteResource.loadConfigulation(configParameter)
+      remoteResource.loadConfiguration(configParameter)
     } else {
       setDefault(
         originalData,

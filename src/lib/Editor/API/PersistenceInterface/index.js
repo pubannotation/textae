@@ -92,7 +92,7 @@ export default class PersistenceInterface {
     new LoadDialog(
       'Load Configurations',
       this._remoteResource.configurationUrl,
-      (url) => this._remoteResource.loadConfigulation(url),
+      (url) => this._remoteResource.loadConfiguration(url),
       (file) => {
         readConfigurationFile(file, this._eventEmitter)
         this._filenameOfLastRead.configuration = file.name

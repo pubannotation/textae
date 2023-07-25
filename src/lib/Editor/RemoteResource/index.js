@@ -63,7 +63,7 @@ export default class RemoteSource {
   // when the configuration loading is complete.
   // This is supposed to be used when reading an annotation that does not contain a configuration
   // and then reading the configuration set by the attribute value of the textae-event.
-  loadConfigulation(url, annotationDataSource = null) {
+  loadConfiguration(url, annotationDataSource = null) {
     console.assert(url, 'url is necessary!')
 
     this._eventEmitter.emit('textae-event.resource.startLoad')

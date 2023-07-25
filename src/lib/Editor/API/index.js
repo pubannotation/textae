@@ -112,7 +112,7 @@ export default class API {
     eventEmitter
       .on('textae-event.resource.annotation.load.success', (dataSource) => {
         if (!dataSource.data.config && params.config) {
-          remoteResource.loadConfigulation(params.config, dataSource)
+          remoteResource.loadConfiguration(params.config, dataSource)
         } else {
           warningIfBeginEndOfSpanAreNotInteger(dataSource.data)
 
