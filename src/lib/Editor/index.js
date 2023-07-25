@@ -10,6 +10,7 @@ import observeEventEmitter from './observeEventEmitter'
 import editorCSSClassObserve from './editorCSSClassObserve'
 import isAndroid from './isAndroid'
 import Inspector from './Inspector'
+import readAnnotationJSON from './API/PersistenceInterface/readAnnotationJSON'
 
 export default class Editor {
   constructor(
@@ -68,11 +69,16 @@ export default class Editor {
     forwardMethods(this, () => annotationData, ['drawGridsInSight', 'reLayout'])
 
     this._annotationData = annotationData
+    this._eventEmitter = eventEmitter
   }
 
   updateDenotationEntitiesWidth() {
     for (const span of this._annotationData.span.allDenotationSpans) {
       span.updateDenotationEntitiesWidth()
     }
+  }
+
+  load(annotation) {
+    readAnnotationJSON(this._eventEmitter, annotation)
   }
 }
