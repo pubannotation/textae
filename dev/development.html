@@ -160,13 +160,11 @@
         }
 
         function initializeTextAE() {
-            var html = `<div class="textae-editor" title="dynamic-editor0" mode="edit">
-                        {
-                            "text":"This is a TextAE editor dynamically created from a JavaScript program."
-                        }
-                        </div>`;
+            var html = '<div class="textae-editor" title="dynamic-editor0" mode="edit"></div>';
             document.body.insertAdjacentHTML('afterbegin', html);
-            window.initializeTextAEEditor()
+
+            const [editor] = window.initializeTextAEEditor()
+            editor.annotation = { "text": "This is a TextAE editor dynamically created from a JavaScript program." }
         }
     </script>
 </body>
