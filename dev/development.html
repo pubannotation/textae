@@ -131,6 +131,43 @@
 
     <script>
         window.addEventListener('load', () => document.querySelector('.textae-editor').focus())
+        exampleOfInitializeTextAEEditor()
+
+        // After the other TextAE initialization processes are complete,
+        // add div and initialize the TextAE editor from the JavaScript program.
+        function exampleOfInitializeTextAEEditor() {
+            // Specify the body as the element to observe
+            var targetNode = document.body;
+
+            // Create an observer instance
+            var observer = new MutationObserver((mutations) => {
+                mutations.forEach((mutation) => {
+                    // For each mutation, check the nodes that were added
+                    for (const node of mutation.addedNodes) {
+                        // Check if the added node is a div element, has the specified class, and matches the specified style
+                        if (node.nodeType === 1 && node.classList.contains('textae-editor-veil')) {
+                            initializeTextAE();
+                        }
+                    }
+                });
+            });
+
+            // Observer configuration: also observe changes in the child nodes
+            var config = { childList: true, subtree: true };
+
+            // Pass the target node and the observer configuration
+            observer.observe(targetNode, config);
+        }
+
+        function initializeTextAE() {
+            var html = `<div class="textae-editor" title="dynamic-editor0" mode="edit">
+                        {
+                            "text":"This is a TextAE editor dynamically created from a JavaScript program."
+                        }
+                        </div>`;
+            document.body.insertAdjacentHTML('afterbegin', html);
+            window.initializeTextAEEditor()
+        }
     </script>
 </body>
 
