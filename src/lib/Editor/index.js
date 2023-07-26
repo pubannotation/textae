@@ -51,12 +51,18 @@ export default class Editor {
     }
 
     if (params.inspect) {
-      new Inspector(eventEmitter, (annotation) => {
-        const destinationElement = document.querySelector(`#${params.inspect}`)
-        if (destinationElement) {
-          destinationElement.textContent = JSON.stringify(annotation, null, 2)
-        }
-      })
+      new Inspector(
+        eventEmitter,
+        (annotation) => {
+          const destinationElement = document.querySelector(
+            `#${params.inspect}`
+          )
+          if (destinationElement) {
+            destinationElement.textContent = JSON.stringify(annotation, null, 2)
+          }
+        },
+        annotationData
+      )
     }
 
     const api = new API(element, editorID, eventEmitter, annotationData, params)
@@ -94,7 +100,11 @@ export default class Editor {
     }
 
     if (typeof callback == 'function') {
-      this._inspector = new Inspector(this._eventEmitter, callback)
+      this._inspector = new Inspector(
+        this._eventEmitter,
+        callback,
+        this._annotationData
+      )
     }
   }
 }
