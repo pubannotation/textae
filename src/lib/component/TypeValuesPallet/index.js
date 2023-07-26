@@ -59,7 +59,7 @@ export default class TypeValuesPallet extends Pallet {
 
     // Reload when instance addition / deletion is undo / redo.
     eventEmitter.on(
-      'textae-event.annotation-data.events-observer.local-changes',
+      'textae-event.annotation-data.events-observer.unsaved-change',
       () => this.updateDisplay()
     )
 

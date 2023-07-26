@@ -53,7 +53,7 @@ export default class AnnotationDataEventsObserver {
 
     this._observable(() =>
       eventEmitter.emit(
-        'textae-event.annotation-data.events-observer.local-changes',
+        'textae-event.annotation-data.events-observer.unsaved-change',
         this._observable()
       )
     )

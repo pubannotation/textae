@@ -38,7 +38,7 @@ export default class AnnotationAutoSaver {
         }
       })
       .on(
-        'textae-event.annotation-data.events-observer.local-changes',
+        'textae-event.annotation-data.events-observer.unsaved-change',
         (val) => {
           if (val && controlViewModel.isPushed('upload automatically')) {
             debounceSaveAnnotation()

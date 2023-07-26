@@ -73,7 +73,7 @@ export default class ControlBar extends Control {
           this._updateButton(name, 'disabled')
         }
       })
-      .on('textae-event.annotation-data.events-observer.local-changes', () => {
+      .on('textae-event.annotation-data.events-observer.unsaved-change', () => {
         this._updateButton('upload', 'transit')
       })
       .on('textae-event.edit-mode.transition', (mode) => {

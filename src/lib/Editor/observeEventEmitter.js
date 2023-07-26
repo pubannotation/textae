@@ -20,7 +20,7 @@ export default function (eventEmitter) {
       }
     })
     .on(
-      'textae-event.annotation-data.events-observer.local-changes',
+      'textae-event.annotation-data.events-observer.unsaved-change',
       (hasChange) => {
         // change leaveMessage show
         // Reloading when trying to scroll further when you are at the top on an Android device.
