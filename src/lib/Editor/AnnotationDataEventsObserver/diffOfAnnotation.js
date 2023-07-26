@@ -1,10 +1,7 @@
 import { diff } from 'jsondiffpatch'
 
-export default function diffOfAnnotation(originalData, annotationData) {
-  return diff(
-    prepareDiff(originalData.annotation),
-    prepareDiff(annotationData.JSON)
-  )
+export default function diffOfAnnotation(oldAnnotation, newAnnotation) {
+  return diff(prepareDiff(oldAnnotation), prepareDiff(newAnnotation))
 }
 
 function prepareDiff({
