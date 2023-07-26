@@ -93,6 +93,8 @@ export default class Editor {
       this._inspector = null
     }
 
-    this._inspector = new Inspector(this._eventEmitter, callback)
+    if (typeof callback == 'function') {
+      this._inspector = new Inspector(this._eventEmitter, callback)
+    }
   }
 }
