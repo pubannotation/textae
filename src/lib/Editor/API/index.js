@@ -162,7 +162,7 @@ export default class API {
           }
 
           // If an annotation that does not contain a configuration is loaded
-          // and a configuration is loaded from a taxtae attribute value,
+          // and a configuration is loaded from a textae attribute value,
           // both the loaded configuration and the annotation are passed.
           // If only the configuration is read, the annotation is null.
           const annotation = (loadedAnnotation && loadedAnnotation.data) || {
