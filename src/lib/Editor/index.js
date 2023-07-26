@@ -88,6 +88,11 @@ export default class Editor {
   }
 
   setInspector(callback) {
-    new Inspector(this._eventEmitter, callback)
+    if (this._inspector) {
+      this._inspector.die()
+      this._inspector = null
+    }
+
+    this._inspector = new Inspector(this._eventEmitter, callback)
   }
 }
