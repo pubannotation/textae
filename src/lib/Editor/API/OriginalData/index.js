@@ -53,6 +53,6 @@ export default class OriginalData {
 
   set configuration(dataSource) {
     this._map.set('configuration', dataSource)
-    this._eventEmitter.emit('textae-event.orginal-data.configuration.reset')
+    this._eventEmitter.emit('textae-event.original-data.configuration.reset')
   }
 }

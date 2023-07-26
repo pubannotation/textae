@@ -81,7 +81,7 @@ export default class ControlBar extends Control {
         const button = this._el.querySelector(`.textae-control-pallet-button`)
         button.title = title
       })
-      .on('textae-event.orginal-data.configuration.reset', () =>
+      .on('textae-event.original-data.configuration.reset', () =>
         this._redrawAllButtons()
       )
       .on('textae-event.type-definition.entity.change', () =>
