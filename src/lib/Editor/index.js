@@ -79,6 +79,7 @@ export default class Editor {
     ])
     forwardMethods(this, () => annotationData, ['drawGridsInSight', 'reLayout'])
 
+    this._element = element
     this._annotationData = annotationData
     this._eventEmitter = eventEmitter
   }
@@ -106,5 +107,9 @@ export default class Editor {
         this._annotationData
       )
     }
+  }
+
+  get HTMLElementID() {
+    return this._element.id
   }
 }

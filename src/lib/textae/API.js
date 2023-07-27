@@ -14,4 +14,8 @@ export default class API {
   set inspectCallback(callback) {
     this._editor.setInspector(callback)
   }
+
+  get id() {
+    return this._editor.HTMLElementID
+  }
 }
