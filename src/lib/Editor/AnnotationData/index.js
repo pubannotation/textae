@@ -212,7 +212,9 @@ export default class AnnotationData {
   get externalFormat() {
     return {
       denotations: toDenotations(this),
-      attributes: this.attribute.all.map(({ JSON }) => JSON),
+      attributes: this.attribute.all.map(
+        ({ externalFormat }) => externalFormat
+      ),
       relations: toRelations(this),
       blocks: toBlocks(this)
     }

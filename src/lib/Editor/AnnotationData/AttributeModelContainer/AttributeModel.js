@@ -58,7 +58,7 @@ export default class AttributeModel {
     )
   }
 
-  get JSON() {
+  get externalFormat() {
     return {
       id: this.id,
       subj: this.subj,
