@@ -12,10 +12,10 @@ export default class PointingDownCurveAlgorithm extends CurveAlgorithm {
   get pathCommands() {
     return `M ${this.sourceX}, ${this.sourceY + MarkerHeight}
       C ${this._sourceControlX} ${
-      this.sourceY + Math.abs(this.targetY - this.sourceY) / 3
-    }, ${this._targetControlX} ${
-      this.targetY - Math.abs(this.targetY - this.sourceY) / 3
-    }, ${this.targetX} ${this.targetY}`
+        this.sourceY + Math.abs(this.targetY - this.sourceY) / 3
+      }, ${this._targetControlX} ${
+        this.targetY - Math.abs(this.targetY - this.sourceY) / 3
+      }, ${this.targetX} ${this.targetY}`
   }
 
   get transformDefinitionsForSourceTriangle() {

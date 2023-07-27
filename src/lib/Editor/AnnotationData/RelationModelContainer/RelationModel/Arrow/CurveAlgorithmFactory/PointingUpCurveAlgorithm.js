@@ -13,10 +13,10 @@ export default class PointingUpCurveAlgorithm extends CurveAlgorithm {
   get pathCommands() {
     return `M ${this.sourceX}, ${this.sourceY}
       C ${this._sourceControlX} ${
-      this.sourceY - Math.abs(this.targetY - this.sourceY) / 3
-    }, ${this._targetControlX} ${
-      this.targetY + Math.abs(this.targetY - this.sourceY) / 3
-    }, ${this.targetX} ${this.targetY + MarkerHeight}`
+        this.sourceY - Math.abs(this.targetY - this.sourceY) / 3
+      }, ${this._targetControlX} ${
+        this.targetY + Math.abs(this.targetY - this.sourceY) / 3
+      }, ${this.targetX} ${this.targetY + MarkerHeight}`
   }
 
   get transformDefinitionsForTargetTriangle() {
