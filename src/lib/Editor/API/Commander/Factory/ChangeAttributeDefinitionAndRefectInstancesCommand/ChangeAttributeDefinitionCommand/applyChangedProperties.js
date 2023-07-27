@@ -1,5 +1,5 @@
 export default function (oldAttrDef, changedProperties) {
-  const newAttrDef = oldAttrDef.JSON
+  const newAttrDef = oldAttrDef.externalFormat
   const revertChangedProperties = new Map()
   // change config
   for (const [key, property] of changedProperties.entries()) {

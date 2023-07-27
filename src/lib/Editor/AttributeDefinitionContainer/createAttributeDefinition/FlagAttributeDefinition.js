@@ -24,9 +24,9 @@ export default class FlagAttributeDefinition extends AttributeDefinition {
     return this.color
   }
 
-  get JSON() {
+  get externalFormat() {
     return {
-      ...super.JSON,
+      ...super.externalFormat,
       ...{
         'value type': 'flag',
         default: this.default,

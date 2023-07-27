@@ -65,7 +65,7 @@ export default class SelectionAttributePallet extends Pallet {
 
   get _content() {
     const values = {
-      attrDef: this._attributeDefinition.JSON
+      attrDef: this._attributeDefinition.externalFormat
     }
     return template(values)
   }

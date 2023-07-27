@@ -82,7 +82,7 @@ export default class AttributeDefinitionContainer {
   }
 
   updateValues(pred, values) {
-    const hash = this.get(pred).JSON
+    const hash = this.get(pred).externalFormat
     return this.update(pred, { ...hash, ...{ values } })
   }
 
@@ -113,7 +113,7 @@ export default class AttributeDefinitionContainer {
   }
 
   get config() {
-    return this.attributes.map((a) => a.JSON)
+    return this.attributes.map((a) => a.externalFormat)
   }
 
   isSelectionAttributeValueIndelible(pred, id) {

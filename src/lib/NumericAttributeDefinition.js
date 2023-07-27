@@ -60,9 +60,9 @@ export default class NumericAttributeDefinition extends AttributeDefinition {
     return null
   }
 
-  get JSON() {
+  get externalFormat() {
     return {
-      ...super.JSON,
+      ...super.externalFormat,
       ...{
         'value type': 'numeric',
         default: this.default,

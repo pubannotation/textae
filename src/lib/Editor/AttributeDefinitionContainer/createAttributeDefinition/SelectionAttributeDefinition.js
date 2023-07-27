@@ -44,9 +44,9 @@ export default class SelectionAttributeDefinition extends AttributeDefinition {
     return this.values.find((a) => a.id == obj)
   }
 
-  get JSON() {
+  get externalFormat() {
     return {
-      ...super.JSON,
+      ...super.externalFormat,
       ...{
         'value type': 'selection',
         values: super._valuesClone

@@ -10,7 +10,7 @@ export default class AttributeDefinition {
     return this._values
   }
 
-  get JSON() {
+  get externalFormat() {
     return {
       pred: this.pred
     }

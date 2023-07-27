@@ -51,9 +51,9 @@ export default class StringAttributeDefinition extends AttributeDefinition {
     return null
   }
 
-  get JSON() {
+  get externalFormat() {
     return {
-      ...super.JSON,
+      ...super.externalFormat,
       ...{
         'value type': 'string',
         autocompletion_ws: this.autocompletionWs,

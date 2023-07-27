@@ -12,7 +12,7 @@ export default class TypeValues {
     return this._attributes
   }
 
-  get JSON() {
+  get externalFormat() {
     return {
       obj: this._typeName,
       attributes: this._attributes.map(({ JSON }) => JSON)

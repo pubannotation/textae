@@ -127,7 +127,7 @@ export default function (pallet, el, commander, selectionModelEntity) {
 
           commander.invoke(
             commander.factory.changeValueOfAttributeDefinitionAndObjectOfSelectionAttributeCommand(
-              pallet.attrDef.JSON,
+              pallet.attrDef.externalFormat,
               e.target.dataset.index,
               newValue
             )
