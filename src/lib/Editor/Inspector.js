@@ -1,4 +1,4 @@
-import diffOfAnnotation from './AnnotationDataEventsObserver/diffOfAnnotation'
+import diffOfAnnotation from './diffOfAnnotation'
 
 export default class Inspector {
   constructor(eventEmitter, callback, annotationData) {
