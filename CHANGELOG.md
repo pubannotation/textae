@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [12.5.0](https://github.com/pubannotation/textae/compare/v12.4.0...v12.5.0) (2023-07-27)
+
+
+### Features
+
+* Add an API to read JSON data representing annotations. ([8d60a67](https://github.com/pubannotation/textae/commit/8d60a6750bcc27f966d8044e203cacb3918a4a1c))
+* Add an API to set up a callback function to detect changes in JSON data. ([d1e955a](https://github.com/pubannotation/textae/commit/d1e955a0e2365a0f2b75e2628952726ff28a7a02))
+* Add an id property that returns the ID of the HTML element ([a84720e](https://github.com/pubannotation/textae/commit/a84720e001b27f8f8329391ffb85777f3d14a88f))
+* Do not call the callback function when there is no change in the data ([e3e1e82](https://github.com/pubannotation/textae/commit/e3e1e821cbeb3bb1d06be69c957f58f62d5ef17c))
+
+
+### Bug Fixes
+
+* Typo of deactivate ([77e7aa7](https://github.com/pubannotation/textae/commit/77e7aa7a0dedcbabcefb6ef0f8854f355dbd81ea))
+
 ## [12.4.0](https://github.com/pubannotation/textae/compare/v12.3.0...v12.4.0) (2023-06-28)
 
 
