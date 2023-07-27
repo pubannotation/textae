@@ -1,8 +1,8 @@
-/**
- * Convert the editor object to an object that can be used from the outside.
- * @param {import('../Editor').default} editor
- */
 export default class API {
+  /**
+   * Convert the editor object to an object that can be used from the outside.
+   * @param {import('../Editor').default} editor
+   */
   constructor(editor) {
     this._editor = editor
   }
