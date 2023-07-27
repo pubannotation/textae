@@ -1,6 +1,6 @@
 import { diff } from 'jsondiffpatch'
-import prepare from './prepare'
+import sortByID from './sortByID'
 
 export default function diffOfAnnotation(oldAnnotation, newAnnotation) {
-  return diff(prepare(oldAnnotation), prepare(newAnnotation))
+  return diff(sortByID(oldAnnotation), sortByID(newAnnotation))
 }

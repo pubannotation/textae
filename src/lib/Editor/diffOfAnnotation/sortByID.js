@@ -1,6 +1,6 @@
 import byID from './byID'
 
-export default function prepare({
+export default function sortByID({
   denotations = [],
   attributes = [],
   relations = [],
