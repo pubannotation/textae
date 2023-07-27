@@ -128,7 +128,7 @@ export default class PersistenceInterface {
   get _editedAnnotation() {
     return {
       ...this._getOriginalAnnotation(),
-      ...this._annotationData.JSON,
+      ...this._annotationData.externalFormat,
       ...{
         config: this._annotationData.typeDefinition.config
       }

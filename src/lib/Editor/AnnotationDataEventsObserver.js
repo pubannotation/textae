@@ -65,7 +65,10 @@ export default class AnnotationDataEventsObserver {
 
   _updateState() {
     this._observable.set(
-      diffOfAnnotation(this._originalData.annotation, this._annotationData.JSON)
+      diffOfAnnotation(
+        this._originalData.annotation,
+        this._annotationData.externalFormat
+      )
     )
     this._notifyChange()
   }

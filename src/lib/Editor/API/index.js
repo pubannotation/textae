@@ -167,7 +167,7 @@ export default class API {
           // If only the configuration is read, the annotation is null.
           const annotation = (loadedAnnotation && loadedAnnotation.data) || {
             ...originalData.annotation,
-            ...annotationData.JSON
+            ...annotationData.externalFormat
           }
 
           const validConfig = validateConfigurationAndAlert(

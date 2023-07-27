@@ -209,7 +209,7 @@ export default class AnnotationData {
     this.reLayout()
   }
 
-  get JSON() {
+  get externalFormat() {
     return {
       denotations: toDenotations(this),
       attributes: this.attribute.all.map(({ JSON }) => JSON),
