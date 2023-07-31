@@ -93,9 +93,13 @@ export default class EntityModelContainer extends IdIssueContainer {
   }
 
   remove(id) {
-    const instance = super.remove(id)
-    instance.erase()
+    // Calculates the grid position in response to entity removal events.
+    // Remove entity from Span before the event fires.
+    const instance = super.get(id)
     instance.span.remove(instance)
+    super.remove(id)
+
+    instance.erase()
   }
 
   changeType(id, newType) {
