@@ -6,7 +6,7 @@ import isTouchable from '../../../isTouchable'
 import { makeDenotationSpanHTMLElementID } from '../../../idFactory'
 
 const TEXT_HEIGHT = 23
-const MARGIN_TOP = 30
+const MARGIN_TOP = 5
 export default class DenotationSpanModel extends SpanModel {
   constructor(
     editorID,
