@@ -116,7 +116,7 @@ export default class EditDenotation extends Edit {
   editProperties() {
     if (this._selectionModel.entity.some) {
       new EditPropertiesDialog(
-        this._editorHTMLelement,
+        this._editorHTMLElement,
         'Entity',
         'Entity',
         this._definitionContainer,
