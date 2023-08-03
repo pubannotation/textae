@@ -12,6 +12,7 @@ export default class TypeValues {
     return this._attributes
   }
 
+  // This property is used to copy to the system clipboard.
   get externalFormat() {
     return {
       obj: this._typeName,

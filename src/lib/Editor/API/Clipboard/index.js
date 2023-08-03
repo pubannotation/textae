@@ -71,7 +71,7 @@ export default class Clipboard {
       )
 
       const dataString = JSON.stringify({
-        typeValues: copyingTargets.map(({ JSON }) => JSON),
+        typeValues: copyingTargets.map(({ externalFormat }) => externalFormat),
         config: {
           'entity types': entityTypes,
           'attribute types': attributeTypes
