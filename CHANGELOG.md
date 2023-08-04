@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [12.6.0](https://github.com/pubannotation/textae/compare/v12.5.0...v12.6.0) (2023-08-04)
+
+
+### Features
+
+* Left-align icons when the control bar is folded ([d507703](https://github.com/pubannotation/textae/commit/d507703ae2a5bebfdfa18707fddba1eb72653450))
+* Reduce the space between lines ([beec911](https://github.com/pubannotation/textae/commit/beec9112754f62daebe95426236db003b058b54a))
+
+
+### Bug Fixes
+
+* Cannot copy & paste ([fdbf502](https://github.com/pubannotation/textae/commit/fdbf5023d26da8a1b9f4f077e03fa13cc951439c))
+* Grid does not move down when an entity is removed from a span with multiple entities ([0e8344b](https://github.com/pubannotation/textae/commit/0e8344b5664720c9c35ef787ab413c365cdea278))
+* In the Entity Properties dialog, the edit button for the selection type attribute is not responding. ([0aab28c](https://github.com/pubannotation/textae/commit/0aab28c893e7c7f3e102d5fe1204a500ed629acb))
+
 ## [12.5.0](https://github.com/pubannotation/textae/compare/v12.4.0...v12.5.0) (2023-07-27)
 
 
