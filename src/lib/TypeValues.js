@@ -16,7 +16,7 @@ export default class TypeValues {
   get externalFormat() {
     return {
       obj: this._typeName,
-      attributes: this._attributes.map(({ JSON }) => JSON)
+      attributes: this._attributes.map(({ externalFormat }) => externalFormat)
     }
   }
 
