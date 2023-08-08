@@ -24,8 +24,8 @@ export default class MediaDictionary {
     })
 
     const promiseOfResult = new Promise((resolve) => {
-      try {
-        fetch(request).then((response) => {
+      fetch(request)
+        .then((response) => {
           const value = /image\/(jpg|png|gif)$/.test(
             response.headers.get('content-type')
           )
@@ -36,10 +36,10 @@ export default class MediaDictionary {
 
           resolve(value)
         })
-      } catch (e) {
-        console.warn(e.message, url)
-        resolve(false)
-      }
+        .catch((e) => {
+          console.warn(e.message, url)
+          resolve(false)
+        })
     })
 
     // Cache the promise of results, not the results themselves.
