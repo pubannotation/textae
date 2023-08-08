@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [12.6.1](https://github.com/pubannotation/textae/compare/v12.6.0...v12.6.1) (2023-08-08)
+
+
+### Bug Fixes
+
+* Attribute information is lost when copying an entity with attributes ([b66707c](https://github.com/pubannotation/textae/commit/b66707cd0dc5e8f41bd8fab31a96d1121cdb1dba))
+* No handling of fetch API errors. ([8e96670](https://github.com/pubannotation/textae/commit/8e966706e56bc484812357a1d0944899eeeaaaab))
+
 ## [12.6.0](https://github.com/pubannotation/textae/compare/v12.5.0...v12.6.0) (2023-08-04)
 
 
