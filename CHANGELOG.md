@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [12.6.2](https://github.com/pubannotation/textae/compare/v12.6.1...v12.6.2) (2023-09-21)
+
+
+### Bug Fixes
+
+* Line heights are reset when switching between relation mode and any other mode. ([be3fd61](https://github.com/pubannotation/textae/commit/be3fd61403e0f4432183ee101fa8a4eb1a91bd23))
+
 ### [12.6.1](https://github.com/pubannotation/textae/compare/v12.6.0...v12.6.1) (2023-08-08)
 
 
