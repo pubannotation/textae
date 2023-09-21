@@ -37,8 +37,12 @@ export default class ModelContainer {
     return this.all.filter((model) => model.typeName === typeName)
   }
 
+  /**
+   * @returns {boolean} true if the container has any instance.
+   * @readonly
+   */
   get some() {
-    return this._container.size
+    return !!this._container.size
   }
 
   changeType(id, newType) {
