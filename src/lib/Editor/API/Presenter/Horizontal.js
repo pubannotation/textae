@@ -8,7 +8,7 @@ export default class Horizontal {
     const nextSpan = this._searchLeft('.textae-editor__span')
     if (nextSpan) {
       if (shiftKey) {
-        this._selectionModel.span.add(nextSpan.id)
+        this._selectionModel.add('span', nextSpan.id)
       } else {
         this._selectionModel.selectSpan(nextSpan.id)
       }
@@ -20,7 +20,7 @@ export default class Horizontal {
     )
     if (nextEntity) {
       if (shiftKey) {
-        this._selectionModel.entity.add(nextEntity.dataset.id)
+        this._selectionModel.add('entity', nextEntity.dataset.id)
       } else {
         this._selectionModel.selectEntity(nextEntity.dataset.id)
       }
@@ -31,7 +31,7 @@ export default class Horizontal {
     const nextSpan = this._searchRight('.textae-editor__span')
     if (nextSpan) {
       if (shiftKey) {
-        this._selectionModel.span.add(nextSpan.id)
+        this._selectionModel.add('span', nextSpan.id)
       } else {
         this._selectionModel.selectSpan(nextSpan.id)
       }
@@ -43,7 +43,7 @@ export default class Horizontal {
     )
     if (nextEntity) {
       if (shiftKey) {
-        this._selectionModel.entity.add(nextEntity.dataset.id)
+        this._selectionModel.add('entity', nextEntity.dataset.id)
       } else {
         this._selectionModel.selectEntity(nextEntity.dataset.id)
       }
