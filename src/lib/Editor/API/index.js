@@ -35,7 +35,7 @@ export default class API {
   ) {
     const spanConfig = new SpanConfig()
 
-    // A contaier of selection state.
+    // A container of selection state.
     const selectionModel = new SelectionModel(eventEmitter, annotationData)
 
     // Users can edit model only via commands.
