@@ -1,4 +1,10 @@
 export default class KeyEventMap {
+  /**
+   * @param {import('./Commander').default} commander
+   * @param {import('./Presenter').default} presenter
+   * @param {import('./PersistenceInterface').default} persistenceInterface
+   * @param {import('./FunctionAvailability').default} functionAvailability
+   */
   constructor(
     commander,
     presenter,
