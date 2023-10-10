@@ -6,12 +6,12 @@ export default function (
 ) {
   if (event.ctrlKey || event.metaKey) {
     // Remaining selection of the subject entity.
-    selectionModel.remove(objectEntityId)
+    selectionModel.remove('entity', objectEntityId)
   } else if (event.shiftKey) {
-    selectionModel.remove(subjectEntityId)
-    selectionModel.add(objectEntityId)
+    selectionModel.remove('entity', subjectEntityId)
+    selectionModel.add('entity', objectEntityId)
   } else {
-    selectionModel.remove(subjectEntityId)
-    selectionModel.remove(objectEntityId)
+    selectionModel.remove('entity', subjectEntityId)
+    selectionModel.remove('entity', objectEntityId)
   }
 }

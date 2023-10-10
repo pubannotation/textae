@@ -51,6 +51,11 @@ export default class SelectionModel {
     this[modelType].add(id)
   }
 
+  remove(modelType, id) {
+    console.assert(this[modelType])
+    this[modelType].remove(id)
+  }
+
   removeAll() {
     this.span.removeAll()
     this.entity.removeAll()

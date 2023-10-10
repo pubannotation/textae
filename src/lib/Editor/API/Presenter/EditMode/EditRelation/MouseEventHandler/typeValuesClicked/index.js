@@ -27,7 +27,7 @@ export default function (
 
       updateSelectionOfEntity(
         event,
-        selectionModel.entity,
+        selectionModel,
         subjectEntityId,
         objectEntityId
       )
