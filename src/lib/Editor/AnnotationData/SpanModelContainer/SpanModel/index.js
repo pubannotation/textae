@@ -1,6 +1,5 @@
 import dohtml from 'dohtml'
 import createGridHtml from './createGridHtml'
-import getBigBrotherSpan from './getBigBrotherSpan'
 import updateGridPosition from './updateGridPosition'
 import getAnnotationBox from '../../getAnnotationBox'
 import getRightGrid from './getRightGrid'
@@ -52,7 +51,10 @@ export default class SpanModel {
   }
 
   get bigBrother() {
-    return getBigBrotherSpan(this, this._spanModelContainer.topLevel)
+    // The parent of a big Brother and the span is the same.
+    const bros = this.parent.children
+    const index = bros.indexOf(this)
+    return index === 0 ? null : bros[index - 1]
   }
 
   get root() {
