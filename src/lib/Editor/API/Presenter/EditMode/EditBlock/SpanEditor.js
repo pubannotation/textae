@@ -384,7 +384,7 @@ export default class SpanEditor {
         spanID,
         ...this._annotationData.span
           .get(spanID)
-          .getShotrenInAnchorNodeToFocusNodeDirection(
+          .getShortenInAnchorNodeToFocusNodeDirection(
             this._controlViewModel.spanAdjuster,
             selectionWrapper,
             this._annotationData.sourceDoc,

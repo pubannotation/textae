@@ -16,7 +16,7 @@ export default function (
 ) {
   const { begin, end } = spanModelContainer
     .get(spanId)
-    .getShotrenInAnchorNodeToFocusNodeDirection(
+    .getShortenInAnchorNodeToFocusNodeDirection(
       spanAdjuster,
       selectionWrapper,
       sourceDoc,
