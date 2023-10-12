@@ -205,6 +205,10 @@ export default class SpanModel {
   }
 
   forceRenderGrid() {
+    if (this._isGridRendered) {
+      return
+    }
+
     this._renderGridElement()
     for (const entity of this.entities) {
       entity.render()
