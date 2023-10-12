@@ -256,11 +256,17 @@ export default class EntityModel {
   }
 
   focus() {
-    // Entities outside the drawing area are not rendered.
-    // Attempting to focus will result in an error.
-    // Force rendering before focusing.
-    this.span.forceRenderGrid()
-    this._signboard.focus()
+    if (this.isDenotation) {
+      this.span.focus()
+    } else if (this.isBlock) {
+      // Entities outside the drawing area are not rendered.
+      // Attempting to focus will result in an error.
+      // Force rendering before focusing.
+      this.span.forceRenderGrid()
+      this._signboard.focus()
+    } else {
+      throw new Error('Unexpected type of entity')
+    }
   }
 
   select() {
