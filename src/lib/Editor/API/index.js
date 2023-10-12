@@ -282,6 +282,7 @@ export default class API {
   showContextMenu(contextmenuEvent) {
     this._contextMenu.show(contextmenuEvent)
   }
+
   hideContextMenu() {
     this._contextMenu.hide()
   }
