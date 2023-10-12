@@ -170,7 +170,7 @@ export default class EntityModel {
       )
     }
 
-    throw new Error('Unexpect type of span')
+    throw new Error('Unexpected type of span')
   }
 
   get offsetTop() {
