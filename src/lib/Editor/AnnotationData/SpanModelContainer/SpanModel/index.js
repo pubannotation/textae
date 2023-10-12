@@ -181,6 +181,12 @@ export default class SpanModel {
     this._selected = false
   }
 
+  focus() {
+    // Grids outside the rendering area may not be rendered.
+    this.forceRenderGrid()
+    this.element.focus()
+  }
+
   addEntityElementToGridElement(entityElement) {
     this.gridElement.insertAdjacentElement('beforeend', entityElement)
   }
