@@ -382,7 +382,7 @@ export default class EntityModel {
       `${this._editorID}__E${this.id.replace(/[:¥.]/g, '')}`
     )
 
-    // Highlight retaitons when related entity is hoverd.
+    // Highlight relations when related entity is hovered.
     signboard.addEventListener('mouseenter', () => {
       signboard.clarifyLabel()
       this._pointUpRelations()
