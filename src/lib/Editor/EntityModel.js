@@ -400,9 +400,8 @@ export default class EntityModel {
   }
 
   _selectElement() {
-    // Force rendering to focus on entities outside the display area.
+    // Force rendering to select and focus on entities outside the display area.
     this.span.forceRenderGrid()
-
     this._signboard.select()
 
     // The block span renders as a div HTML element.
@@ -413,8 +412,8 @@ export default class EntityModel {
     if (this.span.isGridBeforePositioned) {
       this.span.entityToFocusOn = this
     } else {
-      // Set focus to the label element in order to scroll the browser to the position of the element.
-      this._signboard.focus()
+      // Set focus in order to scroll the browser to the position of the element.
+      this.focus()
     }
   }
 
