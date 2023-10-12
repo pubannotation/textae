@@ -196,9 +196,9 @@ export default class EntityModel {
   }
 
   get height() {
-    const labelUnitHegiht = 18
+    const labelUnitHeight = 18
 
-    return labelUnitHegiht + this._attributesHeight
+    return labelUnitHeight + this._attributesHeight
   }
 
   get heightWithTypeGap() {
