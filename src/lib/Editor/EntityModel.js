@@ -39,7 +39,7 @@ export default class EntityModel {
 
     this._isSelected = false
     this._isHovered = false
-    // When in view mode, the mousleave event will not declarify labels.
+    // When in view mode, the mouseleave event will not declarify labels.
     this._isLabelClarified = false
 
     /** @type {SignboardHTMLElement} */
