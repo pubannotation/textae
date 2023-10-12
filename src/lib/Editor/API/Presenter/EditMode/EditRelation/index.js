@@ -94,7 +94,7 @@ export default class EditRelation extends Edit {
     }
   }
 
-  typeValuesClicked(entity) {
+  relationBollardClicked(entity) {
     entity.span.forceRenderGrid()
     this._selectionModel.selectEntity(entity.id)
   }
