@@ -1,7 +1,7 @@
 import delegate from 'delegate'
 import getEntityHTMLelementFromChild from '../../../getEntityHTMLelementFromChild'
 
-// Manupulate only entities and relations on the Edit Relation mode.
+// Manipulate only entities and relations on the Edit Relation mode.
 // For support context menu.
 // Mouse up event occurs when either left or right button is clicked.
 // Change mouse events to monitor from mouseup to click since v5.0.0.
