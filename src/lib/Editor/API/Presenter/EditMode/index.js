@@ -78,7 +78,7 @@ export default class EditMode {
         this.currentEdit.relationClicked(event, relation)
       )
       .on('textae-event.editor.relation-bollard.click', (event, entity) =>
-        this.currentEdit.typeValuesClicked(event, entity)
+        this.currentEdit.relationBollardClicked(entity)
       )
   }
 
@@ -173,7 +173,7 @@ export default class EditMode {
           editProperties() {},
           manipulateAttribute() {},
           relationClicked() {},
-          typeValuesClicked(_, entity) {
+          relationBollardClicked(entity) {
             entity.focus()
           },
           applyTextSelection() {}

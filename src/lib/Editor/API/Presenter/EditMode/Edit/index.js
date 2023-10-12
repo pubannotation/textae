@@ -49,7 +49,7 @@ export default class Edit {
   expandSpan() {}
   shrinkSpan() {}
   relationClicked() {}
-  typeValuesClicked() {}
+  relationBollardClicked() {}
 
   manipulateAttribute(number, shiftKey) {
     if (shiftKey) {
