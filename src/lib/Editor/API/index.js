@@ -273,7 +273,8 @@ export default class API {
       'pasteEntitiesFromSystemClipboard',
       'activate',
       'deactivate',
-      'applyTextSelection'
+      'applyTextSelection',
+      'focusDenotation'
     ])
 
     this._contextMenu = contextMenu

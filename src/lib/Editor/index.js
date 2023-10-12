@@ -75,7 +75,8 @@ export default class Editor {
       'deactivate',
       'applyTextSelection',
       'showContextMenu',
-      'hideContextMenu'
+      'hideContextMenu',
+      'focusDenotation'
     ])
     forwardMethods(this, () => annotationData, ['drawGridsInSight', 'reLayout'])
 

@@ -162,7 +162,15 @@
         function initializeTextAE() {
             // initializeTextAEEditor initializes an HTML element with the textae-editor class as a TextAE editor.
             // Add a div element with textae-editor class.
-            var html = '<div id="my_text-ae_editor" class="textae-editor" title="dynamic-editor0" mode="edit"></div>';
+            var html = `
+            <div style="width: 800px; height: 100px; overflow-x: hidden; overflow-y: scroll;">
+              <div
+                id="my_text-ae_editor"
+                class="textae-editor"
+                title="dynamic-editor0"
+                mode="edit"
+                ></div>
+            </div>`;
             document.body.insertAdjacentHTML('afterbegin', html);
 
             // The initializeTextAEEditor function may initialize multiple TextAE editors.
@@ -172,12 +180,25 @@
                 .find((editor) => editor.id === 'my_text-ae_editor')
 
             // The TextAE editor displays the annotation set in the annotation property.
-            editor.annotation = { "text": "This is a TextAE editor dynamically created from a JavaScript program." }
+            editor.annotation = {
+                "text": "\nThis is a TextAE editor dynamically created from a JavaScript program.",
+                "denotations": [{
+                    "id": "T1",
+                    "span": {
+                        "begin": 11,
+                        "end": 17
+                    },
+                    "obj": "name"
+                }]
+            }
 
             // When you edit an annotation in the TextAE editor,
             // the changed annotation is notified to the callback function set in the inspectCallback property
             // each time you edit it.
             editor.inspectCallback = (annotation) => { console.log(annotation) }
+
+            // Focus on the annotation specified by the ID.
+            editor.focusDenotation('T1')
         }
     </script>
 </body>

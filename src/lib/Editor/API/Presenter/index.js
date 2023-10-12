@@ -201,4 +201,14 @@ export default class Presenter {
       this._editMode.currentEdit.applyTextSelection()
     }
   }
+
+  focusDenotation(denotationID) {
+    if (!this._annotationData.entity.hasDenotation(denotationID)) {
+      throw new Error(`Denotation ${denotationID} not found`)
+    }
+
+    this.toTermMode()
+    const { span } = this._annotationData.entity.get(denotationID)
+    span.focus()
+  }
 }

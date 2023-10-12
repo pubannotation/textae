@@ -18,4 +18,8 @@ export default class API {
   get id() {
     return this._editor.HTMLElementID
   }
+
+  focusDenotation(denotationID) {
+    this._editor.focusDenotation(denotationID)
+  }
 }
