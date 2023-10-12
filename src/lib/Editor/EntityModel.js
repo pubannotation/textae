@@ -17,7 +17,7 @@ export default class EntityModel {
   constructor(
     editorID,
     attributeContainer,
-    relationContaier,
+    relationContainer,
     typeGap,
     typeDefinition,
     span,
@@ -31,7 +31,7 @@ export default class EntityModel {
     this.typeName = typeName
     this._id = id
     this._attributeContainer = attributeContainer
-    this._relationContaier = relationContaier
+    this._relationContainer = relationContainer
     this._typeGap = typeGap
     this._typeDefinition = typeDefinition
     this._namespace = namespace
@@ -105,11 +105,11 @@ export default class EntityModel {
   }
 
   get relationsWhereThisIsSource() {
-    return this._relationContaier.all.filter((r) => r.subj === this.id)
+    return this._relationContainer.all.filter((r) => r.subj === this.id)
   }
 
   get relationsWhereThisIsTarget() {
-    return this._relationContaier.all.filter((r) => r.obj === this.id)
+    return this._relationContainer.all.filter((r) => r.obj === this.id)
   }
 
   get hasMultipleEndpoints() {
