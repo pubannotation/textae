@@ -184,4 +184,8 @@ export default class EntityModelContainer extends IdIssueContainer {
         throw `${type} is unknown type span!`
     }
   }
+
+  hasDenotation(denotationID) {
+    return this.denotations.some((denotation) => denotation.id === denotationID)
+  }
 }
