@@ -141,7 +141,7 @@ export default class Presenter {
 
   cancelSelect() {
     this._editMode.cancelSelect()
-    // Foucs the editor for ESC key
+    // Focus the editor for ESC key
     this._editorHTMLElement.focus()
   }
 
