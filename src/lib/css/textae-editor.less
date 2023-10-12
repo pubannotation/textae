@@ -65,7 +65,8 @@
       pointer-events: visiblePainted;
     }
     .textae-editor__relation-bollard-aura {
-      fill: none;
+      fill-opacity: 0;
+      stroke-opacity: 0;
     }
   }
 
@@ -179,6 +180,9 @@
       .textae-editor__block-hit-area {
         z-index: 0;
       }
+      .textae-editor__relation-bollard-aura {
+        stroke-width: 9;
+      }
     }
 
     &--relation {
@@ -205,7 +209,6 @@
         }
         .textae-editor__relation-bollard-aura {
           stroke-width: 9;
-          stroke-opacity: 0;
         }
       }
     }
