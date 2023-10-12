@@ -192,12 +192,16 @@ export default class SpanModel {
 
   drawGrid(clientHeight, clientWidth) {
     if (this.isGridInDrawArea(clientHeight, clientWidth)) {
-      this._renderGridElement()
-      for (const entity of this.entities) {
-        entity.render()
-      }
+      this.forceRenderGrid()
     } else {
       this._destroyGridElement()
+    }
+  }
+
+  forceRenderGrid() {
+    this._renderGridElement()
+    for (const entity of this.entities) {
+      entity.render()
     }
   }
 

@@ -256,6 +256,10 @@ export default class EntityModel {
   }
 
   focus() {
+    // Entities outside the drawing area are not rendered.
+    // Attempting to focus will result in an error.
+    // Force rendering before focusing.
+    this.span.forceRenderGrid()
     this._signboard.focus()
   }
 
