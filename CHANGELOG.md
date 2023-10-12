@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [12.7.0](https://github.com/pubannotation/textae/compare/v12.6.2...v12.7.0) (2023-10-12)
+
+
+### Features
+
+* Add a focusDenotation method, which is an API to focus denotation from an external program ([34e0087](https://github.com/pubannotation/textae/commit/34e0087e64bc09e7143eef1a4c858fd5688780f3))
+* Focus on the span when the entity is a denotation, and focus on the entity when it is a block. ([27fea59](https://github.com/pubannotation/textae/commit/27fea59794ee1d5cb7aa2b104402a1eafa834bc4))
+* Make it easier to click on the relation triangle in view mode. ([8958571](https://github.com/pubannotation/textae/commit/8958571c648ca68acc0baef5f54672c1fa6e6b98))
+* Scroll the browser to view the entities selected from the palette, even if they are outside the display area. ([81cbeb1](https://github.com/pubannotation/textae/commit/81cbeb10d2cec313984c67b34b9b5d86d91fb77d))
+* Scrolls when you click on the triangle that points to an entity outside the display area in relation mode ([63d86de](https://github.com/pubannotation/textae/commit/63d86deb7fbf075cbf1ef04b1bdf9debcb869e60))
+
+
+### Bug Fixes
+
+* Clicking on a triangle that points to an entity outside the drawing area of a relation causes an error in view mode ([2974c6d](https://github.com/pubannotation/textae/commit/2974c6d5acb56e61e0e6229b319496d14a31d941))
+* Unable to click triangle pointing to block outside of display area in view mode ([afb4e70](https://github.com/pubannotation/textae/commit/afb4e702c609a1528e6e16ba7983f38d645eb01a))
+
 ### [12.6.2](https://github.com/pubannotation/textae/compare/v12.6.1...v12.6.2) (2023-09-21)
 
 
