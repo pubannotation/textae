@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [12.7.1](https://github.com/pubannotation/textae/compare/v12.7.0...v12.7.1) (2023-10-19)
+
+
+### Bug Fixes
+
+* Editor X position is ignored when positioning palettes and context menus ([42be2a7](https://github.com/pubannotation/textae/commit/42be2a79b2019076dad1b25962dcef1ac1a50878))
+
 ## [12.7.0](https://github.com/pubannotation/textae/compare/v12.6.2...v12.7.0) (2023-10-12)
 
 
