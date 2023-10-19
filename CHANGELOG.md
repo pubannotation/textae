@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [12.7.2](https://github.com/pubannotation/textae/compare/v12.7.1...v12.7.2) (2023-10-19)
+
+
+### Bug Fixes
+
+* When the editor has an offsetParent other than document, the display position of the palette and context menu are misaligned. ([8941e2c](https://github.com/pubannotation/textae/commit/8941e2c88fcd35d630ca572369bb59451f80342f))
+
 ### [12.7.1](https://github.com/pubannotation/textae/compare/v12.7.0...v12.7.1) (2023-10-19)
 
 
