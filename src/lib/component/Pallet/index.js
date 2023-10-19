@@ -61,7 +61,7 @@ export default class Pallet {
       <div class="textae-editor__pallet__container">
         <div class="textae-editor__pallet__title-bar ui-widget-header ui-corner-all">
           <span class="textae-editor__pallet__title-string">${this._title}</span>
-          <button 
+          <button
             type="button"
             class="textae-editor__pallet__close-button ui-button ui-corner-all ui-widget ui-button-icon-only ui-dialog-titlebar-close"
             title="Close">
@@ -81,10 +81,10 @@ export default class Pallet {
   }
 
   _moveInto() {
-    const { left, clientY, pageY } = getMousePoint()
+    const { clientX, clientY, pageY } = getMousePoint()
 
-    if (this._el.offsetWidth + left <= this._maxWidth) {
-      this._el.style.left = `${left}px`
+    if (this._el.offsetWidth + clientX <= this._maxWidth) {
+      this._el.style.left = `${clientX}px`
     } else {
       // Pull left the pallet when the pallet protrudes from right of the editor.
       this._el.style.left = `${
