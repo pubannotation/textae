@@ -1,7 +1,7 @@
+import dohtml from 'dohtml'
 import delegate from 'delegate'
 import enableJqueryDraggable from './enableJqueryDraggable'
 import getMousePoint from './getMousePoint'
-import createPalletElement from './createPalletElement'
 import setWidthWithin from './setWidthWithin'
 import setHeightWithin from './setHeightWithin'
 
@@ -9,7 +9,7 @@ export default class Pallet {
   constructor(editorHTMLElement, title) {
     this._editorHTMLElement = editorHTMLElement
     this._title = title
-    this._el = createPalletElement()
+    this._el = this.createElement()
 
     // let the pallet draggable.
     enableJqueryDraggable(this._el, editorHTMLElement)
@@ -57,6 +57,17 @@ export default class Pallet {
 
   get visibly() {
     return this._el.style.display !== 'none'
+  }
+
+  createElement() {
+    // Add ui-dialog class to prohibit the entity edit dialog from taking the focus.
+    const html = `
+        <div
+          class="textae-editor__pallet ui-dialog"
+          style="display: none;"
+          >
+        </div>`
+    return dohtml.create(html)
   }
 
   _updateDisplay() {
