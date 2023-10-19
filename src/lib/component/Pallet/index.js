@@ -51,6 +51,14 @@ export default class Pallet {
     this._moveInto()
   }
 
+  hide() {
+    this._el.style.display = 'none'
+  }
+
+  get visibly() {
+    return this._el.style.display !== 'none'
+  }
+
   _updateDisplay() {
     // Wrap the content in a special class so that you can determine if the target of the event is an element of the palette
     // even after the content has been removed from the DOM tree.
@@ -115,13 +123,5 @@ export default class Pallet {
 
   get _maxHeight() {
     return document.documentElement.clientHeight
-  }
-
-  hide() {
-    this._el.style.display = 'none'
-  }
-
-  get visibly() {
-    return this._el.style.display !== 'none'
   }
 }
