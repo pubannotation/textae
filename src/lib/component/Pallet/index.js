@@ -84,7 +84,7 @@ export default class Pallet {
     const { clientX, clientY, pageY } = getMousePoint()
 
     if (this._el.offsetWidth + clientX <= this._maxWidth) {
-      this._el.style.left = `${clientX}px`
+      this._el.style.left = `${clientX - this._editorHTMLElement.offsetLeft}px`
     } else {
       // Pull left the pallet when the pallet protrudes from right of the editor.
       this._el.style.left = `${

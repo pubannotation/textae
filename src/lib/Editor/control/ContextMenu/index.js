@@ -37,7 +37,7 @@ export default class ContextMenu extends Control {
       // So the Y coordinate is pageY minus the editor's offsetTop.
       this._showLowerRight(
         contextmenuEvent.pageY - this._editorHTMLElement.offsetTop,
-        contextmenuEvent.pageX
+        contextmenuEvent.pageX - this._editorHTMLElement.offsetLeft
       )
     }
   }
