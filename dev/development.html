@@ -11,8 +11,11 @@
 </head>
 
 <body>
-    <div id="css_area"></div>
+    <div style="position: absolute; left: 700px; width: calc(100% - 700px); height: 1000px; overflow: scroll; top: 10px;">
+        <div class="textae-editor" mode="edit"></div>
+    </div>
 
+    <div id="css_area"></div>
     <input title="this is a focusable element before textae" placeholder="I don't use it for anything.">
     <span>Welcome!</span>
     <div style="padding-left: 50px; width: calc(100% - 50px);">
@@ -165,7 +168,7 @@
             // initializeTextAEEditor initializes an HTML element with the textae-editor class as a TextAE editor.
             // Add a div element with textae-editor class.
             var html = `
-            <div style="width: 800px; height: 100px; overflow-x: hidden; overflow-y: scroll;">
+            <div style="width: 690px; height: 100px; overflow-x: hidden; overflow-y: scroll;">
               <div
                 id="my_text-ae_editor"
                 class="textae-editor"

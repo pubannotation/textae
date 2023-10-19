@@ -19,6 +19,7 @@ export default class ContextMenu extends Control {
 
   show(contextmenuEvent) {
     const selection = window.getSelection()
+    const editorClientRect = this._editorHTMLElement.getBoundingClientRect()
 
     if (isTouchable() && selection.rangeCount === 1) {
       const rectOfSelection = selection.getRangeAt(0).getBoundingClientRect()
@@ -27,7 +28,7 @@ export default class ContextMenu extends Control {
         .getBoundingClientRect()
 
       this._showAbove(
-        rectOfSelection.y - this._editorHTMLElement.getBoundingClientRect().y,
+        rectOfSelection.y - editorClientRect.y,
         rectOfSelection.x - rectOfTextBox.x
       )
     } else {
@@ -36,8 +37,8 @@ export default class ContextMenu extends Control {
       // starting from the upper left of the editor.
       // So the Y coordinate is pageY minus the editor's offsetTop.
       this._showLowerRight(
-        contextmenuEvent.pageY - this._editorHTMLElement.offsetTop,
-        contextmenuEvent.pageX - this._editorHTMLElement.offsetLeft
+        contextmenuEvent.pageY - editorClientRect.y,
+        contextmenuEvent.pageX - editorClientRect.x
       )
     }
   }

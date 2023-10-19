@@ -81,31 +81,32 @@ export default class Pallet {
   }
 
   _moveInto() {
-    const { clientX, clientY, pageY } = getMousePoint()
+    this._el.style.left = `${this._left}px`
+    this._el.style.top = `${this._top}px`
+  }
 
-    if (this._el.offsetWidth + clientX <= this._maxWidth) {
-      this._el.style.left = `${clientX - this._editorHTMLElement.offsetLeft}px`
-    } else {
-      // Pull left the pallet when the pallet protrudes from right of the editor.
-      this._el.style.left = `${
-        this._editorHTMLElement.offsetLeft +
-        this._maxWidth -
-        this._el.offsetWidth -
-        2
-      }px`
+  get _left() {
+    const { clientX } = getMousePoint()
+    const left = clientX - this._editorHTMLElement.getBoundingClientRect().x
+
+    // Pull left the pallet when the pallet protrudes from right of the editor.
+    if (this._maxWidth < left + this._el.offsetWidth) {
+      return this._maxWidth - this._el.offsetWidth - 2
     }
 
-    if (this._el.offsetHeight + clientY <= this._maxHeight) {
-      const top = pageY - this._editorHTMLElement.offsetTop
-      this._el.style.top = `${top}px`
-    } else {
-      // Pull up the pallet when the pallet protrudes from bottom of the window.
-      const top =
-        pageY -
-        this._editorHTMLElement.offsetTop -
-        (this._el.offsetHeight + clientY - this._maxHeight)
-      this._el.style.top = `${top}px`
+    return left
+  }
+
+  get _top() {
+    const { clientY } = getMousePoint()
+    const editorClientY = this._editorHTMLElement.getBoundingClientRect().y
+
+    // Pull up the pallet when the pallet protrudes from bottom of the window.
+    if (this._maxHeight < clientY + this._el.offsetHeight) {
+      return this._maxHeight - this._el.offsetHeight - editorClientY - 2
     }
+
+    return clientY - editorClientY
   }
 
   get _maxWidth() {
