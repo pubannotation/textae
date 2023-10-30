@@ -63,7 +63,7 @@ export default class EditDenotation extends Edit {
       denotationPallet,
       spanEditor
     )
-    this._spanEdtior = spanEditor
+    this._spanEditor = spanEditor
     this._controlViewModel = controlViewModel
     this._textBox = editorHTMLElement.querySelector('.textae-editor__text-box')
     this._spanModelContainer = annotationData.span
@@ -83,15 +83,15 @@ export default class EditDenotation extends Edit {
   }
 
   createSpan() {
-    this._spanEdtior.cerateSpanForTouchDevice()
+    this._spanEditor.cerateSpanForTouchDevice()
   }
 
   expandSpan() {
-    this._spanEdtior.expandForTouchDevice()
+    this._spanEditor.expandForTouchDevice()
   }
 
   shrinkSpan() {
-    this._spanEdtior.shrinkForTouchDevice()
+    this._spanEditor.shrinkForTouchDevice()
   }
 
   applyTextSelection() {
