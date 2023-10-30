@@ -42,7 +42,7 @@ export default class EditorContainer {
 
   set selected(element) {
     if (element === null) {
-      this._editors.get(this._selected).deactivate()
+      this._selectedEditor.deactivate()
     } else {
       this._editors.get(element).activate()
     }
@@ -160,8 +160,12 @@ export default class EditorContainer {
 
         // Prevent show browser default context menu
         contextmenuEvent.preventDefault()
-        this._editors.get(this._selected).showContextMenu(contextmenuEvent)
+        this._selectedEditor.showContextMenu(contextmenuEvent)
       }
     })
+  }
+
+  get _selectedEditor() {
+    return this._editors.get(this._selected)
   }
 }
