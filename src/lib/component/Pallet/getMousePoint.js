@@ -1,4 +1,4 @@
-// Ovserve and record mouse position to return it.
+// Observe and record mouse position to return it.
 const lastMousePoint = {}
 
 document.querySelector('html').addEventListener('mousemove', (e) => {
