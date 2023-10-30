@@ -14,7 +14,8 @@ export default class EditRelation extends Edit {
     selectionModel,
     commander,
     autocompletionWs,
-    controlViewModel
+    controlViewModel,
+    mousePoint
   ) {
     const relationPallet = new TypeValuesPallet(
       editorHTMLElement,
@@ -25,7 +26,8 @@ export default class EditRelation extends Edit {
       selectionModel.relation,
       commander,
       'Relation configuration',
-      controlViewModel
+      controlViewModel,
+      mousePoint
     )
 
     const getAutocompletionWs = () =>
@@ -55,10 +57,11 @@ export default class EditRelation extends Edit {
       commander,
       annotationData,
       selectionModel.relation,
-      new SelectionAttributePallet(editorHTMLElement),
+      new SelectionAttributePallet(editorHTMLElement, mousePoint),
       () => this.editProperties(),
       relationPallet
     )
+    this._mousePoint = mousePoint
   }
 
   bindMouseEvents() {
@@ -79,7 +82,8 @@ export default class EditRelation extends Edit {
         this._annotationData.typeDefinition.attribute,
         this._getAutocompletionWs(),
         this._selectionModel.relation.all,
-        this.pallet
+        this.pallet,
+        this._mousePoint
       )
         .open()
         .then((values) => this._typeValuesChanged(values))

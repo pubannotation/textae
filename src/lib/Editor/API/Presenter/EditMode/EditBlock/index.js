@@ -19,7 +19,8 @@ export default class EditBlock extends Edit {
     spanConfig,
     commander,
     controlViewModel,
-    autocompletionWs
+    autocompletionWs,
+    mousePoint
   ) {
     const spanEditor = new SpanEditor(
       editorHTMLElement,
@@ -39,7 +40,8 @@ export default class EditBlock extends Edit {
       selectionModel.entity,
       commander,
       'Block configuration',
-      controlViewModel
+      controlViewModel,
+      mousePoint
     )
 
     const getAutocompletionWs = () =>
@@ -72,10 +74,11 @@ export default class EditBlock extends Edit {
       commander,
       annotationData,
       selectionModel.entity,
-      new SelectionAttributePallet(editorHTMLElement),
+      new SelectionAttributePallet(editorHTMLElement, mousePoint),
       () => this.editProperties(),
       blockPallet
     )
+    this._mousePoint = mousePoint
   }
 
   bindMouseEvents() {
@@ -123,7 +126,8 @@ export default class EditBlock extends Edit {
         this._annotationData.typeDefinition.attribute,
         this._getAutocompletionWs(),
         this._selectionModel.entity.all,
-        this.pallet
+        this.pallet,
+        this._mousePoint
       )
         .open()
         .then((values) => this._typeValuesChanged(values))

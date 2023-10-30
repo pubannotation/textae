@@ -16,6 +16,7 @@ export default class Editor {
   constructor(
     element,
     editorID,
+    mousePoint,
     startJQueryUIDialogWait,
     endJQueryUIDialogWait
   ) {
@@ -65,7 +66,14 @@ export default class Editor {
       )
     }
 
-    const api = new API(element, editorID, eventEmitter, annotationData, params)
+    const api = new API(
+      element,
+      editorID,
+      mousePoint,
+      eventEmitter,
+      annotationData,
+      params
+    )
 
     forwardMethods(this, () => api, [
       'copyEntitiesToSystemClipboard',

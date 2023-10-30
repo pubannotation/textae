@@ -22,7 +22,8 @@ export default class Presenter {
     clipBoard,
     controlViewModel,
     params,
-    functionAvailability
+    functionAvailability,
+    mousePoint
   ) {
     const editMode = new EditMode(
       editorHTMLElement,
@@ -33,7 +34,8 @@ export default class Presenter {
       commander,
       controlViewModel,
       params,
-      functionAvailability
+      functionAvailability,
+      mousePoint
     )
 
     eventEmitter

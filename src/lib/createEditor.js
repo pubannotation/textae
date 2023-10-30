@@ -4,6 +4,7 @@ export default function createEditor(element, tool) {
   return new Editor(
     element,
     tool.nextID,
+    tool.mousePoint,
     () => {
       // jQuery Ui dialogs are not in the editor.
       for (const dialog of document.querySelectorAll('.ui-dialog')) {

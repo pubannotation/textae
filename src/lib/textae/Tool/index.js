@@ -2,12 +2,14 @@ import EditorContainer from './EditorContainer'
 import Veil from './Veil'
 import throttle from 'throttleit'
 import observeBodyEvents from './observeBodyEvents'
+import getMousePoint from './getMousePoint'
 
 // The tool manages interactions between components.
 export default class Tool {
   constructor() {
     this._editorContainer = new EditorContainer()
     this._veil = new Veil()
+    this._mousePoint = getMousePoint()
 
     // When the DOMContentLoaded event occurs, document.body may not have been initialized yet.
     // When the load event occurs, bind the event handler of document.body.
@@ -35,6 +37,10 @@ export default class Tool {
 
   get nextID() {
     return this._editorContainer.nextID
+  }
+
+  get mousePoint() {
+    return this._mousePoint
   }
 
   registerEditor(element, editor) {

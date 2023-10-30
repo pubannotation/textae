@@ -19,7 +19,8 @@ export default class EditMode {
     commander,
     controlViewModel,
     params,
-    functionAvailability
+    functionAvailability,
+    mousePoint
   ) {
     this._editDenotation = new EditDenotation(
       editorHTMLElement,
@@ -29,7 +30,8 @@ export default class EditMode {
       commander,
       controlViewModel,
       spanConfig,
-      params.autocompletionWs
+      params.autocompletionWs,
+      mousePoint
     )
 
     this._editBlock = new EditBlock(
@@ -40,7 +42,8 @@ export default class EditMode {
       spanConfig,
       commander,
       controlViewModel,
-      params.autocompletionWs
+      params.autocompletionWs,
+      mousePoint
     )
 
     this._editRelation = new EditRelation(
@@ -50,7 +53,8 @@ export default class EditMode {
       selectionModel,
       commander,
       params.autocompletionWs,
-      controlViewModel
+      controlViewModel,
+      mousePoint
     )
 
     new ModeReactor(

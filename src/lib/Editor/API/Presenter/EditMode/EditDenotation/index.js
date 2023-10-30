@@ -19,7 +19,8 @@ export default class EditDenotation extends Edit {
     commander,
     controlViewModel,
     spanConfig,
-    autocompletionWs
+    autocompletionWs,
+    mousePoint
   ) {
     const denotationPallet = new TypeValuesPallet(
       editorHTMLElement,
@@ -30,7 +31,8 @@ export default class EditDenotation extends Edit {
       selectionModel.entity,
       commander,
       'Term configuration',
-      controlViewModel
+      controlViewModel,
+      mousePoint
     )
 
     const spanEditor = new SpanEditor(
@@ -72,10 +74,11 @@ export default class EditDenotation extends Edit {
       commander,
       annotationData,
       selectionModel.entity,
-      new SelectionAttributePallet(editorHTMLElement),
+      new SelectionAttributePallet(editorHTMLElement, mousePoint),
       () => this.editProperties(),
       denotationPallet
     )
+    this._mousePoint = mousePoint
   }
 
   bindMouseEvents() {
@@ -123,7 +126,8 @@ export default class EditDenotation extends Edit {
         this._annotationData.typeDefinition.attribute,
         this._getAutocompletionWs(),
         this._selectionModel.entity.all,
-        this.pallet
+        this.pallet,
+        this._mousePoint
       )
         .open()
         .then((values) => this._typeValuesChanged(values))

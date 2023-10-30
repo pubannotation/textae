@@ -4,8 +4,8 @@ import template from './template'
 import Pallet from '../Pallet'
 
 export default class SelectionAttributePallet extends Pallet {
-  constructor(editorHTMLElement) {
-    super(editorHTMLElement, 'Selection attribute')
+  constructor(editorHTMLElement, mousePoint) {
+    super(editorHTMLElement, 'Selection attribute', mousePoint)
 
     this._veil = dohtml.create(
       `<div style="position: fixed; right: 0; top: 0; bottom:0; left: 0; background-color: rgba(0, 0, 10, 0.3);"></div>`

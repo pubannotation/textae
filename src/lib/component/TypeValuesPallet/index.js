@@ -19,9 +19,10 @@ export default class TypeValuesPallet extends Pallet {
     selectionModelEntity,
     commander,
     title,
-    controlViewModel
+    controlViewModel,
+    mousePoint
   ) {
-    super(editorHTMLElement, title)
+    super(editorHTMLElement, title, mousePoint)
 
     this._eventEmitter = eventEmitter
     this._typeDefinition = typeDefinition

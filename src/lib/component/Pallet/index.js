@@ -1,15 +1,15 @@
 import dohtml from 'dohtml'
 import delegate from 'delegate'
 import enableJqueryDraggable from './enableJqueryDraggable'
-import getMousePoint from './getMousePoint'
 import setWidthWithin from './setWidthWithin'
 import setHeightWithin from './setHeightWithin'
 
 export default class Pallet {
-  constructor(editorHTMLElement, title) {
+  constructor(editorHTMLElement, title, mousePoint) {
     this._editorHTMLElement = editorHTMLElement
     this._title = title
     this._el = this.createElement()
+    this._mousePoint = mousePoint
 
     // let the pallet draggable.
     enableJqueryDraggable(this._el, editorHTMLElement)
@@ -105,7 +105,7 @@ export default class Pallet {
   }
 
   get _left() {
-    const { clientX } = getMousePoint()
+    const { clientX } = this._mousePoint
     const left = clientX - this._editorHTMLElement.getBoundingClientRect().x
 
     // Pull left the pallet when the pallet protrudes from right of the editor.
@@ -117,7 +117,7 @@ export default class Pallet {
   }
 
   get _top() {
-    const { clientY } = getMousePoint()
+    const { clientY } = this._mousePoint
     const editorClientY = this._editorHTMLElement.getBoundingClientRect().y
 
     // Pull up the pallet when the pallet protrudes from bottom of the window.

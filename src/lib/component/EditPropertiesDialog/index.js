@@ -17,7 +17,8 @@ export default class EditPropertiesDialog extends PromiseDialog {
     attributeContainer,
     autocompletionWs,
     selectedItems,
-    typeValuesPallet
+    typeValuesPallet,
+    mousePoint
   ) {
     const { typeName, attributes } = mergedTypeValuesOf(selectedItems)
     const contentHtml = createContentHTML(
@@ -71,7 +72,7 @@ export default class EditPropertiesDialog extends PromiseDialog {
               })
             break
           case 'selection':
-            new SelectionAttributePallet(editorHTMLElement)
+            new SelectionAttributePallet(editorHTMLElement, mousePoint)
               .show(attrDef, zIndex, e.target)
               .then((newObj) => {
                 attributes[e.target.dataset.index].obj = newObj

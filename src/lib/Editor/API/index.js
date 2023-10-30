@@ -29,6 +29,7 @@ export default class API {
   constructor(
     editorHTMLElement,
     editorID,
+    mousePoint,
     eventEmitter,
     annotationData,
     params
@@ -85,7 +86,8 @@ export default class API {
       clipBoard,
       controlViewModel,
       params,
-      functionAvailability
+      functionAvailability,
+      mousePoint
     )
 
     const remoteResource = new RemoteResource(eventEmitter)
