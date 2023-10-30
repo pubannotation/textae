@@ -43,11 +43,11 @@ export default class EditorContainer {
   set selected(element) {
     if (element === null) {
       this._selectedEditor.deactivate()
+      this._selected = null
     } else {
-      this._editors.get(element).activate()
+      this._selected = element
+      this._selectedEditor.activate()
     }
-
-    this._selected = element
   }
 
   drawGridsInSight() {
