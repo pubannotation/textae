@@ -1,9 +1,9 @@
 // Focus of the editor or children element is necessary to listen to keyboard events.
 // Elements be able to focused are the editor, spans and entity types.
 // The focus is lost when spans or entity types are remove.
-// Next elements are seleced autmatically by user deleting.
-// Next elements are not seleced autmatically by undo creation.
-// So, focus the editer when spans or entity types are removed and lost focus.
+// Next elements are selected automatically by user deleting.
+// Next elements are not selected automatically by undo creation.
+// So, focus the editor when spans or entity types are removed and lost focus.
 export default function (editorHTMLElement) {
   // Observe a removing the focused document object.
   new MutationObserver((mutations) => {
