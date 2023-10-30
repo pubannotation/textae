@@ -18,7 +18,7 @@ export default function (editorContainer) {
 
       if (element) {
         if (editorContainer.selected && editorContainer.selected !== element) {
-          editorContainer.unselect(editorContainer.selected)
+          editorContainer.unselect()
         }
         editorContainer.selected = element
       }
@@ -55,7 +55,7 @@ export default function (editorContainer) {
     }
 
     if (editorContainer.selected) {
-      editorContainer.unselect(editorContainer.selected)
+      editorContainer.unselect()
     }
   })
 }

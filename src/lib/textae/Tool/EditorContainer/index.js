@@ -46,11 +46,9 @@ export default class EditorContainer {
     this._selected = element
   }
 
-  unselect(element) {
-    if (this._selected === element) {
-      this._editors.get(element).deactivate()
-      this._selected = null
-    }
+  unselect() {
+    this._editors.get(this._selected).deactivate()
+    this._selected = null
   }
 
   drawGridsInSight() {
