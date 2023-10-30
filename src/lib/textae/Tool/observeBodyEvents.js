@@ -1,6 +1,6 @@
 /**
  *
- * @param {import('.').default} editorContainer
+ * @param {import('./EditorContainer').default} editorContainer
  */
 export default function (editorContainer) {
   // The blur events always occurs each focus changing.

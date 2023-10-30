@@ -1,6 +1,7 @@
 import EditorContainer from './EditorContainer'
 import Veil from './Veil'
 import throttle from 'throttleit'
+import observeBodyEvents from './observeBodyEvents'
 
 // The tool manages interactions between components.
 export default class Tool {
@@ -11,7 +12,7 @@ export default class Tool {
     // When the DOMContentLoaded event occurs, document.body may not have been initialized yet.
     // When the load event occurs, bind the event handler of document.body.
     window.addEventListener('load', () =>
-      this._editorContainer.observeBodyEvents()
+      observeBodyEvents(this._editorContainer)
     )
 
     // Observe window-resize event and redraw all editors.
