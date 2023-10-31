@@ -11,6 +11,7 @@ export default class EditorContainer {
   constructor() {
     this._editors = new Map()
     this._selected = null
+    this._counter = 0
 
     delegate(window, '.textae-editor', 'keyup', (event) => {
       // Keyup events occurs without selected editor, When editor is focused before initializing.
@@ -34,6 +35,7 @@ export default class EditorContainer {
 
   set(element, editor) {
     this._editors.set(element, editor)
+    this._counter++
   }
 
   get selected() {
@@ -73,7 +75,7 @@ export default class EditorContainer {
   }
 
   get nextID() {
-    return `editor${this._editors.size}`
+    return `editor${this._counter}`
   }
 
   _observeDocumentEvents() {
