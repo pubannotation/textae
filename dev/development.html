@@ -133,9 +133,12 @@
             ]
         }
     </div>
+    <script>
+        // Example to focus an specific editor.
+        window.addEventListener('load', () => document.querySelector('.textae-editor').focus())
+    </script>
 
     <script>
-        window.addEventListener('load', () => document.querySelector('.textae-editor').focus())
         exampleOfInitializeTextAEEditor()
 
         // After the other TextAE initialization processes are complete,
@@ -205,6 +208,19 @@
             // Focus on the annotation specified by the ID.
             editor.focusDenotation('T1')
         }
+    </script>
+
+    <script>
+        // Example to delete an editor.
+        window.addEventListener('load', () => {
+            const editor = document.querySelector('.textae-editor')
+            editor.addEventListener('keydown', (event) => {
+                if (event.ctrlKey && event.key === ',') {
+                    event.preventDefault()
+                    editor.remove()
+                }
+            })
+        })
     </script>
 </body>
 

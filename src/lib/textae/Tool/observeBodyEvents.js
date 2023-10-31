@@ -58,4 +58,21 @@ export default function (editorContainer) {
       editorContainer.selected = null
     }
   })
+
+  // Observes the removal of the editor element.
+  // Remove deleted editor from the editor container.
+  new MutationObserver((mutationsList) => {
+    for (const mutation of mutationsList) {
+      if (mutation.type === 'childList') {
+        for (const removedNode of mutation.removedNodes) {
+          if (
+            removedNode.classList &&
+            removedNode.classList.contains('textae-editor')
+          ) {
+            editorContainer.remove(removedNode)
+          }
+        }
+      }
+    }
+  }).observe(document.body, { childList: true, subtree: true })
 }

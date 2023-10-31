@@ -38,6 +38,10 @@ export default class EditorContainer {
     this._counter++
   }
 
+  remove(element) {
+    this._editors.delete(element)
+  }
+
   get selected() {
     return this._selected
   }
