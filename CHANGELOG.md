@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [12.7.3](https://github.com/pubannotation/textae/compare/v12.7.2...v12.7.3) (2023-10-31)
+
+
+### Bug Fixes
+
+* Removing the editor's HTML elements from the document and resizing or scrolling the browser causes an error. ([4e664d5](https://github.com/pubannotation/textae/commit/4e664d563c46bdc46bbbb2d26cf5e7517b58190b))
+
 ### [12.7.2](https://github.com/pubannotation/textae/compare/v12.7.1...v12.7.2) (2023-10-19)
 
 
