@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [12.8.0](https://github.com/pubannotation/textae/compare/v12.7.3...v12.8.0) (2023-11-06)
+
+
+### Features
+
+* Allow editors to be removed from outside TextAE ([ed80181](https://github.com/pubannotation/textae/commit/ed80181f071ab4997e108d81854fe5c0f19262f3))
+
 ### [12.7.3](https://github.com/pubannotation/textae/compare/v12.7.2...v12.7.3) (2023-10-31)
 
 
