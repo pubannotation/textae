@@ -5,7 +5,7 @@ import API from './API'
 
 export const tool = new Tool()
 
-export default function () {
+export default function initializeTextAEEditor() {
   // Set position of toast messages.
   alertifyjs.set('notifier', 'position', 'top-right')
 
