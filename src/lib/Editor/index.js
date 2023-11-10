@@ -66,6 +66,18 @@ export default class Editor {
       )
     }
 
+    // Draws the entity when the editor's ancestor element is scrolled and
+    // the entity enters the display area.
+    const container = element.closest('.textae-container')
+    if (container) {
+      this._listener = {
+        target: container,
+        listener: () => annotationData.drawGridsInSight()
+      }
+
+      this._listener.target.addEventListener('scroll', this._listener.listener)
+    }
+
     const api = new API(
       element,
       editorID,
@@ -120,5 +132,16 @@ export default class Editor {
 
   get HTMLElementID() {
     return this._element.id
+  }
+
+  dispose() {
+    // There is an event listener that monitors scroll events.
+    // The event listener is released when the editor is deleted.
+    if (this._listener) {
+      this._listener.target.removeEventListener(
+        'scroll',
+        this._listener.listener
+      )
+    }
   }
 }

@@ -40,6 +40,7 @@ export default class EditorContainer {
   }
 
   remove(element) {
+    this._editors.get(element).dispose()
     this._editors.delete(element)
 
     if (this.selected === element) {
