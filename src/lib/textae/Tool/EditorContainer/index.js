@@ -3,6 +3,7 @@ import delegate from 'delegate'
 import HelpDialog from '../../../component/HelpDialog'
 import TipsDialog from '../../../component/TipsDialog'
 import isTextFields from './isTextFields'
+import throttle from 'throttleit'
 
 const helpDialog = new HelpDialog()
 const tipsDialog = new TipsDialog()
@@ -87,6 +88,13 @@ export default class EditorContainer {
   }
 
   _observeDocumentEvents() {
+    document.addEventListener(
+      'scroll',
+      throttle(() => {
+        this.drawGridsInSight()
+      }, 300)
+    )
+
     // Since the Body element does not yet exist at the time of initializing the EditorContainer,
     // we will set up an event handler in the document.
     document.addEventListener('copy', (e) => {

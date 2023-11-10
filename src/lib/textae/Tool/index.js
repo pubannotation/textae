@@ -26,13 +26,6 @@ export default class Tool {
         this._editorContainer.updateDenotationEntitiesWidth()
       }, 500)
     )
-
-    window.addEventListener(
-      'scroll',
-      throttle(() => {
-        this._editorContainer.drawGridsInSight()
-      }, 300)
-    )
   }
 
   get nextID() {
