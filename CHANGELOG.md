@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [12.9.0](https://github.com/pubannotation/textae/compare/v12.8.0...v12.9.0) (2023-11-13)
+
+
+### Features
+
+* Draws elements that have entered the display area due to scrolling of the editor's parent element ([cfc4aa1](https://github.com/pubannotation/textae/commit/cfc4aa1673926175bc546ec690e28f27d38b30a0))
+
+
+### Bug Fixes
+
+* Removing an editor from TextAE's control fails when the editor's HTML elements are deleted directly ([c91683c](https://github.com/pubannotation/textae/commit/c91683cce61d0a40eb6fcf1ea8cefc3dcb8c68fb))
+
 ## [12.8.0](https://github.com/pubannotation/textae/compare/v12.7.3...v12.8.0) (2023-11-06)
 
 
