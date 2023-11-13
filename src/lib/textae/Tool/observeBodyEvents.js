@@ -65,7 +65,11 @@ export default function (editorContainer) {
     for (const mutation of mutationsList) {
       if (mutation.type === 'childList') {
         for (const removedNode of mutation.removedNodes) {
-          if (removedNode.querySelectorAll) {
+          if (removedNode instanceof HTMLElement) {
+            if (removedNode.classList.contains('textae-editor')) {
+              editorContainer.remove(removedNode)
+            }
+
             for (const editor of removedNode.querySelectorAll(
               '.textae-editor'
             )) {
