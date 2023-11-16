@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [12.9.1](https://github.com/pubannotation/textae/compare/v12.9.0...v12.9.1) (2023-11-16)
+
+
+### Bug Fixes
+
+* If the logo is set to hidden and viewed on a touch device, the logo is displayed. ([3fb1375](https://github.com/pubannotation/textae/commit/3fb1375456a910b4cf851aa57f08099ceeffc0a8))
+* Line breaks in the middle of the logo when overflow-wrap: break-word; is set outside of TextAE ([5ad732c](https://github.com/pubannotation/textae/commit/5ad732c322d82a47eda0760e0caf9753494c7d95))
+
 ## [12.9.0](https://github.com/pubannotation/textae/compare/v12.8.0...v12.9.0) (2023-11-13)
 
 
