@@ -5,7 +5,7 @@ export default class StateMachine {
    *
    * @param {import('../../../AnnotationData/RelationModelContainer').default} relationContainer
    * @param {import('./Transition').default} transition
-   * @param {import('../..//FunctionAvailability').default} functionAvailability
+   * @param {import('../../FunctionAvailability').default} functionAvailability
    */
   constructor(relationContainer, eventEmitter, functionAvailability) {
     this._currentShowRelation = false

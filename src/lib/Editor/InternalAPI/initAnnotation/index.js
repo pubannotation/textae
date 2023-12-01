@@ -1,9 +1,9 @@
 import alertifyjs from 'alertifyjs'
-import setAnnotationAndConfiguration from '../setAnnotationAndConfiguration'
-import validateConfigurationAndAlert from '../validateConfigurationAndAlert'
-import warningIfBeginEndOfSpanAreNotInteger from '../warningIfBeginEndOfSpanAreNotInteger'
-import DataSource from '../../DataSource'
-import setDefault from './setDefault'
+import setAnnotationAndConfiguration from '../setAnnotationAndConfiguration.js'
+import validateConfigurationAndAlert from '../validateConfigurationAndAlert/index.js'
+import warningIfBeginEndOfSpanAreNotInteger from '../warningIfBeginEndOfSpanAreNotInteger/index.js'
+import DataSource from '../../DataSource/index.js'
+import setDefault from './setDefault.js'
 
 /**
  *

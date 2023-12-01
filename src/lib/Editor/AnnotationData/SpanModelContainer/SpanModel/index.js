@@ -285,7 +285,7 @@ export default class SpanModel {
 
   /**
    *
-   * @param {import('../../../API/Presenter/EditMode/SelectionWrapper').default} selectionWrapper
+   * @param {import('../../../InternalAPI/Presenter/EditMode/SelectionWrapper').default} selectionWrapper
    */
   getShortenInAnchorNodeToFocusNodeDirection(
     spanAdjuster,

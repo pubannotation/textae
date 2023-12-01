@@ -20,7 +20,7 @@ import RemoteResource from '../RemoteResource'
 import forwardMethods from '../forwardMethods'
 import FunctionAvailability from './FunctionAvailability'
 
-export default class API {
+export default class InternalAPI {
   /**
    *
    * @param {import('../ParamsFromHTMLElement').default} params

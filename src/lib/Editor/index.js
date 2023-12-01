@@ -1,6 +1,6 @@
 // model manages data objects.
 import AnnotationData from './AnnotationData'
-import API from './API'
+import InternalAPI from './InternalAPI'
 import { EventEmitter } from 'events'
 import ParamsFormHTMLElement from './ParamsFromHTMLElement'
 import EditorCSSClass from './EditorCSSClass'
@@ -80,7 +80,7 @@ export default class Editor {
 
     // A container of selection state.
     const selectionModel = new SelectionModel(eventEmitter, annotationData)
-    const api = new API(
+    const internalAPI = new InternalAPI(
       element,
       editorID,
       mousePoint,
@@ -90,7 +90,7 @@ export default class Editor {
       selectionModel
     )
 
-    forwardMethods(this, () => api, [
+    forwardMethods(this, () => internalAPI, [
       'copyEntitiesToSystemClipboard',
       'cutEntitiesToSystemClipboard',
       'pasteEntitiesFromSystemClipboard',

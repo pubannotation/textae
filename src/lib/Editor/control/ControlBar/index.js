@@ -34,7 +34,7 @@ function template(context) {
 export default class ControlBar extends Control {
   /**
    *
-   * @param {import('../../API/ControlViewModel').default} controlViewModel
+   * @param {import('../../InternalAPI/ControlViewModel').default} controlViewModel
    */
   constructor(eventEmitter, controlViewModel, iconEventMap) {
     super(template(controlViewModel), iconEventMap)
