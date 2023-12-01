@@ -5,7 +5,14 @@ export default class TypeDefinition {
    *
    * @param {import('../AttributeDefinitionContainer').default} attribute
    */
-  constructor(eventEmitter, denotation, block, relation, attribute) {
+  constructor(
+    eventEmitter,
+    denotation,
+    block,
+    relation,
+    attribute,
+    configLocked = true
+  ) {
     this._eventEmitter = eventEmitter
     this._denotationContainer = denotation
     this._blockContainer = block
@@ -16,6 +23,7 @@ export default class TypeDefinition {
     this._lockStateObservable(() =>
       this._eventEmitter.emit(`textae-event.type-definition.lock`)
     )
+    this._lockStateObservable.set(configLocked)
   }
 
   get denotation() {
