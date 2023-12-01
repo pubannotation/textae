@@ -24,7 +24,8 @@ export default class AnnotationData {
     eventEmitter,
     editorCSSClass,
     startJQueryUIDialogWait,
-    endJQueryUIDialogWait
+    endJQueryUIDialogWait,
+    isConfigLock
   ) {
     this._sourceDoc = ''
     this.namespace = new ModelContainer(eventEmitter, 'namespace')
@@ -112,6 +113,11 @@ export default class AnnotationData {
       relationDefinitionContainer,
       this.attributeDefinitionContainer
     )
+    if (isConfigLock) {
+      this._typeDefinition.lockEdit()
+    } else {
+      this._typeDefinition.unlockEdit()
+    }
 
     eventEmitter
       .on('textae-event.annotation-data.span.add', (span) => {

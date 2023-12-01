@@ -45,13 +45,9 @@ export default class Editor {
       eventEmitter,
       editorCSSClass,
       startJQueryUIDialogWait,
-      endJQueryUIDialogWait
+      endJQueryUIDialogWait,
+      params.configLock === 'true'
     )
-    if (params.configLock === 'true') {
-      annotationData.typeDefinition.lockEdit()
-    } else {
-      annotationData.typeDefinition.unlockEdit()
-    }
 
     if (params.inspect) {
       new Inspector(
