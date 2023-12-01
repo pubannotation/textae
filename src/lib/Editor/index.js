@@ -12,7 +12,7 @@ import isAndroid from './isAndroid'
 import Inspector from './Inspector'
 import loadAnnotation from './loadAnnotation'
 import Listener from './Listener'
-import SelectionModel from './API/SelectionModel'
+import SelectionModel from './SelectionModel'
 
 export default class Editor {
   constructor(
