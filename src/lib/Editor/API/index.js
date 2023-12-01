@@ -17,7 +17,6 @@ import warningIfBeginEndOfSpanAreNotInteger from './warningIfBeginEndOfSpanAreNo
 import validateConfigurationAndAlert from './validateConfigurationAndAlert'
 import setAnnotationAndConfiguration from './setAnnotationAndConfiguration'
 import RemoteResource from '../RemoteResource'
-import SelectionModel from './SelectionModel'
 import forwardMethods from '../forwardMethods'
 import FunctionAvailability from './FunctionAvailability'
 
@@ -32,12 +31,10 @@ export default class API {
     mousePoint,
     eventEmitter,
     annotationData,
-    params
+    params,
+    selectionModel
   ) {
     const spanConfig = new SpanConfig()
-
-    // A container of selection state.
-    const selectionModel = new SelectionModel(eventEmitter, annotationData)
 
     // Users can edit model only via commands.
     const commander = new Commander(

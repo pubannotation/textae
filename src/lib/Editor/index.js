@@ -12,6 +12,7 @@ import isAndroid from './isAndroid'
 import Inspector from './Inspector'
 import loadAnnotation from './loadAnnotation'
 import Listener from './Listener'
+import SelectionModel from './API/SelectionModel'
 
 export default class Editor {
   constructor(
@@ -77,13 +78,16 @@ export default class Editor {
       this._listener.bind()
     }
 
+    // A container of selection state.
+    const selectionModel = new SelectionModel(eventEmitter, annotationData)
     const api = new API(
       element,
       editorID,
       mousePoint,
       eventEmitter,
       annotationData,
-      params
+      params,
+      selectionModel
     )
 
     forwardMethods(this, () => api, [
