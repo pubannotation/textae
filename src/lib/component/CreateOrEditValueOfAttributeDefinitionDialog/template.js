@@ -18,7 +18,7 @@ export default function (context) {
     <label>${labelForRangeOrIdOrPattern}</label>
     <input
       value="${rangeOrIdOrPattern || ''}"
-      class="textae-editor__create-or-edit-value-of-attribute-definition-dialog__range_or_id_or_pattern textae-editor__promise-daialog__observable-element"
+      class="textae-editor__create-or-edit-value-of-attribute-definition-dialog__range_or_id_or_pattern textae-editor__promise-dialog__observable-element"
     >
   </div>
   ${inputDefault(showDefault, defaultValue)}
@@ -26,7 +26,7 @@ export default function (context) {
     <label>label</label>
     <input
       value="${escape(label) || ''}"
-      class="textae-editor__create-or-edit-value-of-attribute-definition-dialog__label textae-editor__promise-daialog__observable-element"
+      class="textae-editor__create-or-edit-value-of-attribute-definition-dialog__label textae-editor__promise-dialog__observable-element"
     >
   </div>
   <div class="textae-editor__create-or-edit-value-of-attribute-definition-dialog__row">

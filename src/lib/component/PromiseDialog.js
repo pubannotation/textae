@@ -22,7 +22,7 @@ export default class PromiseDialog extends Dialog {
 
     delegate(
       super.el,
-      '.textae-editor__promise-daialog__observable-element',
+      '.textae-editor__promise-dialog__observable-element',
       'keyup',
       (e) => {
         if (e.keyCode === 13) {

@@ -26,7 +26,7 @@ export default function (componentClassName, context) {
       <label>Predicate</label>
       <input
         value="${pred || ''}"
-        class="${componentClassName}__pred textae-editor__promise-daialog__observable-element"
+        class="${componentClassName}__pred textae-editor__promise-dialog__observable-element"
       >
     </div>
     ${showDefault ? `${inputDefault(componentClassName, defaultValue)}` : ''}

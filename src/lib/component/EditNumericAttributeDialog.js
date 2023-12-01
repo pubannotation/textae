@@ -8,29 +8,29 @@ function template(context) {
   <div class="textae-editor__edit-numeric-attribute-dialog__row">
     <label>Subject</label>
     <div class="textae-editor__edit-numeric-attribute-dialog__subject-row">
-      <input 
+      <input
       class="textae-editor__edit-numeric-attribute-dialog__subject-input"
-        value="${subjects}" 
+        value="${subjects}"
         disabled="disabled">
-      <button 
+      <button
         class="textae-editor__edit-numeric-attribute-dialog__subject-edit-button"
         title="properties">...</button>
     </div>
   </div>
   <div class="textae-editor__edit-numeric-attribute-dialog__row">
     <label>Predicate</label>
-    <input 
-      value="${pred}" 
+    <input
+      value="${pred}"
       disabled="disabled">
   </div>
   <div class="textae-editor__edit-numeric-attribute-dialog__row ui-front">
     <label>Object</label>
-    <input 
-      class="textae-editor__edit-numeric-attribute-dialog__value textae-editor__promise-daialog__observable-element" 
-      type="number" 
+    <input
+      class="textae-editor__edit-numeric-attribute-dialog__value textae-editor__promise-dialog__observable-element"
+      type="number"
       ${typeof min === 'number' ? `min="${min}"` : ''}
       ${typeof max === 'number' ? `max="${max}"` : ''}
-      step="${step}" 
+      step="${step}"
       value="${value}"
       autofocus>
   </div>

@@ -9,7 +9,7 @@ function template(context) {
   <div class="textae-editor__type-definition-dialog__row ui-front">
     <label>Id</label>
     <input
-      class="textae-editor__type-definition-dialog--id textae-editor__promise-daialog__observable-element" 
+      class="textae-editor__type-definition-dialog--id textae-editor__promise-dialog__observable-element"
       value="${id || ''}">
   </div>
   <div class="textae-editor__type-definition-dialog__row ui-front">
@@ -17,15 +17,15 @@ function template(context) {
     <input value="${label}">
   </div>
   <div class="textae-editor__type-definition-dialog__color-picker">
-    <label><input 
-      class="textae-editor__type-definition-dialog__color-picker__input" 
-      type="color" 
+    <label><input
+      class="textae-editor__type-definition-dialog__color-picker__input"
+      type="color"
       value="${color}">
     Color</label>
   </div>
   <div class="textae-editor__type-definition-dialog__set-default">
-    <label><input 
-      class="textae-editor__type-definition-dialog__set-default__input" 
+    <label><input
+      class="textae-editor__type-definition-dialog__set-default__input"
       type="checkbox" ${
         isDefault ? 'checked="checked" disabled="disabled"' : ''
       }>
