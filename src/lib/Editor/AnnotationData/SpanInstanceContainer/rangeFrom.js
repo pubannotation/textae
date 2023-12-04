@@ -1,8 +1,8 @@
 import spanComparator from './spanComparator'
 
-export default function (spanModelContainer, firstId, secondId) {
-  const first = spanModelContainer.get(firstId)
-  const second = spanModelContainer.get(secondId)
+export default function (spanInstanceContainer, firstId, secondId) {
+  const first = spanInstanceContainer.get(firstId)
+  const second = spanInstanceContainer.get(secondId)
   let left = first
   let right = second
 
@@ -14,7 +14,7 @@ export default function (spanModelContainer, firstId, secondId) {
 
   // When the parent-child span is selected, the child span will be on the right.
   // In this case, the end of the child span is to the left of the end of the parent span.
-  return [...spanModelContainer.values()]
+  return [...spanInstanceContainer.values()]
     .filter(
       (span) =>
         left.begin <= span.begin &&
