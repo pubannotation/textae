@@ -4,7 +4,7 @@ import {
   makeBlockSpanHTMLElementID,
   makeDenotationSpanHTMLElementID
 } from '../../idFactory'
-import DenotationSpanModel from './DenotationSpanModel'
+import DenotationSpanInstance from './DenotationSpanInstance'
 import StyleSpanModel from './StyleSpanModel'
 import BlockSpanModel from './BlockSpanModel'
 import isBoundaryCrossingWithOtherSpans from '../isBoundaryCrossingWithOtherSpans'
@@ -36,7 +36,7 @@ export default class SpanInstanceContainer {
     // or the DeontationSpan already.
     if (newValue instanceof BlockSpanModel) {
       return this._addBlock(newValue)
-    } else if (newValue instanceof DenotationSpanModel) {
+    } else if (newValue instanceof DenotationSpanInstance) {
       return this._addDenotation(newValue)
     } else if (newValue.isBlock) {
       console.assert(
@@ -59,7 +59,7 @@ export default class SpanInstanceContainer {
         !this.hasDenotationSpan(newValue.begin, newValue.end),
         'There is already a span.'
       )
-      const denotationSpan = new DenotationSpanModel(
+      const denotationSpan = new DenotationSpanInstance(
         this._editorID,
         this._editorHTMLElement,
         newValue.begin,
@@ -206,7 +206,7 @@ export default class SpanInstanceContainer {
 
     this._removeDenotation(oldSpan)
 
-    const newOne = new DenotationSpanModel(
+    const newOne = new DenotationSpanInstance(
       this._editorID,
       this._editorHTMLElement,
       begin,
@@ -329,7 +329,7 @@ export default class SpanInstanceContainer {
   }
 
   /**
-   * @returns {import('./DenotationSpanModel').default[]}
+   * @returns {import('./DenotationSpanInstance').DenotationSpanInstance[]}
    */
   get allDenotationSpans() {
     return [...this._denotations.values()]
@@ -357,7 +357,7 @@ export default class SpanInstanceContainer {
   _addInstanceFromElement(type, denotation) {
     switch (type) {
       case 'denotation': {
-        const objectSpan = new DenotationSpanModel(
+        const objectSpan = new DenotationSpanInstance(
           this._editorID,
           this._editorHTMLElement,
           denotation.span.begin,

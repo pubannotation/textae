@@ -193,7 +193,7 @@ export default class SpanInstance {
 
   updateSelfAndAncestorsGridPosition() {
     // Do nothing.
-    // This method overrided in the DenotationSpanModel.
+    // This method overrided in the DenotationSpanInstance.
   }
 
   drawGrid(clientHeight, clientWidth) {

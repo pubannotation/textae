@@ -1,6 +1,6 @@
 /**
  *
- * @param {import('./index').default} span
+ * @param {import('./index').DenotationSpanInstance} span
  * @param {number} typeGap
  * @returns {number}
  */

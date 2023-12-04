@@ -7,16 +7,16 @@ import { makeDenotationSpanHTMLElementID } from '../../../idFactory'
 
 const TEXT_HEIGHT = 23
 const MARGIN_TOP = 5
-export default class DenotationSpanModel extends SpanInstance {
+export default class DenotationSpanInstance extends SpanInstance {
   constructor(
     editorID,
     editorHTMLElement,
     begin,
     end,
     entityModelContainer,
-    spanModelContainer
+    spanInstanceContainer
   ) {
-    super(editorID, editorHTMLElement, begin, end, spanModelContainer)
+    super(editorID, editorHTMLElement, begin, end, spanInstanceContainer)
     this._entityModelContainer = entityModelContainer
   }
 
@@ -69,7 +69,7 @@ export default class DenotationSpanModel extends SpanInstance {
   updateSelfAndAncestorsGridPosition() {
     this.updateGridPosition()
     let parentSpan = this.parent
-    while (parentSpan instanceof DenotationSpanModel) {
+    while (parentSpan instanceof DenotationSpanInstance) {
       parentSpan.updateGridPosition()
       parentSpan = parentSpan.parent
     }
