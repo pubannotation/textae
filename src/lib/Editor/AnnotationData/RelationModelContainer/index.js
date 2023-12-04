@@ -1,4 +1,4 @@
-import RelationModel from './RelationModel'
+import RelationInstance from './RelationInstance'
 import IdIssueContainer from '../IdIssueContainer'
 
 export default class RelationModelContainer extends IdIssueContainer {
@@ -23,7 +23,7 @@ export default class RelationModelContainer extends IdIssueContainer {
   }
 
   _toModel(relation) {
-    return new RelationModel(
+    return new RelationInstance(
       this._editorHTMLElement,
       this._eventEmitter,
       this._parentContainer.entity,
@@ -36,11 +36,11 @@ export default class RelationModelContainer extends IdIssueContainer {
   }
 
   add(newValue) {
-    // When redoing, the newValue is instance of the RelationModel already.
+    // When redoing, the newValue is instance of the RelationInstance already.
     newValue =
-      newValue instanceof RelationModel
+      newValue instanceof RelationInstance
         ? newValue
-        : new RelationModel(
+        : new RelationInstance(
             this._editorHTMLElement,
             this._eventEmitter,
             this._parentContainer.entity,

@@ -5,7 +5,7 @@ import TypeValues from '../../../../TypeValues'
 import Arrow from './Arrow'
 import Label from './Label'
 
-export default class RelationModel {
+export default class RelationInstance {
   constructor(
     editorHTMLElement,
     eventEmitter,
