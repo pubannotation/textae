@@ -46,14 +46,14 @@ export default class SelectionModel {
     return this._selectedEntities
   }
 
-  add(modelType, id) {
-    console.assert(this[modelType])
-    this[modelType].add(id)
+  add(annotationType, id) {
+    console.assert(this[annotationType])
+    this[annotationType].add(id)
   }
 
-  remove(modelType, id) {
-    console.assert(this[modelType])
-    this[modelType].remove(id)
+  remove(annotationType, id) {
+    console.assert(this[annotationType])
+    this[annotationType].remove(id)
   }
 
   removeAll() {
