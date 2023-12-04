@@ -4,7 +4,7 @@ import getURI from '../../getURI.js'
 import hexToRGBA from '../../hexToRGBA.js'
 import toAnchorElement from '../../toAnchorElement.js'
 
-export default class AttributeModel {
+export default class AttributeInstance {
   // Expected an attribute like {id: "A1", subj: "T1", pred: "example_predicate_1", obj: "attr1"}.
   /**
    *

@@ -98,7 +98,7 @@ export default class EntityInstance {
   }
 
   /**
-   * @returns {import('./AnnotationData/AttributeInstanceContainer/AttributeInstance.js').default[]}
+   * @returns {import('./AnnotationData/AttributeInstanceContainer/AttributeInstance.js').AttributeInstance[]}
    */
   get attributes() {
     return this._attributeContainer.getAttributesFor(this._id)
