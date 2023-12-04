@@ -13,7 +13,7 @@ export default class ChangeAttributeDefinitionAndRefectInstancesCommand extends 
     super()
 
     // change config
-    const changeConfigcommands = [
+    const changeConfigCommands = [
       new ChangeAttributeDefinitionCommand(
         definitionContainer,
         attrDef,
@@ -44,7 +44,7 @@ export default class ChangeAttributeDefinitionAndRefectInstancesCommand extends 
       }
     }
 
-    this._subCommands = changeConfigcommands.concat(changAnnotationCommands)
+    this._subCommands = changeConfigCommands.concat(changAnnotationCommands)
     this._logMessage = `set ${[...changedProperties.entries()].map(
       ([id, val]) => `${id}:${val}`
     )} to attribute definition ${attrDef.pred}`
