@@ -19,7 +19,7 @@ export default class AttributeInstanceContainer extends IdIssueContainer {
     this._mediaDictionary = new MediaDictionary()
   }
 
-  _toModel(attribute) {
+  _toInstance(attribute) {
     return new AttributeInstance(
       attribute,
       this._entityContainer,
@@ -33,7 +33,9 @@ export default class AttributeInstanceContainer extends IdIssueContainer {
   add(newValue) {
     // When redoing, the newValue is instance of the AttributeInstance already.
     newValue =
-      newValue instanceof AttributeInstance ? newValue : this._toModel(newValue)
+      newValue instanceof AttributeInstance
+        ? newValue
+        : this._toInstance(newValue)
 
     super.add(newValue)
 

@@ -38,7 +38,7 @@ export default class EntityInstanceContainer extends IdIssueContainer {
     this._controlBarHeight = value
   }
 
-  _toModel(denotation, type) {
+  _toInstance(denotation, type) {
     // Expected an entity like {id: "E21", span: "editor2__S50_54", obj: "Protein"}.
     const span = this._getSpan(type, denotation)
     const newInstance = new EntityInstance(

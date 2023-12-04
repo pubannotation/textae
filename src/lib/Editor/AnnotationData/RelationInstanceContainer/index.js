@@ -22,7 +22,7 @@ export default class RelationInstanceContainer extends IdIssueContainer {
     this._controlBarHeight = value
   }
 
-  _toModel(relation) {
+  _toInstance(relation) {
     return new RelationInstance(
       this._editorHTMLElement,
       this._eventEmitter,

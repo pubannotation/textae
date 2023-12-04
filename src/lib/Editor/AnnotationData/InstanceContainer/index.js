@@ -5,12 +5,12 @@ export default class InstanceContainer {
     this._container = new Map()
   }
 
-  _toModel(rowDatum) {
+  _toInstance(rowDatum) {
     return rowDatum
   }
 
   addSource(source, type) {
-    for (const instance of source.map((r) => this._toModel(r, type))) {
+    for (const instance of source.map((r) => this._toInstance(r, type))) {
       this._addToContainer(instance)
     }
   }
