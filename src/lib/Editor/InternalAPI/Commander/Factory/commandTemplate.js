@@ -2,45 +2,55 @@ import commandLog from './commandLog'
 import AnnotationCommand from './AnnotationCommand'
 
 class CreateCommand extends AnnotationCommand {
-  constructor(annotationData, modelType, model, selectionModel = null) {
+  constructor(annotationData, instanceType, instance, selectionModel = null) {
     super()
     this._annotationData = annotationData
-    this._modelType = modelType
-    this._model = model
+    this._instanceType = instanceType
+    this._instance = instance
     this._selectionModel = selectionModel
   }
 
   execute() {
-    this._model = this._annotationData[this._modelType].add(this._model)
+    this._instance = this._annotationData[this._instanceType].add(
+      this._instance
+    )
 
     if (this._selectionModel) {
-      this._selectionModel.add(this._modelType, this._model.id)
+      this._selectionModel.add(this._instanceType, this._instance.id)
     }
 
-    commandLog(this, `${this._modelType}: ${this._model.id}`)
+    commandLog(this, `${this._instanceType}: ${this._instance.id}`)
   }
 
   revert() {
-    return new RemoveCommand(this._annotationData, this._modelType, this._model)
+    return new RemoveCommand(
+      this._annotationData,
+      this._instanceType,
+      this._instance
+    )
   }
 }
 
 class RemoveCommand extends AnnotationCommand {
-  constructor(annotationData, modelType, model) {
+  constructor(annotationData, instanceType, instance) {
     super()
     this._annotationData = annotationData
-    this._modelType = modelType
-    this._model = model
+    this._instanceType = instanceType
+    this._instance = instance
   }
 
   execute() {
-    this._annotationData[this._modelType].remove(this._model.id)
+    this._annotationData[this._instanceType].remove(this._instance.id)
 
-    commandLog(this, `${this._modelType}: ${this._model.id}`)
+    commandLog(this, `${this._instanceType}: ${this._instance.id}`)
   }
 
   revert() {
-    return new CreateCommand(this._annotationData, this._modelType, this._model)
+    return new CreateCommand(
+      this._annotationData,
+      this._instanceType,
+      this._instance
+    )
   }
 }
 
