@@ -15,15 +15,14 @@ export default class ChangeAnnotationCommand extends AnnotationCommand {
       this._id
     ).typeName
 
-    // Update model
-    const targetModel = this._annotationData[this._annotationType].changeType(
-      this._id,
-      this._newType
-    )
+    // Update instance
+    const targetInstance = this._annotationData[
+      this._annotationType
+    ].changeType(this._id, this._newType)
     commandLog(
       this,
-      `change type of a ${this._annotationType}. oldtype:${this.oldType} ${this._annotationType}:`,
-      targetModel
+      `change type of a ${this._annotationType}. old type:${this.oldType} ${this._annotationType}:`,
+      targetInstance
     )
   }
 
