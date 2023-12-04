@@ -13,7 +13,7 @@ export default class ChangeAttributeCommand extends AnnotationCommand {
   }
 
   execute() {
-    this.newModel = this._annotationData.attribute.change(
+    this._newInstance = this._annotationData.attribute.change(
       this._attribute.id,
       this._newPred,
       this._newObj
@@ -21,14 +21,14 @@ export default class ChangeAttributeCommand extends AnnotationCommand {
 
     commandLog(
       this,
-      `attribute: ${this._attribute.id} changed from ${this._oldPred}:${this._oldObj} to ${this.newModel.pred}:${this.newModel.obj}.`
+      `attribute: ${this._attribute.id} changed from ${this._oldPred}:${this._oldObj} to ${this._newInstance.pred}:${this._newInstance.obj}.`
     )
   }
 
   revert() {
     return new ChangeAttributeCommand(
       this._annotationData,
-      this.newModel,
+      this._newInstance,
       this._oldPred,
       this._oldObj
     )
