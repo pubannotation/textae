@@ -8,13 +8,13 @@ export default class TypeValuesPallet extends Pallet {
   /**
    *
    * @param {import('../../Editor/AnnotationData/TypeDefinition').default} typeDefinition
-   * @param {import('../../Editor/AttributeDefinitionContainer').default} attributeModelContainer
+   * @param {import('../../Editor/AttributeDefinitionContainer').default} attributeInstanceContainer
    */
   constructor(
     editorHTMLElement,
     eventEmitter,
     typeDefinition,
-    attributeModelContainer,
+    attributeInstanceContainer,
     definitionContainer,
     selectionModelEntity,
     commander,
@@ -26,7 +26,7 @@ export default class TypeValuesPallet extends Pallet {
 
     this._eventEmitter = eventEmitter
     this._typeDefinition = typeDefinition
-    this._attributeModelContainer = attributeModelContainer
+    this._attributeInstanceContainer = attributeInstanceContainer
     this._definitionContainer = definitionContainer
     this._selectionModelItems = selectionModelEntity
     this._controlViewModel = controlViewModel
@@ -163,7 +163,7 @@ export default class TypeValuesPallet extends Pallet {
       this._selectedPred,
       this._selectionModelItems,
       this._typeDefinition.attribute,
-      this._attributeModelContainer.all,
+      this._attributeInstanceContainer.all,
       this._typeDefinition.isLock
     )
   }
