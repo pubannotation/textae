@@ -84,7 +84,7 @@ export default class EntityInstanceContainer extends IdIssueContainer {
 
     console.assert(
       newEntity.span.isDenotation || newEntity.span.entities.length === 0,
-      'A blockspan cannot have more than one entity.'
+      'A block span cannot have more than one entity.'
     )
 
     super.add(newEntity)
