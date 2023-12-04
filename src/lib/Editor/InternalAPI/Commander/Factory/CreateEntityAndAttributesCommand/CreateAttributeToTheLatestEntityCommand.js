@@ -10,7 +10,7 @@ export default class CreateAttributeToTheLatestEntityCommand extends CreateComma
 
   execute() {
     const subj = this._annotationData.entity.all.pop().id
-    this._model.subj = subj
+    this._instance.subj = subj
     return super.execute()
   }
 }
