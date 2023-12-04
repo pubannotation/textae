@@ -17,12 +17,12 @@ export default class BlockSpanInstance extends SpanInstance {
     editorHTMLElement,
     begin,
     end,
-    entityModelContainer,
+    entityInstanceContainer,
     spanInstanceContainer,
     textBox
   ) {
     super(editorID, editorHTMLElement, begin, end, spanInstanceContainer)
-    this._entityModelContainer = entityModelContainer
+    this._entityInstanceContainer = entityInstanceContainer
     this._textBox = textBox
   }
 

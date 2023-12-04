@@ -13,11 +13,11 @@ export default class DenotationSpanInstance extends SpanInstance {
     editorHTMLElement,
     begin,
     end,
-    entityModelContainer,
+    entityInstanceContainer,
     spanInstanceContainer
   ) {
     super(editorID, editorHTMLElement, begin, end, spanInstanceContainer)
-    this._entityModelContainer = entityModelContainer
+    this._entityInstanceContainer = entityInstanceContainer
   }
 
   get id() {

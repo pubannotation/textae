@@ -2,7 +2,7 @@ import InstanceContainer from './InstanceContainer'
 import SpanInstanceContainer from './SpanInstanceContainer'
 import AttributeModelContainer from './AttributeModelContainer'
 import RelationModelContainer from './RelationModelContainer'
-import EntityModelContainer from './EntityModelContainer'
+import EntityInstanceContainer from './EntityInstanceContainer'
 import AnnotationParser from './AnnotationParser'
 import clearAnnotationData from './clearAnnotationData'
 import toDenotations from './toDenotations'
@@ -51,7 +51,7 @@ export default class AnnotationData {
       eventEmitter.emit('textae-event.annotation-data.entity-gap.change')
     })
 
-    this.entity = new EntityModelContainer(
+    this.entity = new EntityInstanceContainer(
       editorID,
       eventEmitter,
       this,

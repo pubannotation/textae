@@ -5,7 +5,7 @@ import {
 } from '../idFactory'
 import IdIssueContainer from './IdIssueContainer'
 
-export default class EntityModelContainer extends IdIssueContainer {
+export default class EntityInstanceContainer extends IdIssueContainer {
   constructor(editorID, eventEmitter, parent, typeGap, namespace) {
     super(eventEmitter, 'entity', (instance) =>
       instance.isDenotation ? 'T' : 'B'
@@ -13,15 +13,15 @@ export default class EntityModelContainer extends IdIssueContainer {
 
     this._editorID = editorID
 
-    // Since the attribute model container and the entity model container are cross-referenced,
-    // the entity model retrieves other containers dynamically.
+    // Since the attribute instance container and the entity instance container are cross-referenced,
+    // the entity instance retrieves other containers dynamically.
     this._parent = parent
 
     this._typeGap = typeGap
     this._namespace = namespace
   }
 
-  get _spanModelContainer() {
+  get _spanInstanceContainer() {
     return this._parent.span
   }
 
@@ -69,7 +69,7 @@ export default class EntityModelContainer extends IdIssueContainer {
       return newValue
     }
 
-    const span = this._spanModelContainer.get(newValue.span)
+    const span = this._spanInstanceContainer.get(newValue.span)
     const newEntity = new EntityModel(
       this._editorID,
       this._attributeModelContainer,
@@ -163,7 +163,7 @@ export default class EntityModelContainer extends IdIssueContainer {
   }
 
   _getSpan(type, denotation) {
-    return this._spanModelContainer.get(this._getSpanId(type, denotation))
+    return this._spanInstanceContainer.get(this._getSpanId(type, denotation))
   }
 
   _getSpanId(type, denotation) {
