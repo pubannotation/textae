@@ -25,11 +25,11 @@ export default class EntityInstanceContainer extends IdIssueContainer {
     return this._parent.span
   }
 
-  get _attributeModelContainer() {
+  get _attributeInstanceContainer() {
     return this._parent.attribute
   }
 
-  get _relationModelContainer() {
+  get _relationInstanceContainer() {
     return this._parent.relation
   }
 
@@ -43,8 +43,8 @@ export default class EntityInstanceContainer extends IdIssueContainer {
     const span = this._getSpan(type, denotation)
     const newInstance = new EntityInstance(
       this._editorID,
-      this._attributeModelContainer,
-      this._relationModelContainer,
+      this._attributeInstanceContainer,
+      this._relationInstanceContainer,
       this._typeGap,
       this._parent.typeDefinition,
       span,
@@ -72,8 +72,8 @@ export default class EntityInstanceContainer extends IdIssueContainer {
     const span = this._spanInstanceContainer.get(newValue.span)
     const newEntity = new EntityInstance(
       this._editorID,
-      this._attributeModelContainer,
-      this._relationModelContainer,
+      this._attributeInstanceContainer,
+      this._relationInstanceContainer,
       this._typeGap,
       this._parent.typeDefinition,
       span,
