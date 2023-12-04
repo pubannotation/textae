@@ -1,6 +1,6 @@
 import InstanceContainer from './InstanceContainer'
 import SpanInstanceContainer from './SpanInstanceContainer'
-import AttributeModelContainer from './AttributeModelContainer'
+import AttributeInstanceContainer from './AttributeInstanceContainer'
 import RelationModelContainer from './RelationModelContainer'
 import EntityInstanceContainer from './EntityInstanceContainer'
 import AnnotationParser from './AnnotationParser'
@@ -63,7 +63,7 @@ export default class AnnotationData {
       eventEmitter,
       () => this.attribute.all
     )
-    this.attribute = new AttributeModelContainer(
+    this.attribute = new AttributeInstanceContainer(
       eventEmitter,
       this.entity,
       this.relation,

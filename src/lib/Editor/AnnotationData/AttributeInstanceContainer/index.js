@@ -2,7 +2,7 @@ import AttributeInstance from './AttributeInstance'
 import IdIssueContainer from '../IdIssueContainer'
 import MediaDictionary from './MediaDictionary'
 
-export default class AttributeModelContainer extends IdIssueContainer {
+export default class AttributeInstanceContainer extends IdIssueContainer {
   constructor(
     emitter,
     entityContainer,
