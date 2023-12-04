@@ -2,6 +2,11 @@ import commandLog from './commandLog'
 import BaseCommand from './BaseCommand'
 
 export default class CompositeCommand extends BaseCommand {
+  constructor() {
+    super()
+    this._isExecuteSubCommandsInReverseOrderWhenRevert = true
+  }
+
   execute() {
     console.assert(this._subCommands, '_subCommands is necessary!')
 
@@ -26,8 +31,16 @@ export default class CompositeCommand extends BaseCommand {
       _subCommands: this._subCommands,
       _logMessage: this._logMessage,
       _afterInvoke: this._afterInvoke,
+      _isExecuteSubCommandsInReverseOrderWhenRevert:
+        this._isExecuteSubCommandsInReverseOrderWhenRevert,
       execute() {
-        for (const c of this._subCommands.map((c) => c.revert()).reverse()) {
+        let subCommands = this._subCommands.map((c) => c.revert())
+
+        if (this._isExecuteSubCommandsInReverseOrderWhenRevert) {
+          subCommands = subCommands.reverse()
+        }
+
+        for (const c of subCommands) {
           c.execute()
         }
 

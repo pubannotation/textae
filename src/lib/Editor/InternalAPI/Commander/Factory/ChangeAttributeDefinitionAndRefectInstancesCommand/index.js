@@ -12,6 +12,10 @@ export default class ChangeAttributeDefinitionAndRefectInstancesCommand extends 
   ) {
     super()
 
+    // After updating the attribute definition, the value type of the attribute can be retrieved.
+    // This is true for both normal and undo executions.
+    this._isExecuteSubCommandsInReverseOrderWhenRevert = false
+
     // change config
     const changeConfigCommands = [
       new ChangeAttributeDefinitionCommand(
