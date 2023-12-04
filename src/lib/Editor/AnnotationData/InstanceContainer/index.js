@@ -34,7 +34,7 @@ export default class InstanceContainer {
   }
 
   findByType(typeName) {
-    return this.all.filter((model) => model.typeName === typeName)
+    return this.all.filter((instance) => instance.typeName === typeName)
   }
 
   /**
