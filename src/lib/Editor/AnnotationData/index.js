@@ -1,5 +1,5 @@
 import InstanceContainer from './InstanceContainer'
-import SpanModelContainer from './SpanModelContainer'
+import SpanInstanceContainer from './SpanInstanceContainer'
 import AttributeModelContainer from './AttributeModelContainer'
 import RelationModelContainer from './RelationModelContainer'
 import EntityModelContainer from './EntityModelContainer'
@@ -86,7 +86,7 @@ export default class AnnotationData {
     }
     this._textBox = createTextBox(editorHTMLElement, this)
     this._lineHeightAuto = new LineHeightAuto(eventEmitter, this._textBox)
-    this.span = new SpanModelContainer(
+    this.span = new SpanInstanceContainer(
       editorID,
       editorHTMLElement,
       eventEmitter,

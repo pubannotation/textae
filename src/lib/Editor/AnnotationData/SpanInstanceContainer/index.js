@@ -11,7 +11,7 @@ import isBoundaryCrossingWithOtherSpans from '../isBoundaryCrossingWithOtherSpan
 import rangeFrom from './rangeFrom'
 import getCurrentMaxHeight from './getCurrentMaxHeight'
 
-export default class SpanModelContainer {
+export default class SpanInstanceContainer {
   /**
    *
    * @param {import('../createTextBox/TextBox').default} textBox
@@ -194,7 +194,7 @@ export default class SpanModelContainer {
   }
 
   // Since moving a span is deleting and adding span tags,
-  // we will delete and add the model as well.
+  // we will delete and add the instance as well.
   moveDenotationSpan(id, begin, end) {
     console.assert(
       id !== makeDenotationSpanHTMLElementID(this._editorID, begin, end),
@@ -339,12 +339,12 @@ export default class SpanModelContainer {
     return [...this._blocks.values()]
   }
 
-  // It has a common interface with the span model so that it can be the parent of the span model.
+  // It has a common interface with the span instance so that it can be the parent of the span instance.
   get begin() {
     return 0
   }
 
-  // It has a common interface with the span model so that it can be the parent of the span model
+  // It has a common interface with the span instance so that it can be the parent of the span instance
   get element() {
     return this._editorHTMLElement.querySelector(`.textae-editor__text-box`)
   }
