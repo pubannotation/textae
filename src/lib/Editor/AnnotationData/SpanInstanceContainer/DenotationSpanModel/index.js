@@ -1,13 +1,13 @@
 import SELECTED from '../SELECTED'
 import getGridHeightIncludeDescendantGrids from './getGridHeightIncludeDescendantGrids'
 import round from '../../../round'
-import SpanModel from '../SpanModel'
+import SpanInstance from '../SpanInstance'
 import isTouchable from '../../../isTouchable'
 import { makeDenotationSpanHTMLElementID } from '../../../idFactory'
 
 const TEXT_HEIGHT = 23
 const MARGIN_TOP = 5
-export default class DenotationSpanModel extends SpanModel {
+export default class DenotationSpanModel extends SpanInstance {
   constructor(
     editorID,
     editorHTMLElement,
@@ -40,7 +40,7 @@ export default class DenotationSpanModel extends SpanModel {
 
   // Merges a span and a typesetting so that it can be rendered as a single DOM element.
   get styles() {
-    return this._spanModelContainer.getStyle(this.id)
+    return this._spanInstanceContainer.getStyle(this.id)
   }
 
   get _offsetLeft() {

@@ -1,7 +1,7 @@
 import { makeStyleSpanHTMLElementID } from '../../idFactory'
-import SpanModel from './SpanModel'
+import SpanInstance from './SpanInstance'
 
-export default class StyleSpanModel extends SpanModel {
+export default class StyleSpanModel extends SpanInstance {
   constructor(
     editorID,
     editorHTMLElement,

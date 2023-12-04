@@ -6,13 +6,13 @@ import getRightGrid from './getRightGrid'
 import createRangeToSpan from '../createRangeToSpan'
 import round from '../../../round'
 
-export default class SpanModel {
-  constructor(editorID, editorHTMLElement, begin, end, spanModelContainer) {
+export default class SpanInstance {
+  constructor(editorID, editorHTMLElement, begin, end, spanInstanceContainer) {
     this._editorID = editorID
     this._editorHTMLElement = editorHTMLElement
     this._begin = begin
     this._end = end
-    this._spanModelContainer = spanModelContainer
+    this._spanInstanceContainer = spanInstanceContainer
     this._isGridRendered = false
     this._isSelected = false
     /**
@@ -58,7 +58,7 @@ export default class SpanModel {
   }
 
   get root() {
-    return this._spanModelContainer
+    return this._spanInstanceContainer
   }
 
   get parent() {
@@ -217,7 +217,7 @@ export default class SpanModel {
 
   isGridInDrawArea() {
     throw new Error(
-      'SpanModel.isGridInDrawArea should be implemented in a subclass.'
+      'SpanInstance.isGridInDrawArea should be implemented in a subclass.'
     )
   }
 

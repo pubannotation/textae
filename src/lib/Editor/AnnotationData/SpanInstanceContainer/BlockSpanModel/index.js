@@ -2,12 +2,12 @@ import { makeBlockSpanHTMLElementID } from '../../../idFactory'
 import SELECTED from '../SELECTED'
 import renderBackground from './renderBackground'
 import setPosition from './setPosition'
-import SpanModel from '../SpanModel'
+import SpanInstance from '../SpanInstance'
 import getAnnotationBox from '../../getAnnotationBox'
 
 // Leave a gap between the text and the block border.
 const gapBetweenText = 8
-export default class BlockSpanModel extends SpanModel {
+export default class BlockSpanModel extends SpanInstance {
   /**
    *
    * @param {import('../../createTextBox/TextBox').default} textBox

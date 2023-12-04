@@ -12,7 +12,7 @@ const MinimumDistance = DistanceToShift * 3 + 4
 export default class EntityModel {
   /**
    *
-   * @param {import('./AnnotationData/SpanInstanceContainer/SpanModel/index.js').default} span
+   * @param {import('./AnnotationData/SpanInstanceContainer/SpanInstance/index.js').SpanInstance} span
    */
   constructor(
     editorID,

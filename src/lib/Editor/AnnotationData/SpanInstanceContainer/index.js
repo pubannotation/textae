@@ -123,7 +123,7 @@ export default class SpanInstanceContainer {
 
   /**
    *
-   * @returns {import('./SpanModel').default}
+   * @returns {import('./SpanInstance').SpanInstance}
    */
   get(spanID) {
     if (this._denotations.has(spanID)) {
