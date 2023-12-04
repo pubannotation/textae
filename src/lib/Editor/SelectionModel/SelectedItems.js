@@ -2,37 +2,34 @@ export default class SelectedItems {
   constructor(emitter, kindName, annotationData) {
     this._emitter = emitter
     this._kindName = kindName
-    this._modelContainer = annotationData[kindName]
+    this._instanceContainer = annotationData[kindName]
   }
 
   add(id) {
-    const modelInstance = this._modelContainer.get(id)
+    const instance = this._instanceContainer.get(id)
 
-    console.assert(
-      modelInstance,
-      `${id} is not a instance of ${this._kindName}.`
-    )
+    console.assert(instance, `${id} is not a instance of ${this._kindName}.`)
 
-    if (modelInstance.isSelected) {
+    if (instance.isSelected) {
       return
     }
 
-    modelInstance.select()
+    instance.select()
     this.triggerChange()
   }
 
   has(id) {
-    const modelInstance = this._modelContainer.get(id)
+    const instance = this._instanceContainer.get(id)
 
-    if (modelInstance) {
-      return modelInstance.isSelected
+    if (instance) {
+      return instance.isSelected
     }
 
     return false
   }
 
   contains(predicate) {
-    for (const v of this._modelContainer.selectedItems) {
+    for (const v of this._instanceContainer.selectedItems) {
       if (predicate(v)) {
         return true
       }
@@ -42,11 +39,11 @@ export default class SelectedItems {
   }
 
   get all() {
-    return this._modelContainer.selectedItems
+    return this._instanceContainer.selectedItems
   }
 
   get size() {
-    return this._modelContainer.selectedItems.length
+    return this._instanceContainer.selectedItems.length
   }
 
   get some() {
@@ -63,7 +60,7 @@ export default class SelectedItems {
   }
 
   get single() {
-    return this.size === 1 ? this._modelContainer.selectedItems[0] : null
+    return this.size === 1 ? this._instanceContainer.selectedItems[0] : null
   }
 
   toggle(id) {
@@ -76,13 +73,13 @@ export default class SelectedItems {
 
   remove(id) {
     if (this.has(id)) {
-      this._modelContainer.get(id).deselect()
+      this._instanceContainer.get(id).deselect()
       this.triggerChange()
     }
   }
 
-  removeInstance(modelInstance) {
-    this.remove(modelInstance.id)
+  removeInstance(instance) {
+    this.remove(instance.id)
   }
 
   removeAll() {
