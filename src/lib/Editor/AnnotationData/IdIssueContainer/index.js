@@ -10,7 +10,7 @@ export default class IdIssueContainer extends InstanceContainer {
   addSource(source, type) {
     const collection = source.map((r) => this._toModel(r, type))
 
-    // Move models without id behind others, to prevent id duplication generated and exists.
+    // Move instances without id behind others, to prevent id duplication generated and exists.
     collection.sort((a, b) => {
       if (!a.id) return 1
       if (!b.id) return -1
