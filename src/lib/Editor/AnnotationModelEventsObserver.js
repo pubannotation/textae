@@ -5,7 +5,7 @@ import diffOfAnnotation from './diffOfAnnotation'
 export default class AnnotationModelEventsObserver {
   /**
    *
-   * @param {import('./InternalAPI/OriginalData').default} originalData
+   * @param {import('./UseCase/OriginalData').default} originalData
    * @param {import('./AnnotationModel').AnnotationModel} annotationModel
    */
   constructor(eventEmitter, originalData, annotationModel) {

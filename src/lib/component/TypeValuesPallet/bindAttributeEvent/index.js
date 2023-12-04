@@ -9,7 +9,7 @@ import openEditNumericAttributeDialog from '../../../openEditNumericAttributeDia
 import openEditStringAttributeDialog from '../../../openEditStringAttributeDialog'
 
 /**
- * @param {import('../../../Editor/InternalAPI/Commander').default} commander
+ * @param {import('../../../Editor/UseCase/Commander').default} commander
  */
 export default function (pallet, el, commander, selectionModelEntity) {
   enableAttributeTabDrag(el)
