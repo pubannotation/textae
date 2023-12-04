@@ -7,8 +7,8 @@ const CSS_CLASS_HOVERED = 'textae-editor__signboard--hovered'
 const CSS_CLASS_CUTTING = 'textae-editor__signboard--cutting'
 
 export default class SignboardHTMLElement {
-  constructor(model, entityType, HTMLId) {
-    this._model = model
+  constructor(instance, entityType, HTMLId) {
+    this._instance = instance
     this._element = dohtml.create(this._getHtml(HTMLId, entityType))
   }
 
@@ -49,10 +49,10 @@ export default class SignboardHTMLElement {
     const typeValues = this.element.querySelector(
       '.textae-editor__signboard__type-values'
     )
-    typeValues.style.backgroundColor = hexToRGBA(this._model.color, 0.4)
+    typeValues.style.backgroundColor = hexToRGBA(this._instance.color, 0.4)
     typeValues.querySelector(
       '.textae-editor__signboard__type-label'
-    ).innerHTML = this._model.anchorHTML
+    ).innerHTML = this._instance.anchorHTML
 
     // Re-create all attributes.
     for (const attributeElement of typeValues.querySelectorAll(
@@ -60,7 +60,7 @@ export default class SignboardHTMLElement {
     )) {
       attributeElement.remove()
     }
-    for (const a of this._model.attributes) {
+    for (const a of this._instance.attributes) {
       typeValues.insertAdjacentHTML('beforeend', a.contentHTML)
     }
   }
@@ -68,9 +68,9 @@ export default class SignboardHTMLElement {
   clarifyLabel() {
     this.element.querySelector(
       '.textae-editor__signboard__type-label'
-    ).style.backgroundColor = hexToRGBA(this._model.color, 1)
+    ).style.backgroundColor = hexToRGBA(this._instance.color, 1)
 
-    for (const a of this._model.attributes) {
+    for (const a of this._instance.attributes) {
       a.clarifyLabelIn(this.element)
     }
   }
@@ -80,7 +80,7 @@ export default class SignboardHTMLElement {
       '.textae-editor__signboard__type-label'
     ).style.backgroundColor = getLabelBackgroundColor()
 
-    for (const a of this._model.attributes) {
+    for (const a of this._instance.attributes) {
       a.declarifyLabelIn(this.element)
     }
   }
@@ -108,22 +108,22 @@ export default class SignboardHTMLElement {
   <div
     class="textae-editor__signboard"
     ${HTMLId ? `id="${HTMLId}"` : ''}
-    title="${this._model.title}"
+    title="${this._instance.title}"
     data-entity-type="${entityType}"
-    data-id="${this._model.id}"
+    data-id="${this._instance.id}"
     >
     <div
       class="textae-editor__signboard__type-values"
-      style="background-color: ${hexToRGBA(this._model.color, 0.4)};"
+      style="background-color: ${hexToRGBA(this._instance.color, 0.4)};"
       >
       <div
         class="textae-editor__signboard__type-label"
         tabindex="0"
         style="background-color: ${getLabelBackgroundColor()};"
         >
-        ${this._model.anchorHTML}
+        ${this._instance.anchorHTML}
       </div>
-      ${this._model.attributes.map((a) => a.contentHTML).join('')}
+      ${this._instance.attributes.map((a) => a.contentHTML).join('')}
     </div>
   </div>
   `
