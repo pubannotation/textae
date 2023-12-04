@@ -1,14 +1,17 @@
 export default class SelectedItems {
-  constructor(emitter, kindName, annotationData) {
+  constructor(emitter, annotationType, annotationData) {
     this._emitter = emitter
-    this._kindName = kindName
-    this._instanceContainer = annotationData[kindName]
+    this._annotationType = annotationType
+    this._instanceContainer = annotationData[annotationType]
   }
 
   add(id) {
     const instance = this._instanceContainer.get(id)
 
-    console.assert(instance, `${id} is not a instance of ${this._kindName}.`)
+    console.assert(
+      instance,
+      `${id} is not a instance of ${this._annotationType}.`
+    )
 
     if (instance.isSelected) {
       return
@@ -93,6 +96,6 @@ export default class SelectedItems {
   }
 
   triggerChange() {
-    this._emitter.emit(`textae-event.selection.${this._kindName}.change`)
+    this._emitter.emit(`textae-event.selection.${this._annotationType}.change`)
   }
 }
