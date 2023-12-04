@@ -7,12 +7,12 @@ export default function (
   newTypeName
 ) {
   return annotationData[annotationType].all
-    .filter((model) => model.typeName === oldTypeName)
-    .map((model) => {
+    .filter((instance) => instance.typeName === oldTypeName)
+    .map((instance) => {
       return new ChangeAnnotationCommand(
         annotationData,
         annotationType,
-        model.id,
+        instance.id,
         newTypeName
       )
     })
