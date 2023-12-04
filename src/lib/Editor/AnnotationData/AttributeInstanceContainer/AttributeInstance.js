@@ -51,7 +51,7 @@ export default class AttributeModel {
     }
   }
 
-  get subjectModel() {
+  get subjectInstance() {
     return (
       this._entityContainer.get(this.subj) ||
       this._relationContainer.get(this.subj)
@@ -75,7 +75,7 @@ export default class AttributeModel {
   }
 
   updateElement() {
-    this.subjectModel.updateElement()
+    this.subjectInstance.updateElement()
   }
 
   clarifyLabelIn(parentElement) {
@@ -161,7 +161,7 @@ export default class AttributeModel {
   get _color() {
     return (
       this._definitionContainer.getColor(this.pred, this._obj) ||
-      this.subjectModel.color
+      this.subjectInstance.color
     )
   }
 

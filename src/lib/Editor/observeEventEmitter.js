@@ -46,11 +46,11 @@ export default function (eventEmitter) {
   // you need to consider the mixed state of the attributes after the update and before the update.
   // Redraw all the Entities that were affected at the end of the command.
   eventEmitter.on('textae-event.commander.attributes.change', (attributes) => {
-    for (const subjectModel of attributes.reduce(
-      (prev, curr) => prev.add(curr.subjectModel),
+    for (const subjectInstance of attributes.reduce(
+      (prev, curr) => prev.add(curr.subjectInstance),
       new Set()
     )) {
-      subjectModel.updateElement()
+      subjectInstance.updateElement()
     }
   })
 }
