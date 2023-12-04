@@ -21,7 +21,7 @@ export default class ChangeAttributeCommand extends AnnotationCommand {
 
     commandLog(
       this,
-      `atttribute: ${this._attribute.id} changed from ${this._oldPred}:${this._oldObj} to ${this.newModel.pred}:${this.newModel.obj}.`
+      `attribute: ${this._attribute.id} changed from ${this._oldPred}:${this._oldObj} to ${this.newModel.pred}:${this.newModel.obj}.`
     )
   }
 
