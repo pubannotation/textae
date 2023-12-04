@@ -4,7 +4,7 @@ import CreateEntityAndAttributesCommand from './CreateEntityAndAttributesCommand
 
 export default class CreateSpanAndTypesCommand extends CompositeCommand {
   constructor(
-    annotationData,
+    annotationModel,
     selectionModel,
     spanId,
     begin,
@@ -15,7 +15,7 @@ export default class CreateSpanAndTypesCommand extends CompositeCommand {
 
     this._subCommands = [
       new CreateCommand(
-        annotationData,
+        annotationModel,
         'span',
         {
           begin,
@@ -27,7 +27,7 @@ export default class CreateSpanAndTypesCommand extends CompositeCommand {
       typeValuesList.map(
         (typeValues) =>
           new CreateEntityAndAttributesCommand(
-            annotationData,
+            annotationModel,
             selectionModel,
             spanId,
             typeValues.typeName,

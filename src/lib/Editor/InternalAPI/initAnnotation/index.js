@@ -11,7 +11,7 @@ import setDefault from './setDefault.js'
  */
 export default function (
   spanConfig,
-  annotationData,
+  annotationModel,
   remoteResource,
   controlViewModel,
   originalData,
@@ -51,7 +51,7 @@ export default function (
           validConfig,
           controlViewModel,
           spanConfig,
-          annotationData,
+          annotationModel,
           dataSource.data,
           functionAvailability
         )
@@ -70,7 +70,7 @@ export default function (
         originalData,
         controlViewModel,
         spanConfig,
-        annotationData,
+        annotationModel,
         functionAvailability
       )
     }

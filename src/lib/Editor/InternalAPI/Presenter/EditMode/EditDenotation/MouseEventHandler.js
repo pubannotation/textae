@@ -6,12 +6,12 @@ import isRangeInTextBox from '../isRangeInTextBox'
 export default class MouseEventHandler {
   constructor(
     editorHTMLElement,
-    annotationData,
+    annotationModel,
     selectionModel,
     pallet,
     spanEditor
   ) {
-    this._annotationData = annotationData
+    this._annotationModel = annotationModel
     this._selectionModel = selectionModel
     this._spanEditor = spanEditor
     this._editorHTMLElement = editorHTMLElement
@@ -34,7 +34,7 @@ export default class MouseEventHandler {
         this._editorHTMLElement.querySelector('.textae-editor__text-box')
       )
     ) {
-      this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
+      this._spanEditor.editFor(new SelectionWrapper(this._annotationModel.span))
     } else {
       this._selectionModel.removeAll()
     }
@@ -63,7 +63,7 @@ export default class MouseEventHandler {
         this._editorHTMLElement.querySelector('.textae-editor__text-box')
       )
     ) {
-      this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
+      this._spanEditor.editFor(new SelectionWrapper(this._annotationModel.span))
     }
   }
 
@@ -87,7 +87,7 @@ export default class MouseEventHandler {
         this._editorHTMLElement.querySelector('.textae-editor__text-box')
       )
     ) {
-      this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
+      this._spanEditor.editFor(new SelectionWrapper(this._annotationModel.span))
     }
   }
 
@@ -116,7 +116,7 @@ export default class MouseEventHandler {
         this._editorHTMLElement.querySelector('.textae-editor__text-box')
       )
     ) {
-      this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
+      this._spanEditor.editFor(new SelectionWrapper(this._annotationModel.span))
     }
   }
 
@@ -125,7 +125,7 @@ export default class MouseEventHandler {
   }
 
   typeValuesClicked(event, entityID) {
-    if (this._annotationData.entity.get(entityID).isDenotation) {
+    if (this._annotationModel.entity.get(entityID).isDenotation) {
       if (event.ctrlKey || event.metaKey) {
         this._selectionModel.entity.toggle(entityID)
       } else {
@@ -138,7 +138,7 @@ export default class MouseEventHandler {
     const selectedSpanID = this._selectionModel.span.singleId
     const rangeOfSpans =
       event.shiftKey && selectedSpanID
-        ? this._annotationData.span.rangeDenotationSpan(selectedSpanID, spanID)
+        ? this._annotationModel.span.rangeDenotationSpan(selectedSpanID, spanID)
         : []
 
     selectSpan(this._selectionModel, rangeOfSpans, event, spanID)

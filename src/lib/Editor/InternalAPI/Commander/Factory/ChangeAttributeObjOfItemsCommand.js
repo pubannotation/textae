@@ -2,7 +2,7 @@ import CompositeCommand from './CompositeCommand'
 import ChangeAttributeCommand from './ChangeAttributeCommand'
 
 export default class ChangeAttributeObjOfItemsCommand extends CompositeCommand {
-  constructor(eventEmitter, annotationData, items, attrDef, newObj) {
+  constructor(eventEmitter, annotationModel, items, attrDef, newObj) {
     super()
 
     const effectedAttributes = []
@@ -18,7 +18,7 @@ export default class ChangeAttributeObjOfItemsCommand extends CompositeCommand {
 
     this._subCommands = effectedAttributes.map(
       (attribute) =>
-        new ChangeAttributeCommand(annotationData, attribute, null, newObj)
+        new ChangeAttributeCommand(annotationModel, attribute, null, newObj)
     )
 
     if (effectedAttributes.length) {

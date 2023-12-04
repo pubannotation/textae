@@ -7,7 +7,7 @@ import enableDrag from './enableDrag'
 export default class TypeValuesPallet extends Pallet {
   /**
    *
-   * @param {import('../../Editor/AnnotationData/TypeDefinition').default} typeDefinition
+   * @param {import('../../Editor/AnnotationModel/TypeDefinition').default} typeDefinition
    * @param {import('../../Editor/AttributeDefinitionContainer').default} attributeInstanceContainer
    */
   constructor(

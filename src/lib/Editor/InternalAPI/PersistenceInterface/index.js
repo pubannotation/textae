@@ -11,20 +11,20 @@ export default class PersistenceInterface {
   constructor(
     eventEmitter,
     remoteResource,
-    annotationData,
+    annotationModel,
     getOriginalAnnotation,
     getOriginalConfig,
     saveToParameter,
-    annotationDataEventsObserver,
+    annotationModelEventsObserver,
     controlViewModel
   ) {
     this._eventEmitter = eventEmitter
     this._remoteResource = remoteResource
-    this._annotationData = annotationData
+    this._annotationModel = annotationModel
     this._getOriginalAnnotation = getOriginalAnnotation
     this._getOriginalConfig = getOriginalConfig
     this._saveToParameter = saveToParameter
-    this._annotationDataEventsObserver = annotationDataEventsObserver
+    this._annotationModelEventsObserver = annotationModelEventsObserver
     this._controlViewModel = controlViewModel
 
     // Store the filename of the annotation and configuration.
@@ -61,7 +61,7 @@ export default class PersistenceInterface {
           new DataSource('instant', null)
         )
       },
-      this._annotationDataEventsObserver.hasChange
+      this._annotationModelEventsObserver.hasChange
     ).open()
   }
 
@@ -112,7 +112,7 @@ export default class PersistenceInterface {
     // Merge with the original config and save the value unchanged in the editor.
     const editedConfig = {
       ...this._getOriginalConfig(),
-      ...this._annotationData.typeDefinition.config
+      ...this._annotationModel.typeDefinition.config
     }
 
     new SaveConfigurationDialog(
@@ -128,9 +128,9 @@ export default class PersistenceInterface {
   get _editedAnnotation() {
     return {
       ...this._getOriginalAnnotation(),
-      ...this._annotationData.externalFormat,
+      ...this._annotationModel.externalFormat,
       ...{
-        config: this._annotationData.typeDefinition.config
+        config: this._annotationModel.typeDefinition.config
       }
     }
   }

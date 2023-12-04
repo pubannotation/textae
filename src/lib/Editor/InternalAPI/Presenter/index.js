@@ -15,7 +15,7 @@ export default class Presenter {
   constructor(
     editorHTMLElement,
     eventEmitter,
-    annotationData,
+    annotationModel,
     selectionModel,
     commander,
     spanConfig,
@@ -28,7 +28,7 @@ export default class Presenter {
     const editMode = new EditMode(
       editorHTMLElement,
       eventEmitter,
-      annotationData,
+      annotationModel,
       selectionModel,
       spanConfig,
       commander,
@@ -51,10 +51,10 @@ export default class Presenter {
       .on('textae-event.edit-mode.transition', (mode) => {
         switch (mode) {
           case MODE.VIEW:
-            annotationData.entity.clarifyLabelOfAll()
+            annotationModel.entity.clarifyLabelOfAll()
             break
           default:
-            annotationData.entity.declarifyLabelOfAll()
+            annotationModel.entity.declarifyLabelOfAll()
         }
       })
 
@@ -62,7 +62,7 @@ export default class Presenter {
     this._eventEmitter = eventEmitter
     this._commander = commander
     this._selectionModel = selectionModel
-    this._annotationData = annotationData
+    this._annotationModel = annotationModel
     this._controlViewModel = controlViewModel
     this._spanConfig = spanConfig
     this._clipBoard = clipBoard
@@ -112,7 +112,7 @@ export default class Presenter {
   createEntity() {
     const command =
       this._commander.factory.createDefaultTypeEntityToSelectedSpansCommand(
-        this._annotationData.typeDefinition.denotation.defaultType
+        this._annotationModel.typeDefinition.denotation.defaultType
       )
 
     if (!command.isEmpty) {
@@ -149,9 +149,9 @@ export default class Presenter {
 
   showSettingDialog() {
     new SettingDialog(
-      this._annotationData.typeDefinition,
-      this._annotationData.typeGap,
-      this._annotationData.textBox
+      this._annotationModel.typeDefinition,
+      this._annotationModel.typeGap,
+      this._annotationModel.textBox
     ).open()
   }
 
@@ -205,12 +205,12 @@ export default class Presenter {
   }
 
   focusDenotation(denotationID) {
-    if (!this._annotationData.entity.hasDenotation(denotationID)) {
+    if (!this._annotationModel.entity.hasDenotation(denotationID)) {
       throw new Error(`Denotation ${denotationID} not found`)
     }
 
     this.toTermMode()
-    const { span } = this._annotationData.entity.get(denotationID)
+    const { span } = this._annotationModel.entity.get(denotationID)
     span.focus()
   }
 }

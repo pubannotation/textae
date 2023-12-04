@@ -2,7 +2,7 @@ import CompositeCommand from './CompositeCommand'
 import ChangeAnnotationCommand from './ChangeAnnotationCommand'
 
 export default class ChangeTypeOfSelectedItemsCommand extends CompositeCommand {
-  constructor(annotationData, selectionModel, annotationType, typeName) {
+  constructor(annotationModel, selectionModel, annotationType, typeName) {
     super()
 
     const itemsWithChange = selectionModel[annotationType].all.filter(
@@ -12,7 +12,7 @@ export default class ChangeTypeOfSelectedItemsCommand extends CompositeCommand {
     this._subCommands = itemsWithChange.map(
       (item) =>
         new ChangeAnnotationCommand(
-          annotationData,
+          annotationModel,
           annotationType,
           item.id,
           typeName

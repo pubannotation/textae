@@ -4,7 +4,7 @@ export default class IconEventMap {
     presenter,
     persistenceInterface,
     controlViewModel,
-    annotationData
+    annotationModel
   ) {
     this._map = new Map([
       ['view mode', () => presenter.toViewMode()],
@@ -28,7 +28,7 @@ export default class IconEventMap {
       ['cut', () => presenter.cutEntitiesToLocalClipboard()],
       ['paste', () => presenter.pasteEntitiesFromLocalClipboard()],
       ['setting', () => presenter.showSettingDialog()],
-      ['adjust lineheight', () => annotationData.textBox.updateLineHeight()]
+      ['adjust lineheight', () => annotationModel.textBox.updateLineHeight()]
     ])
 
     // Set handler for push buttons.

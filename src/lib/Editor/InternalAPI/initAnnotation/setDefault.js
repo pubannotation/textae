@@ -4,14 +4,14 @@ export default function (
   originalData,
   controlViewModel,
   spanConfig,
-  annotationData,
+  annotationModel,
   functionAvailability
 ) {
   setAnnotationAndConfiguration(
     originalData.defaultConfiguration,
     controlViewModel,
     spanConfig,
-    annotationData,
+    annotationModel,
     originalData.defaultAnnotation,
     functionAvailability
   )

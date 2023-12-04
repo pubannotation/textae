@@ -1,17 +1,17 @@
-// Maintainance a state of which the save button is able to be push.
+// Maintenance a state of which the save button is able to be push.
 import Observable from 'observ'
 import diffOfAnnotation from './diffOfAnnotation'
 
-export default class AnnotationDataEventsObserver {
+export default class AnnotationModelEventsObserver {
   /**
    *
    * @param {import('./InternalAPI/OriginalData').default} originalData
-   * @param {import('./AnnotationData').default} annotationData
+   * @param {import('./AnnotationModel').AnnotationModel} annotationModel
    */
-  constructor(eventEmitter, originalData, annotationData) {
+  constructor(eventEmitter, originalData, annotationModel) {
     this._eventEmitter = eventEmitter
     this._originalData = originalData
-    this._annotationData = annotationData
+    this._annotationModel = annotationModel
     this._observable = new Observable(false)
 
     eventEmitter
@@ -67,7 +67,7 @@ export default class AnnotationDataEventsObserver {
     this._observable.set(
       diffOfAnnotation(
         this._originalData.annotation,
-        this._annotationData.externalFormat
+        this._annotationModel.externalFormat
       )
     )
     this._notifyChange()
@@ -76,7 +76,7 @@ export default class AnnotationDataEventsObserver {
   _notifyChange() {
     this._eventEmitter.emit(
       'textae-event.annotation-data.events-observer.change',
-      this._annotationData
+      this._annotationModel
     )
   }
 }

@@ -10,13 +10,13 @@ export default class MouseEventHandler {
    */
   constructor(
     editorHTMLElement,
-    annotationData,
+    annotationModel,
     selectionModel,
     spanEditor,
     pallet
   ) {
     this._editorHTMLElement = editorHTMLElement
-    this._annotationData = annotationData
+    this._annotationModel = annotationModel
     this._selectionModel = selectionModel
     this._spanEditor = spanEditor
     this._pallet = pallet
@@ -41,7 +41,7 @@ export default class MouseEventHandler {
         this._editorHTMLElement.querySelector('.textae-editor__text-box')
       )
     ) {
-      this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
+      this._spanEditor.editFor(new SelectionWrapper(this._annotationModel.span))
     }
   }
 
@@ -60,7 +60,7 @@ export default class MouseEventHandler {
         this._editorHTMLElement.querySelector('.textae-editor__text-box')
       )
     ) {
-      this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
+      this._spanEditor.editFor(new SelectionWrapper(this._annotationModel.span))
     }
   }
 
@@ -98,7 +98,7 @@ export default class MouseEventHandler {
         this._editorHTMLElement.querySelector('.textae-editor__text-box')
       )
     ) {
-      this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
+      this._spanEditor.editFor(new SelectionWrapper(this._annotationModel.span))
       e.stopPropagation()
     }
   }
@@ -115,7 +115,7 @@ export default class MouseEventHandler {
         this._editorHTMLElement.querySelector('.textae-editor__text-box')
       )
     ) {
-      this._spanEditor.editFor(new SelectionWrapper(this._annotationData.span))
+      this._spanEditor.editFor(new SelectionWrapper(this._annotationModel.span))
       e.stopPropagation()
     }
   }
@@ -125,7 +125,7 @@ export default class MouseEventHandler {
   }
 
   typeValuesClicked(event, entityID) {
-    const entity = this._annotationData.entity.get(entityID)
+    const entity = this._annotationModel.entity.get(entityID)
 
     if (entity.isBlock) {
       if (event.ctrlKey || event.metaKey) {
@@ -145,7 +145,7 @@ export default class MouseEventHandler {
     const selectedSpanID = this._selectionModel.span.singleId
     const rangeOfSpans =
       event.shiftKey && selectedSpanID
-        ? this._annotationData.span.rangeBlockSpan(selectedSpanID, spanID)
+        ? this._annotationModel.span.rangeBlockSpan(selectedSpanID, spanID)
         : []
 
     selectSpan(this._selectionModel, rangeOfSpans, event, spanID)

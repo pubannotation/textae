@@ -4,14 +4,14 @@ import applyChangedProperties from './applyChangedProperties'
 
 export default class ChangeTypeDefinitionCommand extends ConfigurationCommand {
   constructor(
-    annotationData,
+    annotationModel,
     definitionContainer,
     id,
     changedProperties,
     newDefaultTypeId
   ) {
     super()
-    this._annotationData = annotationData
+    this._annotationModel = annotationModel
     this._definitionContainer = definitionContainer
     this._id = id
     this._changedProperties = changedProperties
@@ -47,7 +47,7 @@ export default class ChangeTypeDefinitionCommand extends ConfigurationCommand {
 
   revert() {
     return new ChangeTypeDefinitionCommand(
-      this._annotationData,
+      this._annotationModel,
       this._definitionContainer,
       this.revertId,
       this.revertChangedProperties,

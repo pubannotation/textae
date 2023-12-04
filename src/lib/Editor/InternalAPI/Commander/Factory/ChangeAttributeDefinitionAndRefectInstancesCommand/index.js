@@ -5,7 +5,7 @@ import ChangeAttributeCommand from '../ChangeAttributeCommand'
 export default class ChangeAttributeDefinitionAndRefectInstancesCommand extends CompositeCommand {
   constructor(
     eventEmitter,
-    annotationData,
+    annotationModel,
     definitionContainer,
     attrDef,
     changedProperties
@@ -29,11 +29,11 @@ export default class ChangeAttributeDefinitionAndRefectInstancesCommand extends 
     // change annotation
     if (changedProperties.has('pred')) {
       const sameDefinitionAttributes =
-        annotationData.attribute.getSameDefinitionsAttributes(attrDef.pred)
+        annotationModel.attribute.getSameDefinitionsAttributes(attrDef.pred)
 
       changAnnotationCommands = sameDefinitionAttributes.map((attribute) => {
         return new ChangeAttributeCommand(
-          annotationData,
+          annotationModel,
           attribute,
           changedProperties.get('pred'),
           attribute.obj

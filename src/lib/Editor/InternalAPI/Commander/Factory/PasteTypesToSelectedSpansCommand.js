@@ -6,7 +6,7 @@ import CreateTypeDefinitionCommand from './CreateTypeDefinitionCommand'
 
 export default class PasteTypesToSelectedSpansCommand extends CompositeCommand {
   constructor(
-    annotationData,
+    annotationModel,
     selectionModel,
     typeValuesList,
     newTypes,
@@ -21,7 +21,7 @@ export default class PasteTypesToSelectedSpansCommand extends CompositeCommand {
     for (const newType of newTypes) {
       this._subCommands.push(
         new CreateTypeDefinitionCommand(
-          annotationData.denotationDefinitionContainer,
+          annotationModel.denotationDefinitionContainer,
           newType
         )
       )
@@ -30,7 +30,7 @@ export default class PasteTypesToSelectedSpansCommand extends CompositeCommand {
     for (const attrDef of attrDefs) {
       this._subCommands.push(
         new CreateAttributeDefinitionCommand(
-          annotationData.attributeDefinitionContainer,
+          annotationModel.attributeDefinitionContainer,
           { valueType: attrDef['value type'], ...attrDef }
         )
       )
@@ -39,8 +39,8 @@ export default class PasteTypesToSelectedSpansCommand extends CompositeCommand {
     for (const { pred, value } of newSelectionAttributeObjects) {
       this._subCommands.push(
         new AddValueToAttributeDefinitionCommand(
-          annotationData.attributeDefinitionContainer,
-          annotationData.attributeDefinitionContainer.get(pred),
+          annotationModel.attributeDefinitionContainer,
+          annotationModel.attributeDefinitionContainer.get(pred),
           value
         )
       )
@@ -52,7 +52,7 @@ export default class PasteTypesToSelectedSpansCommand extends CompositeCommand {
           typeValuesList.map(
             (typeValues) =>
               new CreateEntityAndAttributesCommand(
-                annotationData,
+                annotationModel,
                 selectionModel,
                 span,
                 typeValues.typeName,

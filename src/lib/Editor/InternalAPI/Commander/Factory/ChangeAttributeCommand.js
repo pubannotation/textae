@@ -2,9 +2,9 @@ import AnnotationCommand from './AnnotationCommand'
 import commandLog from './commandLog'
 
 export default class ChangeAttributeCommand extends AnnotationCommand {
-  constructor(annotationData, attribute, newPred, newObj) {
+  constructor(annotationModel, attribute, newPred, newObj) {
     super()
-    this._annotationData = annotationData
+    this._annotationModel = annotationModel
     this._attribute = attribute
     this._oldPred = attribute.pred
     this._oldObj = attribute.obj
@@ -13,7 +13,7 @@ export default class ChangeAttributeCommand extends AnnotationCommand {
   }
 
   execute() {
-    this._newInstance = this._annotationData.attribute.change(
+    this._newInstance = this._annotationModel.attribute.change(
       this._attribute.id,
       this._newPred,
       this._newObj
@@ -27,7 +27,7 @@ export default class ChangeAttributeCommand extends AnnotationCommand {
 
   revert() {
     return new ChangeAttributeCommand(
-      this._annotationData,
+      this._annotationModel,
       this._newInstance,
       this._oldPred,
       this._oldObj

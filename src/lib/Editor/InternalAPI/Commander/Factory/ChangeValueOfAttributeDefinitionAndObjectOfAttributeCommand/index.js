@@ -5,7 +5,7 @@ import ChangeValueOfAttributeDefinitionCommand from './ChangeValueOfAttributeDef
 export default class ChangeValueOfAttributeDefinitionAndObjectOfAttributeCommand extends CompositeCommand {
   constructor(
     eventEmitter,
-    annotationData,
+    annotationModel,
     definitionContainer,
     attrDef,
     index,
@@ -28,12 +28,12 @@ export default class ChangeValueOfAttributeDefinitionAndObjectOfAttributeCommand
       attrDef['value type'] === 'selection' &&
       attrDef.values[index].id !== value.id
     ) {
-      const sameAttributes = annotationData.attribute.getSameAttributes(
+      const sameAttributes = annotationModel.attribute.getSameAttributes(
         attrDef.pred,
         attrDef.values[index].id
       )
       const changeAnnotationCommands = sameAttributes.map(
-        (a) => new ChangeAttributeCommand(annotationData, a, null, value.id)
+        (a) => new ChangeAttributeCommand(annotationModel, a, null, value.id)
       )
 
       this._subCommands = this._subCommands.concat(changeAnnotationCommands)

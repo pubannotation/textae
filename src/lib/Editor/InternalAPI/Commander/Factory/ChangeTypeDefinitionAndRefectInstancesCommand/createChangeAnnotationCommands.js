@@ -1,16 +1,16 @@
 import ChangeAnnotationCommand from '../ChangeAnnotationCommand'
 
 export default function (
-  annotationData,
+  annotationModel,
   annotationType,
   oldTypeName,
   newTypeName
 ) {
-  return annotationData[annotationType].all
+  return annotationModel[annotationType].all
     .filter((instance) => instance.typeName === oldTypeName)
     .map((instance) => {
       return new ChangeAnnotationCommand(
-        annotationData,
+        annotationModel,
         annotationType,
         instance.id,
         newTypeName

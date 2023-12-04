@@ -3,12 +3,12 @@ import CompositeCommand from '../CompositeCommand'
 import CreateAttributeToTheLatestEntityCommand from './CreateAttributeToTheLatestEntityCommand'
 
 export default class CreateEntityAndAttributesCommand extends CompositeCommand {
-  constructor(annotationData, selectionModel, span, typeName, attributes) {
+  constructor(annotationModel, selectionModel, span, typeName, attributes) {
     super()
 
     this._subCommands = [
       new CreateCommand(
-        annotationData,
+        annotationModel,
         'entity',
         {
           span,
@@ -20,7 +20,11 @@ export default class CreateEntityAndAttributesCommand extends CompositeCommand {
       attributes.map(
         ({ obj, pred }) =>
           // Only one entity was created.
-          new CreateAttributeToTheLatestEntityCommand(annotationData, obj, pred)
+          new CreateAttributeToTheLatestEntityCommand(
+            annotationModel,
+            obj,
+            pred
+          )
       )
     )
 

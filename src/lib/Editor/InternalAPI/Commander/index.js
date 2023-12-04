@@ -9,13 +9,13 @@ export default class Commander {
     editorHTMLElement,
     editorID,
     eventEmitter,
-    annotationData,
+    annotationModel,
     selectionModel
   ) {
     this._editorHTMLElement = editorHTMLElement
     this._editorID = editorID
     this._eventEmitter = eventEmitter
-    this._annotationData = annotationData
+    this._annotationModel = annotationModel
     this._selectionModel = selectionModel
     this._history = new History(eventEmitter)
   }
@@ -63,9 +63,9 @@ export default class Commander {
     return new Factory(
       this._editorID,
       this._eventEmitter,
-      this._annotationData,
+      this._annotationModel,
       this._selectionModel,
-      this._annotationData.typeDefinition
+      this._annotationModel.typeDefinition
     )
   }
 }

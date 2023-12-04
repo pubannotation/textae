@@ -1,7 +1,7 @@
 import { RemoveCommand, CreateCommand } from '../commandTemplate'
 import ChangeAttributeCommand from '../ChangeAttributeCommand'
 
-export default function (items, attributes, annotationData) {
+export default function (items, attributes, annotationModel) {
   const changeAttributeCommnads = []
 
   for (const item of items) {
@@ -14,7 +14,7 @@ export default function (items, attributes, annotationData) {
           if (String(oldAttribute.obj) !== newAttribute.obj) {
             changeAttributeCommnads.push(
               new ChangeAttributeCommand(
-                annotationData,
+                annotationModel,
                 oldAttribute,
                 newAttribute.pred,
                 newAttribute.obj
@@ -23,7 +23,7 @@ export default function (items, attributes, annotationData) {
           }
         } else {
           changeAttributeCommnads.push(
-            new RemoveCommand(annotationData, 'attribute', oldAttribute)
+            new RemoveCommand(annotationModel, 'attribute', oldAttribute)
           )
         }
       }
@@ -36,7 +36,7 @@ export default function (items, attributes, annotationData) {
         )
       ) {
         changeAttributeCommnads.push(
-          new CreateCommand(annotationData, 'attribute', {
+          new CreateCommand(annotationModel, 'attribute', {
             subj: item.id,
             pred: newAttribute.pred,
             obj: newAttribute.obj

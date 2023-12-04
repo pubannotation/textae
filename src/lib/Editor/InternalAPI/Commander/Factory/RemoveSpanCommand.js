@@ -3,15 +3,15 @@ import RemoveEntityAndAssociatesCommand from './RemoveEntityAndAssociatesCommand
 import CompositeCommand from './CompositeCommand'
 
 export default class RemoveSpanCommand extends CompositeCommand {
-  constructor(annotationData, id) {
+  constructor(annotationModel, id) {
     super()
 
-    const span = annotationData.span.get(id)
+    const span = annotationModel.span.get(id)
     const removeEntities = span.entities.map(
-      (entity) => new RemoveEntityAndAssociatesCommand(annotationData, entity)
+      (entity) => new RemoveEntityAndAssociatesCommand(annotationModel, entity)
     )
 
-    const removeSpan = new RemoveCommand(annotationData, 'span', span)
+    const removeSpan = new RemoveCommand(annotationModel, 'span', span)
 
     this._subCommands = removeEntities.concat(removeSpan)
     this._logMessage = `remove a span ${id}`

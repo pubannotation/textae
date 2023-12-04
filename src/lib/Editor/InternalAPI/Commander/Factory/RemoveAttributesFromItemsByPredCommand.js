@@ -2,11 +2,11 @@ import CompositeCommand from './CompositeCommand'
 import getRemoveAttributesByPredCommands from './getRemoveAttributesByPredCommands'
 
 export default class RemoveAttributesFromItemsByPredCommand extends CompositeCommand {
-  constructor(annotationData, items, attributeDefinition) {
+  constructor(annotationModel, items, attributeDefinition) {
     super()
 
     const removeAttributeCommands = getRemoveAttributesByPredCommands(
-      annotationData,
+      annotationModel,
       items,
       attributeDefinition.pred
     )

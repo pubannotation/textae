@@ -12,15 +12,15 @@ import validateNewDennotationSpan from './validateNewDennotationSpan'
 export default class SpanEditor {
   constructor(
     editorHTMLElemnt,
-    annotationData,
+    annotationModel,
     selectionModel,
     commander,
     controlViewModel,
     spanConfig
   ) {
     this._editorHTMLElement = editorHTMLElemnt
-    this._annotationData = annotationData
-    this._spanModelContainer = annotationData.span
+    this._annotationModel = annotationModel
+    this._spanModelContainer = annotationModel.span
     this._selectionModel = selectionModel
     this._commander = commander
     this._controlViewModel = controlViewModel
@@ -196,7 +196,7 @@ export default class SpanEditor {
           .getExpandedInAnchorNodeToFocusNodeDirection(
             this._controlViewModel.spanAdjuster,
             selectionWrapper,
-            this._annotationData.sourceDoc,
+            this._annotationModel.sourceDoc,
             this._spanConfig
           )
       }
@@ -218,7 +218,7 @@ export default class SpanEditor {
           .getExpandedInFocusNodeToAnchorNodeDirection(
             this._controlViewModel.spanAdjuster,
             selectionWrapper,
-            this._annotationData.sourceDoc,
+            this._annotationModel.sourceDoc,
             this._spanConfig
           )
       }
@@ -262,7 +262,7 @@ export default class SpanEditor {
           .getShortenInFocusNodeToAnchorNodeDirection(
             this._controlViewModel.spanAdjuster,
             selectionWrapper,
-            this._annotationData.sourceDoc,
+            this._annotationModel.sourceDoc,
             this._spanConfig
           )
       }
@@ -284,7 +284,7 @@ export default class SpanEditor {
           .getShortenInAnchorNodeToFocusNodeDirection(
             this._controlViewModel.spanAdjuster,
             selectionWrapper,
-            this._annotationData.sourceDoc,
+            this._annotationModel.sourceDoc,
             this._spanConfig
           )
       }
@@ -586,14 +586,14 @@ export default class SpanEditor {
   _create(selectionWrapper) {
     if (
       hasCharacters(
-        this._annotationData.sourceDoc,
+        this._annotationModel.sourceDoc,
         this._spanConfig,
         selectionWrapper
       )
     ) {
       this._selectionModel.removeAll()
       create(
-        this._annotationData.sourceDoc,
+        this._annotationModel.sourceDoc,
         this._spanModelContainer,
         this._commander,
         this._controlViewModel.spanAdjuster,
@@ -614,7 +614,7 @@ export default class SpanEditor {
       .getExpandedInAnchorNodeToFocusNodeDirection(
         this._controlViewModel.spanAdjuster,
         selectionWrapper,
-        this._annotationData.sourceDoc,
+        this._annotationModel.sourceDoc,
         this._spanConfig
       )
 
@@ -631,7 +631,7 @@ export default class SpanEditor {
     shrinkSpan(
       this._editorHTMLElement,
       this._spanModelContainer,
-      this._annotationData.sourceDoc,
+      this._annotationModel.sourceDoc,
       this._selectionModel,
       this._commander,
       this._controlViewModel.spanAdjuster,

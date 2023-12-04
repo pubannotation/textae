@@ -5,7 +5,7 @@ import getAddPatternToStringAttributeDefinitionCommand from './getAddPatternToSt
 export default class ChangeStringAttributeObjOfItemsCommand extends CompositeCommand {
   constructor(
     eventEmitter,
-    annotationData,
+    annotationModel,
     definitionContainer,
     items,
     attrDef,
@@ -27,7 +27,7 @@ export default class ChangeStringAttributeObjOfItemsCommand extends CompositeCom
 
     this._subCommands = effectedAttributes.map(
       (attribute) =>
-        new ChangeAttributeCommand(annotationData, attribute, null, newObj)
+        new ChangeAttributeCommand(annotationModel, attribute, null, newObj)
     )
 
     if (effectedAttributes.length) {

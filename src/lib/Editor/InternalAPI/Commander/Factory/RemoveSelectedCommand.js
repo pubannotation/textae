@@ -4,7 +4,7 @@ import aggregateTargetEntities from './aggregateTargetEntities'
 import aggregateTargetRelations from './aggregateTargetRelations'
 
 export default class RemoveSelectedCommand extends CompositeCommand {
-  constructor(annotationData, selectionModel) {
+  constructor(annotationModel, selectionModel) {
     super()
 
     // Aggregate seleceted targets
@@ -36,7 +36,7 @@ export default class RemoveSelectedCommand extends CompositeCommand {
     }
 
     // Aggregate spans to lose all entities.
-    for (const span of annotationData.span.all) {
+    for (const span of annotationModel.span.all) {
       if (span.entities.every((e) => selectionModel.entity.all.includes(e))) {
         if (!span.styleOnly) {
           targetSpans.add(span)
@@ -47,21 +47,21 @@ export default class RemoveSelectedCommand extends CompositeCommand {
     this._subCommands = []
     for (const attribute of targetAttributes) {
       this._subCommands.push(
-        new RemoveCommand(annotationData, 'attribute', attribute)
+        new RemoveCommand(annotationModel, 'attribute', attribute)
       )
     }
     for (const relation of targetRelations) {
       this._subCommands.push(
-        new RemoveCommand(annotationData, 'relation', relation)
+        new RemoveCommand(annotationModel, 'relation', relation)
       )
     }
     for (const entity of targetEntities) {
       this._subCommands.push(
-        new RemoveCommand(annotationData, 'entity', entity)
+        new RemoveCommand(annotationModel, 'entity', entity)
       )
     }
     for (const span of targetSpans) {
-      this._subCommands.push(new RemoveCommand(annotationData, 'span', span))
+      this._subCommands.push(new RemoveCommand(annotationModel, 'span', span))
     }
 
     this._logMessage = `remove selected ${[

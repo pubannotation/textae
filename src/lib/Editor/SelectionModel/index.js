@@ -2,19 +2,19 @@ import SelectedItemsWithAttributes from './SelectedItemsWithAttributes'
 import SelectedItems from './SelectedItems'
 
 export default class SelectionModel {
-  constructor(eventEmitter, annotationData) {
-    this._annotationData = annotationData
+  constructor(eventEmitter, annotationModel) {
+    this._annotationModel = annotationModel
 
-    this.span = new SelectedItems(eventEmitter, 'span', annotationData)
+    this.span = new SelectedItems(eventEmitter, 'span', annotationModel)
     this.entity = new SelectedItemsWithAttributes(
       eventEmitter,
       'entity',
-      annotationData
+      annotationModel
     )
     this.relation = new SelectedItemsWithAttributes(
       eventEmitter,
       'relation',
-      annotationData
+      annotationModel
     )
 
     // Bind the selection model to the model.

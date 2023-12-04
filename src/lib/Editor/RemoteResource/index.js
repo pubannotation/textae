@@ -63,7 +63,7 @@ export default class RemoteSource {
   // when the configuration loading is complete.
   // This is supposed to be used when reading an annotation that does not contain a configuration
   // and then reading the configuration set by the attribute value of the textae-event.
-  loadConfiguration(url, annotationDataSource = null) {
+  loadConfiguration(url, annotationModelSource = null) {
     console.assert(url, 'url is necessary!')
 
     this._eventEmitter.emit('textae-event.resource.startLoad')
@@ -78,7 +78,7 @@ export default class RemoteSource {
       timeout: 30000,
       dataType: 'json'
     })
-      .done((config) => this._configLoaded(url, config, annotationDataSource))
+      .done((config) => this._configLoaded(url, config, annotationModelSource))
       .fail(() => this._configLoadFailed(url))
       .always(() => this._eventEmitter.emit('textae-event.resource.endLoad'))
   }
@@ -178,11 +178,11 @@ export default class RemoteSource {
     this._eventEmitter.emit('textae-event.resource.annotation.load.error', url)
   }
 
-  _configLoaded(url, config, annotationDataSource) {
+  _configLoaded(url, config, annotationModelSource) {
     this._eventEmitter.emit(
       'textae-event.resource.configuration.load.success',
       new DataSource('url', url, config),
-      annotationDataSource
+      annotationModelSource
     )
   }
 

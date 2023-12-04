@@ -12,7 +12,7 @@ export default class ControlViewModel {
     eventEmitter,
     selectionModel,
     clipBoard,
-    annotationDataEventsObserver,
+    annotationModelEventsObserver,
     originalData,
     typeDefinition,
     functionAvailability
@@ -21,7 +21,7 @@ export default class ControlViewModel {
     // Save state of push control buttons.
     this._pushButtons = new PushButtons(eventEmitter)
 
-    this._annotationDataEventsObserver = annotationDataEventsObserver
+    this._annotationModelEventsObserver = annotationModelEventsObserver
 
     this._originalData = originalData
 
@@ -106,7 +106,7 @@ export default class ControlViewModel {
       case 'transit':
         switch (name) {
           case 'upload':
-            return this._annotationDataEventsObserver.hasChange
+            return this._annotationModelEventsObserver.hasChange
           case 'pallet':
             return this.diffOfConfiguration
           default:

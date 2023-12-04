@@ -14,7 +14,7 @@ export default class EditDenotation extends Edit {
   constructor(
     editorHTMLElement,
     eventEmitter,
-    annotationData,
+    annotationModel,
     selectionModel,
     commander,
     controlViewModel,
@@ -25,9 +25,9 @@ export default class EditDenotation extends Edit {
     const denotationPallet = new TypeValuesPallet(
       editorHTMLElement,
       eventEmitter,
-      annotationData.typeDefinition,
-      annotationData.attribute,
-      annotationData.typeDefinition.denotation,
+      annotationModel.typeDefinition,
+      annotationModel.attribute,
+      annotationModel.typeDefinition.denotation,
       selectionModel.entity,
       commander,
       'Term configuration',
@@ -37,7 +37,7 @@ export default class EditDenotation extends Edit {
 
     const spanEditor = new SpanEditor(
       editorHTMLElement,
-      annotationData,
+      annotationModel,
       selectionModel,
       commander,
       controlViewModel,
@@ -45,22 +45,22 @@ export default class EditDenotation extends Edit {
     )
 
     const getAutocompletionWs = () =>
-      autocompletionWs || annotationData.typeDefinition.autocompletionWs
+      autocompletionWs || annotationModel.typeDefinition.autocompletionWs
 
     super(
       editorHTMLElement,
       selectionModel,
-      annotationData,
+      annotationModel,
       denotationPallet,
       commander,
       getAutocompletionWs,
-      annotationData.typeDefinition.denotation,
+      annotationModel.typeDefinition.denotation,
       'entity'
     )
 
     this._mouseEventHandler = new MouseEventHandler(
       editorHTMLElement,
-      annotationData,
+      annotationModel,
       selectionModel,
       denotationPallet,
       spanEditor
@@ -68,11 +68,11 @@ export default class EditDenotation extends Edit {
     this._spanEditor = spanEditor
     this._controlViewModel = controlViewModel
     this._textBox = editorHTMLElement.querySelector('.textae-editor__text-box')
-    this._spanModelContainer = annotationData.span
+    this._spanModelContainer = annotationModel.span
 
     this._attributeEditor = new AttributeEditor(
       commander,
-      annotationData,
+      annotationModel,
       selectionModel.entity,
       new SelectionAttributePallet(editorHTMLElement, mousePoint),
       () => this.editProperties(),
@@ -123,7 +123,7 @@ export default class EditDenotation extends Edit {
         'Entity',
         'Entity',
         this._definitionContainer,
-        this._annotationData.typeDefinition.attribute,
+        this._annotationModel.typeDefinition.attribute,
         this._getAutocompletionWs(),
         this._selectionModel.entity.all,
         this.pallet,

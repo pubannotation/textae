@@ -9,7 +9,7 @@ const BLOCK_THRESHOLD = 100
 export default class CreateSpanAndAutoReplicateCommand extends CompositeCommand {
   constructor(
     editorID,
-    annotationData,
+    annotationModel,
     selectionModel,
     newSpan,
     defaultType,
@@ -28,7 +28,7 @@ export default class CreateSpanAndAutoReplicateCommand extends CompositeCommand 
 
     this._subCommands = [
       new CreateSpanAndTypesCommand(
-        annotationData,
+        annotationModel,
         selectionModel,
         spanID,
         newSpan.begin,
@@ -42,7 +42,7 @@ export default class CreateSpanAndAutoReplicateCommand extends CompositeCommand 
       this._subCommands.push(
         new ReplicateSpanCommand(
           editorID,
-          annotationData,
+          annotationModel,
           selectionModel,
           {
             begin: newSpan.begin,

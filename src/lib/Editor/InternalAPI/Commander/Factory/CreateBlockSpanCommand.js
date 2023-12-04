@@ -6,7 +6,7 @@ import CreateEntityAndAttributesCommand from './CreateEntityAndAttributesCommand
 export default class CreateBlockCommand extends CompositeCommand {
   constructor(
     editorID,
-    annotationData,
+    annotationModel,
     selectionModel,
     begin,
     end,
@@ -16,7 +16,7 @@ export default class CreateBlockCommand extends CompositeCommand {
 
     const spanId = makeBlockSpanHTMLElementID(editorID, begin, end)
     const createSpanCommand = new CreateCommand(
-      annotationData,
+      annotationModel,
       'span',
       {
         begin,
@@ -26,7 +26,7 @@ export default class CreateBlockCommand extends CompositeCommand {
       selectionModel
     )
     const createEntityCommand = new CreateEntityAndAttributesCommand(
-      annotationData,
+      annotationModel,
       selectionModel,
       spanId,
       defaultType,

@@ -4,7 +4,7 @@ import createChangeConfigCommand from './createChangeConfigCommand'
 
 export default class ChangeTypeValuesCommand extends CompositeCommand {
   constructor(
-    annotationData,
+    annotationModel,
     selectionModel,
     label,
     value,
@@ -19,7 +19,7 @@ export default class ChangeTypeValuesCommand extends CompositeCommand {
         createChangeConfigCommand(
           definitionContainer,
           value,
-          annotationData,
+          annotationModel,
           new Map([['label', label]])
         )
       )
@@ -27,7 +27,7 @@ export default class ChangeTypeValuesCommand extends CompositeCommand {
 
     const changeItemsCommand =
       new ChangeTypeNameAndAttributeOfSelectedItemsCommand(
-        annotationData,
+        annotationModel,
         selectionModel,
         definitionContainer.annotationType,
         value,

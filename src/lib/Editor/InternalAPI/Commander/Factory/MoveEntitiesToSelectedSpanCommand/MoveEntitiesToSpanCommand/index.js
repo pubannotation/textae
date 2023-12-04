@@ -3,10 +3,10 @@ import commandLog from '../../commandLog'
 import RevertMoveEntitiesCommand from './RevertMoveEntitiesCommand'
 
 export default class MoveEntitiesToSpanCommand extends AnnotationCommand {
-  constructor(annotationData, span, entities) {
+  constructor(annotationModel, span, entities) {
     super()
 
-    this._annotationData = annotationData
+    this._annotationModel = annotationModel
     this._span = span
     this._entities = entities
   }
@@ -30,12 +30,12 @@ export default class MoveEntitiesToSpanCommand extends AnnotationCommand {
       })
       .join(', ')}`
 
-    this._annotationData.entity.moveEntities(this._span, this._entities)
+    this._annotationModel.entity.moveEntities(this._span, this._entities)
 
     commandLog(this, message)
   }
 
   revert() {
-    return new RevertMoveEntitiesCommand(this._annotationData, this._moveMap)
+    return new RevertMoveEntitiesCommand(this._annotationModel, this._moveMap)
   }
 }

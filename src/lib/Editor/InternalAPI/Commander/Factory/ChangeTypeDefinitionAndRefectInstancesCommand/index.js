@@ -4,7 +4,7 @@ import createChangeAnnotationCommands from './createChangeAnnotationCommands'
 
 export default class ChangeTypeDefinitionAndRefectInstancesCommand extends CompositeCommand {
   constructor(
-    annotationData,
+    annotationModel,
     definitionContainer,
     annotationType,
     id,
@@ -17,7 +17,7 @@ export default class ChangeTypeDefinitionAndRefectInstancesCommand extends Compo
       createChangeConfigCommand(
         definitionContainer,
         id,
-        annotationData,
+        annotationModel,
         changedProperties
       )
     ]
@@ -26,7 +26,7 @@ export default class ChangeTypeDefinitionAndRefectInstancesCommand extends Compo
     // change annotation
     if (changedProperties.has('id')) {
       changAnnotationCommands = createChangeAnnotationCommands(
-        annotationData,
+        annotationModel,
         annotationType,
         id,
         changedProperties.get('id')

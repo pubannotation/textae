@@ -3,7 +3,7 @@ import { MODE } from '../../../../MODE'
 export default class StateMachine {
   /**
    *
-   * @param {import('../../../AnnotationData/RelationInstanceContainer').RelationInstanceContainer} relationContainer
+   * @param {import('../../../AnnotationModel/RelationInstanceContainer').RelationInstanceContainer} relationContainer
    * @param {import('./Transition').default} transition
    * @param {import('../../FunctionAvailability').default} functionAvailability
    */

@@ -10,7 +10,7 @@ export default function (
   definitionContainer,
   annotationType,
   selectionModel,
-  annotationData
+  annotationModel
 ) {
   delegate(pallet.el, `.textae-editor__pallet__add-button`, 'click', () => {
     new CreateTypeDefinitionDialog(definitionContainer, getAutocompletionWs())
@@ -40,7 +40,7 @@ export default function (
     }
 
     selectionModel.removeAll()
-    for (const { id } of annotationData[annotationType].findByType(
+    for (const { id } of annotationModel[annotationType].findByType(
       e.delegateTarget.dataset.id
     )) {
       selectionModel.add(annotationType, id)

@@ -10,7 +10,7 @@ export default class EditRelation extends Edit {
   constructor(
     editorHTMLElement,
     eventEmitter,
-    annotationData,
+    annotationModel,
     selectionModel,
     commander,
     autocompletionWs,
@@ -20,9 +20,9 @@ export default class EditRelation extends Edit {
     const relationPallet = new TypeValuesPallet(
       editorHTMLElement,
       eventEmitter,
-      annotationData.typeDefinition,
-      annotationData.attribute,
-      annotationData.typeDefinition.relation,
+      annotationModel.typeDefinition,
+      annotationModel.attribute,
+      annotationModel.typeDefinition.relation,
       selectionModel.relation,
       commander,
       'Relation configuration',
@@ -31,16 +31,16 @@ export default class EditRelation extends Edit {
     )
 
     const getAutocompletionWs = () =>
-      autocompletionWs || annotationData.typeDefinition.autocompletionWs
+      autocompletionWs || annotationModel.typeDefinition.autocompletionWs
 
     super(
       editorHTMLElement,
       selectionModel,
-      annotationData,
+      annotationModel,
       relationPallet,
       commander,
       getAutocompletionWs,
-      annotationData.typeDefinition.relation,
+      annotationModel.typeDefinition.relation,
       'relation'
     )
 
@@ -49,13 +49,13 @@ export default class EditRelation extends Edit {
       editorHTMLElement,
       selectionModel,
       commander,
-      annotationData.typeDefinition,
+      annotationModel.typeDefinition,
       relationPallet
     )
     this._controlViewModel = controlViewModel
     this._attributeEditor = new AttributeEditor(
       commander,
-      annotationData,
+      annotationModel,
       selectionModel.relation,
       new SelectionAttributePallet(editorHTMLElement, mousePoint),
       () => this.editProperties(),
@@ -79,7 +79,7 @@ export default class EditRelation extends Edit {
         'Relation',
         'Relation',
         this._definitionContainer,
-        this._annotationData.typeDefinition.attribute,
+        this._annotationModel.typeDefinition.attribute,
         this._getAutocompletionWs(),
         this._selectionModel.relation.all,
         this.pallet,

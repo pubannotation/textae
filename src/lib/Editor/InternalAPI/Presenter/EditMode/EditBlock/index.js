@@ -14,7 +14,7 @@ export default class EditBlock extends Edit {
   constructor(
     editorHTMLElement,
     eventEmitter,
-    annotationData,
+    annotationModel,
     selectionModel,
     spanConfig,
     commander,
@@ -24,7 +24,7 @@ export default class EditBlock extends Edit {
   ) {
     const spanEditor = new SpanEditor(
       editorHTMLElement,
-      annotationData,
+      annotationModel,
       spanConfig,
       commander,
       controlViewModel,
@@ -34,9 +34,9 @@ export default class EditBlock extends Edit {
     const blockPallet = new TypeValuesPallet(
       editorHTMLElement,
       eventEmitter,
-      annotationData.typeDefinition,
-      annotationData.attribute,
-      annotationData.typeDefinition.block,
+      annotationModel.typeDefinition,
+      annotationModel.attribute,
+      annotationModel.typeDefinition.block,
       selectionModel.entity,
       commander,
       'Block configuration',
@@ -45,22 +45,22 @@ export default class EditBlock extends Edit {
     )
 
     const getAutocompletionWs = () =>
-      autocompletionWs || annotationData.typeDefinition.autocompletionWs
+      autocompletionWs || annotationModel.typeDefinition.autocompletionWs
 
     super(
       editorHTMLElement,
       selectionModel,
-      annotationData,
+      annotationModel,
       blockPallet,
       commander,
       getAutocompletionWs,
-      annotationData.typeDefinition.block,
+      annotationModel.typeDefinition.block,
       'entity'
     )
 
     this._mouseEventHandler = new MouseEventHandler(
       editorHTMLElement,
-      annotationData,
+      annotationModel,
       selectionModel,
       spanEditor,
       blockPallet
@@ -68,11 +68,11 @@ export default class EditBlock extends Edit {
     this._spanEditor = spanEditor
     this._controlViewModel = controlViewModel
     this._textBox = editorHTMLElement.querySelector('.textae-editor__text-box')
-    this._spanModelContainer = annotationData.span
+    this._spanModelContainer = annotationModel.span
 
     this._attributeEditor = new AttributeEditor(
       commander,
-      annotationData,
+      annotationModel,
       selectionModel.entity,
       new SelectionAttributePallet(editorHTMLElement, mousePoint),
       () => this.editProperties(),
@@ -123,7 +123,7 @@ export default class EditBlock extends Edit {
         'Block',
         'Entity',
         this._definitionContainer,
-        this._annotationData.typeDefinition.attribute,
+        this._annotationModel.typeDefinition.attribute,
         this._getAutocompletionWs(),
         this._selectionModel.entity.all,
         this.pallet,

@@ -12,7 +12,7 @@ const MinimumDistance = DistanceToShift * 3 + 4
 export default class EntityInstance {
   /**
    *
-   * @param {import('./AnnotationData/SpanInstanceContainer/SpanInstance/index.js').SpanInstance} span
+   * @param {import('./AnnotationModel/SpanInstanceContainer/SpanInstance/index.js').SpanInstance} span
    */
   constructor(
     editorID,
@@ -98,7 +98,7 @@ export default class EntityInstance {
   }
 
   /**
-   * @returns {import('./AnnotationData/AttributeInstanceContainer/AttributeInstance.js').AttributeInstance[]}
+   * @returns {import('./AnnotationModel/AttributeInstanceContainer/AttributeInstance.js').AttributeInstance[]}
    */
   get attributes() {
     return this._attributeContainer.getAttributesFor(this._id)
@@ -417,7 +417,7 @@ export default class EntityInstance {
     }
   }
 
-  /** @return {import('./AnnotationData/DefinitionContainer/index.js').default} */
+  /** @return {import('./AnnotationModel/DefinitionContainer/index.js').default} */
   get _definitionContainer() {
     if (this.isDenotation) {
       return this._typeDefinition.denotation

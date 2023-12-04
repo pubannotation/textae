@@ -3,15 +3,15 @@ import CompositeCommand from './CompositeCommand'
 import RemoveRelationAndAssociatesCommand from './RemoveRelationAndAssociatesCommand'
 
 export default class RemoveEntityAndAssociatesCommand extends CompositeCommand {
-  constructor(annotationData, entity) {
+  constructor(annotationModel, entity) {
     super()
-    const removeEntity = new RemoveCommand(annotationData, 'entity', entity)
+    const removeEntity = new RemoveCommand(annotationModel, 'entity', entity)
     const removeRelation = entity.relations.map(
       (relation) =>
-        new RemoveRelationAndAssociatesCommand(annotationData, relation)
+        new RemoveRelationAndAssociatesCommand(annotationModel, relation)
     )
     const removeAttribute = entity.attributes.map(
-      (attribute) => new RemoveCommand(annotationData, 'attribute', attribute)
+      (attribute) => new RemoveCommand(annotationModel, 'attribute', attribute)
     )
 
     this._subCommands = removeRelation

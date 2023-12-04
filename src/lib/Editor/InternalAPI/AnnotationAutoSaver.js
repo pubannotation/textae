@@ -6,7 +6,7 @@ export default class AnnotationAutoSaver {
     controlViewModel,
     persistenceInterface,
     saveToParameter,
-    annotationDataEventsObserver
+    annotationModelEventsObserver
   ) {
     this._controlViewModel = controlViewModel
 
@@ -32,7 +32,7 @@ export default class AnnotationAutoSaver {
         if (
           name === 'upload automatically' &&
           isPushed === true &&
-          annotationDataEventsObserver.hasChange
+          annotationModelEventsObserver.hasChange
         ) {
           persistenceInterface.saveAnnotation()
         }

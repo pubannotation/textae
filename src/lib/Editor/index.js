@@ -1,5 +1,5 @@
 // model manages data objects.
-import AnnotationData from './AnnotationData'
+import AnnotationModel from './AnnotationModel'
 import InternalAPI from './InternalAPI'
 import { EventEmitter } from 'events'
 import ParamsFormHTMLElement from './ParamsFromHTMLElement'
@@ -39,7 +39,7 @@ export default class Editor {
     editorCSSClassObserve(eventEmitter, editorCSSClass)
 
     const params = new ParamsFormHTMLElement(element)
-    const annotationData = new AnnotationData(
+    const annotationModel = new AnnotationModel(
       editorID,
       element,
       eventEmitter,
@@ -60,7 +60,7 @@ export default class Editor {
             destinationElement.textContent = JSON.stringify(annotation, null, 2)
           }
         },
-        annotationData
+        annotationModel
       )
     }
 
@@ -69,19 +69,19 @@ export default class Editor {
     const container = element.closest('.textae-container')
     if (container) {
       this._listener = new Listener(container, 'scroll', () => {
-        annotationData.drawGridsInSight()
+        annotationModel.drawGridsInSight()
       })
       this._listener.bind()
     }
 
     // A container of selection state.
-    const selectionModel = new SelectionModel(eventEmitter, annotationData)
+    const selectionModel = new SelectionModel(eventEmitter, annotationModel)
     const internalAPI = new InternalAPI(
       element,
       editorID,
       mousePoint,
       eventEmitter,
-      annotationData,
+      annotationModel,
       params,
       selectionModel
     )
@@ -97,15 +97,18 @@ export default class Editor {
       'hideContextMenu',
       'focusDenotation'
     ])
-    forwardMethods(this, () => annotationData, ['drawGridsInSight', 'reLayout'])
+    forwardMethods(this, () => annotationModel, [
+      'drawGridsInSight',
+      'reLayout'
+    ])
 
     this._element = element
-    this._annotationData = annotationData
+    this._annotationModel = annotationModel
     this._eventEmitter = eventEmitter
   }
 
   updateDenotationEntitiesWidth() {
-    for (const span of this._annotationData.span.allDenotationSpans) {
+    for (const span of this._annotationModel.span.allDenotationSpans) {
       span.updateDenotationEntitiesWidth()
     }
   }
@@ -124,7 +127,7 @@ export default class Editor {
       this._inspector = new Inspector(
         this._eventEmitter,
         callback,
-        this._annotationData
+        this._annotationModel
       )
     }
   }

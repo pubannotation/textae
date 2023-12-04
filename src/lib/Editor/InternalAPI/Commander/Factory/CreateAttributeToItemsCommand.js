@@ -2,11 +2,11 @@ import CompositeCommand from './CompositeCommand'
 import getCreateAttributeToItemsCommands from './getCreateAttributeToItemsCommands'
 
 export default class CreateAttributeToItemsCommand extends CompositeCommand {
-  constructor(annotationData, items, attributeDefinition, obj) {
+  constructor(annotationModel, items, attributeDefinition, obj) {
     super()
 
     this._subCommands = getCreateAttributeToItemsCommands(
-      annotationData,
+      annotationModel,
       items,
       attributeDefinition.pred,
       obj || attributeDefinition.default

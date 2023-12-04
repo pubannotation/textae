@@ -2,21 +2,21 @@ import commandLog from './commandLog'
 import AnnotationCommand from './AnnotationCommand'
 
 export default class ChangeAnnotationCommand extends AnnotationCommand {
-  constructor(annotationData, annotationType, id, newType) {
+  constructor(annotationModel, annotationType, id, newType) {
     super()
-    this._annotationData = annotationData
+    this._annotationModel = annotationModel
     this._annotationType = annotationType
     this._id = id
     this._newType = newType
   }
 
   execute() {
-    this.oldType = this._annotationData[this._annotationType].get(
+    this.oldType = this._annotationModel[this._annotationType].get(
       this._id
     ).typeName
 
     // Update instance
-    const targetInstance = this._annotationData[
+    const targetInstance = this._annotationModel[
       this._annotationType
     ].changeType(this._id, this._newType)
     commandLog(
@@ -28,7 +28,7 @@ export default class ChangeAnnotationCommand extends AnnotationCommand {
 
   revert() {
     return new ChangeAnnotationCommand(
-      this._annotationData,
+      this._annotationModel,
       this._annotationType,
       this._id,
       this.oldType

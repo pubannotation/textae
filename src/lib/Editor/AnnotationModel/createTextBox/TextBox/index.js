@@ -4,10 +4,10 @@ import updateTextBoxHeight from './updateTextBoxHeight'
 import pixelToInt from './pixelToInt'
 
 export default class TextBox {
-  constructor(editorHTMLElement, annotationData) {
+  constructor(editorHTMLElement, annotationModel) {
     this._editorHTMLElement = editorHTMLElement
     this._el = editorHTMLElement.querySelector('.textae-editor__text-box')
-    this._annotationData = annotationData
+    this._annotationModel = annotationModel
   }
 
   get boundingClientRect() {
@@ -21,7 +21,7 @@ export default class TextBox {
   set lineHeight(val) {
     setLineHeight(this._el, val)
     this.forceUpdate()
-    this._annotationData.updatePosition()
+    this._annotationModel.updatePosition()
   }
 
   render(text) {
@@ -35,7 +35,7 @@ export default class TextBox {
   }
 
   updateLineHeight() {
-    const lineHeight = this._annotationData.span.maxHeight
+    const lineHeight = this._annotationModel.span.maxHeight
 
     if (lineHeight) {
       this.lineHeight = lineHeight

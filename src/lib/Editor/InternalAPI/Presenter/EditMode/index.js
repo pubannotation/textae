@@ -13,7 +13,7 @@ export default class EditMode {
   constructor(
     editorHTMLElement,
     eventEmitter,
-    annotationData,
+    annotationModel,
     selectionModel,
     spanConfig,
     commander,
@@ -25,7 +25,7 @@ export default class EditMode {
     this._editDenotation = new EditDenotation(
       editorHTMLElement,
       eventEmitter,
-      annotationData,
+      annotationModel,
       selectionModel,
       commander,
       controlViewModel,
@@ -37,7 +37,7 @@ export default class EditMode {
     this._editBlock = new EditBlock(
       editorHTMLElement,
       eventEmitter,
-      annotationData,
+      annotationModel,
       selectionModel,
       spanConfig,
       commander,
@@ -49,7 +49,7 @@ export default class EditMode {
     this._editRelation = new EditRelation(
       editorHTMLElement,
       eventEmitter,
-      annotationData,
+      annotationModel,
       selectionModel,
       commander,
       params.autocompletionWs,
@@ -60,7 +60,7 @@ export default class EditMode {
     new ModeReactor(
       editorHTMLElement,
       eventEmitter,
-      annotationData,
+      annotationModel,
       () => this.cancelSelect(),
       this._editDenotation,
       this._editBlock,
@@ -68,12 +68,12 @@ export default class EditMode {
     )
 
     this._state = new State(
-      annotationData.relation,
+      annotationModel.relation,
       eventEmitter,
       functionAvailability
     )
 
-    this._annotationData = annotationData
+    this._annotationModel = annotationModel
     this._selectionModel = selectionModel
     this._params = params
 
@@ -119,12 +119,12 @@ export default class EditMode {
    */
   reset() {
     if (this._params.isTermEditMode) {
-      this._state.toTermMode(this._annotationData.relation.some)
+      this._state.toTermMode(this._annotationModel.relation.some)
       return
     }
 
     if (this._params.isBlockEditMode) {
-      this._state.toBlockMode(this._annotationData.relation.some)
+      this._state.toBlockMode(this._annotationModel.relation.some)
       return
     }
 
@@ -133,7 +133,7 @@ export default class EditMode {
       return
     }
 
-    this._state.toViewMode(this._annotationData.relation.some)
+    this._state.toViewMode(this._annotationModel.relation.some)
   }
 
   cancelSelect() {

@@ -5,7 +5,7 @@ export default class ModeReactor {
   constructor(
     editorHTMLElement,
     eventEmitter,
-    annotationData,
+    annotationModel,
     cancelSelect,
     editDenotation,
     editBlock,
@@ -23,7 +23,7 @@ export default class ModeReactor {
 
         switch (mode) {
           case MODE.VIEW:
-            annotationData.typeGap.show = showRelation
+            annotationModel.typeGap.show = showRelation
             if (showRelation) {
               editorCSS.setFor('view-with-relation')
             } else {
@@ -31,7 +31,7 @@ export default class ModeReactor {
             }
             break
           case MODE.EDIT_DENOTATION:
-            annotationData.typeGap.show = showRelation
+            annotationModel.typeGap.show = showRelation
             this._listeners = editDenotation.bindMouseEvents()
             if (showRelation) {
               editorCSS.setFor('denotation-with-relation')
@@ -40,7 +40,7 @@ export default class ModeReactor {
             }
             break
           case MODE.EDIT_BLOCK:
-            annotationData.typeGap.show = showRelation
+            annotationModel.typeGap.show = showRelation
             this._listeners = editBlock.bindMouseEvents()
             if (showRelation) {
               editorCSS.setFor('block-with-relation')
@@ -49,7 +49,7 @@ export default class ModeReactor {
             }
             break
           case MODE.EDIT_RELATION:
-            annotationData.typeGap.show = true
+            annotationModel.typeGap.show = true
             this._listeners = editRelation.bindMouseEvents()
             editorCSS.setFor('relation')
             break

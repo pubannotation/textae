@@ -12,7 +12,7 @@ import ControlBar from '../control/ControlBar'
 import ContextMenu from '../control/ContextMenu'
 import KeyEventMap from './KeyEventMap'
 import IconEventMap from './IconEventMap'
-import AnnotationDataEventsObserver from '../AnnotationDataEventsObserver'
+import AnnotationModelEventsObserver from '../AnnotationModelEventsObserver'
 import warningIfBeginEndOfSpanAreNotInteger from './warningIfBeginEndOfSpanAreNotInteger'
 import validateConfigurationAndAlert from './validateConfigurationAndAlert'
 import setAnnotationAndConfiguration from './setAnnotationAndConfiguration'
@@ -30,7 +30,7 @@ export default class InternalAPI {
     editorID,
     mousePoint,
     eventEmitter,
-    annotationData,
+    annotationModel,
     params,
     selectionModel
   ) {
@@ -41,16 +41,16 @@ export default class InternalAPI {
       editorHTMLElement,
       editorID,
       eventEmitter,
-      annotationData,
+      annotationModel,
       selectionModel
     )
     const clipBoard = new Clipboard(
       eventEmitter,
       commander,
       selectionModel,
-      annotationData.denotationDefinitionContainer,
-      annotationData.attributeDefinitionContainer,
-      annotationData.typeDefinition
+      annotationModel.denotationDefinitionContainer,
+      annotationModel.attributeDefinitionContainer,
+      annotationModel.typeDefinition
     )
     const originalData = new OriginalData(
       eventEmitter,
@@ -58,25 +58,25 @@ export default class InternalAPI {
       params.statusBar
     )
 
-    const annotationDataEventsObserver = new AnnotationDataEventsObserver(
+    const annotationModelEventsObserver = new AnnotationModelEventsObserver(
       eventEmitter,
       originalData,
-      annotationData
+      annotationModel
     )
     const functionAvailability = new FunctionAvailability()
     const controlViewModel = new ControlViewModel(
       eventEmitter,
       selectionModel,
       clipBoard,
-      annotationDataEventsObserver,
+      annotationModelEventsObserver,
       originalData,
-      annotationData.typeDefinition,
+      annotationModel.typeDefinition,
       functionAvailability
     )
     const presenter = new Presenter(
       editorHTMLElement,
       eventEmitter,
-      annotationData,
+      annotationModel,
       selectionModel,
       commander,
       spanConfig,
@@ -92,11 +92,11 @@ export default class InternalAPI {
     const persistenceInterface = new PersistenceInterface(
       eventEmitter,
       remoteResource,
-      annotationData,
+      annotationModel,
       () => originalData.annotation,
       () => originalData.configuration,
       params.saveTo,
-      annotationDataEventsObserver,
+      annotationModelEventsObserver,
       controlViewModel
     )
 
@@ -105,7 +105,7 @@ export default class InternalAPI {
       controlViewModel,
       persistenceInterface,
       params.saveTo,
-      annotationDataEventsObserver
+      annotationModelEventsObserver
     )
 
     eventEmitter
@@ -134,7 +134,7 @@ export default class InternalAPI {
               validConfig,
               controlViewModel,
               spanConfig,
-              annotationData,
+              annotationModel,
               dataSource.data,
               functionAvailability
             )
@@ -166,7 +166,7 @@ export default class InternalAPI {
           // If only the configuration is read, the annotation is null.
           const annotation = (loadedAnnotation && loadedAnnotation.data) || {
             ...originalData.annotation,
-            ...annotationData.externalFormat
+            ...annotationModel.externalFormat
           }
 
           const validConfig = validateConfigurationAndAlert(
@@ -182,7 +182,7 @@ export default class InternalAPI {
             validConfig,
             controlViewModel,
             spanConfig,
-            annotationData,
+            annotationModel,
             annotation,
             functionAvailability
           )
@@ -202,7 +202,7 @@ export default class InternalAPI {
       presenter,
       persistenceInterface,
       controlViewModel,
-      annotationData
+      annotationModel
     )
 
     // add control bar
@@ -231,12 +231,12 @@ export default class InternalAPI {
         break
     }
 
-    annotationData.controlBarHeight =
+    annotationModel.controlBarHeight =
       controlBarHTMLElement.getBoundingClientRect().height
 
     initAnnotation(
       spanConfig,
-      annotationData,
+      annotationModel,
       remoteResource,
       controlViewModel,
       originalData,

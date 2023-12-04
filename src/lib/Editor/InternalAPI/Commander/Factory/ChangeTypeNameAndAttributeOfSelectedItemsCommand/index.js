@@ -5,7 +5,7 @@ import getAddPatternToStringAttributeDefinitionCommand from '../getAddPatternToS
 
 export default class ChangeTypeNameAndAttributeOfSelectedItemsCommand extends CompositeCommand {
   constructor(
-    annotationData,
+    annotationModel,
     selectionModel,
     annotationType,
     typeName,
@@ -22,7 +22,7 @@ export default class ChangeTypeNameAndAttributeOfSelectedItemsCommand extends Co
     this._subCommands = itemsWithChange.map(
       (item) =>
         new ChangeAnnotationCommand(
-          annotationData,
+          annotationModel,
           annotationType,
           item.id,
           typeName
@@ -31,11 +31,11 @@ export default class ChangeTypeNameAndAttributeOfSelectedItemsCommand extends Co
 
     // Change attributes
     this._subCommands = this._subCommands.concat(
-      getChangeAttributeCommands(itemsWithChange, attributes, annotationData)
+      getChangeAttributeCommands(itemsWithChange, attributes, annotationModel)
     )
 
     for (const { pred, obj, label } of attributes) {
-      const definitionContainer = annotationData.typeDefinition.attribute
+      const definitionContainer = annotationModel.typeDefinition.attribute
       const attrDef = definitionContainer.get(pred)
       const commnad = getAddPatternToStringAttributeDefinitionCommand(
         definitionContainer,

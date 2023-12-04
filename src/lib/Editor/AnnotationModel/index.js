@@ -4,7 +4,7 @@ import AttributeInstanceContainer from './AttributeInstanceContainer'
 import RelationInstanceContainer from './RelationInstanceContainer'
 import EntityInstanceContainer from './EntityInstanceContainer'
 import AnnotationParser from './AnnotationParser'
-import clearAnnotationData from './clearAnnotationData'
+import clearAnnotationModel from './clearAnnotationModel'
 import toDenotations from './toDenotations'
 import toRelations from './toRelations'
 import toBlocks from './toBlocks'
@@ -17,7 +17,7 @@ import AttributeDefinitionContainer from '../AttributeDefinitionContainer'
 import getAnnotationBox from './getAnnotationBox'
 import LineHeightAuto from './LineHeightAuto'
 
-export default class AnnotationData {
+export default class AnnotationModel {
   constructor(
     editorID,
     editorHTMLElement,
@@ -183,7 +183,7 @@ export default class AnnotationData {
     this._sourceDoc = rawData.text
     this._textBox.render(this.sourceDoc)
 
-    clearAnnotationData(this)
+    clearAnnotationModel(this)
     const { namespace, span, entity, attribute, relation } = this
     const annotationParser = new AnnotationParser(
       namespace,

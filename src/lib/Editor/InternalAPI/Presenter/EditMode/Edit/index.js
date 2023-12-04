@@ -5,7 +5,7 @@ export default class Edit {
   constructor(
     editorHTMLElement,
     selectionModel,
-    annotationData,
+    annotationModel,
     pallet,
     commander,
     getAutocompletionWs,
@@ -14,7 +14,7 @@ export default class Edit {
   ) {
     this._editorHTMLElement = editorHTMLElement
     this._selectionModel = selectionModel
-    this._annotationData = annotationData
+    this._annotationModel = annotationModel
     this._getAutocompletionWs = getAutocompletionWs
     this._definitionContainer = definitionContainer
     this._commander = commander
@@ -28,7 +28,7 @@ export default class Edit {
       definitionContainer,
       annotationType,
       selectionModel,
-      annotationData
+      annotationModel
     )
 
     editorHTMLElement.appendChild(pallet.el)

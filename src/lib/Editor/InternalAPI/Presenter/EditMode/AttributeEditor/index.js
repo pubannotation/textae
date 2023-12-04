@@ -5,17 +5,17 @@ import createStringAttributeOrShowEditStringAttributeDialog from './createString
 export default class AttributeEditor {
   constructor(
     commander,
-    annotationData,
+    annotationModel,
     selectionModelItems,
     selectionAttributePallet,
     editProperties,
     typeValuesPallet
   ) {
     this._commander = commander
-    this._annotationData = annotationData
+    this._annotationModel = annotationModel
     this._selectionModelItems = selectionModelItems
     this._selectionAttributePallet = selectionAttributePallet
-    this._typeDefinition = annotationData.typeDefinition
+    this._typeDefinition = annotationModel.typeDefinition
     this._editProperties = editProperties
     this._typeValuesPallet = typeValuesPallet
   }
