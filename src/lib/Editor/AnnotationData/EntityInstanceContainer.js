@@ -1,4 +1,4 @@
-import EntityModel from '../EntityModel'
+import EntityInstance from '../EntityInstance'
 import {
   makeDenotationSpanHTMLElementID,
   makeBlockSpanHTMLElementID
@@ -41,7 +41,7 @@ export default class EntityInstanceContainer extends IdIssueContainer {
   _toModel(denotation, type) {
     // Expected an entity like {id: "E21", span: "editor2__S50_54", obj: "Protein"}.
     const span = this._getSpan(type, denotation)
-    const newModel = new EntityModel(
+    const newInstance = new EntityInstance(
       this._editorID,
       this._attributeModelContainer,
       this._relationModelContainer,
@@ -54,15 +54,15 @@ export default class EntityInstanceContainer extends IdIssueContainer {
       denotation.id
     )
 
-    return newModel
+    return newInstance
   }
 
   add(newValue) {
     if (!newValue.span)
       throw new Error(`entity has no span! ${JSON.stringify(newValue)}`)
 
-    // When redoing, the newValue is instance of the EntityModel already.
-    if (newValue instanceof EntityModel) {
+    // When redoing, the newValue is instance of the EntityInstance already.
+    if (newValue instanceof EntityInstance) {
       super.add(newValue)
       newValue.span.add(newValue)
       newValue.render()
@@ -70,7 +70,7 @@ export default class EntityInstanceContainer extends IdIssueContainer {
     }
 
     const span = this._spanInstanceContainer.get(newValue.span)
-    const newEntity = new EntityModel(
+    const newEntity = new EntityInstance(
       this._editorID,
       this._attributeModelContainer,
       this._relationModelContainer,

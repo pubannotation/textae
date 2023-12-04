@@ -16,7 +16,7 @@ export default class SpanInstance {
     this._isGridRendered = false
     this._isSelected = false
     /**
-     * @type {Set<import('../../../EntityModel').default>}
+     * @type {Set<import('../../../EntityInstance').EntityInstance>}
      */
     this._entities = new Set()
 
@@ -40,7 +40,7 @@ export default class SpanInstance {
   }
 
   /**
-   * @return {[import('../../../EntityModel').default]}
+   * @return {[import('../../../EntityInstance').EntityInstance]}
    */
   get entities() {
     return [...this._entities]
@@ -71,7 +71,7 @@ export default class SpanInstance {
 
   /**
    *
-   * @param {import('../../../EntityModel').default} entity
+   * @param {import('../../../EntityInstance').EntityInstance} entity
    */
   add(entity) {
     this._entities.add(entity)
@@ -79,7 +79,7 @@ export default class SpanInstance {
 
   /**
    *
-   * @param {import('../../../EntityModel').default} entity
+   * @param {import('../../../EntityInstance').EntityInstance} entity
    */
   remove(entity) {
     this._entities.delete(entity)

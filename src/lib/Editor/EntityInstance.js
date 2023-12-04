@@ -1,15 +1,15 @@
-import TypeValues from '../TypeValues'
-import SignboardHTMLElement from './SignboardHTMLElement'
-import getDisplayName from './getDisplayName'
-import getURI from './getURI'
-import toAnchorElement from './toAnchorElement'
-import round from './round'
+import TypeValues from '../TypeValues.js'
+import SignboardHTMLElement from './SignboardHTMLElement.js'
+import getDisplayName from './getDisplayName/index.js'
+import getURI from './getURI.js'
+import toAnchorElement from './toAnchorElement.js'
+import round from './round.js'
 
 const DistanceToShift = 8
 // Leave a gap half the width of the triangle so that the triangle does not intersect the vertical line.
 const MinimumDistance = DistanceToShift * 3 + 4
 
-export default class EntityModel {
+export default class EntityInstance {
   /**
    *
    * @param {import('./AnnotationData/SpanInstanceContainer/SpanInstance/index.js').SpanInstance} span

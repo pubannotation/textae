@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid'
 import TypeValues from '../../../TypeValues'
-import EntityModel from '../../EntityModel'
+import EntityInstance from '../../EntityInstance'
 import AttributeDefinitionContainer from '../../AttributeDefinitionContainer'
 
 export default class Clipboard {
@@ -44,7 +44,7 @@ export default class Clipboard {
   }
 
   get hasCuttingItem() {
-    return this._items[0] instanceof EntityModel
+    return this._items[0] instanceof EntityInstance
   }
 
   copyEntitiesToLocalClipboard() {

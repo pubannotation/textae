@@ -1,8 +1,8 @@
 export default class startAndEnd {
   /**
    *
-   * @param {import('../../../../../../../EntityModel').default} sourceEntity
-   * @param {import('../../../../../../../EntityModel').default} targetEntity
+   * @param {import('../../../../../../../EntityInstance').default} sourceEntity
+   * @param {import('../../../../../../../EntityInstance').default} targetEntity
    * @returns
    */
   constructor(relation, alignSourceBollards, alignTargetBollards) {
