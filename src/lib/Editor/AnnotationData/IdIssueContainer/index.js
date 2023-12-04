@@ -1,6 +1,6 @@
-import ModelContainer from '../ModelContainer'
+import InstanceContainer from '../InstanceContainer'
 
-export default class IdIssueContainer extends ModelContainer {
+export default class IdIssueContainer extends InstanceContainer {
   constructor(emitter, name, prefixFunc) {
     super(emitter, name)
 

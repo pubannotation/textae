@@ -1,4 +1,4 @@
-export default class ModelContainer {
+export default class InstanceContainer {
   constructor(emitter, name) {
     this._emitter = emitter
     this._name = name

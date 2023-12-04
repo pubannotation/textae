@@ -1,4 +1,4 @@
-import ModelContainer from './ModelContainer'
+import InstanceContainer from './InstanceContainer'
 import SpanModelContainer from './SpanModelContainer'
 import AttributeModelContainer from './AttributeModelContainer'
 import RelationModelContainer from './RelationModelContainer'
@@ -28,7 +28,7 @@ export default class AnnotationData {
     isConfigLocked
   ) {
     this._sourceDoc = ''
-    this.namespace = new ModelContainer(eventEmitter, 'namespace')
+    this.namespace = new InstanceContainer(eventEmitter, 'namespace')
     const relationDefinitionContainer = new DefinitionContainer(
       eventEmitter,
       'relation',
