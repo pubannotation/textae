@@ -5,7 +5,7 @@ import {
   makeDenotationSpanHTMLElementID
 } from '../../idFactory'
 import DenotationSpanInstance from './DenotationSpanInstance'
-import StyleSpanModel from './StyleSpanModel'
+import StyleSpanInstance from './StyleSpanInstance'
 import BlockSpanInstance from './BlockSpanInstance'
 import isBoundaryCrossingWithOtherSpans from '../isBoundaryCrossingWithOtherSpans'
 import rangeFrom from './rangeFrom'
@@ -388,7 +388,7 @@ export default class SpanInstanceContainer {
         break
       }
       case 'typesetting': {
-        const styleSpan = new StyleSpanModel(
+        const styleSpan = new StyleSpanInstance(
           this._editorID,
           this._editorHTMLElement,
           denotation.span.begin,
