@@ -1,7 +1,7 @@
 import InstanceContainer from './InstanceContainer'
 import SpanInstanceContainer from './SpanInstanceContainer'
 import AttributeInstanceContainer from './AttributeInstanceContainer'
-import RelationModelContainer from './RelationModelContainer'
+import RelationInstanceContainer from './RelationInstanceContainer'
 import EntityInstanceContainer from './EntityInstanceContainer'
 import AnnotationParser from './AnnotationParser'
 import clearAnnotationData from './clearAnnotationData'
@@ -36,7 +36,7 @@ export default class AnnotationData {
       '#00CC66'
     )
 
-    this.relation = new RelationModelContainer(
+    this.relation = new RelationInstanceContainer(
       editorHTMLElement,
       eventEmitter,
       this,

@@ -1,7 +1,7 @@
 import RelationInstance from './RelationInstance'
 import IdIssueContainer from '../IdIssueContainer'
 
-export default class RelationModelContainer extends IdIssueContainer {
+export default class RelationInstanceContainer extends IdIssueContainer {
   constructor(
     editorHTMLElement,
     eventEmitter,
