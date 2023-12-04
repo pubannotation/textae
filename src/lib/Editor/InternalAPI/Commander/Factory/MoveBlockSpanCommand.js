@@ -11,7 +11,7 @@ export default class MoveBlockSpanCommand extends AnnotationCommand {
   }
 
   execute() {
-    // Update model
+    // Update instance.
     const { id, begin, end } = this._annotationData.span.moveBlockSpan(
       this._spanId,
       this._begin,
