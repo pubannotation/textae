@@ -6,7 +6,7 @@ import {
 } from '../../idFactory'
 import DenotationSpanInstance from './DenotationSpanInstance'
 import StyleSpanModel from './StyleSpanModel'
-import BlockSpanModel from './BlockSpanModel'
+import BlockSpanInstance from './BlockSpanInstance'
 import isBoundaryCrossingWithOtherSpans from '../isBoundaryCrossingWithOtherSpans'
 import rangeFrom from './rangeFrom'
 import getCurrentMaxHeight from './getCurrentMaxHeight'
@@ -32,9 +32,9 @@ export default class SpanInstanceContainer {
   add(newValue) {
     console.assert(newValue, 'span is necessary.')
 
-    // When redoing, the newValue is instance of the BlockSpanModel
-    // or the DeontationSpan already.
-    if (newValue instanceof BlockSpanModel) {
+    // When redoing, the newValue is instance of the BlockSpanInstance
+    // or the DenotationSpan already.
+    if (newValue instanceof BlockSpanInstance) {
       return this._addBlock(newValue)
     } else if (newValue instanceof DenotationSpanInstance) {
       return this._addDenotation(newValue)
@@ -44,7 +44,7 @@ export default class SpanInstanceContainer {
         `There are some parent spans of {begin: ${newValue.begin}, end: ${newValue.end}}.`
       )
 
-      const blockSpan = new BlockSpanModel(
+      const blockSpan = new BlockSpanInstance(
         this._editorID,
         this._editorHTMLElement,
         newValue.begin,
@@ -233,7 +233,7 @@ export default class SpanInstanceContainer {
     const oldSpan = this._blocks.get(id)
     this._removeBlock(oldSpan)
 
-    const newOne = new BlockSpanModel(
+    const newOne = new BlockSpanInstance(
       this._editorID,
       this._editorHTMLElement,
       begin,
@@ -372,7 +372,7 @@ export default class SpanInstanceContainer {
         break
       }
       case 'block': {
-        const blockSpan = new BlockSpanModel(
+        const blockSpan = new BlockSpanInstance(
           this._editorID,
           this._editorHTMLElement,
           denotation.span.begin,
