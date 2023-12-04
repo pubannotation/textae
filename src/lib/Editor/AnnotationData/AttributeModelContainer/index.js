@@ -1,4 +1,4 @@
-import AttributeModel from './AttributeModel'
+import AttributeInstance from './AttributeInstance'
 import IdIssueContainer from '../IdIssueContainer'
 import MediaDictionary from './MediaDictionary'
 
@@ -6,24 +6,24 @@ export default class AttributeModelContainer extends IdIssueContainer {
   constructor(
     emitter,
     entityContainer,
-    relationContaier,
+    relationContainer,
     namespace,
     definitionContainer
   ) {
     super(emitter, 'attribute', () => 'A')
 
     this._entityContainer = entityContainer
-    this._relationContaier = relationContaier
+    this._relationContainer = relationContainer
     this._namespace = namespace
     this._definitionContainer = definitionContainer
     this._mediaDictionary = new MediaDictionary()
   }
 
   _toModel(attribute) {
-    return new AttributeModel(
+    return new AttributeInstance(
       attribute,
       this._entityContainer,
-      this._relationContaier,
+      this._relationContainer,
       this._namespace,
       this._definitionContainer,
       this._mediaDictionary
@@ -31,9 +31,9 @@ export default class AttributeModelContainer extends IdIssueContainer {
   }
 
   add(newValue) {
-    // When redoing, the newValue is instance of the AttributeModel already.
+    // When redoing, the newValue is instance of the AttributeInstance already.
     newValue =
-      newValue instanceof AttributeModel ? newValue : this._toModel(newValue)
+      newValue instanceof AttributeInstance ? newValue : this._toModel(newValue)
 
     super.add(newValue)
 
@@ -43,17 +43,17 @@ export default class AttributeModelContainer extends IdIssueContainer {
   }
 
   change(id, newPred, newObj) {
-    const model = this.get(id)
+    const instance = this.get(id)
 
     if (newPred) {
-      model.pred = newPred
+      instance.pred = newPred
     }
 
     if (newObj) {
-      model.obj = newObj
+      instance.obj = newObj
     }
 
-    return model
+    return instance
   }
 
   remove(id) {
@@ -75,7 +75,7 @@ export default class AttributeModelContainer extends IdIssueContainer {
   /**
    *
    * @param {string} subj
-   * @returns {AttributeModel[]}
+   * @returns {AttributeInstance[]}
    */
   getAttributesFor(subj) {
     return this.all

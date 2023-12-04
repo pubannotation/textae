@@ -1,8 +1,8 @@
-import getDisplayName from '../../getDisplayName'
-import getLabelBackgroundColor from '../../getLabelBackgroundColor'
-import getURI from '../../getURI'
-import hexToRGBA from '../../hexToRGBA'
-import toAnchorElement from '../../toAnchorElement'
+import getDisplayName from '../../getDisplayName/index.js'
+import getLabelBackgroundColor from '../../getLabelBackgroundColor.js'
+import getURI from '../../getURI.js'
+import hexToRGBA from '../../hexToRGBA.js'
+import toAnchorElement from '../../toAnchorElement.js'
 
 export default class AttributeModel {
   // Expected an attribute like {id: "A1", subj: "T1", pred: "example_predicate_1", obj: "attr1"}.
