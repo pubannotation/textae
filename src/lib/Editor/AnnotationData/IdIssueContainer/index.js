@@ -10,7 +10,7 @@ export default class IdIssueContainer extends InstanceContainer {
   addSource(source, type) {
     const collection = source.map((r) => this._toModel(r, type))
 
-    // Move medols without id behind others, to prevet id duplication generated and exists.
+    // Move models without id behind others, to prevent id duplication generated and exists.
     collection.sort((a, b) => {
       if (!a.id) return 1
       if (!b.id) return -1
@@ -42,13 +42,13 @@ export default class IdIssueContainer extends InstanceContainer {
 
     const wellFormattedIDs = new Set()
     for (const id of this._container.keys()) {
-      // The format of id is a prefix and a number, for exapmle 'T1'.
+      // The format of id is a prefix and a number, for example 'T1'.
       if (new RegExp(`^${prefix}\\d+$`).test(id)) {
         wellFormattedIDs.add(id.slice(1))
       }
     }
 
-    // The Math.max retrun -Infinity when the second argument array is empty.
+    // The Math.max return -Infinity when the second argument array is empty.
     if (wellFormattedIDs.size === 0) {
       return `${prefix}1`
     }
