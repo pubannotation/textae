@@ -39,11 +39,11 @@ export default class SelectionModel {
 
   get copyingTargets() {
     // Map entities to types, because entities may be delete.
-    return [...this._selectedEntities].map(({ typeValues }) => typeValues)
+    return [...this.#selectedEntities].map(({ typeValues }) => typeValues)
   }
 
   get cuttingTargets() {
-    return this._selectedEntities
+    return this.#selectedEntities
   }
 
   add(annotationType, id) {
@@ -92,7 +92,7 @@ export default class SelectionModel {
     this.relation.add(id)
   }
 
-  get _selectedEntities() {
+  get #selectedEntities() {
     return new Set(
       this.span.all
         .map((span) => span.entities)
