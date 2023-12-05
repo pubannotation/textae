@@ -19,7 +19,7 @@ export default class Editor {
   #annotationModel
   #eventEmitter
   #inspector
-  #listeners
+  #scrollEventListeners
 
   constructor(
     element,
@@ -69,18 +69,10 @@ export default class Editor {
         annotationModel
       )
     }
-
-    // Draws the entity when the editor's ancestor element is scrolled and
-    // the entity enters the display area.
-    this.#listeners = new Set()
-    const container = element.closest('.textae-container')
-    if (container) {
-      const listener = new Listener(container, 'scroll', () => {
-        annotationModel.drawGridsInSight()
-      })
-      listener.bind()
-      this.#listeners.add(listener)
-    }
+    this.#scrollEventListeners = this.#observeScrollEvent(
+      annotationModel,
+      element
+    )
 
     // A container of selection state.
     const selectionModel = new SelectionModel(eventEmitter, annotationModel)
@@ -148,8 +140,29 @@ export default class Editor {
   dispose() {
     // There is an event listener that monitors scroll events.
     // The event listener is released when the editor is deleted.
-    for (const listener of this.#listeners) {
+    for (const listener of this.#scrollEventListeners) {
       listener.dispose()
     }
+  }
+
+  #observeScrollEvent(annotationModel, element) {
+    const scrollEventListeners = new Set()
+
+    // Draws the entity when the editor is scrolled and the entity enters the display area.
+    const showHideElements = () => annotationModel.drawGridsInSight()
+    const listener = new Listener(element, 'scroll', showHideElements)
+    listener.bind()
+    scrollEventListeners.add(listener)
+
+    // Draws the entity when the editor's ancestor element is scrolled and
+    // the entity enters the display area.
+    const container = element.closest('.textae-container')
+    if (container) {
+      const listener = new Listener(container, 'scroll', showHideElements)
+      listener.bind()
+      scrollEventListeners.add(listener)
+    }
+
+    return scrollEventListeners
   }
 }
