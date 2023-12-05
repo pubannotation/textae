@@ -15,6 +15,12 @@ import Listener from './Listener'
 import SelectionModel from './SelectionModel'
 
 export default class Editor {
+  #element
+  #annotationModel
+  #eventEmitter
+  #inspector
+  #listeners
+
   constructor(
     element,
     editorID,
@@ -66,14 +72,14 @@ export default class Editor {
 
     // Draws the entity when the editor's ancestor element is scrolled and
     // the entity enters the display area.
-    this._listeners = new Set()
+    this.#listeners = new Set()
     const container = element.closest('.textae-container')
     if (container) {
       const listener = new Listener(container, 'scroll', () => {
         annotationModel.drawGridsInSight()
       })
       listener.bind()
-      this._listeners.add(listener)
+      this.#listeners.add(listener)
     }
 
     // A container of selection state.
@@ -105,44 +111,44 @@ export default class Editor {
       'reLayout'
     ])
 
-    this._element = element
-    this._annotationModel = annotationModel
-    this._eventEmitter = eventEmitter
+    this.#element = element
+    this.#annotationModel = annotationModel
+    this.#eventEmitter = eventEmitter
   }
 
   updateDenotationEntitiesWidth() {
-    for (const span of this._annotationModel.span.allDenotationSpans) {
+    for (const span of this.#annotationModel.span.allDenotationSpans) {
       span.updateDenotationEntitiesWidth()
     }
   }
 
   load(annotation) {
-    loadAnnotation(this._eventEmitter, annotation)
+    loadAnnotation(this.#eventEmitter, annotation)
   }
 
   setInspector(callback) {
-    if (this._inspector) {
-      this._inspector.die()
-      this._inspector = null
+    if (this.#inspector) {
+      this.#inspector.die()
+      this.#inspector = null
     }
 
     if (typeof callback == 'function') {
-      this._inspector = new Inspector(
-        this._eventEmitter,
+      this.#inspector = new Inspector(
+        this.#eventEmitter,
         callback,
-        this._annotationModel
+        this.#annotationModel
       )
     }
   }
 
   get HTMLElementID() {
-    return this._element.id
+    return this.#element.id
   }
 
   dispose() {
     // There is an event listener that monitors scroll events.
     // The event listener is released when the editor is deleted.
-    for (const listener of this._listeners) {
+    for (const listener of this.#listeners) {
       listener.dispose()
     }
   }
