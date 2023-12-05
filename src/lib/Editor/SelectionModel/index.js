@@ -2,8 +2,10 @@ import SelectedItemsWithAttributes from './SelectedItemsWithAttributes'
 import SelectedItems from './SelectedItems'
 
 export default class SelectionModel {
+  #annotationModel
+
   constructor(eventEmitter, annotationModel) {
-    this._annotationModel = annotationModel
+    this.#annotationModel = annotationModel
 
     this.span = new SelectedItems(eventEmitter, 'span', annotationModel)
     this.entity = new SelectedItemsWithAttributes(
@@ -80,7 +82,7 @@ export default class SelectionModel {
   }
 
   selectDenotation(id) {
-    if (!this._annotationModel.entity.hasDenotation(id)) {
+    if (!this.#annotationModel.entity.hasDenotation(id)) {
       throw new Error(`Denotation ${id} not found`)
     }
 
