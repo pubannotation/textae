@@ -43,7 +43,7 @@ export default function (
     for (const { id } of annotationModel[annotationType].findByType(
       e.delegateTarget.dataset.id
     )) {
-      selectionModel.add(annotationType, id)
+      selectionModel.add(annotationType, [id])
     }
   })
 

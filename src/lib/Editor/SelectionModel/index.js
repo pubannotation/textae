@@ -48,9 +48,12 @@ export default class SelectionModel {
     return this.#selectedEntities
   }
 
-  add(annotationType, id) {
+  add(annotationType, ids) {
     console.assert(this[annotationType])
-    this[annotationType].add(id)
+
+    for (const id of ids) {
+      this[annotationType].add(id)
+    }
   }
 
   remove(annotationType, id) {

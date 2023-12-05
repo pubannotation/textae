@@ -21,7 +21,7 @@ class CreateCommand extends AnnotationCommand {
     )
 
     if (this._selectionModel) {
-      this._selectionModel.add(this._annotationType, this._instance.id)
+      this._selectionModel.add(this._annotationType, [this._instance.id])
     }
 
     commandLog(this, `${this._annotationType}: ${this._instance.id}`)
