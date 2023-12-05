@@ -66,12 +66,14 @@ export default class Editor {
 
     // Draws the entity when the editor's ancestor element is scrolled and
     // the entity enters the display area.
+    this._listeners = new Set()
     const container = element.closest('.textae-container')
     if (container) {
-      this._listener = new Listener(container, 'scroll', () => {
+      const listener = new Listener(container, 'scroll', () => {
         annotationModel.drawGridsInSight()
       })
-      this._listener.bind()
+      listener.bind()
+      this._listeners.add(listener)
     }
 
     // A container of selection state.
@@ -140,8 +142,8 @@ export default class Editor {
   dispose() {
     // There is an event listener that monitors scroll events.
     // The event listener is released when the editor is deleted.
-    if (this._listener) {
-      this._listener.dispose()
+    for (const listener of this._listeners) {
+      listener.dispose()
     }
   }
 }
