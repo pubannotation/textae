@@ -135,9 +135,10 @@ export default class MouseEventHandler {
       }
 
       // Select span of the selected entity.
-      for (const { span } of this._selectionModel.entity.all) {
-        this._selectionModel.add('span', [span.id])
-      }
+      const spans = this._selectionModel.entity.all
+        .map((entity) => entity.span)
+        .map((span) => span.id)
+      this._selectionModel.add('span', spans)
     }
   }
 
@@ -151,9 +152,11 @@ export default class MouseEventHandler {
     selectSpan(this._selectionModel, rangeOfSpans, event, spanID)
 
     // Select entities of the selected span.
-    for (const { entities } of this._selectionModel.span.all) {
-      // Block span has just one entity.
-      this._selectionModel.add('entity', [entities[0].id])
-    }
+    // Block is a first entity of the span.
+    const entities = this._selectionModel.span.all
+      .map((span) => span.entities.at(0))
+      .map((entity) => entity.id)
+
+    this._selectionModel.add('entity', entities)
   }
 }
