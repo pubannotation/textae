@@ -97,6 +97,7 @@ export default class Editor {
       'hideContextMenu',
       'focusDenotation'
     ])
+    forwardMethods(this, () => selectionModel, ['selectDenotation'])
     forwardMethods(this, () => annotationModel, [
       'drawGridsInSight',
       'reLayout'

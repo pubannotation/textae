@@ -22,4 +22,8 @@ export default class API {
   focusDenotation(denotationID) {
     this._editor.focusDenotation(denotationID)
   }
+
+  selectDenotation(denotationID) {
+    this._editor.selectDenotation(denotationID)
+  }
 }

@@ -79,6 +79,14 @@ export default class SelectionModel {
     this.entity.add(id)
   }
 
+  selectDenotation(id) {
+    if (!this._annotationModel.entity.hasDenotation(id)) {
+      throw new Error(`Denotation ${id} not found`)
+    }
+
+    this.selectEntity(id)
+  }
+
   selectRelation(id) {
     this.removeAll()
     this.relation.add(id)
