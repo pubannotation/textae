@@ -40,11 +40,10 @@ export default function (
     }
 
     selectionModel.removeAll()
-    for (const { id } of annotationModel[annotationType].findByType(
-      e.delegateTarget.dataset.id
-    )) {
-      selectionModel.add(annotationType, [id])
-    }
+    const ids = annotationModel[annotationType]
+      .findByType(e.delegateTarget.dataset.id)
+      .map(({ id }) => id)
+    selectionModel.add(annotationType, ids)
   })
 
   delegate(pallet.el, '.textae-editor__pallet__edit-type', 'click', (e) => {
