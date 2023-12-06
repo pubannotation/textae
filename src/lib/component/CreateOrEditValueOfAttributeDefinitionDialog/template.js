@@ -1,6 +1,6 @@
-import { escape } from 'lodash'
 import getRandomColorString from '../getRandomColorString'
 import inputDefault from './inputDefault'
+import anemone from '../anemone'
 
 export default function (context) {
   const {
@@ -12,7 +12,7 @@ export default function (context) {
     color
   } = context
 
-  return `
+  return anemone`
 <div class="textae-editor__create-or-edit-value-of-attribute-definition-dialog__container">
   <div class="textae-editor__create-or-edit-value-of-attribute-definition-dialog__row">
     <label>${labelForRangeOrIdOrPattern}</label>
@@ -21,11 +21,11 @@ export default function (context) {
       class="textae-editor__create-or-edit-value-of-attribute-definition-dialog__range_or_id_or_pattern textae-editor__promise-dialog__observable-element"
     >
   </div>
-  ${inputDefault(showDefault, defaultValue)}
+  ${() => inputDefault(showDefault, defaultValue)}
   <div class="textae-editor__create-or-edit-value-of-attribute-definition-dialog__row">
     <label>label</label>
     <input
-      value="${escape(label) || ''}"
+      value="${label || ''}"
       class="textae-editor__create-or-edit-value-of-attribute-definition-dialog__label textae-editor__promise-dialog__observable-element"
     >
   </div>
