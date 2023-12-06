@@ -27,7 +27,7 @@ export default class BrowserEventListener {
     )
   }
 
-  die() {
+  dispose() {
     this.#eventEmitter.off(
       'textae-event.annotation-data.events-observer.change',
       this.#listener

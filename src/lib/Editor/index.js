@@ -120,7 +120,7 @@ export default class Editor {
 
   setInspector(callback) {
     if (this.#inspector) {
-      this.#inspector.die()
+      this.#inspector.dispose()
       this.#inspector = null
     }
 
