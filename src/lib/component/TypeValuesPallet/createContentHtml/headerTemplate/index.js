@@ -1,6 +1,6 @@
 import getSelectedEntityLabel from './getSelectedEntityLabel'
 import attributeTabTemplate from './attributeTabTemplate'
-import addAttributeButtonTempalte from './addAttributeButtonTemplate'
+import addAttributeButtonTemplate from './addAttributeButtonTemplate'
 import editAttributeButtonTemplate from './editAttributeButtonTemplate'
 import removeAttributeButtonTemplate from './removeAttributeButtonTemplate'
 import anemone from '../../../anemone'
@@ -25,7 +25,7 @@ export default function (context) {
     ${() =>
       selectedPred && selectionModelItems.size > 0
         ? `
-          ${addAttributeButtonTempalte(context)}
+          ${addAttributeButtonTemplate(context)}
           ${editAttributeButtonTemplate(context)}
           ${removeAttributeButtonTemplate(context)}
           the
