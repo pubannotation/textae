@@ -1,13 +1,13 @@
 import $ from 'jquery'
 import 'jquery-ui/ui/widgets/autocomplete'
-import eskape from 'eskape'
+import anemone from './anemone'
 
 /* eslint no-underscore-dangle: 0 */
 // Customize jQuery-ui autocomplete
 export default function () {
   // Replace @ to font awesome icon
   $.ui.autocomplete.prototype._renderItem = ($ul, { id, label }) => {
-    const $li = $(eskape`
+    const $li = $(anemone`
       <li>
         <div>
           ${label}

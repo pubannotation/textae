@@ -1,6 +1,6 @@
-import eskape from 'eskape'
 import getDisplayName from '../../../../getDisplayName'
 import getURI from '../../../../getURI'
+import anemone from '../../../../../component/anemone'
 
 export default function (namespace, definitionContainer, value) {
   const displayName = getDisplayName(
@@ -9,5 +9,7 @@ export default function (namespace, definitionContainer, value) {
     definitionContainer.getLabel(value)
   )
   const href = getURI(namespace, value, definitionContainer.getURI(value))
-  return href ? eskape`<a href="#">${displayName}</a>` : eskape`${displayName}`
+  return href
+    ? anemone`<a href="#">${displayName}</a>`
+    : anemone`${displayName}`
 }

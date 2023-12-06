@@ -1,10 +1,10 @@
-import eskape from 'eskape'
 import PromiseDialog from '../PromiseDialog'
+import anemone from '../anemone'
 import setSourceOfAutoComplete from './setSourceOfAutoComplete'
 
 function template(context) {
   const { id, label, color, isDefault } = context
-  return eskape`
+  return anemone`
 <div class="textae-editor__type-definition-dialog__container">
   <div class="textae-editor__type-definition-dialog__row ui-front">
     <label>Id</label>

@@ -1,4 +1,4 @@
-import anemone from '../anemone'
+import anemone from '../../../anemone'
 import getLabelOf from './getLabelOf'
 
 export default function (

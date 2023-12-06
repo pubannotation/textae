@@ -1,8 +1,8 @@
-import eskape from 'eskape'
+import anemone from '../anemone'
 import getRandomColorString from '../getRandomColorString'
 
 export default function (componentClassName, label, color) {
-  return eskape`
+  return anemone`
     <div class="${componentClassName}__row">
       <label>Label</label>
       <input

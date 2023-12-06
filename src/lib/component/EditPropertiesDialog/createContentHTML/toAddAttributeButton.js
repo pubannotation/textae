@@ -1,4 +1,4 @@
-import anemone from './anemone'
+import anemone from '../../anemone'
 
 export default function toAddAttributeButton(valueType, pred, isDisabled) {
   const title = isDisabled

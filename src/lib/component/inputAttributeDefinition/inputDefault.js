@@ -1,7 +1,7 @@
-import eskape from 'eskape'
+import anemone from '../anemone'
 
 export default function (componentClassName, defaultValue) {
-  return eskape`
+  return anemone`
   <div class="${componentClassName}__row">
     <label>Default</label>
     <input
