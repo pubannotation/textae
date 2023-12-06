@@ -1,20 +1,21 @@
 export default class BrowserEventListener {
-  #eventEmitter
+  #target
+  #event
   #listener
 
-  constructor(eventEmitter, listener) {
-    this.#eventEmitter = eventEmitter
+  constructor(target, event, listener) {
+    this.#target = target
+    this.#event = event
     this.#listener = listener
-    eventEmitter.on(
-      'textae-event.annotation-data.events-observer.change',
-      this.#listener
-    )
+
+    this.#bind()
   }
 
   dispose() {
-    this.#eventEmitter.off(
-      'textae-event.annotation-data.events-observer.change',
-      this.#listener
-    )
+    this.#target.removeEventListener(this.#event, this.#listener)
+  }
+
+  #bind() {
+    this.#target.addEventListener(this.#event, this.#listener)
   }
 }

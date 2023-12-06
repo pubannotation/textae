@@ -1,21 +1,20 @@
 export default class EditorEventListener {
-  #target
-  #event
+  #eventEmitter
   #listener
 
-  constructor(target, event, listener) {
-    this.#target = target
-    this.#event = event
+  constructor(eventEmitter, listener) {
+    this.#eventEmitter = eventEmitter
     this.#listener = listener
-
-    this.#bind()
+    eventEmitter.on(
+      'textae-event.annotation-data.events-observer.change',
+      this.#listener
+    )
   }
 
   dispose() {
-    this.#target.removeEventListener(this.#event, this.#listener)
-  }
-
-  #bind() {
-    this.#target.addEventListener(this.#event, this.#listener)
+    this.#eventEmitter.off(
+      'textae-event.annotation-data.events-observer.change',
+      this.#listener
+    )
   }
 }
