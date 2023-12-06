@@ -2,7 +2,6 @@ import headerTemplate from './headerTemplate'
 import valueButtonsTemplate from './valueButtonsTemplate'
 import showAddAttributeValueButton from './showAddAttributeValueButton'
 import predicateControllerTemplate from './predicateControllerTemplate'
-import { escape } from 'lodash'
 import anemone from '../../anemone'
 
 export default function (context) {
@@ -15,7 +14,7 @@ export default function (context) {
     <div class="textae-editor__pallet__predicate">
       ${() => predicateControllerTemplate(context)}
       media height: ${mediaHeight || '""'}
-      default: ${escape(defaultValue)}
+      default: ${defaultValue}
     </div>
 
     <table>
