@@ -151,7 +151,6 @@ export default class Editor {
     // Draws the entity when the editor is scrolled and the entity enters the display area.
     const showHideElements = () => annotationModel.drawGridsInSight()
     const listener = new Listener(element, 'scroll', showHideElements)
-    listener.bind()
     scrollEventListeners.add(listener)
 
     // Draws the entity when the editor's ancestor element is scrolled and
@@ -159,7 +158,6 @@ export default class Editor {
     const container = element.closest('.textae-container')
     if (container) {
       const listener = new Listener(container, 'scroll', showHideElements)
-      listener.bind()
       scrollEventListeners.add(listener)
     }
 
