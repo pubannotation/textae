@@ -31,8 +31,8 @@ export default class AttributeInstance {
 
     // If the extension cannot be used to determine whether the image is an image or not,
     // the Content-Type header is acquired to determine whether the image is an image or not.
-    if (this._valueType === 'string' && !this._hasImageExtension) {
-      this._mediaDictionary.acquireContentTypeOf(this._href).then((isImage) => {
+    if (this.#valueType === 'string' && !this.#hasImageExtension) {
+      this._mediaDictionary.acquireContentTypeOf(this.#href).then((isImage) => {
         if (isImage) {
           this.updateElement()
         }
@@ -45,7 +45,7 @@ export default class AttributeInstance {
   }
 
   set obj(value) {
-    if (this._valueType === 'numeric') {
+    if (this.#valueType === 'numeric') {
       this._obj = parseFloat(value)
     } else {
       this._obj = value
@@ -82,7 +82,7 @@ export default class AttributeInstance {
   clarifyLabelIn(parentElement) {
     parentElement.querySelector(
       `[data-pred="${this.pred}"][data-obj="${this.obj}"] .textae-editor__signboard__attribute-label`
-    ).style.backgroundColor = hexToRGBA(this._color, 1)
+    ).style.backgroundColor = hexToRGBA(this.#color, 1)
   }
 
   declarifyLabelIn(parentElement) {
@@ -95,10 +95,10 @@ export default class AttributeInstance {
     return anemone`
       <div
         class="textae-editor__signboard__attribute"
-        title="${this._title}"
+        title="${this.#title}"
         data-pred="${this.pred}"
         data-obj="${this.obj}"
-        style="background-color: ${hexToRGBA(this._color, 0.4)}; height: ${
+        style="background-color: ${hexToRGBA(this.#color, 0.4)}; height: ${
           this.height
         }px;"
         >
@@ -106,7 +106,7 @@ export default class AttributeInstance {
           class="textae-editor__signboard__attribute-label"
           style="background-color: ${getLabelBackgroundColor()};"
           >
-          ${this._labelOrMedia}
+          ${this.#labelOrMedia}
         </span>
       </div>
       `
@@ -120,31 +120,31 @@ export default class AttributeInstance {
     }
   }
 
-  get _title() {
+  get #title() {
     return `[${this.id}] pred: ${this.pred}, value: ${this._obj}`
   }
 
-  get _labelOrMedia() {
-    if (this._isMedia) {
+  get #labelOrMedia() {
+    if (this.#isMedia) {
       return `<img src="${this.obj}" height="${this.height}" >`
     } else {
-      return toAnchorElement(this._displayName, this._href)
+      return toAnchorElement(this.#displayName, this.#href)
     }
   }
 
-  get _isMedia() {
+  get #isMedia() {
     return (
-      this._valueType === 'string' &&
-      (this._hasImageExtension ||
-        this._mediaDictionary.hasImageContentTypeOf(this._href))
+      this.#valueType === 'string' &&
+      (this.#hasImageExtension ||
+        this._mediaDictionary.hasImageContentTypeOf(this.#href))
     )
   }
 
-  get _hasImageExtension() {
-    return /\.(jpg|png|gif)$/.test(this._href)
+  get #hasImageExtension() {
+    return /\.(jpg|png|gif)$/.test(this.#href)
   }
 
-  get _displayName() {
+  get #displayName() {
     return getDisplayName(
       this._namespace,
       typeof this._obj === 'string' ? this._obj : '',
@@ -152,21 +152,21 @@ export default class AttributeInstance {
     )
   }
 
-  get _href() {
+  get #href() {
     return getURI(
       this._namespace,
       typeof this._obj === 'string' ? this._obj : ''
     )
   }
 
-  get _color() {
+  get #color() {
     return (
       this._definitionContainer.getColor(this.pred, this._obj) ||
       this.subjectInstance.color
     )
   }
 
-  get _valueType() {
+  get #valueType() {
     return this._definitionContainer.get(this.pred).valueType
   }
 }
