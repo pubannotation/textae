@@ -1,3 +1,4 @@
+import superEscape from '../superEscape'
 import getLabelOf from './getLabelOf'
 
 export default function (
@@ -12,9 +13,9 @@ export default function (
   const definitionIndex = attributeContainer.getIndexOf(pred)
   const { valueType } = attributeContainer.get(pred)
 
-  return `
+  return superEscape`
 <tr class="textae-editor__edit-type-values-dialog__attribute">
-  ${
+  ${() =>
     pred === previousPredicate
       ? `<td class="shortcut-key" rowspan="2"></td>`
       : `<td class="shortcut-key" rowspan="2">
@@ -26,8 +27,7 @@ export default function (
               : ''
           }
         </td>
-        `
-  }
+        `}
   <td rowspan="2">
     <span
       class="textae-editor__edit-type-values-dialog__attribute-predicate ${
@@ -63,8 +63,8 @@ export default function (
       ${valueType === 'flag' ? 'disabled="disabled"' : ''}>
     </button>
     <button
-      type="button" 
-      class="textae-editor__edit-type-values-dialog__remove-attribute" 
+      type="button"
+      class="textae-editor__edit-type-values-dialog__remove-attribute"
       data-index="${index}">
     </button>
   </td>

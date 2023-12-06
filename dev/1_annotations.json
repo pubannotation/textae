@@ -734,7 +734,7 @@
       "id": "A11",
       "subj": "B1",
       "pred": "free_text_predicate",
-      "obj": "attribute 1"
+      "obj": "attribute 1 <script>alert('xss');</script>"
     },
     {
       "id": "A12",
