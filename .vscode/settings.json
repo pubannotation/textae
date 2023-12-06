@@ -3,8 +3,10 @@
     "alertifyjs",
     "delgate",
     "dohtml",
+    "eskape",
     "jsondiffpatch",
     "lifesciencedb",
+    "rowspan",
     "textae"
   ]
 }
