@@ -56,6 +56,10 @@ export default class Editor {
       params.configLock === 'true'
     )
 
+    this.#element = element
+    this.#annotationModel = annotationModel
+    this.#eventEmitter = eventEmitter
+
     if (params.inspect) {
       const callback = (annotation) => {
         const destinationElement = document.querySelector(`#${params.inspect}`)
@@ -63,11 +67,7 @@ export default class Editor {
           destinationElement.textContent = JSON.stringify(annotation, null, 2)
         }
       }
-      new EditorEventListener(
-        eventEmitter,
-        'textae-event.annotation-data.events-observer.change',
-        filterIfModelModified(annotationModel, callback)
-      )
+      this.#newInspector(callback)
     }
     this.#scrollEventListeners = this.#observeScrollEvent(
       annotationModel,
@@ -102,10 +102,6 @@ export default class Editor {
       'drawGridsInSight',
       'reLayout'
     ])
-
-    this.#element = element
-    this.#annotationModel = annotationModel
-    this.#eventEmitter = eventEmitter
   }
 
   updateDenotationEntitiesWidth() {
@@ -125,11 +121,7 @@ export default class Editor {
     }
 
     if (typeof callback == 'function') {
-      this.#inspector = new EditorEventListener(
-        this.#eventEmitter,
-        'textae-event.annotation-data.events-observer.change',
-        filterIfModelModified(this.#annotationModel, callback)
-      )
+      this.#inspector = this.#newInspector(callback)
     }
   }
 
@@ -170,5 +162,13 @@ export default class Editor {
     }
 
     return scrollEventListeners
+  }
+
+  #newInspector(callback) {
+    new EditorEventListener(
+      this.#eventEmitter,
+      'textae-event.annotation-data.events-observer.change',
+      filterIfModelModified(this.#annotationModel, callback)
+    )
   }
 }
