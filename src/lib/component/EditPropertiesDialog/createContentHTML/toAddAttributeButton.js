@@ -1,11 +1,11 @@
-import superEscape from './superEscape'
+import anemone from './anemone'
 
 export default function toAddAttributeButton(valueType, pred, isDisabled) {
   const title = isDisabled
     ? `disabled="disabled" title="This predicate is already used with its default value."`
-    : superEscape`title="${valueType} type"`
+    : anemone`title="${valueType} type"`
 
-  return superEscape`
+  return anemone`
     <button
      type="button"
      class="textae-editor__edit-type-values-dialog__add-attribute textae-editor__edit-type-values-dialog__add-attribute--${valueType}"

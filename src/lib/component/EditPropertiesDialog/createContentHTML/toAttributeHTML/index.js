@@ -1,4 +1,4 @@
-import superEscape from '../superEscape'
+import anemone from '../anemone'
 import getLabelOf from './getLabelOf'
 
 export default function (
@@ -13,7 +13,7 @@ export default function (
   const definitionIndex = attributeContainer.getIndexOf(pred)
   const { valueType } = attributeContainer.get(pred)
 
-  return superEscape`
+  return anemone`
 <tr class="textae-editor__edit-type-values-dialog__attribute">
   ${() =>
     pred === previousPredicate

@@ -1,6 +1,13 @@
 import escape from 'lodash.escape'
 
-export default function superEscape(strings) {
+// Escape template literals.
+// For example:
+//  anemone`<div>${'&'}</div>` === '<div>&amp;</div>'
+//
+// If you insert a function, function is called and the result is not escaped.
+// For example:
+//  anemone`<div>${() => '&'}</div>` === '<div>&</div>'
+export default function anemone(strings) {
   let out = strings[0]
   const values = Array.from(arguments).slice(1)
 

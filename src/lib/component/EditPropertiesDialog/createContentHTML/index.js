@@ -1,6 +1,6 @@
 import toEntityHTML from './toEntityHTML'
 import toAttributeHTML from './toAttributeHTML'
-import superEscape from './superEscape'
+import anemone from './anemone'
 import toAddAttributeButton from './toAddAttributeButton'
 
 export default function (
@@ -10,7 +10,7 @@ export default function (
   attributeContainer,
   palletName
 ) {
-  return superEscape`
+  return anemone`
     <div style="overflow-y: auto; max-height: 36em; overflow-x: hidden;">
       <table class="textae-editor__edit-type-values-dialog__table">
         <thead>

@@ -1,9 +1,9 @@
-import superEscape from './superEscape'
+import anemone from './anemone'
 
 export default function (value, entityContainer) {
   const label = entityContainer.getLabel(value) || ''
 
-  return superEscape`
+  return anemone`
     <tr>
       <td rowspan="2"></td>
       <td>
