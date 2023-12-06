@@ -1,5 +1,6 @@
 import toEntityHTML from './toEntityHTML'
 import toAttributeHTML from './toAttributeHTML'
+import superEscape from './superEscape'
 
 export default function (
   typeName,
@@ -8,7 +9,7 @@ export default function (
   attributeContainer,
   palletName
 ) {
-  return `
+  return superEscape`
     <div style="overflow-y: auto; max-height: 36em; overflow-x: hidden;">
       <table class="textae-editor__edit-type-values-dialog__table">
         <thead>
@@ -19,12 +20,13 @@ export default function (
           </tr>
         </thead>
         <tbody>
-          ${toEntityHTML(typeName, entityContainer)}
-          ${attributes
-            .map((a, index, list) =>
-              toAttributeHTML(a, index, list, attributeContainer)
-            )
-            .join('')}
+          ${() => toEntityHTML(typeName, entityContainer)}
+          ${() =>
+            attributes
+              .map((a, index, list) =>
+                toAttributeHTML(a, index, list, attributeContainer)
+              )
+              .join('')}
           </tbody>
       </table>
     </div>
@@ -34,11 +36,12 @@ export default function (
         Available Predicates:
       </legend>
       <div class="textae-editor__edit-type-values-dialog__add-attribute-buttons">
-      ${attributeContainer.attributes
-        .map(
-          ({ pred, valueType }) =>
-            `<button
-              type="button" 
+      ${() =>
+        attributeContainer.attributes
+          .map(
+            ({ pred, valueType }) =>
+              `<button
+              type="button"
               class="textae-editor__edit-type-values-dialog__add-attribute textae-editor__edit-type-values-dialog__add-attribute--${valueType}"
               data-pred="${pred}"
               ${
@@ -51,8 +54,8 @@ export default function (
                   ? `disabled="disabled" title="This predicate is already used with its default value."`
                   : `title="${valueType} type"`
               }> ${pred}</button>`
-        )
-        .join(' ')}
+          )
+          .join(' ')}
       </div>
     </fieldset>
   `

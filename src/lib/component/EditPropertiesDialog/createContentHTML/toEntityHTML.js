@@ -1,9 +1,9 @@
-import escape from 'lodash.escape'
+import superEscape from './superEscape'
 
 export default function (value, entityContainer) {
-  const label = escape(entityContainer.getLabel(value)) || ''
+  const label = entityContainer.getLabel(value) || ''
 
-  return `
+  return superEscape`
     <tr>
       <td rowspan="2"></td>
       <td>
