@@ -1,6 +1,7 @@
 import dohtml from 'dohtml'
 import getLabelBackgroundColor from './getLabelBackgroundColor'
 import hexToRGBA from './hexToRGBA'
+import anemone from '../component/anemone'
 
 const CSS_CLASS_SELECTED = 'textae-editor__signboard--selected'
 const CSS_CLASS_HOVERED = 'textae-editor__signboard--hovered'
@@ -102,9 +103,9 @@ export default class SignboardHTMLElement {
     this._element.remove()
   }
 
-  // A Type element has an entity_pane elment that has a label and will have entities.
+  // A Type element has an entity_pane element that has a label and will have entities.
   _getHtml(HTMLId, entityType) {
-    return `
+    return anemone`
   <div
     class="textae-editor__signboard"
     ${HTMLId ? `id="${HTMLId}"` : ''}
@@ -121,9 +122,9 @@ export default class SignboardHTMLElement {
         tabindex="0"
         style="background-color: ${getLabelBackgroundColor()};"
         >
-        ${this._instance.anchorHTML}
+        ${() => this._instance.anchorHTML}
       </div>
-      ${this._instance.attributes.map((a) => a.contentHTML).join('')}
+      ${() => this._instance.attributes.map((a) => a.contentHTML).join('')}
     </div>
   </div>
   `

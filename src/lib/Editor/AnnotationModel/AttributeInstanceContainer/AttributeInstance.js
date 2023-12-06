@@ -1,3 +1,4 @@
+import anemone from '../../../component/anemone.js'
 import getDisplayName from '../../getDisplayName/index.js'
 import getLabelBackgroundColor from '../../getLabelBackgroundColor.js'
 import getURI from '../../getURI.js'
@@ -91,19 +92,19 @@ export default class AttributeInstance {
   }
 
   get contentHTML() {
-    return `
+    return anemone`
       <div
         class="textae-editor__signboard__attribute"
         title="${this._title}"
         data-pred="${this.pred}"
         data-obj="${this.obj}"
-        ${`style="background-color: ${hexToRGBA(this._color, 0.4)}; height: ${
+        style="background-color: ${hexToRGBA(this._color, 0.4)}; height: ${
           this.height
-        }px;"`}
+        }px;"
         >
         <span
           class="textae-editor__signboard__attribute-label"
-          ${`style="background-color: ${getLabelBackgroundColor()};"`}
+          style="background-color: ${getLabelBackgroundColor()};"
           >
           ${this._labelOrMedia}
         </span>
