@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [12.10.0](https://github.com/pubannotation/textae/compare/v12.9.1...v12.10.0) (2023-12-06)
+
+
+### Features
+
+* Add API lastSelectedDenotationIDCallback to notify the selected denotation ([201236b](https://github.com/pubannotation/textae/commit/201236bc448907eacd65385a4a0e3a33f2cb5c26))
+* Add selectDenotaiton method, which is an API to focus denotation from an external program ([e29ee15](https://github.com/pubannotation/textae/commit/e29ee15d8a79a5120bbacb57f02f2b72f84b24bc))
+* Displays hidden elements when scrolling through TextAE's HTML elements ([f5a8cea](https://github.com/pubannotation/textae/commit/f5a8cea1b8454220abf5d4a3323fb2af8eccbd4e))
+
+
+### Bug Fixes
+
+* Undoing attribute definition changes causes error ([2d8bc48](https://github.com/pubannotation/textae/commit/2d8bc48d97c15fffba5ae7343cea1f629e2fcfd3))
+
 ### [12.9.1](https://github.com/pubannotation/textae/compare/v12.9.0...v12.9.1) (2023-11-16)
 
 
