@@ -40,11 +40,11 @@ export default class TypeDefinitionDialog extends PromiseDialog {
     content,
     definitionContainer,
     autocompletionWs,
-    convertToReseltsFunc
+    convertToResultsFunc
   ) {
     super(title, template(content), {}, () => {
       const inputs = super.el.querySelectorAll('input')
-      return convertToReseltsFunc(
+      return convertToResultsFunc(
         inputs[0].value,
         inputs[1].value,
         inputs[2].value,
