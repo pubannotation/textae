@@ -1,18 +1,18 @@
-import { escape } from 'lodash'
 import headerTemplate from './headerTemplate'
 import valueButtonsTemplate from './valueButtonsTemplate'
 import showAddAttributeValueButton from './showAddAttributeValueButton'
 import predicateControllerTemplate from './predicateControllerTemplate'
+import anemone from '../../anemone'
 
 export default function (context, attributeContainer) {
   const { values } = context.attrDef
   const { isLock, selectedPred } = context
 
-  return `
-  ${headerTemplate(context)}
+  return anemone`
+  ${() => headerTemplate(context)}
   <div>
     <div class="textae-editor__pallet__predicate">
-      ${predicateControllerTemplate(context)}
+      ${() => predicateControllerTemplate(context)}
     </div>
 
     <table>
@@ -21,12 +21,16 @@ export default function (context, attributeContainer) {
           <th>id</th>
           <th>label</th>
           <th>color</th>
-          ${showAddAttributeValueButton(isLock)}
+          ${() => showAddAttributeValueButton(isLock)}
         </tr>
-        ${values
-          .map(
-            ({ color = '', id, default: defaultValue, label = '' }, index) => {
-              return `
+        ${() =>
+          values
+            .map(
+              (
+                { color = '', id, default: defaultValue, label = '' },
+                index
+              ) => {
+                return `
         <tr class="textae-editor__pallet__row" style="background-color: ${color};">
           <td class="textae-editor__pallet__selection-attribute-label" data-id="${id}">
             ${id}
@@ -37,7 +41,7 @@ export default function (context, attributeContainer) {
             }
           </td>
           <td class="textae-editor__pallet__short-label">
-            ${escape(label)}
+            ${label}
           </td>
           <td class="textae-editor__pallet__short-label">
             ${color}
@@ -53,9 +57,9 @@ export default function (context, attributeContainer) {
           )}
         </tr>
         `
-            }
-          )
-          .join('\n')}
+              }
+            )
+            .join('\n')}
       </tbody>
     </table>
   </div>
