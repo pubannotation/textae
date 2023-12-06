@@ -2,7 +2,7 @@ import Dialog from '../Dialog'
 import boundaryCrossingSpansTemplate from './boundaryCrossingSpansTemplate'
 import duplicatedAttributesTemplate from './duplicatedAttributesTemplate'
 import duplicatedIDsTemplate from './duplicatedIDsTemplate'
-import dupulicateRangeBlocksTemplate from './dupulicateRangeBlocksTemplate'
+import duplicateRangeBlocksTemplate from './duplicateRangeBlocksTemplate'
 import outOfTextBlocksTemplate from './outOfTextBlocksTemplate'
 import outOfTextDenotationsTemplate from './outOfTextDenotationsTemplate'
 import outOfTextTypesettingsTemplate from './outOfTextTypesettingsTemplate'
@@ -47,7 +47,7 @@ export default class ValidationDialog extends Dialog {
       ${outOfTextDenotationsTemplate(outOfTextDenotations)}
       ${wrongRangeBlocksTemplate(wrongRangeBlocks)}
       ${outOfTextBlocksTemplate(outOfTextBlocks)}
-      ${dupulicateRangeBlocksTemplate(duplicatedRangeBlocks)}
+      ${duplicateRangeBlocksTemplate(duplicatedRangeBlocks)}
       ${wrongRangeTypesettingsTemplate(wrongRangeTypesettings)}
       ${outOfTextTypesettingsTemplate(outOfTextTypesettings)}
       ${duplicatedIDsTemplate(duplicatedIDs)}
