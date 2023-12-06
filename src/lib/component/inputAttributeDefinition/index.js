@@ -2,6 +2,7 @@ import inputDefault from './inputDefault'
 import inputMediaHeight from './inputMediaHeight'
 import inputLabelAndColor from './inputLabelAndColor'
 import inputNumeric from './inputNumeric'
+import anemone from '../anemone'
 
 export default function (componentClassName, context) {
   const {
@@ -21,7 +22,7 @@ export default function (componentClassName, context) {
   const showLabelAndColor = valueType === 'flag'
   const showNumeric = valueType === 'numeric'
 
-  return `
+  return anemone`
     <div class="${componentClassName}__row">
       <label>Predicate</label>
       <input
@@ -29,17 +30,17 @@ export default function (componentClassName, context) {
         class="${componentClassName}__pred textae-editor__promise-dialog__observable-element"
       >
     </div>
-    ${showDefault ? `${inputDefault(componentClassName, defaultValue)}` : ''}
-    ${
+    ${() =>
+      showDefault ? `${inputDefault(componentClassName, defaultValue)}` : ''}
+    ${() =>
       showMediaHeight
         ? `${inputMediaHeight(componentClassName, mediaHeight)}`
-        : ''
-    }
-    ${
+        : ''}
+    ${() =>
       showLabelAndColor
         ? `${inputLabelAndColor(componentClassName, label, color)}`
-        : ''
-    }
-    ${showNumeric ? `${inputNumeric(componentClassName, min, max, step)}` : ''}
+        : ''}
+    ${() =>
+      showNumeric ? `${inputNumeric(componentClassName, min, max, step)}` : ''}
   `
 }

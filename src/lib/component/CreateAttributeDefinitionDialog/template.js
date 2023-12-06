@@ -1,16 +1,17 @@
+import anemone from '../anemone'
 import inputAttributeDefinition from '../inputAttributeDefinition'
 
 export default function (componentClassName, context) {
   const { valueType } = context
 
-  return `
+  return anemone`
 <div class="${componentClassName}__container">
   <div class="${componentClassName}__row">
     <label>Attribute type</label>
     <div class="${componentClassName}__value-type-row">
       <label>
         <input
-          type="radio" 
+          type="radio"
           name="${componentClassName}__value-type"
           value="flag"
           ${valueType === 'flag' ? `checked` : ``}
@@ -50,6 +51,6 @@ export default function (componentClassName, context) {
       </label>
     </div>
   </div>
-  ${inputAttributeDefinition(componentClassName, context)}
+  ${() => inputAttributeDefinition(componentClassName, context)}
 </div>`
 }
