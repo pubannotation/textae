@@ -59,11 +59,11 @@ export default class EntityInstance {
   }
 
   get color() {
-    return this._definitionContainer.getColor(this.typeName)
+    return this.#definitionContainer.getColor(this.typeName)
   }
 
   get anchorHTML() {
-    return toAnchorElement(this._displayName, this._href)
+    return toAnchorElement(this.#displayName, this.#href)
   }
 
   get span() {
@@ -198,7 +198,7 @@ export default class EntityInstance {
   get height() {
     const labelUnitHeight = 18
 
-    return labelUnitHeight + this._attributesHeight
+    return labelUnitHeight + this.#attributesHeight
   }
 
   get heightWithTypeGap() {
@@ -272,8 +272,8 @@ export default class EntityInstance {
   select() {
     if (!this._isSelected) {
       this._isSelected = true
-      this._selectElement()
-      this._updateRelationHighlighting()
+      this.#selectElement()
+      this.#updateRelationHighlighting()
     }
   }
 
@@ -283,7 +283,7 @@ export default class EntityInstance {
       if (this._signboard) {
         this._signboard.deselect()
       }
-      this._updateRelationHighlighting()
+      this.#updateRelationHighlighting()
     }
   }
 
@@ -306,7 +306,7 @@ export default class EntityInstance {
 
     if (this.span.isGridRendered) {
       // Append a new entity to the type
-      this._signboard = this._createSignboardElement()
+      this._signboard = this.#createSignboardElement()
       this.span.addEntityElementToGridElement(this._signboard.element)
 
       this.reflectTypeGapInTheHeight()
@@ -328,12 +328,12 @@ export default class EntityInstance {
   updateElement() {
     if (this._signboard) {
       this._signboard = this._signboard.replaceWith(
-        this._createSignboardElement()
+        this.#createSignboardElement()
       )
 
       // Re-select a new entity element.
       if (this._isSelected) {
-        this._selectElement()
+        this.#selectElement()
       }
 
       this.reflectTypeGapInTheHeight()
@@ -375,7 +375,7 @@ export default class EntityInstance {
     }
   }
 
-  _createSignboardElement() {
+  #createSignboardElement() {
     const signboard = new SignboardHTMLElement(
       this,
       this.isDenotation ? 'denotation' : 'block',
@@ -385,21 +385,21 @@ export default class EntityInstance {
     // Highlight relations when related entity is hovered.
     signboard.addEventListener('mouseenter', () => {
       signboard.clarifyLabel()
-      this._pointUpRelations()
+      this.#pointUpRelations()
       this._isHovered = true
     })
     signboard.addEventListener('mouseleave', () => {
       if (!this._isLabelClarified) {
         signboard.declarifyLabel()
       }
-      this._updateRelationHighlighting()
+      this.#updateRelationHighlighting()
       this._isHovered = false
     })
 
     return signboard
   }
 
-  _selectElement() {
+  #selectElement() {
     // Force rendering to select and focus on entities outside the display area.
     this.span.forceRenderGrid()
     this._signboard.select()
@@ -418,7 +418,7 @@ export default class EntityInstance {
   }
 
   /** @return {import('./AnnotationModel/DefinitionContainer/index.js').default} */
-  get _definitionContainer() {
+  get #definitionContainer() {
     if (this.isDenotation) {
       return this._typeDefinition.denotation
     } else if (this.isBlock) {
@@ -428,29 +428,29 @@ export default class EntityInstance {
     }
   }
 
-  get _displayName() {
+  get #displayName() {
     return getDisplayName(
       this._namespace,
       this.typeName,
-      this._definitionContainer.getLabel(this.typeName)
+      this.#definitionContainer.getLabel(this.typeName)
     )
   }
 
-  get _href() {
+  get #href() {
     return getURI(
       this._namespace,
       this.typeName,
-      this._definitionContainer.getURI(this.typeName)
+      this.#definitionContainer.getURI(this.typeName)
     )
   }
 
-  get _attributesHeight() {
+  get #attributesHeight() {
     return this.attributes
       .map(({ height }) => height)
       .reduce((sum, height) => sum + height, 0)
   }
 
-  _pointUpRelations() {
+  #pointUpRelations() {
     for (const relation of this.relationsWhereThisIsSource) {
       relation.pointUpPathAndSourceBollards()
     }
@@ -459,7 +459,7 @@ export default class EntityInstance {
     }
   }
 
-  _updateRelationHighlighting() {
+  #updateRelationHighlighting() {
     for (const relation of this.relations) {
       relation.redrawLineConsideringSelection()
     }
