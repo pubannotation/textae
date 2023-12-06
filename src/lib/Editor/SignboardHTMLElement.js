@@ -10,7 +10,7 @@ const CSS_CLASS_CUTTING = 'textae-editor__signboard--cutting'
 export default class SignboardHTMLElement {
   constructor(instance, entityType, HTMLId) {
     this._instance = instance
-    this._element = dohtml.create(this._getHtml(HTMLId, entityType))
+    this._element = dohtml.create(this.#getHtml(HTMLId, entityType))
   }
 
   get element() {
@@ -104,7 +104,7 @@ export default class SignboardHTMLElement {
   }
 
   // A Type element has an entity_pane element that has a label and will have entities.
-  _getHtml(HTMLId, entityType) {
+  #getHtml(HTMLId, entityType) {
     return anemone`
   <div
     class="textae-editor__signboard"
