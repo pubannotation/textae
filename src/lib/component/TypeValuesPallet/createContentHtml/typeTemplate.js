@@ -1,11 +1,11 @@
-import escape from 'lodash.escape'
 import headerTemplate from './headerTemplate'
+import anemone from '../../anemone'
 
 export default function (context) {
   const { types, isLock } = context
 
-  return `
-  ${headerTemplate(context)}
+  return anemone`
+  ${() => headerTemplate(context)}
   <table>
     <tbody>
       <tr>
@@ -13,44 +13,55 @@ export default function (context) {
         <th>label</th>
         <th title="Number of annotations.">#</th>
         <th>
-          ${
+          ${() =>
             isLock
               ? ''
-              : '<span class="textae-editor__pallet__add-button" title="Add new type"></span>'
-          }
+              : '<span class="textae-editor__pallet__add-button" title="Add new type"></span>'}
         </th>
       </tr>
-      ${
+      ${() =>
         types
           ? types
               .map(
-                ({
-                  color = '',
-                  id,
-                  uri,
-                  defaultType,
-                  label = '',
-                  useNumber
-                }) => {
-                  return `
+                ({ color = '', id, uri, defaultType, label = '', useNumber }) =>
+                  toTypeRow(
+                    color,
+                    id,
+                    uri,
+                    defaultType,
+                    label,
+                    useNumber,
+                    isLock
+                  )
+              )
+              .join('\n')
+          : `
+      <tr class="textae-editor__pallet__row">
+        <td class="textae-editor__pallet__no-config" colspan="4">There is no Entity definition.</td>
+      </tr>
+      `}
+    </tbody>
+  </table>
+  `
+}
+function toTypeRow(color, id, uri, defaultType, label, useNumber, isLock) {
+  return anemone`
       <tr class="textae-editor__pallet__row" style="background-color: ${color};">
-        <td class="textae-editor__pallet__label" data-id="${escape(id)}">
-          <span title="${escape(id)}">
-            ${escape(id)}
+        <td class="textae-editor__pallet__label" data-id="${id}">
+          <span title="${id}">
+            ${id}
           </span>
-          ${
+          ${() =>
             uri
-              ? `<a href="${uri}" target="_blank"><span class="textae-editor__pallet__link"></span></a>`
-              : ``
-          }
-          ${
+              ? anemone`<a href="${uri}" target="_blank"><span class="textae-editor__pallet__link"></span></a>`
+              : ``}
+          ${() =>
             defaultType
               ? '<span class="textae-editor__pallet__default-icon" title="This type is set as a default type."></span>'
-              : ''
-          }
+              : ''}
         </td>
         <td class="textae-editor__pallet__short-label">
-          ${escape(label)}
+          ${label}
         </td>
         <td class="textae-editor__pallet__use-number">
           ${useNumber}
@@ -62,21 +73,21 @@ export default function (context) {
               useNumber ? '' : ' textae-editor__pallet__table-button--disabled'
             }"
             title="Select all the cases of this type."
-            data-id="${escape(id)}"
+            data-id="${id}"
             data-use-number="${useNumber}">
           </button>
-          ${
+          ${() =>
             isLock
               ? ''
               : `
           <button
             type="button"
             class="textae-editor__pallet__table-button textae-editor__pallet__edit-type"
-            title="Edit this type." data-id="${escape(id)}"
+            title="Edit this type." data-id="${id}"
             data-color="${color}"
             data-is-default="${defaultType}">
           </button>
-          <button 
+          <button
             type="button"
             class="textae-editor__pallet__table-button textae-editor__pallet__remove${
               useNumber ? ' textae-editor__pallet__table-button--disabled' : ''
@@ -86,23 +97,10 @@ export default function (context) {
                 ? 'To activate this button, remove all the annotations of this type.'
                 : 'Remove this type.'
             }"
-            data-id="${escape(id)}"
-            data-label="${escape(label)}">
+            data-id="${id}"
+            data-label="${label}">
           </button>
-          `
-          }
+          `}
         </td>
       </tr>`
-                }
-              )
-              .join('\n')
-          : `
-      <tr class="textae-editor__pallet__row">
-        <td class="textae-editor__pallet__no-config" colspan="4">There is no Entity definition.</td>
-      </tr>
-      `
-      }
-    </tbody>
-  </table>
-  `
 }
