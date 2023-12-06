@@ -65,6 +65,7 @@ export default class Editor {
       }
       new EditorEventListener(
         eventEmitter,
+        'textae-event.annotation-data.events-observer.change',
         filterIfModelModified(annotationModel, callback)
       )
     }
@@ -126,6 +127,7 @@ export default class Editor {
     if (typeof callback == 'function') {
       this.#inspector = new EditorEventListener(
         this.#eventEmitter,
+        'textae-event.annotation-data.events-observer.change',
         filterIfModelModified(this.#annotationModel, callback)
       )
     }
