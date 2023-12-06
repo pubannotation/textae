@@ -13,6 +13,7 @@ import BrowserEventListener from './BrowserEventListener'
 import loadAnnotation from './loadAnnotation'
 import EditorEventListener from './EditorEventListener'
 import SelectionModel from './SelectionModel'
+import filterIfModelModified from './filterIfModelModified'
 
 export default class Editor {
   #element
@@ -56,17 +57,15 @@ export default class Editor {
     )
 
     if (params.inspect) {
+      const callback = (annotation) => {
+        const destinationElement = document.querySelector(`#${params.inspect}`)
+        if (destinationElement) {
+          destinationElement.textContent = JSON.stringify(annotation, null, 2)
+        }
+      }
       new BrowserEventListener(
         eventEmitter,
-        (annotation) => {
-          const destinationElement = document.querySelector(
-            `#${params.inspect}`
-          )
-          if (destinationElement) {
-            destinationElement.textContent = JSON.stringify(annotation, null, 2)
-          }
-        },
-        annotationModel
+        filterIfModelModified(annotationModel, callback)
       )
     }
     this.#scrollEventListeners = this.#observeScrollEvent(
@@ -127,8 +126,7 @@ export default class Editor {
     if (typeof callback == 'function') {
       this.#inspector = new BrowserEventListener(
         this.#eventEmitter,
-        callback,
-        this.#annotationModel
+        filterIfModelModified(this.#annotationModel, callback)
       )
     }
   }

@@ -1,14 +1,10 @@
-import filterIfModelModified from './filterIfModelModified'
-
 export default class BrowserEventListener {
   #eventEmitter
-  #previous
   #listener
 
-  constructor(eventEmitter, callback, annotationModel) {
+  constructor(eventEmitter, listener) {
     this.#eventEmitter = eventEmitter
-    this.#previous = annotationModel.externalFormat
-    this.#listener = filterIfModelModified(annotationModel, callback)
+    this.#listener = listener
     eventEmitter.on(
       'textae-event.annotation-data.events-observer.change',
       this.#listener
