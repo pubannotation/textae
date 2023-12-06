@@ -2,6 +2,7 @@ import delegate from 'delegate'
 import Dialog from '../Dialog'
 import reflectImmediately from './reflectImmediately'
 import packageJson from '../../../../package.json'
+import anemone from '../anemone'
 
 function template(context) {
   const {
@@ -12,31 +13,31 @@ function template(context) {
     version
   } = context
 
-  return `
+  return anemone`
 <div class="textae-editor__setting-dialog__container">
   <div class="textae-editor__setting-dialog__row">
     <label>Type Gap</label>
-    <input 
-      type="number" 
-      class="textae-editor__setting-dialog__type-gap-text" 
-      step="1" 
-      min="0" 
-      max="5" 
+    <input
+      type="number"
+      class="textae-editor__setting-dialog__type-gap-text"
+      step="1"
+      min="0"
+      max="5"
       value="${typeGap}" ${typeGapDisabled ? `disabled="disabled"` : ''}>
   </div>
   <div class="textae-editor__setting-dialog__row">
     <label>Line Height(px)</label>
-    <input 
-      type="number" class="textae-editor__setting-dialog__line-height-text" 
-      step="1" 
-      min="50" 
-      max="500" 
+    <input
+      type="number" class="textae-editor__setting-dialog__line-height-text"
+      step="1"
+      min="50"
+      max="500"
       value="${lineHeight}">
   </div>
   <div class="textae-editor__setting-dialog__row">
     <label>
-      <input 
-        type="checkbox" 
+      <input
+        type="checkbox"
         class="textae-editor__setting-dialog__lock-config-text"
         ${typeDefinitionLocked ? `checked="checked"` : ''}>
       Lock Edit Config
