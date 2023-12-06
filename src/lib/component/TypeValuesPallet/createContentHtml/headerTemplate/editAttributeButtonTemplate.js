@@ -3,11 +3,11 @@ import anemone from '../../../anemone'
 export default function (context) {
   const { attrDef, selectionModelItems, selectedPred } = context
   const { valueType } = attrDef
-  const isOnlyEntityWithJsutOneSamePredSelected =
+  const isOnlyEntityWithJustOneSamePredSelected =
     selectionModelItems.onlySelectedWithJustOneAttributeOf(selectedPred)
 
   return valueType === 'string' || valueType === 'numeric'
-    ? isOnlyEntityWithJsutOneSamePredSelected
+    ? isOnlyEntityWithJustOneSamePredSelected
       ? anemone`
         <button
           type="button"
