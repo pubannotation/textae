@@ -9,9 +9,9 @@ import observeElement from './observeElement'
 import observeEventEmitter from './observeEventEmitter'
 import editorCSSClassObserve from './editorCSSClassObserve'
 import isAndroid from './isAndroid'
-import Inspector from './Inspector'
+import BrowserEventListener from './BrowserEventListener'
 import loadAnnotation from './loadAnnotation'
-import Listener from './Listener'
+import EditorEventListener from './EditorEventListener'
 import SelectionModel from './SelectionModel'
 
 export default class Editor {
@@ -56,7 +56,7 @@ export default class Editor {
     )
 
     if (params.inspect) {
-      new Inspector(
+      new BrowserEventListener(
         eventEmitter,
         (annotation) => {
           const destinationElement = document.querySelector(
@@ -125,7 +125,7 @@ export default class Editor {
     }
 
     if (typeof callback == 'function') {
-      this.#inspector = new Inspector(
+      this.#inspector = new BrowserEventListener(
         this.#eventEmitter,
         callback,
         this.#annotationModel
@@ -150,14 +150,22 @@ export default class Editor {
 
     // Draws the entity when the editor is scrolled and the entity enters the display area.
     const showHideElements = () => annotationModel.drawGridsInSight()
-    const listener = new Listener(element, 'scroll', showHideElements)
+    const listener = new EditorEventListener(
+      element,
+      'scroll',
+      showHideElements
+    )
     scrollEventListeners.add(listener)
 
     // Draws the entity when the editor's ancestor element is scrolled and
     // the entity enters the display area.
     const container = element.closest('.textae-container')
     if (container) {
-      const listener = new Listener(container, 'scroll', showHideElements)
+      const listener = new EditorEventListener(
+        container,
+        'scroll',
+        showHideElements
+      )
       scrollEventListeners.add(listener)
     }
 

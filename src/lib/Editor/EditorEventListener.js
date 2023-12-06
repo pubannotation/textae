@@ -1,4 +1,4 @@
-export default class Listener {
+export default class EditorEventListener {
   #target
   #event
   #listener

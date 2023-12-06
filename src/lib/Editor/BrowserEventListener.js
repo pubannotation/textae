@@ -1,6 +1,6 @@
 import diffOfAnnotation from './diffOfAnnotation'
 
-export default class Inspector {
+export default class BrowserEventListener {
   #eventEmitter
   #previous
   #listener
