@@ -63,7 +63,7 @@ export default class EditPropertiesDialog extends PromiseDialog {
               .open()
               .then(({ newObj }) => {
                 attributes[e.target.dataset.index].obj = newObj
-                this._updateDisplay(
+                this.#updateDisplay(
                   typeName,
                   attributes,
                   attributeContainer,
@@ -76,7 +76,7 @@ export default class EditPropertiesDialog extends PromiseDialog {
               .show(attrDef, zIndex, e.target)
               .then((newObj) => {
                 attributes[e.target.dataset.index].obj = newObj
-                this._updateDisplay(
+                this.#updateDisplay(
                   typeName,
                   attributes,
                   attributeContainer,
@@ -94,7 +94,7 @@ export default class EditPropertiesDialog extends PromiseDialog {
               .then(({ newObj, newLabel }) => {
                 attributes[e.target.dataset.index].obj = newObj
                 attributes[e.target.dataset.index].label = newLabel
-                this._updateDisplay(
+                this.#updateDisplay(
                   typeName,
                   attributes,
                   attributeContainer,
@@ -117,7 +117,7 @@ export default class EditPropertiesDialog extends PromiseDialog {
         const { index } = e.target.dataset
         const indexOfAttribute = parseInt(index)
         const { typeName, attributes } = getValues(super.el)
-        this._updateDisplay(
+        this.#updateDisplay(
           typeName,
           attributes.filter((_, i) => i !== indexOfAttribute),
           attributeContainer,
@@ -147,7 +147,7 @@ export default class EditPropertiesDialog extends PromiseDialog {
         const defaultValue = attributeContainer.get(pred).default
 
         const { typeName, attributes } = getValues(super.el)
-        this._updateDisplay(
+        this.#updateDisplay(
           typeName,
           attributes
             .concat({ pred, obj: defaultValue, id: '' })
@@ -173,7 +173,7 @@ export default class EditPropertiesDialog extends PromiseDialog {
     )
   }
 
-  _updateDisplay(typeName, attributes, attributeContainer, entityContainer) {
+  #updateDisplay(typeName, attributes, attributeContainer, entityContainer) {
     const contentHtml = createContentHTML(
       typeName,
       attributes,
