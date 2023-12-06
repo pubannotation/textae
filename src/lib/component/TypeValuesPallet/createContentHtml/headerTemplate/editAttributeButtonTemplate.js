@@ -1,3 +1,5 @@
+import anemone from '../../../anemone'
+
 export default function (context) {
   const { attrDef, selectionModelItems, selectedPred } = context
   const { valueType } = attrDef
@@ -6,14 +8,14 @@ export default function (context) {
 
   return valueType === 'string' || valueType === 'numeric'
     ? isOnlyEntityWithJsutOneSamePredSelected
-      ? `
+      ? anemone`
         <button
           type="button"
           class="textae-editor__pallet__edit-object"
           >edit object of
         </button>
         `
-      : `
+      : anemone`
         <button
           type="button"
           class="textae-editor__pallet__edit-object"

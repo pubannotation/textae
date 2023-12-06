@@ -3,6 +3,7 @@ import attributeTabTemplate from './attributeTabTemplate'
 import addAttributeButtonTempalte from './addAttributeButtonTemplate'
 import editAttributeButtonTemplate from './editAttributeButtonTemplate'
 import removeAttributeButtonTemplate from './removeAttributeButtonTemplate'
+import anemone from '../../../anemone'
 
 export default function (context) {
   const { isLock, selectionModelItems, selectedPred, attributes, hasDiff } =
@@ -15,13 +16,13 @@ export default function (context) {
     (attributes[attributes.length - 1] &&
       attributes[attributes.length - 1].pred)
 
-  return `
+  return anemone`
 <div class="textae-editor__pallet__header-first-row">
   <div class="textae-editor__pallet__information">
     <span class="textae-editor__pallet__lock-icon" style="display: ${
       isLock ? 'inline-block' : 'none'
     };">locked</span>
-    ${
+    ${() =>
       selectedPred && selectionModelItems.size > 0
         ? `
           ${addAttributeButtonTempalte(context)}
@@ -29,8 +30,7 @@ export default function (context) {
           ${removeAttributeButtonTemplate(context)}
           the
           `
-        : ``
-    }
+        : ``}
     <span class="textae-editor__pallet__selected-entity-label">${selectedEntityLabel}</span>
   </div>
   <div class="textae-editor__pallet__buttons">
@@ -46,12 +46,13 @@ export default function (context) {
   }" data-attribute="">
     Type
   </p>
-  ${attributes
-    .map((a, index, array) =>
-      attributeTabTemplate(a, index, array, selectedPred)
-    )
-    .join('\n')}
-  ${
+  ${() =>
+    attributes
+      .map((a, index, array) =>
+        attributeTabTemplate(a, index, array, selectedPred)
+      )
+      .join('\n')}
+  ${() =>
     isLock
       ? ''
       : `
@@ -68,8 +69,7 @@ export default function (context) {
             </p>
             `
             : ''
-        }`
-  }
+        }`}
 </div>
 `
 }

@@ -3,16 +3,17 @@ import valueButtonsTemplate from './valueButtonsTemplate'
 import showAddAttributeValueButton from './showAddAttributeValueButton'
 import predicateControllerTemplate from './predicateControllerTemplate'
 import { escape } from 'lodash'
+import anemone from '../../anemone'
 
 export default function (context) {
   const { default: defaultValue, mediaHeight, values } = context.attrDef
   const { isLock } = context
 
-  return `
-  ${headerTemplate(context)}
+  return anemone`
+  ${() => headerTemplate(context)}
   <div>
     <div class="textae-editor__pallet__predicate">
-      ${predicateControllerTemplate(context)}
+      ${() => predicateControllerTemplate(context)}
       media height: ${mediaHeight || '""'}
       default: ${escape(defaultValue)}
     </div>
@@ -23,27 +24,28 @@ export default function (context) {
           <th>pattern</th>
           <th>label</th>
           <th>color</th>
-          ${showAddAttributeValueButton(isLock)}
+          ${() => showAddAttributeValueButton(isLock)}
         </tr>
-        ${values
-          .map(
-            ({ color = ' ', pattern = '', label = '', indelible }, index) => {
-              return `
+        ${() =>
+          values
+            .map(
+              ({ color = ' ', pattern = '', label = '', indelible }, index) => {
+                return anemone`
         <tr class="textae-editor__pallet__row" style="background-color: ${color};">
           <td class="textae-editor__pallet__attribute-label">
             ${pattern}
           </td>
           <td class="textae-editor__pallet__short-label">
-            ${escape(label)}
+            ${label}
           </td>
           <td class="textae-editor__pallet__short-label">
             ${color}
           </td>
-          ${valueButtonsTemplate(isLock, index, indelible)}
+          ${() => valueButtonsTemplate(isLock, index, indelible)}
         </tr>`
-            }
-          )
-          .join('\n')}
+              }
+            )
+            .join('\n')}
       </tbody>
     </table>
   </div>

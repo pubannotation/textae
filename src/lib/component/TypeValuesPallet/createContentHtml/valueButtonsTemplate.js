@@ -1,14 +1,16 @@
+import anemone from '../../anemone'
+
 export default function (isLock, index, indelible) {
   return isLock
     ? ''
-    : `
+    : anemone`
   <td class="textae-editor__pallet__table-attribute-buttons">
     <button
       type="button"
       class="textae-editor__pallet__table-button textae-editor__pallet__edit-value"
       title="Edit this value." data-index="${index}">
     </button>
-    <button 
+    <button
       type="button"
       class="textae-editor__pallet__table-button textae-editor__pallet__remove-value${
         indelible ? ' textae-editor__pallet__table-button--disabled' : ''

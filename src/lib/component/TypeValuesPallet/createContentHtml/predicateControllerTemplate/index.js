@@ -1,3 +1,4 @@
+import anemone from '../../../anemone'
 import editAttributeDefinitionBlockTemplate from './editAttributeDefinitionBlockTemplate'
 
 export default function (context) {
@@ -5,7 +6,7 @@ export default function (context) {
   const { pred } = attrDef
   const { valueType } = attrDef
 
-  return `
+  return anemone`
     <div>
       Attribute
       <span
@@ -13,7 +14,7 @@ export default function (context) {
         title="${valueType} type">
       </span>
       "${pred}"
-      ${editAttributeDefinitionBlockTemplate(context)}
+      ${() => editAttributeDefinitionBlockTemplate(context)}
     </div>
   `
 }
