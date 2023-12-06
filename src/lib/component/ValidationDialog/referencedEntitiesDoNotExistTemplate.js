@@ -1,6 +1,8 @@
+import anemone from '../anemone'
+
 export default function (referencedEntitiesDoNotExist) {
   return referencedEntitiesDoNotExist.length
-    ? `
+    ? anemone`
       <table>
         <caption>Referenced entities do not exist.</caption>
         <thead>
@@ -13,17 +15,18 @@ export default function (referencedEntitiesDoNotExist) {
           </tr>
         </thead>
         <tbody>
-          ${referencedEntitiesDoNotExist
-            .map(
-              ({
-                id,
-                sourceProperty,
-                alertSubj,
-                subj,
-                pred,
-                alertObj,
-                obj
-              }) => `
+          ${() =>
+            referencedEntitiesDoNotExist
+              .map(
+                ({
+                  id,
+                  sourceProperty,
+                  alertSubj,
+                  subj,
+                  pred,
+                  alertObj,
+                  obj
+                }) => anemone`
           <tr>
             <td>${id || ''}</td>
             <td>${sourceProperty}</td>
@@ -32,8 +35,8 @@ export default function (referencedEntitiesDoNotExist) {
             <td${alertObj ? ' class="alert"' : ''}>${obj}</td>
           </tr>
           `
-            )
-            .join('\n')}
+              )
+              .join('\n')}
         </tbody>
       </table>
       `

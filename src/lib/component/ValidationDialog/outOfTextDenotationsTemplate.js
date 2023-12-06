@@ -1,6 +1,8 @@
+import anemone from '../anemone'
+
 export default function (outOfTextDenotations) {
   return outOfTextDenotations.length
-    ? `
+    ? anemone`
         <table>
           <caption>Out of text denotations.</caption>
           <thead>
@@ -12,9 +14,10 @@ export default function (outOfTextDenotations) {
             </tr>
           </thead>
           <tbody>
-            ${outOfTextDenotations
-              .map(
-                ({ id, span, obj }) => `
+            ${() =>
+              outOfTextDenotations
+                .map(
+                  ({ id, span, obj }) => anemone`
             <tr>
               <td>${id || ''}</td>
               <td class="alert">${span.begin}</td>
@@ -22,8 +25,8 @@ export default function (outOfTextDenotations) {
               <td>${obj}</td>
             </tr>
             `
-              )
-              .join('\n')}
+                )
+                .join('\n')}
           </tbody>
         </table>`
     : ''

@@ -1,6 +1,8 @@
+import anemone from '../anemone'
+
 export default function (duplicatedAttributes) {
   return duplicatedAttributes.length
-    ? `
+    ? anemone`
       <table>
         <caption>Duplicated attributes.</caption>
         <thead>
@@ -12,9 +14,10 @@ export default function (duplicatedAttributes) {
           </tr>
         </thead>
         <tbody>
-          ${duplicatedAttributes
-            .map(
-              ({ id, subj, pred, obj }) => `
+          ${() =>
+            duplicatedAttributes
+              .map(
+                ({ id, subj, pred, obj }) => anemone`
           <tr>
             <td>${id || ''}</td>
             <td class="alert">${subj}</td>
@@ -22,8 +25,8 @@ export default function (duplicatedAttributes) {
             <td class="alert">${obj}</td>
           </tr>
           `
-            )
-            .join('\n')}
+              )
+              .join('\n')}
         </tbody>
       </table>
       `

@@ -1,6 +1,8 @@
+import anemone from '../anemone'
+
 export default function (boundaryCrossingSpans) {
   return boundaryCrossingSpans.length
-    ? `
+    ? anemone`
       <table>
         <caption>Denotations or Blocks or Typesettings with boundary-cross.</caption>
         <thead>
@@ -13,9 +15,10 @@ export default function (boundaryCrossingSpans) {
           </tr>
         </thead>
         <tbody>
-          ${boundaryCrossingSpans
-            .map(
-              ({ id, sourceProperty, span, style, obj }) => `
+          ${() =>
+            boundaryCrossingSpans
+              .map(
+                ({ id, sourceProperty, span, style, obj }) => anemone`
           <tr>
             <td>${id || ''}</td>
             <td>${sourceProperty}</td>
@@ -24,8 +27,8 @@ export default function (boundaryCrossingSpans) {
             <td>${style || obj}</td>
           </tr>
           `
-            )
-            .join('\n')}
+              )
+              .join('\n')}
         </tbody>
       </table>
       `

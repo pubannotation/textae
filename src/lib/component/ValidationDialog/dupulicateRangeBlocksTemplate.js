@@ -1,6 +1,8 @@
+import anemone from '../anemone'
+
 export default function (duplicatedRangeBlocks) {
   return duplicatedRangeBlocks.length
-    ? `
+    ? anemone`
       <table>
         <caption>Duplicated range blocks.</caption>
         <thead>
@@ -12,9 +14,10 @@ export default function (duplicatedRangeBlocks) {
           </tr>
         </thead>
         <tbody>
-          ${duplicatedRangeBlocks
-            .map(
-              ({ id, span, obj }) => `
+          ${() =>
+            duplicatedRangeBlocks
+              .map(
+                ({ id, span, obj }) => anemone`
           <tr>
             <td>${id || ''}</td>
             <td class="alert">${span.begin}</td>
@@ -22,8 +25,8 @@ export default function (duplicatedRangeBlocks) {
             <td>${obj}</td>
           </tr>
           `
-            )
-            .join('\n')}
+              )
+              .join('\n')}
         </tbody>
       </table>
       `

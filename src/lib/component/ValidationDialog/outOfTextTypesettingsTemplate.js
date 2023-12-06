@@ -1,6 +1,8 @@
+import anemone from '../anemone'
+
 export default function (outOfTextTypesettings) {
   return outOfTextTypesettings.length
-    ? `
+    ? anemone`
       <table>
         <caption>Out of text typesettings.</caption>
         <thead>
@@ -12,9 +14,10 @@ export default function (outOfTextTypesettings) {
           </tr>
         </thead>
         <tbody>
-          ${outOfTextTypesettings
-            .map(
-              ({ id, span, style }) => `
+          ${() =>
+            outOfTextTypesettings
+              .map(
+                ({ id, span, style }) => anemone`
           <tr>
             <td>${id || ''}</td>
             <td class="alert">${span.begin}</td>
@@ -22,8 +25,8 @@ export default function (outOfTextTypesettings) {
             <td>${style}</td>
           </tr>
           `
-            )
-            .join('\n')}
+              )
+              .join('\n')}
         </tbody>
       </table>
       `

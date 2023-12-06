@@ -1,6 +1,8 @@
+import anemone from '../anemone'
+
 export default function (wrongRangeDenotations) {
   return wrongRangeDenotations.length
-    ? `
+    ? anemone`
         <table>
           <caption>Wrong range denotations.</caption>
           <thead>
@@ -12,9 +14,10 @@ export default function (wrongRangeDenotations) {
             </tr>
           </thead>
           <tbody>
-            ${wrongRangeDenotations
-              .map(
-                ({ id, span, obj }) => `
+            ${() =>
+              wrongRangeDenotations
+                .map(
+                  ({ id, span, obj }) => anemone`
             <tr>
               <td>${id || ''}</td>
               <td class="alert">${span.begin}</td>
@@ -22,8 +25,8 @@ export default function (wrongRangeDenotations) {
               <td>${obj}</td>
             </tr>
           `
-              )
-              .join('\n')}
+                )
+                .join('\n')}
           </tbody>
         </table>`
     : ''

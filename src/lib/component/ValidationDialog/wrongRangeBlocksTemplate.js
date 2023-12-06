@@ -1,6 +1,8 @@
+import anemone from '../anemone'
+
 export default function (wrongRangeBlocks) {
   return wrongRangeBlocks.length
-    ? `
+    ? anemone`
         <table>
           <caption>Wrong range blocks.</caption>
           <thead>
@@ -12,9 +14,10 @@ export default function (wrongRangeBlocks) {
             </tr>
           </thead>
           <tbody>
-            ${wrongRangeBlocks
-              .map(
-                ({ id, span, obj }) => `
+            ${() =>
+              wrongRangeBlocks
+                .map(
+                  ({ id, span, obj }) => anemone`
             <tr>
               <td>${id || ''}</td>
               <td class="alert">${span.begin}</td>
@@ -22,8 +25,8 @@ export default function (wrongRangeBlocks) {
               <td>${obj}</td>
             </tr>
             `
-              )
-              .join('\n')}
+                )
+                .join('\n')}
           </tbody>
         </table>
   `

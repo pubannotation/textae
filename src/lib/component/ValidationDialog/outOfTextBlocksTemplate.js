@@ -1,8 +1,10 @@
+import anemone from '../anemone'
+
 export default function (outOfTextBlocks) {
   return outOfTextBlocks.length
-    ? `
+    ? anemone`
       <table>
-        <caption>Out of text blokcs.</caption>
+        <caption>Out of text blocks.</caption>
         <thead>
           <tr>
             <th class="id">id</th>
@@ -12,9 +14,10 @@ export default function (outOfTextBlocks) {
           </tr>
         </thead>
         <tbody>
-          ${outOfTextBlocks
-            .map(
-              ({ id, span, obj }) => `
+          ${() =>
+            outOfTextBlocks
+              .map(
+                ({ id, span, obj }) => anemone`
           <tr>
             <td>${id || ''}</td>
             <td class="alert">${span.begin}</td>
@@ -22,8 +25,8 @@ export default function (outOfTextBlocks) {
             <td>${obj}</td>
           </tr>
           `
-            )
-            .join('\n')}
+              )
+              .join('\n')}
         </tbody>
       </table>
       `

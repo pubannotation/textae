@@ -1,6 +1,8 @@
+import anemone from '../anemone'
+
 export default function (duplicatedIDs) {
   return duplicatedIDs.length
-    ? `
+    ? anemone`
       <table>
         <caption>Duplicated IDs in Denotations and Blocks.</caption>
         <thead>
@@ -13,9 +15,10 @@ export default function (duplicatedIDs) {
           </tr>
         </thead>
         <tbody>
-          ${duplicatedIDs
-            .map(
-              ({ id, sourceProperty, span, obj }) => `
+          ${() =>
+            duplicatedIDs
+              .map(
+                ({ id, sourceProperty, span, obj }) => anemone`
           <tr>
             <td>${id || ''}</td>
             <td>${sourceProperty}</td>
@@ -24,8 +27,8 @@ export default function (duplicatedIDs) {
             <td>${obj}</td>
           </tr>
           `
-            )
-            .join('\n')}
+              )
+              .join('\n')}
         </tbody>
       </table>
       `
