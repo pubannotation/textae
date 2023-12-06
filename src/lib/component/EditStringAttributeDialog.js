@@ -1,11 +1,12 @@
 import delegate from 'delegate'
 import PromiseDialog from './PromiseDialog'
 import setSourceOfAutoComplete from './setSourceOfAutoComplete'
+import anemone from './anemone'
 
 function template(context) {
   const { subjects, pred, value } = context
 
-  return `
+  return anemone`
 <div class="textae-editor__edit-string-attribute-dialog__container">
   <div class="textae-editor__edit-numeric-attribute-dialog__row">
     <label>Subject</label>
