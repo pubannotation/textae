@@ -31,7 +31,7 @@ export default class AttributeInstance {
 
     // If the extension cannot be used to determine whether the image is an image or not,
     // the Content-Type header is acquired to determine whether the image is an image or not.
-    if (this._valueType === 'string' && !this._hasImageExtesion) {
+    if (this._valueType === 'string' && !this._hasImageExtension) {
       this._mediaDictionary.acquireContentTypeOf(this._href).then((isImage) => {
         if (isImage) {
           this.updateElement()
@@ -135,12 +135,12 @@ export default class AttributeInstance {
   get _isMedia() {
     return (
       this._valueType === 'string' &&
-      (this._hasImageExtesion ||
+      (this._hasImageExtension ||
         this._mediaDictionary.hasImageContentTypeOf(this._href))
     )
   }
 
-  get _hasImageExtesion() {
+  get _hasImageExtension() {
     return /\.(jpg|png|gif)$/.test(this._href)
   }
 
