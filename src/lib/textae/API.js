@@ -15,6 +15,10 @@ export default class API {
     this._editor.setInspector(callback)
   }
 
+  set lastSelectedDenotationIDCallback(callback) {
+    this._editor.setLastSelectedDenotationIDCallback(callback)
+  }
+
   get id() {
     return this._editor.HTMLElementID
   }

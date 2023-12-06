@@ -218,6 +218,9 @@
             // each time you edit it.
             editor.inspectCallback = (annotation) => { console.log(annotation) }
 
+            // When you want to know last selected denotation, use the lastSelectedDenotationIDCallback property.
+            editor.lastSelectedDenotationIDCallback = (denotation) => { console.log(denotation) }
+
             // Focus on the annotation specified by the ID.
             editor.selectDenotation('T1')
         }

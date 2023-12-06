@@ -3,8 +3,10 @@ import SelectedItems from './SelectedItems'
 
 export default class SelectionModel {
   #annotationModel
+  #eventEmitter
 
   constructor(eventEmitter, annotationModel) {
+    this.#eventEmitter = eventEmitter
     this.#annotationModel = annotationModel
 
     this.span = new SelectedItems(eventEmitter, 'span', annotationModel)
@@ -54,6 +56,16 @@ export default class SelectionModel {
     for (const id of ids) {
       this[annotationType].add(id)
     }
+
+    if (
+      annotationType === 'entity' &&
+      this.#isDenotation(ids[ids.length - 1])
+    ) {
+      this.#eventEmitter.emit(
+        'textae-event.selection-model.last-selected-denotation-id.change',
+        ids[ids.length - 1]
+      )
+    }
   }
 
   remove(annotationType, id) {
@@ -82,10 +94,17 @@ export default class SelectionModel {
   selectEntity(id) {
     this.removeAll()
     this.entity.add(id)
+
+    if (this.#isDenotation(id)) {
+      this.#eventEmitter.emit(
+        'textae-event.selection-model.last-selected-denotation-id.change',
+        id
+      )
+    }
   }
 
   selectDenotation(id) {
-    if (!this.#annotationModel.entity.hasDenotation(id)) {
+    if (!this.#isDenotation(id)) {
       throw new Error(`Denotation ${id} not found`)
     }
 
@@ -104,5 +123,9 @@ export default class SelectionModel {
         .flat()
         .concat(this.entity.all)
     )
+  }
+
+  #isDenotation(id) {
+    return this.#annotationModel.entity.hasDenotation(id)
   }
 }

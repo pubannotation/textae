@@ -20,6 +20,7 @@ export default class Editor {
   #annotationModel
   #eventEmitter
   #inspector
+  #lastSelectedDenotationIDCallback
   #scrollEventListeners
 
   constructor(
@@ -122,6 +123,21 @@ export default class Editor {
 
     if (typeof callback == 'function') {
       this.#inspector = this.#newInspector(callback)
+    }
+  }
+
+  setLastSelectedDenotationIDCallback(callback) {
+    if (this.#lastSelectedDenotationIDCallback) {
+      this.#lastSelectedDenotationIDCallback.dispose()
+      this.#lastSelectedDenotationIDCallback = null
+    }
+
+    if (typeof callback == 'function') {
+      this.#lastSelectedDenotationIDCallback = new EditorEventListener(
+        this.#eventEmitter,
+        'textae-event.selection-model.last-selected-denotation-id.change',
+        callback
+      )
     }
   }
 
