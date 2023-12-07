@@ -37,7 +37,7 @@ export default class ValidationDialog extends Dialog {
       index === 1
         ? `
       <div class="textae-editor__valiondate-dialog__content">
-        <h1>Track annatations will be merged to the root anntations.</h1>
+        <h1>Track annotations will be merged to the root annotations.</h1>
       </div>`
         : ''
     }
