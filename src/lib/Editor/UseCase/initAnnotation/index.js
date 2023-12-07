@@ -7,7 +7,7 @@ import setDefault from './setDefault.js'
 
 /**
  *
- * @param {import('../../ParamsFromHTMLElement/AnnotationParameter.js').default} annotationParameter
+ * @param {import('../../HTMLInlineOptions/AnnotationParameter.js').default} annotationParameter
  */
 export default function (
   spanConfig,

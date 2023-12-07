@@ -1,6 +1,6 @@
 import AnnotationParameter from './AnnotationParameter'
 
-export default class ParamsFormHTMLElement {
+export default class HTMLInlineOptions {
   constructor(element) {
     this._element = element
 

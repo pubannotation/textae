@@ -2,7 +2,7 @@
 import AnnotationModel from './AnnotationModel'
 import UseCase from './UseCase'
 import { EventEmitter } from 'events'
-import ParamsFormHTMLElement from './ParamsFromHTMLElement'
+import HTMLInlineOptions from './HTMLInlineOptions'
 import EditorCSSClass from './EditorCSSClass'
 import forwardMethods from './forwardMethods'
 import observeElement from './observeElement'
@@ -46,7 +46,7 @@ export default class Editor {
     const editorCSSClass = new EditorCSSClass(element)
     editorCSSClassObserve(eventEmitter, editorCSSClass)
 
-    const params = new ParamsFormHTMLElement(element)
+    const inlineOptions = new HTMLInlineOptions(element)
     const annotationModel = new AnnotationModel(
       editorID,
       element,
@@ -54,16 +54,18 @@ export default class Editor {
       editorCSSClass,
       startJQueryUIDialogWait,
       endJQueryUIDialogWait,
-      params.configLock === 'true'
+      inlineOptions.configLock === 'true'
     )
 
     this.#element = element
     this.#annotationModel = annotationModel
     this.#eventEmitter = eventEmitter
 
-    if (params.inspect) {
+    if (inlineOptions.inspect) {
       const callback = (annotation) => {
-        const destinationElement = document.querySelector(`#${params.inspect}`)
+        const destinationElement = document.querySelector(
+          `#${inlineOptions.inspect}`
+        )
         if (destinationElement) {
           destinationElement.textContent = JSON.stringify(annotation, null, 2)
         }
@@ -83,7 +85,7 @@ export default class Editor {
       mousePoint,
       eventEmitter,
       annotationModel,
-      params,
+      inlineOptions,
       selectionModel
     )
 

@@ -8,7 +8,7 @@ import ModeReactor from './ModeReactor'
 export default class EditMode {
   /**
    *
-   * @param {import('../../../ParamsFromHTMLElement').default} params
+   * @param {import('../../../HTMLInlineOptions').HTMLInlineOption} inlineOptions
    */
   constructor(
     editorHTMLElement,
@@ -18,7 +18,7 @@ export default class EditMode {
     spanConfig,
     commander,
     controlViewModel,
-    params,
+    inlineOptions,
     functionAvailability,
     mousePoint
   ) {
@@ -30,7 +30,7 @@ export default class EditMode {
       commander,
       controlViewModel,
       spanConfig,
-      params.autocompletionWs,
+      inlineOptions.autocompletionWs,
       mousePoint
     )
 
@@ -42,7 +42,7 @@ export default class EditMode {
       spanConfig,
       commander,
       controlViewModel,
-      params.autocompletionWs,
+      inlineOptions.autocompletionWs,
       mousePoint
     )
 
@@ -52,7 +52,7 @@ export default class EditMode {
       annotationModel,
       selectionModel,
       commander,
-      params.autocompletionWs,
+      inlineOptions.autocompletionWs,
       controlViewModel,
       mousePoint
     )
@@ -75,7 +75,7 @@ export default class EditMode {
 
     this._annotationModel = annotationModel
     this._selectionModel = selectionModel
-    this._params = params
+    this._inlineOptions = inlineOptions
 
     eventEmitter
       .on('textae-event.editor.relation.click', (event, relation) =>
@@ -118,17 +118,17 @@ export default class EditMode {
    * For an initiation transition on an annotations data loaded.
    */
   reset() {
-    if (this._params.isTermEditMode) {
+    if (this._inlineOptions.isTermEditMode) {
       this._state.toTermMode(this._annotationModel.relation.some)
       return
     }
 
-    if (this._params.isBlockEditMode) {
+    if (this._inlineOptions.isBlockEditMode) {
       this._state.toBlockMode(this._annotationModel.relation.some)
       return
     }
 
-    if (this._params.isRelationEditMode) {
+    if (this._inlineOptions.isRelationEditMode) {
       this._state.toRelationMode()
       return
     }

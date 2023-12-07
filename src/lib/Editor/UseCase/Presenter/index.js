@@ -10,7 +10,7 @@ import { MODE } from '../../../MODE'
 export default class Presenter {
   /**
    *
-   * @param {import('../../ParamsFromHTMLElement').default} params
+   * @param {import('../../HTMLInlineOptions').HTMLInlineOption} inlineOptions
    */
   constructor(
     editorHTMLElement,
@@ -21,7 +21,7 @@ export default class Presenter {
     spanConfig,
     clipBoard,
     controlViewModel,
-    params,
+    inlineOptions,
     functionAvailability,
     mousePoint
   ) {
@@ -33,14 +33,14 @@ export default class Presenter {
       spanConfig,
       commander,
       controlViewModel,
-      params,
+      inlineOptions,
       functionAvailability,
       mousePoint
     )
 
     eventEmitter
       .on('textae-event.annotation-data.all.change', (_, hasMultiTracks) => {
-        if (params.isEditMode && hasMultiTracks) {
+        if (inlineOptions.isEditMode && hasMultiTracks) {
           alertifyjs.success(
             'track annotations have been merged to root annotations.'
           )
