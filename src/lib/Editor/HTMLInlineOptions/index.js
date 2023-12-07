@@ -19,11 +19,11 @@ export default class HTMLInlineOptions {
   }
 
   get autocompletionWS() {
-    return this.#readURLAttribute('autocompletion_ws')
+    return this.#readAttributeAsURL('autocompletion_ws')
   }
 
   get config() {
-    return this.#readURLAttribute('config')
+    return this.#readAttributeAsURL('config')
   }
 
   get configLock() {
@@ -85,7 +85,7 @@ export default class HTMLInlineOptions {
   }
 
   get saveTo() {
-    return this.#readURLAttribute('save_to')
+    return this.#readAttributeAsURL('save_to')
   }
 
   get #source() {
@@ -95,7 +95,7 @@ export default class HTMLInlineOptions {
     )
   }
 
-  #readURLAttribute(name) {
+  #readAttributeAsURL(name) {
     if (this.#element.hasAttribute(name)) {
       return decodeURIComponent(this.#element.getAttribute(name))
     }
