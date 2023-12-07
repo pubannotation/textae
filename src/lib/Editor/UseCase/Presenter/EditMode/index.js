@@ -6,6 +6,14 @@ import EditRelation from './EditRelation'
 import ModeReactor from './ModeReactor'
 
 export default class EditMode {
+  #editDenotation
+  #editBlock
+  #editRelation
+  #state
+  #annotationModel
+  #selectionModel
+  #inlineOptions
+
   /**
    *
    * @param {import('../../../HTMLInlineOptions').HTMLInlineOption} inlineOptions
@@ -22,7 +30,7 @@ export default class EditMode {
     functionAvailability,
     mousePoint
   ) {
-    this._editDenotation = new EditDenotation(
+    this.#editDenotation = new EditDenotation(
       editorHTMLElement,
       eventEmitter,
       annotationModel,
@@ -34,7 +42,7 @@ export default class EditMode {
       mousePoint
     )
 
-    this._editBlock = new EditBlock(
+    this.#editBlock = new EditBlock(
       editorHTMLElement,
       eventEmitter,
       annotationModel,
@@ -46,7 +54,7 @@ export default class EditMode {
       mousePoint
     )
 
-    this._editRelation = new EditRelation(
+    this.#editRelation = new EditRelation(
       editorHTMLElement,
       eventEmitter,
       annotationModel,
@@ -62,20 +70,20 @@ export default class EditMode {
       eventEmitter,
       annotationModel,
       () => this.cancelSelect(),
-      this._editDenotation,
-      this._editBlock,
-      this._editRelation
+      this.#editDenotation,
+      this.#editBlock,
+      this.#editRelation
     )
 
-    this._state = new State(
+    this.#state = new State(
       annotationModel.relation,
       eventEmitter,
       functionAvailability
     )
 
-    this._annotationModel = annotationModel
-    this._selectionModel = selectionModel
-    this._inlineOptions = inlineOptions
+    this.#annotationModel = annotationModel
+    this.#selectionModel = selectionModel
+    this.#inlineOptions = inlineOptions
 
     eventEmitter
       .on('textae-event.editor.relation.click', (event, relation) =>
@@ -87,69 +95,69 @@ export default class EditMode {
   }
 
   toViewMode() {
-    this._state.toViewMode(this._state.nextShowRelation)
+    this.#state.toViewMode(this.#state.nextShowRelation)
   }
 
   toTermMode() {
-    this._state.toTermMode(this._state.nextShowRelation)
+    this.#state.toTermMode(this.#state.nextShowRelation)
   }
 
   toBlockMode() {
-    this._state.toBlockMode(this._state.nextShowRelation)
+    this.#state.toBlockMode(this.#state.nextShowRelation)
   }
 
   toRelationMode() {
-    this._state.toRelationMode()
+    this.#state.toRelationMode()
   }
 
   toggleSimpleMode() {
-    this._state.toggleSimpleMode()
+    this.#state.toggleSimpleMode()
   }
 
   changeModeByShortcut() {
-    this._state.changeModeByShortcut()
+    this.#state.changeModeByShortcut()
   }
 
   get isEditDenotation() {
-    return this._state.currentState === MODE.EDIT_DENOTATION
+    return this.#state.currentState === MODE.EDIT_DENOTATION
   }
 
   /**
    * For an initiation transition on an annotations data loaded.
    */
   reset() {
-    if (this._inlineOptions.isTermEditMode) {
-      this._state.toTermMode(this._annotationModel.relation.some)
+    if (this.#inlineOptions.isTermEditMode) {
+      this.#state.toTermMode(this.#annotationModel.relation.some)
       return
     }
 
-    if (this._inlineOptions.isBlockEditMode) {
-      this._state.toBlockMode(this._annotationModel.relation.some)
+    if (this.#inlineOptions.isBlockEditMode) {
+      this.#state.toBlockMode(this.#annotationModel.relation.some)
       return
     }
 
-    if (this._inlineOptions.isRelationEditMode) {
-      this._state.toRelationMode()
+    if (this.#inlineOptions.isRelationEditMode) {
+      this.#state.toRelationMode()
       return
     }
 
-    this._state.toViewMode(this._annotationModel.relation.some)
+    this.#state.toViewMode(this.#annotationModel.relation.some)
   }
 
   cancelSelect() {
     // Close all pallets.
-    this._editDenotation.pallet.hide()
-    this._editBlock.pallet.hide()
-    this._editRelation.pallet.hide()
+    this.#editDenotation.pallet.hide()
+    this.#editBlock.pallet.hide()
+    this.#editRelation.pallet.hide()
 
-    this._selectionModel.removeAll()
+    this.#selectionModel.removeAll()
   }
 
   get isTypeValuesPalletShown() {
     return (
-      this._editDenotation.pallet.visibly ||
-      this._editBlock.pallet.visibly ||
-      this._editRelation.pallet.visibly
+      this.#editDenotation.pallet.visibly ||
+      this.#editBlock.pallet.visibly ||
+      this.#editRelation.pallet.visibly
     )
   }
 
@@ -162,13 +170,13 @@ export default class EditMode {
   }
 
   get currentEdit() {
-    switch (this._state.currentState) {
+    switch (this.#state.currentState) {
       case MODE.EDIT_DENOTATION:
-        return this._editDenotation
+        return this.#editDenotation
       case MODE.EDIT_BLOCK:
-        return this._editBlock
+        return this.#editBlock
       case MODE.EDIT_RELATION:
-        return this._editRelation
+        return this.#editRelation
       default:
         return {
           showPallet() {},
