@@ -36,7 +36,7 @@ export default function (
         // When config is specified, it must be JSON.
         // For example, when we load an HTML file, we treat it as text here.
         if (typeof dataSource.data.config !== 'object') {
-          alertifyjs.error(`configuration in anntotaion file is invalid.`)
+          alertifyjs.error(`configuration in annotation file is invalid.`)
           return
         }
       }
