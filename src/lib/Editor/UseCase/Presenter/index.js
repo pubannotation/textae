@@ -8,6 +8,19 @@ import getIsDelimiterFunc from './getIsDelimiterFunc'
 import { MODE } from '../../../MODE'
 
 export default class Presenter {
+  #editorHTMLElement
+  #eventEmitter
+  #commander
+  #selectionModel
+  #annotationModel
+  #controlViewModel
+  #spanConfig
+  #clipBoard
+  #editMode
+  #horizontal
+  #vertical
+  #isActive
+
   /**
    *
    * @param {import('../../HTMLInlineOptions').HTMLInlineOption} inlineOptions
@@ -58,20 +71,20 @@ export default class Presenter {
         }
       })
 
-    this._editorHTMLElement = editorHTMLElement
-    this._eventEmitter = eventEmitter
-    this._commander = commander
-    this._selectionModel = selectionModel
-    this._annotationModel = annotationModel
-    this._controlViewModel = controlViewModel
-    this._spanConfig = spanConfig
-    this._clipBoard = clipBoard
-    this._editMode = editMode
-    this._horizontal = new Horizontal(editorHTMLElement, selectionModel)
-    this._vertical = new Vertical(editorHTMLElement, selectionModel)
-    this._isActive = false
+    this.#editorHTMLElement = editorHTMLElement
+    this.#eventEmitter = eventEmitter
+    this.#commander = commander
+    this.#selectionModel = selectionModel
+    this.#annotationModel = annotationModel
+    this.#controlViewModel = controlViewModel
+    this.#spanConfig = spanConfig
+    this.#clipBoard = clipBoard
+    this.#editMode = editMode
+    this.#horizontal = new Horizontal(editorHTMLElement, selectionModel)
+    this.#vertical = new Vertical(editorHTMLElement, selectionModel)
+    this.#isActive = false
 
-    forwardMethods(this, () => this._editMode, [
+    forwardMethods(this, () => this.#editMode, [
       'toViewMode',
       'toTermMode',
       'toBlockMode',
@@ -79,7 +92,7 @@ export default class Presenter {
       'toggleSimpleMode',
       'changeModeByShortcut'
     ])
-    forwardMethods(this, () => this._editMode.currentEdit, [
+    forwardMethods(this, () => this.#editMode.currentEdit, [
       'createSpan',
       'expandSpan',
       'shrinkSpan',
@@ -89,7 +102,7 @@ export default class Presenter {
       'editProperties',
       'manipulateAttribute'
     ])
-    forwardMethods(this, () => this._clipBoard, [
+    forwardMethods(this, () => this.#clipBoard, [
       'copyEntitiesToLocalClipboard',
       'copyEntitiesToSystemClipboard',
       'cutEntitiesToLocalClipboard',
@@ -97,40 +110,40 @@ export default class Presenter {
       'pasteEntitiesFromLocalClipboard',
       'pasteEntitiesFromSystemClipboard'
     ])
-    forwardMethods(this, () => this._controlViewModel, ['toggleButton'])
+    forwardMethods(this, () => this.#controlViewModel, ['toggleButton'])
   }
 
   removeSelectedElements() {
-    const commands = this._commander.factory.removeSelectedComand()
+    const commands = this.#commander.factory.removeSelectedComand()
 
     // Select the next element before clear selection.
-    this._horizontal.right(null)
+    this.#horizontal.right(null)
 
-    this._commander.invoke(commands)
+    this.#commander.invoke(commands)
   }
 
   createEntity() {
     const command =
-      this._commander.factory.createDefaultTypeEntityToSelectedSpansCommand(
-        this._annotationModel.typeDefinition.denotation.defaultType
+      this.#commander.factory.createDefaultTypeEntityToSelectedSpansCommand(
+        this.#annotationModel.typeDefinition.denotation.defaultType
       )
 
     if (!command.isEmpty) {
-      this._commander.invoke(command)
+      this.#commander.invoke(command)
     }
   }
 
   replicate() {
     const isDelimiterFunc = getIsDelimiterFunc(
-      this._controlViewModel,
-      this._spanConfig
+      this.#controlViewModel,
+      this.#spanConfig
     )
 
-    if (this._selectionModel.span.single) {
-      this._commander.invoke(
-        this._commander.factory.replicateSpanCommand(
-          this._selectionModel.span.single,
-          this._selectionModel.span.single.entities.map((e) => e.typeValues),
+    if (this.#selectionModel.span.single) {
+      this.#commander.invoke(
+        this.#commander.factory.replicateSpanCommand(
+          this.#selectionModel.span.single,
+          this.#selectionModel.span.single.entities.map((e) => e.typeValues),
           isDelimiterFunc
         )
       )
@@ -142,75 +155,75 @@ export default class Presenter {
   }
 
   cancelSelect() {
-    this._editMode.cancelSelect()
+    this.#editMode.cancelSelect()
     // Focus the editor for ESC key
-    this._editorHTMLElement.focus()
+    this.#editorHTMLElement.focus()
   }
 
   showSettingDialog() {
     new SettingDialog(
-      this._annotationModel.typeDefinition,
-      this._annotationModel.typeGap,
-      this._annotationModel.textBox
+      this.#annotationModel.typeDefinition,
+      this.#annotationModel.typeGap,
+      this.#annotationModel.textBox
     ).open()
   }
 
   get isActive() {
-    return this._isActive
+    return this.#isActive
   }
 
   activate() {
-    this._editorHTMLElement.classList.add('textae-editor--active')
-    this._isActive = true
+    this.#editorHTMLElement.classList.add('textae-editor--active')
+    this.#isActive = true
   }
 
   deactivate() {
-    this._editorHTMLElement.classList.remove('textae-editor--active')
-    this._eventEmitter.emit('textae-event.editor.unselect')
-    this._isActive = false
+    this.#editorHTMLElement.classList.remove('textae-editor--active')
+    this.#eventEmitter.emit('textae-event.editor.unselect')
+    this.#isActive = false
   }
 
   selectLeft(shiftKey) {
-    if (this._editMode.isTypeValuesPalletShown) {
+    if (this.#editMode.isTypeValuesPalletShown) {
       this.selectLeftAttributeTab()
     } else {
-      this._horizontal.left(shiftKey)
+      this.#horizontal.left(shiftKey)
     }
   }
 
   selectRight(shiftKey) {
-    if (this._editMode.isTypeValuesPalletShown) {
+    if (this.#editMode.isTypeValuesPalletShown) {
       this.selectRightAttributeTab()
     } else {
-      this._horizontal.right(shiftKey)
+      this.#horizontal.right(shiftKey)
     }
   }
 
   selectUp() {
-    if (this._editMode.isEditDenotation) {
-      this._vertical.up()
+    if (this.#editMode.isEditDenotation) {
+      this.#vertical.up()
     }
   }
 
   selectDown() {
-    if (this._editMode.isEditDenotation) {
-      this._vertical.down()
+    if (this.#editMode.isEditDenotation) {
+      this.#vertical.down()
     }
   }
 
   applyTextSelection() {
-    if (this._isActive) {
-      this._editMode.currentEdit.applyTextSelection()
+    if (this.#isActive) {
+      this.#editMode.currentEdit.applyTextSelection()
     }
   }
 
   focusDenotation(denotationID) {
-    if (!this._annotationModel.entity.hasDenotation(denotationID)) {
+    if (!this.#annotationModel.entity.hasDenotation(denotationID)) {
       throw new Error(`Denotation ${denotationID} not found`)
     }
 
     this.toTermMode()
-    const { span } = this._annotationModel.entity.get(denotationID)
+    const { span } = this.#annotationModel.entity.get(denotationID)
     span.focus()
   }
 }
