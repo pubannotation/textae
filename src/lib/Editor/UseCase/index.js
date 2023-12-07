@@ -27,7 +27,7 @@ export default class UseCase {
 
   /**
    *
-   * @param {import('../HTMLInlineOptions').HTMLInlineOption} inlineOptions
+   * @param {import('../HTMLInlineOptions').default} inlineOptions
    */
   constructor(
     editorHTMLElement,
@@ -144,6 +144,14 @@ export default class UseCase {
               dataSource.data,
               functionAvailability
             )
+
+            if (inlineOptions.isFocusFirstDenotation) {
+              const firstDenotation =
+                annotationModel.span.allDenotationSpans.at(0)
+              if (firstDenotation) {
+                firstDenotation.focus()
+              }
+            }
 
             originalData.annotation = dataSource
             remoteResource.annotationUrl = dataSource

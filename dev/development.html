@@ -24,16 +24,26 @@
     <input title="this is a focusable element before textae" placeholder="I don't use it for anything.">
     <span>Welcome!</span>
     <div style="padding-left: 50px; width: calc(100% - 50px);">
-        <div class="textae-editor" title="editor0" mode="term-edit" inspect="abc" status_bar="on"
+        <div class="textae-editor" title="editor0" mode="block-edit" inspect="abc" status_bar="on"
             source="https://pubannotation.org/projects/DisGeNET/docs/sourcedb/PubMed/sourceid/10021369/annotations.json"
             config_lock="true"
             style="height: 400px; overflow-y: scroll;"></div>
     </div>
     <div id="abc"></div>
-    <div style="height: 800px; overflow: scroll;" class="textae-container">
+    <div style="height: 200px; overflow: scroll;" class="textae-container">
         <div>
-            <div id="editor1" class="textae-editor" title="editor1" mode="block-edit" status_bar="on" config="1_config.json?aaa"
-            source="1_annotations.json?bbbb=aaa" autocompletion_ws="/dev/autocomplete?order=desc" config_lock="false"></div>
+            <div
+                id="editor1"
+                class="textae-editor"
+                title="editor1"
+                mode="term-edit"
+                status_bar="on"
+                config="1_config.json?aaa"
+                source="1_annotations.json?bbbb=aaa"
+                autocompletion_ws="/dev/autocomplete?order=desc"
+                config_lock="false"
+                focus_first_denotation="true"
+            ></div>
             <div style="height: 300px; margin-top: 100px;">Try scrolling. If no error occurs, the event listener has been deleted.</div>
         </div>
     </div>
@@ -45,7 +55,8 @@
         <div class="textae-editor" title="editor3 having annotations for the simple mode"
             source="2_annotations.json?config_lock=false" config="2_config.json" mode="edit" control="hidden"></div>
         <div class="textae-editor" title="editor4 having annotations for the instance mode with the view mode"
-            config="2_config.json" target="3_annotations.json" status_bar="off" control="hidden"></div>
+            config="2_config.json" target="3_annotations.json" status_bar="off" control="hidden"
+            ></div>
         <div class="textae-editor" title="editor5 having inline config" target="1_annotations.json" mode="relation-edit" status_bar='on'>
             {
                 "config": {
@@ -222,7 +233,7 @@
             editor.lastSelectedDenotationIDCallback = (denotation) => { console.log(denotation) }
 
             // Focus on the annotation specified by the ID.
-            editor.selectDenotation('T1')
+            editor.focusDenotation('T1')
         }
     </script>
 

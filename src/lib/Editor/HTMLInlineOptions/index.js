@@ -89,7 +89,16 @@ export default class HTMLInlineOptions {
   }
 
   get isFocusFirstDenotation() {
-    return this.#readAttribute('focus_first_denotation') === 'true'
+    const isFocusFirstDenotation =
+      this.#readAttribute('focus_first_denotation') === 'true'
+
+    if (isFocusFirstDenotation && !this.isTermEditMode) {
+      throw new Error(
+        'focus_first_denotation is only available in term-edit mode.'
+      )
+    }
+
+    return isFocusFirstDenotation
   }
 
   get #source() {
