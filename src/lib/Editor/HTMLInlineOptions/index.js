@@ -88,6 +88,10 @@ export default class HTMLInlineOptions {
     return this.#readAttributeAsURL('save_to')
   }
 
+  get isFocusFirstDenotation() {
+    return this.#readAttribute('focus_first_denotation') === 'true'
+  }
+
   get #source() {
     return this.#readAttribute('source') || this.#readAttribute('target')
   }
