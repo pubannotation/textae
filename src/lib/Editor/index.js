@@ -22,6 +22,7 @@ export default class Editor {
   #inspector
   #lastSelectedDenotationIDCallback
   #scrollEventListeners
+  #useCase
 
   constructor(
     element,
@@ -88,6 +89,7 @@ export default class Editor {
       inlineOptions,
       selectionModel
     )
+    this.#useCase = useCase
 
     forwardMethods(this, () => useCase, [
       'copyEntitiesToSystemClipboard',
@@ -153,6 +155,14 @@ export default class Editor {
     for (const listener of this.#scrollEventListeners) {
       listener.dispose()
     }
+  }
+
+  focusDenotation(denotationID) {
+    if (!this.#annotationModel.denotations.has(denotationID)) {
+      throw new Error(`Denotation ${denotationID} not found`)
+    }
+
+    this.#useCase.focusDenotation(denotationID)
   }
 
   #observeScrollEvent(annotationModel, element) {

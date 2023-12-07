@@ -22,6 +22,8 @@ import FunctionAvailability from './FunctionAvailability'
 
 export default class UseCase {
   #contextMenu
+  #presenter
+  #annotationModel
 
   /**
    *
@@ -88,6 +90,8 @@ export default class UseCase {
       functionAvailability,
       mousePoint
     )
+    this.#presenter = presenter
+    this.#annotationModel = annotationModel
 
     const remoteResource = new RemoteResource(eventEmitter)
 
@@ -274,8 +278,7 @@ export default class UseCase {
       'pasteEntitiesFromSystemClipboard',
       'activate',
       'deactivate',
-      'applyTextSelection',
-      'focusDenotation'
+      'applyTextSelection'
     ])
 
     this.#contextMenu = contextMenu
@@ -287,5 +290,10 @@ export default class UseCase {
 
   hideContextMenu() {
     this.#contextMenu.hide()
+  }
+
+  focusDenotation(denotationID) {
+    this.#presenter.toTermMode()
+    this.#annotationModel.focusDenotation(denotationID)
   }
 }
