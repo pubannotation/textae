@@ -21,6 +21,8 @@ import forwardMethods from '../forwardMethods'
 import FunctionAvailability from './FunctionAvailability'
 
 export default class UseCase {
+  #contextMenu
+
   /**
    *
    * @param {import('../HTMLInlineOptions').HTMLInlineOption} inlineOptions
@@ -276,14 +278,14 @@ export default class UseCase {
       'focusDenotation'
     ])
 
-    this._contextMenu = contextMenu
+    this.#contextMenu = contextMenu
   }
 
   showContextMenu(contextmenuEvent) {
-    this._contextMenu.show(contextmenuEvent)
+    this.#contextMenu.show(contextmenuEvent)
   }
 
   hideContextMenu() {
-    this._contextMenu.hide()
+    this.#contextMenu.hide()
   }
 }
