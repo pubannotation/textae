@@ -36,12 +36,12 @@ export default class ValidationDialog extends Dialog {
     ${
       index === 1
         ? `
-      <div class="textae-editor__valiondate-dialog__content">
+      <div class="textae-editor__validate-dialog__content">
         <h1>Track annotations will be merged to the root annotations.</h1>
       </div>`
         : ''
     }
-    <div class="textae-editor__valiondate-dialog__content">
+    <div class="textae-editor__validate-dialog__content">
       <h2>${name}</h2>
       ${wrongRangeDenotationsTemplate(wrongRangeDenotations)}
       ${outOfTextDenotationsTemplate(outOfTextDenotations)}
