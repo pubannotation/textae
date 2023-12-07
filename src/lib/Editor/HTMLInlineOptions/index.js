@@ -37,22 +37,22 @@ export default class HTMLInlineOptions {
       }
     }
 
-    return this.#element.getAttribute('config_lock')
+    return this.#readAttribute('config_lock')
   }
 
   get control() {
-    return this.#element.getAttribute('control')
+    return this.#readAttribute('control')
   }
 
   get inspect() {
-    return this.#element.getAttribute('inspect')
+    return this.#readAttribute('inspect')
   }
 
   /**
    * @returns {boolean}
    */
   get isEditMode() {
-    switch (this.#element.getAttribute('mode')) {
+    switch (this.#readAttribute('mode')) {
       case 'edit':
       case 'term-edit':
       case 'block-edit':
@@ -67,21 +67,21 @@ export default class HTMLInlineOptions {
   get isTermEditMode() {
     // Same as edit mode and term-edit mode for compatibility.
     return (
-      this.#element.getAttribute('mode') === 'edit' ||
-      this.#element.getAttribute('mode') === 'term-edit'
+      this.#readAttribute('mode') === 'edit' ||
+      this.#readAttribute('mode') === 'term-edit'
     )
   }
 
   get isBlockEditMode() {
-    return this.#element.getAttribute('mode') === 'block-edit'
+    return this.#readAttribute('mode') === 'block-edit'
   }
 
   get isRelationEditMode() {
-    return this.#element.getAttribute('mode') === 'relation-edit'
+    return this.#readAttribute('mode') === 'relation-edit'
   }
 
   get statusBar() {
-    return this.#element.getAttribute('status_bar')
+    return this.#readAttribute('status_bar')
   }
 
   get saveTo() {
@@ -89,10 +89,15 @@ export default class HTMLInlineOptions {
   }
 
   get #source() {
-    return (
-      this.#element.getAttribute('source') ||
-      this.#element.getAttribute('target')
-    )
+    return this.#readAttribute('source') || this.#readAttribute('target')
+  }
+
+  #readAttribute(name) {
+    if (this.#element.hasAttribute(name)) {
+      return this.#element.getAttribute(name)
+    }
+
+    return null
   }
 
   #readAttributeAsURL(name) {
