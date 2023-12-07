@@ -14,7 +14,7 @@ export default class HTMLInlineOptions {
     )
   }
 
-  get annotation() {
+  get annotationParameter() {
     return this.#annotationParameter
   }
 

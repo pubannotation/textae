@@ -242,7 +242,7 @@ export default class UseCase {
       remoteResource,
       controlViewModel,
       originalData,
-      inlineOptions.annotation,
+      inlineOptions.annotationParameter,
       inlineOptions.config,
       functionAvailability
     )
