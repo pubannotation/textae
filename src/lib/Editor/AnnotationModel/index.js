@@ -292,6 +292,16 @@ export default class AnnotationModel {
     return 0 <= bottom && top <= clientHeight
   }
 
+  focusDenotation(denotationID) {
+    console.assert(
+      this.entity.hasDenotation(denotationID),
+      'The denotation does not exist.'
+    )
+
+    const { span } = this.entity.get(denotationID)
+    span.focus()
+  }
+
   _clearAndDrawAllAnnotations() {
     getAnnotationBox(this._editorHTMLElement).innerHTML = ''
 

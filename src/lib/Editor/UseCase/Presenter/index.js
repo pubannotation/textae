@@ -223,7 +223,6 @@ export default class Presenter {
     }
 
     this.toTermMode()
-    const { span } = this.#annotationModel.entity.get(denotationID)
-    span.focus()
+    this.#annotationModel.focusDenotation(denotationID)
   }
 }
