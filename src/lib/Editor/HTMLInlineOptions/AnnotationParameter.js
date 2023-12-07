@@ -1,13 +1,13 @@
 export default class AnnotationParameter {
   #inlineAnnotation
-  #url
+  #sourceURL
 
-  constructor(element, source) {
+  constructor(element, sourceURL) {
     this.#readAndClearInlineAnnotation(element)
 
     // Read url.
-    if (source) {
-      this.#url = decodeURIComponent(source)
+    if (sourceURL) {
+      this.#sourceURL = decodeURIComponent(sourceURL)
     }
   }
 
@@ -20,11 +20,16 @@ export default class AnnotationParameter {
   }
 
   get isRemote() {
-    return Boolean(this.#url)
+    // Inline annotation is prioritized.
+    if (this.isInline) {
+      return false
+    }
+
+    return Boolean(this.#sourceURL)
   }
 
   get URL() {
-    return this.#url
+    return this.#sourceURL
   }
 
   #readAndClearInlineAnnotation(element) {
