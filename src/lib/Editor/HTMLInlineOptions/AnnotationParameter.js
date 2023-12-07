@@ -1,19 +1,9 @@
 export default class AnnotationParameter {
-  #map
   #inlineAnnotation
   #url
 
   constructor(element, source) {
-    this.#map = new Map()
-
-    // Read Html text and clear it.
-    // Use textContent instead of innerText,
-    // to read consecutive whitespace in inline annotations without collapsing.
-    const inlineAnnotation = element.textContent
-    element.innerHTML = ''
-    if (inlineAnnotation) {
-      this.#inlineAnnotation = inlineAnnotation
-    }
+    this.#readAndClearInlineAnnotation(element)
 
     // Read url.
     if (source) {
@@ -35,5 +25,15 @@ export default class AnnotationParameter {
 
   get URL() {
     return this.#url
+  }
+
+  #readAndClearInlineAnnotation(element) {
+    // Use textContent instead of innerText,
+    // to read consecutive whitespace in inline annotations without collapsing.
+    const inlineAnnotation = element.textContent
+    element.innerHTML = ''
+    if (inlineAnnotation) {
+      this.#inlineAnnotation = inlineAnnotation
+    }
   }
 }
