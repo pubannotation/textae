@@ -1,6 +1,10 @@
 export default class AnnotationParameter {
+  #map
+  #inlineAnnotation
+  #url
+
   constructor(element, source) {
-    this._map = new Map()
+    this.#map = new Map()
 
     // Read Html text and clear it.
     // Use textContent instead of innerText,
@@ -8,28 +12,28 @@ export default class AnnotationParameter {
     const inlineAnnotation = element.textContent
     element.innerHTML = ''
     if (inlineAnnotation) {
-      this._inlineAnnotation = inlineAnnotation
+      this.#inlineAnnotation = inlineAnnotation
     }
 
     // Read url.
     if (source) {
-      this._url = decodeURIComponent(source)
+      this.#url = decodeURIComponent(source)
     }
   }
 
   get isInline() {
-    return Boolean(this._inlineAnnotation)
+    return Boolean(this.#inlineAnnotation)
   }
 
   get inlineAnnotation() {
-    return JSON.parse(this._inlineAnnotation)
+    return JSON.parse(this.#inlineAnnotation)
   }
 
   get isRemote() {
-    return Boolean(this._url)
+    return Boolean(this.#url)
   }
 
   get URL() {
-    return this._url
+    return this.#url
   }
 }
