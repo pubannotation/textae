@@ -8,11 +8,11 @@ import escape from 'lodash.escape'
 // For example:
 //  anemone`<div>${() => '&'}</div>` === '<div>&</div>'
 export default function anemone(strings) {
-  let out = strings[0]
-  const values = Array.from(arguments).slice(1)
+  const [first, ...rest] = strings
 
-  for (let i = 0; i < values.length; i++) {
-    out = `${out}${escapeUnlessFunction(values[i])}${strings[i + 1]}`
+  let out = first
+  for (const value of [...arguments].slice(1)) {
+    out = `${out}${escapeUnlessFunction(value)}${rest.shift()}`
   }
 
   return out
