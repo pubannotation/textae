@@ -16,9 +16,8 @@ export default function (boundaryCrossingSpans) {
         </thead>
         <tbody>
           ${() =>
-            boundaryCrossingSpans
-              .map(
-                ({ id, sourceProperty, span, style, obj }) => anemone`
+            boundaryCrossingSpans.map(
+              ({ id, sourceProperty, span, style, obj }) => anemone`
           <tr>
             <td>${id || ''}</td>
             <td>${sourceProperty}</td>
@@ -27,8 +26,7 @@ export default function (boundaryCrossingSpans) {
             <td>${style || obj}</td>
           </tr>
           `
-              )
-              .join('\n')}
+            )}
         </tbody>
       </table>
       `
