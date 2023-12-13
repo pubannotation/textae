@@ -1,9 +1,7 @@
-import anemone from '../../anemone'
-
 export default function (isLock, index, indelible) {
   return isLock
     ? ''
-    : anemone`
+    : () => `
   <td class="textae-editor__pallet__table-attribute-buttons">
     <button
       type="button"

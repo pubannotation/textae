@@ -39,7 +39,7 @@ export default function (context) {
           <td class="textae-editor__pallet__short-label">
             ${color}
           </td>
-          ${() => valueButtonsTemplate(isLock, index, indelible)}
+          ${valueButtonsTemplate(isLock, index, indelible)}
         </tr>`
             }
           )}

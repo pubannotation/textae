@@ -26,7 +26,7 @@ export default function (context, attributeContainer) {
         ${() =>
           values.map(
             ({ color = '', id, default: defaultValue, label = '' }, index) => {
-              return `
+              return anemone`
         <tr class="textae-editor__pallet__row" style="background-color: ${color};">
           <td class="textae-editor__pallet__selection-attribute-label" data-id="${id}">
             ${id}

@@ -20,7 +20,7 @@ export default function toBodyRow(
       <td class="textae-editor__pallet__short-label">
         ${color}
       </td>
-      ${() => valueButtonsTemplate(isLock, index, indelible)}
+      ${valueButtonsTemplate(isLock, index, indelible)}
     </tr>
   `
 }
