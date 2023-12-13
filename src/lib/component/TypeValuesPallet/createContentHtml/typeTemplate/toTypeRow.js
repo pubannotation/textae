@@ -9,7 +9,7 @@ export default function toTypeRow(
   useNumber,
   isLock
 ) {
-  return anemone`
+  return () => anemone`
       <tr class="textae-editor__pallet__row" style="background-color: ${color};">
         <td class="textae-editor__pallet__label" data-id="${id}">
           <span title="${id}">
