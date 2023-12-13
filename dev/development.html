@@ -42,7 +42,6 @@
                 source="1_annotations.json?bbbb=aaa"
                 autocompletion_ws="/dev/autocomplete?order=desc"
                 config_lock="false"
-                focus_first_denotation="true"
             ></div>
             <div style="height: 300px; margin-top: 100px;">Try scrolling. If no error occurs, the event listener has been deleted.</div>
         </div>
@@ -54,9 +53,15 @@
             config_lock="false" mode="edit" control="visible"></div>
         <div class="textae-editor" title="editor3 having annotations for the simple mode"
             source="2_annotations.json?config_lock=false" config="2_config.json" mode="edit" control="hidden"></div>
-        <div class="textae-editor" title="editor4 having annotations for the instance mode with the view mode"
-            config="2_config.json" target="3_annotations.json" status_bar="off" control="hidden"
-            ></div>
+        <div
+            class="textae-editor"
+            title="editor4 having annotations for the instance mode with the view mode"
+            config="2_config.json"
+            target="3_annotations.json"
+            status_bar="off"
+            control="hidden"
+            focus_first_denotation="true"
+        ></div>
         <div class="textae-editor" title="editor5 having inline config" target="1_annotations.json" mode="relation-edit" status_bar='on'>
             {
                 "config": {
