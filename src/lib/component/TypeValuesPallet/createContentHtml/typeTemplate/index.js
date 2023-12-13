@@ -23,16 +23,16 @@ export default function (context) {
         </th>
       </tr>
       ${
-        types
+        types.length
           ? types.map(
               ({ color = '', id, uri, defaultType, label = '', useNumber }) =>
                 toTypeRow(color, id, uri, defaultType, label, useNumber, isLock)
             )
           : () => `
-      <tr class="textae-editor__pallet__row">
-        <td class="textae-editor__pallet__no-config" colspan="4">There is no Entity definition.</td>
-      </tr>
-      `
+            <tr class="textae-editor__pallet__row">
+              <td class="textae-editor__pallet__no-config" colspan="4">There is no Entity definition.</td>
+            </tr>
+            `
       }
     </tbody>
   </table>
