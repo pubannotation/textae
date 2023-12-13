@@ -1,6 +1,6 @@
 import anemone from '../anemone'
 
-export default function (showDefault, defaultValue) {
+export default function (showDefault, isDefault) {
   return () =>
     showDefault
       ? anemone`
@@ -8,7 +8,7 @@ export default function (showDefault, defaultValue) {
       <label>
         <input
           type="checkbox"
-          ${defaultValue ? `checked="checked"` : ``}
+          ${isDefault ? `checked="checked"` : ``}
           class="textae-editor__create-or-edit-value-of-attribute-definition-dialog__default"
         >
         default
