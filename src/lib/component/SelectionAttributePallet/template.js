@@ -13,10 +13,9 @@ export default function (context) {
           <th>color</th>
         </tr>
         ${() =>
-          values
-            .map(
-              ({ color = '', id, default: defaultValue, label = '' }) =>
-                anemone`
+          values.map(
+            ({ color = '', id, default: defaultValue, label = '' }) =>
+              anemone`
         <tr class="textae-editor__pallet__row" style="background-color: ${color};">
           <td class="textae-editor__pallet__selection-attribute-label" data-id="${id}">
             ${id}
@@ -33,8 +32,7 @@ export default function (context) {
           </td>
         </tr>
         `
-            )
-            .join('\n')}
+          )}
       </tbody>
     </table>
   </div>
