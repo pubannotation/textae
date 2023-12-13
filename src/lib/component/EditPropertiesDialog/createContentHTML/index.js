@@ -22,10 +22,9 @@ export default function (
         </thead>
         <tbody>
           ${toEntityHTML(typeName, entityContainer)}
-          ${() =>
-            attributes.map((a, index, list) =>
-              toAttributeHTML(a, index, list, attributeContainer)
-            )}
+          ${attributes.map((a, index, list) =>
+            toAttributeHTML(a, index, list, attributeContainer)
+          )}
           </tbody>
       </table>
     </div>
@@ -35,14 +34,13 @@ export default function (
         Available Predicates:
       </legend>
       <div class="textae-editor__edit-type-values-dialog__add-attribute-buttons">
-      ${() =>
-        attributeContainer.attributes.map(({ pred, valueType }) =>
-          toAddAttributeButton(
-            valueType,
-            pred,
-            isAlreadyUsed(attributes, pred, attributeContainer)
-          )
-        )}
+      ${attributeContainer.attributes.map(({ pred, valueType }) =>
+        toAddAttributeButton(
+          valueType,
+          pred,
+          isAlreadyUsed(attributes, pred, attributeContainer)
+        )
+      )}
       </div>
     </fieldset>
   `

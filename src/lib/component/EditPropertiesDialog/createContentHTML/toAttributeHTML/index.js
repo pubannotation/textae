@@ -13,7 +13,7 @@ export default function (
   const definitionIndex = attributeContainer.getIndexOf(pred)
   const { valueType } = attributeContainer.get(pred)
 
-  return anemone`
+  return () => anemone`
 <tr class="textae-editor__edit-type-values-dialog__attribute">
   ${() =>
     pred === previousPredicate

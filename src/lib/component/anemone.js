@@ -19,6 +19,10 @@ export default function anemone(strings) {
 }
 
 function escapeUnlessFunction(value) {
+  if (Array.isArray(value) && typeof value.at(0) === 'function') {
+    return value.map((v) => v()).join('')
+  }
+
   if (typeof value === 'function') {
     const result = value()
 
@@ -27,7 +31,7 @@ function escapeUnlessFunction(value) {
     }
 
     return result
-  } else {
-    return escape(value)
   }
+
+  return escape(value)
 }
