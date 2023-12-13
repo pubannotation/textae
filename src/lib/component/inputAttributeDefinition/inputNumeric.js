@@ -2,7 +2,7 @@ import { STEP } from '../../NumericAttributeDefinition'
 import anemone from '../anemone'
 
 export default function (componentClassName, min, max, step) {
-  return anemone`
+  return () => anemone`
     <div class="${componentClassName}__row">
       <label>Min</label>
       <input

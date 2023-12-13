@@ -1,7 +1,7 @@
 import anemone from '../anemone'
 
 export default function (componentClassName, mediaHeight) {
-  return anemone`
+  return () => anemone`
     <div class="${componentClassName}__row">
       <label>Media Height</label>
       <input

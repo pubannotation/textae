@@ -30,17 +30,13 @@ export default function (componentClassName, context) {
         class="${componentClassName}__pred textae-editor__promise-dialog__observable-element"
       >
     </div>
-    ${() =>
-      showDefault ? `${inputDefault(componentClassName, defaultValue)}` : ''}
-    ${() =>
-      showMediaHeight
-        ? `${inputMediaHeight(componentClassName, mediaHeight)}`
-        : ''}
-    ${() =>
+    ${showDefault ? inputDefault(componentClassName, defaultValue) : ''}
+    ${showMediaHeight ? inputMediaHeight(componentClassName, mediaHeight) : ''}
+    ${
       showLabelAndColor
-        ? `${inputLabelAndColor(componentClassName, label, color)}`
-        : ''}
-    ${() =>
-      showNumeric ? `${inputNumeric(componentClassName, min, max, step)}` : ''}
+        ? inputLabelAndColor(componentClassName, label, color)
+        : ''
+    }
+    ${showNumeric ? inputNumeric(componentClassName, min, max, step) : ''}
   `
 }
