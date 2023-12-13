@@ -21,7 +21,7 @@ export default function (context, attributeContainer) {
           <th>id</th>
           <th>label</th>
           <th>color</th>
-          ${() => showAddAttributeValueButton(isLock)}
+          ${showAddAttributeValueButton(isLock)}
         </tr>
         ${() =>
           values.map(

@@ -25,7 +25,7 @@ export default function (context) {
           <th>range</th>
           <th>label</th>
           <th>color</th>
-          ${() => showAddAttributeValueButton(isLock)}
+          ${showAddAttributeValueButton(isLock)}
         </tr>
         ${() =>
           values.map(({ color = '', range, label = '', indelible }, index) => {
