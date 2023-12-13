@@ -6,16 +6,24 @@ export default function (context) {
   return anemone`
   <div>
     <table>
-      <tbody>
+      <thead>
         <tr>
           <th>id</th>
           <th>label</th>
           <th>color</th>
         </tr>
-        ${() =>
-          values.map(
-            ({ color = '', id, default: defaultValue, label = '' }) =>
-              anemone`
+      </thead>
+      <tbody>
+        ${values.map(({ color = '', id, default: defaultValue, label = '' }) =>
+          toBodyRow(color, id, defaultValue, label)
+        )}
+      </tbody>
+    </table>
+  </div>
+  `
+}
+function toBodyRow(color, id, defaultValue, label) {
+  return () => anemone`
         <tr class="textae-editor__pallet__row" style="background-color: ${color};">
           <td class="textae-editor__pallet__selection-attribute-label" data-id="${id}">
             ${id}
@@ -32,9 +40,4 @@ export default function (context) {
           </td>
         </tr>
         `
-          )}
-      </tbody>
-    </table>
-  </div>
-  `
 }
