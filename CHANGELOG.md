@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [12.12.0](https://github.com/pubannotation/textae/compare/v12.11.0...v12.12.0) (2023-12-13)
+
+
+### Features
+
+* The focus_first_denotation option is only available in view mode ([475651d](https://github.com/pubannotation/textae/commit/475651d59d7967af9f9d79dfee4781c9b3cfeab3))
+
+
+### Bug Fixes
+
+* Remove an unnecesary charactor ([41906ab](https://github.com/pubannotation/textae/commit/41906aba8cd475eff7b941008bf062778ec773c6))
+
 ## [12.11.0](https://github.com/pubannotation/textae/compare/v12.10.0...v12.11.0) (2023-12-13)
 
 

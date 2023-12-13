@@ -57697,9 +57697,10 @@
     } // CONCATENATED MODULE: ./src/lib/Editor/toAnchorElement.js
 
     /* harmony default export */ function toAnchorElement(displayName, href) {
-      return href
-        ? anemone`<a target="_blank" href="${href}">${displayName}</a>`
-        : anemone`${displayName}`
+      return () =>
+        href
+          ? anemone`<a target="_blank" href="${href}">${displayName}</a>`
+          : anemone`${displayName}`
     } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationModel/AttributeInstanceContainer/AttributeInstance.js
 
     class AttributeInstance {
@@ -57791,7 +57792,7 @@
       }
 
       get contentHTML() {
-        return anemone`
+        return () => anemone`
       <div
         class="textae-editor__signboard__attribute"
         title="${this.#title}"
@@ -59193,7 +59194,7 @@
         typeValues.style.backgroundColor = hexToRGBA(this._instance.color, 0.4)
         typeValues.querySelector(
           '.textae-editor__signboard__type-label'
-        ).innerHTML = this._instance.anchorHTML
+        ).innerHTML = anemone`${this._instance.anchorHTML}`
 
         // Re-create all attributes.
         for (const attributeElement of typeValues.querySelectorAll(
@@ -59264,9 +59265,9 @@
         tabindex="0"
         style="background-color: ${getLabelBackgroundColor()};"
         >
-        ${() => this._instance.anchorHTML}
+        ${this._instance.anchorHTML}
       </div>
-      ${() => this._instance.attributes.map((a) => a.contentHTML)}
+      ${this._instance.attributes.map((a) => a.contentHTML)}
     </div>
   </div>
   `
@@ -68778,13 +68779,13 @@
 
       return () =>
         isEntityWithoutSamePredSelected
-          ? anemone`
+          ? `
       <button
         type="button"
         class="textae-editor__pallet__add-attribute"
         >add to</button>
       `
-          : anemone`
+          : `
       <button
         type="button"
         class="textae-editor__pallet__add-attribute"
@@ -68803,14 +68804,14 @@
       return () =>
         valueType === 'string' || valueType === 'numeric'
           ? isOnlyEntityWithJustOneSamePredSelected
-            ? anemone`
+            ? `
         <button
           type="button"
           class="textae-editor__pallet__edit-object"
           >edit object of
         </button>
         `
-            : anemone`
+            : `
         <button
           type="button"
           class="textae-editor__pallet__edit-object"
@@ -68831,13 +68832,13 @@
 
       return () =>
         isEntityWithSamePredSelected
-          ? anemone`
+          ? `
       <button
         type="button"
         class="textae-editor__pallet__remove-attribute"
         >remove from</button>
       `
-          : anemone`
+          : `
       <button
         type="button"
         class="textae-editor__pallet__remove-attribute"
@@ -68991,7 +68992,7 @@
           </button>
           ${
             isLock
-              ? 'a'
+              ? ''
               : editButtonsTemplate(id, color, defaultType, label, useNumber)
           }
         </td>
@@ -69036,19 +69037,22 @@
     } // CONCATENATED MODULE: ./src/lib/component/TypeValuesPallet/createContentHtml/predicateControllerTemplate/toDeleteButton.js
 
     function toDeleteButton(numberOfItemsUsingSelectedPred) {
-      return () =>
-        numberOfItemsUsingSelectedPred.size > 0
-          ? anemone`<button
-            type="button"
-            class="textae-editor__pallet__table-button textae-editor__pallet__table-button--disabled textae-editor__pallet__delete-predicate"
-            disabled="disabled"
-            title="It cannot be deleted, as this attribute is used for ${numberOfItemsUsingSelectedPred.size} items.">
-          </button>`
-          : anemone`<button
-            type="button"
-            class="textae-editor__pallet__table-button textae-editor__pallet__delete-predicate"
-            title="Delete this predicate.">
-          </button>`
+      return numberOfItemsUsingSelectedPred.size > 0
+        ? `
+      <button
+        type="button"
+        class="textae-editor__pallet__table-button textae-editor__pallet__table-button--disabled textae-editor__pallet__delete-predicate"
+        disabled="disabled"
+        title="It cannot be deleted, as this attribute is used for ${numberOfItemsUsingSelectedPred.size} items.">
+      </button>
+    `
+        : `
+      <button
+        type="button"
+        class="textae-editor__pallet__table-button textae-editor__pallet__delete-predicate"
+        title="Delete this predicate.">
+      </button>
+    `
     } // CONCATENATED MODULE: ./src/lib/component/TypeValuesPallet/createContentHtml/predicateControllerTemplate/editAttributeDefinitionBlockTemplate.js
 
     /* harmony default export */ function editAttributeDefinitionBlockTemplate(
@@ -69057,7 +69061,7 @@
       const { isLock, numberOfItemsUsingSelectedPred } = context
 
       if (isLock) {
-        return () => anemone`
+        return () => `
       <button
         type="button"
         class="textae-editor__pallet__table-button textae-editor__pallet__table-button--disabled textae-editor__pallet__edit-predicate"
@@ -69071,7 +69075,7 @@
     `
       }
 
-      return () => anemone`
+      return () => `
     <button
       type="button"
       class="textae-editor__pallet__table-button textae-editor__pallet__edit-predicate"
@@ -69086,7 +69090,7 @@
       const { pred } = attrDef
       const { valueType } = attrDef
 
-      return anemone`
+      return () => anemone`
     <div>
       Attribute
       <span
@@ -69106,12 +69110,21 @@
   ${headerTemplate(context)}
   <div>
     <div class="textae-editor__pallet__predicate">
-      ${() => predicateControllerTemplate(context)}
+      ${predicateControllerTemplate(context)}
       label: "${label || ''}"
       color: "${color || ''}"
     </div>
   </div>
   `
+    } // CONCATENATED MODULE: ./src/lib/component/TypeValuesPallet/createContentHtml/showAddAttributeValueButton.js
+
+    /* harmony default export */ function showAddAttributeValueButton(isLock) {
+      return isLock
+        ? ''
+        : () => `
+        <th>
+          <span class="textae-editor__pallet__add-attribute-value-button" title="Add new value"></span>
+        </th>`
     } // CONCATENATED MODULE: ./src/lib/component/TypeValuesPallet/createContentHtml/valueButtonsTemplate.js
 
     /* harmony default export */ function valueButtonsTemplate(
@@ -69121,7 +69134,7 @@
     ) {
       return isLock
         ? ''
-        : anemone`
+        : () => `
   <td class="textae-editor__pallet__table-attribute-buttons">
     <button
       type="button"
@@ -69143,16 +69156,24 @@
     </button>
   </td>
   `
-    } // CONCATENATED MODULE: ./src/lib/component/TypeValuesPallet/createContentHtml/showAddAttributeValueButton.js
+    } // CONCATENATED MODULE: ./src/lib/component/TypeValuesPallet/createContentHtml/numericAttributeTemplate/toBodyRow.js
 
-    /* harmony default export */ function showAddAttributeValueButton(isLock) {
-      return isLock
-        ? ''
-        : anemone`
-              <th>
-                <span class="textae-editor__pallet__add-attribute-value-button" title="Add new value"></span>
-              </th>`
-    } // CONCATENATED MODULE: ./src/lib/component/TypeValuesPallet/createContentHtml/numericAttributeTemplate.js
+    function toBodyRow(color, range, label, isLock, index, indelible) {
+      return () => anemone`
+    <tr class="textae-editor__pallet__row" style="background-color: ${color};">
+      <td class="textae-editor__pallet__attribute-label">
+        ${range}
+      </td>
+      <td class="textae-editor__pallet__short-label">
+        ${label}
+      </td>
+      <td class="textae-editor__pallet__short-label">
+        ${color}
+      </td>
+      ${valueButtonsTemplate(isLock, index, indelible)}
+    </tr>
+  `
+    } // CONCATENATED MODULE: ./src/lib/component/TypeValuesPallet/createContentHtml/numericAttributeTemplate/index.js
 
     /* harmony default export */ function numericAttributeTemplate(context) {
       const { min, max, step, default: defaultValue, values } = context.attrDef
@@ -69162,7 +69183,7 @@
   ${headerTemplate(context)}
   <div>
     <div class="textae-editor__pallet__predicate">
-      ${() => predicateControllerTemplate(context)}
+      ${predicateControllerTemplate(context)}
       min: ${min || '""'}
       max: ${max || '""'}
       step: ${step}
@@ -69170,35 +69191,62 @@
     </div>
 
     <table>
-      <tbody>
+      <thead>
         <tr>
           <th>range</th>
           <th>label</th>
           <th>color</th>
-          ${() => showAddAttributeValueButton(isLock)}
+          ${showAddAttributeValueButton(isLock)}
         </tr>
-        ${() =>
-          values.map(({ color = '', range, label = '', indelible }, index) => {
-            return `
-        <tr class="textae-editor__pallet__row" style="background-color: ${color};">
-          <td class="textae-editor__pallet__attribute-label">
-            ${range}
-          </td>
-          <td class="textae-editor__pallet__short-label">
-            ${label}
-          </td>
-          <td class="textae-editor__pallet__short-label">
-            ${color}
-          </td>
-          ${valueButtonsTemplate(isLock, index, indelible)}
-        </tr>
-      `
-          })}
+      </thead>
+      <tbody>
+        ${values.map(({ color = '', range, label = '', indelible }, index) =>
+          toBodyRow(color, range, label, isLock, index, indelible)
+        )}
       </tbody>
     </table>
   </div>
   `
-    } // CONCATENATED MODULE: ./src/lib/component/TypeValuesPallet/createContentHtml/selectionAttributeTemplate.js
+    } // CONCATENATED MODULE: ./src/lib/component/TypeValuesPallet/createContentHtml/selectionAttributeTemplate/toBodyRow.js
+
+    function toBodyRow_toBodyRow(
+      color,
+      id,
+      defaultValue,
+      label,
+      isLock,
+      index,
+      attributeContainer,
+      selectedPred
+    ) {
+      return () => anemone`
+    <tr class="textae-editor__pallet__row" style="background-color: ${color};">
+      <td class="textae-editor__pallet__selection-attribute-label" data-id="${id}">
+        ${id}
+        ${
+          defaultValue
+            ? '<span class="textae-editor__pallet__default-icon" title="This type is set as a default type."></span>'
+            : ''
+        }
+      </td>
+      <td class="textae-editor__pallet__short-label">
+        ${label}
+      </td>
+      <td class="textae-editor__pallet__short-label">
+        ${color}
+      </td>
+      ${valueButtonsTemplate(
+        isLock,
+        index,
+        attributeContainer.isSelectionAttributeValueIndelible(
+          // Disable to press the remove button for the value used in the selection attribute.
+          selectedPred,
+          id
+        )
+      )}
+    </tr>
+    `
+    } // CONCATENATED MODULE: ./src/lib/component/TypeValuesPallet/createContentHtml/selectionAttributeTemplate/index.js
 
     /* harmony default export */ function selectionAttributeTemplate(
       context,
@@ -69211,54 +69259,60 @@
   ${headerTemplate(context)}
   <div>
     <div class="textae-editor__pallet__predicate">
-      ${() => predicateControllerTemplate(context)}
+      ${predicateControllerTemplate(context)}
     </div>
 
     <table>
-      <tbody>
+      <thead>
         <tr>
           <th>id</th>
           <th>label</th>
           <th>color</th>
-          ${() => showAddAttributeValueButton(isLock)}
+          ${showAddAttributeValueButton(isLock)}
         </tr>
-        ${() =>
-          values.map(
-            ({ color = '', id, default: defaultValue, label = '' }, index) => {
-              return `
-        <tr class="textae-editor__pallet__row" style="background-color: ${color};">
-          <td class="textae-editor__pallet__selection-attribute-label" data-id="${id}">
-            ${id}
-            ${
-              defaultValue
-                ? '<span class="textae-editor__pallet__default-icon" title="This type is set as a default type."></span>'
-                : ''
-            }
-          </td>
-          <td class="textae-editor__pallet__short-label">
-            ${label}
-          </td>
-          <td class="textae-editor__pallet__short-label">
-            ${color}
-          </td>
-          ${valueButtonsTemplate(
-            isLock,
-            index,
-            attributeContainer.isSelectionAttributeValueIndelible(
-              // Disable to press the remove button for the value used in the selection attribute.
-              selectedPred,
-              id
+      </thead>
+      <tbody>
+        ${values.map(
+          ({ color = '', id, default: defaultValue, label = '' }, index) =>
+            toBodyRow_toBodyRow(
+              color,
+              id,
+              defaultValue,
+              label,
+              isLock,
+              index,
+              attributeContainer,
+              selectedPred
             )
-          )}
-        </tr>
-        `
-            }
-          )}
+        )}
       </tbody>
     </table>
   </div>
   `
-    } // CONCATENATED MODULE: ./src/lib/component/TypeValuesPallet/createContentHtml/stringAttributeTemplate.js
+    } // CONCATENATED MODULE: ./src/lib/component/TypeValuesPallet/createContentHtml/stringAttributeTemplate/toBodyRow.js
+
+    function stringAttributeTemplate_toBodyRow_toBodyRow(
+      color,
+      pattern,
+      label,
+      isLock,
+      index,
+      indelible
+    ) {
+      return () => anemone`
+    <tr class="textae-editor__pallet__row" style="background-color: ${color};">
+      <td class="textae-editor__pallet__attribute-label">
+        ${pattern}
+      </td>
+      <td class="textae-editor__pallet__short-label">
+        ${label}
+      </td>
+      <td class="textae-editor__pallet__short-label">
+        ${color}
+      </td>
+      ${valueButtonsTemplate(isLock, index, indelible)}
+    </tr>`
+    } // CONCATENATED MODULE: ./src/lib/component/TypeValuesPallet/createContentHtml/stringAttributeTemplate/index.js
 
     /* harmony default export */ function stringAttributeTemplate(context) {
       const { default: defaultValue, mediaHeight, values } = context.attrDef
@@ -69268,37 +69322,32 @@
   ${headerTemplate(context)}
   <div>
     <div class="textae-editor__pallet__predicate">
-      ${() => predicateControllerTemplate(context)}
+      ${predicateControllerTemplate(context)}
       media height: ${mediaHeight || '""'}
       default: ${defaultValue}
     </div>
 
     <table>
-      <tbody>
+      <thead>
         <tr>
           <th>pattern</th>
           <th>label</th>
           <th>color</th>
-          ${() => showAddAttributeValueButton(isLock)}
+          ${showAddAttributeValueButton(isLock)}
         </tr>
-        ${() =>
-          values.map(
-            ({ color = ' ', pattern = '', label = '', indelible }, index) => {
-              return anemone`
-        <tr class="textae-editor__pallet__row" style="background-color: ${color};">
-          <td class="textae-editor__pallet__attribute-label">
-            ${pattern}
-          </td>
-          <td class="textae-editor__pallet__short-label">
-            ${label}
-          </td>
-          <td class="textae-editor__pallet__short-label">
-            ${color}
-          </td>
-          ${() => valueButtonsTemplate(isLock, index, indelible)}
-        </tr>`
-            }
-          )}
+      </thead>
+      <tbody>
+        ${values.map(
+          ({ color = ' ', pattern = '', label = '', indelible }, index) =>
+            stringAttributeTemplate_toBodyRow_toBodyRow(
+              color,
+              pattern,
+              label,
+              isLock,
+              index,
+              indelible
+            )
+        )}
       </tbody>
     </table>
   </div>
@@ -69750,7 +69799,12 @@
       }
     } // CONCATENATED MODULE: ./src/lib/component/SelectionAttributePallet/toBodyRow.js
 
-    function toBodyRow(color, id, defaultValue, label) {
+    function SelectionAttributePallet_toBodyRow_toBodyRow(
+      color,
+      id,
+      defaultValue,
+      label
+    ) {
       return () => anemone`
         <tr class="textae-editor__pallet__row" style="background-color: ${color};">
           <td class="textae-editor__pallet__selection-attribute-label" data-id="${id}">
@@ -69787,7 +69841,12 @@
       </thead>
       <tbody>
         ${values.map(({ color = '', id, default: defaultValue, label = '' }) =>
-          toBodyRow(color, id, defaultValue, label)
+          SelectionAttributePallet_toBodyRow_toBodyRow(
+            color,
+            id,
+            defaultValue,
+            label
+          )
         )}
       </tbody>
     </table>
@@ -72001,7 +72060,7 @@
       bindChangeLockConfig(content, typeDefinition)
     } // CONCATENATED MODULE: ./package.json
 
-    const package_namespaceObject = { i8: '12.11.0' } // CONCATENATED MODULE: ./src/lib/component/SettingDialog/template.js
+    const package_namespaceObject = { i8: '12.12.0' } // CONCATENATED MODULE: ./src/lib/component/SettingDialog/template.js
     function template_template(context) {
       const {
         typeGap,
@@ -111750,9 +111809,9 @@ data-button-type="${type}">
         const isFocusFirstDenotation =
           this.#readAttribute('focus_first_denotation') === 'true'
 
-        if (isFocusFirstDenotation && !this.isTermEditMode) {
+        if (isFocusFirstDenotation && this.isEditMode) {
           throw new Error(
-            'focus_first_denotation is only available in term-edit mode.'
+            'focus_first_denotation is only available in view mode.'
           )
         }
 
@@ -111826,22 +111885,38 @@ data-button-type="${type}">
           </tr>
         </thead>
         <tbody>
-          ${() =>
-            boundaryCrossingSpans.map(
-              ({ id, sourceProperty, span, style, obj }) => anemone`
-          <tr>
-            <td>${id || ''}</td>
-            <td>${sourceProperty}</td>
-            <td class="alert">${span.begin}</td>
-            <td class="alert">${span.end}</td>
-            <td>${style || obj}</td>
-          </tr>
-          `
-            )}
+          ${boundaryCrossingSpans.map(
+            ({ id, sourceProperty, span, style, obj }) =>
+              boundaryCrossingSpansTemplate_toBodyRow(
+                id,
+                sourceProperty,
+                span,
+                style,
+                obj
+              )
+          )}
         </tbody>
       </table>
       `
         : ''
+    }
+
+    function boundaryCrossingSpansTemplate_toBodyRow(
+      id,
+      sourceProperty,
+      span,
+      style,
+      obj
+    ) {
+      return () => anemone`
+    <tr>
+      <td>${id || ''}</td>
+      <td>${sourceProperty}</td>
+      <td class="alert">${span.begin}</td>
+      <td class="alert">${span.end}</td>
+      <td>${style || obj}</td>
+    </tr>
+    `
     } // CONCATENATED MODULE: ./src/lib/component/ValidationDialog/duplicatedAttributesTemplate.js
 
     /* harmony default export */ function duplicatedAttributesTemplate(
@@ -111860,9 +111935,17 @@ data-button-type="${type}">
           </tr>
         </thead>
         <tbody>
-          ${() =>
-            duplicatedAttributes.map(
-              ({ id, subj, pred, obj }) => anemone`
+          ${duplicatedAttributes.map(({ id, subj, pred, obj }) =>
+            duplicatedAttributesTemplate_toBodyRow(id, subj, pred, obj)
+          )}
+        </tbody>
+      </table>
+      `
+        : ''
+    }
+
+    function duplicatedAttributesTemplate_toBodyRow(id, subj, pred, obj) {
+      return () => anemone`
           <tr>
             <td>${id || ''}</td>
             <td class="alert">${subj}</td>
@@ -111870,11 +111953,6 @@ data-button-type="${type}">
             <td class="alert">${obj}</td>
           </tr>
           `
-            )}
-        </tbody>
-      </table>
-      `
-        : ''
     } // CONCATENATED MODULE: ./src/lib/component/ValidationDialog/duplicatedIDsTemplate.js
 
     /* harmony default export */ function duplicatedIDsTemplate(duplicatedIDs) {
@@ -111892,22 +111970,25 @@ data-button-type="${type}">
           </tr>
         </thead>
         <tbody>
-          ${() =>
-            duplicatedIDs.map(
-              ({ id, sourceProperty, span, obj }) => anemone`
-          <tr>
-            <td>${id || ''}</td>
-            <td>${sourceProperty}</td>
-            <td class="alert">${span.begin}</td>
-            <td class="alert">${span.end}</td>
-            <td>${obj}</td>
-          </tr>
-          `
-            )}
+          ${duplicatedIDs.map(({ id, sourceProperty, span, obj }) =>
+            duplicatedIDsTemplate_toBodyRow(id, sourceProperty, span, obj)
+          )}
         </tbody>
       </table>
       `
         : ''
+    }
+
+    function duplicatedIDsTemplate_toBodyRow(id, sourceProperty, span, obj) {
+      return () => anemone`
+    <tr>
+      <td>${id || ''}</td>
+      <td>${sourceProperty}</td>
+      <td class="alert">${span.begin}</td>
+      <td class="alert">${span.end}</td>
+      <td>${obj}</td>
+    </tr>
+    `
     } // CONCATENATED MODULE: ./src/lib/component/ValidationDialog/duplicateRangeBlocksTemplate.js
 
     /* harmony default export */ function duplicateRangeBlocksTemplate(
@@ -111926,21 +112007,23 @@ data-button-type="${type}">
           </tr>
         </thead>
         <tbody>
-          ${() =>
-            duplicatedRangeBlocks.map(
-              ({ id, span, obj }) => anemone`
-          <tr>
-            <td>${id || ''}</td>
-            <td class="alert">${span.begin}</td>
-            <td class="alert">${span.end}</td>
-            <td>${obj}</td>
-          </tr>
-          `
-            )}
+          ${duplicatedRangeBlocks.map(({ id, span, obj }) =>
+            duplicateRangeBlocksTemplate_toBodyRow(id, span, obj)
+          )}
         </tbody>
       </table>
       `
         : ''
+    }
+    function duplicateRangeBlocksTemplate_toBodyRow(id, span, obj) {
+      return () => anemone`
+    <tr>
+      <td>${id || ''}</td>
+      <td class="alert">${span.begin}</td>
+      <td class="alert">${span.end}</td>
+      <td>${obj}</td>
+    </tr>
+    `
     } // CONCATENATED MODULE: ./src/lib/component/ValidationDialog/outOfTextBlocksTemplate.js
 
     /* harmony default export */ function outOfTextBlocksTemplate(
@@ -111959,21 +112042,23 @@ data-button-type="${type}">
           </tr>
         </thead>
         <tbody>
-          ${() =>
-            outOfTextBlocks.map(
-              ({ id, span, obj }) => anemone`
-          <tr>
-            <td>${id || ''}</td>
-            <td class="alert">${span.begin}</td>
-            <td class="alert">${span.end}</td>
-            <td>${obj}</td>
-          </tr>
-          `
-            )}
+          ${outOfTextBlocks.map(({ id, span, obj }) =>
+            outOfTextBlocksTemplate_toBodyRow(id, span, obj)
+          )}
         </tbody>
       </table>
       `
         : ''
+    }
+    function outOfTextBlocksTemplate_toBodyRow(id, span, obj) {
+      return () => anemone`
+    <tr>
+      <td>${id || ''}</td>
+      <td class="alert">${span.begin}</td>
+      <td class="alert">${span.end}</td>
+      <td>${obj}</td>
+    </tr>
+    `
     } // CONCATENATED MODULE: ./src/lib/component/ValidationDialog/outOfTextDenotationsTemplate.js
 
     /* harmony default export */ function outOfTextDenotationsTemplate(
@@ -111992,20 +112077,23 @@ data-button-type="${type}">
             </tr>
           </thead>
           <tbody>
-            ${() =>
-              outOfTextDenotations.map(
-                ({ id, span, obj }) => anemone`
-            <tr>
-              <td>${id || ''}</td>
-              <td class="alert">${span.begin}</td>
-              <td class="alert">${span.end}</td>
-              <td>${obj}</td>
-            </tr>
-            `
-              )}
+            ${outOfTextDenotations.map(({ id, span, obj }) =>
+              outOfTextDenotationsTemplate_toBodyRow(id, span, obj)
+            )}
           </tbody>
         </table>`
         : ''
+    }
+
+    function outOfTextDenotationsTemplate_toBodyRow(id, span, obj) {
+      return () => anemone`
+    <tr>
+      <td>${id || ''}</td>
+      <td class="alert">${span.begin}</td>
+      <td class="alert">${span.end}</td>
+      <td>${obj}</td>
+    </tr>
+    `
     } // CONCATENATED MODULE: ./src/lib/component/ValidationDialog/outOfTextTypesettingsTemplate.js
 
     /* harmony default export */ function outOfTextTypesettingsTemplate(
@@ -112024,21 +112112,24 @@ data-button-type="${type}">
           </tr>
         </thead>
         <tbody>
-          ${() =>
-            outOfTextTypesettings.map(
-              ({ id, span, style }) => anemone`
-          <tr>
-            <td>${id || ''}</td>
-            <td class="alert">${span.begin}</td>
-            <td class="alert">${span.end}</td>
-            <td>${style}</td>
-          </tr>
-          `
-            )}
+          ${outOfTextTypesettings.map(({ id, span, style }) =>
+            outOfTextTypesettingsTemplate_toBodyRow(id, span, style)
+          )}
         </tbody>
       </table>
       `
         : ''
+    }
+
+    function outOfTextTypesettingsTemplate_toBodyRow(id, span, style) {
+      return () => anemone`
+    <tr>
+      <td>${id || ''}</td>
+      <td class="alert">${span.begin}</td>
+      <td class="alert">${span.end}</td>
+      <td>${style}</td>
+    </tr>
+    `
     } // CONCATENATED MODULE: ./src/lib/component/ValidationDialog/referencedEntitiesDoNotExistTemplate.js
 
     /* harmony default export */ function referencedEntitiesDoNotExistTemplate(
@@ -112058,9 +112149,9 @@ data-button-type="${type}">
           </tr>
         </thead>
         <tbody>
-          ${() =>
-            referencedEntitiesDoNotExist.map(
-              ({
+          ${referencedEntitiesDoNotExist.map(
+            ({ id, sourceProperty, alertSubj, subj, pred, alertObj, obj }) =>
+              referencedEntitiesDoNotExistTemplate_toBodyRow(
                 id,
                 sourceProperty,
                 alertSubj,
@@ -112068,20 +112159,32 @@ data-button-type="${type}">
                 pred,
                 alertObj,
                 obj
-              }) => anemone`
-          <tr>
-            <td>${id || ''}</td>
-            <td>${sourceProperty}</td>
-            <td${alertSubj ? ' class="alert"' : ''}>${subj}</td>
-            <td>${pred}</td>
-            <td${alertObj ? ' class="alert"' : ''}>${obj}</td>
-          </tr>
-          `
-            )}
+              )
+          )}
         </tbody>
       </table>
       `
         : ''
+    }
+
+    function referencedEntitiesDoNotExistTemplate_toBodyRow(
+      id,
+      sourceProperty,
+      alertSubj,
+      subj,
+      pred,
+      alertObj,
+      obj
+    ) {
+      return () => anemone`
+    <tr>
+      <td>${id || ''}</td>
+      <td>${sourceProperty}</td>
+      <td${alertSubj ? ' class="alert"' : ''}>${subj}</td>
+      <td>${pred}</td>
+      <td${alertObj ? ' class="alert"' : ''}>${obj}</td>
+    </tr>
+    `
     } // CONCATENATED MODULE: ./src/lib/component/ValidationDialog/wrongRangeBlocksTemplate.js
 
     /* harmony default export */ function wrongRangeBlocksTemplate(
@@ -112100,21 +112203,24 @@ data-button-type="${type}">
             </tr>
           </thead>
           <tbody>
-            ${() =>
-              wrongRangeBlocks.map(
-                ({ id, span, obj }) => anemone`
-            <tr>
-              <td>${id || ''}</td>
-              <td class="alert">${span.begin}</td>
-              <td class="alert">${span.end}</td>
-              <td>${obj}</td>
-            </tr>
-            `
-              )}
+            ${wrongRangeBlocks.map(({ id, span, obj }) =>
+              wrongRangeBlocksTemplate_toBodyRow(id, span, obj)
+            )}
           </tbody>
         </table>
   `
         : ''
+    }
+
+    function wrongRangeBlocksTemplate_toBodyRow(id, span, obj) {
+      return () => anemone`
+    <tr>
+      <td>${id || ''}</td>
+      <td class="alert">${span.begin}</td>
+      <td class="alert">${span.end}</td>
+      <td>${obj}</td>
+    </tr>
+    `
     } // CONCATENATED MODULE: ./src/lib/component/ValidationDialog/wrongRangeDenotationsTemplate.js
 
     /* harmony default export */ function wrongRangeDenotationsTemplate(
@@ -112133,20 +112239,22 @@ data-button-type="${type}">
             </tr>
           </thead>
           <tbody>
-            ${() =>
-              wrongRangeDenotations.map(
-                ({ id, span, obj }) => anemone`
-            <tr>
-              <td>${id || ''}</td>
-              <td class="alert">${span.begin}</td>
-              <td class="alert">${span.end}</td>
-              <td>${obj}</td>
-            </tr>
-          `
-              )}
+            ${wrongRangeDenotations.map(({ id, span, obj }) =>
+              wrongRangeDenotationsTemplate_toBodyRow(id, span, obj)
+            )}
           </tbody>
         </table>`
         : ''
+    }
+    function wrongRangeDenotationsTemplate_toBodyRow(id, span, obj) {
+      return () => anemone`
+    <tr>
+      <td>${id || ''}</td>
+      <td class="alert">${span.begin}</td>
+      <td class="alert">${span.end}</td>
+      <td>${obj}</td>
+    </tr>
+  `
     } // CONCATENATED MODULE: ./src/lib/component/ValidationDialog/wrongRangeTypesettingsTemplate.js
 
     /* harmony default export */ function wrongRangeTypesettingsTemplate(
