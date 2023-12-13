@@ -15,9 +15,8 @@ export default function (outOfTextDenotations) {
           </thead>
           <tbody>
             ${() =>
-              outOfTextDenotations
-                .map(
-                  ({ id, span, obj }) => anemone`
+              outOfTextDenotations.map(
+                ({ id, span, obj }) => anemone`
             <tr>
               <td>${id || ''}</td>
               <td class="alert">${span.begin}</td>
@@ -25,8 +24,7 @@ export default function (outOfTextDenotations) {
               <td>${obj}</td>
             </tr>
             `
-                )
-                .join('\n')}
+              )}
           </tbody>
         </table>`
     : ''

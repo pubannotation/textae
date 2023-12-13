@@ -15,9 +15,8 @@ export default function (duplicatedAttributes) {
         </thead>
         <tbody>
           ${() =>
-            duplicatedAttributes
-              .map(
-                ({ id, subj, pred, obj }) => anemone`
+            duplicatedAttributes.map(
+              ({ id, subj, pred, obj }) => anemone`
           <tr>
             <td>${id || ''}</td>
             <td class="alert">${subj}</td>
@@ -25,8 +24,7 @@ export default function (duplicatedAttributes) {
             <td class="alert">${obj}</td>
           </tr>
           `
-              )
-              .join('\n')}
+            )}
         </tbody>
       </table>
       `

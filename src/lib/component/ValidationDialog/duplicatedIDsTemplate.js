@@ -16,9 +16,8 @@ export default function (duplicatedIDs) {
         </thead>
         <tbody>
           ${() =>
-            duplicatedIDs
-              .map(
-                ({ id, sourceProperty, span, obj }) => anemone`
+            duplicatedIDs.map(
+              ({ id, sourceProperty, span, obj }) => anemone`
           <tr>
             <td>${id || ''}</td>
             <td>${sourceProperty}</td>
@@ -27,8 +26,7 @@ export default function (duplicatedIDs) {
             <td>${obj}</td>
           </tr>
           `
-              )
-              .join('\n')}
+            )}
         </tbody>
       </table>
       `

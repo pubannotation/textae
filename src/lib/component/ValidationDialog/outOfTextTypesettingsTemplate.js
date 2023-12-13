@@ -15,9 +15,8 @@ export default function (outOfTextTypesettings) {
         </thead>
         <tbody>
           ${() =>
-            outOfTextTypesettings
-              .map(
-                ({ id, span, style }) => anemone`
+            outOfTextTypesettings.map(
+              ({ id, span, style }) => anemone`
           <tr>
             <td>${id || ''}</td>
             <td class="alert">${span.begin}</td>
@@ -25,8 +24,7 @@ export default function (outOfTextTypesettings) {
             <td>${style}</td>
           </tr>
           `
-              )
-              .join('\n')}
+            )}
         </tbody>
       </table>
       `

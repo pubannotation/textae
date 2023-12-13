@@ -15,9 +15,8 @@ export default function (outOfTextBlocks) {
         </thead>
         <tbody>
           ${() =>
-            outOfTextBlocks
-              .map(
-                ({ id, span, obj }) => anemone`
+            outOfTextBlocks.map(
+              ({ id, span, obj }) => anemone`
           <tr>
             <td>${id || ''}</td>
             <td class="alert">${span.begin}</td>
@@ -25,8 +24,7 @@ export default function (outOfTextBlocks) {
             <td>${obj}</td>
           </tr>
           `
-              )
-              .join('\n')}
+            )}
         </tbody>
       </table>
       `

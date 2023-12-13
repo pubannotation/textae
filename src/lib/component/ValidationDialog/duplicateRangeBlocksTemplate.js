@@ -15,9 +15,8 @@ export default function (duplicatedRangeBlocks) {
         </thead>
         <tbody>
           ${() =>
-            duplicatedRangeBlocks
-              .map(
-                ({ id, span, obj }) => anemone`
+            duplicatedRangeBlocks.map(
+              ({ id, span, obj }) => anemone`
           <tr>
             <td>${id || ''}</td>
             <td class="alert">${span.begin}</td>
@@ -25,8 +24,7 @@ export default function (duplicatedRangeBlocks) {
             <td>${obj}</td>
           </tr>
           `
-              )
-              .join('\n')}
+            )}
         </tbody>
       </table>
       `

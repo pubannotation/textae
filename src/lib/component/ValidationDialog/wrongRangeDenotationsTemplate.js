@@ -15,9 +15,8 @@ export default function (wrongRangeDenotations) {
           </thead>
           <tbody>
             ${() =>
-              wrongRangeDenotations
-                .map(
-                  ({ id, span, obj }) => anemone`
+              wrongRangeDenotations.map(
+                ({ id, span, obj }) => anemone`
             <tr>
               <td>${id || ''}</td>
               <td class="alert">${span.begin}</td>
@@ -25,8 +24,7 @@ export default function (wrongRangeDenotations) {
               <td>${obj}</td>
             </tr>
           `
-                )
-                .join('\n')}
+              )}
           </tbody>
         </table>`
     : ''

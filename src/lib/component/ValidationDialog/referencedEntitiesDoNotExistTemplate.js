@@ -16,17 +16,16 @@ export default function (referencedEntitiesDoNotExist) {
         </thead>
         <tbody>
           ${() =>
-            referencedEntitiesDoNotExist
-              .map(
-                ({
-                  id,
-                  sourceProperty,
-                  alertSubj,
-                  subj,
-                  pred,
-                  alertObj,
-                  obj
-                }) => anemone`
+            referencedEntitiesDoNotExist.map(
+              ({
+                id,
+                sourceProperty,
+                alertSubj,
+                subj,
+                pred,
+                alertObj,
+                obj
+              }) => anemone`
           <tr>
             <td>${id || ''}</td>
             <td>${sourceProperty}</td>
@@ -35,8 +34,7 @@ export default function (referencedEntitiesDoNotExist) {
             <td${alertObj ? ' class="alert"' : ''}>${obj}</td>
           </tr>
           `
-              )
-              .join('\n')}
+            )}
         </tbody>
       </table>
       `
