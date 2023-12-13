@@ -21,7 +21,7 @@ export default function (context) {
       class="textae-editor__create-or-edit-value-of-attribute-definition-dialog__range_or_id_or_pattern textae-editor__promise-dialog__observable-element"
     >
   </div>
-  ${() => inputDefault(showDefault, defaultValue)}
+  ${inputDefault(showDefault, defaultValue)}
   <div class="textae-editor__create-or-edit-value-of-attribute-definition-dialog__row">
     <label>label</label>
     <input

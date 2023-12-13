@@ -1,8 +1,9 @@
 import anemone from '../anemone'
 
 export default function (showDefault, defaultValue) {
-  return showDefault
-    ? anemone`
+  return () =>
+    showDefault
+      ? anemone`
     <div class="textae-editor__create-or-edit-value-of-attribute-definition-dialog__row">
       <label>
         <input
@@ -14,5 +15,5 @@ export default function (showDefault, defaultValue) {
       </label>
     </div>
     `
-    : ``
+      : ``
 }
