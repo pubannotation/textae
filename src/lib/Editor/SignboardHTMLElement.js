@@ -53,7 +53,7 @@ export default class SignboardHTMLElement {
     typeValues.style.backgroundColor = hexToRGBA(this._instance.color, 0.4)
     typeValues.querySelector(
       '.textae-editor__signboard__type-label'
-    ).innerHTML = this._instance.anchorHTML
+    ).innerHTML = anemone`${this._instance.anchorHTML}`
 
     // Re-create all attributes.
     for (const attributeElement of typeValues.querySelectorAll(
@@ -122,7 +122,7 @@ export default class SignboardHTMLElement {
         tabindex="0"
         style="background-color: ${getLabelBackgroundColor()};"
         >
-        ${() => this._instance.anchorHTML}
+        ${this._instance.anchorHTML}
       </div>
       ${() => this._instance.attributes.map((a) => a.contentHTML)}
     </div>
