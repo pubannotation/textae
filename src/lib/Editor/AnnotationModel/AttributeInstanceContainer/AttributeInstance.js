@@ -92,7 +92,7 @@ export default class AttributeInstance {
   }
 
   get contentHTML() {
-    return anemone`
+    return () => anemone`
       <div
         class="textae-editor__signboard__attribute"
         title="${this.#title}"

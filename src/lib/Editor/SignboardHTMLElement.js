@@ -124,7 +124,7 @@ export default class SignboardHTMLElement {
         >
         ${this._instance.anchorHTML}
       </div>
-      ${() => this._instance.attributes.map((a) => a.contentHTML)}
+      ${this._instance.attributes.map((a) => a.contentHTML)}
     </div>
   </div>
   `
