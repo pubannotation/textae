@@ -1,4 +1,3 @@
-import anemone from '../../../anemone'
 import toDeleteButton from './toDeleteButton'
 
 export default function (context) {
@@ -19,7 +18,7 @@ export default function (context) {
     `
   }
 
-  return () => anemone`
+  return () => `
     <button
       type="button"
       class="textae-editor__pallet__table-button textae-editor__pallet__edit-predicate"
