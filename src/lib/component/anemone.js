@@ -20,7 +20,13 @@ export default function anemone(strings) {
 
 function escapeUnlessFunction(value) {
   if (typeof value === 'function') {
-    return value()
+    const result = value()
+
+    if (Array.isArray(result)) {
+      return result.join('')
+    }
+
+    return result
   } else {
     return escape(value)
   }
