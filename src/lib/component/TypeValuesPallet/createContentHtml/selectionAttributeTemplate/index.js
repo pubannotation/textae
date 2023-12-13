@@ -25,20 +25,19 @@ export default function (context, attributeContainer) {
         </tr>
       </thead>
       <tbody>
-        ${() =>
-          values.map(
-            ({ color = '', id, default: defaultValue, label = '' }, index) =>
-              toBodyRow(
-                color,
-                id,
-                defaultValue,
-                label,
-                isLock,
-                index,
-                attributeContainer,
-                selectedPred
-              )
-          )}
+        ${values.map(
+          ({ color = '', id, default: defaultValue, label = '' }, index) =>
+            toBodyRow(
+              color,
+              id,
+              defaultValue,
+              label,
+              isLock,
+              index,
+              attributeContainer,
+              selectedPred
+            )
+        )}
       </tbody>
     </table>
   </div>

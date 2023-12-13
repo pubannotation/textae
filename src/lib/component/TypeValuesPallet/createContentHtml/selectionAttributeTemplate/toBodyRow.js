@@ -11,7 +11,7 @@ export default function toBodyRow(
   attributeContainer,
   selectedPred
 ) {
-  return anemone`
+  return () => anemone`
     <tr class="textae-editor__pallet__row" style="background-color: ${color};">
       <td class="textae-editor__pallet__selection-attribute-label" data-id="${id}">
         ${id}
