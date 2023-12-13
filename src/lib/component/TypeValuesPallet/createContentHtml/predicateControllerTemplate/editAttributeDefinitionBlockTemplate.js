@@ -5,7 +5,7 @@ export default function (context) {
   const { isLock, numberOfItemsUsingSelectedPred } = context
 
   if (isLock) {
-    return () => anemone`
+    return () => `
       <button
         type="button"
         class="textae-editor__pallet__table-button textae-editor__pallet__table-button--disabled textae-editor__pallet__edit-predicate"
