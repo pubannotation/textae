@@ -47,10 +47,9 @@ export default function (context) {
   }" data-attribute="">
     Type
   </p>
-  ${() =>
-    attributes.map((a, index, array) =>
-      attributeTabTemplate(a, index, array, selectedPred)
-    )}
+  ${attributes.map((a, index, array) =>
+    attributeTabTemplate(a, index, array, selectedPred)
+  )}
   ${() =>
     isLock
       ? ''
