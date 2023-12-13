@@ -15,20 +15,24 @@ export default function (boundaryCrossingSpans) {
           </tr>
         </thead>
         <tbody>
-          ${() =>
-            boundaryCrossingSpans.map(
-              ({ id, sourceProperty, span, style, obj }) => anemone`
-          <tr>
-            <td>${id || ''}</td>
-            <td>${sourceProperty}</td>
-            <td class="alert">${span.begin}</td>
-            <td class="alert">${span.end}</td>
-            <td>${style || obj}</td>
-          </tr>
-          `
-            )}
+          ${boundaryCrossingSpans.map(
+            ({ id, sourceProperty, span, style, obj }) =>
+              toBodyRow(id, sourceProperty, span, style, obj)
+          )}
         </tbody>
       </table>
       `
     : ''
+}
+
+function toBodyRow(id, sourceProperty, span, style, obj) {
+  return () => anemone`
+    <tr>
+      <td>${id || ''}</td>
+      <td>${sourceProperty}</td>
+      <td class="alert">${span.begin}</td>
+      <td class="alert">${span.end}</td>
+      <td>${style || obj}</td>
+    </tr>
+    `
 }
