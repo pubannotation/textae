@@ -14,19 +14,22 @@ export default function (wrongRangeBlocks) {
             </tr>
           </thead>
           <tbody>
-            ${() =>
-              wrongRangeBlocks.map(
-                ({ id, span, obj }) => anemone`
-            <tr>
-              <td>${id || ''}</td>
-              <td class="alert">${span.begin}</td>
-              <td class="alert">${span.end}</td>
-              <td>${obj}</td>
-            </tr>
-            `
-              )}
+            ${wrongRangeBlocks.map(({ id, span, obj }) =>
+              toBodyRow(id, span, obj)
+            )}
           </tbody>
         </table>
   `
     : ''
+}
+
+function toBodyRow(id, span, obj) {
+  return () => anemone`
+    <tr>
+      <td>${id || ''}</td>
+      <td class="alert">${span.begin}</td>
+      <td class="alert">${span.end}</td>
+      <td>${obj}</td>
+    </tr>
+    `
 }
