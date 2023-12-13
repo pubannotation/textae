@@ -47,7 +47,7 @@ export default function toTypeRow(
           </button>
           ${
             isLock
-              ? 'a'
+              ? ''
               : editButtonsTemplate(id, color, defaultType, label, useNumber)
           }
         </td>
