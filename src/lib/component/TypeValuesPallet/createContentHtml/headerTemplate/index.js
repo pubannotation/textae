@@ -47,11 +47,9 @@ export default function (context) {
     Type
   </p>
   ${() =>
-    attributes
-      .map((a, index, array) =>
-        attributeTabTemplate(a, index, array, selectedPred)
-      )
-      .join('\n')}
+    attributes.map((a, index, array) =>
+      attributeTabTemplate(a, index, array, selectedPred)
+    )}
   ${() =>
     isLock
       ? ''
