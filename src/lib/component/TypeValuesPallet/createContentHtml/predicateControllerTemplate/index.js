@@ -14,7 +14,7 @@ export default function (context) {
         title="${valueType} type">
       </span>
       "${pred}"
-      ${() => editAttributeDefinitionBlockTemplate(context)}
+      ${editAttributeDefinitionBlockTemplate(context)}
     </div>
   `
 }
