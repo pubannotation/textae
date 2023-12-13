@@ -21,13 +21,22 @@
     </div>
 
     <div id="css_area"></div>
-    <input title="this is a focusable element before textae" placeholder="I don't use it for anything.">
+    <input
+        title="this is a focusable element before textae"
+        placeholder="I don't use it for anything."
+    >
     <span>Welcome!</span>
     <div style="padding-left: 50px; width: calc(100% - 50px);">
-        <div class="textae-editor" title="editor0" mode="block-edit" inspect="abc" status_bar="on"
+        <div
+            class="textae-editor"
+            title="editor0"
+            mode="block-edit"
+            inspect="abc"
+            status_bar="on"
             source="https://pubannotation.org/projects/DisGeNET/docs/sourcedb/PubMed/sourceid/10021369/annotations.json"
             config_lock="true"
-            style="height: 400px; overflow-y: scroll;"></div>
+            style="height: 400px; overflow-y: scroll;"
+        ></div>
     </div>
     <div id="abc"></div>
     <div style="height: 200px; overflow: scroll;" class="textae-container">
@@ -46,13 +55,29 @@
             <div style="height: 300px; margin-top: 100px;">Try scrolling. If no error occurs, the event listener has been deleted.</div>
         </div>
     </div>
-    <input title="this is a focusable element after textae" placeholder="I don't use it for anything.">
+    <input
+        title="this is a focusable element after textae"
+        placeholder="I don't use it for anything.">
     <div class="container">
-        <div class="textae-editor" title="editor2 for confirm a priority source and target parameters"
-            config="2_config.json" style="line-height: 14px;" target="dummy" source="2_annotations.json?config_lock=true"
-            config_lock="false" mode="edit" control="visible"></div>
-        <div class="textae-editor" title="editor3 having annotations for the simple mode"
-            source="2_annotations.json?config_lock=false" config="2_config.json" mode="edit" control="hidden"></div>
+        <div
+            class="textae-editor"
+            title="editor2 for confirm a priority source and target parameters"
+            config="2_config.json"
+            style="line-height: 14px;"
+            target="dummy"
+            source="2_annotations.json?config_lock=true"
+            config_lock="false"
+            mode="edit"
+            control="visible"
+        ></div>
+        <div
+            class="textae-editor"
+            title="editor3 having annotations for the simple mode"
+            source="2_annotations.json?config_lock=false"
+            config="2_config.json"
+            mode="edit"
+            control="hidden"
+        ></div>
         <div
             class="textae-editor"
             title="editor4 having annotations for the instance mode with the view mode"
@@ -62,7 +87,13 @@
             control="hidden"
             focus_first_denotation="true"
         ></div>
-        <div class="textae-editor" title="editor5 having inline config" target="1_annotations.json" mode="relation-edit" status_bar='on'>
+        <div
+            class="textae-editor"
+            title="editor5 having inline config"
+            target="1_annotations.json"
+            mode="relation-edit"
+            status_bar='on'
+        >
             {
                 "config": {
                     "relation types": [
@@ -149,9 +180,19 @@
                 ]
             }
         </div>
-        <div class="textae-editor" title="editor6 for save_to parameter" target="3_annotations.json"
-            save_to="http://pubannotation.org/projects/penguin-fly/docs/sourcedb/PubMed/sourceid/10089213/annotations.json"      mode="edit"></div>
-        <div class="textae-editor" title="editor7 import a target file from a text file." mode="edit" status_bar="on"></div>
+        <div
+            class="textae-editor"
+            title="editor6 for save_to parameter"
+            target="3_annotations.json"
+            save_to="http://pubannotation.org/projects/penguin-fly/docs/sourcedb/PubMed/sourceid/10089213/annotations.json"
+            mode="edit"
+        ></div>
+        <div
+            class="textae-editor"
+            title="editor7 import a target file from a text file."
+            mode="edit"
+            status_bar="on"
+        ></div>
         <div class="textae-editor" title="editor8" mode="edit">
             {
                 "text":"   I have a stomach  ache.",
