@@ -1,4 +1,5 @@
 import anemone from '../../../anemone'
+import editButtonsTemplate from './editButtonsTemplate'
 
 export default function toTypeRow(
   color,
@@ -15,14 +16,18 @@ export default function toTypeRow(
           <span title="${id}">
             ${id}
           </span>
-          ${() =>
+          ${
             uri
-              ? anemone`<a href="${uri}" target="_blank"><span class="textae-editor__pallet__link"></span></a>`
-              : ``}
-          ${() =>
+              ? () =>
+                  anemone`<a href="${uri}" target="_blank"><span class="textae-editor__pallet__link"></span></a>`
+              : ``
+          }
+          ${
             defaultType
-              ? '<span class="textae-editor__pallet__default-icon" title="This type is set as a default type."></span>'
-              : ''}
+              ? () =>
+                  '<span class="textae-editor__pallet__default-icon" title="This type is set as a default type."></span>'
+              : ''
+          }
         </td>
         <td class="textae-editor__pallet__short-label">
           ${label}
@@ -40,31 +45,11 @@ export default function toTypeRow(
             data-id="${id}"
             data-use-number="${useNumber}">
           </button>
-          ${() =>
+          ${
             isLock
-              ? ''
-              : `
-          <button
-            type="button"
-            class="textae-editor__pallet__table-button textae-editor__pallet__edit-type"
-            title="Edit this type." data-id="${id}"
-            data-color="${color}"
-            data-is-default="${defaultType}">
-          </button>
-          <button
-            type="button"
-            class="textae-editor__pallet__table-button textae-editor__pallet__remove${
-              useNumber ? ' textae-editor__pallet__table-button--disabled' : ''
-            }"
-            title="${
-              useNumber
-                ? 'To activate this button, remove all the annotations of this type.'
-                : 'Remove this type.'
-            }"
-            data-id="${id}"
-            data-label="${label}">
-          </button>
-          `}
+              ? 'a'
+              : editButtonsTemplate(id, color, defaultType, label, useNumber)
+          }
         </td>
       </tr>`
 }
