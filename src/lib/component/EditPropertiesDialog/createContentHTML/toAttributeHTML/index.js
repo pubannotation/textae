@@ -13,21 +13,23 @@ export default function (
   const definitionIndex = attributeContainer.getIndexOf(pred)
   const { valueType } = attributeContainer.get(pred)
 
-  return () => anemone`
-<tr class="textae-editor__edit-type-values-dialog__attribute">
-  ${() =>
+  const shortcutKeyColumn = () =>
     pred === previousPredicate
       ? `<td class="shortcut-key" rowspan="2"></td>`
       : `<td class="shortcut-key" rowspan="2">
           ${
             definitionIndex < 9
-              ? `<span class="textae-editor__edit-type-values-dialog__shortcut-key" title="Shotcut key for this predicate">${
+              ? `<span class="textae-editor__edit-type-values-dialog__shortcut-key" title="Shortcut key for this predicate">${
                   definitionIndex + 1
                 }</span>`
               : ''
           }
         </td>
-        `}
+        `
+
+  return () => anemone`
+<tr class="textae-editor__edit-type-values-dialog__attribute">
+  ${shortcutKeyColumn}
   <td rowspan="2">
     <span
       class="textae-editor__edit-type-values-dialog__attribute-predicate ${
