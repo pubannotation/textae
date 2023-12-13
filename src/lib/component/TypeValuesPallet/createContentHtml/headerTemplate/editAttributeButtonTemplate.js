@@ -6,16 +6,17 @@ export default function (context) {
   const isOnlyEntityWithJustOneSamePredSelected =
     selectionModelItems.onlySelectedWithJustOneAttributeOf(selectedPred)
 
-  return valueType === 'string' || valueType === 'numeric'
-    ? isOnlyEntityWithJustOneSamePredSelected
-      ? anemone`
+  return () =>
+    valueType === 'string' || valueType === 'numeric'
+      ? isOnlyEntityWithJustOneSamePredSelected
+        ? anemone`
         <button
           type="button"
           class="textae-editor__pallet__edit-object"
           >edit object of
         </button>
         `
-      : anemone`
+        : anemone`
         <button
           type="button"
           class="textae-editor__pallet__edit-object"
@@ -24,5 +25,5 @@ export default function (context) {
           >edit object of
         </button>
       `
-    : ``
+      : ``
 }

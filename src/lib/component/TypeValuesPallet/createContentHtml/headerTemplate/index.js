@@ -22,7 +22,7 @@ export default function (context) {
     <span class="textae-editor__pallet__lock-icon" style="display: ${
       isLock ? 'inline-block' : 'none'
     };">locked</span>
-    ${() =>
+    ${
       selectedPred && selectionModelItems.size > 0
         ? `
           ${addAttributeButtonTemplate(context)}
@@ -30,7 +30,8 @@ export default function (context) {
           ${removeAttributeButtonTemplate(context)}
           the
           `
-        : ``}
+        : ``
+    }
     <span class="textae-editor__pallet__selected-entity-label">${selectedEntityLabel}</span>
   </div>
   <div class="textae-editor__pallet__buttons">

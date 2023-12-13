@@ -5,14 +5,15 @@ export default function (context) {
   const isEntityWithoutSamePredSelected =
     selectionModelItems.selectedWithoutAttributeOf(selectedPred)
 
-  return isEntityWithoutSamePredSelected
-    ? anemone`
+  return () =>
+    isEntityWithoutSamePredSelected
+      ? anemone`
       <button
         type="button"
         class="textae-editor__pallet__add-attribute"
         >add to</button>
       `
-    : anemone`
+      : anemone`
       <button
         type="button"
         class="textae-editor__pallet__add-attribute"

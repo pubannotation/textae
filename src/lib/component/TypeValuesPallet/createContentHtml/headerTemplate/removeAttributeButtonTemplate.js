@@ -5,14 +5,15 @@ export default function (context) {
   const isEntityWithSamePredSelected =
     selectionModelItems.selectedWithAttributeOf(selectedPred)
 
-  return isEntityWithSamePredSelected
-    ? anemone`
+  return () =>
+    isEntityWithSamePredSelected
+      ? anemone`
       <button
         type="button"
         class="textae-editor__pallet__remove-attribute"
         >remove from</button>
       `
-    : anemone`
+      : anemone`
       <button
         type="button"
         class="textae-editor__pallet__remove-attribute"
