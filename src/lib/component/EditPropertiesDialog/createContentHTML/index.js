@@ -21,7 +21,7 @@ export default function (
           </tr>
         </thead>
         <tbody>
-          ${() => toEntityHTML(typeName, entityContainer)}
+          ${toEntityHTML(typeName, entityContainer)}
           ${() =>
             attributes
               .map((a, index, list) =>

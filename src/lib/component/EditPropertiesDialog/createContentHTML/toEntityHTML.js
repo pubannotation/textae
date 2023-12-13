@@ -3,7 +3,7 @@ import anemone from '../../anemone'
 export default function (value, entityContainer) {
   const label = entityContainer.getLabel(value) || ''
 
-  return anemone`
+  return () => anemone`
     <tr>
       <td rowspan="2"></td>
       <td>
