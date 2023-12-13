@@ -6,7 +6,7 @@ export default function (context) {
   const { label, color } = context.attrDef
 
   return anemone`
-  ${() => headerTemplate(context)}
+  ${headerTemplate(context)}
   <div>
     <div class="textae-editor__pallet__predicate">
       ${() => predicateControllerTemplate(context)}

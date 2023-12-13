@@ -9,7 +9,7 @@ export default function (context, attributeContainer) {
   const { isLock, selectedPred } = context
 
   return anemone`
-  ${() => headerTemplate(context)}
+  ${headerTemplate(context)}
   <div>
     <div class="textae-editor__pallet__predicate">
       ${() => predicateControllerTemplate(context)}

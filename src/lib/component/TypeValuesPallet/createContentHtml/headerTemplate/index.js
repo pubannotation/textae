@@ -4,19 +4,20 @@ import addAttributeButtonTemplate from './addAttributeButtonTemplate'
 import editAttributeButtonTemplate from './editAttributeButtonTemplate'
 import removeAttributeButtonTemplate from './removeAttributeButtonTemplate'
 import anemone from '../../../anemone'
+import addNewAttributeTabTemplate from './addNewAttributeTabTemplate'
 
 export default function (context) {
   const { isLock, selectionModelItems, selectedPred, attributes, hasDiff } =
     context
 
   const selectedEntityLabel = getSelectedEntityLabel(selectionModelItems.size)
-  const addAttribute = attributes.length < 30
+  const isEnableToAddAttribute = attributes.length < 30
   const lastAttributeSelected =
     selectedPred ===
     (attributes[attributes.length - 1] &&
       attributes[attributes.length - 1].pred)
 
-  return anemone`
+  return () => anemone`
 <div class="textae-editor__pallet__header-first-row">
   <div class="textae-editor__pallet__information">
     <span class="textae-editor__pallet__lock-icon" style="display: ${
@@ -50,24 +51,11 @@ export default function (context) {
   ${attributes.map((a, index, array) =>
     attributeTabTemplate(a, index, array, selectedPred)
   )}
-  ${() =>
-    isLock
-      ? ''
-      : `
-        ${
-          lastAttributeSelected
-            ? ''
-            : '<span class="textae-editor__pallet__drop-target" data-index="-1"></span>'
-        }
-        ${
-          addAttribute
-            ? `
-            <p class="textae-editor__pallet__attribute textae-editor__pallet__create-predicate">
-              <span class="textae-editor__pallet__create-predicate__button" title="Add a new attribute"></span>
-            </p>
-            `
-            : ''
-        }`}
+  ${addNewAttributeTabTemplate(
+    isLock,
+    lastAttributeSelected,
+    isEnableToAddAttribute
+  )}
 </div>
 `
 }

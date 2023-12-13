@@ -6,7 +6,7 @@ export default function (context) {
   const { types, isLock } = context
 
   return anemone`
-  ${() => headerTemplate(context)}
+  ${headerTemplate(context)}
   <table>
     <tbody>
       <tr>
