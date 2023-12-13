@@ -14,19 +14,22 @@ export default function (outOfTextTypesettings) {
           </tr>
         </thead>
         <tbody>
-          ${() =>
-            outOfTextTypesettings.map(
-              ({ id, span, style }) => anemone`
-          <tr>
-            <td>${id || ''}</td>
-            <td class="alert">${span.begin}</td>
-            <td class="alert">${span.end}</td>
-            <td>${style}</td>
-          </tr>
-          `
-            )}
+          ${outOfTextTypesettings.map(({ id, span, style }) =>
+            toBodyRow(id, span, style)
+          )}
         </tbody>
       </table>
       `
     : ''
+}
+
+function toBodyRow(id, span, style) {
+  return () => anemone`
+    <tr>
+      <td>${id || ''}</td>
+      <td class="alert">${span.begin}</td>
+      <td class="alert">${span.end}</td>
+      <td>${style}</td>
+    </tr>
+    `
 }

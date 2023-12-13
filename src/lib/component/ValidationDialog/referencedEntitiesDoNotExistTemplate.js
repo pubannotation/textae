@@ -15,9 +15,9 @@ export default function (referencedEntitiesDoNotExist) {
           </tr>
         </thead>
         <tbody>
-          ${() =>
-            referencedEntitiesDoNotExist.map(
-              ({
+          ${referencedEntitiesDoNotExist.map(
+            ({ id, sourceProperty, alertSubj, subj, pred, alertObj, obj }) =>
+              toBodyRow(
                 id,
                 sourceProperty,
                 alertSubj,
@@ -25,18 +25,22 @@ export default function (referencedEntitiesDoNotExist) {
                 pred,
                 alertObj,
                 obj
-              }) => anemone`
-          <tr>
-            <td>${id || ''}</td>
-            <td>${sourceProperty}</td>
-            <td${alertSubj ? ' class="alert"' : ''}>${subj}</td>
-            <td>${pred}</td>
-            <td${alertObj ? ' class="alert"' : ''}>${obj}</td>
-          </tr>
-          `
-            )}
+              )
+          )}
         </tbody>
       </table>
       `
     : ''
+}
+
+function toBodyRow(id, sourceProperty, alertSubj, subj, pred, alertObj, obj) {
+  return () => anemone`
+    <tr>
+      <td>${id || ''}</td>
+      <td>${sourceProperty}</td>
+      <td${alertSubj ? ' class="alert"' : ''}>${subj}</td>
+      <td>${pred}</td>
+      <td${alertObj ? ' class="alert"' : ''}>${obj}</td>
+    </tr>
+    `
 }
