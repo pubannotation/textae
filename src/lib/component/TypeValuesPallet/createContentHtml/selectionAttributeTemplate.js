@@ -24,13 +24,9 @@ export default function (context, attributeContainer) {
           ${() => showAddAttributeValueButton(isLock)}
         </tr>
         ${() =>
-          values
-            .map(
-              (
-                { color = '', id, default: defaultValue, label = '' },
-                index
-              ) => {
-                return `
+          values.map(
+            ({ color = '', id, default: defaultValue, label = '' }, index) => {
+              return `
         <tr class="textae-editor__pallet__row" style="background-color: ${color};">
           <td class="textae-editor__pallet__selection-attribute-label" data-id="${id}">
             ${id}
@@ -57,9 +53,8 @@ export default function (context, attributeContainer) {
           )}
         </tr>
         `
-              }
-            )
-            .join('\n')}
+            }
+          )}
       </tbody>
     </table>
   </div>
