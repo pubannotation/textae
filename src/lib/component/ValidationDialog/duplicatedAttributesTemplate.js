@@ -14,9 +14,17 @@ export default function (duplicatedAttributes) {
           </tr>
         </thead>
         <tbody>
-          ${() =>
-            duplicatedAttributes.map(
-              ({ id, subj, pred, obj }) => anemone`
+          ${duplicatedAttributes.map(({ id, subj, pred, obj }) =>
+            toBodyRow(id, subj, pred, obj)
+          )}
+        </tbody>
+      </table>
+      `
+    : ''
+}
+
+function toBodyRow(id, subj, pred, obj) {
+  return () => anemone`
           <tr>
             <td>${id || ''}</td>
             <td class="alert">${subj}</td>
@@ -24,9 +32,4 @@ export default function (duplicatedAttributes) {
             <td class="alert">${obj}</td>
           </tr>
           `
-            )}
-        </tbody>
-      </table>
-      `
-    : ''
 }
