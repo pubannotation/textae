@@ -27,7 +27,7 @@ export default class CreateOrEditValueOfAttributeDefinitionDialog extends Promis
         bindingObject.rangeOrIdOrPattern = value.pattern
         break
       default:
-        throw new Error(`${valueType} is Uknown Attribute`)
+        throw new Error(`${valueType} is Unknown Attribute`)
     }
 
     super(
