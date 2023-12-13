@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [12.11.0](https://github.com/pubannotation/textae/compare/v12.10.0...v12.11.0) (2023-12-13)
+
+
+### Features
+
+* Add focus_first_denotation option. This is experimental ([8e83da8](https://github.com/pubannotation/textae/commit/8e83da82f6056acabd381d142b307ec0c510f707))
+
+
+### Bug Fixes
+
+* Entity Edit dialog display corrupted when entity type contains double quotes ([7f78460](https://github.com/pubannotation/textae/commit/7f78460ccf8a6237a7481b154790cbdea396a6c7))
+* Show message unless types in pallet ([5a15301](https://github.com/pubannotation/textae/commit/5a15301b3cac9cb4137a0f8f5ed2fb12bb1c3807))
+* XSS Vulnerability in Entity Edit Dialog ([096c6ca](https://github.com/pubannotation/textae/commit/096c6caa744754825a4aa13a012799012f50c9ac))
+* XSS Vulnerability in Entity Edit Dialog ([32cc306](https://github.com/pubannotation/textae/commit/32cc306da6ae718a79ef0846394304ff6dfd0d95))
+
 ## [12.10.0](https://github.com/pubannotation/textae/compare/v12.9.1...v12.10.0) (2023-12-06)
 
 
