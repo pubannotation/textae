@@ -6,7 +6,7 @@ export default function (context) {
   const { pred } = attrDef
   const { valueType } = attrDef
 
-  return anemone`
+  return () => anemone`
     <div>
       Attribute
       <span

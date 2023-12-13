@@ -12,7 +12,7 @@ export default function (context) {
   ${headerTemplate(context)}
   <div>
     <div class="textae-editor__pallet__predicate">
-      ${() => predicateControllerTemplate(context)}
+      ${predicateControllerTemplate(context)}
       media height: ${mediaHeight || '""'}
       default: ${defaultValue}
     </div>

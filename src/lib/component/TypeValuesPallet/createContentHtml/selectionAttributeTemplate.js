@@ -12,7 +12,7 @@ export default function (context, attributeContainer) {
   ${headerTemplate(context)}
   <div>
     <div class="textae-editor__pallet__predicate">
-      ${() => predicateControllerTemplate(context)}
+      ${predicateControllerTemplate(context)}
     </div>
 
     <table>
