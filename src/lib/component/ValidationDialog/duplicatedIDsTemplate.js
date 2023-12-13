@@ -15,20 +15,23 @@ export default function (duplicatedIDs) {
           </tr>
         </thead>
         <tbody>
-          ${() =>
-            duplicatedIDs.map(
-              ({ id, sourceProperty, span, obj }) => anemone`
-          <tr>
-            <td>${id || ''}</td>
-            <td>${sourceProperty}</td>
-            <td class="alert">${span.begin}</td>
-            <td class="alert">${span.end}</td>
-            <td>${obj}</td>
-          </tr>
-          `
-            )}
+          ${duplicatedIDs.map(({ id, sourceProperty, span, obj }) =>
+            toBodyRow(id, sourceProperty, span, obj)
+          )}
         </tbody>
       </table>
       `
     : ''
+}
+
+function toBodyRow(id, sourceProperty, span, obj) {
+  return () => anemone`
+    <tr>
+      <td>${id || ''}</td>
+      <td>${sourceProperty}</td>
+      <td class="alert">${span.begin}</td>
+      <td class="alert">${span.end}</td>
+      <td>${obj}</td>
+    </tr>
+    `
 }
