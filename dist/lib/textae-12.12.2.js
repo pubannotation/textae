@@ -68894,7 +68894,7 @@
     };">locked</span>
     ${
       selectedPred && selectionModelItems.size > 0
-        ? `
+        ? () => anemone`
           ${addAttributeButtonTemplate(context)}
           ${editAttributeButtonTemplate(context)}
           ${removeAttributeButtonTemplate(context)}
@@ -72060,7 +72060,7 @@
       bindChangeLockConfig(content, typeDefinition)
     } // CONCATENATED MODULE: ./package.json
 
-    const package_namespaceObject = { i8: '12.12.1' } // CONCATENATED MODULE: ./src/lib/component/SettingDialog/template.js
+    const package_namespaceObject = { i8: '12.12.2' } // CONCATENATED MODULE: ./src/lib/component/SettingDialog/template.js
     function template_template(context) {
       const {
         typeGap,

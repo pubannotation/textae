@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [12.12.2](https://github.com/pubannotation/textae/compare/v12.12.1...v12.12.2) (2023-12-14)
+
+
+### Bug Fixes
+
+* Attribute buttons in pallet is not rendered ([7f7983c](https://github.com/pubannotation/textae/commit/7f7983c03a3d9f2ae58dde84684053f7bd597d90))
+
 ### [12.12.1](https://github.com/pubannotation/textae/compare/v12.12.0...v12.12.1) (2023-12-14)
 
 
