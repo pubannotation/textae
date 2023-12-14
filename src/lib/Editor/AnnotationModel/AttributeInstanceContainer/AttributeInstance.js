@@ -126,7 +126,7 @@ export default class AttributeInstance {
 
   get #labelOrMedia() {
     if (this.#isMedia) {
-      return `<img src="${this.obj}" height="${this.height}" >`
+      return () => `<img src="${this.obj}" height="${this.height}" >`
     } else {
       return toAnchorElement(this.#displayName, this.#href)
     }
