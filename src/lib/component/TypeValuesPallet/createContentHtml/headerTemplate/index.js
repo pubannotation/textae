@@ -25,7 +25,7 @@ export default function (context) {
     };">locked</span>
     ${
       selectedPred && selectionModelItems.size > 0
-        ? `
+        ? () => anemone`
           ${addAttributeButtonTemplate(context)}
           ${editAttributeButtonTemplate(context)}
           ${removeAttributeButtonTemplate(context)}
