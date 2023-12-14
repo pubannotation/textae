@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [12.12.1](https://github.com/pubannotation/textae/compare/v12.12.0...v12.12.1) (2023-12-14)
+
+
+### Bug Fixes
+
+* Media attribute is not rendered ([e508f61](https://github.com/pubannotation/textae/commit/e508f612abbbdf9b37dafa7ce0e4767539191393))
+
 ## [12.12.0](https://github.com/pubannotation/textae/compare/v12.11.0...v12.12.0) (2023-12-13)
 
 

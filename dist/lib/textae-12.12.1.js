@@ -57826,7 +57826,7 @@
 
       get #labelOrMedia() {
         if (this.#isMedia) {
-          return `<img src="${this.obj}" height="${this.height}" >`
+          return () => `<img src="${this.obj}" height="${this.height}" >`
         } else {
           return toAnchorElement(this.#displayName, this.#href)
         }
@@ -72060,7 +72060,7 @@
       bindChangeLockConfig(content, typeDefinition)
     } // CONCATENATED MODULE: ./package.json
 
-    const package_namespaceObject = { i8: '12.12.0' } // CONCATENATED MODULE: ./src/lib/component/SettingDialog/template.js
+    const package_namespaceObject = { i8: '12.12.1' } // CONCATENATED MODULE: ./src/lib/component/SettingDialog/template.js
     function template_template(context) {
       const {
         typeGap,
