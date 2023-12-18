@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [12.13.1](https://github.com/pubannotation/textae/compare/v12.13.0...v12.13.1) (2023-12-18)
+
 ## [12.13.0](https://github.com/pubannotation/textae/compare/v12.12.2...v12.13.0) (2023-12-18)
 
 
