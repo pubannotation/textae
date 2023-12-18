@@ -1,4 +1,5 @@
-import { create, formatters } from 'jsondiffpatch'
+import { create } from 'jsondiffpatch'
+import { format } from 'jsondiffpatch/formatters/html'
 
 const jsond = create({
   objectHash(obj, index) {
@@ -8,5 +9,5 @@ const jsond = create({
 
 export default function (originalConfig, editedConfig) {
   const delta = jsond.diff(originalConfig, editedConfig)
-  return formatters.html.format(delta, originalConfig)
+  return format(delta, originalConfig)
 }

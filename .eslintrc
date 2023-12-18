@@ -30,5 +30,8 @@
   "plugins": [
     "import",
     "unused-imports"
-  ]
+  ],
+  "settings": {
+    "import/resolver": ["node", "webpack"]
+  }
 }
