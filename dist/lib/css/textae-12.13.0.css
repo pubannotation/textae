@@ -2828,6 +2828,9 @@ ul.jsondiffpatch-textdiff {
   width: calc(100% - 40px);
 }
 /* dialog */
+.textae-editor__dialog {
+  text-align: left;
+}
 .textae-editor__dialog button:disabled {
   background: #f6f6f6 url(images/ui-bg_glass_100_f6f6f6_1x400.png) 50% 50% repeat-x;
   color: #999;

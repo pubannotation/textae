@@ -72060,7 +72060,7 @@
       bindChangeLockConfig(content, typeDefinition)
     } // CONCATENATED MODULE: ./package.json
 
-    const package_namespaceObject = { i8: '12.12.2' } // CONCATENATED MODULE: ./src/lib/component/SettingDialog/template.js
+    const package_namespaceObject = { i8: '12.13.0' } // CONCATENATED MODULE: ./src/lib/component/SettingDialog/template.js
     function template_template(context) {
       const {
         typeGap,
@@ -113041,6 +113041,8 @@ data-button-type="${type}">
     // This function is experimental.
     // It is being released to verify its feasibility for integration into React.
     window.initializeTextAEEditor = initializeTextAEEditor
+
+    console.log(`TextAE Version ${package_namespaceObject.i8} loaded.`)
   })()
 
   /******/

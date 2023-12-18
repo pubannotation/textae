@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [12.13.0](https://github.com/pubannotation/textae/compare/v12.12.2...v12.13.0) (2023-12-18)
+
+
+### Features
+
+* Set default text alignment in dialog to prevent override by outer style ([964403c](https://github.com/pubannotation/textae/commit/964403c8cb7770a21b4b78d4cb3d0a73fcb0c927))
+* Show version on console at loaded ([bb65257](https://github.com/pubannotation/textae/commit/bb6525797d181606a09ed959ed6fff1295274923))
+
 ### [12.12.2](https://github.com/pubannotation/textae/compare/v12.12.1...v12.12.2) (2023-12-14)
 
 
