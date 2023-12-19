@@ -126,12 +126,17 @@ export default class PersistenceInterface {
   }
 
   get _editedAnnotation() {
-    return {
+    const annotation = {
       ...this._getOriginalAnnotation(),
       ...this._annotationModel.externalFormat,
       ...{
         config: this._annotationModel.typeDefinition.config
       }
     }
+
+    // Track annotations are merged into root annotations.
+    delete annotation.tracks
+
+    return annotation
   }
 }

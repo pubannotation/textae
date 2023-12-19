@@ -70,7 +70,7 @@ export default class AnnotationParser {
   }
 
   get rejects() {
-    if (this._trackRejects) {
+    if (this.hasMultiTracks) {
       return [this._rootReject].concat(this._trackRejects)
     } else {
       return [this._rootReject]

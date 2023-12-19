@@ -13,7 +13,6 @@ export default function (
   console.assert(rowData.tracks)
 
   const { tracks } = rowData
-  delete rowData.tracks
 
   return tracks.map((track, i) => {
     const number = i + 1
