@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [12.13.2](https://github.com/pubannotation/textae/compare/v12.13.1...v12.13.2) (2023-12-19)
+
+
+### Bug Fixes
+
+* Validation error in track annotation is not shown ([23aef29](https://github.com/pubannotation/textae/commit/23aef2947dae8e8eca1a7a8fbd2015dedbc40f78))
+
 ### [12.13.1](https://github.com/pubannotation/textae/compare/v12.13.0...v12.13.1) (2023-12-18)
 
 ## [12.13.0](https://github.com/pubannotation/textae/compare/v12.12.2...v12.13.0) (2023-12-18)

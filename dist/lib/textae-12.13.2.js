@@ -55921,7 +55921,6 @@
       console.assert(rowData.tracks)
 
       const { tracks } = rowData
-      delete rowData.tracks
 
       return tracks.map((track, i) => {
         const number = i + 1
@@ -55941,7 +55940,7 @@
       })
     } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationModel/AnnotationParser/getAllSpansOf.js
 
-    // The boundraries of elements in the typesetings and
+    // The boundaries of elements in the typesetings and
     // the denotations and blocks cannot cross each other.
 
     // The same is true when across the tracks.
@@ -55958,6 +55957,15 @@
     } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationModel/AnnotationParser/index.js
 
     class AnnotationParser {
+      #namespaceContainer
+      #spanContainer
+      #entityContainer
+      #attributeContainer
+      #relationContainer
+      #rowData
+      #rootReject
+      #trackRejects
+
       constructor(
         namespaceContainer,
         spanContainer,
@@ -55966,77 +55974,77 @@
         relationContainer,
         rowData
       ) {
-        this._namespaceContainer = namespaceContainer
-        this._spanContainer = spanContainer
-        this._entityContainer = entityContainer
-        this._attributeContainer = attributeContainer
-        this._relationContainer = relationContainer
-        this._rowData = rowData
+        this.#namespaceContainer = namespaceContainer
+        this.#spanContainer = spanContainer
+        this.#entityContainer = entityContainer
+        this.#attributeContainer = attributeContainer
+        this.#relationContainer = relationContainer
+        this.#rowData = rowData
       }
 
       parse() {
         // Read namespaces
-        if (this._rowData.namespaces) {
-          this._namespaceContainer.addSource(
-            this._rowData.namespaces.map((n) => ({
+        if (this.#rowData.namespaces) {
+          this.#namespaceContainer.addSource(
+            this.#rowData.namespaces.map((n) => ({
               id: n.prefix,
               ...n
             }))
           )
         } else {
-          this._namespaceContainer.addSource([])
+          this.#namespaceContainer.addSource([])
         }
 
         // Read the root annotation.
         const { accept, reject } = validateAnnotation(
-          this._text,
-          this._spans,
-          this._rowData
+          this.#text,
+          this.#spans,
+          this.#rowData
         )
 
         readAcceptedAnnotationTo(
-          this._spanContainer,
-          this._entityContainer,
-          this._attributeContainer,
-          this._relationContainer,
+          this.#spanContainer,
+          this.#entityContainer,
+          this.#attributeContainer,
+          this.#relationContainer,
           accept
         )
 
         reject.name = 'Root annotations.'
-        this._rootReject = reject
+        this.#rootReject = reject
 
         // Read multiple track annotations.
         if (this.hasMultiTracks) {
-          this._trackRejects = parseTracks(
-            this._spanContainer,
-            this._entityContainer,
-            this._attributeContainer,
-            this._relationContainer,
-            this._text,
-            this._spans,
-            this._rowData
+          this.#trackRejects = parseTracks(
+            this.#spanContainer,
+            this.#entityContainer,
+            this.#attributeContainer,
+            this.#relationContainer,
+            this.#text,
+            this.#spans,
+            this.#rowData
           )
         }
       }
 
       get hasMultiTracks() {
-        return Boolean(this._rowData.tracks)
+        return Boolean(this.#rowData.tracks)
       }
 
       get rejects() {
         if (this.hasMultiTracks) {
-          return [this._rootReject].concat(this._trackRejects)
+          return [this.#rootReject].concat(this.#trackRejects)
         } else {
-          return [this._rootReject]
+          return [this.#rootReject]
         }
       }
 
-      get _text() {
-        return this._rowData.text
+      get #text() {
+        return this.#rowData.text
       }
 
-      get _spans() {
-        return getAllSpansOf(this._rowData)
+      get #spans() {
+        return getAllSpansOf(this.#rowData)
       }
     } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationModel/clearAnnotationModel.js
 
@@ -66958,7 +66966,7 @@
       bindChangeLockConfig(content, typeDefinition)
     } // CONCATENATED MODULE: ./package.json
 
-    const package_namespaceObject = { i8: '12.13.1' } // CONCATENATED MODULE: ./src/lib/component/SettingDialog/template.js
+    const package_namespaceObject = { i8: '12.13.2' } // CONCATENATED MODULE: ./src/lib/component/SettingDialog/template.js
     function template_template(context) {
       const {
         typeGap,
@@ -105065,13 +105073,18 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
       }
 
       get _editedAnnotation() {
-        return {
+        const annotation = {
           ...this._getOriginalAnnotation(),
           ...this._annotationModel.externalFormat,
           ...{
             config: this._annotationModel.typeDefinition.config
           }
         }
+
+        // Track annotations are merged into root annotations.
+        delete annotation.tracks
+
+        return annotation
       }
     } // CONCATENATED MODULE: ./src/lib/Editor/UseCase/setAnnotationAndConfiguration.js
 
