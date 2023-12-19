@@ -1,4 +1,4 @@
-// The boundraries of elements in the typesetings and
+// The boundaries of elements in the typesetings and
 // the denotations and blocks cannot cross each other.
 
 import getAllSpansIn from './getAllSpansIn'
