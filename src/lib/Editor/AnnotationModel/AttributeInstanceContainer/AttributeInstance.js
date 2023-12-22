@@ -81,13 +81,13 @@ export default class AttributeInstance {
 
   clarifyLabelIn(parentElement) {
     parentElement.querySelector(
-      `[data-pred="${this.pred}"][data-obj="${this.obj}"] .textae-editor__signboard__attribute-label`
+      anemone`[data-id="${this.id}"] .textae-editor__signboard__attribute-label`
     ).style.backgroundColor = hexToRGBA(this.#color, 1)
   }
 
   declarifyLabelIn(parentElement) {
     parentElement.querySelector(
-      `[data-pred="${this.pred}"][data-obj="${this.obj}"] .textae-editor__signboard__attribute-label`
+      anemone`[data-id="${this.id}"] .textae-editor__signboard__attribute-label`
     ).style.backgroundColor = getLabelBackgroundColor()
   }
 
@@ -96,6 +96,7 @@ export default class AttributeInstance {
       <div
         class="textae-editor__signboard__attribute"
         title="${this.#title}"
+        data-id="${this.id}"
         data-pred="${this.pred}"
         data-obj="${this.obj}"
         style="background-color: ${hexToRGBA(this.#color, 0.4)}; height: ${
