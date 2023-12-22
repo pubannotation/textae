@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [12.13.3](https://github.com/pubannotation/textae/compare/v12.13.2...v12.13.3) (2023-12-22)
+
+
+### Bug Fixes
+
+* Error in highlighting attributes where obj has a string that needs to be escaped ([1f15397](https://github.com/pubannotation/textae/commit/1f153971aa9f7d9271513d224d4d9e9fac42745d))
+
 ### [12.13.2](https://github.com/pubannotation/textae/compare/v12.13.1...v12.13.2) (2023-12-19)
 
 

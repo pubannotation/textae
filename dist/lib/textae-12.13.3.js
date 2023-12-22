@@ -52679,13 +52679,13 @@
 
       clarifyLabelIn(parentElement) {
         parentElement.querySelector(
-          `[data-pred="${this.pred}"][data-obj="${this.obj}"] .textae-editor__signboard__attribute-label`
+          anemone`[data-id="${this.id}"] .textae-editor__signboard__attribute-label`
         ).style.backgroundColor = hexToRGBA(this.#color, 1)
       }
 
       declarifyLabelIn(parentElement) {
         parentElement.querySelector(
-          `[data-pred="${this.pred}"][data-obj="${this.obj}"] .textae-editor__signboard__attribute-label`
+          anemone`[data-id="${this.id}"] .textae-editor__signboard__attribute-label`
         ).style.backgroundColor = getLabelBackgroundColor()
       }
 
@@ -52694,8 +52694,7 @@
       <div
         class="textae-editor__signboard__attribute"
         title="${this.#title}"
-        data-pred="${this.pred}"
-        data-obj="${this.obj}"
+        data-id="${this.id}"
         style="background-color: ${hexToRGBA(this.#color, 0.4)}; height: ${
           this.height
         }px;"
@@ -66966,7 +66965,7 @@
       bindChangeLockConfig(content, typeDefinition)
     } // CONCATENATED MODULE: ./package.json
 
-    const package_namespaceObject = { i8: '12.13.2' } // CONCATENATED MODULE: ./src/lib/component/SettingDialog/template.js
+    const package_namespaceObject = { i8: '12.13.3' } // CONCATENATED MODULE: ./src/lib/component/SettingDialog/template.js
     function template_template(context) {
       const {
         typeGap,
