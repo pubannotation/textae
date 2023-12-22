@@ -97,8 +97,6 @@ export default class AttributeInstance {
         class="textae-editor__signboard__attribute"
         title="${this.#title}"
         data-id="${this.id}"
-        data-pred="${this.pred}"
-        data-obj="${this.obj}"
         style="background-color: ${hexToRGBA(this.#color, 0.4)}; height: ${
           this.height
         }px;"
