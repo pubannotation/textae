@@ -64128,11 +64128,10 @@
     <tr class="textae-editor__pallet__row" style="background-color: ${color};">
       <td class="textae-editor__pallet__selection-attribute-label" data-id="${id}">
         ${id}
-        ${
+        ${() =>
           defaultValue
             ? '<span class="textae-editor__pallet__default-icon" title="This type is set as a default type."></span>'
-            : ''
-        }
+            : ''}
       </td>
       <td class="textae-editor__pallet__short-label">
         ${label}
@@ -66965,7 +66964,7 @@
       bindChangeLockConfig(content, typeDefinition)
     } // CONCATENATED MODULE: ./package.json
 
-    const package_namespaceObject = { i8: '12.13.3' } // CONCATENATED MODULE: ./src/lib/component/SettingDialog/template.js
+    const package_namespaceObject = { i8: '12.13.4' } // CONCATENATED MODULE: ./src/lib/component/SettingDialog/template.js
     function template_template(context) {
       const {
         typeGap,

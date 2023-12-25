@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [12.13.4](https://github.com/pubannotation/textae/compare/v12.13.3...v12.13.4) (2023-12-25)
+
+
+### Bug Fixes
+
+* Default button of selection attribute in pallet is broken ([d164377](https://github.com/pubannotation/textae/commit/d164377436ed03b00a42f6723a3fcbb592d5b2df))
+
 ### [12.13.3](https://github.com/pubannotation/textae/compare/v12.13.2...v12.13.3) (2023-12-22)
 
 
