@@ -66964,7 +66964,7 @@
       bindChangeLockConfig(content, typeDefinition)
     } // CONCATENATED MODULE: ./package.json
 
-    const package_namespaceObject = { i8: '12.13.4' } // CONCATENATED MODULE: ./src/lib/component/SettingDialog/template.js
+    const package_namespaceObject = { i8: '12.13.5' } // CONCATENATED MODULE: ./src/lib/component/SettingDialog/template.js
     function template_template(context) {
       const {
         typeGap,
@@ -68865,8 +68865,12 @@ multiple ranges. By default, selections hold exactly one range.
       /**
     Compare this range to another range.
     */
-      eq(other) {
-        return this.anchor == other.anchor && this.head == other.head
+      eq(other, includeAssoc = false) {
+        return (
+          this.anchor == other.anchor &&
+          this.head == other.head &&
+          (!includeAssoc || !this.empty || this.assoc == other.assoc)
+        )
       }
       /**
     Return a JSON-serializable object representing the range.
@@ -68925,16 +68929,19 @@ An editor selection holds one or more selection ranges.
         )
       }
       /**
-    Compare this selection to another selection.
+    Compare this selection to another selection. By default, ranges
+    are compared only by position. When `includeAssoc` is true,
+    cursor ranges must also have the same
+    [`assoc`](https://codemirror.net/6/docs/ref/#state.SelectionRange.assoc) value.
     */
-      eq(other) {
+      eq(other, includeAssoc = false) {
         if (
           this.ranges.length != other.ranges.length ||
           this.mainIndex != other.mainIndex
         )
           return false
         for (let i = 0; i < this.ranges.length; i++)
-          if (!this.ranges[i].eq(other.ranges[i])) return false
+          if (!this.ranges[i].eq(other.ranges[i], includeAssoc)) return false
         return true
       }
       /**
@@ -71270,6 +71277,27 @@ structure.
           build.add(range.from, range.to, range.value)
         return build.finish()
       }
+      /**
+    Join an array of range sets into a single set.
+    */
+      static join(sets) {
+        if (!sets.length) return dist_RangeSet.empty
+        let result = sets[sets.length - 1]
+        for (let i = sets.length - 2; i >= 0; i--) {
+          for (
+            let layer = sets[i];
+            layer != dist_RangeSet.empty;
+            layer = layer.nextLayer
+          )
+            result = new dist_RangeSet(
+              layer.chunkPos,
+              layer.chunk,
+              result,
+              Math.max(layer.maxPoint, result.maxPoint)
+            )
+        }
+        return result
+      }
     }
     /**
 The empty set of ranges.
@@ -71629,7 +71657,12 @@ an array of [`Range`](https://codemirror.net/6/docs/ref/#state.Range) objects.
       addActive(trackOpen) {
         let i = 0,
           { value, to, rank } = this.cursor
-        while (i < this.activeRank.length && this.activeRank[i] <= rank) i++
+        // Organize active marks by rank first, then by size
+        while (
+          i < this.activeRank.length &&
+          (rank - this.activeRank[i] || to - this.activeTo[i]) > 0
+        )
+          i++
         insert(this.active, i, value)
         insert(this.activeTo, i, to)
         insert(this.activeRank, i, rank)
@@ -73211,7 +73244,7 @@ situation.
           if (this.dom && this.prevWidget) this.prevWidget.destroy(this.dom)
           this.prevWidget = null
           this.setDOM(this.widget.toDOM(view))
-          this.dom.contentEditable = 'false'
+          if (!this.widget.editable) this.dom.contentEditable = 'false'
         }
       }
       getSide() {
@@ -73720,7 +73753,7 @@ situation.
           if (this.dom && this.prevWidget) this.prevWidget.destroy(this.dom)
           this.prevWidget = null
           this.setDOM(this.widget.toDOM(view))
-          this.dom.contentEditable = 'false'
+          if (!this.widget.editable) this.dom.contentEditable = 'false'
         }
       }
       get overrideDOMText() {
@@ -73854,6 +73887,12 @@ that define them are recreated.
     @internal
     */
       get isHidden() {
+        return false
+      }
+      /**
+    @internal
+    */
+      get editable() {
         return false
       }
       /**
@@ -74373,429 +74412,6 @@ The empty set of decorations.
       }
     }
 
-    const clickAddsSelectionRange = /*@__PURE__*/ Facet.define()
-    const dragMovesSelection$1 = /*@__PURE__*/ Facet.define()
-    const mouseSelectionStyle = /*@__PURE__*/ Facet.define()
-    const exceptionSink = /*@__PURE__*/ Facet.define()
-    const updateListener = /*@__PURE__*/ Facet.define()
-    const inputHandler = /*@__PURE__*/ Facet.define()
-    const focusChangeEffect = /*@__PURE__*/ Facet.define()
-    const perLineTextDirection = /*@__PURE__*/ Facet.define({
-      combine: (values) => values.some((x) => x)
-    })
-    const nativeSelectionHidden = /*@__PURE__*/ Facet.define({
-      combine: (values) => values.some((x) => x)
-    })
-    class ScrollTarget {
-      constructor(
-        range,
-        y = 'nearest',
-        x = 'nearest',
-        yMargin = 5,
-        xMargin = 5,
-        // This data structure is abused to also store precise scroll
-        // snapshots, instead of a `scrollIntoView` request. When this
-        // flag is `true`, `range` points at a position in the reference
-        // line, `yMargin` holds the difference between the top of that
-        // line and the top of the editor, and `xMargin` holds the
-        // editor's `scrollLeft`.
-        isSnapshot = false
-      ) {
-        this.range = range
-        this.y = y
-        this.x = x
-        this.yMargin = yMargin
-        this.xMargin = xMargin
-        this.isSnapshot = isSnapshot
-      }
-      map(changes) {
-        return changes.empty
-          ? this
-          : new ScrollTarget(
-              this.range.map(changes),
-              this.y,
-              this.x,
-              this.yMargin,
-              this.xMargin,
-              this.isSnapshot
-            )
-      }
-      clip(state) {
-        return this.range.to <= state.doc.length
-          ? this
-          : new ScrollTarget(
-              dist_EditorSelection.cursor(state.doc.length),
-              this.y,
-              this.x,
-              this.yMargin,
-              this.xMargin,
-              this.isSnapshot
-            )
-      }
-    }
-    const scrollIntoView = /*@__PURE__*/ StateEffect.define({
-      map: (t, ch) => t.map(ch)
-    })
-    /**
-Log or report an unhandled exception in client code. Should
-probably only be used by extension code that allows client code to
-provide functions, and calls those functions in a context where an
-exception can't be propagated to calling code in a reasonable way
-(for example when in an event handler).
-
-Either calls a handler registered with
-[`EditorView.exceptionSink`](https://codemirror.net/6/docs/ref/#view.EditorView^exceptionSink),
-`window.onerror`, if defined, or `console.error` (in which case
-it'll pass `context`, when given, as first argument).
-*/
-    function dist_logException(state, exception, context) {
-      let handler = state.facet(exceptionSink)
-      if (handler.length) handler[0](exception)
-      else if (window.onerror)
-        window.onerror(
-          String(exception),
-          context,
-          undefined,
-          undefined,
-          exception
-        )
-      else if (context) console.error(context + ':', exception)
-      else console.error(exception)
-    }
-    const editable = /*@__PURE__*/ Facet.define({
-      combine: (values) => (values.length ? values[0] : true)
-    })
-    let nextPluginID = 0
-    const viewPlugin = /*@__PURE__*/ Facet.define()
-    /**
-View plugins associate stateful values with a view. They can
-influence the way the content is drawn, and are notified of things
-that happen in the view.
-*/
-    class dist_ViewPlugin {
-      constructor(
-        /**
-    @internal
-    */
-        id,
-        /**
-    @internal
-    */
-        create,
-        /**
-    @internal
-    */
-        domEventHandlers,
-        /**
-    @internal
-    */
-        domEventObservers,
-        buildExtensions
-      ) {
-        this.id = id
-        this.create = create
-        this.domEventHandlers = domEventHandlers
-        this.domEventObservers = domEventObservers
-        this.extension = buildExtensions(this)
-      }
-      /**
-    Define a plugin from a constructor function that creates the
-    plugin's value, given an editor view.
-    */
-      static define(create, spec) {
-        const {
-          eventHandlers,
-          eventObservers,
-          provide,
-          decorations: deco
-        } = spec || {}
-        return new dist_ViewPlugin(
-          nextPluginID++,
-          create,
-          eventHandlers,
-          eventObservers,
-          (plugin) => {
-            let ext = [viewPlugin.of(plugin)]
-            if (deco)
-              ext.push(
-                decorations.of((view) => {
-                  let pluginInst = view.plugin(plugin)
-                  return pluginInst ? deco(pluginInst) : Decoration.none
-                })
-              )
-            if (provide) ext.push(provide(plugin))
-            return ext
-          }
-        )
-      }
-      /**
-    Create a plugin for a class whose constructor takes a single
-    editor view as argument.
-    */
-      static fromClass(cls, spec) {
-        return dist_ViewPlugin.define((view) => new cls(view), spec)
-      }
-    }
-    class PluginInstance {
-      constructor(spec) {
-        this.spec = spec
-        // When starting an update, all plugins have this field set to the
-        // update object, indicating they need to be updated. When finished
-        // updating, it is set to `false`. Retrieving a plugin that needs to
-        // be updated with `view.plugin` forces an eager update.
-        this.mustUpdate = null
-        // This is null when the plugin is initially created, but
-        // initialized on the first update.
-        this.value = null
-      }
-      update(view) {
-        if (!this.value) {
-          if (this.spec) {
-            try {
-              this.value = this.spec.create(view)
-            } catch (e) {
-              dist_logException(view.state, e, 'CodeMirror plugin crashed')
-              this.deactivate()
-            }
-          }
-        } else if (this.mustUpdate) {
-          let update = this.mustUpdate
-          this.mustUpdate = null
-          if (this.value.update) {
-            try {
-              this.value.update(update)
-            } catch (e) {
-              dist_logException(update.state, e, 'CodeMirror plugin crashed')
-              if (this.value.destroy)
-                try {
-                  this.value.destroy()
-                } catch (_) {}
-              this.deactivate()
-            }
-          }
-        }
-        return this
-      }
-      destroy(view) {
-        var _a
-        if ((_a = this.value) === null || _a === void 0 ? void 0 : _a.destroy) {
-          try {
-            this.value.destroy()
-          } catch (e) {
-            dist_logException(view.state, e, 'CodeMirror plugin crashed')
-          }
-        }
-      }
-      deactivate() {
-        this.spec = this.value = null
-      }
-    }
-    const editorAttributes = /*@__PURE__*/ Facet.define()
-    const contentAttributes = /*@__PURE__*/ Facet.define()
-    // Provide decorations
-    const decorations = /*@__PURE__*/ Facet.define()
-    const atomicRanges = /*@__PURE__*/ Facet.define()
-    const bidiIsolatedRanges = /*@__PURE__*/ Facet.define()
-    function getIsolatedRanges(view, from, to) {
-      let isolates = view.state.facet(bidiIsolatedRanges)
-      if (!isolates.length) return isolates
-      let sets = isolates.map((i) => (i instanceof Function ? i(view) : i))
-      let result = []
-      dist_RangeSet.spans(sets, from, to, {
-        point() {},
-        span(from, to, active, open) {
-          let level = result
-          for (let i = active.length - 1; i >= 0; i--, open--) {
-            let iso = active[i].spec.bidiIsolate,
-              update
-            if (iso == null) continue
-            if (
-              open > 0 &&
-              level.length &&
-              (update = level[level.length - 1]).to == from &&
-              update.direction == iso
-            ) {
-              update.to = to
-              level = update.inner
-            } else {
-              let add = { from, to, direction: iso, inner: [] }
-              level.push(add)
-              level = add.inner
-            }
-          }
-        }
-      })
-      return result
-    }
-    const scrollMargins = /*@__PURE__*/ Facet.define()
-    function getScrollMargins(view) {
-      let left = 0,
-        right = 0,
-        top = 0,
-        bottom = 0
-      for (let source of view.state.facet(scrollMargins)) {
-        let m = source(view)
-        if (m) {
-          if (m.left != null) left = Math.max(left, m.left)
-          if (m.right != null) right = Math.max(right, m.right)
-          if (m.top != null) top = Math.max(top, m.top)
-          if (m.bottom != null) bottom = Math.max(bottom, m.bottom)
-        }
-      }
-      return { left, right, top, bottom }
-    }
-    const styleModule = /*@__PURE__*/ Facet.define()
-    class ChangedRange {
-      constructor(fromA, toA, fromB, toB) {
-        this.fromA = fromA
-        this.toA = toA
-        this.fromB = fromB
-        this.toB = toB
-      }
-      join(other) {
-        return new ChangedRange(
-          Math.min(this.fromA, other.fromA),
-          Math.max(this.toA, other.toA),
-          Math.min(this.fromB, other.fromB),
-          Math.max(this.toB, other.toB)
-        )
-      }
-      addToSet(set) {
-        let i = set.length,
-          me = this
-        for (; i > 0; i--) {
-          let range = set[i - 1]
-          if (range.fromA > me.toA) continue
-          if (range.toA < me.fromA) break
-          me = me.join(range)
-          set.splice(i - 1, 1)
-        }
-        set.splice(i, 0, me)
-        return set
-      }
-      static extendWithRanges(diff, ranges) {
-        if (ranges.length == 0) return diff
-        let result = []
-        for (let dI = 0, rI = 0, posA = 0, posB = 0; ; dI++) {
-          let next = dI == diff.length ? null : diff[dI],
-            off = posA - posB
-          let end = next ? next.fromB : 1e9
-          while (rI < ranges.length && ranges[rI] < end) {
-            let from = ranges[rI],
-              to = ranges[rI + 1]
-            let fromB = Math.max(posB, from),
-              toB = Math.min(end, to)
-            if (fromB <= toB)
-              new ChangedRange(fromB + off, toB + off, fromB, toB).addToSet(
-                result
-              )
-            if (to > end) break
-            else rI += 2
-          }
-          if (!next) return result
-          new ChangedRange(next.fromA, next.toA, next.fromB, next.toB).addToSet(
-            result
-          )
-          posA = next.toA
-          posB = next.toB
-        }
-      }
-    }
-    /**
-View [plugins](https://codemirror.net/6/docs/ref/#view.ViewPlugin) are given instances of this
-class, which describe what happened, whenever the view is updated.
-*/
-    class ViewUpdate {
-      constructor(
-        /**
-    The editor view that the update is associated with.
-    */
-        view,
-        /**
-    The new editor state.
-    */
-        state,
-        /**
-    The transactions involved in the update. May be empty.
-    */
-        transactions
-      ) {
-        this.view = view
-        this.state = state
-        this.transactions = transactions
-        /**
-        @internal
-        */
-        this.flags = 0
-        this.startState = view.state
-        this.changes = ChangeSet.empty(this.startState.doc.length)
-        for (let tr of transactions)
-          this.changes = this.changes.compose(tr.changes)
-        let changedRanges = []
-        this.changes.iterChangedRanges((fromA, toA, fromB, toB) =>
-          changedRanges.push(new ChangedRange(fromA, toA, fromB, toB))
-        )
-        this.changedRanges = changedRanges
-      }
-      /**
-    @internal
-    */
-      static create(view, state, transactions) {
-        return new ViewUpdate(view, state, transactions)
-      }
-      /**
-    Tells you whether the [viewport](https://codemirror.net/6/docs/ref/#view.EditorView.viewport) or
-    [visible ranges](https://codemirror.net/6/docs/ref/#view.EditorView.visibleRanges) changed in this
-    update.
-    */
-      get viewportChanged() {
-        return (this.flags & 4) /* UpdateFlag.Viewport */ > 0
-      }
-      /**
-    Indicates whether the height of a block element in the editor
-    changed in this update.
-    */
-      get heightChanged() {
-        return (this.flags & 2) /* UpdateFlag.Height */ > 0
-      }
-      /**
-    Returns true when the document was modified or the size of the
-    editor, or elements within the editor, changed.
-    */
-      get geometryChanged() {
-        return (
-          this.docChanged ||
-          (this.flags &
-            (8 /* UpdateFlag.Geometry */ | 2) /* UpdateFlag.Height */) >
-            0
-        )
-      }
-      /**
-    True when this update indicates a focus change.
-    */
-      get focusChanged() {
-        return (this.flags & 1) /* UpdateFlag.Focus */ > 0
-      }
-      /**
-    Whether the document changed in this update.
-    */
-      get docChanged() {
-        return !this.changes.empty
-      }
-      /**
-    Whether the selection was explicitly set in this update.
-    */
-      get selectionSet() {
-        return this.transactions.some((tr) => tr.selection)
-      }
-      /**
-    @internal
-    */
-      get empty() {
-        return this.flags == 0 && this.transactions.length == 0
-      }
-    }
-
     /**
 Used to indicate [text direction](https://codemirror.net/6/docs/ref/#view.EditorView.textDirection).
 */
@@ -74896,6 +74512,12 @@ Represents a contiguous range of text that has a single direction
     */
       side(end, dir) {
         return (this.dir == dir) == end ? this.to : this.from
+      }
+      /**
+    @internal
+    */
+      forward(forward, dir) {
+        return forward == (this.dir == dir)
       }
       /**
     @internal
@@ -75287,70 +74909,502 @@ Represents a contiguous range of text that has a single direction
       return [new BidiSpan(0, length, 0)]
     }
     let movedOver = ''
+    // This implementation moves strictly visually, without concern for a
+    // traversal visiting every logical position in the string. It will
+    // still do so for simple input, but situations like multiple isolates
+    // with the same level next to each other, or text going against the
+    // main dir at the end of the line, will make some positions
+    // unreachable with this motion. Each visible cursor position will
+    // correspond to the lower-level bidi span that touches it.
+    //
+    // The alternative would be to solve an order globally for a given
+    // line, making sure that it includes every position, but that would
+    // require associating non-canonical (higher bidi span level)
+    // positions with a given visual position, which is likely to confuse
+    // people. (And would generally be a lot more complicated.)
     function moveVisually(line, order, dir, start, forward) {
       var _a
-      let startIndex = start.head - line.from,
-        spanI = -1
-      if (startIndex == 0) {
-        if (!forward || !line.length) return null
-        if (order[0].level != dir) {
-          startIndex = order[0].side(false, dir)
-          spanI = 0
-        }
-      } else if (startIndex == line.length) {
-        if (forward) return null
-        let last = order[order.length - 1]
-        if (last.level != dir) {
-          startIndex = last.side(true, dir)
-          spanI = order.length - 1
-        }
-      }
-      if (spanI < 0)
-        spanI = BidiSpan.find(
-          order,
-          startIndex,
-          (_a = start.bidiLevel) !== null && _a !== void 0 ? _a : -1,
-          start.assoc
-        )
-      let span = order[spanI]
-      // End of span. (But not end of line--that was checked for above.)
-      if (startIndex == span.side(forward, dir)) {
-        span = order[(spanI += forward ? 1 : -1)]
+      let startIndex = start.head - line.from
+      let spanI = BidiSpan.find(
+        order,
+        startIndex,
+        (_a = start.bidiLevel) !== null && _a !== void 0 ? _a : -1,
+        start.assoc
+      )
+      let span = order[spanI],
+        spanEnd = span.side(forward, dir)
+      // End of span
+      if (startIndex == spanEnd) {
+        let nextI = (spanI += forward ? 1 : -1)
+        if (nextI < 0 || nextI >= order.length) return null
+        span = order[(spanI = nextI)]
         startIndex = span.side(!forward, dir)
+        spanEnd = span.side(forward, dir)
       }
-      let indexForward = forward == (span.dir == dir)
-      let nextIndex = findClusterBreak(line.text, startIndex, indexForward)
+      let nextIndex = findClusterBreak(
+        line.text,
+        startIndex,
+        span.forward(forward, dir)
+      )
+      if (nextIndex < span.from || nextIndex > span.to) nextIndex = spanEnd
       movedOver = line.text.slice(
         Math.min(startIndex, nextIndex),
         Math.max(startIndex, nextIndex)
       )
-      if (nextIndex > span.from && nextIndex < span.to)
-        return dist_EditorSelection.cursor(
-          nextIndex + line.from,
-          indexForward ? -1 : 1,
-          span.level
-        )
       let nextSpan =
         spanI == (forward ? order.length - 1 : 0)
           ? null
           : order[spanI + (forward ? 1 : -1)]
-      if (!nextSpan && span.level != dir)
-        return dist_EditorSelection.cursor(
-          forward ? line.to : line.from,
-          forward ? -1 : 1,
-          dir
-        )
-      if (nextSpan && nextSpan.level < span.level)
+      if (
+        nextSpan &&
+        nextIndex == spanEnd &&
+        nextSpan.level + (forward ? 0 : 1) < span.level
+      )
         return dist_EditorSelection.cursor(
           nextSpan.side(!forward, dir) + line.from,
-          forward ? 1 : -1,
+          nextSpan.forward(forward, dir) ? 1 : -1,
           nextSpan.level
         )
       return dist_EditorSelection.cursor(
         nextIndex + line.from,
-        forward ? -1 : 1,
+        span.forward(forward, dir) ? -1 : 1,
         span.level
       )
+    }
+    function autoDirection(text, from, to) {
+      for (let i = from; i < to; i++) {
+        let type = charType(text.charCodeAt(i))
+        if (type == 1 /* T.L */) return LTR
+        if (type == 2 /* T.R */ || type == 4 /* T.AL */) return RTL
+      }
+      return LTR
+    }
+
+    const clickAddsSelectionRange = /*@__PURE__*/ Facet.define()
+    const dragMovesSelection$1 = /*@__PURE__*/ Facet.define()
+    const mouseSelectionStyle = /*@__PURE__*/ Facet.define()
+    const exceptionSink = /*@__PURE__*/ Facet.define()
+    const updateListener = /*@__PURE__*/ Facet.define()
+    const inputHandler = /*@__PURE__*/ Facet.define()
+    const focusChangeEffect = /*@__PURE__*/ Facet.define()
+    const perLineTextDirection = /*@__PURE__*/ Facet.define({
+      combine: (values) => values.some((x) => x)
+    })
+    const nativeSelectionHidden = /*@__PURE__*/ Facet.define({
+      combine: (values) => values.some((x) => x)
+    })
+    class ScrollTarget {
+      constructor(
+        range,
+        y = 'nearest',
+        x = 'nearest',
+        yMargin = 5,
+        xMargin = 5,
+        // This data structure is abused to also store precise scroll
+        // snapshots, instead of a `scrollIntoView` request. When this
+        // flag is `true`, `range` points at a position in the reference
+        // line, `yMargin` holds the difference between the top of that
+        // line and the top of the editor, and `xMargin` holds the
+        // editor's `scrollLeft`.
+        isSnapshot = false
+      ) {
+        this.range = range
+        this.y = y
+        this.x = x
+        this.yMargin = yMargin
+        this.xMargin = xMargin
+        this.isSnapshot = isSnapshot
+      }
+      map(changes) {
+        return changes.empty
+          ? this
+          : new ScrollTarget(
+              this.range.map(changes),
+              this.y,
+              this.x,
+              this.yMargin,
+              this.xMargin,
+              this.isSnapshot
+            )
+      }
+      clip(state) {
+        return this.range.to <= state.doc.length
+          ? this
+          : new ScrollTarget(
+              dist_EditorSelection.cursor(state.doc.length),
+              this.y,
+              this.x,
+              this.yMargin,
+              this.xMargin,
+              this.isSnapshot
+            )
+      }
+    }
+    const scrollIntoView = /*@__PURE__*/ StateEffect.define({
+      map: (t, ch) => t.map(ch)
+    })
+    /**
+Log or report an unhandled exception in client code. Should
+probably only be used by extension code that allows client code to
+provide functions, and calls those functions in a context where an
+exception can't be propagated to calling code in a reasonable way
+(for example when in an event handler).
+
+Either calls a handler registered with
+[`EditorView.exceptionSink`](https://codemirror.net/6/docs/ref/#view.EditorView^exceptionSink),
+`window.onerror`, if defined, or `console.error` (in which case
+it'll pass `context`, when given, as first argument).
+*/
+    function dist_logException(state, exception, context) {
+      let handler = state.facet(exceptionSink)
+      if (handler.length) handler[0](exception)
+      else if (window.onerror)
+        window.onerror(
+          String(exception),
+          context,
+          undefined,
+          undefined,
+          exception
+        )
+      else if (context) console.error(context + ':', exception)
+      else console.error(exception)
+    }
+    const editable = /*@__PURE__*/ Facet.define({
+      combine: (values) => (values.length ? values[0] : true)
+    })
+    let nextPluginID = 0
+    const viewPlugin = /*@__PURE__*/ Facet.define()
+    /**
+View plugins associate stateful values with a view. They can
+influence the way the content is drawn, and are notified of things
+that happen in the view.
+*/
+    class dist_ViewPlugin {
+      constructor(
+        /**
+    @internal
+    */
+        id,
+        /**
+    @internal
+    */
+        create,
+        /**
+    @internal
+    */
+        domEventHandlers,
+        /**
+    @internal
+    */
+        domEventObservers,
+        buildExtensions
+      ) {
+        this.id = id
+        this.create = create
+        this.domEventHandlers = domEventHandlers
+        this.domEventObservers = domEventObservers
+        this.extension = buildExtensions(this)
+      }
+      /**
+    Define a plugin from a constructor function that creates the
+    plugin's value, given an editor view.
+    */
+      static define(create, spec) {
+        const {
+          eventHandlers,
+          eventObservers,
+          provide,
+          decorations: deco
+        } = spec || {}
+        return new dist_ViewPlugin(
+          nextPluginID++,
+          create,
+          eventHandlers,
+          eventObservers,
+          (plugin) => {
+            let ext = [viewPlugin.of(plugin)]
+            if (deco)
+              ext.push(
+                decorations.of((view) => {
+                  let pluginInst = view.plugin(plugin)
+                  return pluginInst ? deco(pluginInst) : Decoration.none
+                })
+              )
+            if (provide) ext.push(provide(plugin))
+            return ext
+          }
+        )
+      }
+      /**
+    Create a plugin for a class whose constructor takes a single
+    editor view as argument.
+    */
+      static fromClass(cls, spec) {
+        return dist_ViewPlugin.define((view) => new cls(view), spec)
+      }
+    }
+    class PluginInstance {
+      constructor(spec) {
+        this.spec = spec
+        // When starting an update, all plugins have this field set to the
+        // update object, indicating they need to be updated. When finished
+        // updating, it is set to `false`. Retrieving a plugin that needs to
+        // be updated with `view.plugin` forces an eager update.
+        this.mustUpdate = null
+        // This is null when the plugin is initially created, but
+        // initialized on the first update.
+        this.value = null
+      }
+      update(view) {
+        if (!this.value) {
+          if (this.spec) {
+            try {
+              this.value = this.spec.create(view)
+            } catch (e) {
+              dist_logException(view.state, e, 'CodeMirror plugin crashed')
+              this.deactivate()
+            }
+          }
+        } else if (this.mustUpdate) {
+          let update = this.mustUpdate
+          this.mustUpdate = null
+          if (this.value.update) {
+            try {
+              this.value.update(update)
+            } catch (e) {
+              dist_logException(update.state, e, 'CodeMirror plugin crashed')
+              if (this.value.destroy)
+                try {
+                  this.value.destroy()
+                } catch (_) {}
+              this.deactivate()
+            }
+          }
+        }
+        return this
+      }
+      destroy(view) {
+        var _a
+        if ((_a = this.value) === null || _a === void 0 ? void 0 : _a.destroy) {
+          try {
+            this.value.destroy()
+          } catch (e) {
+            dist_logException(view.state, e, 'CodeMirror plugin crashed')
+          }
+        }
+      }
+      deactivate() {
+        this.spec = this.value = null
+      }
+    }
+    const editorAttributes = /*@__PURE__*/ Facet.define()
+    const contentAttributes = /*@__PURE__*/ Facet.define()
+    // Provide decorations
+    const decorations = /*@__PURE__*/ Facet.define()
+    const outerDecorations = /*@__PURE__*/ Facet.define()
+    const atomicRanges = /*@__PURE__*/ Facet.define()
+    const bidiIsolatedRanges = /*@__PURE__*/ Facet.define()
+    function getIsolatedRanges(view, line) {
+      let isolates = view.state.facet(bidiIsolatedRanges)
+      if (!isolates.length) return isolates
+      let sets = isolates.map((i) => (i instanceof Function ? i(view) : i))
+      let result = []
+      dist_RangeSet.spans(sets, line.from, line.to, {
+        point() {},
+        span(fromDoc, toDoc, active, open) {
+          let from = fromDoc - line.from,
+            to = toDoc - line.from
+          let level = result
+          for (let i = active.length - 1; i >= 0; i--, open--) {
+            let direction = active[i].spec.bidiIsolate,
+              update
+            if (direction == null)
+              direction = autoDirection(line.text, from, to)
+            if (
+              open > 0 &&
+              level.length &&
+              (update = level[level.length - 1]).to == from &&
+              update.direction == direction
+            ) {
+              update.to = to
+              level = update.inner
+            } else {
+              let add = { from, to, direction, inner: [] }
+              level.push(add)
+              level = add.inner
+            }
+          }
+        }
+      })
+      return result
+    }
+    const scrollMargins = /*@__PURE__*/ Facet.define()
+    function getScrollMargins(view) {
+      let left = 0,
+        right = 0,
+        top = 0,
+        bottom = 0
+      for (let source of view.state.facet(scrollMargins)) {
+        let m = source(view)
+        if (m) {
+          if (m.left != null) left = Math.max(left, m.left)
+          if (m.right != null) right = Math.max(right, m.right)
+          if (m.top != null) top = Math.max(top, m.top)
+          if (m.bottom != null) bottom = Math.max(bottom, m.bottom)
+        }
+      }
+      return { left, right, top, bottom }
+    }
+    const styleModule = /*@__PURE__*/ Facet.define()
+    class ChangedRange {
+      constructor(fromA, toA, fromB, toB) {
+        this.fromA = fromA
+        this.toA = toA
+        this.fromB = fromB
+        this.toB = toB
+      }
+      join(other) {
+        return new ChangedRange(
+          Math.min(this.fromA, other.fromA),
+          Math.max(this.toA, other.toA),
+          Math.min(this.fromB, other.fromB),
+          Math.max(this.toB, other.toB)
+        )
+      }
+      addToSet(set) {
+        let i = set.length,
+          me = this
+        for (; i > 0; i--) {
+          let range = set[i - 1]
+          if (range.fromA > me.toA) continue
+          if (range.toA < me.fromA) break
+          me = me.join(range)
+          set.splice(i - 1, 1)
+        }
+        set.splice(i, 0, me)
+        return set
+      }
+      static extendWithRanges(diff, ranges) {
+        if (ranges.length == 0) return diff
+        let result = []
+        for (let dI = 0, rI = 0, posA = 0, posB = 0; ; dI++) {
+          let next = dI == diff.length ? null : diff[dI],
+            off = posA - posB
+          let end = next ? next.fromB : 1e9
+          while (rI < ranges.length && ranges[rI] < end) {
+            let from = ranges[rI],
+              to = ranges[rI + 1]
+            let fromB = Math.max(posB, from),
+              toB = Math.min(end, to)
+            if (fromB <= toB)
+              new ChangedRange(fromB + off, toB + off, fromB, toB).addToSet(
+                result
+              )
+            if (to > end) break
+            else rI += 2
+          }
+          if (!next) return result
+          new ChangedRange(next.fromA, next.toA, next.fromB, next.toB).addToSet(
+            result
+          )
+          posA = next.toA
+          posB = next.toB
+        }
+      }
+    }
+    /**
+View [plugins](https://codemirror.net/6/docs/ref/#view.ViewPlugin) are given instances of this
+class, which describe what happened, whenever the view is updated.
+*/
+    class ViewUpdate {
+      constructor(
+        /**
+    The editor view that the update is associated with.
+    */
+        view,
+        /**
+    The new editor state.
+    */
+        state,
+        /**
+    The transactions involved in the update. May be empty.
+    */
+        transactions
+      ) {
+        this.view = view
+        this.state = state
+        this.transactions = transactions
+        /**
+        @internal
+        */
+        this.flags = 0
+        this.startState = view.state
+        this.changes = ChangeSet.empty(this.startState.doc.length)
+        for (let tr of transactions)
+          this.changes = this.changes.compose(tr.changes)
+        let changedRanges = []
+        this.changes.iterChangedRanges((fromA, toA, fromB, toB) =>
+          changedRanges.push(new ChangedRange(fromA, toA, fromB, toB))
+        )
+        this.changedRanges = changedRanges
+      }
+      /**
+    @internal
+    */
+      static create(view, state, transactions) {
+        return new ViewUpdate(view, state, transactions)
+      }
+      /**
+    Tells you whether the [viewport](https://codemirror.net/6/docs/ref/#view.EditorView.viewport) or
+    [visible ranges](https://codemirror.net/6/docs/ref/#view.EditorView.visibleRanges) changed in this
+    update.
+    */
+      get viewportChanged() {
+        return (this.flags & 4) /* UpdateFlag.Viewport */ > 0
+      }
+      /**
+    Indicates whether the height of a block element in the editor
+    changed in this update.
+    */
+      get heightChanged() {
+        return (this.flags & 2) /* UpdateFlag.Height */ > 0
+      }
+      /**
+    Returns true when the document was modified or the size of the
+    editor, or elements within the editor, changed.
+    */
+      get geometryChanged() {
+        return (
+          this.docChanged ||
+          (this.flags &
+            (8 /* UpdateFlag.Geometry */ | 2) /* UpdateFlag.Height */) >
+            0
+        )
+      }
+      /**
+    True when this update indicates a focus change.
+    */
+      get focusChanged() {
+        return (this.flags & 1) /* UpdateFlag.Focus */ > 0
+      }
+      /**
+    Whether the document changed in this update.
+    */
+      get docChanged() {
+        return !this.changes.empty
+      }
+      /**
+    Whether the selection was explicitly set in this update.
+    */
+      get selectionSet() {
+        return this.transactions.some((tr) => tr.selection)
+      }
+      /**
+    @internal
+    */
+      get empty() {
+        return this.flags == 0 && this.transactions.length == 0
+      }
     }
 
     class DocView extends ContentView {
@@ -75683,18 +75737,19 @@ Represents a contiguous range of text that has a single direction
         if (
           force ||
           !domSel.focusNode ||
-          !isEquivalentPosition(
+          ((!isEquivalentPosition(
             anchor.node,
             anchor.offset,
             domSel.anchorNode,
             domSel.anchorOffset
           ) ||
-          !isEquivalentPosition(
-            head.node,
-            head.offset,
-            domSel.focusNode,
-            domSel.focusOffset
-          )
+            !isEquivalentPosition(
+              head.node,
+              head.offset,
+              domSel.focusNode,
+              domSel.focusOffset
+            )) &&
+            !this.suppressWidgetCursorChange(domSel, main))
         ) {
           this.view.observer.ignore(() => {
             // Chrome Android will hide the virtual keyboard when tapping
@@ -75764,6 +75819,22 @@ Represents a contiguous range of text that has a single direction
         this.impreciseHead = head.precise
           ? null
           : new DOMPos(domSel.focusNode, domSel.focusOffset)
+      }
+      // If a zero-length widget is inserted next to the cursor during
+      // composition, avoid moving it across it and disrupting the
+      // composition.
+      suppressWidgetCursorChange(sel, cursor) {
+        return (
+          this.hasComposition &&
+          cursor.empty &&
+          isEquivalentPosition(
+            sel.focusNode,
+            sel.focusOffset,
+            sel.anchorNode,
+            sel.anchorOffset
+          ) &&
+          this.posFromDOM(sel.focusNode, sel.focusOffset) == cursor.head
+        )
       }
       enforceCursorAssoc() {
         if (this.hasComposition) return
@@ -75996,6 +76067,16 @@ Represents a contiguous range of text that has a single direction
           let dynamic = (this.dynamicDecorationMap[i] = typeof d == 'function')
           return dynamic ? d(this.view) : d
         })
+        let dynamicOuter = false,
+          outerDeco = this.view.state.facet(outerDecorations).map((d, i) => {
+            let dynamic = typeof d == 'function'
+            if (dynamic) dynamicOuter = true
+            return dynamic ? d(this.view) : d
+          })
+        if (outerDeco.length) {
+          this.dynamicDecorationMap[allDeco.length] = dynamicOuter
+          allDeco.push(dist_RangeSet.join(outerDeco))
+        }
         for (let i = allDeco.length; i < allDeco.length + 3; i++)
           this.dynamicDecorationMap[i] = false
         return (this.decorations = [
@@ -76068,6 +76149,7 @@ Represents a contiguous range of text that has a single direction
       }
       toDOM() {
         let elt = document.createElement('div')
+        elt.className = 'cm-gap'
         this.updateDOM(elt)
         return elt
       }
@@ -76076,6 +76158,9 @@ Represents a contiguous range of text that has a single direction
       }
       updateDOM(elt) {
         elt.style.height = this.height + 'px'
+        return true
+      }
+      get editable() {
         return true
       }
       get estimatedHeight() {
@@ -76563,7 +76648,7 @@ Represents a contiguous range of text that has a single direction
           char = '\n'
           line = view.state.doc.line(line.number + (forward ? 1 : -1))
           spans = view.bidiSpans(line)
-          next = dist_EditorSelection.cursor(forward ? line.from : line.to)
+          next = view.visualLineSide(line, !forward)
         }
         if (!check) {
           if (!by) return next
@@ -77012,9 +77097,7 @@ Represents a contiguous range of text that has a single direction
           )
         if (
           this.mustSelect ||
-          !selection.eq(view.state.selection) ||
-          (selection.main.assoc != view.state.selection.main.assoc &&
-            this.dragging === false)
+          !selection.eq(view.state.selection, this.dragging === false)
         )
           this.view.dispatch({
             selection,
@@ -79523,6 +79606,9 @@ in the editor view.
         '&.cm-focused > .cm-scroller > .cm-cursorLayer .cm-cursor': {
           display: 'block'
         },
+        '.cm-iso': {
+          unicodeBidi: 'isolate'
+        },
         '.cm-announced': {
           position: 'fixed',
           top: '-10000px'
@@ -79819,6 +79905,21 @@ in the editor view.
             !contains(view.contentDOM, domSel.anchorNode)
               ? view.state.selection.main.anchor
               : view.docView.posFromDOM(domSel.anchorNode, domSel.anchorOffset)
+          // iOS will refuse to select the block gaps when doing select-all
+          let vp = view.viewport
+          if (
+            browser.ios &&
+            view.state.selection.main.empty &&
+            head != anchor &&
+            (vp.from > 0 || vp.to < view.state.doc.length)
+          ) {
+            let offFrom = vp.from - Math.min(head, anchor),
+              offTo = vp.to - Math.max(head, anchor)
+            if ((offFrom == 0 || offFrom == 1) && (offTo == 0 || offTo == -1)) {
+              head = 0
+              anchor = view.state.doc.length
+            }
+          }
           this.newSel = dist_EditorSelection.single(anchor, head)
         }
       }
@@ -81407,6 +81508,21 @@ transactions for editing actions.
         )
       }
       /**
+    Get the cursor position visually at the start or end of a line.
+    Note that this may differ from the _logical_ position at its
+    start or end (which is simply at `line.from`/`line.to`) if text
+    at the start or end goes against the line's base text direction.
+    */
+      visualLineSide(line, end) {
+        let order = this.bidiSpans(line),
+          dir = this.textDirectionAt(line.from)
+        let span = order[end ? order.length - 1 : 0]
+        return dist_EditorSelection.cursor(
+          span.side(end, dir) + line.from,
+          span.forward(!end, dir) ? 1 : -1
+        )
+      }
+      /**
     Move to the next line boundary in the given direction. If
     `includeWrap` is true, line wrapping is on, and there is a
     further wrap point on the current line, the wrap point will be
@@ -81555,12 +81671,12 @@ transactions for editing actions.
             (entry.fresh ||
               isolatesEq(
                 entry.isolates,
-                (isolates = getIsolatedRanges(this, line.from, line.to))
+                (isolates = getIsolatedRanges(this, line))
               ))
           )
             return entry.order
         }
-        if (!isolates) isolates = getIsolatedRanges(this, line.from, line.to)
+        if (!isolates) isolates = getIsolatedRanges(this, line)
         let order = computeOrder(line.text, dir, isolates)
         this.bidiCache.push(
           new CachedOrder(line.from, line.to, dir, isolates, true, order)
@@ -81843,6 +81959,16 @@ containing the decorations to
 [`EditorView.atomicRanges`](https://codemirror.net/6/docs/ref/#view.EditorView^atomicRanges).
 */
     EditorView.decorations = decorations
+    /**
+Facet that works much like
+[`decorations`](https://codemirror.net/6/docs/ref/#view.EditorView^decorations), but puts its
+inputs at the very bottom of the precedence stack, meaning mark
+decorations provided here will only be split by other, partially
+overlapping \`outerDecorations\` ranges, and wrap around all
+regular decorations. Use this for mark elements that should, as
+much as possible, remain in one piece.
+*/
+    EditorView.outerDecorations = outerDecorations
     /**
 Used to provide ranges that should be treated as atoms as far as
 cursor motion is concerned. This causes methods like
@@ -85111,6 +85237,24 @@ types that represent an expression could be tagged with an
 */
     dist_NodeProp.group = new dist_NodeProp({
       deserialize: (str) => str.split(' ')
+    })
+    /**
+Attached to nodes to indicate these should be
+[displayed](https://codemirror.net/docs/ref/#language.syntaxTree)
+in a bidirectional text isolate, so that direction-neutral
+characters on their sides don't incorrectly get associated with
+surrounding text. You'll generally want to set this for nodes
+that contain arbitrary text, like strings and comments, and for
+nodes that appear _inside_ arbitrary text, like HTML tags. When
+not given a value, in a grammar declaration, defaults to
+`"auto"`.
+*/
+    dist_NodeProp.isolate = new dist_NodeProp({
+      deserialize: (value) => {
+        if (value && value != 'rtl' && value != 'ltr' && value != 'auto')
+          throw new RangeError('Invalid value for isolate: ' + value)
+        return value || 'auto'
+      }
     })
     /**
 The hash of the [context](#lr.ContextTracker.constructor)
@@ -91801,6 +91945,149 @@ A [language](https://codemirror.net/6/docs/ref/#language.Language) class based o
       })
       typeArray.push(type)
       return type
+    }
+
+    function buildForLine(line) {
+      return (
+        line.length <= 4096 &&
+        /[\u0590-\u05f4\u0600-\u06ff\u0700-\u08ac\ufb50-\ufdff]/.test(line)
+      )
+    }
+    function textHasRTL(text) {
+      for (let i = text.iter(); !i.next().done; )
+        if (buildForLine(i.value)) return true
+      return false
+    }
+    function changeAddsRTL(change) {
+      let added = false
+      change.iterChanges((fA, tA, fB, tB, ins) => {
+        if (!added && textHasRTL(ins)) added = true
+      })
+      return added
+    }
+    const alwaysIsolate = /*@__PURE__*/ Facet.define({
+      combine: (values) => values.some((x) => x)
+    })
+    /**
+Make sure nodes
+[marked](https://lezer.codemirror.net/docs/ref/#common.NodeProp^isolate)
+as isolating for bidirectional text are rendered in a way that
+isolates them from the surrounding text.
+*/
+    function bidiIsolates(options = {}) {
+      let extensions = [isolateMarks]
+      if (options.alwaysIsolate) extensions.push(alwaysIsolate.of(true))
+      return extensions
+    }
+    const isolateMarks = /*@__PURE__*/ dist_ViewPlugin.fromClass(
+      class {
+        constructor(view) {
+          this.always =
+            view.state.facet(alwaysIsolate) ||
+            view.textDirection != Direction.LTR ||
+            view.state.facet(EditorView.perLineTextDirection)
+          this.hasRTL = !this.always && textHasRTL(view.state.doc)
+          this.tree = dist_syntaxTree(view.state)
+          this.decorations = buildDeco(view, this.tree, this.always)
+        }
+        update(update) {
+          let always =
+            update.state.facet(alwaysIsolate) ||
+            update.view.textDirection != Direction.LTR ||
+            update.state.facet(EditorView.perLineTextDirection)
+          if (!always && !this.hasRTL && changeAddsRTL(update.changes))
+            this.hasRTL = true
+          if (!always && !this.hasRTL) return
+          let tree = dist_syntaxTree(update.state)
+          if (
+            always != this.always ||
+            tree != this.tree ||
+            update.docChanged ||
+            update.viewportChanged
+          ) {
+            this.tree = tree
+            this.always = always
+            this.decorations = buildDeco(update.view, tree, always)
+          }
+        }
+      },
+      {
+        provide: (plugin) => {
+          function access(view) {
+            var _a, _b
+            return (_b =
+              (_a = view.plugin(plugin)) === null || _a === void 0
+                ? void 0
+                : _a.decorations) !== null && _b !== void 0
+              ? _b
+              : Decoration.none
+          }
+          return [
+            EditorView.outerDecorations.of(access),
+            Prec.lowest(EditorView.bidiIsolatedRanges.of(access))
+          ]
+        }
+      }
+    )
+    function buildDeco(view, tree, always) {
+      let deco = new RangeSetBuilder()
+      let ranges = view.visibleRanges
+      if (!always) ranges = clipRTLLines(ranges, view.state.doc)
+      for (let { from, to } of ranges) {
+        tree.iterate({
+          enter: (node) => {
+            let iso = node.type.prop(dist_NodeProp.isolate)
+            if (iso) deco.add(node.from, node.to, marks[iso])
+          },
+          from,
+          to
+        })
+      }
+      return deco.finish()
+    }
+    function clipRTLLines(ranges, doc) {
+      let cur = doc.iter(),
+        pos = 0,
+        result = [],
+        last = null
+      for (let { from, to } of ranges) {
+        if (from != pos) {
+          if (pos < from) cur.next(from - pos)
+          pos = from
+        }
+        for (;;) {
+          let start = pos,
+            end = pos + cur.value.length
+          if (!cur.lineBreak && buildForLine(cur.value)) {
+            if (last && last.to > start - 10) last.to = Math.min(to, end)
+            else result.push((last = { from: start, to: Math.min(to, end) }))
+          }
+          if (pos >= to) break
+          pos = end
+          cur.next()
+        }
+      }
+      return result
+    }
+    const marks = {
+      rtl: /*@__PURE__*/ Decoration.mark({
+        class: 'cm-iso',
+        inclusive: true,
+        attributes: { dir: 'rtl' },
+        bidiIsolate: Direction.RTL
+      }),
+      ltr: /*@__PURE__*/ Decoration.mark({
+        class: 'cm-iso',
+        inclusive: true,
+        attributes: { dir: 'ltr' },
+        bidiIsolate: Direction.LTR
+      }),
+      auto: /*@__PURE__*/ Decoration.mark({
+        class: 'cm-iso',
+        inclusive: true,
+        attributes: { dir: 'auto' },
+        bidiIsolate: null
+      })
     } // CONCATENATED MODULE: ./node_modules/@codemirror/commands/dist/index.js
 
     /**
@@ -92558,7 +92845,7 @@ Default key bindings for the undo history.
     }
     function moveSel({ state, dispatch }, how) {
       let selection = updateSel(state.selection, how)
-      if (selection.eq(state.selection)) return false
+      if (selection.eq(state.selection, true)) return false
       dispatch(setSel(state, selection))
       return true
     }
@@ -101688,6 +101975,7 @@ content with.
       maxTerm: 371,
       context: trackNewline,
       nodeProps: [
+        ['isolate', -8, 4, 5, 13, 33, 35, 48, 50, 52, ''],
         [
           'group',
           -26,
@@ -109700,7 +109988,7 @@ data-button-type="${type}">
       }
 
       #newInspector(callback) {
-        new EditorEventListener(
+        return new EditorEventListener(
           this.#eventEmitter,
           'textae-event.annotation-data.events-observer.change',
           filterIfModelModified(this.#annotationModel, callback)

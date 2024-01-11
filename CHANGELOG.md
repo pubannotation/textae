@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [12.13.5](https://github.com/pubannotation/textae/compare/v12.13.4...v12.13.5) (2024-01-11)
+
+
+### Bug Fixes
+
+* More than one callback function can be set with the inspectCallback API. ([200444d](https://github.com/pubannotation/textae/commit/200444d6afe5393712c408f2472625f2f4c56fa7))
+
 ### [12.13.4](https://github.com/pubannotation/textae/compare/v12.13.3...v12.13.4) (2023-12-25)
 
 
