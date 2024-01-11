@@ -193,7 +193,7 @@ export default class Editor {
   }
 
   #newInspector(callback) {
-    new EditorEventListener(
+    return new EditorEventListener(
       this.#eventEmitter,
       'textae-event.annotation-data.events-observer.change',
       filterIfModelModified(this.#annotationModel, callback)
