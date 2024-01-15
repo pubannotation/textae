@@ -314,9 +314,7 @@
               key: format,
               ref: fmtDef,
               code: opts.code.formats
-                ? codegen_1._`${opts.code.formats}${codegen_1.getProperty(
-                    format
-                  )}`
+                ? codegen_1._`${opts.code.formats}${codegen_1.getProperty(format)}`
                 : undefined
             })
             cxt.fail$data(compareCode(fmt))
@@ -1520,9 +1518,8 @@
         }
         setValue(value, { property, itemIndex }) {
           this.value = value
-          this.scopePath = (0, code_1._)`.${new code_1.Name(
-            property
-          )}[${itemIndex}]`
+          this.scopePath = (0,
+          code_1._)`.${new code_1.Name(property)}[${itemIndex}]`
         }
       }
       exports.ValueScopeName = ValueScopeName
@@ -1775,10 +1772,8 @@
       }
       function errorInstancePath({ errorPath }, { instancePath }) {
         const instPath = instancePath
-          ? (0, codegen_1.str)`${errorPath}${(0, util_1.getErrorPath)(
-              instancePath,
-              util_1.Type.Str
-            )}`
+          ? (0,
+            codegen_1.str)`${errorPath}${(0, util_1.getErrorPath)(instancePath, util_1.Type.Str)}`
           : errorPath
         return [
           names_1.default.instancePath,
@@ -1793,10 +1788,8 @@
           ? errSchemaPath
           : (0, codegen_1.str)`${errSchemaPath}/${keyword}`
         if (schemaPath) {
-          schPath = (0, codegen_1.str)`${schPath}${(0, util_1.getErrorPath)(
-            schemaPath,
-            util_1.Type.Str
-          )}`
+          schPath = (0,
+          codegen_1.str)`${schPath}${(0, util_1.getErrorPath)(schemaPath, util_1.Type.Str)}`
         }
         return [E.schemaPath, schPath]
       }
@@ -1943,9 +1936,7 @@
           gen.optimize(this.opts.code.optimize)
           // gen.optimize(1)
           const validateCode = gen.toString()
-          sourceCode = `${gen.scopeRefs(
-            names_1.default.scope
-          )}return ${validateCode}`
+          sourceCode = `${gen.scopeRefs(names_1.default.scope)}return ${validateCode}`
           // console.log((codeSize += sourceCode.length), (nodeCount += gen.nodeCount))
           if (this.opts.code.process)
             sourceCode = this.opts.code.process(sourceCode, sch)
@@ -2495,8 +2486,8 @@
             return schema
           if (typeof schema == 'string') return (0, codegen_1._)`${schema}`
         }
-        return (0, codegen_1._)`${topSchemaRef}${schemaPath}${(0,
-        codegen_1.getProperty)(keyword)}`
+        return (0,
+        codegen_1._)`${topSchemaRef}${schemaPath}${(0, codegen_1.getProperty)(keyword)}`
       }
       exports.schemaRefOrVal = schemaRefOrVal
       function unescapeFragment(str) {
@@ -3058,9 +3049,8 @@
       function assignDefault(it, prop, defaultValue) {
         const { gen, compositeRule, data, opts } = it
         if (defaultValue === undefined) return
-        const childData = (0, codegen_1._)`${data}${(0, codegen_1.getProperty)(
-          prop
-        )}`
+        const childData = (0,
+        codegen_1._)`${data}${(0, codegen_1.getProperty)(prop)}`
         if (compositeRule) {
           ;(0, util_1.checkStrictMode)(
             it,
@@ -3077,9 +3067,8 @@
         // (opts.useDefaults === "empty" ? ` || ${childData} === null || ${childData} === ""` : "")
         gen.if(
           condition,
-          (0, codegen_1._)`${childData} = ${(0, codegen_1.stringify)(
-            defaultValue
-          )}`
+          (0,
+          codegen_1._)`${childData} = ${(0, codegen_1.stringify)(defaultValue)}`
         )
       }
       //# sourceMappingURL=defaults.js.map
@@ -3144,24 +3133,16 @@
         } else {
           gen.func(
             validateName,
-            (0, codegen_1._)`${names_1.default.data}, ${destructureValCxt(
-              opts
-            )}`,
+            (0,
+            codegen_1._)`${names_1.default.data}, ${destructureValCxt(opts)}`,
             schemaEnv.$async,
             () => gen.code(funcSourceUrl(schema, opts)).code(body)
           )
         }
       }
       function destructureValCxt(opts) {
-        return (0, codegen_1._)`{${names_1.default.instancePath}="", ${
-          names_1.default.parentData
-        }, ${names_1.default.parentDataProperty}, ${names_1.default.rootData}=${
-          names_1.default.data
-        }${
-          opts.dynamicRef
-            ? (0, codegen_1._)`, ${names_1.default.dynamicAnchors}={}`
-            : codegen_1.nil
-        }}={}`
+        return (0,
+        codegen_1._)`{${names_1.default.instancePath}="", ${names_1.default.parentData}, ${names_1.default.parentDataProperty}, ${names_1.default.rootData}=${names_1.default.data}${opts.dynamicRef ? (0, codegen_1._)`, ${names_1.default.dynamicAnchors}={}` : codegen_1.nil}}={}`
       }
       function destructureValCxtES5(gen, opts) {
         gen.if(
@@ -3574,8 +3555,8 @@
           if (!this.$data) return this.fail(condition)
           const { schemaCode } = this
           this.fail(
-            (0, codegen_1._)`${schemaCode} !== undefined && (${(0,
-            codegen_1.or)(this.invalid$data(), condition)})`
+            (0,
+            codegen_1._)`${schemaCode} !== undefined && (${(0, codegen_1.or)(this.invalid$data(), condition)})`
           )
         }
         error(append, errorParams, errorPaths) {
@@ -3644,12 +3625,8 @@
               if (!(schemaCode instanceof codegen_1.Name))
                 throw new Error('ajv implementation error')
               const st = Array.isArray(schemaType) ? schemaType : [schemaType]
-              return (0, codegen_1._)`${(0, dataType_2.checkDataTypes)(
-                st,
-                schemaCode,
-                it.opts.strictNumbers,
-                dataType_2.DataType.Wrong
-              )}`
+              return (0,
+              codegen_1._)`${(0, dataType_2.checkDataTypes)(st, schemaCode, it.opts.strictNumbers, dataType_2.DataType.Wrong)}`
             }
             return codegen_1.nil
           }
@@ -3745,9 +3722,8 @@
         const segments = jsonPointer.split('/')
         for (const segment of segments) {
           if (segment) {
-            data = (0, codegen_1._)`${data}${(0, codegen_1.getProperty)(
-              (0, util_1.unescapeJsonPointer)(segment)
-            )}`
+            data = (0,
+            codegen_1._)`${data}${(0, codegen_1.getProperty)((0, util_1.unescapeJsonPointer)(segment))}`
             expr = (0, codegen_1._)`${expr} && ${data}`
           }
         }
@@ -3853,12 +3829,8 @@
           )
           gen.assign(
             valid,
-            (0, codegen_1._)`${_await}${(0, code_1.callValidateCode)(
-              cxt,
-              validateRef,
-              passCxt,
-              passSchema
-            )}`,
+            (0,
+            codegen_1._)`${_await}${(0, code_1.callValidateCode)(cxt, validateRef, passCxt, passSchema)}`,
             def.modifying
           )
         }
@@ -3953,9 +3925,7 @@
               )
         ) {
           throw new Error(
-            `parent schema must have dependencies of ${keyword}: ${deps.join(
-              ','
-            )}`
+            `parent schema must have dependencies of ${keyword}: ${deps.join(',')}`
           )
         }
         if (def.validateSchema) {
@@ -4003,18 +3973,15 @@
           return schemaProp === undefined
             ? {
                 schema: sch,
-                schemaPath: (0, codegen_1._)`${it.schemaPath}${(0,
-                codegen_1.getProperty)(keyword)}`,
+                schemaPath: (0,
+                codegen_1._)`${it.schemaPath}${(0, codegen_1.getProperty)(keyword)}`,
                 errSchemaPath: `${it.errSchemaPath}/${keyword}`
               }
             : {
                 schema: sch[schemaProp],
-                schemaPath: (0, codegen_1._)`${it.schemaPath}${(0,
-                codegen_1.getProperty)(keyword)}${(0, codegen_1.getProperty)(
-                  schemaProp
-                )}`,
-                errSchemaPath: `${it.errSchemaPath}/${keyword}/${(0,
-                util_1.escapeFragment)(schemaProp)}`
+                schemaPath: (0,
+                codegen_1._)`${it.schemaPath}${(0, codegen_1.getProperty)(keyword)}${(0, codegen_1.getProperty)(schemaProp)}`,
+                errSchemaPath: `${it.errSchemaPath}/${keyword}/${(0, util_1.escapeFragment)(schemaProp)}`
               }
         }
         if (schema !== undefined) {
@@ -4054,8 +4021,8 @@
             true
           )
           dataContextProps(nextData)
-          subschema.errorPath = (0, codegen_1.str)`${errorPath}${(0,
-          util_1.getErrorPath)(dataProp, dpType, opts.jsPropertySyntax)}`
+          subschema.errorPath = (0,
+          codegen_1.str)`${errorPath}${(0, util_1.getErrorPath)(dataProp, dpType, opts.jsPropertySyntax)}`
           subschema.parentDataProperty = (0, codegen_1._)`${dataProp}`
           subschema.dataPathArr = [...dataPathArr, subschema.parentDataProperty]
         }
@@ -5058,10 +5025,8 @@
                 definedProp,
                 ...patProps.map(
                   (p) =>
-                    (0, codegen_1._)`${(0, code_1.usePattern)(
-                      cxt,
-                      p
-                    )}.test(${key})`
+                    (0,
+                    codegen_1._)`${(0, code_1.usePattern)(cxt, p)}.test(${key})`
                 )
               )
             }
@@ -5378,8 +5343,8 @@
             })
           } else {
             gen.if(
-              (0, codegen_1._)`${hasProperty} && (${(0,
-              code_1.checkMissingProp)(cxt, deps, missing)})`
+              (0,
+              codegen_1._)`${hasProperty} && (${(0, code_1.checkMissingProp)(cxt, deps, missing)})`
             )
             ;(0, code_1.reportMissingProp)(cxt, missing)
             gen.else()
@@ -5840,10 +5805,8 @@
           function validateProperties(pat) {
             gen.forIn('key', data, (key) => {
               gen.if(
-                (0, codegen_1._)`${(0, code_1.usePattern)(
-                  cxt,
-                  pat
-                )}.test(${key})`,
+                (0,
+                codegen_1._)`${(0, code_1.usePattern)(cxt, pat)}.test(${key})`,
                 () => {
                   const alwaysValid = alwaysValidPatterns.includes(pat)
                   if (!alwaysValid) {
@@ -6131,18 +6094,16 @@
       }
       exports.isOwnProperty = isOwnProperty
       function propertyInData(gen, data, property, ownProperties) {
-        const cond = (0, codegen_1._)`${data}${(0, codegen_1.getProperty)(
-          property
-        )} !== undefined`
+        const cond = (0,
+        codegen_1._)`${data}${(0, codegen_1.getProperty)(property)} !== undefined`
         return ownProperties
           ? (0, codegen_1._)`${cond} && ${isOwnProperty(gen, data, property)}`
           : cond
       }
       exports.propertyInData = propertyInData
       function noPropertyInData(gen, data, property, ownProperties) {
-        const cond = (0, codegen_1._)`${data}${(0, codegen_1.getProperty)(
-          property
-        )} === undefined`
+        const cond = (0,
+        codegen_1._)`${data}${(0, codegen_1.getProperty)(property)} === undefined`
         return ownProperties
           ? (0, codegen_1.or)(
               cond,
@@ -6192,9 +6153,8 @@
             names_1.default.dynamicAnchors,
             names_1.default.dynamicAnchors
           ])
-        const args = (0, codegen_1._)`${dataAndSchema}, ${gen.object(
-          ...valCxt
-        )}`
+        const args = (0,
+        codegen_1._)`${dataAndSchema}, ${gen.object(...valCxt)}`
         return context !== codegen_1.nil
           ? (0, codegen_1._)`${func}.call(${context}, ${args})`
           : (0, codegen_1._)`${func}(${args})`
@@ -6208,11 +6168,8 @@
         return gen.scopeValue('pattern', {
           key: rx.toString(),
           ref: rx,
-          code: (0, codegen_1._)`${
-            regExp.code === 'new RegExp'
-              ? newRegExp
-              : (0, util_2.useFunc)(gen, regExp)
-          }(${pattern}, ${u})`
+          code: (0,
+          codegen_1._)`${regExp.code === 'new RegExp' ? newRegExp : (0, util_2.useFunc)(gen, regExp)}(${pattern}, ${u})`
         })
       }
       exports.usePattern = usePattern
@@ -6397,9 +6354,8 @@
         const { gen } = cxt
         return sch.validate
           ? gen.scopeValue('validate', { ref: sch.validate })
-          : (0, codegen_1._)`${gen.scopeValue('wrapper', {
-              ref: sch
-            })}.validate`
+          : (0,
+            codegen_1._)`${gen.scopeValue('wrapper', { ref: sch })}.validate`
       }
       exports.getValidate = getValidate
       function callRef(cxt, v, sch, $async) {
@@ -6415,11 +6371,8 @@
           gen.try(
             () => {
               gen.code(
-                (0, codegen_1._)`await ${(0, code_1.callValidateCode)(
-                  cxt,
-                  v,
-                  passCxt
-                )}`
+                (0,
+                codegen_1._)`await ${(0, code_1.callValidateCode)(cxt, v, passCxt)}`
               )
               addEvaluatedFrom(v) // TODO will not work with async, it has to be returned with the result
               if (!allErrors) gen.assign(valid, true)
@@ -6795,8 +6748,8 @@
                 fmtDef instanceof RegExp
                   ? (0, codegen_1.regexpCode)(fmtDef)
                   : opts.code.formats
-                    ? (0, codegen_1._)`${opts.code.formats}${(0,
-                      codegen_1.getProperty)(schema)}`
+                    ? (0,
+                      codegen_1._)`${opts.code.formats}${(0, codegen_1.getProperty)(schema)}`
                     : undefined
               const fmt = gen.scopeValue('formats', {
                 key: schema,
@@ -6899,10 +6852,8 @@
           const { gen, data, $data, schemaCode, schema } = cxt
           if ($data || (schema && typeof schema == 'object')) {
             cxt.fail$data(
-              (0, codegen_1._)`!${(0, util_1.useFunc)(
-                gen,
-                equal_1.default
-              )}(${data}, ${schemaCode})`
+              (0,
+              codegen_1._)`!${(0, util_1.useFunc)(gen, equal_1.default)}(${data}, ${schemaCode})`
             )
           } else {
             cxt.fail((0, codegen_1._)`${schema} !== ${data}`)
@@ -7097,10 +7048,8 @@
           const len =
             it.opts.unicode === false
               ? (0, codegen_1._)`${data}.length`
-              : (0, codegen_1._)`${(0, util_1.useFunc)(
-                  cxt.gen,
-                  ucs2length_1.default
-                )}(${data})`
+              : (0,
+                codegen_1._)`${(0, util_1.useFunc)(cxt.gen, ucs2length_1.default)}(${data})`
           cxt.fail$data((0, codegen_1._)`${len} ${op} ${schemaCode}`)
         }
       }
@@ -12829,7 +12778,8 @@
                       value = self[index]
                       result = boundFunction(value, index, O)
                       if (TYPE) {
-                        if (IS_MAP) target[index] = result // map
+                        if (IS_MAP)
+                          target[index] = result // map
                         else if (result)
                           switch (TYPE) {
                             case 3:
@@ -53093,9 +53043,9 @@
     /* harmony default export */ function moveJetty(jetty, x, y, entity) {
       jetty.setAttribute(
         'points',
-        `${x} ${y + MarkerHeight}, ${entity.offsetCenter} ${
-          y + MarkerHeight
-        }, ${entity.offsetCenter} ${entity.offsetTop}`
+        `${x} ${y + MarkerHeight}, ${entity.offsetCenter} ${y + MarkerHeight}, ${
+          entity.offsetCenter
+        } ${entity.offsetTop}`
       )
     } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationModel/RelationInstanceContainer/RelationInstance/Arrow/createJetty.js
 
@@ -57966,9 +57916,7 @@
           this,
           `remove a value from an attrribute:${this._attrDef.pred}, index:${
             this._index
-          }, updated values: \n ${values
-            .map((v) => JSON.stringify(v))
-            .join('\n ')}`
+          }, updated values: \n ${values.map((v) => JSON.stringify(v)).join('\n ')}`
         )
       }
 
@@ -58576,11 +58524,9 @@
 
         commandLog(
           this,
-          `change old type:${JSON.stringify(
-            oldType
-          )} to new type:${JSON.stringify(newType)}, default is ${
-            this._definitionContainer.defaultType
-          }`
+          `change old type:${JSON.stringify(oldType)} to new type:${JSON.stringify(
+            newType
+          )}, default is ${this._definitionContainer.defaultType}`
         )
       }
 
@@ -62790,10 +62736,7 @@
       class="textae-editor__create-or-edit-value-of-attribute-definition-dialog__range_or_id_or_pattern textae-editor__promise-dialog__observable-element"
     >
   </div>
-  ${CreateOrEditValueOfAttributeDefinitionDialog_inputDefault(
-    showDefault,
-    defaultValue
-  )}
+  ${CreateOrEditValueOfAttributeDefinitionDialog_inputDefault(showDefault, defaultValue)}
   <div class="textae-editor__create-or-edit-value-of-attribute-definition-dialog__row">
     <label>label</label>
     <input
@@ -63116,9 +63059,7 @@
         }
 
         super(
-          `Attribute [${targetAttributes
-            .map(({ id }) => id || '-')
-            .join(',')}]`,
+          `Attribute [${targetAttributes.map(({ id }) => id || '-').join(',')}]`,
           EditNumericAttributeDialog_template({
             subjects: `${targetAttributes
               .map(({ subj }) => subj || '-')
@@ -63306,9 +63247,7 @@
         }
 
         super(
-          `Attribute [${targetAttributes
-            .map(({ id }) => id || '-')
-            .join(',')}]`,
+          `Attribute [${targetAttributes.map(({ id }) => id || '-').join(',')}]`,
           EditStringAttributeDialog_template({
             subjects: `${targetAttributes
               .map(({ subj }) => subj || '-')
@@ -66964,7 +66903,7 @@
       bindChangeLockConfig(content, typeDefinition)
     } // CONCATENATED MODULE: ./package.json
 
-    const package_namespaceObject = { i8: '12.13.5' } // CONCATENATED MODULE: ./src/lib/component/SettingDialog/template.js
+    const package_namespaceObject = { i8: '12.13.6' } // CONCATENATED MODULE: ./src/lib/component/SettingDialog/template.js
     function template_template(context) {
       const {
         typeGap,
@@ -78080,9 +78019,7 @@ in the editor view.
         return this
       }
       toString() {
-        return `line(${this.length}${this.collapsed ? -this.collapsed : ''}${
-          this.widgetHeight ? ':' + this.widgetHeight : ''
-        })`
+        return `line(${this.length}${this.collapsed ? -this.collapsed : ''}${this.widgetHeight ? ':' + this.widgetHeight : ''})`
       }
     }
     class HeightMapGap extends HeightMap {
@@ -90575,9 +90512,7 @@ Unfold folded ranges on selected lines.
       let lineFrom = view.state.doc.lineAt(range.from).number,
         lineTo = view.state.doc.lineAt(range.to).number
       return EditorView.announce.of(
-        `${view.state.phrase(
-          fold ? 'Folded lines' : 'Unfolded lines'
-        )} ${lineFrom} ${view.state.phrase('to')} ${lineTo}.`
+        `${view.state.phrase(fold ? 'Folded lines' : 'Unfolded lines')} ${lineFrom} ${view.state.phrase('to')} ${lineTo}.`
       )
     }
     /**
@@ -95808,9 +95743,7 @@ Default search-related key bindings.
           }
       }
       return EditorView.announce.of(
-        `${view.state.phrase('current match')}. ${text} ${view.state.phrase(
-          'on line'
-        )} ${line.number}.`
+        `${view.state.phrase('current match')}. ${text} ${view.state.phrase('on line')} ${line.number}.`
       )
     }
     const search_dist_baseTheme = /*@__PURE__*/ EditorView.baseTheme({
@@ -96284,6 +96217,7 @@ selection range that has the same text in front of it.
           configs,
           {
             activateOnTyping: true,
+            activateOnTypingDelay: 100,
             selectOnOpen: true,
             override: null,
             closeOnBlur: true,
@@ -96350,9 +96284,7 @@ selection range that has the same text in front of it.
       let scaleY = (list.bottom - list.top) / tooltip.offsetHeight
       let scaleX = (list.right - list.left) / tooltip.offsetWidth
       return {
-        style: `${side}: ${offset / scaleY}px; max-width: ${
-          maxWidth / scaleX
-        }px`,
+        style: `${side}: ${offset / scaleY}px; max-width: ${maxWidth / scaleX}px`,
         class:
           'cm-completionInfo-' +
           (narrow
@@ -97270,6 +97202,7 @@ Close the currently active completion.
           this.debounceUpdate = -1
           this.running = []
           this.debounceAccept = -1
+          this.pendingStart = false
           this.composing = 0 /* CompositionState.None */
           for (let active of view.state.field(completionState).active)
             if (active.state == 1 /* State.Pending */) this.startQuery(active)
@@ -97307,12 +97240,21 @@ Close the currently active completion.
             }
           }
           if (this.debounceUpdate > -1) clearTimeout(this.debounceUpdate)
+          if (
+            update.transactions.some((tr) =>
+              tr.effects.some((e) => e.is(startCompletionEffect))
+            )
+          )
+            this.pendingStart = true
+          let delay = this.pendingStart
+            ? 50
+            : update.state.facet(completionConfig).activateOnTypingDelay
           this.debounceUpdate = cState.active.some(
             (a) =>
               a.state == 1 /* State.Pending */ &&
               !this.running.some((q) => q.active.source == a.source)
           )
-            ? setTimeout(() => this.startUpdate(), 50)
+            ? setTimeout(() => this.startUpdate(), delay)
             : -1
           if (this.composing != 0 /* CompositionState.None */)
             for (let tr of update.transactions) {
@@ -97327,6 +97269,7 @@ Close the currently active completion.
         }
         startUpdate() {
           this.debounceUpdate = -1
+          this.pendingStart = false
           let { state } = this.view,
             cState = state.field(completionState)
           for (let active of cState.active) {
@@ -97437,7 +97380,13 @@ Close the currently active completion.
               let dialog =
                 state.open && getTooltip(this.view, state.open.tooltip)
               if (!dialog || !dialog.dom.contains(event.relatedTarget))
-                this.view.dispatch({ effects: closeCompletionEffect.of(null) })
+                setTimeout(
+                  () =>
+                    this.view.dispatch({
+                      effects: closeCompletionEffect.of(null)
+                    }),
+                  10
+                )
             }
           },
           compositionstart() {
@@ -97810,10 +97759,15 @@ interpreted as indicating a placeholder.
         let spec = {
           changes: { from, to, insert: Text.of(text) },
           scrollIntoView: true,
-          annotations: completion ? pickedCompletion.of(completion) : undefined
+          annotations: completion
+            ? [
+                pickedCompletion.of(completion),
+                Transaction.userEvent.of('input.complete')
+              ]
+            : undefined
         }
         if (ranges.length) spec.selection = fieldSelection(ranges, 0)
-        if (ranges.length > 1) {
+        if (ranges.some((r) => r.field > 0)) {
           let active = new ActiveSnippet(ranges, 0)
           let effects = (spec.effects = [setActive.of(active)])
           if (editor.state.field(snippetState, false) === undefined)
@@ -98901,9 +98855,7 @@ editor is idle to run right away.
                   class: 'cm-diagnosticAction',
                   onclick: click,
                   onmousedown: click,
-                  'aria-label': ` Action: ${name}${
-                    keyIndex < 0 ? '' : ` (access key "${keys[i]})"`
-                  }.`
+                  'aria-label': ` Action: ${name}${keyIndex < 0 ? '' : ` (access key "${keys[i]})"`}.`
                 },
                 nameElt
               )
@@ -99132,9 +99084,7 @@ editor is idle to run right away.
       }
     }
     function svg(content, attrs = `viewBox="0 0 40 40"`) {
-      return `url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" ${attrs}>${encodeURIComponent(
-        content
-      )}</svg>')`
+      return `url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" ${attrs}>${encodeURIComponent(content)}</svg>')`
     }
     function underline(color) {
       return svg(
@@ -99630,11 +99580,7 @@ about the parse state.
     @internal
     */
       toString() {
-        return `[${this.stack
-          .filter((_, i) => i % 3 == 0)
-          .concat(this.state)}]@${this.pos}${
-          this.score ? '!' + this.score : ''
-        }`
+        return `[${this.stack.filter((_, i) => i % 3 == 0).concat(this.state)}]@${this.pos}${this.score ? '!' + this.score : ''}`
       }
       // Start an empty stack
       /**
@@ -101169,9 +101115,7 @@ an instance of this class.
             console.log(
               base +
                 this.stackID(stack) +
-                ` (via always-reduce ${parser.getName(
-                  defaultReduce & 65535 /* Action.ValueMask */
-                )})`
+                ` (via always-reduce ${parser.getName(defaultReduce & 65535 /* Action.ValueMask */)})`
             )
           return true
         }
@@ -101202,12 +101146,8 @@ an instance of this class.
                 ` (via ${
                   (action & 65536) /* Action.ReduceFlag */ == 0
                     ? 'shift'
-                    : `reduce of ${parser.getName(
-                        action & 65535 /* Action.ValueMask */
-                      )}`
-                } for ${parser.getName(term)} @ ${start}${
-                  localStack == stack ? '' : ', split'
-                })`
+                    : `reduce of ${parser.getName(action & 65535 /* Action.ValueMask */)}`
+                } for ${parser.getName(term)} @ ${start}${localStack == stack ? '' : ', split'})`
             )
           if (last) return true
           else if (localStack.pos > start) stacks.push(localStack)
@@ -101368,9 +101308,7 @@ content with.
         this.wrappers = []
         if (spec.version != 14 /* File.Version */)
           throw new RangeError(
-            `Parser version (${spec.version}) doesn't match runtime version (${
-              14 /* File.Version */
-            })`
+            `Parser version (${spec.version}) doesn't match runtime version (${14 /* File.Version */})`
           )
         let nodeNames = spec.nodeNames.split(' ')
         this.minRepeatTerm = nodeNames.length
@@ -103414,9 +103352,7 @@ package may help with that (see
           ) {
             const piece = pieces[pieceIndex]
             context.out(
-              `<span class="jsondiffpatch-textdiff-${piece.type}">${htmlEscape(
-                decodeURI(piece.text)
-              )}</span>`
+              `<span class="jsondiffpatch-textdiff-${piece.type}">${htmlEscape(decodeURI(piece.text))}</span>`
             )
           }
           context.out('</div></li>')
@@ -103424,9 +103360,7 @@ package may help with that (see
         context.out('</ul>')
       }
       rootBegin(context, type, nodeType) {
-        const nodeClass = `jsondiffpatch-${type}${
-          nodeType ? ` jsondiffpatch-child-node-type-${nodeType}` : ''
-        }`
+        const nodeClass = `jsondiffpatch-${type}${nodeType ? ` jsondiffpatch-child-node-type-${nodeType}` : ''}`
         context.out(`<div class="jsondiffpatch-delta ${nodeClass}">`)
       }
       rootEnd(context) {
@@ -103440,9 +103374,7 @@ package may help with that (see
         )
       }
       nodeBegin(context, key, leftKey, type, nodeType) {
-        const nodeClass = `jsondiffpatch-${type}${
-          nodeType ? ` jsondiffpatch-child-node-type-${nodeType}` : ''
-        }`
+        const nodeClass = `jsondiffpatch-${type}${nodeType ? ` jsondiffpatch-child-node-type-${nodeType}` : ''}`
         context.out(
           `<li class="${nodeClass}" data-key="${leftKey}">` +
             `<div class="jsondiffpatch-property-name">${leftKey}</div>`
