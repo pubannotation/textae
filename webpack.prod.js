@@ -1,5 +1,3 @@
-const { merge } = require('webpack-merge')
-const common = require('./webpack.common.js')
 const path = require('path')
 const PACKAGE = require('./package.json')
 const { name, version } = PACKAGE
@@ -9,7 +7,7 @@ const entry = {}
 entry[`${name}-${version}.min`] = './src/index.js'
 entry[`${name}-${version}`] = './src/index.js'
 
-module.exports = merge(common, {
+module.exports = {
   mode: 'production',
   entry,
   output: {
@@ -29,4 +27,4 @@ module.exports = merge(common, {
     maxAssetSize: 4 * 1024 * 1024,
     maxEntrypointSize: 24 * 1024 * 1024
   }
-})
+}
