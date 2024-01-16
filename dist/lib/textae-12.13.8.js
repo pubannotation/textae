@@ -66903,7 +66903,7 @@
       bindChangeLockConfig(content, typeDefinition)
     } // CONCATENATED MODULE: ./package.json
 
-    const package_namespaceObject = { i8: '12.13.7' } // CONCATENATED MODULE: ./src/lib/component/SettingDialog/template.js
+    const package_namespaceObject = { i8: '12.13.8' } // CONCATENATED MODULE: ./src/lib/component/SettingDialog/template.js
     function template_template(context) {
       const {
         typeGap,
