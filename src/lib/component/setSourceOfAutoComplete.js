@@ -1,8 +1,8 @@
 import $ from 'jquery'
 import searchTerm from './searchTerm'
-import customizeqQueryUiAutocomplete from './customize-jquery-ui-autocomplete'
+import customizeJqueryUiAutocomplete from './customize-jquery-ui-autocomplete'
 
-customizeqQueryUiAutocomplete()
+customizeJqueryUiAutocomplete()
 
 export default function (
   inputElement,

@@ -1,9 +1,9 @@
 import $ from 'jquery'
-import customizeqQueryUiAutocomplete from '../customize-jquery-ui-autocomplete'
+import customizeJqueryUiAutocomplete from '../customize-jquery-ui-autocomplete'
 import searchTerm from '../searchTerm'
 import select from './select'
 
-customizeqQueryUiAutocomplete()
+customizeJqueryUiAutocomplete()
 
 export default function (el, autocompletionWs, getLocalData) {
   const inputs = el.querySelectorAll('input')
