@@ -8,6 +8,19 @@ import moveJetty from './moveJetty'
 import CurveAlgorithmFactory from './CurveAlgorithmFactory'
 
 export default class Arrow {
+  #container
+  #relation
+  #controlBarHeight
+  #sourceBollard
+  #targetBollard
+  #path
+  #pathAura
+  #sourceBollardAura
+  #targetBollardAura
+  #sourceJetty
+  #targetJetty
+  #curveAlgorithm
+
   constructor(
     editorHTMLElement,
     relation,
@@ -17,23 +30,23 @@ export default class Arrow {
     onMouseEnter,
     onMouseLeave
   ) {
-    this._container = editorHTMLElement.querySelector(
+    this.#container = editorHTMLElement.querySelector(
       '.textae-editor__relation-box'
     )
-    this._relation = relation
-    this._controlBarHeight = controlBarHeight
+    this.#relation = relation
+    this.#controlBarHeight = controlBarHeight
 
     const sourceBollard = createSourceBollard()
-    this._container.appendChild(sourceBollard)
-    this._sourceBollard = sourceBollard
+    this.#container.appendChild(sourceBollard)
+    this.#sourceBollard = sourceBollard
 
     const targetBollard = createTargetBollard()
-    this._container.appendChild(targetBollard)
-    this._targetBollard = targetBollard
+    this.#container.appendChild(targetBollard)
+    this.#targetBollard = targetBollard
 
     const path = createPath()
-    this._container.appendChild(path)
-    this._path = path
+    this.#container.appendChild(path)
+    this.#path = path
 
     const pathAura = document.createElementNS(NS.SVG, 'path')
     pathAura.classList.add('textae-editor__relation-aura')
@@ -42,8 +55,8 @@ export default class Arrow {
     pathAura.addEventListener('mouseleave', onMouseLeave)
     const title = document.createElementNS(NS.SVG, 'title')
     pathAura.appendChild(title)
-    this._container.appendChild(pathAura)
-    this._pathAura = pathAura
+    this.#container.appendChild(pathAura)
+    this.#pathAura = pathAura
 
     const sourceBollardAura = createSourceBollard()
     sourceBollardAura.classList.add('textae-editor__relation-bollard-aura')
@@ -51,8 +64,8 @@ export default class Arrow {
       onBollardClick(e, relation.sourceEntity)
     )
     sourceBollardAura.appendChild(document.createElementNS(NS.SVG, 'title'))
-    this._container.appendChild(sourceBollardAura)
-    this._sourceBollardAura = sourceBollardAura
+    this.#container.appendChild(sourceBollardAura)
+    this.#sourceBollardAura = sourceBollardAura
 
     const targetBollardAura = createTargetBollard()
     targetBollardAura.classList.add('textae-editor__relation-bollard-aura')
@@ -60,110 +73,110 @@ export default class Arrow {
       onBollardClick(e, relation.targetEntity)
     )
     targetBollardAura.appendChild(document.createElementNS(NS.SVG, 'title'))
-    this._container.appendChild(targetBollardAura)
-    this._targetBollardAura = targetBollardAura
+    this.#container.appendChild(targetBollardAura)
+    this.#targetBollardAura = targetBollardAura
 
-    this._sourceJetty = null
-    this._targetJetty = null
+    this.#sourceJetty = null
+    this.#targetJetty = null
 
     this.update(false, false, false)
   }
 
   update(pointUpPath, pointUpSourceBollards, pointUpTargetBollards) {
     const curveAlgorithm = CurveAlgorithmFactory.create(
-      this._relation,
+      this.#relation,
       pointUpSourceBollards,
       pointUpTargetBollards,
-      this._container.getBoundingClientRect().top,
-      this._controlBarHeight
+      this.#container.getBoundingClientRect().top,
+      this.#controlBarHeight
     )
-    updatePath(this._path, curveAlgorithm, this._relation.color, pointUpPath)
-    updatePath(this._pathAura, curveAlgorithm, this._relation.color, false)
-    this._pathAura.children[0].textContent = this._relation.title
+    updatePath(this.#path, curveAlgorithm, this.#relation.color, pointUpPath)
+    updatePath(this.#pathAura, curveAlgorithm, this.#relation.color, false)
+    this.#pathAura.children[0].textContent = this.#relation.title
 
-    this._sourceBollard.setAttribute(
+    this.#sourceBollard.setAttribute(
       'style',
-      `fill:${this._relation.sourceColor}`
+      `fill:${this.#relation.sourceColor}`
     )
-    this._sourceBollard.setAttribute(
+    this.#sourceBollard.setAttribute(
       'transform',
       curveAlgorithm.transformDefinitionsForSourceTriangle
     )
 
-    this._targetBollard.setAttribute(
+    this.#targetBollard.setAttribute(
       'style',
-      `fill:${this._relation.targetColor}`
+      `fill:${this.#relation.targetColor}`
     )
-    this._targetBollard.setAttribute(
+    this.#targetBollard.setAttribute(
       'transform',
       curveAlgorithm.transformDefinitionsForTargetTriangle
     )
 
-    this._sourceBollardAura.children[0].textContent =
-      this._relation.sourceEntity.title
-    this._sourceBollardAura.setAttribute(
+    this.#sourceBollardAura.children[0].textContent =
+      this.#relation.sourceEntity.title
+    this.#sourceBollardAura.setAttribute(
       'transform',
       curveAlgorithm.transformDefinitionsForSourceTriangle
     )
 
-    this._targetBollardAura.children[0].textContent =
-      this._relation.targetEntity.title
-    this._targetBollardAura.setAttribute(
+    this.#targetBollardAura.children[0].textContent =
+      this.#relation.targetEntity.title
+    this.#targetBollardAura.setAttribute(
       'transform',
       curveAlgorithm.transformDefinitionsForTargetTriangle
     )
 
     if (pointUpSourceBollards && curveAlgorithm.isSourceJettyVisible) {
-      this._drawSourceJetty(curveAlgorithm)
+      this.#drawSourceJetty(curveAlgorithm)
     } else {
-      this._destroySourceJetty()
+      this.#destroySourceJetty()
     }
 
     if (pointUpTargetBollards && curveAlgorithm.isTargetJettyVisible) {
-      this._drawTargetJetty(curveAlgorithm)
+      this.#drawTargetJetty(curveAlgorithm)
     } else {
-      this._destroyTargetJetty()
+      this.#destroyTargetJetty()
     }
 
-    this._curveAlgorithm = curveAlgorithm
+    this.#curveAlgorithm = curveAlgorithm
   }
 
   destructor() {
-    this._container.removeChild(this._path)
-    this._container.removeChild(this._sourceBollardAura)
-    this._container.removeChild(this._targetBollardAura)
-    this._container.removeChild(this._pathAura)
-    this._container.removeChild(this._sourceBollard)
-    this._container.removeChild(this._targetBollard)
+    this.#container.removeChild(this.#path)
+    this.#container.removeChild(this.#sourceBollardAura)
+    this.#container.removeChild(this.#targetBollardAura)
+    this.#container.removeChild(this.#pathAura)
+    this.#container.removeChild(this.#sourceBollard)
+    this.#container.removeChild(this.#targetBollard)
 
-    this._destroySourceJetty()
-    this._destroyTargetJetty()
+    this.#destroySourceJetty()
+    this.#destroyTargetJetty()
   }
 
   get top() {
-    return this._path.getBBox().y
+    return this.#path.getBBox().y
   }
 
   get left() {
-    return this._path.getBBox().x
+    return this.#path.getBBox().x
   }
 
   get highestX() {
-    const _t = this._curveAlgorithm.getTForY(this.top)
+    const _t = this.#curveAlgorithm.getTForY(this.top)
 
-    return this._curveAlgorithm.getXOnT(_t)
+    return this.#curveAlgorithm.getXOnT(_t)
   }
 
   get width() {
-    return this._path.getBBox().width
+    return this.#path.getBBox().width
   }
 
-  _drawSourceJetty(curveAlgorithm) {
-    const { sourceEntity } = this._relation
+  #drawSourceJetty(curveAlgorithm) {
+    const { sourceEntity } = this.#relation
 
-    if (this._sourceJetty) {
+    if (this.#sourceJetty) {
       moveJetty(
-        this._sourceJetty,
+        this.#sourceJetty,
         curveAlgorithm.sourceX,
         curveAlgorithm.sourceY,
         sourceEntity
@@ -174,17 +187,17 @@ export default class Arrow {
         curveAlgorithm.sourceY,
         sourceEntity
       )
-      this._container.appendChild(sourceJetty)
-      this._sourceJetty = sourceJetty
+      this.#container.appendChild(sourceJetty)
+      this.#sourceJetty = sourceJetty
     }
   }
 
-  _drawTargetJetty(curveAlgorithm) {
-    const { targetEntity } = this._relation
+  #drawTargetJetty(curveAlgorithm) {
+    const { targetEntity } = this.#relation
 
-    if (this._targetJetty) {
+    if (this.#targetJetty) {
       moveJetty(
-        this._targetJetty,
+        this.#targetJetty,
         curveAlgorithm.targetX,
         curveAlgorithm.targetY,
         targetEntity
@@ -195,22 +208,22 @@ export default class Arrow {
         curveAlgorithm.targetY,
         targetEntity
       )
-      this._container.appendChild(targetJetty)
-      this._targetJetty = targetJetty
+      this.#container.appendChild(targetJetty)
+      this.#targetJetty = targetJetty
     }
   }
 
-  _destroySourceJetty() {
-    if (this._sourceJetty) {
-      this._container.removeChild(this._sourceJetty)
-      this._sourceJetty = null
+  #destroySourceJetty() {
+    if (this.#sourceJetty) {
+      this.#container.removeChild(this.#sourceJetty)
+      this.#sourceJetty = null
     }
   }
 
-  _destroyTargetJetty() {
-    if (this._targetJetty) {
-      this._container.removeChild(this._targetJetty)
-      this._targetJetty = null
+  #destroyTargetJetty() {
+    if (this.#targetJetty) {
+      this.#container.removeChild(this.#targetJetty)
+      this.#targetJetty = null
     }
   }
 }
