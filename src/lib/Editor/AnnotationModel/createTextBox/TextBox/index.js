@@ -4,29 +4,33 @@ import updateTextBoxHeight from './updateTextBoxHeight'
 import pixelToInt from './pixelToInt'
 
 export default class TextBox {
+  #editorHTMLElement
+  #el
+  #annotationModel
+
   constructor(editorHTMLElement, annotationModel) {
-    this._editorHTMLElement = editorHTMLElement
-    this._el = editorHTMLElement.querySelector('.textae-editor__text-box')
-    this._annotationModel = annotationModel
+    this.#editorHTMLElement = editorHTMLElement
+    this.#el = editorHTMLElement.querySelector('.textae-editor__text-box')
+    this.#annotationModel = annotationModel
   }
 
   get boundingClientRect() {
-    return this._el.getBoundingClientRect()
+    return this.#el.getBoundingClientRect()
   }
 
   get lineHeight() {
-    return getLineHeight(this._el)
+    return getLineHeight(this.#el)
   }
 
   set lineHeight(val) {
-    setLineHeight(this._el, val)
+    setLineHeight(this.#el, val)
     this.forceUpdate()
-    this._annotationModel.updatePosition()
+    this.#annotationModel.updatePosition()
   }
 
   render(text) {
     // https://stackoverflow.com/questions/6234773/can-i-escape-html-special-chars-in-javascript
-    this._el.innerHTML = text
+    this.#el.innerHTML = text
       .replaceAll('&', '&amp;')
       .replaceAll('<', '&lt;')
       .replaceAll('>', '&gt;')
@@ -35,31 +39,31 @@ export default class TextBox {
   }
 
   updateLineHeight() {
-    const lineHeight = this._annotationModel.span.maxHeight
+    const lineHeight = this.#annotationModel.span.maxHeight
 
     if (lineHeight) {
       this.lineHeight = lineHeight
     } else {
-      this._resetLineHeight()
+      this.#resetLineHeight()
     }
   }
 
   forceUpdate() {
-    updateTextBoxHeight(this._el)
-    this._updateSizeOfRelationBox()
+    updateTextBoxHeight(this.#el)
+    this.#updateSizeOfRelationBox()
   }
 
-  _resetLineHeight() {
+  #resetLineHeight() {
     // The default line height follows the editor's line height.
-    const { lineHeight } = window.getComputedStyle(this._editorHTMLElement)
+    const { lineHeight } = window.getComputedStyle(this.#editorHTMLElement)
     this.lineHeight = pixelToInt(lineHeight)
   }
 
-  _updateSizeOfRelationBox() {
-    const relationBox = this._editorHTMLElement.querySelector(
+  #updateSizeOfRelationBox() {
+    const relationBox = this.#editorHTMLElement.querySelector(
       '.textae-editor__relation-box'
     )
-    relationBox.style.height = this._el.style.height
+    relationBox.style.height = this.#el.style.height
 
     // When determining the width of one editor, vertical scroll bars are not needed,
     // and when annotations are loaded in another editor and vertical scroll bars appear,
@@ -69,7 +73,7 @@ export default class TextBox {
     // It is not possible to detect that a scroll bar has been displayed, so a notification is needed to change the height of the editor.
     // The editor does not have a notification mechanism.
     // It would be a big step to add a notification mechanism for this purpose.
-    const width = parseFloat(window.getComputedStyle(this._el).width)
+    const width = parseFloat(window.getComputedStyle(this.#el).width)
     relationBox.style.width = `${width - 10}px`
   }
 }
