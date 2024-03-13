@@ -18,6 +18,14 @@ import getAnnotationBox from './getAnnotationBox'
 import LineHeightAuto from './LineHeightAuto'
 
 export default class AnnotationModel {
+  #sourceDoc
+  #typeGap
+  #textBox
+  #lineHeightAuto
+  #typeDefinition
+  #editorHTMLElement
+  #eventEmitter
+
   constructor(
     editorID,
     editorHTMLElement,
@@ -27,7 +35,7 @@ export default class AnnotationModel {
     endJQueryUIDialogWait,
     isConfigLocked
   ) {
-    this._sourceDoc = ''
+    this.#sourceDoc = ''
     this.namespace = new InstanceContainer(eventEmitter, 'namespace')
     const relationDefinitionContainer = new DefinitionContainer(
       eventEmitter,
@@ -43,11 +51,11 @@ export default class AnnotationModel {
       this.namespace,
       relationDefinitionContainer
     )
-    this._typeGap = new TypeGap(() => {
+    this.#typeGap = new TypeGap(() => {
       for (const entity of this.entity.denotations) {
         entity.reflectTypeGapInTheHeight()
       }
-      this._textBox.updateLineHeight()
+      this.#textBox.updateLineHeight()
       eventEmitter.emit('textae-event.annotation-data.entity-gap.change')
     })
 
@@ -55,7 +63,7 @@ export default class AnnotationModel {
       editorID,
       eventEmitter,
       this,
-      this._typeGap,
+      this.#typeGap,
       this.namespace
     )
 
@@ -76,7 +84,7 @@ export default class AnnotationModel {
         editorCSSClass.startWait()
         startJQueryUIDialogWait()
 
-        this._rearrangeAllAnnotations()
+        this.#rearrangeAllAnnotations()
       } catch (e) {
         console.error(e)
       } finally {
@@ -84,14 +92,14 @@ export default class AnnotationModel {
         endJQueryUIDialogWait()
       }
     }
-    this._textBox = createTextBox(editorHTMLElement, this)
-    this._lineHeightAuto = new LineHeightAuto(eventEmitter, this._textBox)
+    this.#textBox = createTextBox(editorHTMLElement, this)
+    this.#lineHeightAuto = new LineHeightAuto(eventEmitter, this.#textBox)
     this.span = new SpanInstanceContainer(
       editorID,
       editorHTMLElement,
       eventEmitter,
       this.entity,
-      this._textBox
+      this.#textBox
     )
 
     this.denotationDefinitionContainer = new DefinitionContainer(
@@ -106,7 +114,7 @@ export default class AnnotationModel {
       () => this.entity.blocks,
       '#77DDDD'
     )
-    this._typeDefinition = new TypeDefinition(
+    this.#typeDefinition = new TypeDefinition(
       eventEmitter,
       this.denotationDefinitionContainer,
       blockDefinitionContainer,
@@ -118,24 +126,24 @@ export default class AnnotationModel {
     eventEmitter
       .on('textae-event.annotation-data.span.add', (span) => {
         if (span.isDenotation || span.isBlock) {
-          this._textBox.forceUpdate()
-          this._rearrangeAllAnnotations()
+          this.#textBox.forceUpdate()
+          this.#rearrangeAllAnnotations()
         }
       })
       .on('textae-event.annotation-data.span.remove', (span) => {
         if (span.isDenotation || span.isBlock) {
-          this._textBox.forceUpdate()
-          this._rearrangeAllAnnotations()
+          this.#textBox.forceUpdate()
+          this.#rearrangeAllAnnotations()
         }
       })
       .on('textae-event.annotation-data.entity.add', (entity) => {
         if (entity.span.isDenotation) {
-          this._lineHeightAuto.updateLineHeight()
+          this.#lineHeightAuto.updateLineHeight()
         }
       })
       .on('textae-event.annotation-data.entity.remove', (entity) => {
         if (entity.span.isDenotation) {
-          this._lineHeightAuto.updateLineHeight()
+          this.#lineHeightAuto.updateLineHeight()
         }
       })
 
@@ -172,16 +180,16 @@ export default class AnnotationModel {
         }
       })
 
-    this._editorHTMLElement = editorHTMLElement
-    this._eventEmitter = eventEmitter
+    this.#editorHTMLElement = editorHTMLElement
+    this.#eventEmitter = eventEmitter
   }
 
   reset(rawData, config) {
     console.assert(rawData.text, 'This is not a json file of annotations.')
 
-    this._typeDefinition.setTypeConfig(config)
-    this._sourceDoc = rawData.text
-    this._textBox.render(this.sourceDoc)
+    this.#typeDefinition.setTypeConfig(config)
+    this.#sourceDoc = rawData.text
+    this.#textBox.render(this.sourceDoc)
 
     clearAnnotationModel(this)
     const { namespace, span, entity, attribute, relation } = this
@@ -195,9 +203,9 @@ export default class AnnotationModel {
     )
     annotationParser.parse()
 
-    this._clearAndDrawAllAnnotations()
+    this.#clearAndDrawAllAnnotations()
 
-    this._eventEmitter.emit(
+    this.#eventEmitter.emit(
       'textae-event.annotation-data.all.change',
       this,
       annotationParser.hasMultiTracks,
@@ -233,11 +241,11 @@ export default class AnnotationModel {
   }
 
   get typeGap() {
-    return this._typeGap
+    return this.#typeGap
   }
 
   get textBox() {
-    return this._textBox
+    return this.#textBox
   }
 
   get sourceDoc() {
@@ -245,15 +253,15 @@ export default class AnnotationModel {
     // in order to render line breaks contained in text as they are in the browser.
     // "\r\n" is rendered as a single character.
     // Replace "\r\n" with "\n" so that the browser can render "\r\n" as two characters.
-    return this._sourceDoc.replaceAll(/\r\n/g, ' \n')
+    return this.#sourceDoc.replaceAll(/\r\n/g, ' \n')
   }
 
   get typeDefinition() {
-    return this._typeDefinition
+    return this.#typeDefinition
   }
 
   drawGridsInSight() {
-    if (this._isEditorInSight) {
+    if (this.#isEditorInSight) {
       const { clientHeight, clientWidth } = document.documentElement
 
       for (const span of this.span.allDenotationSpans) {
@@ -272,9 +280,9 @@ export default class AnnotationModel {
   }
 
   reLayout() {
-    this._textBox.forceUpdate()
+    this.#textBox.forceUpdate()
 
-    if (this._isEditorInSight) {
+    if (this.#isEditorInSight) {
       this.updatePosition()
     }
   }
@@ -285,9 +293,9 @@ export default class AnnotationModel {
     this.relation.controlBarHeight = value
   }
 
-  get _isEditorInSight() {
+  get #isEditorInSight() {
     const { clientHeight } = document.documentElement
-    const { top, bottom } = this._editorHTMLElement.getBoundingClientRect()
+    const { top, bottom } = this.#editorHTMLElement.getBoundingClientRect()
 
     return 0 <= bottom && top <= clientHeight
   }
@@ -302,17 +310,17 @@ export default class AnnotationModel {
     span.focus()
   }
 
-  _clearAndDrawAllAnnotations() {
-    getAnnotationBox(this._editorHTMLElement).innerHTML = ''
+  #clearAndDrawAllAnnotations() {
+    getAnnotationBox(this.#editorHTMLElement).innerHTML = ''
 
-    this._textBox.updateLineHeight()
+    this.#textBox.updateLineHeight()
 
     for (const span of this.span.topLevel) {
       span.render()
     }
 
     // Reflects the addition and deletion of line breaks by span.
-    this._textBox.forceUpdate()
+    this.#textBox.forceUpdate()
 
     const { clientHeight, clientWidth } = document.documentElement
 
@@ -329,7 +337,7 @@ export default class AnnotationModel {
     }
   }
 
-  _rearrangeAllAnnotations() {
+  #rearrangeAllAnnotations() {
     this.span.arrangeDenotationEntityPosition()
 
     // When you undo the deletion of a block span,
