@@ -19,12 +19,12 @@ export default function (
   configParameter,
   functionAvailability
 ) {
-  if (annotationParameter.isInline) {
+  if (annotationParameter.isLoaded) {
     // Set an inline annotation.
     const dataSource = new DataSource(
       'inline',
       null,
-      annotationParameter.inlineAnnotation
+      annotationParameter.annotation
     )
 
     if (!dataSource.data.config && configParameter) {

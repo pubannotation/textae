@@ -1,9 +1,9 @@
 export default class AnnotationParameter {
-  #inlineAnnotation
+  #annotation
   #sourceURL
 
   constructor(element, sourceURL) {
-    this.#readAndClearInlineAnnotation(element)
+    this.#loadAnnotationFrom(element)
 
     // Read url.
     if (sourceURL) {
@@ -11,17 +11,17 @@ export default class AnnotationParameter {
     }
   }
 
-  get isInline() {
-    return Boolean(this.#inlineAnnotation)
+  get isLoaded() {
+    return Boolean(this.#annotation)
   }
 
-  get inlineAnnotation() {
-    return JSON.parse(this.#inlineAnnotation)
+  get annotation() {
+    return JSON.parse(this.#annotation)
   }
 
   get isRemote() {
     // Inline annotation is prioritized.
-    if (this.isInline) {
+    if (this.isLoaded) {
       return false
     }
 
@@ -32,13 +32,13 @@ export default class AnnotationParameter {
     return this.#sourceURL
   }
 
-  #readAndClearInlineAnnotation(element) {
+  #loadAnnotationFrom(element) {
     // Use textContent instead of innerText,
     // to read consecutive whitespace in inline annotations without collapsing.
     const inlineAnnotation = element.textContent
     element.innerHTML = ''
     if (inlineAnnotation) {
-      this.#inlineAnnotation = inlineAnnotation
+      this.#annotation = inlineAnnotation
     }
   }
 }
