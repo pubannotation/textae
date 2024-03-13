@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [12.14.0](https://github.com/pubannotation/textae/compare/v12.13.9...v12.14.0) (2024-03-13)
+
+
+### Features
+
+* Added padding_top HTML attribute ([c7aa895](https://github.com/pubannotation/textae/commit/c7aa895e5b98b11e3ca5071cea873c712e69e0f4))
+
 ### [12.13.9](https://github.com/pubannotation/textae/compare/v12.13.8...v12.13.9) (2024-03-13)
 
 ### [12.13.8](https://github.com/pubannotation/textae/compare/v12.13.7...v12.13.8) (2024-01-16)

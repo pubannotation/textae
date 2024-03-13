@@ -56207,47 +56207,63 @@
       return pixelToInt(style.lineHeight)
     } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationModel/createTextBox/TextBox/setLineHeight.js
 
-    /* harmony default export */ function setLineHeight(textBox, heightValue) {
+    /* harmony default export */ function setLineHeight(
+      textBox,
+      heightValue,
+      additionalPaddingTop
+    ) {
       textBox.style.lineHeight = `${heightValue}px`
-      textBox.style.paddingTop = `${heightValue / 2}px`
+      textBox.style.paddingTop = `${heightValue / 2 + additionalPaddingTop}px`
     } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationModel/createTextBox/TextBox/updateTextBoxHeight.js
 
     // Reduce the space under the .textae-editor__text-box same as padding-top.
-    /* harmony default export */ function updateTextBoxHeight(textBox) {
+    /* harmony default export */ function updateTextBoxHeight(
+      textBox,
+      additionalPaddingTop
+    ) {
       const style = window.getComputedStyle(textBox)
 
       // The height calculated by auto is exclude the value of the padding top.
       // Rest small space.
       textBox.style.height = 'auto'
       textBox.style.height = `${
-        textBox.offsetHeight - pixelToInt(style.paddingTop) + 20
+        textBox.offsetHeight -
+        pixelToInt(style.paddingTop) +
+        20 +
+        additionalPaddingTop
       }px`
     } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationModel/createTextBox/TextBox/index.js
 
     class TextBox {
-      constructor(editorHTMLElement, annotationModel) {
-        this._editorHTMLElement = editorHTMLElement
-        this._el = editorHTMLElement.querySelector('.textae-editor__text-box')
-        this._annotationModel = annotationModel
+      #editorHTMLElement
+      #el
+      #annotationModel
+      #additionalPaddingTop
+
+      constructor(editorHTMLElement, annotationModel, additionalPaddingTop) {
+        this.#editorHTMLElement = editorHTMLElement
+        this.#el = editorHTMLElement.querySelector('.textae-editor__text-box')
+        this.#annotationModel = annotationModel
+        this.#additionalPaddingTop = additionalPaddingTop
       }
 
       get boundingClientRect() {
-        return this._el.getBoundingClientRect()
+        return this.#el.getBoundingClientRect()
       }
 
       get lineHeight() {
-        return getLineHeight(this._el)
+        return getLineHeight(this.#el)
       }
 
       set lineHeight(val) {
-        setLineHeight(this._el, val)
+        setLineHeight(this.#el, val, this.#additionalPaddingTop)
         this.forceUpdate()
-        this._annotationModel.updatePosition()
+        this.#annotationModel.updatePosition()
       }
 
       render(text) {
         // https://stackoverflow.com/questions/6234773/can-i-escape-html-special-chars-in-javascript
-        this._el.innerHTML = text
+        this.#el.innerHTML = text
           .replaceAll('&', '&amp;')
           .replaceAll('<', '&lt;')
           .replaceAll('>', '&gt;')
@@ -56256,31 +56272,31 @@
       }
 
       updateLineHeight() {
-        const lineHeight = this._annotationModel.span.maxHeight
+        const lineHeight = this.#annotationModel.span.maxHeight
 
         if (lineHeight) {
           this.lineHeight = lineHeight
         } else {
-          this._resetLineHeight()
+          this.#resetLineHeight()
         }
       }
 
       forceUpdate() {
-        updateTextBoxHeight(this._el)
-        this._updateSizeOfRelationBox()
+        updateTextBoxHeight(this.#el, this.#additionalPaddingTop)
+        this.#updateSizeOfRelationBox()
       }
 
-      _resetLineHeight() {
+      #resetLineHeight() {
         // The default line height follows the editor's line height.
-        const { lineHeight } = window.getComputedStyle(this._editorHTMLElement)
+        const { lineHeight } = window.getComputedStyle(this.#editorHTMLElement)
         this.lineHeight = pixelToInt(lineHeight)
       }
 
-      _updateSizeOfRelationBox() {
-        const relationBox = this._editorHTMLElement.querySelector(
+      #updateSizeOfRelationBox() {
+        const relationBox = this.#editorHTMLElement.querySelector(
           '.textae-editor__relation-box'
         )
-        relationBox.style.height = this._el.style.height
+        relationBox.style.height = this.#el.style.height
 
         // When determining the width of one editor, vertical scroll bars are not needed,
         // and when annotations are loaded in another editor and vertical scroll bars appear,
@@ -56290,14 +56306,15 @@
         // It is not possible to detect that a scroll bar has been displayed, so a notification is needed to change the height of the editor.
         // The editor does not have a notification mechanism.
         // It would be a big step to add a notification mechanism for this purpose.
-        const width = parseFloat(window.getComputedStyle(this._el).width)
+        const width = parseFloat(window.getComputedStyle(this.#el).width)
         relationBox.style.width = `${width - 10}px`
       }
     } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationModel/createTextBox/index.js
 
     /* harmony default export */ function createTextBox(
       editorHTMLElement,
-      annotationModel
+      annotationModel,
+      additionalPaddingTop
     ) {
       // Place the text box behind the annotation box to allow you
       // to select the text behind the relationship label in entity editing mode.
@@ -56317,7 +56334,11 @@
       editorHTMLElement.innerHTML = html.replace(/[\n\r]+/g, '')
       focusEditorWhenFocusedChildRemoved(editorHTMLElement)
 
-      return new TextBox(editorHTMLElement, annotationModel)
+      return new TextBox(
+        editorHTMLElement,
+        annotationModel,
+        additionalPaddingTop
+      )
     }
 
     // EXTERNAL MODULE: ./node_modules/observ/index.js
@@ -57316,6 +57337,14 @@
     } // CONCATENATED MODULE: ./src/lib/Editor/AnnotationModel/index.js
 
     class AnnotationModel {
+      #sourceDoc
+      #typeGap
+      #textBox
+      #lineHeightAuto
+      #typeDefinition
+      #editorHTMLElement
+      #eventEmitter
+
       constructor(
         editorID,
         editorHTMLElement,
@@ -57323,9 +57352,10 @@
         editorCSSClass,
         startJQueryUIDialogWait,
         endJQueryUIDialogWait,
-        isConfigLocked
+        isConfigLocked,
+        additionalPaddingTop
       ) {
-        this._sourceDoc = ''
+        this.#sourceDoc = ''
         this.namespace = new InstanceContainer(eventEmitter, 'namespace')
         const relationDefinitionContainer = new DefinitionContainer(
           eventEmitter,
@@ -57341,11 +57371,11 @@
           this.namespace,
           relationDefinitionContainer
         )
-        this._typeGap = new TypeGap(() => {
+        this.#typeGap = new TypeGap(() => {
           for (const entity of this.entity.denotations) {
             entity.reflectTypeGapInTheHeight()
           }
-          this._textBox.updateLineHeight()
+          this.#textBox.updateLineHeight()
           eventEmitter.emit('textae-event.annotation-data.entity-gap.change')
         })
 
@@ -57353,7 +57383,7 @@
           editorID,
           eventEmitter,
           this,
-          this._typeGap,
+          this.#typeGap,
           this.namespace
         )
 
@@ -57374,7 +57404,7 @@
             editorCSSClass.startWait()
             startJQueryUIDialogWait()
 
-            this._rearrangeAllAnnotations()
+            this.#rearrangeAllAnnotations()
           } catch (e) {
             console.error(e)
           } finally {
@@ -57382,14 +57412,18 @@
             endJQueryUIDialogWait()
           }
         }
-        this._textBox = createTextBox(editorHTMLElement, this)
-        this._lineHeightAuto = new LineHeightAuto(eventEmitter, this._textBox)
+        this.#textBox = createTextBox(
+          editorHTMLElement,
+          this,
+          additionalPaddingTop
+        )
+        this.#lineHeightAuto = new LineHeightAuto(eventEmitter, this.#textBox)
         this.span = new SpanInstanceContainer(
           editorID,
           editorHTMLElement,
           eventEmitter,
           this.entity,
-          this._textBox
+          this.#textBox
         )
 
         this.denotationDefinitionContainer = new DefinitionContainer(
@@ -57404,7 +57438,7 @@
           () => this.entity.blocks,
           '#77DDDD'
         )
-        this._typeDefinition = new TypeDefinition(
+        this.#typeDefinition = new TypeDefinition(
           eventEmitter,
           this.denotationDefinitionContainer,
           blockDefinitionContainer,
@@ -57416,24 +57450,24 @@
         eventEmitter
           .on('textae-event.annotation-data.span.add', (span) => {
             if (span.isDenotation || span.isBlock) {
-              this._textBox.forceUpdate()
-              this._rearrangeAllAnnotations()
+              this.#textBox.forceUpdate()
+              this.#rearrangeAllAnnotations()
             }
           })
           .on('textae-event.annotation-data.span.remove', (span) => {
             if (span.isDenotation || span.isBlock) {
-              this._textBox.forceUpdate()
-              this._rearrangeAllAnnotations()
+              this.#textBox.forceUpdate()
+              this.#rearrangeAllAnnotations()
             }
           })
           .on('textae-event.annotation-data.entity.add', (entity) => {
             if (entity.span.isDenotation) {
-              this._lineHeightAuto.updateLineHeight()
+              this.#lineHeightAuto.updateLineHeight()
             }
           })
           .on('textae-event.annotation-data.entity.remove', (entity) => {
             if (entity.span.isDenotation) {
-              this._lineHeightAuto.updateLineHeight()
+              this.#lineHeightAuto.updateLineHeight()
             }
           })
 
@@ -57470,16 +57504,16 @@
             }
           })
 
-        this._editorHTMLElement = editorHTMLElement
-        this._eventEmitter = eventEmitter
+        this.#editorHTMLElement = editorHTMLElement
+        this.#eventEmitter = eventEmitter
       }
 
       reset(rawData, config) {
         console.assert(rawData.text, 'This is not a json file of annotations.')
 
-        this._typeDefinition.setTypeConfig(config)
-        this._sourceDoc = rawData.text
-        this._textBox.render(this.sourceDoc)
+        this.#typeDefinition.setTypeConfig(config)
+        this.#sourceDoc = rawData.text
+        this.#textBox.render(this.sourceDoc)
 
         clearAnnotationModel(this)
         const { namespace, span, entity, attribute, relation } = this
@@ -57493,9 +57527,9 @@
         )
         annotationParser.parse()
 
-        this._clearAndDrawAllAnnotations()
+        this.#clearAndDrawAllAnnotations()
 
-        this._eventEmitter.emit(
+        this.#eventEmitter.emit(
           'textae-event.annotation-data.all.change',
           this,
           annotationParser.hasMultiTracks,
@@ -57531,11 +57565,11 @@
       }
 
       get typeGap() {
-        return this._typeGap
+        return this.#typeGap
       }
 
       get textBox() {
-        return this._textBox
+        return this.#textBox
       }
 
       get sourceDoc() {
@@ -57543,15 +57577,15 @@
         // in order to render line breaks contained in text as they are in the browser.
         // "\r\n" is rendered as a single character.
         // Replace "\r\n" with "\n" so that the browser can render "\r\n" as two characters.
-        return this._sourceDoc.replaceAll(/\r\n/g, ' \n')
+        return this.#sourceDoc.replaceAll(/\r\n/g, ' \n')
       }
 
       get typeDefinition() {
-        return this._typeDefinition
+        return this.#typeDefinition
       }
 
       drawGridsInSight() {
-        if (this._isEditorInSight) {
+        if (this.#isEditorInSight) {
           const { clientHeight, clientWidth } = document.documentElement
 
           for (const span of this.span.allDenotationSpans) {
@@ -57570,9 +57604,9 @@
       }
 
       reLayout() {
-        this._textBox.forceUpdate()
+        this.#textBox.forceUpdate()
 
-        if (this._isEditorInSight) {
+        if (this.#isEditorInSight) {
           this.updatePosition()
         }
       }
@@ -57583,9 +57617,9 @@
         this.relation.controlBarHeight = value
       }
 
-      get _isEditorInSight() {
+      get #isEditorInSight() {
         const { clientHeight } = document.documentElement
-        const { top, bottom } = this._editorHTMLElement.getBoundingClientRect()
+        const { top, bottom } = this.#editorHTMLElement.getBoundingClientRect()
 
         return 0 <= bottom && top <= clientHeight
       }
@@ -57600,17 +57634,17 @@
         span.focus()
       }
 
-      _clearAndDrawAllAnnotations() {
-        getAnnotationBox(this._editorHTMLElement).innerHTML = ''
+      #clearAndDrawAllAnnotations() {
+        getAnnotationBox(this.#editorHTMLElement).innerHTML = ''
 
-        this._textBox.updateLineHeight()
+        this.#textBox.updateLineHeight()
 
         for (const span of this.span.topLevel) {
           span.render()
         }
 
         // Reflects the addition and deletion of line breaks by span.
-        this._textBox.forceUpdate()
+        this.#textBox.forceUpdate()
 
         const { clientHeight, clientWidth } = document.documentElement
 
@@ -57627,7 +57661,7 @@
         }
       }
 
-      _rearrangeAllAnnotations() {
+      #rearrangeAllAnnotations() {
         this.span.arrangeDenotationEntityPosition()
 
         // When you undo the deletion of a block span,
@@ -66920,7 +66954,7 @@
       bindChangeLockConfig(content, typeDefinition)
     } // CONCATENATED MODULE: ./package.json
 
-    const package_namespaceObject = { rE: '12.13.9' } // CONCATENATED MODULE: ./src/lib/component/SettingDialog/template.js
+    const package_namespaceObject = { rE: '12.14.0' } // CONCATENATED MODULE: ./src/lib/component/SettingDialog/template.js
     function template_template(context) {
       const {
         typeGap,
@@ -108968,6 +109002,12 @@ data-button-type="${type}">
         return isFocusFirstDenotation
       }
 
+      get additionalPaddingTop() {
+        return this.#readAttribute('padding_top')
+          ? parseInt(this.#readAttribute('padding_top'), 10)
+          : 0
+      }
+
       get #source() {
         return this.#readAttribute('source') || this.#readAttribute('target')
       }
@@ -109949,7 +109989,8 @@ data-button-type="${type}">
           editorCSSClass,
           startJQueryUIDialogWait,
           endJQueryUIDialogWait,
-          inlineOptions.configLock === 'true'
+          inlineOptions.configLock === 'true',
+          inlineOptions.additionalPaddingTop
         )
 
         this.#element = element
