@@ -1,7 +1,11 @@
 import focusEditorWhenFocusedChildRemoved from './focusEditorWhenFocusedChildRemoved'
 import TextBox from './TextBox'
 
-export default function (editorHTMLElement, annotationModel) {
+export default function (
+  editorHTMLElement,
+  annotationModel,
+  additionalPaddingTop
+) {
   // Place the text box behind the annotation box to allow you
   // to select the text behind the relationship label in entity editing mode.
   const html = `
@@ -20,5 +24,5 @@ export default function (editorHTMLElement, annotationModel) {
   editorHTMLElement.innerHTML = html.replace(/[\n\r]+/g, '')
   focusEditorWhenFocusedChildRemoved(editorHTMLElement)
 
-  return new TextBox(editorHTMLElement, annotationModel)
+  return new TextBox(editorHTMLElement, annotationModel, additionalPaddingTop)
 }

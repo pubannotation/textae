@@ -33,7 +33,8 @@ export default class AnnotationModel {
     editorCSSClass,
     startJQueryUIDialogWait,
     endJQueryUIDialogWait,
-    isConfigLocked
+    isConfigLocked,
+    additionalPaddingTop
   ) {
     this.#sourceDoc = ''
     this.namespace = new InstanceContainer(eventEmitter, 'namespace')
@@ -92,7 +93,7 @@ export default class AnnotationModel {
         endJQueryUIDialogWait()
       }
     }
-    this.#textBox = createTextBox(editorHTMLElement, this)
+    this.#textBox = createTextBox(editorHTMLElement, this, additionalPaddingTop)
     this.#lineHeightAuto = new LineHeightAuto(eventEmitter, this.#textBox)
     this.span = new SpanInstanceContainer(
       editorID,

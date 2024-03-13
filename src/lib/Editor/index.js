@@ -55,7 +55,8 @@ export default class Editor {
       editorCSSClass,
       startJQueryUIDialogWait,
       endJQueryUIDialogWait,
-      inlineOptions.configLock === 'true'
+      inlineOptions.configLock === 'true',
+      inlineOptions.additionalPaddingTop
     )
 
     this.#element = element

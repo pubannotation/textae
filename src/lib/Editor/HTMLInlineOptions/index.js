@@ -99,6 +99,12 @@ export default class HTMLInlineOptions {
     return isFocusFirstDenotation
   }
 
+  get additionalPaddingTop() {
+    return this.#readAttribute('padding_top')
+      ? parseInt(this.#readAttribute('padding_top'), 10)
+      : 0
+  }
+
   get #source() {
     return this.#readAttribute('source') || this.#readAttribute('target')
   }

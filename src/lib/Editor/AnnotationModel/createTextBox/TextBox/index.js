@@ -7,11 +7,13 @@ export default class TextBox {
   #editorHTMLElement
   #el
   #annotationModel
+  #additionalPaddingTop
 
-  constructor(editorHTMLElement, annotationModel) {
+  constructor(editorHTMLElement, annotationModel, additionalPaddingTop) {
     this.#editorHTMLElement = editorHTMLElement
     this.#el = editorHTMLElement.querySelector('.textae-editor__text-box')
     this.#annotationModel = annotationModel
+    this.#additionalPaddingTop = additionalPaddingTop
   }
 
   get boundingClientRect() {
@@ -23,7 +25,7 @@ export default class TextBox {
   }
 
   set lineHeight(val) {
-    setLineHeight(this.#el, val)
+    setLineHeight(this.#el, val, this.#additionalPaddingTop)
     this.forceUpdate()
     this.#annotationModel.updatePosition()
   }
@@ -49,7 +51,7 @@ export default class TextBox {
   }
 
   forceUpdate() {
-    updateTextBoxHeight(this.#el)
+    updateTextBoxHeight(this.#el, this.#additionalPaddingTop)
     this.#updateSizeOfRelationBox()
   }
 
