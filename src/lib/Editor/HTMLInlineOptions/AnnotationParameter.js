@@ -3,10 +3,20 @@ export default class AnnotationParameter {
   #sourceURL
 
   constructor(element, sourceURL) {
-    this.#loadAnnotationFrom(element)
+    const inlineAnnotation = this.#deconstructInlineAnnotation(element)
+    if (inlineAnnotation) {
+      // Read annotation from inline annotation.
+      this.#annotation = inlineAnnotation
+    } else if (sourceURL == 'query_parameter') {
+      // Read annotation from query parameter.
+      const params = new URLSearchParams(window.location.search)
+      if (params.get('annotation') != null) {
+        this.#annotation = decodeURIComponent(params.get('annotation'))
+      }
 
-    // Read url.
-    if (sourceURL) {
+      // Clear sourceURL to avoid loading remote annotation.
+      this.#sourceURL = null
+    } else if (sourceURL) {
       this.#sourceURL = decodeURIComponent(sourceURL)
     }
   }
@@ -32,13 +42,11 @@ export default class AnnotationParameter {
     return this.#sourceURL
   }
 
-  #loadAnnotationFrom(element) {
+  #deconstructInlineAnnotation(element) {
     // Use textContent instead of innerText,
     // to read consecutive whitespace in inline annotations without collapsing.
     const inlineAnnotation = element.textContent
     element.innerHTML = ''
-    if (inlineAnnotation) {
-      this.#annotation = inlineAnnotation
-    }
+    return inlineAnnotation
   }
 }

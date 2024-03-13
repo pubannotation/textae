@@ -88,7 +88,7 @@
     "url": "https://github.com/pubannotation/textae.git"
   },
   "scripts": {
-    "dev:open": "open-cli 'http://localhost:3001/dev/development.html'",
+    "dev:open": "open-cli 'http://localhost:3001/dev/development.html?annotation=%7B%22text%22%3A%22%E3%81%93%E3%82%93%E3%81%AB%E3%81%A1%E3%82%8F%22%2C%22denotations%22%3A%5B%7B%22span%22%3A%7B%22begin%22%3A0%2C%22end%22%3A5%7D%2C%22obj%22%3A%22%E6%8C%A8%E6%8B%B6%22%7D%5D%7D'",
     "dev:server": "node dev/development-sever.js",
     "dev:watch": "webpack --config webpack.dev.js",
     "dev:watch-less": "less-watch-compiler src/lib/css src/lib/css textae.less",
