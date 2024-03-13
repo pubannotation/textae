@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [12.15.0](https://github.com/pubannotation/textae/compare/v12.14.0...v12.15.0) (2024-03-13)
+
+
+### Features
+
+* Specify annotations in query parameters ([7d6bd91](https://github.com/pubannotation/textae/commit/7d6bd913cf5a1719eb6a10f69f6d47a0220e0b13))
+
 ## [12.14.0](https://github.com/pubannotation/textae/compare/v12.13.9...v12.14.0) (2024-03-13)
 
 

@@ -66954,7 +66954,7 @@
       bindChangeLockConfig(content, typeDefinition)
     } // CONCATENATED MODULE: ./package.json
 
-    const package_namespaceObject = { rE: '12.14.0' } // CONCATENATED MODULE: ./src/lib/component/SettingDialog/template.js
+    const package_namespaceObject = { rE: '12.15.0' } // CONCATENATED MODULE: ./src/lib/component/SettingDialog/template.js
     function template_template(context) {
       const {
         typeGap,
@@ -105997,12 +105997,12 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
       configParameter,
       functionAvailability
     ) {
-      if (annotationParameter.isInline) {
+      if (annotationParameter.isLoaded) {
         // Set an inline annotation.
         const dataSource = new DataSource(
           'inline',
           null,
-          annotationParameter.inlineAnnotation
+          annotationParameter.annotation
         )
 
         if (!dataSource.data.config && configParameter) {
@@ -108857,29 +108857,39 @@ data-button-type="${type}">
     // EXTERNAL MODULE: ./node_modules/events/events.js
     var events = __webpack_require__(7007) // CONCATENATED MODULE: ./src/lib/Editor/HTMLInlineOptions/AnnotationParameter.js
     class AnnotationParameter {
-      #inlineAnnotation
+      #annotation
       #sourceURL
 
       constructor(element, sourceURL) {
-        this.#readAndClearInlineAnnotation(element)
+        const inlineAnnotation = this.#deconstructInlineAnnotation(element)
+        if (inlineAnnotation) {
+          // Read annotation from inline annotation.
+          this.#annotation = inlineAnnotation
+        } else if (sourceURL == 'query_parameter') {
+          // Read annotation from query parameter.
+          const params = new URLSearchParams(window.location.search)
+          if (params.get('annotation') != null) {
+            this.#annotation = decodeURIComponent(params.get('annotation'))
+          }
 
-        // Read url.
-        if (sourceURL) {
+          // Clear sourceURL to avoid loading remote annotation.
+          this.#sourceURL = null
+        } else if (sourceURL) {
           this.#sourceURL = decodeURIComponent(sourceURL)
         }
       }
 
-      get isInline() {
-        return Boolean(this.#inlineAnnotation)
+      get isLoaded() {
+        return Boolean(this.#annotation)
       }
 
-      get inlineAnnotation() {
-        return JSON.parse(this.#inlineAnnotation)
+      get annotation() {
+        return JSON.parse(this.#annotation)
       }
 
       get isRemote() {
         // Inline annotation is prioritized.
-        if (this.isInline) {
+        if (this.isLoaded) {
           return false
         }
 
@@ -108890,14 +108900,12 @@ data-button-type="${type}">
         return this.#sourceURL
       }
 
-      #readAndClearInlineAnnotation(element) {
+      #deconstructInlineAnnotation(element) {
         // Use textContent instead of innerText,
         // to read consecutive whitespace in inline annotations without collapsing.
         const inlineAnnotation = element.textContent
         element.innerHTML = ''
-        if (inlineAnnotation) {
-          this.#inlineAnnotation = inlineAnnotation
-        }
+        return inlineAnnotation
       }
     } // CONCATENATED MODULE: ./src/lib/Editor/HTMLInlineOptions/index.js
 
