@@ -16,8 +16,7 @@ export default class ConfigurationSaver {
       const opt = {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
-          'App-Name': 'TextAE'
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(editedData),
         credentials: 'include'
