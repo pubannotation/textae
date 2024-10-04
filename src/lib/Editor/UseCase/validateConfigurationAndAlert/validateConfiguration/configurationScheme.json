@@ -134,7 +134,6 @@
               }
             },
             "then": {
-              "required": ["default"],
               "properties": {
                 "autocompletion_ws": {
                   "$ref": "#/definitions/autocompletion_ws"
