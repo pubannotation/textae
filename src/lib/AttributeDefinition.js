@@ -23,10 +23,10 @@ export default class AttributeDefinition {
       return undefined
     }
 
-    const values = []
+    const result = []
     for (const value of this._values) {
-      values.push({ ...value })
+      result.push({ ...value })
     }
-    return values
+    return result
   }
 }
