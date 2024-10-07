@@ -19,7 +19,7 @@ export default class AttributeDefinition {
   get _valuesClone() {
     console.assert(this._values, 'this._values is necessary to clone!')
 
-    if (this._values.length === 0) {
+    if (Array.isArray(this._values) && this._values.length === 0) {
       return undefined
     }
 
