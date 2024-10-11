@@ -83,6 +83,7 @@ export default class StartUpOptions {
       case 'term-edit':
       case 'block-edit':
       case 'relation-edit':
+      case 'text-edit':
         return true
 
       default:
@@ -104,6 +105,10 @@ export default class StartUpOptions {
 
   get isEditRelationMode() {
     return this.#readAttribute('mode') === 'relation-edit'
+  }
+
+  get isTextEditMode() {
+    return this.#readAttribute('mode') === 'text-edit'
   }
 
   get statusBar() {

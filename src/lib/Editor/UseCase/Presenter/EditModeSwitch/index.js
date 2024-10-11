@@ -160,6 +160,11 @@ export default class EditModeSwitch {
       return
     }
 
+    if (this.#startUpOptions.isTextEditMode) {
+      this.#editModeState.toTextEditMode()
+      return
+    }
+
     this.#editModeState.toViewMode(
       this.#annotationModel.relationInstanceContainer.some
     )
