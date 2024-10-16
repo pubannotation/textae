@@ -1,7 +1,9 @@
+import debounce300 from './SettingDialog/reflectImmediately/debounce300'
+
 export default class Autocomplete {
   constructor(inputElement, onSearch, onSelect) {
     this.inputElement = inputElement
-    this.onSearch = onSearch
+    this.onSearch = debounce300(onSearch)
     this.onSelect = onSelect
 
     this.resultsList = document.createElement('ul')
