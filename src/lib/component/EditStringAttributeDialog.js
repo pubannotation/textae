@@ -1,7 +1,7 @@
 import delegate from 'delegate'
 import PromiseDialog from './PromiseDialog'
-import setSourceOfAutoComplete from './setSourceOfAutoComplete'
 import anemone from './anemone'
+import Autocomplete from './autoComplete'
 import searchTerm from './searchTerm'
 
 function template(context) {
@@ -115,10 +115,12 @@ export default class EditStringAttributeDialog extends PromiseDialog {
     const inputElement = super.el.querySelector(
       '.textae-editor__edit-string-attribute-dialog__value'
     )
+
     const labelElement = super.el.querySelector(
       '.textae-editor__edit-string-attribute-dialog__label'
     )
-    setSourceOfAutoComplete(
+
+    new Autocomplete(
       inputElement,
       (term, onResult) => searchTerm(term, onResult, attrDef.autocompletionWs),
       (id, label) => {
