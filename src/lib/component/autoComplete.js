@@ -10,7 +10,7 @@ export default class Autocomplete {
     this.resultsList.setAttribute('popover', 'auto')
     this.resultsList.style.margin = '0'
 
-    this.selectedIndex = -1
+    this.currentFocus = -1 // For key-down operation.
 
     inputElement.parentElement.appendChild(this.resultsList)
     this.inputElement.addEventListener('input', this.handleInput.bind(this))
@@ -29,14 +29,13 @@ export default class Autocomplete {
 
   onResults(results) {
     this.resultsList.innerHTML = ''
-    this.selectedIndex = -1
 
     if (results.length === 0) {
       this.resultsList.hidePopover()
       return
     }
 
-    results.forEach((result, i) => {
+    for (const result of results) {
       const listItem = document.createElement('li')
       listItem.innerHTML = `
         <div>
@@ -44,17 +43,12 @@ export default class Autocomplete {
         </div>
       `
 
-      listItem.result = result
-
       listItem.addEventListener('click', () => {
         this.onSelect(result.id, result.label)
         this.resultsList.hidePopover()
       })
-
-      listItem.setAttribute('data-index', i)
       this.resultsList.appendChild(listItem)
-    })
-
+    }
     this.showPopoverUnderInputElement()
   }
 
@@ -74,21 +68,19 @@ export default class Autocomplete {
 
     switch (event.key) {
       case 'ArrowDown':
-        this.selectedIndex = (this.selectedIndex + 1) % items.length
-        this.updateSelection(items)
+        this.currentFocus++
+        this.addHighlight(items)
         break
 
       case 'ArrowUp':
-        this.selectedIndex =
-          (this.selectedIndex - 1 + items.length) % items.length
-        this.updateSelection(items)
+        this.currentFocus--
+        this.addHighlight(items)
         break
 
       case 'Enter':
-        if (this.selectedIndex >= 0) {
-          const selectedItem = items[this.selectedIndex]
-          this.onSelect(selectedItem.result.id, selectedItem.result.label)
-          this.resultsList.hidePopover()
+        if (this.currentFocus >= 0) {
+          event.preventDefault()
+          items[this.currentFocus].click()
         }
         break
 
@@ -99,14 +91,19 @@ export default class Autocomplete {
     event.preventDefault()
   }
 
-  updateSelection(items) {
-    items.forEach((item, i) => {
-      if (this.selectedIndex === i) {
-        item.classList.add('selected')
-        item.scrollIntoView({ block: 'nearest' })
-      } else {
-        item.classList.remove('selected')
-      }
-    })
+  addHighlight(items) {
+    this.removeHighlight(items)
+
+    // Wrap around the selection when reaching the top/bottom.
+    if (this.currentFocus >= items.length) this.currentFocus = 0
+    if (this.currentFocus < 0) this.currentFocus = items.length - 1
+
+    items[this.currentFocus].classList.add('active')
+  }
+
+  removeHighlight(items) {
+    for (const item of items) {
+      item.classList.remove('active')
+    }
   }
 }
