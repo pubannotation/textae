@@ -30,6 +30,7 @@ export default class Autocomplete {
 
   onResults(results) {
     this.resultsList.innerHTML = ''
+    this.currentFocus = -1 // Reset currentFocus by every search.
 
     if (results.length === 0) return
 
