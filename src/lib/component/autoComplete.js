@@ -1,4 +1,5 @@
 import debounce300 from './SettingDialog/reflectImmediately/debounce300'
+import anemone from './anemone'
 
 export default class Autocomplete {
   constructor(inputElement, onSearch, onSelect) {
@@ -34,7 +35,7 @@ export default class Autocomplete {
 
     for (const result of results) {
       const listItem = document.createElement('li')
-      listItem.innerHTML = `
+      listItem.innerHTML = anemone`
         <div>
           ${result.label} ${result.id}
         </div>
