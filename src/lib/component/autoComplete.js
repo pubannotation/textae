@@ -47,6 +47,11 @@ export default class Autocomplete {
         this.addHighlight(this.resultsList.querySelectorAll('li'))
       })
 
+      listItem.addEventListener('mouseout', () => {
+        this.currentFocus = -1
+        listItem.classList.remove('active')
+      })
+
       listItem.addEventListener('click', () => {
         this.onSelect(result.id, result.label)
         this.resultsList.hidePopover()
