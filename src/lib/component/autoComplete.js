@@ -9,7 +9,7 @@ export default class Autocomplete {
 
     this.resultsList = document.createElement('ul')
     this.resultsList.setAttribute('popover', 'auto')
-    this.resultsList.style.margin = '0'
+    this.resultsList.classList.add('autocomplete')
 
     this.currentFocus = -1 // For key-down operation.
 
@@ -62,6 +62,7 @@ export default class Autocomplete {
     this.resultsList.style.position = 'absolute'
     this.resultsList.style.top = `${rect.bottom + window.scrollY}px`
     this.resultsList.style.left = `${rect.left + window.scrollX}px`
+    this.resultsList.style.width = `${rect.width}px`
 
     this.resultsList.showPopover()
   }

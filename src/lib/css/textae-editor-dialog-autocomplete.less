@@ -31,8 +31,33 @@
     z-index: 102;
   }
 
-  .active {
-    background-color: #d3d3d3;
+  ul.autocomplete {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid #ccc;
+    background-color: #f3f3f3;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+
+    li {
+      color: #333333;
+      padding: 3px 1em 3px 0.4em;
+      cursor: pointer;
+
+      div {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        direction: rtl;
+      }
+
+      &.active {
+        color: orange;
+        font-weight: bold;
+        border: 1px solid orange;
+        background-color: white;
+      }
+    }
   }
 }
 
