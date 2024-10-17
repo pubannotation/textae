@@ -33,13 +33,18 @@ export default class Autocomplete {
 
     if (results.length === 0) return
 
-    for (const result of results) {
+    for (const [i, result] of results.entries()) {
       const listItem = document.createElement('li')
       listItem.innerHTML = anemone`
         <div>
           ${result.label} ${result.id}
         </div>
       `
+
+      listItem.addEventListener('mouseover', () => {
+        this.currentFocus = i
+        this.addHighlight(this.resultsList.querySelectorAll('li'))
+      })
 
       listItem.addEventListener('click', () => {
         this.onSelect(result.id, result.label)
