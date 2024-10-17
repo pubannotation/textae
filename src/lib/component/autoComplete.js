@@ -65,23 +65,24 @@ export default class Autocomplete {
 
     switch (event.key) {
       case 'ArrowDown':
+        event.preventDefault()
         this.currentFocus++
         this.addHighlight(items)
         break
 
       case 'ArrowUp':
+        event.preventDefault()
         this.currentFocus--
         this.addHighlight(items)
         break
 
       case 'Enter':
+        event.preventDefault()
         if (this.currentFocus >= 0) {
           items[this.currentFocus].click()
         }
         break
     }
-
-    event.preventDefault()
   }
 
   addHighlight(items) {
