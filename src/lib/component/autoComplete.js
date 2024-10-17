@@ -30,10 +30,7 @@ export default class Autocomplete {
   onResults(results) {
     this.resultsList.innerHTML = ''
 
-    if (results.length === 0) {
-      this.resultsList.hidePopover()
-      return
-    }
+    if (results.length === 0) return
 
     for (const result of results) {
       const listItem = document.createElement('li')
