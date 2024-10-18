@@ -1,7 +1,7 @@
 import delegate from 'delegate'
 import PromiseDialog from '../PromiseDialog'
 import getValues from './getValues'
-import setSourceOfAutoComplete from '../setSourceOfAutoComplete'
+import Autocomplete from '../autocomplete'
 import createContentHTML from './createContentHTML'
 import SelectionAttributePallet from '../SelectionAttributePallet'
 import EditNumericAttributeDialog from '../EditNumericAttributeDialog'
@@ -166,7 +166,7 @@ export default class EditPropertiesDialog extends PromiseDialog {
     const typeLabelElement = super.el.querySelector(
       '.textae-editor__edit-type-values-dialog__type-label'
     )
-    setSourceOfAutoComplete(
+    new Autocomplete(
       typeNameElement,
       (term, onResult) =>
         searchTerm(

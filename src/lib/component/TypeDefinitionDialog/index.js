@@ -1,6 +1,6 @@
 import PromiseDialog from '../PromiseDialog'
 import searchTerm from '../searchTerm'
-import setSourceOfAutoComplete from '../setSourceOfAutoComplete'
+import Autocomplete from '../autocomplete'
 import template from './template'
 
 export default class TypeDefinitionDialog extends PromiseDialog {
@@ -29,11 +29,11 @@ export default class TypeDefinitionDialog extends PromiseDialog {
         autocompletionWs,
         definitionContainer.findByLabel(term)
       )
-    setSourceOfAutoComplete(idElement, onSearch, (id, label) => {
+    new Autocomplete(idElement, onSearch, (id, label) => {
       idElement.value = id
       labelElement.value = label
     })
-    setSourceOfAutoComplete(labelElement, onSearch, (id, label) => {
+    new Autocomplete(labelElement, onSearch, (id, label) => {
       idElement.value = id
       labelElement.value = label
     })

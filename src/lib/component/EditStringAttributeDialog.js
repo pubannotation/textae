@@ -1,7 +1,7 @@
 import delegate from 'delegate'
 import PromiseDialog from './PromiseDialog'
 import anemone from './anemone'
-import Autocomplete from './autoComplete'
+import Autocomplete from './autocomplete'
 import searchTerm from './searchTerm'
 
 function template(context) {
