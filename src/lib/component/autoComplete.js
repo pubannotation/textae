@@ -1,28 +1,26 @@
 import debounce300 from './SettingDialog/reflectImmediately/debounce300'
-import anemone from './anemone'
 
 export default class Autocomplete {
   #inputElement
   #onSearch
   #onSelect
-  #resultsList
+  #resultsElement
+  #results
   #currentFocus
   #originalInput
-  #currentResults
 
   constructor(inputElement, onSearch, onSelect) {
     this.#inputElement = inputElement
     this.#onSearch = debounce300(onSearch)
     this.#onSelect = onSelect
 
-    this.#resultsList = document.createElement('ul')
-    this.#resultsList.setAttribute('popover', 'auto')
-    this.#resultsList.classList.add('autocomplete')
+    this.#resultsElement = document.createElement('ul')
+    this.#resultsElement.setAttribute('popover', 'auto')
+    this.#resultsElement.classList.add('autocomplete')
+    inputElement.parentElement.appendChild(this.#resultsElement)
 
-    this.#currentFocus = -1 // For key-down operation.
-    this.#originalInput = ''
+    this.#currentFocus = -1 // Initialize keydown pointer.
 
-    inputElement.parentElement.appendChild(this.#resultsList)
     this.#inputElement.addEventListener('input', (event) =>
       this.#handleInput(event)
     )
@@ -37,94 +35,92 @@ export default class Autocomplete {
     if (term.length >= 3) {
       this.#onSearch(term, (results) => this.#onResults(results))
     } else {
-      this.#resultsList.hidePopover()
+      this.#resultsElement.hidePopover()
     }
   }
 
   #onResults(results) {
-    this.#resultsList.innerHTML = ''
+    this.#resultsElement.innerHTML = ''
     this.#currentFocus = -1 // Reset currentFocus by every search.
     this.#originalInput = this.#inputElement.value
+    this.#results = results
 
     if (results.length === 0) return
 
     for (const [i, result] of results.entries()) {
-      const listItem = document.createElement('li')
-      listItem.innerHTML = anemone`
-        <div>
-          ${result.label} ${result.id}
-        </div>
-      `
+      const resultElement = document.createElement('li')
+      const resultContent = document.createElement('div')
+      resultContent.textContent = `${result.label} ${result.id}`
+      resultElement.appendChild(resultContent)
 
-      listItem.addEventListener('mouseover', () => {
-        this.#currentFocus = i
-        this.#addHighlight(this.#resultsList.querySelectorAll('li'))
-      })
-
-      listItem.addEventListener('mouseout', () => {
-        this.#currentFocus = -1
-        listItem.classList.remove('active')
-      })
-
-      listItem.addEventListener('click', () => {
+      resultElement.addEventListener('click', () => {
         this.#onSelect(result.id, result.label)
-        this.#resultsList.hidePopover()
+        this.#resultsElement.hidePopover()
       })
-      this.#resultsList.appendChild(listItem)
+
+      resultElement.addEventListener('mouseover', () => {
+        this.#currentFocus = i
+        this.#addHighlight()
+      })
+
+      resultElement.addEventListener('mouseout', () => {
+        this.#currentFocus = -1
+        this.#removeHighlight()
+      })
+
+      this.#resultsElement.appendChild(resultElement)
     }
 
-    this.#currentResults = results
     this.#showPopoverUnderInputElement()
   }
 
   #showPopoverUnderInputElement() {
     const rect = this.#inputElement.getBoundingClientRect()
 
-    this.#resultsList.style.position = 'absolute'
-    this.#resultsList.style.top = `${rect.bottom + window.scrollY}px`
-    this.#resultsList.style.left = `${rect.left + window.scrollX}px`
-    this.#resultsList.style.width = `${rect.width}px`
+    this.#resultsElement.style.position = 'absolute'
+    this.#resultsElement.style.top = `${rect.bottom + window.scrollY}px`
+    this.#resultsElement.style.left = `${rect.left + window.scrollX}px`
+    this.#resultsElement.style.width = `${rect.width}px`
 
-    this.#resultsList.showPopover()
+    this.#resultsElement.showPopover()
   }
 
   #handleKeyDown(event) {
-    const items = this.#resultsList.querySelectorAll('li')
-    if (items.length === 0) return
+    if (this.#results.length === 0) return
 
     switch (event.key) {
       case 'ArrowDown':
         event.preventDefault()
-        this.#moveFocus('next', items)
-        if (this.#currentFocus >= 0) {
-          const currentResult = this.#currentResults[this.#currentFocus]
-          this.#onSelect(currentResult.id, currentResult.label)
-        } else {
-          // No item is focused, reset to the original input.
-          this.#onSelect(this.#originalInput, '')
-        }
+        this.#moveFocus('next')
+        this.#applyCurrentSelect()
         break
 
       case 'ArrowUp':
         event.preventDefault()
-        this.#moveFocus('previous', items)
-        if (this.#currentFocus >= 0) {
-          const currentResult = this.#currentResults[this.#currentFocus]
-          this.#onSelect(currentResult.id, currentResult.label)
-        } else {
-          // No item is focused, reset to the original input.
-          this.#onSelect(this.#originalInput, '')
-        }
+        this.#moveFocus('previous')
+        this.#applyCurrentSelect()
         break
     }
   }
 
-  #moveFocus(direction, items) {
-    const itemsCount = items.length
+  #applyCurrentSelect() {
+    const isSelected = this.#currentFocus >= 0
+
+    if (isSelected) {
+      const currentResult = this.#results[this.#currentFocus]
+      this.#onSelect(currentResult.id, currentResult.label)
+    } else {
+      // If no item is focused, reset to the original input.
+      this.#onSelect(this.#originalInput, '')
+    }
+  }
+
+  #moveFocus(direction) {
+    const resultsCount = this.#results.length
 
     switch (direction) {
       case 'next':
-        if (this.#currentFocus < itemsCount - 1) {
+        if (this.#currentFocus < resultsCount - 1) {
           this.#currentFocus++
         } else {
           this.#currentFocus = -1
@@ -136,25 +132,31 @@ export default class Autocomplete {
         } else if (this.#currentFocus === 0) {
           this.#currentFocus = -1
         } else {
-          this.#currentFocus = itemsCount - 1
+          this.#currentFocus = resultsCount - 1
         }
         break
     }
 
-    this.#addHighlight(items)
+    this.#addHighlight()
   }
 
-  #addHighlight(items) {
-    this.#removeHighlight(items)
+  #addHighlight() {
+    // Clear previous highlight.
+    this.#removeHighlight()
 
+    // Do not highlight when no item selected.
     if (this.#currentFocus === -1) return
 
-    items[this.#currentFocus].classList.add('active')
+    const target =
+      this.#resultsElement.querySelectorAll('li')[this.#currentFocus]
+    target.classList.add('active')
   }
 
-  #removeHighlight(items) {
-    for (const item of items) {
-      item.classList.remove('active')
+  #removeHighlight() {
+    const target = this.#resultsElement.querySelector('li.active')
+
+    if (target) {
+      target.classList.remove('active')
     }
   }
 }
