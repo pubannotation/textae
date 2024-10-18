@@ -79,14 +79,12 @@ export default class Autocomplete {
     switch (event.key) {
       case 'ArrowDown':
         event.preventDefault()
-        this.currentFocus++
-        this.addHighlight(items)
+        this.moveFocus('next', items)
         break
 
       case 'ArrowUp':
         event.preventDefault()
-        this.currentFocus--
-        this.addHighlight(items)
+        this.moveFocus('previous', items)
         break
 
       case 'Enter':
@@ -98,12 +96,35 @@ export default class Autocomplete {
     }
   }
 
+  moveFocus(direction, items) {
+    const itemsCount = items.length
+
+    switch (direction) {
+      case 'next':
+        if (this.currentFocus < itemsCount - 1) {
+          this.currentFocus++
+        } else {
+          this.currentFocus = -1
+        }
+        break
+      case 'previous':
+        if (this.currentFocus > 0) {
+          this.currentFocus--
+        } else if (this.currentFocus === 0) {
+          this.currentFocus = -1
+        } else {
+          this.currentFocus = itemsCount - 1
+        }
+        break
+    }
+
+    this.addHighlight(items)
+  }
+
   addHighlight(items) {
     this.removeHighlight(items)
 
-    // Wrap around the selection when reaching the top/bottom.
-    if (this.currentFocus >= items.length) this.currentFocus = 0
-    if (this.currentFocus < 0) this.currentFocus = items.length - 1
+    if (this.currentFocus === -1) return
 
     items[this.currentFocus].classList.add('active')
   }
