@@ -94,26 +94,37 @@ export default class Autocomplete {
       case 'ArrowDown':
         event.preventDefault()
         this.#moveFocus('next')
-        this.#applyCurrentSelect()
+        this.#previewCurrentLabel()
         break
 
       case 'ArrowUp':
         event.preventDefault()
         this.#moveFocus('previous')
-        this.#applyCurrentSelect()
+        this.#previewCurrentLabel()
+        break
+
+      case 'Enter':
+        event.preventDefault()
+        if (this.#currentFocus >= 0) {
+          const currentItem =
+            this.#resultsElement.querySelectorAll('li')[this.#currentFocus]
+          if (currentItem) {
+            currentItem.click()
+          }
+        }
         break
     }
   }
 
-  #applyCurrentSelect() {
+  #previewCurrentLabel() {
     const isSelected = this.#currentFocus >= 0
 
     if (isSelected) {
       const currentResult = this.#results[this.#currentFocus]
-      this.#onSelect(currentResult.id, currentResult.label)
+      this.#inputElement.value = currentResult.label
     } else {
-      // If no item is focused, reset to the original input.
-      this.#onSelect(this.#originalInput, '')
+      // If no item is focused, show the original input.
+      this.#inputElement.value = this.#originalInput
     }
   }
 
