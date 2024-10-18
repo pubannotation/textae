@@ -116,13 +116,6 @@ export default class Autocomplete {
           this.#onSelect(this.#originalInput, '')
         }
         break
-
-      case 'Enter':
-        event.preventDefault()
-        if (this.#currentFocus >= 0) {
-          items[this.#currentFocus].click()
-        }
-        break
     }
   }
 
