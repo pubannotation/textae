@@ -12,6 +12,7 @@ export default class Autocomplete {
     this.resultsList.classList.add('autocomplete')
 
     this.currentFocus = -1 // For key-down operation.
+    this.originalInput = ''
 
     inputElement.parentElement.appendChild(this.resultsList)
     this.inputElement.addEventListener('input', this.handleInput.bind(this))
@@ -31,6 +32,7 @@ export default class Autocomplete {
   onResults(results) {
     this.resultsList.innerHTML = ''
     this.currentFocus = -1 // Reset currentFocus by every search.
+    this.originalInput = this.inputElement.value
 
     if (results.length === 0) return
 
@@ -58,6 +60,8 @@ export default class Autocomplete {
       })
       this.resultsList.appendChild(listItem)
     }
+
+    this.currentResults = results
     this.showPopoverUnderInputElement()
   }
 
@@ -80,11 +84,25 @@ export default class Autocomplete {
       case 'ArrowDown':
         event.preventDefault()
         this.moveFocus('next', items)
+        if (this.currentFocus >= 0) {
+          const currentResult = this.currentResults[this.currentFocus]
+          this.onSelect(currentResult.id, currentResult.label)
+        } else {
+          // No item is focused, reset to the original input.
+          this.onSelect(this.originalInput, '')
+        }
         break
 
       case 'ArrowUp':
         event.preventDefault()
         this.moveFocus('previous', items)
+        if (this.currentFocus >= 0) {
+          const currentResult = this.currentResults[this.currentFocus]
+          this.onSelect(currentResult.id, currentResult.label)
+        } else {
+          // No item is focused, reset to the original input.
+          this.onSelect(this.originalInput, '')
+        }
         break
 
       case 'Enter':
