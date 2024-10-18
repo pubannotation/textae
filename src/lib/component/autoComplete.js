@@ -87,6 +87,7 @@ export default class Autocomplete {
 
   #handleKeyDown(event) {
     if (this.#results.length === 0) return
+    if (this.#inputElement.value.length < 3) return
 
     switch (event.key) {
       case 'ArrowDown':
