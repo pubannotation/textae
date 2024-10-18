@@ -20,6 +20,7 @@ export default class Autocomplete {
     inputElement.parentElement.appendChild(this.#resultsElement)
 
     this.#currentFocus = -1 // Initialize keydown pointer.
+    this.#results = []
 
     this.#inputElement.addEventListener('input', (event) =>
       this.#handleInput(event)
@@ -86,8 +87,8 @@ export default class Autocomplete {
   }
 
   #handleKeyDown(event) {
-    if (this.#results.length === 0) return
-    if (this.#inputElement.value.length < 3) return
+    if (this.#results.length === 0 || this.#inputElement.value.length < 3)
+      return
 
     switch (event.key) {
       case 'ArrowDown':
