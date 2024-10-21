@@ -50,9 +50,7 @@ export default class Autocomplete {
 
     for (const [i, result] of results.entries()) {
       const resultElement = document.createElement('li')
-      const resultContent = document.createElement('div')
-      resultContent.textContent = `${result.label} ${result.id}`
-      resultElement.appendChild(resultContent)
+      resultElement.textContent = `${result.label} ${result.id}`
 
       resultElement.addEventListener('click', () => {
         this.#onSelect(result.id, result.label)
@@ -81,7 +79,6 @@ export default class Autocomplete {
     this.#resultsElement.style.position = 'absolute'
     this.#resultsElement.style.top = `${rect.bottom + window.scrollY}px`
     this.#resultsElement.style.left = `${rect.left + window.scrollX}px`
-    this.#resultsElement.style.width = `${rect.width}px`
 
     this.#resultsElement.showPopover()
   }
