@@ -113,18 +113,6 @@ export default class Autocomplete {
     }
   }
 
-  #previewCurrentLabel() {
-    const isSelected = this.#currentFocus >= 0
-
-    if (isSelected) {
-      const currentResult = this.#results[this.#currentFocus]
-      this.#inputElement.value = currentResult.label
-    } else {
-      // If no item is focused, show the original input.
-      this.#inputElement.value = this.#originalInput
-    }
-  }
-
   #moveFocus(direction) {
     const resultsCount = this.#results.length
 
@@ -167,6 +155,18 @@ export default class Autocomplete {
 
     if (target) {
       target.classList.remove('active')
+    }
+  }
+
+  #previewCurrentLabel() {
+    const isSelected = this.#currentFocus >= 0
+
+    if (isSelected) {
+      const currentResult = this.#results[this.#currentFocus]
+      this.#inputElement.value = currentResult.label
+    } else {
+      // If no item is focused, show the original input.
+      this.#inputElement.value = this.#originalInput
     }
   }
 }
