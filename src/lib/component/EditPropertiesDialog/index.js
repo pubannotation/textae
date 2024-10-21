@@ -178,6 +178,9 @@ export default class EditPropertiesDialog extends PromiseDialog {
       (id, label) => {
         typeNameElement.value = id
         typeLabelElement.innerText = label
+      },
+      (id, label, originalInput) => {
+        typeNameElement.value = label || originalInput
       }
     )
   }

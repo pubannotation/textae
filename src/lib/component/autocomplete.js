@@ -4,15 +4,17 @@ export default class Autocomplete {
   #inputElement
   #onSearch
   #onSelect
+  #onPreview
   #resultsElement
   #results
   #currentFocus
   #originalInput
 
-  constructor(inputElement, onSearch, onSelect) {
+  constructor(inputElement, onSearch, onSelect, onPreview) {
     this.#inputElement = inputElement
     this.#onSearch = debounce300(onSearch)
     this.#onSelect = onSelect
+    this.#onPreview = onPreview
 
     this.#resultsElement = document.createElement('ul')
     this.#resultsElement.setAttribute('popover', 'auto')
@@ -163,10 +165,14 @@ export default class Autocomplete {
 
     if (isSelected) {
       const currentResult = this.#results[this.#currentFocus]
-      this.#inputElement.value = currentResult.label
+      this.#onPreview(
+        currentResult.id,
+        currentResult.label,
+        this.#originalInput
+      )
     } else {
       // If no item is focused, show the original input.
-      this.#inputElement.value = this.#originalInput
+      this.#onPreview(null, null, this.#originalInput)
     }
   }
 }
