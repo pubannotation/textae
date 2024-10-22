@@ -38,6 +38,7 @@ export default class Autocomplete {
     if (term.length >= 3) {
       this.#onSearch(term, (results) => this.#onResults(results))
     } else {
+      this.#results = [] // Clear results.
       this.#resultsElement.hidePopover()
     }
   }
@@ -99,8 +100,7 @@ export default class Autocomplete {
   }
 
   #handleKeyDown(event) {
-    if (this.#results.length === 0 || this.#inputElement.value.length < 3)
-      return
+    if (this.#results.length === 0) return
 
     switch (event.key) {
       case 'ArrowDown':
