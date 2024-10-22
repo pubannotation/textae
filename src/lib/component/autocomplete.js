@@ -43,6 +43,8 @@ export default class Autocomplete {
 
     if (results.length === 0) return
 
+    const elements = []
+
     for (const [i, result] of results.entries()) {
       const resultElement = document.createElement('li')
       Object.assign(resultElement.dataset, {
@@ -53,9 +55,10 @@ export default class Autocomplete {
 
       resultElement.classList.add('textae-editor__dialog__autocomplete__item')
       resultElement.textContent = `${result.label} ${result.id}`
-
-      this.#resultsElement.appendChild(resultElement)
+      elements.push(resultElement)
     }
+
+    this.#resultsElement.append(...elements)
   }
 
   #handleInput(event) {
