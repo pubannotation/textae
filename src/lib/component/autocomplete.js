@@ -74,7 +74,7 @@ export default class Autocomplete {
   }
 
   #setEventHandlerToResults() {
-    this.#delegate(this.#resultsElement, 'click', 'li', (e) => {
+    this.#delegate(this.#resultsElement, 'mousedown', 'li', (e) => {
       const index = Array.from(this.#resultsElement.children).indexOf(e.target)
       this.#onSelect(this.#results[index].id, this.#results[index].label)
       this.#resultsElement.hidePopover()
