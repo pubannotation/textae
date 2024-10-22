@@ -130,16 +130,18 @@ export default class Autocomplete {
         this.#previewCurrentLabel()
         break
 
-      case 'Enter':
+      case 'Enter': {
         event.preventDefault()
-        if (this.#currentFocus >= 0) {
-          const currentItem =
-            this.#resultsElement.querySelectorAll('li')[this.#currentFocus]
-          if (currentItem) {
-            currentItem.click()
-          }
+        const currentItem = document.querySelector(
+          '.textae-editor__dialog__autocomplete__item--active'
+        )
+
+        if (currentItem) {
+          this.#onSelect(currentItem.dataset.id, currentItem.dataset.label)
+          this.#resultsElement.hidePopover()
         }
         break
+      }
     }
   }
 
