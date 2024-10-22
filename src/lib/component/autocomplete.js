@@ -121,13 +121,13 @@ export default class Autocomplete {
       case 'ArrowDown':
         event.preventDefault()
         this.#moveNext()
-        this.#previewCurrentLabel()
+        this.#previewCurrentResult()
         break
 
       case 'ArrowUp':
         event.preventDefault()
         this.#movePrevious()
-        this.#previewCurrentLabel()
+        this.#previewCurrentResult()
         break
 
       case 'Enter': {
@@ -191,13 +191,12 @@ export default class Autocomplete {
     }
   }
 
-  #previewCurrentLabel() {
-    const isSelected = this.#currentFocus >= 0
+  #previewCurrentResult() {
+    const currentResult = document.querySelector(
+      '.textae-editor__dialog__autocomplete__item--active'
+    )
 
-    if (isSelected) {
-      const currentResult = document.querySelector(
-        '.textae-editor__dialog__autocomplete__item--active'
-      )
+    if (currentResult) {
       this.#onPreview(
         currentResult.dataset.id,
         currentResult.dataset.label,
