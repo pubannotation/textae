@@ -18,7 +18,7 @@ export default class Autocomplete {
 
     this.#resultsElement = document.createElement('ul')
     this.#resultsElement.setAttribute('popover', 'auto')
-    this.#resultsElement.classList.add('autocomplete')
+    this.#resultsElement.classList.add('textae-editor__dialog__autocomplete')
     inputElement.parentElement.appendChild(this.#resultsElement)
 
     this.#currentFocus = -1 // Initialize keydown pointer.
@@ -45,6 +45,7 @@ export default class Autocomplete {
 
     for (const result of results) {
       const resultElement = document.createElement('li')
+      resultElement.classList.add('textae-editor__dialog__autocomplete__item')
       resultElement.textContent = `${result.label} ${result.id}`
 
       this.#resultsElement.appendChild(resultElement)
@@ -169,14 +170,18 @@ export default class Autocomplete {
 
     const target =
       this.#resultsElement.querySelectorAll('li')[this.#currentFocus]
-    target.classList.add('active')
+    target.classList.add('textae-editor__dialog__autocomplete__item--active')
   }
 
   #removeHighlight() {
-    const target = this.#resultsElement.querySelector('li.active')
+    const target = this.#resultsElement.querySelector(
+      '.textae-editor__dialog__autocomplete__item--active'
+    )
 
     if (target) {
-      target.classList.remove('active')
+      target.classList.remove(
+        'textae-editor__dialog__autocomplete__item--active'
+      )
     }
   }
 
