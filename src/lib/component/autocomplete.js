@@ -32,6 +32,20 @@ export default class Autocomplete {
     )
   }
 
+  set results(results) {
+    this.#results = results
+    this.#resultsElement.innerHTML = ''
+
+    if (results.length === 0) return
+
+    for (const result of results) {
+      const resultElement = document.createElement('li')
+      resultElement.textContent = `${result.label} ${result.id}`
+
+      this.#resultsElement.appendChild(resultElement)
+    }
+  }
+
   #handleInput(event) {
     const term = event.target.value
 
@@ -44,19 +58,10 @@ export default class Autocomplete {
   }
 
   #onResults(results) {
-    this.#resultsElement.innerHTML = ''
     this.#currentFocus = -1 // Reset currentFocus by every search.
     this.#originalInput = this.#inputElement.value
-    this.#results = results
 
-    if (results.length === 0) return
-
-    for (const result of results) {
-      const resultElement = document.createElement('li')
-      resultElement.textContent = `${result.label} ${result.id}`
-
-      this.#resultsElement.appendChild(resultElement)
-    }
+    this.results = results
 
     this.#setEventHandlerToResults()
     this.#showPopoverUnderInputElement()
