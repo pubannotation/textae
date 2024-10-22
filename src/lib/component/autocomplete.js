@@ -43,8 +43,14 @@ export default class Autocomplete {
 
     if (results.length === 0) return
 
-    for (const result of results) {
+    for (const [i, result] of results.entries()) {
       const resultElement = document.createElement('li')
+      Object.assign(resultElement.dataset, {
+        id: result.id,
+        label: result.label,
+        index: i
+      })
+
       resultElement.classList.add('textae-editor__dialog__autocomplete__item')
       resultElement.textContent = `${result.label} ${result.id}`
 
@@ -75,14 +81,12 @@ export default class Autocomplete {
 
   #setEventHandlerToResults() {
     this.#delegate(this.#resultsElement, 'mousedown', 'li', (e) => {
-      const index = Array.from(this.#resultsElement.children).indexOf(e.target)
-      this.#onSelect(this.#results[index].id, this.#results[index].label)
+      this.#onSelect(e.target.dataset.id, e.target.dataset.label)
       this.#resultsElement.hidePopover()
     })
 
     this.#delegate(this.#resultsElement, 'mouseover', 'li', (e) => {
-      const index = Array.from(this.#resultsElement.children).indexOf(e.target)
-      this.#currentFocus = index
+      this.#currentFocus = e.target.dataset.index
       this.#addHighlight()
     })
 
@@ -189,10 +193,12 @@ export default class Autocomplete {
     const isSelected = this.#currentFocus >= 0
 
     if (isSelected) {
-      const currentResult = this.#results[this.#currentFocus]
+      const currentResult = document.querySelector(
+        '.textae-editor__dialog__autocomplete__item--active'
+      )
       this.#onPreview(
-        currentResult.id,
-        currentResult.label,
+        currentResult.dataset.id,
+        currentResult.dataset.label,
         this.#originalInput
       )
     } else {
