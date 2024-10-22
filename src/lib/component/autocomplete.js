@@ -110,13 +110,13 @@ export default class Autocomplete {
     switch (event.key) {
       case 'ArrowDown':
         event.preventDefault()
-        this.#moveFocus('next')
+        this.#moveNext()
         this.#previewCurrentLabel()
         break
 
       case 'ArrowUp':
         event.preventDefault()
-        this.#moveFocus('previous')
+        this.#movePrevious()
         this.#previewCurrentLabel()
         break
 
@@ -133,26 +133,23 @@ export default class Autocomplete {
     }
   }
 
-  #moveFocus(direction) {
-    const resultsCount = this.#results.length
+  #movePrevious() {
+    if (this.#currentFocus > 0) {
+      this.#currentFocus--
+    } else if (this.#currentFocus === 0) {
+      this.#currentFocus = -1
+    } else {
+      this.#currentFocus = this.#results.length - 1
+    }
 
-    switch (direction) {
-      case 'next':
-        if (this.#currentFocus < resultsCount - 1) {
-          this.#currentFocus++
-        } else {
-          this.#currentFocus = -1
-        }
-        break
-      case 'previous':
-        if (this.#currentFocus > 0) {
-          this.#currentFocus--
-        } else if (this.#currentFocus === 0) {
-          this.#currentFocus = -1
-        } else {
-          this.#currentFocus = resultsCount - 1
-        }
-        break
+    this.#addHighlight()
+  }
+
+  #moveNext() {
+    if (this.#currentFocus < this.#results.length - 1) {
+      this.#currentFocus++
+    } else {
+      this.#currentFocus = -1
     }
 
     this.#addHighlight()
