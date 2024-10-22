@@ -50,29 +50,42 @@ export default class Autocomplete {
 
     if (results.length === 0) return
 
-    for (const [i, result] of results.entries()) {
+    for (const result of results) {
       const resultElement = document.createElement('li')
       resultElement.textContent = `${result.label} ${result.id}`
-
-      resultElement.addEventListener('click', () => {
-        this.#onSelect(result.id, result.label)
-        this.#resultsElement.hidePopover()
-      })
-
-      resultElement.addEventListener('mouseover', () => {
-        this.#currentFocus = i
-        this.#addHighlight()
-      })
-
-      resultElement.addEventListener('mouseout', () => {
-        this.#currentFocus = -1
-        this.#removeHighlight()
-      })
 
       this.#resultsElement.appendChild(resultElement)
     }
 
+    this.#setEventHandlerToResults()
     this.#showPopoverUnderInputElement()
+  }
+
+  #setEventHandlerToResults() {
+    this.#delegate(this.#resultsElement, 'click', 'li', (e) => {
+      const index = Array.from(this.#resultsElement.children).indexOf(e.target)
+      this.#onSelect(this.#results[index].id, this.#results[index].label)
+      this.#resultsElement.hidePopover()
+    })
+
+    this.#delegate(this.#resultsElement, 'mouseover', 'li', (e) => {
+      const index = Array.from(this.#resultsElement.children).indexOf(e.target)
+      this.#currentFocus = index
+      this.#addHighlight()
+    })
+
+    this.#delegate(this.#resultsElement, 'mouseout', 'li', () => {
+      this.#currentFocus = -1
+      this.#removeHighlight()
+    })
+  }
+
+  #delegate(element, event, selector, callback) {
+    element.addEventListener(event, (e) => {
+      if (e.target.closest(selector)) {
+        callback(e)
+      }
+    })
   }
 
   #showPopoverUnderInputElement() {
