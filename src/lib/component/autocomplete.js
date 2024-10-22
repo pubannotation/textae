@@ -30,6 +30,11 @@ export default class Autocomplete {
     this.#inputElement.addEventListener('keydown', (event) =>
       this.#handleKeyDown(event)
     )
+
+    // Hide popover when input is out of focus.
+    this.#inputElement.addEventListener('blur', () =>
+      this.#resultsElement.hidePopover()
+    )
   }
 
   set results(results) {
