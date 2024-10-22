@@ -1,4 +1,4 @@
-import debounce300 from './SettingDialog/reflectImmediately/debounce300'
+import debounce300 from './debounce300'
 
 export default class Autocomplete {
   #inputElement

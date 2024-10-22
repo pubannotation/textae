@@ -1,5 +1,5 @@
 import delgate from 'delegate'
-import debounce300 from './debounce300'
+import debounce300 from '../../debounce300'
 import redrawAllEditor from './redrawAllEditor'
 
 export default function (content, textBox) {
