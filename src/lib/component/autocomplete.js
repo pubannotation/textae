@@ -7,7 +7,7 @@ export default class Autocomplete {
   #onPreview
   #resultsElement
   #results
-  #currentFocus
+  #highlightedIndex
   #originalInput
 
   constructor(inputElement, onSearch, onSelect, onPreview) {
@@ -21,7 +21,7 @@ export default class Autocomplete {
     this.#resultsElement.classList.add('textae-editor__dialog__autocomplete')
     inputElement.parentElement.appendChild(this.#resultsElement)
 
-    this.#currentFocus = -1 // Initialize keydown pointer.
+    this.#highlightedIndex = -1 // Initialize keydown pointer.
     this.#results = []
 
     this.#inputElement.addEventListener('input', (event) =>
@@ -73,7 +73,7 @@ export default class Autocomplete {
   }
 
   #onResults(results) {
-    this.#currentFocus = -1 // Reset currentFocus by every search.
+    this.#highlightedIndex = -1 // Reset index by every search.
     this.#originalInput = this.#inputElement.value
 
     this.results = results
@@ -89,12 +89,12 @@ export default class Autocomplete {
     })
 
     this.#delegate(this.#resultsElement, 'mouseover', 'li', (e) => {
-      this.#currentFocus = e.target.dataset.index
+      this.#highlightedIndex = e.target.dataset.index
       this.#addHighlight()
     })
 
     this.#delegate(this.#resultsElement, 'mouseout', 'li', () => {
-      this.#currentFocus = -1
+      this.#highlightedIndex = -1
       this.#removeHighlight()
     })
   }
@@ -149,22 +149,22 @@ export default class Autocomplete {
   }
 
   #movePrevious() {
-    if (this.#currentFocus > 0) {
-      this.#currentFocus--
-    } else if (this.#currentFocus === 0) {
-      this.#currentFocus = -1
+    if (this.#highlightedIndex > 0) {
+      this.#highlightedIndex--
+    } else if (this.#highlightedIndex === 0) {
+      this.#highlightedIndex = -1
     } else {
-      this.#currentFocus = this.#results.length - 1
+      this.#highlightedIndex = this.#results.length - 1
     }
 
     this.#addHighlight()
   }
 
   #moveNext() {
-    if (this.#currentFocus < this.#results.length - 1) {
-      this.#currentFocus++
+    if (this.#highlightedIndex < this.#results.length - 1) {
+      this.#highlightedIndex++
     } else {
-      this.#currentFocus = -1
+      this.#highlightedIndex = -1
     }
 
     this.#addHighlight()
@@ -175,10 +175,10 @@ export default class Autocomplete {
     this.#removeHighlight()
 
     // Do not highlight when no item selected.
-    if (this.#currentFocus === -1) return
+    if (this.#highlightedIndex === -1) return
 
     const target =
-      this.#resultsElement.querySelectorAll('li')[this.#currentFocus]
+      this.#resultsElement.querySelectorAll('li')[this.#highlightedIndex]
     target.classList.add('textae-editor__dialog__autocomplete__item--active')
   }
 
