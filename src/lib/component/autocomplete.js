@@ -140,7 +140,7 @@ export default class Autocomplete {
       case 'Enter': {
         event.preventDefault()
         const currentItem = document.querySelector(
-          '.textae-editor__dialog__autocomplete__item--active'
+          '.textae-editor__dialog__autocomplete__item--highlighted'
         )
 
         if (currentItem) {
@@ -183,24 +183,26 @@ export default class Autocomplete {
 
     const target =
       this.#resultsElement.querySelectorAll('li')[this.#highlightedIndex]
-    target.classList.add('textae-editor__dialog__autocomplete__item--active')
+    target.classList.add(
+      'textae-editor__dialog__autocomplete__item--highlighted'
+    )
   }
 
   #removeHighlight() {
     const target = this.#resultsElement.querySelector(
-      '.textae-editor__dialog__autocomplete__item--active'
+      '.textae-editor__dialog__autocomplete__item--highlighted'
     )
 
     if (target) {
       target.classList.remove(
-        'textae-editor__dialog__autocomplete__item--active'
+        'textae-editor__dialog__autocomplete__item--highlighted'
       )
     }
   }
 
   #previewCurrentResult() {
     const currentResult = document.querySelector(
-      '.textae-editor__dialog__autocomplete__item--active'
+      '.textae-editor__dialog__autocomplete__item--highlighted'
     )
 
     if (currentResult) {
