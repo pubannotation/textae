@@ -78,8 +78,12 @@ export default class Autocomplete {
 
     this.results = results
 
-    this.#setEventHandlerToResults()
-    this.#showPopoverUnderInputElement()
+    if (results.length > 0) {
+      this.#setEventHandlerToResults()
+      this.#showPopoverUnderInputElement()
+    } else {
+      this.#resultsElement.hidePopover()
+    }
   }
 
   #setEventHandlerToResults() {
