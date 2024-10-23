@@ -35,6 +35,8 @@ export default class Autocomplete {
     this.#inputElement.addEventListener('blur', () =>
       this.#resultsElement.hidePopover()
     )
+
+    this.#setEventHandlerToResults()
   }
 
   set results(results) {
@@ -77,7 +79,6 @@ export default class Autocomplete {
     this.results = results
 
     if (results.length > 0) {
-      this.#setEventHandlerToResults()
       this.#showPopoverUnderInputElement()
     } else {
       this.#resultsElement.hidePopover()
