@@ -25,7 +25,7 @@ export default class Autocomplete {
     this.#results = []
 
     this.#inputElement.addEventListener('input', (event) =>
-      this.#handleInput(event)
+      this.#handleInput(event.target.value)
     )
     this.#inputElement.addEventListener('keydown', (event) =>
       this.#handleKeyDown(event)
@@ -61,9 +61,7 @@ export default class Autocomplete {
     this.#resultsElement.append(...elements)
   }
 
-  #handleInput(event) {
-    const term = event.target.value
-
+  #handleInput(term) {
     if (term.length >= 3) {
       this.#onSearch(term, (results) => this.#onResults(results))
     } else {
