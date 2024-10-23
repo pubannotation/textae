@@ -128,13 +128,13 @@ export default class Autocomplete {
       case 'ArrowDown':
         event.preventDefault()
         this.#moveHighlightNext()
-        this.#previewCurrentResult()
+        this.#previewCurrentHighlightItem()
         break
 
       case 'ArrowUp':
         event.preventDefault()
         this.#moveHighlightPrevious()
-        this.#previewCurrentResult()
+        this.#previewCurrentHighlightItem()
         break
 
       case 'Enter': {
@@ -199,7 +199,7 @@ export default class Autocomplete {
     }
   }
 
-  #previewCurrentResult() {
+  #previewCurrentHighlightItem() {
     const currentResult = document.querySelector(
       '.textae-editor__dialog__autocomplete__item--highlighted'
     )
