@@ -63,16 +63,16 @@ export default class Autocomplete {
 
   #handleInput(term) {
     if (term.length >= 3) {
-      this.#onSearch(term, (results) => this.#onResults(results))
+      this.#onSearch(term, (results) => this.#onResults(term, results))
     } else {
       this.#results = [] // Clear results.
       this.#resultsElement.hidePopover()
     }
   }
 
-  #onResults(results) {
+  #onResults(term, results) {
     this.#highlightedIndex = -1 // Reset index by every search.
-    this.#originalInput = this.#inputElement.value
+    this.#originalInput = term
 
     this.results = results
 
