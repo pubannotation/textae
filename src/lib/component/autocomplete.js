@@ -92,7 +92,7 @@ export default class Autocomplete {
 
     this.#delegate(this.#resultsElement, 'mouseover', 'li', (e) => {
       this.#highlightedIndex = e.target.dataset.index
-      this.#highlight()
+      this.#highlight(this.#highlightedIndex)
     })
 
     this.#delegate(this.#resultsElement, 'mouseout', 'li', () => {
@@ -161,7 +161,7 @@ export default class Autocomplete {
       this.#highlightedIndex = this.#results.length - 1
     }
 
-    this.#highlight()
+    this.#highlight(this.#highlightedIndex)
   }
 
   #moveHighlightNext() {
@@ -171,18 +171,17 @@ export default class Autocomplete {
       this.#highlightedIndex = -1
     }
 
-    this.#highlight()
+    this.#highlight(this.#highlightedIndex)
   }
 
-  #highlight() {
+  #highlight(targetIndex) {
     // Clear previous highlight.
     this.#unhighlight()
 
     // Do not highlight when no item selected.
-    if (this.#highlightedIndex === -1) return
+    if (targetIndex === -1) return
 
-    const target =
-      this.#resultsElement.querySelectorAll('li')[this.#highlightedIndex]
+    const target = this.#resultsElement.querySelectorAll('li')[targetIndex]
     target.classList.add(
       'textae-editor__dialog__autocomplete__item--highlighted'
     )
