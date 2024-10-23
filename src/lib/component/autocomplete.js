@@ -127,13 +127,13 @@ export default class Autocomplete {
     switch (event.key) {
       case 'ArrowDown':
         event.preventDefault()
-        this.#moveNext()
+        this.#moveHighlightNext()
         this.#previewCurrentResult()
         break
 
       case 'ArrowUp':
         event.preventDefault()
-        this.#movePrevious()
+        this.#moveHighlightPrevious()
         this.#previewCurrentResult()
         break
 
@@ -152,7 +152,7 @@ export default class Autocomplete {
     }
   }
 
-  #movePrevious() {
+  #moveHighlightPrevious() {
     if (this.#highlightedIndex > 0) {
       this.#highlightedIndex--
     } else if (this.#highlightedIndex === 0) {
@@ -164,7 +164,7 @@ export default class Autocomplete {
     this.#addHighlight()
   }
 
-  #moveNext() {
+  #moveHighlightNext() {
     if (this.#highlightedIndex < this.#results.length - 1) {
       this.#highlightedIndex++
     } else {
