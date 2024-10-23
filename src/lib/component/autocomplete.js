@@ -112,9 +112,11 @@ export default class Autocomplete {
   #showPopoverUnderInputElement() {
     const rect = this.#inputElement.getBoundingClientRect()
 
-    this.#resultsElement.style.position = 'absolute'
-    this.#resultsElement.style.top = `${rect.bottom + window.scrollY}px`
-    this.#resultsElement.style.left = `${rect.left + window.scrollX}px`
+    Object.assign(this.#resultsElement.style, {
+      position: 'absolute',
+      top: `${rect.bottom + window.scrollY}px`,
+      left: `${rect.left + window.scrollX}px`
+    })
 
     this.#resultsElement.showPopover()
   }
