@@ -1,4 +1,5 @@
 import AutocompleteModel from './autocompleteModel'
+import debounce300 from '../debounce300'
 
 export default class Autocomplete {
   #inputElement
@@ -23,11 +24,20 @@ export default class Autocomplete {
     this.#resultsElement.classList.add('textae-editor__dialog__autocomplete')
     inputElement.parentElement.appendChild(this.#resultsElement)
 
+    const handleInput = debounce300((term) => {
+      this.#model.term = term
+
+      if (term.length < 3) {
+        this.#model.items = [] // Clear items.
+        this.#resultsElement.hidePopover()
+      }
+    })
+
     this.#inputElement.addEventListener('input', (event) =>
-      this.#handleInput(event.target.value)
+      handleInput(event.target.value)
     )
     this.#inputElement.addEventListener('keydown', (event) =>
-      this.#handleKeyDown(event)
+      this.#handleKeydown(event)
     )
 
     // Hide popover when input is out of focus.
@@ -36,15 +46,6 @@ export default class Autocomplete {
     )
 
     this.#setEventHandlerToResults()
-  }
-
-  #handleInput(term) {
-    this.#model.term = term
-
-    if (term.length < 3) {
-      this.#model.items = [] // Clear items.
-      this.#resultsElement.hidePopover()
-    }
   }
 
   #setEventHandlerToResults() {
@@ -105,7 +106,7 @@ export default class Autocomplete {
     this.#resultsElement.showPopover()
   }
 
-  #handleKeyDown(event) {
+  #handleKeydown(event) {
     if (this.#model.items.length === 0) return
 
     switch (event.key) {
