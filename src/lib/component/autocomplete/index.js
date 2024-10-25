@@ -1,5 +1,6 @@
 import AutocompleteModel from './autocompleteModel'
 import debounce300 from '../debounce300'
+import delegate from 'delegate'
 
 export default class Autocomplete {
   #inputElement
@@ -48,25 +49,20 @@ export default class Autocomplete {
   }
 
   #setEventHandlerToResults() {
-    this.#delegate(this.#resultsElement, 'mousedown', 'li', (e) => {
-      this.#onSelect(e.target.dataset.id, e.target.dataset.label)
+    delegate(this.#resultsElement, 'li', 'mousedown', (e) => {
+      this.#onSelect(
+        e.delegateTarget.dataset.id,
+        e.delegateTarget.dataset.label
+      )
       this.#resultsElement.hidePopover()
     })
 
-    this.#delegate(this.#resultsElement, 'mouseover', 'li', (e) => {
-      this.#model.highlightedIndex = e.target.dataset.index
+    delegate(this.#resultsElement, 'li', 'mouseover', (e) => {
+      this.#model.highlightedIndex = e.delegateTarget.dataset.index
     })
 
-    this.#delegate(this.#resultsElement, 'mouseout', 'li', () => {
+    delegate(this.#resultsElement, 'li', 'mouseout', () => {
       this.#model.highlightedIndex = -1
-    })
-  }
-
-  #delegate(element, event, selector, callback) {
-    element.addEventListener(event, (e) => {
-      if (e.target.closest(selector)) {
-        callback(e)
-      }
     })
   }
 
