@@ -21,6 +21,8 @@ export default class AutocompleteModel {
 
     if (this.#term.length >= 3) {
       this.#onTermChange(this.#term)
+    } else {
+      this.#items = [] // Clear items.
     }
   }
 

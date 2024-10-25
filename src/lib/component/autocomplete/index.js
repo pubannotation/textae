@@ -28,7 +28,6 @@ export default class Autocomplete {
       this.#model.term = term
 
       if (term.length < 3) {
-        this.#model.items = [] // Clear items.
         this.#resultsElement.hidePopover()
       }
     })
