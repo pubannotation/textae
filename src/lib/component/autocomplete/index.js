@@ -1,28 +1,27 @@
-import debounce300 from '../debounce300'
+import AutocompleteModel from './autocompleteModel'
 
 export default class Autocomplete {
   #inputElement
-  #onSearch
   #onSelect
   #onPreview
+  #model
   #resultsElement
-  #results
-  #highlightedIndex
-  #originalInput
 
   constructor(inputElement, onSearch, onSelect, onPreview) {
     this.#inputElement = inputElement
-    this.#onSearch = debounce300(onSearch)
     this.#onSelect = onSelect
     this.#onPreview = onPreview
+
+    this.#model = new AutocompleteModel(
+      (term) => onSearch(term, (results) => (this.#model.items = results)),
+      (items) => this.#renderItem(items),
+      (index) => this.#highlight(index)
+    )
 
     this.#resultsElement = document.createElement('ul')
     this.#resultsElement.setAttribute('popover', 'auto')
     this.#resultsElement.classList.add('textae-editor__dialog__autocomplete')
     inputElement.parentElement.appendChild(this.#resultsElement)
-
-    this.#highlightedIndex = -1 // Initialize keydown pointer.
-    this.#results = []
 
     this.#inputElement.addEventListener('input', (event) =>
       this.#handleInput(event.target.value)
@@ -39,46 +38,11 @@ export default class Autocomplete {
     this.#setEventHandlerToResults()
   }
 
-  set results(results) {
-    this.#results = results
-    this.#resultsElement.innerHTML = ''
-
-    if (results.length === 0) return
-
-    const elements = results.map((result, i) => {
-      const resultElement = document.createElement('li')
-      Object.assign(resultElement.dataset, {
-        id: result.id,
-        label: result.label,
-        index: i
-      })
-
-      resultElement.classList.add('textae-editor__dialog__autocomplete__item')
-      resultElement.textContent = `${result.label} ${result.id}`
-      return resultElement
-    })
-
-    this.#resultsElement.append(...elements)
-  }
-
   #handleInput(term) {
-    if (term.length >= 3) {
-      this.#onSearch(term, (results) => this.#onResults(term, results))
-    } else {
-      this.#results = [] // Clear results.
-      this.#resultsElement.hidePopover()
-    }
-  }
+    this.#model.term = term
 
-  #onResults(term, results) {
-    this.#highlightedIndex = -1 // Reset index by every search.
-    this.#originalInput = term
-
-    this.results = results
-
-    if (results.length > 0) {
-      this.#showPopoverUnderInputElement()
-    } else {
+    if (term.length < 3) {
+      this.#model.items = [] // Clear items.
       this.#resultsElement.hidePopover()
     }
   }
@@ -90,13 +54,11 @@ export default class Autocomplete {
     })
 
     this.#delegate(this.#resultsElement, 'mouseover', 'li', (e) => {
-      this.#highlightedIndex = e.target.dataset.index
-      this.#highlight(this.#highlightedIndex)
+      this.#model.highlightedIndex = e.target.dataset.index
     })
 
     this.#delegate(this.#resultsElement, 'mouseout', 'li', () => {
-      this.#highlightedIndex = -1
-      this.#unhighlight()
+      this.#model.highlightedIndex = -1
     })
   }
 
@@ -106,6 +68,29 @@ export default class Autocomplete {
         callback(e)
       }
     })
+  }
+
+  #renderItem(items) {
+    this.#resultsElement.innerHTML = ''
+    this.#model.highlightedIndex = -1 // Clear highlight.
+
+    if (items.length === 0) return
+
+    const elements = items.map((item, i) => {
+      const resultElement = document.createElement('li')
+      Object.assign(resultElement.dataset, {
+        id: item.id,
+        label: item.label,
+        index: i
+      })
+
+      resultElement.classList.add('textae-editor__dialog__autocomplete__item')
+      resultElement.textContent = `${item.label} ${item.id}`
+      return resultElement
+    })
+
+    this.#resultsElement.append(...elements)
+    this.#showPopoverUnderInputElement()
   }
 
   #showPopoverUnderInputElement() {
@@ -121,7 +106,7 @@ export default class Autocomplete {
   }
 
   #handleKeyDown(event) {
-    if (this.#results.length === 0) return
+    if (this.#model.items.length === 0) return
 
     switch (event.key) {
       case 'ArrowDown':
@@ -152,38 +137,33 @@ export default class Autocomplete {
   }
 
   #moveHighlightPrevious() {
-    if (this.#highlightedIndex > 0) {
-      this.#highlightedIndex--
-    } else if (this.#highlightedIndex === 0) {
-      this.#highlightedIndex = -1
+    if (this.#model.highlightedIndex > 0) {
+      this.#model.highlightedIndex--
+    } else if (this.#model.highlightedIndex === 0) {
+      this.#model.highlightedIndex = -1
     } else {
-      this.#highlightedIndex = this.#results.length - 1
+      this.#model.highlightedIndex = this.#model.items.length - 1
     }
-
-    this.#highlight(this.#highlightedIndex)
   }
 
   #moveHighlightNext() {
-    if (this.#highlightedIndex < this.#results.length - 1) {
-      this.#highlightedIndex++
+    if (this.#model.highlightedIndex < this.#model.items.length - 1) {
+      this.#model.highlightedIndex++
     } else {
-      this.#highlightedIndex = -1
+      this.#model.highlightedIndex = -1
     }
-
-    this.#highlight(this.#highlightedIndex)
   }
 
-  #highlight(targetIndex) {
-    // Clear previous highlight.
-    this.#unhighlight()
+  #highlight(index) {
+    this.#unhighlight() // Clear previous highlight.
 
-    // Do not highlight when no item selected.
-    if (targetIndex === -1) return
+    const currentItem = this.#resultsElement.querySelectorAll('li')[index]
 
-    const target = this.#resultsElement.querySelectorAll('li')[targetIndex]
-    target.classList.add(
-      'textae-editor__dialog__autocomplete__item--highlighted'
-    )
+    if (currentItem) {
+      currentItem.classList.add(
+        'textae-editor__dialog__autocomplete__item--highlighted'
+      )
+    }
   }
 
   #unhighlight() {
@@ -199,19 +179,19 @@ export default class Autocomplete {
   }
 
   #previewCurrentHighlightItem() {
-    const currentResult = document.querySelector(
+    const currentItem = document.querySelector(
       '.textae-editor__dialog__autocomplete__item--highlighted'
     )
 
-    if (currentResult) {
+    if (currentItem) {
       this.#onPreview(
-        currentResult.dataset.id,
-        currentResult.dataset.label,
-        this.#originalInput
+        currentItem.dataset.id,
+        currentItem.dataset.label,
+        this.#model.term
       )
     } else {
       // If no item is focused, show the original input.
-      this.#onPreview(null, null, this.#originalInput)
+      this.#onPreview(null, null, this.#model.term)
     }
   }
 }
