@@ -54,7 +54,7 @@ export default class Autocomplete {
     })
 
     delegate(this.#resultsElement, 'li', 'mouseover', (e) => {
-      this.#model.highlightedIndex = e.delegateTarget.dataset.index
+      this.#model.highlightedIndex = Number(e.delegateTarget.dataset.index)
     })
 
     delegate(this.#resultsElement, 'li', 'mouseout', () => {
@@ -116,7 +116,9 @@ export default class Autocomplete {
   #highlight(index) {
     this.#unhighlight() // Clear previous highlight.
 
-    const currentItem = this.#resultsElement.querySelectorAll('li')[index]
+    const currentItem = this.#resultsElement.querySelector(
+      `li:nth-child(${index + 1})`
+    )
 
     if (currentItem) {
       currentItem.classList.add(
