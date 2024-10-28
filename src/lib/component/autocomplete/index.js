@@ -1,4 +1,5 @@
 import AutocompleteModel from './autocompleteModel'
+import createResultElement from './createResultElement'
 import debounce300 from '../debounce300'
 import delegate from 'delegate'
 
@@ -66,19 +67,7 @@ export default class Autocomplete {
 
     if (items.length === 0) return
 
-    const elements = items.map((item, i) => {
-      const resultElement = document.createElement('li')
-      Object.assign(resultElement.dataset, {
-        id: item.id,
-        label: item.label,
-        index: i
-      })
-
-      resultElement.classList.add('textae-editor__dialog__autocomplete__item')
-      resultElement.textContent = `${item.label} ${item.id}`
-      return resultElement
-    })
-
+    const elements = items.map(createResultElement)
     this.#resultsElement.append(...elements)
     this.#showPopoverUnderInputElement()
   }
