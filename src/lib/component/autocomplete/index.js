@@ -47,11 +47,8 @@ export default class Autocomplete {
   }
 
   #setEventHandlerToResults() {
-    delegate(this.#resultsElement, 'li', 'mousedown', (e) => {
-      this.#onSelect(
-        e.delegateTarget.dataset.id,
-        e.delegateTarget.dataset.label
-      )
+    delegate(this.#resultsElement, 'li', 'mousedown', ({ delegateTarget }) => {
+      this.#onSelect(delegateTarget.dataset.id, delegateTarget.dataset.label)
       this.#resultsElement.hidePopover()
     })
 
