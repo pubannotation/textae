@@ -126,9 +126,6 @@ export default class EditStringAttributeDialog extends PromiseDialog {
       (id, label) => {
         inputElement.value = id
         labelElement.value = label
-      },
-      (id, label, originalInput) => {
-        inputElement.value = label || originalInput
       }
     )
   }

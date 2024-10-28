@@ -5,14 +5,12 @@ import delegate from 'delegate'
 export default class Autocomplete {
   #inputElement
   #onSelect
-  #onPreview
   #model
   #resultsElement
 
-  constructor(inputElement, onSearch, onSelect, onPreview) {
+  constructor(inputElement, onSearch, onSelect) {
     this.#inputElement = inputElement
     this.#onSelect = onSelect
-    this.#onPreview = onPreview
 
     this.#model = new AutocompleteModel(
       (term) => onSearch(term, (results) => (this.#model.items = results)),
@@ -108,13 +106,11 @@ export default class Autocomplete {
       case 'ArrowDown':
         event.preventDefault()
         this.#moveHighlightNext()
-        this.#previewCurrentHighlightItem()
         break
 
       case 'ArrowUp':
         event.preventDefault()
         this.#moveHighlightPrevious()
-        this.#previewCurrentHighlightItem()
         break
 
       case 'Enter': {
@@ -171,23 +167,6 @@ export default class Autocomplete {
       target.classList.remove(
         'textae-editor__dialog__autocomplete__item--highlighted'
       )
-    }
-  }
-
-  #previewCurrentHighlightItem() {
-    const currentItem = document.querySelector(
-      '.textae-editor__dialog__autocomplete__item--highlighted'
-    )
-
-    if (currentItem) {
-      this.#onPreview(
-        currentItem.dataset.id,
-        currentItem.dataset.label,
-        this.#model.term
-      )
-    } else {
-      // If no item is focused, show the original input.
-      this.#onPreview(null, null, this.#model.term)
     }
   }
 }

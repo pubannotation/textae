@@ -30,30 +30,14 @@ export default class TypeDefinitionDialog extends PromiseDialog {
         definitionContainer.findByLabel(term)
       )
 
-    new Autocomplete(
-      idElement,
-      onSearch,
-      (id, label) => {
-        idElement.value = id
-        labelElement.value = label
-      },
-      (id, label, originalInput) => {
-        idElement.value = id || originalInput
-        labelElement.value = label || originalInput
-      }
-    )
+    new Autocomplete(idElement, onSearch, (id, label) => {
+      idElement.value = id
+      labelElement.value = label
+    })
 
-    new Autocomplete(
-      labelElement,
-      onSearch,
-      (id, label) => {
-        idElement.value = id
-        labelElement.value = label
-      },
-      (id, label, originalInput) => {
-        idElement.value = id || originalInput
-        labelElement.value = label || originalInput
-      }
-    )
+    new Autocomplete(labelElement, onSearch, (id, label) => {
+      idElement.value = id
+      labelElement.value = label
+    })
   }
 }
