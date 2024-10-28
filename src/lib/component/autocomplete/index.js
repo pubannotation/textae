@@ -63,7 +63,6 @@ export default class Autocomplete {
 
   #renderItem(items) {
     this.#resultsElement.innerHTML = ''
-    this.#model.highlightedIndex = -1 // Clear highlight.
 
     if (items.length === 0) return
 

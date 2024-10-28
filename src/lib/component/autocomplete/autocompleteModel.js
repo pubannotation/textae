@@ -32,6 +32,7 @@ export default class AutocompleteModel {
 
   set items(value) {
     this.#items = value
+    this.#highlightedIndex = -1 // Clear highlight.
     this.#onItemsChange(this.#items)
   }
 
