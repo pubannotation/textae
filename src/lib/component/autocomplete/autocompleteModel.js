@@ -44,4 +44,22 @@ export default class AutocompleteModel {
     this.#highlightedIndex = value
     this.#onHighlightIndexChange(this.#highlightedIndex)
   }
+
+  moveHighlightIndexPrevious() {
+    if (this.highlightedIndex > 0) {
+      this.highlightedIndex--
+    } else if (this.highlightedIndex === 0) {
+      this.highlightedIndex = -1
+    } else {
+      this.highlightedIndex = this.items.length - 1
+    }
+  }
+
+  moveHighlightIndexNext() {
+    if (this.highlightedIndex < this.items.length - 1) {
+      this.highlightedIndex++
+    } else {
+      this.highlightedIndex = -1
+    }
+  }
 }

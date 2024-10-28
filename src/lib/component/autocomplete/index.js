@@ -90,12 +90,12 @@ export default class Autocomplete {
     switch (event.key) {
       case 'ArrowDown':
         event.preventDefault()
-        this.#moveHighlightNext()
+        this.#model.moveHighlightIndexNext()
         break
 
       case 'ArrowUp':
         event.preventDefault()
-        this.#moveHighlightPrevious()
+        this.#model.moveHighlightIndexPrevious()
         break
 
       case 'Enter': {
@@ -110,24 +110,6 @@ export default class Autocomplete {
         }
         break
       }
-    }
-  }
-
-  #moveHighlightPrevious() {
-    if (this.#model.highlightedIndex > 0) {
-      this.#model.highlightedIndex--
-    } else if (this.#model.highlightedIndex === 0) {
-      this.#model.highlightedIndex = -1
-    } else {
-      this.#model.highlightedIndex = this.#model.items.length - 1
-    }
-  }
-
-  #moveHighlightNext() {
-    if (this.#model.highlightedIndex < this.#model.items.length - 1) {
-      this.#model.highlightedIndex++
-    } else {
-      this.#model.highlightedIndex = -1
     }
   }
 
