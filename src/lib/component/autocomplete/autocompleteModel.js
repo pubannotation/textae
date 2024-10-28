@@ -26,8 +26,8 @@ export default class AutocompleteModel {
     }
   }
 
-  get items() {
-    return this.#items
+  get itemsCount() {
+    return this.#items.length
   }
 
   set items(value) {
@@ -51,12 +51,12 @@ export default class AutocompleteModel {
     } else if (this.highlightedIndex === 0) {
       this.highlightedIndex = -1
     } else {
-      this.highlightedIndex = this.items.length - 1
+      this.highlightedIndex = this.itemsCount - 1
     }
   }
 
   moveHighlightIndexNext() {
-    if (this.highlightedIndex < this.items.length - 1) {
+    if (this.highlightedIndex < this.itemsCount - 1) {
       this.highlightedIndex++
     } else {
       this.highlightedIndex = -1

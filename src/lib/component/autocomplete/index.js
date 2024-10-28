@@ -85,7 +85,7 @@ export default class Autocomplete {
   }
 
   #handleKeydown(event) {
-    if (this.#model.items.length === 0) return
+    if (this.#model.itemsCount === 0) return
 
     switch (event.key) {
       case 'ArrowDown':
