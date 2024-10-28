@@ -53,8 +53,8 @@ export default class Autocomplete {
       this.#resultsElement.hidePopover()
     })
 
-    delegate(this.#resultsElement, 'li', 'mouseover', (e) => {
-      this.#model.highlightedIndex = Number(e.delegateTarget.dataset.index)
+    delegate(this.#resultsElement, 'li', 'mouseover', ({ delegateTarget }) => {
+      this.#model.highlightedIndex = Number(delegateTarget.dataset.index)
     })
 
     delegate(this.#resultsElement, 'li', 'mouseout', () => {
