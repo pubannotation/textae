@@ -115,7 +115,6 @@ export default class Autocomplete {
       }
 
       this.#model.items = []
-      this.#resultsElement.hidePopover()
     }
   }
 
