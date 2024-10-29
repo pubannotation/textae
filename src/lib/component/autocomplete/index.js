@@ -62,6 +62,15 @@ export default class Autocomplete {
         event.preventDefault()
         this.#model.moveHighlightIndexPrevious()
         break
+
+      case 'Tab':
+        event.preventDefault()
+        if (event.shiftKey) {
+          this.#model.moveHighlightIndexPrevious()
+        } else {
+          this.#model.moveHighlightIndexNext()
+        }
+        break
     }
   }
 
