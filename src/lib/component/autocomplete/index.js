@@ -26,10 +26,6 @@ export default class Autocomplete {
 
     const handleInput = debounce300((term) => {
       this.#model.term = term
-
-      if (term.length < 3) {
-        this.#resultsElement.hidePopover()
-      }
     })
 
     this.#inputElement.addEventListener('input', ({ target }) =>
@@ -65,7 +61,10 @@ export default class Autocomplete {
   #renderItem(items) {
     this.#resultsElement.innerHTML = ''
 
-    if (items.length === 0) return
+    if (items.length === 0) {
+      this.#resultsElement.hidePopover()
+      return
+    }
 
     const elements = items.map(createResultElement)
     this.#resultsElement.append(...elements)
