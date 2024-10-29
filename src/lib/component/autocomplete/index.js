@@ -44,10 +44,10 @@ export default class Autocomplete {
       this.#resultsElement.hidePopover()
     )
 
-    this.#setEventHandlerToResults()
+    this.#setEventHandlersToResults()
   }
 
-  #setEventHandlerToResults() {
+  #setEventHandlersToResults() {
     delegate(this.#resultsElement, 'li', 'mousedown', ({ delegateTarget }) => {
       this.#onSelect(delegateTarget.dataset.id, delegateTarget.dataset.label)
       this.#resultsElement.hidePopover()
