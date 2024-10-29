@@ -104,6 +104,7 @@ export default class Autocomplete {
 
   #handleKeyup(event) {
     if (event.key === 'Enter' && this.#model.itemsCount > 0) {
+      // Prevent dialog closing event to close only popover by Enter.
       event.stopPropagation()
 
       const currentItem = document.querySelector(
