@@ -34,6 +34,9 @@ export default class Autocomplete {
     this.#inputElement.addEventListener('keydown', (event) =>
       this.#handleKeydown(event)
     )
+    this.#inputElement.addEventListener('keyup', (event) =>
+      this.#handleEnterKey(event)
+    )
 
     // Hide popover when input is out of focus.
     this.#inputElement.addEventListener('blur', () =>
@@ -96,19 +99,23 @@ export default class Autocomplete {
         event.preventDefault()
         this.#model.moveHighlightIndexPrevious()
         break
+    }
+  }
 
-      case 'Enter': {
-        event.preventDefault()
-        const currentItem = document.querySelector(
-          '.textae-editor__dialog__autocomplete__item--highlighted'
-        )
+  #handleEnterKey(event) {
+    if (event.key === 'Enter' && this.#model.itemsCount > 0) {
+      event.stopPropagation()
 
-        if (currentItem) {
-          this.#onSelect(currentItem.dataset.id, currentItem.dataset.label)
-          this.#resultsElement.hidePopover()
-        }
-        break
+      const currentItem = document.querySelector(
+        '.textae-editor__dialog__autocomplete__item--highlighted'
+      )
+
+      if (currentItem) {
+        this.#onSelect(currentItem.dataset.id, currentItem.dataset.label)
       }
+
+      this.#model.items = []
+      this.#resultsElement.hidePopover()
     }
   }
 
