@@ -35,7 +35,7 @@ export default class Autocomplete {
       this.#handleKeydown(event)
     )
     this.#inputElement.addEventListener('keyup', (event) =>
-      this.#handleEnterKey(event)
+      this.#handleKeyup(event)
     )
 
     // Hide popover when input is out of focus.
@@ -102,7 +102,7 @@ export default class Autocomplete {
     }
   }
 
-  #handleEnterKey(event) {
+  #handleKeyup(event) {
     if (event.key === 'Enter' && this.#model.itemsCount > 0) {
       event.stopPropagation()
 
