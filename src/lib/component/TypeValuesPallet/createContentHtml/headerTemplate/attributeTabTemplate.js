@@ -21,7 +21,7 @@ export default function ({ pred }, index, array, selectedPred) {
       }"
       data-attribute="${pred}"
       data-index="${index}"
-      ${pred === selectedPred ? 'draggable="true"' : ''}>
+      ${pred === selectedPred ? 'draggable=true' : ''}>
       ${index < 9 ? `${index + 1}:` : ''}${pred}
     </p>
   `
