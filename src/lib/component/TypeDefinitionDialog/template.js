@@ -12,7 +12,9 @@ export default function template(context) {
   </div>
   <div class="textae-editor__type-definition-dialog__row ui-front">
     <label>Label<span></span></label>
-    <input value="${label}">
+    <input
+      class ="textae-editor__promise-dialog__observable-element"
+      value="${label}">
   </div>
   <div class="textae-editor__type-definition-dialog__color-picker">
     <label><input
