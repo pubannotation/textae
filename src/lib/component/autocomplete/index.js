@@ -32,8 +32,8 @@ export default class Autocomplete {
       }
     })
 
-    this.#inputElement.addEventListener('input', (event) =>
-      handleInput(event.target.value)
+    this.#inputElement.addEventListener('input', ({ target }) =>
+      handleInput(target.value)
     )
     this.#inputElement.addEventListener('keydown', (event) =>
       this.#handleKeydown(event)
