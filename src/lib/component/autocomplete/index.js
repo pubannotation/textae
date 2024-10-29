@@ -115,7 +115,7 @@ export default class Autocomplete {
         this.#onSelect(currentItem.dataset.id, currentItem.dataset.label)
       }
 
-      this.#model.items = []
+      this.#model.clearItems()
     }
   }
 

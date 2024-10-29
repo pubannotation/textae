@@ -22,7 +22,7 @@ export default class AutocompleteModel {
     if (this.#term.length >= 3) {
       this.#onTermChange(this.#term)
     } else {
-      this.items = [] // Clear items.
+      this.clearItems()
     }
   }
 
@@ -43,6 +43,10 @@ export default class AutocompleteModel {
   set highlightedIndex(value) {
     this.#highlightedIndex = value
     this.#onHighlightIndexChange(this.#highlightedIndex)
+  }
+
+  clearItems() {
+    this.items = []
   }
 
   moveHighlightIndexPrevious() {
