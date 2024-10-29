@@ -46,10 +46,8 @@ export default class AutocompleteModel {
   }
 
   moveHighlightIndexPrevious() {
-    if (this.highlightedIndex > 0) {
+    if (this.highlightedIndex >= 0) {
       this.highlightedIndex--
-    } else if (this.highlightedIndex === 0) {
-      this.highlightedIndex = -1
     } else {
       this.highlightedIndex = this.itemsCount - 1
     }
