@@ -73,11 +73,9 @@ export default class Autocomplete {
         break
 
       case 'Escape':
-        if (this.#model.hasItems) {
-          event.preventDefault()
-          this.#model.clearItems()
-          this.#itemsContainer.element.hidePopover()
-        }
+        event.preventDefault()
+        this.#model.clearItems()
+        this.#itemsContainer.element.hidePopover()
         break
     }
   }
