@@ -71,6 +71,14 @@ export default class Autocomplete {
           this.#model.moveHighlightIndexNext()
         }
         break
+
+      case 'Escape':
+        if (this.#model.itemsCount > 0) {
+          event.preventDefault()
+          this.#model.clearItems()
+          this.#itemsContainer.element.hidePopover()
+        }
+        break
     }
   }
 
