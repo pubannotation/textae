@@ -50,7 +50,7 @@ export default class Autocomplete {
   }
 
   #handleKeydown(event) {
-    if (this.#model.itemsCount === 0) return
+    if (this.#model.hasNoItems) return
 
     switch (event.key) {
       case 'ArrowDown':
@@ -73,7 +73,7 @@ export default class Autocomplete {
         break
 
       case 'Escape':
-        if (this.#model.itemsCount > 0) {
+        if (this.#model.hasItems) {
           event.preventDefault()
           this.#model.clearItems()
           this.#itemsContainer.element.hidePopover()
@@ -83,7 +83,7 @@ export default class Autocomplete {
   }
 
   #handleKeyup(event) {
-    if (event.key === 'Enter' && this.#model.itemsCount > 0) {
+    if (event.key === 'Enter' && this.#model.hasItems) {
       // Prevent dialog closing event to close only popover by Enter.
       event.stopPropagation()
 

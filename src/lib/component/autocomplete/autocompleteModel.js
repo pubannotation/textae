@@ -30,6 +30,14 @@ export default class AutocompleteModel {
     return this.#items.length
   }
 
+  get hasItems() {
+    return this.#items.length > 0
+  }
+
+  get hasNoItems() {
+    return this.#items.length === 0
+  }
+
   set items(value) {
     this.#items = value
     this.#highlightedIndex = -1 // Clear highlight.
