@@ -156,10 +156,15 @@ export default class EditPropertiesDialog extends PromiseDialog {
           attributeContainer,
           definitionContainer
         )
+        this.#setupAutocomplete(autocompletionWs, definitionContainer)
       }
     )
 
     // Setup autocomplete
+    this.#setupAutocomplete(autocompletionWs, definitionContainer)
+  }
+
+  #setupAutocomplete(autocompletionWs, definitionContainer) {
     const typeNameElement = super.el.querySelector(
       '.textae-editor__edit-type-values-dialog__type-name'
     )
