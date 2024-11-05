@@ -68,7 +68,8 @@ export default class EditPropertiesDialog extends PromiseDialog {
                   typeName,
                   attributes,
                   attributeContainer,
-                  definitionContainer
+                  definitionContainer,
+                  autocompletionWs
                 )
               })
             break
@@ -81,7 +82,8 @@ export default class EditPropertiesDialog extends PromiseDialog {
                   typeName,
                   attributes,
                   attributeContainer,
-                  definitionContainer
+                  definitionContainer,
+                  autocompletionWs
                 )
               })
             break
@@ -99,7 +101,8 @@ export default class EditPropertiesDialog extends PromiseDialog {
                   typeName,
                   attributes,
                   attributeContainer,
-                  definitionContainer
+                  definitionContainer,
+                  autocompletionWs
                 )
               })
             break
@@ -122,7 +125,8 @@ export default class EditPropertiesDialog extends PromiseDialog {
           typeName,
           attributes.filter((_, i) => i !== indexOfAttribute),
           attributeContainer,
-          definitionContainer
+          definitionContainer,
+          autocompletionWs
         )
       }
     )
@@ -154,9 +158,9 @@ export default class EditPropertiesDialog extends PromiseDialog {
             .concat({ pred, obj: defaultValue, id: '' })
             .sort((a, b) => attributeContainer.attributeCompareFunction(a, b)),
           attributeContainer,
-          definitionContainer
+          definitionContainer,
+          autocompletionWs
         )
-        this.#setupAutocomplete(autocompletionWs, definitionContainer)
       }
     )
 
@@ -187,7 +191,13 @@ export default class EditPropertiesDialog extends PromiseDialog {
     )
   }
 
-  #updateDisplay(typeName, attributes, attributeContainer, entityContainer) {
+  #updateDisplay(
+    typeName,
+    attributes,
+    attributeContainer,
+    entityContainer,
+    autocompletionWs
+  ) {
     const contentHtml = createContentHTML(
       typeName,
       attributes,
@@ -195,5 +205,7 @@ export default class EditPropertiesDialog extends PromiseDialog {
       attributeContainer
     )
     super.el.closest('.ui-dialog-content').innerHTML = contentHtml
+
+    this.#setupAutocomplete(autocompletionWs, entityContainer)
   }
 }
