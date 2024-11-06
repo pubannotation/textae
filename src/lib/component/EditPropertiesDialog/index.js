@@ -22,11 +22,11 @@ export default class EditPropertiesDialog extends PromiseDialog {
     mousePoint
   ) {
     const { typeName, attributes } = mergedTypeValuesOf(selectedItems)
+    const typeLabel = definitionContainer.getLabel(typeName)
     const contentHtml = createContentHTML(
       typeName,
-      '',
+      typeLabel,
       attributes,
-      definitionContainer,
       attributeContainer,
       palletName
     )
@@ -209,7 +209,6 @@ export default class EditPropertiesDialog extends PromiseDialog {
       typeName,
       typeLabel,
       attributes,
-      entityContainer,
       attributeContainer
     )
     super.el.closest('.ui-dialog-content').innerHTML = contentHtml

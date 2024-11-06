@@ -1,8 +1,6 @@
 import anemone from '../../anemone'
 
-export default function (value, typeLabel, entityContainer) {
-  const label = entityContainer.getLabel(value) || typeLabel
-
+export default function (value, label) {
   return () => anemone`
     <tr>
       <td rowspan="2"></td>

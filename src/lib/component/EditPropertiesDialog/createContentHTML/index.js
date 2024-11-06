@@ -7,7 +7,6 @@ export default function (
   typeName,
   typeLabel,
   attributes,
-  entityContainer,
   attributeContainer,
   palletName
 ) {
@@ -22,7 +21,7 @@ export default function (
           </tr>
         </thead>
         <tbody>
-          ${toEntityHTML(typeName, typeLabel, entityContainer)}
+          ${toEntityHTML(typeName, typeLabel)}
           ${attributes.map((a, index, list) =>
             toAttributeHTML(a, index, list, attributeContainer)
           )}
