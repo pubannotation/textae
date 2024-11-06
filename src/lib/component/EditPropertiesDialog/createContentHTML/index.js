@@ -5,6 +5,7 @@ import toAddAttributeButton from './toAddAttributeButton'
 
 export default function (
   typeName,
+  typeLabel,
   attributes,
   entityContainer,
   attributeContainer,
@@ -21,7 +22,7 @@ export default function (
           </tr>
         </thead>
         <tbody>
-          ${toEntityHTML(typeName, entityContainer)}
+          ${toEntityHTML(typeName, typeLabel, entityContainer)}
           ${attributes.map((a, index, list) =>
             toAttributeHTML(a, index, list, attributeContainer)
           )}

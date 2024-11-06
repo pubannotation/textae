@@ -24,6 +24,7 @@ export default class EditPropertiesDialog extends PromiseDialog {
     const { typeName, attributes } = mergedTypeValuesOf(selectedItems)
     const contentHtml = createContentHTML(
       typeName,
+      '',
       attributes,
       definitionContainer,
       attributeContainer,
@@ -52,7 +53,7 @@ export default class EditPropertiesDialog extends PromiseDialog {
         const zIndex = parseInt(
           super.el.closest('.textae-editor__dialog').style['z-index']
         )
-        const { typeName, attributes } = getValues(super.el)
+        const { typeName, label, attributes } = getValues(super.el)
 
         switch (attrDef.valueType) {
           case 'numeric':
@@ -66,6 +67,7 @@ export default class EditPropertiesDialog extends PromiseDialog {
                 attributes[e.target.dataset.index].obj = newObj
                 this.#updateDisplay(
                   typeName,
+                  label,
                   attributes,
                   attributeContainer,
                   definitionContainer,
@@ -80,6 +82,7 @@ export default class EditPropertiesDialog extends PromiseDialog {
                 attributes[e.target.dataset.index].obj = newObj
                 this.#updateDisplay(
                   typeName,
+                  label,
                   attributes,
                   attributeContainer,
                   definitionContainer,
@@ -99,6 +102,7 @@ export default class EditPropertiesDialog extends PromiseDialog {
                 attributes[e.target.dataset.index].label = newLabel
                 this.#updateDisplay(
                   typeName,
+                  label,
                   attributes,
                   attributeContainer,
                   definitionContainer,
@@ -120,9 +124,10 @@ export default class EditPropertiesDialog extends PromiseDialog {
       (e) => {
         const { index } = e.target.dataset
         const indexOfAttribute = parseInt(index)
-        const { typeName, attributes } = getValues(super.el)
+        const { typeName, label, attributes } = getValues(super.el)
         this.#updateDisplay(
           typeName,
+          label,
           attributes.filter((_, i) => i !== indexOfAttribute),
           attributeContainer,
           definitionContainer,
@@ -151,9 +156,10 @@ export default class EditPropertiesDialog extends PromiseDialog {
         const { pred } = e.target.dataset
         const defaultValue = attributeContainer.get(pred).default
 
-        const { typeName, attributes } = getValues(super.el)
+        const { typeName, label, attributes } = getValues(super.el)
         this.#updateDisplay(
           typeName,
+          label,
           attributes
             .concat({ pred, obj: defaultValue, id: '' })
             .sort((a, b) => attributeContainer.attributeCompareFunction(a, b)),
@@ -193,6 +199,7 @@ export default class EditPropertiesDialog extends PromiseDialog {
 
   #updateDisplay(
     typeName,
+    typeLabel,
     attributes,
     attributeContainer,
     entityContainer,
@@ -200,6 +207,7 @@ export default class EditPropertiesDialog extends PromiseDialog {
   ) {
     const contentHtml = createContentHTML(
       typeName,
+      typeLabel,
       attributes,
       entityContainer,
       attributeContainer
