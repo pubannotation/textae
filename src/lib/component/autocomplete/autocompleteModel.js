@@ -1,4 +1,6 @@
 export default class AutocompleteModel {
+  static #TERM_MIN_LENGTH = 3
+
   #onTermChange
   #onItemsChange
   #onHighlightIndexChange
@@ -19,7 +21,7 @@ export default class AutocompleteModel {
   set term(value) {
     this.#term = value
 
-    if (this.#term.length >= 3) {
+    if (this.#term.length >= AutocompleteModel.#TERM_MIN_LENGTH) {
       this.#onTermChange(this.#term)
     } else {
       this.clearItems()
