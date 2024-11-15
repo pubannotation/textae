@@ -4,13 +4,11 @@ import delegate from 'delegate'
 import ItemContainer from './ItemContainer'
 
 export default class Autocomplete {
-  #inputElement
   #onSelect
   #model
   #itemsContainer
 
   constructor(inputElement, onSearch, onSelect) {
-    this.#inputElement = inputElement
     this.#onSelect = onSelect
     this.#itemsContainer = new ItemContainer(inputElement)
 
@@ -20,7 +18,7 @@ export default class Autocomplete {
       (index) => this.#itemsContainer.highlight(index)
     )
 
-    this.#setEventHandlersToInput(this.#inputElement)
+    this.#setEventHandlersToInput(inputElement)
     this.#setEventHandlersToItemsContainer(this.#itemsContainer.element)
   }
 
