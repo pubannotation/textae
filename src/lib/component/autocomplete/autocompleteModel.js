@@ -40,7 +40,7 @@ export default class AutocompleteModel {
 
   set items(value) {
     this.#items = value
-    this.#highlightedIndex = -1 // Clear highlight.
+    this.clearHighlight()
     this.#onItemsChange(this.#items)
   }
 
@@ -57,6 +57,10 @@ export default class AutocompleteModel {
     this.items = []
   }
 
+  clearHighlight() {
+    this.highlightedIndex = -1
+  }
+
   moveHighlightIndexPrevious() {
     if (this.highlightedIndex >= 0) {
       this.highlightedIndex--
@@ -69,7 +73,7 @@ export default class AutocompleteModel {
     if (this.highlightedIndex < this.itemsCount - 1) {
       this.highlightedIndex++
     } else {
-      this.highlightedIndex = -1
+      this.clearHighlight()
     }
   }
 }

@@ -43,7 +43,7 @@ export default class Autocomplete {
     })
 
     delegate(element, 'li', 'mouseout', () => {
-      this.#model.highlightedIndex = -1
+      this.#model.clearHighlight()
     })
   }
 
