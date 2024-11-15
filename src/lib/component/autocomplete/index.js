@@ -52,12 +52,10 @@ export default class Autocomplete {
 
     switch (event.key) {
       case 'ArrowDown':
-        event.preventDefault()
         this.#model.moveHighlightIndexNext()
         break
 
       case 'ArrowUp':
-        event.preventDefault()
         this.#model.moveHighlightIndexPrevious()
         break
 
