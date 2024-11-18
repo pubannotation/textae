@@ -74,9 +74,9 @@ export default class AutocompleteModel {
   }
 
   moveHighlightIndexNext() {
-    const isNotLastItemHighlighted = this.highlightedIndex < this.itemsCount - 1
+    const hasNextItem = this.highlightedIndex < this.itemsCount - 1
 
-    if (isNotLastItemHighlighted) {
+    if (hasNextItem) {
       this.highlightedIndex++
     } else {
       this.clearHighlight()
