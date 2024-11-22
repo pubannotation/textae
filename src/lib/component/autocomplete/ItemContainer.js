@@ -10,6 +10,8 @@ export default class ItemContainer {
     this.#container.setAttribute('popover', 'auto')
     this.#container.classList.add('textae-editor__dialog__autocomplete')
     inputElement.parentElement.appendChild(this.#container)
+
+    window.addEventListener('resize', this.#moveUnderInputElement.bind(this))
   }
 
   get element() {
