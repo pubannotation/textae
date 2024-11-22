@@ -8,14 +8,15 @@ export default class Autocomplete {
   #model
   #itemsContainer
 
-  constructor(inputElement, onSearch, onSelect) {
+  constructor(inputElement, onSearch, onSelect, minLength = 3) {
     this.#onSelect = onSelect
     this.#itemsContainer = new ItemContainer(inputElement)
 
     this.#model = new AutocompleteModel(
       (term) => onSearch(term, (results) => (this.#model.items = results)),
       (items) => (this.#itemsContainer.items = items),
-      (index) => this.#itemsContainer.highlight(index)
+      (index) => this.#itemsContainer.highlight(index),
+      minLength
     )
 
     this.#setEventHandlersToInput(inputElement)

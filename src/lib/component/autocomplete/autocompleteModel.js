@@ -1,17 +1,17 @@
 export default class AutocompleteModel {
-  static #TERM_MIN_LENGTH = 3
-
   #onTermChange
   #onItemsChange
   #onHighlightIndexChange
+  #termMinLength
   #term = ''
   #items = []
   #highlightedIndex = -1
 
-  constructor(onTermChange, onItemsChange, onHighlightIndexChange) {
+  constructor(onTermChange, onItemsChange, onHighlightIndexChange, minLength) {
     this.#onTermChange = onTermChange
     this.#onItemsChange = onItemsChange
     this.#onHighlightIndexChange = onHighlightIndexChange
+    this.#termMinLength = minLength
   }
 
   get term() {
@@ -21,7 +21,7 @@ export default class AutocompleteModel {
   set term(value) {
     this.#term = value
 
-    if (this.#term.length >= AutocompleteModel.#TERM_MIN_LENGTH) {
+    if (this.#term.length >= this.#termMinLength) {
       this.#onTermChange(this.#term)
     } else {
       this.clearItems()
