@@ -1,7 +1,7 @@
 import delegate from 'delegate'
 import PromiseDialog from '../PromiseDialog'
 import getValues from './getValues'
-import Autocomplete from '../autocomplete'
+import Autocomplete from 'popover-autocomplete'
 import createContentHTML from './createContentHTML'
 import mergedTypeValuesOf from './mergedTypeValuesOf'
 import searchTerm from '../searchTerm'
@@ -146,19 +146,21 @@ export default class EditPropertiesDialog extends PromiseDialog {
     const typeLabelElement = super.el.querySelector(
       '.textae-editor__edit-type-values-dialog__type-label'
     )
-    new Autocomplete(
-      typeNameElement,
-      (term, onResult) =>
+
+    new Autocomplete({
+      inputElement: typeNameElement,
+      onSearch: (term, onResult) =>
         searchTerm(
           term,
           onResult,
           autocompletionWs,
           definitionContainer.findByLabel(term)
         ),
-      (id, label) => {
-        typeNameElement.value = id
-        typeLabelElement.innerText = label
-      }
-    )
+      onSelect: (result) => {
+        typeNameElement.value = result.id
+        typeLabelElement.innerText = result.label
+      },
+      onRender: (item) => `${item.id} ${item.label}`
+    })
   }
 }

@@ -1,6 +1,6 @@
 import PromiseDialog from '../PromiseDialog'
 import searchTerm from '../searchTerm'
-import Autocomplete from '../autocomplete'
+import Autocomplete from 'popover-autocomplete'
 import template from './template'
 
 export default class TypeDefinitionDialog extends PromiseDialog {
@@ -30,14 +30,25 @@ export default class TypeDefinitionDialog extends PromiseDialog {
         definitionContainer.findByLabel(term)
       )
 
-    new Autocomplete(idElement, onSearch, (id, label) => {
-      idElement.value = id
-      labelElement.value = label
+    const onSelect = (result) => {
+      idElement.value = result.id
+      labelElement.value = result.label
+    }
+
+    const onRender = (item) => `${item.id} ${item.label}`
+
+    new Autocomplete({
+      inputElement: idElement,
+      onSearch,
+      onSelect,
+      onRender
     })
 
-    new Autocomplete(labelElement, onSearch, (id, label) => {
-      idElement.value = id
-      labelElement.value = label
+    new Autocomplete({
+      inputElement: labelElement,
+      onSearch,
+      onSelect,
+      onRender
     })
   }
 }

@@ -26,31 +26,26 @@
     overflow: visible;
   }
 
-  .ui-widget.ui-autocomplete {
-    direction: rtl; // cut off overflow on the left side
-    z-index: 102;
+  .popover-autocomplete-container {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    border: 1px solid #ccc;
+    background-color: #f3f3f3;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
   }
-}
 
-.textae-editor__dialog__autocomplete {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-  border: 1px solid #ccc;
-  background-color: #f3f3f3;
-  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
+  .popover-autocomplete-item {
+    color: #333333;
+    padding: 3px 1em 3px 0.4em;
+    cursor: pointer;
+  }
 
-.textae-editor__dialog__autocomplete__item {
-  color: #333333;
-  padding: 3px 1em 3px 0.4em;
-  cursor: pointer;
-}
-
-.textae-editor__dialog__autocomplete__item--highlighted {
-  color: orange;
-  box-shadow: inset 0 0 0 1px orange;
-  background-color: white;
+  .popover-autocomplete-item-highlighted {
+    color: orange;
+    box-shadow: inset 0 0 0 1px orange;
+    background-color: white;
+  }
 }
 
 // Fix candidates width in term edit mode
