@@ -1,7 +1,7 @@
 import alertifyjs from 'alertifyjs'
 import DataSource from '../DataSource'
 import { isJsonResponse, isMarkdownResponse } from './responseTypes'
-import convertTextAnnotationToJSON from './convertTextAnnotationToJSON'
+import convertTextAnnotationToJSON from '../convertTextAnnotationToJSON'
 
 export default class AnnotationLoader {
   #eventEmitter

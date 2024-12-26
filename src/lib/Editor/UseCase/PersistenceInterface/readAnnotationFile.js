@@ -1,7 +1,9 @@
 import readFile from './readFile'
 import isJSON from '../../../isJSON'
 import isTxtFile from './isTxtFile'
+import isMdFile from './isMdFile'
 import DataSource from '../../DataSource'
+import convertTextAnnotationToJSON from '../../convertTextAnnotationToJSON'
 
 export default async function (file, eventEmitter) {
   const event = await readFile(file)
@@ -17,6 +19,19 @@ export default async function (file, eventEmitter) {
     )
 
     return
+  }
+
+  if (isMdFile(file.name)) {
+    const annotation = await convertTextAnnotationToJSON(fileContent)
+
+    if (annotation.text) {
+      eventEmitter.emit(
+        'textae-event.resource.annotation.load.success',
+        DataSource.createFileSource(file.name, annotation)
+      )
+
+      return
+    }
   }
 
   if (isJSON(fileContent)) {
