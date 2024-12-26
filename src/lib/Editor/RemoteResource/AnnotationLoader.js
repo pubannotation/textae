@@ -1,5 +1,7 @@
 import alertifyjs from 'alertifyjs'
 import DataSource from '../DataSource'
+import { isJsonResponse, isMarkdownResponse } from './responseTypes'
+import convertTextAnnotationToJSON from './convertTextAnnotationToJSON'
 
 export default class AnnotationLoader {
   #eventEmitter
@@ -18,14 +20,13 @@ export default class AnnotationLoader {
       cache: 'no-cache',
       credentials: 'omit',
       headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
+        Accept: 'application/json, text/markdown'
       },
       signal: AbortSignal.timeout(30000)
     })
       .then((response) => {
         if (response.ok) {
-          response.json().then((annotation) => this.#loaded(url, annotation))
+          this.#parseResponse(response, url)
         } else if (response.status === 401) {
           this.#authenticate(url)
         } else {
@@ -34,6 +35,24 @@ export default class AnnotationLoader {
       })
       .catch(() => this.#failed(url))
       .finally(() => this.#eventEmitter.emit('textae-event.resource.endLoad'))
+  }
+
+  #parseResponse(response, url) {
+    if (isJsonResponse(response, url)) {
+      response.json().then((annotation) => this.#loaded(url, annotation))
+    } else if (isMarkdownResponse(response, url)) {
+      response.text().then((text) => {
+        convertTextAnnotationToJSON(text).then((annotation) => {
+          if (annotation) {
+            this.#loaded(url, annotation)
+          } else {
+            this.#failed(url)
+          }
+        })
+      })
+    } else {
+      this.#failed(url)
+    }
   }
 
   #loaded(url, annotation) {
