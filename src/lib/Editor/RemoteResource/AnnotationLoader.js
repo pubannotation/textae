@@ -1,7 +1,6 @@
 import alertifyjs from 'alertifyjs'
 import DataSource from '../DataSource'
-import { isJsonResponse, isMarkdownResponse } from './responseTypes'
-import convertTextAnnotationToJSON from '../convertTextAnnotationToJSON'
+import parseResponse from './parseResponse'
 
 export default class AnnotationLoader {
   #eventEmitter
@@ -26,7 +25,12 @@ export default class AnnotationLoader {
     })
       .then((response) => {
         if (response.ok) {
-          this.#parseResponse(response, url)
+          parseResponse(
+            response,
+            url,
+            (annotation) => this.#loaded(url, annotation),
+            () => this.#failed(url)
+          )
         } else if (response.status === 401) {
           this.#authenticate(url)
         } else {
@@ -35,24 +39,6 @@ export default class AnnotationLoader {
       })
       .catch(() => this.#failed(url))
       .finally(() => this.#eventEmitter.emit('textae-event.resource.endLoad'))
-  }
-
-  #parseResponse(response, url) {
-    if (isJsonResponse(response, url)) {
-      response.json().then((annotation) => this.#loaded(url, annotation))
-    } else if (isMarkdownResponse(response, url)) {
-      response.text().then((text) => {
-        convertTextAnnotationToJSON(text).then((annotation) => {
-          if (annotation) {
-            this.#loaded(url, annotation)
-          } else {
-            this.#failed(url)
-          }
-        })
-      })
-    } else {
-      this.#failed(url)
-    }
   }
 
   #loaded(url, annotation) {
