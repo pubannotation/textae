@@ -12,15 +12,16 @@ export default async function convertTextAnnotationToJSON(text) {
     )
 
     if (!response.ok) {
-      throw new Error(
-        `response.status = ${response.status}, response.statusText = ${response.statusText}`
+      console.error(
+        `Conversion failed: response.status = ${response.status}, response.statusText = ${response.statusText}`
       )
+      return null
     }
 
     const convertedJSON = await response.json()
     return convertedJSON
   } catch (e) {
-    console.error('Convert failed:', e)
+    console.error(e)
     return null
   }
 }
