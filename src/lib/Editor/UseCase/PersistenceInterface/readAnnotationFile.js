@@ -24,7 +24,7 @@ export default async function (file, eventEmitter) {
   if (isMdFile(file.name)) {
     const annotation = await convertTextAnnotationToJSON(fileContent)
 
-    if (annotation.text) {
+    if (annotation && annotation.text) {
       eventEmitter.emit(
         'textae-event.resource.annotation.load.success',
         DataSource.createFileSource(file.name, annotation)
