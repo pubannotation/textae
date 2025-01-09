@@ -6,7 +6,8 @@ export default async function convertTextAnnotationToJSON(text) {
         method: 'POST',
         body: text,
         headers: {
-          Accept: 'application/json'
+          'Content-type': 'text/markdown',
+          'Accept': 'application/json'
         }
       }
     )
