@@ -13,9 +13,7 @@ export default async function convertTextAnnotationToJSON(text) {
     )
 
     if (!response.ok) {
-      console.error(
-        `Conversion failed: response.status = ${response.status}, response.statusText = ${response.statusText}`
-      )
+      response.text().then((errorMessage) => console.error(`${errorMessage}`))
       return null
     }
 
