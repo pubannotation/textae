@@ -10,11 +10,11 @@ export default function parseResponse(response, url, onLoaded, onFailed) {
         if (annotation) {
           onLoaded(annotation)
         } else {
-          onFailed
+          onFailed()
         }
       })
     })
   } else {
-    onFailed
+    onFailed()
   }
 }
