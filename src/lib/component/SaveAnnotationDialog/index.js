@@ -13,7 +13,7 @@ function template(context) {
         <input type="radio" name="format" value="json" checked>JSON
       </label>
       <label class="textae-editor__save-dialog__format-button">
-        <input type="radio" name="format" value="inline">inline
+        <input type="radio" name="format" value="inline">Inline
       </label>
     </div>
   </div>
