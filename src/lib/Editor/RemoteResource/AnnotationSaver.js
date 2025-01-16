@@ -15,19 +15,21 @@ export default class AnnotationSaver {
       this.#eventEmitter.emit('textae-event.resource.startSave')
 
       prepareRequestBody(editedData, format)
-        .then(this.#postTo(url))
+        .then(this.#postTo(url, format))
         .then(this.#processResponse(url, editedData, format))
         .catch(() => this.#failed())
         .finally(() => this.#eventEmitter.emit('textae-event.resource.endSave'))
     }
   }
 
-  #postTo(url) {
+  #postTo(url, format) {
+    const contentType = format === 'json' ? 'application/json' : 'text/markdown'
+
     return (body) => {
       const opt = {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': contentType,
           'App-Name': 'TextAE'
         },
         body,
