@@ -7,7 +7,8 @@ export default function (
   element,
   data,
   closeDialog,
-  saveAnnotation
+  saveAnnotation,
+  getFormat
 ) {
   // Disabled the button to save to the URL when no URL.
   delegate(element, '.textae-editor__save-dialog__url-text', 'input', (e) => {
@@ -17,12 +18,14 @@ export default function (
   // Save to the URL.
   delegate(element, '.textae-editor__save-dialog__url-text', 'keyup', (e) => {
     if (e.keyCode === 13) {
-      saveAnnotation(e.target.value)
+      const format = getFormat()
+      saveAnnotation(e.target.value, format)
       closeDialog()
     }
   })
   delegate(element, '.textae-editor__save-dialog__url-button', 'click', (e) => {
-    saveAnnotation(e.target.previousElementSibling.value)
+    const format = getFormat()
+    saveAnnotation(e.target.previousElementSibling.value, format)
     closeDialog()
   })
 

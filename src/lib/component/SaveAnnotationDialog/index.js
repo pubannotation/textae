@@ -7,6 +7,17 @@ function template(context) {
   return `
 <div class="textae-editor__save-dialog__container">
   <div class="textae-editor__save-dialog__row">
+    <span>Format</span>
+    <div class="textae-editor__save-dialog__format">
+      <label class="textae-editor__save-dialog__format-button">
+        <input type="radio" name="format" value="json" checked>JSON
+      </label>
+      <label class="textae-editor__save-dialog__format-button">
+        <input type="radio" name="format" value="inline">inline
+      </label>
+    </div>
+  </div>
+  <div class="textae-editor__save-dialog__row">
     <label>URL</label>
     <input
       type="text"
@@ -37,6 +48,13 @@ export default class SaveAnnotationDialog extends Dialog {
   constructor(eventEmitter, url, filename, data, saveAnnotation) {
     super('Save Annotations', template({ filename, url }))
 
-    bind(eventEmitter, super.el, data, () => super.close(), saveAnnotation)
+    bind(
+      eventEmitter,
+      super.el,
+      data,
+      () => super.close(),
+      saveAnnotation,
+      () => super.el.querySelector('input[name="format"]:checked').value
+    )
   }
 }

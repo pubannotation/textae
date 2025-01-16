@@ -86,7 +86,8 @@ export default class PersistenceInterface {
       url,
       this.#lastLoadedFilename.annotation,
       this.#editedAnnotation,
-      (url) => this.#remoteResource.saveAnnotation(url, this.#editedAnnotation)
+      (url, format) =>
+        this.#remoteResource.saveAnnotation(url, this.#editedAnnotation, format)
     ).open()
   }
 

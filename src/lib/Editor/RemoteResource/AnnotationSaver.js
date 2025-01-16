@@ -1,6 +1,7 @@
 import alertifyjs from 'alertifyjs'
 import isServerAuthRequired from './isServerPageAuthRequired'
 import openPopUp from './openPopUp'
+import prepareRequestBody from './prepareRequestBody'
 
 export default class AnnotationSaver {
   #eventEmitter
@@ -9,21 +10,24 @@ export default class AnnotationSaver {
     this.#eventEmitter = eventEmitter
   }
 
-  saveTo(url, editedData) {
+  saveTo(url, editedData, format = 'json') {
     if (url) {
       this.#eventEmitter.emit('textae-event.resource.startSave')
 
-      const opt = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'App-Name': 'TextAE'
-        },
-        body: JSON.stringify(editedData),
-        credentials: 'include'
-      }
+      prepareRequestBody(editedData, format)
+        .then((body) => {
+          const opt = {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'App-Name': 'TextAE'
+            },
+            body,
+            credentials: 'include'
+          }
 
-      fetch(url, opt)
+          return fetch(url, opt)
+        })
         .then((response) => {
           if (response.ok) {
             return this.#saved(editedData)
@@ -34,12 +38,13 @@ export default class AnnotationSaver {
               response.headers.get('Location')
             )
             if (location) {
-              return this.#authenticateAt(location, url, editedData)
+              return this.#authenticateAt(location, url, editedData, format)
             }
           }
 
           this.#failed()
         })
+        .catch(() => this.#failed())
         .finally(() => this.#eventEmitter.emit('textae-event.resource.endSave'))
     }
   }
@@ -49,7 +54,7 @@ export default class AnnotationSaver {
     this.#eventEmitter.emit('textae-event.resource.annotation.save', editedData)
   }
 
-  #authenticateAt(location, url, editedData) {
+  #authenticateAt(location, url, editedData, format) {
     // Authenticate in popup window.
     const window = openPopUp(location)
     if (!window) {
@@ -62,29 +67,34 @@ export default class AnnotationSaver {
       if (window.closed) {
         clearInterval(timer)
 
-        this.#retryPost(editedData, url)
+        this.#retryPost(editedData, url, format)
       }
     }, 1000)
   }
 
-  #retryPost(editedData, url) {
-    const opt = {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(editedData),
-      credentials: 'include'
-    }
-
+  #retryPost(editedData, url, format) {
     // Retry after authentication.
-    fetch(url, opt).then((response) => {
-      if (response.ok) {
-        this.#saved(url, editedData)
-      } else {
-        this.#failed(url)
-      }
-    })
+    prepareRequestBody(editedData, format)
+      .then((body) => {
+        const opt = {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body,
+          credentials: 'include'
+        }
+
+        return fetch(url, opt)
+      })
+      .then((response) => {
+        if (response.ok) {
+          this.#saved(url, editedData)
+        } else {
+          this.#failed()
+        }
+      })
+      .catch(() => this.#failed())
   }
 
   #failed() {
