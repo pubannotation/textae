@@ -15,37 +15,45 @@ export default class AnnotationSaver {
       this.#eventEmitter.emit('textae-event.resource.startSave')
 
       prepareRequestBody(editedData, format)
-        .then((body) => {
-          const opt = {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              'App-Name': 'TextAE'
-            },
-            body,
-            credentials: 'include'
-          }
-
-          return fetch(url, opt)
-        })
-        .then((response) => {
-          if (response.ok) {
-            return this.#saved(editedData)
-          } else if (response.status === 401) {
-            const location = isServerAuthRequired(
-              response.status,
-              response.headers.get('WWW-Authenticate'),
-              response.headers.get('Location')
-            )
-            if (location) {
-              return this.#authenticateAt(location, url, editedData, format)
-            }
-          }
-
-          this.#failed()
-        })
+        .then(this.#postTo(url))
+        .then(this.#processResponse(url, editedData, format))
         .catch(() => this.#failed())
         .finally(() => this.#eventEmitter.emit('textae-event.resource.endSave'))
+    }
+  }
+
+  #postTo(url) {
+    return (body) => {
+      const opt = {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'App-Name': 'TextAE'
+        },
+        body,
+        credentials: 'include'
+      }
+
+      return fetch(url, opt)
+    }
+  }
+
+  #processResponse(url, editedData, format) {
+    return (response) => {
+      if (response.ok) {
+        return this.#saved(editedData)
+      } else if (response.status === 401) {
+        const location = isServerAuthRequired(
+          response.status,
+          response.headers.get('WWW-Authenticate'),
+          response.headers.get('Location')
+        )
+        if (location) {
+          return this.#authenticateAt(location, url, editedData, format)
+        }
+      }
+
+      this.#failed()
     }
   }
 
@@ -75,18 +83,7 @@ export default class AnnotationSaver {
   #retryPost(editedData, url, format) {
     // Retry after authentication.
     prepareRequestBody(editedData, format)
-      .then((body) => {
-        const opt = {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body,
-          credentials: 'include'
-        }
-
-        return fetch(url, opt)
-      })
+      .then(this.#postTo(url))
       .then((response) => {
         if (response.ok) {
           this.#saved(url, editedData)
