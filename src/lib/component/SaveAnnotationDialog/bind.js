@@ -1,6 +1,7 @@
 import delegate from 'delegate'
 import createDownloadPath from '../createDownloadPath'
 import enableHTMLElement from '../enableHTMLElement'
+import downloadAnnotationFile from './downloadAnnotationFile'
 
 export default function (
   eventEmitter,
@@ -34,12 +35,10 @@ export default function (
     element,
     '.textae-editor__save-dialog__download-link',
     'click',
-    (e) => {
-      const aTag = e.target
-      const downloadPath = createDownloadPath(data)
-      aTag.setAttribute('href', downloadPath)
-      aTag.setAttribute('download', aTag.previousElementSibling.value)
-      eventEmitter.emit('textae-event.resource.annotation.save', data)
+    async (e) => {
+      const format = getFormat()
+      await downloadAnnotationFile(e, data, format, eventEmitter)
+
       closeDialog()
     }
   )
