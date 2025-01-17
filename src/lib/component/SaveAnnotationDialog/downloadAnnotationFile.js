@@ -11,7 +11,7 @@ export default async function (e, data, format, eventEmitter) {
     const inlineData = await convertJSONAnnotationToInline(data)
 
     if (inlineData) {
-      const blob = new Blob([inlineData], { type: 'application/octet-stream' })
+      const blob = new Blob([inlineData], { type: 'text/plain' })
       downloadPath = URL.createObjectURL(blob)
     } else {
       return
