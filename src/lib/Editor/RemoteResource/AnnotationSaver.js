@@ -10,7 +10,7 @@ export default class AnnotationSaver {
     this.#eventEmitter = eventEmitter
   }
 
-  async saveTo(url, editedData, format = 'json') {
+  async saveTo(url, editedData, format) {
     if (!url) return
 
     this.#eventEmitter.emit('textae-event.resource.startSave')

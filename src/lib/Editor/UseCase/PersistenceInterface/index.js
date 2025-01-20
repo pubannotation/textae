@@ -94,7 +94,8 @@ export default class PersistenceInterface {
   saveAnnotation() {
     this.#remoteResource.saveAnnotation(
       this.#saveToParameter || this.#lastLoadedURL.annotation,
-      this.#editedAnnotation
+      this.#editedAnnotation,
+      'json'
     )
   }
 
