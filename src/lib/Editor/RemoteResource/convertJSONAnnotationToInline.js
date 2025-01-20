@@ -12,8 +12,7 @@ export default async function convertJSONAnnotationToInline(json) {
 
   if (!response.ok) {
     const errorMessage = await response.text()
-    console.error(errorMessage)
-    return null
+    throw Error(errorMessage)
   }
 
   return await response.text()

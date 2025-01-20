@@ -24,6 +24,7 @@ export default class AnnotationSaver {
 
       await this.#processResponse(response, url, editedData)
     } catch (e) {
+      console.error(e)
       this.#failed()
     } finally {
       this.#eventEmitter.emit('textae-event.resource.endSave')
@@ -82,16 +83,12 @@ export default class AnnotationSaver {
 
   async #retryPost(editedData, url) {
     // Retry after authentication.
-    try {
-      const preparedBody = await prepareRequestBody(editedData, this.#format)
-      const response = await this.#postTo(url, preparedBody)
+    const preparedBody = await prepareRequestBody(editedData, this.#format)
+    const response = await this.#postTo(url, preparedBody)
 
-      if (response.ok) {
-        this.#saved(editedData)
-      } else {
-        this.#failed()
-      }
-    } catch (e) {
+    if (response.ok) {
+      this.#saved(editedData)
+    } else {
       this.#failed()
     }
   }
