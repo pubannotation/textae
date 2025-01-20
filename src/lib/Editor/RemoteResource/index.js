@@ -23,7 +23,7 @@ export default class RemoteSource {
   }
 
   saveAnnotation(url, editedData, format) {
-    new AnnotationSaver(this.#eventEmitter).saveTo(url, editedData, format)
+    new AnnotationSaver(format, this.#eventEmitter).saveTo(url, editedData)
   }
 
   saveConfiguration(url, editedData) {

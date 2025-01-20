@@ -4,22 +4,24 @@ import openPopUp from './openPopUp'
 import prepareRequestBody from './prepareRequestBody'
 
 export default class AnnotationSaver {
+  #format
   #eventEmitter
 
-  constructor(eventEmitter) {
+  constructor(format, eventEmitter) {
+    this.#format = format
     this.#eventEmitter = eventEmitter
   }
 
-  async saveTo(url, editedData, format) {
+  async saveTo(url, editedData) {
     if (!url) return
 
     this.#eventEmitter.emit('textae-event.resource.startSave')
 
     try {
-      const requestBody = await prepareRequestBody(editedData, format)
-      const response = await this.#postTo(url, format, requestBody)
+      const requestBody = await prepareRequestBody(editedData, this.#format)
+      const response = await this.#postTo(url, requestBody)
 
-      await this.#processResponse(response, url, editedData, format)
+      await this.#processResponse(response, url, editedData)
     } catch (e) {
       this.#failed()
     } finally {
@@ -27,8 +29,9 @@ export default class AnnotationSaver {
     }
   }
 
-  async #postTo(url, format, body) {
-    const contentType = format === 'json' ? 'application/json' : 'text/markdown'
+  async #postTo(url, body) {
+    const contentType =
+      this.#format === 'json' ? 'application/json' : 'text/markdown'
 
     const opt = {
       method: 'POST',
@@ -43,7 +46,7 @@ export default class AnnotationSaver {
     return fetch(url, opt)
   }
 
-  async #processResponse(response, url, editedData, format) {
+  async #processResponse(response, url, editedData) {
     if (response.ok) {
       this.#saved(editedData)
     } else if (response.status === 401) {
@@ -53,7 +56,7 @@ export default class AnnotationSaver {
         response.headers.get('Location')
       )
       if (location) {
-        await this.#authenticateAt(location, url, editedData, format)
+        await this.#authenticateAt(location, url, editedData)
       }
     } else {
       this.#failed()
@@ -65,7 +68,7 @@ export default class AnnotationSaver {
     this.#eventEmitter.emit('textae-event.resource.annotation.save', editedData)
   }
 
-  async #authenticateAt(location, url, editedData, format) {
+  async #authenticateAt(location, url, editedData) {
     // Authenticate in popup window.
     const window = openPopUp(location)
     if (!window) {
@@ -83,14 +86,14 @@ export default class AnnotationSaver {
       }, 1000)
     })
 
-    await this.#retryPost(editedData, url, format)
+    await this.#retryPost(editedData, url)
   }
 
-  async #retryPost(editedData, url, format) {
+  async #retryPost(editedData, url) {
     // Retry after authentication.
     try {
-      const preparedBody = await prepareRequestBody(editedData, format)
-      const response = await this.#postTo(url, format, preparedBody)
+      const preparedBody = await prepareRequestBody(editedData, this.#format)
+      const response = await this.#postTo(url, preparedBody)
 
       if (response.ok) {
         this.#saved(editedData)
