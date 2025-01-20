@@ -1,5 +1,5 @@
-import createDownloadPath from '../createDownloadPath'
-import convertJSONAnnotationToInline from '../../Editor/RemoteResource/convertJSONAnnotationToInline'
+import createDownloadPath from '../../createDownloadPath'
+import convertJSONAnnotationToInline from '../../../convertJSONAnnotationToInline'
 
 export default async function (e, data, format, eventEmitter) {
   e.preventDefault()

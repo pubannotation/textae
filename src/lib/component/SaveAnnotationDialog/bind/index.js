@@ -1,6 +1,6 @@
 import delegate from 'delegate'
-import createDownloadPath from '../createDownloadPath'
-import enableHTMLElement from '../enableHTMLElement'
+import createDownloadPath from '../../createDownloadPath'
+import enableHTMLElement from '../../enableHTMLElement'
 import downloadAnnotationFile from './downloadAnnotationFile'
 
 export default function (

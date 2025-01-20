@@ -1,4 +1,4 @@
-import convertJSONAnnotationToInline from './convertJSONAnnotationToInline'
+import convertJSONAnnotationToInline from '../../../convertJSONAnnotationToInline'
 
 export default async function prepareRequestBody(editedData, format) {
   if (format === 'json') {
