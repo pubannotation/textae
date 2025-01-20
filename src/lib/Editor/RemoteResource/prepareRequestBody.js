@@ -1,19 +1,15 @@
 import convertJSONAnnotationToInline from './convertJSONAnnotationToInline'
 
-export default function prepareRequestBody(editedData, format) {
+export default async function prepareRequestBody(editedData, format) {
   if (format === 'json') {
-    return Promise.resolve(JSON.stringify(editedData))
+    return JSON.stringify(editedData)
   } else if (format === 'inline') {
-    return convertJSONAnnotationToInline(editedData)
-      .then((convertedData) => {
-        if (convertedData) {
-          return convertedData
-        } else {
-          return Promise.reject()
-        }
-      })
-      .catch(() => {
-        return Promise.reject()
-      })
+    const convertedData = await convertJSONAnnotationToInline(editedData)
+
+    if (!convertedData) {
+      throw new Error()
+    }
+
+    return convertedData
   }
 }

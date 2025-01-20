@@ -10,51 +10,52 @@ export default class AnnotationSaver {
     this.#eventEmitter = eventEmitter
   }
 
-  saveTo(url, editedData, format = 'json') {
-    if (url) {
-      this.#eventEmitter.emit('textae-event.resource.startSave')
+  async saveTo(url, editedData, format = 'json') {
+    if (!url) return
 
-      prepareRequestBody(editedData, format)
-        .then(this.#postTo(url, format))
-        .then(this.#processResponse(url, editedData, format))
-        .catch(() => this.#failed())
-        .finally(() => this.#eventEmitter.emit('textae-event.resource.endSave'))
+    this.#eventEmitter.emit('textae-event.resource.startSave')
+
+    try {
+      const requestBody = await prepareRequestBody(editedData, format)
+      const response = await this.#postTo(url, format, requestBody)
+
+      await this.#processResponse(response, url, editedData, format)
+    } catch (e) {
+      this.#failed()
+    } finally {
+      this.#eventEmitter.emit('textae-event.resource.endSave')
     }
   }
 
-  #postTo(url, format) {
+  async #postTo(url, format, body) {
     const contentType = format === 'json' ? 'application/json' : 'text/markdown'
 
-    return (body) => {
-      const opt = {
-        method: 'POST',
-        headers: {
-          'Content-Type': contentType,
-          'App-Name': 'TextAE'
-        },
-        body,
-        credentials: 'include'
-      }
-
-      return fetch(url, opt)
+    const opt = {
+      method: 'POST',
+      headers: {
+        'Content-Type': contentType,
+        'App-Name': 'TextAE'
+      },
+      body,
+      credentials: 'include'
     }
+
+    return fetch(url, opt)
   }
 
-  #processResponse(url, editedData, format) {
-    return (response) => {
-      if (response.ok) {
-        return this.#saved(editedData)
-      } else if (response.status === 401) {
-        const location = isServerAuthRequired(
-          response.status,
-          response.headers.get('WWW-Authenticate'),
-          response.headers.get('Location')
-        )
-        if (location) {
-          return this.#authenticateAt(location, url, editedData, format)
-        }
+  async #processResponse(response, url, editedData, format) {
+    if (response.ok) {
+      this.#saved(editedData)
+    } else if (response.status === 401) {
+      const location = isServerAuthRequired(
+        response.status,
+        response.headers.get('WWW-Authenticate'),
+        response.headers.get('Location')
+      )
+      if (location) {
+        await this.#authenticateAt(location, url, editedData, format)
       }
-
+    } else {
       this.#failed()
     }
   }
@@ -64,7 +65,7 @@ export default class AnnotationSaver {
     this.#eventEmitter.emit('textae-event.resource.annotation.save', editedData)
   }
 
-  #authenticateAt(location, url, editedData, format) {
+  async #authenticateAt(location, url, editedData, format) {
     // Authenticate in popup window.
     const window = openPopUp(location)
     if (!window) {
@@ -73,27 +74,32 @@ export default class AnnotationSaver {
 
     // Watching for cross-domain pop-up windows to close.
     // https://stackoverflow.com/questions/9388380/capture-the-close-event-of-popup-window-in-javascript/48240128#48240128
-    const timer = setInterval(() => {
-      if (window.closed) {
-        clearInterval(timer)
+    await new Promise((resolve) => {
+      const timer = setInterval(() => {
+        if (window.closed) {
+          clearInterval(timer)
+          resolve()
+        }
+      }, 1000)
+    })
 
-        this.#retryPost(editedData, url, format)
-      }
-    }, 1000)
+    await this.#retryPost(editedData, url, format)
   }
 
-  #retryPost(editedData, url, format) {
+  async #retryPost(editedData, url, format) {
     // Retry after authentication.
-    prepareRequestBody(editedData, format)
-      .then(this.#postTo(url))
-      .then((response) => {
-        if (response.ok) {
-          this.#saved(url, editedData)
-        } else {
-          this.#failed()
-        }
-      })
-      .catch(() => this.#failed())
+    try {
+      const preparedBody = await prepareRequestBody(editedData, format)
+      const response = await this.#postTo(url, format, preparedBody)
+
+      if (response.ok) {
+        this.#saved(editedData)
+      } else {
+        this.#failed()
+      }
+    } catch (e) {
+      this.#failed()
+    }
   }
 
   #failed() {
