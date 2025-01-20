@@ -38,7 +38,7 @@ function template(context) {
     <a class="textae-editor__save-dialog__download-link" href="#">Download</a>
   </div>
   <div class="textae-editor__save-dialog__row">
-    <a class="textae-editor__save-dialog__viewsource-link" href="#">Click to see the json source in a new window.</a>
+    <a class="textae-editor__save-dialog__viewsource-link" href="#">Click to see the source in a new window.</a>
   </div>
 </div>
 `

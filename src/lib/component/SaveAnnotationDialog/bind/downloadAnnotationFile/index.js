@@ -1,4 +1,4 @@
-import createDownloadPathForFormat from './createDownloadPathForFormat'
+import createDownloadPathForFormat from '../createDownloadPathForFormat'
 import downloadAnnotation from './downloadAnnotation'
 
 export default async function downloadAnnotationFile(

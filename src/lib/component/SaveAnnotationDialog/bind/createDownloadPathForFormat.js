@@ -1,5 +1,5 @@
-import createDownloadPath from '../../../createDownloadPath'
-import convertJSONAnnotationToInline from '../../../../convertJSONAnnotationToInline'
+import createDownloadPath from '../../createDownloadPath'
+import convertJSONAnnotationToInline from '../../../convertJSONAnnotationToInline'
 
 export default async function createDownloadPathForFormat(data, format) {
   if (format === 'json') {

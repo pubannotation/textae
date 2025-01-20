@@ -1,7 +1,7 @@
 import delegate from 'delegate'
-import createDownloadPath from '../../createDownloadPath'
 import enableHTMLElement from '../../enableHTMLElement'
 import downloadAnnotationFile from './downloadAnnotationFile'
+import viewSource from './viewSource'
 
 export default function (
   eventEmitter,
@@ -47,9 +47,9 @@ export default function (
     element,
     '.textae-editor__save-dialog__viewsource-link',
     'click',
-    () => {
-      window.open(createDownloadPath(data), '_blank')
-      eventEmitter.emit('textae-event.resource.annotation.save', data)
+    async () => {
+      const format = getFormat()
+      await viewSource(data, format, eventEmitter)
       closeDialog()
     }
   )
