@@ -1,4 +1,5 @@
 import createDownloadPathByFormat from './createDownloadPathByFormat'
+import downloadAnnotation from './downloadAnnotation'
 
 export default async function downloadAnnotationFile(
   e,
@@ -10,15 +11,7 @@ export default async function downloadAnnotationFile(
 
   try {
     const downloadPath = await createDownloadPathByFormat(data, format)
-
-    // Using an existing <a> tag to following process, it cause the click event to fire twice, resulting an error.
-    // Creating and using a temporary link (tempLink) prevents the re-triggering event.
-    const tempLink = document.createElement('a')
-    tempLink.setAttribute('href', downloadPath)
-    tempLink.setAttribute('download', e.target.previousElementSibling.value)
-    document.body.appendChild(tempLink)
-    tempLink.click()
-    document.body.removeChild(tempLink)
+    downloadAnnotation(downloadPath, e.target.previousElementSibling.value)
 
     eventEmitter.emit('textae-event.resource.annotation.save', data)
   } catch (e) {
