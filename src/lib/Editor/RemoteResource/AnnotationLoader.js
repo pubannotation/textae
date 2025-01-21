@@ -8,37 +8,39 @@ export default class AnnotationLoader {
   constructor(eventEmitter) {
     this.#eventEmitter = eventEmitter
   }
-
-  loadFrom(url) {
+  async loadFrom(url) {
     console.assert(url, 'url is necessary!')
 
     this.#eventEmitter.emit('textae-event.resource.startLoad')
-
-    fetch(url, {
-      method: 'GET',
-      cache: 'no-cache',
-      credentials: 'omit',
-      headers: {
-        Accept: 'application/json, text/markdown'
-      },
-      signal: AbortSignal.timeout(30000)
-    })
-      .then((response) => {
-        if (response.ok) {
-          parseResponse(
-            response,
-            url,
-            (annotation) => this.#loaded(url, annotation),
-            () => this.#failed(url)
-          )
-        } else if (response.status === 401) {
-          this.#authenticate(url)
-        } else {
-          this.#failed(url)
-        }
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        cache: 'no-cache',
+        credentials: 'omit',
+        headers: {
+          Accept: 'application/json, text/markdown'
+        },
+        signal: AbortSignal.timeout(30000)
       })
-      .catch(() => this.#failed(url))
-      .finally(() => this.#eventEmitter.emit('textae-event.resource.endLoad'))
+
+      if (response.ok) {
+        await parseResponse(
+          response,
+          url,
+          (annotation) => this.#loaded(url, annotation),
+          () => this.#failed(url)
+        )
+      } else if (response.status === 401) {
+        await this.#authenticate(url)
+      } else {
+        this.#failed(url)
+      }
+    } catch (e) {
+      console.error(e)
+      this.#failed(url)
+    } finally {
+      this.#eventEmitter.emit('textae-event.resource.endLoad')
+    }
   }
 
   #loaded(url, annotation) {
@@ -60,29 +62,36 @@ export default class AnnotationLoader {
     }
   }
 
-  #authenticate(url) {
+  async #authenticate(url) {
     // When authentication is requested, give credential and try again.
-    fetch(url, {
-      method: 'GET',
-      cache: 'no-cache',
-      credentials: 'include',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json'
-      },
-      signal: AbortSignal.timeout(30000)
-    }).then((response) => {
+
+    try {
+      const response = await fetch(url, {
+        method: 'GET',
+        cache: 'no-cache',
+        credentials: 'include',
+        headers: {
+          Accept: 'application/json, text/markdown'
+        },
+        signal: AbortSignal.timeout(30000)
+      })
+
       if (response.ok) {
-        parseResponse(
+        await parseResponse(
           response,
           url,
           (annotation) => this.#loaded(url, annotation),
           () => this.#failed(url)
         )
+      } else if (response.status === 401) {
+        await this.#authenticate(url)
       } else {
         this.#failed(url)
       }
-    })
+    } catch (e) {
+      console.error(e)
+      this.#failed(url)
+    }
   }
 
   #failed(url) {
