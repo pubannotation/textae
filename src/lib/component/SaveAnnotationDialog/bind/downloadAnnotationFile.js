@@ -1,7 +1,12 @@
 import createDownloadPath from '../../createDownloadPath'
 import convertJSONAnnotationToInline from '../../../convertJSONAnnotationToInline'
 
-export default async function (e, data, format, eventEmitter) {
+export default async function downloadAnnotationFile(
+  e,
+  data,
+  format,
+  eventEmitter
+) {
   e.preventDefault()
   let downloadPath
 
