@@ -1,5 +1,5 @@
 import { isJsonResponse, isMarkdownResponse } from './responseTypes'
-import convertTextAnnotationToJSON from '../../../convertTextAnnotationToJSON'
+import AnnotationConverter from '../../../../AnnotationConverter'
 
 export default async function parseResponse(response, url, onLoaded, onFailed) {
   if (isJsonResponse(response, url)) {
@@ -7,7 +7,9 @@ export default async function parseResponse(response, url, onLoaded, onFailed) {
     onLoaded(json_annotation)
   } else if (isMarkdownResponse(response, url)) {
     const inline_annotation = await response.text()
-    const json_annotation = await convertTextAnnotationToJSON(inline_annotation)
+
+    const converter = new AnnotationConverter()
+    const json_annotation = await converter.inline2json(inline_annotation)
 
     onLoaded(json_annotation)
   } else {
