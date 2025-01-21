@@ -7,9 +7,8 @@ export default async function parseResponse(response, url, onLoaded, onFailed) {
     onLoaded(json_annotation)
   } else if (isMarkdownResponse(response, url)) {
     const inline_annotation = await response.text()
-
-    const converter = new AnnotationConverter()
-    const json_annotation = await converter.inline2json(inline_annotation)
+    const json_annotation =
+      await AnnotationConverter.inline2json(inline_annotation)
 
     onLoaded(json_annotation)
   } else {
