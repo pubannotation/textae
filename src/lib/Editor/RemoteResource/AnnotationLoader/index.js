@@ -24,12 +24,8 @@ export default class AnnotationLoader {
       })
 
       if (response.ok) {
-        await parseResponse(
-          response,
-          url,
-          (annotation) => this.#loaded(url, annotation),
-          () => this.#failed(url)
-        )
+        const annotation = await parseResponse(response, url)
+        this.#loaded(url, annotation)
       } else if (response.status === 401) {
         await this.#authenticate(url)
       } else {
@@ -77,12 +73,8 @@ export default class AnnotationLoader {
       })
 
       if (response.ok) {
-        await parseResponse(
-          response,
-          url,
-          (annotation) => this.#loaded(url, annotation),
-          () => this.#failed(url)
-        )
+        const annotation = await parseResponse(response, url)
+        this.#loaded(url, annotation)
       } else if (response.status === 401) {
         await this.#authenticate(url)
       } else {
