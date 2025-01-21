@@ -18,7 +18,7 @@ export default class AnnotationConverter {
   }
 
   static async json2inline(jsonAnnotation) {
-    const url = 'http://localhost:3000/conversions/json2inline'
+    const url = 'https://pubannotation.org/conversions/json2inline'
     const response = await fetch(url, {
       method: 'POST',
       body: JSON.stringify(jsonAnnotation),
