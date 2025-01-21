@@ -16,12 +16,8 @@ export default async function downloadAnnotationFile(
     } else if (format === 'inline') {
       const inlineData = await convertJSONAnnotationToInline(data)
 
-      if (inlineData) {
-        const blob = new Blob([inlineData], { type: 'text/plain' })
-        downloadPath = URL.createObjectURL(blob)
-      } else {
-        return
-      }
+      const blob = new Blob([inlineData], { type: 'text/plain' })
+      downloadPath = URL.createObjectURL(blob)
     }
   } catch (e) {
     console.error(e)
