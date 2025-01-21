@@ -1,4 +1,4 @@
-import createDownloadPathByFormat from './createDownloadPathByFormat'
+import createDownloadPathForFormat from './createDownloadPathForFormat'
 import downloadAnnotation from './downloadAnnotation'
 
 export default async function downloadAnnotationFile(
@@ -10,7 +10,7 @@ export default async function downloadAnnotationFile(
   e.preventDefault()
 
   try {
-    const downloadPath = await createDownloadPathByFormat(data, format)
+    const downloadPath = await createDownloadPathForFormat(data, format)
     downloadAnnotation(downloadPath, e.target.previousElementSibling.value)
 
     eventEmitter.emit('textae-event.resource.annotation.save', data)
