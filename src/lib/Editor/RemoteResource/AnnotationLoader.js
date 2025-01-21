@@ -73,7 +73,12 @@ export default class AnnotationLoader {
       signal: AbortSignal.timeout(30000)
     }).then((response) => {
       if (response.ok) {
-        response.json().then((annotation) => this.#loaded(url, annotation))
+        parseResponse(
+          response,
+          url,
+          (annotation) => this.#loaded(url, annotation),
+          () => this.#failed(url)
+        )
       } else {
         this.#failed(url)
       }
