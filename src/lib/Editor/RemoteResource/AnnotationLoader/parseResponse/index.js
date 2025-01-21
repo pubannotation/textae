@@ -1,5 +1,5 @@
 import { isJsonResponse, isMarkdownResponse } from './responseTypes'
-import convertTextAnnotationToJSON from '../convertTextAnnotationToJSON'
+import convertTextAnnotationToJSON from '../../../convertTextAnnotationToJSON'
 
 export default async function parseResponse(response, url, onLoaded, onFailed) {
   if (isJsonResponse(response, url)) {

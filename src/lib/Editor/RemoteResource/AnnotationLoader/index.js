@@ -1,5 +1,5 @@
 import alertifyjs from 'alertifyjs'
-import DataSource from '../DataSource'
+import DataSource from '../../DataSource'
 import parseResponse from './parseResponse'
 
 export default class AnnotationLoader {
