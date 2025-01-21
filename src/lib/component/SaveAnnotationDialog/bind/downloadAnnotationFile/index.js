@@ -11,6 +11,8 @@ export default async function downloadAnnotationFile(
   try {
     const downloadPath = await createDownloadPathByFormat(data, format)
 
+    // Using an existing <a> tag to following process, it cause the click event to fire twice, resulting an error.
+    // Creating and using a temporary link (tempLink) prevents the re-triggering event.
     const tempLink = document.createElement('a')
     tempLink.setAttribute('href', downloadPath)
     tempLink.setAttribute('download', e.target.previousElementSibling.value)
