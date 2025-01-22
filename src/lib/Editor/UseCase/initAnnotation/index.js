@@ -16,10 +16,9 @@ export default async function (
   startUpOptions,
   functionAvailability
 ) {
-  const resourceType = await startUpOptions.resourceType()
   const annotation = await startUpOptions.annotation()
 
-  switch (resourceType) {
+  switch (startUpOptions.resourceType) {
     case RESOURCE_TYPE.QUERY_PARAMETER:
       if (annotation) {
         setLoadedAnnotation(
