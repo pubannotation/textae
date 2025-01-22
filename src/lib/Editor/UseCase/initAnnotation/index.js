@@ -19,32 +19,34 @@ export default async function (
   const resourceType = await startUpOptions.resourceType()
   const annotation = await startUpOptions.annotation()
 
-  if (!annotation) return
-
   switch (resourceType) {
     case RESOURCE_TYPE.QUERY_PARAMETER:
-      setLoadedAnnotation(
-        DataSource.createParameterSource(annotation),
-        startUpOptions.config,
-        remoteResource,
-        menuState,
-        spanConfig,
-        annotationModel,
-        functionAvailability,
-        originalData
-      )
+      if (annotation) {
+        setLoadedAnnotation(
+          DataSource.createParameterSource(annotation),
+          startUpOptions.config,
+          remoteResource,
+          menuState,
+          spanConfig,
+          annotationModel,
+          functionAvailability,
+          originalData
+        )
+      }
       break
     case RESOURCE_TYPE.INLINE:
-      setLoadedAnnotation(
-        DataSource.createInlineSource(annotation),
-        startUpOptions.config,
-        remoteResource,
-        menuState,
-        spanConfig,
-        annotationModel,
-        functionAvailability,
-        originalData
-      )
+      if (annotation) {
+        setLoadedAnnotation(
+          DataSource.createInlineSource(annotation),
+          startUpOptions.config,
+          remoteResource,
+          menuState,
+          spanConfig,
+          annotationModel,
+          functionAvailability,
+          originalData
+        )
+      }
       break
     case RESOURCE_TYPE.REMOTE_URL:
       // Load an annotation from server.
