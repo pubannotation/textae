@@ -16,26 +16,6 @@ export default class StartUpOptions {
     )
   }
 
-  get resourceType() {
-    if (this.#annotationFromQueryParameter) {
-      return RESOURCE_TYPE.QUERY_PARAMETER
-    } else if (this.annotation) {
-      return RESOURCE_TYPE.INLINE
-    } else if (this.annotationURL) {
-      return RESOURCE_TYPE.REMOTE_URL
-    }
-
-    return RESOURCE_TYPE.UNKNOWN
-  }
-
-  get annotation() {
-    if (this.#resource.isLoaded) {
-      return this.#resource.annotation
-    }
-
-    return null
-  }
-
   get annotationURL() {
     if (this.#resource.isRemote) {
       return this.#resource.URL
@@ -136,6 +116,31 @@ export default class StartUpOptions {
     return (
       this.#readAttributeAsURL('source') || this.#readAttributeAsURL('target')
     )
+  }
+
+  async resourceType() {
+    if (this.#annotationFromQueryParameter) {
+      return RESOURCE_TYPE.QUERY_PARAMETER
+    } else if (this.#resource.isLoaded) {
+      return RESOURCE_TYPE.INLINE
+    } else if (this.annotationURL) {
+      return RESOURCE_TYPE.REMOTE_URL
+    }
+
+    return RESOURCE_TYPE.UNKNOWN
+  }
+
+  async annotation() {
+    if (this.#resource.isLoaded) {
+      try {
+        return await this.#resource.annotation()
+      } catch (e) {
+        console.error(e.message)
+        return null
+      }
+    }
+
+    return null
   }
 
   #readAttribute(name) {

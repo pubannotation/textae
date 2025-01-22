@@ -1,3 +1,6 @@
+import AnnotationConverter from '../../AnnotationConverter'
+import isJSON from '../../isJSON'
+
 export default class AnnotationResource {
   #annotation
   #sourceURL
@@ -20,16 +23,20 @@ export default class AnnotationResource {
     return Boolean(this.#annotation)
   }
 
-  get annotation() {
-    return JSON.parse(this.#annotation)
-  }
-
   get isRemote() {
     return Boolean(this.#sourceURL)
   }
 
   get URL() {
     return this.#sourceURL
+  }
+
+  async annotation() {
+    if (isJSON(this.#annotation)) {
+      return JSON.parse(this.#annotation)
+    } else {
+      return await AnnotationConverter.inline2json(this.#annotation)
+    }
   }
 
   #deconstructInlineAnnotation(element) {

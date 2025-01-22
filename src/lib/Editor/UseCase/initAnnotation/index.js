@@ -7,7 +7,7 @@ import setLoadedAnnotation from './setLoadedAnnotation.js'
  *
  * @param {import('../../StartUpOptions/index.js').default)} startUpOptions
  */
-export default function (
+export default async function (
   spanConfig,
   annotationModel,
   remoteResource,
@@ -16,10 +16,15 @@ export default function (
   startUpOptions,
   functionAvailability
 ) {
-  switch (startUpOptions.resourceType) {
+  const resourceType = await startUpOptions.resourceType()
+  const annotation = await startUpOptions.annotation()
+
+  if (!annotation) return
+
+  switch (resourceType) {
     case RESOURCE_TYPE.QUERY_PARAMETER:
       setLoadedAnnotation(
-        DataSource.createParameterSource(startUpOptions.annotation),
+        DataSource.createParameterSource(annotation),
         startUpOptions.config,
         remoteResource,
         menuState,
@@ -31,7 +36,7 @@ export default function (
       break
     case RESOURCE_TYPE.INLINE:
       setLoadedAnnotation(
-        DataSource.createInlineSource(startUpOptions.annotation),
+        DataSource.createInlineSource(annotation),
         startUpOptions.config,
         remoteResource,
         menuState,
