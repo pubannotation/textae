@@ -19,41 +19,47 @@ export default async function (
 ) {
   switch (startUpOptions.resourceType) {
     case RESOURCE_TYPE.QUERY_PARAMETER: {
+      let annotation
       try {
-        const annotation = await startUpOptions.annotation()
-        setLoadedAnnotation(
-          DataSource.createParameterSource(annotation),
-          startUpOptions.config,
-          remoteResource,
-          menuState,
-          spanConfig,
-          annotationModel,
-          functionAvailability,
-          originalData
-        )
+        annotation = await startUpOptions.annotation()
       } catch {
         alertifyjs.error(`failed to load annotation from query parameter.`)
+        return
       }
+
+      setLoadedAnnotation(
+        DataSource.createParameterSource(annotation),
+        startUpOptions.config,
+        remoteResource,
+        menuState,
+        spanConfig,
+        annotationModel,
+        functionAvailability,
+        originalData
+      )
       break
     }
     case RESOURCE_TYPE.INLINE: {
+      let annotation
       try {
-        const annotation = await startUpOptions.annotation()
-        setLoadedAnnotation(
-          DataSource.createInlineSource(annotation),
-          startUpOptions.config,
-          remoteResource,
-          menuState,
-          spanConfig,
-          annotationModel,
-          functionAvailability,
-          originalData
-        )
+        annotation = await startUpOptions.annotation()
       } catch {
         alertifyjs.error(
           `failed to load annotation from directly included in the div element.`
         )
+        return
       }
+
+      setLoadedAnnotation(
+        DataSource.createInlineSource(annotation),
+        startUpOptions.config,
+        remoteResource,
+        menuState,
+        spanConfig,
+        annotationModel,
+        functionAvailability,
+        originalData
+      )
       break
     }
     case RESOURCE_TYPE.REMOTE_URL:
