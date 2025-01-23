@@ -132,12 +132,7 @@ export default class StartUpOptions {
 
   async annotation() {
     if (this.#resource.isLoaded) {
-      try {
-        return await this.#resource.annotation()
-      } catch (e) {
-        console.error(e.message)
-        return null
-      }
+      return await this.#resource.annotation()
     }
 
     return null

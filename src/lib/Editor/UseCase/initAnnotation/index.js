@@ -2,6 +2,7 @@ import DataSource from '../../DataSource.js'
 import { RESOURCE_TYPE } from '../../RESOURCE_TYPE.js'
 import setAnnotationAndConfiguration from '../setAnnotationAndConfiguration.js'
 import setLoadedAnnotation from './setLoadedAnnotation.js'
+import parseAnnotation from './parseAnnotation.js'
 
 /**
  *
@@ -16,10 +17,10 @@ export default async function (
   startUpOptions,
   functionAvailability
 ) {
-  const annotation = await startUpOptions.annotation()
-
   switch (startUpOptions.resourceType) {
-    case RESOURCE_TYPE.QUERY_PARAMETER:
+    case RESOURCE_TYPE.QUERY_PARAMETER: {
+      const annotation = await parseAnnotation(startUpOptions)
+
       if (annotation) {
         setLoadedAnnotation(
           DataSource.createParameterSource(annotation),
@@ -33,7 +34,10 @@ export default async function (
         )
       }
       break
-    case RESOURCE_TYPE.INLINE:
+    }
+    case RESOURCE_TYPE.INLINE: {
+      const annotation = await parseAnnotation(startUpOptions)
+
       if (annotation) {
         setLoadedAnnotation(
           DataSource.createInlineSource(annotation),
@@ -47,6 +51,7 @@ export default async function (
         )
       }
       break
+    }
     case RESOURCE_TYPE.REMOTE_URL:
       // Load an annotation from server.
       remoteResource.loadAnnotation(startUpOptions.annotationURL)
