@@ -2,7 +2,7 @@ import DataSource from '../../DataSource.js'
 import { RESOURCE_TYPE } from '../../RESOURCE_TYPE.js'
 import setAnnotationAndConfiguration from '../setAnnotationAndConfiguration.js'
 import setLoadedAnnotation from './setLoadedAnnotation.js'
-import parseAnnotation from './parseAnnotation.js'
+import alertifyjs from 'alertifyjs'
 
 /**
  *
@@ -19,12 +19,8 @@ export default async function (
 ) {
   switch (startUpOptions.resourceType) {
     case RESOURCE_TYPE.QUERY_PARAMETER: {
-      const annotation = await parseAnnotation(
-        startUpOptions,
-        'query parameter'
-      )
-
-      if (annotation) {
+      try {
+        const annotation = await startUpOptions.annotation()
         setLoadedAnnotation(
           DataSource.createParameterSource(annotation),
           startUpOptions.config,
@@ -35,16 +31,14 @@ export default async function (
           functionAvailability,
           originalData
         )
+      } catch {
+        alertifyjs.error(`failed to load annotation from query parameter.`)
       }
       break
     }
     case RESOURCE_TYPE.INLINE: {
-      const annotation = await parseAnnotation(
-        startUpOptions,
-        'directly included in the div element'
-      )
-
-      if (annotation) {
+      try {
+        const annotation = await startUpOptions.annotation()
         setLoadedAnnotation(
           DataSource.createInlineSource(annotation),
           startUpOptions.config,
@@ -54,6 +48,10 @@ export default async function (
           annotationModel,
           functionAvailability,
           originalData
+        )
+      } catch {
+        alertifyjs.error(
+          `failed to load annotation from directly included in the div element.`
         )
       }
       break
