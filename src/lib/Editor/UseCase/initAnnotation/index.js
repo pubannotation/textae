@@ -19,7 +19,10 @@ export default async function (
 ) {
   switch (startUpOptions.resourceType) {
     case RESOURCE_TYPE.QUERY_PARAMETER: {
-      const annotation = await parseAnnotation(startUpOptions)
+      const annotation = await parseAnnotation(
+        startUpOptions,
+        'query parameter'
+      )
 
       if (annotation) {
         setLoadedAnnotation(
@@ -36,7 +39,10 @@ export default async function (
       break
     }
     case RESOURCE_TYPE.INLINE: {
-      const annotation = await parseAnnotation(startUpOptions)
+      const annotation = await parseAnnotation(
+        startUpOptions,
+        'directly included in the div element'
+      )
 
       if (annotation) {
         setLoadedAnnotation(
