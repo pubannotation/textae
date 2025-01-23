@@ -32,10 +32,14 @@ export default class AnnotationResource {
   }
 
   async annotation() {
-    if (isJSON(this.#annotation)) {
-      return JSON.parse(this.#annotation)
-    } else {
-      return await AnnotationConverter.inline2json(this.#annotation)
+    try {
+      if (isJSON(this.#annotation)) {
+        return JSON.parse(this.#annotation)
+      } else {
+        return await AnnotationConverter.inline2json(this.#annotation)
+      }
+    } catch {
+      return null
     }
   }
 
