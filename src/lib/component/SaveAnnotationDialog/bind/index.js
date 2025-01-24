@@ -38,9 +38,14 @@ export default function (
     'click',
     async (e) => {
       const format = getFormat()
-      await downloadAnnotationFile(e, data, format, eventEmitter)
 
-      closeDialog()
+      try {
+        await downloadAnnotationFile(e, data, format, eventEmitter)
+      } catch (error) {
+        alertify.error(`Failed to download the source as ${format}.`)
+      } finally {
+        closeDialog()
+      }
     }
   )
 

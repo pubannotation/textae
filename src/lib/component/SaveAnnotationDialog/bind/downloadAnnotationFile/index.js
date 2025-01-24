@@ -9,13 +9,8 @@ export default async function downloadAnnotationFile(
 ) {
   e.preventDefault()
 
-  try {
-    const downloadPath = await createDownloadPathForFormat(data, format)
-    downloadAnnotation(downloadPath, e.target.previousElementSibling.value)
+  const downloadPath = await createDownloadPathForFormat(data, format)
+  downloadAnnotation(downloadPath, e.target.previousElementSibling.value)
 
-    eventEmitter.emit('textae-event.resource.annotation.save', data)
-  } catch (e) {
-    console.error(e)
-    return
-  }
+  eventEmitter.emit('textae-event.resource.annotation.save', data)
 }
