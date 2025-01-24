@@ -42,7 +42,7 @@ export default function (
       try {
         await downloadAnnotationFile(e, data, format, eventEmitter)
       } catch (error) {
-        alertify.error(`Failed to download the source as ${format}.`)
+        alertify.error(`Failed to download the source as ${format} format.`)
       } finally {
         closeDialog()
       }
@@ -59,7 +59,7 @@ export default function (
       try {
         await viewSource(data, format, eventEmitter)
       } catch (error) {
-        alertify.error(`Failed to view the source as ${format}.`)
+        alertify.error(`Failed to view the source as ${format} format.`)
       } finally {
         closeDialog()
       }
