@@ -2,6 +2,7 @@ import isJSON from '../../../isJSON'
 import loadAnnotation from '../../loadAnnotation'
 import InlineAnnotationConverter from '../../InlineAnnotationConverter'
 import DataSource from '../../DataSource'
+import alertifyjs from 'alertifyjs'
 
 export default async function readAnnotationText(eventEmitter, text, format) {
   if (format === 'json') {
@@ -21,10 +22,7 @@ export default async function readAnnotationText(eventEmitter, text, format) {
 
       loadAnnotation(eventEmitter, annotation)
     } catch {
-      eventEmitter.emit(
-        'textae-event.resource.annotation.conversion.error',
-        format
-      )
+      alertifyjs.error(`Failed to load annotation as inline format.`)
     }
   }
 }

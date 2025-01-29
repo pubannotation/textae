@@ -14,9 +14,6 @@ export default function (eventEmitter) {
         `${displayName} is not a configuration file or its format is invalid.!`
       )
     )
-    .on('textae-event.resource.annotation.conversion.error', (format) =>
-      alertifyjs.error(`Failed to load annotation as ${format} format.`)
-    )
     .on('textae-event.annotation-data.all.change', (_, rejects) => {
       if (rejects.some((r) => r.hasError)) {
         new ValidationDialog(rejects).open()
