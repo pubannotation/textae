@@ -137,7 +137,7 @@ export default class LoadDialog extends Dialog {
       const text = textEditor
         ? textEditor.state.doc.toString()
         : super.el.querySelector('.textae-editor__load-dialog__textarea').value
-      const format = this._getFormat()
+      const format = this.#getFormat()
 
       if (isUserConfirm()) {
         readFromText(text, format)
@@ -148,11 +148,11 @@ export default class LoadDialog extends Dialog {
 
     // Open JSON editor
     delegate(super.el, '[type="button"].edit', 'click', () => {
-      this._expandDialog()
+      this.#expandDialog()
       const textarea = super.el.querySelector(
         '.textae-editor__load-dialog__textarea'
       )
-      const format = this._getFormat()
+      const format = this.#getFormat()
 
       if (format === 'json' && isJSON(textarea.value)) {
         textarea.value = JSON.stringify(JSON.parse(textarea.value), null, 2)
@@ -196,7 +196,7 @@ export default class LoadDialog extends Dialog {
       )
       .on('addedfile', (file) => {
         revertMaximizeOverlay(overlayDropzone, zIndexOfOverlayDropzone)
-        this._showFilePreview(file)
+        this.#showFilePreview(file)
       })
 
     const dialogDropzone = new Dropzone(
@@ -204,11 +204,11 @@ export default class LoadDialog extends Dialog {
       dropzoneConfig
     )
     dialogDropzone.on('addedfile', (file) => {
-      this._showFilePreview(file)
+      this.#showFilePreview(file)
     })
   }
 
-  _showFilePreview(file) {
+  #showFilePreview(file) {
     // Remove the previous file name.
     super.el
       .querySelector('.textae-editor__load-dialog__dz-file-preview')
@@ -227,13 +227,13 @@ export default class LoadDialog extends Dialog {
     )
   }
 
-  _expandDialog() {
+  #expandDialog() {
     super.el
       .closest('.textae-editor__dialog')
       .classList.add('textae-editor__load-dialog--expanded')
   }
 
-  _getFormat() {
+  #getFormat() {
     return super.el.querySelector('input[name="format"]:checked').value
   }
 }
