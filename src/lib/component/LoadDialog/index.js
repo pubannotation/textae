@@ -6,6 +6,7 @@ import isJSON from '../../isJSON'
 import maximizeOverlay from './maximizeOverlay'
 import revertMaximizeOverlay from './revertMaximizeOverlay'
 import initJSONEditor from './initJSONEditor'
+import initInlineEditor from '././initInlineEditor'
 
 function template(context) {
   const { url } = context
@@ -44,10 +45,15 @@ function template(context) {
       disabled="disabled"
       value="Open">
   </div>
-  <div class="textae-editor__load-dialog__row json">
-    <label>
-      JSON
-    </label>
+  <div class="textae-editor__load-dialog__row">
+    <div class="textae-editor__load-dialog__format">
+      <label class="textae-editor__load-dialog__format-button">
+        <input type="radio" name="format" value="json" checked>JSON
+      </label>
+      <label class="textae-editor__load-dialog__format-button">
+        <input type="radio" name="format" value="inline">Simple Inline Text Annotation Format
+      </label>
+    </div>
     <textarea class="textae-editor__load-dialog__textarea"></textarea>
     <input type="button" value="Edit" class="edit" disabled="disabled">
     <input type="button" value="Open" class="instant" disabled="disabled">
@@ -126,13 +132,15 @@ export default class LoadDialog extends Dialog {
     )
 
     // Load from a textarea
-    let jsonEditor = null
+    let textEditor = null
     delegate(super.el, '[type="button"].instant', 'click', () => {
-      const text = jsonEditor
-        ? jsonEditor.state.doc.toString()
+      const text = textEditor
+        ? textEditor.state.doc.toString()
         : super.el.querySelector('.textae-editor__load-dialog__textarea').value
+      const format = this._getFormat()
+
       if (isUserConfirm()) {
-        readFromText(text)
+        readFromText(text, format)
       }
 
       super.close()
@@ -144,14 +152,20 @@ export default class LoadDialog extends Dialog {
       const textarea = super.el.querySelector(
         '.textae-editor__load-dialog__textarea'
       )
-      if (isJSON(textarea.value)) {
+      const format = this._getFormat()
+
+      if (format === 'json' && isJSON(textarea.value)) {
         textarea.value = JSON.stringify(JSON.parse(textarea.value), null, 2)
       }
 
       const dialogHeight = super.el.closest(
         '.textae-editor__dialog'
       ).clientHeight
-      jsonEditor = initJSONEditor(textarea, dialogHeight)
+
+      textEditor =
+        format === 'json'
+          ? initJSONEditor(textarea, dialogHeight)
+          : initInlineEditor(textarea, dialogHeight)
     })
   }
 
@@ -217,5 +231,9 @@ export default class LoadDialog extends Dialog {
     super.el
       .closest('.textae-editor__dialog')
       .classList.add('textae-editor__load-dialog--expanded')
+  }
+
+  _getFormat() {
+    return super.el.querySelector('input[name="format"]:checked').value
   }
 }
