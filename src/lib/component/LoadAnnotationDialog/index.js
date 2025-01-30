@@ -3,10 +3,10 @@ import Dialog from '../Dialog'
 import enableHTMLelment from '../enableHTMLElement'
 import Dropzone from 'dropzone'
 import isJSON from '../../isJSON'
-import maximizeOverlay from './maximizeOverlay'
-import revertMaximizeOverlay from './revertMaximizeOverlay'
-import initJSONEditor from './initJSONEditor'
-import initInlineEditor from '././initInlineEditor'
+import maximizeOverlay from '../maximizeOverlay'
+import revertMaximizeOverlay from '../revertMaximizeOverlay'
+import initJSONEditor from '../initJSONEditor'
+import initInlineEditor from './initInlineEditor'
 
 function template(context) {
   const { url } = context
@@ -64,7 +64,7 @@ function template(context) {
 const CONFIRM_DISCARD_CHANGE_MESSAGE =
   'There is a change that has not been saved. If you procceed now, you will lose it.'
 
-export default class LoadDialog extends Dialog {
+export default class LoadAnnotationDialog extends Dialog {
   constructor(
     title,
     url,

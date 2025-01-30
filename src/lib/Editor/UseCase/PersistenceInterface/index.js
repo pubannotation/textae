@@ -1,4 +1,5 @@
-import LoadDialog from '../../../component/LoadDialog'
+import LoadAnnotationDialog from '../../../component/LoadAnnotationDialog'
+import LoadConfigurationDialog from '../../../component/LoadConfigurationDialog'
 import SaveAnnotationDialog from '../../../component/SaveAnnotationDialog'
 import SaveConfigurationDialog from '../../../component/SaveConfigurationDialog'
 import readAnnotationFile from './readAnnotationFile'
@@ -56,7 +57,7 @@ export default class PersistenceInterface {
   }
 
   importAnnotation() {
-    new LoadDialog(
+    new LoadAnnotationDialog(
       'Load Annotations',
       this.#lastLoadedURL.annotation,
       (url) => this.#remoteResource.loadAnnotation(url),
@@ -92,7 +93,7 @@ export default class PersistenceInterface {
   }
 
   importConfiguration() {
-    new LoadDialog(
+    new LoadConfigurationDialog(
       'Load Configurations',
       this.#lastLoadedURL.configuration,
       (url) => this.#remoteResource.loadConfiguration(url),
