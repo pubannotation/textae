@@ -1,7 +1,7 @@
 import alertifyjs from 'alertifyjs'
 import DataSource from '../../DataSource'
 import parseResponse from './parseResponse'
-import FormatConversionError from '../../../exceptions/formatConversionError'
+import FormatConversionError from '../../../exceptions/FormatConversionError'
 
 export default class AnnotationLoader {
   #eventEmitter

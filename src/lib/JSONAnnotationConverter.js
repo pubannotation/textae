@@ -1,4 +1,5 @@
-import FormatConversionError from './exceptions/formatConversionError'
+import FormatConversionError from './exceptions/FormatConversionError'
+
 export default class JSONAnnotationConverter {
   #url
   constructor(url) {

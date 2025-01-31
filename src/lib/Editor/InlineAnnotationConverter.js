@@ -1,4 +1,4 @@
-import FormatConversionError from '../exceptions/formatConversionError'
+import FormatConversionError from '../exceptions/FormatConversionError'
 
 export default class InlineAnnotationConverter {
   #url

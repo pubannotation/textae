@@ -3,7 +3,7 @@ import isServerAuthRequired from '../isServerPageAuthRequired'
 import openPopUp from '../openPopUp'
 import prepareRequestBody from './prepareRequestBody'
 import waitForPopUpClose from './waitForPopUpClose'
-import FormatConversionError from '../../../exceptions/formatConversionError'
+import FormatConversionError from '../../../exceptions/FormatConversionError'
 
 export default class AnnotationSaver {
   #format
