@@ -22,7 +22,10 @@ export default async function readAnnotationText(eventEmitter, text, format) {
 
       loadAnnotation(eventEmitter, annotation)
     } catch {
-      alertifyjs.error(`Failed to load annotation as inline format.`)
+      const dataSource = DataSource.createInstantSource()
+      alertifyjs.error(
+        `Failed to load annotation from ${dataSource.displayName}.`
+      )
     }
   }
 }
