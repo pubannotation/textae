@@ -1,9 +1,10 @@
-import readFile from './readFile'
-import isJSON from '../../../isJSON'
-import isTxtFile from './isTxtFile'
-import isMdFile from './isMdFile'
-import DataSource from '../../DataSource'
-import InlineAnnotationConverter from '../../InlineAnnotationConverter'
+import readFile from '../readFile'
+import isJSON from '../../../../isJSON'
+import isTxtFile from '../isTxtFile'
+import isMdFile from '../isMdFile'
+import DataSource from '../../../DataSource'
+import parseMdFile from './parseMdFile'
+import alertifyjs from 'alertifyjs'
 
 export default async function readAnnotationFile(file, eventEmitter) {
   const event = await readFile(file)
@@ -22,11 +23,17 @@ export default async function readAnnotationFile(file, eventEmitter) {
   }
 
   if (isMdFile(file.name)) {
-    const annotation = await new InlineAnnotationConverter(
-      'https://pubannotation.org/conversions/inline2json'
-    ).toJSON(fileContent)
+    const annotation = await parseMdFile(fileContent)
 
-    if (annotation && annotation.text) {
+    if (!annotation) {
+      const dataSource = DataSource.createFileSource(file.name)
+      alertifyjs.error(
+        `Failed to load annotation from ${dataSource.displayName}.`
+      )
+      return
+    }
+
+    if (annotation.text) {
       eventEmitter.emit(
         'textae-event.resource.annotation.load.success',
         DataSource.createFileSource(file.name, annotation)
