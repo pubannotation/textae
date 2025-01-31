@@ -3,6 +3,7 @@ import isServerAuthRequired from '../isServerPageAuthRequired'
 import openPopUp from '../openPopUp'
 import prepareRequestBody from './prepareRequestBody'
 import waitForPopUpClose from './waitForPopUpClose'
+import FormatConversionError from '../../../exceptions/formatConversionError'
 
 export default class AnnotationSaver {
   #format
@@ -23,7 +24,10 @@ export default class AnnotationSaver {
       const response = await this.#postTo(url, requestBody)
 
       await this.#processResponse(response, url, editedData)
-    } catch {
+    } catch (e) {
+      if (!(e instanceof FormatConversionError)) {
+        console.error(e)
+      }
       this.#failed()
     } finally {
       this.#eventEmitter.emit('textae-event.resource.endSave')

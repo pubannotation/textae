@@ -1,3 +1,4 @@
+import FormatConversionError from './exceptions/formatConversionError'
 export default class JSONAnnotationConverter {
   #url
   constructor(url) {
@@ -15,7 +16,7 @@ export default class JSONAnnotationConverter {
 
     if (!response.ok) {
       const errorMessage = await response.text()
-      throw Error(errorMessage)
+      throw new FormatConversionError(errorMessage)
     }
 
     return await response.text()

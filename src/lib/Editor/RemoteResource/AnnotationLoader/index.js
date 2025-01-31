@@ -1,6 +1,7 @@
 import alertifyjs from 'alertifyjs'
 import DataSource from '../../DataSource'
 import parseResponse from './parseResponse'
+import FormatConversionError from '../../../exceptions/formatConversionError'
 
 export default class AnnotationLoader {
   #eventEmitter
@@ -31,7 +32,10 @@ export default class AnnotationLoader {
       } else {
         this.#failed(url)
       }
-    } catch {
+    } catch (e) {
+      if (!(e instanceof FormatConversionError)) {
+        console.error(e)
+      }
       this.#failed(url)
     } finally {
       this.#eventEmitter.emit('textae-event.resource.endLoad')
