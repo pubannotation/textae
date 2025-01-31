@@ -23,8 +23,7 @@ export default class AnnotationSaver {
       const response = await this.#postTo(url, requestBody)
 
       await this.#processResponse(response, url, editedData)
-    } catch (e) {
-      console.error(e)
+    } catch {
       this.#failed()
     } finally {
       this.#eventEmitter.emit('textae-event.resource.endSave')

@@ -31,8 +31,7 @@ export default class AnnotationLoader {
       } else {
         this.#failed(url)
       }
-    } catch (e) {
-      console.error(e)
+    } catch {
       this.#failed(url)
     } finally {
       this.#eventEmitter.emit('textae-event.resource.endLoad')
@@ -80,8 +79,7 @@ export default class AnnotationLoader {
       } else {
         this.#failed(url)
       }
-    } catch (e) {
-      console.error(e)
+    } catch {
       this.#failed(url)
     }
   }
