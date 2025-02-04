@@ -32,6 +32,8 @@ export default class ConfigurationLoader {
           return response
             .json()
             .then((config) => this.#loaded(url, config, annotationModelSource))
+        } else {
+          this.#failed(url)
         }
       })
       .catch(() => this.#failed(url))
