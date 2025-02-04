@@ -5,12 +5,26 @@ import packageJson from '../../../../package.json'
 import template from './template'
 
 export default class SettingDialog extends Dialog {
-  constructor(typeDictionary, typeGap, textBox) {
+  constructor(
+    typeDictionary,
+    typeGap,
+    textBox,
+    configuration,
+    spanConfig,
+    functionAvailability
+  ) {
     const contentHtml = template({
       typeGapDisabled: !typeGap.show,
       typeGap: typeGap.value,
       lineHeight: textBox.lineHeight,
+      autocompletionWs: typeDictionary.autocompletionWs,
       typeDictionaryLocked: typeDictionary.isLock,
+      autosave: configuration.autosave,
+      autoLineheight: configuration.autolineheight,
+      boundaryDetection: configuration.boundarydetection,
+      delimiterCharacters: spanConfig.delimiterCharacters,
+      blankCharacters: spanConfig.blankCharacters,
+      functionAvailability,
       version: packageJson.version
     })
 

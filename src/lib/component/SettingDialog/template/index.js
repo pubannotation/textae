@@ -1,0 +1,133 @@
+import anemone from '../../anemone'
+import escapeHTML from './escapeHTML'
+
+export default function template(context) {
+  const {
+    typeGap,
+    typeGapDisabled,
+    lineHeight,
+    autocompletionWs,
+    typeDictionaryLocked,
+    autosave,
+    autoLineheight,
+    boundaryDetection,
+    delimiterCharacters,
+    blankCharacters,
+    functionAvailability,
+    version
+  } = context
+
+  return anemone`
+<div class="textae-editor__setting-dialog__container">
+  <div class="textae-editor__setting-dialog__row">
+    <label>Type Gap</label>
+    <input
+      type="number"
+      class="textae-editor__setting-dialog__type-gap-text"
+      step="1"
+      min="0"
+      max="5"
+      value="${typeGap}" ${typeGapDisabled ? `disabled="disabled"` : ''}>
+  </div>
+  <div class="textae-editor__setting-dialog__row">
+    <label>Line Height(px)</label>
+    <input
+      type="number" class="textae-editor__setting-dialog__line-height-text"
+      step="1"
+      min="50"
+      max="500"
+      value="${lineHeight}">
+  </div>
+  <div class="textae-editor__setting-dialog__row">
+    <label>Autocompletion_ws</label>
+    <input type="text" value="${autocompletionWs}">
+  </div>
+  <div class="textae-editor__setting-dialog__row">
+    <label>
+      <input
+        type="checkbox"
+        class="textae-editor__setting-dialog__lock-config-text"
+        ${typeDictionaryLocked ? `checked="checked"` : ''}>
+      Lock Edit Config
+    </label>
+  </div>
+  <div class="textae-editor__setting-dialog__row">
+    <label>
+      <input type="checkbox" ${autosave ? `checked="checked"` : ''}>
+      Auto Save
+    </label>
+  </div>
+  <div class="textae-editor__setting-dialog__row">
+    <label>
+      <input type="checkbox" ${autoLineheight ? `checked="checked"` : ''}>
+      Auto Line Height
+    </label>
+  </div>
+  <div class="textae-editor__setting-dialog__row">
+    <label>
+      <input type="checkbox" ${boundaryDetection ? `checked="checked"` : ''}>
+      Boundary Detection
+    </label>
+  </div>
+  <div>
+    <details>
+      <summary>Delimiter Characters</summary>
+      <table style="width: 100%; border-collapse: collapse;">
+        ${() =>
+          delimiterCharacters
+            .map((char) => {
+              return `<tr>
+            <td><input style="width: 100%;" type="text" value="${escapeHTML(char)}"></td>
+            <td><button>&times;</button></td>
+          </tr>`
+            })
+            .join('')}
+        <tr>
+          <td><input style="width: 100%;" type="text"></td>
+          <td><button>+</button></td>
+        </tr>
+      </table>
+    </details>
+  </div>
+  <div>
+    <details>
+      <summary>Non-edge Characters</summary>
+      <table style="width: 100%; border-collapse: collapse;">
+        ${() =>
+          blankCharacters
+            .map(
+              (char) => `
+          <tr>
+            <td><input style="width: 100%;" type="text" value="${escapeHTML(char)}"></td>
+            <td><button>&times;</button></td>
+          </tr>`
+            )
+            .join('')}
+        <tr>
+          <td><input  style="width: 100%;" type="text"></td>
+           <td><button>+</button></td>
+        </tr>
+      </table>
+    </details>
+  </div>
+  <div>
+    <details>
+    <summary>Function Availability</summary>
+      ${() =>
+        functionAvailability.names
+          .map(
+            (name) => `
+        <label style="display: block;">
+          <input type="checkbox" ${functionAvailability.isAvailable(name) ? `checked="checked"` : ''}>
+          ${name}
+        </label>`
+          )
+          .join('')}
+    </details>
+  </div>
+  <div class="textae-editor__setting-dialog__row">
+    <label>Version ${version}</label>
+  </div>
+</div>
+`
+}
