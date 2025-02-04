@@ -147,6 +147,8 @@ export default class LoadConfigurationDialog extends Dialog {
         '.textae-editor__dialog'
       ).clientHeight
       jsonEditor = initJSONEditor(textarea, dialogHeight)
+
+      super.el.querySelector('[type="button"].edit').disabled = true
     })
   }
 

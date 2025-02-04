@@ -161,6 +161,13 @@ export default class LoadAnnotationDialog extends Dialog {
         format === 'json'
           ? initJSONEditor(textarea, dialogHeight)
           : initInlineEditor(textarea, dialogHeight)
+
+      super.el
+        .querySelectorAll(
+          '.textae-editor__load-dialog__format-button input[type="radio"]'
+        )
+        .forEach((radio) => (radio.disabled = true))
+      super.el.querySelector('[type="button"].edit').disabled = true
     })
   }
 
