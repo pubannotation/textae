@@ -162,11 +162,13 @@ export default class LoadAnnotationDialog extends Dialog {
           ? initJSONEditor(textarea, dialogHeight)
           : initInlineEditor(textarea, dialogHeight)
 
+      // Disable buttons to prevent format change.
       super.el
         .querySelectorAll(
           '.textae-editor__load-dialog__format-button input[type="radio"]'
         )
         .forEach((radio) => (radio.disabled = true))
+      // Disable edit button to avoid create multiple editors.
       super.el.querySelector('[type="button"].edit').disabled = true
     })
   }

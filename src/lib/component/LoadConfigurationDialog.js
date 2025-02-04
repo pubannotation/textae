@@ -148,6 +148,7 @@ export default class LoadConfigurationDialog extends Dialog {
       ).clientHeight
       jsonEditor = initJSONEditor(textarea, dialogHeight)
 
+      // Disable edit button to avoid create multiple editors.
       super.el.querySelector('[type="button"].edit').disabled = true
     })
   }
