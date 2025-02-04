@@ -33,6 +33,41 @@ export default class SettingDialog extends Dialog {
     // Reflects configuration changes in real time.
     reflectImmediately(super.el, typeGap, typeDictionary, textBox)
 
+    // Add delimiter/non-edge character when "+" button click.
+    delegate(
+      super.el,
+      `.textae-editor__setting-dialog__character-add`,
+      'click',
+      ({ target }) => {
+        const targetRow = target.closest('tr')
+        const input = targetRow.querySelector('input')
+        const newValue = input.value
+        if (newValue) {
+          const newRow = document.createElement('tr')
+          newRow.innerHTML = `
+          <td><input style="width: 100%;" type="text" value="${newValue}"></td>
+          <td><button class="textae-editor__setting-dialog__character-delete">&times;</button></td>
+        `
+
+          // Add newRow to above + button
+          targetRow.parentElement.insertBefore(newRow, targetRow)
+
+          // Clear input
+          input.value = ''
+        }
+      }
+    )
+
+    // Delete delimiter/non-edge character when "x" button click.
+    delegate(
+      super.el,
+      `.textae-editor__setting-dialog__character-delete`,
+      'click',
+      ({ target }) => {
+        target.closest('tr').remove()
+      }
+    )
+
     // Observe enter key press
     delegate(super.el, `.textae-editor__dialog`, 'keyup', (e) => {
       if (e.keyCode === 13) {

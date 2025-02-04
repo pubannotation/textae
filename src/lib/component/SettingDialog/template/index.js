@@ -78,13 +78,13 @@ export default function template(context) {
             .map((char) => {
               return `<tr>
             <td><input style="width: 100%;" type="text" value="${escapeHTML(char)}"></td>
-            <td><button>&times;</button></td>
+            <td><button class="textae-editor__setting-dialog__character-delete">&times;</button></td>
           </tr>`
             })
             .join('')}
         <tr>
           <td><input style="width: 100%;" type="text"></td>
-          <td><button>+</button></td>
+          <td><button class="textae-editor__setting-dialog__character-add">+</button></td>
         </tr>
       </table>
     </details>
@@ -99,13 +99,13 @@ export default function template(context) {
               (char) => `
           <tr>
             <td><input style="width: 100%;" type="text" value="${escapeHTML(char)}"></td>
-            <td><button>&times;</button></td>
+            <td><button class="textae-editor__setting-dialog__character-delete">&times;</button></td>
           </tr>`
             )
             .join('')}
         <tr>
           <td><input  style="width: 100%;" type="text"></td>
-           <td><button>+</button></td>
+           <td><button class="textae-editor__setting-dialog__character-add">+</button></td>
         </tr>
       </table>
     </details>
