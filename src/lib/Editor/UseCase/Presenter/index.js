@@ -14,7 +14,9 @@ export default class Presenter {
   #selectionModel
   #annotationModel
   #menuState
+  #originalData
   #spanConfig
+  #functionAvailability
   #clipBoard
   #editModeSwitch
   #horizontal
@@ -31,7 +33,9 @@ export default class Presenter {
     annotationModel,
     selectionModel,
     commander,
+    originalData,
     spanConfig,
+    functionAvailability,
     clipBoard,
     menuState,
     startUpOptions,
@@ -79,7 +83,9 @@ export default class Presenter {
     this.#selectionModel = selectionModel
     this.#annotationModel = annotationModel
     this.#menuState = menuState
+    this.#originalData = originalData
     this.#spanConfig = spanConfig
+    this.#functionAvailability = functionAvailability
     this.#clipBoard = clipBoard
     this.#editModeSwitch = editModeSwitch
     this.#horizontal = new Horizontal(editorHTMLElement, selectionModel)
@@ -169,7 +175,10 @@ export default class Presenter {
     new SettingDialog(
       this.#annotationModel.typeDictionary,
       this.#annotationModel.typeGap,
-      this.#annotationModel.textBox
+      this.#annotationModel.textBox,
+      this.#originalData.configuration,
+      this.#spanConfig,
+      this.#functionAvailability
     ).open()
   }
 

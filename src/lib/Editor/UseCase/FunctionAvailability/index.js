@@ -16,6 +16,10 @@ export default class FunctionAvailability {
     return this.#availabilities.get(innerName)
   }
 
+  get names() {
+    return Array.from(this.#availabilities.keys())
+  }
+
   set availability(values) {
     const availabilities = this.#translator.defaultAvailabilities
 

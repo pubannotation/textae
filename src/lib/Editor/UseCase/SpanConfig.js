@@ -33,6 +33,14 @@ export default class SpanConfig {
     this._blankCharacters = []
   }
 
+  get delimiterCharacters() {
+    return this._delimiterCharacters
+  }
+
+  get blankCharacters() {
+    return this._blankCharacters
+  }
+
   set(config) {
     const settings = { ...defaults, ...config }
 
