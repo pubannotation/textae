@@ -1,38 +1,19 @@
 import delegate from 'delegate'
 import Dialog from './Dialog'
 import enableHTMLelment from './enableHTMLElement'
-import Dropzone from 'dropzone'
 import isJSON from '../isJSON'
-import maximizeOverlay from './maximizeOverlay'
-import revertMaximizeOverlay from './revertMaximizeOverlay'
 import initJSONEditor from './initJSONEditor'
 import isUserConfirm from './isUserConfirm'
 import LoadDialogURLComponent from './LoadDialogURLComponent'
+import LoadDialogLocalComponent from './LoadDialogLocalComponent'
 
 function template(context) {
-  const { url } = context
+  const { url, local } = context
 
   return `
 <div class="textae-editor__load-dialog__container">
   ${url}
-  <div class="textae-editor__load-dialog__row">
-    <label>
-      Local
-    </label>
-    <form class="dropzone textae-editor__load-dialog__dropzone">
-      <div class="dz-message">
-        Drop a file here or click to select
-      </div>
-    </form>
-    <div class="textae-editor__load-dialog__dz-file-preview">
-      <div class="dz-filename"><span data-dz-name>No file selected</span></div>
-    </div>
-    <input
-      type="button"
-      class="textae-editor__load-dialog__local-button"
-      disabled="disabled"
-      value="Open">
-  </div>
+  ${local}
   <div class="textae-editor__load-dialog__row json">
     <label>
       JSON
@@ -45,6 +26,8 @@ function template(context) {
 }
 
 export default class LoadConfigurationDialog extends Dialog {
+  #localComponent
+
   constructor(
     title,
     url,
@@ -54,12 +37,30 @@ export default class LoadConfigurationDialog extends Dialog {
     hasChange
   ) {
     const urlComponent = new LoadDialogURLComponent(url)
-    super(title, template({ url: urlComponent.template }))
+    const localComponent = new LoadDialogLocalComponent()
+
+    super(
+      title,
+      template({
+        url: urlComponent.template,
+        local: localComponent.template
+      })
+    )
+
+    this.#localComponent = localComponent
 
     urlComponent.bind(super.el, (url) => {
       if (isUserConfirm(hasChange)) {
         loadFromServer(url)
       }
+      super.close()
+    })
+
+    this.#localComponent.bind(super.el, (droppedFile) => {
+      if (isUserConfirm(hasChange)) {
+        readFromFile(droppedFile)
+      }
+
       super.close()
     })
 
@@ -76,20 +77,6 @@ export default class LoadConfigurationDialog extends Dialog {
           super.el.querySelector('[type="button"].edit'),
           e.target.value
         )
-      }
-    )
-
-    // Load from a file.
-    delegate(
-      super.el,
-      '.textae-editor__load-dialog__local-button',
-      'click',
-      () => {
-        if (isUserConfirm(hasChange)) {
-          readFromFile(this._droppedFile)
-        }
-
-        super.close()
       }
     )
 
@@ -128,60 +115,7 @@ export default class LoadConfigurationDialog extends Dialog {
 
   open() {
     super.open()
-
-    const dropzoneConfig = {
-      url: 'nothing', //Because it's a setting that cannot be omitted.
-      previewsContainer: '.textae-editor__load-dialog__dz-file-preview',
-      previewTemplate: super.el.querySelector(
-        '.textae-editor__load-dialog__dz-file-preview'
-      ).innerHTML
-    }
-
-    const overlayDropzone = new Dropzone(
-      'body > div.ui-widget-overlay.ui-front',
-      {
-        ...dropzoneConfig,
-        clickable: false
-      }
-    )
-    const zIndexOfOverlayDropzone = overlayDropzone.element.style.zIndex
-
-    overlayDropzone
-      .on('dragenter', () => maximizeOverlay(overlayDropzone))
-      .on('dragleave', () =>
-        revertMaximizeOverlay(overlayDropzone, zIndexOfOverlayDropzone)
-      )
-      .on('addedfile', (file) => {
-        revertMaximizeOverlay(overlayDropzone, zIndexOfOverlayDropzone)
-        this.#showFilePreview(file)
-      })
-
-    const dialogDropzone = new Dropzone(
-      '.textae-editor__load-dialog__dropzone',
-      dropzoneConfig
-    )
-    dialogDropzone.on('addedfile', (file) => {
-      this.#showFilePreview(file)
-    })
-  }
-
-  #showFilePreview(file) {
-    // Remove the previous file name.
-    super.el
-      .querySelector('.textae-editor__load-dialog__dz-file-preview')
-      .firstElementChild.remove()
-
-    // Add file name to title attrribute to show tooltip.
-    super.el
-      .querySelector('.textae-editor__load-dialog__dz-file-preview > div')
-      .setAttribute('title', file.name)
-
-    // Enables the button to open the file.
-    this._droppedFile = file
-    enableHTMLelment(
-      super.el.querySelector('.textae-editor__load-dialog__local-button'),
-      true
-    )
+    this.#localComponent.intiializeDropzone(super.el)
   }
 
   #expandDialog() {
