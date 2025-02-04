@@ -8,26 +8,14 @@ import revertMaximizeOverlay from '../revertMaximizeOverlay'
 import initJSONEditor from '../initJSONEditor'
 import initInlineEditor from './initInlineEditor'
 import isUserConfirm from '../isUserConfirm'
+import LoadDialogURLComponent from '../LoadDialogURLComponent'
 
 function template(context) {
   const { url } = context
 
   return `
 <div class="textae-editor__load-dialog__container">
-  <div class="textae-editor__load-dialog__row">
-    <label>
-      URL
-    </label>
-    <input 
-      type="text" 
-      value="${url}" 
-      class="textae-editor__load-dialog__url-text">
-    <input 
-      type="button" 
-      class="textae-editor__load-dialog__url-button"
-      ${url ? `` : `disabled="disabled"`}
-      value="Open">
-  </div>
+  ${url}
   <div class="textae-editor__load-dialog__row">
     <label>
       Local
@@ -40,8 +28,8 @@ function template(context) {
     <div class="textae-editor__load-dialog__dz-file-preview">
       <div class="dz-filename"><span data-dz-name>No file selected</span></div>
     </div>
-    <input 
-      type="button" 
+    <input
+      type="button"
       class="textae-editor__load-dialog__local-button"
       disabled="disabled"
       value="Open">
@@ -71,17 +59,15 @@ export default class LoadAnnotationDialog extends Dialog {
     readFromText,
     hasChange
   ) {
-    super(title, template({ url }))
+    const urlComponent = new LoadDialogURLComponent(url)
+    super(title, template({ url: urlComponent.template }))
 
-    // Disabled the button to load from the URL when no URL.
-    delegate(
-      super.el,
-      '.textae-editor__load-dialog__url-text',
-      'input',
-      (e) => {
-        enableHTMLelment(e.target.nextElementSibling, e.target.value)
+    urlComponent.bind(super.el, (url) => {
+      if (isUserConfirm(hasChange)) {
+        loadFromServer(url)
       }
-    )
+      super.close()
+    })
 
     delegate(
       super.el,
@@ -96,19 +82,6 @@ export default class LoadAnnotationDialog extends Dialog {
           super.el.querySelector('[type="button"].edit'),
           e.target.value
         )
-      }
-    )
-
-    // Load from the URL.
-    delegate(
-      super.el,
-      '.textae-editor__load-dialog__url-button',
-      'click',
-      (e) => {
-        if (isUserConfirm(hasChange)) {
-          loadFromServer(e.target.previousElementSibling.value)
-        }
-        super.close()
       }
     )
 
