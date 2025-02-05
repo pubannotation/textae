@@ -353,6 +353,35 @@
 
   &__setting-dialog {
     .form();
+
+    &__details {
+      display: flex;
+      width: calc(100% - 7px);
+      flex-direction: column;
+
+      table {
+        border-collapse: collapse;
+
+        td {
+          width: 100%;
+        }
+
+        input {
+          width: 100%;
+        }
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+      }
+    }
+
+    &__function-availability-list {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+    }
   }
 
   &__type-definition-dialog {

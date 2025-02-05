@@ -7,7 +7,6 @@ export default function addDelimiterCharacter(target) {
     newRow.innerHTML = `
       <td>
         <input
-          style="width: 100%;"
           class="textae-editor__setting-dialog__delimiter-character-input"
           type="text"
           value="${newValue}">

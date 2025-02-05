@@ -7,7 +7,6 @@ export default function addBlankCharacter(target) {
     newRow.innerHTML = `
       <td>
         <input
-          style="width: 100%;"
           class="textae-editor__setting-dialog__blank-character-input"
           type="text"
           value="${newValue}">
