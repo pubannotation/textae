@@ -85,6 +85,10 @@ export default function template(context) {
     <details>
       <summary>Delimiter Characters</summary>
       <table style="width: 100%; border-collapse: collapse;">
+        <tr>
+          <td><input style="width: 100%;" type="text"></td>
+          <td><button class="textae-editor__setting-dialog__delimiter-character-add">+</button></td>
+        </tr>
         ${() =>
           delimiterCharacters
             .map((char) => {
@@ -100,10 +104,6 @@ export default function template(context) {
           </tr>`
             })
             .join('')}
-        <tr>
-          <td><input style="width: 100%;" type="text"></td>
-          <td><button class="textae-editor__setting-dialog__delimiter-character-add">+</button></td>
-        </tr>
       </table>
     </details>
   </div>
@@ -111,6 +111,10 @@ export default function template(context) {
     <details>
       <summary>Non-edge Characters</summary>
       <table style="width: 100%; border-collapse: collapse;">
+        <tr>
+          <td><input  style="width: 100%;" type="text"></td>
+           <td><button class="textae-editor__setting-dialog__blank-character-add">+</button></td>
+        </tr>
         ${() =>
           blankCharacters
             .map(
@@ -127,10 +131,6 @@ export default function template(context) {
           </tr>`
             )
             .join('')}
-        <tr>
-          <td><input  style="width: 100%;" type="text"></td>
-           <td><button class="textae-editor__setting-dialog__blank-character-add">+</button></td>
-        </tr>
       </table>
     </details>
   </div>
