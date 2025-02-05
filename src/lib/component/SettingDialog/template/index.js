@@ -81,12 +81,12 @@ export default function template(context) {
       Boundary Detection
     </label>
   </div>
-  <div>
+  <div class="textae-editor__setting-dialog__details">
     <details>
       <summary>Delimiter Characters</summary>
-      <table style="width: 100%; border-collapse: collapse;">
+      <table>
         <tr>
-          <td><input style="width: 100%;" type="text"></td>
+          <td><input type="text"></td>
           <td><button class="textae-editor__setting-dialog__delimiter-character-add">+</button></td>
         </tr>
         ${() =>
@@ -95,7 +95,6 @@ export default function template(context) {
               return `<tr>
             <td>
               <input
-                style="width: 100%;"
                 type="text"
                 class="textae-editor__setting-dialog__delimiter-character-input"
                 value="${escapeHTML(char)}">
@@ -107,12 +106,12 @@ export default function template(context) {
       </table>
     </details>
   </div>
-  <div>
+  <div class="textae-editor__setting-dialog__details">
     <details>
       <summary>Non-edge Characters</summary>
-      <table style="width: 100%; border-collapse: collapse;">
+      <table>
         <tr>
-          <td><input  style="width: 100%;" type="text"></td>
+          <td><input type="text"></td>
            <td><button class="textae-editor__setting-dialog__blank-character-add">+</button></td>
         </tr>
         ${() =>
@@ -122,7 +121,6 @@ export default function template(context) {
           <tr>
             <td>
               <input
-                style="width: 100%;"
                 type="text"
                 class="textae-editor__setting-dialog__blank-character-input"
                 value="${escapeHTML(char)}">
@@ -134,22 +132,24 @@ export default function template(context) {
       </table>
     </details>
   </div>
-  <div>
+  <div class="textae-editor__setting-dialog__details">
     <details>
-    <summary>Function Availability</summary>
-      ${() =>
-        functionAvailability.names
-          .map(
-            (name) => `
-        <label style="display: block;">
-          <input
-            type="checkbox"
-            class="textae-editor__setting-dialog__function-availability-checkbox"
-            ${functionAvailability.isAvailable(name) ? `checked="checked"` : ''}>
-          ${name}
-        </label>`
-          )
-          .join('')}
+      <summary>Function Availability</summary>
+      <div class="textae-editor__setting-dialog__function-availability-list">
+        ${() =>
+          functionAvailability.names
+            .map(
+              (name) => `
+          <label>
+            <input
+              type="checkbox"
+              class="textae-editor__setting-dialog__function-availability-checkbox"
+              ${functionAvailability.isAvailable(name) ? `checked="checked"` : ''}>
+            ${name}
+          </label>`
+            )
+            .join('')}
+      </div>
     </details>
   </div>
   <div class="textae-editor__setting-dialog__row">
