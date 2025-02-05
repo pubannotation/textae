@@ -173,6 +173,8 @@ export default class Presenter {
 
   showSettingDialog() {
     new SettingDialog(
+      this.#eventEmitter,
+      this.#menuState,
       this.#annotationModel.typeDictionary,
       this.#annotationModel.typeGap,
       this.#annotationModel.textBox,
