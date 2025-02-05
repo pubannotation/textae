@@ -16,6 +16,16 @@ export default class FunctionAvailability {
     return this.#availabilities.get(innerName)
   }
 
+  enable(innerName) {
+    // const innerName = this.#translator.translateToInnerNameFrom(functionName)
+    this.#availabilities.set(innerName, true)
+  }
+
+  disable(innerName) {
+    // const innerName = this.#translator.translateToInnerNameFrom(functionName)
+    this.#availabilities.set(innerName, false)
+  }
+
   get names() {
     return Array.from(this.#availabilities.keys())
   }

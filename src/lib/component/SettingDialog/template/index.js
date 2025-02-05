@@ -40,7 +40,10 @@ export default function template(context) {
   </div>
   <div class="textae-editor__setting-dialog__row">
     <label>Autocompletion_ws</label>
-    <input type="text" value="${autocompletionWs}">
+    <input
+      type="text"
+      class="textae-editor__setting-dialog__autocompletion_ws-text"
+      value="${autocompletionWs}">
   </div>
   <div class="textae-editor__setting-dialog__row">
     <label>
@@ -53,19 +56,28 @@ export default function template(context) {
   </div>
   <div class="textae-editor__setting-dialog__row">
     <label>
-      <input type="checkbox" ${autosave ? `checked="checked"` : ''}>
+      <input
+        type="checkbox"
+        class="textae-editor__setting-dialog__auto-save-text"
+        ${autosave ? `checked="checked"` : ''}>
       Auto Save
     </label>
   </div>
   <div class="textae-editor__setting-dialog__row">
     <label>
-      <input type="checkbox" ${autoLineheight ? `checked="checked"` : ''}>
+      <input
+      type="checkbox"
+      class="textae-editor__setting-dialog__auto-line-height-text"
+      ${autoLineheight ? `checked="checked"` : ''}>
       Auto Line Height
     </label>
   </div>
   <div class="textae-editor__setting-dialog__row">
     <label>
-      <input type="checkbox" ${boundaryDetection ? `checked="checked"` : ''}>
+      <input
+        type="checkbox"
+        class="textae-editor__setting-dialog__boundary-detection-text"
+        ${boundaryDetection ? `checked="checked"` : ''}>
       Boundary Detection
     </label>
   </div>
@@ -77,14 +89,20 @@ export default function template(context) {
           delimiterCharacters
             .map((char) => {
               return `<tr>
-            <td><input style="width: 100%;" type="text" value="${escapeHTML(char)}"></td>
-            <td><button class="textae-editor__setting-dialog__character-delete">&times;</button></td>
+            <td>
+              <input
+                style="width: 100%;"
+                type="text"
+                class="textae-editor__setting-dialog__delimiter-character-input"
+                value="${escapeHTML(char)}">
+            </td>
+            <td><button class="textae-editor__setting-dialog__delimiter-character-delete">&times;</button></td>
           </tr>`
             })
             .join('')}
         <tr>
           <td><input style="width: 100%;" type="text"></td>
-          <td><button class="textae-editor__setting-dialog__character-add">+</button></td>
+          <td><button class="textae-editor__setting-dialog__delimiter-character-add">+</button></td>
         </tr>
       </table>
     </details>
@@ -98,14 +116,20 @@ export default function template(context) {
             .map(
               (char) => `
           <tr>
-            <td><input style="width: 100%;" type="text" value="${escapeHTML(char)}"></td>
-            <td><button class="textae-editor__setting-dialog__character-delete">&times;</button></td>
+            <td>
+              <input
+                style="width: 100%;"
+                type="text"
+                class="textae-editor__setting-dialog__blank-character-input"
+                value="${escapeHTML(char)}">
+            </td>
+            <td><button class="textae-editor__setting-dialog__blank-character-delete">&times;</button></td>
           </tr>`
             )
             .join('')}
         <tr>
           <td><input  style="width: 100%;" type="text"></td>
-           <td><button class="textae-editor__setting-dialog__character-add">+</button></td>
+           <td><button class="textae-editor__setting-dialog__blank-character-add">+</button></td>
         </tr>
       </table>
     </details>
@@ -118,7 +142,10 @@ export default function template(context) {
           .map(
             (name) => `
         <label style="display: block;">
-          <input type="checkbox" ${functionAvailability.isAvailable(name) ? `checked="checked"` : ''}>
+          <input
+            type="checkbox"
+            class="textae-editor__setting-dialog__function-availability-checkbox"
+            ${functionAvailability.isAvailable(name) ? `checked="checked"` : ''}>
           ${name}
         </label>`
           )
