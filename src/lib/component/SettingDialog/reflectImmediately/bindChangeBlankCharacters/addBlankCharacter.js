@@ -15,8 +15,8 @@ export default function addBlankCharacter(target) {
       <td><button class="textae-editor__setting-dialog__blank-character-delete">&times;</button></td>
   `
 
-    // Add newRow to above + button
-    targetRow.parentElement.insertBefore(newRow, targetRow)
+    // Add newRow below the "+" button
+    targetRow.parentElement.insertBefore(newRow, targetRow.nextElementSibling)
 
     // Clear input
     input.value = ''
