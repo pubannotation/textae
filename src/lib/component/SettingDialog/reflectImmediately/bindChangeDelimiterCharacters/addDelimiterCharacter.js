@@ -1,10 +1,12 @@
+import anemone from '../../../anemone'
+
 export default function addDelimiterCharacter(target) {
   const targetRow = target.closest('tr')
   const input = targetRow.querySelector('input')
   const newValue = input.value
   if (newValue) {
     const newRow = document.createElement('tr')
-    newRow.innerHTML = `
+    newRow.innerHTML = anemone`
       <td>
         <input
           class="textae-editor__setting-dialog__delimiter-character-input"
