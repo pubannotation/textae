@@ -1,7 +1,7 @@
 import delegate from 'delegate'
-import debounce300 from '../debounce300'
-import addDelimiterCharacter from './addDelimiterCharacter'
-import saveSpanConfig from '../saveSpanConfig'
+import debounce300 from './debounce300'
+import addSpanConfig from './addSpanConfig'
+import saveSpanConfig from './saveSpanConfig'
 
 export default function bindChangeDelimiterCharacters(content, spanConfig) {
   // Save when existing character edited.
@@ -18,7 +18,7 @@ export default function bindChangeDelimiterCharacters(content, spanConfig) {
     '.textae-editor__setting-dialog__delimiter-character-add',
     'click',
     ({ target }) => {
-      addDelimiterCharacter(target)
+      addSpanConfig(target, 'delimiter')
       saveSpanConfig(content, spanConfig, 'delimiter')
     }
   )
