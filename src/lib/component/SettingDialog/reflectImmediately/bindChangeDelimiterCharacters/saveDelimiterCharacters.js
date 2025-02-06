@@ -1,8 +1,8 @@
 import unique from '../unique'
 
-export default function saveDelimiterCharacters(spanConfig, table) {
+export default function saveDelimiterCharacters(content, spanConfig) {
   const newCharacters = [
-    ...table.querySelectorAll(
+    ...content.querySelectorAll(
       '.textae-editor__setting-dialog__delimiter-character-input'
     )
   ].map((input) => input.value)

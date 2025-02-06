@@ -1,8 +1,8 @@
 import unique from '../unique'
 
-export default function saveBlankCharacters(spanConfig, table) {
+export default function saveBlankCharacters(content, spanConfig) {
   const newCharacters = [
-    ...table.querySelectorAll(
+    ...content.querySelectorAll(
       '.textae-editor__setting-dialog__blank-character-input'
     )
   ].map((input) => input.value)
