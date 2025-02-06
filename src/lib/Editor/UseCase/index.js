@@ -90,7 +90,6 @@ export default class UseCase {
       annotationModel,
       selectionModel,
       commander,
-      originalData,
       spanConfig,
       functionAvailability,
       clipBoard,

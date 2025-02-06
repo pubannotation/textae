@@ -7,11 +7,9 @@ import template from './template'
 export default class SettingDialog extends Dialog {
   constructor(
     eventEmitter,
-    menuState,
     typeDictionary,
     typeGap,
     textBox,
-    configuration,
     spanConfig,
     functionAvailability
   ) {
@@ -21,9 +19,6 @@ export default class SettingDialog extends Dialog {
       lineHeight: textBox.lineHeight,
       autocompletionWs: typeDictionary.autocompletionWs,
       typeDictionaryLocked: typeDictionary.isLock,
-      autosave: configuration.autosave,
-      autoLineheight: configuration.autolineheight,
-      boundaryDetection: configuration.boundarydetection,
       delimiterCharacters: spanConfig.delimiterCharacters,
       blankCharacters: spanConfig.blankCharacters,
       functionAvailability,
@@ -36,11 +31,9 @@ export default class SettingDialog extends Dialog {
     reflectImmediately(
       super.el,
       eventEmitter,
-      menuState,
       typeGap,
       typeDictionary,
       textBox,
-      configuration,
       spanConfig,
       functionAvailability
     )

@@ -8,9 +8,6 @@ export default function template(context) {
     lineHeight,
     autocompletionWs,
     typeDictionaryLocked,
-    autosave,
-    autoLineheight,
-    boundaryDetection,
     delimiterCharacters,
     blankCharacters,
     functionAvailability,
@@ -52,33 +49,6 @@ export default function template(context) {
         class="textae-editor__setting-dialog__lock-config-text"
         ${typeDictionaryLocked ? `checked="checked"` : ''}>
       Lock Edit Config
-    </label>
-  </div>
-  <div class="textae-editor__setting-dialog__row">
-    <label>
-      <input
-        type="checkbox"
-        class="textae-editor__setting-dialog__auto-save-text"
-        ${autosave ? `checked="checked"` : ''}>
-      Auto Save
-    </label>
-  </div>
-  <div class="textae-editor__setting-dialog__row">
-    <label>
-      <input
-      type="checkbox"
-      class="textae-editor__setting-dialog__auto-line-height-text"
-      ${autoLineheight === false ? '' : `checked="checked"`}>
-      Auto Line Height
-    </label>
-  </div>
-  <div class="textae-editor__setting-dialog__row">
-    <label>
-      <input
-        type="checkbox"
-        class="textae-editor__setting-dialog__boundary-detection-text"
-        ${boundaryDetection === false ? '' : `checked="checked"`}>
-      Boundary Detection
     </label>
   </div>
   <div class="textae-editor__setting-dialog__details">
