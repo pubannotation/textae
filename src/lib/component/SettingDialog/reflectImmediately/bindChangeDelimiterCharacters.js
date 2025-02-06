@@ -1,7 +1,7 @@
 import delegate from 'delegate'
-import debounce300 from './debounce300'
-import addSpanConfig from './addSpanConfig'
 import saveSpanConfig from './saveSpanConfig'
+import addCharacterRow from './addCharacterRow'
+import deleteSpanConfig from './deleteSpanConfig'
 
 export default function bindChangeDelimiterCharacters(content, spanConfig) {
   // Save when existing character edited.
@@ -9,7 +9,10 @@ export default function bindChangeDelimiterCharacters(content, spanConfig) {
     content,
     '.textae-editor__setting-dialog__delimiter-character-input',
     'change',
-    debounce300(() => saveSpanConfig(content, spanConfig, 'delimiter'))
+    ({ target }) => {
+      const inputValue = target.value
+      saveSpanConfig(spanConfig, inputValue, 'delimiter')
+    }
   )
 
   // Add character when "+" button click.
@@ -18,8 +21,13 @@ export default function bindChangeDelimiterCharacters(content, spanConfig) {
     '.textae-editor__setting-dialog__delimiter-character-add',
     'click',
     ({ target }) => {
-      addSpanConfig(target, 'delimiter')
-      saveSpanConfig(content, spanConfig, 'delimiter')
+      const inputValue =
+        target.parentElement.previousElementSibling.querySelector('input').value
+      const isSaved = saveSpanConfig(spanConfig, inputValue, 'delimiter')
+
+      if (isSaved) {
+        addCharacterRow(target, 'delimiter')
+      }
     }
   )
 
@@ -29,8 +37,12 @@ export default function bindChangeDelimiterCharacters(content, spanConfig) {
     '.textae-editor__setting-dialog__delimiter-character-delete',
     'click',
     ({ target }) => {
+      const inputValue =
+        target.parentElement.previousElementSibling.querySelector('input').value
+      deleteSpanConfig(spanConfig, inputValue, 'delimiter')
+
+      // Delete element.
       target.closest('tr').remove()
-      saveSpanConfig(content, spanConfig, 'delimiter')
     }
   )
 }
