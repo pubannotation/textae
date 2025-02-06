@@ -68,7 +68,7 @@ export default function template(context) {
       <input
       type="checkbox"
       class="textae-editor__setting-dialog__auto-line-height-text"
-      ${autoLineheight ? `checked="checked"` : ''}>
+      ${autoLineheight === false ? '' : `checked="checked"`}>
       Auto Line Height
     </label>
   </div>
@@ -77,7 +77,7 @@ export default function template(context) {
       <input
         type="checkbox"
         class="textae-editor__setting-dialog__boundary-detection-text"
-        ${boundaryDetection ? `checked="checked"` : ''}>
+        ${boundaryDetection === false ? '' : `checked="checked"`}>
       Boundary Detection
     </label>
   </div>
