@@ -3339,6 +3339,9 @@ ul.jsondiffpatch-textdiff {
 .textae-editor__load-dialog--expanded .edit {
   display: none;
 }
+.textae-editor__load-dialog__format {
+  display: flex;
+}
 .textae-editor__save-dialog__container {
   display: flex;
   flex-direction: column;

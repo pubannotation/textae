@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [13.8.0](https://github.com/pubannotation/textae/compare/v13.7.0...v13.8.0) (2025-02-06)
+
+
+### Features
+
+* Add support for load SimpleInlineTextAnnotation from instant source ([b789353](https://github.com/pubannotation/textae/commit/b78935324d0503110aceae27ceb55274c5f180ff))
+
+
+### Bug Fixes
+
+* Add exception handling to annotation local import ([eac5133](https://github.com/pubannotation/textae/commit/eac5133abba4e43f8210a3f182d87a6223c40f82))
+* Disable unnecessary buttons when editing in load dialog ([09f7c85](https://github.com/pubannotation/textae/commit/09f7c855d7ee4132c76207ce864ab7f22eda209c))
+* Output log for errors other than conversion error ([403d94f](https://github.com/pubannotation/textae/commit/403d94f41c90d1c68384aad37685bb41b2297663))
+* Split LoadDialog class to isolate configuration load and prevent effects from new annotation load features ([2abd85f](https://github.com/pubannotation/textae/commit/2abd85fa7fea7de0043b9e7e83adb01e4ab29f80))
+* Toast messages are not displayed when the configuration file loaded from the URL does not exist. ([80a9f80](https://github.com/pubannotation/textae/commit/80a9f8096769a27de768ca2cfdc6a426a7a6295f))
+* Trying to fix CI build error ([ee28f29](https://github.com/pubannotation/textae/commit/ee28f29972295a3da6ae8f44a2c6c3a913152b60))
+
 ## [13.7.0](https://github.com/pubannotation/textae/compare/v13.6.1...v13.7.0) (2025-01-24)
 
 

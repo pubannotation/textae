@@ -58492,7 +58492,7 @@
      *
      * @param {import('../../../../AnnotationModel/SpanInstanceContainer').default} spanInstanceContainer
      */
-    /* harmony default export */ function shrinkSpanToSelection(
+    function shrinkSpanToSelection(
       spanInstanceContainer,
       sourceDoc,
       commander,
@@ -65176,7 +65176,7 @@
       bindChangeLockConfig(content, typeDictionary)
     } // ./package.json
 
-    const package_namespaceObject = { rE: '13.7.0' } // ./src/lib/component/SettingDialog/template.js
+    const package_namespaceObject = { rE: '13.8.0' } // ./src/lib/component/SettingDialog/template.js
     function SettingDialog_template_template(context) {
       const {
         typeGap,
@@ -65463,11 +65463,8 @@
           this.#editModeSwitch.currentMode.applyTextSelectionWithTouchDevice()
         }
       }
-    }
+    } // ./src/lib/isJSON.js
 
-    // EXTERNAL MODULE: ./node_modules/dropzone/dist/dropzone.js
-    var dropzone = __webpack_require__(2628)
-    var dropzone_default = /*#__PURE__*/ __webpack_require__.n(dropzone) // ./src/lib/isJSON.js
     /* harmony default export */ function isJSON(arg) {
       if (typeof arg !== 'string') {
         return false
@@ -65480,24 +65477,6 @@
       }
 
       return true
-    } // ./src/lib/component/LoadDialog/maximizeOverlay.js
-
-    /* harmony default export */ function maximizeOverlay(overlayDropzone) {
-      const { element } = overlayDropzone
-      element.classList.add(
-        'textae-editor__load-dialog__overlay-dropzone--maximized'
-      )
-      element.style.zIndex = parseInt(element.style.zIndex) + 1
-    } // ./src/lib/component/LoadDialog/revertMaximizeOverlay.js
-
-    /* harmony default export */ function revertMaximizeOverlay(
-      overlayDropzone,
-      zIndexOfOverlayDropzone
-    ) {
-      overlayDropzone.element.classList.remove(
-        'textae-editor__load-dialog__overlay-dropzone--maximized'
-      )
-      overlayDropzone.element.style.zIndex = zIndexOfOverlayDropzone
     } // ./node_modules/@marijn/find-cluster-break/src/index.js
 
     // These are filled with ranges (rangeFrom[i] up to but not including
@@ -102486,7 +102465,7 @@ package may help with that (see
         ]
       }
       return result
-    } // ./src/lib/component/LoadDialog/initJSONEditor.js
+    } // ./src/lib/component/initJSONEditor.js
 
     function initJSONEditor(textarea, dialogHeight) {
       const editorHeightTheme = EditorView.theme({
@@ -102510,73 +102489,68 @@ package may help with that (see
       textarea.style.display = 'none'
 
       return view
-    } // ./src/lib/component/LoadDialog/index.js
+    } // ./src/lib/component/LoadAnnotationDialog/initInlineEditor.js
 
-    function LoadDialog_template(context) {
-      const { url } = context
+    function initInlineEditor(textarea, dialogHeight) {
+      const editorHeightTheme = EditorView.theme({
+        '&': {
+          height: `${dialogHeight * 0.6}px`
+        }
+      })
 
-      return `
-<div class="textae-editor__load-dialog__container">
-  <div class="textae-editor__load-dialog__row">
-    <label>
-      URL
-    </label>
-    <input 
-      type="text" 
-      value="${url}" 
-      class="textae-editor__load-dialog__url-text">
-    <input 
-      type="button" 
-      class="textae-editor__load-dialog__url-button"
-      ${url ? `` : `disabled="disabled"`}
-      value="Open">
-  </div>
-  <div class="textae-editor__load-dialog__row">
-    <label>
-      Local
-    </label>
-    <form class="dropzone textae-editor__load-dialog__dropzone">
-      <div class="dz-message">
-        Drop a file here or click to select
-      </div>
-    </form>
-    <div class="textae-editor__load-dialog__dz-file-preview">
-      <div class="dz-filename"><span data-dz-name>No file selected</span></div>
-    </div>
-    <input 
-      type="button" 
-      class="textae-editor__load-dialog__local-button"
-      disabled="disabled"
-      value="Open">
-  </div>
-  <div class="textae-editor__load-dialog__row json">
-    <label>
-      JSON
-    </label>
-    <textarea class="textae-editor__load-dialog__textarea"></textarea>
-    <input type="button" value="Edit" class="edit" disabled="disabled">
-    <input type="button" value="Open" class="instant" disabled="disabled">
-  </div>
-</div>`
-    }
+      const view = new EditorView({
+        doc: textarea.value,
+        extensions: [
+          basicSetup,
+          dist_syntaxHighlighting(dist_defaultHighlightStyle),
+          editorHeightTheme
+        ]
+      })
 
-    const CONFIRM_DISCARD_CHANGE_MESSAGE =
-      'There is a change that has not been saved. If you procceed now, you will lose it.'
+      // Replace the textarea with the new editor.
+      textarea.parentNode.insertBefore(view.dom, textarea)
+      textarea.style.display = 'none'
 
-    class LoadDialog extends Dialog {
-      constructor(
-        title,
-        url,
-        loadFromServer,
-        readFromFile,
-        readFromText,
-        hasChange
-      ) {
-        super(title, LoadDialog_template({ url }))
+      return view
+    } // ./src/lib/component/isUserConfirm.js
 
+    function isUserConfirm(hasChange) {
+      const CONFIRM_DISCARD_CHANGE_MESSAGE =
+        'There is a change that has not been saved. If you proceed now, you will lose it.'
+
+      return !hasChange || window.confirm(CONFIRM_DISCARD_CHANGE_MESSAGE)
+    } // ./src/lib/component/LoadDialogURLComponent.js
+
+    class LoadDialogURLComponent {
+      #url
+
+      constructor(url) {
+        this.#url = url
+      }
+
+      get template() {
+        return anemone`
+<div class="textae-editor__load-dialog__row">
+  <label>
+    URL
+  </label>
+  <input
+    type="text"
+    value="${this.#url}"
+    class="textae-editor__load-dialog__url-text">
+  <input
+    type="button"
+    class="textae-editor__load-dialog__url-button"
+    ${this.#url ? `` : `disabled="disabled"`}
+    value="Open">
+</div>
+`
+      }
+
+      bind(element, onOpen) {
         // Disabled the button to load from the URL when no URL.
         delegate_default()(
-          super.el,
+          element,
           '.textae-editor__load-dialog__url-text',
           'input',
           (e) => {
@@ -102584,90 +102558,78 @@ package may help with that (see
           }
         )
 
-        delegate_default()(
-          super.el,
-          '.textae-editor__load-dialog__textarea',
-          'input',
-          (e) => {
-            enableHTMLElement(
-              super.el.querySelector('[type="button"].instant'),
-              e.target.value
-            )
-            enableHTMLElement(
-              super.el.querySelector('[type="button"].edit'),
-              e.target.value
-            )
-          }
-        )
-
-        const isUserConfirm = () =>
-          !hasChange || window.confirm(CONFIRM_DISCARD_CHANGE_MESSAGE)
-
         // Load from the URL.
         delegate_default()(
-          super.el,
+          element,
           '.textae-editor__load-dialog__url-button',
           'click',
-          (e) => {
-            if (isUserConfirm()) {
-              loadFromServer(e.target.previousElementSibling.value)
-            }
-            super.close()
-          }
+          (e) => onOpen(e.target.previousElementSibling.value)
         )
+      }
+    }
 
-        // Load from a file.
-        delegate_default()(
-          super.el,
-          '.textae-editor__load-dialog__local-button',
-          'click',
-          () => {
-            if (isUserConfirm()) {
-              readFromFile(this._droppedFile)
-            }
+    // EXTERNAL MODULE: ./node_modules/dropzone/dist/dropzone.js
+    var dropzone = __webpack_require__(2628)
+    var dropzone_default = /*#__PURE__*/ __webpack_require__.n(dropzone) // ./src/lib/component/maximizeOverlay.js
+    /* harmony default export */ function maximizeOverlay(overlayDropzone) {
+      const { element } = overlayDropzone
+      element.classList.add(
+        'textae-editor__load-dialog__overlay-dropzone--maximized'
+      )
+      element.style.zIndex = parseInt(element.style.zIndex) + 1
+    } // ./src/lib/component/revertMaximizeOverlay.js
 
-            super.close()
-          }
-        )
+    /* harmony default export */ function revertMaximizeOverlay(
+      overlayDropzone,
+      zIndexOfOverlayDropzone
+    ) {
+      overlayDropzone.element.classList.remove(
+        'textae-editor__load-dialog__overlay-dropzone--maximized'
+      )
+      overlayDropzone.element.style.zIndex = zIndexOfOverlayDropzone
+    } // ./src/lib/component/LoadDialogLocalComponent.js
 
-        // Load from a textarea
-        let jsonEditor = null
-        delegate_default()(super.el, '[type="button"].instant', 'click', () => {
-          const text = jsonEditor
-            ? jsonEditor.state.doc.toString()
-            : super.el.querySelector('.textae-editor__load-dialog__textarea')
-                .value
-          if (isUserConfirm()) {
-            readFromText(text)
-          }
+    class LoadDialogLocalComponent {
+      #droppedFile
 
-          super.close()
-        })
-
-        // Open JSON editor
-        delegate_default()(super.el, '[type="button"].edit', 'click', () => {
-          this._expandDialog()
-          const textarea = super.el.querySelector(
-            '.textae-editor__load-dialog__textarea'
-          )
-          if (isJSON(textarea.value)) {
-            textarea.value = JSON.stringify(JSON.parse(textarea.value), null, 2)
-          }
-
-          const dialogHeight = super.el.closest(
-            '.textae-editor__dialog'
-          ).clientHeight
-          jsonEditor = initJSONEditor(textarea, dialogHeight)
-        })
+      get template() {
+        return `
+<div class="textae-editor__load-dialog__row">
+  <label>
+    Local
+  </label>
+  <form class="dropzone textae-editor__load-dialog__dropzone">
+    <div class="dz-message">
+      Drop a file here or click to select
+    </div>
+  </form>
+  <div class="textae-editor__load-dialog__dz-file-preview">
+    <div class="dz-filename"><span data-dz-name>No file selected</span></div>
+  </div>
+  <input
+    type="button"
+    class="textae-editor__load-dialog__local-button"
+    disabled="disabled"
+    value="Open">
+</div>
+`
       }
 
-      open() {
-        super.open()
+      bind(element, onOpen) {
+        // Load from a file.
+        delegate_default()(
+          element,
+          '.textae-editor__load-dialog__local-button',
+          'click',
+          () => onOpen(this.#droppedFile)
+        )
+      }
 
+      intiializeDropzone(element) {
         const dropzoneConfig = {
           url: 'nothing', //Because it's a setting that cannot be omitted.
           previewsContainer: '.textae-editor__load-dialog__dz-file-preview',
-          previewTemplate: super.el.querySelector(
+          previewTemplate: element.querySelector(
             '.textae-editor__load-dialog__dz-file-preview'
           ).innerHTML
         }
@@ -102688,7 +102650,7 @@ package may help with that (see
           )
           .on('addedfile', (file) => {
             revertMaximizeOverlay(overlayDropzone, zIndexOfOverlayDropzone)
-            this._showFilePreview(file)
+            this.#showFilePreview(element, file)
           })
 
         const dialogDropzone = new (dropzone_default())(
@@ -102696,30 +102658,302 @@ package may help with that (see
           dropzoneConfig
         )
         dialogDropzone.on('addedfile', (file) => {
-          this._showFilePreview(file)
+          this.#showFilePreview(element, file)
         })
       }
 
-      _showFilePreview(file) {
+      #showFilePreview(element, file) {
         // Remove the previous file name.
-        super.el
+        element
           .querySelector('.textae-editor__load-dialog__dz-file-preview')
           .firstElementChild.remove()
 
         // Add file name to title attrribute to show tooltip.
-        super.el
+        element
           .querySelector('.textae-editor__load-dialog__dz-file-preview > div')
           .setAttribute('title', file.name)
 
         // Enables the button to open the file.
-        this._droppedFile = file
+        this.#droppedFile = file
         enableHTMLElement(
-          super.el.querySelector('.textae-editor__load-dialog__local-button'),
+          element.querySelector('.textae-editor__load-dialog__local-button'),
           true
         )
       }
+    } // ./src/lib/component/LoadAnnotationDialog/index.js
 
-      _expandDialog() {
+    function LoadAnnotationDialog_template(context) {
+      const { url, local } = context
+
+      return `
+<div class="textae-editor__load-dialog__container">
+  ${url}
+  ${local}
+  <div class="textae-editor__load-dialog__row">
+    <label>
+      Local
+    </label>
+    <form class="dropzone textae-editor__load-dialog__dropzone">
+      <div class="dz-message">
+        Drop a file here or click to select
+      </div>
+    </form>
+    <div class="textae-editor__load-dialog__dz-file-preview">
+      <div class="dz-filename"><span data-dz-name>No file selected</span></div>
+    </div>
+    <input
+      type="button"
+      class="textae-editor__load-dialog__local-button"
+      disabled="disabled"
+      value="Open">
+  </div>
+  <div class="textae-editor__load-dialog__row">
+    <div class="textae-editor__load-dialog__format">
+      <label class="textae-editor__load-dialog__format-button">
+        <input type="radio" name="format" value="json" checked>JSON
+      </label>
+      <label class="textae-editor__load-dialog__format-button">
+        <input type="radio" name="format" value="inline">Simple Inline Text Annotation Format
+      </label>
+    </div>
+    <textarea class="textae-editor__load-dialog__textarea"></textarea>
+    <input type="button" value="Edit" class="edit" disabled="disabled">
+    <input type="button" value="Open" class="instant" disabled="disabled">
+  </div>
+</div>`
+    }
+
+    class LoadAnnotationDialog extends Dialog {
+      #localComponent
+
+      constructor(
+        title,
+        url,
+        loadFromServer,
+        readFromFile,
+        readFromText,
+        hasChange
+      ) {
+        const urlComponent = new LoadDialogURLComponent(url)
+        const localComponent = new LoadDialogLocalComponent()
+
+        super(
+          title,
+          LoadAnnotationDialog_template({
+            url: urlComponent.template,
+            local: localComponent.template
+          })
+        )
+
+        this.#localComponent = localComponent
+
+        urlComponent.bind(super.el, (url) => {
+          if (isUserConfirm(hasChange)) {
+            loadFromServer(url)
+          }
+          super.close()
+        })
+
+        this.#localComponent.bind(super.el, (droppedFile) => {
+          if (isUserConfirm(hasChange)) {
+            readFromFile(droppedFile)
+          }
+
+          super.close()
+        })
+
+        delegate_default()(
+          super.el,
+          '.textae-editor__load-dialog__textarea',
+          'input',
+          (e) => {
+            enableHTMLElement(
+              super.el.querySelector('[type="button"].instant'),
+              e.target.value
+            )
+            enableHTMLElement(
+              super.el.querySelector('[type="button"].edit'),
+              e.target.value
+            )
+          }
+        )
+
+        // Load from a textarea
+        let textEditor = null
+        delegate_default()(super.el, '[type="button"].instant', 'click', () => {
+          const text = textEditor
+            ? textEditor.state.doc.toString()
+            : super.el.querySelector('.textae-editor__load-dialog__textarea')
+                .value
+          const format = this.#getFormat()
+
+          if (isUserConfirm(hasChange)) {
+            readFromText(text, format)
+          }
+
+          super.close()
+        })
+
+        // Open JSON editor
+        delegate_default()(super.el, '[type="button"].edit', 'click', () => {
+          this.#expandDialog()
+          const textarea = super.el.querySelector(
+            '.textae-editor__load-dialog__textarea'
+          )
+          const format = this.#getFormat()
+
+          if (format === 'json' && isJSON(textarea.value)) {
+            textarea.value = JSON.stringify(JSON.parse(textarea.value), null, 2)
+          }
+
+          const dialogHeight = super.el.closest(
+            '.textae-editor__dialog'
+          ).clientHeight
+
+          textEditor =
+            format === 'json'
+              ? initJSONEditor(textarea, dialogHeight)
+              : initInlineEditor(textarea, dialogHeight)
+
+          // Disable buttons to prevent format change.
+          const formatButtons = super.el.querySelectorAll(
+            '.textae-editor__load-dialog__format-button input[type="radio"]'
+          )
+          for (const button of formatButtons) button.disabled = true
+          // Disable edit button to avoid create multiple editors.
+          super.el.querySelector('[type="button"].edit').disabled = true
+        })
+      }
+
+      open() {
+        super.open()
+        this.#localComponent.intiializeDropzone(super.el)
+      }
+
+      #expandDialog() {
+        super.el
+          .closest('.textae-editor__dialog')
+          .classList.add('textae-editor__load-dialog--expanded')
+      }
+
+      #getFormat() {
+        return super.el.querySelector('input[name="format"]:checked').value
+      }
+    } // ./src/lib/component/LoadConfigurationDialog.js
+
+    function LoadConfigurationDialog_template(context) {
+      const { url, local } = context
+
+      return `
+<div class="textae-editor__load-dialog__container">
+  ${url}
+  ${local}
+  <div class="textae-editor__load-dialog__row json">
+    <label>
+      JSON
+    </label>
+    <textarea class="textae-editor__load-dialog__textarea"></textarea>
+    <input type="button" value="Edit" class="edit" disabled="disabled">
+    <input type="button" value="Open" class="instant" disabled="disabled">
+  </div>
+</div>`
+    }
+
+    class LoadConfigurationDialog extends Dialog {
+      #localComponent
+
+      constructor(
+        title,
+        url,
+        loadFromServer,
+        readFromFile,
+        readFromText,
+        hasChange
+      ) {
+        const urlComponent = new LoadDialogURLComponent(url)
+        const localComponent = new LoadDialogLocalComponent()
+
+        super(
+          title,
+          LoadConfigurationDialog_template({
+            url: urlComponent.template,
+            local: localComponent.template
+          })
+        )
+
+        this.#localComponent = localComponent
+
+        urlComponent.bind(super.el, (url) => {
+          if (isUserConfirm(hasChange)) {
+            loadFromServer(url)
+          }
+          super.close()
+        })
+
+        this.#localComponent.bind(super.el, (droppedFile) => {
+          if (isUserConfirm(hasChange)) {
+            readFromFile(droppedFile)
+          }
+
+          super.close()
+        })
+
+        delegate_default()(
+          super.el,
+          '.textae-editor__load-dialog__textarea',
+          'input',
+          (e) => {
+            enableHTMLElement(
+              super.el.querySelector('[type="button"].instant'),
+              e.target.value
+            )
+            enableHTMLElement(
+              super.el.querySelector('[type="button"].edit'),
+              e.target.value
+            )
+          }
+        )
+
+        // Load from a textarea
+        let jsonEditor = null
+        delegate_default()(super.el, '[type="button"].instant', 'click', () => {
+          const text = jsonEditor
+            ? jsonEditor.state.doc.toString()
+            : super.el.querySelector('.textae-editor__load-dialog__textarea')
+                .value
+          if (isUserConfirm(hasChange)) {
+            readFromText(text)
+          }
+
+          super.close()
+        })
+
+        // Open JSON editor
+        delegate_default()(super.el, '[type="button"].edit', 'click', () => {
+          this.#expandDialog()
+          const textarea = super.el.querySelector(
+            '.textae-editor__load-dialog__textarea'
+          )
+          if (isJSON(textarea.value)) {
+            textarea.value = JSON.stringify(JSON.parse(textarea.value), null, 2)
+          }
+
+          const dialogHeight = super.el.closest(
+            '.textae-editor__dialog'
+          ).clientHeight
+          jsonEditor = initJSONEditor(textarea, dialogHeight)
+
+          // Disable edit button to avoid create multiple editors.
+          super.el.querySelector('[type="button"].edit').disabled = true
+        })
+      }
+
+      open() {
+        super.open()
+        this.#localComponent.intiializeDropzone(super.el)
+      }
+
+      #expandDialog() {
         super.el
           .closest('.textae-editor__dialog')
           .classList.add('textae-editor__load-dialog--expanded')
@@ -102732,30 +102966,23 @@ package may help with that (see
       })
 
       return URL.createObjectURL(blob)
-    } // ./src/lib/AnnotationConverter.js
+    } // ./src/lib/exceptions/FormatConversionError.js
 
-    class AnnotationConverter {
-      static async inline2json(inlineAnnotation) {
-        const url = 'https://pubannotation.org/conversions/inline2json'
-        const response = await fetch(url, {
-          method: 'POST',
-          body: inlineAnnotation,
-          headers: {
-            'Content-type': 'text/markdown'
-          }
-        })
+    class FormatConversionError extends Error {
+      constructor(message) {
+        super(message)
+        this.name = 'FormatConversionError'
+      }
+    } // ./src/lib/JSONAnnotationConverter.js
 
-        if (!response.ok) {
-          const errorMessage = await response.text()
-          throw Error(errorMessage)
-        }
-
-        return await response.json()
+    class JSONAnnotationConverter {
+      #url
+      constructor(url) {
+        this.#url = url
       }
 
-      static async json2inline(jsonAnnotation) {
-        const url = 'https://pubannotation.org/conversions/json2inline'
-        const response = await fetch(url, {
+      async toInline(jsonAnnotation) {
+        const response = await fetch(this.#url, {
           method: 'POST',
           body: JSON.stringify(jsonAnnotation),
           headers: {
@@ -102765,7 +102992,7 @@ package may help with that (see
 
         if (!response.ok) {
           const errorMessage = await response.text()
-          throw Error(errorMessage)
+          throw new FormatConversionError(errorMessage)
         }
 
         return await response.text()
@@ -102776,7 +103003,9 @@ package may help with that (see
       if (format === 'json') {
         return createDownloadPath(data)
       } else if (format === 'inline') {
-        const inlineData = await AnnotationConverter.json2inline(data)
+        const inlineData = await new JSONAnnotationConverter(
+          'https://pubannotation.org/conversions/json2inline'
+        ).toInline(data)
 
         const blob = new Blob([inlineData], { type: 'text/plain' })
         return URL.createObjectURL(blob)
@@ -102798,27 +103027,17 @@ package may help with that (see
     async function downloadAnnotationFile(e, data, format, eventEmitter) {
       e.preventDefault()
 
-      try {
-        const downloadPath = await createDownloadPathForFormat(data, format)
-        downloadAnnotation(downloadPath, e.target.previousElementSibling.value)
+      const downloadPath = await createDownloadPathForFormat(data, format)
+      downloadAnnotation(downloadPath, e.target.previousElementSibling.value)
 
-        eventEmitter.emit('textae-event.resource.annotation.save', data)
-      } catch (e) {
-        console.error(e)
-        return
-      }
+      eventEmitter.emit('textae-event.resource.annotation.save', data)
     } // ./src/lib/component/SaveAnnotationDialog/bind/viewSource.js
 
     async function viewSource(data, format, eventEmitter) {
-      try {
-        const downloadPath = await createDownloadPathForFormat(data, format)
-        window.open(downloadPath, '_blank')
+      const downloadPath = await createDownloadPathForFormat(data, format)
+      window.open(downloadPath, '_blank')
 
-        eventEmitter.emit('textae-event.resource.annotation.save', data)
-      } catch (e) {
-        console.error(e)
-        return
-      }
+      eventEmitter.emit('textae-event.resource.annotation.save', data)
     } // ./src/lib/component/SaveAnnotationDialog/bind/index.js
 
     /* harmony default export */ function bind(
@@ -102870,9 +103089,16 @@ package may help with that (see
         'click',
         async (e) => {
           const format = getFormat()
-          await downloadAnnotationFile(e, data, format, eventEmitter)
 
-          closeDialog()
+          try {
+            await downloadAnnotationFile(e, data, format, eventEmitter)
+          } catch (error) {
+            alertify_default().error(
+              `Failed to download the source as ${format} format.`
+            )
+          } finally {
+            closeDialog()
+          }
         }
       )
 
@@ -102882,8 +103108,16 @@ package may help with that (see
         'click',
         async () => {
           const format = getFormat()
-          await viewSource(data, format, eventEmitter)
-          closeDialog()
+
+          try {
+            await viewSource(data, format, eventEmitter)
+          } catch (error) {
+            alertify_default().error(
+              `Failed to view the source as ${format} format.`
+            )
+          } finally {
+            closeDialog()
+          }
         }
       )
     } // ./src/lib/component/SaveAnnotationDialog/index.js
@@ -105010,12 +105244,45 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
             return `${this.#type}`
         }
       }
-    } // ./src/lib/Editor/UseCase/PersistenceInterface/readAnnotationFile.js
+    } // ./src/lib/Editor/InlineAnnotationConverter.js
 
-    /* harmony default export */ async function readAnnotationFile(
-      file,
-      eventEmitter
-    ) {
+    class InlineAnnotationConverter {
+      #url
+      constructor(url) {
+        this.#url = url
+      }
+
+      async toJSON(inlineAnnotation) {
+        const response = await fetch(this.#url, {
+          method: 'POST',
+          body: inlineAnnotation,
+          headers: {
+            'Content-type': 'text/markdown'
+          }
+        })
+
+        if (!response.ok) {
+          const errorMessage = await response.text()
+          throw new FormatConversionError(errorMessage)
+        }
+
+        return await response.json()
+      }
+    } // ./src/lib/Editor/UseCase/PersistenceInterface/readAnnotationFile/parseMdFile.js
+
+    async function parseMdFile(fileContent) {
+      try {
+        const annotation = await new InlineAnnotationConverter(
+          'https://pubannotation.org/conversions/inline2json'
+        ).toJSON(fileContent)
+
+        return annotation
+      } catch {
+        return null
+      }
+    } // ./src/lib/Editor/UseCase/PersistenceInterface/readAnnotationFile/index.js
+
+    async function readAnnotationFile(file, eventEmitter) {
       const event = await readFile(file)
       const fileContent = event.target.result
 
@@ -105032,9 +105299,17 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
       }
 
       if (isMdFile(file.name)) {
-        const annotation = await AnnotationConverter.inline2json(fileContent)
+        const annotation = await parseMdFile(fileContent)
 
-        if (annotation && annotation.text) {
+        if (!annotation) {
+          const dataSource = DataSource.createFileSource(file.name)
+          alertify_default().error(
+            `Failed to load annotation from ${dataSource.displayName}.`
+          )
+          return
+        }
+
+        if (annotation.text) {
           eventEmitter.emit(
             'textae-event.resource.annotation.load.success',
             DataSource.createFileSource(file.name, annotation)
@@ -105095,12 +105370,30 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
       return true
     } // ./src/lib/Editor/UseCase/PersistenceInterface/readAnnotationText.js
 
-    function readAnnotationText(eventEmitter, text) {
-      if (!isJSON(text)) {
-        return false
-      }
+    async function readAnnotationText(eventEmitter, text, format) {
+      if (format === 'json') {
+        if (isJSON(text)) {
+          loadAnnotation(eventEmitter, JSON.parse(text))
+        } else {
+          eventEmitter.emit(
+            'textae-event.resource.annotation.format.error',
+            DataSource.createInstantSource()
+          )
+        }
+      } else if (format === 'inline') {
+        try {
+          const annotation = await new InlineAnnotationConverter(
+            'https://pubannotation.org/conversions/inline2json'
+          ).toJSON(text)
 
-      return loadAnnotation(eventEmitter, JSON.parse(text))
+          loadAnnotation(eventEmitter, annotation)
+        } catch {
+          const dataSource = DataSource.createInstantSource()
+          alertify_default().error(
+            `Failed to load annotation from ${dataSource.displayName}.`
+          )
+        }
+      }
     } // ./src/lib/Editor/UseCase/PersistenceInterface/LastLoadedURL.js
 
     class LastLoadedURL {
@@ -105213,21 +105506,13 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
       }
 
       importAnnotation() {
-        new LoadDialog(
+        new LoadAnnotationDialog(
           'Load Annotations',
           this.#lastLoadedURL.annotation,
           (url) => this.#remoteResource.loadAnnotation(url),
           (file) => readAnnotationFile(file, this.#eventEmitter),
-          (text) => {
-            if (readAnnotationText(this.#eventEmitter, text)) {
-              return
-            }
-
-            this.#eventEmitter.emit(
-              'textae-event.resource.annotation.format.error',
-              DataSource.createInstantSource()
-            )
-          },
+          async (text, format) =>
+            await readAnnotationText(this.#eventEmitter, text, format),
           this.#annotationModelEventsObserver.hasChange
         ).open()
       }
@@ -105261,7 +105546,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
       }
 
       importConfiguration() {
-        new LoadDialog(
+        new LoadConfigurationDialog(
           'Load Configurations',
           this.#lastLoadedURL.configuration,
           (url) => this.#remoteResource.loadConfiguration(url),
@@ -108116,7 +108401,9 @@ data-button-type="${type}">
         return await response.json()
       } else if (isMarkdownResponse(response, url)) {
         const inline_annotation = await response.text()
-        return await AnnotationConverter.inline2json(inline_annotation)
+        return await new InlineAnnotationConverter(
+          'https://pubannotation.org/conversions/inline2json'
+        ).toJSON(inline_annotation)
       } else {
         throw new Error(
           'The content type of the loaded content is not supported.'
@@ -108154,7 +108441,9 @@ data-button-type="${type}">
             this.#failed(url)
           }
         } catch (e) {
-          console.error(e)
+          if (!(e instanceof FormatConversionError)) {
+            console.error(e)
+          }
           this.#failed(url)
         } finally {
           this.#eventEmitter.emit('textae-event.resource.endLoad')
@@ -108202,8 +108491,7 @@ data-button-type="${type}">
           } else {
             this.#failed(url)
           }
-        } catch (e) {
-          console.error(e)
+        } catch {
           this.#failed(url)
         }
       }
@@ -108252,6 +108540,8 @@ data-button-type="${type}">
                 .then((config) =>
                   this.#loaded(url, config, annotationModelSource)
                 )
+            } else {
+              this.#failed(url)
             }
           })
           .catch(() => this.#failed(url))
@@ -108317,7 +108607,9 @@ data-button-type="${type}">
       if (format === 'json') {
         return JSON.stringify(editedData)
       } else if (format === 'inline') {
-        return await AnnotationConverter.json2inline(editedData)
+        return await new JSONAnnotationConverter(
+          'https://pubannotation.org/conversions/json2inline'
+        ).toInline(editedData)
       }
     } // ./src/lib/Editor/RemoteResource/AnnotationSaver/waitForPopUpClose.js
 
@@ -108355,7 +108647,9 @@ data-button-type="${type}">
 
           await this.#processResponse(response, url, editedData)
         } catch (e) {
-          console.error(e)
+          if (!(e instanceof FormatConversionError)) {
+            console.error(e)
+          }
           this.#failed()
         } finally {
           this.#eventEmitter.emit('textae-event.resource.endSave')
@@ -109152,7 +109446,9 @@ data-button-type="${type}">
           if (isJSON(this.#annotation)) {
             return JSON.parse(this.#annotation)
           } else {
-            return await AnnotationConverter.inline2json(this.#annotation)
+            return await new InlineAnnotationConverter(
+              'https://pubannotation.org/conversions/inline2json'
+            ).toJSON(this.#annotation)
           }
         } catch {
           return null
