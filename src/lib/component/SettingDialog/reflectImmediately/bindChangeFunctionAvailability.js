@@ -19,7 +19,7 @@ export default function bindChangeFunctionAvailability(
         eventEmitter.emit('textae-event.configuration.reset')
       } else {
         functionAvailability.disable(functionName)
-        eventEmitter.on('textae-event.configuration.reset')
+        eventEmitter.emit('textae-event.configuration.reset')
       }
     })
   )
