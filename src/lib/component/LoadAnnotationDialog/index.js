@@ -21,7 +21,7 @@ function template(context) {
         <input type="radio" name="format" value="json" checked>JSON
       </label>
       <label class="textae-editor__load-dialog__format-button">
-        <input type="radio" name="format" value="inline">Simple Inline Text Annotation Format
+        <input type="radio" name="format" value="inline">Text
       </label>
     </div>
     <textarea class="textae-editor__load-dialog__textarea"></textarea>
