@@ -8,7 +8,7 @@ export default function bindChangeBlankCharacters(content, spanConfig) {
   delegate(
     content,
     '.textae-editor__setting-dialog__blank-character-input',
-    'input',
+    'change',
     debounce300(() => saveSpanConfig(content, spanConfig, 'blank'))
   )
 

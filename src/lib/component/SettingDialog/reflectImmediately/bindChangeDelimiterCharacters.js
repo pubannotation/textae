@@ -8,7 +8,7 @@ export default function bindChangeDelimiterCharacters(content, spanConfig) {
   delegate(
     content,
     '.textae-editor__setting-dialog__delimiter-character-input',
-    'input',
+    'change',
     debounce300(() => saveSpanConfig(content, spanConfig, 'delimiter'))
   )
 
