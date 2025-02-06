@@ -52,6 +52,8 @@ export default function template(context) {
         </tr>
         ${() =>
           delimiterCharacters
+            .slice()
+            .reverse()
             .map(
               (char) => `
               <tr>
@@ -78,6 +80,8 @@ export default function template(context) {
         </tr>
         ${() =>
           blankCharacters
+            .slice()
+            .reverse()
             .map(
               (char) => `
               <tr>

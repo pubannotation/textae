@@ -43,13 +43,13 @@ export default class SpanConfig {
 
   addDelimiterCharacter(char) {
     if (!this._delimiterCharacters.includes(char)) {
-      this._delimiterCharacters.unshift(char)
+      this._delimiterCharacters.push(char)
     }
   }
 
   addBlankCharacter(char) {
     if (!this._blankCharacters.includes(char)) {
-      this._blankCharacters.unshift(char)
+      this._blankCharacters.push(char)
     }
   }
 
