@@ -4,8 +4,8 @@ export default function addCharacterRow(target, type) {
   const addRow = target.closest('tr')
   const input = addRow.querySelector('input')
   const newValue = input.value
-  console.log(type)
   const newRow = document.createElement('tr')
+
   newRow.innerHTML = anemone`
     <td>
       <input
