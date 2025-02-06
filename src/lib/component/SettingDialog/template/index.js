@@ -91,17 +91,18 @@ export default function template(context) {
         </tr>
         ${() =>
           delimiterCharacters
-            .map((char) => {
-              return `<tr>
-            <td>
-              <input
-                type="text"
-                class="textae-editor__setting-dialog__delimiter-character-input"
-                value="${escapeForDisplay(char)}">
-            </td>
-            <td><button class="textae-editor__setting-dialog__delimiter-character-delete">&times;</button></td>
-          </tr>`
-            })
+            .map(
+              (char) => `
+              <tr>
+                <td>
+                  <input
+                    type="text"
+                    class="textae-editor__setting-dialog__delimiter-character-input"
+                    value="${escapeForDisplay(char)}">
+                </td>
+                <td><button class="textae-editor__setting-dialog__delimiter-character-delete">&times;</button></td>
+              </tr>`
+            )
             .join('')}
       </table>
     </details>
@@ -118,15 +119,15 @@ export default function template(context) {
           blankCharacters
             .map(
               (char) => `
-          <tr>
-            <td>
-              <input
-                type="text"
-                class="textae-editor__setting-dialog__blank-character-input"
-                value="${escapeForDisplay(char)}">
-            </td>
-            <td><button class="textae-editor__setting-dialog__blank-character-delete">&times;</button></td>
-          </tr>`
+              <tr>
+                <td>
+                  <input
+                    type="text"
+                    class="textae-editor__setting-dialog__blank-character-input"
+                    value="${escapeForDisplay(char)}">
+                </td>
+                <td><button class="textae-editor__setting-dialog__blank-character-delete">&times;</button></td>
+              </tr>`
             )
             .join('')}
       </table>
@@ -140,13 +141,13 @@ export default function template(context) {
           functionAvailability.names
             .map(
               (name) => `
-          <label>
-            <input
-              type="checkbox"
-              class="textae-editor__setting-dialog__function-availability-checkbox"
-              ${functionAvailability.isAvailable(name) ? `checked="checked"` : ''}>
-            ${name}
-          </label>`
+              <label>
+                <input
+                  type="checkbox"
+                  class="textae-editor__setting-dialog__function-availability-checkbox"
+                  ${functionAvailability.isAvailable(name) ? `checked="checked"` : ''}>
+                ${name}
+              </label>`
             )
             .join('')}
       </div>
