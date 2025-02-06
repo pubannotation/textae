@@ -1,7 +1,7 @@
 import delegate from 'delegate'
 import debounce300 from '../debounce300'
-import saveBlankCharacters from './saveBlankCharacters'
 import addBlankCharacter from './addBlankCharacter'
+import saveSpanConfig from '../saveSpanConfig'
 
 export default function bindChangeBlankCharacters(content, spanConfig) {
   // Save when existing character edited.
@@ -9,7 +9,7 @@ export default function bindChangeBlankCharacters(content, spanConfig) {
     content,
     '.textae-editor__setting-dialog__blank-character-input',
     'input',
-    debounce300(() => saveBlankCharacters(content, spanConfig))
+    debounce300(() => saveSpanConfig(content, spanConfig, 'blank'))
   )
 
   // Add character when "+" button click.
@@ -19,7 +19,7 @@ export default function bindChangeBlankCharacters(content, spanConfig) {
     'click',
     ({ target }) => {
       addBlankCharacter(target)
-      saveBlankCharacters(content, spanConfig)
+      saveSpanConfig(content, spanConfig, 'blank')
     }
   )
 
@@ -30,7 +30,7 @@ export default function bindChangeBlankCharacters(content, spanConfig) {
     'click',
     ({ target }) => {
       target.closest('tr').remove()
-      saveBlankCharacters(content, spanConfig)
+      saveSpanConfig(content, spanConfig, 'blank')
     }
   )
 }

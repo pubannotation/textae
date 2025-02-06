@@ -1,7 +1,7 @@
 import delegate from 'delegate'
 import debounce300 from '../debounce300'
-import saveDelimiterCharacters from './saveDelimiterCharacters'
 import addDelimiterCharacter from './addDelimiterCharacter'
+import saveSpanConfig from '../saveSpanConfig'
 
 export default function bindChangeDelimiterCharacters(content, spanConfig) {
   // Save when existing character edited.
@@ -9,7 +9,7 @@ export default function bindChangeDelimiterCharacters(content, spanConfig) {
     content,
     '.textae-editor__setting-dialog__delimiter-character-input',
     'input',
-    debounce300(() => saveDelimiterCharacters(content, spanConfig))
+    debounce300(() => saveSpanConfig(content, spanConfig, 'delimiter'))
   )
 
   // Add character when "+" button click.
@@ -19,7 +19,7 @@ export default function bindChangeDelimiterCharacters(content, spanConfig) {
     'click',
     ({ target }) => {
       addDelimiterCharacter(target)
-      saveDelimiterCharacters(content, spanConfig)
+      saveSpanConfig(content, spanConfig, 'delimiter')
     }
   )
 
@@ -30,7 +30,7 @@ export default function bindChangeDelimiterCharacters(content, spanConfig) {
     'click',
     ({ target }) => {
       target.closest('tr').remove()
-      saveDelimiterCharacters(content, spanConfig)
+      saveSpanConfig(content, spanConfig, 'delimiter')
     }
   )
 }
