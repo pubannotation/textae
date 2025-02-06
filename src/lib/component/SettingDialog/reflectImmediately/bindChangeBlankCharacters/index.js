@@ -9,10 +9,7 @@ export default function bindChangeBlankCharacters(content, spanConfig) {
     content,
     '.textae-editor__setting-dialog__blank-character-input',
     'input',
-    debounce300(({ target }) => {
-      const table = target.closest('table')
-      saveBlankCharacters(spanConfig, target)
-    })
+    debounce300(() => saveBlankCharacters(content, spanConfig))
   )
 
   // Add character when "+" button click.
@@ -21,9 +18,8 @@ export default function bindChangeBlankCharacters(content, spanConfig) {
     '.textae-editor__setting-dialog__blank-character-add',
     'click',
     ({ target }) => {
-      const table = target.closest('table')
       addBlankCharacter(target)
-      saveBlankCharacters(spanConfig, table)
+      saveBlankCharacters(content, spanConfig)
     }
   )
 
@@ -33,9 +29,8 @@ export default function bindChangeBlankCharacters(content, spanConfig) {
     '.textae-editor__setting-dialog__blank-character-delete',
     'click',
     ({ target }) => {
-      const table = target.closest('table')
       target.closest('tr').remove()
-      saveBlankCharacters(spanConfig, table)
+      saveBlankCharacters(content, spanConfig)
     }
   )
 }

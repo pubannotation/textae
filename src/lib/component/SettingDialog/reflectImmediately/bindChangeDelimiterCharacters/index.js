@@ -9,10 +9,7 @@ export default function bindChangeDelimiterCharacters(content, spanConfig) {
     content,
     '.textae-editor__setting-dialog__delimiter-character-input',
     'input',
-    debounce300(({ target }) => {
-      const table = target.closest('table')
-      saveDelimiterCharacters(spanConfig, table)
-    })
+    debounce300(() => saveDelimiterCharacters(content, spanConfig))
   )
 
   // Add character when "+" button click.
@@ -21,9 +18,8 @@ export default function bindChangeDelimiterCharacters(content, spanConfig) {
     '.textae-editor__setting-dialog__delimiter-character-add',
     'click',
     ({ target }) => {
-      const table = target.closest('table')
       addDelimiterCharacter(target)
-      saveDelimiterCharacters(spanConfig, table)
+      saveDelimiterCharacters(content, spanConfig)
     }
   )
 
@@ -33,9 +29,8 @@ export default function bindChangeDelimiterCharacters(content, spanConfig) {
     '.textae-editor__setting-dialog__delimiter-character-delete',
     'click',
     ({ target }) => {
-      const table = target.closest('table')
       target.closest('tr').remove()
-      saveDelimiterCharacters(spanConfig, table)
+      saveDelimiterCharacters(content, spanConfig)
     }
   )
 }
