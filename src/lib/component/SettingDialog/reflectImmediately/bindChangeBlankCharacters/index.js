@@ -9,7 +9,10 @@ export default function bindChangeBlankCharacters(content, spanConfig) {
     content,
     '.textae-editor__setting-dialog__blank-character-input',
     'input',
-    debounce300(({ target }) => saveBlankCharacters(spanConfig, target))
+    debounce300(({ target }) => {
+      const table = target.closest('table')
+      saveBlankCharacters(spanConfig, target)
+    })
   )
 
   // Add character when "+" button click.

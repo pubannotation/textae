@@ -9,7 +9,10 @@ export default function bindChangeDelimiterCharacters(content, spanConfig) {
     content,
     '.textae-editor__setting-dialog__delimiter-character-input',
     'input',
-    debounce300(({ target }) => saveDelimiterCharacters(spanConfig, target))
+    debounce300(({ target }) => {
+      const table = target.closest('table')
+      saveDelimiterCharacters(spanConfig, table)
+    })
   )
 
   // Add character when "+" button click.
