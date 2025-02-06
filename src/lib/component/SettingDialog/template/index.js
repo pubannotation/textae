@@ -42,15 +42,6 @@ export default function template(context) {
       class="textae-editor__setting-dialog__autocompletion_ws-text"
       value="${autocompletionWs}">
   </div>
-  <div class="textae-editor__setting-dialog__row">
-    <label>
-      <input
-        type="checkbox"
-        class="textae-editor__setting-dialog__lock-config-text"
-        ${typeDictionaryLocked ? `checked="checked"` : ''}>
-      Lock Edit Config
-    </label>
-  </div>
   <div class="textae-editor__setting-dialog__details">
     <details>
       <summary>Delimiter Characters</summary>
@@ -122,6 +113,15 @@ export default function template(context) {
             .join('')}
       </div>
     </details>
+  </div>
+  <div class="textae-editor__setting-dialog__row">
+    <label>
+      <input
+        type="checkbox"
+        class="textae-editor__setting-dialog__lock-config-text"
+        ${typeDictionaryLocked ? `checked="checked"` : ''}>
+      Lock Edit Config
+    </label>
   </div>
   <div class="textae-editor__setting-dialog__row">
     <label>Version ${version}</label>
