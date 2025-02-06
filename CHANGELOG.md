@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [13.8.1](https://github.com/pubannotation/textae/compare/v13.8.0...v13.8.1) (2025-02-06)
+
+
+### Bug Fixes
+
+* Label for selecting the text format for instant loading. ([7540aed](https://github.com/pubannotation/textae/commit/7540aedae63c6f15be362a77288d178ca371ef06))
+* Two drop zones are displayed in the annotation import dialog. ([475646b](https://github.com/pubannotation/textae/commit/475646b802d8337b371c1d728bad068d339880a8))
+
 ## [13.8.0](https://github.com/pubannotation/textae/compare/v13.7.0...v13.8.0) (2025-02-06)
 
 
