@@ -1,7 +1,7 @@
 import delegate from 'delegate'
-import debounce300 from '../debounce300'
-import addBlankCharacter from './addBlankCharacter'
-import saveSpanConfig from '../saveSpanConfig'
+import debounce300 from './debounce300'
+import addSpanConfig from './addSpanConfig'
+import saveSpanConfig from './saveSpanConfig'
 
 export default function bindChangeBlankCharacters(content, spanConfig) {
   // Save when existing character edited.
@@ -18,7 +18,7 @@ export default function bindChangeBlankCharacters(content, spanConfig) {
     '.textae-editor__setting-dialog__blank-character-add',
     'click',
     ({ target }) => {
-      addBlankCharacter(target)
+      addSpanConfig(target, 'blank')
       saveSpanConfig(content, spanConfig, 'blank')
     }
   )
