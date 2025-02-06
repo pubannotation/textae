@@ -8,12 +8,14 @@ export default function saveSpanConfig(content, spanConfig, type) {
   ].map((input) => input.value)
 
   const currentConfig = {
-    'delimiter characters':
-      type === 'delimiter'
-        ? unique(newCharacters)
-        : spanConfig.delimiterCharacters,
-    'non-edge characters':
-      type === 'blank' ? unique(newCharacters) : spanConfig.blankCharacters
+    'delimiter characters': spanConfig.delimiterCharacters,
+    'non-edge characters': spanConfig.blankCharacters
+  }
+
+  if (type === 'delimiter') {
+    currentConfig['delimiter characters'] = unique(newCharacters)
+  } else if (type === 'blank') {
+    currentConfig['non-edge characters'] = unique(newCharacters)
   }
 
   spanConfig.set(currentConfig)

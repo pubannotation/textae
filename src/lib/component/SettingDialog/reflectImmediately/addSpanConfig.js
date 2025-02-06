@@ -14,8 +14,7 @@ export default function addSpanConfig(target, type) {
           type="text"
           value="${newValue}">
       </td>
-      <td><button class="textae-editor__setting-dialog__${type}-character-delete">&times;</button></td>
-  `
+      <td><button class="textae-editor__setting-dialog__${type}-character-delete">&times;</button></td>`
 
     // Add newRow below the "+" button
     targetRow.parentElement.insertBefore(newRow, targetRow.nextElementSibling)

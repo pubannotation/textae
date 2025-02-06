@@ -12,9 +12,8 @@ export default function bindChangeFunctionAvailability(
     'change',
     debounce300(({ target }) => {
       const functionName = target.closest('label').textContent.trim()
-      const isChecked = target.checked
 
-      if (isChecked) {
+      if (target.checked) {
         functionAvailability.enable(functionName)
         eventEmitter.emit('textae-event.configuration.reset')
       } else {
