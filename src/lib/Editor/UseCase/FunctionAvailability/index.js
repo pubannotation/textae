@@ -17,12 +17,10 @@ export default class FunctionAvailability {
   }
 
   enable(innerName) {
-    // const innerName = this.#translator.translateToInnerNameFrom(functionName)
     this.#availabilities.set(innerName, true)
   }
 
   disable(innerName) {
-    // const innerName = this.#translator.translateToInnerNameFrom(functionName)
     this.#availabilities.set(innerName, false)
   }
 
