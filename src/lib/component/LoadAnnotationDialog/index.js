@@ -16,24 +16,6 @@ function template(context) {
   ${url}
   ${local}
   <div class="textae-editor__load-dialog__row">
-    <label>
-      Local
-    </label>
-    <form class="dropzone textae-editor__load-dialog__dropzone">
-      <div class="dz-message">
-        Drop a file here or click to select
-      </div>
-    </form>
-    <div class="textae-editor__load-dialog__dz-file-preview">
-      <div class="dz-filename"><span data-dz-name>No file selected</span></div>
-    </div>
-    <input
-      type="button"
-      class="textae-editor__load-dialog__local-button"
-      disabled="disabled"
-      value="Open">
-  </div>
-  <div class="textae-editor__load-dialog__row">
     <div class="textae-editor__load-dialog__format">
       <label class="textae-editor__load-dialog__format-button">
         <input type="radio" name="format" value="json" checked>JSON
