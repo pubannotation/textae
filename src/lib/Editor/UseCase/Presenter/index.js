@@ -14,7 +14,6 @@ export default class Presenter {
   #selectionModel
   #annotationModel
   #menuState
-  #originalData
   #spanConfig
   #functionAvailability
   #clipBoard
@@ -33,7 +32,6 @@ export default class Presenter {
     annotationModel,
     selectionModel,
     commander,
-    originalData,
     spanConfig,
     functionAvailability,
     clipBoard,
@@ -83,7 +81,6 @@ export default class Presenter {
     this.#selectionModel = selectionModel
     this.#annotationModel = annotationModel
     this.#menuState = menuState
-    this.#originalData = originalData
     this.#spanConfig = spanConfig
     this.#functionAvailability = functionAvailability
     this.#clipBoard = clipBoard
@@ -174,11 +171,9 @@ export default class Presenter {
   showSettingDialog() {
     new SettingDialog(
       this.#eventEmitter,
-      this.#menuState,
       this.#annotationModel.typeDictionary,
       this.#annotationModel.typeGap,
       this.#annotationModel.textBox,
-      this.#originalData.configuration,
       this.#spanConfig,
       this.#functionAvailability
     ).open()
