@@ -19,7 +19,7 @@ export default class AnnotationLoader {
         cache: 'no-cache',
         credentials: 'omit',
         headers: {
-          Accept: 'application/json, text/markdown'
+          Accept: 'application/json, text/plain'
         },
         signal: AbortSignal.timeout(30000)
       })
@@ -70,7 +70,7 @@ export default class AnnotationLoader {
         cache: 'no-cache',
         credentials: 'include',
         headers: {
-          Accept: 'application/json, text/markdown'
+          Accept: 'application/json, text/plain'
         },
         signal: AbortSignal.timeout(30000)
       })

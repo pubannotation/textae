@@ -11,7 +11,7 @@ export default class InlineAnnotationConverter {
       method: 'POST',
       body: inlineAnnotation,
       headers: {
-        'Content-type': 'text/markdown'
+        'Content-type': 'text/plain'
       }
     })
 
