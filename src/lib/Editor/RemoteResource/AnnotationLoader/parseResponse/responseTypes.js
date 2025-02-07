@@ -10,12 +10,12 @@ export function isJsonResponse(response, url) {
   )
 }
 
-export function isMarkdownResponse(response, url) {
+export function isTxtResponse(response, url) {
   const fileExtension = path.extname(url)
   const contentType = response.headers.get('Content-Type')
 
   return (
-    fileExtension === '.md' ||
-    (contentType && contentType.includes('text/markdown'))
+    fileExtension === '.txt' ||
+    (contentType && contentType.includes('text/plain'))
   )
 }

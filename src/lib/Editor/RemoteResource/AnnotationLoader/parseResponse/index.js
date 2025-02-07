@@ -1,10 +1,10 @@
-import { isJsonResponse, isMarkdownResponse } from './responseTypes'
+import { isJsonResponse, isTxtResponse } from './responseTypes'
 import InlineAnnotationConverter from '../../../InlineAnnotationConverter'
 
 export default async function parseResponse(response, url) {
   if (isJsonResponse(response, url)) {
     return await response.json()
-  } else if (isMarkdownResponse(response, url)) {
+  } else if (isTxtResponse(response, url)) {
     const inline_annotation = await response.text()
     return await new InlineAnnotationConverter(
       'https://pubannotation.org/conversions/inline2json'

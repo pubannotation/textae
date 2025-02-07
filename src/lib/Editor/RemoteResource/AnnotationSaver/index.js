@@ -36,7 +36,7 @@ export default class AnnotationSaver {
 
   async #postTo(url, body) {
     const contentType =
-      this.#format === 'json' ? 'application/json' : 'text/markdown'
+      this.#format === 'json' ? 'application/json' : 'text/plain'
 
     const opt = {
       method: 'POST',
