@@ -4,17 +4,17 @@ export default function saveSpanConfig(content, spanConfig) {
   const delimiterInputs = content.querySelectorAll(
     '.textae-editor__setting-dialog__delimiter-character-input'
   )
+  // Using replace to decode \n.
   // Using reverse to store the added value at the end of the array.
   const newDelimiterCharacters = Array.from(delimiterInputs)
-    .map((input) => input.value)
+    .map((input) => input.value.replace(/\\n/g, '\n'))
     .reverse()
 
   const blankInputs = content.querySelectorAll(
     '.textae-editor__setting-dialog__blank-character-input'
   )
-  // Using reverse to store the added value at the end of the array.
   const newBlankCharacters = Array.from(blankInputs)
-    .map((input) => input.value)
+    .map((input) => input.value.replace(/\\n/g, '\n'))
     .reverse()
 
   // Create new spanConfig without duplicates.
