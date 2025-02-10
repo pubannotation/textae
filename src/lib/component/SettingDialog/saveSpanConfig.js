@@ -1,3 +1,5 @@
+import validateConfiguration from './validateConfiguration'
+
 export default function saveSpanConfig(content, spanConfig) {
   const delimiterInputs = content.querySelectorAll(
     '.textae-editor__setting-dialog__delimiter-character-input'
@@ -15,9 +17,12 @@ export default function saveSpanConfig(content, spanConfig) {
     .map((input) => input.value)
     .reverse()
 
-  // Save spanConfig without duplicates.
-  spanConfig.set({
+  // Create new spanConfig without duplicates.
+  const newSpanConfig = {
     'delimiter characters': Array.from(new Set(newDelimiterCharacters)),
     'non-edge characters': Array.from(new Set(newBlankCharacters))
-  })
+  }
+
+  validateConfiguration(newSpanConfig)
+  spanConfig.set(newSpanConfig)
 }
