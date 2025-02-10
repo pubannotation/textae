@@ -3,6 +3,7 @@ import Dialog from '../Dialog'
 import reflectImmediately from './reflectImmediately'
 import packageJson from '../../../../package.json'
 import template from './template'
+import saveAutocompletionWs from './saveAutocompletionWs'
 import saveSpanConfig from './saveSpanConfig'
 import $ from 'jquery'
 import bindAddCharacter from './bindAddCharacter'
@@ -56,6 +57,7 @@ export default class SettingDialog extends Dialog {
 
     // Save SpanConfig when dialog close.
     $(this.el).on('dialogclose', () => {
+      saveAutocompletionWs(super.el, typeDictionary)
       saveSpanConfig(super.el, spanConfig)
     })
   }
