@@ -48,7 +48,7 @@ export default function template(context) {
       <table>
         <tr class="textae-editor__setting-dialog__delimiter-character-add-row">
           <td><input class="textae-editor__setting-dialog__delimiter-character-add-input" type="text"></td>
-          <td><button class="textae-editor__setting-dialog__delimiter-character-add">+</button></td>
+          <td><button class="textae-editor__setting-dialog__delimiter-character-add-button">+</button></td>
         </tr>
         ${() =>
           delimiterCharacters
@@ -63,7 +63,7 @@ export default function template(context) {
                     class="textae-editor__setting-dialog__delimiter-character-input"
                     value="${escapeForDisplay(char)}">
                 </td>
-                <td><button class="textae-editor__setting-dialog__delimiter-character-delete">&times;</button></td>
+                <td><button class="textae-editor__setting-dialog__delimiter-character-delete-button">&times;</button></td>
               </tr>`
             )
             .join('')}
@@ -76,7 +76,7 @@ export default function template(context) {
       <table>
         <tr class="textae-editor__setting-dialog__blank-character-add-row">
           <td><input class="textae-editor__setting-dialog__blank-character-add-input" type="text"></td>
-           <td><button class="textae-editor__setting-dialog__blank-character-add">+</button></td>
+           <td><button class="textae-editor__setting-dialog__blank-character-add-button">+</button></td>
         </tr>
         ${() =>
           blankCharacters
@@ -91,7 +91,7 @@ export default function template(context) {
                     class="textae-editor__setting-dialog__blank-character-input"
                     value="${escapeForDisplay(char)}">
                 </td>
-                <td><button class="textae-editor__setting-dialog__blank-character-delete">&times;</button></td>
+                <td><button class="textae-editor__setting-dialog__blank-character-delete-button">&times;</button></td>
               </tr>`
             )
             .join('')}
@@ -106,7 +106,7 @@ export default function template(context) {
           functionAvailability.names
             .map(
               (name) => `
-              <label class="textae-editor__setting-dialog__function-availability-name">
+              <label class="textae-editor__setting-dialog__function-availability-label">
                 <input
                   type="checkbox"
                   class="textae-editor__setting-dialog__function-availability-checkbox"

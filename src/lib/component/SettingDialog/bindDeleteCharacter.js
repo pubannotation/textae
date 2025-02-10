@@ -3,7 +3,7 @@ import delegate from 'delegate'
 export default function bindDeleteCharacter(content) {
   delegate(
     content,
-    '.textae-editor__setting-dialog__delimiter-character-delete',
+    '.textae-editor__setting-dialog__delimiter-character-delete-button',
     'click',
     ({ target }) => {
       target
@@ -14,7 +14,7 @@ export default function bindDeleteCharacter(content) {
 
   delegate(
     content,
-    '.textae-editor__setting-dialog__blank-character-delete',
+    '.textae-editor__setting-dialog__blank-character-delete-button',
     'click',
     ({ target }) => {
       target

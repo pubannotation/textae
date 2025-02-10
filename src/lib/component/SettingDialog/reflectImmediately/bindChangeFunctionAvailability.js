@@ -12,7 +12,7 @@ export default function bindChangeFunctionAvailability(
     'change',
     debounce300(({ target }) => {
       const functionName = target
-        .closest('.textae-editor__setting-dialog__function-availability-name')
+        .closest('.textae-editor__setting-dialog__function-availability-label')
         .textContent.trim()
 
       if (target.checked) {
