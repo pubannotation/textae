@@ -41,28 +41,6 @@ export default class SpanConfig {
     return this._blankCharacters
   }
 
-  addDelimiterCharacter(char) {
-    if (!this._delimiterCharacters.includes(char)) {
-      this._delimiterCharacters.push(char)
-    }
-  }
-
-  addBlankCharacter(char) {
-    if (!this._blankCharacters.includes(char)) {
-      this._blankCharacters.push(char)
-    }
-  }
-
-  deleteDelimiterCharacter(char) {
-    this._delimiterCharacters = this._delimiterCharacters.filter(
-      (c) => c !== char
-    )
-  }
-
-  deleteBlankCharacter(char) {
-    this._blankCharacters = this._blankCharacters.filter((c) => c !== char)
-  }
-
   set(config) {
     const settings = { ...defaults, ...config }
 
