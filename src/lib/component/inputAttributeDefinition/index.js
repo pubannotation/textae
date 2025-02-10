@@ -1,3 +1,4 @@
+import inputAutocomletionWs from './inputAutocompletionWs'
 import inputDefault from './inputDefault'
 import inputMediaHeight from './inputMediaHeight'
 import inputLabelAndColor from './inputLabelAndColor'
@@ -7,6 +8,7 @@ import anemone from '../anemone'
 export default function (componentClassName, context) {
   const {
     pred,
+    autocompletionWs,
     default: defaultValue,
     mediaHeight,
     label,
@@ -17,6 +19,7 @@ export default function (componentClassName, context) {
     valueType
   } = context
 
+  const showAutocompletionWs = valueType === 'string'
   const showDefault = valueType === 'numeric' || valueType === 'string'
   const showMediaHeight = valueType === 'string'
   const showLabelAndColor = valueType === 'flag'
@@ -30,6 +33,7 @@ export default function (componentClassName, context) {
         class="${componentClassName}__pred textae-editor__promise-dialog__observable-element"
       >
     </div>
+    ${showAutocompletionWs ? inputAutocomletionWs(componentClassName, autocompletionWs) : ''}
     ${showDefault ? inputDefault(componentClassName, defaultValue) : ''}
     ${showMediaHeight ? inputMediaHeight(componentClassName, mediaHeight) : ''}
     ${
