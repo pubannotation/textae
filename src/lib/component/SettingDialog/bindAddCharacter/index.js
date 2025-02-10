@@ -6,17 +6,13 @@ export default function bindAddCharacter(content) {
     content,
     '.textae-editor__setting-dialog__delimiter-character-add',
     'click',
-    ({ target }) => {
-      addCharacterRow(content, target, 'delimiter')
-    }
+    () => addCharacterRow(content, 'delimiter')
   )
 
   delegate(
     content,
     '.textae-editor__setting-dialog__blank-character-add',
     'click',
-    ({ target }) => {
-      addCharacterRow(content, target, 'blank')
-    }
+    () => addCharacterRow(content, 'blank')
   )
 }

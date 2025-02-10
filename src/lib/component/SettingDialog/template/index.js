@@ -46,8 +46,8 @@ export default function template(context) {
     <details>
       <summary>Delimiter Characters</summary>
       <table>
-        <tr>
-          <td><input type="text"></td>
+        <tr class="textae-editor__setting-dialog__delimiter-character-add-row">
+          <td><input class="textae-editor__setting-dialog__delimiter-character-add-input" type="text"></td>
           <td><button class="textae-editor__setting-dialog__delimiter-character-add">+</button></td>
         </tr>
         ${() =>
@@ -56,7 +56,7 @@ export default function template(context) {
             .reverse()
             .map(
               (char) => `
-              <tr>
+              <tr class="textae-editor__setting-dialog__delimiter-character-row">
                 <td>
                   <input
                     type="text"
@@ -74,8 +74,8 @@ export default function template(context) {
     <details>
       <summary>Non-edge Characters</summary>
       <table>
-        <tr>
-          <td><input type="text"></td>
+        <tr class="textae-editor__setting-dialog__blank-character-add-row">
+          <td><input class="textae-editor__setting-dialog__blank-character-add-input" type="text"></td>
            <td><button class="textae-editor__setting-dialog__blank-character-add">+</button></td>
         </tr>
         ${() =>
@@ -84,7 +84,7 @@ export default function template(context) {
             .reverse()
             .map(
               (char) => `
-              <tr>
+              <tr class="textae-editor__setting-dialog__blank-character-row">
                 <td>
                   <input
                     type="text"
@@ -106,7 +106,7 @@ export default function template(context) {
           functionAvailability.names
             .map(
               (name) => `
-              <label>
+              <label class="textae-editor__setting-dialog__function-availability-name">
                 <input
                   type="checkbox"
                   class="textae-editor__setting-dialog__function-availability-checkbox"

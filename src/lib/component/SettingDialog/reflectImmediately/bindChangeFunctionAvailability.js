@@ -11,7 +11,9 @@ export default function bindChangeFunctionAvailability(
     '.textae-editor__setting-dialog__function-availability-checkbox',
     'change',
     debounce300(({ target }) => {
-      const functionName = target.closest('label').textContent.trim()
+      const functionName = target
+        .closest('.textae-editor__setting-dialog__function-availability-name')
+        .textContent.trim()
 
       if (target.checked) {
         functionAvailability.enable(functionName)
