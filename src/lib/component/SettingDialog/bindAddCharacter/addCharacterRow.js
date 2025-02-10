@@ -27,7 +27,7 @@ export default function addCharacterRow(content, type) {
         type="text"
         value="${newValue}">
     </td>
-    <td><button class="textae-editor__setting-dialog__${type}-character-delete">&times;</button></td>
+    <td><button class="textae-editor__setting-dialog__${type}-character-delete-button">&times;</button></td>
   </tr>`
 
   // Add newRow below the "+" button row.
