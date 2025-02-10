@@ -1,9 +1,10 @@
 import anemone from '../../anemone'
 import alertifyjs from 'alertifyjs'
 
-export default function addCharacterRow(content, target, type) {
-  const addRow = target.closest('tr')
-  const input = addRow.querySelector('input')
+export default function addCharacterRow(content, type) {
+  const input = content.querySelector(
+    `.textae-editor__setting-dialog__${type}-character-add-input`
+  )
   const newValue = input.value
 
   // Return with alert when new character already exists.
@@ -19,7 +20,7 @@ export default function addCharacterRow(content, target, type) {
   }
 
   const newRow = anemone`
-  <tr>
+  <tr class="textae-editor__setting-dialog__${type}-character-row">
     <td>
       <input
         class="textae-editor__setting-dialog__${type}-character-input"
@@ -30,6 +31,9 @@ export default function addCharacterRow(content, target, type) {
   </tr>`
 
   // Add newRow below the "+" button row.
+  const addRow = content.querySelector(
+    `.textae-editor__setting-dialog__${type}-character-add-row`
+  )
   addRow.insertAdjacentHTML('afterend', newRow)
 
   // Clear input

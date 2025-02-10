@@ -6,7 +6,9 @@ export default function bindDeleteCharacter(content) {
     '.textae-editor__setting-dialog__delimiter-character-delete',
     'click',
     ({ target }) => {
-      target.closest('tr').remove()
+      target
+        .closest('.textae-editor__setting-dialog__delimiter-character-row')
+        .remove()
     }
   )
 
@@ -15,7 +17,9 @@ export default function bindDeleteCharacter(content) {
     '.textae-editor__setting-dialog__blank-character-delete',
     'click',
     ({ target }) => {
-      target.closest('tr').remove()
+      target
+        .closest('.textae-editor__setting-dialog__blank-character-row')
+        .remove()
     }
   )
 }
