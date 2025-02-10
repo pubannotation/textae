@@ -18,18 +18,19 @@ export default function addCharacterRow(content, target, type) {
     return
   }
 
-  const newRow = document.createElement('tr')
-  newRow.innerHTML = anemone`
+  const newRow = anemone`
+  <tr>
     <td>
       <input
         class="textae-editor__setting-dialog__${type}-character-input"
         type="text"
         value="${newValue}">
     </td>
-    <td><button class="textae-editor__setting-dialog__${type}-character-delete">&times;</button></td>`
+    <td><button class="textae-editor__setting-dialog__${type}-character-delete">&times;</button></td>
+  </tr>`
 
-  // Add newRow below the "+" button
-  addRow.parentElement.insertBefore(newRow, addRow.nextElementSibling)
+  // Add newRow below the "+" button row.
+  addRow.insertAdjacentHTML('afterend', newRow)
 
   // Clear input
   input.value = ''
