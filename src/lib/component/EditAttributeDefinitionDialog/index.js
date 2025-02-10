@@ -47,10 +47,18 @@ export default class EditAttributeDefinitionDialog extends PromiseDialog {
           diff.set('default', defaultValue)
         }
 
+        const autocompletionWs = getInputElementValue(
+          super.el,
+          `.${componentClassName}__autocompletion-ws`
+        )
         const mediaHeight = getInputElementValue(
           super.el,
           `.${componentClassName}__media-height`
         )
+
+        if (attrDef.autocompletionWs !== autocompletionWs) {
+          diff.set('autocompletion_ws', autocompletionWs)
+        }
 
         if (attrDef.mediaHeight !== mediaHeight) {
           diff.set('media height', mediaHeight)
