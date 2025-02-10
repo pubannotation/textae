@@ -3,6 +3,10 @@ import Dialog from '../Dialog'
 import reflectImmediately from './reflectImmediately'
 import packageJson from '../../../../package.json'
 import template from './template'
+import saveSpanConfig from './saveSpanConfig'
+import $ from 'jquery'
+import bindAddCharacter from './bindAddCharacter'
+import bindDeleteCharacter from './bindDeleteCharacter'
 
 export default class SettingDialog extends Dialog {
   constructor(
@@ -34,7 +38,6 @@ export default class SettingDialog extends Dialog {
       typeGap,
       typeDictionary,
       textBox,
-      spanConfig,
       functionAvailability
     )
 
@@ -43,6 +46,17 @@ export default class SettingDialog extends Dialog {
       if (e.keyCode === 13) {
         super.close()
       }
+    })
+
+    // Add delimiter/non-edge character row when '+' button click.
+    bindAddCharacter(super.el)
+
+    // Delete delimtier/non-edge character row when 'x' button click.
+    bindDeleteCharacter(super.el)
+
+    // Save SpanConfig when dialog close.
+    $(this.el).on('dialogclose', () => {
+      saveSpanConfig(super.el, spanConfig)
     })
   }
 }
