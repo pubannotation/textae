@@ -17,10 +17,9 @@ export default function saveSpanConfig(content, spanConfig) {
     .map((input) => input.value.replace(/\\n/g, '\n'))
     .reverse()
 
-  // Create new spanConfig without duplicates.
   const newSpanConfig = {
-    'delimiter characters': Array.from(new Set(newDelimiterCharacters)),
-    'non-edge characters': Array.from(new Set(newBlankCharacters))
+    'delimiter characters': Array.from(newDelimiterCharacters),
+    'non-edge characters': Array.from(newBlankCharacters)
   }
 
   validateConfiguration(newSpanConfig)
