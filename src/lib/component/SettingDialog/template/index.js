@@ -61,7 +61,8 @@ export default function template(context) {
                   <input
                     type="text"
                     class="textae-editor__setting-dialog__delimiter-character-input"
-                    value="${escapeForDisplay(char)}">
+                    value="${escapeForDisplay(char)}"
+                    readonly>
                 </td>
                 <td><button class="textae-editor__setting-dialog__delimiter-character-delete-button">&times;</button></td>
               </tr>`
@@ -89,7 +90,8 @@ export default function template(context) {
                   <input
                     type="text"
                     class="textae-editor__setting-dialog__blank-character-input"
-                    value="${escapeForDisplay(char)}">
+                    value="${escapeForDisplay(char)}"
+                    readonly>
                 </td>
                 <td><button class="textae-editor__setting-dialog__blank-character-delete-button">&times;</button></td>
               </tr>`

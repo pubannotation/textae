@@ -25,7 +25,8 @@ export default function addCharacterRow(content, type) {
       <input
         class="textae-editor__setting-dialog__${type}-character-input"
         type="text"
-        value="${newValue}">
+        value="${newValue}"
+        readonly>
     </td>
     <td><button class="textae-editor__setting-dialog__${type}-character-delete-button">&times;</button></td>
   </tr>`
