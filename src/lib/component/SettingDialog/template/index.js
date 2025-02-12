@@ -1,5 +1,7 @@
 import anemone from '../../anemone'
-import escapeForDisplay from './escapeForDisplay'
+import toDelimiterCharacterRowElement from './toDelimiterCharacterRowElement'
+import toBlankCharacterRowElement from './toBlankCharacterRowElement'
+import toFunctionAvailabilityLabelElement from './toFunctionAvailabilityLabelElement'
 
 export default function template(context) {
   const {
@@ -54,19 +56,7 @@ export default function template(context) {
           delimiterCharacters
             .slice()
             .reverse()
-            .map(
-              (char) => `
-              <tr class="textae-editor__setting-dialog__delimiter-character-row">
-                <td>
-                  <input
-                    type="text"
-                    class="textae-editor__setting-dialog__delimiter-character-input"
-                    value="${escapeForDisplay(char)}"
-                    readonly>
-                </td>
-                <td><button class="textae-editor__setting-dialog__delimiter-character-delete-button">&times;</button></td>
-              </tr>`
-            )
+            .map((char) => toDelimiterCharacterRowElement(char))
             .join('')}
       </table>
     </details>
@@ -83,19 +73,7 @@ export default function template(context) {
           blankCharacters
             .slice()
             .reverse()
-            .map(
-              (char) => `
-              <tr class="textae-editor__setting-dialog__blank-character-row">
-                <td>
-                  <input
-                    type="text"
-                    class="textae-editor__setting-dialog__blank-character-input"
-                    value="${escapeForDisplay(char)}"
-                    readonly>
-                </td>
-                <td><button class="textae-editor__setting-dialog__blank-character-delete-button">&times;</button></td>
-              </tr>`
-            )
+            .map((char) => toBlankCharacterRowElement(char))
             .join('')}
       </table>
     </details>
@@ -106,15 +84,8 @@ export default function template(context) {
       <div class="textae-editor__setting-dialog__function-availability-list">
         ${() =>
           functionAvailability.names
-            .map(
-              (name) => `
-              <label class="textae-editor__setting-dialog__function-availability-label">
-                <input
-                  type="checkbox"
-                  class="textae-editor__setting-dialog__function-availability-checkbox"
-                  ${functionAvailability.isAvailable(name) ? `checked="checked"` : ''}>
-                ${name}
-              </label>`
+            .map((name) =>
+              toFunctionAvailabilityLabelElement(functionAvailability, name)
             )
             .join('')}
       </div>
