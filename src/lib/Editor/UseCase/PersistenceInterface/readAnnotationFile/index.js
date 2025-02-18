@@ -1,29 +1,18 @@
 import readFile from '../readFile'
 import isJSON from '../../../../isJSON'
 import isTxtFile from '../isTxtFile'
-import isMdFile from '../isMdFile'
 import DataSource from '../../../DataSource'
-import parseMdFile from './parseMdFile'
+import parseFileContent from './parseFileContent'
 import alertifyjs from 'alertifyjs'
 
 export default async function readAnnotationFile(file, eventEmitter) {
   const event = await readFile(file)
   const fileContent = event.target.result
 
+  // SimpleInlineTextAnnotation uses the txt extension.
+  // If this is .txt, parse first and then saving the content.
   if (isTxtFile(file.name)) {
-    // If this is .txt, New annotation json is made from .txt
-    eventEmitter.emit(
-      'textae-event.resource.annotation.load.success',
-      DataSource.createFileSource(file.name, {
-        text: fileContent
-      })
-    )
-
-    return
-  }
-
-  if (isMdFile(file.name)) {
-    const annotation = await parseMdFile(fileContent)
+    const annotation = await parseFileContent(fileContent)
 
     if (!annotation) {
       const dataSource = DataSource.createFileSource(file.name)
