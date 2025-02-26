@@ -1,4 +1,5 @@
-import anemone from '../../anemone'
+import anemone from '../../../anemone'
+import validateCharacter from './validateCharacter'
 import alertifyjs from 'alertifyjs'
 
 export default function addCharacterRow(content, type) {
@@ -6,16 +7,10 @@ export default function addCharacterRow(content, type) {
     `.textae-editor__setting-dialog__${type}-character-add-input`
   )
   const newValue = input.value
+  const errorMessage = validateCharacter(content, type, newValue)
 
-  const currentCharacters = Array.from(
-    content.querySelectorAll(
-      `.textae-editor__setting-dialog__${type}-character-input`
-    )
-  ).map((input) => input.value)
-
-  // Return with alert when new character already exists.
-  if (currentCharacters.includes(newValue)) {
-    alertifyjs.warning(`${newValue} is already added.`)
+  if (errorMessage) {
+    alertifyjs.warning(`${errorMessage}`)
     return
   }
 
