@@ -1,5 +1,4 @@
 export default function validateCharacter(content, type, char) {
-  const decodedChar = char.replace(/\\n/g, '\n')
   const currentCharacters = Array.from(
     content.querySelectorAll(
       `.textae-editor__setting-dialog__${type}-character-input`
@@ -10,6 +9,7 @@ export default function validateCharacter(content, type, char) {
     return `${char} is already added.`
   }
 
+  const decodedChar = char.replace(/\\n/g, '\n')
   if (decodedChar.length > 1) {
     return `Only one character is allowed.`
   }
