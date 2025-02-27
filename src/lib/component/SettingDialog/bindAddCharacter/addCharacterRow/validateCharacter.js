@@ -1,4 +1,5 @@
 import alertifyjs from 'alertifyjs'
+import decodeEscapeSequences from '../../decodeEscapeSequences'
 
 export default function validateCharacter(char, currentCharacters) {
   if (currentCharacters.includes(char)) {
@@ -6,8 +7,7 @@ export default function validateCharacter(char, currentCharacters) {
     return false
   }
 
-  const decodedChar = char.replace(/\\n/g, '\n')
-  if (decodedChar.length > 1) {
+  if (decodeEscapeSequences(char).length > 1) {
     alertifyjs.warning('Only one character is allowed.')
     return false
   }
