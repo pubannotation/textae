@@ -1,3 +1,3 @@
 export default function decodeEscapeSequences(str) {
-  return str.replace(/\\n/g, '\n').replace(/\\t/g, '\t')
+  return str.replace(/\\n/g, '\n').replace(/\\t/g, '\t').replace(/\\r/g, '\r')
 }
