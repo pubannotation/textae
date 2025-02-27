@@ -9,5 +9,9 @@ const validate = ajv.compile(configurationScheme)
 export default function validateConfiguration(config) {
   if (!validate(config)) {
     console.warn(validate.errors)
+
+    return validate.errors
   }
+
+  return null
 }
