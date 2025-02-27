@@ -1,6 +1,5 @@
 import anemone from '../../../anemone'
 import validateCharacter from './validateCharacter'
-import alertifyjs from 'alertifyjs'
 
 export default function addCharacterRow(content, type) {
   const input = content.querySelector(
@@ -12,12 +11,8 @@ export default function addCharacterRow(content, type) {
       `.textae-editor__setting-dialog__${type}-character-input`
     )
   ).map((input) => input.value)
-  const errorMessage = validateCharacter(newValue, currentCharacters)
 
-  if (errorMessage) {
-    alertifyjs.warning(`${errorMessage}`)
-    return
-  }
+  if (!validateCharacter(newValue, currentCharacters)) return
 
   const newRow = anemone`
   <tr class="textae-editor__setting-dialog__${type}-character-row">

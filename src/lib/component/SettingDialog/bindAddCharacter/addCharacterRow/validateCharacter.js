@@ -1,12 +1,16 @@
+import alertifyjs from 'alertifyjs'
+
 export default function validateCharacter(char, currentCharacters) {
   if (currentCharacters.includes(char)) {
-    return `${char} is already added.`
+    alertifyjs.warning(`${char} is already added.`)
+    return false
   }
 
   const decodedChar = char.replace(/\\n/g, '\n')
   if (decodedChar.length > 1) {
-    return `Only one character is allowed.`
+    alertifyjs.warning('Only one character is allowed.')
+    return false
   }
 
-  return null
+  return true
 }
