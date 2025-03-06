@@ -377,12 +377,17 @@
       }
     }
 
-    &__delimiter-character-input {
-      pointer-events: none;
-    }
-
-    &__blank-character-input {
-      pointer-events: none;
+    &__delimiter-character,
+    &__blank-character {
+      display: inline-block;
+      width: 100%;
+      height: 20.5px;
+      line-height: 20.5px;
+      background-color: white;
+      white-space: pre;
+      border: solid 1px rgb(118, 118, 118);
+      border-radius: 2px;
+      padding: 2px;
     }
 
     &__function-availability-list {
