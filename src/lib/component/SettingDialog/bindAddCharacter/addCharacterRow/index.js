@@ -8,20 +8,16 @@ export default function addCharacterRow(content, type) {
   const newValue = input.value
   const currentCharacters = Array.from(
     content.querySelectorAll(
-      `.textae-editor__setting-dialog__${type}-character-input`
+      `.textae-editor__setting-dialog__${type}-character`
     )
-  ).map((input) => input.value)
+  ).map((span) => span.textContent)
 
   if (!validateCharacter(newValue, currentCharacters)) return
 
   const newRow = anemone`
   <tr class="textae-editor__setting-dialog__${type}-character-row">
     <td>
-      <input
-        class="textae-editor__setting-dialog__${type}-character-input"
-        type="text"
-        value="${newValue}"
-        readonly>
+      <span class="textae-editor__setting-dialog__${type}-character">${newValue}</span>
     </td>
     <td><button class="textae-editor__setting-dialog__${type}-character-delete-button">&times;</button></td>
   </tr>`
