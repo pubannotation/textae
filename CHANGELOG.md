@@ -2,6 +2,26 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [13.9.0](https://github.com/pubannotation/textae/compare/v13.8.1...v13.9.0) (2025-03-11)
+
+
+### Features
+
+* Add display for configuration state ([2c5af07](https://github.com/pubannotation/textae/commit/2c5af07196e9c000919d03be5271cc1eeec7bcdc))
+* Add function to create and delete delimiter/non-edge characters ([605490f](https://github.com/pubannotation/textae/commit/605490f8101ec72984d4d167b4052b3a37ce3b33))
+* Edit autocompletion_ws of the string attribute definition ([c1fd541](https://github.com/pubannotation/textae/commit/c1fd541b306675219d7f71c418470e6fd95b109a))
+* When configuration changed, it immediately applied ([20587e7](https://github.com/pubannotation/textae/commit/20587e7e441460b06c78899934e1b3d91818f8e9))
+
+
+### Bug Fixes
+
+* Change expected MIME-type and file extension on SimpleInlineTextAnnotationFormat ([1ef4f54](https://github.com/pubannotation/textae/commit/1ef4f54c01c63dd37e5456587a17b1a4f0e3abc7))
+* Escape template literals ([7bce43d](https://github.com/pubannotation/textae/commit/7bce43debbd0df64487a7899f0e2732746445c45))
+* Fix eventEmitter call ([6de2655](https://github.com/pubannotation/textae/commit/6de265584c5dadd998c3e65c68e6c364740614e1))
+* Show default setting state when configuration not specified ([9f263cd](https://github.com/pubannotation/textae/commit/9f263cd9b4ef964e557de50bec8c74ce0f400c5a))
+* Show undefined in the SaveConfigurationDialog when a filename is not set ([f984050](https://github.com/pubannotation/textae/commit/f98405082fa1eddbb8c5f2ab2b263b69a18c2f42))
+* SpanConfig not saved when editing ([7bfc286](https://github.com/pubannotation/textae/commit/7bfc2863e3484e1d83742a6db2d8321cacecf56c))
+
 ### [13.8.1](https://github.com/pubannotation/textae/compare/v13.8.0...v13.8.1) (2025-02-06)
 
 

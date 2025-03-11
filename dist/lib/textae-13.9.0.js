@@ -55609,33 +55609,44 @@
     }
 
     class SpanConfig {
+      #delimiterCharacters
+      #blankCharacters
+
       constructor() {
-        this._delimiterCharacters = []
-        this._blankCharacters = []
+        this.#delimiterCharacters = []
+        this.#blankCharacters = []
+      }
+
+      get delimiterCharacters() {
+        return this.#delimiterCharacters
+      }
+
+      get blankCharacters() {
+        return this.#blankCharacters
       }
 
       set(config) {
         const settings = { ...defaults, ...config }
 
-        this._delimiterCharacters = settings['delimiter characters']
-        this._blankCharacters = settings['non-edge characters']
+        this.#delimiterCharacters = settings['delimiter characters']
+        this.#blankCharacters = settings['non-edge characters']
         return config
       }
 
       isDelimiter(char) {
-        if (this._delimiterCharacters.indexOf('ANY') >= 0) {
+        if (this.#delimiterCharacters.indexOf('ANY') >= 0) {
           return 1
         }
 
-        return this._delimiterCharacters.indexOf(char) >= 0
+        return this.#delimiterCharacters.indexOf(char) >= 0
       }
 
       isBlankCharacter(char) {
-        return this._blankCharacters.indexOf(char) >= 0
+        return this.#blankCharacters.indexOf(char) >= 0
       }
 
       removeBlankCharacters(str) {
-        for (const char of this._blankCharacters) {
+        for (const char of this.#blankCharacters) {
           str = str.replaceAll(char, '')
         }
 
@@ -61428,6 +61439,18 @@
         el.querySelector(`input${selector}`) &&
         el.querySelector(`input${selector}`).value
       )
+    } // ./src/lib/component/inputAttributeDefinition/inputAutocompletionWs.js
+
+    function inputAutocomletionWs(componentClassName, autocompletionWs) {
+      return () => anemone`
+  <div class="${componentClassName}__row">
+    <label>Autocompletion_ws</label>
+    <input
+      value="${autocompletionWs || ''}"
+      class="${componentClassName}__autocompletion-ws"
+    >
+  </div>
+  `
     } // ./src/lib/component/inputAttributeDefinition/inputDefault.js
 
     /* harmony default export */ function inputDefault(
@@ -61534,6 +61557,7 @@
     ) {
       const {
         pred,
+        autocompletionWs,
         default: defaultValue,
         mediaHeight,
         label,
@@ -61544,6 +61568,7 @@
         valueType
       } = context
 
+      const showAutocompletionWs = valueType === 'string'
       const showDefault = valueType === 'numeric' || valueType === 'string'
       const showMediaHeight = valueType === 'string'
       const showLabelAndColor = valueType === 'flag'
@@ -61557,6 +61582,7 @@
         class="${componentClassName}__pred textae-editor__promise-dialog__observable-element"
       >
     </div>
+    ${showAutocompletionWs ? inputAutocomletionWs(componentClassName, autocompletionWs) : ''}
     ${showDefault ? inputDefault(componentClassName, defaultValue) : ''}
     ${showMediaHeight ? inputMediaHeight(componentClassName, mediaHeight) : ''}
     ${
@@ -61769,10 +61795,18 @@
                 diff.set('default', defaultValue)
               }
 
+              const autocompletionWs = getInputElementValue(
+                super.el,
+                `.${EditAttributeDefinitionDialog_componentClassName}__autocompletion-ws`
+              )
               const mediaHeight = getInputElementValue(
                 super.el,
                 `.${EditAttributeDefinitionDialog_componentClassName}__media-height`
               )
+
+              if (attrDef.autocompletionWs !== autocompletionWs) {
+                diff.set('autocompletion_ws', autocompletionWs)
+              }
 
               if (attrDef.mediaHeight !== mediaHeight) {
                 diff.set('media height', mediaHeight)
@@ -65163,26 +65197,119 @@
           ).value = textBox.lineHeight
         })
       )
+    } // ./src/lib/component/SettingDialog/reflectImmediately/bindChangeFunctionAvailability.js
+
+    function bindChangeFunctionAvailability(
+      content,
+      eventEmitter,
+      functionAvailability
+    ) {
+      delegate_default()(
+        content,
+        '.textae-editor__setting-dialog__function-availability-checkbox',
+        'change',
+        debounce300(({ target }) => {
+          const functionName = target
+            .closest(
+              '.textae-editor__setting-dialog__function-availability-label'
+            )
+            .textContent.trim()
+
+          if (target.checked) {
+            functionAvailability.enable(functionName)
+            eventEmitter.emit('textae-event.configuration.reset')
+          } else {
+            functionAvailability.disable(functionName)
+            eventEmitter.emit('textae-event.configuration.reset')
+          }
+        })
+      )
     } // ./src/lib/component/SettingDialog/reflectImmediately/index.js
 
     /* harmony default export */ function reflectImmediately(
       content,
+      eventEmitter,
       typeGap,
       typeDictionary,
-      textBox
+      textBox,
+      functionAvailability
     ) {
       bindChangeTypeGap(content, typeGap, textBox)
       bindChangeLineHeight(content, textBox)
       bindChangeLockConfig(content, typeDictionary)
+      bindChangeFunctionAvailability(
+        content,
+        eventEmitter,
+        functionAvailability
+      )
     } // ./package.json
 
-    const package_namespaceObject = { rE: '13.8.1' } // ./src/lib/component/SettingDialog/template.js
+    const package_namespaceObject = { rE: '13.9.0' } // ./src/lib/component/SettingDialog/EscapeSequence.js
+    class EscapeSequence {
+      static escape(str) {
+        return str
+          .replace(/\n/g, '\\n')
+          .replace(/\t/g, '\\t')
+          .replace(/\r/g, '\\r')
+      }
+
+      static decode(str) {
+        return str
+          .replace(/\\n/g, '\n')
+          .replace(/\\t/g, '\t')
+          .replace(/\\r/g, '\r')
+      }
+    } // ./src/lib/component/SettingDialog/template/escapeForDisplay.js
+
+    function escapeForDisplay(str) {
+      // First, escape newline, tab, and carriage returns to display them.
+      const replaced = EscapeSequence.escape(str)
+
+      // Then, escape special HTML characters to ensure safe rendering in HTML.
+      return lodash_escape_default()(replaced)
+    } // ./src/lib/component/SettingDialog/template/toDelimiterCharacterRowElement.js
+
+    function toDelimiterCharacterRowElement(char) {
+      return `
+<tr class="textae-editor__setting-dialog__delimiter-character-row">
+  <td>
+    <span class="textae-editor__setting-dialog__delimiter-character">${escapeForDisplay(char)}</span>
+  </td>
+  <td><button class="textae-editor__setting-dialog__delimiter-character-delete-button">&times;</button></td>
+</tr>`
+    } // ./src/lib/component/SettingDialog/template/toBlankCharacterRowElement.js
+
+    function toBlankCharacterRowElement(char) {
+      return `
+<tr class="textae-editor__setting-dialog__blank-character-row">
+  <td>
+    <span class="textae-editor__setting-dialog__blank-character">${escapeForDisplay(char)}</span>
+  </td>
+  <td><button class="textae-editor__setting-dialog__blank-character-delete-button">&times;</button></td>
+</tr>`
+    } // ./src/lib/component/SettingDialog/template/toFunctionAvailabilityLabelElement.js
+
+    function toFunctionAvailabilityLabelElement(functionAvailability, name) {
+      return `
+<label class="textae-editor__setting-dialog__function-availability-label">
+  <input
+    type="checkbox"
+    class="textae-editor__setting-dialog__function-availability-checkbox"
+    ${functionAvailability.isAvailable(name) ? `checked="checked"` : ''}>
+  ${name}
+</label>`
+    } // ./src/lib/component/SettingDialog/template/index.js
+
     function SettingDialog_template_template(context) {
       const {
         typeGap,
         typeGapDisabled,
         lineHeight,
+        autocompletionWs,
         typeDictionaryLocked,
+        delimiterCharacters,
+        blankCharacters,
+        functionAvailability,
         version
       } = context
 
@@ -65208,6 +65335,60 @@
       value="${lineHeight}">
   </div>
   <div class="textae-editor__setting-dialog__row">
+    <label>Autocompletion_ws</label>
+    <input
+      type="text"
+      class="textae-editor__setting-dialog__autocompletion_ws-text"
+      value="${autocompletionWs}">
+  </div>
+  <div class="textae-editor__setting-dialog__details">
+    <details>
+      <summary>Delimiter Characters</summary>
+      <table>
+        <tr class="textae-editor__setting-dialog__delimiter-character-add-row">
+          <td><input class="textae-editor__setting-dialog__delimiter-character-add-input" type="text"></td>
+          <td><button class="textae-editor__setting-dialog__delimiter-character-add-button">+</button></td>
+        </tr>
+        ${() =>
+          delimiterCharacters
+            .slice()
+            .reverse()
+            .map((char) => toDelimiterCharacterRowElement(char))
+            .join('')}
+      </table>
+    </details>
+  </div>
+  <div class="textae-editor__setting-dialog__details">
+    <details>
+      <summary>Non-edge Characters</summary>
+      <table>
+        <tr class="textae-editor__setting-dialog__blank-character-add-row">
+          <td><input class="textae-editor__setting-dialog__blank-character-add-input" type="text"></td>
+           <td><button class="textae-editor__setting-dialog__blank-character-add-button">+</button></td>
+        </tr>
+        ${() =>
+          blankCharacters
+            .slice()
+            .reverse()
+            .map((char) => toBlankCharacterRowElement(char))
+            .join('')}
+      </table>
+    </details>
+  </div>
+  <div class="textae-editor__setting-dialog__details">
+    <details>
+      <summary>Function Availability</summary>
+      <div class="textae-editor__setting-dialog__function-availability-list">
+        ${() =>
+          functionAvailability.names
+            .map((name) =>
+              toFunctionAvailabilityLabelElement(functionAvailability, name)
+            )
+            .join('')}
+      </div>
+    </details>
+  </div>
+  <div class="textae-editor__setting-dialog__row">
     <label>
       <input
         type="checkbox"
@@ -65221,28 +65402,201 @@
   </div>
 </div>
 `
+    }
+
+    // EXTERNAL MODULE: ./node_modules/ajv/dist/ajv.js
+    var ajv = __webpack_require__(3282)
+    var ajv_default = /*#__PURE__*/ __webpack_require__.n(ajv)
+    // EXTERNAL MODULE: ./node_modules/ajv-formats/dist/index.js
+    var dist = __webpack_require__(8182)
+    var dist_default = /*#__PURE__*/ __webpack_require__.n(dist) // ./src/lib/configurationScheme.json
+    const configurationScheme_namespaceObject = /*#__PURE__*/ JSON.parse(
+      '{"$schema":"http://json-schema.org/draft-07/schema#","title":"JSON schema for texta configuration files","definitions":{"characters":{"type":"array","items":{"type":"string","minLength":1,"maxLength":1}},"color":{"pattern":"^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$","type":"string"},"default":{"type":"boolean"},"denote":{"type":"object","required":["id"],"properties":{"id":{"type":"string"},"label":{"type":"string"},"color":{"$ref":"#/definitions/color"},"default":{"$ref":"#/definitions/default"}}},"types":{"type":"array","items":{"$ref":"#/definitions/denote"}},"autocompletion_ws":{"type":"string","format":"uri-reference"}},"type":"object","properties":{"delimiter characters":{"$ref":"#/definitions/characters"},"non-edge characters":{"$ref":"#/definitions/characters"},"autocompletion_ws":{"$ref":"#/definitions/autocompletion_ws"},"autosave":{"type":"boolean"},"autolineheight":{"type":"boolean"},"boundarydetection":{"type":"boolean"},"entity types":{"$ref":"#/definitions/types"},"relation types":{"$ref":"#/definitions/types"},"attribute types":{"type":"array","items":{"type":"object","required":["pred","value type"],"properties":{"pred":{"type":"string"},"value type":{"enum":["flag","selection","string","numeric"]}},"allOf":[{"if":{"properties":{"value type":{"const":"flag"}}},"then":{"properties":{"color":{"$ref":"#/definitions/color"},"label":{"type":"string"}}}},{"if":{"properties":{"value type":{"const":"selection"}}},"then":{"required":["values"],"properties":{"values":{"type":"array","items":{"$ref":"#/definitions/denote"}}}}},{"if":{"properties":{"value type":{"const":"string"}}},"then":{"properties":{"autocompletion_ws":{"$ref":"#/definitions/autocompletion_ws"},"default":{"type":"string"},"values":{"type":"array","items":{"type":"object","required":["pattern"],"properties":{"pattern":{"type":"string","format":"regex"},"label":{"type":"string"},"color":{"$ref":"#/definitions/color"}}}}}}},{"if":{"properties":{"value type":{"const":"numeric"}}},"then":{"required":["default","step"],"properties":{"default":{"type":"number"},"min":{"type":"number"},"max":{"type":"number"},"step":{"type":"number"},"values":{"type":"array","items":{"type":"object","required":["range"],"properties":{"range":{"type":"string"},"label":{"type":"string"},"color":{"$ref":"#/definitions/color"}}}}}}}]}},"function availability":{"type":"object","properties":{"read":{"type":"boolean"},"write":{"type":"boolean"},"write-auto":{"type":"boolean"},"view":{"type":"boolean"},"term":{"type":"boolean"},"block":{"type":"boolean"},"relation":{"type":"boolean"},"simple":{"type":"boolean"},"line-height":{"type":"boolean"},"line-height-auto":{"type":"boolean"},"undo":{"type":"boolean"},"redo":{"type":"boolean"},"replicate":{"type":"boolean"},"replicate-auto":{"type":"boolean"},"boundary-detection":{"type":"boolean"},"create-span-by-touch":{"type":"boolean"},"expand-span-by-touch":{"type":"boolean"},"shrink-span-by-touch":{"type":"boolean"},"entity":{"type":"boolean"},"pallet":{"type":"boolean"},"edit-properties":{"type":"boolean"},"delete":{"type":"boolean"},"copy":{"type":"boolean"},"cut":{"type":"boolean"},"paste":{"type":"boolean"},"setting":{"type":"boolean"},"help":{"type":"boolean"}}}}}'
+    ) // ./src/lib/component/SettingDialog/validateConfiguration.js
+    const validateConfiguration_ajv = new (ajv_default())({ verbose: true })
+    dist_default()(validateConfiguration_ajv, ['uri-reference', 'regex'])
+    const validateConfiguration_validate = validateConfiguration_ajv.compile(
+      configurationScheme_namespaceObject
+    )
+
+    function validateConfiguration(config) {
+      if (!validateConfiguration_validate(config)) {
+        console.warn(validateConfiguration_validate.errors)
+      }
+    } // ./src/lib/component/SettingDialog/saveAutocompletionWs.js
+
+    function bindChangeAutocompletionWs(content, typeDictionary) {
+      const newValue = content.querySelector(
+        '.textae-editor__setting-dialog__autocompletion_ws-text'
+      ).value
+
+      validateConfiguration({
+        autocompletion_ws: newValue
+      })
+
+      typeDictionary.autocompletionWs = newValue
+    } // ./src/lib/component/SettingDialog/saveSpanConfig.js
+
+    function saveSpanConfig(content, spanConfig) {
+      const delimiterInputs = content.querySelectorAll(
+        '.textae-editor__setting-dialog__delimiter-character'
+      )
+      // Using reverse to store the added value at the end of the array.
+      const newDelimiterCharacters = Array.from(delimiterInputs)
+        .map((span) => EscapeSequence.decode(span.textContent))
+        .reverse()
+
+      const blankInputs = content.querySelectorAll(
+        '.textae-editor__setting-dialog__blank-character'
+      )
+      const newBlankCharacters = Array.from(blankInputs)
+        .map((span) => EscapeSequence.decode(span.textContent))
+        .reverse()
+
+      const newSpanConfig = {
+        'delimiter characters': Array.from(newDelimiterCharacters),
+        'non-edge characters': Array.from(newBlankCharacters)
+      }
+
+      validateConfiguration(newSpanConfig)
+      spanConfig.set(newSpanConfig)
+    } // ./src/lib/component/SettingDialog/bindAddCharacter/addCharacterRow/validateCharacter.js
+
+    function validateCharacter(char, currentCharacters) {
+      if (currentCharacters.includes(char)) {
+        alertify_default().warning(`${char} is already added.`)
+        return false
+      }
+
+      if (EscapeSequence.decode(char).length > 1) {
+        alertify_default().warning('Only one character is allowed.')
+        return false
+      }
+
+      return true
+    } // ./src/lib/component/SettingDialog/bindAddCharacter/addCharacterRow/index.js
+
+    function addCharacterRow(content, type) {
+      const input = content.querySelector(
+        `.textae-editor__setting-dialog__${type}-character-add-input`
+      )
+      const newValue = input.value
+      const currentCharacters = Array.from(
+        content.querySelectorAll(
+          `.textae-editor__setting-dialog__${type}-character`
+        )
+      ).map((span) => span.textContent)
+
+      if (!validateCharacter(newValue, currentCharacters)) return
+
+      const newRow = anemone`
+  <tr class="textae-editor__setting-dialog__${type}-character-row">
+    <td>
+      <span class="textae-editor__setting-dialog__${type}-character">${newValue}</span>
+    </td>
+    <td><button class="textae-editor__setting-dialog__${type}-character-delete-button">&times;</button></td>
+  </tr>`
+
+      // Add newRow below the "+" button row.
+      const addRow = content.querySelector(
+        `.textae-editor__setting-dialog__${type}-character-add-row`
+      )
+      addRow.insertAdjacentHTML('afterend', newRow)
+
+      // Clear input
+      input.value = ''
+    } // ./src/lib/component/SettingDialog/bindAddCharacter/index.js
+
+    function bindAddCharacter(content) {
+      delegate_default()(
+        content,
+        '.textae-editor__setting-dialog__delimiter-character-add-button',
+        'click',
+        () => addCharacterRow(content, 'delimiter')
+      )
+
+      delegate_default()(
+        content,
+        '.textae-editor__setting-dialog__blank-character-add-button',
+        'click',
+        () => addCharacterRow(content, 'blank')
+      )
+    } // ./src/lib/component/SettingDialog/bindDeleteCharacter.js
+
+    function bindDeleteCharacter(content) {
+      delegate_default()(
+        content,
+        '.textae-editor__setting-dialog__delimiter-character-delete-button',
+        'click',
+        ({ target }) => {
+          target
+            .closest('.textae-editor__setting-dialog__delimiter-character-row')
+            .remove()
+        }
+      )
+
+      delegate_default()(
+        content,
+        '.textae-editor__setting-dialog__blank-character-delete-button',
+        'click',
+        ({ target }) => {
+          target
+            .closest('.textae-editor__setting-dialog__blank-character-row')
+            .remove()
+        }
+      )
     } // ./src/lib/component/SettingDialog/index.js
 
     class SettingDialog extends Dialog {
-      constructor(typeDictionary, typeGap, textBox) {
+      constructor(
+        eventEmitter,
+        typeDictionary,
+        typeGap,
+        textBox,
+        spanConfig,
+        functionAvailability
+      ) {
         const contentHtml = SettingDialog_template_template({
           typeGapDisabled: !typeGap.show,
           typeGap: typeGap.value,
           lineHeight: textBox.lineHeight,
+          autocompletionWs: typeDictionary.autocompletionWs,
           typeDictionaryLocked: typeDictionary.isLock,
+          delimiterCharacters: spanConfig.delimiterCharacters,
+          blankCharacters: spanConfig.blankCharacters,
+          functionAvailability,
           version: package_namespaceObject.rE
         })
 
         super('Setting', contentHtml)
 
         // Reflects configuration changes in real time.
-        reflectImmediately(super.el, typeGap, typeDictionary, textBox)
+        reflectImmediately(
+          super.el,
+          eventEmitter,
+          typeGap,
+          typeDictionary,
+          textBox,
+          functionAvailability
+        )
 
         // Observe enter key press
         delegate_default()(super.el, `.textae-editor__dialog`, 'keyup', (e) => {
           if (e.keyCode === 13) {
             super.close()
           }
+        })
+
+        // Add delimiter/non-edge character row when '+' button click.
+        bindAddCharacter(super.el)
+
+        // Delete delimtier/non-edge character row when 'x' button click.
+        bindDeleteCharacter(super.el)
+
+        // Save SpanConfig when dialog close.
+        jquery_default()(this.el).on('dialogclose', () => {
+          bindChangeAutocompletionWs(super.el, typeDictionary)
+          saveSpanConfig(super.el, spanConfig)
         })
       }
     } // ./src/lib/Editor/UseCase/Presenter/index.js
@@ -65255,6 +65609,7 @@
       #annotationModel
       #menuState
       #spanConfig
+      #functionAvailability
       #clipBoard
       #editModeSwitch
       #horizontal
@@ -65272,6 +65627,7 @@
         selectionModel,
         commander,
         spanConfig,
+        functionAvailability,
         clipBoard,
         menuState,
         startUpOptions,
@@ -65320,6 +65676,7 @@
         this.#annotationModel = annotationModel
         this.#menuState = menuState
         this.#spanConfig = spanConfig
+        this.#functionAvailability = functionAvailability
         this.#clipBoard = clipBoard
         this.#editModeSwitch = editModeSwitch
         this.#horizontal = new Horizontal(editorHTMLElement, selectionModel)
@@ -65409,9 +65766,12 @@
 
       showSettingDialog() {
         new SettingDialog(
+          this.#eventEmitter,
           this.#annotationModel.typeDictionary,
           this.#annotationModel.typeGap,
-          this.#annotationModel.textBox
+          this.#annotationModel.textBox,
+          this.#spanConfig,
+          this.#functionAvailability
         ).open()
       }
 
@@ -75888,7 +76248,7 @@ class, which describe what happened, whenever the view is updated.
     function dragScrollSpeed(dist) {
       return Math.max(0, dist) * 0.7 + 8
     }
-    function dist(a, b) {
+    function dist_dist(a, b) {
       return Math.max(
         Math.abs(a.clientX - b.clientX),
         Math.abs(a.clientY - b.clientY)
@@ -75927,7 +76287,7 @@ class, which describe what happened, whenever the view is updated.
         if (event.buttons == 0) return this.destroy()
         if (
           this.dragging ||
-          (this.dragging == null && dist(this.startEvent, event) < 10)
+          (this.dragging == null && dist_dist(this.startEvent, event) < 10)
         )
           return
         this.select((this.lastEvent = event))
@@ -105060,7 +105420,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
   <div class="textae-editor__save-dialog__row">
     <label>Local</label>
     <input
-      type="text" value="${filename}"
+      type="text" value="${filename || ''}"
       >
     <a class="textae-editor__save-dialog__download-link" href="#">Download</a>
   </div>
@@ -105126,10 +105486,6 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
       /*#__PURE__*/ __webpack_require__.n(path_browserify) // ./src/lib/Editor/UseCase/PersistenceInterface/isTxtFile.js
     /* harmony default export */ function isTxtFile(fileName) {
       return path_browserify_default().extname(fileName) === '.txt'
-    } // ./src/lib/Editor/UseCase/PersistenceInterface/isMdFile.js
-
-    /* harmony default export */ function isMdFile(fileName) {
-      return path_browserify_default().extname(fileName) === '.md'
     } // ./src/lib/Editor/RESOURCE_TYPE.js
 
     const RESOURCE_TYPE = Object.freeze({
@@ -105239,7 +105595,7 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
           method: 'POST',
           body: inlineAnnotation,
           headers: {
-            'Content-type': 'text/markdown'
+            'Content-type': 'text/plain'
           }
         })
 
@@ -105250,9 +105606,9 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
 
         return await response.json()
       }
-    } // ./src/lib/Editor/UseCase/PersistenceInterface/readAnnotationFile/parseMdFile.js
+    } // ./src/lib/Editor/UseCase/PersistenceInterface/readAnnotationFile/parseFileContent.js
 
-    async function parseMdFile(fileContent) {
+    async function parseFileContent(fileContent) {
       try {
         const annotation = await new InlineAnnotationConverter(
           'https://pubannotation.org/conversions/inline2json'
@@ -105268,20 +105624,10 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
       const event = await readFile(file)
       const fileContent = event.target.result
 
+      // SimpleInlineTextAnnotation uses the txt extension.
+      // If this is .txt, parse first and then saving the content.
       if (isTxtFile(file.name)) {
-        // If this is .txt, New annotation json is made from .txt
-        eventEmitter.emit(
-          'textae-event.resource.annotation.load.success',
-          DataSource.createFileSource(file.name, {
-            text: fileContent
-          })
-        )
-
-        return
-      }
-
-      if (isMdFile(file.name)) {
-        const annotation = await parseMdFile(fileContent)
+        const annotation = await parseFileContent(fileContent)
 
         if (!annotation) {
           const dataSource = DataSource.createFileSource(file.name)
@@ -105882,17 +106228,8 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
       }
 
       return config
-    }
+    } // ./src/lib/Editor/UseCase/validateConfigurationAndAlert/validateConfiguration/toErrorMessage.js
 
-    // EXTERNAL MODULE: ./node_modules/ajv/dist/ajv.js
-    var ajv = __webpack_require__(3282)
-    var ajv_default = /*#__PURE__*/ __webpack_require__.n(ajv)
-    // EXTERNAL MODULE: ./node_modules/ajv-formats/dist/index.js
-    var ajv_formats_dist = __webpack_require__(8182)
-    var dist_default = /*#__PURE__*/ __webpack_require__.n(ajv_formats_dist) // ./src/lib/Editor/UseCase/validateConfigurationAndAlert/validateConfiguration/configurationScheme.json
-    const configurationScheme_namespaceObject = /*#__PURE__*/ JSON.parse(
-      '{"$schema":"http://json-schema.org/draft-07/schema#","title":"JSON schema for texta configuration files","definitions":{"characters":{"type":"array","items":{"type":"string","minLength":1,"maxLength":1}},"color":{"pattern":"^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$","type":"string"},"default":{"type":"boolean"},"denote":{"type":"object","required":["id"],"properties":{"id":{"type":"string"},"label":{"type":"string"},"color":{"$ref":"#/definitions/color"},"default":{"$ref":"#/definitions/default"}}},"types":{"type":"array","items":{"$ref":"#/definitions/denote"}},"autocompletion_ws":{"type":"string","format":"uri-reference"}},"type":"object","properties":{"delimiter characters":{"$ref":"#/definitions/characters"},"non-edge characters":{"$ref":"#/definitions/characters"},"autocompletion_ws":{"$ref":"#/definitions/autocompletion_ws"},"autosave":{"type":"boolean"},"autolineheight":{"type":"boolean"},"boundarydetection":{"type":"boolean"},"entity types":{"$ref":"#/definitions/types"},"relation types":{"$ref":"#/definitions/types"},"attribute types":{"type":"array","items":{"type":"object","required":["pred","value type"],"properties":{"pred":{"type":"string"},"value type":{"enum":["flag","selection","string","numeric"]}},"allOf":[{"if":{"properties":{"value type":{"const":"flag"}}},"then":{"properties":{"color":{"$ref":"#/definitions/color"},"label":{"type":"string"}}}},{"if":{"properties":{"value type":{"const":"selection"}}},"then":{"required":["values"],"properties":{"values":{"type":"array","items":{"$ref":"#/definitions/denote"}}}}},{"if":{"properties":{"value type":{"const":"string"}}},"then":{"properties":{"autocompletion_ws":{"$ref":"#/definitions/autocompletion_ws"},"default":{"type":"string"},"values":{"type":"array","items":{"type":"object","required":["pattern"],"properties":{"pattern":{"type":"string","format":"regex"},"label":{"type":"string"},"color":{"$ref":"#/definitions/color"}}}}}}},{"if":{"properties":{"value type":{"const":"numeric"}}},"then":{"required":["default","step"],"properties":{"default":{"type":"number"},"min":{"type":"number"},"max":{"type":"number"},"step":{"type":"number"},"values":{"type":"array","items":{"type":"object","required":["range"],"properties":{"range":{"type":"string"},"label":{"type":"string"},"color":{"$ref":"#/definitions/color"}}}}}}}]}},"function availability":{"type":"object","properties":{"read":{"type":"boolean"},"write":{"type":"boolean"},"write-auto":{"type":"boolean"},"view":{"type":"boolean"},"term":{"type":"boolean"},"block":{"type":"boolean"},"relation":{"type":"boolean"},"simple":{"type":"boolean"},"line-height":{"type":"boolean"},"line-height-auto":{"type":"boolean"},"undo":{"type":"boolean"},"redo":{"type":"boolean"},"replicate":{"type":"boolean"},"replicate-auto":{"type":"boolean"},"boundary-detection":{"type":"boolean"},"create-span-by-touch":{"type":"boolean"},"expand-span-by-touch":{"type":"boolean"},"shrink-span-by-touch":{"type":"boolean"},"entity":{"type":"boolean"},"pallet":{"type":"boolean"},"edit-properties":{"type":"boolean"},"delete":{"type":"boolean"},"copy":{"type":"boolean"},"cut":{"type":"boolean"},"paste":{"type":"boolean"},"setting":{"type":"boolean"},"help":{"type":"boolean"}}}}}'
-    ) // ./src/lib/Editor/UseCase/validateConfigurationAndAlert/validateConfiguration/toErrorMessage.js
     /* harmony default export */ function toErrorMessage(errors) {
       for (const e of errors) {
         if (e.keyword === 'required') {
@@ -105903,19 +106240,32 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
       }
     } // ./src/lib/Editor/UseCase/validateConfigurationAndAlert/validateConfiguration/index.js
 
-    const validateConfiguration_ajv = new (ajv_default())({ verbose: true })
-    dist_default()(validateConfiguration_ajv, ['uri-reference', 'regex'])
-    const validateConfiguration_validate = validateConfiguration_ajv.compile(
-      configurationScheme_namespaceObject
-    )
+    const validateConfigurationAndAlert_validateConfiguration_ajv =
+      new (ajv_default())({ verbose: true })
+    dist_default()(validateConfigurationAndAlert_validateConfiguration_ajv, [
+      'uri-reference',
+      'regex'
+    ])
+    const validateConfigurationAndAlert_validateConfiguration_validate =
+      validateConfigurationAndAlert_validateConfiguration_ajv.compile(
+        configurationScheme_namespaceObject
+      )
 
-    /* harmony default export */ function validateConfiguration(config) {
+    /* harmony default export */ function validateConfigurationAndAlert_validateConfiguration(
+      config
+    ) {
       console.assert(config, 'config is required.')
 
-      if (!validateConfiguration_validate(config)) {
-        console.warn(validateConfiguration_validate.errors)
+      if (
+        !validateConfigurationAndAlert_validateConfiguration_validate(config)
+      ) {
+        console.warn(
+          validateConfigurationAndAlert_validateConfiguration_validate.errors
+        )
 
-        return toErrorMessage(validateConfiguration_validate.errors)
+        return toErrorMessage(
+          validateConfigurationAndAlert_validateConfiguration_validate.errors
+        )
       }
 
       return null
@@ -105983,7 +106333,8 @@ reference: http://en.wikipedia.org/wiki/Longest_common_subsequence_problem
 
     function validateConfigurationAndAlert(annotation, config) {
       const patchedConfig = patchConfiguration(annotation, config)
-      const errorMessage = validateConfiguration(patchedConfig)
+      const errorMessage =
+        validateConfigurationAndAlert_validateConfiguration(patchedConfig)
       if (errorMessage) {
         alertify_default().error(errorMessage)
 
@@ -108368,20 +108719,20 @@ data-button-type="${type}">
       )
     }
 
-    function isMarkdownResponse(response, url) {
+    function isTxtResponse(response, url) {
       const fileExtension = path_browserify_default().extname(url)
       const contentType = response.headers.get('Content-Type')
 
       return (
-        fileExtension === '.md' ||
-        (contentType && contentType.includes('text/markdown'))
+        fileExtension === '.txt' ||
+        (contentType && contentType.includes('text/plain'))
       )
     } // ./src/lib/Editor/RemoteResource/AnnotationLoader/parseResponse/index.js
 
     async function parseResponse(response, url) {
       if (isJsonResponse(response, url)) {
         return await response.json()
-      } else if (isMarkdownResponse(response, url)) {
+      } else if (isTxtResponse(response, url)) {
         const inline_annotation = await response.text()
         return await new InlineAnnotationConverter(
           'https://pubannotation.org/conversions/inline2json'
@@ -108409,7 +108760,7 @@ data-button-type="${type}">
             cache: 'no-cache',
             credentials: 'omit',
             headers: {
-              Accept: 'application/json, text/markdown'
+              Accept: 'application/json, text/plain'
             },
             signal: AbortSignal.timeout(30000)
           })
@@ -108460,7 +108811,7 @@ data-button-type="${type}">
             cache: 'no-cache',
             credentials: 'include',
             headers: {
-              Accept: 'application/json, text/markdown'
+              Accept: 'application/json, text/plain'
             },
             signal: AbortSignal.timeout(30000)
           })
@@ -108640,7 +108991,7 @@ data-button-type="${type}">
 
       async #postTo(url, body) {
         const contentType =
-          this.#format === 'json' ? 'application/json' : 'text/markdown'
+          this.#format === 'json' ? 'application/json' : 'text/plain'
 
         const opt = {
           method: 'POST',
@@ -108933,6 +109284,18 @@ data-button-type="${type}">
         return this.#availabilities.get(innerName)
       }
 
+      enable(innerName) {
+        this.#availabilities.set(innerName, true)
+      }
+
+      disable(innerName) {
+        this.#availabilities.set(innerName, false)
+      }
+
+      get names() {
+        return Array.from(this.#availabilities.keys())
+      }
+
       set availability(values) {
         const availabilities = this.#translator.defaultAvailabilities
 
@@ -109163,6 +109526,7 @@ data-button-type="${type}">
           selectionModel,
           commander,
           spanConfig,
+          functionAvailability,
           clipBoard,
           menuState,
           startUpOptions,
