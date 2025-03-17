@@ -9,7 +9,7 @@ export default async function createDownloadPathForFormat(data, format) {
       'https://pubannotation.org/conversions/json2inline'
     ).toInline(data)
 
-    const blob = new Blob([inlineData], { type: 'text/plain' })
+    const blob = new Blob([inlineData], { type: 'text/plain;charset=utf-8' })
     return URL.createObjectURL(blob)
   }
 }
