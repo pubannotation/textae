@@ -64,7 +64,8 @@
     "dist/lib/textae-13.9.0.js",
     "dist/lib/textae-13.9.0.min.js",
     "dist/lib/css/textae-13.9.0.css",
-    "dist/lib/css/textae-13.9.0.min.css"
+    "dist/lib/css/textae-13.9.0.min.css",
+    "scripts/postinstall.js"
   ],
   "homepage": "https://github.com/pubannotation/textae",
   "keywords": [
@@ -116,7 +117,7 @@
     "dist:less": "lessc 'src/lib/css/textae.less' tmp/css/$npm_package_name-$npm_package_version.css",
     "dist:lint": "npx prettier --check 'src/lib/**/*.js' 'src/lib/css/*.less' && eslint src/lib",
     "dist:replace:version": "replace-in-file /{{version}}/g $npm_package_version dist/editor.html,dist/demo/**/*.html --isRegex",
-    "postinstall": "husky && cpx -C 'node_modules/font-awesome/fonts/**' src/lib/fonts",
+    "postinstall": "node ./scripts/postinstall.js",
     "release": "standard-version -a",
     "watch": "npm-run-all -p dev:watch dev:watch-less dev:server dev:open"
   },
