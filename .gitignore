@@ -7,3 +7,4 @@ dev/bundle.js
 tmp/textae-*.js
 tmp/textae-*.min.js
 tmp/css/textae*.css
+textae-*.tgz
