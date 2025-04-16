@@ -1,10 +1,8 @@
-import InlineAnnotationConverter from '../../../InlineAnnotationConverter'
+import SimpleInlineTextAnnotation from 'simple-inline-text-annotation'
 
 export default async function parseFileContent(fileContent) {
   try {
-    const annotation = await new InlineAnnotationConverter(
-      'https://pubannotation.org/conversions/inline2json'
-    ).toJSON(fileContent)
+    const annotation = SimpleInlineTextAnnotation.parse(fileContent)
 
     return annotation
   } catch {

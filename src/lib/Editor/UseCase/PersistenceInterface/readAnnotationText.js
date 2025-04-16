@@ -1,8 +1,8 @@
 import isJSON from '../../../isJSON'
 import loadAnnotation from '../../loadAnnotation'
-import InlineAnnotationConverter from '../../InlineAnnotationConverter'
 import DataSource from '../../DataSource'
 import alertifyjs from 'alertifyjs'
+import SimpleInlineTextAnnotation from 'simple-inline-text-annotation'
 
 export default async function readAnnotationText(eventEmitter, text, format) {
   if (format === 'json') {
@@ -16,9 +16,7 @@ export default async function readAnnotationText(eventEmitter, text, format) {
     }
   } else if (format === 'inline') {
     try {
-      const annotation = await new InlineAnnotationConverter(
-        'https://pubannotation.org/conversions/inline2json'
-      ).toJSON(text)
+      const annotation = SimpleInlineTextAnnotation.parse(text)
 
       loadAnnotation(eventEmitter, annotation)
     } catch {
