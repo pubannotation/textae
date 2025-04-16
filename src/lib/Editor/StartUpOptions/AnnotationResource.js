@@ -1,5 +1,5 @@
-import InlineAnnotationConverter from '../InlineAnnotationConverter'
 import isJSON from '../../isJSON'
+import SimpleInlineTextAnnotation from 'simple-inline-text-annotation'
 
 export default class AnnotationResource {
   #annotation
@@ -36,9 +36,7 @@ export default class AnnotationResource {
       if (isJSON(this.#annotation)) {
         return JSON.parse(this.#annotation)
       } else {
-        return await new InlineAnnotationConverter(
-          'https://pubannotation.org/conversions/inline2json'
-        ).toJSON(this.#annotation)
+        return SimpleInlineTextAnnotation.parse(this.#annotation)
       }
     } catch {
       return null
