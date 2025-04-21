@@ -4,7 +4,7 @@ import DataSource from '../../DataSource'
 import alertifyjs from 'alertifyjs'
 import SimpleInlineTextAnnotation from 'simple-inline-text-annotation'
 
-export default async function readAnnotationText(eventEmitter, text, format) {
+export default function readAnnotationText(eventEmitter, text, format) {
   if (format === 'json') {
     if (isJSON(text)) {
       loadAnnotation(eventEmitter, JSON.parse(text))
