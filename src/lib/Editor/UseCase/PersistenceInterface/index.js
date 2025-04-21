@@ -62,8 +62,7 @@ export default class PersistenceInterface {
       this.#lastLoadedURL.annotation,
       (url) => this.#remoteResource.loadAnnotation(url),
       (file) => readAnnotationFile(file, this.#eventEmitter),
-      async (text, format) =>
-        await readAnnotationText(this.#eventEmitter, text, format),
+      (text, format) => readAnnotationText(this.#eventEmitter, text, format),
       this.#annotationModelEventsObserver.hasChange
     ).open()
   }
