@@ -31,7 +31,7 @@ export default class AnnotationResource {
     return this.#sourceURL
   }
 
-  async annotation() {
+  annotation() {
     try {
       if (isJSON(this.#annotation)) {
         return JSON.parse(this.#annotation)
