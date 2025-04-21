@@ -12,7 +12,7 @@ export default async function readAnnotationFile(file, eventEmitter) {
   // SimpleInlineTextAnnotation uses the txt extension.
   // If this is .txt, parse first and then saving the content.
   if (isTxtFile(file.name)) {
-    const annotation = await parseFileContent(fileContent)
+    const annotation = parseFileContent(fileContent)
 
     if (!annotation) {
       const dataSource = DataSource.createFileSource(file.name)
