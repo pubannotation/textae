@@ -36,11 +36,11 @@ export default function (
     element,
     '.textae-editor__save-dialog__download-link',
     'click',
-    async (e) => {
+    (e) => {
       const format = getFormat()
 
       try {
-        await downloadAnnotationFile(e, data, format, eventEmitter)
+        downloadAnnotationFile(e, data, format, eventEmitter)
       } catch (error) {
         alertify.error(`Failed to download the source as ${format} format.`)
       } finally {
@@ -53,11 +53,11 @@ export default function (
     element,
     '.textae-editor__save-dialog__viewsource-link',
     'click',
-    async () => {
+    () => {
       const format = getFormat()
 
       try {
-        await viewSource(data, format, eventEmitter)
+        viewSource(data, format, eventEmitter)
       } catch (error) {
         alertify.error(`Failed to view the source as ${format} format.`)
       } finally {
