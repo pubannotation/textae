@@ -1,13 +1,11 @@
 import createDownloadPath from '../../createDownloadPath'
-import JSONAnnotationConverter from '../../../JSONAnnotationConverter'
+import SimpleInlineTextAnnotation from 'simple-inline-text-annotation'
 
-export default async function createDownloadPathForFormat(data, format) {
+export default function createDownloadPathForFormat(data, format) {
   if (format === 'json') {
     return createDownloadPath(data)
   } else if (format === 'inline') {
-    const inlineData = await new JSONAnnotationConverter(
-      'https://pubannotation.org/conversions/json2inline'
-    ).toInline(data)
+    const inlineData = SimpleInlineTextAnnotation.generate(data)
 
     const blob = new Blob([inlineData], { type: 'text/plain;charset=utf-8' })
     return URL.createObjectURL(blob)

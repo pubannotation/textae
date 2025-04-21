@@ -1,11 +1,9 @@
-import JSONAnnotationConverter from '../../../JSONAnnotationConverter'
+import SimpleInlineTextAnnotation from 'simple-inline-text-annotation'
 
-export default async function prepareRequestBody(editedData, format) {
+export default function prepareRequestBody(editedData, format) {
   if (format === 'json') {
     return JSON.stringify(editedData)
   } else if (format === 'inline') {
-    return await new JSONAnnotationConverter(
-      'https://pubannotation.org/conversions/json2inline'
-    ).toInline(editedData)
+    return SimpleInlineTextAnnotation.generate(editedData)
   }
 }
