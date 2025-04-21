@@ -8,7 +8,7 @@ import alertifyjs from 'alertifyjs'
  *
  * @param {import('../../StartUpOptions/index.js').default)} startUpOptions
  */
-export default async function (
+export default function (
   spanConfig,
   annotationModel,
   remoteResource,
@@ -19,7 +19,7 @@ export default async function (
 ) {
   switch (startUpOptions.resourceType) {
     case RESOURCE_TYPE.QUERY_PARAMETER: {
-      const annotation = await startUpOptions.annotation()
+      const annotation = startUpOptions.annotation()
 
       if (annotation) {
         setLoadedAnnotation(
@@ -38,7 +38,7 @@ export default async function (
       break
     }
     case RESOURCE_TYPE.INLINE: {
-      const annotation = await startUpOptions.annotation()
+      const annotation = startUpOptions.annotation()
 
       if (annotation) {
         setLoadedAnnotation(
