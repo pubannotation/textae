@@ -12,6 +12,37 @@ http://textae.pubannotation.org/
 Usage
 -----
 
+### Using as an npm package
+
+You can also use `textae` as an npm package in your project.
+
+#### Installation
+
+To install the package, run the following command:
+
+```bash
+npm install textae
+```
+
+#### Example HTML
+Here is an example of how to use textae in an HTML file:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TextAE Example</title>
+  <link rel="stylesheet" href="node_modules/textae/dist/lib/css/textae-13.9.0.min.css">
+  <script src="node_modules/textae/dist/lib/textae-13.9.0.min.js"></script>
+</head>
+<body>
+  <div class="textae-editor" title="Example Editor" mode="edit"></div>
+</body>
+</html>
+```
+
 ## parameters
 
 This editor is customizable by html attributes.
