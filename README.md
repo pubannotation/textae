@@ -23,6 +23,24 @@ To install the package, run the following command:
 ```bash
 npm install textae
 ```
+#### How to Use in HTML
+To use TextAE in your HTML, follow these steps:
+
+1. Include the stylesheet and script
+
+Add the following lines to your `<head>` section to load the TextAE CSS and JS from your `node_modules` directory:
+
+```html
+<link rel="stylesheet" href="node_modules/textae/dist/lib/css/textae-13.9.0.min.css">
+<script src="node_modules/textae/dist/lib/textae-13.9.0.min.js"></script>
+```
+2. Prepare the container
+Add a `<div>` element with the class `textae-editor` to your HTML.
+This is the element where the TextAE editor will be rendered.
+
+```html
+<div class="textae-editor" title="Example Editor" mode="edit"></div>
+```
 
 #### Example HTML
 Here is an example of how to use textae in an HTML file:
