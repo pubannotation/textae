@@ -2386,14 +2386,14 @@ a.ui-button:active,
   border-color: #999;
 }
 .jsondiffpatch-delta {
-  font-family: "Bitstream Vera Sans Mono", "DejaVu Sans Mono", Monaco, Courier, monospace;
+  font-family: 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', Monaco, Courier, monospace;
   font-size: 12px;
   margin: 0;
   padding: 0 0 0 12px;
   display: inline-block;
 }
 .jsondiffpatch-delta pre {
-  font-family: "Bitstream Vera Sans Mono", "DejaVu Sans Mono", Monaco, Courier, monospace;
+  font-family: 'Bitstream Vera Sans Mono', 'DejaVu Sans Mono', Monaco, Courier, monospace;
   font-size: 12px;
   margin: 0;
   padding: 0;
@@ -2465,48 +2465,44 @@ ul.jsondiffpatch-delta {
   vertical-align: top;
 }
 .jsondiffpatch-property-name:after {
-  content: ": ";
+  content: ': ';
 }
 .jsondiffpatch-child-node-type-array > .jsondiffpatch-property-name:after {
-  content: ": [";
+  content: ': [';
 }
 .jsondiffpatch-child-node-type-array:after {
-  content: "],";
+  content: '],';
 }
 div.jsondiffpatch-child-node-type-array:before {
-  content: "[";
+  content: '[';
 }
 div.jsondiffpatch-child-node-type-array:after {
-  content: "]";
+  content: ']';
 }
 .jsondiffpatch-child-node-type-object > .jsondiffpatch-property-name:after {
-  content: ": {";
+  content: ': {';
 }
 .jsondiffpatch-child-node-type-object:after {
-  content: "},";
+  content: '},';
 }
 div.jsondiffpatch-child-node-type-object:before {
-  content: "{";
+  content: '{';
 }
 div.jsondiffpatch-child-node-type-object:after {
-  content: "}";
+  content: '}';
 }
 .jsondiffpatch-value pre:after {
-  content: ",";
+  content: ',';
 }
 li:last-child > .jsondiffpatch-value pre:after,
 .jsondiffpatch-modified > .jsondiffpatch-left-value pre:after {
-  content: "";
+  content: '';
 }
 .jsondiffpatch-modified .jsondiffpatch-value {
   display: inline-block;
 }
 .jsondiffpatch-modified .jsondiffpatch-right-value {
   margin-left: 5px;
-}
-.jsondiffpatch-moved .jsondiffpatch-property-name {
-  text-decoration: line-through;
-  text-decoration-color: gray;
 }
 .jsondiffpatch-moved .jsondiffpatch-value {
   display: none;
@@ -2517,7 +2513,7 @@ li:last-child > .jsondiffpatch-value pre:after,
   color: #888;
 }
 .jsondiffpatch-moved .jsondiffpatch-moved-destination:before {
-  content: " => ";
+  content: ' => ';
 }
 ul.jsondiffpatch-textdiff {
   padding: 0;
@@ -2531,7 +2527,7 @@ ul.jsondiffpatch-textdiff {
   display: inline-block;
 }
 .jsondiffpatch-textdiff-line-number:after {
-  content: ",";
+  content: ',';
 }
 .jsondiffpatch-error {
   background: red;
