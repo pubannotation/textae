@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [13.10.0](https://github.com/pubannotation/textae/compare/v13.9.0...v13.10.0) (2025-05-12)
+
+
+### Features
+
+* a596bfb Replace InlineAnnotationConverter with SimpleInlineTextAnnotation ([c6a8a60](https://github.com/pubannotation/textae/commit/c6a8a60b10a6da2bd3301f0de592fd2798386dd2))
+* c5e942f Support relation annotation by updating simple-inline-text-annotation to v1.1.0 ([5865816](https://github.com/pubannotation/textae/commit/58658160d94749deb74ae1431306b363d4eb63dc))
+
+
+### Bug Fixes
+
+* Japanese strings are corrupted when preview saving annotation ([aea559e](https://github.com/pubannotation/textae/commit/aea559eb5b307b584283ed9028711b3102520580))
+
 ## [13.9.0](https://github.com/pubannotation/textae/compare/v13.8.1...v13.9.0) (2025-03-11)
 
 
