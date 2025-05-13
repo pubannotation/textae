@@ -1,5 +1,4 @@
 import PromiseDialog from '../PromiseDialog'
-import searchTerm from '../searchTerm'
 import Autocomplete from 'popover-autocomplete'
 import template from './template'
 
@@ -23,12 +22,7 @@ export default class TypeDefinitionDialog extends PromiseDialog {
 
     const [idElement, labelElement] = super.el.querySelectorAll('input')
     const onSearch = (term, onResult) =>
-      searchTerm(
-        term,
-        onResult,
-        autocompletionWs,
-        definitionContainer.findByLabel(term)
-      )
+      definitionContainer.searchByLabel(term, onResult, autocompletionWs)
 
     const onSelect = (result) => {
       idElement.value = result.id

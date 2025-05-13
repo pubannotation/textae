@@ -4,6 +4,7 @@ import sortByCountAndName from './sortByCountAndName'
 import countUsage from './countUsage'
 import DefinedType from '../DefinedType'
 import DefinedTypeContainer from './DefinedTypeContainer'
+import searchTerm from '../../../component/searchTerm'
 
 export default class DefinitionContainer {
   #eventEmitter
@@ -140,6 +141,10 @@ export default class DefinitionContainer {
 
   getURI(id) {
     return getUrlMatches(id) ? id : undefined
+  }
+
+  searchByLabel(term, done, autocompletionWs) {
+    searchTerm(term, done, autocompletionWs, this.findByLabel(term))
   }
 
   findByLabel(term) {

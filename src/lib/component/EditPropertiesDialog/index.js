@@ -4,7 +4,6 @@ import getValues from './getValues'
 import Autocomplete from 'popover-autocomplete'
 import createContentHTML from './createContentHTML'
 import mergedTypeValuesOf from './mergedTypeValuesOf'
-import searchTerm from '../searchTerm'
 import EditAttributeButtonHandler from './EditAttributeButtonHandler'
 
 export default class EditPropertiesDialog extends PromiseDialog {
@@ -149,12 +148,7 @@ export default class EditPropertiesDialog extends PromiseDialog {
     new Autocomplete({
       inputElement: typeNameElement,
       onSearch: (term, onResult) =>
-        searchTerm(
-          term,
-          onResult,
-          autocompletionWs,
-          definitionContainer.findByLabel(term)
-        ),
+        definitionContainer.searchByLabel(term, onResult, autocompletionWs),
       onSelect: (result) => {
         typeNameElement.value = result.id
         typeLabelElement.innerText = result.label
