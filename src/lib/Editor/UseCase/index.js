@@ -37,7 +37,8 @@ export default class UseCase {
     eventEmitter,
     annotationModel,
     startUpOptions,
-    selectionModel
+    selectionModel,
+    autocompletionCallbackGetter
   ) {
     const spanConfig = new SpanConfig()
 
@@ -96,7 +97,8 @@ export default class UseCase {
       menuState,
       startUpOptions,
       mousePoint,
-      editModeState
+      editModeState,
+      autocompletionCallbackGetter
     )
     this.#presenter = presenter
     this.#annotationModel = annotationModel

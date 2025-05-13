@@ -29,7 +29,8 @@ export default class EditModeSwitch {
     menuState,
     startUpOptions,
     mousePoint,
-    editModeState
+    editModeState,
+    autocompletionCallbackGetter
   ) {
     this.#termEditMode = new TermEditMode(
       editorHTMLElement,
@@ -39,7 +40,8 @@ export default class EditModeSwitch {
       commander,
       menuState,
       spanConfig,
-      mousePoint
+      mousePoint,
+      autocompletionCallbackGetter
     )
 
     this.#blockEditMode = new BlockEditMode(
@@ -50,7 +52,8 @@ export default class EditModeSwitch {
       spanConfig,
       commander,
       menuState,
-      mousePoint
+      mousePoint,
+      autocompletionCallbackGetter
     )
 
     this.#relationEditMode = new RelationEditMode(
@@ -60,7 +63,8 @@ export default class EditModeSwitch {
       selectionModel,
       commander,
       menuState,
-      mousePoint
+      mousePoint,
+      autocompletionCallbackGetter
     )
 
     this.#textEditMode = new TextEditMode(

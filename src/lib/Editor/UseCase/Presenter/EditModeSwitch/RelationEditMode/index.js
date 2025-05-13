@@ -19,7 +19,8 @@ export default class RelationEditMode extends EditMode {
     selectionModel,
     commander,
     menuState,
-    mousePoint
+    mousePoint,
+    autocompletionCallbackGetter
   ) {
     super()
 
@@ -61,7 +62,8 @@ export default class RelationEditMode extends EditMode {
       annotationModel.typeDictionary.relation,
       annotationModel,
       'Relation',
-      getAutocompletionWs
+      getAutocompletionWs,
+      autocompletionCallbackGetter
     )
     this.#selectionModel = selectionModel
 

@@ -14,6 +14,7 @@ export default class EditPropertiesDialog extends PromiseDialog {
   #typeName
   #typeLabel
   #attributes
+  #autocompletionCallbackGetter
 
   constructor(
     editorHTMLElement,
@@ -24,7 +25,8 @@ export default class EditPropertiesDialog extends PromiseDialog {
     autocompletionWs,
     selectedItems,
     typeValuesPallet,
-    mousePoint
+    mousePoint,
+    autocompletionCallbackGetter
   ) {
     const { typeName, attributes } = mergedTypeValuesOf(selectedItems)
     const typeLabel = definitionContainer.getLabel(typeName)
@@ -50,6 +52,7 @@ export default class EditPropertiesDialog extends PromiseDialog {
     this.#attributeContainer = attributeContainer
     this.#definitionContainer = definitionContainer
     this.#autocompletionWs = autocompletionWs
+    this.#autocompletionCallbackGetter = autocompletionCallbackGetter
     const updateDisplay = (typeName, label, attributes) => {
       this.#typeName = typeName
       this.#typeLabel = label
@@ -138,6 +141,15 @@ export default class EditPropertiesDialog extends PromiseDialog {
     )
   }
 
+  resolveAutocompleteCandidate(term) {
+    const callback = this.#autocompletionCallbackGetter(term)
+
+    if (typeof callback === 'function') {
+      return callback(term)
+    }
+    return null
+  }
+
   #setupAutocomplete(autocompletionWs, definitionContainer) {
     const typeNameElement = super.el.querySelector(
       '.textae-editor__edit-type-values-dialog__type-name'
@@ -148,13 +160,20 @@ export default class EditPropertiesDialog extends PromiseDialog {
 
     new Autocomplete({
       inputElement: typeNameElement,
-      onSearch: (term, onResult) =>
-        searchTerm(
-          term,
-          onResult,
-          autocompletionWs,
-          definitionContainer.findByLabel(term)
-        ),
+      onSearch: (term, onResult) => {
+        const result = this.resolveAutocompleteCandidate(term)
+
+        if (result !== null && result !== undefined) {
+          onResult(JSON.parse(result))
+        } else {
+          searchTerm(
+            term,
+            onResult,
+            autocompletionWs,
+            definitionContainer.findByLabel(term)
+          )
+        }
+      },
       onSelect: (result) => {
         typeNameElement.value = result.id
         typeLabelElement.innerText = result.label

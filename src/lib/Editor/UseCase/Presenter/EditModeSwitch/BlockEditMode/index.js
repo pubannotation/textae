@@ -18,6 +18,7 @@ export default class BlockEditMode extends EditMode {
   #selectionModel
   #menuState
   #pallet
+  #autocompletionCallbackGetter
 
   constructor(
     editorHTMLElement,
@@ -27,12 +28,15 @@ export default class BlockEditMode extends EditMode {
     spanConfig,
     commander,
     menuState,
-    mousePoint
+    mousePoint,
+    autocompletionCallbackGetter
   ) {
     super()
 
     const getAutocompletionWs = () =>
       annotationModel.typeDictionary.autocompletionWs
+
+    this.#autocompletionCallbackGetter = autocompletionCallbackGetter
 
     this.#pallet = PalletFactory.create(
       editorHTMLElement,
@@ -78,7 +82,8 @@ export default class BlockEditMode extends EditMode {
       annotationModel.typeDictionary.block,
       annotationModel,
       'Entity',
-      getAutocompletionWs
+      getAutocompletionWs,
+      this.#autocompletionCallbackGetter
     )
     this.#selectionModel = selectionModel
 

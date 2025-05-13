@@ -38,7 +38,8 @@ export default class Presenter {
     menuState,
     startUpOptions,
     mousePoint,
-    editModeState
+    editModeState,
+    autocompletionCallbackGetter
   ) {
     const editModeSwitch = new EditModeSwitch(
       editorHTMLElement,
@@ -50,7 +51,8 @@ export default class Presenter {
       menuState,
       startUpOptions,
       mousePoint,
-      editModeState
+      editModeState,
+      autocompletionCallbackGetter
     )
 
     eventEmitter

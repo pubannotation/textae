@@ -27,7 +27,8 @@ export default class TermEditMode extends EditMode {
     commander,
     menuState,
     spanConfig,
-    mousePoint
+    mousePoint,
+    autocompletionCallbackGetter
   ) {
     super()
 
@@ -78,7 +79,8 @@ export default class TermEditMode extends EditMode {
       annotationModel.typeDictionary.denotation,
       annotationModel,
       'Denotation',
-      getAutocompletionWs
+      getAutocompletionWs,
+      autocompletionCallbackGetter
     )
     this.#selectionModel = selectionModel
 
