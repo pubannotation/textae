@@ -310,6 +310,25 @@
 
             // Focus on the annotation specified by the ID.
             editor.focusDenotation('T1')
+
+            editor.autocompletionCallback = (term) => {
+                const rawData = [
+                    {
+                        id: 'http://dbpedia.org/ontology/super_long_long_name_items/parent0',
+                        label: 'parent0'
+                    },
+                    {
+                        id: 'http://dbpedia.org/ontology/parent1',
+                        label: 'parent1'
+                    },
+                    {
+                        id: 'http://dbpedia.org/ontology/parent2',
+                        label: 'parent2'
+                    }
+                ]
+
+                return JSON.stringify(rawData.filter((d) => d.label.includes(term)))
+            }
         }
     </script>
 
