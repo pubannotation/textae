@@ -19,6 +19,10 @@ export default class API {
     this._editor.setLastSelectedDenotationIDCallback(callback)
   }
 
+  set autocompletionCallback(callback) {
+    this._editor.setAutocompletionCallback(callback)
+  }
+
   get id() {
     return this._editor.HTMLElementID
   }

@@ -23,6 +23,7 @@ export default class Editor {
   #lastSelectedDenotationIDCallback
   #scrollEventListeners
   #useCase
+  #autocompletionCallbackGetter = null
 
   constructor(
     element,
@@ -88,7 +89,8 @@ export default class Editor {
       eventEmitter,
       annotationModel,
       startUpOptions,
-      selectionModel
+      selectionModel,
+      () => this.getAutocompletionCallback()
     )
     this.#useCase = useCase
 
@@ -145,6 +147,17 @@ export default class Editor {
         callback
       )
     }
+  }
+
+  setAutocompletionCallback(callback) {
+    this.#autocompletionCallbackGetter = callback
+  }
+
+  getAutocompletionCallback() {
+    if (typeof this.#autocompletionCallbackGetter === 'function') {
+      return this.#autocompletionCallbackGetter
+    }
+    return null
   }
 
   get HTMLElementID() {
