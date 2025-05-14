@@ -14,12 +14,20 @@ export default class DefinitionContainer {
   #getAllInstanceFunc
   #defaultColor
   #defaultType
+  #autocompletionWs
 
-  constructor(eventEmitter, annotationType, getAllInstanceFunc, defaultColor) {
+  constructor(
+    eventEmitter,
+    annotationType,
+    getAllInstanceFunc,
+    defaultColor,
+    autocompletionWs
+  ) {
     this.#eventEmitter = eventEmitter
     this.#annotationType = annotationType
     this.#getAllInstanceFunc = getAllInstanceFunc
     this.#defaultColor = defaultColor
+    this.#autocompletionWs = autocompletionWs
   }
 
   get annotationType() {
@@ -143,8 +151,8 @@ export default class DefinitionContainer {
     return getUrlMatches(id) ? id : undefined
   }
 
-  searchByLabel(term, done, autocompletionWs) {
-    searchTerm(term, done, autocompletionWs, this.findByLabel(term))
+  searchByLabel(term, done) {
+    searchTerm(term, done, this.#autocompletionWs(), this.findByLabel(term))
   }
 
   findByLabel(term) {

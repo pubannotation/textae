@@ -148,7 +148,7 @@ export default class EditPropertiesDialog extends PromiseDialog {
     new Autocomplete({
       inputElement: typeNameElement,
       onSearch: (term, onResult) =>
-        definitionContainer.searchByLabel(term, onResult, autocompletionWs),
+        definitionContainer.searchByLabel(term, onResult),
       onSelect: (result) => {
         typeNameElement.value = result.id
         typeLabelElement.innerText = result.label
