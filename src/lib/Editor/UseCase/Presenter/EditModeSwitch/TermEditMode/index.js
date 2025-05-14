@@ -31,9 +31,6 @@ export default class TermEditMode extends EditMode {
   ) {
     super()
 
-    const getAutocompletionWs = () =>
-      annotationModel.typeDictionary.autocompletionWs
-
     this.#pallet = PalletFactory.create(
       editorHTMLElement,
       eventEmitter,
@@ -45,7 +42,6 @@ export default class TermEditMode extends EditMode {
       'Term configuration',
       menuState,
       mousePoint,
-      getAutocompletionWs,
       'entity',
       selectionModel,
       annotationModel,

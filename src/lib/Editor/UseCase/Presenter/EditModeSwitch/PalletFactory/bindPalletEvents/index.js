@@ -6,14 +6,13 @@ import checkButtonEnable from './checkButtonEnable'
 export default function (
   pallet,
   commander,
-  getAutocompletionWs,
   definitionContainer,
   annotationType,
   selectionModel,
   annotationModel
 ) {
   delegate(pallet.el, `.textae-editor__pallet__add-button`, 'click', () => {
-    new CreateTypeDefinitionDialog(definitionContainer, getAutocompletionWs())
+    new CreateTypeDefinitionDialog(definitionContainer)
       .open()
       .then(({ newType }) =>
         commander.invoke(
@@ -52,8 +51,7 @@ export default function (
       definitionContainer,
       e.target.dataset.id,
       e.target.dataset.color.toLowerCase(),
-      e.target.dataset.isDefault === 'true',
-      getAutocompletionWs()
+      e.target.dataset.isDefault === 'true'
     )
       .open()
       .then(({ id, changedProperties }) => {

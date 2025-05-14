@@ -1,7 +1,7 @@
 import TypeDefinitionDialog from './TypeDefinitionDialog'
 
 export default class CreateTypeDefinitionDialog extends TypeDefinitionDialog {
-  constructor(definitionContainer, autocompletionWs) {
+  constructor(definitionContainer) {
     const convertToResultsFunc = (newId, newLabel, newColor, newDefault) => {
       if (newId === '') {
         return
@@ -32,7 +32,6 @@ export default class CreateTypeDefinitionDialog extends TypeDefinitionDialog {
         isDefault: false
       },
       definitionContainer,
-      autocompletionWs,
       convertToResultsFunc
     )
   }
