@@ -33,6 +33,10 @@ export default class TypeDictionary {
     this.#lockStateObservable.set(configLocked)
   }
 
+  set autocompletionWs(value) {
+    this.#autocompletionWs = value
+  }
+
   get denotation() {
     return this.#denotationContainer
   }
