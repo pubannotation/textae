@@ -60,8 +60,7 @@ export default class RelationEditMode extends EditMode {
       mousePoint,
       annotationModel.typeDictionary.relation,
       annotationModel,
-      'Relation',
-      getAutocompletionWs
+      'Relation'
     )
     this.#selectionModel = selectionModel
 
