@@ -31,9 +31,6 @@ export default class BlockEditMode extends EditMode {
   ) {
     super()
 
-    const getAutocompletionWs = () =>
-      annotationModel.typeDictionary.autocompletionWs
-
     this.#pallet = PalletFactory.create(
       editorHTMLElement,
       eventEmitter,
@@ -45,7 +42,6 @@ export default class BlockEditMode extends EditMode {
       'Block configuration',
       menuState,
       mousePoint,
-      getAutocompletionWs,
       'entity',
       selectionModel,
       annotationModel,

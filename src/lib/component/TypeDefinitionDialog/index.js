@@ -3,13 +3,7 @@ import Autocomplete from 'popover-autocomplete'
 import template from './template'
 
 export default class TypeDefinitionDialog extends PromiseDialog {
-  constructor(
-    title,
-    content,
-    definitionContainer,
-    autocompletionWs,
-    convertToResultsFunc
-  ) {
+  constructor(title, content, definitionContainer, convertToResultsFunc) {
     super(title, template(content), {}, () => {
       const inputs = super.el.querySelectorAll('input')
       return convertToResultsFunc(

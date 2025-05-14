@@ -14,7 +14,6 @@ export default class PalletWrapper {
     title,
     menuState,
     mousePoint,
-    getAutocompletionWs,
     annotationType,
     selectionModel,
     annotationModel,
@@ -36,7 +35,6 @@ export default class PalletWrapper {
     bindPalletEvents(
       pallet,
       commander,
-      getAutocompletionWs,
       definitionContainer,
       annotationType,
       selectionModel,

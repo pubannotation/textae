@@ -23,9 +23,6 @@ export default class RelationEditMode extends EditMode {
   ) {
     super()
 
-    const getAutocompletionWs = () =>
-      annotationModel.typeDictionary.autocompletionWs
-
     this.#pallet = PalletFactory.create(
       editorHTMLElement,
       eventEmitter,
@@ -37,7 +34,6 @@ export default class RelationEditMode extends EditMode {
       'Relation configuration',
       menuState,
       mousePoint,
-      getAutocompletionWs,
       'relation',
       selectionModel,
       annotationModel,

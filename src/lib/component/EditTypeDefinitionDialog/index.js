@@ -2,7 +2,7 @@ import TypeDefinitionDialog from '../TypeDefinitionDialog'
 import getDifference from './getDifference'
 
 export default class EditTypeDefinitionDialog extends TypeDefinitionDialog {
-  constructor(definitionContainer, id, color, isDefault, autocompletionWs) {
+  constructor(definitionContainer, id, color, isDefault) {
     const label = definitionContainer.getLabel(id) || ''
 
     const beforeChange = {
@@ -28,12 +28,6 @@ export default class EditTypeDefinitionDialog extends TypeDefinitionDialog {
       }
     }
 
-    super(
-      'Edit type',
-      beforeChange,
-      definitionContainer,
-      autocompletionWs,
-      convertToReseltsFunc
-    )
+    super('Edit type', beforeChange, definitionContainer, convertToReseltsFunc)
   }
 }
