@@ -77,8 +77,7 @@ export default class TermEditMode extends EditMode {
       mousePoint,
       annotationModel.typeDictionary.denotation,
       annotationModel,
-      'Denotation',
-      getAutocompletionWs
+      'Denotation'
     )
     this.#selectionModel = selectionModel
 

@@ -9,7 +9,6 @@ import EditAttributeButtonHandler from './EditAttributeButtonHandler'
 export default class EditPropertiesDialog extends PromiseDialog {
   #attributeContainer
   #definitionContainer
-  #autocompletionWs
   #typeName
   #typeLabel
   #attributes
@@ -20,7 +19,6 @@ export default class EditPropertiesDialog extends PromiseDialog {
     palletName,
     definitionContainer,
     attributeContainer,
-    autocompletionWs,
     selectedItems,
     typeValuesPallet,
     mousePoint
@@ -48,7 +46,6 @@ export default class EditPropertiesDialog extends PromiseDialog {
 
     this.#attributeContainer = attributeContainer
     this.#definitionContainer = definitionContainer
-    this.#autocompletionWs = autocompletionWs
     const updateDisplay = (typeName, label, attributes) => {
       this.#typeName = typeName
       this.#typeLabel = label
@@ -120,12 +117,12 @@ export default class EditPropertiesDialog extends PromiseDialog {
     )
 
     // Setup autocomplete
-    this.#setupAutocomplete(autocompletionWs, definitionContainer)
+    this.#setupAutocomplete(definitionContainer)
   }
 
   #updateDisplay() {
     super.el.closest('.ui-dialog-content').innerHTML = this.#contentHTML
-    this.#setupAutocomplete(this.#autocompletionWs, this.#definitionContainer)
+    this.#setupAutocomplete(this.#definitionContainer)
   }
 
   get #contentHTML() {
@@ -137,7 +134,7 @@ export default class EditPropertiesDialog extends PromiseDialog {
     )
   }
 
-  #setupAutocomplete(autocompletionWs, definitionContainer) {
+  #setupAutocomplete(definitionContainer) {
     const typeNameElement = super.el.querySelector(
       '.textae-editor__edit-type-values-dialog__type-name'
     )

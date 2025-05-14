@@ -77,8 +77,7 @@ export default class BlockEditMode extends EditMode {
       mousePoint,
       annotationModel.typeDictionary.block,
       annotationModel,
-      'Entity',
-      getAutocompletionWs
+      'Entity'
     )
     this.#selectionModel = selectionModel
 

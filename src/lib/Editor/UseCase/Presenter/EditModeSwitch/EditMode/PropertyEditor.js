@@ -9,7 +9,6 @@ export default class PropertyEditor {
   #definitionContainer
   #annotationModel
   #annotationType
-  #getAutocompletionWs
 
   constructor(
     editorHTMLElement,
@@ -19,8 +18,7 @@ export default class PropertyEditor {
     mousePoint,
     definitionContainer,
     annotationModel,
-    annotationType,
-    getAutocompletionWs
+    annotationType
   ) {
     this.#editorHTMLElement = editorHTMLElement
     this.#commander = commander
@@ -30,7 +28,6 @@ export default class PropertyEditor {
     this.#definitionContainer = definitionContainer
     this.#annotationModel = annotationModel
     this.#annotationType = annotationType
-    this.#getAutocompletionWs = getAutocompletionWs
   }
 
   startEditing(selectionModel) {
@@ -61,7 +58,6 @@ export default class PropertyEditor {
       this.#palletName,
       this.#definitionContainer,
       this.#annotationModel.typeDictionary.attribute,
-      this.#getAutocompletionWs(),
       selectedItems,
       this.#pallet,
       this.#mousePoint
