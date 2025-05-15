@@ -38,6 +38,12 @@ export default class TypeDictionary {
     this.#blockContainer.autocompletionWs = value
   }
 
+  set autocompletionFunction(fn) {
+    this.#denotationContainer.autocompletionFunction = fn
+    this.#relationContainer.autocompletionFunction = fn
+    this.#blockContainer.autocompletionFunction = fn
+  }
+
   get denotation() {
     return this.#denotationContainer
   }

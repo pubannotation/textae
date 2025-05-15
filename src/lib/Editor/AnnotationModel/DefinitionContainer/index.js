@@ -17,22 +17,19 @@ export default class DefinitionContainer {
   #autocompletionWs = ''
   #autocompletionFunction
 
-  constructor(
-    eventEmitter,
-    annotationType,
-    getAllInstanceFunc,
-    defaultColor,
-    autocompletionFunction
-  ) {
+  constructor(eventEmitter, annotationType, getAllInstanceFunc, defaultColor) {
     this.#eventEmitter = eventEmitter
     this.#annotationType = annotationType
     this.#getAllInstanceFunc = getAllInstanceFunc
     this.#defaultColor = defaultColor
-    this.#autocompletionFunction = autocompletionFunction
   }
 
   set autocompletionWs(value) {
     this.#autocompletionWs = value
+  }
+
+  set autocompletionFunction(fn) {
+    this.#autocompletionFunction = fn
   }
 
   get autocompletionWs() {
@@ -161,8 +158,8 @@ export default class DefinitionContainer {
   }
 
   searchByLabel(term, done) {
-    if (typeof this.#autocompletionFunction() === 'function') {
-      const result = this.#autocompletionFunction()(term)
+    if (typeof this.#autocompletionFunction === 'function') {
+      const result = this.#autocompletionFunction(term)
       const filteredData = (result || []).filter(
         (newDatum) =>
           !this.findByLabel(term).some(

@@ -38,8 +38,7 @@ export default class AnnotationModel {
     startJQueryUIDialogWait,
     endJQueryUIDialogWait,
     isConfigLocked,
-    additionalPaddingTop,
-    autocompletionFunction
+    additionalPaddingTop
   ) {
     this.#sourceDoc = ''
     this.#namespaceInstanceContainer = new InstanceContainer(
@@ -50,8 +49,7 @@ export default class AnnotationModel {
       eventEmitter,
       'relation',
       () => this.#relationInstanceContainer.all,
-      '#00CC66',
-      autocompletionFunction
+      '#00CC66'
     )
 
     this.#relationInstanceContainer = new RelationInstanceContainer(
@@ -113,15 +111,13 @@ export default class AnnotationModel {
       eventEmitter,
       'entity',
       () => this.#entityInstanceContainer.denotations,
-      '#77DDDD',
-      autocompletionFunction
+      '#77DDDD'
     )
     const blockDefinitionContainer = new DefinitionContainer(
       eventEmitter,
       'entity',
       () => this.#entityInstanceContainer.blocks,
-      '#77DDDD',
-      autocompletionFunction
+      '#77DDDD'
     )
     this.#typeDictionary = new TypeDictionary(
       eventEmitter,
@@ -218,6 +214,10 @@ export default class AnnotationModel {
     // This seems to happen especially when the browser is wide with only one editor.
     // The true cause is unknown, but it can be avoided by doing the layout twice.
     this.reLayout()
+  }
+
+  set autocompletionFunction(fn) {
+    this.#typeDictionary.autocompletionFunction = fn
   }
 
   get externalFormat() {
