@@ -23,7 +23,7 @@ export default class Editor {
   #lastSelectedDenotationIDCallback
   #scrollEventListeners
   #useCase
-  #autocompletionFunction
+  #autocompletionFunction = null
 
   constructor(
     element,
@@ -150,14 +150,14 @@ export default class Editor {
   }
 
   setAutocompletionFunction(callback) {
+    if (typeof callback !== 'function') {
+      throw new TypeError('autocompletionFunction must be a function')
+    }
     this.#autocompletionFunction = callback
   }
 
   getAutocompletionFunction() {
-    if (typeof this.#autocompletionFunction === 'function') {
-      return this.#autocompletionFunction
-    }
-    return null
+    return this.#autocompletionFunction
   }
 
   get HTMLElementID() {
