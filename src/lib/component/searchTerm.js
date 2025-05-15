@@ -2,8 +2,33 @@ export default function searchTerm(
   term,
   done,
   autocompletionWs,
-  localData = []
+  localData = [],
+  autocompletionFunction = null
 ) {
+  if (
+    autocompletionFunction &&
+    typeof autocompletionFunction() === 'function'
+  ) {
+    const result = autocompletionFunction()(term)
+
+    if (result && typeof result.then === 'function') {
+      result.then((data) => {
+        const filteredData = data.filter(
+          (newDatum) =>
+            !localData.some((localDatum) => newDatum.id === localDatum.id)
+        )
+        done(localData.concat(filteredData))
+      })
+    } else {
+      const filteredData = (result || []).filter(
+        (newDatum) =>
+          !localData.some((localDatum) => newDatum.id === localDatum.id)
+      )
+      done(localData.concat(filteredData))
+    }
+    return
+  }
+
   if (!autocompletionWs) {
     done(localData)
     return
