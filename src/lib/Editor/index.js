@@ -23,6 +23,7 @@ export default class Editor {
   #lastSelectedDenotationIDCallback
   #scrollEventListeners
   #useCase
+  #autocompletionFunction
 
   constructor(
     element,
@@ -56,7 +57,8 @@ export default class Editor {
       startJQueryUIDialogWait,
       endJQueryUIDialogWait,
       startUpOptions.configLock === 'true',
-      startUpOptions.additionalPaddingTop
+      startUpOptions.additionalPaddingTop,
+      () => this.getAutocompletionFunction()
     )
 
     this.#element = element
@@ -145,6 +147,17 @@ export default class Editor {
         callback
       )
     }
+  }
+
+  setAutocompletionFunction(callback) {
+    this.#autocompletionFunction = callback
+  }
+
+  getAutocompletionFunction() {
+    if (typeof this.#autocompletionFunction === 'function') {
+      return this.#autocompletionFunction
+    }
+    return null
   }
 
   get HTMLElementID() {
