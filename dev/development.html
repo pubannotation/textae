@@ -310,6 +310,29 @@
 
             // Focus on the annotation specified by the ID.
             editor.focusDenotation('T1')
+
+            // Set a callback function for autocomplete suggestions.
+            // This function receives the input string `term` and returns a JSON string
+            // of candidate objects whose label includes the given term.
+            // The returned JSON is used by the TextAE editor's autocomplete feature.
+            editor.autocompletionCallback = (term) => {
+                const dictionary = [
+                    {
+                        id: 'http://dbpedia.org/ontology/super_long_long_name_items/parent0',
+                        label: 'parent0'
+                    },
+                    {
+                        id: 'http://dbpedia.org/ontology/parent1',
+                        label: 'parent1'
+                    },
+                    {
+                        id: 'http://dbpedia.org/ontology/parent2',
+                        label: 'parent2'
+                    }
+                ]
+
+                return dictionary.filter((d) => d.label.includes(term))
+            }
         }
     </script>
 
