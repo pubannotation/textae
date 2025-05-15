@@ -6,7 +6,6 @@ export default class TypeDictionary {
   #blockContainer
   #relationContainer
   #attributeContainer
-  #autocompletionWs
   #lockStateObservable = new Observable(false)
 
   /**
@@ -34,7 +33,9 @@ export default class TypeDictionary {
   }
 
   set autocompletionWs(value) {
-    this.#autocompletionWs = value
+    this.#denotationContainer.autocompletionWs = value
+    this.#relationContainer.autocompletionWs = value
+    this.#blockContainer.autocompletionWs = value
   }
 
   get denotation() {
@@ -54,7 +55,7 @@ export default class TypeDictionary {
   }
 
   get autocompletionWs() {
-    return this.#autocompletionWs
+    return this.#denotationContainer.autocompletionWs
   }
 
   get config() {
@@ -96,13 +97,17 @@ export default class TypeDictionary {
       this.#relationContainer.config = config['relation types']
       this.#attributeContainer.config = config['attribute types']
       this.#blockContainer.config = config['block types']
-      this.#autocompletionWs = config['autocompletion_ws']
+      this.#denotationContainer.autocompletionWs = config['autocompletion_ws']
+      this.#relationContainer.autocompletionWs = config['autocompletion_ws']
+      this.#blockContainer.autocompletionWs = config['autocompletion_ws']
     } else {
       this.#denotationContainer.config = null
       this.#relationContainer.config = null
       this.#attributeContainer.config = null
       this.#blockContainer.config = null
-      this.#autocompletionWs = ''
+      this.#denotationContainer.autocompletionWs = ''
+      this.#relationContainer.autocompletionWs = ''
+      this.#blockContainer.autocompletionWs = ''
     }
 
     this.#eventEmitter.emit(`textae-event.type-definition.reset`)
