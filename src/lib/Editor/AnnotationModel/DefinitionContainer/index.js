@@ -161,13 +161,20 @@ export default class DefinitionContainer {
   }
 
   searchByLabel(term, done) {
-    searchTerm(
-      term,
-      done,
-      this.#autocompletionWs,
-      this.findByLabel(term),
-      this.#autocompletionFunction
-    )
+    if (typeof this.#autocompletionFunction() === 'function') {
+      const result = this.#autocompletionFunction()(term)
+      const filteredData = (result || []).filter(
+        (newDatum) =>
+          !this.findByLabel(term).some(
+            (localDatum) => newDatum.id === localDatum.id
+          )
+      )
+
+      done(this.findByLabel(term).concat(filteredData))
+      return
+    }
+
+    searchTerm(term, done, this.#autocompletionWs, this.findByLabel(term))
   }
 
   findByLabel(term) {
