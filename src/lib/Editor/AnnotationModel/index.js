@@ -49,8 +49,7 @@ export default class AnnotationModel {
       eventEmitter,
       'relation',
       () => this.#relationInstanceContainer.all,
-      '#00CC66',
-      () => this.#typeDictionary?.autocompletionWs
+      '#00CC66'
     )
 
     this.#relationInstanceContainer = new RelationInstanceContainer(
@@ -112,15 +111,13 @@ export default class AnnotationModel {
       eventEmitter,
       'entity',
       () => this.#entityInstanceContainer.denotations,
-      '#77DDDD',
-      () => this.#typeDictionary?.autocompletionWs
+      '#77DDDD'
     )
     const blockDefinitionContainer = new DefinitionContainer(
       eventEmitter,
       'entity',
       () => this.#entityInstanceContainer.blocks,
-      '#77DDDD',
-      () => this.#typeDictionary?.autocompletionWs
+      '#77DDDD'
     )
     this.#typeDictionary = new TypeDictionary(
       eventEmitter,
