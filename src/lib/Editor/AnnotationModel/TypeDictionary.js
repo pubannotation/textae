@@ -54,6 +54,8 @@ export default class TypeDictionary {
     return this.#attributeContainer
   }
 
+  // All DefinitionContainers (denotation, relation, block) share the same autocompletionWs value.
+  // Here, we return the value from denotationContainer as a representative.
   get autocompletionWs() {
     return this.#denotationContainer.autocompletionWs
   }
