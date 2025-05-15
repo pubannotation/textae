@@ -97,17 +97,13 @@ export default class TypeDictionary {
       this.#relationContainer.config = config['relation types']
       this.#attributeContainer.config = config['attribute types']
       this.#blockContainer.config = config['block types']
-      this.#denotationContainer.autocompletionWs = config['autocompletion_ws']
-      this.#relationContainer.autocompletionWs = config['autocompletion_ws']
-      this.#blockContainer.autocompletionWs = config['autocompletion_ws']
+      this.autocompletionWs = config['autocompletion_ws']
     } else {
       this.#denotationContainer.config = null
       this.#relationContainer.config = null
       this.#attributeContainer.config = null
       this.#blockContainer.config = null
-      this.#denotationContainer.autocompletionWs = ''
-      this.#relationContainer.autocompletionWs = ''
-      this.#blockContainer.autocompletionWs = ''
+      this.autocompletionWs = ''
     }
 
     this.#eventEmitter.emit(`textae-event.type-definition.reset`)
