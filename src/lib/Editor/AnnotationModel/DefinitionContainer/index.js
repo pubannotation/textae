@@ -15,12 +15,20 @@ export default class DefinitionContainer {
   #defaultColor
   #defaultType
   #autocompletionWs = ''
+  #autocompletionFunction
 
-  constructor(eventEmitter, annotationType, getAllInstanceFunc, defaultColor) {
+  constructor(
+    eventEmitter,
+    annotationType,
+    getAllInstanceFunc,
+    defaultColor,
+    autocompletionFunction
+  ) {
     this.#eventEmitter = eventEmitter
     this.#annotationType = annotationType
     this.#getAllInstanceFunc = getAllInstanceFunc
     this.#defaultColor = defaultColor
+    this.#autocompletionFunction = autocompletionFunction
   }
 
   set autocompletionWs(value) {
@@ -153,7 +161,13 @@ export default class DefinitionContainer {
   }
 
   searchByLabel(term, done) {
-    searchTerm(term, done, this.#autocompletionWs, this.findByLabel(term))
+    searchTerm(
+      term,
+      done,
+      this.#autocompletionWs,
+      this.findByLabel(term),
+      this.#autocompletionFunction
+    )
   }
 
   findByLabel(term) {

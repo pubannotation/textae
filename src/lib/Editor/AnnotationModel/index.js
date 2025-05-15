@@ -38,7 +38,8 @@ export default class AnnotationModel {
     startJQueryUIDialogWait,
     endJQueryUIDialogWait,
     isConfigLocked,
-    additionalPaddingTop
+    additionalPaddingTop,
+    autocompletionFunction
   ) {
     this.#sourceDoc = ''
     this.#namespaceInstanceContainer = new InstanceContainer(
@@ -49,7 +50,8 @@ export default class AnnotationModel {
       eventEmitter,
       'relation',
       () => this.#relationInstanceContainer.all,
-      '#00CC66'
+      '#00CC66',
+      autocompletionFunction
     )
 
     this.#relationInstanceContainer = new RelationInstanceContainer(
@@ -111,13 +113,15 @@ export default class AnnotationModel {
       eventEmitter,
       'entity',
       () => this.#entityInstanceContainer.denotations,
-      '#77DDDD'
+      '#77DDDD',
+      autocompletionFunction
     )
     const blockDefinitionContainer = new DefinitionContainer(
       eventEmitter,
       'entity',
       () => this.#entityInstanceContainer.blocks,
-      '#77DDDD'
+      '#77DDDD',
+      autocompletionFunction
     )
     this.#typeDictionary = new TypeDictionary(
       eventEmitter,
