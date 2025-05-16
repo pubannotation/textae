@@ -2,7 +2,7 @@ import delegate from 'delegate'
 import PromiseDialog from './PromiseDialog'
 import anemone from './anemone'
 import Autocomplete from 'popover-autocomplete'
-import searchTerm from './searchTerm'
+import fetchAutocompleteFromWs from './fetchAutocompleteFromWs'
 
 function template(context) {
   const { subjects, pred, value, label } = context
@@ -123,7 +123,7 @@ export default class EditStringAttributeDialog extends PromiseDialog {
     new Autocomplete({
       inputElement,
       onSearch: (term, onResult) =>
-        searchTerm(term, onResult, attrDef.autocompletionWs),
+        fetchAutocompleteFromWs(term, onResult, attrDef.autocompletionWs),
       onSelect: (result) => {
         inputElement.value = result.id
         labelElement.value = result.label
