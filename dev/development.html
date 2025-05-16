@@ -312,9 +312,9 @@
             editor.focusDenotation('T1')
 
             // Set a callback function for autocomplete suggestions.
-            // This function receives the input string `term` and returns a JSON string
+            // This function receives the input string `term` and returns an array
             // of candidate objects whose label includes the given term.
-            // The returned JSON is used by the TextAE editor's autocomplete feature.
+            // The returned array is used by the TextAE editor's autocomplete feature.
             editor.autocompletionCallback = (term) => {
                 const dictionary = [
                     {
