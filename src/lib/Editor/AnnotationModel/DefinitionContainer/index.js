@@ -157,14 +157,6 @@ export default class DefinitionContainer {
   }
 
   searchByLabel(term, done) {
-    if (
-      !this.#autocompletionWs &&
-      typeof this.#autocompletionFunction !== 'function'
-    ) {
-      done(this.findByLabel(term))
-      return
-    }
-
     if (typeof this.#autocompletionFunction === 'function') {
       const result = this.#autocompletionFunction(term)
       const merged = this.mergeWithLocalData(result, term)
@@ -172,19 +164,24 @@ export default class DefinitionContainer {
       return
     }
 
-    const url = new URL(this.#autocompletionWs, location)
-    url.searchParams.append('term', term)
+    if (this.#autocompletionWs) {
+      const url = new URL(this.#autocompletionWs, location)
+      url.searchParams.append('term', term)
 
-    fetch(url.href)
-      .then((response) => {
-        if (response.ok) {
-          return response.json()
-        }
-      })
-      .then((data) => {
-        const merged = this.mergeWithLocalData(data, term)
-        done(merged)
-      })
+      fetch(url.href)
+        .then((response) => {
+          if (response.ok) {
+            return response.json()
+          }
+        })
+        .then((data) => {
+          const merged = this.mergeWithLocalData(data, term)
+          done(merged)
+        })
+      return
+    }
+
+    done(this.findByLabel(term))
   }
 
   findByLabel(term) {
