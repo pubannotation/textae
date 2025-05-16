@@ -1,4 +1,4 @@
-export default function searchTerm(
+export default function fetchAutocompleteFromWs(
   term,
   done,
   autocompletionWs,

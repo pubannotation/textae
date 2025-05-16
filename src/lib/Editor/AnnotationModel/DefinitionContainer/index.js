@@ -4,7 +4,7 @@ import sortByCountAndName from './sortByCountAndName'
 import countUsage from './countUsage'
 import DefinedType from '../DefinedType'
 import DefinedTypeContainer from './DefinedTypeContainer'
-import searchTerm from '../../../component/searchTerm'
+import fetchAutocompleteFromWs from '../../../component/fetchAutocompleteFromWs'
 
 export default class DefinitionContainer {
   #eventEmitter
@@ -171,7 +171,12 @@ export default class DefinitionContainer {
       return
     }
 
-    searchTerm(term, done, this.#autocompletionWs, this.findByLabel(term))
+    fetchAutocompleteFromWs(
+      term,
+      done,
+      this.#autocompletionWs,
+      this.findByLabel(term)
+    )
   }
 
   findByLabel(term) {
