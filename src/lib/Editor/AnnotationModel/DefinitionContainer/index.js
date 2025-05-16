@@ -4,7 +4,6 @@ import sortByCountAndName from './sortByCountAndName'
 import countUsage from './countUsage'
 import DefinedType from '../DefinedType'
 import DefinedTypeContainer from './DefinedTypeContainer'
-import fetchAutocompleteFromWs from '../../../component/fetchAutocompleteFromWs'
 
 export default class DefinitionContainer {
   #eventEmitter
@@ -165,12 +164,24 @@ export default class DefinitionContainer {
       return
     }
 
-    fetchAutocompleteFromWs(
-      term,
-      done,
-      this.#autocompletionWs,
-      this.findByLabel(term)
-    )
+    if (!this.#autocompletionWs) {
+      done(this.findByLabel(term))
+      return
+    }
+
+    const url = new URL(this.#autocompletionWs, location)
+    url.searchParams.append('term', term)
+
+    fetch(url.href)
+      .then((response) => {
+        if (response.ok) {
+          return response.json()
+        }
+      })
+      .then((data) => {
+        const merged = this.mergeWithLocalData(data, term)
+        done(merged)
+      })
   }
 
   findByLabel(term) {
