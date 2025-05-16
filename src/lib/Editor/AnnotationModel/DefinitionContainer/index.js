@@ -160,14 +160,8 @@ export default class DefinitionContainer {
   searchByLabel(term, done) {
     if (typeof this.#autocompletionFunction === 'function') {
       const result = this.#autocompletionFunction(term)
-      const filteredData = (result || []).filter(
-        (newDatum) =>
-          !this.findByLabel(term).some(
-            (localDatum) => newDatum.id === localDatum.id
-          )
-      )
-
-      done(this.findByLabel(term).concat(filteredData))
+      const merged = this.mergeWithLocalData(result, term)
+      done(merged)
       return
     }
 
@@ -181,6 +175,15 @@ export default class DefinitionContainer {
 
   findByLabel(term) {
     return this.#definedTypes.labelsIncludes(term)
+  }
+
+  mergeWithLocalData(externalData, term) {
+    const localData = this.findByLabel(term)
+    const filteredData = (externalData || []).filter(
+      (newDatum) =>
+        !localData.some((localDatum) => newDatum.id === localDatum.id)
+    )
+    return localData.concat(filteredData)
   }
 
   get pallet() {
