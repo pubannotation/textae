@@ -157,31 +157,30 @@ export default class DefinitionContainer {
   }
 
   searchByLabel(term, done) {
-    if (typeof this.#autocompletionFunction === 'function') {
+    if (
+      !this.#autocompletionWs &&
+      typeof this.#autocompletionFunction !== 'function'
+    ) {
+      done(this.findByLabel(term))
+    } else if (typeof this.#autocompletionFunction === 'function') {
       const result = this.#autocompletionFunction(term)
       const merged = this.mergeWithLocalData(result, term)
       done(merged)
-      return
+    } else {
+      const url = new URL(this.#autocompletionWs, location)
+      url.searchParams.append('term', term)
+
+      fetch(url.href)
+        .then((response) => {
+          if (response.ok) {
+            return response.json()
+          }
+        })
+        .then((data) => {
+          const merged = this.mergeWithLocalData(data, term)
+          done(merged)
+        })
     }
-
-    if (!this.#autocompletionWs) {
-      done(this.findByLabel(term))
-      return
-    }
-
-    const url = new URL(this.#autocompletionWs, location)
-    url.searchParams.append('term', term)
-
-    fetch(url.href)
-      .then((response) => {
-        if (response.ok) {
-          return response.json()
-        }
-      })
-      .then((data) => {
-        const merged = this.mergeWithLocalData(data, term)
-        done(merged)
-      })
   }
 
   findByLabel(term) {
