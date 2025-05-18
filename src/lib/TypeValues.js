@@ -1,22 +1,25 @@
 export default class TypeValues {
+  #typeName
+  #attributes
+
   constructor(typeName, attributes = []) {
-    this._typeName = typeName
-    this._attributes = attributes
+    this.#typeName = typeName
+    this.#attributes = attributes
   }
 
   get typeName() {
-    return this._typeName
+    return this.#typeName
   }
 
   get attributes() {
-    return this._attributes
+    return this.#attributes
   }
 
   // This property is used to copy to the system clipboard.
   get externalFormat() {
     return {
-      obj: this._typeName,
-      attributes: this._attributes.map(({ externalFormat }) => externalFormat)
+      obj: this.#typeName,
+      attributes: this.#attributes.map(({ externalFormat }) => externalFormat)
     }
   }
 

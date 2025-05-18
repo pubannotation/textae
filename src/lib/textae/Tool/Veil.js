@@ -6,20 +6,23 @@ const config = {
 }
 
 export default class Veil {
+  #waitingEditors
+  #el
+
   constructor() {
     // Since not all editors will be notified at once, keep the state in a instance variable.
-    this._waitingEditors = new Set()
+    this.#waitingEditors = new Set()
   }
 
   setObserver(editorHTMLElement) {
     // Do not create HTML elements in the constructor
     // so that this class can be initialized before document.body is created.
     // Instead, we create it here.
-    if (!this._el) {
-      this._el = dohtml.create(
+    if (!this.#el) {
+      this.#el = dohtml.create(
         `<div class="textae-editor-veil" style="display: none;"></div>`
       )
-      document.body.appendChild(this._el)
+      document.body.appendChild(this.#el)
     }
 
     new MutationObserver((mutationRecords) =>
@@ -30,7 +33,7 @@ export default class Veil {
   _mutationCallback(mutationRecords) {
     this._collectWaitingEditors(mutationRecords)
 
-    if (this._waitingEditors.size > 0) {
+    if (this.#waitingEditors.size > 0) {
       this._show()
     } else {
       this._hide()
@@ -40,18 +43,18 @@ export default class Veil {
   _collectWaitingEditors(mutationRecords) {
     mutationRecords.forEach(({ target }) => {
       if (target.classList.contains('textae-editor--wait')) {
-        this._waitingEditors.add(target)
+        this.#waitingEditors.add(target)
       } else {
-        this._waitingEditors.delete(target)
+        this.#waitingEditors.delete(target)
       }
     })
   }
 
   _show() {
-    this._el.style.display = 'block'
+    this.#el.style.display = 'block'
   }
 
   _hide() {
-    this._el.style.display = 'none'
+    this.#el.style.display = 'none'
   }
 }
