@@ -9,9 +9,7 @@ export default function fetchAutocompleteFromWs(term, done, autocompletionWs) {
           return response.json()
         }
       })
-      .then((data) => {
-        done(data)
-      })
+      .then(done)
     return
   }
 
