@@ -10,7 +10,7 @@ export default function fetchAutocompleteFromWs(term, done, autocompletionWs) {
         }
       })
       .then((data) => {
-        done(Array.isArray(data) ? data : [])
+        done(data)
       })
     return
   }
