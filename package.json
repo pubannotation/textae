@@ -28,7 +28,7 @@
     "observ": "0.2.0",
     "path-browserify": "1.0.1",
     "popover-autocomplete": "^1.0.1",
-    "simple-inline-text-annotation": "^1.1.0",
+    "@pubann/simple-inline-text-annotation": "^1.1.1",
     "sticky-js": "1.3.0",
     "throttleit": "^2.1.0",
     "uuid": "^11.1.0"
