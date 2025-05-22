@@ -21,7 +21,7 @@ You can also use `textae` as an npm package in your project.
 To install the package, run the following command:
 
 ```bash
-npm install textae
+npm install @pubann/textae
 ```
 #### How to Use in HTML
 To use TextAE in your HTML, follow these steps:
