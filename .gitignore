@@ -4,7 +4,6 @@ npm-debug.log
 src/lib/fonts/
 src/lib/css/textae.css
 dev/bundle.js
-tmp/@pubann/textae-*.js
-tmp/@pubann/textae-*.min.js
-tmp/css/@pubann/textae*.css
+/tmp/*
+!/tmp/.keep
 textae-*.tgz
