@@ -1,4 +1,4 @@
-import SimpleInlineTextAnnotation from 'simple-inline-text-annotation'
+import SimpleInlineTextAnnotation from '@pubann/simple-inline-text-annotation'
 
 export default function parseFileContent(fileContent) {
   try {
