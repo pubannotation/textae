@@ -31,8 +31,8 @@ To use TextAE in your HTML, follow these steps:
 Add the following lines to your `<head>` section to load the TextAE CSS and JS from your `node_modules` directory:
 
 ```html
-<link rel="stylesheet" href="node_modules/textae/dist/lib/css/textae-13.11.1.min.css">
-<script src="node_modules/textae/dist/lib/textae-13.11.1.min.js"></script>
+<link rel="stylesheet" href="node_modules/@pubann/textae/dist/lib/css/textae-13.12.0.min.css">
+<script src="node_modules/@pubann/textae/dist/lib/textae-13.12.0.min.js"></script>
 ```
 2. Prepare the container
 Add a `<div>` element with the class `textae-editor` to your HTML.
