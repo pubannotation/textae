@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [13.12.0](https://github.com/pubannotation/textae/compare/v13.9.0...v13.12.0) (2025-05-23)
+
+
+### Features
+
+* Enable autocomplete by embedding autocompletionCallback in development.html ([8e93fbe](https://github.com/pubannotation/textae/commit/8e93fbe1be1d8544f148ac9e41e58d83f2ae1b78))
+
+
+### Bug Fixes
+
+* Japanese strings are corrupted when preview saving annotation ([aea559e](https://github.com/pubannotation/textae/commit/aea559eb5b307b584283ed9028711b3102520580))
+
 ## [13.11.0](https://github.com/pubannotation/textae/compare/v13.10.0...v13.11.0) (2025-05-21)
 
 

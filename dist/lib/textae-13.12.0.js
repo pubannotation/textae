@@ -65282,7 +65282,7 @@
       )
     } // ./package.json
 
-    const package_namespaceObject = { rE: '13.11.0' } // ./src/lib/component/SettingDialog/EscapeSequence.js
+    const package_namespaceObject = { rE: '13.12.0' } // ./src/lib/component/SettingDialog/EscapeSequence.js
     class EscapeSequence {
       static escape(str) {
         return str
@@ -103428,7 +103428,7 @@ package may help with that (see
       })
 
       return URL.createObjectURL(blob)
-    } // ./node_modules/simple-inline-text-annotation/src/denotation.mjs
+    } // ./node_modules/@pubann/simple-inline-text-annotation/src/denotation.mjs
 
     class Denotation {
       #beginPos
@@ -103503,7 +103503,7 @@ package may help with that (see
       }
     }
 
-    /* harmony default export */ const denotation = Denotation // ./node_modules/simple-inline-text-annotation/src/denotation_validator.mjs
+    /* harmony default export */ const denotation = Denotation // ./node_modules/@pubann/simple-inline-text-annotation/src/denotation_validator.mjs
 
     class DenotationValidator {
       validateDenotations(denotations, textLength) {
@@ -103580,7 +103580,7 @@ package may help with that (see
     }
 
     /* harmony default export */ const denotation_validator =
-      DenotationValidator // ./node_modules/simple-inline-text-annotation/src/generator_error.mjs
+      DenotationValidator // ./node_modules/@pubann/simple-inline-text-annotation/src/generator_error.mjs
 
     class GeneratorError extends Error {
       constructor(message) {
@@ -103589,7 +103589,7 @@ package may help with that (see
       }
     }
 
-    /* harmony default export */ const generator_error = GeneratorError // ./node_modules/simple-inline-text-annotation/src/relation_validator.mjs
+    /* harmony default export */ const generator_error = GeneratorError // ./node_modules/@pubann/simple-inline-text-annotation/src/relation_validator.mjs
 
     class RelationValidator {
       validateRelations(relations) {
@@ -103603,7 +103603,7 @@ package may help with that (see
       }
     }
 
-    /* harmony default export */ const relation_validator = RelationValidator // ./node_modules/simple-inline-text-annotation/src/generator.mjs
+    /* harmony default export */ const relation_validator = RelationValidator // ./node_modules/@pubann/simple-inline-text-annotation/src/generator.mjs
 
     class Generator {
       constructor(source) {
@@ -103715,7 +103715,7 @@ package may help with that (see
       }
     }
 
-    /* harmony default export */ const src_generator = Generator // ./node_modules/simple-inline-text-annotation/src/entity_type_collection.mjs
+    /* harmony default export */ const src_generator = Generator // ./node_modules/@pubann/simple-inline-text-annotation/src/entity_type_collection.mjs
 
     const ENTITY_TYPE_PATTERN =
       /^\s*\[([^\]]+)\]:\s+(\S+)(?:\s+(?:"[^"]*"|'[^']*'))?\s*$/
@@ -103814,7 +103814,7 @@ package may help with that (see
     }
 
     /* harmony default export */ const entity_type_collection =
-      EntityTypeCollection // ./node_modules/simple-inline-text-annotation/src/parser.mjs
+      EntityTypeCollection // ./node_modules/@pubann/simple-inline-text-annotation/src/parser.mjs
 
     const parser_ENTITY_TYPE_PATTERN =
       /^\s*\[([^\]]+)\]:\s+(\S+)(?:\s+(?:"[^"]*"|'[^']*'))?\s*$/
@@ -103920,7 +103920,7 @@ package may help with that (see
       }
     }
 
-    /* harmony default export */ const src_parser = parser_Parser // ./node_modules/simple-inline-text-annotation/src/index.mjs
+    /* harmony default export */ const src_parser = parser_Parser // ./node_modules/@pubann/simple-inline-text-annotation/src/index.mjs
 
     const ESCAPE_PATTERN = /\\(?=\[[^\]]+\]\[[^\]]+\])/
 
