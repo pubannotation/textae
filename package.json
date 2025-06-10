@@ -62,10 +62,7 @@
     "webpack-cli": "^6.0.1"
   },
   "files": [
-    "dist/lib/textae-{{version}}.js",
-    "dist/lib/textae-{{version}}.min.js",
-    "dist/lib/css/textae-{{version}}.css",
-    "dist/lib/css/textae-{{version}}.min.css",
+    "dist/lib",
     "scripts/postinstall.js"
   ],
   "homepage": "https://github.com/pubannotation/textae",
