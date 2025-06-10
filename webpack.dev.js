@@ -11,7 +11,20 @@ module.exports = {
         include: [
           path.resolve(__dirname, 'node_modules/ajv'),
           path.resolve(__dirname, 'node_modules/uri-js')
-        ]
+        ],
+        parser: {
+          amd: false, // disable AMD
+          commonjs: true, // disable CommonJS
+          system: false, // disable SystemJS
+          harmony: false, // disable ES2015 Harmony import/export
+          requireInclude: false, // disable require.include
+          requireEnsure: false, // disable require.ensure
+          requireContext: false, // disable require.context
+          browserify: false, // disable special handling of Browserify bundles
+          requireJs: false, // disable requirejs.*
+          node: false, // disable __dirname, __filename, module, require.extensions, require.main, etc.
+          commonjsMagicComments: false // disable magic comments support for CommonJS
+        }
       }
     ]
   },
