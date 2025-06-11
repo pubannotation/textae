@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [14.0.1](https://github.com/pubannotation/textae/compare/v13.9.0...v14.0.1) (2025-06-11)
+
+
+### ⚠ BREAKING CHANGES
+
+* Change the name of the npm package to have scope.
+
+### Features
+
+* Change the name of npm package ([735769b](https://github.com/pubannotation/textae/commit/735769bd7f5f8fb1b1945d5f047bf1008de13fdf))
+* Enable autocomplete by embedding autocompletionCallback in development.html ([8e93fbe](https://github.com/pubannotation/textae/commit/8e93fbe1be1d8544f148ac9e41e58d83f2ae1b78))
+
+
+### Bug Fixes
+
+* Japanese strings are corrupted when preview saving annotation ([aea559e](https://github.com/pubannotation/textae/commit/aea559eb5b307b584283ed9028711b3102520580))
+* update files field in package.json to correctly include necessary files in npm package ([ed82a35](https://github.com/pubannotation/textae/commit/ed82a3586f50e69e976df9f58b04cda208dcdd62))
+
 ## [14.0.0](https://github.com/pubannotation/textae/compare/v13.11.0...v14.0.0) (2025-05-23)
 
 

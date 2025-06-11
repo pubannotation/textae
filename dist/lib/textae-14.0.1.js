@@ -65282,7 +65282,7 @@
       )
     } // ./package.json
 
-    const package_namespaceObject = { rE: '14.0.0' } // ./src/lib/component/SettingDialog/EscapeSequence.js
+    const package_namespaceObject = { rE: '14.0.1' } // ./src/lib/component/SettingDialog/EscapeSequence.js
     class EscapeSequence {
       static escape(str) {
         return str
