@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [14.0.1](https://github.com/pubannotation/textae/compare/v14.0.0...v14.0.1) (2025-06-11)
+
+
+### Bug Fixes
+
+* update files field in package.json to correctly include necessary files in npm package ([ed82a35](https://github.com/pubannotation/textae/commit/ed82a3586f50e69e976df9f58b04cda208dcdd62))
+
 ## [14.0.0](https://github.com/pubannotation/textae/compare/v13.11.0...v14.0.0) (2025-05-23)
 
 

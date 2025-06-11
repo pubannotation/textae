@@ -65282,7 +65282,7 @@
       )
     } // ./package.json
 
-    const package_namespaceObject = { rE: '14.0.0' } // ./src/lib/component/SettingDialog/EscapeSequence.js
+    const package_namespaceObject = { rE: '14.0.1' } // ./src/lib/component/SettingDialog/EscapeSequence.js
     class EscapeSequence {
       static escape(str) {
         return str
@@ -68405,7 +68405,7 @@ Representation of a type of state effect. Defined with
     type.
     */
       of(value) {
-        return new StateEffect(this, value)
+        return new dist_StateEffect(this, value)
       }
     }
     /**
@@ -68415,7 +68415,7 @@ are often useful to model changes to custom [state
 fields](https://codemirror.net/6/docs/ref/#state.StateField), when those changes aren't implicit in
 document or selection changes.
 */
-    class StateEffect {
+    class dist_StateEffect {
       /**
     @internal
     */
@@ -68442,7 +68442,7 @@ document or selection changes.
           ? undefined
           : mapped == this.value
             ? this
-            : new StateEffect(this.type, mapped)
+            : new dist_StateEffect(this.type, mapped)
       }
       /**
     Tells you whether this effect object is of a given
@@ -68481,11 +68481,11 @@ the editor. Doing this will discard any extensions
 the content of [reconfigured](https://codemirror.net/6/docs/ref/#state.Compartment.reconfigure)
 compartments.
 */
-    StateEffect.reconfigure = /*@__PURE__*/ StateEffect.define()
+    dist_StateEffect.reconfigure = /*@__PURE__*/ dist_StateEffect.define()
     /**
 Append extensions to the top-level configuration of the editor.
 */
-    StateEffect.appendConfig = /*@__PURE__*/ StateEffect.define()
+    dist_StateEffect.appendConfig = /*@__PURE__*/ dist_StateEffect.define()
     /**
 Changes to the editor state are grouped into transactions.
 Typically, a user action creates a single transaction, which may
@@ -68713,9 +68713,9 @@ collaborative editing.
           : (_a = a.selection) === null || _a === void 0
             ? void 0
             : _a.map(mapForA),
-        effects: StateEffect.mapEffects(a.effects, mapForA).concat(
-          StateEffect.mapEffects(b.effects, mapForB)
-        ),
+        effects: dist_StateEffect
+          .mapEffects(a.effects, mapForA)
+          .concat(dist_StateEffect.mapEffects(b.effects, mapForB)),
         annotations: a.annotations.length
           ? a.annotations.concat(b.annotations)
           : b.annotations,
@@ -68806,7 +68806,7 @@ collaborative editing.
           state,
           changes,
           tr.selection && tr.selection.map(back),
-          StateEffect.mapEffects(tr.effects, back),
+          dist_StateEffect.mapEffects(tr.effects, back),
           tr.annotations,
           tr.scrollIntoView
         )
@@ -68992,10 +68992,10 @@ just break things.
               conf = null
             }
             compartments.set(effect.value.compartment, effect.value.extension)
-          } else if (effect.is(StateEffect.reconfigure)) {
+          } else if (effect.is(dist_StateEffect.reconfigure)) {
             conf = null
             base = effect.value
-          } else if (effect.is(StateEffect.appendConfig)) {
+          } else if (effect.is(dist_StateEffect.appendConfig)) {
             conf = null
             base = asArray(base).concat(effect.value)
           }
@@ -69063,9 +69063,9 @@ just break things.
           let mapBy = changes.mapDesc(newChanges, true)
           ranges.push(result.range.map(mapBy))
           changes = changes.compose(newMapped)
-          effects = StateEffect.mapEffects(effects, newMapped).concat(
-            StateEffect.mapEffects(asArray(result.effects), mapBy)
-          )
+          effects = dist_StateEffect
+            .mapEffects(effects, newMapped)
+            .concat(dist_StateEffect.mapEffects(asArray(result.effects), mapBy))
         }
         return {
           changes,
@@ -69419,7 +69419,7 @@ but do want to process every transaction.
 Extenders run _after_ filters, when both are present.
 */
     EditorState.transactionExtender = transactionExtender
-    Compartment.reconfigure = /*@__PURE__*/ StateEffect.define()
+    Compartment.reconfigure = /*@__PURE__*/ dist_StateEffect.define()
 
     /**
 Utility function for combining behaviors to fill in a config
@@ -73813,10 +73813,10 @@ Represents a contiguous range of text that has a single direction
             )
       }
     }
-    const scrollIntoView = /*@__PURE__*/ StateEffect.define({
+    const scrollIntoView = /*@__PURE__*/ dist_StateEffect.define({
       map: (t, ch) => t.map(ch)
     })
-    const setEditContextFormatting = /*@__PURE__*/ StateEffect.define()
+    const setEditContextFormatting = /*@__PURE__*/ dist_StateEffect.define()
     /**
 Log or report an unhandled exception in client code. Should
 probably only be used by extension code that allows client code to
@@ -73849,11 +73849,22 @@ it'll pass `context`, when given, as first argument).
       combine: (values) => (values.length ? values[0] : true)
     })
     let nextPluginID = 0
-    const viewPlugin = /*@__PURE__*/ Facet.define()
+    const viewPlugin = /*@__PURE__*/ Facet.define({
+      combine(plugins) {
+        return plugins.filter((p, i) => {
+          for (let j = 0; j < i; j++)
+            if (plugins[j].plugin == p.plugin) return false
+          return true
+        })
+      }
+    })
     /**
 View plugins associate stateful values with a view. They can
 influence the way the content is drawn, and are notified of things
-that happen in the view.
+that happen in the view. They optionally take an argument, in
+which case you need to call [`of`](https://codemirror.net/6/docs/ref/#view.ViewPlugin.of) to create
+an extension for the plugin. When the argument type is undefined,
+you can use the plugin instance as an extension directly.
 */
     class dist_ViewPlugin {
       constructor(
@@ -73879,7 +73890,16 @@ that happen in the view.
         this.create = create
         this.domEventHandlers = domEventHandlers
         this.domEventObservers = domEventObservers
-        this.extension = buildExtensions(this)
+        this.baseExtensions = buildExtensions(this)
+        this.extension = this.baseExtensions.concat(
+          viewPlugin.of({ plugin: this, arg: undefined })
+        )
+      }
+      /**
+    Create an extension for this plugin with the given argument.
+    */
+      of(arg) {
+        return this.baseExtensions.concat(viewPlugin.of({ plugin: this, arg }))
       }
       /**
     Define a plugin from a constructor function that creates the
@@ -73898,7 +73918,7 @@ that happen in the view.
           eventHandlers,
           eventObservers,
           (plugin) => {
-            let ext = [viewPlugin.of(plugin)]
+            let ext = []
             if (deco)
               ext.push(
                 decorations.of((view) => {
@@ -73916,7 +73936,7 @@ that happen in the view.
     editor view as argument.
     */
       static fromClass(cls, spec) {
-        return dist_ViewPlugin.define((view) => new cls(view), spec)
+        return dist_ViewPlugin.define((view, arg) => new cls(view, arg), spec)
       }
     }
     class PluginInstance {
@@ -73924,18 +73944,21 @@ that happen in the view.
         this.spec = spec
         // When starting an update, all plugins have this field set to the
         // update object, indicating they need to be updated. When finished
-        // updating, it is set to `false`. Retrieving a plugin that needs to
+        // updating, it is set to `null`. Retrieving a plugin that needs to
         // be updated with `view.plugin` forces an eager update.
         this.mustUpdate = null
         // This is null when the plugin is initially created, but
         // initialized on the first update.
         this.value = null
       }
+      get plugin() {
+        return this.spec && this.spec.plugin
+      }
       update(view) {
         if (!this.value) {
           if (this.spec) {
             try {
-              this.value = this.spec.create(view)
+              this.value = this.spec.plugin.create(view, this.spec.arg)
             } catch (e) {
               dist_logException(view.state, e, 'CodeMirror plugin crashed')
               this.deactivate()
@@ -76296,15 +76319,17 @@ class, which describe what happened, whenever the view is updated.
         return result[type] || (result[type] = { observers: [], handlers: [] })
       }
       for (let plugin of plugins) {
-        let spec = plugin.spec
-        if (spec && spec.domEventHandlers)
-          for (let type in spec.domEventHandlers) {
-            let f = spec.domEventHandlers[type]
+        let spec = plugin.spec,
+          handlers = spec && spec.plugin.domEventHandlers,
+          observers = spec && spec.plugin.domEventObservers
+        if (handlers)
+          for (let type in handlers) {
+            let f = handlers[type]
             if (f) record(type).handlers.push(bindHandler(plugin.value, f))
           }
-        if (spec && spec.domEventObservers)
-          for (let type in spec.domEventObservers) {
-            let f = spec.domEventObservers[type]
+        if (observers)
+          for (let type in observers) {
+            let f = observers[type]
             if (f) record(type).observers.push(bindHandler(plugin.value, f))
           }
       }
@@ -79198,6 +79223,21 @@ in the editor view.
           backgroundColor: '#333338',
           color: 'white'
         },
+        '.cm-dialog': {
+          padding: '2px 19px 4px 6px',
+          position: 'relative',
+          '& label': { fontSize: '80%' }
+        },
+        '.cm-dialog-close': {
+          position: 'absolute',
+          top: '3px',
+          right: '4px',
+          backgroundColor: 'inherit',
+          border: 'none',
+          font: 'inherit',
+          fontSize: '14px',
+          padding: '0'
+        },
         '.cm-tab': {
           display: 'inline-block',
           overflow: 'hidden',
@@ -80765,10 +80805,10 @@ transactions for editing actions.
     */
       plugin(plugin) {
         let known = this.pluginMap.get(plugin)
-        if (known === undefined || (known && known.spec != plugin))
+        if (known === undefined || (known && known.plugin != plugin))
           this.pluginMap.set(
             plugin,
-            (known = this.plugins.find((p) => p.spec == plugin) || null)
+            (known = this.plugins.find((p) => p.plugin == plugin) || null)
           )
         return known && known.update(this).value
       }
@@ -81453,7 +81493,7 @@ describe effects that are visually obvious but may not be
 noticed by screen reader users (such as moving to the next
 search match).
 */
-    EditorView.announce = /*@__PURE__*/ StateEffect.define()
+    EditorView.announce = /*@__PURE__*/ dist_StateEffect.define()
     // Maximum line length for which we compute accurate bidi info
     const MaxBidiLine = 4096
     const BadMeasure = {}
@@ -82223,7 +82263,7 @@ if `drawSelection` isn't enabled.)
       })
     )
 
-    const setDropCursorPos = /*@__PURE__*/ StateEffect.define({
+    const setDropCursorPos = /*@__PURE__*/ dist_StateEffect.define({
       map(pos, mapping) {
         return pos == null ? null : mapping.mapPos(pos)
       }
@@ -83824,7 +83864,7 @@ can be used to read the currently active tooltips produced by this
 extension.
 */
     function hoverTooltip(source, options = {}) {
-      let setHover = StateEffect.define()
+      let setHover = dist_StateEffect.define()
       let hoverState = StateField.define({
         create() {
           return []
@@ -83894,7 +83934,7 @@ Returns true if any hover tooltips are currently active.
     function hasHoverTooltips(state) {
       return state.facet(showHoverTooltip).some((x) => x)
     }
-    const closeHoverTooltipEffect = /*@__PURE__*/ StateEffect.define()
+    const closeHoverTooltipEffect = /*@__PURE__*/ dist_StateEffect.define()
     /**
 Transaction effect that closes all hover tooltips.
 */
@@ -84101,6 +84141,157 @@ constructor is no longer provided.) Values of `null` are ignored.
     })
 
     /**
+Show a panel above or below the editor to show the user a message
+or prompt them for input. Returns an effect that can be dispatched
+to close the dialog, and a promise that resolves when the dialog
+is closed or a form inside of it is submitted.
+
+You are encouraged, if your handling of the result of the promise
+dispatches a transaction, to include the `close` effect in it. If
+you don't, this function will automatically dispatch a separate
+transaction right after.
+*/
+    function showDialog(view, config) {
+      let resolve
+      let promise = new Promise((r) => (resolve = r))
+      let panelCtor = (view) => createDialog(view, config, resolve)
+      if (view.state.field(dialogField, false)) {
+        view.dispatch({ effects: openDialogEffect.of(panelCtor) })
+      } else {
+        view.dispatch({
+          effects: StateEffect.appendConfig.of(
+            dialogField.init(() => [panelCtor])
+          )
+        })
+      }
+      let close = closeDialogEffect.of(panelCtor)
+      return {
+        close,
+        result: promise.then((form) => {
+          let queue =
+            view.win.queueMicrotask || ((f) => view.win.setTimeout(f, 10))
+          queue(() => {
+            if (view.state.field(dialogField).indexOf(panelCtor) > -1)
+              view.dispatch({ effects: close })
+          })
+          return form
+        })
+      }
+    }
+    /**
+Find the [`Panel`](https://codemirror.net/6/docs/ref/#view.Panel) for an open dialog, using a class
+name as identifier.
+*/
+    function getDialog(view, className) {
+      let dialogs = view.state.field(dialogField, false) || []
+      for (let open of dialogs) {
+        let panel = getPanel(view, open)
+        if (panel && panel.dom.classList.contains(className)) return panel
+      }
+      return null
+    }
+    const dialogField = /*@__PURE__*/ StateField.define({
+      create() {
+        return []
+      },
+      update(dialogs, tr) {
+        for (let e of tr.effects) {
+          if (e.is(openDialogEffect)) dialogs = [e.value].concat(dialogs)
+          else if (e.is(closeDialogEffect))
+            dialogs = dialogs.filter((d) => d != e.value)
+        }
+        return dialogs
+      },
+      provide: (f) => showPanel.computeN([f], (state) => state.field(f))
+    })
+    const openDialogEffect = /*@__PURE__*/ dist_StateEffect.define()
+    const closeDialogEffect = /*@__PURE__*/ dist_StateEffect.define()
+    function createDialog(view, config, result) {
+      let content = config.content
+        ? config.content(view, () => done(null))
+        : null
+      if (!content) {
+        content = elt('form')
+        if (config.input) {
+          let input = elt('input', config.input)
+          if (/^(text|password|number|email|tel|url)$/.test(input.type))
+            input.classList.add('cm-textfield')
+          if (!input.name) input.name = 'input'
+          content.appendChild(elt('label', (config.label || '') + ': ', input))
+        } else {
+          content.appendChild(document.createTextNode(config.label || ''))
+        }
+        content.appendChild(document.createTextNode(' '))
+        content.appendChild(
+          elt(
+            'button',
+            { class: 'cm-button', type: 'submit' },
+            config.submitLabel || 'OK'
+          )
+        )
+      }
+      let forms =
+        content.nodeName == 'FORM'
+          ? [content]
+          : content.querySelectorAll('form')
+      for (let i = 0; i < forms.length; i++) {
+        let form = forms[i]
+        form.addEventListener('keydown', (event) => {
+          if (event.keyCode == 27) {
+            // Escape
+            event.preventDefault()
+            done(null)
+          } else if (event.keyCode == 13) {
+            // Enter
+            event.preventDefault()
+            done(form)
+          }
+        })
+        form.addEventListener('submit', (event) => {
+          event.preventDefault()
+          done(form)
+        })
+      }
+      let panel = elt(
+        'div',
+        content,
+        elt(
+          'button',
+          {
+            onclick: () => done(null),
+            'aria-label': view.state.phrase('close'),
+            class: 'cm-dialog-close',
+            type: 'button'
+          },
+          ['×']
+        )
+      )
+      if (config.class) panel.className = config.class
+      panel.classList.add('cm-dialog')
+      function done(form) {
+        if (panel.contains(panel.ownerDocument.activeElement)) view.focus()
+        result(form)
+      }
+      return {
+        dom: panel,
+        top: config.top,
+        mount: () => {
+          if (config.focus) {
+            let focus
+            if (typeof config.focus == 'string')
+              focus = content.querySelector(config.focus)
+            else
+              focus =
+                content.querySelector('input') ||
+                content.querySelector('button')
+            if (focus && 'select' in focus) focus.select()
+            else if (focus && 'focus' in focus) focus.focus()
+          }
+        }
+      }
+    }
+
+    /**
 A gutter marker represents a bit of information attached to a line
 in a specific gutter. Your own custom markers have to extend this
 class.
@@ -84163,12 +84354,7 @@ Define an editor gutter. The order in which the gutters appear is
 determined by their extension priority.
 */
     function gutter(config) {
-      return [
-        gutters(),
-        activeGutters.of(
-          Object.assign(Object.assign({}, dist_defaults), config)
-        )
-      ]
+      return [gutters(), activeGutters.of({ ...dist_defaults, ...config })]
     }
     const unfixGutters = /*@__PURE__*/ Facet.define({
       combine: (values) => values.some((x) => x)
@@ -88598,7 +88784,7 @@ for stream parsers.
     /**
 @internal
 */
-    Language.setState = /*@__PURE__*/ StateEffect.define()
+    Language.setState = /*@__PURE__*/ dist_StateEffect.define()
     function topNodeAt(state, pos, side) {
       let topLang = state.facet(language),
         tree = dist_syntaxTree(state).topNode
@@ -89425,8 +89611,8 @@ service.
     const indentService = /*@__PURE__*/ Facet.define()
     /**
 Facet for overriding the unit by which indentation happens. Should
-be a string consisting either entirely of the same whitespace
-character. When not set, this defaults to 2 spaces.
+be a string consisting entirely of the same whitespace character.
+When not set, this defaults to 2 spaces.
 */
     const indentUnit = /*@__PURE__*/ Facet.define({
       combine: (values) => {
@@ -89649,7 +89835,12 @@ indicates that no definitive indentation can be determined.
         let add = []
         for (
           let cur = inner;
-          cur && !(cur.from == stack.node.from && cur.type == stack.node.type);
+          cur &&
+          !(
+            cur.from < stack.node.from ||
+            cur.to > stack.node.to ||
+            (cur.from == stack.node.from && cur.type == stack.node.type)
+          );
           cur = cur.parent
         )
           add.push(cur)
@@ -89983,11 +90174,13 @@ circumstances—usually you'll just want to let
 [`foldCode`](https://codemirror.net/6/docs/ref/#language.foldCode) and the [fold
 gutter](https://codemirror.net/6/docs/ref/#language.foldGutter) create the transactions.)
 */
-    const foldEffect = /*@__PURE__*/ StateEffect.define({ map: mapRange })
+    const foldEffect = /*@__PURE__*/ dist_StateEffect.define({ map: mapRange })
     /**
 State effect that unfolds the given range (if it was folded).
 */
-    const unfoldEffect = /*@__PURE__*/ StateEffect.define({ map: mapRange })
+    const unfoldEffect = /*@__PURE__*/ dist_StateEffect.define({
+      map: mapRange
+    })
     function selectedLines(view) {
       let lines = []
       for (let { head } of view.state.selection.ranges) {
@@ -90098,7 +90291,7 @@ in the given state.
     function maybeEnable(state, other) {
       return state.field(foldState, false)
         ? other
-        : other.concat(StateEffect.appendConfig.of(codeFolding()))
+        : other.concat(dist_StateEffect.appendConfig.of(codeFolding()))
     }
     /**
 Fold the lines that are selected, if possible.
@@ -90318,10 +90511,7 @@ fold status indicator before foldable lines (which can be clicked
 to fold or unfold the line).
 */
     function foldGutter(config = {}) {
-      let fullConfig = Object.assign(
-        Object.assign({}, foldGutterDefaults),
-        config
-      )
+      let fullConfig = { ...foldGutterDefaults, ...config }
       let canFold = new FoldMarker(fullConfig, true),
         canUnfold = new FoldMarker(fullConfig, false)
       let markers = dist_ViewPlugin.fromClass(
@@ -90374,7 +90564,8 @@ to fold or unfold the line).
           initialSpacer() {
             return new FoldMarker(fullConfig, false)
           },
-          domEventHandlers: Object.assign(Object.assign({}, domEventHandlers), {
+          domEventHandlers: {
+            ...domEventHandlers,
             click: (view, line, event) => {
               if (
                 domEventHandlers.click &&
@@ -90393,7 +90584,7 @@ to fold or unfold the line).
               }
               return false
             }
-          })
+          }
         }),
         codeFolding()
       ]
@@ -92289,7 +92480,7 @@ The amount of redoable change events available in a given state.
       let fullMapping = event.mapped ? event.mapped.composeDesc(before) : before
       return new HistEvent(
         mappedChanges,
-        StateEffect.mapEffects(event.effects, mapping),
+        dist_StateEffect.mapEffects(event.effects, mapping),
         fullMapping,
         event.startSelection.map(before),
         selections
@@ -92331,7 +92522,7 @@ The amount of redoable change events available in a given state.
             new HistEvent(
               event.changes.compose(lastEvent.changes),
               conc(
-                StateEffect.mapEffects(event.effects, lastEvent.changes),
+                dist_StateEffect.mapEffects(event.effects, lastEvent.changes),
                 lastEvent.effects
               ),
               lastEvent.mapped,
@@ -94513,8 +94704,8 @@ string.
       }
       return { dom }
     }
-    const dialogEffect = /*@__PURE__*/ StateEffect.define()
-    const dialogField = /*@__PURE__*/ StateField.define({
+    const dialogEffect = /*@__PURE__*/ dist_StateEffect.define()
+    const dist_dialogField = /*@__PURE__*/ StateField.define({
       create() {
         return true
       },
@@ -94538,9 +94729,12 @@ number.
       let panel = getPanel(view, createLineDialog)
       if (!panel) {
         let effects = [dialogEffect.of(true)]
-        if (view.state.field(dialogField, false) == null)
+        if (view.state.field(dist_dialogField, false) == null)
           effects.push(
-            StateEffect.appendConfig.of([dialogField, search_dist_baseTheme$1])
+            dist_StateEffect.appendConfig.of([
+              dist_dialogField,
+              search_dist_baseTheme$1
+            ])
           )
         view.dispatch({ effects })
         panel = getPanel(view, createLineDialog)
@@ -95061,8 +95255,8 @@ this only has an effect if the search state has been initialized
 by running [`openSearchPanel`](https://codemirror.net/6/docs/ref/#search.openSearchPanel) at least
 once).
 */
-    const setSearchQuery = /*@__PURE__*/ StateEffect.define()
-    const togglePanel = /*@__PURE__*/ StateEffect.define()
+    const setSearchQuery = /*@__PURE__*/ dist_StateEffect.define()
+    const togglePanel = /*@__PURE__*/ dist_StateEffect.define()
     const searchState = /*@__PURE__*/ StateField.define({
       create(state) {
         return new SearchState(defaultQuery(state).create(), null)
@@ -95395,7 +95589,7 @@ Make sure the search panel is open and focused.
             togglePanel.of(true),
             state
               ? setSearchQuery.of(defaultQuery(view.state, state.query.spec))
-              : StateEffect.appendConfig.of(searchExtensions)
+              : dist_StateEffect.appendConfig.of(searchExtensions)
           ]
         })
       }
@@ -95896,8 +96090,8 @@ selection range that has the same text in front of it.
       if (!known) SourceCache.set(source, (known = completeFromList(source)))
       return known
     }
-    const startCompletionEffect = /*@__PURE__*/ StateEffect.define()
-    const closeCompletionEffect = /*@__PURE__*/ StateEffect.define()
+    const startCompletionEffect = /*@__PURE__*/ dist_StateEffect.define()
+    const closeCompletionEffect = /*@__PURE__*/ dist_StateEffect.define()
 
     // A pattern matcher for fuzzy completion matching. Create an instance
     // once for a pattern, and then use that to match any number of
@@ -97030,12 +97224,12 @@ selection range that has the same text in front of it.
         ? validFor(text, from, to, state)
         : ensureAnchor(validFor, true).test(text)
     }
-    const setActiveEffect = /*@__PURE__*/ StateEffect.define({
+    const setActiveEffect = /*@__PURE__*/ dist_StateEffect.define({
       map(sources, mapping) {
         return sources.map((s) => s.map(mapping))
       }
     })
-    const setSelectedEffect = /*@__PURE__*/ StateEffect.define()
+    const setSelectedEffect = /*@__PURE__*/ dist_StateEffect.define()
     const completionState = /*@__PURE__*/ StateField.define({
       create() {
         return CompletionState.start()
@@ -97702,12 +97896,12 @@ Close the currently active completion.
         )
       }
     }
-    const setActive = /*@__PURE__*/ StateEffect.define({
+    const setActive = /*@__PURE__*/ dist_StateEffect.define({
       map(value, changes) {
         return value && value.map(changes)
       }
     })
-    const moveToField = /*@__PURE__*/ StateEffect.define()
+    const moveToField = /*@__PURE__*/ dist_StateEffect.define()
     const snippetState = /*@__PURE__*/ StateField.define({
       create() {
         return null
@@ -97790,7 +97984,7 @@ interpreted as indicating a placeholder.
           let effects = (spec.effects = [setActive.of(active)])
           if (editor.state.field(snippetState, false) === undefined)
             effects.push(
-              StateEffect.appendConfig.of([
+              dist_StateEffect.appendConfig.of([
                 snippetState,
                 addSnippetKeymap,
                 snippetPointerHandler,
@@ -98003,7 +98197,7 @@ return those as completions.
       before: ')]}:;>',
       stringPrefixes: []
     }
-    const closeBracketEffect = /*@__PURE__*/ StateEffect.define({
+    const closeBracketEffect = /*@__PURE__*/ dist_StateEffect.define({
       map(value, mapping) {
         let mapped = mapping.mapPos(value, -1, MapMode.TrackAfter)
         return mapped == null ? undefined : mapped
@@ -98588,7 +98782,7 @@ the currently selected completion.
     function maybeEnableLint(state, effects) {
       return state.field(lintState, false)
         ? effects
-        : effects.concat(StateEffect.appendConfig.of(lintExtensions))
+        : effects.concat(dist_StateEffect.appendConfig.of(lintExtensions))
     }
     /**
 Returns a transaction spec which updates the current set of
@@ -98604,9 +98798,9 @@ active.
 The state effect that updates the set of active diagnostics. Can
 be useful when writing an extension that needs to track these.
 */
-    const setDiagnosticsEffect = /*@__PURE__*/ StateEffect.define()
-    const dist_togglePanel = /*@__PURE__*/ StateEffect.define()
-    const movePanelSelection = /*@__PURE__*/ StateEffect.define()
+    const setDiagnosticsEffect = /*@__PURE__*/ dist_StateEffect.define()
+    const dist_togglePanel = /*@__PURE__*/ dist_StateEffect.define()
+    const movePanelSelection = /*@__PURE__*/ dist_StateEffect.define()
     const lintState = /*@__PURE__*/ StateField.define({
       create() {
         return new LintState(Decoration.none, null, null)
@@ -99432,7 +99626,7 @@ editor is idle to run right away.
         return markers
       }
     })
-    const setLintGutterTooltip = /*@__PURE__*/ StateEffect.define()
+    const setLintGutterTooltip = /*@__PURE__*/ dist_StateEffect.define()
     const lintGutterTooltip = /*@__PURE__*/ StateField.define({
       create() {
         return null
