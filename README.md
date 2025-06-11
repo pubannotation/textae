@@ -31,9 +31,12 @@ To use TextAE in your HTML, follow these steps:
 Add the following lines to your `<head>` section to load the TextAE CSS and JS from your `node_modules` directory:
 
 ```html
-<link rel="stylesheet" href="node_modules/@pubann/textae/dist/lib/css/textae-13.12.0.min.css">
-<script src="node_modules/@pubann/textae/dist/lib/textae-13.12.0.min.js"></script>
+<link rel="stylesheet" href="node_modules/@pubann/textae/dist/lib/css/textae-x.y.z.min.css">
+<script src="node_modules/@pubann/textae/dist/lib/textae-x.y.z.min.js"></script>
 ```
+Note:
+Replace `x.y.z` with the actual version number you have installed.
+
 2. Prepare the container
 Add a `<div>` element with the class `textae-editor` to your HTML.
 This is the element where the TextAE editor will be rendered.
@@ -52,8 +55,8 @@ Here is an example of how to use textae in an HTML file:
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>TextAE Example</title>
-  <link rel="stylesheet" href="node_modules/@pubann/textae/dist/lib/css/textae-13.12.0.min.css">
-  <script src="node_modules/@pubann/textae/dist/lib/textae-13.12.0.min.js"></script>
+  <link rel="stylesheet" href="node_modules/@pubann/textae/dist/lib/css/textae-x.y.z.min.css">
+  <script src="node_modules/@pubann/textae/dist/lib/textae-x.y.z.min.js"></script>
 </head>
 <body>
   <div class="textae-editor" title="Example Editor" mode="edit"></div>
