@@ -293,7 +293,8 @@ export default class UseCase {
       'pasteEntitiesFromSystemClipboard',
       'activate',
       'deactivate',
-      'applyTextSelectionWithTouchDevice'
+      'applyTextSelectionWithTouchDevice',
+      'getSelectedText'
     ])
 
     this.#contextMenu = contextMenu

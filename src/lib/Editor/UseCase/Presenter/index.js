@@ -96,7 +96,8 @@ export default class Presenter {
       'toRelationEditMode',
       'toTextEditMode',
       'toggleSimpleMode',
-      'changeModeByShortcut'
+      'changeModeByShortcut',
+      'getSelectedText'
     ])
     forwardMethods(this, () => this.#editModeSwitch.currentMode, [
       'createSpanWithTouchDevice',
