@@ -1,17 +1,21 @@
 export default class EditorEventListener {
   #eventEmitter
-  #event
+  #events
   #listener
 
-  constructor(eventEmitter, event, listener) {
+  constructor(eventEmitter, events, listener) {
     this.#eventEmitter = eventEmitter
-    this.#event = event
+    this.#events = events
     this.#listener = listener
 
-    eventEmitter.on(event, this.#listener)
+    for (const e of events) {
+      eventEmitter.on(e, this.#listener)
+    }
   }
 
   dispose() {
-    this.#eventEmitter.off(this.#event, this.#listener)
+    for (const e of this.#events) {
+      this.#eventEmitter.off(e, this.#listener)
+    }
   }
 }

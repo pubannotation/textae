@@ -141,7 +141,7 @@ export default class Editor {
     if (typeof callback == 'function') {
       this.#lastSelectedDenotationIDCallback = new EditorEventListener(
         this.#eventEmitter,
-        'textae-event.selection-model.last-selected-denotation-id.change',
+        ['textae-event.selection-model.last-selected-denotation-id.change'],
         callback
       )
     }
@@ -204,7 +204,7 @@ export default class Editor {
   #newInspector(callback) {
     return new EditorEventListener(
       this.#eventEmitter,
-      'textae-event.annotation-data.events-observer.change',
+      ['textae-event.annotation-data.events-observer.change'],
       filterIfModelModified(this.#annotationModel, callback)
     )
   }
