@@ -13,7 +13,7 @@ import EditorEventListener from './EditorEventListener'
 import loadAnnotation from './loadAnnotation'
 import BrowserEventListener from './BrowserEventListener'
 import SelectionModel from './SelectionModel'
-import filterIfModelModified from './filterIfModelModified'
+import filterIfModified from './filterIfModified'
 
 export default class Editor {
   #element
@@ -202,10 +202,19 @@ export default class Editor {
   }
 
   #newInspector(callback) {
+    // TextAE's internal data treats spans and entities separately.
+    // On the other hand, in the external data, they are treated together as denotation.
+    // For example, when a Span is added, an event is fired twice,
+    // once for the addition of the Span and once for the addition of the Entity.
+    // There is no change in denotation between these two events;
+    // we want to be notified only when there is a change in denotation.
+    // Notify only when there is a change by comparing with external data format.
+    const filter = filterIfModified(this.#annotationModel.externalFormat)
+
     return new EditorEventListener(
       this.#eventEmitter,
       ['textae-event.annotation-data.events-observer.change'],
-      filterIfModelModified(this.#annotationModel, callback)
+      (annotationModel) => filter(annotationModel.externalFormat, callback)
     )
   }
 }
