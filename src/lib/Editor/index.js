@@ -208,7 +208,7 @@ export default class Editor {
     // There is no change in denotation between these two events;
     // we want to be notified only when there is a change in denotation.
     // Notify only when there is a change by comparing with external data format.
-    const filter = filterIfModified(this.#annotationModel.externalFormat)
+    const filter = filterIfModified(this.#inspectReport)
 
     return new EditorEventListener(
       this.#eventEmitter,
@@ -216,7 +216,13 @@ export default class Editor {
         'textae-event.annotation-data.events-observer.change',
         'textae-event.editor.selected-text.change'
       ],
-      (annotationModel) => filter(annotationModel.externalFormat, callback)
+      () => filter(this.#inspectReport, callback)
     )
+  }
+
+  get #inspectReport() {
+    return {
+      ...this.#annotationModel.externalFormat
+    }
   }
 }
