@@ -213,7 +213,10 @@ export default class Editor {
 
     return new EditorEventListener(
       this.#eventEmitter,
-      ['textae-event.annotation-data.events-observer.change'],
+      [
+        'textae-event.annotation-data.events-observer.change',
+        'textae-event.editor.selected-text.change'
+      ],
       (annotationModel) => filter(annotationModel.externalFormat, callback)
     )
   }
