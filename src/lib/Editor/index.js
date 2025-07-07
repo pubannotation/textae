@@ -81,7 +81,7 @@ export default class Editor {
 
     // A container of selection state.
     const selectionModel = new SelectionModel(eventEmitter, annotationModel)
-    const useCase = new UseCase(
+    this.#useCase = new UseCase(
       element,
       editorID,
       mousePoint,
@@ -90,9 +90,8 @@ export default class Editor {
       startUpOptions,
       selectionModel
     )
-    this.#useCase = useCase
 
-    forwardMethods(this, () => useCase, [
+    forwardMethods(this, () => this.#useCase, [
       'copyEntitiesToSystemClipboard',
       'cutEntitiesToSystemClipboard',
       'pasteEntitiesFromSystemClipboard',
