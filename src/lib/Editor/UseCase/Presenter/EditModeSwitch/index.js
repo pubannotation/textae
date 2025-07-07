@@ -89,7 +89,7 @@ export default class EditModeSwitch {
       .on('textae-event.editor.relation.click', (event, relation) =>
         this.currentMode.relationClicked(event, relation)
       )
-      .on('textae-event.editor.relation-bollard.click', (event, entity) =>
+      .on('textae-event.editor.relation-bollard.click', (_, entity) =>
         this.currentMode.relationBollardClicked(entity)
       )
   }
