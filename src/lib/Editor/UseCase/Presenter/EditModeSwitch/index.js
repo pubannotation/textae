@@ -4,13 +4,14 @@ import BlockEditMode from './BlockEditMode'
 import RelationEditMode from './RelationEditMode'
 import ModeTransitionReactor from './ModeTransitionReactor'
 import TextEditMode from './TextEditMode'
-import EditMode from './EditMode'
+import ViewMode from './ViewMode'
 
 export default class EditModeSwitch {
   #termEditMode
   #blockEditMode
   #relationEditMode
   #textEditMode
+  #viewMode
   #editModeState
   #annotationModel
   #startUpOptions
@@ -70,6 +71,8 @@ export default class EditModeSwitch {
       menuState,
       commander
     )
+
+    this.#viewMode = new ViewMode()
 
     new ModeTransitionReactor(
       editorHTMLElement,
@@ -195,7 +198,7 @@ export default class EditModeSwitch {
       case MODE.EDIT_TEXT:
         return this.#textEditMode
       default:
-        return new EditMode()
+        return this.#viewMode
     }
   }
 
