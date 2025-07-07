@@ -205,11 +205,7 @@ export default class EditModeSwitch {
   getSelectedText() {
     if (this.#editModeState.currentState === MODE.VIEW) {
       // This is a dummy implementation.
-      return {
-        begin: 0,
-        end: 100,
-        status: 'selected'
-      }
+      return this.#viewMode.selectedText
     } else {
       return {
         status: 'unselected'
