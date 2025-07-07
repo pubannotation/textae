@@ -63,6 +63,18 @@ export default class Editor {
     this.#annotationModel = annotationModel
     this.#eventEmitter = eventEmitter
 
+    // A container of selection state.
+    const selectionModel = new SelectionModel(eventEmitter, annotationModel)
+    this.#useCase = new UseCase(
+      element,
+      editorID,
+      mousePoint,
+      eventEmitter,
+      annotationModel,
+      startUpOptions,
+      selectionModel
+    )
+
     if (startUpOptions.inspect) {
       const callback = (annotation) => {
         const destinationElement = document.querySelector(
@@ -77,18 +89,6 @@ export default class Editor {
     this.#scrollEventListeners = this.#observeScrollEvent(
       annotationModel,
       element
-    )
-
-    // A container of selection state.
-    const selectionModel = new SelectionModel(eventEmitter, annotationModel)
-    this.#useCase = new UseCase(
-      element,
-      editorID,
-      mousePoint,
-      eventEmitter,
-      annotationModel,
-      startUpOptions,
-      selectionModel
     )
 
     forwardMethods(this, () => this.#useCase, [
