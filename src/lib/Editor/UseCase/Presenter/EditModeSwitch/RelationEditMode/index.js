@@ -2,7 +2,7 @@ import MouseEventHandler from './MouseEventHandler'
 import EditMode from '../EditMode'
 import AttributeEditor from '../AttributeEditor'
 import SelectionAttributePallet from '../../../../../component/SelectionAttributePallet'
-import PropertyEditor from '../EditMode/PropertyEditor'
+import PropertyEditor from '../PropertyEditor'
 import forwardMethods from '../../../../forwardMethods'
 import PalletFactory from '../PalletFactory'
 

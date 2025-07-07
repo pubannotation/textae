@@ -1,4 +1,4 @@
-import EditPropertiesDialog from '../../../../../component/EditPropertiesDialog'
+import EditPropertiesDialog from '../../../../component/EditPropertiesDialog'
 
 export default class PropertyEditor {
   #editorHTMLElement
