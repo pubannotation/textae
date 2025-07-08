@@ -222,7 +222,8 @@ export default class Editor {
 
   get #inspectReport() {
     return {
-      ...this.#annotationModel.externalFormat
+      ...this.#annotationModel.externalFormat,
+      selectedText: this.#useCase.getSelectedText()
     }
   }
 }
