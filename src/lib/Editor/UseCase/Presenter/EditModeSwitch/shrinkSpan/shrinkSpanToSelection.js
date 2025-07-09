@@ -18,7 +18,6 @@ export default function shrinkSpanToSelection(
     .getShortenInAnchorNodeToFocusNodeDirection(
       textSelectionAdjuster,
       sourceDoc,
-      annotationModel.spanInstanceContainer,
       spanConfig
     )
 

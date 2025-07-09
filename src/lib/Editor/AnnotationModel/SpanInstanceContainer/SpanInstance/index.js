@@ -308,7 +308,6 @@ export default class SpanInstance {
   getShortenInAnchorNodeToFocusNodeDirection(
     textSelectionAdjuster,
     sourceDoc,
-    spanInstanceContainer,
     spanConfig
   ) {
     const { anchor, focus } = this._spanInstanceContainer.textSelection
