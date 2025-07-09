@@ -13,7 +13,7 @@ export default class TermEditMode extends EditMode {
   #mouseEventHandler
   #spanEditor
   #textBox
-  #spanInstanceContainer
+  #annotationModel
   #propertyEditor
   #selectionModel
   #menuState
@@ -80,7 +80,7 @@ export default class TermEditMode extends EditMode {
     // For touch device actions
     this.#spanEditor = spanEditor
     this.#textBox = editorHTMLElement.querySelector('.textae-editor__text-box')
-    this.#spanInstanceContainer = annotationModel.spanInstanceContainer
+    this.#annotationModel = annotationModel
     this.#menuState = menuState
 
     const attributeEditor = new AttributeEditor(
@@ -120,9 +120,9 @@ export default class TermEditMode extends EditMode {
 
   applyTextSelectionWithTouchDevice() {
     if (isTextSelectionInTextBox(this.#textBox)) {
-      const { begin, end } = this.#spanInstanceContainer.textSelection
+      const { begin, end } = this.#annotationModel.textSelection
       const isSelectionTextCrossingAnySpan =
-        this.#spanInstanceContainer.isBoundaryCrossingWithOtherSpans(begin, end)
+        this.#annotationModel.isBoundaryCrossingWithOtherSpans(begin, end)
 
       const { isParentOfBothNodesSame } = new SelectionWrapper()
       this.#menuState.updateButtonsToOperateSpanWithTouchDevice(
