@@ -1,4 +1,5 @@
 import EditMode from './EditMode'
+import debounce300 from '../../../../component/SettingDialog/reflectImmediately/debounce300.js'
 
 export default class ViewMode extends EditMode {
   #editorHTMLElement
@@ -10,10 +11,14 @@ export default class ViewMode extends EditMode {
 
     this.#editorHTMLElement = editorHTMLElement
 
+    const emitSelectedTextChange = debounce300(() => {
+      eventEmitter.emit('textae-event.editor.selected-text.change')
+    })
+
     document.addEventListener('selectionchange', () => {
       this.#updateSelectedTextOffsets()
 
-      eventEmitter.emit('textae-event.editor.selected-text.change')
+      emitSelectedTextChange()
     })
   }
 
