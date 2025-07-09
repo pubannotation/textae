@@ -18,6 +18,12 @@ export default class ViewMode extends EditMode {
   }
 
   get selectedText() {
+    if (this.#startOffset === undefined || this.#endOffset === undefined) {
+      return {
+        status: 'unselected'
+      }
+    }
+
     return {
       begin: this.#startOffset,
       end: this.#endOffset,
@@ -45,6 +51,9 @@ export default class ViewMode extends EditMode {
           range.endOffset
         )
       }
+    } else {
+      this.#startOffset = undefined
+      this.#endOffset = undefined
     }
   }
 
