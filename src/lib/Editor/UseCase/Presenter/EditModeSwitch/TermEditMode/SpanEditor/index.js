@@ -38,7 +38,7 @@ export default class SpanEditor {
 
     if (selectionWrapper.isParentOfAnchorNodeTextBox) {
       if (selectionWrapper.isParentOfFocusNodeTextBox) {
-        this.#anchorNodeInTextBoxFocusNodeInTextBox(selectionWrapper)
+        this.#anchorNodeInTextBoxFocusNodeInTextBox()
         return
       }
       if (selectionWrapper.isParentOfFocusNodeDenotationSpan) {
@@ -298,7 +298,7 @@ export default class SpanEditor {
     }
   }
 
-  #anchorNodeInTextBoxFocusNodeInTextBox(selectionWrapper) {
+  #anchorNodeInTextBoxFocusNodeInTextBox() {
     // The parent of the focusNode is the text.
     this.#create()
   }
