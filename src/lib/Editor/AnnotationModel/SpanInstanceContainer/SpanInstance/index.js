@@ -365,10 +365,9 @@ export default class SpanInstance {
   getExpandedInAnchorNodeToFocusNodeDirection(
     textSelectionAdjuster,
     sourceDoc,
-    spanInstanceContainer,
     spanConfig
   ) {
-    const { anchor, focus } = spanInstanceContainer.textSelection
+    const { anchor, focus } = this._spanInstanceContainer.textSelection
 
     if (anchor < focus) {
       // expand to the right
