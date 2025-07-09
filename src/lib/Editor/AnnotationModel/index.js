@@ -291,6 +291,13 @@ export default class AnnotationModel {
     return this.#spanInstanceContainer.textSelection
   }
 
+  isBoundaryCrossingWithOtherSpans(begin, end) {
+    return this.#spanInstanceContainer.isBoundaryCrossingWithOtherSpans(
+      begin,
+      end
+    )
+  }
+
   getTextBetween(begin, end) {
     return this.sourceDoc.substring(begin, end)
   }

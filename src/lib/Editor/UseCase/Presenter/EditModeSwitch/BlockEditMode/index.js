@@ -13,8 +13,8 @@ export default class BlockEditMode extends EditMode {
   #mouseEventHandler
   #spanEditor
   #textBox
-  #spanInstanceContainer
   #propertyEditor
+  #annotationModel
   #selectionModel
   #menuState
   #pallet
@@ -80,7 +80,7 @@ export default class BlockEditMode extends EditMode {
     // For touch device actions
     this.#spanEditor = spanEditor
     this.#textBox = editorHTMLElement.querySelector('.textae-editor__text-box')
-    this.#spanInstanceContainer = annotationModel.spanInstanceContainer
+    this.#annotationModel = annotationModel
     this.#menuState = menuState
 
     const attributeEditor = new AttributeEditor(
@@ -121,9 +121,9 @@ export default class BlockEditMode extends EditMode {
 
   applyTextSelectionWithTouchDevice() {
     if (isTextSelectionInTextBox(this.#textBox)) {
-      const { begin, end } = this.#spanInstanceContainer.textSelection
+      const { begin, end } = this.#annotationModel.textSelection
       const isSelectionTextCrossingAnySpan =
-        this.#spanInstanceContainer.isBoundaryCrossingWithOtherSpans(begin, end)
+        this.#annotationModel.isBoundaryCrossingWithOtherSpans(begin, end)
 
       const { isParentOfBothNodesTextBox } = new SelectionWrapper()
       this.#menuState.updateButtonsToOperateSpanWithTouchDevice(
