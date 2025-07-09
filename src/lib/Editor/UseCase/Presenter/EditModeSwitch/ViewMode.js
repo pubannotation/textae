@@ -1,11 +1,15 @@
 import EditMode from './EditMode'
 
 export default class ViewMode extends EditMode {
+  #editorHTMLElement
   #startOffset
   #endOffset
 
-  constructor(eventEmitter) {
+  constructor(editorHTMLElement, eventEmitter) {
     super()
+
+    this.#editorHTMLElement = editorHTMLElement
+
     document.addEventListener('selectionchange', () => {
       this.#updateSelectedTextOffsets()
 
@@ -25,22 +29,22 @@ export default class ViewMode extends EditMode {
     const selection = document.getSelection()
     if (selection && selection.rangeCount > 0) {
       const range = selection.getRangeAt(0)
-      const textBoxes = document.querySelectorAll('.textae-editor__text-box')
+      const textBox = this.#editorHTMLElement.querySelector(
+        '.textae-editor__text-box'
+      )
 
-      textBoxes.forEach((textBox) => {
-        if (textBox.contains(range.startContainer)) {
-          this.#startOffset = this.#getOffsetInContainer(
-            textBox,
-            range.startContainer,
-            range.startOffset
-          )
-          this.#endOffset = this.#getOffsetInContainer(
-            textBox,
-            range.endContainer,
-            range.endOffset
-          )
-        }
-      })
+      if (textBox.contains(range.startContainer)) {
+        this.#startOffset = this.#getOffsetInContainer(
+          textBox,
+          range.startContainer,
+          range.startOffset
+        )
+        this.#endOffset = this.#getOffsetInContainer(
+          textBox,
+          range.endContainer,
+          range.endOffset
+        )
+      }
     }
   }
 
