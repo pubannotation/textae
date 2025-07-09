@@ -186,13 +186,7 @@ export default class SpanEditor {
       }
 
       // There is parent span.
-      if (
-        this.#annotationModel.spanInstanceContainer.hasParentOf(
-          begin,
-          end,
-          spanID
-        )
-      ) {
+      if (this.#annotationModel.hasParentOf(begin, end, spanID)) {
         return
       }
 

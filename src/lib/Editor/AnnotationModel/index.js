@@ -306,6 +306,10 @@ export default class AnnotationModel {
     return this.#spanInstanceContainer.find('block', begin, end)
   }
 
+  hasParentOf(begin, end, spanID) {
+    return this.#spanInstanceContainer.hasParentOf(begin, end, spanID)
+  }
+
   getTextBetween(begin, end) {
     return this.sourceDoc.substring(begin, end)
   }
