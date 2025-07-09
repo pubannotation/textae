@@ -1,5 +1,5 @@
 import delegate from 'delegate'
-import debounce300 from './debounce300'
+import debounce300 from '../../../debounce300'
 
 export default function bindChangeFunctionAvailability(
   content,
