@@ -230,8 +230,8 @@ export default class SpanEditor {
 
     this.#selectionModel.removeAll()
 
-    const { begin, end } = this.#annotationModel.spanInstanceContainer
-      .get(spanID)
+    const { begin, end } = this.#annotationModel
+      .getSpan(spanID)
       .getExpandedInAnchorNodeToFocusNodeDirection(
         this.#menuState.textSelectionAdjuster,
         this.#annotationModel.sourceDoc,
