@@ -5,7 +5,7 @@ import alertifyjs from 'alertifyjs'
  * @param {import('../../../../AnnotationModel/SpanInstanceContainer').default} spanInstanceContainer
  */
 export default function shrinkSpanToSelection(
-  spanInstanceContainer,
+  annotationModel,
   sourceDoc,
   commander,
   textSelectionAdjuster,
@@ -13,22 +13,26 @@ export default function shrinkSpanToSelection(
   spanConfig,
   moveHandler
 ) {
-  const { begin, end } = spanInstanceContainer
+  const { begin, end } = annotationModel.spanInstanceContainer
     .get(spanId)
     .getShortenInAnchorNodeToFocusNodeDirection(
       textSelectionAdjuster,
       sourceDoc,
-      spanInstanceContainer,
+      annotationModel.spanInstanceContainer,
       spanConfig
     )
 
   // The span cross exists spans.
-  if (spanInstanceContainer.isBoundaryCrossingWithOtherSpans(begin, end)) {
+  if (annotationModel.isBoundaryCrossingWithOtherSpans(begin, end)) {
     alertifyjs.warning('A span cannot be shrunken to make a boundary crossing.')
     return false
   }
 
-  const doesExists = spanInstanceContainer.find('denotation', begin, end)
+  const doesExists = annotationModel.spanInstanceContainer.find(
+    'denotation',
+    begin,
+    end
+  )
 
   if (begin < end && !doesExists) {
     moveHandler(begin, end)
