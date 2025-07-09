@@ -312,13 +312,10 @@ export default class AnnotationModel {
     return effectedSpans
   }
 
-  get #selectedText() {
-    const { begin, end } = this.textSelection
-    return this.getTextBetween(begin, end)
-  }
-
   hasCharacters(spanConfig) {
-    return spanConfig.removeBlankCharacters(this.#selectedText).length > 0
+    const { begin, end } = this.textSelection
+    const selectedText = this.getTextBetween(begin, end)
+    return spanConfig.removeBlankCharacters(selectedText).length > 0
   }
 
   getTextSelection(spanConfig, textSelectionAdjuster) {
