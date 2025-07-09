@@ -1,5 +1,5 @@
 import EditMode from './EditMode'
-import debounce300 from '../../../../component/SettingDialog/reflectImmediately/debounce300.js'
+import debounce300 from '../../../../debounce300'
 
 export default class ViewMode extends EditMode {
   #editorHTMLElement
