@@ -12,12 +12,12 @@ export default class ViewMode extends EditMode {
     this.#editorHTMLElement = editorHTMLElement
 
     const emitSelectedTextChange = debounce300(() => {
+      this.#updateSelectedTextOffsets()
+
       eventEmitter.emit('textae-event.editor.selected-text.change')
     })
 
     document.addEventListener('selectionchange', () => {
-      this.#updateSelectedTextOffsets()
-
       emitSelectedTextChange()
     })
   }
