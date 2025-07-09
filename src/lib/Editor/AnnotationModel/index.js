@@ -15,6 +15,7 @@ import DefinitionContainer from './DefinitionContainer'
 import AttributeDefinitionContainer from '../AttributeDefinitionContainer'
 import getAnnotationBox from './getAnnotationBox'
 import LineHeightAuto from './LineHeightAuto'
+import forwardMethods from '../forwardMethods'
 
 export default class AnnotationModel {
   #sourceDoc
@@ -106,6 +107,14 @@ export default class AnnotationModel {
       eventEmitter,
       this.#textBox
     )
+
+    forwardMethods(this, () => this.#spanInstanceContainer, [
+      'isBoundaryCrossingWithOtherSpans',
+      'hasParentOf',
+      'validateNewDenotationSpan',
+      'validateNewBlockSpan',
+      'validateEditableText'
+    ])
 
     this.denotationDefinitionContainer = new DefinitionContainer(
       eventEmitter,
@@ -291,23 +300,12 @@ export default class AnnotationModel {
     return this.#spanInstanceContainer.textSelection
   }
 
-  isBoundaryCrossingWithOtherSpans(begin, end) {
-    return this.#spanInstanceContainer.isBoundaryCrossingWithOtherSpans(
-      begin,
-      end
-    )
-  }
-
   findDenotation(begin, end) {
     return this.#spanInstanceContainer.find('denotation', begin, end)
   }
 
   findBlock(begin, end) {
     return this.#spanInstanceContainer.find('block', begin, end)
-  }
-
-  hasParentOf(begin, end, spanID) {
-    return this.#spanInstanceContainer.hasParentOf(begin, end, spanID)
   }
 
   getTextBetween(begin, end) {
@@ -353,18 +351,6 @@ export default class AnnotationModel {
           spanConfig
         ) + 1
     }
-  }
-
-  validateNewDenotationSpan(begin, end) {
-    return this.#spanInstanceContainer.validateNewDenotationSpan(begin, end)
-  }
-
-  validateNewBlockSpan(begin, end, spanID) {
-    return this.#spanInstanceContainer.validateNewBlockSpan(begin, end, spanID)
-  }
-
-  validateEditableText(begin, end) {
-    return this.#spanInstanceContainer.validateEditableText(begin, end)
   }
 
   getInstanceContainerFor(annotationType) {
