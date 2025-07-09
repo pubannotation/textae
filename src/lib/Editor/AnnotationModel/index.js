@@ -109,6 +109,7 @@ export default class AnnotationModel {
     )
 
     forwardMethods(this, () => this.#spanInstanceContainer, [
+      'getDenotationSpan',
       'isBoundaryCrossingWithOtherSpans',
       'hasParentOf',
       'validateNewDenotationSpan',
