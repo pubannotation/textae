@@ -311,7 +311,7 @@ export default class SpanInstance {
     spanInstanceContainer,
     spanConfig
   ) {
-    const { anchor, focus } = spanInstanceContainer.textSelection
+    const { anchor, focus } = this._spanInstanceContainer.textSelection
 
     if (anchor < focus) {
       // shorten the left boundary
