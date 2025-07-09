@@ -13,8 +13,8 @@ export default function shrinkSpanToSelection(
   spanConfig,
   moveHandler
 ) {
-  const { begin, end } = annotationModel.spanInstanceContainer
-    .get(spanId)
+  const { begin, end } = annotationModel
+    .getSpan(spanId)
     .getShortenInAnchorNodeToFocusNodeDirection(
       textSelectionAdjuster,
       sourceDoc,
