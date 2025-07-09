@@ -17,9 +17,7 @@ export default class ViewMode extends EditMode {
       eventEmitter.emit('textae-event.editor.selected-text.change')
     })
 
-    document.addEventListener('selectionchange', () => {
-      emitSelectedTextChange()
-    })
+    document.addEventListener('selectionchange', emitSelectedTextChange)
   }
 
   get selectedText() {
