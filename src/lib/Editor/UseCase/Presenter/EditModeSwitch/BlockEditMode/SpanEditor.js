@@ -178,12 +178,7 @@ export default class SpanEditor {
       const nextSpan = getRightSpanElement(this.#editorHTMLElement, spanID)
 
       // The span cross exists spans.
-      if (
-        this.#annotationModel.spanInstanceContainer.isBoundaryCrossingWithOtherSpans(
-          begin,
-          end
-        )
-      ) {
+      if (this.#annotationModel.isBoundaryCrossingWithOtherSpans(begin, end)) {
         alertifyjs.warning(
           'A span cannot be modified to make a boundary crossing.'
         )

@@ -126,9 +126,7 @@ export default class SpanEditor {
       const { spanID, begin, end } = expandedSpan
 
       // The span cross exists spans.
-      if (
-        this.#spanInstanceContainer.isBoundaryCrossingWithOtherSpans(begin, end)
-      ) {
+      if (this.#annotationModel.isBoundaryCrossingWithOtherSpans(begin, end)) {
         return
       }
 
@@ -150,9 +148,7 @@ export default class SpanEditor {
       const nextSpan = getRightSpanElement(this.#editorHTMLElement, spanID)
 
       // The span cross exists spans.
-      if (
-        this.#spanInstanceContainer.isBoundaryCrossingWithOtherSpans(begin, end)
-      ) {
+      if (this.#annotationModel.isBoundaryCrossingWithOtherSpans(begin, end)) {
         alertifyjs.warning(
           'A span cannot be shrunken to make a boundary crossing.'
         )
