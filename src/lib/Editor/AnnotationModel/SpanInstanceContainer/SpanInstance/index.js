@@ -336,10 +336,9 @@ export default class SpanInstance {
   getShortenInFocusNodeToAnchorNodeDirection(
     textSelectionAdjuster,
     sourceDoc,
-    spanInstanceContainer,
     spanConfig
   ) {
-    const { anchor, focus } = spanInstanceContainer.textSelection
+    const { anchor, focus } = this._spanInstanceContainer.textSelection
 
     if (focus < anchor) {
       // shorten the left boundary
