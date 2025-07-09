@@ -196,11 +196,7 @@ export default class SpanEditor {
         return
       }
 
-      const doesExists = this.#annotationModel.spanInstanceContainer.find(
-        'block',
-        begin,
-        end
-      )
+      const doesExists = this.#annotationModel.findBlock(begin, end)
       if (begin < end && !doesExists) {
         this.#commander.invoke(
           this.#commander.factory.moveBlockSpanCommand(spanID, begin, end)
