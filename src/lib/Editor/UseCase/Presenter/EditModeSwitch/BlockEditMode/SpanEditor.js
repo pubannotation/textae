@@ -382,8 +382,8 @@ export default class SpanEditor {
 
       return {
         spanID,
-        ...this.#annotationModel.spanInstanceContainer
-          .get(spanID)
+        ...this.#annotationModel
+          .getSpan(spanID)
           .getShortenInAnchorNodeToFocusNodeDirection(
             this.#menuState.textSelectionAdjuster,
             this.#annotationModel.sourceDoc,
