@@ -39,7 +39,10 @@ export default class ViewMode extends EditMode {
         '.textae-editor__text-box'
       )
 
-      if (textBox.contains(range.startContainer)) {
+      if (
+        textBox.contains(range.startContainer) &&
+        textBox.contains(range.endContainer)
+      ) {
         this.#startOffset = this.#getOffsetInContainer(
           textBox,
           range.startContainer,
