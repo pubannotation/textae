@@ -298,6 +298,14 @@ export default class AnnotationModel {
     )
   }
 
+  findDenotation(begin, end) {
+    return this.#spanInstanceContainer.find('denotation', begin, end)
+  }
+
+  findBlock(begin, end) {
+    return this.#spanInstanceContainer.find('block', begin, end)
+  }
+
   getTextBetween(begin, end) {
     return this.sourceDoc.substring(begin, end)
   }

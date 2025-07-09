@@ -28,11 +28,7 @@ export default function shrinkSpanToSelection(
     return false
   }
 
-  const doesExists = annotationModel.spanInstanceContainer.find(
-    'denotation',
-    begin,
-    end
-  )
+  const doesExists = annotationModel.findDenotation(begin, end)
 
   if (begin < end && !doesExists) {
     moveHandler(begin, end)
