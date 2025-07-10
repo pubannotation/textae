@@ -1,10 +1,10 @@
 import getOffset from './getOffset'
 
-export default function getRenderingPositionFromParent(span) {
-  const { start, end } = getOffset(span.begin, span.end, span.parent.begin)
+export default function getRenderingPositionFromParent(span, parent) {
+  const { start, end } = getOffset(span.begin, span.end, parent.begin)
 
   return {
-    textNode: span.parent.element.firstChild,
+    textNode: parent.element.firstChild,
     start,
     end
   }

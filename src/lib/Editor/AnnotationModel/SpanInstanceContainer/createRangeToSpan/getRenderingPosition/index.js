@@ -10,6 +10,6 @@ export default function getRenderingPosition(span, bigBrotherSpan) {
     // There is no big brother if the span is first in the text.
     // The target text enclosed by span is the first child of parent
     // unless bigBrotherSpan exists.
-    return getRenderingPositionFromParent(span)
+    return getRenderingPositionFromParent(span, span.parent)
   }
 }
