@@ -72,7 +72,11 @@ export default class EditModeSwitch {
       commander
     )
 
-    this.#viewMode = new ViewMode(editorHTMLElement, eventEmitter)
+    this.#viewMode = new ViewMode(
+      editorHTMLElement,
+      eventEmitter,
+      annotationModel
+    )
 
     new ModeTransitionReactor(
       editorHTMLElement,

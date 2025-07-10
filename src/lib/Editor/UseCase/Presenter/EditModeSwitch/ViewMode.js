@@ -3,13 +3,15 @@ import debounce300 from '../../../../debounce300'
 
 export default class ViewMode extends EditMode {
   #editorHTMLElement
+  #annotationModel
   #startOffset
   #endOffset
 
-  constructor(editorHTMLElement, eventEmitter) {
+  constructor(editorHTMLElement, eventEmitter, annotationModel) {
     super()
 
     this.#editorHTMLElement = editorHTMLElement
+    this.#annotationModel = annotationModel
 
     const emitSelectedTextChange = debounce300(() => {
       this.#updateSelectedTextOffsets()
@@ -46,35 +48,12 @@ export default class ViewMode extends EditMode {
         textBox.contains(range.startContainer) &&
         textBox.contains(range.endContainer)
       ) {
-        this.#startOffset = this.#getOffsetInContainer(
-          textBox,
-          range.startContainer,
-          range.startOffset
-        )
-        this.#endOffset = this.#getOffsetInContainer(
-          textBox,
-          range.endContainer,
-          range.endOffset
-        )
+        this.#startOffset = this.#annotationModel.textSelection.begin
+        this.#endOffset = this.#annotationModel.textSelection.end
       }
     } else {
       this.#startOffset = undefined
       this.#endOffset = undefined
     }
-  }
-
-  #getOffsetInContainer(container, node, offset) {
-    let current = node
-    let totalOffset = offset
-
-    while (current && current !== container) {
-      while (current.previousSibling) {
-        current = current.previousSibling
-        totalOffset += current.textContent.length
-      }
-      current = current.parentNode
-    }
-
-    return totalOffset
   }
 }
