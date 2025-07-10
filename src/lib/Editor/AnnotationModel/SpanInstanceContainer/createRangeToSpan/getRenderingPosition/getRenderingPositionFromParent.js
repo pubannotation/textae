@@ -1,8 +1,8 @@
 import getOffset from './getOffset'
 
-export default function getRenderingPositionFromParent(span, parent) {
+export default function getRenderingPositionFromParent(begin, end, parent) {
   return {
     textNode: parent.element.firstChild,
-    ...getOffset(span.begin, span.end, parent.begin)
+    ...getOffset(begin, end, parent.begin)
   }
 }
