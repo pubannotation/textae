@@ -1,7 +1,10 @@
 import isBoundaryCrossing from '../../../../isBoundaryCrossing'
 import getOffset from './getOffset'
 
-export default function (span, bigBrotherSpan) {
+export default function getRenderingPositionFromBigBrother(
+  span,
+  bigBrotherSpan
+) {
   if (isBoundaryCrossing(span.begin, span.end, bigBrotherSpan)) {
     throw new Error(
       `span ${span.begin}:${span.end} is crossing with ${bigBrotherSpan.begin}:${bigBrotherSpan.end}`
