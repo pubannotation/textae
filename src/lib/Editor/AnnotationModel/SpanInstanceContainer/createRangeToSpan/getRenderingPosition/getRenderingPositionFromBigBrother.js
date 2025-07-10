@@ -8,7 +8,7 @@ export default function (span, bigBrotherSpan) {
     )
   }
 
-  let { start, end } = getOffset(span, bigBrotherSpan.end)
+  let { start, end } = getOffset(span.begin, span.end, bigBrotherSpan.end)
   let textNode = bigBrotherSpan.element.nextSibling
 
   // Google chrome and Safari have a 65536 character limit on the text node.

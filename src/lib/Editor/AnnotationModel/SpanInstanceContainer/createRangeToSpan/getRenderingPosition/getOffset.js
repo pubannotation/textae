@@ -1,9 +1,6 @@
-export default function getOffset(span, startOfTextNode) {
-  const start = span.begin - startOfTextNode
-  const end = span.end - startOfTextNode
-
+export default function getOffset(begin, end, beginOfParent) {
   return {
-    start,
-    end
+    start: begin - beginOfParent,
+    end: end - beginOfParent
   }
 }
