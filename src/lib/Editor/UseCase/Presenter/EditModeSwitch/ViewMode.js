@@ -29,6 +29,17 @@ export default class ViewMode extends EditMode {
       }
     }
 
+    if (
+      this.#annotationModel.isBoundaryCrossingWithOtherSpans(
+        this.#startOffset,
+        this.#endOffset
+      )
+    ) {
+      return {
+        status: 'cross boundary detected'
+      }
+    }
+
     return {
       begin: this.#startOffset,
       end: this.#endOffset,
