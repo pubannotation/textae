@@ -1,5 +1,5 @@
-import getRenderingPositionFromParent from './getRenderingPositionFromParent'
 import getRenderingPositionFromBigBrother from './getRenderingPositionFromBigBrother'
+import getOffset from './getOffset'
 
 export default function getRenderingPosition(span, bigBrotherSpan) {
   if (bigBrotherSpan) {
@@ -10,6 +10,10 @@ export default function getRenderingPosition(span, bigBrotherSpan) {
     // There is no big brother if the span is first in the text.
     // The target text enclosed by span is the first child of parent
     // unless bigBrotherSpan exists.
-    return getRenderingPositionFromParent(span.begin, span.end, span.parent)
+    const { begin, end, parent } = span
+    return {
+      textNode: parent.element.firstChild,
+      ...getOffset(begin, end, parent.begin)
+    }
   }
 }
