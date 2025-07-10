@@ -1,8 +1,12 @@
 import getRenderingPositionFromBigBrother from './getRenderingPositionFromBigBrother'
 import getOffset from './getOffset'
 
-export default function getRenderingPosition(span, bigBrotherSpan) {
-  const { begin, end, parent } = span
+export default function getRenderingPosition(
+  begin,
+  end,
+  parent,
+  bigBrotherSpan
+) {
   if (bigBrotherSpan) {
     // The target text enclosed by span is in a textNode after the bigBrotherSpan
     // if bigBrotherSpan exists.

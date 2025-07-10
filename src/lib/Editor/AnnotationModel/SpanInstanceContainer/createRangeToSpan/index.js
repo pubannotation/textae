@@ -4,17 +4,23 @@ import createRange from './createRange'
 // Get the Range to that new span tag insert.
 // This function works well when no child span is rendered.
 export default function (span) {
-  const { textNode, start, end } = getRenderingPosition(span, span.bigBrother)
+  const { begin, end: originalEnd, parent, bigBrother } = span
+  const { textNode, start, end } = getRenderingPosition(
+    begin,
+    originalEnd,
+    parent,
+    bigBrother
+  )
 
   if (!textNode) {
     throw new Error(
-      `The textNode on to create a span ${span.begin}:${span.end} is not found. `
+      `The textNode on to create a span ${begin}:${originalEnd} is not found. `
     )
   }
 
   if (start < 0) {
     throw new Error(
-      `start must be positive, but ${start} for ${span.begin}:${span.end}.`
+      `start must be positive, but ${start} for ${begin}:${originalEnd}.`
     )
   }
 
