@@ -1,5 +1,4 @@
 import getRenderingPosition from './getRenderingPosition'
-import createRange from './createRange'
 
 // Get the Range to that new span tag insert.
 // This function works well when no child span is rendered.
@@ -35,5 +34,8 @@ export default function (span) {
     )
   }
 
-  return createRange(textNode, start, end)
+  const range = document.createRange()
+  range.setStart(textNode, start)
+  range.setEnd(textNode, end)
+  return range
 }
