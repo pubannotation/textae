@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [14.1.0](https://github.com/pubannotation/textae/compare/v14.0.1...v14.1.0) (2025-07-17)
+
+
+### Features
+
+* 4ff3d39 Added “selectedText” indicating the position of the selected text to the ispectCallback notification content ([5071f83](https://github.com/pubannotation/textae/commit/5071f832c693ae763287115626ff991102981574))
+
 ### [14.0.1](https://github.com/pubannotation/textae/compare/v14.0.0...v14.0.1) (2025-06-11)
 
 
