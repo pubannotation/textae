@@ -5,8 +5,8 @@ import updateGridPosition from './updateGridPosition'
 import getAnnotationBox from '../../getAnnotationBox'
 import getRightGrid from './getRightGrid'
 import round from '../../../round'
-import createRange from '../createRangeToSpan/createRange'
-import getRenderingPosition from '../createRangeToSpan/getRenderingPosition'
+import createRange from '../createRange'
+import getRenderingPosition from '../getRenderingPosition'
 
 export default class SpanInstance {
   #isGridRendered = false
