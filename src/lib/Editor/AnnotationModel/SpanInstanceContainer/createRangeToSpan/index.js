@@ -6,5 +6,5 @@ import getRenderingPosition from './getRenderingPosition'
 export default function createRangeToSpan(span) {
   const { textNode, start, end } = getRenderingPosition(span)
 
-  return createRange(textNode, end, start)
+  return createRange(textNode, start, end)
 }

@@ -1,4 +1,4 @@
-export default function createRange(textNode, end, start) {
+export default function createRange(textNode, start, end) {
   if (textNode.length < end) {
     throw new Error(
       `oh my god! I cannot render span. "${textNode.textContent.slice(
