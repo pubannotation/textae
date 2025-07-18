@@ -2,7 +2,7 @@ import getRenderingPosition from './getRenderingPosition'
 
 // Get the Range to that new span tag insert.
 // This function works well when no child span is rendered.
-export default function (span) {
+export default function createRangeToSpan(span) {
   const { begin, end: originalEnd, parent, bigBrother } = span
   const { textNode, start, end } = getRenderingPosition(
     begin,
