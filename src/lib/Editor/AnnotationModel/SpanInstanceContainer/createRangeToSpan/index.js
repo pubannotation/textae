@@ -12,17 +12,5 @@ export default function createRangeToSpan(span) {
     bigBrother
   )
 
-  if (!textNode) {
-    throw new Error(
-      `The textNode on to create a span ${begin}:${originalEnd} is not found. `
-    )
-  }
-
-  if (start < 0) {
-    throw new Error(
-      `start must be positive, but ${start} for ${begin}:${originalEnd}.`
-    )
-  }
-
   return createRange(textNode, end, start)
 }
