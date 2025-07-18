@@ -4,8 +4,9 @@ import createGridHtml from './createGridHtml'
 import updateGridPosition from './updateGridPosition'
 import getAnnotationBox from '../../getAnnotationBox'
 import getRightGrid from './getRightGrid'
-import createRangeToSpan from '../createRangeToSpan'
 import round from '../../../round'
+import createRange from '../createRangeToSpan/createRange'
+import getRenderingPosition from '../createRangeToSpan/getRenderingPosition'
 
 export default class SpanInstance {
   #isGridRendered = false
@@ -150,7 +151,11 @@ export default class SpanInstance {
 
   renderElement() {
     const element = dohtml.create(this._contentHTML)
-    const targetRange = createRangeToSpan(this)
+
+    // Get the Range to that new span tag insert.
+    // This function works well when no child span is rendered.
+    const { textNode, start, end } = getRenderingPosition(this)
+    const targetRange = createRange(textNode, start, end)
     targetRange.surroundContents(element)
   }
 
