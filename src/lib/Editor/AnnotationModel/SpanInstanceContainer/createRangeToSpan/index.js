@@ -1,3 +1,4 @@
+import createRange from './createRange'
 import getRenderingPosition from './getRenderingPosition'
 
 // Get the Range to that new span tag insert.
@@ -23,19 +24,5 @@ export default function createRangeToSpan(span) {
     )
   }
 
-  if (textNode.length < end) {
-    throw new Error(
-      `oh my god! I cannot render span. "${textNode.textContent.slice(
-        start,
-        end
-      )}" at ${start}~${end} of text(${textNode.textContent.length}) as "${
-        textNode.textContent
-      }".`
-    )
-  }
-
-  const range = document.createRange()
-  range.setStart(textNode, start)
-  range.setEnd(textNode, end)
-  return range
+  return createRange(textNode, end, start)
 }
