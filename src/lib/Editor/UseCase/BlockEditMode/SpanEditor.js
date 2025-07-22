@@ -1,9 +1,9 @@
 import alertifyjs from 'alertifyjs'
-import clearTextSelection from '../clearTextSelection'
-import shrinkSpan from '../shrinkSpan'
+import clearTextSelection from '../EditModeSwitch/clearTextSelection'
+import shrinkSpan from '../EditModeSwitch/shrinkSpan'
 import create from './create'
-import SelectionWrapper from '../SelectionWrapper'
-import getRightSpanElement from '../../../getRightSpanElement'
+import SelectionWrapper from '../EditModeSwitch/SelectionWrapper'
+import getRightSpanElement from '../../getRightSpanElement'
 
 export default class SpanEditor {
   #editorHTMLElement

@@ -21,11 +21,11 @@ import forwardMethods from '../forwardMethods'
 import FunctionAvailability from './FunctionAvailability'
 import EditModeState from './EditModeState'
 import EditModeSwitch from './EditModeSwitch'
-import TermEditMode from './EditModeSwitch/TermEditMode'
-import BlockEditMode from './EditModeSwitch/BlockEditMode'
-import RelationEditMode from './EditModeSwitch/RelationEditMode'
-import TextEditMode from './EditModeSwitch/TextEditMode'
-import ViewMode from './EditModeSwitch/ViewMode'
+import TermEditMode from './TermEditMode'
+import BlockEditMode from './BlockEditMode'
+import RelationEditMode from './RelationEditMode'
+import TextEditMode from './TextEditMode'
+import ViewMode from './ViewMode'
 
 export default class UseCase {
   #contextMenu

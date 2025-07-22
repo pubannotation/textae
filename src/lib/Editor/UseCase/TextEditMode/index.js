@@ -1,7 +1,7 @@
 import delegate from 'delegate'
 import EditMode from '../EditMode'
-import isTextSelectionInTextBox from '../isTextSelectionInTextBox'
 import TextEditDialog from './TextEditDialog'
+import isTextSelectionInTextBox from '../isTextSelectionInTextBox'
 
 export default class TextEditMode extends EditMode {
   #editorHTMLElement
