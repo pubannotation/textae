@@ -2,7 +2,6 @@ import { MODE } from '../../../MODE'
 import ModeTransitionReactor from './ModeTransitionReactor'
 
 export default class EditModeSwitch {
-  #viewMode
   #editModeState
   #annotationModel
   #startUpOptions
@@ -25,7 +24,6 @@ export default class EditModeSwitch {
     viewMode,
     editMode
   ) {
-    this.#viewMode = viewMode
     this.#editMode = editMode
 
     new ModeTransitionReactor(
@@ -139,15 +137,5 @@ export default class EditModeSwitch {
 
   selectRightAttributeTab() {
     this.#editMode.current.pallet.selectRightAttributeTab()
-  }
-
-  getSelectedText() {
-    if (this.#editModeState.currentState === MODE.VIEW) {
-      return this.#viewMode.selectedText
-    } else {
-      return {
-        status: 'unselected'
-      }
-    }
   }
 }

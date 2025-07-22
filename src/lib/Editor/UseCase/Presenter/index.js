@@ -84,8 +84,7 @@ export default class Presenter {
       'toRelationEditMode',
       'toTextEditMode',
       'toggleSimpleMode',
-      'changeModeByShortcut',
-      'getSelectedText'
+      'changeModeByShortcut'
     ])
     forwardMethods(this, () => this.#clipBoard, [
       'copyEntitiesToLocalClipboard',

@@ -23,11 +23,14 @@ import EditModeState from './EditModeState'
 import EditModeSwitch from './EditModeSwitch'
 import EditModeFactory from './EditModeFactory'
 import EditMode from './EditMode'
+import { MODE } from '../../MODE'
 
 export default class UseCase {
   #contextMenu
   #presenter
   #annotationModel
+  #editModeState
+  #viewMode
 
   /**
    *
@@ -77,6 +80,7 @@ export default class UseCase {
       eventEmitter,
       functionAvailability
     )
+    this.#editModeState = editModeState
     const menuState = new MenuState(
       eventEmitter,
       selectionModel,
@@ -128,6 +132,7 @@ export default class UseCase {
       eventEmitter,
       annotationModel
     )
+    this.#viewMode = viewMode
     const editMode = new EditMode(
       editModeState,
       termEditMode,
@@ -360,8 +365,7 @@ export default class UseCase {
       'pasteEntitiesFromSystemClipboard',
       'activate',
       'deactivate',
-      'applyTextSelectionWithTouchDevice',
-      'getSelectedText'
+      'applyTextSelectionWithTouchDevice'
     ])
 
     this.#contextMenu = contextMenu
@@ -378,5 +382,15 @@ export default class UseCase {
   focusDenotation(denotationID) {
     this.#presenter.toTermEditMode()
     this.#annotationModel.focusDenotation(denotationID)
+  }
+
+  getSelectedText() {
+    if (this.#editModeState.currentState === MODE.VIEW) {
+      return this.#viewMode.selectedText
+    } else {
+      return {
+        status: 'unselected'
+      }
+    }
   }
 }
