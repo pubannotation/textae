@@ -10,26 +10,12 @@ export default class EditModeSwitch {
    *
    * @param {import('../../StartUpOptions').default} startUpOptions
    */
-  constructor(
-    eventEmitter,
-    annotationModel,
-    startUpOptions,
-    editModeState,
-    editMode
-  ) {
+  constructor(annotationModel, startUpOptions, editModeState, editMode) {
     this.#editMode = editMode
 
     this.#editModeState = editModeState
     this.#annotationModel = annotationModel
     this.#startUpOptions = startUpOptions
-
-    eventEmitter
-      .on('textae-event.editor.relation.click', (event, relation) =>
-        this.#editMode.current.relationClicked(event, relation)
-      )
-      .on('textae-event.editor.relation-bollard.click', (_, entity) =>
-        this.#editMode.current.relationBollardClicked(entity)
-      )
   }
 
   toViewMode() {
