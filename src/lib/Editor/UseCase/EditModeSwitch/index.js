@@ -21,7 +21,6 @@ export default class EditModeSwitch {
     blockEditMode,
     relationEditMode,
     textEditMode,
-    viewMode,
     editMode
   ) {
     this.#editMode = editMode

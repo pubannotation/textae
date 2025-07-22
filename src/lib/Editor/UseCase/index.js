@@ -151,7 +151,6 @@ export default class UseCase {
       blockEditMode,
       relationEditMode,
       textEditMode,
-      viewMode,
       editMode
     )
     const presenter = new Presenter(
