@@ -4,7 +4,8 @@ export default class IconEventMap {
     presenter,
     persistenceInterface,
     menuState,
-    annotationModel
+    annotationModel,
+    currentMode
   ) {
     this._map = new Map([
       ['view mode', () => presenter.toViewMode()],
@@ -18,12 +19,24 @@ export default class IconEventMap {
       ['undo', () => commander.undo()],
       ['redo', () => commander.redo()],
       ['replicate span annotation', () => presenter.replicate()],
-      ['create span by touch', () => presenter.createSpanWithTouchDevice()],
-      ['expand span by touch', () => presenter.expandSpanWithTouchDevice()],
-      ['shrink span by touch', () => presenter.shrinkSpanWithTouchDevice()],
-      ['edit text by touch', () => presenter.editTextWithTouchDevice()],
+      [
+        'create span by touch',
+        () => currentMode.currentMode.createSpanWithTouchDevice()
+      ],
+      [
+        'expand span by touch',
+        () => currentMode.currentMode.expandSpanWithTouchDevice()
+      ],
+      [
+        'shrink span by touch',
+        () => currentMode.currentMode.shrinkSpanWithTouchDevice()
+      ],
+      [
+        'edit text by touch',
+        () => currentMode.currentMode.editTextWithTouchDevice()
+      ],
       ['new entity', () => presenter.createEntity()],
-      ['edit properties', () => presenter.editProperties()],
+      ['edit properties', () => currentMode.currentMode.editProperties()],
       ['pallet', () => presenter.showPallet()],
       ['delete', () => presenter.removeSelectedElements()],
       ['copy', () => presenter.copyEntitiesToLocalClipboard()],

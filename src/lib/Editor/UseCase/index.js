@@ -22,7 +22,47 @@ import FunctionAvailability from './FunctionAvailability'
 import EditModeState from './EditModeState'
 import EditModeSwitch from './EditModeSwitch'
 import EditModeFactory from './EditModeFactory'
+import { MODE } from '../../MODE'
 
+class CurrentMode {
+  #editModeState
+  #termEditMode
+  #blockEditMode
+  #relationEditMode
+  #textEditMode
+  #viewMode
+
+  constructor(
+    editModeState,
+    termEditMode,
+    blockEditMode,
+    relationEditMode,
+    textEditMode,
+    viewMode
+  ) {
+    this.#editModeState = editModeState
+    this.#termEditMode = termEditMode
+    this.#blockEditMode = blockEditMode
+    this.#relationEditMode = relationEditMode
+    this.#textEditMode = textEditMode
+    this.#viewMode = viewMode
+  }
+
+  get currentMode() {
+    switch (this.#editModeState.currentState) {
+      case MODE.EDIT_DENOTATION:
+        return this.#termEditMode
+      case MODE.EDIT_BLOCK:
+        return this.#blockEditMode
+      case MODE.EDIT_RELATION:
+        return this.#relationEditMode
+      case MODE.EDIT_TEXT:
+        return this.#textEditMode
+      default:
+        return this.#viewMode
+    }
+  }
+}
 export default class UseCase {
   #contextMenu
   #presenter
@@ -126,6 +166,14 @@ export default class UseCase {
       editorHTMLElement,
       eventEmitter,
       annotationModel
+    )
+    const currentMode = new CurrentMode(
+      editModeState,
+      termEditMode,
+      blockEditMode,
+      relationEditMode,
+      textEditMode,
+      viewMode
     )
     const editModeSwitch = new EditModeSwitch(
       editorHTMLElement,
@@ -278,7 +326,8 @@ export default class UseCase {
       presenter,
       persistenceInterface,
       menuState,
-      annotationModel
+      annotationModel,
+      currentMode
     )
 
     // Add the tool bar
