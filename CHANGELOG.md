@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [14.1.1](https://github.com/pubannotation/textae/compare/v14.1.0...v14.1.1) (2025-07-22)
+
+
+### Bug Fixes
+
+* Adding an entity to an existing span causes an error. ([fbc86a8](https://github.com/pubannotation/textae/commit/fbc86a8910150ec42821a1f21463ddc46dbf77ab))
+* An error occurs when you select a span with two or more entities initially displayed and press the up key. ([304dc38](https://github.com/pubannotation/textae/commit/304dc38459892d571aa89ae29bfde2ff45dd1667))
+* Tab switching using the left and right keys in the Term Edit Mode palette does not work. ([e204636](https://github.com/pubannotation/textae/commit/e204636004d3c877b4c72e6fb98bf3ab725b85b6))
+
 ## [14.1.0](https://github.com/pubannotation/textae/compare/v14.0.1...v14.1.0) (2025-07-17)
 
 
