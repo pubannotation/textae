@@ -1,5 +1,5 @@
 import delegate from 'delegate'
-import getEntityHTMLelementFromChild from '../../../../getEntityHTMLelementFromChild'
+import getEntityHTMLelementFromChild from '../../../getEntityHTMLelementFromChild'
 import typeValuesClicked from './typeValuesClicked'
 
 export default class MouseEventHandler {

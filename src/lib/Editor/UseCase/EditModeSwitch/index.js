@@ -1,4 +1,4 @@
-import { MODE } from '../../../../MODE'
+import { MODE } from '../../../MODE'
 import TermEditMode from './TermEditMode'
 import BlockEditMode from './BlockEditMode'
 import RelationEditMode from './RelationEditMode'
@@ -18,7 +18,7 @@ export default class EditModeSwitch {
 
   /**
    *
-   * @param {import('../../../StartUpOptions').default} startUpOptions
+   * @param {import('../../StartUpOptions').default} startUpOptions
    */
   constructor(
     editorHTMLElement,

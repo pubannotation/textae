@@ -4,9 +4,9 @@ import EditMode from '../EditMode'
 import isTextSelectionInTextBox from '../isTextSelectionInTextBox'
 import SelectionWrapper from '../SelectionWrapper'
 import AttributeEditor from '../AttributeEditor'
-import SelectionAttributePallet from '../../../../../component/SelectionAttributePallet'
+import SelectionAttributePallet from '../../../../component/SelectionAttributePallet'
 import PropertyEditor from '../PropertyEditor'
-import forwardMethods from '../../../../forwardMethods'
+import forwardMethods from '../../../forwardMethods'
 import PalletFactory from '../PalletFactory'
 
 export default class BlockEditMode extends EditMode {

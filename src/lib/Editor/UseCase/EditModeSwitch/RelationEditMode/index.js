@@ -1,9 +1,9 @@
 import MouseEventHandler from './MouseEventHandler'
 import EditMode from '../EditMode'
 import AttributeEditor from '../AttributeEditor'
-import SelectionAttributePallet from '../../../../../component/SelectionAttributePallet'
+import SelectionAttributePallet from '../../../../component/SelectionAttributePallet'
 import PropertyEditor from '../PropertyEditor'
-import forwardMethods from '../../../../forwardMethods'
+import forwardMethods from '../../../forwardMethods'
 import PalletFactory from '../PalletFactory'
 
 export default class RelationEditMode extends EditMode {

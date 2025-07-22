@@ -2,10 +2,10 @@ import alertifyjs from 'alertifyjs'
 import clearTextSelection from '../../clearTextSelection'
 import create from './create'
 import shrinkSpan from '../../shrinkSpan'
-import getIsDelimiterFunc from '../../../getIsDelimiterFunc'
+import getIsDelimiterFunc from '../../../Presenter/getIsDelimiterFunc'
 import SelectionWrapper from '../../SelectionWrapper'
 import isPositionBetweenSpan from './isPositionBetweenSpan'
-import getRightSpanElement from '../../../../../getRightSpanElement'
+import getRightSpanElement from '../../../../getRightSpanElement'
 
 export default class SpanEditor {
   #editorHTMLElement

@@ -3,7 +3,7 @@ import clearTextSelection from '../clearTextSelection'
 import shrinkSpan from '../shrinkSpan'
 import create from './create'
 import SelectionWrapper from '../SelectionWrapper'
-import getRightSpanElement from '../../../../getRightSpanElement'
+import getRightSpanElement from '../../../getRightSpanElement'
 
 export default class SpanEditor {
   #editorHTMLElement

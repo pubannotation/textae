@@ -20,7 +20,7 @@ import RemoteResource from '../RemoteResource'
 import forwardMethods from '../forwardMethods'
 import FunctionAvailability from './FunctionAvailability'
 import EditModeState from './EditModeState'
-import EditModeSwitch from './Presenter/EditModeSwitch'
+import EditModeSwitch from './EditModeSwitch'
 
 export default class UseCase {
   #contextMenu
