@@ -24,7 +24,7 @@ import EditModeSwitch from './EditModeSwitch'
 import EditModeFactory from './EditModeFactory'
 import { MODE } from '../../MODE'
 
-class CurrentMode {
+class EditMode {
   #editModeState
   #termEditMode
   #blockEditMode
@@ -167,7 +167,7 @@ export default class UseCase {
       eventEmitter,
       annotationModel
     )
-    const currentMode = new CurrentMode(
+    const editMode = new EditMode(
       editModeState,
       termEditMode,
       blockEditMode,
@@ -327,7 +327,7 @@ export default class UseCase {
       persistenceInterface,
       menuState,
       annotationModel,
-      currentMode
+      editMode
     )
 
     // Add the tool bar

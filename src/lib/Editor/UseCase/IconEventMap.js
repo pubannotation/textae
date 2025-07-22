@@ -5,7 +5,7 @@ export default class IconEventMap {
     persistenceInterface,
     menuState,
     annotationModel,
-    currentMode
+    editMode
   ) {
     this._map = new Map([
       ['view mode', () => presenter.toViewMode()],
@@ -21,22 +21,19 @@ export default class IconEventMap {
       ['replicate span annotation', () => presenter.replicate()],
       [
         'create span by touch',
-        () => currentMode.current.createSpanWithTouchDevice()
+        () => editMode.current.createSpanWithTouchDevice()
       ],
       [
         'expand span by touch',
-        () => currentMode.current.expandSpanWithTouchDevice()
+        () => editMode.current.expandSpanWithTouchDevice()
       ],
       [
         'shrink span by touch',
-        () => currentMode.current.shrinkSpanWithTouchDevice()
+        () => editMode.current.shrinkSpanWithTouchDevice()
       ],
-      [
-        'edit text by touch',
-        () => currentMode.current.editTextWithTouchDevice()
-      ],
+      ['edit text by touch', () => editMode.current.editTextWithTouchDevice()],
       ['new entity', () => presenter.createEntity()],
-      ['edit properties', () => currentMode.current.editProperties()],
+      ['edit properties', () => editMode.current.editProperties()],
       ['pallet', () => presenter.showPallet()],
       ['delete', () => presenter.removeSelectedElements()],
       ['copy', () => presenter.copyEntitiesToLocalClipboard()],
