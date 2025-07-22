@@ -1,4 +1,4 @@
-export default class EditMode {
+export default class EditModeBase {
   // Interface methods
   createSpanWithTouchDevice() {}
   expandSpanWithTouchDevice() {}

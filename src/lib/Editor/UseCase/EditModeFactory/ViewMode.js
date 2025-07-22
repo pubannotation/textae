@@ -1,7 +1,7 @@
-import EditMode from './EditMode'
+import EditModeBase from './EditModeBase'
 import debounce300 from '../../../debounce300'
 
-export default class ViewMode extends EditMode {
+export default class ViewMode extends EditModeBase {
   #editorHTMLElement
   #annotationModel
   #selectedTextStartOffset

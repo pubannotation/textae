@@ -1,6 +1,6 @@
 import SpanEditor from './SpanEditor'
 import MouseEventHandler from './MouseEventHandler'
-import EditMode from '../EditMode'
+import EditModeBase from '../EditModeBase'
 import isTextSelectionInTextBox from '../isTextSelectionInTextBox'
 import SelectionWrapper from '../SelectionWrapper'
 import AttributeEditor from '../AttributeEditor'
@@ -9,7 +9,7 @@ import PropertyEditor from '../PropertyEditor'
 import forwardMethods from '../../../forwardMethods'
 import PalletFactory from '../PalletFactory'
 
-export default class BlockEditMode extends EditMode {
+export default class BlockEditMode extends EditModeBase {
   #mouseEventHandler
   #spanEditor
   #textBox

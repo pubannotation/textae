@@ -1,9 +1,9 @@
 import delegate from 'delegate'
-import EditMode from '../EditMode'
+import EditModeBase from '../EditModeBase'
 import TextEditDialog from './TextEditDialog'
 import isTextSelectionInTextBox from '../isTextSelectionInTextBox'
 
-export default class TextEditMode extends EditMode {
+export default class TextEditMode extends EditModeBase {
   #editorHTMLElement
   #annotationModel
   #spanConfig
