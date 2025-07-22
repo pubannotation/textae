@@ -71,7 +71,7 @@ export default class KeyEventMap {
         'w',
         () =>
           functionAvailability.isAvailable('edit properties') &&
-          presenter.editProperties()
+          editMode.current.editProperties()
       ],
       ['y', () => functionAvailability.isAvailable('redo') && commander.redo()],
       ['z', () => functionAvailability.isAvailable('undo') && commander.undo()],
