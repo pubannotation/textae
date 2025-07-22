@@ -5,17 +5,19 @@ export default class CreateDefaultTypeEntityToSelectedSpansCommand extends Compo
   constructor(annotationModel, selectionModel, typeName) {
     super()
 
-    const selectedSpans = selectionModel.span.all
-      .filter((span) => span.isDenotation)
-      .map((span) => span.id)
+    const selectedSpans = selectionModel.span.all.filter(
+      (span) => span.isDenotation
+    )
 
     this._subCommands = selectedSpans.map(
-      (spanID) =>
+      (span) =>
         new CreateCommand(
           annotationModel,
           'entity',
           {
-            spanID,
+            spanType: 'denotation',
+            begin: span.begin,
+            end: span.end,
             typeName
           },
           selectionModel
