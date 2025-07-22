@@ -492,15 +492,19 @@ export default class SpanInstanceContainer {
   #addInstanceFromRowDatum(spanType, rowDatum) {
     switch (spanType) {
       case 'denotation': {
-        const objectSpan = new DenotationSpanInstance(
-          this.#editorID,
-          this.#editorHTMLElement,
-          rowDatum.span.begin,
-          rowDatum.span.end,
-          this
-        )
-
-        if (!this.#denotations.has(objectSpan.id)) {
+        if (
+          !this.#denotations.getSameBeginEnd(
+            rowDatum.span.begin,
+            rowDatum.span.end
+          )
+        ) {
+          const objectSpan = new DenotationSpanInstance(
+            this.#editorID,
+            this.#editorHTMLElement,
+            rowDatum.span.begin,
+            rowDatum.span.end,
+            this
+          )
           this.#denotations.set(objectSpan.id, objectSpan)
         }
         break
