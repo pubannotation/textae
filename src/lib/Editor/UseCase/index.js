@@ -1,4 +1,3 @@
-import alertifyjs from 'alertifyjs'
 import SpanConfig from './SpanConfig'
 import Commander from './Commander'
 import Presenter from './Presenter'
@@ -13,9 +12,6 @@ import ContextMenu from '../control/ContextMenu'
 import KeyEventMap from './KeyEventMap'
 import IconEventMap from './IconEventMap'
 import AnnotationModelEventsObserver from '../AnnotationModelEventsObserver'
-import warningIfBeginEndOfSpanAreNotInteger from './warningIfBeginEndOfSpanAreNotInteger'
-import validateConfigurationAndAlert from './validateConfigurationAndAlert'
-import setAnnotationAndConfiguration from './setAnnotationAndConfiguration'
 import RemoteResource from '../RemoteResource'
 import forwardMethods from '../forwardMethods'
 import FunctionAvailability from './FunctionAvailability'
@@ -25,6 +21,7 @@ import EditModeFactory from './EditModeFactory'
 import EditMode from './EditMode'
 import { MODE } from '../../MODE'
 import ModeTransitionReactor from './EditModeSwitch/ModeTransitionReactor'
+import bindLoadEvents from './bindLoadEvents'
 
 export default class UseCase {
   #contextMenu
@@ -198,102 +195,16 @@ export default class UseCase {
       textEditMode
     )
 
-    eventEmitter
-      .on('textae-event.resource.annotation.load.success', (dataSource) => {
-        if (!dataSource.data.config && startUpOptions.config) {
-          remoteResource.loadConfiguration(startUpOptions.config, dataSource)
-        } else {
-          warningIfBeginEndOfSpanAreNotInteger(dataSource.data)
-
-          if (dataSource.data.config) {
-            // When config is specified, it must be JSON.
-            // For example, when we load an HTML file, we treat it as text here.
-            if (typeof dataSource.data.config !== 'object') {
-              alertifyjs.error(`configuration in annotation file is invalid.`)
-              return
-            }
-          }
-
-          const validConfig = validateConfigurationAndAlert(
-            dataSource.data,
-            dataSource.data.config
-          )
-
-          if (validConfig) {
-            setAnnotationAndConfiguration(
-              validConfig,
-              menuState,
-              spanConfig,
-              annotationModel,
-              dataSource.data,
-              functionAvailability
-            )
-            eventEmitter.emit('textae-event.configuration.reset')
-
-            if (startUpOptions.isFocusFirstDenotation) {
-              const firstDenotation =
-                annotationModel.spanInstanceContainer.allDenotationSpans.at(0)
-              if (firstDenotation) {
-                firstDenotation.focus()
-              }
-            }
-
-            originalData.annotation = dataSource
-          }
-        }
-      })
-      .on(
-        'textae-event.resource.configuration.load.success',
-        (configurationDataSource, annotationDataSource = null) => {
-          // When config is specified, it must be JSON.
-          // For example, when we load an HTML file, we treat it as text here.
-          if (typeof configurationDataSource.data !== 'object') {
-            alertifyjs.error(
-              `${configurationDataSource.displayName} is not a configuration file or its format is invalid.`
-            )
-            return
-          }
-
-          if (annotationDataSource) {
-            warningIfBeginEndOfSpanAreNotInteger(annotationDataSource.data)
-          }
-
-          // If an annotation that does not contain a configuration is loaded
-          // and a configuration is loaded from a textae attribute value,
-          // both the loaded configuration and the annotation are passed.
-          // If only the configuration is read, the annotation is null.
-          const annotation = (annotationDataSource &&
-            annotationDataSource.data) || {
-            ...originalData.annotation,
-            ...annotationModel.externalFormat
-          }
-
-          const validConfig = validateConfigurationAndAlert(
-            annotation,
-            configurationDataSource.data
-          )
-
-          if (!validConfig) {
-            return
-          }
-
-          setAnnotationAndConfiguration(
-            validConfig,
-            menuState,
-            spanConfig,
-            annotationModel,
-            annotation,
-            functionAvailability
-          )
-          eventEmitter.emit('textae-event.configuration.reset')
-
-          if (annotationDataSource) {
-            originalData.annotation = annotationDataSource
-          }
-
-          originalData.configuration = configurationDataSource
-        }
-      )
+    bindLoadEvents(
+      eventEmitter,
+      startUpOptions,
+      remoteResource,
+      menuState,
+      spanConfig,
+      annotationModel,
+      functionAvailability,
+      originalData
+    )
 
     const iconEventMap = new IconEventMap(
       commander,
