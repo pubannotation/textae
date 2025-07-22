@@ -159,7 +159,8 @@ export default class UseCase {
       clipBoard,
       menuState,
       startUpOptions,
-      editModeSwitch
+      editModeSwitch,
+      editMode
     )
     this.#presenter = presenter
     this.#annotationModel = annotationModel

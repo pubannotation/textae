@@ -20,6 +20,7 @@ export default class Presenter {
   #horizontal
   #vertical
   #isActive
+  #editMode
 
   /**
    *
@@ -36,7 +37,8 @@ export default class Presenter {
     clipBoard,
     menuState,
     startUpOptions,
-    editModeSwitch
+    editModeSwitch,
+    editMode
   ) {
     eventEmitter
       .on('textae-event.annotation-data.all.change', (hasMultiTracks) => {
@@ -73,6 +75,7 @@ export default class Presenter {
     this.#horizontal = new Horizontal(editorHTMLElement, selectionModel)
     this.#vertical = new Vertical(editorHTMLElement, selectionModel)
     this.#isActive = false
+    this.#editMode = editMode
 
     forwardMethods(this, () => this.#editModeSwitch, [
       'toViewMode',
@@ -199,7 +202,7 @@ export default class Presenter {
 
   applyTextSelectionWithTouchDevice() {
     if (this.#isActive) {
-      this.#editModeSwitch.currentMode.applyTextSelectionWithTouchDevice()
+      this.#editMode.current.applyTextSelectionWithTouchDevice()
     }
   }
 }
