@@ -33,6 +33,10 @@ export default class EditMode {
       )
   }
 
+  get isEditDenotation() {
+    return this.#editModeState.currentState === MODE.EDIT_DENOTATION
+  }
+
   get current() {
     switch (this.#editModeState.currentState) {
       case MODE.EDIT_DENOTATION:

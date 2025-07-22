@@ -1,5 +1,3 @@
-import { MODE } from '../../../MODE'
-
 export default class EditModeSwitch {
   #editModeState
   #annotationModel
@@ -54,7 +52,7 @@ export default class EditModeSwitch {
   }
 
   get isEditDenotation() {
-    return this.#editModeState.currentState === MODE.EDIT_DENOTATION
+    return this.#editMode.isEditDenotation
   }
 
   /**
