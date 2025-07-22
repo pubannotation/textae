@@ -346,7 +346,8 @@ export default class UseCase {
           commander,
           presenter,
           persistenceInterface,
-          functionAvailability
+          functionAvailability,
+          editMode
         ).handle(event)
       }
     })
