@@ -20,6 +20,7 @@ import RemoteResource from '../RemoteResource'
 import forwardMethods from '../forwardMethods'
 import FunctionAvailability from './FunctionAvailability'
 import EditModeState from './EditModeState'
+import EditModeSwitch from './Presenter/EditModeSwitch'
 
 export default class UseCase {
   #contextMenu
@@ -84,6 +85,18 @@ export default class UseCase {
       functionAvailability,
       editModeState
     )
+    const editModeSwitch = new EditModeSwitch(
+      editorHTMLElement,
+      eventEmitter,
+      annotationModel,
+      selectionModel,
+      spanConfig,
+      commander,
+      menuState,
+      startUpOptions,
+      mousePoint,
+      editModeState
+    )
     const presenter = new Presenter(
       editorHTMLElement,
       eventEmitter,
@@ -95,8 +108,7 @@ export default class UseCase {
       clipBoard,
       menuState,
       startUpOptions,
-      mousePoint,
-      editModeState
+      editModeSwitch
     )
     this.#presenter = presenter
     this.#annotationModel = annotationModel

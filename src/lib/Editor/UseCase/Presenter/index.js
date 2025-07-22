@@ -1,5 +1,4 @@
 import alertifyjs from 'alertifyjs'
-import EditModeSwitch from './EditModeSwitch'
 import Horizontal from './Horizontal'
 import Vertical from './Vertical'
 import forwardMethods from '../../forwardMethods'
@@ -37,22 +36,8 @@ export default class Presenter {
     clipBoard,
     menuState,
     startUpOptions,
-    mousePoint,
-    editModeState
+    editModeSwitch
   ) {
-    const editModeSwitch = new EditModeSwitch(
-      editorHTMLElement,
-      eventEmitter,
-      annotationModel,
-      selectionModel,
-      spanConfig,
-      commander,
-      menuState,
-      startUpOptions,
-      mousePoint,
-      editModeState
-    )
-
     eventEmitter
       .on('textae-event.annotation-data.all.change', (hasMultiTracks) => {
         if (startUpOptions.isEditMode && hasMultiTracks) {
