@@ -103,7 +103,7 @@ export default class TermEditMode extends EditModeBase {
   }
 
   get isPalletShown() {
-    return this.#pallet.visibility
+    return this.#pallet.visibly
   }
 
   createSpanWithTouchDevice() {

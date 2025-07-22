@@ -174,7 +174,7 @@ export default class Presenter {
 
   selectLeft(shiftKey) {
     if (this.#editModeSwitch.isTypeValuesPalletShown) {
-      this.selectLeftAttributeTab()
+      this.#editMode.current.selectLeftAttributeTab()
     } else {
       this.#horizontal.left(shiftKey)
     }
@@ -182,7 +182,7 @@ export default class Presenter {
 
   selectRight(shiftKey) {
     if (this.#editModeSwitch.isTypeValuesPalletShown) {
-      this.selectRightAttributeTab()
+      this.#editMode.current.selectRightAttributeTab()
     } else {
       this.#horizontal.right(shiftKey)
     }
