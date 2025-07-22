@@ -4,8 +4,8 @@ import debounce300 from '../../../../debounce300'
 export default class ViewMode extends EditMode {
   #editorHTMLElement
   #annotationModel
-  #startOffset
-  #endOffset
+  #selectedTextStartOffset
+  #selectedTextEndOffset
 
   constructor(editorHTMLElement, eventEmitter, annotationModel) {
     super()
@@ -13,17 +13,20 @@ export default class ViewMode extends EditMode {
     this.#editorHTMLElement = editorHTMLElement
     this.#annotationModel = annotationModel
 
-    const emitSelectedTextChange = debounce300(() => {
+    const updateSelectedText = debounce300(() => {
       this.#updateSelectedTextOffsets()
 
       eventEmitter.emit('textae-event.editor.selected-text.change')
     })
 
-    document.addEventListener('selectionchange', emitSelectedTextChange)
+    document.addEventListener('selectionchange', updateSelectedText)
   }
 
   get selectedText() {
-    if (this.#startOffset === undefined || this.#endOffset === undefined) {
+    if (
+      this.#selectedTextStartOffset === undefined ||
+      this.#selectedTextEndOffset === undefined
+    ) {
       return {
         status: 'unselected'
       }
@@ -31,8 +34,8 @@ export default class ViewMode extends EditMode {
 
     if (
       this.#annotationModel.isBoundaryCrossingWithOtherSpans(
-        this.#startOffset,
-        this.#endOffset
+        this.#selectedTextStartOffset,
+        this.#selectedTextEndOffset
       )
     ) {
       return {
@@ -41,8 +44,8 @@ export default class ViewMode extends EditMode {
     }
 
     return {
-      begin: this.#startOffset,
-      end: this.#endOffset,
+      begin: this.#selectedTextStartOffset,
+      end: this.#selectedTextEndOffset,
       status: 'selected'
     }
   }
@@ -59,12 +62,13 @@ export default class ViewMode extends EditMode {
         textBox.contains(range.startContainer) &&
         textBox.contains(range.endContainer)
       ) {
-        this.#startOffset = this.#annotationModel.textSelection.begin
-        this.#endOffset = this.#annotationModel.textSelection.end
+        this.#selectedTextStartOffset =
+          this.#annotationModel.textSelection.begin
+        this.#selectedTextEndOffset = this.#annotationModel.textSelection.end
       }
     } else {
-      this.#startOffset = undefined
-      this.#endOffset = undefined
+      this.#selectedTextStartOffset = undefined
+      this.#selectedTextEndOffset = undefined
     }
   }
 }
