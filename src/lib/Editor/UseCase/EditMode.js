@@ -14,7 +14,8 @@ export default class EditMode {
     blockEditMode,
     relationEditMode,
     textEditMode,
-    viewMode
+    viewMode,
+    eventEmitter
   ) {
     this.#editModeState = editModeState
     this.#termEditMode = termEditMode
@@ -22,6 +23,14 @@ export default class EditMode {
     this.#relationEditMode = relationEditMode
     this.#textEditMode = textEditMode
     this.#viewMode = viewMode
+
+    eventEmitter
+      .on('textae-event.editor.relation.click', (event, relation) =>
+        this.current.relationClicked(event, relation)
+      )
+      .on('textae-event.editor.relation-bollard.click', (_, entity) =>
+        this.current.relationBollardClicked(entity)
+      )
   }
 
   get current() {

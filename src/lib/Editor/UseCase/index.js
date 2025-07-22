@@ -140,15 +140,9 @@ export default class UseCase {
       blockEditMode,
       relationEditMode,
       textEditMode,
-      viewMode
+      viewMode,
+      eventEmitter
     )
-    eventEmitter
-      .on('textae-event.editor.relation.click', (event, relation) =>
-        editMode.current.relationClicked(event, relation)
-      )
-      .on('textae-event.editor.relation-bollard.click', (_, entity) =>
-        editMode.current.relationBollardClicked(entity)
-      )
 
     const editModeSwitch = new EditModeSwitch(
       annotationModel,
