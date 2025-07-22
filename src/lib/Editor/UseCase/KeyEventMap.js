@@ -52,7 +52,8 @@ export default class KeyEventMap {
       [
         'q',
         () =>
-          functionAvailability.isAvailable('pallet') && presenter.showPallet()
+          functionAvailability.isAvailable('pallet') &&
+          editMode.current.showPallet()
       ],
       [
         'r',
