@@ -1,20 +1,20 @@
-import MouseEventHandler from './MouseEventHandler'
 import SpanEditor from './SpanEditor'
-import EditMode from '../EditModeFactory/EditMode'
+import MouseEventHandler from './MouseEventHandler'
+import EditMode from '../EditMode'
 import isTextSelectionInTextBox from '../isTextSelectionInTextBox'
-import SelectionWrapper from '../EditModeSwitch/SelectionWrapper'
-import AttributeEditor from '../EditModeSwitch/AttributeEditor'
-import SelectionAttributePallet from '../../../component/SelectionAttributePallet'
-import PropertyEditor from '../EditModeSwitch/PropertyEditor'
-import forwardMethods from '../../forwardMethods'
-import PalletFactory from '../EditModeSwitch/PalletFactory'
+import SelectionWrapper from '../SelectionWrapper'
+import AttributeEditor from '../AttributeEditor'
+import SelectionAttributePallet from '../../../../component/SelectionAttributePallet'
+import PropertyEditor from '../PropertyEditor'
+import forwardMethods from '../../../forwardMethods'
+import PalletFactory from '../PalletFactory'
 
-export default class TermEditMode extends EditMode {
+export default class BlockEditMode extends EditMode {
   #mouseEventHandler
   #spanEditor
   #textBox
-  #annotationModel
   #propertyEditor
+  #annotationModel
   #selectionModel
   #menuState
   #pallet
@@ -24,9 +24,9 @@ export default class TermEditMode extends EditMode {
     eventEmitter,
     annotationModel,
     selectionModel,
+    spanConfig,
     commander,
     menuState,
-    spanConfig,
     mousePoint
   ) {
     super()
@@ -36,10 +36,10 @@ export default class TermEditMode extends EditMode {
       eventEmitter,
       annotationModel.typeDictionary,
       annotationModel.attributeInstanceContainer,
-      annotationModel.typeDictionary.denotation,
+      annotationModel.typeDictionary.block,
       selectionModel.entity,
       commander,
-      'Term configuration',
+      'Block configuration',
       menuState,
       mousePoint,
       'entity',
@@ -51,29 +51,29 @@ export default class TermEditMode extends EditMode {
     const spanEditor = new SpanEditor(
       editorHTMLElement,
       annotationModel,
-      selectionModel,
+      spanConfig,
       commander,
       menuState,
-      spanConfig
+      selectionModel
     )
 
     this.#mouseEventHandler = new MouseEventHandler(
       editorHTMLElement,
       annotationModel,
       selectionModel,
-      this.#pallet,
-      spanEditor
+      spanEditor,
+      this.#pallet
     )
 
     this.#propertyEditor = new PropertyEditor(
       editorHTMLElement,
       commander,
       this.#pallet,
-      'Entity',
+      'Block',
       mousePoint,
-      annotationModel.typeDictionary.denotation,
+      annotationModel.typeDictionary.block,
       annotationModel,
-      'Denotation'
+      'Entity'
     )
     this.#selectionModel = selectionModel
 
@@ -107,6 +107,7 @@ export default class TermEditMode extends EditMode {
   }
 
   createSpanWithTouchDevice() {
+    console.log('createSpanWithTouchDevice')
     this.#spanEditor.cerateSpanForTouchDevice()
   }
 
@@ -124,9 +125,9 @@ export default class TermEditMode extends EditMode {
       const isSelectionTextCrossingAnySpan =
         this.#annotationModel.isBoundaryCrossingWithOtherSpans(begin, end)
 
-      const { isParentOfBothNodesSame } = new SelectionWrapper()
+      const { isParentOfBothNodesTextBox } = new SelectionWrapper()
       this.#menuState.updateButtonsToOperateSpanWithTouchDevice(
-        isParentOfBothNodesSame,
+        isParentOfBothNodesTextBox,
         isSelectionTextCrossingAnySpan,
         isSelectionTextCrossingAnySpan,
         false

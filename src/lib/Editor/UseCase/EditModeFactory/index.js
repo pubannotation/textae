@@ -1,8 +1,8 @@
-import BlockEditMode from '../BlockEditMode'
-import RelationEditMode from '../RelationEditMode'
-import TermEditMode from '../TermEditMode'
-import TextEditMode from '../TextEditMode'
-import ViewMode from '../ViewMode'
+import BlockEditMode from './BlockEditMode'
+import RelationEditMode from './RelationEditMode'
+import TermEditMode from './TermEditMode'
+import TextEditMode from './TextEditMode'
+import ViewMode from './ViewMode'
 
 export default class EditModeFactory {
   static createTermEditMode(

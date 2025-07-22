@@ -1,5 +1,5 @@
 import delegate from 'delegate'
-import EditMode from '../EditModeFactory/EditMode'
+import EditMode from '../EditMode'
 import TextEditDialog from './TextEditDialog'
 import isTextSelectionInTextBox from '../isTextSelectionInTextBox'
 
