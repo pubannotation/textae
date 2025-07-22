@@ -2,10 +2,6 @@ import { MODE } from '../../../MODE'
 import ModeTransitionReactor from './ModeTransitionReactor'
 
 export default class EditModeSwitch {
-  #termEditMode
-  #blockEditMode
-  #relationEditMode
-  #textEditMode
   #viewMode
   #editModeState
   #annotationModel
@@ -26,24 +22,20 @@ export default class EditModeSwitch {
     blockEditMode,
     relationEditMode,
     textEditMode,
-    ViewMode,
+    viewMode,
     editMode
   ) {
-    this.#termEditMode = termEditMode
-    this.#blockEditMode = blockEditMode
-    this.#relationEditMode = relationEditMode
-    this.#textEditMode = textEditMode
-    this.#viewMode = ViewMode
+    this.#viewMode = viewMode
     this.#editMode = editMode
 
     new ModeTransitionReactor(
       editorHTMLElement,
       eventEmitter,
       annotationModel,
-      this.#termEditMode,
-      this.#blockEditMode,
-      this.#relationEditMode,
-      this.#textEditMode
+      termEditMode,
+      blockEditMode,
+      relationEditMode,
+      textEditMode
     )
 
     this.#editModeState = editModeState
