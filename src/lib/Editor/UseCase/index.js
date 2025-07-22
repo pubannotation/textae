@@ -24,6 +24,7 @@ import EditModeSwitch from './EditModeSwitch'
 import EditModeFactory from './EditModeFactory'
 import EditMode from './EditMode'
 import { MODE } from '../../MODE'
+import ModeTransitionReactor from './EditModeSwitch/ModeTransitionReactor'
 
 export default class UseCase {
   #contextMenu
@@ -142,15 +143,10 @@ export default class UseCase {
       viewMode
     )
     const editModeSwitch = new EditModeSwitch(
-      editorHTMLElement,
       eventEmitter,
       annotationModel,
       startUpOptions,
       editModeState,
-      termEditMode,
-      blockEditMode,
-      relationEditMode,
-      textEditMode,
       editMode
     )
     const presenter = new Presenter(
@@ -189,6 +185,16 @@ export default class UseCase {
       persistenceInterface,
       startUpOptions.saveTo,
       annotationModelEventsObserver
+    )
+
+    new ModeTransitionReactor(
+      editorHTMLElement,
+      eventEmitter,
+      annotationModel,
+      termEditMode,
+      blockEditMode,
+      relationEditMode,
+      textEditMode
     )
 
     eventEmitter

@@ -1,5 +1,4 @@
 import { MODE } from '../../../MODE'
-import ModeTransitionReactor from './ModeTransitionReactor'
 
 export default class EditModeSwitch {
   #editModeState
@@ -12,28 +11,13 @@ export default class EditModeSwitch {
    * @param {import('../../StartUpOptions').default} startUpOptions
    */
   constructor(
-    editorHTMLElement,
     eventEmitter,
     annotationModel,
     startUpOptions,
     editModeState,
-    termEditMode,
-    blockEditMode,
-    relationEditMode,
-    textEditMode,
     editMode
   ) {
     this.#editMode = editMode
-
-    new ModeTransitionReactor(
-      editorHTMLElement,
-      eventEmitter,
-      annotationModel,
-      termEditMode,
-      blockEditMode,
-      relationEditMode,
-      textEditMode
-    )
 
     this.#editModeState = editModeState
     this.#annotationModel = annotationModel
