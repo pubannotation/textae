@@ -6,6 +6,7 @@ export default class ViewMode extends EditMode {
   #annotationModel
   #selectedTextStartOffset
   #selectedTextEndOffset
+  #updateSelectedTextHandler
 
   constructor(editorHTMLElement, eventEmitter, annotationModel) {
     super()
@@ -13,13 +14,16 @@ export default class ViewMode extends EditMode {
     this.#editorHTMLElement = editorHTMLElement
     this.#annotationModel = annotationModel
 
-    const updateSelectedText = debounce300(() => {
+    this.#updateSelectedTextHandler = debounce300(() => {
       this.#updateSelectedTextOffsets()
 
       eventEmitter.emit('textae-event.editor.selected-text.change')
     })
 
-    document.addEventListener('selectionchange', updateSelectedText)
+    document.addEventListener(
+      'selectionchange',
+      this.#updateSelectedTextHandler
+    )
   }
 
   get selectedText() {
