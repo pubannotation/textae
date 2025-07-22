@@ -48,7 +48,7 @@ class CurrentMode {
     this.#viewMode = viewMode
   }
 
-  get currentMode() {
+  get current() {
     switch (this.#editModeState.currentState) {
       case MODE.EDIT_DENOTATION:
         return this.#termEditMode
