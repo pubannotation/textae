@@ -1,5 +1,5 @@
 import MouseEventHandler from './MouseEventHandler'
-import EditMode from '../EditMode'
+import EditMode from '../EditModeFactory/EditMode'
 import AttributeEditor from '../EditModeSwitch/AttributeEditor'
 import SelectionAttributePallet from '../../../component/SelectionAttributePallet'
 import PropertyEditor from '../EditModeSwitch/PropertyEditor'

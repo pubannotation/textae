@@ -1,4 +1,4 @@
-import EditMode from './EditMode'
+import EditMode from './EditModeFactory/EditMode'
 import debounce300 from '../../debounce300'
 
 export default class ViewMode extends EditMode {

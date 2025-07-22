@@ -1,6 +1,6 @@
 import SpanEditor from './SpanEditor'
 import MouseEventHandler from './MouseEventHandler'
-import EditMode from '../EditMode'
+import EditMode from '../EditModeFactory/EditMode'
 import isTextSelectionInTextBox from '../isTextSelectionInTextBox'
 import SelectionWrapper from '../EditModeSwitch/SelectionWrapper'
 import AttributeEditor from '../EditModeSwitch/AttributeEditor'
