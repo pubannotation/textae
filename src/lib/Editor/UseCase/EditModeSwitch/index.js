@@ -1,10 +1,5 @@
 import { MODE } from '../../../MODE'
-import TermEditMode from './TermEditMode'
-import BlockEditMode from './BlockEditMode'
-import RelationEditMode from './RelationEditMode'
 import ModeTransitionReactor from './ModeTransitionReactor'
-import TextEditMode from './TextEditMode'
-import ViewMode from './ViewMode'
 
 export default class EditModeSwitch {
   #termEditMode
@@ -24,59 +19,19 @@ export default class EditModeSwitch {
     editorHTMLElement,
     eventEmitter,
     annotationModel,
-    selectionModel,
-    spanConfig,
-    commander,
-    menuState,
     startUpOptions,
-    mousePoint,
-    editModeState
+    editModeState,
+    termEditMode,
+    blockEditMode,
+    relationEditMode,
+    textEditMode,
+    ViewMode
   ) {
-    this.#termEditMode = new TermEditMode(
-      editorHTMLElement,
-      eventEmitter,
-      annotationModel,
-      selectionModel,
-      commander,
-      menuState,
-      spanConfig,
-      mousePoint
-    )
-
-    this.#blockEditMode = new BlockEditMode(
-      editorHTMLElement,
-      eventEmitter,
-      annotationModel,
-      selectionModel,
-      spanConfig,
-      commander,
-      menuState,
-      mousePoint
-    )
-
-    this.#relationEditMode = new RelationEditMode(
-      editorHTMLElement,
-      eventEmitter,
-      annotationModel,
-      selectionModel,
-      commander,
-      menuState,
-      mousePoint
-    )
-
-    this.#textEditMode = new TextEditMode(
-      editorHTMLElement,
-      annotationModel,
-      spanConfig,
-      menuState,
-      commander
-    )
-
-    this.#viewMode = new ViewMode(
-      editorHTMLElement,
-      eventEmitter,
-      annotationModel
-    )
+    this.#termEditMode = termEditMode
+    this.#blockEditMode = blockEditMode
+    this.#relationEditMode = relationEditMode
+    this.#textEditMode = textEditMode
+    this.#viewMode = ViewMode
 
     new ModeTransitionReactor(
       editorHTMLElement,

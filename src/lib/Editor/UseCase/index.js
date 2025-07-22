@@ -21,6 +21,11 @@ import forwardMethods from '../forwardMethods'
 import FunctionAvailability from './FunctionAvailability'
 import EditModeState from './EditModeState'
 import EditModeSwitch from './EditModeSwitch'
+import TermEditMode from './EditModeSwitch/TermEditMode'
+import BlockEditMode from './EditModeSwitch/BlockEditMode'
+import RelationEditMode from './EditModeSwitch/RelationEditMode'
+import TextEditMode from './EditModeSwitch/TextEditMode'
+import ViewMode from './EditModeSwitch/ViewMode'
 
 export default class UseCase {
   #contextMenu
@@ -85,7 +90,17 @@ export default class UseCase {
       functionAvailability,
       editModeState
     )
-    const editModeSwitch = new EditModeSwitch(
+    const termEditMode = new TermEditMode(
+      editorHTMLElement,
+      eventEmitter,
+      annotationModel,
+      selectionModel,
+      commander,
+      menuState,
+      spanConfig,
+      mousePoint
+    )
+    const blockEditMode = new BlockEditMode(
       editorHTMLElement,
       eventEmitter,
       annotationModel,
@@ -93,9 +108,40 @@ export default class UseCase {
       spanConfig,
       commander,
       menuState,
+      mousePoint
+    )
+    const relationEditMode = new RelationEditMode(
+      editorHTMLElement,
+      eventEmitter,
+      annotationModel,
+      selectionModel,
+      commander,
+      menuState,
+      mousePoint
+    )
+    const textEditMode = new TextEditMode(
+      editorHTMLElement,
+      annotationModel,
+      spanConfig,
+      menuState,
+      commander
+    )
+    const viewMode = new ViewMode(
+      editorHTMLElement,
+      eventEmitter,
+      annotationModel
+    )
+    const editModeSwitch = new EditModeSwitch(
+      editorHTMLElement,
+      eventEmitter,
+      annotationModel,
       startUpOptions,
-      mousePoint,
-      editModeState
+      editModeState,
+      termEditMode,
+      blockEditMode,
+      relationEditMode,
+      textEditMode,
+      viewMode
     )
     const presenter = new Presenter(
       editorHTMLElement,
