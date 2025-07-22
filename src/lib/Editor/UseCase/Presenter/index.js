@@ -84,17 +84,6 @@ export default class Presenter {
       'changeModeByShortcut',
       'getSelectedText'
     ])
-    forwardMethods(this, () => this.#editModeSwitch.currentMode, [
-      'createSpanWithTouchDevice',
-      'expandSpanWithTouchDevice',
-      'shrinkSpanWithTouchDevice',
-      'editTextWithTouchDevice',
-      'showPallet',
-      'selectLeftAttributeTab',
-      'selectRightAttributeTab',
-      'editProperties',
-      'manipulateAttribute'
-    ])
     forwardMethods(this, () => this.#clipBoard, [
       'copyEntitiesToLocalClipboard',
       'copyEntitiesToSystemClipboard',
