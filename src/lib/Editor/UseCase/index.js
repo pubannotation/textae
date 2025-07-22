@@ -146,7 +146,8 @@ export default class UseCase {
       blockEditMode,
       relationEditMode,
       textEditMode,
-      viewMode
+      viewMode,
+      editMode
     )
     const presenter = new Presenter(
       editorHTMLElement,

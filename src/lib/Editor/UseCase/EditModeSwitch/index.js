@@ -10,6 +10,7 @@ export default class EditModeSwitch {
   #editModeState
   #annotationModel
   #startUpOptions
+  #editMode
 
   /**
    *
@@ -25,13 +26,15 @@ export default class EditModeSwitch {
     blockEditMode,
     relationEditMode,
     textEditMode,
-    ViewMode
+    ViewMode,
+    editMode
   ) {
     this.#termEditMode = termEditMode
     this.#blockEditMode = blockEditMode
     this.#relationEditMode = relationEditMode
     this.#textEditMode = textEditMode
     this.#viewMode = ViewMode
+    this.#editMode = editMode
 
     new ModeTransitionReactor(
       editorHTMLElement,
@@ -49,10 +52,10 @@ export default class EditModeSwitch {
 
     eventEmitter
       .on('textae-event.editor.relation.click', (event, relation) =>
-        this.currentMode.relationClicked(event, relation)
+        this.#editMode.current.relationClicked(event, relation)
       )
       .on('textae-event.editor.relation-bollard.click', (_, entity) =>
-        this.currentMode.relationBollardClicked(entity)
+        this.#editMode.current.relationBollardClicked(entity)
       )
   }
 
@@ -131,34 +134,19 @@ export default class EditModeSwitch {
   }
 
   hidePallet() {
-    this.currentMode.hidePallet()
+    this.#editMode.current.hidePallet()
   }
 
   get isTypeValuesPalletShown() {
-    return this.currentMode.isPalletShown
+    return this.#editMode.current.isPalletShown
   }
 
   selectLeftAttributeTab() {
-    this.currentMode.pallet.selectLeftAttributeTab()
+    this.#editMode.current.pallet.selectLeftAttributeTab()
   }
 
   selectRightAttributeTab() {
-    this.currentMode.pallet.selectRightAttributeTab()
-  }
-
-  get currentMode() {
-    switch (this.#editModeState.currentState) {
-      case MODE.EDIT_DENOTATION:
-        return this.#termEditMode
-      case MODE.EDIT_BLOCK:
-        return this.#blockEditMode
-      case MODE.EDIT_RELATION:
-        return this.#relationEditMode
-      case MODE.EDIT_TEXT:
-        return this.#textEditMode
-      default:
-        return this.#viewMode
-    }
+    this.#editMode.current.pallet.selectRightAttributeTab()
   }
 
   getSelectedText() {
