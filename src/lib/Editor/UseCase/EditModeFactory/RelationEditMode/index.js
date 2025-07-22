@@ -80,7 +80,7 @@ export default class RelationEditMode extends EditModeBase {
   }
 
   get isPalletShown() {
-    return this.#pallet.visibility
+    return this.#pallet.visibly
   }
 
   relationClicked(event, relation) {
