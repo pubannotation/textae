@@ -25,10 +25,10 @@ import bindLoadEvents from './bindLoadEvents'
 
 export default class UseCase {
   #contextMenu
-  #presenter
   #annotationModel
   #editModeState
   #viewMode
+  #editModeSwitch
 
   /**
    *
@@ -147,6 +147,8 @@ export default class UseCase {
       annotationModel.relationInstanceContainer,
       () => editMode.hidePallet()
     )
+    this.#editModeSwitch = editModeSwitch
+
     const presenter = new Presenter(
       editorHTMLElement,
       eventEmitter,
@@ -161,7 +163,6 @@ export default class UseCase {
       editModeSwitch,
       editMode
     )
-    this.#presenter = presenter
     this.#annotationModel = annotationModel
 
     const remoteResource = new RemoteResource(eventEmitter)
@@ -212,7 +213,8 @@ export default class UseCase {
       persistenceInterface,
       menuState,
       annotationModel,
-      editMode
+      editMode,
+      editModeSwitch
     )
 
     // Add the tool bar
@@ -297,7 +299,7 @@ export default class UseCase {
   }
 
   focusDenotation(denotationID) {
-    this.#presenter.toTermEditMode()
+    this.#editModeSwitch.toTermEditMode()
     this.#annotationModel.focusDenotation(denotationID)
   }
 

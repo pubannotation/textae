@@ -5,15 +5,16 @@ export default class IconEventMap {
     persistenceInterface,
     menuState,
     annotationModel,
-    editMode
+    editMode,
+    editModeSwitch
   ) {
     this._map = new Map([
-      ['view mode', () => presenter.toViewMode()],
-      ['term edit mode', () => presenter.toTermEditMode()],
-      ['block edit mode', () => presenter.toBlockEditMode()],
-      ['relation edit mode', () => presenter.toRelationEditMode()],
-      ['text edit mode', () => presenter.toTextEditMode()],
-      ['simple view', () => presenter.toggleSimpleMode()],
+      ['view mode', () => editModeSwitch.toViewMode()],
+      ['term edit mode', () => editModeSwitch.toTermEditMode()],
+      ['block edit mode', () => editModeSwitch.toBlockEditMode()],
+      ['relation edit mode', () => editModeSwitch.toRelationEditMode()],
+      ['text edit mode', () => editModeSwitch.toTextEditMode()],
+      ['simple view', () => editModeSwitch.toggleSimpleMode()],
       ['import', () => persistenceInterface.importAnnotation()],
       ['upload', () => persistenceInterface.uploadAnnotation()],
       ['undo', () => commander.undo()],

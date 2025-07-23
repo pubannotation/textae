@@ -77,15 +77,7 @@ export default class Presenter {
     this.#isActive = false
     this.#editMode = editMode
 
-    forwardMethods(this, () => this.#editModeSwitch, [
-      'toViewMode',
-      'toTermEditMode',
-      'toBlockEditMode',
-      'toRelationEditMode',
-      'toTextEditMode',
-      'toggleSimpleMode',
-      'changeModeByShortcut'
-    ])
+    forwardMethods(this, () => this.#editModeSwitch, ['changeModeByShortcut'])
     forwardMethods(this, () => this.#clipBoard, [
       'copyEntitiesToLocalClipboard',
       'copyEntitiesToSystemClipboard',
