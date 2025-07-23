@@ -1,3 +1,4 @@
+// Switches the edit mode to the specified mode or initial state.
 export default class EditModeSwitch {
   #editModeState
   #startUpOptions
