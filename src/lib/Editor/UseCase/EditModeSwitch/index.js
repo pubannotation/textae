@@ -1,8 +1,8 @@
 export default class EditModeSwitch {
   #editModeState
-  #annotationModel
   #startUpOptions
   #editMode
+  #relationInstanceContainer
 
   /**
    *
@@ -12,7 +12,7 @@ export default class EditModeSwitch {
     this.#editMode = editMode
 
     this.#editModeState = editModeState
-    this.#annotationModel = annotationModel
+    this.#relationInstanceContainer = annotationModel.relationInstanceContainer
     this.#startUpOptions = startUpOptions
   }
 
@@ -56,16 +56,12 @@ export default class EditModeSwitch {
    */
   reset() {
     if (this.#startUpOptions.isEditTermMode) {
-      this.#editModeState.toTermEditMode(
-        this.#annotationModel.relationInstanceContainer.some
-      )
+      this.#editModeState.toTermEditMode(this.#relationInstanceContainer.some)
       return
     }
 
     if (this.#startUpOptions.isEditBlockMode) {
-      this.#editModeState.toBlockEditMode(
-        this.#annotationModel.relationInstanceContainer.some
-      )
+      this.#editModeState.toBlockEditMode(this.#relationInstanceContainer.some)
       return
     }
 
@@ -75,15 +71,11 @@ export default class EditModeSwitch {
     }
 
     if (this.#startUpOptions.isTextEditMode) {
-      this.#editModeState.toTextEditMode(
-        this.#annotationModel.relationInstanceContainer.some
-      )
+      this.#editModeState.toTextEditMode(this.#relationInstanceContainer.some)
       return
     }
 
-    this.#editModeState.toViewMode(
-      this.#annotationModel.relationInstanceContainer.some
-    )
+    this.#editModeState.toViewMode(this.#relationInstanceContainer.some)
   }
 
   #hidePallet() {
