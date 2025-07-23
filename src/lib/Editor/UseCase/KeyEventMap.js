@@ -10,7 +10,8 @@ export default class KeyEventMap {
     presenter,
     persistenceInterface,
     functionAvailability,
-    editMode
+    editMode,
+    editModeSwitch
   ) {
     this._map = new Map([
       ['1', (shiftKey) => editMode.current.manipulateAttribute(1, shiftKey)],
@@ -41,14 +42,14 @@ export default class KeyEventMap {
           functionAvailability.isAvailable('new entity') &&
           presenter.createEntity()
       ],
-      ['f', () => presenter.changeModeByShortcut()],
+      ['f', () => editModeSwitch.changeModeByShortcut()],
       [
         'i',
         () =>
           functionAvailability.isAvailable('import') &&
           persistenceInterface.importAnnotation()
       ],
-      ['m', () => presenter.changeModeByShortcut()],
+      ['m', () => editModeSwitch.changeModeByShortcut()],
       [
         'q',
         () =>

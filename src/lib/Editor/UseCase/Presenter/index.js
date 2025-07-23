@@ -16,7 +16,6 @@ export default class Presenter {
   #spanConfig
   #functionAvailability
   #clipBoard
-  #editModeSwitch
   #horizontal
   #vertical
   #isActive
@@ -71,13 +70,11 @@ export default class Presenter {
     this.#spanConfig = spanConfig
     this.#functionAvailability = functionAvailability
     this.#clipBoard = clipBoard
-    this.#editModeSwitch = editModeSwitch
     this.#horizontal = new Horizontal(editorHTMLElement, selectionModel)
     this.#vertical = new Vertical(editorHTMLElement, selectionModel)
     this.#isActive = false
     this.#editMode = editMode
 
-    forwardMethods(this, () => this.#editModeSwitch, ['changeModeByShortcut'])
     forwardMethods(this, () => this.#clipBoard, [
       'copyEntitiesToLocalClipboard',
       'copyEntitiesToSystemClipboard',

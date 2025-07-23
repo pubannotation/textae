@@ -273,7 +273,8 @@ export default class UseCase {
           presenter,
           persistenceInterface,
           functionAvailability,
-          editMode
+          editMode,
+          editModeSwitch
         ).handle(event)
       }
     })
