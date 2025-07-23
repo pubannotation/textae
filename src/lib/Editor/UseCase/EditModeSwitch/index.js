@@ -8,11 +8,16 @@ export default class EditModeSwitch {
    *
    * @param {import('../../StartUpOptions').default} startUpOptions
    */
-  constructor(annotationModel, startUpOptions, editModeState, editMode) {
+  constructor(
+    startUpOptions,
+    editModeState,
+    editMode,
+    relationInstanceContainer
+  ) {
     this.#editMode = editMode
 
     this.#editModeState = editModeState
-    this.#relationInstanceContainer = annotationModel.relationInstanceContainer
+    this.#relationInstanceContainer = relationInstanceContainer
     this.#startUpOptions = startUpOptions
   }
 

@@ -142,10 +142,10 @@ export default class UseCase {
     )
 
     const editModeSwitch = new EditModeSwitch(
-      annotationModel,
       startUpOptions,
       editModeState,
-      editMode
+      editMode,
+      annotationModel.relationInstanceContainer
     )
     const presenter = new Presenter(
       editorHTMLElement,
