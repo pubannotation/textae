@@ -51,10 +51,6 @@ export default class EditModeSwitch {
     this.#editModeState.changeModeByShortcut()
   }
 
-  get isEditDenotation() {
-    return this.#editMode.isEditDenotation
-  }
-
   /**
    * For an initiation transition on an annotations data loaded.
    */

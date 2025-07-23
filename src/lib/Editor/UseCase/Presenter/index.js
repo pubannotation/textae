@@ -188,13 +188,13 @@ export default class Presenter {
   }
 
   selectUp() {
-    if (this.#editModeSwitch.isEditDenotation) {
+    if (this.#editMode.isEditDenotation) {
       this.#vertical.up()
     }
   }
 
   selectDown() {
-    if (this.#editModeSwitch.isEditDenotation) {
+    if (this.#editMode.isEditDenotation) {
       this.#vertical.down()
     }
   }
