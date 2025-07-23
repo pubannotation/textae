@@ -1,8 +1,8 @@
 export default class EditModeSwitch {
   #editModeState
   #startUpOptions
-  #editMode
   #relationInstanceContainer
+  #hidePalletHandler
 
   /**
    *
@@ -11,48 +11,47 @@ export default class EditModeSwitch {
   constructor(
     startUpOptions,
     editModeState,
-    editMode,
-    relationInstanceContainer
+    relationInstanceContainer,
+    hidePalletHandler
   ) {
-    this.#editMode = editMode
-
+    this.#startUpOptions = startUpOptions
     this.#editModeState = editModeState
     this.#relationInstanceContainer = relationInstanceContainer
-    this.#startUpOptions = startUpOptions
+    this.#hidePalletHandler = hidePalletHandler
   }
 
   toViewMode() {
-    this.#hidePallet()
+    this.#hidePalletHandler()
     this.#editModeState.toViewMode(this.#editModeState.nextShowRelation)
   }
 
   toTermEditMode() {
-    this.#hidePallet()
+    this.#hidePalletHandler()
     this.#editModeState.toTermEditMode(this.#editModeState.nextShowRelation)
   }
 
   toBlockEditMode() {
-    this.#hidePallet()
+    this.#hidePalletHandler()
     this.#editModeState.toBlockEditMode(this.#editModeState.nextShowRelation)
   }
 
   toRelationEditMode() {
-    this.#hidePallet()
+    this.#hidePalletHandler()
     this.#editModeState.toRelationEditMode()
   }
 
   toTextEditMode() {
-    this.#hidePallet()
+    this.#hidePalletHandler()
     this.#editModeState.toTextEditMode(this.#editModeState.nextShowRelation)
   }
 
   toggleSimpleMode() {
-    this.#hidePallet()
+    this.#hidePalletHandler()
     this.#editModeState.toggleSimpleMode()
   }
 
   changeModeByShortcut() {
-    this.#hidePallet()
+    this.#hidePalletHandler()
     this.#editModeState.changeModeByShortcut()
   }
 
@@ -81,9 +80,5 @@ export default class EditModeSwitch {
     }
 
     this.#editModeState.toViewMode(this.#relationInstanceContainer.some)
-  }
-
-  #hidePallet() {
-    this.#editMode.hidePallet()
   }
 }

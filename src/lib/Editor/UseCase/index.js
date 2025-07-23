@@ -144,8 +144,8 @@ export default class UseCase {
     const editModeSwitch = new EditModeSwitch(
       startUpOptions,
       editModeState,
-      editMode,
-      annotationModel.relationInstanceContainer
+      annotationModel.relationInstanceContainer,
+      () => editMode.hidePallet()
     )
     const presenter = new Presenter(
       editorHTMLElement,
