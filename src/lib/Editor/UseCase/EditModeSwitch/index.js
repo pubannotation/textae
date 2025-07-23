@@ -89,12 +89,4 @@ export default class EditModeSwitch {
   #hidePallet() {
     this.#editMode.hidePallet()
   }
-
-  selectLeftAttributeTab() {
-    this.#editMode.current.pallet.selectLeftAttributeTab()
-  }
-
-  selectRightAttributeTab() {
-    this.#editMode.current.pallet.selectRightAttributeTab()
-  }
 }
