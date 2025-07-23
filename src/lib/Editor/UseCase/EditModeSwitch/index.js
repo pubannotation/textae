@@ -90,10 +90,6 @@ export default class EditModeSwitch {
     this.#editMode.current.hidePallet()
   }
 
-  get isTypeValuesPalletShown() {
-    return this.#editMode.current.isPalletShown
-  }
-
   selectLeftAttributeTab() {
     this.#editMode.current.pallet.selectLeftAttributeTab()
   }

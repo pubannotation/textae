@@ -37,6 +37,10 @@ export default class EditMode {
     return this.#editModeState.currentState === MODE.EDIT_DENOTATION
   }
 
+  get isTypeValuesPalletShown() {
+    return this.current.isPalletShown
+  }
+
   get current() {
     switch (this.#editModeState.currentState) {
       case MODE.EDIT_DENOTATION:
