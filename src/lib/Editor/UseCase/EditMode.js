@@ -55,4 +55,8 @@ export default class EditMode {
         return this.#viewMode
     }
   }
+
+  hidePallet() {
+    this.current.hidePallet()
+  }
 }
