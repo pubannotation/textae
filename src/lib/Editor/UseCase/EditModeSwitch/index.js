@@ -17,37 +17,37 @@ export default class EditModeSwitch {
   }
 
   toViewMode() {
-    this.hidePallet()
+    this.#hidePallet()
     this.#editModeState.toViewMode(this.#editModeState.nextShowRelation)
   }
 
   toTermEditMode() {
-    this.hidePallet()
+    this.#hidePallet()
     this.#editModeState.toTermEditMode(this.#editModeState.nextShowRelation)
   }
 
   toBlockEditMode() {
-    this.hidePallet()
+    this.#hidePallet()
     this.#editModeState.toBlockEditMode(this.#editModeState.nextShowRelation)
   }
 
   toRelationEditMode() {
-    this.hidePallet()
+    this.#hidePallet()
     this.#editModeState.toRelationEditMode()
   }
 
   toTextEditMode() {
-    this.hidePallet()
+    this.#hidePallet()
     this.#editModeState.toTextEditMode(this.#editModeState.nextShowRelation)
   }
 
   toggleSimpleMode() {
-    this.hidePallet()
+    this.#hidePallet()
     this.#editModeState.toggleSimpleMode()
   }
 
   changeModeByShortcut() {
-    this.hidePallet()
+    this.#hidePallet()
     this.#editModeState.changeModeByShortcut()
   }
 
@@ -86,8 +86,8 @@ export default class EditModeSwitch {
     )
   }
 
-  hidePallet() {
-    this.#editMode.current.hidePallet()
+  #hidePallet() {
+    this.#editMode.hidePallet()
   }
 
   selectLeftAttributeTab() {
