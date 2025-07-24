@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [14.1.2](https://github.com/pubannotation/textae/compare/v14.1.1...v14.1.2) (2025-07-24)
+
+
+### Bug Fixes
+
+* Error occurs when show pallet at bolck edit mode ([56073c0](https://github.com/pubannotation/textae/commit/56073c022879d845254c1c7a7e9e35799cc4111f))
+* Error occurs whew show pallet ([9e2e589](https://github.com/pubannotation/textae/commit/9e2e58978357e34bc9c6fb91bca308c3bf5c1073))
+
 ### [14.1.1](https://github.com/pubannotation/textae/compare/v14.1.0...v14.1.1) (2025-07-22)
 
 

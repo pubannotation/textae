@@ -58502,7 +58502,7 @@
       )
     } // ./package.json
 
-    const package_namespaceObject = { rE: '14.1.1' } // ./src/lib/component/SettingDialog/EscapeSequence.js
+    const package_namespaceObject = { rE: '14.1.2' } // ./src/lib/component/SettingDialog/EscapeSequence.js
     class EscapeSequence {
       static escape(str) {
         return str
@@ -58889,11 +58889,10 @@
       #spanConfig
       #functionAvailability
       #clipBoard
-      #editModeSwitch
       #horizontal
       #vertical
       #isActive
-      #editMode
+      #currentEditMode
 
       /**
        *
@@ -58909,31 +58908,19 @@
         functionAvailability,
         clipBoard,
         menuState,
-        startUpOptions,
-        editModeSwitch,
-        editMode
+        currentEditMode
       ) {
-        eventEmitter
-          .on('textae-event.annotation-data.all.change', (hasMultiTracks) => {
-            if (startUpOptions.isEditMode && hasMultiTracks) {
-              alertify_default().success(
-                'track annotations have been merged to root annotations.'
-              )
-            }
+        eventEmitter.on('textae-event.edit-mode.transition', (mode) => {
+          selectionModel.removeAll()
 
-            editModeSwitch.reset()
-          })
-          .on('textae-event.edit-mode.transition', (mode) => {
-            selectionModel.removeAll()
-
-            switch (mode) {
-              case MODE.VIEW:
-                annotationModel.entityInstanceContainer.clarifyLabelOfAll()
-                break
-              default:
-                annotationModel.entityInstanceContainer.declarifyLabelOfAll()
-            }
-          })
+          switch (mode) {
+            case MODE.VIEW:
+              annotationModel.entityInstanceContainer.clarifyLabelOfAll()
+              break
+            default:
+              annotationModel.entityInstanceContainer.declarifyLabelOfAll()
+          }
+        })
 
         this.#editorHTMLElement = editorHTMLElement
         this.#eventEmitter = eventEmitter
@@ -58944,21 +58931,11 @@
         this.#spanConfig = spanConfig
         this.#functionAvailability = functionAvailability
         this.#clipBoard = clipBoard
-        this.#editModeSwitch = editModeSwitch
         this.#horizontal = new Horizontal(editorHTMLElement, selectionModel)
         this.#vertical = new Vertical(editorHTMLElement, selectionModel)
         this.#isActive = false
-        this.#editMode = editMode
+        this.#currentEditMode = currentEditMode
 
-        forwardMethods(this, () => this.#editModeSwitch, [
-          'toViewMode',
-          'toTermEditMode',
-          'toBlockEditMode',
-          'toRelationEditMode',
-          'toTextEditMode',
-          'toggleSimpleMode',
-          'changeModeByShortcut'
-        ])
         forwardMethods(this, () => this.#clipBoard, [
           'copyEntitiesToLocalClipboard',
           'copyEntitiesToSystemClipboard',
@@ -59014,7 +58991,7 @@
       }
 
       cancelSelect() {
-        this.#editModeSwitch.hidePallet()
+        this.#currentEditMode.hidePallet()
         this.#selectionModel.removeAll()
         // Focus the editor for ESC key
         this.#editorHTMLElement.focus()
@@ -59047,36 +59024,36 @@
       }
 
       selectLeft(shiftKey) {
-        if (this.#editModeSwitch.isTypeValuesPalletShown) {
-          this.#editMode.current.selectLeftAttributeTab()
+        if (this.#currentEditMode.isTypeValuesPalletShown) {
+          this.#currentEditMode.selectLeftAttributeTab()
         } else {
           this.#horizontal.left(shiftKey)
         }
       }
 
       selectRight(shiftKey) {
-        if (this.#editModeSwitch.isTypeValuesPalletShown) {
-          this.#editMode.current.selectRightAttributeTab()
+        if (this.#currentEditMode.isTypeValuesPalletShown) {
+          this.#currentEditMode.selectRightAttributeTab()
         } else {
           this.#horizontal.right(shiftKey)
         }
       }
 
       selectUp() {
-        if (this.#editModeSwitch.isEditDenotation) {
+        if (this.#currentEditMode.isEditDenotation) {
           this.#vertical.up()
         }
       }
 
       selectDown() {
-        if (this.#editModeSwitch.isEditDenotation) {
+        if (this.#currentEditMode.isEditDenotation) {
           this.#vertical.down()
         }
       }
 
       applyTextSelectionWithTouchDevice() {
         if (this.#isActive) {
-          this.#editMode.current.applyTextSelectionWithTouchDevice()
+          this.#currentEditMode.applyTextSelectionWithTouchDevice()
         }
       }
     } // ./src/lib/component/enableHTMLElement.js
@@ -102882,45 +102859,19 @@ data-button-type="${type}">
         presenter,
         persistenceInterface,
         functionAvailability,
-        editMode
+        currentEditMode,
+        editModeSwitch
       ) {
         this._map = new Map([
-          [
-            '1',
-            (shiftKey) => editMode.current.manipulateAttribute(1, shiftKey)
-          ],
-          [
-            '2',
-            (shiftKey) => editMode.current.manipulateAttribute(2, shiftKey)
-          ],
-          [
-            '3',
-            (shiftKey) => editMode.current.manipulateAttribute(3, shiftKey)
-          ],
-          [
-            '4',
-            (shiftKey) => editMode.current.manipulateAttribute(4, shiftKey)
-          ],
-          [
-            '5',
-            (shiftKey) => editMode.current.manipulateAttribute(5, shiftKey)
-          ],
-          [
-            '6',
-            (shiftKey) => editMode.current.manipulateAttribute(6, shiftKey)
-          ],
-          [
-            '7',
-            (shiftKey) => editMode.current.manipulateAttribute(7, shiftKey)
-          ],
-          [
-            '8',
-            (shiftKey) => editMode.current.manipulateAttribute(8, shiftKey)
-          ],
-          [
-            '9',
-            (shiftKey) => editMode.current.manipulateAttribute(9, shiftKey)
-          ],
+          ['1', (shiftKey) => currentEditMode.manipulateAttribute(1, shiftKey)],
+          ['2', (shiftKey) => currentEditMode.manipulateAttribute(2, shiftKey)],
+          ['3', (shiftKey) => currentEditMode.manipulateAttribute(3, shiftKey)],
+          ['4', (shiftKey) => currentEditMode.manipulateAttribute(4, shiftKey)],
+          ['5', (shiftKey) => currentEditMode.manipulateAttribute(5, shiftKey)],
+          ['6', (shiftKey) => currentEditMode.manipulateAttribute(6, shiftKey)],
+          ['7', (shiftKey) => currentEditMode.manipulateAttribute(7, shiftKey)],
+          ['8', (shiftKey) => currentEditMode.manipulateAttribute(8, shiftKey)],
+          ['9', (shiftKey) => currentEditMode.manipulateAttribute(9, shiftKey)],
           [
             'a',
             () => functionAvailability.isAvailable('redo') && commander.redo()
@@ -102943,19 +102894,19 @@ data-button-type="${type}">
               functionAvailability.isAvailable('new entity') &&
               presenter.createEntity()
           ],
-          ['f', () => presenter.changeModeByShortcut()],
+          ['f', () => editModeSwitch.changeModeByShortcut()],
           [
             'i',
             () =>
               functionAvailability.isAvailable('import') &&
               persistenceInterface.importAnnotation()
           ],
-          ['m', () => presenter.changeModeByShortcut()],
+          ['m', () => editModeSwitch.changeModeByShortcut()],
           [
             'q',
             () =>
               functionAvailability.isAvailable('pallet') &&
-              editMode.current.showPallet()
+              currentEditMode.showPallet()
           ],
           [
             'r',
@@ -102973,7 +102924,7 @@ data-button-type="${type}">
             'w',
             () =>
               functionAvailability.isAvailable('edit properties') &&
-              editMode.current.editProperties()
+              currentEditMode.editProperties()
           ],
           [
             'y',
@@ -103015,15 +102966,16 @@ data-button-type="${type}">
         persistenceInterface,
         menuState,
         annotationModel,
-        editMode
+        currentEditMode,
+        editModeSwitch
       ) {
         this._map = new Map([
-          ['view mode', () => presenter.toViewMode()],
-          ['term edit mode', () => presenter.toTermEditMode()],
-          ['block edit mode', () => presenter.toBlockEditMode()],
-          ['relation edit mode', () => presenter.toRelationEditMode()],
-          ['text edit mode', () => presenter.toTextEditMode()],
-          ['simple view', () => presenter.toggleSimpleMode()],
+          ['view mode', () => editModeSwitch.toViewMode()],
+          ['term edit mode', () => editModeSwitch.toTermEditMode()],
+          ['block edit mode', () => editModeSwitch.toBlockEditMode()],
+          ['relation edit mode', () => editModeSwitch.toRelationEditMode()],
+          ['text edit mode', () => editModeSwitch.toTextEditMode()],
+          ['simple view', () => editModeSwitch.toggleSimpleMode()],
           ['import', () => persistenceInterface.importAnnotation()],
           ['upload', () => persistenceInterface.uploadAnnotation()],
           ['undo', () => commander.undo()],
@@ -103031,23 +102983,23 @@ data-button-type="${type}">
           ['replicate span annotation', () => presenter.replicate()],
           [
             'create span by touch',
-            () => editMode.current.createSpanWithTouchDevice()
+            () => currentEditMode.createSpanWithTouchDevice()
           ],
           [
             'expand span by touch',
-            () => editMode.current.expandSpanWithTouchDevice()
+            () => currentEditMode.expandSpanWithTouchDevice()
           ],
           [
             'shrink span by touch',
-            () => editMode.current.shrinkSpanWithTouchDevice()
+            () => currentEditMode.shrinkSpanWithTouchDevice()
           ],
           [
             'edit text by touch',
-            () => editMode.current.editTextWithTouchDevice()
+            () => currentEditMode.editTextWithTouchDevice()
           ],
           ['new entity', () => presenter.createEntity()],
-          ['edit properties', () => editMode.current.editProperties()],
-          ['pallet', () => presenter.showPallet()],
+          ['edit properties', () => currentEditMode.editProperties()],
+          ['pallet', () => currentEditMode.showPallet()],
           ['delete', () => presenter.removeSelectedElements()],
           ['copy', () => presenter.copyEntitiesToLocalClipboard()],
           ['cut', () => presenter.cutEntitiesToLocalClipboard()],
@@ -103953,63 +103905,64 @@ data-button-type="${type}">
       }
     } // ./src/lib/Editor/UseCase/EditModeSwitch/index.js
 
+    // Switches the edit mode to the specified mode or initial state.
     class EditModeSwitch {
       #editModeState
-      #annotationModel
       #startUpOptions
-      #editMode
+      #relationInstanceContainer
+      #hidePalletHandler
 
       /**
        *
        * @param {import('../../StartUpOptions').default} startUpOptions
        */
-      constructor(annotationModel, startUpOptions, editModeState, editMode) {
-        this.#editMode = editMode
-
-        this.#editModeState = editModeState
-        this.#annotationModel = annotationModel
+      constructor(
+        startUpOptions,
+        editModeState,
+        relationInstanceContainer,
+        hidePalletHandler
+      ) {
         this.#startUpOptions = startUpOptions
+        this.#editModeState = editModeState
+        this.#relationInstanceContainer = relationInstanceContainer
+        this.#hidePalletHandler = hidePalletHandler
       }
 
       toViewMode() {
-        this.hidePallet()
+        this.#hidePalletHandler()
         this.#editModeState.toViewMode(this.#editModeState.nextShowRelation)
       }
 
       toTermEditMode() {
-        this.hidePallet()
+        this.#hidePalletHandler()
         this.#editModeState.toTermEditMode(this.#editModeState.nextShowRelation)
       }
 
       toBlockEditMode() {
-        this.hidePallet()
+        this.#hidePalletHandler()
         this.#editModeState.toBlockEditMode(
           this.#editModeState.nextShowRelation
         )
       }
 
       toRelationEditMode() {
-        this.hidePallet()
+        this.#hidePalletHandler()
         this.#editModeState.toRelationEditMode()
       }
 
       toTextEditMode() {
-        this.hidePallet()
+        this.#hidePalletHandler()
         this.#editModeState.toTextEditMode(this.#editModeState.nextShowRelation)
       }
 
       toggleSimpleMode() {
-        this.hidePallet()
+        this.#hidePalletHandler()
         this.#editModeState.toggleSimpleMode()
       }
 
       changeModeByShortcut() {
-        this.hidePallet()
+        this.#hidePalletHandler()
         this.#editModeState.changeModeByShortcut()
-      }
-
-      get isEditDenotation() {
-        return this.#editMode.isEditDenotation
       }
 
       /**
@@ -104018,14 +103971,14 @@ data-button-type="${type}">
       reset() {
         if (this.#startUpOptions.isEditTermMode) {
           this.#editModeState.toTermEditMode(
-            this.#annotationModel.relationInstanceContainer.some
+            this.#relationInstanceContainer.some
           )
           return
         }
 
         if (this.#startUpOptions.isEditBlockMode) {
           this.#editModeState.toBlockEditMode(
-            this.#annotationModel.relationInstanceContainer.some
+            this.#relationInstanceContainer.some
           )
           return
         }
@@ -104037,30 +103990,12 @@ data-button-type="${type}">
 
         if (this.#startUpOptions.isTextEditMode) {
           this.#editModeState.toTextEditMode(
-            this.#annotationModel.relationInstanceContainer.some
+            this.#relationInstanceContainer.some
           )
           return
         }
 
-        this.#editModeState.toViewMode(
-          this.#annotationModel.relationInstanceContainer.some
-        )
-      }
-
-      hidePallet() {
-        this.#editMode.current.hidePallet()
-      }
-
-      get isTypeValuesPalletShown() {
-        return this.#editMode.current.isPalletShown
-      }
-
-      selectLeftAttributeTab() {
-        this.#editMode.current.pallet.selectLeftAttributeTab()
-      }
-
-      selectRightAttributeTab() {
-        this.#editMode.current.pallet.selectRightAttributeTab()
+        this.#editModeState.toViewMode(this.#relationInstanceContainer.some)
       }
     } // ./src/lib/Editor/UseCase/EditModeFactory/clearTextSelection.js
 
@@ -110176,9 +110111,9 @@ data-button-type="${type}">
         eventEmitter,
         annotationModel,
         selectionModel,
+        spanConfig,
         commander,
         menuState,
-        spanConfig,
         mousePoint
       ) {
         super()
@@ -110552,9 +110487,9 @@ data-button-type="${type}">
         eventEmitter,
         annotationModel,
         selectionModel,
+        spanConfig,
         commander,
         menuState,
-        spanConfig,
         mousePoint
       ) {
         return new TermEditMode(
@@ -110562,9 +110497,9 @@ data-button-type="${type}">
           eventEmitter,
           annotationModel,
           selectionModel,
+          spanConfig,
           commander,
           menuState,
-          spanConfig,
           mousePoint
         )
       }
@@ -110574,6 +110509,7 @@ data-button-type="${type}">
         eventEmitter,
         annotationModel,
         selectionModel,
+        spanConfig,
         commander,
         menuState,
         mousePoint
@@ -110583,6 +110519,7 @@ data-button-type="${type}">
           eventEmitter,
           annotationModel,
           selectionModel,
+          spanConfig,
           commander,
           menuState,
           mousePoint
@@ -110627,9 +110564,9 @@ data-button-type="${type}">
       static createViewMode(editorHTMLElement, eventEmitter, annotationModel) {
         return new ViewMode(editorHTMLElement, eventEmitter, annotationModel)
       }
-    } // ./src/lib/Editor/UseCase/EditMode.js
+    } // ./src/lib/Editor/UseCase/CurrentEditMode.js
 
-    class EditMode {
+    class CurrentEditMode {
       #editModeState
       #termEditMode
       #blockEditMode
@@ -110655,18 +110592,36 @@ data-button-type="${type}">
 
         eventEmitter
           .on('textae-event.editor.relation.click', (event, relation) =>
-            this.current.relationClicked(event, relation)
+            this.#current.relationClicked(event, relation)
           )
           .on('textae-event.editor.relation-bollard.click', (_, entity) =>
-            this.current.relationBollardClicked(entity)
+            this.#current.relationBollardClicked(entity)
           )
+
+        forwardMethods(this, () => this.#current, [
+          'showPallet',
+          'hidePallet',
+          'selectLeftAttributeTab',
+          'selectRightAttributeTab',
+          'createSpanWithTouchDevice',
+          'expandSpanWithTouchDevice',
+          'shrinkSpanWithTouchDevice',
+          'editTextWithTouchDevice',
+          'applyTextSelectionWithTouchDevice',
+          'editProperties',
+          'manipulateAttribute'
+        ])
       }
 
       get isEditDenotation() {
         return this.#editModeState.currentState === MODE.EDIT_DENOTATION
       }
 
-      get current() {
+      get isTypeValuesPalletShown() {
+        return this.#current.isPalletShown
+      }
+
+      get #current() {
         switch (this.#editModeState.currentState) {
           case MODE.EDIT_DENOTATION:
             return this.#termEditMode
@@ -110889,10 +110844,10 @@ data-button-type="${type}">
 
     class UseCase {
       #contextMenu
-      #presenter
       #annotationModel
       #editModeState
       #viewMode
+      #editModeSwitch
 
       /**
        *
@@ -110907,6 +110862,8 @@ data-button-type="${type}">
         startUpOptions,
         selectionModel
       ) {
+        this.#annotationModel = annotationModel
+
         const spanConfig = new SpanConfig()
 
         // Users can edit model only via commands.
@@ -110958,9 +110915,9 @@ data-button-type="${type}">
           eventEmitter,
           annotationModel,
           selectionModel,
+          spanConfig,
           commander,
           menuState,
-          spanConfig,
           mousePoint
         )
         const blockEditMode = EditModeFactory.createBlockEditMode(
@@ -110995,7 +110952,7 @@ data-button-type="${type}">
           annotationModel
         )
         this.#viewMode = viewMode
-        const editMode = new EditMode(
+        const currentEditMode = new CurrentEditMode(
           editModeState,
           termEditMode,
           blockEditMode,
@@ -111006,11 +110963,25 @@ data-button-type="${type}">
         )
 
         const editModeSwitch = new EditModeSwitch(
-          annotationModel,
           startUpOptions,
           editModeState,
-          editMode
+          annotationModel.relationInstanceContainer,
+          () => currentEditMode.hidePallet()
         )
+        eventEmitter.on(
+          'textae-event.annotation-data.all.change',
+          (hasMultiTracks) => {
+            if (startUpOptions.isEditMode && hasMultiTracks) {
+              alertify_default().success(
+                'track annotations have been merged to root annotations.'
+              )
+            }
+
+            editModeSwitch.reset()
+          }
+        )
+        this.#editModeSwitch = editModeSwitch
+
         const presenter = new Presenter(
           editorHTMLElement,
           eventEmitter,
@@ -111021,12 +110992,8 @@ data-button-type="${type}">
           functionAvailability,
           clipBoard,
           menuState,
-          startUpOptions,
-          editModeSwitch,
-          editMode
+          currentEditMode
         )
-        this.#presenter = presenter
-        this.#annotationModel = annotationModel
 
         const remoteResource = new RemoteSource(eventEmitter)
 
@@ -111076,7 +111043,8 @@ data-button-type="${type}">
           persistenceInterface,
           menuState,
           annotationModel,
-          editMode
+          currentEditMode,
+          editModeSwitch
         )
 
         // Add the tool bar
@@ -111135,7 +111103,8 @@ data-button-type="${type}">
               presenter,
               persistenceInterface,
               functionAvailability,
-              editMode
+              currentEditMode,
+              editModeSwitch
             ).handle(event)
           }
         })
@@ -111161,7 +111130,7 @@ data-button-type="${type}">
       }
 
       focusDenotation(denotationID) {
-        this.#presenter.toTermEditMode()
+        this.#editModeSwitch.toTermEditMode()
         this.#annotationModel.focusDenotation(denotationID)
       }
 
