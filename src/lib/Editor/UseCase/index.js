@@ -45,6 +45,8 @@ export default class UseCase {
     startUpOptions,
     selectionModel
   ) {
+    this.#annotationModel = annotationModel
+
     const spanConfig = new SpanConfig()
 
     // Users can edit model only via commands.
@@ -175,8 +177,6 @@ export default class UseCase {
       menuState,
       currentEditMode
     )
-
-    this.#annotationModel = annotationModel
 
     const remoteResource = new RemoteResource(eventEmitter)
 
