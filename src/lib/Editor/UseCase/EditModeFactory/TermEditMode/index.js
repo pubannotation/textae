@@ -24,9 +24,9 @@ export default class TermEditMode extends EditModeBase {
     eventEmitter,
     annotationModel,
     selectionModel,
+    spanConfig,
     commander,
     menuState,
-    spanConfig,
     mousePoint
   ) {
     super()

@@ -94,9 +94,9 @@ export default class UseCase {
       eventEmitter,
       annotationModel,
       selectionModel,
+      spanConfig,
       commander,
       menuState,
-      spanConfig,
       mousePoint
     )
     const blockEditMode = EditModeFactory.createBlockEditMode(

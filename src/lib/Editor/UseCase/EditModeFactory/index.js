@@ -10,9 +10,9 @@ export default class EditModeFactory {
     eventEmitter,
     annotationModel,
     selectionModel,
+    spanConfig,
     commander,
     menuState,
-    spanConfig,
     mousePoint
   ) {
     return new TermEditMode(
@@ -20,9 +20,9 @@ export default class EditModeFactory {
       eventEmitter,
       annotationModel,
       selectionModel,
+      spanConfig,
       commander,
       menuState,
-      spanConfig,
       mousePoint
     )
   }
