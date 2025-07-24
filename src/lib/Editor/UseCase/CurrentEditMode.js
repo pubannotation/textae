@@ -36,13 +36,15 @@ export default class CurrentEditMode {
     forwardMethods(this, () => this.current, [
       'showPallet',
       'hidePallet',
-      'manipulateAttribute',
+      'selectLeftAttributeTab',
+      'selectRightAttributeTab',
       'createSpanWithTouchDevice',
       'expandSpanWithTouchDevice',
       'shrinkSpanWithTouchDevice',
       'editTextWithTouchDevice',
+      'applyTextSelectionWithTouchDevice',
       'editProperties',
-      'applyTextSelectionWithTouchDevice'
+      'manipulateAttribute'
     ])
   }
 
