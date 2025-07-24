@@ -59,4 +59,8 @@ export default class CurrentEditMode {
   hidePallet() {
     this.current.hidePallet()
   }
+
+  manipulateAttribute(attributeIndex, shiftKey) {
+    this.current.manipulateAttribute(attributeIndex, shiftKey)
+  }
 }

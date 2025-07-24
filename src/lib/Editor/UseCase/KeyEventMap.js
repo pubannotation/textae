@@ -14,42 +14,15 @@ export default class KeyEventMap {
     editModeSwitch
   ) {
     this._map = new Map([
-      [
-        '1',
-        (shiftKey) => currentEditMode.current.manipulateAttribute(1, shiftKey)
-      ],
-      [
-        '2',
-        (shiftKey) => currentEditMode.current.manipulateAttribute(2, shiftKey)
-      ],
-      [
-        '3',
-        (shiftKey) => currentEditMode.current.manipulateAttribute(3, shiftKey)
-      ],
-      [
-        '4',
-        (shiftKey) => currentEditMode.current.manipulateAttribute(4, shiftKey)
-      ],
-      [
-        '5',
-        (shiftKey) => currentEditMode.current.manipulateAttribute(5, shiftKey)
-      ],
-      [
-        '6',
-        (shiftKey) => currentEditMode.current.manipulateAttribute(6, shiftKey)
-      ],
-      [
-        '7',
-        (shiftKey) => currentEditMode.current.manipulateAttribute(7, shiftKey)
-      ],
-      [
-        '8',
-        (shiftKey) => currentEditMode.current.manipulateAttribute(8, shiftKey)
-      ],
-      [
-        '9',
-        (shiftKey) => currentEditMode.current.manipulateAttribute(9, shiftKey)
-      ],
+      ['1', (shiftKey) => currentEditMode.manipulateAttribute(1, shiftKey)],
+      ['2', (shiftKey) => currentEditMode.manipulateAttribute(2, shiftKey)],
+      ['3', (shiftKey) => currentEditMode.manipulateAttribute(3, shiftKey)],
+      ['4', (shiftKey) => currentEditMode.manipulateAttribute(4, shiftKey)],
+      ['5', (shiftKey) => currentEditMode.manipulateAttribute(5, shiftKey)],
+      ['6', (shiftKey) => currentEditMode.manipulateAttribute(6, shiftKey)],
+      ['7', (shiftKey) => currentEditMode.manipulateAttribute(7, shiftKey)],
+      ['8', (shiftKey) => currentEditMode.manipulateAttribute(8, shiftKey)],
+      ['9', (shiftKey) => currentEditMode.manipulateAttribute(9, shiftKey)],
       ['a', () => functionAvailability.isAvailable('redo') && commander.redo()],
       [
         'b',
