@@ -54,7 +54,7 @@ export default class KeyEventMap {
         'q',
         () =>
           functionAvailability.isAvailable('pallet') &&
-          currentEditMode.current.showPallet()
+          currentEditMode.showPallet()
       ],
       [
         'r',
@@ -72,7 +72,7 @@ export default class KeyEventMap {
         'w',
         () =>
           functionAvailability.isAvailable('edit properties') &&
-          currentEditMode.current.editProperties()
+          currentEditMode.editProperties()
       ],
       ['y', () => functionAvailability.isAvailable('redo') && commander.redo()],
       ['z', () => functionAvailability.isAvailable('undo') && commander.undo()],
