@@ -27,13 +27,13 @@ export default class CurrentEditMode {
 
     eventEmitter
       .on('textae-event.editor.relation.click', (event, relation) =>
-        this.current.relationClicked(event, relation)
+        this.#current.relationClicked(event, relation)
       )
       .on('textae-event.editor.relation-bollard.click', (_, entity) =>
-        this.current.relationBollardClicked(entity)
+        this.#current.relationBollardClicked(entity)
       )
 
-    forwardMethods(this, () => this.current, [
+    forwardMethods(this, () => this.#current, [
       'showPallet',
       'hidePallet',
       'selectLeftAttributeTab',
@@ -53,10 +53,10 @@ export default class CurrentEditMode {
   }
 
   get isTypeValuesPalletShown() {
-    return this.current.isPalletShown
+    return this.#current.isPalletShown
   }
 
-  get current() {
+  get #current() {
     switch (this.#editModeState.currentState) {
       case MODE.EDIT_DENOTATION:
         return this.#termEditMode
