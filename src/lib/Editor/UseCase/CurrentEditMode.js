@@ -1,6 +1,6 @@
 import { MODE } from '../../MODE'
 
-export default class EditMode {
+export default class CurrentEditMode {
   #editModeState
   #termEditMode
   #blockEditMode

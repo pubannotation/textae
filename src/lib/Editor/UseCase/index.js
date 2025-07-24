@@ -18,7 +18,7 @@ import FunctionAvailability from './FunctionAvailability'
 import EditModeState from './EditModeState'
 import EditModeSwitch from './EditModeSwitch'
 import EditModeFactory from './EditModeFactory'
-import EditMode from './EditMode'
+import CurrentEditMode from './CurrentEditMode'
 import { MODE } from '../../MODE'
 import ModeTransitionReactor from './EditModeSwitch/ModeTransitionReactor'
 import bindLoadEvents from './bindLoadEvents'
@@ -131,7 +131,7 @@ export default class UseCase {
       annotationModel
     )
     this.#viewMode = viewMode
-    const currentEditMode = new EditMode(
+    const currentEditMode = new CurrentEditMode(
       editModeState,
       termEditMode,
       blockEditMode,
