@@ -35,31 +35,19 @@ export default class Presenter {
     functionAvailability,
     clipBoard,
     menuState,
-    startUpOptions,
-    editModeSwitch,
     currentEditMode
   ) {
-    eventEmitter
-      .on('textae-event.annotation-data.all.change', (hasMultiTracks) => {
-        if (startUpOptions.isEditMode && hasMultiTracks) {
-          alertifyjs.success(
-            'track annotations have been merged to root annotations.'
-          )
-        }
+    eventEmitter.on('textae-event.edit-mode.transition', (mode) => {
+      selectionModel.removeAll()
 
-        editModeSwitch.reset()
-      })
-      .on('textae-event.edit-mode.transition', (mode) => {
-        selectionModel.removeAll()
-
-        switch (mode) {
-          case MODE.VIEW:
-            annotationModel.entityInstanceContainer.clarifyLabelOfAll()
-            break
-          default:
-            annotationModel.entityInstanceContainer.declarifyLabelOfAll()
-        }
-      })
+      switch (mode) {
+        case MODE.VIEW:
+          annotationModel.entityInstanceContainer.clarifyLabelOfAll()
+          break
+        default:
+          annotationModel.entityInstanceContainer.declarifyLabelOfAll()
+      }
+    })
 
     this.#editorHTMLElement = editorHTMLElement
     this.#eventEmitter = eventEmitter

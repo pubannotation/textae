@@ -1,3 +1,5 @@
+import alertifyjs from 'alertifyjs'
+
 import SpanConfig from './SpanConfig'
 import Commander from './Commander'
 import Presenter from './Presenter'
@@ -147,6 +149,18 @@ export default class UseCase {
       annotationModel.relationInstanceContainer,
       () => currentEditMode.hidePallet()
     )
+    eventEmitter.on(
+      'textae-event.annotation-data.all.change',
+      (hasMultiTracks) => {
+        if (startUpOptions.isEditMode && hasMultiTracks) {
+          alertifyjs.success(
+            'track annotations have been merged to root annotations.'
+          )
+        }
+
+        editModeSwitch.reset()
+      }
+    )
     this.#editModeSwitch = editModeSwitch
 
     const presenter = new Presenter(
@@ -159,10 +173,9 @@ export default class UseCase {
       functionAvailability,
       clipBoard,
       menuState,
-      startUpOptions,
-      editModeSwitch,
       currentEditMode
     )
+
     this.#annotationModel = annotationModel
 
     const remoteResource = new RemoteResource(eventEmitter)
