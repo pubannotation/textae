@@ -1,4 +1,5 @@
 import { MODE } from '../../MODE'
+import forwardMethods from '../forwardMethods'
 
 export default class CurrentEditMode {
   #editModeState
@@ -31,6 +32,17 @@ export default class CurrentEditMode {
       .on('textae-event.editor.relation-bollard.click', (_, entity) =>
         this.current.relationBollardClicked(entity)
       )
+
+    forwardMethods(this, () => this.current, [
+      'showPallet',
+      'hidePallet',
+      'manipulateAttribute',
+      'createSpanWithTouchDevice',
+      'expandSpanWithTouchDevice',
+      'shrinkSpanWithTouchDevice',
+      'editTextWithTouchDevice',
+      'editProperties'
+    ])
   }
 
   get isEditDenotation() {
@@ -54,13 +66,5 @@ export default class CurrentEditMode {
       default:
         return this.#viewMode
     }
-  }
-
-  hidePallet() {
-    this.current.hidePallet()
-  }
-
-  manipulateAttribute(attributeIndex, shiftKey) {
-    this.current.manipulateAttribute(attributeIndex, shiftKey)
   }
 }

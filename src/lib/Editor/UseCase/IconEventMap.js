@@ -22,23 +22,20 @@ export default class IconEventMap {
       ['replicate span annotation', () => presenter.replicate()],
       [
         'create span by touch',
-        () => currentEditMode.current.createSpanWithTouchDevice()
+        () => currentEditMode.createSpanWithTouchDevice()
       ],
       [
         'expand span by touch',
-        () => currentEditMode.current.expandSpanWithTouchDevice()
+        () => currentEditMode.expandSpanWithTouchDevice()
       ],
       [
         'shrink span by touch',
-        () => currentEditMode.current.shrinkSpanWithTouchDevice()
+        () => currentEditMode.shrinkSpanWithTouchDevice()
       ],
-      [
-        'edit text by touch',
-        () => currentEditMode.current.editTextWithTouchDevice()
-      ],
+      ['edit text by touch', () => currentEditMode.editTextWithTouchDevice()],
       ['new entity', () => presenter.createEntity()],
-      ['edit properties', () => currentEditMode.current.editProperties()],
-      ['pallet', () => currentEditMode.current.showPallet()],
+      ['edit properties', () => currentEditMode.editProperties()],
+      ['pallet', () => currentEditMode.showPallet()],
       ['delete', () => presenter.removeSelectedElements()],
       ['copy', () => presenter.copyEntitiesToLocalClipboard()],
       ['cut', () => presenter.cutEntitiesToLocalClipboard()],
