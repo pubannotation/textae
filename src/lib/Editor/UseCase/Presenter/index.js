@@ -19,7 +19,7 @@ export default class Presenter {
   #horizontal
   #vertical
   #isActive
-  #editMode
+  #currentEditMode
 
   /**
    *
@@ -37,7 +37,7 @@ export default class Presenter {
     menuState,
     startUpOptions,
     editModeSwitch,
-    editMode
+    currentEditMode
   ) {
     eventEmitter
       .on('textae-event.annotation-data.all.change', (hasMultiTracks) => {
@@ -73,7 +73,7 @@ export default class Presenter {
     this.#horizontal = new Horizontal(editorHTMLElement, selectionModel)
     this.#vertical = new Vertical(editorHTMLElement, selectionModel)
     this.#isActive = false
-    this.#editMode = editMode
+    this.#currentEditMode = currentEditMode
 
     forwardMethods(this, () => this.#clipBoard, [
       'copyEntitiesToLocalClipboard',
@@ -128,7 +128,7 @@ export default class Presenter {
   }
 
   cancelSelect() {
-    this.#editMode.hidePallet()
+    this.#currentEditMode.hidePallet()
     this.#selectionModel.removeAll()
     // Focus the editor for ESC key
     this.#editorHTMLElement.focus()
@@ -161,36 +161,36 @@ export default class Presenter {
   }
 
   selectLeft(shiftKey) {
-    if (this.#editMode.isTypeValuesPalletShown) {
-      this.#editMode.current.selectLeftAttributeTab()
+    if (this.#currentEditMode.isTypeValuesPalletShown) {
+      this.#currentEditMode.current.selectLeftAttributeTab()
     } else {
       this.#horizontal.left(shiftKey)
     }
   }
 
   selectRight(shiftKey) {
-    if (this.#editMode.isTypeValuesPalletShown) {
-      this.#editMode.current.selectRightAttributeTab()
+    if (this.#currentEditMode.isTypeValuesPalletShown) {
+      this.#currentEditMode.current.selectRightAttributeTab()
     } else {
       this.#horizontal.right(shiftKey)
     }
   }
 
   selectUp() {
-    if (this.#editMode.isEditDenotation) {
+    if (this.#currentEditMode.isEditDenotation) {
       this.#vertical.up()
     }
   }
 
   selectDown() {
-    if (this.#editMode.isEditDenotation) {
+    if (this.#currentEditMode.isEditDenotation) {
       this.#vertical.down()
     }
   }
 
   applyTextSelectionWithTouchDevice() {
     if (this.#isActive) {
-      this.#editMode.current.applyTextSelectionWithTouchDevice()
+      this.#currentEditMode.current.applyTextSelectionWithTouchDevice()
     }
   }
 }

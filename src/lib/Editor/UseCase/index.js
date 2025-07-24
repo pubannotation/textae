@@ -131,7 +131,7 @@ export default class UseCase {
       annotationModel
     )
     this.#viewMode = viewMode
-    const editMode = new EditMode(
+    const currentEditMode = new EditMode(
       editModeState,
       termEditMode,
       blockEditMode,
@@ -145,7 +145,7 @@ export default class UseCase {
       startUpOptions,
       editModeState,
       annotationModel.relationInstanceContainer,
-      () => editMode.hidePallet()
+      () => currentEditMode.hidePallet()
     )
     this.#editModeSwitch = editModeSwitch
 
@@ -161,7 +161,7 @@ export default class UseCase {
       menuState,
       startUpOptions,
       editModeSwitch,
-      editMode
+      currentEditMode
     )
     this.#annotationModel = annotationModel
 
@@ -213,7 +213,7 @@ export default class UseCase {
       persistenceInterface,
       menuState,
       annotationModel,
-      editMode,
+      currentEditMode,
       editModeSwitch
     )
 
@@ -273,7 +273,7 @@ export default class UseCase {
           presenter,
           persistenceInterface,
           functionAvailability,
-          editMode,
+          currentEditMode,
           editModeSwitch
         ).handle(event)
       }

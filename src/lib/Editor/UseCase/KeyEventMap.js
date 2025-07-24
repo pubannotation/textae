@@ -10,19 +10,46 @@ export default class KeyEventMap {
     presenter,
     persistenceInterface,
     functionAvailability,
-    editMode,
+    currentEditMode,
     editModeSwitch
   ) {
     this._map = new Map([
-      ['1', (shiftKey) => editMode.current.manipulateAttribute(1, shiftKey)],
-      ['2', (shiftKey) => editMode.current.manipulateAttribute(2, shiftKey)],
-      ['3', (shiftKey) => editMode.current.manipulateAttribute(3, shiftKey)],
-      ['4', (shiftKey) => editMode.current.manipulateAttribute(4, shiftKey)],
-      ['5', (shiftKey) => editMode.current.manipulateAttribute(5, shiftKey)],
-      ['6', (shiftKey) => editMode.current.manipulateAttribute(6, shiftKey)],
-      ['7', (shiftKey) => editMode.current.manipulateAttribute(7, shiftKey)],
-      ['8', (shiftKey) => editMode.current.manipulateAttribute(8, shiftKey)],
-      ['9', (shiftKey) => editMode.current.manipulateAttribute(9, shiftKey)],
+      [
+        '1',
+        (shiftKey) => currentEditMode.current.manipulateAttribute(1, shiftKey)
+      ],
+      [
+        '2',
+        (shiftKey) => currentEditMode.current.manipulateAttribute(2, shiftKey)
+      ],
+      [
+        '3',
+        (shiftKey) => currentEditMode.current.manipulateAttribute(3, shiftKey)
+      ],
+      [
+        '4',
+        (shiftKey) => currentEditMode.current.manipulateAttribute(4, shiftKey)
+      ],
+      [
+        '5',
+        (shiftKey) => currentEditMode.current.manipulateAttribute(5, shiftKey)
+      ],
+      [
+        '6',
+        (shiftKey) => currentEditMode.current.manipulateAttribute(6, shiftKey)
+      ],
+      [
+        '7',
+        (shiftKey) => currentEditMode.current.manipulateAttribute(7, shiftKey)
+      ],
+      [
+        '8',
+        (shiftKey) => currentEditMode.current.manipulateAttribute(8, shiftKey)
+      ],
+      [
+        '9',
+        (shiftKey) => currentEditMode.current.manipulateAttribute(9, shiftKey)
+      ],
       ['a', () => functionAvailability.isAvailable('redo') && commander.redo()],
       [
         'b',
@@ -54,7 +81,7 @@ export default class KeyEventMap {
         'q',
         () =>
           functionAvailability.isAvailable('pallet') &&
-          editMode.current.showPallet()
+          currentEditMode.current.showPallet()
       ],
       [
         'r',
@@ -72,7 +99,7 @@ export default class KeyEventMap {
         'w',
         () =>
           functionAvailability.isAvailable('edit properties') &&
-          editMode.current.editProperties()
+          currentEditMode.current.editProperties()
       ],
       ['y', () => functionAvailability.isAvailable('redo') && commander.redo()],
       ['z', () => functionAvailability.isAvailable('undo') && commander.undo()],
