@@ -31,6 +31,8 @@ export default class BlockEditMode extends EditModeBase {
   ) {
     super()
 
+    console.log('BlockEditMode')
+
     this.#pallet = PalletFactory.create(
       editorHTMLElement,
       eventEmitter,

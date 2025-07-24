@@ -32,6 +32,7 @@ export default class EditModeFactory {
     eventEmitter,
     annotationModel,
     selectionModel,
+    spanConfig,
     commander,
     menuState,
     mousePoint
@@ -41,6 +42,7 @@ export default class EditModeFactory {
       eventEmitter,
       annotationModel,
       selectionModel,
+      spanConfig,
       commander,
       menuState,
       mousePoint
