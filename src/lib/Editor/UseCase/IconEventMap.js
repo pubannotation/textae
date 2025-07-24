@@ -38,7 +38,7 @@ export default class IconEventMap {
       ],
       ['new entity', () => presenter.createEntity()],
       ['edit properties', () => currentEditMode.current.editProperties()],
-      ['pallet', () => presenter.showPallet()],
+      ['pallet', () => currentEditMode.current.showPallet()],
       ['delete', () => presenter.removeSelectedElements()],
       ['copy', () => presenter.copyEntitiesToLocalClipboard()],
       ['cut', () => presenter.cutEntitiesToLocalClipboard()],
