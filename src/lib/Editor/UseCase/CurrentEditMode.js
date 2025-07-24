@@ -41,7 +41,8 @@ export default class CurrentEditMode {
       'expandSpanWithTouchDevice',
       'shrinkSpanWithTouchDevice',
       'editTextWithTouchDevice',
-      'editProperties'
+      'editProperties',
+      'applyTextSelectionWithTouchDevice'
     ])
   }
 
