@@ -1,29 +1,18 @@
 import EditModeBase from './EditModeBase'
-import debounce300 from '../../../debounce300'
 
 export default class ViewMode extends EditModeBase {
   #editorHTMLElement
+  #eventEmitter
   #annotationModel
   #selectedTextStartOffset
   #selectedTextEndOffset
-  #updateSelectedTextHandler
 
   constructor(editorHTMLElement, eventEmitter, annotationModel) {
     super()
 
     this.#editorHTMLElement = editorHTMLElement
+    this.#eventEmitter = eventEmitter
     this.#annotationModel = annotationModel
-
-    this.#updateSelectedTextHandler = debounce300(() => {
-      this.#updateSelectedTextOffsets()
-
-      eventEmitter.emit('textae-event.editor.selected-text.change')
-    })
-
-    document.addEventListener(
-      'selectionchange',
-      this.#updateSelectedTextHandler
-    )
   }
 
   get selectedText() {
@@ -54,7 +43,7 @@ export default class ViewMode extends EditModeBase {
     }
   }
 
-  #updateSelectedTextOffsets() {
+  updateSelectedTextOffsets() {
     const selection = document.getSelection()
     if (selection && selection.rangeCount > 0) {
       const range = selection.getRangeAt(0)
@@ -74,5 +63,7 @@ export default class ViewMode extends EditModeBase {
       this.#selectedTextStartOffset = undefined
       this.#selectedTextEndOffset = undefined
     }
+
+    this.#eventEmitter.emit('textae-event.editor.selected-text.change')
   }
 }

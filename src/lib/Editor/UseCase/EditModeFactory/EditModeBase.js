@@ -16,4 +16,5 @@ export default class EditModeBase {
   get isPalletShown() {
     return false
   }
+  updateSelectedTextOffsets() {}
 }

@@ -1,4 +1,5 @@
 import { MODE } from '../../MODE'
+import debounce300 from '../../debounce300'
 import forwardMethods from '../forwardMethods'
 
 export default class CurrentEditMode {
@@ -24,6 +25,12 @@ export default class CurrentEditMode {
     this.#relationEditMode = relationEditMode
     this.#textEditMode = textEditMode
     this.#viewMode = viewMode
+
+    const updateSelectedTextHandler = debounce300(() =>
+      this.#current.updateSelectedTextOffsets()
+    )
+
+    document.addEventListener('selectionchange', updateSelectedTextHandler)
 
     eventEmitter
       .on('textae-event.editor.relation.click', (event, relation) =>
