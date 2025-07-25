@@ -132,7 +132,9 @@ export default class UseCase {
     const viewMode = EditModeFactory.createViewMode(
       editorHTMLElement,
       eventEmitter,
-      annotationModel
+      annotationModel,
+      spanConfig,
+      menuState
     )
     this.#viewMode = viewMode
     const currentEditMode = new CurrentEditMode(

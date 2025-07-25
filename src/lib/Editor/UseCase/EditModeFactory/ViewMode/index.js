@@ -1,4 +1,5 @@
-import EditModeBase from './EditModeBase'
+import EditModeBase from '../EditModeBase'
+import updateSelection from './updateSelection'
 
 export default class ViewMode extends EditModeBase {
   #editorHTMLElement
@@ -6,13 +7,23 @@ export default class ViewMode extends EditModeBase {
   #annotationModel
   #selectedTextStartOffset
   #selectedTextEndOffset
+  #spanConfig
+  #menuState
 
-  constructor(editorHTMLElement, eventEmitter, annotationModel) {
+  constructor(
+    editorHTMLElement,
+    eventEmitter,
+    annotationModel,
+    spanConfig,
+    menuState
+  ) {
     super()
 
     this.#editorHTMLElement = editorHTMLElement
     this.#eventEmitter = eventEmitter
     this.#annotationModel = annotationModel
+    this.#spanConfig = spanConfig
+    this.#menuState = menuState
   }
 
   get selectedText() {
@@ -45,6 +56,7 @@ export default class ViewMode extends EditModeBase {
 
   updateSelectedTextOffsets() {
     const selection = document.getSelection()
+
     if (selection && selection.rangeCount > 0) {
       const range = selection.getRangeAt(0)
       const textBox = this.#editorHTMLElement.querySelector(
@@ -55,9 +67,15 @@ export default class ViewMode extends EditModeBase {
         textBox.contains(range.startContainer) &&
         textBox.contains(range.endContainer)
       ) {
-        this.#selectedTextStartOffset =
-          this.#annotationModel.textSelection.begin
-        this.#selectedTextEndOffset = this.#annotationModel.textSelection.end
+        const { begin, end } = this.#annotationModel.getTextSelection(
+          this.#spanConfig,
+          this.#menuState.textSelectionAdjuster
+        )
+
+        updateSelection(selection, textBox, begin, end)
+
+        this.#selectedTextStartOffset = begin
+        this.#selectedTextEndOffset = end
       }
     } else {
       this.#selectedTextStartOffset = undefined

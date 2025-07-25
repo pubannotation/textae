@@ -84,7 +84,19 @@ export default class EditModeFactory {
     )
   }
 
-  static createViewMode(editorHTMLElement, eventEmitter, annotationModel) {
-    return new ViewMode(editorHTMLElement, eventEmitter, annotationModel)
+  static createViewMode(
+    editorHTMLElement,
+    eventEmitter,
+    annotationModel,
+    spanConfig,
+    menuState
+  ) {
+    return new ViewMode(
+      editorHTMLElement,
+      eventEmitter,
+      annotationModel,
+      spanConfig,
+      menuState
+    )
   }
 }
