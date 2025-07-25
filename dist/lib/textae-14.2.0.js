@@ -58502,7 +58502,7 @@
       )
     } // ./package.json
 
-    const package_namespaceObject = { rE: '14.1.2' } // ./src/lib/component/SettingDialog/EscapeSequence.js
+    const package_namespaceObject = { rE: '14.2.0' } // ./src/lib/component/SettingDialog/EscapeSequence.js
     class EscapeSequence {
       static escape(str) {
         return str
@@ -104898,6 +104898,7 @@ data-button-type="${type}">
       get isPalletShown() {
         return false
       }
+      updateSelectedTextOffsets() {}
     } // ./src/lib/component/PromiseDialog.js
 
     class PromiseDialog extends Dialog {
@@ -110402,31 +110403,71 @@ data-button-type="${type}">
       get #textBox() {
         return this.#editorHTMLElement.querySelector('.textae-editor__text-box')
       }
-    } // ./src/lib/Editor/UseCase/EditModeFactory/ViewMode.js
+    } // ./src/lib/Editor/UseCase/EditModeFactory/ViewMode/updateSelection/getTextNodeAtOffset.js
+
+    // Get the text node at a specific offset within a root element.
+    // This function traverses the DOM tree to find the text node and its offset.
+    function getTextNodeAtOffset(rootElement, offset) {
+      let currentOffset = 0
+
+      function traverse(node) {
+        for (const child of node.childNodes) {
+          if (child.nodeType === Node.TEXT_NODE) {
+            const textLength = child.textContent.length
+            if (currentOffset + textLength >= offset) {
+              return {
+                node: child,
+                offset: offset - currentOffset
+              }
+            }
+            currentOffset += textLength
+          } else if (child.nodeType === Node.ELEMENT_NODE) {
+            const result = traverse(child)
+            if (result) return result
+          }
+        }
+        return null
+      }
+
+      return traverse(rootElement)
+    } // ./src/lib/Editor/UseCase/EditModeFactory/ViewMode/updateSelection/index.js
+
+    // This function updates the selection in the document based on the provided offsets.
+    function updateSelection(selection, rootElement, begin, end) {
+      const startNode = getTextNodeAtOffset(rootElement, begin)
+      const endNode = getTextNodeAtOffset(rootElement, end)
+
+      const range = document.createRange()
+      range.setStart(startNode.node, startNode.offset)
+      range.setEnd(endNode.node, endNode.offset)
+
+      selection.removeAllRanges()
+      selection.addRange(range)
+    } // ./src/lib/Editor/UseCase/EditModeFactory/ViewMode/index.js
 
     class ViewMode extends EditModeBase {
       #editorHTMLElement
+      #eventEmitter
       #annotationModel
       #selectedTextStartOffset
       #selectedTextEndOffset
-      #updateSelectedTextHandler
+      #spanConfig
+      #menuState
 
-      constructor(editorHTMLElement, eventEmitter, annotationModel) {
+      constructor(
+        editorHTMLElement,
+        eventEmitter,
+        annotationModel,
+        spanConfig,
+        menuState
+      ) {
         super()
 
         this.#editorHTMLElement = editorHTMLElement
+        this.#eventEmitter = eventEmitter
         this.#annotationModel = annotationModel
-
-        this.#updateSelectedTextHandler = debounce300(() => {
-          this.#updateSelectedTextOffsets()
-
-          eventEmitter.emit('textae-event.editor.selected-text.change')
-        })
-
-        document.addEventListener(
-          'selectionchange',
-          this.#updateSelectedTextHandler
-        )
+        this.#spanConfig = spanConfig
+        this.#menuState = menuState
       }
 
       get selectedText() {
@@ -110457,8 +110498,9 @@ data-button-type="${type}">
         }
       }
 
-      #updateSelectedTextOffsets() {
+      updateSelectedTextOffsets() {
         const selection = document.getSelection()
+
         if (selection && selection.rangeCount > 0) {
           const range = selection.getRangeAt(0)
           const textBox = this.#editorHTMLElement.querySelector(
@@ -110469,15 +110511,22 @@ data-button-type="${type}">
             textBox.contains(range.startContainer) &&
             textBox.contains(range.endContainer)
           ) {
-            this.#selectedTextStartOffset =
-              this.#annotationModel.textSelection.begin
-            this.#selectedTextEndOffset =
-              this.#annotationModel.textSelection.end
+            const { begin, end } = this.#annotationModel.getTextSelection(
+              this.#spanConfig,
+              this.#menuState.textSelectionAdjuster
+            )
+
+            updateSelection(selection, textBox, begin, end)
+
+            this.#selectedTextStartOffset = begin
+            this.#selectedTextEndOffset = end
           }
         } else {
           this.#selectedTextStartOffset = undefined
           this.#selectedTextEndOffset = undefined
         }
+
+        this.#eventEmitter.emit('textae-event.editor.selected-text.change')
       }
     } // ./src/lib/Editor/UseCase/EditModeFactory/index.js
 
@@ -110561,8 +110610,20 @@ data-button-type="${type}">
         )
       }
 
-      static createViewMode(editorHTMLElement, eventEmitter, annotationModel) {
-        return new ViewMode(editorHTMLElement, eventEmitter, annotationModel)
+      static createViewMode(
+        editorHTMLElement,
+        eventEmitter,
+        annotationModel,
+        spanConfig,
+        menuState
+      ) {
+        return new ViewMode(
+          editorHTMLElement,
+          eventEmitter,
+          annotationModel,
+          spanConfig,
+          menuState
+        )
       }
     } // ./src/lib/Editor/UseCase/CurrentEditMode.js
 
@@ -110589,6 +110650,12 @@ data-button-type="${type}">
         this.#relationEditMode = relationEditMode
         this.#textEditMode = textEditMode
         this.#viewMode = viewMode
+
+        const updateSelectedTextHandler = debounce300(() =>
+          this.#current.updateSelectedTextOffsets()
+        )
+
+        document.addEventListener('selectionchange', updateSelectedTextHandler)
 
         eventEmitter
           .on('textae-event.editor.relation.click', (event, relation) =>
@@ -110949,7 +111016,9 @@ data-button-type="${type}">
         const viewMode = EditModeFactory.createViewMode(
           editorHTMLElement,
           eventEmitter,
-          annotationModel
+          annotationModel,
+          spanConfig,
+          menuState
         )
         this.#viewMode = viewMode
         const currentEditMode = new CurrentEditMode(

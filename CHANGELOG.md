@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [14.2.0](https://github.com/pubannotation/textae/compare/v14.1.2...v14.2.0) (2025-07-25)
+
+
+### Features
+
+* Enable boundary detection when selecting text in view mode ([d5a49b2](https://github.com/pubannotation/textae/commit/d5a49b2c51c60bbcdc0905e166ba9c5fc96dc89a))
+
 ### [14.1.2](https://github.com/pubannotation/textae/compare/v14.1.1...v14.1.2) (2025-07-24)
 
 
