@@ -24,6 +24,9 @@ export default {
     filename: 'bundle.js'
   },
   watch: true,
+  watchOptions: {
+    ignored: /node_modules/,
+  },
   cache: {
     type: 'filesystem',
     buildDependencies: {
