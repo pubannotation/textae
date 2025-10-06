@@ -11,38 +11,40 @@ export default class ConfigurationSaver {
   }
 
   saveTo(url, editedData) {
-    if (url) {
-      this.#eventEmitter.emit('textae-event.resource.startSave')
-
-      const opt = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(editedData),
-        credentials: 'include'
-      }
-
-      fetch(url, opt)
-        .then((response) => {
-          if (response.ok) {
-            this.#saved(editedData)
-          } else if (response.status === 401) {
-            const location = isServerPageAuthRequired(
-              response.status,
-              response.headers.get('WWW-Authenticate'),
-              response.headers.get('Location')
-            )
-            if (location) {
-              this.#authenticateAt(location, url, editedData)
-            }
-          } else {
-            this.#failed()
-          }
-        })
-        .catch(() => this.#failed())
-        .finally(() => this.#eventEmitter.emit('textae-event.resource.endSave'))
+    if (!url) {
+      return Promise.reject(new Error('no url'))
     }
+
+    this.#eventEmitter.emit('textae-event.resource.startSave')
+
+    const opt = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(editedData),
+      credentials: 'include'
+    }
+
+    return fetch(url, opt)
+      .then((response) => {
+        if (response.ok) {
+          this.#saved(editedData)
+        } else if (response.status === 401) {
+          const location = isServerPageAuthRequired(
+            response.status,
+            response.headers.get('WWW-Authenticate'),
+            response.headers.get('Location')
+          )
+          if (location) {
+            this.#authenticateAt(location, url, editedData)
+          }
+        } else {
+          this.#failed()
+        }
+      })
+      .catch(() => this.#failed())
+      .finally(() => this.#eventEmitter.emit('textae-event.resource.endSave'))
   }
 
   #saved(editedData) {
