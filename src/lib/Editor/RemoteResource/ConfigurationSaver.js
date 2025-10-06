@@ -1,7 +1,7 @@
 import alertifyjs from 'alertifyjs'
 import isServerPageAuthRequired from './isServerPageAuthRequired'
 import openPopUp from './openPopUp'
-import waitForPopUpClose from './AnnotationSaver/waitForPopUpClose'
+import waitForPopUpClose from './waitForPopUpClose'
 
 export default class ConfigurationSaver {
   #eventEmitter
