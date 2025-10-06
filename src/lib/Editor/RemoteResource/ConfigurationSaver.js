@@ -1,6 +1,7 @@
 import alertifyjs from 'alertifyjs'
 import isServerPageAuthRequired from './isServerPageAuthRequired'
 import openPopUp from './openPopUp'
+import waitForPopUpClose from './AnnotationSaver/waitForPopUpClose'
 
 export default class ConfigurationSaver {
   #eventEmitter
@@ -59,12 +60,7 @@ export default class ConfigurationSaver {
       return this.#failed()
     }
 
-    // Watching for cross-domain pop-up windows to close.
-    // https://stackoverflow.com/questions/9388380/capture-the-close-event-of-popup-window-in-javascript/48240128#48240128
-    const timer = setInterval(() => {
-      clearInterval(timer)
-      this.#retryPost(editedData, url)
-    }, 1000)
+    waitForPopUpClose(window).then(() => this.#retryPost(editedData, url))
   }
 
   #retryPost(editedData, url) {
