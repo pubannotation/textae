@@ -77,7 +77,7 @@ export default class ConfigurationSaver {
       credentials: 'include'
     }
 
-    fetch(url, opt).then((response) => {
+    return fetch(url, opt).then((response) => {
       if (response.ok) {
         this.#saved(editedData)
       } else {
