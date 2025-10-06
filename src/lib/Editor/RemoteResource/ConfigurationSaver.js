@@ -10,10 +10,8 @@ export default class ConfigurationSaver {
     this.#eventEmitter = eventEmitter
   }
 
-  saveTo(url, editedData) {
-    if (!url) {
-      return Promise.reject(new Error('no url'))
-    }
+  async saveTo(url, editedData) {
+    console.assert(url !== undefined, 'url is required')
 
     this.#eventEmitter.emit('textae-event.resource.startSave')
 
@@ -26,25 +24,27 @@ export default class ConfigurationSaver {
       credentials: 'include'
     }
 
-    return fetch(url, opt)
-      .then((response) => {
-        if (response.ok) {
-          this.#saved(editedData)
-        } else if (response.status === 401) {
-          const location = isServerPageAuthRequired(
-            response.status,
-            response.headers.get('WWW-Authenticate'),
-            response.headers.get('Location')
-          )
-          if (location) {
-            this.#authenticateAt(location, url, editedData)
-          }
-        } else {
-          this.#failed()
+    try {
+      const response = await fetch(url, opt)
+      if (response.ok) {
+        this.#saved(editedData)
+      } else if (response.status === 401) {
+        const location = isServerPageAuthRequired(
+          response.status,
+          response.headers.get('WWW-Authenticate'),
+          response.headers.get('Location')
+        )
+        if (location) {
+          this.#authenticateAt(location, url, editedData)
         }
-      })
-      .catch(() => this.#failed())
-      .finally(() => this.#eventEmitter.emit('textae-event.resource.endSave'))
+      } else {
+        this.#failed()
+      }
+    } catch {
+      this.#failed()
+    } finally {
+      this.#eventEmitter.emit('textae-event.resource.endSave')
+    }
   }
 
   #saved(editedData) {
