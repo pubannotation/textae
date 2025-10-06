@@ -56,11 +56,13 @@ export default class ConfigurationSaver {
   #authenticateAt(location, url, editedData) {
     // Authenticate in popup window.
     const window = openPopUp(location)
-    if (!window) {
-      return this.#failed()
+    if (window) {
+      return waitForPopUpClose(window).then(() =>
+        this.#retryPost(editedData, url)
+      )
     }
 
-    waitForPopUpClose(window).then(() => this.#retryPost(editedData, url))
+    return Promise.reject(new Error('failed to open pop-up window'))
   }
 
   #retryPost(editedData, url) {
