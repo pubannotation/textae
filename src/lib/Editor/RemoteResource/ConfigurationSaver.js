@@ -25,7 +25,7 @@ export default class ConfigurationSaver {
       fetch(url, opt)
         .then((response) => {
           if (response.ok) {
-            return this.#saved(editedData)
+            this.#saved(editedData)
           } else if (response.status === 401) {
             const location = isServerPageAuthRequired(
               response.status,
@@ -33,11 +33,11 @@ export default class ConfigurationSaver {
               response.headers.get('Location')
             )
             if (location) {
-              return this.#authenticateAt(location, url, editedData)
+              this.#authenticateAt(location, url, editedData)
             }
+          } else {
+            this.#failed()
           }
-
-          this.#failed()
         })
         .catch(() => this.#failed())
         .finally(() => this.#eventEmitter.emit('textae-event.resource.endSave'))
