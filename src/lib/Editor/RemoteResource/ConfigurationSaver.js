@@ -39,6 +39,7 @@ export default class ConfigurationSaver {
 
           this.#failed()
         })
+        .catch(() => this.#failed())
         .finally(() => this.#eventEmitter.emit('textae-event.resource.endSave'))
     }
   }
