@@ -68,24 +68,22 @@ export default class ConfigurationSaver {
   }
 
   #retryPost(editedData, url) {
-    {
-      const opt = {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(editedData),
-        credentials: 'include'
-      }
-
-      fetch(url, opt).then((response) => {
-        if (response.ok) {
-          this.#saved(editedData)
-        } else {
-          this.#failed()
-        }
-      })
+    const opt = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(editedData),
+      credentials: 'include'
     }
+
+    fetch(url, opt).then((response) => {
+      if (response.ok) {
+        this.#saved(editedData)
+      } else {
+        this.#failed()
+      }
+    })
   }
 
   #failed() {
