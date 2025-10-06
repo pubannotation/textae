@@ -5,6 +5,7 @@ import forwardMethods from '../../forwardMethods'
 import SettingDialog from '../../../component/SettingDialog'
 import getIsDelimiterFunc from './getIsDelimiterFunc'
 import { MODE } from '../../../MODE'
+import removeAllMarks from '../removeAllMarks'
 
 export default class Presenter {
   #editorHTMLElement
@@ -46,6 +47,10 @@ export default class Presenter {
           break
         default:
           annotationModel.entityInstanceContainer.declarifyLabelOfAll()
+          removeAllMarks(
+            editorHTMLElement.querySelector('.textae-editor__text-box')
+          )
+          eventEmitter.emit('textae-event.editor.selected-text.change')
       }
     })
 

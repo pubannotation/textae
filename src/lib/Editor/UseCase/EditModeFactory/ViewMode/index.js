@@ -1,5 +1,6 @@
 import EditModeBase from '../EditModeBase'
-import updateSelection from './updateSelection'
+import markSelection from './markSelection'
+import removeAllMarks from '../../removeAllMarks'
 
 export default class ViewMode extends EditModeBase {
   #editorHTMLElement
@@ -9,6 +10,7 @@ export default class ViewMode extends EditModeBase {
   #selectedTextEndOffset
   #spanConfig
   #menuState
+  #recursiveCallGuradFlag = false
 
   constructor(
     editorHTMLElement,
@@ -55,33 +57,60 @@ export default class ViewMode extends EditModeBase {
   }
 
   updateSelectedTextOffsets() {
-    const selection = document.getSelection()
-
-    if (selection && selection.rangeCount > 0) {
-      const range = selection.getRangeAt(0)
-      const textBox = this.#editorHTMLElement.querySelector(
-        '.textae-editor__text-box'
-      )
-
-      if (
-        textBox.contains(range.startContainer) &&
-        textBox.contains(range.endContainer)
-      ) {
-        const { begin, end } = this.#annotationModel.getTextSelection(
-          this.#spanConfig,
-          this.#menuState.textSelectionAdjuster
-        )
-
-        updateSelection(selection, textBox, begin, end)
-
-        this.#selectedTextStartOffset = begin
-        this.#selectedTextEndOffset = end
-      }
-    } else {
-      this.#selectedTextStartOffset = undefined
-      this.#selectedTextEndOffset = undefined
+    if (this.#recursiveCallGuradFlag) {
+      return
     }
 
+    const selection = document.getSelection()
+
+    if (this.hasEmptySelection(selection)) {
+      return
+    }
+
+    const range = selection.getRangeAt(0)
+    const textBox = this.#editorHTMLElement.querySelector(
+      '.textae-editor__text-box'
+    )
+
+    if (!this.isSelectionInTextBox(range, textBox)) {
+      return
+    }
+
+    this.#recursiveCallGuradFlag = true
+
+    // Remove existing <mark> elements
+    removeAllMarks(textBox)
+
+    const { begin, end } = this.#annotationModel.getTextSelection(
+      this.#spanConfig,
+      this.#menuState.textSelectionAdjuster
+    )
+
+    markSelection(textBox, begin, end)
+
+    this.#selectedTextStartOffset = begin
+    this.#selectedTextEndOffset = end
     this.#eventEmitter.emit('textae-event.editor.selected-text.change')
+
+    // Observing duration is 300ms, but set 600ms for safety.
+    setTimeout(() => (this.#recursiveCallGuradFlag = false), 600)
+  }
+
+  isSelectionInTextBox(range, textBox) {
+    // Contains returns true if the node is itself.
+    return (
+      range.startContaine !== textBox &&
+      range.endContainer !== textBox &&
+      textBox.contains(range.startContainer) &&
+      textBox.contains(range.endContainer)
+    )
+  }
+
+  hasEmptySelection(selection) {
+    return (
+      !selection ||
+      selection.rangeCount === 0 ||
+      selection.toString().replace(/\s+/g, '').length === 0
+    )
   }
 }
