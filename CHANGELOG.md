@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [14.3.0](https://github.com/pubannotation/textae/compare/v14.2.0...v14.3.0) (2025-10-07)
+
+
+### Features
+
+* Darken the label background in edit mode and change it to a white background on hover. ([4abd4e9](https://github.com/pubannotation/textae/commit/4abd4e911023794495f7a633949b479345bf4652))
+* The text selection function in View Mode now persists even after deselecting text. ([f8ef1a2](https://github.com/pubannotation/textae/commit/f8ef1a2c442fcafd434461f777adc6b06d1a0bd3))
+
+
+### Bug Fixes
+
+* Ignone errors at saving configuration ([88b6d3e](https://github.com/pubannotation/textae/commit/88b6d3ee22c013d5f2da244152f311de7e3e62dc))
+
 ## [14.2.0](https://github.com/pubannotation/textae/compare/v14.1.2...v14.2.0) (2025-07-25)
 
 
