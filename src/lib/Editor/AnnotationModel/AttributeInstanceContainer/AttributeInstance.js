@@ -116,13 +116,13 @@ export default class AttributeInstance {
   clarifyLabelIn(parentElement) {
     parentElement.querySelector(
       anemone`[data-id="${this.id}"] .textae-editor__signboard__attribute-label`
-    ).style.backgroundColor = hexToRGBA(this.#color, 1)
+    ).style.backgroundColor = getLabelBackgroundColor()
   }
 
   declarifyLabelIn(parentElement) {
     parentElement.querySelector(
       anemone`[data-id="${this.id}"] .textae-editor__signboard__attribute-label`
-    ).style.backgroundColor = getLabelBackgroundColor()
+    ).style.backgroundColor = hexToRGBA(this.#color, 1)
   }
 
   get contentHTML() {
@@ -137,7 +137,7 @@ export default class AttributeInstance {
         >
         <span
           class="textae-editor__signboard__attribute-label"
-          style="background-color: ${getLabelBackgroundColor()};"
+          style="background-color: ${hexToRGBA(this.#color, 1)};"
           >
           ${this.#labelOrMedia}
         </span>

@@ -4,7 +4,6 @@ import Vertical from './Vertical'
 import forwardMethods from '../../forwardMethods'
 import SettingDialog from '../../../component/SettingDialog'
 import getIsDelimiterFunc from './getIsDelimiterFunc'
-import { MODE } from '../../../MODE'
 import removeAllMarks from '../removeAllMarks'
 
 export default class Presenter {
@@ -38,20 +37,18 @@ export default class Presenter {
     menuState,
     currentEditMode
   ) {
-    eventEmitter.on('textae-event.edit-mode.transition', (mode) => {
+    eventEmitter.on('textae-event.edit-mode.transition', () => {
+      // Reset label clarification
+      annotationModel.entityInstanceContainer.declarifyLabelOfAll()
+
+      // Clear selection of spans and entities
       selectionModel.removeAll()
 
-      switch (mode) {
-        case MODE.VIEW:
-          annotationModel.entityInstanceContainer.clarifyLabelOfAll()
-          break
-        default:
-          annotationModel.entityInstanceContainer.declarifyLabelOfAll()
-          removeAllMarks(
-            editorHTMLElement.querySelector('.textae-editor__text-box')
-          )
-          eventEmitter.emit('textae-event.editor.selected-text.change')
-      }
+      // Update selected text
+      removeAllMarks(
+        editorHTMLElement.querySelector('.textae-editor__text-box')
+      )
+      eventEmitter.emit('textae-event.editor.selected-text.change')
     })
 
     this.#editorHTMLElement = editorHTMLElement

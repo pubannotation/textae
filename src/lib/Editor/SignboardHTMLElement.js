@@ -72,7 +72,7 @@ export default class SignboardHTMLElement {
   clarifyLabel() {
     this.element.querySelector(
       '.textae-editor__signboard__type-label'
-    ).style.backgroundColor = hexToRGBA(this.#instance.color, 1)
+    ).style.backgroundColor = getLabelBackgroundColor()
 
     for (const a of this.#instance.attributes) {
       a.clarifyLabelIn(this.element)
@@ -82,7 +82,7 @@ export default class SignboardHTMLElement {
   declarifyLabel() {
     this.element.querySelector(
       '.textae-editor__signboard__type-label'
-    ).style.backgroundColor = getLabelBackgroundColor()
+    ).style.backgroundColor = hexToRGBA(this.#instance.color, 1)
 
     for (const a of this.#instance.attributes) {
       a.declarifyLabelIn(this.element)
