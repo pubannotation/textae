@@ -10,6 +10,7 @@
     "@codemirror/lang-javascript": "^6.2.4",
     "@codemirror/language": "^6.11.3",
     "@codemirror/legacy-modes": "^6.5.2",
+    "@pubann/simple-inline-text-annotation": "^1.1.1",
     "ajv": "^8.17.1",
     "ajv-formats": "3.0.1",
     "ajv-keywords": "^5.1.0",
@@ -28,19 +29,18 @@
     "observ": "0.2.0",
     "path-browserify": "1.0.1",
     "popover-autocomplete": "^1.0.1",
-    "@pubann/simple-inline-text-annotation": "^1.1.1",
     "sticky-js": "1.3.0",
     "throttleit": "^2.1.0",
     "uuid": "^13.0.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "^1.9.4",
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.37.0",
     "clean-css-cli": "^5.6.3",
     "connect": "3.7.0",
     "cpx2": "^8.0.0",
     "eslint": "^9.37.0",
-    "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-unused-imports": "^4.2.0",
     "globals": "^16.4.0",
     "husky": "^9.1.7",
@@ -50,7 +50,6 @@
     "mkdirp": "3.0.1",
     "npm-run-all": "4.1.5",
     "open-cli": "^8.0.0",
-    "prettier": "^3.6.2",
     "replace-in-file": "^8.3.0",
     "rimraf": "6.0.1",
     "serve-favicon": "2.5.1",
@@ -61,31 +60,15 @@
     "webpack": "^5.102.0",
     "webpack-cli": "^6.0.1"
   },
-  "files": [
-    "dist/lib",
-    "scripts/postinstall.js"
-  ],
+  "files": ["dist/lib", "scripts/postinstall.js"],
   "homepage": "https://github.com/pubannotation/textae",
-  "keywords": [
-    "DBCLS",
-    "annotation",
-    "javascript"
-  ],
+  "keywords": ["DBCLS", "annotation", "javascript"],
   "license": "MIT",
   "lint-staged": {
-    "*.js": [
-      "eslint --fix",
-      "prettier --write"
-    ],
-    "*.json": [
-      "prettier --write"
-    ],
-    "*.less": [
-      "prettier --write"
-    ],
-    "userAcceptanceTest/**/*.md": [
-      "prettier --write"
-    ]
+    "*.js": ["eslint --fix", "npx @biomejs/biome format --write"],
+    "*.json": ["npx @biomejs/biome format --write"],
+    "*.less": ["npx @biomejs/biome format --write"],
+    "userAcceptanceTest/**/*.md": ["npx @biomejs/biome format --write"]
   },
   "main": "src/development.html",
   "repository": {
@@ -112,7 +95,7 @@
     "dist:copy:images": "cpx 'src/lib/css/images/**.png' dist/lib/css/images",
     "dist:copy:js": "cpx tmp/$npm_package_name-$npm_package_version'*'.js dist/lib",
     "dist:less": "lessc 'src/lib/css/textae.less' tmp/css/$npm_package_name-$npm_package_version.css",
-    "dist:lint": "npx prettier --check 'src/lib/**/*.js' 'src/lib/css/*.less' && eslint src/lib",
+    "dist:lint": "npx @biomejs/biome format --error-on-warnings src/lib && eslint src/lib",
     "dist:replace:version": "replace-in-file /{{version}}/g $npm_package_version dist/editor.html,dist/demo/**/*.html --isRegex",
     "postinstall": "node ./scripts/postinstall.js",
     "release": "standard-version -a",
