@@ -1,5 +1,5 @@
-import CreateDenotationSpanAndTypesCommand from './CreateDenotationSpanAndTypesCommand'
 import CompositeCommand from './CompositeCommand'
+import CreateDenotationSpanAndTypesCommand from './CreateDenotationSpanAndTypesCommand'
 
 export default class ReplicateSpanCommand extends CompositeCommand {
   constructor(

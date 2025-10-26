@@ -1,4 +1,5 @@
 import delegate from 'delegate'
+
 import Pallet from '../Pallet'
 import bindAttributeEvent from './bindAttributeEvent'
 import createContentHtml from './createContentHtml'

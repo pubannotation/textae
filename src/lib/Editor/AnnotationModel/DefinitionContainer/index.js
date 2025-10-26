@@ -1,10 +1,10 @@
+import fetchAutocompleteCandidates from '../../../component/fetchAutocompleteCandidates'
 import getUrlMatches from '../../getUrlMatches'
+import DefinedType from '../DefinedType'
+import countUsage from './countUsage'
+import DefinedTypeContainer from './DefinedTypeContainer'
 import formatForPallet from './formatForPallet'
 import sortByCountAndName from './sortByCountAndName'
-import countUsage from './countUsage'
-import DefinedType from '../DefinedType'
-import DefinedTypeContainer from './DefinedTypeContainer'
-import fetchAutocompleteCandidates from '../../../component/fetchAutocompleteCandidates'
 
 export default class DefinitionContainer {
   #eventEmitter

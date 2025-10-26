@@ -1,4 +1,5 @@
 import delegate from 'delegate'
+
 import addCharacterRow from './addCharacterRow'
 
 export default function bindAddCharacter(content) {

@@ -2,13 +2,13 @@ import LoadAnnotationDialog from '../../../component/LoadAnnotationDialog'
 import LoadConfigurationDialog from '../../../component/LoadConfigurationDialog'
 import SaveAnnotationDialog from '../../../component/SaveAnnotationDialog'
 import SaveConfigurationDialog from '../../../component/SaveConfigurationDialog'
-import readAnnotationFile from './readAnnotationFile'
-import readConfigurationFile from './readConfigurationFile'
-import DataSource from '../../DataSource'
 import isJSON from '../../../isJSON'
-import readAnnotationText from './readAnnotationText'
-import LastLoadedURL from './LastLoadedURL.js'
+import DataSource from '../../DataSource'
 import LastLoadedFilename from './LastLoadedFilename.js'
+import LastLoadedURL from './LastLoadedURL.js'
+import readAnnotationFile from './readAnnotationFile'
+import readAnnotationText from './readAnnotationText'
+import readConfigurationFile from './readConfigurationFile'
 
 export default class PersistenceInterface {
   #eventEmitter

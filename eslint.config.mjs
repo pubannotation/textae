@@ -1,9 +1,11 @@
-import unusedImports from "eslint-plugin-unused-imports";
-import globals from "globals";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import js from "@eslint/js";
+
 import { FlatCompat } from "@eslint/eslintrc";
+import js from "@eslint/js";
+import simpleImportSort from "eslint-plugin-simple-import-sort";
+import unusedImports from "eslint-plugin-unused-imports";
+import globals from "globals";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,6 +20,7 @@ export default [{
 }, ...compat.extends("eslint:recommended"), {
     plugins: {
         "unused-imports": unusedImports,
+        "simple-import-sort": simpleImportSort,
     },
 
     languageOptions: {
@@ -51,5 +54,7 @@ export default [{
         "prefer-object-spread": "error",
         "prefer-template": "error",
         "unused-imports/no-unused-imports": "error",
+        "simple-import-sort/imports": "error",
+        "simple-import-sort/exports": "error",
     },
 }];

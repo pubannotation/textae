@@ -1,12 +1,13 @@
-import delegate from 'delegate'
 import alertifyjs from 'alertifyjs'
-import CreateAttributeDefinitionDialog from '../../CreateAttributeDefinitionDialog'
-import EditAttributeDefinitionDialog from '../../EditAttributeDefinitionDialog'
-import CreateOrEditValueOfAttributeDefinitionDialog from '../../CreateOrEditValueOfAttributeDefinitionDialog'
-import enableAttributeTabDrag from './enableAttributeTabDrag'
-import enableAttributeTabDrop from './enableAttributeTabDrop'
+import delegate from 'delegate'
+
 import openEditNumericAttributeDialog from '../../../openEditNumericAttributeDialog'
 import openEditStringAttributeDialog from '../../../openEditStringAttributeDialog'
+import CreateAttributeDefinitionDialog from '../../CreateAttributeDefinitionDialog'
+import CreateOrEditValueOfAttributeDefinitionDialog from '../../CreateOrEditValueOfAttributeDefinitionDialog'
+import EditAttributeDefinitionDialog from '../../EditAttributeDefinitionDialog'
+import enableAttributeTabDrag from './enableAttributeTabDrag'
+import enableAttributeTabDrop from './enableAttributeTabDrop'
 
 /**
  * @param {import('../../../Editor/UseCase/Commander').default} commander

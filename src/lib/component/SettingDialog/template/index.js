@@ -1,6 +1,6 @@
 import anemone from '../../anemone'
-import toDelimiterCharacterRowElement from './toDelimiterCharacterRowElement'
 import toBlankCharacterRowElement from './toBlankCharacterRowElement'
+import toDelimiterCharacterRowElement from './toDelimiterCharacterRowElement'
 import toFunctionAvailabilityLabelElement from './toFunctionAvailabilityLabelElement'
 
 export default function template(context) {

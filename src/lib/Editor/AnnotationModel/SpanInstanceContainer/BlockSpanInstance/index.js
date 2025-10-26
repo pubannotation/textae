@@ -1,8 +1,8 @@
+import getAnnotationBox from '../../getAnnotationBox'
 import SELECTED from '../SELECTED'
+import SpanInstance from '../SpanInstance'
 import renderBackground from './renderBackground'
 import setPosition from './setPosition'
-import SpanInstance from '../SpanInstance'
-import getAnnotationBox from '../../getAnnotationBox'
 
 // Leave a gap between the text and the block border.
 const gapBetweenText = 8

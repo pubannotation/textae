@@ -1,9 +1,9 @@
 import TypeValues from '../TypeValues.js'
-import SignboardHTMLElement from './SignboardHTMLElement.js'
 import getDisplayName from './getDisplayName/index.js'
 import getURI from './getURI.js'
-import toAnchorElement from './toAnchorElement.js'
 import round from './round.js'
+import SignboardHTMLElement from './SignboardHTMLElement.js'
+import toAnchorElement from './toAnchorElement.js'
 
 const DistanceToShift = 8
 // Leave a gap half the width of the triangle so that the triangle does not intersect the vertical line.

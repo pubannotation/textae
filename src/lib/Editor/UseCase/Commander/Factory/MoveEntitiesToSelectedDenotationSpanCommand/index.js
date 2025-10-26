@@ -1,6 +1,6 @@
+import { RemoveCommand } from '../commandTemplate'
 import CompositeCommand from '../CompositeCommand'
 import areAllEntitiesOfSpan from './areAllEntitiesOfSpan'
-import { RemoveCommand } from '../commandTemplate'
 import MoveEntitiesToSpanCommand from './MoveEntitiesToSpanCommand'
 
 export default class MoveEntitiesToSelectedDenotationSpanCommand extends CompositeCommand {

@@ -1,5 +1,6 @@
 import delegate from 'delegate'
 import Dropzone from 'dropzone'
+
 import enableHTMLelment from './enableHTMLElement'
 import maximizeOverlay from './maximizeOverlay'
 import revertMaximizeOverlay from './revertMaximizeOverlay'

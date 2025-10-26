@@ -1,5 +1,5 @@
-import SelectedItemsWithAttributes from './SelectedItemsWithAttributes'
 import SelectedItems from './SelectedItems'
+import SelectedItemsWithAttributes from './SelectedItemsWithAttributes'
 
 export default class SelectionModel {
   #annotationModel

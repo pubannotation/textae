@@ -1,6 +1,6 @@
-import { EditorView, basicSetup } from 'codemirror'
-import { syntaxHighlighting, defaultHighlightStyle } from '@codemirror/language'
 import { javascript } from '@codemirror/lang-javascript'
+import { defaultHighlightStyle, syntaxHighlighting } from '@codemirror/language'
+import { basicSetup, EditorView } from 'codemirror'
 
 export default function initJSONEditor(textarea, dialogHeight) {
   const editorHeightTheme = EditorView.theme({

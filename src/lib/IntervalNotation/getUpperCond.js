@@ -1,5 +1,5 @@
-import gte from './gte'
 import gt from './gt'
+import gte from './gte'
 
 export default function (str) {
   if (str.endsWith(']')) {

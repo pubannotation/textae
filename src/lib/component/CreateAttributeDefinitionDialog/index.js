@@ -1,6 +1,7 @@
 import delegate from 'delegate'
-import PromiseDialog from '../PromiseDialog'
+
 import getInputElementValue from '../getInputElementValue'
+import PromiseDialog from '../PromiseDialog'
 import template from './template'
 
 const componentClassName = `textae-editor__create-attribute-definition-dialog`

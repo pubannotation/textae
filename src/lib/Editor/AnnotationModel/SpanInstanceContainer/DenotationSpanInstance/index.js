@@ -1,8 +1,8 @@
-import SELECTED from '../SELECTED'
-import getGridHeightIncludeDescendantGrids from './getGridHeightIncludeDescendantGrids'
-import round from '../../../round'
-import SpanInstance from '../SpanInstance'
 import isTouchable from '../../../isTouchable'
+import round from '../../../round'
+import SELECTED from '../SELECTED'
+import SpanInstance from '../SpanInstance'
+import getGridHeightIncludeDescendantGrids from './getGridHeightIncludeDescendantGrids'
 
 const TEXT_HEIGHT = 23
 const MARGIN_TOP = 5

@@ -1,5 +1,5 @@
-import isContains from '../isContains'
 import ChainValidation from '../ChainValidation'
+import isContains from '../isContains'
 import isUniqueIn from './isUniqueIn'
 
 export default function (subjects, attributes) {

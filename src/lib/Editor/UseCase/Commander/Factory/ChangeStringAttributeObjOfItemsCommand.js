@@ -1,5 +1,5 @@
-import CompositeCommand from './CompositeCommand'
 import ChangeAttributeCommand from './ChangeAttributeCommand'
+import CompositeCommand from './CompositeCommand'
 import getAddPatternToStringAttributeDefinitionCommand from './getAddPatternToStringAttributeDefinitionCommand'
 
 export default class ChangeStringAttributeObjOfItemsCommand extends CompositeCommand {

@@ -1,5 +1,5 @@
-import getRenderingPositionFromBigBrother from './getRenderingPositionFromBigBrother'
 import getOffset from './getOffset'
+import getRenderingPositionFromBigBrother from './getRenderingPositionFromBigBrother'
 
 export default function getRenderingPosition(span) {
   const { begin, end, parent, bigBrother } = span

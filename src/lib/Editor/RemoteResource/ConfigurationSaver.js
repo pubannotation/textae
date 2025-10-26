@@ -1,4 +1,5 @@
 import alertifyjs from 'alertifyjs'
+
 import isServerPageAuthRequired from './isServerPageAuthRequired'
 import openPopUp from './openPopUp'
 import waitForPopUpClose from './waitForPopUpClose'

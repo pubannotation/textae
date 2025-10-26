@@ -1,5 +1,5 @@
-import ConfigurationCommand from './ConfigurationCommand'
 import commandLog from './commandLog'
+import ConfigurationCommand from './ConfigurationCommand'
 
 export default class MoveAttributeDefinitionCommand extends ConfigurationCommand {
   constructor(definitionContainer, oldIndex, newIndex) {

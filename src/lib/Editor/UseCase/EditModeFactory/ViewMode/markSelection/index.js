@@ -1,4 +1,5 @@
 import dohtml from 'dohtml'
+
 import getTextNodeAtOffset from './getTextNodeAtOffset'
 
 // This function updates the selection in the document based on the provided offsets.

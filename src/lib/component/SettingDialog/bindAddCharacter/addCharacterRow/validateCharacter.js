@@ -1,4 +1,5 @@
 import alertifyjs from 'alertifyjs'
+
 import EscapeSequence from '../../EscapeSequence'
 
 export default function validateCharacter(char, currentCharacters) {

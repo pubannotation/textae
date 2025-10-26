@@ -1,4 +1,5 @@
 import alertifyjs from 'alertifyjs'
+
 import ValidationDialog from '../component/ValidationDialog'
 import isAndroid from './isAndroid'
 

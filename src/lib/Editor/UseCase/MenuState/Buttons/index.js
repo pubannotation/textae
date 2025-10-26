@@ -1,6 +1,6 @@
+import Button from './Button'
 import { definition } from './definition'
 import Section from './Section'
-import Button from './Button'
 
 export default class Buttons {
   #sections

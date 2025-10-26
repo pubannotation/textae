@@ -1,7 +1,7 @@
+import TypeValues from '../../../../TypeValues'
 import getDisplayName from '../../../getDisplayName'
 import getURI from '../../../getURI'
 import toAnchorElement from '../../../toAnchorElement'
-import TypeValues from '../../../../TypeValues'
 import Arrow from './Arrow'
 import Label from './Label'
 

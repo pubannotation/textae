@@ -1,4 +1,5 @@
 import alertifyjs from 'alertifyjs'
+
 import openEditStringAttributeDialog from '../../../../openEditStringAttributeDialog'
 
 export default function (

@@ -1,6 +1,6 @@
+import ChangeAttributeCommand from '../ChangeAttributeCommand'
 import CompositeCommand from '../CompositeCommand'
 import ChangeAttributeDefinitionCommand from './ChangeAttributeDefinitionCommand'
-import ChangeAttributeCommand from '../ChangeAttributeCommand'
 
 export default class ChangeAttributeDefinitionAndReflectInstancesCommand extends CompositeCommand {
   constructor(

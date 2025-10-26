@@ -1,8 +1,8 @@
-import PromiseDialog from '../PromiseDialog'
-import getInputElementValue from '../getInputElementValue'
 import IntervalNotation from '../../IntervalNotation'
-import template from './template'
 import enableHTMLElement from '../enableHTMLElement'
+import getInputElementValue from '../getInputElementValue'
+import PromiseDialog from '../PromiseDialog'
+import template from './template'
 
 export default class CreateOrEditValueOfAttributeDefinitionDialog extends PromiseDialog {
   constructor(valueType, value = {}) {

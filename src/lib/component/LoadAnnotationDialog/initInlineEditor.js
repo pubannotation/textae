@@ -1,5 +1,5 @@
-import { EditorView, basicSetup } from 'codemirror'
-import { syntaxHighlighting, defaultHighlightStyle } from '@codemirror/language'
+import { defaultHighlightStyle, syntaxHighlighting } from '@codemirror/language'
+import { basicSetup, EditorView } from 'codemirror'
 
 export default function initInlineEditor(textarea, dialogHeight) {
   const editorHeightTheme = EditorView.theme({

@@ -1,7 +1,8 @@
 import { v4 as uuidV4 } from 'uuid'
+
 import TypeValues from '../../../TypeValues'
-import EntityInstance from '../../EntityInstance'
 import AttributeDefinitionContainer from '../../AttributeDefinitionContainer'
+import EntityInstance from '../../EntityInstance'
 
 export default class Clipboard {
   #eventEmitter

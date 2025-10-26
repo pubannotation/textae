@@ -1,5 +1,5 @@
-import StatusBar from './StatusBar'
 import patchConfiguration from '../patchConfiguration'
+import StatusBar from './StatusBar'
 
 // Manage the original annotations and the original configuration and merge the changes when you save them.
 export default class OriginalData {

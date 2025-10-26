@@ -1,7 +1,7 @@
-import CompositeCommand from './CompositeCommand'
-import { RemoveCommand } from './commandTemplate'
 import aggregateTargetEntities from './aggregateTargetEntities'
 import aggregateTargetRelations from './aggregateTargetRelations'
+import { RemoveCommand } from './commandTemplate'
+import CompositeCommand from './CompositeCommand'
 
 export default class RemoveSelectedCommand extends CompositeCommand {
   constructor(annotationModel, selectionModel) {

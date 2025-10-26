@@ -1,4 +1,5 @@
 import delegate from 'delegate'
+
 import CreateTypeDefinitionDialog from '../../../../../component/CreateTypeDefinitionDialog'
 import EditTypeDefinitionDialog from '../../../../../component/EditTypeDefinitionDialog'
 import checkButtonEnable from './checkButtonEnable'

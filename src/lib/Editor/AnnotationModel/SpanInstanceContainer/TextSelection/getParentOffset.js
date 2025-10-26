@@ -1,7 +1,7 @@
-import isNodeTextBox from '../../../UseCase/EditModeFactory/SelectionWrapper/isNodeTextBox'
+import isNodeBlockSpan from '../../../UseCase/EditModeFactory/SelectionWrapper/isNodeBlockSpan'
 import isNodeDenotationSpan from '../../../UseCase/EditModeFactory/SelectionWrapper/isNodeDenotationSpan'
 import isNodeStyleSpan from '../../../UseCase/EditModeFactory/SelectionWrapper/isNodeStyleSpan'
-import isNodeBlockSpan from '../../../UseCase/EditModeFactory/SelectionWrapper/isNodeBlockSpan'
+import isNodeTextBox from '../../../UseCase/EditModeFactory/SelectionWrapper/isNodeTextBox'
 
 export default function (span, node) {
   const parent = node.parentElement

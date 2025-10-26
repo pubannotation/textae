@@ -1,11 +1,11 @@
-import updatePath from './updatePath'
-import createSourceBollard from './createSourceBollard'
-import createTargetBollard from './createTargetBollard'
-import createPath from './createPath'
 import { NS } from '../NS'
 import createJetty from './createJetty'
-import moveJetty from './moveJetty'
+import createPath from './createPath'
+import createSourceBollard from './createSourceBollard'
+import createTargetBollard from './createTargetBollard'
 import CurveAlgorithmFactory from './CurveAlgorithmFactory'
+import moveJetty from './moveJetty'
+import updatePath from './updatePath'
 
 export default class Arrow {
   #container

@@ -1,4 +1,5 @@
 import dohtml from 'dohtml'
+
 import isTouchable from '../../isTouchable'
 import classify from '../classify'
 import Menu from '../Menu'

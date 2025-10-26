@@ -1,5 +1,5 @@
-import commandLog from './commandLog'
 import AnnotationCommand from './AnnotationCommand'
+import commandLog from './commandLog'
 
 export default class MoveBlockSpanCommand extends AnnotationCommand {
   #spanInstanceContainer

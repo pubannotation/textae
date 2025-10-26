@@ -1,5 +1,5 @@
-import IDConflictResolver from './IDConflictResolver'
 import convertBeginAndEndOfSpanToInteger from './convertBeginAndEndOfSpanToInteger'
+import IDConflictResolver from './IDConflictResolver'
 
 export default function (
   spanInstanceContainer,

@@ -1,7 +1,8 @@
 import delegate from 'delegate'
 import dohtml from 'dohtml'
-import template from './template'
+
 import Pallet from '../Pallet'
+import template from './template'
 
 export default class SelectionAttributePallet extends Pallet {
   constructor(editorHTMLElement, mousePoint) {

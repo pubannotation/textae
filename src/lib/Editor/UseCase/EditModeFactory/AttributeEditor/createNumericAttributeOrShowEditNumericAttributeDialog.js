@@ -1,4 +1,5 @@
 import alertifyjs from 'alertifyjs'
+
 import openEditNumericAttributeDialog from '../../../../openEditNumericAttributeDialog'
 
 export default function (

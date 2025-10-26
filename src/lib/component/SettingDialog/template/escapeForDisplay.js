@@ -1,4 +1,5 @@
 import escape from 'lodash.escape'
+
 import EscapeSequence from '../EscapeSequence'
 
 export default function escapeForDisplay(str) {

@@ -1,5 +1,6 @@
-import { isJsonResponse, isTxtResponse } from './responseTypes'
 import SimpleInlineTextAnnotation from '@pubann/simple-inline-text-annotation'
+
+import { isJsonResponse, isTxtResponse } from './responseTypes'
 
 export default async function parseResponse(response, url) {
   if (isJsonResponse(response, url)) {

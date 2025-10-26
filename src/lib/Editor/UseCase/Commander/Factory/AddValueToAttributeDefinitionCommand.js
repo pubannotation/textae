@@ -1,6 +1,6 @@
 import commandLog from './commandLog'
-import RemoveValueFromAttributeDefinitionCommand from './RemoveValueFromAttributeDefinitionCommand'
 import ConfigurationCommand from './ConfigurationCommand'
+import RemoveValueFromAttributeDefinitionCommand from './RemoveValueFromAttributeDefinitionCommand'
 
 export default class AddValueToAttributeDefinitionCommand extends ConfigurationCommand {
   constructor(definitionContainer, attrDef, value, index = null) {

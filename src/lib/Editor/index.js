@@ -1,19 +1,20 @@
 // model manages data objects.
-import AnnotationModel from './AnnotationModel'
-import UseCase from './UseCase'
 import { EventEmitter } from 'events'
-import StartUpOptions from './StartUpOptions'
+
+import AnnotationModel from './AnnotationModel'
+import BrowserEventListener from './BrowserEventListener'
 import EditorCSSClass from './EditorCSSClass'
+import editorCSSClassObserve from './editorCSSClassObserve'
+import EditorEventListener from './EditorEventListener'
+import filterIfModified from './filterIfModified'
 import forwardMethods from './forwardMethods'
+import isAndroid from './isAndroid'
+import loadAnnotation from './loadAnnotation'
 import observeElement from './observeElement'
 import observeEventEmitter from './observeEventEmitter'
-import editorCSSClassObserve from './editorCSSClassObserve'
-import isAndroid from './isAndroid'
-import EditorEventListener from './EditorEventListener'
-import loadAnnotation from './loadAnnotation'
-import BrowserEventListener from './BrowserEventListener'
 import SelectionModel from './SelectionModel'
-import filterIfModified from './filterIfModified'
+import StartUpOptions from './StartUpOptions'
+import UseCase from './UseCase'
 
 export default class Editor {
   #element

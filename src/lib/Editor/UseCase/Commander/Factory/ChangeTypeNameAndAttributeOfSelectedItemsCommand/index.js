@@ -1,7 +1,7 @@
-import CompositeCommand from '../CompositeCommand'
 import ChangeAnnotationCommand from '../ChangeAnnotationCommand'
-import getChangeAttributeCommands from './getChangeAttributeCommands'
+import CompositeCommand from '../CompositeCommand'
 import getAddPatternToStringAttributeDefinitionCommand from '../getAddPatternToStringAttributeDefinitionCommand'
+import getChangeAttributeCommands from './getChangeAttributeCommands'
 
 export default class ChangeTypeNameAndAttributeOfSelectedItemsCommand extends CompositeCommand {
   constructor(

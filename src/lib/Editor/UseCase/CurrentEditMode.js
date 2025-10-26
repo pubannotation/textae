@@ -1,5 +1,5 @@
-import { MODE } from '../../MODE'
 import debounce300 from '../../debounce300'
+import { MODE } from '../../MODE'
 import forwardMethods from '../forwardMethods'
 
 export default class CurrentEditMode {

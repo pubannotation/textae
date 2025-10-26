@@ -1,13 +1,13 @@
-import MouseEventHandler from './MouseEventHandler'
-import SpanEditor from './SpanEditor'
+import SelectionAttributePallet from '../../../../component/SelectionAttributePallet'
+import forwardMethods from '../../../forwardMethods'
+import AttributeEditor from '../AttributeEditor'
 import EditModeBase from '../EditModeBase'
 import isTextSelectionInTextBox from '../isTextSelectionInTextBox'
-import SelectionWrapper from '../SelectionWrapper'
-import AttributeEditor from '../AttributeEditor'
-import SelectionAttributePallet from '../../../../component/SelectionAttributePallet'
-import PropertyEditor from '../PropertyEditor'
-import forwardMethods from '../../../forwardMethods'
 import PalletFactory from '../PalletFactory'
+import PropertyEditor from '../PropertyEditor'
+import SelectionWrapper from '../SelectionWrapper'
+import MouseEventHandler from './MouseEventHandler'
+import SpanEditor from './SpanEditor'
 
 export default class TermEditMode extends EditModeBase {
   #mouseEventHandler
