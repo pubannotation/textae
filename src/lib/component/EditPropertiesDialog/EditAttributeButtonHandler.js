@@ -28,7 +28,8 @@ export default class EditAttributeButtonHandler {
     const { pred } = event.target.dataset
     const attrDef = this.#attributeContainer.get(pred)
     const zIndex = parseInt(
-      this.#element.closest('.textae-editor__dialog').style['z-index']
+      this.#element.closest('.textae-editor__dialog').style['z-index'],
+      10
     )
     const { typeName, label, attributes } = getValues(this.#element)
 

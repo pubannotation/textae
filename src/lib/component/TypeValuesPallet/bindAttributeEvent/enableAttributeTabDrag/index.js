@@ -1,6 +1,6 @@
 import delegate from 'delegate'
-import showDropTargets from './showDropTargets'
 import hideDropTargets from './hideDropTargets'
+import showDropTargets from './showDropTargets'
 
 export default function (el) {
   delegate(el, '.textae-editor__pallet__attribute', 'dragstart', (e) => {

@@ -1,15 +1,15 @@
-import BentOnTargetCurveAlgorithm from './BentOnTargetCurveAlgorithm'
+import ArchedCurveAlgorithm from './ArchedCurveAlgorithm'
 import BentOnSourceCurveAlgorithm from './BentOnSourceCurveAlgorithm'
+import BentOnTargetCurveAlgorithm from './BentOnTargetCurveAlgorithm'
+import CutOffOnSourceArchedCurveAlgorithm from './CutOffOnSourceArchedCurveAlgorithm'
+import CutOffOnSourceBentOnSourceCurveAlgorithm from './CutOffOnSourceBentOnSourceCurveAlgorithm'
+import CutOffOnSourceBentOnTargetCurveAlgorithm from './CutOffOnSourceBentOnTargetCurveAlgorithm'
+import CutOffOnTargetArchedCurveAlgorithm from './CutOffOnTargetArchedCurveAlgorithm'
+import CutOffOnTargetBentOnSourceCurveAlgorithm from './CutOffOnTargetBentOnSourceCurveAlgorithm'
+import CutOffOnTargetBentOnTargetCurveAlgorithm from './CutOffOnTargetBentOnTargetCurveAlgorithm'
 import PointingDownCurveAlgorithm from './PointingDownCurveAlgorithm'
 import PointingUpCurveAlgorithm from './PointingUpCurveAlgorithm'
-import ArchedCurveAlgorithm from './ArchedCurveAlgorithm'
 import StartAndEnd from './StartAndEnd'
-import CutOffOnSourceBentOnSourceCurveAlgorithm from './CutOffOnSourceBentOnSourceCurveAlgorithm'
-import CutOffOnTargetBentOnTargetCurveAlgorithm from './CutOffOnTargetBentOnTargetCurveAlgorithm'
-import CutOffOnSourceBentOnTargetCurveAlgorithm from './CutOffOnSourceBentOnTargetCurveAlgorithm'
-import CutOffOnTargetBentOnSourceCurveAlgorithm from './CutOffOnTargetBentOnSourceCurveAlgorithm'
-import CutOffOnSourceArchedCurveAlgorithm from './CutOffOnSourceArchedCurveAlgorithm'
-import CutOffOnTargetArchedCurveAlgorithm from './CutOffOnTargetArchedCurveAlgorithm'
 
 export default class CurveAlgorithmFactory {
   static create(

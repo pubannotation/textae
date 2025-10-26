@@ -16,5 +16,9 @@ function convert(src) {
 function convertBeginAndEndToInteger(span) {
   // You cannot generate a valid value for the ID of HTML element of span
   // from a begin or end that contains a decimal point.
-  return { ...span, begin: parseInt(span.begin), end: parseInt(span.end) }
+  return {
+    ...span,
+    begin: parseInt(span.begin, 10),
+    end: parseInt(span.end, 10)
+  }
 }

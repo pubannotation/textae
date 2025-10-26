@@ -1,10 +1,10 @@
-import { CreateCommand } from './commandTemplate'
 import CompositeCommand from './CompositeCommand'
 import CreateEntityAndAttributesCommand from './CreateEntityAndAttributesCommand'
+import { CreateCommand } from './commandTemplate'
 
 export default class CreateBlockSpanCommand extends CompositeCommand {
   constructor(
-    editorID,
+    _editorID,
     annotationModel,
     selectionModel,
     begin,

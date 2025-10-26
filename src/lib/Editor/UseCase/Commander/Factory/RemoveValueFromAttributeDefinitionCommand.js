@@ -1,6 +1,6 @@
-import commandLog from './commandLog'
 import AddValueToAttributeDefinitionCommand from './AddValueToAttributeDefinitionCommand'
 import ConfigurationCommand from './ConfigurationCommand'
+import commandLog from './commandLog'
 
 export default class RemoveValueFromAttributeDefinitionCommand extends ConfigurationCommand {
   constructor(
@@ -27,7 +27,7 @@ export default class RemoveValueFromAttributeDefinitionCommand extends Configura
       let indexThatAddDefaultTo = null
 
       values.forEach((_, index) => {
-        if (indexThatAddDefaultTo === null && index != this._index) {
+        if (indexThatAddDefaultTo === null && index !== this._index) {
           indexThatAddDefaultTo = index
         }
       })

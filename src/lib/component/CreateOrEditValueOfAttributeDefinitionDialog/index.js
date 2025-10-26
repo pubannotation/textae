@@ -1,8 +1,8 @@
-import PromiseDialog from '../PromiseDialog'
-import getInputElementValue from '../getInputElementValue'
 import IntervalNotation from '../../IntervalNotation'
-import template from './template'
 import enableHTMLElement from '../enableHTMLElement'
+import getInputElementValue from '../getInputElementValue'
+import PromiseDialog from '../PromiseDialog'
+import template from './template'
 
 export default class CreateOrEditValueOfAttributeDefinitionDialog extends PromiseDialog {
   constructor(valueType, value = {}) {
@@ -99,7 +99,7 @@ export default class CreateOrEditValueOfAttributeDefinitionDialog extends Promis
           try {
             new IntervalNotation(value)
             enableHTMLElement(super.button, true)
-          } catch (error) {
+          } catch (_error) {
             enableHTMLElement(super.button, false)
           }
         })
@@ -116,7 +116,7 @@ export default class CreateOrEditValueOfAttributeDefinitionDialog extends Promis
           try {
             new RegExp(value)
             enableHTMLElement(super.button, true)
-          } catch (error) {
+          } catch (_error) {
             enableHTMLElement(super.button, false)
           }
         })

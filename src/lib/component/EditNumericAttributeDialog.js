@@ -1,6 +1,6 @@
 import delegate from 'delegate'
-import PromiseDialog from './PromiseDialog'
 import anemone from './anemone'
+import PromiseDialog from './PromiseDialog'
 
 function template(context) {
   const { subjects, pred, min, max, step, value } = context

@@ -1,5 +1,5 @@
-import isJSON from '../../isJSON'
 import SimpleInlineTextAnnotation from '@pubann/simple-inline-text-annotation'
+import isJSON from '../../isJSON'
 
 export default class AnnotationResource {
   #annotation

@@ -6,14 +6,7 @@
     "useIgnoreFile": true
   },
   "files": {
-    "ignoreUnknown": false,
-    "experimentalScannerIgnores": [
-      "src/lib/modules/jquery.jsPlumb-1.5.5-min.js",
-      "src/lib/modules/jquery.jsPlumb-1.5.5.js",
-      "dist/lib/textae-*.min.js",
-      "dist/**",
-      "node_modules/**"
-    ]
+    "ignoreUnknown": false
   },
   "formatter": {
     "enabled": true,
@@ -22,7 +15,33 @@
     "lineWidth": 80
   },
   "linter": {
-    "enabled": false
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "suspicious": {
+        "noVar": "error",
+        "noAssignInExpressions": "off",
+        "noShadowRestrictedNames": "off"
+      },
+      "style": {
+        "useConst": "error",
+        "useTemplate": "error",
+        "useSingleVarDeclarator": "error",
+        "useObjectSpread": "error"
+      },
+      "complexity": {
+        "useArrowFunction": "error",
+        "noStaticOnlyClass": "off",
+        "noArguments": "off"
+      },
+      "correctness": {
+        "noUnusedVariables": "error",
+        "noUnusedImports": "error"
+      },
+      "performance": {
+        "noAccumulatingSpread": "off"
+      }
+    }
   },
   "javascript": {
     "formatter": {
@@ -30,7 +49,8 @@
       "trailingCommas": "none",
       "semicolons": "asNeeded",
       "arrowParentheses": "always"
-    }
+    },
+    "globals": ["jsPlumb"]
   },
   "json": {
     "formatter": {

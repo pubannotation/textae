@@ -103,7 +103,7 @@ export const definition = [
         type: 'replicate span annotation',
         title: 'Replicate span annotation [R]',
         enableWhenSelecting: (selectionModel) =>
-          selectionModel.span.single && selectionModel.span.single.isDenotation
+          selectionModel.span.single?.isDenotation
       },
       {
         type: 'auto replicate',

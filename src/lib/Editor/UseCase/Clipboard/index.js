@@ -1,7 +1,7 @@
 import { v4 as uuidV4 } from 'uuid'
 import TypeValues from '../../../TypeValues'
-import EntityInstance from '../../EntityInstance'
 import AttributeDefinitionContainer from '../../AttributeDefinitionContainer'
+import EntityInstance from '../../EntityInstance'
 
 export default class Clipboard {
   #eventEmitter
@@ -42,7 +42,7 @@ export default class Clipboard {
     eventEmitter
       .on('textae-event.annotation-data.entity.remove', (entity) => {
         if (this.hasCuttingItem) {
-          this.#updateItems(this.#items.filter((e) => e != entity))
+          this.#updateItems(this.#items.filter((e) => e !== entity))
         }
       })
       .on('textae-event.edit-mode.transition', () => this.#updateItems())
@@ -295,10 +295,7 @@ export default class Clipboard {
   // if the span of the entity being cut is the same as the span being selected, the entity is not pasted.
   get #itemsWillBeCutAndPaste() {
     return this.#cuttingItems.filter(
-      (i) =>
-        i.span.id !==
-        (this.#selectionModel.span.single &&
-          this.#selectionModel.span.single.id)
+      (i) => i.span.id !== this.#selectionModel.span.single?.id
     )
   }
 

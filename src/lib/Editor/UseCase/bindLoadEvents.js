@@ -77,8 +77,7 @@ export default function bindLoadEvents(
         // and a configuration is loaded from a textae attribute value,
         // both the loaded configuration and the annotation are passed.
         // If only the configuration is read, the annotation is null.
-        const annotation = (annotationDataSource &&
-          annotationDataSource.data) || {
+        const annotation = annotationDataSource?.data || {
           ...originalData.annotation,
           ...annotationModel.externalFormat
         }

@@ -1,10 +1,10 @@
 import skipBlank from '../skipBlank'
 import TextSelectionAdjuster from '../TextSelectionAdjuster'
 import backToDelimiter from './backToDelimiter'
-import skipToDelimiter from './skipToDelimiter'
-import isNotWord from './isNotWord'
-import skipToWord from './skipToWord'
 import backToWord from './backToWord'
+import isNotWord from './isNotWord'
+import skipToDelimiter from './skipToDelimiter'
+import skipToWord from './skipToWord'
 
 export default class DelimiterDetectAdjuster extends TextSelectionAdjuster {
   backFromBegin(str, beginPosition, spanConfig) {

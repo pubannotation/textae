@@ -1,14 +1,14 @@
 import alertifyjs from 'alertifyjs'
-import updateSpanTree from './updateSpanTree'
-import spanComparator from './spanComparator'
-import DenotationSpanInstance from './DenotationSpanInstance'
-import StyleSpanInstance from './StyleSpanInstance'
-import BlockSpanInstance from './BlockSpanInstance'
 import isBoundaryCrossingWithOtherSpans from '../isBoundaryCrossingWithOtherSpans'
-import rangeFrom from './rangeFrom'
+import BlockSpanInstance from './BlockSpanInstance'
+import DenotationSpanInstance from './DenotationSpanInstance'
 import getCurrentMaxHeight from './getCurrentMaxHeight'
-import TextSelection from './TextSelection'
+import rangeFrom from './rangeFrom'
 import SpanMap from './SpanMap'
+import StyleSpanInstance from './StyleSpanInstance'
+import spanComparator from './spanComparator'
+import TextSelection from './TextSelection'
+import updateSpanTree from './updateSpanTree'
 
 export default class SpanInstanceContainer {
   #editorID
@@ -393,11 +393,7 @@ export default class SpanInstanceContainer {
 
     for (const span of this.all) {
       if (span.end <= begin) {
-        // No effect on the span of this section.
-        continue
       } else if (span.end < end) {
-        // Span movement in this section is prohibited.
-        continue
       } else if (end <= span.begin) {
         // Change both the begin and end of the span
         span.offset(offset, offset)

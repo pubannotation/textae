@@ -24,10 +24,10 @@ export default class BentOnSourceCurveAlgorithm extends CurveAlgorithm {
       .map((i) => (i * 1) / sample)
       .find((t) => {
         const labelY =
-          Math.pow(1 - t, 3) * this._junctionPointY +
-          3 * Math.pow(1 - t, 2) * t * this._controlY +
-          3 * (1 - t) * Math.pow(t, 2) * this._controlY +
-          Math.pow(t, 3) * this.targetY
+          (1 - t) ** 3 * this._junctionPointY +
+          3 * (1 - t) ** 2 * t * this._controlY +
+          3 * (1 - t) * t ** 2 * this._controlY +
+          t ** 3 * this.targetY
 
         return Math.abs(labelY - y) < 1
       })

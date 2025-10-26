@@ -3,5 +3,5 @@ export default function (overlayDropzone) {
   element.classList.add(
     'textae-editor__load-dialog__overlay-dropzone--maximized'
   )
-  element.style.zIndex = parseInt(element.style.zIndex) + 1
+  element.style.zIndex = parseInt(element.style.zIndex, 10) + 1
 }

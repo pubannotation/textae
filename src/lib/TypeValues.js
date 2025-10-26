@@ -36,7 +36,7 @@ export default class TypeValues {
   }
 
   _hasSameAttributes(newAttributes) {
-    if (newAttributes.length != this.attributes.length) {
+    if (newAttributes.length !== this.attributes.length) {
       return false
     }
 

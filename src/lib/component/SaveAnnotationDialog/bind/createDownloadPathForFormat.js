@@ -1,5 +1,5 @@
-import createDownloadPath from '../../createDownloadPath'
 import SimpleInlineTextAnnotation from '@pubann/simple-inline-text-annotation'
+import createDownloadPath from '../../createDownloadPath'
 
 export default function createDownloadPathForFormat(data, format) {
   if (format === 'json') {

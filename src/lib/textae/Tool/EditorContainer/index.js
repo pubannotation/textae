@@ -1,9 +1,9 @@
 import debounce from 'debounce'
 import delegate from 'delegate'
+import throttle from 'throttleit'
 import HelpDialog from '../../../component/HelpDialog'
 import TipsDialog from '../../../component/TipsDialog'
 import isTextFields from './isTextFields'
-import throttle from 'throttleit'
 
 const helpDialog = new HelpDialog()
 const tipsDialog = new TipsDialog()

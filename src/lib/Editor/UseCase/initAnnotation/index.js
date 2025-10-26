@@ -1,8 +1,8 @@
+import alertifyjs from 'alertifyjs'
 import DataSource from '../../DataSource.js'
 import { RESOURCE_TYPE } from '../../RESOURCE_TYPE.js'
 import setAnnotationAndConfiguration from '../setAnnotationAndConfiguration.js'
 import setLoadedAnnotation from './setLoadedAnnotation.js'
-import alertifyjs from 'alertifyjs'
 
 /**
  *

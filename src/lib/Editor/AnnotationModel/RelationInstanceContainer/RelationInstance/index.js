@@ -1,7 +1,7 @@
+import TypeValues from '../../../../TypeValues'
 import getDisplayName from '../../../getDisplayName'
 import getURI from '../../../getURI'
 import toAnchorElement from '../../../toAnchorElement'
-import TypeValues from '../../../../TypeValues'
 import Arrow from './Arrow'
 import Label from './Label'
 
@@ -359,7 +359,7 @@ export default class RelationInstance {
         continue
       }
 
-      if (r.targetEntity == this.targetEntity) {
+      if (r.targetEntity === this.targetEntity) {
         bothRelations.add(r)
       } else {
         sourceRelations.add(r)
@@ -371,7 +371,7 @@ export default class RelationInstance {
         continue
       }
 
-      if (r.sourceEntity == this.targetEntity) {
+      if (r.sourceEntity === this.targetEntity) {
         bothRelations.add(r)
       } else {
         targetRelations.add(r)
@@ -383,7 +383,7 @@ export default class RelationInstance {
         continue
       }
 
-      if (r.targetEntity == this.sourceEntity) {
+      if (r.targetEntity === this.sourceEntity) {
         bothRelations.add(r)
       } else {
         sourceRelations.add(r)
@@ -395,7 +395,7 @@ export default class RelationInstance {
         continue
       }
 
-      if (r.sourceEntity == this.sourceEntity) {
+      if (r.sourceEntity === this.sourceEntity) {
         bothRelations.add(r)
       } else {
         targetRelations.add(r)

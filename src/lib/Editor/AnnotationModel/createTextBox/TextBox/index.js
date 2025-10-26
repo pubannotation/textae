@@ -1,7 +1,7 @@
 import getLineHeight from './getLineHeight'
+import pixelToInt from './pixelToInt'
 import setLineHeight from './setLineHeight'
 import updateTextBoxHeight from './updateTextBoxHeight'
-import pixelToInt from './pixelToInt'
 
 export default class TextBox {
   #editorHTMLElement

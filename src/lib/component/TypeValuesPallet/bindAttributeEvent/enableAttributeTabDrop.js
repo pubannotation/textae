@@ -19,9 +19,10 @@ export default function (el, commander) {
 
   delegate(el, '.textae-editor__pallet__drop-target', 'drop', (e) => {
     const oldIndex = parseInt(
-      e.dataTransfer.getData('application/x-textae-attribute-tab-old-index')
+      e.dataTransfer.getData('application/x-textae-attribute-tab-old-index'),
+      10
     )
-    const newIndex = parseInt(e.target.dataset.index)
+    const newIndex = parseInt(e.target.dataset.index, 10)
 
     commander.invoke(
       commander.factory.moveAttributeDefinitionCommand(

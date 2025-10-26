@@ -1,5 +1,5 @@
-import setSourceProperty from './setSourceProperty'
 import ErrorMap from '../ErrorMap'
+import setSourceProperty from './setSourceProperty'
 
 export default class ChainValidation {
   constructor(

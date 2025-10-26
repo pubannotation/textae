@@ -13,8 +13,8 @@ export default class TextEditDialog {
       const { returnValue } = dialog
       if (returnValue === 'OK') {
         const form = dialog.querySelector('form')
-        const begin = parseInt(form.begin.value)
-        const end = parseInt(form.end.value)
+        const begin = parseInt(form.begin.value, 10)
+        const end = parseInt(form.end.value, 10)
         const originalText = form.originalText.value
         const editedText = form.editedText.value
         submitHandler(begin, end, originalText, editedText)
@@ -25,7 +25,7 @@ export default class TextEditDialog {
       dialog,
       '.textae-editor__text-edit-dialog__close-button',
       'click',
-      (e) => {
+      (_e) => {
         dialog.close()
       }
     )

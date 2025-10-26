@@ -1,10 +1,10 @@
 import delegate from 'delegate'
-import PromiseDialog from '../PromiseDialog'
-import getValues from './getValues'
 import Autocomplete from 'popover-autocomplete'
+import PromiseDialog from '../PromiseDialog'
 import createContentHTML from './createContentHTML'
-import mergedTypeValuesOf from './mergedTypeValuesOf'
 import EditAttributeButtonHandler from './EditAttributeButtonHandler'
+import getValues from './getValues'
+import mergedTypeValuesOf from './mergedTypeValuesOf'
 
 export default class EditPropertiesDialog extends PromiseDialog {
   #attributeContainer
@@ -77,7 +77,7 @@ export default class EditPropertiesDialog extends PromiseDialog {
       'click',
       (e) => {
         const { index } = e.target.dataset
-        const indexOfAttribute = parseInt(index)
+        const indexOfAttribute = parseInt(index, 10)
         const { typeName, label, attributes } = getValues(element)
         this.#typeName = typeName
         this.#typeLabel = label

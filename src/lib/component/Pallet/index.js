@@ -1,8 +1,8 @@
-import dohtml from 'dohtml'
 import delegate from 'delegate'
+import dohtml from 'dohtml'
 import enableJqueryDraggable from './enableJqueryDraggable'
-import setWidthWithin from './setWidthWithin'
 import setHeightWithin from './setHeightWithin'
+import setWidthWithin from './setWidthWithin'
 
 export default class Pallet {
   constructor(editorHTMLElement, title, mousePoint) {

@@ -1,8 +1,8 @@
-import typeTemplate from './typeTemplate'
 import flagAttributeTemplate from './flagAttributeTemplate'
 import numericAttributeTemplate from './numericAttributeTemplate'
 import selectionAttributeTemplate from './selectionAttributeTemplate'
 import stringAttributeTemplate from './stringAttributeTemplate'
+import typeTemplate from './typeTemplate'
 
 export default function (
   types,

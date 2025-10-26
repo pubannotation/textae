@@ -1,19 +1,20 @@
 // model manages data objects.
+
+import { EventEmitter } from 'node:events'
 import AnnotationModel from './AnnotationModel'
-import UseCase from './UseCase'
-import { EventEmitter } from 'events'
-import StartUpOptions from './StartUpOptions'
+import BrowserEventListener from './BrowserEventListener'
 import EditorCSSClass from './EditorCSSClass'
+import EditorEventListener from './EditorEventListener'
+import editorCSSClassObserve from './editorCSSClassObserve'
+import filterIfModified from './filterIfModified'
 import forwardMethods from './forwardMethods'
+import isAndroid from './isAndroid'
+import loadAnnotation from './loadAnnotation'
 import observeElement from './observeElement'
 import observeEventEmitter from './observeEventEmitter'
-import editorCSSClassObserve from './editorCSSClassObserve'
-import isAndroid from './isAndroid'
-import EditorEventListener from './EditorEventListener'
-import loadAnnotation from './loadAnnotation'
-import BrowserEventListener from './BrowserEventListener'
 import SelectionModel from './SelectionModel'
-import filterIfModified from './filterIfModified'
+import StartUpOptions from './StartUpOptions'
+import UseCase from './UseCase'
 
 export default class Editor {
   #element
@@ -126,7 +127,7 @@ export default class Editor {
       this.#inspector = null
     }
 
-    if (typeof callback == 'function') {
+    if (typeof callback === 'function') {
       this.#inspector = this.#newInspector(callback)
     }
   }
@@ -137,7 +138,7 @@ export default class Editor {
       this.#lastSelectedDenotationIDCallback = null
     }
 
-    if (typeof callback == 'function') {
+    if (typeof callback === 'function') {
       this.#lastSelectedDenotationIDCallback = new EditorEventListener(
         this.#eventEmitter,
         ['textae-event.selection-model.last-selected-denotation-id.change'],

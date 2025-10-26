@@ -105,7 +105,7 @@ export default class TypeDictionary {
       this.#relationContainer.config = config['relation types']
       this.#attributeContainer.config = config['attribute types']
       this.#blockContainer.config = config['block types']
-      this.autocompletionWs = config['autocompletion_ws']
+      this.autocompletionWs = config.autocompletion_ws
     } else {
       this.#denotationContainer.config = null
       this.#relationContainer.config = null

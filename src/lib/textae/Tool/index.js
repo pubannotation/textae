@@ -1,8 +1,8 @@
-import EditorContainer from './EditorContainer'
-import Veil from './Veil'
 import throttle from 'throttleit'
-import observeBodyEvents from './observeBodyEvents'
+import EditorContainer from './EditorContainer'
 import getMousePoint from './getMousePoint'
+import observeBodyEvents from './observeBodyEvents'
+import Veil from './Veil'
 
 // The tool manages interactions between components.
 export default class Tool {

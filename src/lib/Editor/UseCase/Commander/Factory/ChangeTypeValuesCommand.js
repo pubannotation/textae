@@ -1,5 +1,5 @@
-import CompositeCommand from './CompositeCommand'
 import ChangeTypeNameAndAttributeOfSelectedItemsCommand from './ChangeTypeNameAndAttributeOfSelectedItemsCommand'
+import CompositeCommand from './CompositeCommand'
 import createChangeConfigCommand from './createChangeConfigCommand'
 
 export default class ChangeTypeValuesCommand extends CompositeCommand {

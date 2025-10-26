@@ -1,5 +1,5 @@
-import commandLog from '../commandLog'
 import ConfigurationCommand from '../ConfigurationCommand'
+import commandLog from '../commandLog'
 
 export default class ChangeValueOfAttributeDefinitionCommand extends ConfigurationCommand {
   constructor(
@@ -46,8 +46,8 @@ export default class ChangeValueOfAttributeDefinitionCommand extends Configurati
         } else {
           let indexThatAddDefaultTo = null
 
-          this._attrDef.values.forEach((v, index) => {
-            if (indexThatAddDefaultTo === null && index != this._targetIndex) {
+          this._attrDef.values.forEach((_v, index) => {
+            if (indexThatAddDefaultTo === null && index !== this._targetIndex) {
               indexThatAddDefaultTo = index
             }
           })

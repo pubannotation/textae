@@ -12,7 +12,7 @@ export default function (
     attrDef,
     attribute,
     selectionModelEntity.all.reduce((attrs, entity) => {
-      attrs.push(entity.attributes.find((a) => a.pred == attribute.pred))
+      attrs.push(entity.attributes.find((a) => a.pred === attribute.pred))
       return attrs
     }, []),
     true,

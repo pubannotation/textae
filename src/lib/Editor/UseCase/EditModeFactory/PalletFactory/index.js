@@ -1,6 +1,6 @@
+import TypeValuesPallet from '../../../../component/TypeValuesPallet'
 import forwardMethods from '../../../forwardMethods'
 import bindPalletEvents from './bindPalletEvents'
-import TypeValuesPallet from '../../../../component/TypeValuesPallet'
 
 export default class PalletWrapper {
   static create(
@@ -48,7 +48,7 @@ export default class PalletWrapper {
       'selectRightAttributeTab'
     ])
 
-    this.#appendTo(editorHTMLElement, pallet)
+    PalletWrapper.#appendTo(editorHTMLElement, pallet)
 
     return pallet
   }

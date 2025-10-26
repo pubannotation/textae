@@ -1,0 +1,11 @@
+# Module files
+src/lib/modules/jquery.jsPlumb-1.5.5-min.js
+src/lib/modules/jquery.jsPlumb-1.5.5.js
+
+# CSS files (processed by LESS)
+src/lib/css/
+
+# Built files
+src/lib/bundle.js
+dist/lib/textae-*.min.js
+dist/**

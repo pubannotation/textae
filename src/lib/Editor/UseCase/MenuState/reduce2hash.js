@@ -1,5 +1,5 @@
 export default function (key = 'name') {
-  return function (hash, element) {
+  return (hash, element) => {
     hash[element[key]] = element
     return hash
   }

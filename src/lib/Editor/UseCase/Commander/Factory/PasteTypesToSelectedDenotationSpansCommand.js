@@ -49,22 +49,20 @@ export default class PasteTypesToSelectedDenotationSpansCommand extends Composit
     }
 
     this._subCommands = this._subCommands.concat(
-      selectedSpans
-        .map((span) =>
-          typeValuesList.map(
-            (typeValues) =>
-              new CreateEntityAndAttributesCommand(
-                annotationModel,
-                selectionModel,
-                'denotation',
-                span.begin,
-                span.end,
-                typeValues.typeName,
-                typeValues.attributes
-              )
-          )
+      selectedSpans.flatMap((span) =>
+        typeValuesList.map(
+          (typeValues) =>
+            new CreateEntityAndAttributesCommand(
+              annotationModel,
+              selectionModel,
+              'denotation',
+              span.begin,
+              span.end,
+              typeValues.typeName,
+              typeValues.attributes
+            )
         )
-        .flat()
+      )
     )
 
     this._logMessage = `paste types [${typeValuesList.map(

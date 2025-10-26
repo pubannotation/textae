@@ -1,9 +1,9 @@
 import alertifyjs from 'alertifyjs'
+import FormatConversionError from '../../../exceptions/FormatConversionError'
 import isServerAuthRequired from '../isServerPageAuthRequired'
 import openPopUp from '../openPopUp'
-import prepareRequestBody from './prepareRequestBody'
 import waitForPopUpClose from '../waitForPopUpClose'
-import FormatConversionError from '../../../exceptions/FormatConversionError'
+import prepareRequestBody from './prepareRequestBody'
 
 export default class AnnotationSaver {
   #format

@@ -1,5 +1,5 @@
-import RelationInstance from './RelationInstance'
 import IdIssueContainer from '../IdIssueContainer'
+import RelationInstance from './RelationInstance'
 
 export default class RelationInstanceContainer extends IdIssueContainer {
   #editorHTMLElement

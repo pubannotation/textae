@@ -1,5 +1,5 @@
-import { RemoveCommand } from './commandTemplate'
 import CompositeCommand from './CompositeCommand'
+import { RemoveCommand } from './commandTemplate'
 
 export default class RemoveRelationAndAssociatesCommand extends CompositeCommand {
   constructor(annotationModel, relation) {

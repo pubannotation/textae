@@ -1,5 +1,5 @@
-import delegate from 'delegate'
 import alertify from 'alertifyjs'
+import delegate from 'delegate'
 import enableHTMLElement from '../../enableHTMLElement'
 import downloadAnnotationFile from './downloadAnnotationFile'
 import viewSource from './viewSource'
@@ -41,7 +41,7 @@ export default function (
 
       try {
         downloadAnnotationFile(e, data, format, eventEmitter)
-      } catch (error) {
+      } catch (_error) {
         alertify.error(`Failed to download the source as ${format} format.`)
       } finally {
         closeDialog()
@@ -58,7 +58,7 @@ export default function (
 
       try {
         viewSource(data, format, eventEmitter)
-      } catch (error) {
+      } catch (_error) {
         alertify.error(`Failed to view the source as ${format} format.`)
       } finally {
         closeDialog()

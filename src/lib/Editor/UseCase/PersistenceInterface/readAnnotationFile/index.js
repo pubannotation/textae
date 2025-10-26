@@ -1,9 +1,9 @@
-import readFile from '../readFile'
-import isJSON from '../../../../isJSON'
-import isTxtFile from '../isTxtFile'
-import DataSource from '../../../DataSource'
-import parseFileContent from './parseFileContent'
 import alertifyjs from 'alertifyjs'
+import isJSON from '../../../../isJSON'
+import DataSource from '../../../DataSource'
+import isTxtFile from '../isTxtFile'
+import readFile from '../readFile'
+import parseFileContent from './parseFileContent'
 
 export default async function readAnnotationFile(file, eventEmitter) {
   const event = await readFile(file)

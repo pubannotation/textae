@@ -3,7 +3,7 @@ export default function (node) {
 
   for (const prevNode of node.parentElement.childNodes) {
     // until the focus node
-    if (prevNode == node) {
+    if (prevNode === node) {
       break
     }
 

@@ -1,9 +1,9 @@
-import Menu from '../Menu'
-import isTouchable from '../../isTouchable'
-import toButtonGroup from './toButtonGroup'
 import Sticky from 'sticky-js'
-import classify from '../classify'
 import getPalletButtonTitleFor from '../../getPalletButtonTitleFor'
+import isTouchable from '../../isTouchable'
+import classify from '../classify'
+import Menu from '../Menu'
+import toButtonGroup from './toButtonGroup'
 
 function template(context) {
   return `

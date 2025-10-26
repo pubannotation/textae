@@ -24,7 +24,7 @@ export default class NumericAttributeDefinition extends AttributeDefinition {
   getLabel(obj) {
     const def = this.#getMatchedValue(obj)
 
-    if (def && def.label) {
+    if (def?.label) {
       return def.label
     }
   }
@@ -36,7 +36,7 @@ export default class NumericAttributeDefinition extends AttributeDefinition {
   getColor(obj) {
     const def = this.#getMatchedValue(obj)
 
-    if (def && def.color) {
+    if (def?.color) {
       return def.color
     }
 

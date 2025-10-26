@@ -1,6 +1,6 @@
+import anemone from '../anemone'
 import getRandomColorString from '../getRandomColorString'
 import inputDefault from './inputDefault'
-import anemone from '../anemone'
 
 export default function (context) {
   const {

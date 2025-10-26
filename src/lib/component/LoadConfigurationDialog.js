@@ -1,11 +1,11 @@
 import delegate from 'delegate'
+import isJSON from '../isJSON'
 import Dialog from './Dialog'
 import enableHTMLelment from './enableHTMLElement'
-import isJSON from '../isJSON'
 import initJSONEditor from './initJSONEditor'
 import isUserConfirm from './isUserConfirm'
-import LoadDialogURLComponent from './LoadDialogURLComponent'
 import LoadDialogLocalComponent from './LoadDialogLocalComponent'
+import LoadDialogURLComponent from './LoadDialogURLComponent'
 
 function template(context) {
   const { url, local } = context

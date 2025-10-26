@@ -9,7 +9,7 @@ export default function (
 ) {
   const { id, subj, pred, obj } = attribute
   const previousAttribute = attributeInstances[index - 1]
-  const previousPredicate = previousAttribute && previousAttribute.pred
+  const previousPredicate = previousAttribute?.pred
   const definitionIndex = attributeContainer.getIndexOf(pred)
   const { valueType } = attributeContainer.get(pred)
 

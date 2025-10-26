@@ -1,8 +1,8 @@
 import delegate from 'delegate'
-import PromiseDialog from './PromiseDialog'
-import anemone from './anemone'
 import Autocomplete from 'popover-autocomplete'
+import anemone from './anemone'
 import fetchAutocompleteCandidates from './fetchAutocompleteCandidates'
+import PromiseDialog from './PromiseDialog'
 
 function template(context) {
   const { subjects, pred, value, label } = context

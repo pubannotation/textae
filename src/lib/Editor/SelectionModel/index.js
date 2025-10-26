@@ -1,5 +1,5 @@
-import SelectedItemsWithAttributes from './SelectedItemsWithAttributes'
 import SelectedItems from './SelectedItems'
+import SelectedItemsWithAttributes from './SelectedItemsWithAttributes'
 
 export default class SelectionModel {
   #annotationModel
@@ -118,10 +118,7 @@ export default class SelectionModel {
 
   get #selectedEntities() {
     return new Set(
-      this.span.all
-        .map((span) => span.entities)
-        .flat()
-        .concat(this.entity.all)
+      this.span.all.flatMap((span) => span.entities).concat(this.entity.all)
     )
   }
 

@@ -1,7 +1,7 @@
 import alertifyjs from 'alertifyjs'
+import API from './API'
 import Tool from './Tool'
 import toEditor from './toEditor'
-import API from './API'
 
 export const tool = new Tool()
 

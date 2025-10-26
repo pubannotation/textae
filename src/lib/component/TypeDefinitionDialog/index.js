@@ -1,5 +1,5 @@
-import PromiseDialog from '../PromiseDialog'
 import Autocomplete from 'popover-autocomplete'
+import PromiseDialog from '../PromiseDialog'
 import template from './template'
 
 export default class TypeDefinitionDialog extends PromiseDialog {

@@ -1,8 +1,8 @@
-import clearTextSelection from '../clearTextSelection'
-import selectSpan from '../selectSpan'
-import isTextSelectionInTextBox from '../isTextSelectionInTextBox'
 import delegate from 'delegate'
 import getEntityHTMLelementFromChild from '../../getEntityHTMLelementFromChild'
+import clearTextSelection from '../clearTextSelection'
+import isTextSelectionInTextBox from '../isTextSelectionInTextBox'
+import selectSpan from '../selectSpan'
 
 export default class MouseEventHandler {
   #editorHTMLElement
@@ -142,7 +142,7 @@ export default class MouseEventHandler {
   #textBoxClicked() {
     this.#pallet.hide()
 
-    const selection = window.getSelection()
+    const _selection = window.getSelection()
 
     if (
       isTextSelectionInTextBox(

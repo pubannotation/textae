@@ -1,5 +1,5 @@
-import fillInferDefinitionFromAnnotation from './fillInferDefinitionFromAnnotation'
 import fillDefaultValueOfSelectionAttributes from './fillDefaultValueOfSelectionAttributes'
+import fillInferDefinitionFromAnnotation from './fillInferDefinitionFromAnnotation'
 import fillMandatoryValueOfNumericAttributes from './fillMandatoryValueOfNumericAttributes'
 
 export default class AttributeConfigurationGenerator {

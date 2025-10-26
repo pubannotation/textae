@@ -1,8 +1,8 @@
-import isJSON from '../../../isJSON'
-import loadAnnotation from '../../loadAnnotation'
-import DataSource from '../../DataSource'
-import alertifyjs from 'alertifyjs'
 import SimpleInlineTextAnnotation from '@pubann/simple-inline-text-annotation'
+import alertifyjs from 'alertifyjs'
+import isJSON from '../../../isJSON'
+import DataSource from '../../DataSource'
+import loadAnnotation from '../../loadAnnotation'
 
 export default function readAnnotationText(eventEmitter, text, format) {
   if (format === 'json') {

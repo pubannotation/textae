@@ -13,7 +13,7 @@ export default class SelectionAttributeDefinition extends AttributeDefinition {
   getLabel(obj) {
     const def = this.#getMatchedValue(obj)
 
-    if (def && def.label) {
+    if (def?.label) {
       return def.label
     }
   }
@@ -25,7 +25,7 @@ export default class SelectionAttributeDefinition extends AttributeDefinition {
   getColor(obj) {
     const def = this.#getMatchedValue(obj)
 
-    if (def && def.color) {
+    if (def?.color) {
       return def.color
     }
 
@@ -41,7 +41,7 @@ export default class SelectionAttributeDefinition extends AttributeDefinition {
   }
 
   #getMatchedValue(obj) {
-    return this.values.find((a) => a.id == obj)
+    return this.values.find((a) => a.id === obj)
   }
 
   get externalFormat() {

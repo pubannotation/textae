@@ -51,7 +51,6 @@ export default function (config, annotations) {
       } else {
         attr.values[0].default = true
       }
-      continue
     }
   }
 

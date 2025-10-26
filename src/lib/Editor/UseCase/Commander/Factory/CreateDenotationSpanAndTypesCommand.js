@@ -1,12 +1,12 @@
-import { CreateCommand } from './commandTemplate'
 import CompositeCommand from './CompositeCommand'
 import CreateEntityAndAttributesCommand from './CreateEntityAndAttributesCommand'
+import { CreateCommand } from './commandTemplate'
 
 export default class CreateDenotationSpanAndTypesCommand extends CompositeCommand {
   constructor(
     annotationModel,
     selectionModel,
-    editorID,
+    _editorID,
     begin,
     end,
     typeValuesList

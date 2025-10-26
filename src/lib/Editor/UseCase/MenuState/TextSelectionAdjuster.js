@@ -1,9 +1,9 @@
 export default class TextSelectionAdjuster {
-  backFromBegin(str, position, spanConfig) {}
+  backFromBegin(_str, _position, _spanConfig) {}
 
-  forwardFromEnd(str, position, spanConfig) {}
+  forwardFromEnd(_str, _position, _spanConfig) {}
 
-  forwardFromBegin(str, position, spanConfig) {}
+  forwardFromBegin(_str, _position, _spanConfig) {}
 
-  backFromEnd(str, position, spanConfig) {}
+  backFromEnd(_str, _position, _spanConfig) {}
 }

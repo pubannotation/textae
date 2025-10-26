@@ -63,10 +63,10 @@ export default class CurveAlgorithm {
       .map((i) => (i * 1) / sample)
       .find((t) => {
         const labelY =
-          Math.pow(1 - t, 3) * this.sourceY +
-          3 * Math.pow(1 - t, 2) * t * this._controlY +
-          3 * (1 - t) * Math.pow(t, 2) * this._controlY +
-          Math.pow(t, 3) * this.targetY
+          (1 - t) ** 3 * this.sourceY +
+          3 * (1 - t) ** 2 * t * this._controlY +
+          3 * (1 - t) * t ** 2 * this._controlY +
+          t ** 3 * this.targetY
         return Math.abs(labelY - y) < 1
       })
   }
@@ -80,10 +80,10 @@ export default class CurveAlgorithm {
     } = this
 
     return (
-      Math.pow(1 - _t, 3) * sourceX +
-      3 * Math.pow(1 - _t, 2) * _t * sourceControlX +
-      3 * (1 - _t) * Math.pow(_t, 2) * targetControlX +
-      Math.pow(_t, 3) * targetX
+      (1 - _t) ** 3 * sourceX +
+      3 * (1 - _t) ** 2 * _t * sourceControlX +
+      3 * (1 - _t) * _t ** 2 * targetControlX +
+      _t ** 3 * targetX
     )
   }
 

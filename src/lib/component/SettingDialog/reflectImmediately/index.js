@@ -1,7 +1,7 @@
-import bindChangeLockConfig from './bindChangeLockConfig'
-import bindChangeLineHeight from './bindChangeLineHeight'
-import bindChangeTypeGap from './bindChangeTypeGap'
 import bindChangeFunctionAvailability from './bindChangeFunctionAvailability'
+import bindChangeLineHeight from './bindChangeLineHeight'
+import bindChangeLockConfig from './bindChangeLockConfig'
+import bindChangeTypeGap from './bindChangeTypeGap'
 
 export default function (
   content,

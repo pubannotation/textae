@@ -4,18 +4,12 @@ export function isJsonResponse(response, url) {
   const fileExtension = path.extname(url)
   const contentType = response.headers.get('Content-Type')
 
-  return (
-    fileExtension === '.json' ||
-    (contentType && contentType.includes('application/json'))
-  )
+  return fileExtension === '.json' || contentType?.includes('application/json')
 }
 
 export function isTxtResponse(response, url) {
   const fileExtension = path.extname(url)
   const contentType = response.headers.get('Content-Type')
 
-  return (
-    fileExtension === '.txt' ||
-    (contentType && contentType.includes('text/plain'))
-  )
+  return fileExtension === '.txt' || contentType?.includes('text/plain')
 }

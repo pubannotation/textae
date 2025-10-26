@@ -1,7 +1,7 @@
 import alertifyjs from 'alertifyjs'
+import FormatConversionError from '../../../exceptions/FormatConversionError'
 import DataSource from '../../DataSource'
 import parseResponse from './parseResponse'
-import FormatConversionError from '../../../exceptions/FormatConversionError'
 
 export default class AnnotationLoader {
   #eventEmitter
@@ -44,7 +44,7 @@ export default class AnnotationLoader {
 
   #loaded(url, annotation) {
     const dataSource = DataSource.createURLSource(url, annotation)
-    if (annotation && annotation.text) {
+    if (annotation?.text) {
       this.#eventEmitter.emit(
         'textae-event.resource.annotation.load.success',
         dataSource

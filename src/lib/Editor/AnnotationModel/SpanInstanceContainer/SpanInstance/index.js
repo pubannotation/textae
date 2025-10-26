@@ -1,12 +1,12 @@
 import dohtml from 'dohtml'
 import { v4 as uuidV4 } from 'uuid'
-import createGridHtml from './createGridHtml'
-import updateGridPosition from './updateGridPosition'
-import getAnnotationBox from '../../getAnnotationBox'
-import getRightGrid from './getRightGrid'
 import round from '../../../round'
+import getAnnotationBox from '../../getAnnotationBox'
 import createRange from '../createRange'
 import getRenderingPosition from '../getRenderingPosition'
+import createGridHtml from './createGridHtml'
+import getRightGrid from './getRightGrid'
+import updateGridPosition from './updateGridPosition'
 
 export default class SpanInstance {
   #isGridRendered = false
@@ -55,7 +55,7 @@ export default class SpanInstance {
   }
 
   get relations() {
-    return this.entities.map(({ relations }) => relations).flat()
+    return this.entities.flatMap(({ relations }) => relations)
   }
 
   get bigBrother() {

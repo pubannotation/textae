@@ -1,5 +1,5 @@
-import CompositeCommand from './CompositeCommand'
 import ChangeAttributeCommand from './ChangeAttributeCommand'
+import CompositeCommand from './CompositeCommand'
 
 export default class ChangeAttributeObjOfItemsCommand extends CompositeCommand {
   constructor(eventEmitter, annotationModel, items, attrDef, newObj) {
@@ -8,7 +8,7 @@ export default class ChangeAttributeObjOfItemsCommand extends CompositeCommand {
     const effectedAttributes = []
     for (const item of items) {
       const attribute = item.attributes.find(
-        (a) => a.pred == attrDef.pred && a.obj !== newObj
+        (a) => a.pred === attrDef.pred && a.obj !== newObj
       )
 
       if (attribute) {

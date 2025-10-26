@@ -1,12 +1,12 @@
-import validateTypeSettings from './validateTypeSettings'
-import validateAttribute from './validateAttribute'
-import validateRelation from './validateRelation'
-import transformToReferencedEntitiesError from './transformToReferencedEntitiesError'
-import validateDenotation from './validateDenotation'
-import validateBlock from './validateBlock'
+import getAllSpansIn from '../getAllSpansIn'
 import debugLogCrossing from './debugLogCrossing'
 import { collectErrors } from './ErrorMap'
-import getAllSpansIn from '../getAllSpansIn'
+import transformToReferencedEntitiesError from './transformToReferencedEntitiesError'
+import validateAttribute from './validateAttribute'
+import validateBlock from './validateBlock'
+import validateDenotation from './validateDenotation'
+import validateRelation from './validateRelation'
+import validateTypeSettings from './validateTypeSettings'
 
 export default function (text, spanOfAllTracks, track) {
   const [typeSetting, errorTypeSettings] = validateTypeSettings(

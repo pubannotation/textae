@@ -1,12 +1,12 @@
-import delegate from 'delegate'
 import alertifyjs from 'alertifyjs'
-import CreateAttributeDefinitionDialog from '../../CreateAttributeDefinitionDialog'
-import EditAttributeDefinitionDialog from '../../EditAttributeDefinitionDialog'
-import CreateOrEditValueOfAttributeDefinitionDialog from '../../CreateOrEditValueOfAttributeDefinitionDialog'
-import enableAttributeTabDrag from './enableAttributeTabDrag'
-import enableAttributeTabDrop from './enableAttributeTabDrop'
+import delegate from 'delegate'
 import openEditNumericAttributeDialog from '../../../openEditNumericAttributeDialog'
 import openEditStringAttributeDialog from '../../../openEditStringAttributeDialog'
+import CreateAttributeDefinitionDialog from '../../CreateAttributeDefinitionDialog'
+import CreateOrEditValueOfAttributeDefinitionDialog from '../../CreateOrEditValueOfAttributeDefinitionDialog'
+import EditAttributeDefinitionDialog from '../../EditAttributeDefinitionDialog'
+import enableAttributeTabDrag from './enableAttributeTabDrag'
+import enableAttributeTabDrop from './enableAttributeTabDrop'
 
 /**
  * @param {import('../../../Editor/UseCase/Commander').default} commander
@@ -16,7 +16,7 @@ export default function (pallet, el, commander, selectionModelEntity) {
   enableAttributeTabDrop(el, commander)
 
   delegate(el, '.textae-editor__pallet__attribute', 'click', (e) => {
-    pallet.showAttribute(e.target.dataset['attribute'])
+    pallet.showAttribute(e.target.dataset.attribute)
   })
 
   delegate(el, '.textae-editor__pallet__create-predicate', 'click', () =>

@@ -1,13 +1,13 @@
 import delegate from 'delegate'
-import Dialog from '../Dialog'
-import reflectImmediately from './reflectImmediately'
-import packageJson from '../../../../package.json'
-import template from './template'
-import saveAutocompletionWs from './saveAutocompletionWs'
-import saveSpanConfig from './saveSpanConfig'
 import $ from 'jquery'
+import packageJson from '../../../../package.json'
+import Dialog from '../Dialog'
 import bindAddCharacter from './bindAddCharacter'
 import bindDeleteCharacter from './bindDeleteCharacter'
+import reflectImmediately from './reflectImmediately'
+import saveAutocompletionWs from './saveAutocompletionWs'
+import saveSpanConfig from './saveSpanConfig'
+import template from './template'
 
 export default class SettingDialog extends Dialog {
   constructor(
