@@ -1,5 +1,5 @@
-import commandLog from './commandLog'
 import ConfigurationCommand from './ConfigurationCommand'
+import commandLog from './commandLog'
 import RemoveTypeDefinitionCommand from './RemoveTypeDefinitionCommand'
 
 export default class CreateTypeDefinitionCommand extends ConfigurationCommand {

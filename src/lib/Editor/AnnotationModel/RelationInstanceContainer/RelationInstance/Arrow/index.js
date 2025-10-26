@@ -1,9 +1,9 @@
 import { NS } from '../NS'
+import CurveAlgorithmFactory from './CurveAlgorithmFactory'
 import createJetty from './createJetty'
 import createPath from './createPath'
 import createSourceBollard from './createSourceBollard'
 import createTargetBollard from './createTargetBollard'
-import CurveAlgorithmFactory from './CurveAlgorithmFactory'
 import moveJetty from './moveJetty'
 import updatePath from './updatePath'
 

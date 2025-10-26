@@ -1,5 +1,5 @@
-import { RemoveCommand } from './commandTemplate'
 import CompositeCommand from './CompositeCommand'
+import { RemoveCommand } from './commandTemplate'
 import RemoveRelationAndAssociatesCommand from './RemoveRelationAndAssociatesCommand'
 
 export default class RemoveEntityAndAssociatesCommand extends CompositeCommand {

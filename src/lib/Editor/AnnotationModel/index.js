@@ -11,11 +11,11 @@ import InstanceContainer from './InstanceContainer'
 import LineHeightAuto from './LineHeightAuto'
 import RelationInstanceContainer from './RelationInstanceContainer'
 import SpanInstanceContainer from './SpanInstanceContainer'
+import TypeDictionary from './TypeDictionary'
+import TypeGap from './TypeGap'
 import toBlocks from './toBlocks'
 import toDenotations from './toDenotations'
 import toRelations from './toRelations'
-import TypeDictionary from './TypeDictionary'
-import TypeGap from './TypeGap'
 
 export default class AnnotationModel {
   #sourceDoc

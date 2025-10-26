@@ -143,7 +143,7 @@ export default class MouseEventHandler {
   #textBoxClicked() {
     this.#pallet.hide()
 
-    const selection = window.getSelection()
+    const _selection = window.getSelection()
 
     if (
       isTextSelectionInTextBox(

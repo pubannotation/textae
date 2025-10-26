@@ -1,6 +1,6 @@
-import commandLog from './commandLog'
 import ConfigurationCommand from './ConfigurationCommand'
 import CreateTypeDefinitionCommand from './CreateTypeDefinitionCommand'
+import commandLog from './commandLog'
 
 export default class RemoveTypeDefinitionCommand extends ConfigurationCommand {
   constructor(definitionContainer, removeType, revertDefaultTypeId) {

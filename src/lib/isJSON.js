@@ -5,7 +5,7 @@ export default function (arg) {
 
   try {
     JSON.parse(arg)
-  } catch (e) {
+  } catch (_e) {
     return false
   }
 
