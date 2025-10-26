@@ -46,5 +46,13 @@
       "indentWidth": 2,
       "lineWidth": 80
     }
+  },
+  "css": {
+    "formatter": {
+      "enabled": true,
+      "indentStyle": "space",
+      "indentWidth": 2,
+      "lineWidth": 80
+    }
   }
 }
