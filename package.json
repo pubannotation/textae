@@ -74,6 +74,9 @@
     "*.json": [
       "npx @biomejs/biome format --write"
     ],
+    "*.css": [
+      "npx @biomejs/biome format --write"
+    ],
     "*.less": [
       "npx @biomejs/biome format --write"
     ],
