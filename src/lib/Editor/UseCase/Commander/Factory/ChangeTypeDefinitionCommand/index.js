@@ -1,5 +1,5 @@
-import commandLog from '../commandLog'
 import ConfigurationCommand from '../ConfigurationCommand'
+import commandLog from '../commandLog'
 import applyChangedProperties from './applyChangedProperties'
 
 export default class ChangeTypeDefinitionCommand extends ConfigurationCommand {

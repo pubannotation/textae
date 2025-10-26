@@ -99,7 +99,7 @@ export default class CreateOrEditValueOfAttributeDefinitionDialog extends Promis
           try {
             new IntervalNotation(value)
             enableHTMLElement(super.button, true)
-          } catch (error) {
+          } catch (_error) {
             enableHTMLElement(super.button, false)
           }
         })
@@ -116,7 +116,7 @@ export default class CreateOrEditValueOfAttributeDefinitionDialog extends Promis
           try {
             new RegExp(value)
             enableHTMLElement(super.button, true)
-          } catch (error) {
+          } catch (_error) {
             enableHTMLElement(super.button, false)
           }
         })

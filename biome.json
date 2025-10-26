@@ -6,14 +6,7 @@
     "useIgnoreFile": true
   },
   "files": {
-    "ignoreUnknown": false,
-    "experimentalScannerIgnores": [
-      "src/lib/modules/jquery.jsPlumb-1.5.5-min.js",
-      "src/lib/modules/jquery.jsPlumb-1.5.5.js",
-      "dist/lib/textae-*.min.js",
-      "dist/**",
-      "node_modules/**"
-    ]
+    "ignoreUnknown": false
   },
   "formatter": {
     "enabled": true,
@@ -22,7 +15,21 @@
     "lineWidth": 80
   },
   "linter": {
-    "enabled": false
+    "enabled": true,
+    "rules": {
+      "recommended": false,
+      "style": {
+        "useConst": "error",
+        "useTemplate": "error"
+      },
+      "suspicious": {
+        "noVar": "error"
+      },
+      "correctness": {
+        "noUnusedVariables": "error",
+        "noUnusedImports": "error"
+      }
+    }
   },
   "javascript": {
     "formatter": {

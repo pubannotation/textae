@@ -35,15 +35,9 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.0",
-    "@eslint/eslintrc": "^3.3.1",
-    "@eslint/js": "^9.37.0",
     "clean-css-cli": "^5.6.3",
     "connect": "3.7.0",
     "cpx2": "^8.0.0",
-    "eslint": "^9.37.0",
-    "eslint-plugin-simple-import-sort": "^12.1.1",
-    "eslint-plugin-unused-imports": "^4.2.0",
-    "globals": "^16.4.0",
     "husky": "^9.1.7",
     "less": "^4.4.2",
     "less-watch-compiler": "1.16.3",
@@ -74,7 +68,7 @@
   "license": "MIT",
   "lint-staged": {
     "*.js": [
-      "eslint --fix",
+      "npx @biomejs/biome check --write --unsafe",
       "npx @biomejs/biome format --write"
     ],
     "*.json": [
@@ -112,7 +106,7 @@
     "dist:copy:images": "cpx 'src/lib/css/images/**.png' dist/lib/css/images",
     "dist:copy:js": "cpx tmp/$npm_package_name-$npm_package_version'*'.js dist/lib",
     "dist:less": "lessc 'src/lib/css/textae.less' tmp/css/$npm_package_name-$npm_package_version.css",
-    "dist:lint": "npx @biomejs/biome format --error-on-warnings src/lib && eslint src/lib",
+    "dist:lint": "npx @biomejs/biome check --error-on-warnings src/lib",
     "dist:replace:version": "replace-in-file /{{version}}/g $npm_package_version dist/editor.html,dist/demo/**/*.html --isRegex",
     "postinstall": "node ./scripts/postinstall.js",
     "release": "standard-version -a",
