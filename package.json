@@ -35,6 +35,10 @@
   },
   "devDependencies": {
     "@biomejs/biome": "^2.3.0",
+    "@rollup/plugin-commonjs": "^28.0.9",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^16.0.3",
+    "@rollup/plugin-terser": "^0.4.4",
     "clean-css-cli": "^5.6.3",
     "connect": "3.7.0",
     "cpx2": "^8.0.0",
@@ -47,13 +51,10 @@
     "open-cli": "^8.0.0",
     "replace-in-file": "^8.3.0",
     "rimraf": "6.0.1",
+    "rollup": "^4.52.5",
     "serve-favicon": "2.5.1",
     "serve-static": "^2.2.0",
-    "source-map-loader": "^5.0.0",
-    "standard-version": "^9.5.0",
-    "terser-webpack-plugin": "^5.3.14",
-    "webpack": "^5.102.0",
-    "webpack-cli": "^6.0.1"
+    "standard-version": "^9.5.0"
   },
   "files": [
     "dist/lib",
@@ -89,13 +90,13 @@
   "scripts": {
     "dev:open": "open-cli 'http://localhost:3001/dev/development.html?annotation=%7B%22text%22%3A%22%E3%81%93%E3%82%93%E3%81%AB%E3%81%A1%E3%82%8F%22%2C%22denotations%22%3A%5B%7B%22span%22%3A%7B%22begin%22%3A0%2C%22end%22%3A5%7D%2C%22obj%22%3A%22%E6%8C%A8%E6%8B%B6%22%7D%5D%7D'",
     "dev:server": "node dev/development-sever.js",
-    "dev:watch": "webpack --config webpack.dev.mjs",
+    "dev:watch": "rollup --config rollup.config.dev.mjs --watch",
     "dev:watch-less": "less-watch-compiler src/lib/css src/lib/css textae.less",
     "dist": "npm-run-all dist:clean dist:build dist:copy dist:replace:version",
     "dist:build": "npm-run-all -p dist:build:**",
     "dist:build:css": "npm-run-all dist:less dist:cleancss",
     "dist:build:js": "npm-run-all dist:lint dist:bundle",
-    "dist:bundle": "webpack --config webpack.prod.mjs",
+    "dist:bundle": "rollup --config rollup.config.prod.mjs",
     "dist:clean": "rimraf dist/* tmp/$npm_package_name-*.js tmp/$npm_package_name-*.min.js tmp/css/textae-*.css",
     "dist:cleancss": "cleancss -o tmp/css/$npm_package_name-$npm_package_version.min.css tmp/css/$npm_package_name-$npm_package_version.css",
     "dist:copy": "npm-run-all -p dist:copy:**",
