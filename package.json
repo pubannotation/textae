@@ -34,7 +34,7 @@
     "uuid": "^13.0.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
+    "@biomejs/biome": "^2.3.0",
     "@eslint/eslintrc": "^3.3.1",
     "@eslint/js": "^9.37.0",
     "clean-css-cli": "^5.6.3",
@@ -60,15 +60,31 @@
     "webpack": "^5.102.0",
     "webpack-cli": "^6.0.1"
   },
-  "files": ["dist/lib", "scripts/postinstall.js"],
+  "files": [
+    "dist/lib",
+    "scripts/postinstall.js"
+  ],
   "homepage": "https://github.com/pubannotation/textae",
-  "keywords": ["DBCLS", "annotation", "javascript"],
+  "keywords": [
+    "DBCLS",
+    "annotation",
+    "javascript"
+  ],
   "license": "MIT",
   "lint-staged": {
-    "*.js": ["eslint --fix", "npx @biomejs/biome format --write"],
-    "*.json": ["npx @biomejs/biome format --write"],
-    "*.less": ["npx @biomejs/biome format --write"],
-    "userAcceptanceTest/**/*.md": ["npx @biomejs/biome format --write"]
+    "*.js": [
+      "eslint --fix",
+      "npx @biomejs/biome format --write"
+    ],
+    "*.json": [
+      "npx @biomejs/biome format --write"
+    ],
+    "*.less": [
+      "npx @biomejs/biome format --write"
+    ],
+    "userAcceptanceTest/**/*.md": [
+      "npx @biomejs/biome format --write"
+    ]
   },
   "main": "src/development.html",
   "repository": {
