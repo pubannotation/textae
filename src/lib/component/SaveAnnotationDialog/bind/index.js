@@ -1,5 +1,6 @@
-import delegate from 'delegate'
 import alertify from 'alertifyjs'
+import delegate from 'delegate'
+
 import enableHTMLElement from '../../enableHTMLElement'
 import downloadAnnotationFile from './downloadAnnotationFile'
 import viewSource from './viewSource'

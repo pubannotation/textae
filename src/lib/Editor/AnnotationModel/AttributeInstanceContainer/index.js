@@ -1,5 +1,5 @@
-import AttributeInstance from './AttributeInstance'
 import IdIssueContainer from '../IdIssueContainer'
+import AttributeInstance from './AttributeInstance'
 import MediaDictionary from './MediaDictionary'
 
 export default class AttributeInstanceContainer extends IdIssueContainer {

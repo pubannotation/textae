@@ -1,4 +1,5 @@
 import delegate from 'delegate'
+
 import anemone from './anemone'
 import enableHTMLelment from './enableHTMLElement'
 

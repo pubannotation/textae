@@ -1,5 +1,5 @@
-import headerTemplate from '../headerTemplate'
 import anemone from '../../../anemone'
+import headerTemplate from '../headerTemplate'
 import toTypeRow from './toTypeRow'
 
 export default function (context) {

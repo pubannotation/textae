@@ -1,5 +1,5 @@
-import commandLog from './commandLog'
 import AddValueToAttributeDefinitionCommand from './AddValueToAttributeDefinitionCommand'
+import commandLog from './commandLog'
 import ConfigurationCommand from './ConfigurationCommand'
 
 export default class RemoveValueFromAttributeDefinitionCommand extends ConfigurationCommand {

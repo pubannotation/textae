@@ -1,10 +1,10 @@
-import getSelectedEntityLabel from './getSelectedEntityLabel'
-import attributeTabTemplate from './attributeTabTemplate'
-import addAttributeButtonTemplate from './addAttributeButtonTemplate'
-import editAttributeButtonTemplate from './editAttributeButtonTemplate'
-import removeAttributeButtonTemplate from './removeAttributeButtonTemplate'
 import anemone from '../../../anemone'
+import addAttributeButtonTemplate from './addAttributeButtonTemplate'
 import addNewAttributeTabTemplate from './addNewAttributeTabTemplate'
+import attributeTabTemplate from './attributeTabTemplate'
+import editAttributeButtonTemplate from './editAttributeButtonTemplate'
+import getSelectedEntityLabel from './getSelectedEntityLabel'
+import removeAttributeButtonTemplate from './removeAttributeButtonTemplate'
 
 export default function (context) {
   const { isLock, selectionModelItems, selectedPred, attributes, hasDiff } =

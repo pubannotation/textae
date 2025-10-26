@@ -1,4 +1,5 @@
 import delegate from 'delegate'
+
 import Dialog from './Dialog'
 
 export default class PromiseDialog extends Dialog {

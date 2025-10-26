@@ -1,9 +1,9 @@
+import anemone from '../anemone'
 import inputAutocomletionWs from './inputAutocompletionWs'
 import inputDefault from './inputDefault'
-import inputMediaHeight from './inputMediaHeight'
 import inputLabelAndColor from './inputLabelAndColor'
+import inputMediaHeight from './inputMediaHeight'
 import inputNumeric from './inputNumeric'
-import anemone from '../anemone'
 
 export default function (componentClassName, context) {
   const {

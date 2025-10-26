@@ -1,5 +1,6 @@
 import Ajv from 'ajv'
 import addFormats from 'ajv-formats'
+
 import configurationScheme from '../../../../configurationScheme.json'
 import toErrorMessage from './toErrorMessage'
 

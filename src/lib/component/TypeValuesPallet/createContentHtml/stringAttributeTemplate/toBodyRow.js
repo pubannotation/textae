@@ -1,5 +1,5 @@
-import valueButtonsTemplate from '../valueButtonsTemplate'
 import anemone from '../../../anemone'
+import valueButtonsTemplate from '../valueButtonsTemplate'
 
 export default function toBodyRow(
   color,

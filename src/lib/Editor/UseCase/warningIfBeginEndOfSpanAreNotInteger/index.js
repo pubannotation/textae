@@ -1,4 +1,5 @@
 import alertifyjs from 'alertifyjs'
+
 import areNotBeginAndEndInteger from './areNotBeginAndEndInteger'
 
 export default function (annotation) {

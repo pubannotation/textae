@@ -1,6 +1,7 @@
 import alertifyjs from 'alertifyjs'
-import History from './History'
+
 import Factory from './Factory'
+import History from './History'
 
 // A command is an operation by user that is saved as history, and can undo and redo.
 // Users can edit model only via commands.

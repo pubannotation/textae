@@ -1,6 +1,6 @@
-import readAcceptedAnnotationTo from './readAcceptedAnnotationTo'
-import parseTracks from './parseTracks'
 import getAllSpansOf from './getAllSpansOf'
+import parseTracks from './parseTracks'
+import readAcceptedAnnotationTo from './readAcceptedAnnotationTo'
 import validateAnnotation from './validateAnnotation'
 
 export default class AnnotationEvaluator {

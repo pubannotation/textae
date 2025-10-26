@@ -1,5 +1,5 @@
-import getParent from './getParent'
 import spanComparator from '../spanComparator'
+import getParent from './getParent'
 
 // the spanTree has parent-child structure.
 export default function (root, spans) {

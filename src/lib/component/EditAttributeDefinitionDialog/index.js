@@ -1,5 +1,5 @@
-import PromiseDialog from '../PromiseDialog'
 import getInputElementValue from '../getInputElementValue'
+import PromiseDialog from '../PromiseDialog'
 import isChanged from './isChanged'
 import template from './template'
 

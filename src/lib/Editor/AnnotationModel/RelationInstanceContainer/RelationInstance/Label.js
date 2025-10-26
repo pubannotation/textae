@@ -1,4 +1,5 @@
 import dohtml from 'dohtml'
+
 import SignboardHTMLElement from '../../../SignboardHTMLElement'
 import getAnnotationBox from '../../getAnnotationBox'
 

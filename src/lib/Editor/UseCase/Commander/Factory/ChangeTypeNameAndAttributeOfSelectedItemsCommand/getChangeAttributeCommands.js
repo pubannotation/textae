@@ -1,5 +1,5 @@
-import { RemoveCommand, CreateCommand } from '../commandTemplate'
 import ChangeAttributeCommand from '../ChangeAttributeCommand'
+import { CreateCommand, RemoveCommand } from '../commandTemplate'
 
 export default function (items, attributes, annotationModel) {
   const changeAttributeCommnads = []

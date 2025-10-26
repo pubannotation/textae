@@ -1,4 +1,5 @@
 import dohtml from 'dohtml'
+
 import bindEventHandler from './bindEventHandler'
 
 // The control is a control bar in an editor.

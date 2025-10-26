@@ -1,7 +1,7 @@
-import toEntityHTML from './toEntityHTML'
-import toAttributeHTML from './toAttributeHTML'
 import anemone from '../../anemone'
 import toAddAttributeButton from './toAddAttributeButton'
+import toAttributeHTML from './toAttributeHTML'
+import toEntityHTML from './toEntityHTML'
 
 export default function (
   typeName,

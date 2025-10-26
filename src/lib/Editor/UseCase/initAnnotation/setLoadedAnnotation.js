@@ -1,4 +1,5 @@
 import alertifyjs from 'alertifyjs'
+
 import setAnnotationAndConfiguration from '../setAnnotationAndConfiguration.js'
 import validateConfigurationAndAlert from '../validateConfigurationAndAlert/index.js'
 import warningIfBeginEndOfSpanAreNotInteger from '../warningIfBeginEndOfSpanAreNotInteger/index.js'

@@ -1,5 +1,5 @@
-import commandLog from './commandLog'
 import BaseCommand from './BaseCommand'
+import commandLog from './commandLog'
 
 export default class CompositeCommand extends BaseCommand {
   constructor() {

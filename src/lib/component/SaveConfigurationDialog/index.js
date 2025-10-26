@@ -1,7 +1,8 @@
 import { hideUnchanged } from 'jsondiffpatch/formatters/html'
+
 import Dialog from '../Dialog'
-import jsonDiff from './jsonDiff'
 import bind from './bind'
+import jsonDiff from './jsonDiff'
 
 function template(context) {
   const { url, filename, diff } = context

@@ -1,7 +1,7 @@
+import TypeValues from '../../../../TypeValues'
 import CompositeCommand from './CompositeCommand'
 import CreateDenotationSpanAndTypesCommand from './CreateDenotationSpanAndTypesCommand'
 import ReplicateSpanCommand from './ReplicateSpanCommand'
-import TypeValues from '../../../../TypeValues'
 
 const BLOCK_THRESHOLD = 100
 

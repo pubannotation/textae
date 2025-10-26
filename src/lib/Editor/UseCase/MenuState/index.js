@@ -1,11 +1,12 @@
 import { diff } from 'jsondiffpatch'
-import PushButtons from './PushButtons'
-import EnableState from './EnableState'
-import DelimiterDetectAdjuster from './DelimiterDetectAdjuster'
+
+import getPalletButtonTitleFor from '../../getPalletButtonTitleFor'
+import isTouchable from '../../isTouchable'
 import BlankSkipAdjuster from './BlankSkipAdjuster'
 import Buttons from './Buttons'
-import isTouchable from '../../isTouchable'
-import getPalletButtonTitleFor from '../../getPalletButtonTitleFor'
+import DelimiterDetectAdjuster from './DelimiterDetectAdjuster'
+import EnableState from './EnableState'
+import PushButtons from './PushButtons'
 
 export default class MenuState {
   #enableState

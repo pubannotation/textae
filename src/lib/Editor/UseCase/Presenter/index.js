@@ -1,10 +1,11 @@
 import alertifyjs from 'alertifyjs'
+
+import SettingDialog from '../../../component/SettingDialog'
+import forwardMethods from '../../forwardMethods'
+import removeAllMarks from '../removeAllMarks'
+import getIsDelimiterFunc from './getIsDelimiterFunc'
 import Horizontal from './Horizontal'
 import Vertical from './Vertical'
-import forwardMethods from '../../forwardMethods'
-import SettingDialog from '../../../component/SettingDialog'
-import getIsDelimiterFunc from './getIsDelimiterFunc'
-import removeAllMarks from '../removeAllMarks'
 
 export default class Presenter {
   #editorHTMLElement

@@ -1,5 +1,4 @@
 import EntityInstance from '../EntityInstance'
-
 import IdIssueContainer from './IdIssueContainer'
 
 export default class EntityInstanceContainer extends IdIssueContainer {

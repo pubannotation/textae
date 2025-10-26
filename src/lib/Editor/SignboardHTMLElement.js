@@ -1,7 +1,8 @@
 import dohtml from 'dohtml'
+
+import anemone from '../component/anemone'
 import getLabelBackgroundColor from './getLabelBackgroundColor'
 import hexToRGBA from './hexToRGBA'
-import anemone from '../component/anemone'
 
 const CSS_CLASS_SELECTED = 'textae-editor__signboard--selected'
 const CSS_CLASS_HOVERED = 'textae-editor__signboard--hovered'

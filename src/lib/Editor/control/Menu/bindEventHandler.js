@@ -1,4 +1,5 @@
 import delegate from 'delegate'
+
 import HelpDialog from '../../../component/HelpDialog'
 
 const helpDialog = new HelpDialog()

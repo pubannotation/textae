@@ -1,6 +1,6 @@
 import { RemoveCommand } from './commandTemplate'
-import RemoveEntityAndAssociatesCommand from './RemoveEntityAndAssociatesCommand'
 import CompositeCommand from './CompositeCommand'
+import RemoveEntityAndAssociatesCommand from './RemoveEntityAndAssociatesCommand'
 
 export default class RemoveSpanCommand extends CompositeCommand {
   constructor(annotationModel, id) {

@@ -1,8 +1,9 @@
 import delegate from 'delegate'
-import clearTextSelection from '../clearTextSelection'
-import selectSpan from '../selectSpan'
-import isTextSelectionInTextBox from '../isTextSelectionInTextBox'
+
 import getEntityHTMLelementFromChild from '../../getEntityHTMLelementFromChild'
+import clearTextSelection from '../clearTextSelection'
+import isTextSelectionInTextBox from '../isTextSelectionInTextBox'
+import selectSpan from '../selectSpan'
 
 export default class MouseEventHandler {
   #editorHTMLElement

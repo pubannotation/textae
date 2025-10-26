@@ -1,4 +1,5 @@
 import { arrayMoveImmutable } from 'array-move'
+
 import createAttributeDefinition from './createAttributeDefinition'
 
 export default class AttributeDefinitionContainer {

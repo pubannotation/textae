@@ -1,5 +1,6 @@
 // Maintenance a state of which the save button is able to be push.
 import Observable from 'observ'
+
 import diffOfAnnotation from './diffOfAnnotation'
 
 export default class AnnotationModelEventsObserver {

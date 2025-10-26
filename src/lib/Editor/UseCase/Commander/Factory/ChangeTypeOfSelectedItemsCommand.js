@@ -1,5 +1,5 @@
-import CompositeCommand from './CompositeCommand'
 import ChangeAnnotationCommand from './ChangeAnnotationCommand'
+import CompositeCommand from './CompositeCommand'
 
 export default class ChangeTypeOfSelectedItemsCommand extends CompositeCommand {
   constructor(annotationModel, selectionModel, annotationType, typeName) {

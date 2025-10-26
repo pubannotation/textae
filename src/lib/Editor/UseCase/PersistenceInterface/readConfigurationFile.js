@@ -1,6 +1,6 @@
-import readFile from './readFile'
 import isJSON from '../../../isJSON'
 import DataSource from '../../DataSource'
+import readFile from './readFile'
 
 export default function (file, eventEmitter) {
   readFile(file).then(({ target }) => {

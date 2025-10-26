@@ -1,5 +1,5 @@
-import isContains from './isContains'
 import ChainValidation from './ChainValidation'
+import isContains from './isContains'
 
 export default function (denotations, relations) {
   return new ChainValidation(relations)

@@ -1,4 +1,5 @@
 import delegate from 'delegate'
+
 import getEntityHTMLelementFromChild from '../../../getEntityHTMLelementFromChild'
 import typeValuesClicked from './typeValuesClicked'
 

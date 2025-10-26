@@ -1,6 +1,6 @@
+import anemone from '../../anemone'
 import headerTemplate from './headerTemplate'
 import predicateControllerTemplate from './predicateControllerTemplate'
-import anemone from '../../anemone'
 
 export default function (context) {
   const { label, color } = context.attrDef

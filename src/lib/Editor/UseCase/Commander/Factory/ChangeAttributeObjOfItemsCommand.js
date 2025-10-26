@@ -1,5 +1,5 @@
-import CompositeCommand from './CompositeCommand'
 import ChangeAttributeCommand from './ChangeAttributeCommand'
+import CompositeCommand from './CompositeCommand'
 
 export default class ChangeAttributeObjOfItemsCommand extends CompositeCommand {
   constructor(eventEmitter, annotationModel, items, attrDef, newObj) {

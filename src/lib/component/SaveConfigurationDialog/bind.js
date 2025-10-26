@@ -1,4 +1,5 @@
 import delegate from 'delegate'
+
 import createDownloadPath from '../createDownloadPath'
 import enableHTMLElement from '../enableHTMLElement'
 

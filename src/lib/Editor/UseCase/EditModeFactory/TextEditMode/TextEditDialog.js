@@ -1,4 +1,5 @@
 import delegate from 'delegate'
+
 import anemone from '../../../../component/anemone'
 
 export default class TextEditDialog {

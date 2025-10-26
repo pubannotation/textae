@@ -1,6 +1,6 @@
+import removeAllMarks from '../../removeAllMarks'
 import EditModeBase from '../EditModeBase'
 import markSelection from './markSelection'
-import removeAllMarks from '../../removeAllMarks'
 
 export default class ViewMode extends EditModeBase {
   #editorHTMLElement

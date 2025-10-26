@@ -1,6 +1,6 @@
 import AnnotationLoader from './AnnotationLoader'
-import ConfigurationLoader from './ConfigurationLoader'
 import AnnotationSaver from './AnnotationSaver'
+import ConfigurationLoader from './ConfigurationLoader'
 import ConfigurationSaver from './ConfigurationSaver'
 
 // A sub component to save and load data.

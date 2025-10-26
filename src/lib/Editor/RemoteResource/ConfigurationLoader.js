@@ -1,4 +1,5 @@
 import alertifyjs from 'alertifyjs'
+
 import DataSource from '../DataSource'
 
 export default class ConfigurationLoader {

@@ -1,6 +1,6 @@
-import getValueType from './getValueType'
 import getMostFrequentObject from './getMostFrequentObject'
 import getStep from './getStep'
+import getValueType from './getValueType'
 
 export default class AnnotationsForPred {
   constructor({ pred, obj }) {

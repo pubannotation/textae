@@ -1,7 +1,7 @@
-import headerTemplate from '../headerTemplate'
-import showAddAttributeValueButton from '../showAddAttributeValueButton'
-import predicateControllerTemplate from '../predicateControllerTemplate'
 import anemone from '../../../anemone'
+import headerTemplate from '../headerTemplate'
+import predicateControllerTemplate from '../predicateControllerTemplate'
+import showAddAttributeValueButton from '../showAddAttributeValueButton'
 import toBodyRow from './toBodyRow'
 
 export default function (context) {
