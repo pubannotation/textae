@@ -143,8 +143,6 @@ export default class MouseEventHandler {
   #textBoxClicked() {
     this.#pallet.hide()
 
-    const _selection = window.getSelection()
-
     if (
       isTextSelectionInTextBox(
         this.#editorHTMLElement.querySelector('.textae-editor__text-box')
