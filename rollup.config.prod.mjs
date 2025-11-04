@@ -41,8 +41,6 @@ export default [
       commonjs(),
       json(),
       terser({
-        compress: true,
-        mangle: true,
         format: {
           comments: false
         }
