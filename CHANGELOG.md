@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [14.3.1](https://github.com/pubannotation/textae/compare/v14.3.0...v14.3.1) (2025-11-11)
+
+
+### Bug Fixes
+
+* When annotations are set to Inline or Query Parameters, the configuration does not reflect on the screen. ([3bc3e3f](https://github.com/pubannotation/textae/commit/3bc3e3f55a474b305c781c4390d2e459f65da105))
+
 ## [14.3.0](https://github.com/pubannotation/textae/compare/v14.2.0...v14.3.0) (2025-10-07)
 
 
