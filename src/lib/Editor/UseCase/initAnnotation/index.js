@@ -10,6 +10,7 @@ import setLoadedAnnotation from './setLoadedAnnotation.js'
  * @param {import('../../StartUpOptions/index.js').default)} startUpOptions
  */
 export default function initAnnotation(
+  eventEmitter,
   spanConfig,
   annotationModel,
   remoteResource,
@@ -24,6 +25,7 @@ export default function initAnnotation(
 
       if (annotation) {
         setLoadedAnnotation(
+          eventEmitter,
           DataSource.createParameterSource(annotation),
           startUpOptions.config,
           remoteResource,
@@ -43,6 +45,7 @@ export default function initAnnotation(
 
       if (annotation) {
         setLoadedAnnotation(
+          eventEmitter,
           DataSource.createInlineSource(annotation),
           startUpOptions.config,
           remoteResource,
@@ -68,6 +71,7 @@ export default function initAnnotation(
         remoteResource.loadConfiguration(startUpOptions.config)
       } else {
         setAnnotationAndConfiguration(
+          eventEmitter,
           originalData.defaultConfiguration,
           menuState,
           spanConfig,

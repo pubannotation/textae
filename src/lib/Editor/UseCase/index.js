@@ -262,6 +262,7 @@ export default class UseCase {
       toolBarHTMLElement.getBoundingClientRect().height
 
     initAnnotation(
+      eventEmitter,
       spanConfig,
       annotationModel,
       remoteResource,

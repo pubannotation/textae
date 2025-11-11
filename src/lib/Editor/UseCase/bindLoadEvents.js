@@ -37,6 +37,7 @@ export default function bindLoadEvents(
 
         if (validConfig) {
           setAnnotationAndConfiguration(
+            eventEmitter,
             validConfig,
             menuState,
             spanConfig,
@@ -44,7 +45,6 @@ export default function bindLoadEvents(
             dataSource.data,
             functionAvailability
           )
-          eventEmitter.emit('textae-event.configuration.reset')
 
           if (startUpOptions.isFocusFirstDenotation) {
             const firstDenotation =
@@ -94,6 +94,7 @@ export default function bindLoadEvents(
         }
 
         setAnnotationAndConfiguration(
+          eventEmitter,
           validConfig,
           menuState,
           spanConfig,
@@ -101,7 +102,6 @@ export default function bindLoadEvents(
           annotation,
           functionAvailability
         )
-        eventEmitter.emit('textae-event.configuration.reset')
 
         if (annotationDataSource) {
           originalData.annotation = annotationDataSource

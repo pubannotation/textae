@@ -5,6 +5,7 @@
  * @param {import('./FunctionAvailability').FunctionAvailability} functionAvailability
  */
 export default function setAnnotationAndConfiguration(
+  eventEmitter,
   validConfig,
   menuState,
   spanConfig,
@@ -16,4 +17,6 @@ export default function setAnnotationAndConfiguration(
   spanConfig.set(validConfig)
   annotationModel.reset(annotation, validConfig)
   functionAvailability.availability = validConfig['function availability']
+
+  eventEmitter.emit('textae-event.configuration.reset')
 }

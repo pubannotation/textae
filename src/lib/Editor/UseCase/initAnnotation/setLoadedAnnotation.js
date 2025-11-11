@@ -5,6 +5,7 @@ import validateConfigurationAndAlert from '../validateConfigurationAndAlert/inde
 import warningIfBeginEndOfSpanAreNotInteger from '../warningIfBeginEndOfSpanAreNotInteger/index.js'
 
 export default function setLoadedAnnotation(
+  eventEmitter,
   dataSource,
   configurationURL,
   remoteResource,
@@ -35,6 +36,7 @@ export default function setLoadedAnnotation(
 
     if (validConfig) {
       setAnnotationAndConfiguration(
+        eventEmitter,
         validConfig,
         menuState,
         spanConfig,
