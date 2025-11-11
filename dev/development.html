@@ -245,10 +245,10 @@
         // add div and initialize the TextAE editor from the JavaScript program.
         function exampleOfInitializeTextAEEditor() {
             // Specify the body as the element to observe
-            var targetNode = document.body;
+            const targetNode = document.body;
 
             // Create an observer instance
-            var observer = new MutationObserver((mutations) => {
+            const observer = new MutationObserver((mutations) => {
                 mutations.forEach((mutation) => {
                     // For each mutation, check the nodes that were added
                     for (const node of mutation.addedNodes) {
@@ -261,7 +261,7 @@
             });
 
             // Observer configuration: also observe changes in the child nodes
-            var config = { childList: true, subtree: true };
+            const config = { childList: true, subtree: true };
 
             // Pass the target node and the observer configuration
             observer.observe(targetNode, config);
@@ -270,7 +270,7 @@
         function initializeTextAE() {
             // initializeTextAEEditor initializes an HTML element with the textae-editor class as a TextAE editor.
             // Add a div element with textae-editor class.
-            var html = `
+            const html = `
             <div style="width: 690px; height: 160px; overflow-x: hidden; overflow-y: scroll;">
               <div
                 id="my_text-ae_editor"
