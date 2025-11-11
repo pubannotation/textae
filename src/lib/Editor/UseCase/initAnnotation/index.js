@@ -9,7 +9,7 @@ import setLoadedAnnotation from './setLoadedAnnotation.js'
  *
  * @param {import('../../StartUpOptions/index.js').default)} startUpOptions
  */
-export default function (
+export default function initAnnotation(
   spanConfig,
   annotationModel,
   remoteResource,
