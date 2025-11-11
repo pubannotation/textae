@@ -1,5 +1,5 @@
-import textae from './lib/textae'
 import packageJson from '../package.json'
+import textae from './lib/textae'
 
 document.addEventListener('DOMContentLoaded', textae)
 
