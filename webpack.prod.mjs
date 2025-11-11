@@ -1,13 +1,15 @@
-import path from 'path';
-import { readFileSync } from 'fs';
-import TerserPlugin from 'terser-webpack-plugin';
+import path from 'path'
+import { readFileSync } from 'fs'
+import TerserPlugin from 'terser-webpack-plugin'
 
-const PACKAGE = JSON.parse(readFileSync(new URL('./package.json', import.meta.url)));
-const { name, version } = PACKAGE;
+const PACKAGE = JSON.parse(
+  readFileSync(new URL('./package.json', import.meta.url))
+)
+const { name, version } = PACKAGE
 
-const entry = {};
-entry[`${name}-${version}.min`] = './src/index.js';
-entry[`${name}-${version}`] = './src/index.js';
+const entry = {}
+entry[`${name}-${version}.min`] = './src/index.js'
+entry[`${name}-${version}`] = './src/index.js'
 
 export default {
   mode: 'production',
@@ -29,4 +31,4 @@ export default {
     maxAssetSize: 4 * 1024 * 1024,
     maxEntrypointSize: 24 * 1024 * 1024
   }
-};
+}

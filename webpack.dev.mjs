@@ -25,7 +25,7 @@ export default {
   },
   watch: true,
   watchOptions: {
-    ignored: /node_modules/,
+    ignored: /node_modules/
   },
   cache: {
     type: 'filesystem',
