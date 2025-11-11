@@ -67,14 +67,14 @@
   ],
   "license": "MIT",
   "lint-staged": {
-    "*.js": [
+    "src/**/*.js": [
       "npx @biomejs/biome check --write --unsafe",
       "npx @biomejs/biome format --write"
     ],
-    "*.json": [
+    "src/**/*.json": [
       "npx @biomejs/biome format --write"
     ],
-    "*.css": [
+    "dev/**/*.js": [
       "npx @biomejs/biome format --write"
     ],
     "*.less": [
