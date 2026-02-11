@@ -22,6 +22,9 @@ export default class TypeDefinitionDialog extends PromiseDialog {
     const onSelect = (result) => {
       idElement.value = result.id
       labelElement.value = result.label
+      // Dispatch input events to sync autocomplete internal state
+      idElement.dispatchEvent(new Event('input', { bubbles: true }))
+      labelElement.dispatchEvent(new Event('input', { bubbles: true }))
     }
 
     const onRender = (item) => `${item.id} ${item.label}`
