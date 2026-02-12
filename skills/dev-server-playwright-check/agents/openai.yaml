@@ -1,0 +1,4 @@
+interface:
+  display_name: "Dev Server Check"
+  short_description: "Start dev server and verify startup via Playwright MCP"
+  default_prompt: "Start npm run dev:server, verify the target page loads with Playwright MCP, capture key console errors, and stop the server."
