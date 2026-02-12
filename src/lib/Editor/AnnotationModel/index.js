@@ -165,12 +165,15 @@ export default class AnnotationModel {
     // Bind type-definition events.
     eventEmitter
       .on('textae-event.type-definition.entity.change', (typeName) => {
+        if (typeof typeName !== 'string') {
+          return
+        }
         for (const entity of this.#entityInstanceContainer.all) {
           // If the type name ends in a wildcard, look for the DOMs to update with a forward match.
           if (
             entity.typeName === typeName ||
             (typeName.lastIndexOf('*') === typeName.length - 1 &&
-              entity.typeName.indexOf(typeName.slice(0, -1) === 0))
+              entity.typeName.indexOf(typeName.slice(0, -1)) === 0)
           ) {
             entity.updateElement()
           }
@@ -183,12 +186,15 @@ export default class AnnotationModel {
         this.#entityInstanceContainer.redrawEntitiesWithSpecifiedAttribute(pred)
       )
       .on('textae-event.type-definition.relation.change', (typeName) => {
+        if (typeof typeName !== 'string') {
+          return
+        }
         for (const relation of this.#relationInstanceContainer.all) {
           // If the type name ends in a wildcard, look for the DOMs to update with a forward match.
           if (
             relation.typeName === typeName ||
             (typeName.lastIndexOf('*') === typeName.length - 1 &&
-              relation.typeName.indexOf(typeName.slice(0, -1) === 0))
+              relation.typeName.indexOf(typeName.slice(0, -1)) === 0)
           ) {
             relation.updateElement()
           }

@@ -76,7 +76,8 @@ export default class DefinitionContainer {
   }
 
   get(id) {
-    const type = { ...this.#definedTypes.map.get(id) }
+    const definedType = this.#definedTypes.map.get(id)
+    const type = definedType ? definedType.toJSON() : {}
 
     if (this.#defaultType === id) {
       type.default = true
@@ -89,9 +90,10 @@ export default class DefinitionContainer {
 
   replace(id, newType) {
     this.#definedTypes.replace(id, newType)
+    const changedTypeId = newType?.id ?? id
     this.#eventEmitter.emit(
       `textae-event.type-definition.${this.#annotationType}.change`,
-      newType.id
+      changedTypeId
     )
   }
 
