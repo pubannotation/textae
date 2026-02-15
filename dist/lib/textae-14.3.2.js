@@ -40965,7 +40965,7 @@ var __webpack_exports__ = {};
 "use strict";
 
 ;// ./package.json
-const package_namespaceObject = {"rE":"14.3.1"};
+const package_namespaceObject = {"rE":"14.3.2"};
 // EXTERNAL MODULE: ./node_modules/alertifyjs/build/alertify.js
 var alertify = __webpack_require__(3053);
 var alertify_default = /*#__PURE__*/__webpack_require__.n(alertify);
@@ -43920,7 +43920,7 @@ function getForwardMatchID(typeIds, id) {
 
 
 class DefinedTypeContainer {
-  /** @type {Array} **/
+  /** @type {Array<DefinedType>} */
   #types
 
   // Expected values is an array of object.
@@ -44115,7 +44115,7 @@ class DefinitionContainer {
   }
 
   get(id) {
-    const type = { ...this.#definedTypes.map.get(id) }
+    const type = this.#definedTypes.map.get(id).toJSON()
 
     if (this.#defaultType === id) {
       type.default = true

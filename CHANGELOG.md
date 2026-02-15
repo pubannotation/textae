@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [14.3.2](https://github.com/pubannotation/textae/compare/v14.3.1...v14.3.2) (2026-02-15)
+
+
+### Bug Fixes
+
+* address missed updates from DefinedType class migration, replace ([d2e561d](https://github.com/pubannotation/textae/commit/d2e561dea549122ada7bec7149de5f2293fb2172))
+
 ### [14.3.1](https://github.com/pubannotation/textae/compare/v14.3.0...v14.3.1) (2025-11-11)
 
 
