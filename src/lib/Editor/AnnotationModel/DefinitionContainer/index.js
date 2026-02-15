@@ -76,7 +76,7 @@ export default class DefinitionContainer {
   }
 
   get(id) {
-    const type = { ...this.#definedTypes.map.get(id) }
+    const type = this.#definedTypes.map.get(id).toJSON()
 
     if (this.#defaultType === id) {
       type.default = true
