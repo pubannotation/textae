@@ -2,7 +2,7 @@ import DefinedType from '../../DefinedType'
 import getForwardMatchID from './getForwardMatchID'
 
 export default class DefinedTypeContainer {
-  /** @type {Array} **/
+  /** @type {Array<DefinedType>} */
   #types
 
   // Expected values is an array of object.
